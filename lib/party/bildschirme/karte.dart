@@ -43,7 +43,9 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _session.bewegungReduziert = MediaQuery.disableAnimationsOf(context) || MediaQuery.accessibleNavigationOf(context);
+    // Ein Bildschirmleser ist kein Wunsch nach weniger Bewegung. Nur die
+    // ausdrückliche Systemeinstellung kürzt den sichtbaren Lauf ab.
+    _session.bewegungReduziert = MediaQuery.disableAnimationsOf(context);
     if (_session.bewegungReduziert) _session.aktionAbkuerzen();
   }
 

@@ -20,6 +20,7 @@ Im Ordner `tool/e2e`:
 
 - `node e2e.mjs` oder `npm test`: alle 84 Läufe, zwei Seiten gleichzeitig
 - `node start.mjs`: App-Start ohne URL-Parameter bei 320/390 px, Menüwege, keine Konsolenfehler/fremden Anfragen; Handyfotos und Kontaktbogen unter `fotos/start/`.
+- `node runden.mjs`: echte Handy-Bedienung bei 320/390 px: Auftakt, Chancen, Würfelknopf, endgültige Listenwahl, sichtbarer Lauf und Gesprächspose, Fund ohne Befragungswurf. Der Standbild-Einstieg setzt nur den Anfang der Runde; alle geprüften Aktionen laufen über echte Knöpfe und den Renderer, nicht über `PartySkript`. Öffentliche Karten-/Würfelfotos unter `fotos/runden/`. Bestandteil von `tool/pruefen.sh e2e`.
 - `node --test browser_test.mjs`: Browser-Konfiguration ohne Maschinenpfade prüfen
 - `node e2e.mjs --nur pfad=ahmet,n=4`: nur passende Läufe. Felder: `pfad`, `ende`, `n`, `skript`, `fotos` (0/1), `semantik` (0/1). Mehrere Felder mit Komma trennen; `skript=best,a,richtig` ist ein Wert.
 - `--parallel 1`: eine Seite statt zwei (höchstens 2)

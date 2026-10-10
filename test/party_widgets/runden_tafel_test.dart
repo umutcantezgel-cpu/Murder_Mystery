@@ -4,12 +4,14 @@ import 'package:mordakte/party/bildschirme/karte.dart';
 import 'package:mordakte/party/bildschirme/zug_tafel.dart';
 import 'package:mordakte/party/bildschirme/npc_karte.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/karte_session.dart';
+import 'package:mordakte/game/game_view.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
 import 'hilfe.dart';
 
-Future<void> zeige(WidgetTester t, PartySitzung s, double breite, double schrift) async {
+Future<void> zeige(WidgetTester t, PartySitzung s, double breite, double schrift, {bool ruhig = true, bool bildschirmleser = false}) async {
   t.view.physicalSize = Size(breite, 844);
   t.view.devicePixelRatio = 1;
   addTearDown(t.view.resetPhysicalSize);
@@ -17,7 +19,7 @@ Future<void> zeige(WidgetTester t, PartySitzung s, double breite, double schrift
   await t.pumpWidget(MaterialApp(
     theme: ThemeData.dark(),
     builder: (context, child) => MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(schrift), disableAnimations: true),
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(schrift), disableAnimations: ruhig, accessibleNavigation: bildschirmleser),
       child: child!,
     ),
     home: Scaffold(body: KartenBildschirm(sitzung: s)),
@@ -58,6 +60,20 @@ void main() {
       });
     }
   }
+
+  testWidgets('Bildschirmleser schaltet sichtbare Wege nicht ungefragt ab', (t) async {
+    final s = neueSitzung(rollen: 4);
+    spieleBis(s, PartyPhase.entscheidungen);
+    s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
+    s.bestaetigen();
+    await zeige(t, s, 390, 1, ruhig: false, bildschirmleser: true);
+    final k = t.widget<GameView>(find.byType(GameView)).session as PartyKartenSession;
+    expect(k.bewegungReduziert, isFalse);
+    expect(s.zug!.phase, RundenZugPhase.aktion);
+    expect(k.kartenAktion!.fertig, isFalse);
+    expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox());
+  });
 
   testWidgets('erste Runde zeigt Auftakt statt eines verfrühten Runde-fertig-Dialogs', (t) async {
     final s = neueSitzung(rollen: 4);
