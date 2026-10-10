@@ -225,6 +225,12 @@ abstract class L {
   /// **'Partyabende'**
   String get hub_section_party;
 
+  /// No description provided for @party_menu.
+  ///
+  /// In de, this message translates to:
+  /// **'Andere Abende & Fälle'**
+  String get party_menu;
+
   /// No description provided for @hub_section_classic.
   ///
   /// In de, this message translates to:
@@ -614,6 +620,18 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Keine Verbindung zum Server.'**
   String get error_connection;
+
+  /// No description provided for @error_server_missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Der öffentliche Spielserver ist noch nicht eingerichtet. Trage unter Erweitert die freigegebene Server-Adresse ein. Offline kannst du sofort spielen.'**
+  String get error_server_missing;
+
+  /// No description provided for @error_server_invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte eine öffentliche wss-Adresse mit dem Pfad /ws eingeben. Lokale Adressen und Zugangsdaten in der URL sind nicht erlaubt.'**
+  String get error_server_invalid;
 
   /// No description provided for @error_unavailable.
   ///

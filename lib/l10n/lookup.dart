@@ -142,6 +142,8 @@ extension LLookup on L {
     'no_charges' => error_no_charges,
     'invalid' => error_invalid,
     'connection' => error_connection,
+    'server_missing' => error_server_missing,
+    'server_invalid' => error_server_invalid,
     'unavailable' => error_unavailable,
     'unknown_scenario' => error_unknown_scenario,
     'nothing_to_analyze' => error_nothing_to_analyze,

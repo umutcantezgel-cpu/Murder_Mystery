@@ -8,30 +8,34 @@ import '../sitzung.dart';
 /// Titelbildschirm (Phase titel, Master 7.6 Schritt 1): Titel des Falls, ein
 /// ruhig flackerndes Kerzenlicht und der Weg zur Einrichtung.
 class TitelBildschirm extends StatelessWidget {
-  const TitelBildschirm({super.key, required this.sitzung});
+  const TitelBildschirm({super.key, required this.sitzung, this.menu});
 
   final PartySitzung sitzung;
+  final Widget? menu;
 
   @override
   Widget build(BuildContext context) => PartyRahmen(
         scroll: false,
-        aktionen: [PartyKnopf(text: sitzung.ui('ui.titel.start'), onPressed: sitzung.zurEinrichtung)],
+        aktionen: [
+          ?menu,
+          PartyKnopf(text: sitzung.ui('ui.titel.start'), onPressed: sitzung.zurEinrichtung),
+        ],
         child: LayoutBuilder(
           // Zentriert, und bei kleinem Fenster scrollbar. Das Licht bleibt ungeschnitten.
           builder: (context, box) => SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: box.maxHeight),
-              child: Center(child: _Lichtschein(child: _kopf())),
+              child: Center(child: _Lichtschein(child: _kopf(box.maxWidth))),
             ),
           ),
         ),
       );
 
   /// Titel, Untertitel und der Hinweis zum Einrichten.
-  Widget _kopf() => Column(
+  Widget _kopf(double breite) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(sitzung.kanon.fall['titel'] as String, style: Keller.titel.copyWith(fontSize: 40), textAlign: TextAlign.center),
+          Text(sitzung.kanon.fall['titel'] as String, style: Keller.titel.copyWith(fontSize: breite < 320 ? 32 : 40), textAlign: TextAlign.center),
           const SizedBox(height: 10),
           Text(sitzung.kanon.fall['untertitel'] as String, style: Keller.leise, textAlign: TextAlign.center),
           const SizedBox(height: 32),

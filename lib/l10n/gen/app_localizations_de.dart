@@ -87,6 +87,9 @@ class LDe extends L {
   String get hub_section_party => 'Partyabende';
 
   @override
+  String get party_menu => 'Andere Abende & Fälle';
+
+  @override
   String get hub_section_classic => 'Klassische Fälle';
 
   @override
@@ -320,6 +323,14 @@ class LDe extends L {
 
   @override
   String get error_connection => 'Keine Verbindung zum Server.';
+
+  @override
+  String get error_server_missing =>
+      'Der öffentliche Spielserver ist noch nicht eingerichtet. Trage unter Erweitert die freigegebene Server-Adresse ein. Offline kannst du sofort spielen.';
+
+  @override
+  String get error_server_invalid =>
+      'Bitte eine öffentliche wss-Adresse mit dem Pfad /ws eingeben. Lokale Adressen und Zugangsdaten in der URL sind nicht erlaubt.';
 
   @override
   String get error_unavailable => 'Der Online-Modus ist noch nicht verfügbar.';

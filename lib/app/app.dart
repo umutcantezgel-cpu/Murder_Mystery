@@ -10,7 +10,7 @@ import 'router.dart';
 import 'theme.dart';
 
 class MordakteApp extends StatefulWidget {
-  const MordakteApp({super.key, required this.app, this.initialLocation = Routes.hub});
+  const MordakteApp({super.key, required this.app, this.initialLocation = Routes.start});
 
   final AppState app;
   final String initialLocation;

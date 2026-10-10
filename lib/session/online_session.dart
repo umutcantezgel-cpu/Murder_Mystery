@@ -7,6 +7,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'game_session.dart';
+import 'server_configuration.dart';
 import 'token_store.dart' as token_store;
 
 /// Fehler beim Aufbau einer [OnlineSession]. Die App übersetzt `error_<key>`.
@@ -76,12 +77,9 @@ class OnlineSession implements GameSession {
     required Map<String, ScenarioDef> scenarios,
     String? roomCode,
   }) async {
-    final Uri uri;
-    try {
-      uri = Uri.parse(url);
-    } on FormatException {
-      throw const OnlineSessionException(OnlineSessionException.unreachable);
-    }
+    if (url.trim().isEmpty) throw const OnlineSessionException('server_missing');
+    final uri = publicServerUri(url.trim());
+    if (uri == null) throw const OnlineSessionException('server_invalid');
     final session = OnlineSession._(uri, playerName, scenarios, await _loadToken());
     try {
       await session

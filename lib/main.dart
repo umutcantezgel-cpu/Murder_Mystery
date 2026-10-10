@@ -77,6 +77,6 @@ String _devEntry(AppState app) {
     'profile' => Routes.profile,
     'online' => Routes.online,
     'gewoelbe' => Routes.gewoelbe,
-    _ => Routes.hub,
+    _ => Routes.start,
   };
 }

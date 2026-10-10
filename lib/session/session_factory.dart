@@ -5,8 +5,9 @@ import 'game_session.dart';
 import 'local_session.dart';
 import 'online_session.dart';
 
-/// Konfiguration des Online-Servers: `--dart-define=MORDAKTE_SERVER=wss://…/ws`.
-const defaultServerUrl = String.fromEnvironment('MORDAKTE_SERVER', defaultValue: 'ws://localhost:8080/ws');
+import 'server_configuration.dart';
+
+export 'server_configuration.dart' show defaultServerUrl;
 
 /// Erzeugt Sessions. Die Lobby-Phase läuft in beiden Modi in der Session:
 /// Solo → Lobby (KI-Partner, Klasse) → Start; Online → Raum erstellen/beitreten → Lobby → Start.

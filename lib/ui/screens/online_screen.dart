@@ -10,6 +10,7 @@ import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../session/online_session.dart';
 import '../../session/session_factory.dart';
+import '../../session/server_configuration.dart';
 import '../widgets/buttons.dart';
 import '../widgets/noir_backdrop.dart';
 import '../widgets/panels.dart';
@@ -68,6 +69,10 @@ class _OnlineScreenState extends State<OnlineScreen> {
     final app = context.read<AppState>();
     final l = L.of(context);
     final url = _server.text.trim();
+    if (publicServerUri(url) == null) {
+      setState(() => _error = url.isEmpty ? l.error_server_missing : l.error_server_invalid);
+      return;
+    }
     app.meta.serverUrl = url == defaultServerUrl ? null : url;
     setState(() {
       _busy = code == null ? 'create' : 'join';
@@ -112,6 +117,10 @@ class _OnlineScreenState extends State<OnlineScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        if (_server.text.trim().isEmpty) ...[
+                          Text(l.error_server_missing, style: Noir.text(14, color: Noir.smoke)),
+                          const SizedBox(height: 16),
+                        ],
                         GlassPanel(
                           padding: const EdgeInsets.all(18),
                           child: Column(
@@ -121,7 +130,7 @@ class _OnlineScreenState extends State<OnlineScreen> {
                                 children: [
                                   const Icon(Icons.add_home_work_rounded, color: Noir.brass),
                                   const SizedBox(width: 10),
-                                  Text(l.online_create, style: Noir.title(20)),
+                                  Expanded(child: Text(l.online_create, style: Noir.title(20))),
                                 ],
                               ),
                               const SizedBox(height: 6),
@@ -146,7 +155,7 @@ class _OnlineScreenState extends State<OnlineScreen> {
                                 children: [
                                   const Icon(Icons.vpn_key_rounded, color: Noir.brass),
                                   const SizedBox(width: 10),
-                                  Text(l.online_join, style: Noir.title(20)),
+                                  Expanded(child: Text(l.online_join, style: Noir.title(20))),
                                 ],
                               ),
                               const SizedBox(height: 6),
@@ -188,6 +197,7 @@ class _OnlineScreenState extends State<OnlineScreen> {
                         Theme(
                           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                           child: ExpansionTile(
+                            initiallyExpanded: publicServerUri(_server.text.trim()) == null,
                             tilePadding: const EdgeInsets.symmetric(horizontal: 4),
                             iconColor: Noir.smoke,
                             collapsedIconColor: Noir.smokeDim,
@@ -195,6 +205,10 @@ class _OnlineScreenState extends State<OnlineScreen> {
                             children: [
                               TextField(
                                 controller: _server,
+                                keyboardType: TextInputType.url,
+                                autocorrect: false,
+                                enableSuggestions: false,
+                                onChanged: (_) => setState(() {}),
                                 style: Noir.text(14),
                                 decoration: InputDecoration(
                                   labelText: l.online_server,
@@ -239,10 +253,9 @@ class _CodeField extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             for (var i = 0; i < 4; i++)
-              Container(
-                width: 58,
+              Expanded(child: Container(
                 height: 66,
-                margin: const EdgeInsets.symmetric(horizontal: 6),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Noir.paper,
@@ -250,8 +263,8 @@ class _CodeField extends StatelessWidget {
                   border: Border.all(color: i == text.length ? Noir.brass : Colors.transparent, width: 2),
                   boxShadow: const [BoxShadow(color: Noir.shadow, blurRadius: 6, offset: Offset(0, 3))],
                 ),
-                child: Text(i < text.length ? text[i] : '', style: Noir.title(32, color: Noir.ink)),
-              ),
+                child: FittedBox(child: Text(i < text.length ? text[i] : '', style: Noir.title(32, color: Noir.ink))),
+              )),
           ],
         ),
         Positioned.fill(

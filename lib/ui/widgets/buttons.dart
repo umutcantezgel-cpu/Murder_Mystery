@@ -146,7 +146,9 @@ class _NoirButtonState extends State<NoirButton> {
         opacity: enabled ? 1 : 0.45,
         duration: const Duration(milliseconds: 150),
         child: Container(
-          height: widget.height,
+          // Feste, aber mit der Schrift wachsende Höhe: bleibt auch innerhalb
+          // von IntrinsicHeight messbar (der Knopftext nutzt LayoutBuilder).
+          height: widget.height * (MediaQuery.textScalerOf(context).scale(18) / 18).clamp(1.0, double.infinity),
           decoration: BoxDecoration(
             color: grad == null ? bg : null,
             gradient: grad,

@@ -23,6 +23,7 @@ abstract final class Routes {
   static const game = '/game';
   static const party = '/party';
   static const gewoelbe = '/gewoelbe';
+  static const start = party;
 }
 
 CustomTransitionPage<void> _fade(GoRouterState state, Widget child) => CustomTransitionPage<void>(
@@ -42,7 +43,7 @@ CustomTransitionPage<void> _fade(GoRouterState state, Widget child) => CustomTra
   },
 );
 
-GoRouter buildRouter(AppState app, {String initialLocation = Routes.hub}) => GoRouter(
+GoRouter buildRouter(AppState app, {String initialLocation = Routes.start}) => GoRouter(
   initialLocation: initialLocation,
   refreshListenable: app,
   redirect: (context, state) {

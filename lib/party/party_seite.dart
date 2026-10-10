@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../app/router.dart';
 import '../game/mordakte_game.dart';
+import '../l10n/lookup.dart';
 import 'bildschirme/anklage.dart';
 import 'bildschirme/aufloesung.dart';
 import 'bildschirme/einrichtung.dart';
@@ -82,7 +85,15 @@ class _PartySeiteState extends State<PartySeite> {
               listenable: s,
               builder: (context, _) => AnimatedSwitcher(
                 duration: const Duration(milliseconds: 350),
-                child: KeyedSubtree(key: ValueKey('${s.phase.name}-${s.runde}'), child: bildschirm(s)),
+                child: KeyedSubtree(
+                  key: ValueKey('${s.phase.name}-${s.runde}'),
+                  child: bildschirm(s, menu: PartyKnopf(
+                    text: L.of(context).party_menu,
+                    icon: Icons.apps_rounded,
+                    haupt: false,
+                    onPressed: () => context.go(Routes.hub),
+                  )),
+                ),
               ),
             );
           },
@@ -91,8 +102,8 @@ class _PartySeiteState extends State<PartySeite> {
 }
 
 /// Bildschirm je Abschnitt des Abends.
-Widget bildschirm(PartySitzung s) => switch (s.phase) {
-      PartyPhase.titel => TitelBildschirm(sitzung: s),
+Widget bildschirm(PartySitzung s, {Widget? menu}) => switch (s.phase) {
+      PartyPhase.titel => TitelBildschirm(sitzung: s, menu: menu),
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
       PartyPhase.intro => IntroBildschirm(sitzung: s),
