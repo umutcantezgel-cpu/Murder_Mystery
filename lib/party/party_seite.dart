@@ -16,6 +16,7 @@ import 'bildschirme/karte.dart';
 import 'bildschirme/resuemee.dart';
 import 'bildschirme/rollen.dart';
 import 'bildschirme/runde.dart';
+import 'bildschirme/solo_gespraeche.dart';
 import 'bildschirme/titel.dart';
 import 'daten.dart';
 import 'party_stil.dart';
@@ -107,7 +108,7 @@ Widget bildschirm(PartySitzung s, {Widget? menu}) => switch (s.phase) {
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
       PartyPhase.intro => IntroBildschirm(sitzung: s),
-      PartyPhase.gespraeche => RundeBildschirm(sitzung: s),
+      PartyPhase.gespraeche => s.solo ? SoloGespraecheBildschirm(sitzung: s) : RundeBildschirm(sitzung: s),
       PartyPhase.entscheidungen => KartenBildschirm(sitzung: s),
       PartyPhase.gruppenwahl => GruppenwahlBildschirm(sitzung: s),
       PartyPhase.bonus || PartyPhase.resuemee => ResuemeeBildschirm(sitzung: s),

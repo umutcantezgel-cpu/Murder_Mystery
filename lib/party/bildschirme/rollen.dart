@@ -92,7 +92,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(s.ui('ui.rollen.erklaerung'), style: Keller.text),
+          Text(s.ui(s.solo ? 'ui.solo.rollen_start' : 'ui.rollen.erklaerung'), style: Keller.text),
           const SizedBox(height: 16),
           if (s.einstellungen.druck) ...[
             DruckTafel(sitzung: s),
@@ -115,7 +115,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
           for (final r in s.besetzt)
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: _RollenZeile(sitzung: s, rolle: r, gesehen: _gesehen.contains(r), onTap: () => _vorbereiten(r)),
+              child: _RollenZeile(sitzung: s, rolle: r, gesehen: _gesehen.contains(r), onTap: s.solo ? null : () => _vorbereiten(r)),
             ),
         ],
       );
@@ -281,7 +281,7 @@ class _RollenZeile extends StatelessWidget {
   final PartySitzung sitzung;
   final String rolle;
   final bool gesehen;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

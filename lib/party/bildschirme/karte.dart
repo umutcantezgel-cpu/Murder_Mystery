@@ -8,6 +8,7 @@ import '../karte_session.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 import 'npc_karte.dart';
+import 'solo_gespraeche.dart';
 import 'zug_tafel.dart';
 
 /// Die Entscheidungen des Detektivs auf der Karte (F4-ORCH-01, Master 7.7):
@@ -343,7 +344,15 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               children: [
                 Text(s.ui('ui.karte.notizbuch').toUpperCase(), style: Keller.marke),
                 const SizedBox(height: 10),
-                if (s.funde.isEmpty) Text(s.ui('ui.karte.notizbuch_leer'), style: Keller.leise),
+                if (s.funde.isEmpty && s.soloNotizen.isEmpty) Text(s.ui('ui.karte.notizbuch_leer'), style: Keller.leise),
+                if (s.soloNotizen.isNotEmpty) ...[
+                  Text(s.ui('ui.solo.notizen'), style: Keller.ueberschrift),
+                  const SizedBox(height: 10),
+                  for (final g in s.soloNotizen) Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: BotSprechblase(sitzung: s, gespraech: g),
+                  ),
+                ],
                 for (final f in s.funde.entries) ...[
                   Text(s.spiel.ermittlung.entscheidung(f.key).frage, style: Keller.leise),
                   for (final a in f.value) Padding(padding: const EdgeInsets.only(top: 4, bottom: 8), child: Text(a.text, style: Keller.text)),

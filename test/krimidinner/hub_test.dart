@@ -100,7 +100,7 @@ void main() {
       for (final text in [
         'Spuk im Schlosskeller',
         'Spuk im Gewölbe',
-        'Partyabend an einem Gerät · 4\u00a0bis\u00a020\u00a0Personen',
+        'Party am Gerät oder Solo mit Bots',
         'Krimidinner auf Burg Schartenfels · Besetzung, Steckbriefe, Mappen',
       ]) {
         final p = absatz(text);
@@ -108,7 +108,7 @@ void main() {
         expect(p.overflow, TextOverflow.clip, reason: text);
         expect(p.maxLines, isNull, reason: '$text: keine Zeilengrenze, nichts wird abgeschnitten');
         // Der Absatz liegt ganz in seiner Kachel.
-        final kachelRect = tester.getRect(kachel(text == 'Spuk im Schlosskeller' || text.startsWith('Partyabend') ? 'Spuk im Schlosskeller' : 'Spuk im Gewölbe'));
+        final kachelRect = tester.getRect(kachel(text == 'Spuk im Schlosskeller' || text.startsWith('Party ') ? 'Spuk im Schlosskeller' : 'Spuk im Gewölbe'));
         final rect = tester.getRect(find.text(text));
         expect(kachelRect.contains(rect.topLeft) && kachelRect.contains(rect.bottomRight - const Offset(0.01, 0.01)), isTrue, reason: text);
       }

@@ -18,9 +18,10 @@ PartyDaten get partyDaten => _daten ??= PartyDaten.aus(
     );
 
 /// Neue Sitzung, auf Wunsch schon eingerichtet ([rollen] Personen, Pfad [pfad]).
-PartySitzung neueSitzung({int? rollen, String pfad = 'ahmet', String detektiv = 'w', WuerfelQuelle wuerfel = const FesterWuerfel.neutral()}) {
-  final s = PartySitzung(partyDaten, wuerfel: wuerfel);
-  if (rollen != null) s.einrichten(rollen: rollen, detektiv: detektiv, code: FallCode.fuerPfad(pfad, partyDaten.kanon.pfade).code);
+PartySitzung neueSitzung({int? rollen, String pfad = 'ahmet', String detektiv = 'w', bool solo = false,
+    String? salz, WuerfelQuelle wuerfel = const FesterWuerfel.neutral()}) {
+  final s = PartySitzung(partyDaten, wuerfel: wuerfel, salz: salz);
+  if (rollen != null) s.einrichten(rollen: rollen, detektiv: detektiv, solo: solo, code: FallCode.fuerPfad(pfad, partyDaten.kanon.pfade).code);
   return s;
 }
 
@@ -32,6 +33,9 @@ void spieleBis(PartySitzung s, PartyPhase ziel, {int? runde}) {
         s.zurEinrichtung();
       case PartyPhase.einrichtung:
         s.einrichten(rollen: 7, detektiv: 'w', code: FallCode.fuerPfad('ahmet', s.kanon.pfade).code);
+      case PartyPhase.gespraeche:
+        for (final g in s.soloGespraeche) { s.soloGespraechGelesen(g.id); }
+        s.weiter();
       case PartyPhase.entscheidungen:
         if (s.zug != null) {
           spieleZug(s);

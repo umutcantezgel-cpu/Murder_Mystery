@@ -34,6 +34,7 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
   _Spielart _spielart = _Spielart.bildschirm;
   int _minuten = 30;
   bool _stimme = false;
+  bool _solo = false;
   final _geburtstag = TextEditingController();
   final _code = TextEditingController();
 
@@ -66,15 +67,18 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
   /// Startknopf: den Abend einrichten und danach die Erzählerstimme setzen.
   void _starten() {
     final namen = <String, String>{};
-    for (final r in s.rollenBei(_rollen)) {
-      final name = _namenFeld(r).text.trim();
-      if (name.isNotEmpty) namen[r] = name;
+    if (!_solo) {
+      for (final r in s.rollenBei(_rollen)) {
+        final name = _namenFeld(r).text.trim();
+        if (name.isNotEmpty) namen[r] = name;
+      }
     }
     s.einrichten(
       rollen: _rollen,
       detektiv: _detektiv,
       code: _codeWahl == _CodeWahl.eingabe ? _code.text : null,
-      druck: _spielart == _Spielart.druck,
+      druck: !_solo && _spielart == _Spielart.druck,
+      solo: _solo,
       rundendauerMinuten: _minuten,
       namen: namen,
       geburtstagskind: _geburtstag.text.trim(),
@@ -86,17 +90,18 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
   Widget build(BuildContext context) => PartyRahmen(
         marke: s.ui('ui.einrichtung.marke'),
         titel: s.ui('ui.einrichtung.titel'),
-        untertitel: s.ui('ui.einrichtung.hinweis'),
+        untertitel: s.ui(_solo ? 'ui.solo.einrichtung' : 'ui.einrichtung.hinweis'),
         aktionen: [PartyKnopf(text: s.ui('ui.einrichtung.start'), onPressed: _codeOk ? _starten : null)],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _formAbschnitt(),
             _personenAbschnitt(),
             _geburtstagAbschnitt(),
             _detektivAbschnitt(),
             _fallAbschnitt(),
-            _spielartAbschnitt(),
-            _dauerAbschnitt(),
+            if (!_solo) _spielartAbschnitt(),
+            if (!_solo) _dauerAbschnitt(),
             _stimmeAbschnitt(),
           ],
         ),
@@ -118,8 +123,18 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
         ),
       );
 
-  Widget _personenAbschnitt() => _abschnitt(s.ui('ui.einrichtung.personen'), [
-        Text(s.ui('ui.einrichtung.anzahl', {'anzahl': '$_rollen'}), style: Keller.ueberschrift, textAlign: TextAlign.center),
+  Widget _formAbschnitt() => _abschnitt(s.ui('ui.solo.spielweise'), [
+        Wrap(spacing: 10, runSpacing: 10, children: [
+          PartyKnopf(text: s.ui('ui.solo.party'), haupt: !_solo, onPressed: () => setState(() => _solo = false)),
+          PartyKnopf(text: s.ui('ui.solo.solo'), haupt: _solo, onPressed: () => setState(() {
+            _solo = true;
+            _spielart = _Spielart.bildschirm;
+          })),
+        ]),
+      ]);
+
+  Widget _personenAbschnitt() => _abschnitt(s.ui(_solo ? 'ui.solo.rollen' : 'ui.einrichtung.personen'), [
+        Text(s.ui(_solo ? 'ui.solo.rollen_anzahl' : 'ui.einrichtung.anzahl', {'anzahl': '$_rollen'}), style: Keller.ueberschrift, textAlign: TextAlign.center),
         Row(
           children: [
             IconButton(
@@ -148,7 +163,7 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
           ],
         ),
         const SizedBox(height: 8),
-        Text(s.ui('ui.einrichtung.namen_hinweis'), style: Keller.leise),
+        Text(s.ui(_solo ? 'ui.solo.rollen_hinweis' : 'ui.einrichtung.namen_hinweis'), style: Keller.leise),
         const SizedBox(height: 12),
         for (final r in s.rollenBei(_rollen)) _rollenZeile(r),
       ]);
@@ -170,8 +185,8 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
                 ],
               ),
             ),
-            const SizedBox(width: 12),
-            SizedBox(
+            if (!_solo) const SizedBox(width: 12),
+            if (!_solo) SizedBox(
               width: 150,
               child: TextField(
                 key: ValueKey('name-$rolle'),
@@ -185,12 +200,12 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
         ),
       );
 
-  Widget _geburtstagAbschnitt() => _abschnitt(s.ui('ui.einrichtung.geburtstag'), [
+  Widget _geburtstagAbschnitt() => _abschnitt(s.ui(_solo ? 'ui.solo.name' : 'ui.einrichtung.geburtstag'), [
         TextField(
           controller: _geburtstag,
           textCapitalization: TextCapitalization.words,
           style: Keller.text,
-          decoration: _feld(s.ui('ui.einrichtung.geburtstag_feld')),
+          decoration: _feld(s.ui(_solo ? 'ui.solo.name_feld' : 'ui.einrichtung.geburtstag_feld')),
         ),
       ]);
 

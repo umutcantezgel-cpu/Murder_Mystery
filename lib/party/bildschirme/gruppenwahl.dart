@@ -41,7 +41,7 @@ class _GruppenwahlBildschirmState extends State<GruppenwahlBildschirm> {
     return PartyRahmen(
       marke: s.ui('ui.allgemein.runde', {'nr': '${s.runde}'}),
       titel: s.ui('ui.gruppenwahl.titel'),
-      untertitel: s.ui('ui.gruppenwahl.erklaerung'),
+      untertitel: s.ui(s.solo ? 'ui.solo.gruppenwahl' : 'ui.gruppenwahl.erklaerung'),
       aktionen: [
         if (s.alleGestimmt) PartyKnopf(text: s.ui('ui.allgemein.weiter'), onPressed: s.kannWeiter ? s.weiter : null),
       ],

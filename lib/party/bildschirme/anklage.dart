@@ -138,7 +138,7 @@ class _Karte extends StatelessWidget {
                       children: [
                         Text(sitzung.figurName(person), style: Keller.ueberschrift),
                         if (titel.isNotEmpty) Text(titel, style: Keller.leise),
-                        Text(sitzung.ui('ui.anklage.gespielt', {'name': sitzung.spielerName(person)}), style: Keller.leise),
+                        Text(sitzung.solo ? sitzung.ui('ui.solo.gast') : sitzung.ui('ui.anklage.gespielt', {'name': sitzung.spielerName(person)}), style: Keller.leise),
                       ],
                     ),
                   ),

@@ -231,6 +231,126 @@ abstract class L {
   /// **'Andere Abende & Fälle'**
   String get party_menu;
 
+  /// No description provided for @party_solo_spielweise.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie möchtest du spielen?'**
+  String get party_solo_spielweise;
+
+  /// No description provided for @party_solo_party.
+  ///
+  /// In de, this message translates to:
+  /// **'Party am Gerät'**
+  String get party_solo_party;
+
+  /// No description provided for @party_solo_solo.
+  ///
+  /// In de, this message translates to:
+  /// **'Solo mit Bots'**
+  String get party_solo_solo;
+
+  /// No description provided for @party_solo_einrichtung.
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst allein. Die Gäste sprechen und wählen als Bots; ihre geheimen Rollenkarten bleiben zu.'**
+  String get party_solo_einrichtung;
+
+  /// No description provided for @party_solo_rollen.
+  ///
+  /// In de, this message translates to:
+  /// **'Gäste mit Stimmrecht'**
+  String get party_solo_rollen;
+
+  /// No description provided for @party_solo_rollen_anzahl.
+  ///
+  /// In de, this message translates to:
+  /// **'{anzahl} Bot-Rollen'**
+  String party_solo_rollen_anzahl(Object anzahl);
+
+  /// No description provided for @party_solo_rollen_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Gäste übernehmen die Rollen und wählen verdeckt. Weitere Gäste melden sich mit ihrem öffentlichen Wissen, wenn es gebraucht wird.'**
+  String get party_solo_rollen_hinweis;
+
+  /// No description provided for @party_solo_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Name als Detektiv'**
+  String get party_solo_name;
+
+  /// No description provided for @party_solo_name_feld.
+  ///
+  /// In de, this message translates to:
+  /// **'Name (freiwillig)'**
+  String get party_solo_name_feld;
+
+  /// No description provided for @party_solo_rollen_start.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist der Detektiv. Die folgenden Rollen werden vom Spiel übernommen. Ihre Dossiers kannst du nicht öffnen; alle nötigen Aussagen hörst du in den Runden.'**
+  String get party_solo_rollen_start;
+
+  /// No description provided for @party_solo_gespraeche.
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräche mit den Gästen'**
+  String get party_solo_gespraeche;
+
+  /// No description provided for @party_solo_gespraeche_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Höre die öffentlichen Aussagen an, bevor du ermittelst. Behauptungen können falsch sein. Die Sprechblasen bleiben danach im Notizbuch.'**
+  String get party_solo_gespraeche_hinweis;
+
+  /// No description provided for @party_solo_fortschritt.
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräch {nr} von {gesamt}'**
+  String party_solo_fortschritt(Object gesamt, Object nr);
+
+  /// No description provided for @party_solo_gehoert.
+  ///
+  /// In de, this message translates to:
+  /// **'Gehört – nächstes Gespräch'**
+  String get party_solo_gehoert;
+
+  /// No description provided for @party_solo_vorheriges.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorheriges Gespräch'**
+  String get party_solo_vorheriges;
+
+  /// No description provided for @party_solo_fertig.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Aussagen gehört. Jetzt entscheidest du auf der Karte.'**
+  String get party_solo_fertig;
+
+  /// No description provided for @party_solo_gruppenwahl.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Bots haben verdeckt gewählt. Sie kooperieren mit 70 % Wahrscheinlichkeit. Nur die Täterrolle kann mit ihrer Wahl sabotieren; Stimmen und Hinweisqualität bleiben geheim.'**
+  String get party_solo_gruppenwahl;
+
+  /// No description provided for @party_solo_gast.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Figur wird vom Spiel übernommen.'**
+  String get party_solo_gast;
+
+  /// No description provided for @party_solo_npc.
+  ///
+  /// In de, this message translates to:
+  /// **'Gast ohne Stimmrolle'**
+  String get party_solo_npc;
+
+  /// No description provided for @party_solo_notizen.
+  ///
+  /// In de, this message translates to:
+  /// **'Gehörte Gespräche'**
+  String get party_solo_notizen;
+
   /// No description provided for @hub_section_classic.
   ///
   /// In de, this message translates to:
@@ -252,7 +372,7 @@ abstract class L {
   /// No description provided for @hub_party_keller_sub.
   ///
   /// In de, this message translates to:
-  /// **'Partyabend an einem Gerät · 4 bis 20 Personen'**
+  /// **'Party am Gerät oder Solo mit Bots'**
   String get hub_party_keller_sub;
 
   /// No description provided for @hub_party_gewoelbe.

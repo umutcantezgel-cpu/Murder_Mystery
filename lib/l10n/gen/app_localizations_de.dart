@@ -90,6 +90,76 @@ class LDe extends L {
   String get party_menu => 'Andere Abende & Fälle';
 
   @override
+  String get party_solo_spielweise => 'Wie möchtest du spielen?';
+
+  @override
+  String get party_solo_party => 'Party am Gerät';
+
+  @override
+  String get party_solo_solo => 'Solo mit Bots';
+
+  @override
+  String get party_solo_einrichtung =>
+      'Du ermittelst allein. Die Gäste sprechen und wählen als Bots; ihre geheimen Rollenkarten bleiben zu.';
+
+  @override
+  String get party_solo_rollen => 'Gäste mit Stimmrecht';
+
+  @override
+  String party_solo_rollen_anzahl(Object anzahl) {
+    return '$anzahl Bot-Rollen';
+  }
+
+  @override
+  String get party_solo_rollen_hinweis =>
+      'Diese Gäste übernehmen die Rollen und wählen verdeckt. Weitere Gäste melden sich mit ihrem öffentlichen Wissen, wenn es gebraucht wird.';
+
+  @override
+  String get party_solo_name => 'Dein Name als Detektiv';
+
+  @override
+  String get party_solo_name_feld => 'Name (freiwillig)';
+
+  @override
+  String get party_solo_rollen_start =>
+      'Du bist der Detektiv. Die folgenden Rollen werden vom Spiel übernommen. Ihre Dossiers kannst du nicht öffnen; alle nötigen Aussagen hörst du in den Runden.';
+
+  @override
+  String get party_solo_gespraeche => 'Gespräche mit den Gästen';
+
+  @override
+  String get party_solo_gespraeche_hinweis =>
+      'Höre die öffentlichen Aussagen an, bevor du ermittelst. Behauptungen können falsch sein. Die Sprechblasen bleiben danach im Notizbuch.';
+
+  @override
+  String party_solo_fortschritt(Object gesamt, Object nr) {
+    return 'Gespräch $nr von $gesamt';
+  }
+
+  @override
+  String get party_solo_gehoert => 'Gehört – nächstes Gespräch';
+
+  @override
+  String get party_solo_vorheriges => 'Vorheriges Gespräch';
+
+  @override
+  String get party_solo_fertig =>
+      'Alle Aussagen gehört. Jetzt entscheidest du auf der Karte.';
+
+  @override
+  String get party_solo_gruppenwahl =>
+      'Die Bots haben verdeckt gewählt. Sie kooperieren mit 70 % Wahrscheinlichkeit. Nur die Täterrolle kann mit ihrer Wahl sabotieren; Stimmen und Hinweisqualität bleiben geheim.';
+
+  @override
+  String get party_solo_gast => 'Diese Figur wird vom Spiel übernommen.';
+
+  @override
+  String get party_solo_npc => 'Gast ohne Stimmrolle';
+
+  @override
+  String get party_solo_notizen => 'Gehörte Gespräche';
+
+  @override
   String get hub_section_classic => 'Klassische Fälle';
 
   @override
@@ -99,8 +169,7 @@ class LDe extends L {
   String get hub_party_keller => 'Spuk im Schlosskeller';
 
   @override
-  String get hub_party_keller_sub =>
-      'Partyabend an einem Gerät · 4 bis 20 Personen';
+  String get hub_party_keller_sub => 'Party am Gerät oder Solo mit Bots';
 
   @override
   String get hub_party_gewoelbe => 'Spuk im Gewölbe';

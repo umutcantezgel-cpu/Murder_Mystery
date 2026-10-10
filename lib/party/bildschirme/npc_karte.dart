@@ -79,7 +79,8 @@ class _PersonKopf extends StatelessWidget {
         ],
         const SizedBox(height: 12),
         Text(
-          besetzt ? sitzung.ui('ui.npc.besetzt', {'name': sitzung.spielerName(person)}) : sitzung.ui('ui.npc.unbesetzt'),
+          sitzung.solo ? sitzung.ui('ui.solo.gast') :
+              besetzt ? sitzung.ui('ui.npc.besetzt', {'name': sitzung.spielerName(person)}) : sitzung.ui('ui.npc.unbesetzt'),
           style: Keller.text,
         ),
       ],

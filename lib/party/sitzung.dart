@@ -19,17 +19,21 @@ import 'runden_texte.dart';
 ///   in der verdeckten Einzelansicht ([verdeckt]); vor dem Finale verrät keine
 ///   andere Methode den Täter-Pfad (E-008).
 class PartySitzung extends ChangeNotifier {
-  PartySitzung(this.daten, {WuerfelQuelle? wuerfel}) {
+  PartySitzung(this.daten, {WuerfelQuelle? wuerfel, String? salz}) {
     // Das Salz ist unabhängig von Fall-Code, Pfad, Besetzung und Optionswahl.
-    // Random.secure liefert nur das Salz; sämtliche Augen kommen aus SalzWuerfel.
+    // Eine Vorgabe dient reproduzierbaren Tests, nicht dem Einrichtungsbildschirm.
     final zufall = math.Random.secure();
-    final salz = List.generate(16, (_) => zufall.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
-    _partie = RundenPartie(daten.kanon, quelle: wuerfel ?? SalzWuerfel(salz), ermittlung: daten.karte.ermittlung);
+    _salz = salz ?? List.generate(16, (_) => zufall.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
+    if (_salz.isEmpty) throw ArgumentError('leeres Salz');
+    _partie = RundenPartie(daten.kanon, quelle: wuerfel ?? SalzWuerfel(_salz), ermittlung: daten.karte.ermittlung);
   }
 
   final PartyDaten daten;
+  late final String _salz;
   late final RundenPartie _partie;
   Spiel? _druckSpiel;
+  bool _solo = false;
+  bool get solo => _solo;
 
   /// Lesemodell für bestehende Kanon-Ansichten. Änderungen nur über die Sitzung.
   Spiel get spiel => _druckSpiel ?? _partie.spiel;
@@ -41,7 +45,7 @@ class PartySitzung extends ChangeNotifier {
   List<Wurf> get wuerfe => _partie.wuerfe;
 
   /// Würfelpate wechselt mit jedem Wurf; Rollen haben keinen Einfluss auf die Augen.
-  String get wuerfelPate => spielerName(besetzt[wuerfe.length % besetzt.length]);
+  String get wuerfelPate => solo ? personAmTisch(Besetzung.detektiv) : spielerName(besetzt[wuerfe.length % besetzt.length]);
 
   /// Schreibt bei jedem Schritt eine Zeile `PARTY …` in die Konsole
   /// (Entwickler-Einstieg und E2E-Läufe).
@@ -138,10 +142,12 @@ class PartySitzung extends ChangeNotifier {
     required String detektiv,
     String? code,
     bool druck = false,
+    bool solo = false,
     int rundendauerMinuten = 30,
     Map<String, String> namen = const {},
     String geburtstagskind = '',
   }) {
+    if (solo && druck) throw ArgumentError('Solo ist kein Druckspiel');
     zurEinrichtung();
     final c = (code == null ? null : FallCode.lesen(code)) ?? zufallsCode();
     final einstellung = Einstellungen(rollen: rollen, detektiv: detektiv, code: c, druck: druck, rundendauerMinuten: rundendauerMinuten);
@@ -153,6 +159,7 @@ class PartySitzung extends ChangeNotifier {
       _partie.einrichten(einstellung);
     }
     _code = c;
+    _solo = solo;
     this.namen
       ..clear()
       ..addAll({for (final r in besetzt) if (namen[r] != null) r: namen[r]!});
@@ -175,6 +182,7 @@ class PartySitzung extends ChangeNotifier {
 
   /// „Ich bin `Name`, zeig her“.
   void zeigeVerdeckt(String rolle) {
+    if (solo && !nachFinale) throw StateError('Bot-Dossiers bleiben verdeckt');
     if (!besetzt.contains(rolle)) throw ArgumentError('$rolle ist nicht besetzt');
     _verdeckt = rolle;
     notifyListeners();
@@ -187,7 +195,7 @@ class PartySitzung extends ChangeNotifier {
   }
 
   void _nurVerdeckt(String rolle) {
-    if (_verdeckt != rolle && !nachFinale) throw StateError('nur in der verdeckten Ansicht von $rolle');
+    if ((solo || _verdeckt != rolle) && !nachFinale) throw StateError('nur in der verdeckten Ansicht von $rolle');
   }
 
   /// Dossier (nur verdeckt). Kernrollen bekommen im eigenen Pfad die Täterfassung.
@@ -236,11 +244,35 @@ class PartySitzung extends ChangeNotifier {
       ? (geburtstagskind.trim().isEmpty ? ui('ui.allgemein.detektiv') : geburtstagskind.trim())
       : spielerName(id);
 
+  final Map<int, List<BotGespraech>> _soloGespraeche = {};
+  final Set<String> _soloGelesen = {};
+
+  /// Nur öffentliche Sprechblasen der aktuellen Runde, keine künftigen Texte.
+  List<BotGespraech> get soloGespraeche => !solo || runde < 1 ? const [] : _soloGespraeche.putIfAbsent(
+    runde, () => botGespraeche(daten.texte, rollen: einstellungen.rollen, runde: runde, mitNpc: true),
+  );
+
+  /// Bereits gehörte Aussagen bleiben im Notizbuch erreichbar.
+  List<BotGespraech> get soloNotizen => List.unmodifiable({
+    for (final liste in _soloGespraeche.values)
+      for (final g in liste) if (_soloGelesen.contains(g.id)) g.id: g,
+  }.values);
+
+  void soloGespraechGelesen(String id) {
+    if (!solo || phase != PartyPhase.gespraeche || !soloGespraeche.any((g) => g.id == id)) {
+      throw StateError('kein aktuelles Solo-Gespräch');
+    }
+    if (_soloGelesen.add(id)) notifyListeners();
+  }
+
   // ---------------------------------------------------------------------------
   // Ablauf
 
-  /// Kann der Abend zum nächsten Abschnitt?
-  bool get kannWeiter => mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
+  /// Kann der Abend zum nächsten Abschnitt? Solo-Wissen kommt vor der Wahl;
+  /// eine Uhr oder eine verdeckte Bot-Karte kann diese Schranke nicht umgehen.
+  bool get kannWeiter {
+    if (solo && phase == PartyPhase.gespraeche && soloGespraeche.any((g) => !_soloGelesen.contains(g.id))) return false;
+    return mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
         PartyPhase.titel => true,
         PartyPhase.einrichtung => false,
         PartyPhase.entscheidungen => karte.laufend(spiel) == null && _vorschlag == null && _letzterFund == null,
@@ -249,6 +281,7 @@ class PartySitzung extends ChangeNotifier {
         PartyPhase.ende => false,
         _ => true,
       };
+  }
 
   /// Zum nächsten Abschnitt.
   void weiter() {
@@ -266,7 +299,15 @@ class PartySitzung extends ChangeNotifier {
     }
     _erzaehlerAb = vorher;
     _verdeckt = null;
-    if (phase == PartyPhase.gruppenwahl) _stimmen.clear();
+    if (phase == PartyPhase.gruppenwahl) {
+      _stimmen.clear();
+      if (solo) {
+        for (final rolle in besetzt) {
+          _stimmen[rolle] = botKooperativ(salz: _salz, rolle: rolle, runde: runde);
+        }
+        _auswerten();
+      }
+    }
     _letzterFund = null;
     _melde();
     notifyListeners();
