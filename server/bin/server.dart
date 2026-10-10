@@ -3,6 +3,7 @@
 /// Umgebungsvariablen:
 /// - `PORT` (Standard 8080)
 /// - `SCENARIO_DIR` (Standard `/app/content/scenarios` bzw. `../content/scenarios`)
+/// - `PARTY_DIR` (Standard `/app/content/party/schlosskeller` bzw. Repo-Kanon)
 /// - `INCLUDE_SAMPLE=1` lädt zusätzlich das Beispiel-Szenario `sample`
 /// - `TRUST_PROXY=0` Client-Adresse (Verbindungs-Limit pro Adresse) aus der
 ///   TCP-Gegenstelle statt aus `X-Real-IP`/`X-Forwarded-For` (nur ohne Proxy davor)
@@ -11,6 +12,7 @@ library;
 import 'dart:async';
 import 'dart:io';
 
+import 'package:mordakte_server/party.dart';
 import 'package:mordakte_server/rooms.dart';
 import 'package:mordakte_server/runtime.dart';
 import 'package:mordakte_server/scenarios.dart';
@@ -21,10 +23,14 @@ Future<void> main() async {
   final port = int.tryParse(env['PORT'] ?? '') ?? 8080;
   final scenarioDir = resolveScenarioDir(env['SCENARIO_DIR']);
   final scenarios = loadScenarios(scenarioDir, log: defaultLog, includeSample: env['INCLUDE_SAMPLE'] == '1');
+  final partyFactory = loadSchlosskellerFactory(resolvePartyDir(env['PARTY_DIR']));
 
   // Ein Fehler darf den Prozess nie beenden: alles (auch die Raum-Timer) läuft in dieser Zone.
   await runZonedGuarded(() async {
-    final rooms = RoomManager(runtimeFactory: coreRuntimeFactory(scenarios));
+    final rooms = RoomManager(
+      runtimeFactory: coreRuntimeFactory(scenarios),
+      abendFactories: {'schlosskeller': partyFactory},
+    );
     final server = await serveMordakte(rooms, port: port, trustProxy: env['TRUST_PROXY'] != '0');
     defaultLog('Mordakte-Server lauscht auf :${server.port} – '
         '${scenarios.length} Szenario(s) [${scenarios.keys.join(', ')}] aus $scenarioDir');

@@ -1,6 +1,6 @@
 /// Echte TCP/WebSocket-Clients gegen den Produktions-Handler und die echte Engine.
 /// Lokal: dart run tool/online_matrix.dart
-/// Öffentlich: dart run tool/online_matrix.dart --url=wss://<freigegebener-host>/ws
+/// Öffentlich: `dart run tool/online_matrix.dart --url=wss://<freigegebener-host>/ws`
 /// 4–20 gleichzeitige Clients, klassische Räume mit höchstens sechs Detektiven.
 /// Kein Beleg für einen 20-Personen-Partyraum oder private Party-Rollenkarten.
 library;

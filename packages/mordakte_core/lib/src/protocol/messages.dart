@@ -2,7 +2,8 @@
 ///
 /// Client → Server:
 ///   {"t":"hello","name":"Anna","token":"…optional…","proto":1}
-///   {"t":"create"}
+///   {"t":"create"} oder {"t":"create","abend":"schlosskeller"}
+///   {"t":"abend_cmd","c":{"typ":"bereit","wert":true}}
 ///   {"t":"join","code":"KX4T"}
 ///   {"t":"leave"}
 ///   {"t":"cmd","c":{…Command.toJson()…}}
@@ -28,6 +29,7 @@ abstract final class Msg {
   static const join = 'join';
   static const leave = 'leave';
   static const cmd = 'cmd';
+  static const abendCmd = 'abend_cmd';
   static const move = 'mv';
   static const ping = 'ping';
 
@@ -37,6 +39,7 @@ abstract final class Msg {
   static const error = 'err';
   static const world = 'w';
   static const caseView = 'c';
+  static const abend = 'abend';
   static const events = 'ev';
   static const pong = 'pong';
 }

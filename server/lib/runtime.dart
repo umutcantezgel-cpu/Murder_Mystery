@@ -6,8 +6,8 @@ library;
 
 import 'package:mordakte_core/mordakte_core.dart';
 
-/// Der Teil der `RoomRuntime`-API, den der Server braucht.
-abstract interface class GameRuntime {
+/// Gemeinsamer Lebenszyklus klassischer Räume und geführter Partyabende.
+abstract interface class ManagedRuntime {
   /// Spieler-IDs (ohne Bots).
   List<String> get humanPlayers;
 
@@ -22,21 +22,31 @@ abstract interface class GameRuntime {
 
   void setConnected(String playerId, bool connected);
 
-  void applyMove(String playerId, MoveInput move);
-
-  void applyCommand(String playerId, Command command);
-
   void tick(int dtMs);
-
-  WorldSnapshot worldFor(String playerId);
-
-  CaseView? caseFor(String playerId, {bool force = false});
 
   List<GameEvent> drainEvents(String playerId);
 }
 
+/// Unveränderte Welt-/Fallansichten der klassischen RoomRuntime.
+abstract interface class GameRuntime implements ManagedRuntime {
+  void applyMove(String playerId, MoveInput move);
+  void applyCommand(String playerId, Command command);
+  WorldSnapshot worldFor(String playerId);
+  CaseView? caseFor(String playerId, {bool force = false});
+}
+
+/// Eigene, ausdrücklich pro Empfänger zusammengesetzte Abendansichten.
+abstract interface class AbendRuntime implements ManagedRuntime {
+  String get abend;
+  int get maxPlayers;
+  Map<String, Object?>? stateFor(String playerId, {bool force = false});
+
+  /// null = angenommen, sonst ein fester Fehler-Schlüssel ohne Nutzdaten.
+  String? applyAbendCommand(String playerId, Map<String, Object?> command);
+}
+
 /// Erzeugt die Runtime für einen neuen Raum.
-typedef RuntimeFactory = GameRuntime Function(String roomCode);
+typedef RuntimeFactory = ManagedRuntime Function(String roomCode);
 
 /// Adapter auf die echte [RoomRuntime].
 class CoreRuntime implements GameRuntime {

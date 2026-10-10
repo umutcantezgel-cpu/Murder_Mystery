@@ -59,6 +59,12 @@ if [ "$STUFE" != "schnell" ]; then
   (cd server && dart run tool/smoke.dart)
   schritt "Online-Matrix: 4–20 echte Clients, klassische Räume"
   (cd server && dart run tool/online_matrix.dart)
+  schritt "Party-Online-Matrix: 4–20 echte Clients in einem Raum, private Rollenkarten"
+  (cd server && dart run tool/party_matrix.dart)
+  schritt "Native Server-Datei kompilieren und über HTTP/WebSocket prüfen"
+  mkdir -p .werkzeug
+  (cd server && dart compile exe bin/server.dart -o ../.werkzeug/server-pruefung)
+  node server/tool/native_smoke.mjs
   if [ -d test ]; then
     schritt "Flutter-Tests"
     # Zwei Testprozesse bleiben auch auf kleinen CI-/Cloud-VMs innerhalb des RAM-Budgets.

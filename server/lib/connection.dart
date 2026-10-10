@@ -160,13 +160,17 @@ class Connection implements ClientLink {
     }
     switch (type) {
       case Msg.create:
-        _rooms.create(p);
+        _rooms.create(p, abend: msg['abend']);
       case Msg.join:
         _rooms.join(p, msg['code']);
       case Msg.leave:
         _rooms.leave(p);
       case Msg.cmd:
         _rooms.command(p, Command.fromJson(msg['c'] as Map<String, dynamic>));
+      case Msg.abendCmd:
+        final command = msg['c'];
+        if (command is! Map<String, dynamic>) throw const FormatException('ungültiger Abendbefehl');
+        _rooms.abendCommand(p, command);
       case Msg.move:
         final move = MoveInput.fromJson(msg);
         if (!move.x.isFinite || !move.y.isFinite || !move.facing.isFinite) {

@@ -29,7 +29,8 @@ Handler createHandler(
   RoomManager rooms, {
   Duration pingInterval = const Duration(seconds: 20),
   int maxConnections = 10000,
-  int maxConnectionsPerAddress = 20,
+  // 20 Gäste plus Detektiv hinter derselben NAT-Adresse, mit Reconnect-Reserve.
+  int maxConnectionsPerAddress = 42,
   bool trustProxy = true,
 }) {
   var connections = 0;

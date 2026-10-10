@@ -61,7 +61,7 @@ class Room {
 
   final RoomManager _manager;
   final String code;
-  final GameRuntime runtime;
+  final ManagedRuntime runtime;
   final Set<Player> members = {};
 
   final Stopwatch _clock = Stopwatch();
@@ -117,9 +117,15 @@ class Room {
         continue;
       }
       try {
-        link.send(encodeWorld(runtime.worldFor(p.id)));
-        final view = runtime.caseFor(p.id);
-        if (view != null) link.send(encodeCase(view));
+        final game = runtime;
+        if (game is GameRuntime) {
+          link.send(encodeWorld(game.worldFor(p.id)));
+          final view = game.caseFor(p.id);
+          if (view != null) link.send(encodeCase(view));
+        } else if (game is AbendRuntime) {
+          final view = game.stateFor(p.id);
+          if (view != null) link.send(encodeMsg(view));
+        }
         final events = [
           for (final e in runtime.drainEvents(p.id))
             if (e.to == null || e.to == p.id) e,
@@ -144,9 +150,15 @@ class Room {
   void _sendRoomAndCase(Player p) {
     final link = p.link;
     if (link == null) return;
-    link.send(encodeMsg({'t': Msg.room, 'code': code}));
-    final view = guard('caseFor', () => runtime.caseFor(p.id, force: true));
-    if (view != null) link.send(encodeCase(view));
+    final game = runtime;
+    link.send(encodeMsg({'t': Msg.room, 'code': code, if (game is AbendRuntime) 'abend': game.abend}));
+    if (game is GameRuntime) {
+      final view = guard('caseFor', () => game.caseFor(p.id, force: true));
+      if (view != null) link.send(encodeCase(view));
+    } else if (game is AbendRuntime) {
+      final view = guard('stateFor', () => game.stateFor(p.id, force: true));
+      if (view != null) link.send(encodeMsg(view));
+    }
   }
 
   /// Führt [body] aus; Ausnahmen der Runtime werden geloggt (gedrosselt), nie weitergereicht.
@@ -178,6 +190,7 @@ class Room {
 class RoomManager {
   RoomManager({
     required this.runtimeFactory,
+    Map<String, RuntimeFactory> abendFactories = const {},
     Random? random,
     this.tickMs = Tuning.tickMs,
     this.snapshotMs = Tuning.snapshotMs,
@@ -191,13 +204,15 @@ class RoomManager {
     this.maxRooms = 2000,
     this.maxPlayers = 50000,
     Logger? log,
-  })  : _rng = random ?? Random.secure(),
+  })  : abendFactories = Map.unmodifiable(abendFactories),
+        _rng = random ?? Random.secure(),
         log = log ?? defaultLog {
     _clock.start();
     _janitor = Timer.periodic(janitorInterval, (_) => _sweep());
   }
 
   final RuntimeFactory runtimeFactory;
+  final Map<String, RuntimeFactory> abendFactories;
   final int tickMs;
   final int snapshotMs;
 
@@ -291,7 +306,12 @@ class RoomManager {
   }
 
   /// `create`: neuer Raum, Spieler tritt bei, Antwort `room`.
-  void create(Player p) {
+  void create(Player p, {Object? abend}) {
+    final fabrik = abend == null ? runtimeFactory : (abend is String ? abendFactories[abend] : null);
+    if (fabrik == null) {
+      _reply(p, encodeError(NetError.badMessage));
+      return;
+    }
     final now = _clock.elapsedMilliseconds;
     final last = p._lastCreateMs;
     if (last != null && now - last < createCooldown.inMilliseconds) {
@@ -308,9 +328,9 @@ class RoomManager {
       _reply(p, encodeError(ServerError.full));
       return;
     }
-    final GameRuntime runtime;
+    final ManagedRuntime runtime;
     try {
-      runtime = runtimeFactory(code);
+      runtime = fabrik(code);
     } catch (e, st) {
       log('Runtime für $code konnte nicht erzeugt werden: $e\n$st');
       _reply(p, encodeError(ServerError.internal));
@@ -347,7 +367,9 @@ class RoomManager {
     }
     final known = room.guard('humanPlayers', () => room.runtime.humanPlayers) ?? const <String>[];
     final occupied = {...known, for (final m in room.members) m.id};
-    if (!occupied.contains(p.id) && occupied.length >= maxPlayersPerRoom) {
+    final game = room.runtime;
+    final capacity = game is AbendRuntime ? game.maxPlayers : maxPlayersPerRoom;
+    if (!occupied.contains(p.id) && occupied.length >= capacity) {
       _reply(p, encodeError(NetError.roomFull));
       return;
     }
@@ -377,13 +399,34 @@ class RoomManager {
       _reply(p, encodeError(NetError.notInRoom));
       return;
     }
-    room.guard('applyCommand(${command.type})', () => room.runtime.applyCommand(p.id, command));
+    final game = room.runtime;
+    if (game is! GameRuntime) {
+      _reply(p, encodeError(NetError.badMessage));
+      return;
+    }
+    room.guard('applyCommand(${command.type})', () => game.applyCommand(p.id, command));
+  }
+
+  void abendCommand(Player p, Map<String, Object?> command) {
+    final room = p.room;
+    if (room == null) {
+      _reply(p, encodeError(NetError.notInRoom));
+      return;
+    }
+    final game = room.runtime;
+    if (game is! AbendRuntime) {
+      _reply(p, encodeError(NetError.badMessage));
+      return;
+    }
+    final error = room.guard('applyAbendCommand', () => game.applyAbendCommand(p.id, command));
+    if (error != null) _reply(p, encodeError(error));
   }
 
   void move(Player p, MoveInput move) {
     final room = p.room;
     if (room == null) return;
-    room.guard('applyMove', () => room.runtime.applyMove(p.id, move));
+    final game = room.runtime;
+    if (game is GameRuntime) room.guard('applyMove', () => game.applyMove(p.id, move));
   }
 
   /// Verbindung [link] von [p] ist weg. Ignoriert veraltete Verbindungen.
