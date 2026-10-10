@@ -140,6 +140,43 @@ void main() {
     }
   });
 
+  test('Bot-Gespräche enthalten nur öffentliche Preisgaben und ersetzen keine getrennten Gäste', () {
+    final r = _raum();
+    _start(r, 2, 4);
+    final gastRolle = _map(r.zustandFuer('p1')['privat'])['rolle'];
+    _bis(r, (s) => s['phase'] == 'gespraeche');
+    final vorher = _liste(r.zustandFuer('p0')['botGespraeche']);
+    final alle = botGespraeche(_texte, rollen: 4, runde: 1, mitNpc: true);
+    expect(vorher.map((g) => g['id']), alle.where((g) => g.rolle != gastRolle).map((g) => g.id));
+    expect(vorher.every((g) => g['rolle'] != gastRolle), isTrue);
+    for (final g in vorher) {
+      expect(g.keys.toSet(), {'id', 'rolle', 'partner', 'thema', 'text', 'preisgaben'});
+      final soll = alle.singleWhere((x) => x.id == g['id']);
+      expect(g['preisgaben'], [for (final z in soll.preisgaben) {'quelle': z.quelle, 'text': z.text}]);
+    }
+    r.verbunden('p1', false);
+    expect(r.zustandFuer('p0')['botGespraeche'], vorher);
+    r.verlassen('p1');
+    expect(_liste(r.zustandFuer('p0')['botGespraeche']).map((g) => g['id']), alle.map((g) => g.id));
+  });
+
+  test('Server-Bots benutzen denselben getrennten 70-Prozent-Strom', () {
+    final r = _raum();
+    _start(r, 1, 4);
+    _bis(r, (s) => s['phase'] == 'gruppenwahl');
+    final stimmen = {
+      for (final rolle in _texte.besetzung.besetzt(4))
+        rolle: botKooperativ(salz: 'pruefung-raumsalz-unabhaengig-vom-pfad', rolle: rolle, runde: 1),
+    };
+    final gruppe = Gruppenwahl(kanon);
+    final qualitaet = gruppe.auswerten(rollen: 4,
+      kooperativ: stimmen.entries.where((s) => s.key != 'ahmet' && s.value).length,
+      taeterSabotiert: stimmen['ahmet'] == false);
+    _befehl(r, 'p0', 'weiter');
+    final hinweis = gruppe.hinweis('ahmet', 1, qualitaet)['text'];
+    expect(r.zustandFuer('p0')['erzaehler'], contains(hinweis));
+  });
+
   test('Öffentliche Auswahlreihenfolge und Würfe verraten keinen Fall-Code/Pfad', () {
     List<Object?>? soll;
     for (final pfad in kanon.pfade) {

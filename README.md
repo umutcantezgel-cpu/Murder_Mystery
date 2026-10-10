@@ -5,8 +5,9 @@ Die App startet im **Schlosskeller**. Über **„Andere Abende & Fälle“** err
 Krimidinner „Spuk im Gewölbe“ und die klassischen Fälle.
 
 **Noch in Fertigstellung:** Der lokale Schlosskeller-Abend und die klassischen Fälle sind
-spielbar. Gewölbe ist derzeit ein Begleiter; Würfelintegration und Internet-Party mit
-privaten Rollenkarten folgen. Verbindlicher Stand mit Prüfbelegen: `planung/abschluss/STATUS.md`.
+spielbar. Schlosskeller zeigt echte Kartenaktionen und den Kellerwürfel. Gewölbe ist derzeit
+ein Begleiter; Solo-Party und Internet-Party mit privaten Rollenkarten folgen.
+Verbindlicher Stand mit Prüfbelegen: `planung/abschluss/STATUS.md`.
 
 ## So spielst du
 
@@ -15,8 +16,11 @@ privaten Rollenkarten folgen. Verbindlicher Stand mit Prüfbelegen: `planung/abs
 [**Mordakte für Android herunterladen**](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases/latest/download/mordakte.apk)
 · [Releases und Prüfsummen](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases)
 
-Nach dem ersten erfolgreichen Actions-Lauf ist der Download verfügbar. Ladet `mordakte.apk`
-auf das Handy, öffnet die Datei und erlaubt die Installation aus dieser Quelle. Ein
+Der erste Download ist verfügbar und geprüft: [APK zu `ba4f0cb`](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases/tag/apk-38079159341-1).
+Dieser ältere Stand enthält noch nicht die später ergänzten Kartenaktionen und Würfelknöpfe.
+Achtet deshalb auf den **Code-Stand in den Release-Notizen**; neuere main-Commits werden erst
+nach erfolgreicher Gesamtprüfung veröffentlicht. Ladet `mordakte.apk` auf das Handy, öffnet
+die Datei und erlaubt die Installation aus dieser Quelle. Ein
 Release-Build funktioniert auch ohne Keystore-Secrets: Er wird dann ausdrücklich mit einer
 Debug-Signatur zum Testen gebaut. Bei einem Wechsel der Signatur muss die alte App vor der
 Neuinstallation entfernt werden; lokale Fortschritte gehen dabei verloren.

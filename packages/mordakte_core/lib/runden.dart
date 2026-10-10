@@ -4,4 +4,5 @@ library;
 export 'src/runden/wuerfel.dart';
 export 'src/runden/zugschicht.dart';
 export 'src/runden/partie.dart';
+export 'src/runden/bots.dart';
 export 'src/runden/schlosskeller_raum.dart';

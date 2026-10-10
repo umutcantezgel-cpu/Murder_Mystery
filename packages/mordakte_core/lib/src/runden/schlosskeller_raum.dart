@@ -8,6 +8,7 @@ import '../party/fall_code.dart';
 import '../party/kanon/kanon.dart';
 import '../party/texte.dart';
 import '../util/rng.dart';
+import 'bots.dart';
 import 'partie.dart';
 import 'wuerfel.dart';
 import 'zugschicht.dart';
@@ -288,7 +289,9 @@ class SchlosskellerRaum {
     if (p == null || p.phase != PartyPhase.gruppenwahl) return;
     final menschen = {for (final t in _teilnehmer.values) if (!t.aufgegeben && t.rolle != null) t.rolle};
     for (final rolle in p.spiel.besetzt) {
-      if (!menschen.contains(rolle)) _stimmen.putIfAbsent(rolle, () => true);
+      if (!menschen.contains(rolle)) {
+        _stimmen.putIfAbsent(rolle, () => botKooperativ(salz: _salz, rolle: rolle, runde: p.runde));
+      }
     }
     _auswerten();
   }
@@ -360,9 +363,11 @@ class SchlosskellerRaum {
           },
         },
         if (p.phase == PartyPhase.gespraeche) 'botGespraeche': [
-          for (final g in _texte.sammlung.gespraeche)
-            if (g.runde == p.runde && p.spiel.besetzt.contains(g.rolle) && !_teilnehmer.values.any((t) => t.online && t.rolle == g.rolle))
-              {'rolle': g.rolle, 'text': g.text},
+          for (final g in botGespraeche(_texte, rollen: p.spiel.einstellungen.rollen, runde: p.runde, mitNpc: true))
+            if (!_teilnehmer.values.any((t) => !t.aufgegeben && t.rolle == g.rolle)) {
+              'id': g.id, 'rolle': g.rolle, 'partner': g.partner, 'thema': g.thema, 'text': g.text,
+              'preisgaben': [for (final z in g.preisgaben) {'quelle': z.quelle, 'text': z.text}],
+            },
         ],
         if (p.phase == PartyPhase.anklage) 'verdaechtige': [..._kanon.kernverdaechtige],
       },
