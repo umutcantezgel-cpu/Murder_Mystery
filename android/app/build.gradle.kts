@@ -4,6 +4,18 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Secrets are read directly from the process environment, never Gradle arguments
+// or a checked-in key.properties file. Incomplete signing must fail loudly.
+val releaseStore = System.getenv("ANDROID_KEYSTORE_PATH")?.let { file(it) }
+val releaseStorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+val releaseKeyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+val releaseKeyAlias = System.getenv("ANDROID_KEY_ALIAS")
+val releaseCredentials = listOf(releaseStorePassword, releaseKeyPassword, releaseKeyAlias)
+val hasReleaseSigning = releaseStore?.isFile == true && releaseCredentials.all { !it.isNullOrBlank() }
+require(hasReleaseSigning || (releaseStore?.exists() != true && releaseCredentials.all { it.isNullOrBlank() })) {
+    "Android release signing is incomplete. Supply the complete signing secrets or none for a debug-signed test APK."
+}
+
 android {
     namespace = "de.codayweb.mordakte"
     compileSdk = flutter.compileSdkVersion
@@ -29,11 +41,20 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = releaseStore
+                storePassword = releaseStorePassword
+                keyPassword = releaseKeyPassword
+                keyAlias = releaseKeyAlias
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName(if (hasReleaseSigning) "release" else "debug")
         }
     }
 }

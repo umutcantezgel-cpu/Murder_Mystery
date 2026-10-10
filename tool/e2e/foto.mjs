@@ -1,6 +1,6 @@
 // Bildschirmfotos der Partymodus-Vorschau. Prüft dabei Konsolenfehler und Netzaufrufe außerhalb von localhost.
 // Aufruf: node foto.mjs [buildOrdner] [ausgabeOrdner]
-import { chromium } from 'playwright';
+import { starteBrowser } from './browser.mjs';
 import path from 'node:path';
 import fs from 'node:fs';
 import { starteServer } from './server.mjs';
@@ -12,7 +12,7 @@ fs.mkdirSync(aus, { recursive: true });
 
 const server = await starteServer(build);
 const port = server.address().port;
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await starteBrowser();
 const fremd = [];
 const fehler = [];
 const ansichten = [
@@ -22,7 +22,7 @@ const ansichten = [
   { name: 'schlosskeller_ostsaal', q: 'party=schlosskeller&zoom=1.1&at=23.0,12.5' },
 ];
 for (const a of ansichten) {
-  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const page = await browser.newPage({ locale: 'de-DE', viewport: { width: 1280, height: 800 } });
   page.on('request', (r) => {
     const u = new URL(r.url());
     if (!['127.0.0.1', 'localhost'].includes(u.hostname) && u.protocol !== 'data:' && u.protocol !== 'blob:') fremd.push(r.url());

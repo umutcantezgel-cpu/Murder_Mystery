@@ -7,7 +7,7 @@
 // Ausgabe: tool/e2e/fotos/e2e/ (Fotos je Lauf, bericht.json, bericht.md).
 // Rückgabewert 0 nur, wenn alle Läufe bestanden (bei --negativtest: der Fehler ist erkannt).
 
-import { chromium } from 'playwright';
+import { starteBrowser } from './browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { starteServer } from './server.mjs';
@@ -18,7 +18,6 @@ const repo = path.resolve(hier, '../..');
 const build = path.join(repo, 'build/web');
 const texteOrdner = path.join(repo, 'content/party/schlosskeller/texte');
 const ausgabe = path.join(hier, 'fotos', 'e2e');
-const chrome = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
 /** Takt, Zeitraffer und Zeitlimit je Lauftyp. */
 const MIT_FOTOS = { takt: 400, zeitraffer: 60, zeitlimitMin: 8 };
@@ -247,7 +246,7 @@ async function fuehreLauf(browser, lauf, daten, port) {
     fs.mkdirSync(ordner, { recursive: true });
   }
 
-  const kontext = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const kontext = await browser.newContext({ locale: 'de-DE', viewport: { width: 1280, height: 800 } });
   let beenden;
   const beendet = new Promise((ok) => { beenden = ok; });
   const zeitlimit = setTimeout(() => {
@@ -434,7 +433,7 @@ async function main() {
   const ergebnisse = [];
   let browser = null;
   try {
-    browser = await chromium.launch({ executablePath: chrome, headless: true });
+    browser = await starteBrowser();
     console.log(`E2E: ${laeufe.length} Läufe, ${optionen.parallel} gleichzeitige Seite(n), Server 127.0.0.1:${port}`);
     let naechster = 0;
     const arbeiter = async () => {

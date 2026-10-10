@@ -1,7 +1,7 @@
 // Ein automatischer Partyabend mit Fotos an jeder Fotostelle (Probelauf F4-ORCH-01).
 // Aufruf: node probe.mjs [parameter] [ausgabeOrdner]
 //   parameter: URL-Parameter ohne „party=“, z. B. "pfad=ahmet&n=7&skript=best,a,richtig"
-import { chromium } from 'playwright';
+import { starteBrowser } from './browser.mjs';
 import path from 'node:path';
 import fs from 'node:fs';
 import { starteServer } from './server.mjs';
@@ -14,8 +14,8 @@ fs.mkdirSync(aus, { recursive: true });
 
 const server = await starteServer(build);
 const port = server.address().port;
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+const browser = await starteBrowser();
+const page = await browser.newPage({ locale: 'de-DE', viewport: { width: 1280, height: 800 } });
 const fremd = [];
 const fehler = [];
 let fertig = null;

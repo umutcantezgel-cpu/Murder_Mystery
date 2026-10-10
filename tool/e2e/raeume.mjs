@@ -1,6 +1,6 @@
 // Fotos aller Räume auf der Party-Karte (Sichtprüfung F-13: jede Figur im
 // gedimmten Bild erkennbar). Aufruf: node raeume.mjs [ausgabeOrdner] [zusatzParameter]
-import { chromium } from 'playwright';
+import { starteBrowser } from './browser.mjs';
 import path from 'node:path';
 import fs from 'node:fs';
 import { starteServer } from './server.mjs';
@@ -24,11 +24,11 @@ const stellen = [
 
 const server = await starteServer(path.join(repo, 'build/web'));
 const port = server.address().port;
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await starteBrowser();
 const fremd = [];
 const fehler = [];
 for (const [name, at] of stellen) {
-  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const page = await browser.newPage({ locale: 'de-DE', viewport: { width: 1280, height: 800 } });
   page.on('request', (r) => {
     const u = new URL(r.url());
     if (!['127.0.0.1', 'localhost'].includes(u.hostname) && !['data:', 'blob:'].includes(u.protocol)) fremd.push(r.url());

@@ -1,0 +1,100 @@
+name: Prüfen und Android-Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MORDAKTE_SERVER: ${{ vars.MORDAKTE_SERVER }}
+
+jobs:
+  pruefen:
+    name: Analyse, Tests, Web und Party-E2E
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Gepinntes Flutter bereitstellen
+        run: |
+          source tool/flutter_env.sh
+          echo "$PWD/.werkzeug/flutter/bin" >> "$GITHUB_PATH"
+      - name: Vorhandene PDF- und Browser-Testwerkzeuge bereitstellen
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes poppler-utils
+          npm ci --prefix tool/e2e
+          cd tool/e2e
+          npx playwright install --with-deps chromium
+      - name: Konfiguration prüfen
+        run: python3 tool/ci/check_server_url.py
+      - name: Gesamtprüfung einschließlich aller 84 Party-E2E-Läufe
+        run: bash tool/pruefen.sh e2e
+      - name: Prüfberichte aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: party-e2e-${{ github.sha }}
+          path: |
+            tool/e2e/fotos/e2e/bericht.json
+            tool/e2e/fotos/e2e/bericht.md
+          if-no-files-found: warn
+
+  apk:
+    name: APK bauen und latest veröffentlichen
+    needs: pruefen
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Release-APK mit optionaler Signatur
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/mordakte-release.jks
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: bash tool/ci/build_apk.sh
+      - name: APK als Build-Artefakt sichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: mordakte-apk-${{ github.sha }}
+          path: |
+            build/release/mordakte.apk
+            build/release/mordakte.apk.sha256
+          if-no-files-found: error
+      - name: GitHub-Release erstellen, keine Tags verschieben
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # Jeder Lauf hat ein unveränderliches Tag. Kein Force-Push, kein Retagging.
+          tag="apk-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          main_sha="$(gh api "repos/$GH_REPO/commits/main" --jq .sha)"
+          if [ "$main_sha" = "$GITHUB_SHA" ]; then
+            title=latest
+            latest=true
+          else
+            title="Mordakte APK ${GITHUB_SHA:0:7}"
+            latest=false
+          fi
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$title" \
+            --latest="$latest" --notes-file build/release/NOTES.md \
+            build/release/mordakte.apk build/release/mordakte.apk.sha256
