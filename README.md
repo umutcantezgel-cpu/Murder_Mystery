@@ -1,11 +1,64 @@
 # Mordakte
 
-Kooperatives **2.5D-Murder-Mystery** für Android und iOS (Flutter + Flame).
-1–6 Detektive – online mit Freunden oder solo mit KI-Partnern – laufen frei per Joystick
-durch isometrische, komplett im Code gezeichnete Schauplätze, sammeln Hinweise, verhören
-Verdächtige und überleben die Nacht, in der ein Schatten isolierte Ermittler jagt.
+Kooperative Krimi-Abende im gemalten, isometrischen Look (Flutter + Flame).
+Die App startet im **Schlosskeller**. Über **„Andere Abende & Fälle“** erreicht ihr das
+Krimidinner „Spuk im Gewölbe“ und die klassischen Fälle.
 
-## Spielablauf
+**Noch in Fertigstellung:** Der lokale Schlosskeller-Abend und die klassischen Fälle sind
+spielbar. Gewölbe ist derzeit ein Begleiter; Würfelintegration und Internet-Party mit
+privaten Rollenkarten folgen. Verbindlicher Stand mit Prüfbelegen: `planung/abschluss/STATUS.md`.
+
+## So spielst du
+
+### Android-APK
+
+[**Mordakte für Android herunterladen**](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases/latest/download/mordakte.apk)
+· [Releases und Prüfsummen](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases)
+
+Nach dem ersten erfolgreichen Actions-Lauf ist der Download verfügbar. Ladet `mordakte.apk`
+auf das Handy, öffnet die Datei und erlaubt die Installation aus dieser Quelle. Ein
+Release-Build funktioniert auch ohne Keystore-Secrets: Er wird dann ausdrücklich mit einer
+Debug-Signatur zum Testen gebaut. Bei einem Wechsel der Signatur muss die alte App vor der
+Neuinstallation entfernt werden; lokale Fortschritte gehen dabei verloren.
+
+### Web
+
+Die Web-Fassung wird weiterhin durch Netlify aus `main` gebaut (`netlify.toml` → `bash build.sh`).
+Die öffentliche Netlify-Spieladresse ist in diesem Repository noch nicht hinterlegt; es wird
+keine erfundene Adresse angegeben. Lokal: `bash build.sh`, anschließend
+`python3 -m http.server 8081 --directory build/web` und im Browser `http://127.0.0.1:8081` öffnen.
+Das ist nur der lokale Web-Vorschauserver, **nicht** der Online-Spielserver.
+
+### Party an einem Gerät
+
+**Schlosskeller → Abend vorbereiten**. 4–20 Gäste plus Geburtstagskind, ein Gerät geht reihum.
+Beim Rollenlesen schaut nur die betreffende Person auf den Bildschirm. Danach wird er wieder
+zugedeckt. [Spielanleitung Schlosskeller](docs/partykrimi/ANLEITUNG.md).
+
+**Andere Abende & Fälle → Spuk im Gewölbe** öffnet derzeit Besetzung, Steckbriefe, verdeckte
+Mappen und Druckmaterial. Das ist noch kein geführter digitaler Abend.
+[Anleitung und aktueller Umfang Gewölbe](docs/gewoelbe/ANLEITUNG.md).
+
+### Solo mit Bots · klassische Fälle
+
+**Andere Abende & Fälle → Fallakten → Fall wählen**. In der Lobby die KI-Partner einstellen
+und die Ermittlung starten. Die klassischen Fälle laufen vollständig offline; das ist noch
+nicht der geplante Solo-Partyabend. [Anleitung klassische Fälle](docs/klassisch/ANLEITUNG.md).
+
+### Online-Raum · klassische Fälle
+
+1. Alle verwenden denselben freigegebenen öffentlichen Spielserver und die gleiche App-Fassung.
+2. **Andere Abende & Fälle → Online spielen → Raum erstellen**.
+3. Freunde tippen **Raum beitreten** und geben den vierstelligen Raumcode ein, jeder am eigenen Handy.
+4. Der Gastgeber wählt den Fall. Alle melden sich bereit, dann beginnt die Ermittlung (1–6 Detektive).
+
+Die öffentliche Adresse wird als `MORDAKTE_SERVER` in den Build eingebettet. Unter **Erweitert**
+kann dieselbe freigegebene `wss://…/ws`-Adresse eingetragen werden. Ohne Konfiguration erklärt
+die App den fehlenden Server, statt das eigene Handy über `localhost` anzusprechen. **Railway
+ist noch nicht öffentlich abgenommen.** Internet-Rollenkarten für die Partyabende werden
+separat implementiert; der lokale Gerätewechsel ist kein Online-Modus.
+
+## Klassischer Spielablauf
 
 Jeder Fall hat 3 Kapitel:
 
@@ -81,10 +134,35 @@ Fall im Zeitraffer), `?fake=night` / `?fake=ending` (Testzustände), `?screen=ca
 cd server && dart pub get && dart run bin/server.dart        # PORT=8080, SCENARIO_DIR=../content/scenarios
 ```
 
-Die App verbindet sich mit `--dart-define=MORDAKTE_SERVER=wss://<host>/ws` (Standard:
-`ws://localhost:8080/ws`, in der App unter „Online spielen → Erweitert“ änderbar).
+Die App verbindet sich mit `--dart-define=MORDAKTE_SERVER=wss://<öffentliche-domain>/ws`.
+Es gibt **keinen localhost-Standard**. Bis eine öffentliche Adresse freigegeben ist, bleibt
+die Vorgabe leer und die App zeigt einen Einrichtungshinweis. URL-Zugangsdaten, unverschlüsselte
+Internetverbindungen und Schleifenadressen werden abgewiesen.
 Deployment (Railway): `railway.toml` + `server/Dockerfile`, Build-Kontext ist das Repo-Root –
-im Railway-Dienst muss das Root Directory leer sein. Details in [`server/README.md`](server/README.md).
+im Railway-Dienst muss das Root Directory leer sein. `/health` liefert HTTP 200; genau eine
+Instanz, da Räume im Speicher liegen. Details in [`server/README.md`](server/README.md).
+
+## Automatische Builds und Signatur
+
+`.github/workflows/release.yml` prüft bei jedem Push auf `main` Analyse, Paket-/Flutter-Tests,
+Server, Web-Build, Party-E2E und Secrets. Erst danach baut der Workflow die Release-APK und
+veröffentlicht das GitHub-Release **latest** mit APK und SHA-256-Prüfsumme. Jeder Lauf erhält
+ein neues, unveränderliches Tag; bestehende Tags oder Geschichte werden nicht umgeschrieben.
+Der stabile Download-Link oben zeigt auf das jeweils neueste freigegebene Release.
+
+- GitHub Actions benötigt die Erlaubnis, Releases zu veröffentlichen (`contents: write`).
+- Öffentliche Repository-Variable **`MORDAKTE_SERVER`**: freigegebene `wss://…/ws`-Adresse.
+  In Netlify dieselbe Variable setzen. Sie ist kein Secret.
+- Optionale GitHub-Secrets: **`ANDROID_KEYSTORE_BASE64`**, **`ANDROID_KEYSTORE_PASSWORD`**,
+  **`ANDROID_KEY_PASSWORD`**, **`ANDROID_KEY_ALIAS`**. Werte nur über GitHub Secrets, nie in Chat/Repository.
+- Alle vier fehlen: Debug-Signatur. Nur ein Teil vorhanden: Build schlägt fehl, kein stiller Fallback.
+- Keystore nur im temporären Actions-Verzeichnis mit Dateirechten 0600. Keine Passwörter in
+  Kommandozeilen oder `key.properties`; Gradle liest sie direkt aus der Umgebung.
+
+Gesamtprüfung: `bash tool/pruefen.sh alles`; mit allen Browserläufen: `bash tool/pruefen.sh e2e`.
+Linux-Testvoraussetzungen: Flutter 3.47.6, Node 22, `pdfinfo`/`pdftotext` (Poppler) und
+Playwrights Chromium-Laufzeitbibliotheken. Die bereits deklarierten Browserpakete werden mit
+`cd tool/e2e && npm ci && npx playwright install chromium` installiert.
 
 ## Ausblick
 

@@ -13,14 +13,30 @@ dart run bin/server.dart                 # http://localhost:8080/health, ws://lo
 INCLUDE_SAMPLE=1 dart run bin/server.dart  # zusätzlich das eingebaute Szenario "sample"
 ```
 
-App dagegen starten: `flutter run --dart-define=MORDAKTE_SERVER=ws://localhost:8080/ws`
-(Android-Emulator: `ws://10.0.2.2:8080/ws`).
+Der lokale Server ist für Protokoll-/Engine-Tests. Die App verwendet für Internet-Räume
+nur die freigegebene öffentliche `wss://…/ws`-Adresse; es gibt keinen localhost-Fallback.
+Ohne Adresse erscheint ein Einrichtungshinweis, offline kann weiterhin gespielt werden.
 
 Smoke-Test (Fake-Runtime + echte RoomRuntime, echte WebSocket-Clients):
 
 ```bash
 dart run tool/smoke.dart            # -v: Server-Log zeigen, --fake-only / --real-only
 ```
+
+## Online-Matrix mit echten Clients
+
+`dart run tool/online_matrix.dart` startet den echten Produktions-Handler mit der echten
+Engine, verbindet für jede Zahl von **4 bis 20** TCP/WebSocket-Clients und prüft Health,
+Raumerstellung/-beitritt, alle drei klassischen Fälle, Spielstart, Raumtrennung,
+Bewegungsbestätigung und Wiederverbindung. Sitzungsschlüssel werden nie ausgegeben.
+
+Die klassischen Räume bleiben bei **maximal sechs Detektiven**. Größere Laststufen nutzen
+mehrere Räume. Das ist ausdrücklich **noch kein Beleg für einen Partyraum mit 20 Rollen**.
+
+Nach der Railway-Freigabe denselben Test gegen den öffentlichen Server ausführen:
+`dart run tool/online_matrix.dart --url=wss://<freigegebener-host>/ws`.
+Dabei entstehen ausschließlich neue Prüfräume; die Clients verlassen sie am Ende. Leere
+laufende Räume werden danach über die normale Server-Frist entfernt.
 
 ## Umgebungsvariablen
 
@@ -50,8 +66,11 @@ Das Image ist `FROM scratch` mit AOT-Binary und `content/scenarios` (~18 MB).
 1. Neuer Service aus dem GitHub-Repo.
 2. **Root Directory leer lassen** (= Repo-Root) – sonst fehlt dem Build `packages/mordakte_core`.
    `railway.toml` im Root wählt `server/Dockerfile`, Healthcheck `/health`.
-3. Networking → Domain erzeugen. Die App bekommt dann
-   `--dart-define=MORDAKTE_SERVER=wss://<domain>/ws`.
+3. Networking → Domain erzeugen. `https://<domain>/health` muss HTTP 200 liefern.
+   Die öffentliche `wss://<domain>/ws`-Adresse als Repository-Variable `MORDAKTE_SERVER`
+   für Actions und als gleichnamige Netlify-Variable setzen (kein Secret).
+   Die App bekommt sie über `--dart-define=MORDAKTE_SERVER=wss://<domain>/ws`.
+   Die Adresse wird erst nach Health- und Online-Matrix-Prüfung als freigegeben dokumentiert.
 4. Genau **eine** Instanz, kein „Serverless/Sleep“: Räume liegen im Speicher. Ein Deploy
    beendet laufende Partien (die Apps melden dann `room_not_found`).
 

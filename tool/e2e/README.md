@@ -7,8 +7,11 @@ Abgedeckt sind die vier Pfade (ahmet, fatma, olli, can) mit allen vier Enden und
 ## Voraussetzungen
 
 - Web-Build ohne CDN im Repo-Wurzelverzeichnis: `flutter build web --release --no-web-resources-cdn -o build/web`
-- Node 22 und Playwright 1.56.1 in `tool/e2e/node_modules` (kein `npm install` nötig)
-- Chromium unter `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`
+- Node 22 und das bereits deklarierte Playwright 1.56.1: `cd tool/e2e && npm ci`
+- Browser einmal installieren: `npx playwright install chromium` (Linux braucht außerdem die von Playwright angegebenen Laufzeitbibliotheken).
+- Standard: Playwrights eigenes Chromium. Optional `MORDAKTE_CHROMIUM` auf eine vorhandene Chromium-Datei setzen; kein fester Maschinenpfad.
+- Test-Kontexte nutzen ausdrücklich `de-DE`, unabhängig von der Sprache der CI-Maschine (POSIX-Locale ist kein gültiger Browser-Sprachcode).
+- Optional für lokal entpackte Linux-Bibliotheken: `MORDAKTE_BROWSER_LIBRARY_PATH`. Dieser Pfad gilt nur im Chromium-Prozess, nicht für Flutter.
 - Nur 127.0.0.1, kein Netz
 
 ## Aufrufe
@@ -16,6 +19,8 @@ Abgedeckt sind die vier Pfade (ahmet, fatma, olli, can) mit allen vier Enden und
 Im Ordner `tool/e2e`:
 
 - `node e2e.mjs` oder `npm test`: alle 84 Läufe, zwei Seiten gleichzeitig
+- `node start.mjs`: App-Start ohne URL-Parameter bei 320/390 px, Menüwege, keine Konsolenfehler/fremden Anfragen; Handyfotos und Kontaktbogen unter `fotos/start/`.
+- `node --test browser_test.mjs`: Browser-Konfiguration ohne Maschinenpfade prüfen
 - `node e2e.mjs --nur pfad=ahmet,n=4`: nur passende Läufe. Felder: `pfad`, `ende`, `n`, `skript`, `fotos` (0/1), `semantik` (0/1). Mehrere Felder mit Komma trennen; `skript=best,a,richtig` ist ein Wert.
 - `--parallel 1`: eine Seite statt zwei (höchstens 2)
 - `--negativtest`: prüft eine Kopie des ersten gewählten Laufs, deren Ende-Erwartung vertauscht ist. Der Lauf muss als „Fehler erkannt“ gemeldet werden.

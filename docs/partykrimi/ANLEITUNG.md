@@ -1,6 +1,6 @@
 # Anleitung: Partyabend „Spuk im Schlosskeller“
 
-Stand: Version `schlosskeller-1.0` (Oktober 2026).
+Stand: Oktober 2026. Der lokale Partyabend ist spielbar; Würfelintegration, Solo-Bots und Internet-Party sind noch in Arbeit. Der verbindliche Freigabestand steht in `planung/abschluss/STATUS.md`.
 
 Diese Anleitung hat drei Teile:
 
@@ -24,17 +24,17 @@ Diese Anleitung hat drei Teile:
 
 ### Was ihr braucht
 
-- Einen Bildschirm, den alle sehen können, und einen Browser. Ein Gerät reicht. Es geht reihum.
-- Die Adresse der App. Sie steht nicht in dieser Anleitung. Fragt das Team.
+- Einen Bildschirm, den alle sehen können, mit Browser oder Android-App. Ein Gerät reicht. Es geht reihum.
+- APK-Download und Web-Zugang: Abschnitt „So spielst du“ in der README. Nach dem Laden funktioniert der lokale Partyabend ohne Spielserver.
 - Optional: einen Drucker, wenn ihr mit Papier spielen wollt (Teil 2).
 - Für die Erzählerstimme: eine deutsche Stimme auf dem Gerät. Fehlt sie, steht der Text trotzdem auf dem Bildschirm.
 
 ### Start
 
-1. Öffnet die App im Browser.
-2. Im Hauptmenü tippt ihr auf **„Partyabend: Spuk im Schlosskeller“**. Darunter steht: „Ein Krimi für den Geburtstag, für 4 bis 20 Personen und ein Geburtstagskind“.
-3. Es erscheint der Titel „Spuk im Schlosskeller“ mit dem Untertitel „Das Buffet hinter dicken Mauern“. Darunter steht: „Das Geburtstagskind schaut beim Einrichten weg.“
-4. Tippt auf **„Abend vorbereiten“**.
+1. Öffnet die App. Ohne besonderen Link startet sie direkt im **Schlosskeller**.
+2. Es erscheint „Spuk im Schlosskeller“ mit „Das Buffet hinter dicken Mauern“. Darunter steht: „Das Geburtstagskind schaut beim Einrichten weg.“
+3. Tippt auf **„Abend vorbereiten“**.
+4. **„Andere Abende & Fälle“** führt stattdessen zur Übersicht: Gewölbe-Begleiter, klassische Fälle und deren Online-Lobby bleiben erreichbar.
 
 ### Einrichtung
 
