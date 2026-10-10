@@ -38,7 +38,7 @@ void _spieleEntscheidungen(PartySitzung s, Map<String, String> wahl, void Functi
       beobachte(_Stelle.mitVorschlag, e);
       s.bestaetigen();
       beobachte(_Stelle.nachBestaetigung, e);
-      s.fundGelesen();
+      spieleZug(s);
     }
   }
 }
@@ -163,7 +163,7 @@ void main() {
       }
     });
 
-    test('nach dem Bestätigen ist der Hotspot einer gewählten Gegenstands- oder Raumoption durchsucht', () {
+    test('erst nach Aktion und Wurf ist der gewählte Hotspot durchsucht', () {
       for (final p in _pfade) {
         final h = _karte(7, p);
         spieleBis(h.s, PartyPhase.entscheidungen, runde: 2);
@@ -174,7 +174,9 @@ void main() {
         h.s.schlageVor(ziel.option);
         expect(h.k.caseView.value!.hotspots[ziel.hotspot], HotspotState.open, reason: '$p: ${ziel.hotspot} vor dem Bestätigen');
         h.s.bestaetigen();
-        expect(h.k.caseView.value!.hotspots[ziel.hotspot], HotspotState.searched, reason: '$p: ${ziel.hotspot} nach dem Bestätigen');
+        expect(h.k.caseView.value!.hotspots[ziel.hotspot], HotspotState.open, reason: '$p: noch kein Fund vor der Aktion');
+        spieleZug(h.s, lesen: false);
+        expect(h.k.caseView.value!.hotspots[ziel.hotspot], HotspotState.searched, reason: '$p: ${ziel.hotspot} erst nach dem Wurf');
       }
     });
 

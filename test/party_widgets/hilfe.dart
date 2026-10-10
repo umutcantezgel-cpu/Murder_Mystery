@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/sitzung.dart';
 
@@ -17,28 +18,32 @@ PartyDaten get partyDaten => _daten ??= PartyDaten.aus(
     );
 
 /// Neue Sitzung, auf Wunsch schon eingerichtet ([rollen] Personen, Pfad [pfad]).
-PartySitzung neueSitzung({int? rollen, String pfad = 'ahmet', String detektiv = 'w'}) {
-  final s = PartySitzung(partyDaten);
+PartySitzung neueSitzung({int? rollen, String pfad = 'ahmet', String detektiv = 'w', WuerfelQuelle wuerfel = const FesterWuerfel.neutral()}) {
+  final s = PartySitzung(partyDaten, wuerfel: wuerfel);
   if (rollen != null) s.einrichten(rollen: rollen, detektiv: detektiv, code: FallCode.fuerPfad(pfad, partyDaten.kanon.pfade).code);
   return s;
 }
 
 /// Spielt bis zur Phase [ziel] vor (Entscheidungen: beste Wahl, Gruppe: alle A).
 void spieleBis(PartySitzung s, PartyPhase ziel, {int? runde}) {
-  while (s.phase != ziel || (runde != null && s.runde != runde)) {
+  while (s.phase != ziel || (runde != null && s.runde != runde) || (ziel == PartyPhase.entscheidungen && s.zug?.istAuftakt == true)) {
     switch (s.phase) {
       case PartyPhase.titel:
         s.zurEinrichtung();
       case PartyPhase.einrichtung:
         s.einrichten(rollen: 7, detektiv: 'w', code: FallCode.fuerPfad('ahmet', s.kanon.pfade).code);
       case PartyPhase.entscheidungen:
+        if (s.zug != null) {
+          spieleZug(s);
+          continue;
+        }
         final e = s.laufendeEntscheidung;
         if (e == null) {
           s.weiter();
         } else {
           s.schlageVor(e.richtig[s.spiel.pfad]!);
           s.bestaetigen();
-          s.fundGelesen();
+          spieleZug(s);
         }
       case PartyPhase.gruppenwahl:
         if (s.offeneWaehler.isEmpty) {
@@ -57,6 +62,24 @@ void spieleBis(PartySitzung s, PartyPhase ziel, {int? runde}) {
         s.weiter();
     }
   }
+}
+
+/// Treiber für Sitzungs-/Widgettests: alle Zugphasen, niemals Würfel abschalten.
+/// Der Renderer selbst und seine tatsächlichen Wege werden gesondert geprüft.
+void spieleZug(PartySitzung s, {bool lesen = true}) {
+  for (var i = 0; i < 12; i++) {
+    final z = s.zug;
+    if (z == null) { if (s.letzterFund != null && lesen) s.fundGelesen(); return; }
+    switch (z.phase) {
+      case RundenZugPhase.aktion: s.aktionFertig(z.aktion);
+      case RundenZugPhase.wurf: s.wuerfeln();
+      case RundenZugPhase.tischruf: s.tischruf(Tischruf.umweg);
+      case RundenZugPhase.fund:
+        if (lesen) s.fundGelesen();
+        return;
+    }
+  }
+  throw StateError('Zug nicht beendet');
 }
 
 /// Bildschirm in einer MaterialApp mit festem Format (Querformat 1280 × 800).

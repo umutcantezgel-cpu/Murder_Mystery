@@ -4,9 +4,11 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart';
 
 import '../game/szenen_erweiterung.dart';
 import '../session/game_session.dart';
+import 'karten_aktion.dart';
 import 'sitzung.dart';
 
 /// Speist den vorhandenen Renderer mit der Party-Karte (F4-ORCH-01, E-030).
@@ -16,7 +18,7 @@ import 'sitzung.dart';
 /// `Interact` wählt nicht direkt, sondern macht einen Vorschlag; die Sitzung
 /// fragt „Das ist endgültig“. Rückblende (erst nach dem Finale): Zeitraffer
 /// der Tatmatrix mit dem Licht im Stromausfall (B-04).
-class PartyKartenSession implements GameSession, SzenenErweiterung {
+class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSzene {
   PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25}) {
     final d = sitzung.kanon.figur((sitzung.kanon.figurenJson['detektiv'] as Map)['id'] as String)!;
     final ort = sitzung.kanon.graph.orte[d['ermittlungsOrt'] as String]!;
@@ -70,9 +72,90 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
   int _t = 0;
   int _version = 0;
   String? _letzterRaum;
+  bool _entsorgt = false;
+  KartenAktion? _aktion;
+  int? _aktionsNummer;
+  late final TileGrid _raster = TileGrid(sitzung.daten.szenario.map);
+
+  final ValueNotifier<double> aktionsFortschritt = ValueNotifier(0);
+  final ValueNotifier<bool> aktionsFehler = ValueNotifier(false);
+
+  /// Lesbarer Laufplan für Kartenansicht und Geometrie-/Pfadgleichheitsbelege.
+  KartenAktion? get kartenAktion => _aktion;
+
+  @override
+  bool bewegungReduziert = false;
+
+  @override
+  bool get eingabeGesperrt => rueckblendeModus || sitzung.phase != PartyPhase.entscheidungen ||
+      sitzung.zug != null || sitzung.vorschlag != null || sitzung.letzterFund != null;
+
+  @override
+  SzenenPose? get figurenPose {
+    final a = _aktion;
+    if (a == null) return null;
+    return a.geht ? SzenenPose.gehen : a.suchen ? SzenenPose.suchen : SzenenPose.befragen;
+  }
+
+  @override
+  double get posenFortschritt => _aktion?.posenFortschritt ?? 0;
+
+  void _synchronisiereAktion() {
+    final z = sitzung.zug;
+    if (rueckblendeModus || z == null || z.phase != RundenZugPhase.aktion) {
+      _aktion = null;
+      _aktionsNummer = null;
+      return;
+    }
+    if (_aktionsNummer == z.aktion) return;
+    _aktionsNummer = z.aktion;
+    final ziel = sitzung.karte.ziele[z.option];
+    double zx = _x, zy = _y;
+    String? raum = _raster.roomAtPos(_x, _y)?.id;
+    if (ziel != null) {
+      raum = ziel.raum;
+      if (ziel.person case final person?) {
+        final f = sitzung.karte.figuren.firstWhere((f) => f.id == person);
+        zx = f.x;
+        zy = f.y;
+      } else {
+        zx = ziel.x! + 0.5;
+        zy = ziel.y! + 0.5;
+      }
+    }
+    _aktion = raum == null ? null : KartenAktion.planen(
+      raster: _raster, startX: _x, startY: _y, facing: _f,
+      zielX: zx, zielY: zy, raum: raum, suchen: z.suche, umweg: z.ruf == Tischruf.umweg,
+    );
+    aktionsFehler.value = _aktion == null;
+    aktionsFortschritt.value = 0;
+    if (bewegungReduziert) _aktion?.abkuerzen();
+  }
+
+  @override
+  void szenenSchritt(double sekunden) {
+    if (_entsorgt) return;
+    _synchronisiereAktion();
+    final a = _aktion;
+    final nr = _aktionsNummer;
+    if (a == null || nr == null) return;
+    a.schritt(sekunden);
+    _x = a.x;
+    _y = a.y;
+    _f = a.facing;
+    aktionsFortschritt.value = a.fortschritt;
+    _tick();
+    if (a.fertig) sitzung.aktionFertig(nr);
+  }
+
+  /// Bewusste Abkürzung, nie ein versteckter E2E-/Zeitgeber-Automatismus.
+  void aktionAbkuerzen() {
+    _aktion?.abkuerzen();
+  }
 
   /// Detektiv an eine Stelle setzen (Entwickler-Skript, Kamera).
   void setzeDetektiv(double x, double y, {double facing = 0.8}) {
+    if (sitzung.zug != null || _entsorgt) return;
     _x = x;
     _y = y;
     _f = facing;
@@ -91,6 +174,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
   }
 
   void _tick() {
+    if (_entsorgt) return;
     _t += 100;
     final rb = _rb;
     List<NpcView> npcs;
@@ -109,7 +193,10 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
       ];
     } else {
       npcs = [
-        for (final f in sitzung.karte.figuren) NpcView(id: sitzung.daten.npcKennung[f.id]!, x: f.x, y: f.y, alive: true),
+        for (final f in sitzung.karte.figuren) NpcView(
+          id: sitzung.daten.npcKennung[f.id]!, x: f.x, y: f.y, alive: true,
+          talkingTo: figurenPose == SzenenPose.befragen && sitzung.karte.ziele[sitzung.zug?.option]?.person == f.id ? 'me' : null,
+        ),
       ];
     }
     npcs = _nebeneinander(npcs);
@@ -123,7 +210,11 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
         DetectiveView(
           id: 'me', name: sitzung.personAmTisch('detective'), cls: 'forensic', coat: 0, hat: 'fedora', bot: false, connected: true,
           x: _x, y: _y, facing: _f, life: LifeState.alive, hp: 3, maxHp: 3, nerves: 100, hidden: false,
-          moving: false, channel: null, effects: const [], downedLeftMs: 0,
+          moving: _aktion?.geht ?? false,
+          channel: _aktion != null && !_aktion!.geht ? ChannelView(
+            kind: _aktion!.suchen ? 'search' : 'talk', target: sitzung.zug?.option ?? 'auftakt', progress: posenFortschritt,
+          ) : null,
+          effects: const [], downedLeftMs: 0,
         ),
       ],
       npcs: npcs,
@@ -137,14 +228,20 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
   }
 
   void _publishCase() {
+    if (_entsorgt) return;
+    _synchronisiereAktion();
     final hotspots = <String, String>{};
     if (!rueckblendeModus) {
       final z = sitzung.karte.zustand(sitzung.spiel);
       for (final h in z.erledigt) {
         hotspots[h] = HotspotState.searched;
       }
-      for (final h in z.offen.keys) {
-        hotspots[h] = HotspotState.open;
+      if (sitzung.laufendeEntscheidung != null) {
+        for (final h in z.offen.keys) { hotspots[h] = HotspotState.open; }
+      }
+      final ziel = sitzung.karte.ziele[sitzung.zug?.option];
+      if (ziel != null && ziel.person == null && sitzung.zug?.phase != RundenZugPhase.fund) {
+        hotspots[ziel.hotspot] = HotspotState.open;
       }
     }
     _case.value = CaseView(
@@ -177,6 +274,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
       pingsLeft: 0,
       ending: null,
     );
+    _tick();
   }
 
   // ---------------------------------------------------------------------------
@@ -211,6 +309,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
 
   @override
   void move(double x, double y, double facing) {
+    if (eingabeGesperrt || _entsorgt || !x.isFinite || !y.isFinite || !facing.isFinite) return;
     _x = x;
     _y = y;
     _f = facing;
@@ -218,14 +317,23 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
 
   @override
   void send(Command command) {
-    if (rueckblendeModus || command is! Interact) return;
+    if (eingabeGesperrt || command is! Interact) return;
     sitzung.schlageVorAn(sitzung.daten.kanonKennung[command.target] ?? command.target);
   }
 
   @override
   Future<void> dispose() async {
+    if (_entsorgt) return;
+    _entsorgt = true;
     sitzung.removeListener(_publishCase);
     _timer.cancel();
+    aktionsFortschritt.dispose();
+    aktionsFehler.dispose();
+    zeit.dispose();
+    fertig.dispose();
+    _world.dispose();
+    _case.dispose();
+    _connected.dispose();
     await _events.close();
   }
 
@@ -236,16 +344,17 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
 
   @override
   String? npcAktion(String npcId) {
-    if (rueckblendeModus || sitzung.vorschlag != null) return null;
+    if (eingabeGesperrt || sitzung.laufendeEntscheidung == null) return null;
     final art = _zustand.ansprechbar[sitzung.daten.kanonKennung[npcId]];
     return art == null ? null : sitzung.ui('ui.karte.aktion.${art.name}');
   }
 
   @override
-  bool npcUntersuchen(String npcId) => _zustand.ansprechbar[sitzung.daten.kanonKennung[npcId]] == ZielArt.gegenstand;
+  bool npcUntersuchen(String npcId) => !eingabeGesperrt && _zustand.ansprechbar[sitzung.daten.kanonKennung[npcId]] == ZielArt.gegenstand;
 
   @override
   String? hotspotAktion(String hotspotId) {
+    if (eingabeGesperrt) return null;
     final art = _zustand.offen[hotspotId];
     return art == null ? null : sitzung.ui('ui.karte.aktion.${art.name}');
   }
@@ -256,7 +365,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
   SzenenLicht? get licht {
     final g = sitzung.kanon.graph;
     final kerzen = [
-      for (final (x, y) in sitzung.karte.dekoKerzen) SzenenLichtpunkt(x, y, z: 0.9, radius: 1.5, farbe: _warm, flackern: 0.45),
+      for (final (x, y) in sitzung.karte.dekoKerzen) SzenenLichtpunkt(x, y, z: 0.9, radius: 1.5, farbe: _warm, flackern: bewegungReduziert ? 0 : 0.45),
     ];
     final b = _bild;
     if (rueckblendeModus && b != null) {
@@ -278,7 +387,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
         ...kerzen,
         for (final id in sitzung.karte.ermittlungsLichter)
           if (g.lichtquellen[id] case final l?)
-            if (g.orte[l.ort] case final o?) SzenenLichtpunkt(o.x, o.y, z: 1.6, radius: l.radius, farbe: _farbe(l.farbe ?? '#FFF1C9'), flackern: l.flackern),
+            if (g.orte[l.ort] case final o?) SzenenLichtpunkt(o.x, o.y, z: 1.6, radius: l.radius, farbe: _farbe(l.farbe ?? '#FFF1C9'), flackern: bewegungReduziert ? 0 : l.flackern),
       ],
     );
   }
@@ -323,10 +432,10 @@ class PartyKartenSession implements GameSession, SzenenErweiterung {
   }
 
   @override
-  bool get ruheAnimation => true;
+  bool get ruheAnimation => !bewegungReduziert;
 
   @override
-  bool get kleineEffekte => !rueckblendeModus;
+  bool get kleineEffekte => !rueckblendeModus && !bewegungReduziert;
 
   @override
   LookDef? get detektivAussehen => _aussehen;

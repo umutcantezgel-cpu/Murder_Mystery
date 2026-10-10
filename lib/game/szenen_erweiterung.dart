@@ -44,6 +44,21 @@ abstract interface class SzenenErweiterung {
   Offset? get kamera;
 }
 
+/// Optionale, vom Spielablauf geführte Figur. Klassische Sessions implementieren
+/// dies nicht und behalten ihre Vorhersage, Tastatur und Joystick-Steuerung.
+abstract interface class GefuehrteSzene {
+  bool get eingabeGesperrt;
+  bool get bewegungReduziert;
+  SzenenPose? get figurenPose;
+  double get posenFortschritt;
+
+  /// Nur der tatsächlich laufende Renderer treibt Wege und Posen voran.
+  /// Hintergrund-Timer dürfen keine Kartenaktion als gesehen quittieren.
+  void szenenSchritt(double sekunden);
+}
+
+enum SzenenPose { gehen, suchen, befragen }
+
 /// Ein Lichtpunkt der Szene in Kachelkoordinaten.
 class SzenenLichtpunkt {
   final double x, y, z;

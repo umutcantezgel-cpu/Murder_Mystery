@@ -1646,6 +1646,146 @@ class LDe extends L {
   String get error_room_lost => 'Der Raum ist verloren gegangen.';
 
   @override
+  String get party_zug_auftakt => 'Die Lupe bereitlegen';
+
+  @override
+  String get party_zug_auftakt_hinweis =>
+      'Eine kleine Probe, bevor die Ermittlung beginnt. Kein Hinweis, keine Wertung, keine Nachtminuten.';
+
+  @override
+  String get party_zug_auftakt_fertig => 'Bereit für die Ermittlung';
+
+  @override
+  String get party_zug_auftakt_weiter => 'Zur ersten Entscheidung';
+
+  @override
+  String get party_zug_weg => 'Unterwegs zum gewählten Ziel';
+
+  @override
+  String get party_zug_suchen => 'Die gewählte Stelle untersuchen';
+
+  @override
+  String get party_zug_befragen => 'Das Gespräch führen';
+
+  @override
+  String get party_zug_umweg => 'Ein anderer Zugang zur selben Quelle';
+
+  @override
+  String get party_zug_kurz => 'Szene abkürzen';
+
+  @override
+  String get party_zug_blockiert =>
+      'Der Weg ist nicht erreichbar. Die Untersuchung bleibt offen.';
+
+  @override
+  String party_zug_nachtzeit(String min) {
+    return '$min Nachtminuten übrig';
+  }
+
+  @override
+  String party_zug_marken(String zahl) {
+    return 'Seifenblasen-Marken: $zahl';
+  }
+
+  @override
+  String get party_zug_gruendlich =>
+      'Gründlich suchen · +2 auf den Wurf · 2 Nachtminuten mehr';
+
+  @override
+  String get party_zug_wuerfel => 'Der Kellerwürfel';
+
+  @override
+  String party_zug_pate(String name) {
+    return 'Gib das Gerät an $name – jetzt wird gewürfelt!';
+  }
+
+  @override
+  String get party_zug_werfen => 'Würfeln';
+
+  @override
+  String get party_zug_marke_einsetzen =>
+      'Eine Seifenblasen-Marke einsetzen · +1';
+
+  @override
+  String get party_zug_marke_deckel =>
+      'Der Bonus liegt bereits bei +2. Keine Marke wird verbraucht.';
+
+  @override
+  String party_zug_chancen(String mod) {
+    return 'Vor dem Wurf · Bonus +$mod';
+  }
+
+  @override
+  String get party_zug_garantie =>
+      'Pech-Garantie: Dieser Anlauf gelingt mindestens teilweise.';
+
+  @override
+  String get party_zug_garantie_kurz => 'Garantie';
+
+  @override
+  String get party_zug_erfolg => 'Erfolg · Lupe';
+
+  @override
+  String get party_zug_teilerfolg => 'Teilerfolg · Handy';
+
+  @override
+  String get party_zug_pech => 'Pech · Gespenst';
+
+  @override
+  String get party_zug_erfolg_folge =>
+      'Der Fund wird frei. Du gewinnst 7 Nachtminuten.';
+
+  @override
+  String get party_zug_teilerfolg_folge =>
+      'Der Fund wird frei. Die Auswahl bleibt unverändert.';
+
+  @override
+  String get party_zug_pech_folge =>
+      'Noch kein Fund. Eine Marke dazu; danach Nochmal oder Umweg.';
+
+  @override
+  String get party_zug_auftakt_folge =>
+      'Probewurf ohne Fund oder Zeitkosten. Pech schenkt eine Marke.';
+
+  @override
+  String party_zug_rechnung(
+    String a,
+    String b,
+    String mod,
+    String summe,
+    String anlauf,
+  ) {
+    return '2W6: $a + $b + $mod = $summe · Anlauf $anlauf';
+  }
+
+  @override
+  String get party_zug_tischruf => 'Tischruf: Wie geht es weiter?';
+
+  @override
+  String get party_zug_pech_szene =>
+      'Das Handy-Licht wandert kurz über die Decke. Die Quelle bleibt dieselbe. Glück im Unglück: eine Seifenblasen-Marke!';
+
+  @override
+  String get party_zug_nochmal => 'Nochmal · 3 Nachtminuten';
+
+  @override
+  String get party_zug_umweg_knopf => 'Umweg · 3 Nachtminuten';
+
+  @override
+  String get party_zug_fund_zeigen => 'Fund ansehen';
+
+  @override
+  String get party_zug_protokoll => 'Würfelprotokoll';
+
+  @override
+  String get party_zug_kein_wurf =>
+      'Noch kein Wurf. Befragungen bleiben würfelfrei.';
+
+  @override
+  String get party_zug_wahl_bindung =>
+      'Die Auswahl bleibt endgültig. Nochmal und Umweg wiederholen nur die Untersuchung, nicht die Entscheidung.';
+
+  @override
   String get logo_stamp => 'Ungelöst';
 
   @override

@@ -77,7 +77,7 @@ const zahl = (x) => (x == null ? null : Number.isFinite(Number(x)) ? Number(x) :
 function fotoGruppe(name) {
   if (Object.hasOwn(FESTE_FOTOS, name)) return FESTE_FOTOS[name];
   if (/^gespraeche_r\d+$/.test(name)) return 'gespraeche';
-  if (/^(fund|endgueltig|ziel)_/.test(name) || /^entscheidungen_fertig_r\d+$/.test(name)) return 'entscheidungen';
+  if (/^(fund|endgueltig|ziel|aktion|wurf|pech|auftakt)_/.test(name) || /^entscheidungen_fertig_r\d+$/.test(name)) return 'entscheidungen';
   if (/^(wahl_verdeckt|wahl_taeter|gruppenwahl)_r\d+$/.test(name)) return 'gruppenwahl';
   if (/^bonus_r\d+$/.test(name)) return 'bonus';
   if (/^resuemee_r\d+$/.test(name)) return 'resuemee';

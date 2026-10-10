@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart';
 
 import 'sitzung.dart';
 
@@ -89,6 +90,7 @@ class PartySkript {
   final PartySitzung sitzung;
   final PartyDev dev;
   bool _laeuft = false;
+  final _fotografierteAktionen = <int>{};
 
   String get _entscheidungen => (dev.skript?.elementAtOrNull(0) ?? 'best');
   String get _gruppe => (dev.skript?.elementAtOrNull(1) ?? 'a');
@@ -210,13 +212,25 @@ class PartySkript {
         case PartyPhase.einrichtung:
           s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon));
         case PartyPhase.entscheidungen:
+          // Nur der explizite Standbild-Einstieg überspringt das Rendering.
+          // Der vollständige E2E-Lauf unten wartet auf echte Kartenaktionen.
+          final z = s.zug;
+          if (z != null) {
+            switch (z.phase) {
+              case RundenZugPhase.aktion: s.aktionFertig(z.aktion);
+              case RundenZugPhase.wurf: s.wuerfeln();
+              case RundenZugPhase.tischruf: s.tischruf(Tischruf.umweg);
+              case RundenZugPhase.fund: s.fundGelesen();
+            }
+            continue;
+          }
           final e = s.laufendeEntscheidung;
           if (e == null) {
             s.weiter();
           } else {
             s.schlageVor(e.richtig[s.spiel.pfad]!);
             s.bestaetigen();
-            s.fundGelesen();
+            if (!s.mitWuerfel) s.fundGelesen();
           }
         case PartyPhase.gruppenwahl:
           if (s.offeneWaehler.isEmpty) {
@@ -237,6 +251,29 @@ class PartySkript {
 
   Future<void> _entscheiden() async {
     final s = sitzung;
+    final zug = s.zug;
+    if (zug != null) {
+      switch (zug.phase) {
+        case RundenZugPhase.aktion:
+          if (_fotografierteAktionen.add(zug.aktion)) await _foto('aktion_${zug.id}_${zug.aktion}');
+          // Kein Teleport, kein aktionFertig: Flame muss Weg UND Pose abspielen.
+          return;
+        case RundenZugPhase.wurf:
+          await _foto('wurf_${zug.id}_${zug.aktion}');
+          s.wuerfeln();
+          return;
+        case RundenZugPhase.tischruf:
+          await _foto('pech_${zug.id}_${zug.aktion}');
+          s.tischruf(zug.wurf!.anlauf.isOdd ? Tischruf.umweg : Tischruf.nochmal);
+          return;
+        case RundenZugPhase.fund:
+          if (zug.istAuftakt) {
+            await _foto('auftakt_fund');
+            s.fundGelesen();
+            return;
+          }
+      }
+    }
     final fund = s.letzterFund;
     if (fund != null) {
       await _foto('fund_${fund.entscheidung}');
@@ -251,6 +288,7 @@ class PartySkript {
     }
     final e = s.laufendeEntscheidung;
     if (e == null) {
+      if (!s.kannWeiter) throw StateError('Eine offene Aktion darf keine Runde beenden.');
       await _foto('entscheidungen_fertig_r${s.runde}');
       s.weiter();
       return;
@@ -262,11 +300,7 @@ class PartySkript {
       'erste' => s.optionen(e.id).first.id,
       _ => richtig,
     };
-    final ziel = s.karte.ziele[option]!;
-    s.detektivSetzen.value = ziel;
-    await _warte(1.5);
     await _foto('ziel_${e.id}');
-    s.detektivSetzen.value = null;
     s.schlageVor(option);
   }
 }

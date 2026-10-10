@@ -3,8 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart';
 
 import 'daten.dart';
+import 'runden_texte.dart';
 
 /// Ein Partyabend in der App (F4-ORCH-02). Hält den Spielzustand ([Spiel]),
 /// Einstellungen, Spielernamen, die verdeckte Einzelansicht, die laufende
@@ -17,10 +19,29 @@ import 'daten.dart';
 ///   in der verdeckten Einzelansicht ([verdeckt]); vor dem Finale verrät keine
 ///   andere Methode den Täter-Pfad (E-008).
 class PartySitzung extends ChangeNotifier {
-  PartySitzung(this.daten) : spiel = Spiel(daten.kanon, ermittlung: daten.karte.ermittlung);
+  PartySitzung(this.daten, {WuerfelQuelle? wuerfel}) {
+    // Das Salz ist unabhängig von Fall-Code, Pfad, Besetzung und Optionswahl.
+    // Random.secure liefert nur das Salz; sämtliche Augen kommen aus SalzWuerfel.
+    final zufall = math.Random.secure();
+    final salz = List.generate(16, (_) => zufall.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
+    _partie = RundenPartie(daten.kanon, quelle: wuerfel ?? SalzWuerfel(salz), ermittlung: daten.karte.ermittlung);
+  }
 
   final PartyDaten daten;
-  final Spiel spiel;
+  late final RundenPartie _partie;
+  Spiel? _druckSpiel;
+
+  /// Lesemodell für bestehende Kanon-Ansichten. Änderungen nur über die Sitzung.
+  Spiel get spiel => _druckSpiel ?? _partie.spiel;
+  bool get mitWuerfel => _druckSpiel == null;
+  RundenZug? get zug => mitWuerfel ? _partie.zug : null;
+  int get restMinuten => _partie.restMinuten;
+  int get reserveMinuten => _partie.reserveMinuten;
+  int get marken => _partie.marken;
+  List<Wurf> get wuerfe => _partie.wuerfe;
+
+  /// Würfelpate wechselt mit jedem Wurf; Rollen haben keinen Einfluss auf die Augen.
+  String get wuerfelPate => spielerName(besetzt[wuerfe.length % besetzt.length]);
 
   /// Schreibt bei jedem Schritt eine Zeile `PARTY …` in die Konsole
   /// (Entwickler-Einstieg und E2E-Läufe).
@@ -37,7 +58,7 @@ class PartySitzung extends ChangeNotifier {
   // Texte
 
   /// Wortlaut eines Bausteins (Erzähler, Detektiv, Hinweis, Oberfläche).
-  String text(String kennung) => daten.texte.baustein(kennung);
+  String text(String kennung) => rundenTexte[kennung] ?? daten.texte.baustein(kennung);
 
   /// Text der Oberfläche; Platzhalter `{name}` werden aus [werte] gefüllt.
   String ui(String kennung, [Map<String, String> werte = const {}]) {
@@ -123,7 +144,14 @@ class PartySitzung extends ChangeNotifier {
   }) {
     zurEinrichtung();
     final c = (code == null ? null : FallCode.lesen(code)) ?? zufallsCode();
-    spiel.einrichten(Einstellungen(rollen: rollen, detektiv: detektiv, code: c, druck: druck, rundendauerMinuten: rundendauerMinuten));
+    final einstellung = Einstellungen(rollen: rollen, detektiv: detektiv, code: c, druck: druck, rundendauerMinuten: rundendauerMinuten);
+    if (druck) {
+      if (phase != PartyPhase.einrichtung) throw StateError('Der Abend ist bereits eingerichtet.');
+      final papier = Spiel(daten.kanon, ermittlung: daten.karte.ermittlung)..einrichten(einstellung);
+      _druckSpiel = papier;
+    } else {
+      _partie.einrichten(einstellung);
+    }
     _code = c;
     this.namen
       ..clear()
@@ -212,10 +240,10 @@ class PartySitzung extends ChangeNotifier {
   // Ablauf
 
   /// Kann der Abend zum nächsten Abschnitt?
-  bool get kannWeiter => switch (phase) {
+  bool get kannWeiter => mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
         PartyPhase.titel => true,
         PartyPhase.einrichtung => false,
-        PartyPhase.entscheidungen => karte.laufend(spiel) == null && _vorschlag == null,
+        PartyPhase.entscheidungen => karte.laufend(spiel) == null && _vorschlag == null && _letzterFund == null,
         PartyPhase.gruppenwahl => spiel.qualitaeten.containsKey(runde),
         PartyPhase.anklage => spiel.angeklagt != null,
         PartyPhase.ende => false,
@@ -229,8 +257,13 @@ class PartySitzung extends ChangeNotifier {
   }
 
   void _weiter() {
+    if (!kannWeiter) throw StateError('Der aktuelle Abschnitt ist noch nicht abgeschlossen.');
     final vorher = spiel.bausteine.length;
-    spiel.weiter();
+    if (mitWuerfel) {
+      _partie.weiter();
+    } else {
+      spiel.weiter();
+    }
     _erzaehlerAb = vorher;
     _verdeckt = null;
     if (phase == PartyPhase.gruppenwahl) _stimmen.clear();
@@ -241,7 +274,7 @@ class PartySitzung extends ChangeNotifier {
 
   void _melde() {
     if (!protokoll) return;
-    final e = karte.laufend(spiel);
+    final e = laufendeEntscheidung?.id;
     debugPrint('PARTY phase=${phase.name} runde=$runde${e == null ? '' : ' entscheidung=$e'}');
   }
 
@@ -250,6 +283,7 @@ class PartySitzung extends ChangeNotifier {
 
   /// Laufende Entscheidung (Frage und Optionen in gemischter Reihenfolge).
   Entscheidung? get laufendeEntscheidung {
+    if (mitWuerfel) return _partie.naechsteEntscheidung;
     final id = karte.laufend(spiel);
     return id == null ? null : spiel.ermittlung.entscheidung(id);
   }
@@ -263,6 +297,7 @@ class PartySitzung extends ChangeNotifier {
 
   /// Handlung an einem Hotspot oder einer Person (Kanon-Kennung).
   bool schlageVorAn(String kennung) {
+    if (laufendeEntscheidung == null || _letzterFund != null) return false;
     final z = karte.zielFuer(spiel, kennung);
     if (z == null) return false;
     _vorschlag = z;
@@ -273,7 +308,9 @@ class PartySitzung extends ChangeNotifier {
   /// Vorschlag über die Option (Liste statt Karte).
   void schlageVor(String optionId) {
     final z = karte.ziele[optionId];
-    if (z == null || z.entscheidung != karte.laufend(spiel)) throw ArgumentError('$optionId gehört nicht zur laufenden Entscheidung');
+    if (z == null || z.entscheidung != laufendeEntscheidung?.id || _letzterFund != null) {
+      throw ArgumentError('$optionId gehört nicht zur laufenden Entscheidung');
+    }
     _vorschlag = z;
     notifyListeners();
   }
@@ -283,16 +320,50 @@ class PartySitzung extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Vorschlag bestätigen: Die Entscheidung ist endgültig, die Funde erscheinen.
-  List<Aufdeckung> bestaetigen() {
+  /// Endgültige Auswahl. Digital beginnt jetzt erst der sichtbare Laufweg;
+  /// weder Fundtext noch die nächste Entscheidung sind bereits freigegeben.
+  void bestaetigen({bool gruendlich = false}) {
     final z = _vorschlag ?? (throw StateError('kein Vorschlag'));
-    final funde = spiel.waehle(z.entscheidung, z.option);
-    _funde[z.entscheidung] = funde;
-    _letzterFund = (entscheidung: z.entscheidung, ziel: z, funde: funde);
+    if (mitWuerfel) {
+      _partie.waehle(z.option, gruendlich: gruendlich);
+    } else {
+      final funde = spiel.waehle(z.entscheidung, z.option);
+      _funde[z.entscheidung] = funde;
+      _letzterFund = (entscheidung: z.entscheidung, ziel: z, funde: funde);
+    }
     _vorschlag = null;
+    _zugGeaendert();
+  }
+
+  /// Rückruf der sichtbaren Kartenaktion, nie ein Timer des Bildschirms.
+  bool aktionFertig(int nummer) {
+    if (!mitWuerfel || !_partie.aktionFertig(nummer)) return false;
+    _zugGeaendert();
+    return true;
+  }
+
+  ({int mod, bool garantie, bool markeWirkt, Map<Stufe, int> prozent}) wuerfelVorschau({bool marke = false}) =>
+      _partie.vorschau(marke: marke);
+
+  void wuerfeln({bool marke = false}) {
+    _partie.wuerfeln(marke: marke);
+    _zugGeaendert();
+  }
+
+  void tischruf(Tischruf ruf) {
+    _partie.tischruf(ruf);
+    _zugGeaendert();
+  }
+
+  void _zugGeaendert() {
+    final z = zug;
+    if (z != null && z.phase == RundenZugPhase.fund && z.option != null) {
+      final ziel = karte.ziele[z.option]!;
+      _funde[z.id] = z.funde;
+      _letzterFund = (entscheidung: z.id, ziel: ziel, funde: z.funde);
+    }
     _melde();
     notifyListeners();
-    return funde;
   }
 
   /// Entwickler-Hook: Der Kartenbildschirm stellt den Detektiv neben dieses
@@ -313,6 +384,7 @@ class PartySitzung extends ChangeNotifier {
   ({String entscheidung, KartenZiel ziel, List<Aufdeckung> funde})? get letzterFund => _letzterFund;
 
   void fundGelesen() {
+    if (mitWuerfel) _partie.fundGelesen();
     _letzterFund = null;
     notifyListeners();
   }
@@ -338,7 +410,8 @@ class PartySitzung extends ChangeNotifier {
 
   void _auswerten() {
     final pfad = spiel.pfad;
-    spiel.abstimmen(
+    final abstimmen = mitWuerfel ? _partie.abstimmen : spiel.abstimmen;
+    abstimmen(
       kooperativ: [for (final e in _stimmen.entries) if (e.key != pfad && e.value) e].length,
       taeterSabotiert: _stimmen[pfad] == false,
     );
@@ -351,7 +424,11 @@ class PartySitzung extends ChangeNotifier {
   List<String> get kernverdaechtige => kanon.kernverdaechtige;
 
   void anklagen(String person) {
-    spiel.anklagen(person);
+    if (mitWuerfel) {
+      _partie.anklagen(person);
+    } else {
+      spiel.anklagen(person);
+    }
     _melde();
     notifyListeners();
   }

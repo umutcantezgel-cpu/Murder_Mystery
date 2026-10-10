@@ -87,6 +87,9 @@ class FigurePainter {
     bool ghost = false,
     bool shadow = true,
     double ruhe = 0,
+    bool suchen = false,
+    bool befragen = false,
+    double handlungsZeit = 0,
   }) {
     final (wm, hm) = buildScale(look.build);
     final sd = Iso.facingToScreen(facing);
@@ -101,6 +104,11 @@ class FigurePainter {
     }
     c.save();
     c.translate(feet.dx, feet.dy - bob);
+    if (suchen) {
+      // Aufrecht bleiben: zum Licht beugen, niemals stolpern oder liegen.
+      c.scale(1, 0.9);
+      c.skew(dir * (0.16 + 0.025 * math.sin(handlungsZeit * 3)), 0);
+    }
     if (ruhe != 0) {
       // Ruhe-Animation (Partymodus): Atmen und leichtes Wiegen um die Füße.
       c.scale(1 + 0.006 * math.cos(ruhe), 1 + 0.016 * math.sin(ruhe));
@@ -216,12 +224,25 @@ class FigurePainter {
         ..strokeWidth = 1.8);
     }
 
-    // vorderer Arm / beide Arme frontal
+    // vorderer Arm / beide Arme frontal; Untersuchungen halten eine sichtbare
+    // Lupe ins Licht, Befragungen heben die freie Hand als Gesprächsgeste.
+    final handelt = suchen || befragen;
+    final geste = -dir * ((suchen ? 1.05 : 0.8) + 0.10 * math.sin(handlungsZeit * 3));
     if (side) {
-      arm(dir * (sW - 2.5), sw * 0.35 * dir, shade(coat, -0.12));
+      arm(dir * (sW - 2.5), handelt ? geste : sw * 0.35 * dir, shade(coat, -0.12));
     } else {
-      arm(-(sW - 1.2), sw * 0.18 + 0.05, shade(coat, -0.05));
-      arm(sW - 1.2, -sw * 0.18 - 0.05, shade(coat, -0.22));
+      arm(-(sW - 1.2), handelt && dir < 0 ? geste : sw * 0.18 + 0.05, shade(coat, -0.05));
+      arm(sW - 1.2, handelt && dir > 0 ? geste : -sw * 0.18 - 0.05, shade(coat, -0.22));
+    }
+    if (suchen) {
+      final sx = dir * (sW - (side ? 2.5 : 1.2));
+      final hand = Offset(sx - math.sin(geste) * 17.6 * hm, shoulderY + 2.5 + math.cos(geste) * 17.6 * hm);
+      final glas = hand.translate(dir * 3.5, -6);
+      c.drawLine(hand, glas, Paint()..color = const Color(0xFFC49B54)..strokeWidth = 2.5);
+      c.drawCircle(glas, 4.3, Paint()..color = const Color(0x885FBCD1));
+      c.drawCircle(glas, 4.3, Paint()..color = const Color(0xFFFFD995)..style = PaintingStyle.stroke..strokeWidth = 1.7);
+      c.drawArc(Rect.fromCircle(center: glas, radius: 2.6), 3.6, 1.4, false,
+        Paint()..color = const Color(0xDDFFFFFF)..style = PaintingStyle.stroke..strokeWidth = 1);
     }
 
     // Kopf

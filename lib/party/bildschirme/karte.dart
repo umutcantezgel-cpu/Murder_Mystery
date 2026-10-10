@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart';
 
 import '../../game/game_view.dart';
+import '../../game/szenen_erweiterung.dart';
 import '../karte_session.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 import 'npc_karte.dart';
+import 'zug_tafel.dart';
 
 /// Die Entscheidungen des Detektivs auf der Karte (F4-ORCH-01, Master 7.7):
 /// Frage oben, die Ziele der laufenden Entscheidung leuchten auf der Karte.
@@ -23,6 +26,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   late final PartyKartenSession _session;
   late final TileGrid _raster;
   bool _hinweisOffen = true;
+  bool _gruendlich = false;
 
   PartySitzung get s => widget.sitzung;
 
@@ -34,6 +38,13 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
     s.detektivSetzen.addListener(_setzeDetektiv);
     s.detektivAn.addListener(_detektivAn);
     _detektivAn();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _session.bewegungReduziert = MediaQuery.disableAnimationsOf(context) || MediaQuery.accessibleNavigationOf(context);
+    if (_session.bewegungReduziert) _session.aktionAbkuerzen();
   }
 
   /// Entwickler-Einstieg `at=x,y`: Detektiv an eine feste Stelle.
@@ -81,9 +92,11 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           final e = s.laufendeEntscheidung;
           final fund = s.letzterFund;
           final vorschlag = s.vorschlag;
-          return Stack(
+          final zug = s.zug;
+          final aktiveFrage = zug != null && !zug.istAuftakt ? s.spiel.ermittlung.entscheidung(zug.id) : e;
+          return LayoutBuilder(builder: (context, box) => Stack(
             children: [
-              Positioned.fill(child: GameView(session: _session)),
+              Positioned.fill(child: GameView(session: _session, steuerung: !_session.eingabeGesperrt)),
               Positioned(
                 left: 0,
                 right: 0,
@@ -92,19 +105,69 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: Keller.breite),
-                      // Bei offener Fundkarte zeigt der Kopf noch deren Entscheidung, nicht schon die nächste.
-                      child: Padding(padding: const EdgeInsets.all(12), child: _kopf(fund != null ? s.spiel.ermittlung.entscheidung(fund.entscheidung) : e)),
+                      // Auch bei 200-%-Schrift bleibt eine sichtbare Kartenbühne.
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: box.maxHeight * 0.44),
+                        child: SingleChildScrollView(child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: _kopf(fund != null ? s.spiel.ermittlung.entscheidung(fund.entscheidung) : aktiveFrage),
+                        )),
+                      ),
                     ),
                   ),
                 ),
               ),
               if (vorschlag != null) _abgedeckt(_bestaetigung(vorschlag)),
-              if (fund != null) _abgedeckt(FundKarte(sitzung: s, ziel: fund.ziel, funde: fund.funde, onGelesen: s.fundGelesen)),
-              if (e == null && fund == null && vorschlag == null) _abgedeckt(_fertig()),
+              if (zug?.phase == RundenZugPhase.aktion) Positioned(
+                left: 12, right: 12, bottom: 12,
+                child: SafeArea(top: false, child: ValueListenableBuilder<double>(
+                  valueListenable: _session.aktionsFortschritt,
+                  builder: (context, fortschritt, _) => _aktionsLeiste(fortschritt),
+                )),
+              ),
+              if (zug?.phase == RundenZugPhase.wurf) _abgedeckt(WuerfelTafel(key: ValueKey(zug!.aktion), sitzung: s)),
+              if (zug?.phase == RundenZugPhase.tischruf) _abgedeckt(TischrufTafel(sitzung: s)),
+              if (fund != null) _abgedeckt(Column(mainAxisSize: MainAxisSize.min, children: [
+                if (zug?.wurf case final wurf?) ...[
+                  WurfErgebnis(sitzung: s, wurf: wurf),
+                  const SizedBox(height: 12),
+                ],
+                FundKarte(sitzung: s, ziel: fund.ziel, funde: fund.funde, onGelesen: s.fundGelesen),
+              ])),
+              if (zug?.istAuftakt == true && zug?.phase == RundenZugPhase.fund) _abgedeckt(Column(
+                mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  WurfErgebnis(sitzung: s, wurf: zug!.wurf!),
+                  const SizedBox(height: 12),
+                  PartyKnopf(text: s.ui('ui.zug.auftakt_weiter'), onPressed: s.fundGelesen),
+                ],
+              )),
+              if (s.kannWeiter && e == null && fund == null && vorschlag == null) _abgedeckt(_fertig()),
             ],
-          );
+          ));
         },
       );
+
+  Widget _aktionsLeiste(double fortschritt) {
+    final fehler = _session.aktionsFehler.value;
+    final zug = s.zug!;
+    final beschreibung = fehler ? 'ui.zug.blockiert' : switch (_session.figurenPose) {
+      SzenenPose.gehen => zug.ruf == Tischruf.umweg ? 'ui.zug.umweg' : 'ui.zug.weg',
+      SzenenPose.befragen => 'ui.zug.befragen',
+      _ => 'ui.zug.suchen',
+    };
+    return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: Keller.breite), child: PartyTafel(
+      child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Text(zug.istAuftakt ? s.ui('ui.zug.auftakt') : s.karte.ziele[zug.option]!.name, style: Keller.ueberschrift),
+        const SizedBox(height: 6),
+        Text(s.ui(beschreibung), style: Keller.leise),
+        const SizedBox(height: 8),
+        LinearProgressIndicator(value: fortschritt, color: Keller.kerze, backgroundColor: Keller.steinHell),
+        const SizedBox(height: 10),
+        PartyKnopf(text: s.ui('ui.zug.kurz'), haupt: false, onPressed: fehler ? null : _session.aktionAbkuerzen),
+      ]),
+    )));
+  }
 
   Widget _kopf(Entscheidung? e) {
     if (e == null) return const SizedBox.shrink();
@@ -115,20 +178,27 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
+          Wrap(
+            spacing: 12,
+            runSpacing: 6,
+            alignment: WrapAlignment.spaceBetween,
             children: [
-              Expanded(child: Text(s.ui('ui.karte.entscheidung', {'nr': '$nr'}).toUpperCase(), style: Keller.marke)),
+              Text(s.ui('ui.karte.entscheidung', {'nr': '$nr'}).toUpperCase(), style: Keller.marke),
               Text(s.ui('ui.allgemein.uhrzeit', {'uhrzeit': s.rundenUhrzeit}), style: Keller.leise),
             ],
           ),
           const SizedBox(height: 6),
           Text(e.frage, style: Keller.ueberschrift),
-          if (_hinweisOffen) ...[
+          if (s.mitWuerfel) ...[
+            const SizedBox(height: 6),
+            Text('${s.ui('ui.zug.nachtzeit', {'min': '${s.restMinuten}'})} · ${s.ui('ui.zug.marken', {'zahl': '${s.marken}'})}', style: Keller.leise),
+          ],
+          if (_hinweisOffen && s.zug == null) ...[
             const SizedBox(height: 6),
             Text(s.ui('ui.karte.hinweis'), style: Keller.leise),
           ],
           const SizedBox(height: 8),
-          Wrap(
+          if (s.zug == null) Wrap(
             spacing: 8,
             runSpacing: 6,
             children: [
@@ -167,12 +237,12 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   Widget _abgedeckt(Widget kind) => Positioned.fill(
         child: ColoredBox(
           color: const Color(0x99000000),
-          child: Center(
+          child: SafeArea(child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 560),
               child: Padding(padding: const EdgeInsets.all(16), child: SingleChildScrollView(child: kind)),
             ),
-          ),
+          )),
         ),
       );
 
@@ -188,14 +258,28 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           Text(o.text, style: Keller.ueberschrift),
           const SizedBox(height: 10),
           Text(s.ui('ui.karte.endgueltig'), style: Keller.text),
+          if (s.mitWuerfel) ...[
+            const SizedBox(height: 8),
+            Text(s.ui('ui.zug.wahl_bindung'), style: Keller.leise),
+          ],
+          if (s.mitWuerfel && istSuche(s.spiel.ermittlung.entscheidung(z.entscheidung))) Material(color: Colors.transparent, child: CheckboxListTile(
+            value: _gruendlich,
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            title: Text(s.ui('ui.zug.gruendlich'), style: Keller.leise),
+            onChanged: (wert) => setState(() => _gruendlich = wert ?? false),
+          )),
           const SizedBox(height: 16),
           Wrap(
             alignment: WrapAlignment.end,
             spacing: 10,
             runSpacing: 8,
             children: [
-              PartyKnopf(text: s.ui('ui.karte.nein'), haupt: false, onPressed: s.verwerfen),
-              PartyKnopf(text: s.ui('ui.karte.ja'), onPressed: s.bestaetigen),
+              PartyKnopf(text: s.ui('ui.karte.nein'), haupt: false, onPressed: () { _gruendlich = false; s.verwerfen(); }),
+              PartyKnopf(text: s.ui('ui.karte.ja'), onPressed: () {
+                s.bestaetigen(gruendlich: _gruendlich && istSuche(s.spiel.ermittlung.entscheidung(z.entscheidung)));
+                _gruendlich = false;
+              }),
             ],
           ),
         ],
@@ -219,7 +303,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
         context: context,
         builder: (c) => Dialog(
           backgroundColor: Colors.transparent,
-          child: PartyTafel(
+          child: SingleChildScrollView(child: PartyTafel(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
@@ -242,7 +326,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                   ),
               ],
             ),
-          ),
+          )),
         ),
       );
 
@@ -250,7 +334,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
         context: context,
         builder: (c) => Dialog(
           backgroundColor: Colors.transparent,
-          child: PartyTafel(
+          child: SingleChildScrollView(child: PartyTafel(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
@@ -263,9 +347,15 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                   for (final a in f.value) Padding(padding: const EdgeInsets.only(top: 4, bottom: 8), child: Text(a.text, style: Keller.text)),
                 ],
                 Align(alignment: Alignment.centerRight, child: PartyKnopf(text: s.ui('ui.allgemein.zurueck'), haupt: false, onPressed: () => Navigator.of(c).pop())),
+                if (s.mitWuerfel) ...[
+                  const SizedBox(height: 12),
+                  Text(s.ui('ui.zug.protokoll'), style: Keller.ueberschrift),
+                  if (s.wuerfe.isEmpty) Text(s.ui('ui.zug.kein_wurf'), style: Keller.leise),
+                  for (final w in s.wuerfe) Text('${w.id} · ${w.stufe.wort} · ${w.a} + ${w.b} + ${w.mod}${w.garantie ? ' · ${s.ui('ui.zug.garantie_kurz')}' : ''}', style: Keller.leise),
+                ],
               ],
             ),
-          ),
+          )),
         ),
       );
 }

@@ -2913,6 +2913,234 @@ abstract class L {
   /// **'Der Raum ist verloren gegangen.'**
   String get error_room_lost;
 
+  /// No description provided for @party_zug_auftakt.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Lupe bereitlegen'**
+  String get party_zug_auftakt;
+
+  /// No description provided for @party_zug_auftakt_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Eine kleine Probe, bevor die Ermittlung beginnt. Kein Hinweis, keine Wertung, keine Nachtminuten.'**
+  String get party_zug_auftakt_hinweis;
+
+  /// No description provided for @party_zug_auftakt_fertig.
+  ///
+  /// In de, this message translates to:
+  /// **'Bereit für die Ermittlung'**
+  String get party_zug_auftakt_fertig;
+
+  /// No description provided for @party_zug_auftakt_weiter.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur ersten Entscheidung'**
+  String get party_zug_auftakt_weiter;
+
+  /// No description provided for @party_zug_weg.
+  ///
+  /// In de, this message translates to:
+  /// **'Unterwegs zum gewählten Ziel'**
+  String get party_zug_weg;
+
+  /// No description provided for @party_zug_suchen.
+  ///
+  /// In de, this message translates to:
+  /// **'Die gewählte Stelle untersuchen'**
+  String get party_zug_suchen;
+
+  /// No description provided for @party_zug_befragen.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Gespräch führen'**
+  String get party_zug_befragen;
+
+  /// No description provided for @party_zug_umweg.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein anderer Zugang zur selben Quelle'**
+  String get party_zug_umweg;
+
+  /// No description provided for @party_zug_kurz.
+  ///
+  /// In de, this message translates to:
+  /// **'Szene abkürzen'**
+  String get party_zug_kurz;
+
+  /// No description provided for @party_zug_blockiert.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Weg ist nicht erreichbar. Die Untersuchung bleibt offen.'**
+  String get party_zug_blockiert;
+
+  /// No description provided for @party_zug_nachtzeit.
+  ///
+  /// In de, this message translates to:
+  /// **'{min} Nachtminuten übrig'**
+  String party_zug_nachtzeit(String min);
+
+  /// No description provided for @party_zug_marken.
+  ///
+  /// In de, this message translates to:
+  /// **'Seifenblasen-Marken: {zahl}'**
+  String party_zug_marken(String zahl);
+
+  /// No description provided for @party_zug_gruendlich.
+  ///
+  /// In de, this message translates to:
+  /// **'Gründlich suchen · +2 auf den Wurf · 2 Nachtminuten mehr'**
+  String get party_zug_gruendlich;
+
+  /// No description provided for @party_zug_wuerfel.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kellerwürfel'**
+  String get party_zug_wuerfel;
+
+  /// No description provided for @party_zug_pate.
+  ///
+  /// In de, this message translates to:
+  /// **'Gib das Gerät an {name} – jetzt wird gewürfelt!'**
+  String party_zug_pate(String name);
+
+  /// No description provided for @party_zug_werfen.
+  ///
+  /// In de, this message translates to:
+  /// **'Würfeln'**
+  String get party_zug_werfen;
+
+  /// No description provided for @party_zug_marke_einsetzen.
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Seifenblasen-Marke einsetzen · +1'**
+  String get party_zug_marke_einsetzen;
+
+  /// No description provided for @party_zug_marke_deckel.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Bonus liegt bereits bei +2. Keine Marke wird verbraucht.'**
+  String get party_zug_marke_deckel;
+
+  /// No description provided for @party_zug_chancen.
+  ///
+  /// In de, this message translates to:
+  /// **'Vor dem Wurf · Bonus +{mod}'**
+  String party_zug_chancen(String mod);
+
+  /// No description provided for @party_zug_garantie.
+  ///
+  /// In de, this message translates to:
+  /// **'Pech-Garantie: Dieser Anlauf gelingt mindestens teilweise.'**
+  String get party_zug_garantie;
+
+  /// No description provided for @party_zug_garantie_kurz.
+  ///
+  /// In de, this message translates to:
+  /// **'Garantie'**
+  String get party_zug_garantie_kurz;
+
+  /// No description provided for @party_zug_erfolg.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfolg · Lupe'**
+  String get party_zug_erfolg;
+
+  /// No description provided for @party_zug_teilerfolg.
+  ///
+  /// In de, this message translates to:
+  /// **'Teilerfolg · Handy'**
+  String get party_zug_teilerfolg;
+
+  /// No description provided for @party_zug_pech.
+  ///
+  /// In de, this message translates to:
+  /// **'Pech · Gespenst'**
+  String get party_zug_pech;
+
+  /// No description provided for @party_zug_erfolg_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Fund wird frei. Du gewinnst 7 Nachtminuten.'**
+  String get party_zug_erfolg_folge;
+
+  /// No description provided for @party_zug_teilerfolg_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Fund wird frei. Die Auswahl bleibt unverändert.'**
+  String get party_zug_teilerfolg_folge;
+
+  /// No description provided for @party_zug_pech_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch kein Fund. Eine Marke dazu; danach Nochmal oder Umweg.'**
+  String get party_zug_pech_folge;
+
+  /// No description provided for @party_zug_auftakt_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Probewurf ohne Fund oder Zeitkosten. Pech schenkt eine Marke.'**
+  String get party_zug_auftakt_folge;
+
+  /// No description provided for @party_zug_rechnung.
+  ///
+  /// In de, this message translates to:
+  /// **'2W6: {a} + {b} + {mod} = {summe} · Anlauf {anlauf}'**
+  String party_zug_rechnung(
+    String a,
+    String b,
+    String mod,
+    String summe,
+    String anlauf,
+  );
+
+  /// No description provided for @party_zug_tischruf.
+  ///
+  /// In de, this message translates to:
+  /// **'Tischruf: Wie geht es weiter?'**
+  String get party_zug_tischruf;
+
+  /// No description provided for @party_zug_pech_szene.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Handy-Licht wandert kurz über die Decke. Die Quelle bleibt dieselbe. Glück im Unglück: eine Seifenblasen-Marke!'**
+  String get party_zug_pech_szene;
+
+  /// No description provided for @party_zug_nochmal.
+  ///
+  /// In de, this message translates to:
+  /// **'Nochmal · 3 Nachtminuten'**
+  String get party_zug_nochmal;
+
+  /// No description provided for @party_zug_umweg_knopf.
+  ///
+  /// In de, this message translates to:
+  /// **'Umweg · 3 Nachtminuten'**
+  String get party_zug_umweg_knopf;
+
+  /// No description provided for @party_zug_fund_zeigen.
+  ///
+  /// In de, this message translates to:
+  /// **'Fund ansehen'**
+  String get party_zug_fund_zeigen;
+
+  /// No description provided for @party_zug_protokoll.
+  ///
+  /// In de, this message translates to:
+  /// **'Würfelprotokoll'**
+  String get party_zug_protokoll;
+
+  /// No description provided for @party_zug_kein_wurf.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch kein Wurf. Befragungen bleiben würfelfrei.'**
+  String get party_zug_kein_wurf;
+
+  /// No description provided for @party_zug_wahl_bindung.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Auswahl bleibt endgültig. Nochmal und Umweg wiederholen nur die Untersuchung, nicht die Entscheidung.'**
+  String get party_zug_wahl_bindung;
+
   /// No description provided for @logo_stamp.
   ///
   /// In de, this message translates to:

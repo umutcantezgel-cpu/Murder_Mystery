@@ -1,6 +1,6 @@
 # Anleitung: Partyabend „Spuk im Schlosskeller“
 
-Stand: Oktober 2026. Der lokale Partyabend ist spielbar; Würfelintegration, Solo-Bots und Internet-Party sind noch in Arbeit. Der verbindliche Freigabestand steht in `planung/abschluss/STATUS.md`.
+Stand: Oktober 2026. Der lokale Partyabend hat jetzt sichtbare Kartenaktionen und den Kellerwürfel. Solo-Bots und Internet-Party in der App sind noch in Arbeit. Der verbindliche Freigabestand steht in `planung/abschluss/STATUS.md`.
 
 Diese Anleitung hat drei Teile:
 
@@ -95,7 +95,12 @@ Die Abschnitte kommen in dieser Reihenfolge.
    - Am Ziel steht, was man tun kann: „Befragen“ bei einer Person, „Untersuchen“ bei einem Gegenstand, „Absuchen“ bei einem Raum.
    - Ein Tipp macht erst einen Vorschlag. Die Entscheidung wird endgültig, wenn ihr auf „Ja, so machen wir es“ tippt. Die Seite sagt vorher: „Das ist endgültig. Danach gibt es in dieser Entscheidung keinen zweiten Versuch.“ Mit „Noch nicht“ kehrt ihr zurück.
    - Wollt ihr lieber aus einer Liste wählen, tippt auf „Aus einer Liste wählen“. Die Liste heißt „Wähle eine Möglichkeit“.
-   - Ein Fund erscheint unter „Was du findest“. Mit „Verstanden“ schließt ihr ihn. Das „Notizbuch“ zeigt alle Funde. Ist es leer, steht da „Noch nichts gefunden.“
+   - Nach der Bestätigung läuft die Figur tatsächlich zum Ziel und führt die Handlung aus. „Szene abkürzen“ verkürzt nur die Darstellung, nicht die Regeln. Mit der Geräteoption für reduzierte Bewegung erscheint eine kurze, ruhige Zielpose.
+   - **Befragungen sind würfelfrei.** Bei Suchen stehen vor dem Wurf die drei Chancen mit Wort und Symbol: Lupe (Erfolg), Handy (Teilerfolg), Gespenst (Pech). Gebt das Gerät an den angezeigten Würfelpaten; er wechselt nach jedem Wurf.
+   - „Gründlich suchen“ gibt +2 auf den Wurf und kostet 2 zusätzliche Nachtminuten. Eine Seifenblasen-Marke gibt +1; insgesamt ist der Bonus auf +2 begrenzt. Eine wirkungslose Marke wird nicht verbraucht.
+   - **Pech:** Noch kein Fund. Ihr bekommt eine Marke und entscheidet offen zwischen „Nochmal“ und „Umweg“ (je 3 Nachtminuten). Beide bleiben bei **derselben endgültig gewählten Quelle**. Der dritte Anlauf gelingt mindestens teilweise; die Vorschau zeigt das vorher an. Eine falsche Auswahl wird durch Wiederholen nicht zur richtigen.
+   - Ein Erfolg gewinnt 7 Nachtminuten. Die 45 Nachtminuten je Runde sind Spielzeit und unabhängig von der Gesprächsuhr am Tisch. Der kostenlose Auftaktwurf in Runde 1 ist nur eine Probe ohne Hinweis oder Wertung.
+   - Erst nach der Handlung und gegebenenfalls dem gelungenen Wurf erscheint der unveränderte Fund unter „Was du findest“. Mit „Verstanden“ schließt ihr ihn. Das „Notizbuch“ zeigt alle Funde und das Würfelprotokoll. Ist es leer, steht da „Noch nichts gefunden.“
    - Nach der dritten Entscheidung steht da: „Alle drei Entscheidungen dieser Runde sind getroffen.“ Tippt auf „Weiter zur Gruppenwahl“.
 3. **Gruppenwahl.** Jede Person wählt geheim. Das Geburtstagskind wählt nicht mit. Die Seite sagt: „Reihum wählt ihr geheim zwischen zwei Handlungen.“
    - Gebt das Gerät an die Person, die dran ist. Es erscheint: „Gib das Gerät an {name}. Nur {name} schaut hin.“ Die Person tippt auf „Ich bin {name}, zeig her“.
@@ -133,7 +138,7 @@ Die Abschnitte kommen in dieser Reihenfolge.
 ### Fall-Code und ein zweites Mal spielen
 
 - Der Fall-Code steht am Ende unter „Fall-Code“. Schreibt ihn auf.
-- Gebt ihn bei der Einrichtung wieder ein. Dann ist es derselbe Fall.
+- Gebt ihn bei der Einrichtung wieder ein. Dann ist es derselbe Fall. Das Würfelsalz wird unabhängig neu erzeugt: Gleicher Fall heißt nicht gleiche Würfe.
 - Ohne Code, also mit „Zufall“, entsteht ein neuer Fall.
 
 ### Vor dem Abend
@@ -146,7 +151,7 @@ Die Abschnitte kommen in dieser Reihenfolge.
 
 ## Teil 2: Druckspiel
 
-Beim Druckspiel liegt der Abend auf Papier. Der Bildschirm kann trotzdem mitlaufen. Er führt dann durch den Ablauf.
+Beim Druckspiel liegt der Abend auf Papier. Der Bildschirm kann trotzdem mitlaufen. Er führt dann durch den unveränderten, würfelfreien Papierablauf.
 
 ### Wann es sinnvoll ist
 

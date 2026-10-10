@@ -234,6 +234,7 @@ class MordakteGame extends Game with KeyboardEvents {
   // Öffentliche API für GameView
 
   void triggerAction() {
+    if (_fuehrung?.eingabeGesperrt == true) return;
     final t = target.value;
     if (t == null) return;
     if (t.isCancel) {
@@ -255,7 +256,7 @@ class MordakteGame extends Game with KeyboardEvents {
 
   /// Langes Drücken → Ping. Gibt `false` zurück, wenn keine Pings übrig sind.
   bool ping(Offset local) {
-    if (_scene == null) return false;
+    if (_scene == null || _fuehrung?.eingabeGesperrt == true) return false;
     final w = screenToWorld(local);
     final cv = session.caseView.value;
     final ok = cv == null || cv.pingsLeft > 0;
@@ -327,6 +328,7 @@ class MordakteGame extends Game with KeyboardEvents {
     _time += frameDt;
     _syncScenario();
     if (_scene == null) return;
+    _fuehrung?.szenenSchritt(frameDt);
     _ingestWorld();
     _syncCase();
     var rem = frameDt;
@@ -470,6 +472,21 @@ class MordakteGame extends Game with KeyboardEvents {
       _moveAmt = 0;
       return;
     }
+    // Geführte Partyaktionen besitzen ihre Pose. Joystick, Vorhersage und
+    // _sendPose dürfen den A*-Lauf weder überschreiben noch zurückmelden.
+    if (_fuehrung?.eingabeGesperrt == true && me != null) {
+      _walk += dist(_px, _py, me.x, me.y) * 7.5;
+      _px = _sentX = me.x;
+      _py = _sentY = me.y;
+      _pf = _sentF = me.facing;
+      _moveAmt = me.moving && _fuehrung?.bewegungReduziert != true ? 1 : 0;
+      _following = false;
+      _farTimer = _idleT = _followT = 0;
+      _unackedSince = null;
+      final raum = grid.roomAtPos(_px, _py);
+      if (raum != null && !_isDoorTile(_px, _py)) _playerRoom = raum.id;
+      return;
+    }
     // Die Serverposition gilt nur, wenn der Snapshot frisch ist und der Server
     // unsere letzten Moves bestätigt hat – sonst zieht ein Funkloch uns zurück.
     final w = _world;
@@ -551,6 +568,7 @@ class MordakteGame extends Game with KeyboardEvents {
   }
 
   void _sendPose() {
+    if (_fuehrung?.eingabeGesperrt == true) return;
     session.move(_px, _py, _pf);
     _sentX = _px;
     _sentY = _py;
@@ -616,7 +634,7 @@ class MordakteGame extends Game with KeyboardEvents {
       final sp = m.spawn.isNotEmpty ? m.spawn.first : Pt(m.width ~/ 2, m.height ~/ 2);
       targetCam = Iso.toScreen(sp.x + 0.5, sp.y + 0.5, 0.6);
     }
-    if (!_camInit) {
+    if (!_camInit || _fuehrung?.bewegungReduziert == true) {
       _cam = targetCam;
       _camInit = true;
     } else {
@@ -655,6 +673,7 @@ class MordakteGame extends Game with KeyboardEvents {
   Offset? _targetPos;
 
   ActionTarget? _computeTarget() {
+    if (_fuehrung?.eingabeGesperrt == true) return null;
     final me = _me;
     final cv = session.caseView.value;
     final s = session.scenario;
@@ -1038,6 +1057,11 @@ class MordakteGame extends Game with KeyboardEvents {
   // ---------------------------------------------------------------------------
   // Szenen-Erweiterung (Partymodus, E-030): Licht nach Master 7.13, Nebel des
   // Krieges je Raum, Umrisse in der Rückblende. Ohne Erweiterung ungenutzt.
+
+  GefuehrteSzene? get _fuehrung {
+    final s = session;
+    return s is GefuehrteSzene ? s as GefuehrteSzene : null;
+  }
 
   SzenenErweiterung? get _ext {
     final s = session;
@@ -1442,7 +1466,11 @@ class MordakteGame extends Game with KeyboardEvents {
       c.restore();
       return;
     }
-    _fig.standing(c, o, look, facing: facing, walk: walk, moveAmt: move);
+    final pose = isMe ? _fuehrung?.figurenPose : null;
+    _fig.standing(c, o, look, facing: facing, walk: walk, moveAmt: move,
+      suchen: pose == SzenenPose.suchen, befragen: pose == SzenenPose.befragen,
+      handlungsZeit: _fuehrung?.bewegungReduziert == true ? 0 : _time,
+    );
   }
 
   void _drawSmoke(Canvas c, double alpha) {
