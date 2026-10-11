@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/abend_seite.dart';
+import 'package:mordakte/abend/einrichtung/abschnitte.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
@@ -108,15 +109,23 @@ void main() {
     state.dispose();
   });
 
-  testWidgets('Jeder am eigenen Gerät ist gesperrt und wählt sich nicht', (tester) async {
+  testWidgets('Jeder am eigenen Gerät ist wählbar, ohne Personenzahl bis zum Raum öffnen', (tester) async {
     final semantik = tester.ensureSemantics();
     try {
       final state = await oeffnen(tester);
       await tippen(tester, 'Weiter');
       final knoten = tester.getSemantics(find.bySemanticsLabel('Jeder am eigenen Gerät'));
-      expect(knoten.getSemanticsData().flagsCollection.isEnabled, ui.Tristate.isFalse);
+      expect(knoten.getSemanticsData().flagsCollection.isEnabled, isNot(ui.Tristate.isFalse), reason: 'Die Spielweise ist offen');
+      expect(knopf(tester, 'Weiter').onPressed, isNull, reason: 'Ohne Spielweise kein Weiter');
       await tippen(tester, 'Jeder am eigenen Gerät');
-      expect(knopf(tester, 'Weiter').onPressed, isNull, reason: 'Die gesperrte Spielweise ist nicht gewählt');
+      expect(knopf(tester, 'Weiter').onPressed, isNotNull, reason: 'Gewählt: Weiter ist offen');
+      await tippen(tester, 'Weiter');
+      // Online legt die Lobby die Rollen fest: der Einstellungsschritt zeigt keine Personenzahl.
+      expect(find.byType(PersonenAbschnitt), findsNothing);
+      await tippen(tester, 'Weiter');
+      expect(find.text('Raum öffnen'), findsOneWidget, reason: 'Der Startknopf öffnet den Raum');
+      expect(find.text('Abend beginnen'), findsNothing);
+      expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();
     } finally {

@@ -78,23 +78,27 @@ void main() {
             'MORDAKTE',
             'Neuer Abend',
             'Beitreten',
-            'bald',
-            'Beitreten mit Raumcode kommt bald.',
+            'Mit Raumcode oder QR-Code einem Abend beitreten.',
             'KAMPAGNE',
             'Spuk im Schlosskeller',
             'Das Buffet hinter dicken Mauern',
-            'Spuk',
-            '4 bis 20 Personen',
+            'Spuk im Gewölbe',
             'Sammlung',
             'Profil',
           ]) {
             expect(find.text(text), findsOneWidget, reason: text);
           }
+          // Fünf Akten der Kampagne: zwei Spuk (Schlosskeller, Gewölbe, je 4 bis 20 Personen),
+          // drei Noir (Ravensmoor, Nachtexpress, Blue Palm, je 4 bis 8 Personen).
+          expect(find.text('Spuk'), findsNWidgets(2), reason: 'Spuk-Tonschild je Spuk-Akte');
+          expect(find.text('Noir'), findsNWidgets(3), reason: 'Noir-Tonschild je Noir-Akte');
+          expect(find.text('4 bis 20 Personen'), findsNWidgets(2));
+          expect(find.text('4 bis 8 Personen'), findsNWidgets(3));
           final beitreten = tester.widget<MKnopf>(find.ancestor(of: find.text('Beitreten'), matching: find.byType(MKnopf)));
-          expect(beitreten.onPressed, isNull, reason: 'Beitreten ist noch gesperrt');
+          expect(beitreten.onPressed, isNotNull, reason: 'Beitreten ist offen');
           expect(find.bySemanticsLabel(RegExp(r'^Profil von Test, .+, \d+ Erfahrungspunkte$')), findsOneWidget);
           expect(find.bySemanticsLabel(RegExp(r'Spuk im Schlosskeller[\s\S]*Das Buffet hinter dicken Mauern')), findsOneWidget);
-          for (final alt in ['Andere Abende & Fälle', 'Spuk im Gewölbe', 'Klassische Fälle', 'Fallakten']) {
+          for (final alt in ['Andere Abende & Fälle', 'Klassische Fälle', 'Fallakten', 'bald']) {
             expect(find.text(alt), findsNothing, reason: alt);
           }
           if (schrift == 1) {
