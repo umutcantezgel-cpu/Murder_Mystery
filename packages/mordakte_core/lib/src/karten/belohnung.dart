@@ -18,6 +18,11 @@ class AbendErgebnis {
   /// Abstecher mit Erfolg oder Teilerfolg (Kennungen).
   final Set<String> abstecherFunde;
 
+  /// Figuren, die an diesem Gerät am Tisch saßen (solo und reihum alle besetzten
+  /// Rollen, beim Gastgeber eines Online-Abends ebenso). Gäste am eigenen Gerät
+  /// lassen das leer: Sie bekommen die Karte ihrer eigenen Rolle.
+  final Set<String> tischFiguren;
+
   const AbendErgebnis({
     required this.akte,
     required this.salz,
@@ -27,6 +32,7 @@ class AbendErgebnis {
     required this.anklageRichtig,
     required this.ende,
     this.abstecherFunde = const {},
+    this.tischFiguren = const {},
   });
 }
 
@@ -38,6 +44,9 @@ class AbendErgebnis {
 /// - Richtige Anklage: eine Karte der Täterfigur.
 /// - Meister-Ende: eine legendäre Karte der Akte.
 /// - Jeder gelungene Abstecher: die Karte dieses Fundorts (beim ersten Mal).
+/// - Am Tisch ([AbendErgebnis.tischFiguren]): eine Rollenkarte einer dieser
+///   Figuren, damit jede Figur auch ohne eigenes Gerät sammelbar ist. Sie wird
+///   zuletzt gezogen, die übrigen Züge bleiben dadurch unverändert.
 List<String> belohnungFuer(AbendErgebnis e, KartenKatalog katalog, Set<String> besitz) {
   final rng = Rng(Rng.hashString('karten:${e.salz}:${e.spielerId}'));
   final neu = <String>[];
@@ -68,6 +77,13 @@ List<String> belohnungFuer(AbendErgebnis e, KartenKatalog katalog, Set<String> b
     for (final k in katalog.vonAkte(e.akte)) {
       if (k.hatQuelle('abstecher', abstecher: a) && !besitz.contains(k.id) && !neu.contains(k.id)) neu.add(k.id);
     }
+  }
+  if (e.tischFiguren.isNotEmpty) {
+    nimm(ziehe([
+      for (final f in [...e.tischFiguren]..sort())
+        for (final k in katalog.vonFigur(e.akte, f))
+          if (k.hatQuelle('rolle')) k,
+    ]));
   }
   return neu;
 }

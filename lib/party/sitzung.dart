@@ -155,6 +155,7 @@ class PartySitzung extends ChangeNotifier {
       anklageRichtig: spiel.ende.richtig,
       ende: spiel.ende.id,
       abstecherFunde: abstecherFunde,
+      tischFiguren: {...besetzt},
     );
   }
 
