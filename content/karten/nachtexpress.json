@@ -1,0 +1,403 @@
+{
+  "hinweis": "Sammelkarten der Akte „Nachtexpress 1931“: je Rolle zwei Karten (eine gewöhnliche, eine seltene), die vier Pfad-Personen zusätzlich eine Täterkarte, dazu die legendäre Meisterkarte. Motive und Namen stammen aus Aussehen, Beruf und Alltag der Figuren, nie aus einem Beweisstück oder einem Geheimnis. Die Wirkung kommt allein aus dem geschlossenen Katalog (Komfort, nie Wissen). Abstecher-Karten gehören nur Rollen, die auf keinem Pfad die Täterrolle haben.",
+  "akte": "nachtexpress",
+  "karten": [
+    {
+      "id": "nachtexpress:countess:reisekleid",
+      "akte": "nachtexpress",
+      "figur": "countess",
+      "seltenheit": "gewoehnlich",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Orlowas Reisekleid",
+      "text": "Ein langes beerenrotes Reisekleid, nur fürs Aussehen.",
+      "motiv": "langes beerenrotes reisekleid",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:countess:fotoalbum",
+      "akte": "nachtexpress",
+      "figur": "countess",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Orlowas Fotoalbum",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "fotoalbum mit vergilbten bildern",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:countess:ertappt",
+      "akte": "nachtexpress",
+      "figur": "countess",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Ertappt: Gräfin Orlowa",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:watchmaker:feinschrauber",
+      "akte": "nachtexpress",
+      "figur": "watchmaker",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Brändlis Feinschrauber",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "kleiner schraubenzieher mit holzgriff",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:watchmaker:pinzette",
+      "akte": "nachtexpress",
+      "figur": "watchmaker",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Brändlis Pinzette",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "pinzette mit winziger schraube",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:watchmaker:ertappt",
+      "akte": "nachtexpress",
+      "figur": "watchmaker",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ertappt: Brändli",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:singer:zugabe",
+      "akte": "nachtexpress",
+      "figur": "singer",
+      "seltenheit": "gewoehnlich",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Rubys Zugabe",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "scheinwerfer auf kleiner bühne",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:singer:smaragdkleid",
+      "akte": "nachtexpress",
+      "figur": "singer",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Rubys Smaragdkleid",
+      "text": "Ein smaragdgrünes Kleid, nur fürs Aussehen.",
+      "motiv": "smaragdgrünes kleid mit schwung",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:singer:ertappt",
+      "akte": "nachtexpress",
+      "figur": "singer",
+      "seltenheit": "selten",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ertappt: Ruby",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:secretary:stenoblock",
+      "akte": "nachtexpress",
+      "figur": "secretary",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Gretas Stenoblock",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "stenoblock mit schnellen kürzeln",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:secretary:baskenmuetze",
+      "akte": "nachtexpress",
+      "figur": "secretary",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Gretas Baskenmütze",
+      "text": "Eine Baskenmütze, keck schräg aufgesetzt, nur fürs Aussehen.",
+      "motiv": "baskenmütze keck schräg",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:secretary:ertappt",
+      "akte": "nachtexpress",
+      "figur": "secretary",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Greta",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:conductor:messingknopf",
+      "akte": "nachtexpress",
+      "figur": "conductor",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Hubers Messingknopf",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "messingknopf mit zugsymbol",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:conductor:fahrplan",
+      "akte": "nachtexpress",
+      "figur": "conductor",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Hubers Fahrplan",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "fahrplan mit eselsohren",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "fahrplan_sortierpult"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:student:bastelradio",
+      "akte": "nachtexpress",
+      "figur": "student",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Lukas’ Bastelradio",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "selbstgebautes radio mit drähten",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:student:eisgloeckchen",
+      "akte": "nachtexpress",
+      "figur": "student",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Lukas’ Eisglöckchen",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "eiszapfen wie ein glöckchen",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "eiszapfen_gelaender"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:student:alpenkalender",
+      "akte": "nachtexpress",
+      "figur": "student",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Lukas’ Alpenkalender",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "kalender mit schnurrbärtigem berg",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "kalender_postwagen"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:doctor:lesebrille",
+      "akte": "nachtexpress",
+      "figur": "doctor",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Doktor Szabós Lesebrille",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "brille an einer feinen kette",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:doctor:taschenroman",
+      "akte": "nachtexpress",
+      "figur": "doctor",
+      "seltenheit": "selten",
+      "art": "abstecher",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Doktor Szabós Taschenroman",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "zerlesener roman mit eselsohr",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "roman_schrank"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:waiter:silbertablett",
+      "akte": "nachtexpress",
+      "figur": "waiter",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Morels Silbertablett",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "silbertablett mit teekanne",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:waiter:poliertuch",
+      "akte": "nachtexpress",
+      "figur": "waiter",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Morels Poliertuch",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "weißes tuch über dem arm",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "tuch_spuele"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:waiter:silberloeffel",
+      "akte": "nachtexpress",
+      "figur": "waiter",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Morels Silberlöffel",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "silberlöffel mit zierrand",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "loeffel_uebergang"
+        }
+      ]
+    },
+    {
+      "id": "nachtexpress:lindqvist:ehrenplakette",
+      "akte": "nachtexpress",
+      "figur": "lindqvist",
+      "seltenheit": "legendaer",
+      "art": "zeit",
+      "ladungen": 2,
+      "wert": 5,
+      "titel": "Lindqvists Ehrenplakette",
+      "text": "+5 Nachtminuten in dieser Runde.",
+      "motiv": "ehrenplakette aus gebürstetem stahl",
+      "quellen": [
+        {
+          "art": "meister"
+        }
+      ]
+    }
+  ]
+}

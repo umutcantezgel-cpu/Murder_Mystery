@@ -1,0 +1,60 @@
+{
+  "hinweis": "Abstecher der Akte „Blue Palm Motel“: freiwillige Erkundungsorte. Reine Stimmung und Nebenfunde, auf allen Pfaden gleich; kein Satz berührt Beweise, Alibis, Geheimnisse oder Verdächtige. Ein Erfolg oder Teilerfolg bringt die Sammelkarte dieses Fundorts (content/karten/blue_palm.json), Pech nur ein Missgeschick mit Glück im Unglück.",
+  "akte": "blue_palm",
+  "abstecher": [
+    {
+      "id": "ananas_beckenrand",
+      "ort": "am_beckenrand",
+      "name": "Am Beckenrand",
+      "erfolg": "Am Beckenrand treibt eine aufblasbare Ananas mit Sonnenbrille. Auf ihrem Bauch klebt ein winziges Pflaster.",
+      "teilerfolg": "Du siehst eine Sonnenbrille im Wasser schaukeln. Die Ananas dazu ist längst abgetrieben.",
+      "pech": "Eine Pfütze am Rand lässt dich ausrutschen. Du landest auf dem Hosenboden, und nur der Stolz ist nass.",
+      "abRunde": 1
+    },
+    {
+      "id": "sockenkorb_trockner",
+      "ort": "am_trockner",
+      "name": "Auf dem Trockner",
+      "erfolg": "Auf dem Trockner steht ein Korb voller warmer Socken. Keine zwei sind gleich, und alle riechen nach Sommer.",
+      "teilerfolg": "Du findest eine einzelne rosa Socke zwischen den Falten. Ihr Partner bleibt verschollen.",
+      "pech": "Der Trockner rumpelt los, als du dich anlehnst. Du erschrickst, und dann musst du lachen.",
+      "abRunde": 1
+    },
+    {
+      "id": "kopfhoerer_sonnenliege",
+      "ort": "an_der_sonnenliege",
+      "name": "Auf der Sonnenliege",
+      "erfolg": "Auf der Sonnenliege liegt ein Kopfhörer, aus dem leise ein Gitarrenlied rieselt. Sobald du ihn aufhebst, wird es still.",
+      "teilerfolg": "Du hörst irgendwo eine Gitarre, ganz leise und weit weg. Sie klingt nach Sommer.",
+      "pech": "Die Liege klappt zusammen, als du dich setzt. Du sitzt auf dem Boden und lachst.",
+      "abRunde": 2
+    },
+    {
+      "id": "schiffchen_oellache",
+      "ort": "an_der_oellache",
+      "name": "An der schillernden Pfütze",
+      "erfolg": "In der schillernden Pfütze dreht ein Papierschiffchen seine Runden. Auf dem Segel steht mit Kuli: „Eilmeldung: Der Sturm kommt!“",
+      "teilerfolg": "Im Wasser schaukelt ein Stück Papier mit verlaufener Schrift. Du kannst nur noch das Wort „Eilmeldung“ lesen.",
+      "pech": "Du trittst in die Pfütze, und es spritzt bis zu den Knien. Deine Hose ist nass, aber du bist immerhin wach.",
+      "abRunde": 2
+    },
+    {
+      "id": "boot_skimmer",
+      "ort": "am_skimmer",
+      "name": "Am Sieb des Pools",
+      "erfolg": "Im Sieb des Pools treibt ein Spielzeugboot. Sein Mast ist mit Klebeband geflickt, und es hält tapfer durch.",
+      "teilerfolg": "Du fischst nur ein Stück Klebeband aus dem Sieb. Das Boot dazu bleibt verschwunden.",
+      "pech": "Du beugst dich zu weit vor und tauchst die Ärmel ins Wasser. Es ist nur nass, mehr nicht.",
+      "abRunde": 3
+    },
+    {
+      "id": "eisen_buegeltisch",
+      "ort": "am_buegeltisch",
+      "name": "Auf dem Bügeltisch",
+      "erfolg": "Auf dem Bügeltisch steht ein schweres Bügeleisen mit Blümchenmuster auf dem Griff. Es sieht aus, als hätte es schon viel erlebt.",
+      "teilerfolg": "Du entdeckst nur den Bezug des Bügelbretts. Er ist mit kleinen Sonnen bedruckt.",
+      "pech": "Du stützt dich auf das Brett, und es klappt zusammen. Das Bügeleisen bleibt zum Glück stehen.",
+      "abRunde": 3
+    }
+  ]
+}

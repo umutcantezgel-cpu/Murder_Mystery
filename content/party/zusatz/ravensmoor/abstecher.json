@@ -1,0 +1,60 @@
+{
+  "hinweis": "Abstecher der Akte „Ravensmoor“: freiwillige Erkundungsorte. Reine Stimmung und Nebenfunde, auf allen Pfaden gleich; kein Satz berührt Beweise, Alibis, Geheimnisse oder Verdächtige. Ein Erfolg oder Teilerfolg bringt die Sammelkarte dieses Fundorts (content/karten/ravensmoor.json), Pech nur ein Missgeschick mit Glück im Unglück.",
+  "akte": "ravensmoor",
+  "abstecher": [
+    {
+      "id": "zylinder_garderobe",
+      "ort": "an_der_garderobe",
+      "name": "Am obersten Haken",
+      "erfolg": "Am obersten Haken hängt ein Zylinder, der aussieht wie ein Ofenrohr. Er glänzt so sehr, dass du dich darin spiegelst.",
+      "teilerfolg": "Du erwischst nur das Band eines Zylinders. Der Rest hängt zu hoch für dich.",
+      "pech": "Du streckst dich nach dem Haken, und ein Regenschirm kippt dir entgegen. Er trifft nur deinen Ärmel.",
+      "abRunde": 1
+    },
+    {
+      "id": "buerste_schuhkasten",
+      "ort": "am_schuhkasten",
+      "name": "Im Schuhputzkasten",
+      "erfolg": "Im Kasten liegt eine Bürste, bei der kein einziges Borstenhaar fehlt. Sie sieht aus, als würde sie jeden Morgen gekämmt.",
+      "teilerfolg": "Du findest eine Dose mit der Aufschrift „Glanz für Stiefel“. Sie ist leer und riecht nach Honig.",
+      "pech": "Der Deckel klappt zu und zwickt dir den Finger. Es tut kurz weh, und dann ist es schon vergessen.",
+      "abRunde": 1
+    },
+    {
+      "id": "kneifer_lesesessel",
+      "ort": "am_lesesessel",
+      "name": "In den Sesselfalten",
+      "erfolg": "In den Falten des Lesesessels klemmt ein Kneifer mit dünnem Goldrand. Wer ihn aufsetzt, sieht die Welt ein bisschen kleiner.",
+      "teilerfolg": "Zwischen den Polstern steckt nur das Band eines Kneifers. Die Gläser sind längst woanders.",
+      "pech": "Du lässt dich in den Sessel fallen und sinkst tief ein. Es dauert, bis du wieder herauskommst.",
+      "abRunde": 2
+    },
+    {
+      "id": "puddingform_speiseschrank",
+      "ort": "am_speiseschrank",
+      "name": "Im Speiseschrank",
+      "erfolg": "Ganz hinten im Schrank steht eine Puddingform aus Kupfer. Sie glänzt, als wäre sie heute erst poliert worden.",
+      "teilerfolg": "Du findest nur den Deckel einer Puddingform. Er riecht noch nach Vanille.",
+      "pech": "Eine Dose Mehl rutscht dir entgegen. Danach bist du weiß wie ein Gespenst.",
+      "abRunde": 2
+    },
+    {
+      "id": "gloeckchen_anrichte",
+      "ort": "an_der_anrichte",
+      "name": "Auf der Anrichte",
+      "erfolg": "Auf der Anrichte steht ein kleines Messingglöckchen. Es klingt so fein, dass du es fast nur ahnst.",
+      "teilerfolg": "Du hörst ein feines Klingeln, aber sehen kannst du nichts. Vielleicht hat sich das Glöckchen unter einem Tuch versteckt.",
+      "pech": "Du stößt mit dem Ellenbogen an die Anrichte, und alle Löffel klirren. Niemand kommt, und es bleibt beim Schreck.",
+      "abRunde": 3
+    },
+    {
+      "id": "muetze_statue",
+      "ort": "an_der_statue",
+      "name": "Bei der steinernen Lady",
+      "erfolg": "Jemand hat der Statue eine alte Schirmmütze aufgesetzt. Sie steht der steinernen Lady erstaunlich gut.",
+      "teilerfolg": "Die Statue trägt nur ein Efeublatt wie ein Hütchen. Eine Mütze siehst du nirgends.",
+      "pech": "Der Regen läuft dir in den Kragen, während du um die Statue schleichst. Du schüttelst dich wie ein nasser Hund.",
+      "abRunde": 3
+    }
+  ]
+}
