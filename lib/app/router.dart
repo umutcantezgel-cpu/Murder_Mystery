@@ -167,7 +167,10 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
       onExit: (c, s) => abend == null ? true : abendVerlassen(c, abend),
     ),
     GoRoute(path: Routes.abendLobby, pageBuilder: (c, s) => _fade(c, s, const GastgeberLobbySeite())),
-    GoRoute(path: Routes.beitreten, pageBuilder: (c, s) => _fade(c, s, BeitretenSeite(raum: s.uri.queryParameters['raum']))),
+    GoRoute(
+      path: Routes.beitreten,
+      pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.start, BeitretenSeite(raum: s.uri.queryParameters['raum']))),
+    ),
     GoRoute(path: Routes.gast, pageBuilder: (c, s) => _fade(c, s, const GastSeite())),
     GoRoute(path: Routes.abendBelohnung, pageBuilder: (c, s) => _fade(c, s, const BelohnungSeite())),
     GoRoute(path: Routes.sammlung, pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.start, const SammlungSeite()))),
