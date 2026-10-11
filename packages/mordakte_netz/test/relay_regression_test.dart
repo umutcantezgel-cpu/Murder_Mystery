@@ -132,8 +132,13 @@ Future<Schluesselpaar> schluesselAus(SpeicherAblage ablage, String code) async {
 
 /// Ein roher Gast (kein [RelayGast]): klopft mit leerer Inhaltskennung an, damit die
 /// Klopf-Prüfung ihn durchlässt, und schickt dann genau [hallo]. Liefert seine Kennung
-/// und die erste Antwort des Gastgebers.
-Future<({String cid, Map<String, Object?> antwort})> rohesHallo(Abend a, Map<String, Object?> hallo) async {
+/// und die erste Antwort des Gastgebers auf dieses Hallo (erkennbar an seiner Kennung `r`).
+/// [nachKlopf] läuft nach dem angenommenen Klopf und vor dem Hallo.
+Future<({String cid, Map<String, Object?> antwort})> rohesHallo(
+  Abend a,
+  Map<String, Object?> hallo, {
+  Future<void> Function(Schluesselpaar gast)? nachKlopf,
+}) async {
   final g = await Schluesselpaar.erzeugen();
   final code = a.host.raumCode;
   final socket = await a.socket();
@@ -142,6 +147,7 @@ Future<({String cid, Map<String, Object?> antwort})> rohesHallo(Abend a, Map<Str
   final vorher = a.host.statistik.klopfAkzeptiert;
   lobby.sende('klopf', {'cid': g.cid, 'pub': b64(g.oeffentlich), 'proto': protokollVersion, 'app': 'roh', 'inhalt': ''});
   await warteBis(() => a.host.statistik.klopfAkzeptiert > vorher);
+  await nachKlopf?.call(g);
   final sitz = socket.kanal(sitzThema(code, g.cid), presence: false);
   await sitz.beitreten();
   final keys = await Sitzungsschluessel.ableiten(eigen: g, fremdOeffentlich: a.host.schluessel.oeffentlich, code: code, epoch: a.host.epoch, cid: g.cid);
@@ -150,7 +156,8 @@ Future<({String cid, Map<String, Object?> antwort})> rohesHallo(Abend a, Map<Str
   sitz.nachrichten.listen((m) {
     if (m.ereignis != sitzEreignis) return;
     unawaited(paar.oeffnen(m.payload).then((u) {
-      if (u != null && !antwort.isCompleted) antwort.complete(u.nachricht);
+      // Nur Antworten auf dieses Hallo: Ein Zu ohne Kennung (etwa auf einen fremden Klopf) zählt nicht.
+      if (u != null && !antwort.isCompleted && u.nachricht['r'] == hallo['r']) antwort.complete(u.nachricht);
     }));
   });
   await paar.senden(sitz, hallo);
@@ -262,30 +269,26 @@ void main() {
       expect(a.host.raum.spielerIds, isNot(contains(spielerIdVon(ergebnis.cid))));
     });
 
-    test('ein gefälschter Klopf eines Dritten wirft den echten Gast nicht hinaus', () async {
+    test('ein gefälschter Klopf eines Dritten nach einem gültigen Klopf wirft den echten Gast nicht hinaus', () async {
       final a = await Abend.starten();
       addTearDown(a.schliessen);
-      // Der echte Gast hat seinen Schlüssel schon in der Ablage (wie nach einem früheren Klopf).
-      final gastSchluessel = await Schluesselpaar.erzeugen();
-      final ablage = SpeicherAblage()
-        ..daten[RelayGast.ablageSchluesselFuer(a.host.raumCode)] =
-            jsonEncode({'v': 1, 'cid': gastSchluessel.cid, 'priv': b64(gastSchluessel.geheim), 'name': 'Gast1'});
-
-      // Ein Dritter klopft mit fremder Protokollversion im Namen des Gastes (das Klopf ist Klartext).
-      final dritter = await a.socket();
-      final lobby = dritter.kanal(lobbyThema(a.host.raumCode), presence: false);
-      await lobby.beitreten();
-      final vorher = a.host.statistik.klopfAbgewiesen;
-      lobby.sende('klopf', {'cid': gastSchluessel.cid, 'pub': b64(gastSchluessel.oeffentlich), 'proto': 'x', 'app': 'fremd', 'inhalt': 'test'});
-      await warteBis(() => a.host.statistik.klopfAbgewiesen > vorher);
-
-      final gast = await RelayGast.beitreten(code: a.host.raumCode, name: 'Gast1', ablage: ablage, relay: a.relay, app: 'test', inhalt: 'test');
-      final status = <VerbindungsStatus>[];
-      gast.status.listen(status.add);
-      // Die Gnadenfrist der gefälschten Ablehnung läuft ab, der Gast bleibt trotzdem.
-      await Future<void>.delayed(const Duration(seconds: 4));
-      expect(status, isNot(contains(VerbindungsStatus.geschlossen)));
-      expect(a.host.gaeste, contains(spielerIdVon(gastSchluessel.cid)));
+      // Angriffsfolge: Der Gast klopft gültig. Danach klopft ein Dritter mit derselben Kennung
+      // und fremdem Protokoll. Erst danach schickt der Gast sein Hallo; es muss ein Willkommen
+      // kommen und keine Ablehnung. (Deterministisch: jeder Schritt wartet auf die Zähler.)
+      final ergebnis = await rohesHallo(
+        a,
+        {'t': 'hallo', 'name': 'Gast1', 'proto': protokollVersion, 'app': 'roh', 'r': 'r-echt', 'inhalt': 'test'},
+        nachKlopf: (gast) async {
+          final dritter = await a.socket();
+          final lobby = dritter.kanal(lobbyThema(a.host.raumCode), presence: false);
+          await lobby.beitreten();
+          final vorher = a.host.statistik.klopfAbgewiesen;
+          lobby.sende('klopf', {'cid': gast.cid, 'pub': b64(gast.oeffentlich), 'proto': 'x', 'app': 'fremd', 'inhalt': 'test'});
+          await warteBis(() => a.host.statistik.klopfAbgewiesen > vorher);
+        },
+      );
+      expect(ergebnis.antwort, containsPair('t', 'willkommen'), reason: 'der gefälschte Klopf darf das Hallo des Gastes nicht beantworten');
+      expect(a.host.gaeste, contains(spielerIdVon(ergebnis.cid)), reason: 'der Gast ist angemeldet');
     });
   });
 
@@ -343,14 +346,34 @@ void main() {
   });
 
   group('ON-4: Presence ohne Umschläge', () {
-    test('Presence eines Dritten hält einen Gast ohne Umschläge nicht online', () async {
+    test('ein verbundener Gast ohne Umschlag gilt nach der Frist als offline, obwohl seine Presence da ist (Wache)', () async {
+      final a = await Abend.starten(umschlagFrist: const Duration(milliseconds: 400));
+      addTearDown(a.schliessen);
+      final gast = await a.gast(0);
+      final pid = gast.spielerId!;
+      // Kein trennen: Der Gast bleibt verbunden und seine Presence bleibt da. Nur die Wache
+      // (Takt umschlagFrist/5) darf ihn nach der Frist ohne Umschlag offline setzen.
+      final online = <bool>[];
+      final sub = a.hostPlatz.ansichten.listen((v) => online.add(spieler(v, pid)['online'] == true));
+      addTearDown(sub.cancel);
+      await warteBis(() => online.isNotEmpty);
+      expect(online.last, isTrue, reason: 'Kontrolle: der frische Gast ist online');
+
+      await warteBis(() => online.last == false);
+
+      // Gegenprobe: Ein beglaubigter Umschlag des Gastes setzt ihn wieder online.
+      await gast.befehl({'typ': 'bereit', 'wert': true});
+      await warteBis(() => online.last == true);
+    });
+
+    test('Presence eines Dritten ohne frischen Umschlag hält einen Gast nicht online (Frischeprüfung in _praesenz)', () async {
       final a = await Abend.starten(umschlagFrist: const Duration(milliseconds: 400));
       addTearDown(a.schliessen);
       final gast = await a.gast(0);
       final pid = gast.spielerId!;
       expect(spieler(a.hostPlatz.letzteAnsicht!, pid)['online'], isTrue, reason: 'Kontrolle: der frische Gast ist online');
 
-      // Ohne Umschläge gilt der Gast nach der Frist als offline, auch wenn er eben noch da war.
+      // Nach der Frist ist der letzte Umschlag des Gastes nicht mehr frisch; danach geht er.
       await Future<void>.delayed(const Duration(milliseconds: 600));
       await gast.trennen();
       await warteBis(() => spieler(a.hostPlatz.letzteAnsicht!, pid)['online'] == false);
@@ -373,6 +396,38 @@ void main() {
       final zurueck = await RelayGast.beitreten(code: a.host.raumCode, name: 'Gast1', ablage: a.ablagen[0], relay: a.relay, app: 'test', inhalt: 'test');
       addTearDown(zurueck.trennen);
       await warteBis(() => spieler(a.hostPlatz.letzteAnsicht!, pid)['online'] == true);
+    });
+
+    test('die Wache ruht bei getrennter Verbindung; nach dem Neuaufbau gilt die Frist von neuem (_verbundenSeit)', () async {
+      final a = await Abend.starten(umschlagFrist: const Duration(milliseconds: 400));
+      addTearDown(a.schliessen);
+      final gast = await a.gast(0);
+      final pid = gast.spielerId!;
+      final online = <bool>[];
+      final sub = a.hostPlatz.ansichten.listen((v) => online.add(spieler(v, pid)['online'] == true));
+      addTearDown(sub.cancel);
+      // Ein beglaubigter Umschlag kurz vor dem Abbruch: der Gast ist frisch und online.
+      await gast.befehl({'typ': 'bereit', 'wert': true});
+      expect(online.last, isTrue, reason: 'Kontrolle: der Gast ist online');
+
+      a.host.kappeVerbindung();
+      await warteBis(() => !a.host.verbunden);
+      final getrennt = online.length;
+      // Der Neuaufbau braucht mindestens eine Sekunde; in dieser Zeit ist die Frist (400 ms) längst
+      // abgelaufen, ohne Relais kommt aber kein Umschlag an. Die ruhende Wache setzt den Gast nicht offline.
+      await Future<void>.delayed(const Duration(milliseconds: 700));
+      expect(a.host.verbunden, isFalse, reason: 'Kontrolle: der Gastgeber ist noch getrennt');
+      expect(online.skip(getrennt), everyElement(isTrue), reason: 'bei getrennter Verbindung wird niemand offline gesetzt');
+
+      // Nach dem Neuaufbau läuft die Frist ab dem Neuaufbau: der Gast bleibt eine Weile online,
+      // obwohl kein Umschlag seit dem Abbruch kam (die letzte Presence ist unbeglaubigt).
+      await warteBis(() => a.host.verbunden);
+      final nachNeuaufbau = online.length;
+      await Future<void>.delayed(const Duration(milliseconds: 150));
+      expect(online.skip(nachNeuaufbau), everyElement(isTrue), reason: 'nach dem Neuaufbau gilt die Frist neu, der Gast geht nicht sofort offline');
+
+      // Danach arbeitet die Wache wieder: Ohne Umschlag geht der Gast nach der Frist offline.
+      await warteBis(() => online.last == false);
     });
   });
 
