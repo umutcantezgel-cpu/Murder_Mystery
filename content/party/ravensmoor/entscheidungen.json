@@ -1,0 +1,882 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Die neun Entscheidungen des Inspektors. Eine Option deckt Fakten auf; ein Fakt erscheint in einem Pfad nur, wenn seine Quelle dort entsteht (Beobachtung mit pfade, Spur mit entstehtWenn). Sonst zeigt die Option die harmlose Fassung der Spur. Die Restverdächtigen folgen allein aus den Regeln und den aufgedeckten Fakten; Bonus-Hinweise zählen nicht (W-1).",
+  "regeln": [
+    {
+      "id": "R-ENTLASTET",
+      "wenn": [
+        "alibi",
+        "nebendelikt"
+      ],
+      "folge": "entlastet",
+      "text": "Wer beim Donnerschlag nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Der Donnerschlag ist der gewaltige Schlag um zehn nach elf, der das ganze Haus erschütterte."
+    },
+    {
+      "id": "R-UEBERFUEHRT",
+      "wenn": [
+        "schluesselbeweis",
+        "fundort"
+      ],
+      "folge": "ueberfuehrt",
+      "text": "Ein Schlüsselbeweis überführt eine Person, wenn man auch Lord Edmunds Siegelring an ihrem Versteck findet. Alle anderen scheiden aus."
+    }
+  ],
+  "fakten": [
+    {
+      "id": "f_alibi_witwe",
+      "typ": "alibi",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "beobachtung": "b_zofe_lady_bett"
+      }
+    },
+    {
+      "id": "f_spaet_witwe",
+      "typ": "spaetankunft",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "beobachtung": "b_zofe_lady_leer"
+      }
+    },
+    {
+      "id": "f_alibi_butler",
+      "typ": "alibi",
+      "personen": [
+        "butler"
+      ],
+      "quelle": {
+        "beobachtung": "b_gaertner_pell_kueche"
+      }
+    },
+    {
+      "id": "f_spaet_butler",
+      "typ": "spaetankunft",
+      "personen": [
+        "butler"
+      ],
+      "quelle": {
+        "beobachtung": "b_gaertner_pell_dunkel"
+      }
+    },
+    {
+      "id": "f_alibi_aerztin",
+      "typ": "alibi",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "beobachtung": "b_anwalt_marsh_pult"
+      }
+    },
+    {
+      "id": "f_spaet_aerztin",
+      "typ": "spaetankunft",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "beobachtung": "b_anwalt_marsh_leer"
+      }
+    },
+    {
+      "id": "f_streit_dinner",
+      "typ": "motiv",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "beobachtung": "b_koechin_streit"
+      }
+    },
+    {
+      "id": "f_testament_marsh",
+      "typ": "motiv",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "beobachtung": "b_aerztin_testament"
+      }
+    },
+    {
+      "id": "f_schulden_neffe",
+      "typ": "motiv",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "beobachtung": "b_neffe_schulden"
+      }
+    },
+    {
+      "id": "f_nd_witwe",
+      "typ": "nebendelikt",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "spur": "spur_asche_brief"
+      }
+    },
+    {
+      "id": "f_z_witwe",
+      "typ": "zusatzindiz",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "spur": "spur_asche_tinte"
+      }
+    },
+    {
+      "id": "f_nd_neffe",
+      "typ": "nebendelikt",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "spur": "spur_pfandschein"
+      }
+    },
+    {
+      "id": "f_z_neffe",
+      "typ": "zusatzindiz",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "spur": "spur_pfandschein_tinte"
+      }
+    },
+    {
+      "id": "f_patience",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_patience"
+      }
+    },
+    {
+      "id": "f_nd_butler",
+      "typ": "nebendelikt",
+      "personen": [
+        "butler"
+      ],
+      "quelle": {
+        "spur": "spur_sekretaer_gelesen"
+      }
+    },
+    {
+      "id": "f_z_butler",
+      "typ": "zusatzindiz",
+      "personen": [
+        "butler"
+      ],
+      "quelle": {
+        "spur": "spur_sekretaer_tinte"
+      }
+    },
+    {
+      "id": "f_nd_aerztin",
+      "typ": "nebendelikt",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "spur": "spur_diplom"
+      }
+    },
+    {
+      "id": "f_z_aerztin",
+      "typ": "zusatzindiz",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "spur": "spur_chemiekasten_tinte"
+      }
+    },
+    {
+      "id": "f_asche_arbeitszimmer",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_asche_arbeitszimmer"
+      }
+    },
+    {
+      "id": "f_fundort_witwe",
+      "typ": "fundort",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "spur": "spur_standuhr_ring"
+      }
+    },
+    {
+      "id": "f_fundort_butler",
+      "typ": "fundort",
+      "personen": [
+        "butler"
+      ],
+      "quelle": {
+        "spur": "spur_schrank_ring"
+      }
+    },
+    {
+      "id": "f_fundort_neffe",
+      "typ": "fundort",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "spur": "spur_hecke_ring"
+      }
+    },
+    {
+      "id": "f_fundort_aerztin",
+      "typ": "fundort",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "spur": "spur_kiste_ring"
+      }
+    },
+    {
+      "id": "f_tuch_tee",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_tuch_tee"
+      }
+    },
+    {
+      "id": "f_k_witwe",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "spur": "spur_tuch_veilchen"
+      }
+    },
+    {
+      "id": "f_k_neffe",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "spur": "spur_tuch_pferdesalbe"
+      }
+    },
+    {
+      "id": "f_k_aerztin",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "aerztin"
+      ],
+      "quelle": {
+        "spur": "spur_tuch_karbol"
+      }
+    },
+    {
+      "id": "f_k_butler",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "butler"
+      ],
+      "quelle": {
+        "spur": "spur_handschuh_wachs"
+      }
+    },
+    {
+      "id": "f_nd_neffe_anwalt",
+      "typ": "nebendelikt",
+      "personen": [
+        "neffe"
+      ],
+      "quelle": {
+        "beobachtung": "b_anwalt_pfand"
+      }
+    },
+    {
+      "id": "f_nd_witwe_koechin",
+      "typ": "nebendelikt",
+      "personen": [
+        "witwe"
+      ],
+      "quelle": {
+        "beobachtung": "b_koechin_brief"
+      }
+    }
+  ],
+  "entscheidungen": [
+    {
+      "id": "e1_1",
+      "runde": 1,
+      "nr": 1,
+      "art": "person",
+      "frage": "Wer saß beim Donnerschlag oben im Flur?",
+      "optionen": [
+        {
+          "id": "e1_1_zofe",
+          "ziel": {
+            "person": "zofe"
+          },
+          "text": "Tilly befragen",
+          "fakten": [
+            "f_alibi_witwe",
+            "f_spaet_witwe"
+          ]
+        },
+        {
+          "id": "e1_1_koechin",
+          "ziel": {
+            "person": "koechin"
+          },
+          "text": "Mrs Hobbs zum Abendessen befragen",
+          "fakten": [
+            "f_streit_dinner"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e1_1_zofe",
+        "butler": "e1_1_zofe",
+        "aerztin": "e1_1_zofe",
+        "neffe": "e1_1_zofe"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_inspektor_donner",
+            "beobachtung:b_zofe_flur"
+          ],
+          "text": "Der Donner erschütterte um zehn nach elf das Haus. Tilly saß dabei im oberen Flur und hatte Lady Constances Tür im Blick. Sie weiß, ob die Lady in ihrem Zimmer war."
+        }
+      }
+    },
+    {
+      "id": "e1_2",
+      "runde": 1,
+      "nr": 2,
+      "art": "person",
+      "frage": "Wer hatte beim Donnerschlag das Küchenfenster im Blick?",
+      "optionen": [
+        {
+          "id": "e1_2_gaertner",
+          "ziel": {
+            "person": "gaertner"
+          },
+          "text": "Silas befragen",
+          "fakten": [
+            "f_alibi_butler",
+            "f_spaet_butler"
+          ]
+        },
+        {
+          "id": "e1_2_aerztin",
+          "ziel": {
+            "person": "aerztin"
+          },
+          "text": "Doktor Marsh zu ihrem Abend befragen",
+          "fakten": [
+            "f_testament_marsh"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e1_2_gaertner",
+        "butler": "e1_2_gaertner",
+        "aerztin": "e1_2_gaertner",
+        "neffe": "e1_2_gaertner"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_inspektor_donner",
+            "beobachtung:b_gaertner_fenster"
+          ],
+          "text": "Silas sieht von seinem Häuschen aus aufs Küchenfenster. Beim Donnerschlag hat er hinübergeschaut und weiß, ob Pell in der Küche arbeitete."
+        }
+      }
+    },
+    {
+      "id": "e1_3",
+      "runde": 1,
+      "nr": 3,
+      "art": "person",
+      "frage": "Wer wartete beim Donnerschlag in der Bibliothek?",
+      "optionen": [
+        {
+          "id": "e1_3_anwalt",
+          "ziel": {
+            "person": "anwalt"
+          },
+          "text": "Mr Crane befragen",
+          "fakten": [
+            "f_alibi_aerztin",
+            "f_spaet_aerztin"
+          ]
+        },
+        {
+          "id": "e1_3_neffe",
+          "ziel": {
+            "person": "neffe"
+          },
+          "text": "Julian zu seinem Abend befragen",
+          "fakten": [
+            "f_schulden_neffe"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e1_3_anwalt",
+        "butler": "e1_3_anwalt",
+        "aerztin": "e1_3_anwalt",
+        "neffe": "e1_3_anwalt"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_inspektor_donner",
+            "beobachtung:b_anwalt_bibliothek"
+          ],
+          "text": "Mr Crane wartete beim Donnerschlag in der Bibliothek auf Lord Edmund. Er weiß, ob Doktor Marsh dort am Pult saß."
+        }
+      }
+    },
+    {
+      "id": "e2_1",
+      "runde": 2,
+      "nr": 1,
+      "art": "gegenstand",
+      "frage": "Wessen Heimlichtuerei klärst du jetzt?",
+      "optionen": [
+        {
+          "id": "e2_1_salonkamin",
+          "ziel": {
+            "gegenstand": "salonkamin"
+          },
+          "text": "Den Kamin im Salon untersuchen",
+          "fakten": [
+            "f_nd_witwe",
+            "f_z_witwe"
+          ]
+        },
+        {
+          "id": "e2_1_westentasche",
+          "ziel": {
+            "gegenstand": "pfandschein_julian"
+          },
+          "text": "Julians Westentasche untersuchen",
+          "fakten": [
+            "f_nd_neffe",
+            "f_z_neffe"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e2_1_salonkamin",
+        "butler": "e2_1_salonkamin",
+        "aerztin": "e2_1_salonkamin",
+        "neffe": "e2_1_westentasche"
+      },
+      "begruendung": {
+        "witwe": {
+          "kette": [
+            "fakt:f_spaet_witwe",
+            "karte:salonkamin"
+          ],
+          "text": "Lady Constance war beim Donnerschlag nicht in ihrem Zimmer. Im Kamin des Salons liegen frische Papierreste. Wer nachts Papier verbrennt, hat etwas zu verbergen."
+        },
+        "butler": {
+          "kette": [
+            "fakt:f_alibi_witwe",
+            "luege:luege_witwe_post",
+            "karte:salonkamin"
+          ],
+          "text": "Lady Constance lag beim Donnerschlag im Bett und hat damit ein Alibi. Doch sie sagt, sie bekomme keine Post aus London, und im Salonkamin liegen Papierreste. Ihre Heimlichtuerei kann sie zusammen mit dem Alibi entlasten."
+        },
+        "aerztin": {
+          "kette": [
+            "fakt:f_alibi_witwe",
+            "luege:luege_witwe_post",
+            "karte:salonkamin"
+          ],
+          "text": "Lady Constance lag beim Donnerschlag im Bett und hat damit ein Alibi. Doch sie sagt, sie bekomme keine Post aus London, und im Salonkamin liegen Papierreste. Ihre Heimlichtuerei kann sie zusammen mit dem Alibi entlasten."
+        },
+        "neffe": {
+          "kette": [
+            "fakt:f_alibi_butler",
+            "fakt:f_alibi_aerztin",
+            "beobachtung:b_koechin_uhr",
+            "merkmal:neffe"
+          ],
+          "text": "Pell und Doktor Marsh waren beim Donnerschlag nachweislich woanders. Julian trug beim Dinner keine Taschenuhr und greift ständig an seine Westentasche. Dort steckt vielleicht der Grund."
+        }
+      }
+    },
+    {
+      "id": "e2_2",
+      "runde": 2,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Was untersuchst du als Nächstes?",
+      "optionen": [
+        {
+          "id": "e2_2_kartentisch",
+          "ziel": {
+            "gegenstand": "kartentisch"
+          },
+          "text": "Den Kartentisch im Salon untersuchen",
+          "fakten": [
+            "f_patience"
+          ]
+        },
+        {
+          "id": "e2_2_sekretaer",
+          "ziel": {
+            "gegenstand": "sekretaer"
+          },
+          "text": "Lord Edmunds Sekretär untersuchen",
+          "fakten": [
+            "f_nd_butler",
+            "f_z_butler"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e2_2_sekretaer",
+        "butler": "e2_2_sekretaer",
+        "aerztin": "e2_2_sekretaer",
+        "neffe": "e2_2_sekretaer"
+      },
+      "begruendung": {
+        "witwe": {
+          "kette": [
+            "fakt:f_alibi_butler",
+            "luege:luege_butler_sekretaer",
+            "beobachtung:b_zofe_schluessel",
+            "karte:sekretaer"
+          ],
+          "text": "Pell war beim Donnerschlag in der Küche und hat damit ein Alibi. Er trug am Abend den Schlüsselring mit allen Zweitschlüsseln und behauptet, den Sekretär nie angerührt zu haben. Das muss er erklären."
+        },
+        "butler": {
+          "kette": [
+            "fakt:f_spaet_butler",
+            "beobachtung:b_zofe_schluessel",
+            "karte:sekretaer"
+          ],
+          "text": "Beim Donnerschlag war die Küche dunkel, und Pell war nicht beim Silber. Er trug am Abend den Schlüsselring mit allen Zweitschlüsseln. Der Sekretär im Arbeitszimmer steht einen Spalt offen."
+        },
+        "aerztin": {
+          "kette": [
+            "fakt:f_alibi_butler",
+            "luege:luege_butler_sekretaer",
+            "beobachtung:b_zofe_schluessel",
+            "karte:sekretaer"
+          ],
+          "text": "Pell war beim Donnerschlag in der Küche und hat damit ein Alibi. Er trug am Abend den Schlüsselring mit allen Zweitschlüsseln und behauptet, den Sekretär nie angerührt zu haben. Das muss er erklären."
+        },
+        "neffe": {
+          "kette": [
+            "fakt:f_alibi_butler",
+            "luege:luege_butler_sekretaer",
+            "beobachtung:b_zofe_schluessel",
+            "karte:sekretaer"
+          ],
+          "text": "Pell war beim Donnerschlag in der Küche und hat damit ein Alibi. Er trug am Abend den Schlüsselring mit allen Zweitschlüsseln und behauptet, den Sekretär nie angerührt zu haben. Das muss er erklären."
+        }
+      }
+    },
+    {
+      "id": "e2_3",
+      "runde": 2,
+      "nr": 3,
+      "art": "gegenstand",
+      "frage": "Wo suchst du weiter?",
+      "optionen": [
+        {
+          "id": "e2_3_chemiekasten",
+          "ziel": {
+            "gegenstand": "chemiekasten"
+          },
+          "text": "Doktor Marshs Chemiekasten untersuchen",
+          "fakten": [
+            "f_nd_aerztin",
+            "f_z_aerztin"
+          ]
+        },
+        {
+          "id": "e2_3_arbeitskamin",
+          "ziel": {
+            "gegenstand": "arbeitskamin"
+          },
+          "text": "Den Kamin im Arbeitszimmer untersuchen",
+          "fakten": [
+            "f_asche_arbeitszimmer"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e2_3_chemiekasten",
+        "butler": "e2_3_chemiekasten",
+        "aerztin": "e2_3_chemiekasten",
+        "neffe": "e2_3_chemiekasten"
+      },
+      "begruendung": {
+        "witwe": {
+          "kette": [
+            "fakt:f_alibi_aerztin",
+            "luege:luege_aerztin_diplom",
+            "karte:chemiekasten"
+          ],
+          "text": "Doktor Marsh saß beim Donnerschlag in der Bibliothek und hat damit ein Alibi. Doch sie beteuert, ihr Diplom sei echt, und ihr Chemiekasten steht offen auf dem Tisch. Ihre Heimlichtuerei kann sie entlasten."
+        },
+        "butler": {
+          "kette": [
+            "fakt:f_alibi_aerztin",
+            "luege:luege_aerztin_diplom",
+            "karte:chemiekasten"
+          ],
+          "text": "Doktor Marsh saß beim Donnerschlag in der Bibliothek und hat damit ein Alibi. Doch sie beteuert, ihr Diplom sei echt, und ihr Chemiekasten steht offen auf dem Tisch. Ihre Heimlichtuerei kann sie entlasten."
+        },
+        "aerztin": {
+          "kette": [
+            "fakt:f_spaet_aerztin",
+            "beobachtung:b_aerztin_herz",
+            "karte:chemiekasten"
+          ],
+          "text": "Beim Donnerschlag war Doktor Marsh nicht in der Bibliothek. Sie wusste, dass Lord Edmunds Herz schwach war. Ihr Chemiekasten steht offen auf dem Tisch, und sie hat viel zu verbergen."
+        },
+        "neffe": {
+          "kette": [
+            "fakt:f_alibi_aerztin",
+            "luege:luege_aerztin_diplom",
+            "karte:chemiekasten"
+          ],
+          "text": "Doktor Marsh saß beim Donnerschlag in der Bibliothek und hat damit ein Alibi. Doch sie beteuert, ihr Diplom sei echt, und ihr Chemiekasten steht offen auf dem Tisch. Ihre Heimlichtuerei kann sie entlasten."
+        }
+      }
+    },
+    {
+      "id": "e3_1",
+      "runde": 3,
+      "nr": 1,
+      "art": "ort",
+      "frage": "Wo suchst du nach Lord Edmunds Siegelring?",
+      "optionen": [
+        {
+          "id": "e3_1_halle",
+          "ziel": {
+            "raum": "hall",
+            "ort": "an_der_standuhr"
+          },
+          "text": "In der Halle suchen",
+          "fakten": [
+            "f_fundort_witwe"
+          ]
+        },
+        {
+          "id": "e3_1_speisesaal",
+          "ziel": {
+            "raum": "dining",
+            "ort": "am_geschirrschrank"
+          },
+          "text": "Im Speisesaal suchen",
+          "fakten": [
+            "f_fundort_butler"
+          ]
+        },
+        {
+          "id": "e3_1_garten",
+          "ziel": {
+            "raum": "garden",
+            "ort": "an_der_hecke"
+          },
+          "text": "Im Garten suchen",
+          "fakten": [
+            "f_fundort_neffe",
+            "f_fundort_aerztin"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e3_1_halle",
+        "butler": "e3_1_speisesaal",
+        "aerztin": "e3_1_garten",
+        "neffe": "e3_1_garten"
+      },
+      "begruendung": {
+        "witwe": {
+          "kette": [
+            "fakt:f_spaet_witwe",
+            "fakt:f_z_witwe",
+            "beobachtung:b_zofe_hintertreppe",
+            "karte:standuhr"
+          ],
+          "text": "Lady Constance war beim Donnerschlag nicht in ihrem Zimmer, und an ihrem Brief klebt Tinte vom Tatort. Die Hintertreppe führt von ihrem Ankleidezimmer in die Halle, neben die Standuhr. Im Gehäuse der Standuhr lässt sich etwas verbergen."
+        },
+        "butler": {
+          "kette": [
+            "fakt:f_spaet_butler",
+            "fakt:f_z_butler",
+            "beobachtung:b_butler_silber",
+            "karte:geschirrschrank"
+          ],
+          "text": "Die Küche war beim Donnerschlag dunkel, und an Lord Edmunds Briefen klebt Tinte vom Tatort. Pell räumt nach dem Dinner das Silber weg. Der Geschirrschrank im Speisesaal ist sein Reich."
+        },
+        "aerztin": {
+          "kette": [
+            "fakt:f_spaet_aerztin",
+            "fakt:f_z_aerztin",
+            "beobachtung:b_gaertner_kiste",
+            "karte:geraetekiste"
+          ],
+          "text": "Doktor Marsh war beim Donnerschlag nicht in der Bibliothek, und an ihrem Chemiekasten klebt Tinte vom Tatort. Der Riegel der Gerätekiste im Garten klemmt seit Jahren. Dort lässt sich vieles verbergen."
+        },
+        "neffe": {
+          "kette": [
+            "fakt:f_z_neffe",
+            "beobachtung:b_gaertner_hecke",
+            "karte:rosenbeet",
+            "karte:hecke"
+          ],
+          "text": "An Julians Pfandschein klebt Tinte vom Tatort. Im Rosenbeet unter dem Salonfenster sind tiefe Abdrücke, und die dichte Buchsbaumhecke verschluckt fast alles. Dort lässt sich ein Ring leicht verbergen."
+        }
+      }
+    },
+    {
+      "id": "e3_2",
+      "runde": 3,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Was untersuchst du jetzt?",
+      "optionen": [
+        {
+          "id": "e3_2_handschuhe",
+          "ziel": {
+            "gegenstand": "handschuhe_pell"
+          },
+          "text": "Pells weiße Handschuhe untersuchen",
+          "fakten": [
+            "f_k_butler"
+          ]
+        },
+        {
+          "id": "e3_2_taschentuch",
+          "ziel": {
+            "gegenstand": "taschentuch_edmund"
+          },
+          "text": "Das Taschentuch in Edmunds Hand untersuchen",
+          "fakten": [
+            "f_tuch_tee",
+            "f_k_witwe",
+            "f_k_neffe",
+            "f_k_aerztin"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e3_2_taschentuch",
+        "butler": "e3_2_handschuhe",
+        "aerztin": "e3_2_taschentuch",
+        "neffe": "e3_2_taschentuch"
+      },
+      "begruendung": {
+        "witwe": {
+          "kette": [
+            "fakt:f_z_witwe",
+            "merkmal:witwe",
+            "karte:taschentuch_edmund"
+          ],
+          "text": "An Lady Constances Brief klebt Tinte vom Tatort. Lord Edmund hält ein fremdes Taschentuch in der Hand, und ihr Parfüm kennt jeder im Haus."
+        },
+        "butler": {
+          "kette": [
+            "fakt:f_z_butler",
+            "merkmal:butler"
+          ],
+          "text": "An Lord Edmunds Briefen klebt Tinte vom Tatort. Pell trägt weiße Handschuhe und poliert das Silber mit Wachs. Seine Handschuhe können verraten, wo er war."
+        },
+        "aerztin": {
+          "kette": [
+            "fakt:f_z_aerztin",
+            "merkmal:aerztin",
+            "karte:taschentuch_edmund"
+          ],
+          "text": "An Doktor Marshs Chemiekasten klebt Tinte vom Tatort. Lord Edmund hält ein fremdes Taschentuch in der Hand, und sie riecht nach Krankenzimmer."
+        },
+        "neffe": {
+          "kette": [
+            "fakt:f_z_neffe",
+            "merkmal:neffe",
+            "karte:taschentuch_edmund"
+          ],
+          "text": "An Julians Pfandschein klebt Tinte vom Tatort. Lord Edmund hält ein fremdes Taschentuch in der Hand, und Julian riecht nach Stall."
+        }
+      }
+    },
+    {
+      "id": "e3_3",
+      "runde": 3,
+      "nr": 3,
+      "art": "person",
+      "frage": "Mit wem sprichst du zuletzt?",
+      "optionen": [
+        {
+          "id": "e3_3_anwalt",
+          "ziel": {
+            "person": "anwalt"
+          },
+          "text": "Mr Crane zu Julian befragen",
+          "fakten": [
+            "f_nd_neffe_anwalt"
+          ]
+        },
+        {
+          "id": "e3_3_koechin",
+          "ziel": {
+            "person": "koechin"
+          },
+          "text": "Mrs Hobbs zum Salon befragen",
+          "fakten": [
+            "f_nd_witwe_koechin"
+          ]
+        }
+      ],
+      "richtig": {
+        "witwe": "e3_3_anwalt",
+        "butler": "e3_3_anwalt",
+        "aerztin": "e3_3_anwalt",
+        "neffe": "e3_3_koechin"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "fakt:f_nd_witwe",
+            "beobachtung:b_koechin_uhr",
+            "beobachtung:b_anwalt_testament"
+          ],
+          "text": "Lady Constances Heimlichtuerei ist geklärt, Julians nicht. Mr Crane sollte um Mitternacht das neue Testament beurkunden und sprach in der Nacht noch mit Julian."
+        },
+        "neffe": {
+          "kette": [
+            "fakt:f_nd_neffe",
+            "fakt:f_spaet_witwe",
+            "beobachtung:b_koechin_tee"
+          ],
+          "text": "Julians Heimlichtuerei ist geklärt, Lady Constances nicht. Sie war beim Donnerschlag nicht in ihrem Zimmer. Mrs Hobbs sieht alles, was im Erdgeschoss geschieht, und weiß, was nach Mitternacht im Salon geschah."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Gemeinsame Zeitleiste vom Eintreffen der Gäste bis zum Morgen. Die Einträge mit pfade alle gelten in jedem Pfad; die Einträge zur Tat und zum Versteck des Siegelrings gelten nur im eigenen Pfad.",
+  "eintraege": [
+    {
+      "id": "z_pfand",
+      "zeit": "16:00",
+      "ort": "vor_dem_portal",
+      "wer": [
+        "neffe"
+      ],
+      "text": "Am Nachmittag fährt Julian in die Stadt und versetzt Lord Edmunds goldene Taschenuhr. Den Pfandschein steckt er in die Westentasche.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_ankunft",
+      "zeit": "18:30",
+      "ort": "vor_dem_portal",
+      "wer": [
+        "alle"
+      ],
+      "text": "Die Gäste erreichen Ravensmoor, kurz bevor das Hochwasser die Brücke verschluckt. Pell nimmt ihnen die nassen Mäntel ab.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_kasten",
+      "zeit": "19:00",
+      "ort": "am_chemiekasten",
+      "wer": [
+        "aerztin"
+      ],
+      "text": "Doktor Marsh stellt ihren Chemiekasten aufgeklappt auf den Lesetisch in der Bibliothek.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_dinner",
+      "zeit": "20:00",
+      "ort": "an_den_leuchtern",
+      "wer": [
+        "edmund",
+        "witwe",
+        "neffe",
+        "aerztin",
+        "anwalt",
+        "butler"
+      ],
+      "text": "Das Dinner im Speisesaal beginnt. Lord Edmund kündigt an, in dieser Nacht sein Testament zu ändern. Mr Crane soll es um Mitternacht beurkunden.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_streit",
+      "zeit": "21:15",
+      "ort": "an_den_leuchtern",
+      "wer": [
+        "edmund",
+        "neffe",
+        "koechin"
+      ],
+      "text": "Julian und Lord Edmund streiten heftig über Geld. Lord Edmund streicht ihm den Zuschuss. Mrs Hobbs lauscht an der Tür.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_sekretaer",
+      "zeit": "21:30",
+      "ort": "am_sekretaer",
+      "wer": [
+        "butler"
+      ],
+      "text": "Während des Dinners öffnet Pell mit dem Zweitschlüssel Lord Edmunds Sekretär und liest dessen Briefe.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_tee",
+      "zeit": "22:00",
+      "ort": "am_schreibtisch",
+      "wer": [
+        "butler",
+        "edmund"
+      ],
+      "text": "Pell trägt das Teetablett in das Arbeitszimmer. Im Speisesaal löscht er die Kerzen und lässt die Silberleuchter zum Polieren auf der Tafel stehen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_migraene",
+      "zeit": "22:30",
+      "ort": "am_treppenaufgang",
+      "wer": [
+        "witwe",
+        "zofe"
+      ],
+      "text": "Lady Constance zieht sich mit Migräne in ihr Zimmer zurück. Tilly bleibt im oberen Flur und hält Wache.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_marsh_tee",
+      "zeit": "22:35",
+      "ort": "am_treppenaufgang",
+      "wer": [
+        "aerztin",
+        "witwe"
+      ],
+      "text": "Doktor Marsh bringt Lady Constance einen Kräutertee. Danach geht sie in die Bibliothek und schreibt ihren Bericht.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_brief_abend",
+      "zeit": "22:45",
+      "ort": "am_treppenaufgang",
+      "wer": [
+        "zofe",
+        "witwe"
+      ],
+      "text": "Der Abendbote bringt einen Brief aus London für Lady Constance. Tilly bringt ihn nach oben.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_donner",
+      "zeit": "23:10",
+      "ort": "an_der_standuhr",
+      "wer": [
+        "alle"
+      ],
+      "text": "Ein Donnerschlag erschüttert das Haus. Alle Gaslampen erlöschen, und die Standuhr in der Halle bleibt stehen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_gaslampen",
+      "zeit": "23:20",
+      "ort": "am_treppenaufgang",
+      "wer": [
+        "butler"
+      ],
+      "text": "Pell zündet die Gaslampen im Haus wieder an.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_fund",
+      "zeit": "23:40",
+      "ort": "bei_edmund",
+      "wer": [
+        "butler",
+        "edmund"
+      ],
+      "text": "Pell findet Lord Edmund tot vor dem Kamin des Arbeitszimmers und ruft durch das Haus.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_vorschuss",
+      "zeit": "23:50",
+      "ort": "vor_dem_portal",
+      "wer": [
+        "neffe",
+        "anwalt"
+      ],
+      "text": "Julian bittet Mr Crane um einen Vorschuss auf sein Erbe und lässt ihn dabei einen Pfandschein sehen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_brief_verbrannt",
+      "zeit": "00:10",
+      "ort": "am_salonkamin",
+      "wer": [
+        "witwe",
+        "koechin"
+      ],
+      "text": "Lady Constance verbrennt im Salonkamin einen Brief aus London. Mrs Hobbs sieht es durch die offene Tür.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_auftrag",
+      "zeit": "00:30",
+      "ort": "treffpunkt_salon",
+      "wer": [
+        "detective",
+        "butler"
+      ],
+      "text": "Pell bittet den Inspektor, den Fall bis zum Morgen zu klären.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_tat_witwe",
+      "zeit": "23:05",
+      "ort": "bei_edmund",
+      "wer": [
+        "witwe",
+        "edmund"
+      ],
+      "text": "Lady Constance bringt Lord Edmund eine Tasse Kräutertee ins Arbeitszimmer. Beim Donnerschlag sinkt er im Sessel zusammen.",
+      "pfade": [
+        "witwe"
+      ]
+    },
+    {
+      "id": "z_ring_witwe",
+      "zeit": "23:20",
+      "ort": "an_der_standuhr",
+      "wer": [
+        "witwe"
+      ],
+      "text": "Lady Constance legt den Siegelring hinter das Pendel der Standuhr und kehrt über die Hintertreppe in ihr Zimmer zurück.",
+      "pfade": [
+        "witwe"
+      ]
+    },
+    {
+      "id": "z_tat_butler",
+      "zeit": "23:10",
+      "ort": "bei_edmund",
+      "wer": [
+        "butler",
+        "edmund"
+      ],
+      "text": "Pell steht beim Donnerschlag im Arbeitszimmer. Danach liegt Lord Edmund still vor dem Kamin.",
+      "pfade": [
+        "butler"
+      ]
+    },
+    {
+      "id": "z_ring_butler",
+      "zeit": "23:25",
+      "ort": "am_geschirrschrank",
+      "wer": [
+        "butler"
+      ],
+      "text": "Pell verbirgt den Siegelring im Silberkasten des Geschirrschranks im Speisesaal.",
+      "pfade": [
+        "butler"
+      ]
+    },
+    {
+      "id": "z_tat_aerztin",
+      "zeit": "23:10",
+      "ort": "bei_edmund",
+      "wer": [
+        "aerztin",
+        "edmund"
+      ],
+      "text": "Doktor Marsh steht beim Donnerschlag im Arbeitszimmer. Danach liegt Lord Edmund still vor dem Kamin.",
+      "pfade": [
+        "aerztin"
+      ]
+    },
+    {
+      "id": "z_ring_aerztin",
+      "zeit": "23:30",
+      "ort": "an_der_geraetekiste",
+      "wer": [
+        "aerztin"
+      ],
+      "text": "Doktor Marsh verbirgt den Siegelring unter den Säcken in der Gerätekiste im Garten.",
+      "pfade": [
+        "aerztin"
+      ]
+    },
+    {
+      "id": "z_tat_neffe",
+      "zeit": "23:10",
+      "ort": "bei_edmund",
+      "wer": [
+        "neffe",
+        "edmund"
+      ],
+      "text": "Julian steht beim Donnerschlag im Arbeitszimmer. Danach liegt Lord Edmund still vor dem Kamin.",
+      "pfade": [
+        "neffe"
+      ]
+    },
+    {
+      "id": "z_ring_neffe",
+      "zeit": "23:25",
+      "ort": "an_der_hecke",
+      "wer": [
+        "neffe"
+      ],
+      "text": "Julian steckt den Siegelring tief in die Buchsbaumhecke im Garten.",
+      "pfade": [
+        "neffe"
+      ]
+    }
+  ]
+}

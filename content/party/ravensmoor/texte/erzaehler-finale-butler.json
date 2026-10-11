@@ -1,0 +1,27 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad butler: finale.butler.<ende> (4) und rueckblende.butler.",
+  "eintraege": [
+    {
+      "id": "finale.butler.ende_meister",
+      "text": "Du zeigst auf Pell, und die Anklage stimmt. Pell legt seine weißen Handschuhe gefaltet auf den Tisch und gesteht. Lord Edmund hat ihn dreißig Jahre lang verleugnet, und in dieser Nacht las er es schwarz auf weiß. Zusammen seht ihr euch seine Handschuhe an. An den Fingerspitzen haftet Bienenwachs aus der Silberpolitur. Pell führt euch in den Speisesaal und holt den Siegelring aus dem Silberkasten des Geschirrschranks. Als der Morgen graut, sinkt das Wasser, und die Brücke wird frei. Dreißig Jahre Dienst enden in einer Nacht."
+    },
+    {
+      "id": "finale.butler.ende_teilerfolg",
+      "text": "Du klagst Pell an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Pell gesteht ruhig und holt den Siegelring aus dem Silberkasten im Speisesaal. Im Haus bleibt ein Schweigen, das niemand brechen will. Als das Wasser sinkt, geht er mit euch zur Kutsche, die weißen Handschuhe gefaltet in der Hand."
+    },
+    {
+      "id": "finale.butler.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Der Siegelring bleibt verschwunden. Am Morgen sinkt das Wasser, und die Kutsche fährt vor. Ein Unschuldiger wird im Regen zur Kutsche geführt. Hinter einem Fenster von Ravensmoor lächelt jemand. Pell kündigt mit einem Brief von drei Zeilen. Wochen später serviert er in einem Londoner Hotel, mit Edmunds Augen."
+    },
+    {
+      "id": "finale.butler.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander, und die Stimmen werden immer lauter. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Runde zerfällt in kleine Gruppen, und keiner glaubt mehr dem anderen. Der Siegelring bleibt verschwunden. Die Akte wird geschlossen, und das Moor verschluckt die Wahrheit wie alles andere. Pell kündigt mit einem Brief von drei Zeilen. Wochen später serviert er in einem Londoner Hotel, mit Edmunds Augen."
+    },
+    {
+      "id": "rueckblende.butler",
+      "text": "Während des Dinners öffnet Pell Lord Edmunds Sekretär und liest seine Briefe. Einer davon trifft ihn tief. Nach dem Dinner löscht er in der Küche das Licht und geht zum Arbeitszimmer. Beim Donnerschlag um zehn nach elf greift er nach dem silbernen Brieföffner. Als der Donner verhallt, liegt Lord Edmund still vor dem Kamin. Pell nimmt den Siegelring und wischt den Brieföffner ab. Beides verbirgt er im Silberkasten des Geschirrschranks im Speisesaal. Dann legt er die Briefe zurück. Seine Fingerspitzen sind blau von Tinte, und Bienenwachs klebt an den Handschuhen. Um zwanzig vor zwölf findet er Lord Edmund und ruft durchs Haus."
+    }
+  ]
+}

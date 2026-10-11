@@ -1,0 +1,575 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Beobachtungen der Zeugen. Kanal: pflichtgespraech = darf am Tisch erzählt werden (nur pfadneutral, Regel P-1); verborgen = steht im Dossier unter „Was ich verberge“ und erreicht den Inspektor nur über eine Entscheidung oder den Bonus-Hinweis; erzaehler = kommt über den Erzähler. Ein Trenner unterscheidet den Pfad einer Kernperson; jeder hat genau einen Zeugen.",
+  "beobachtungen": [
+    {
+      "id": "b_zofe_flur",
+      "wer": "zofe",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Beim Donnerschlag saß sie im oberen Flur und hatte die Tür von Lady Constances Zimmer im Blick.",
+      "duText": "Beim Donnerschlag saßt du im oberen Flur und hattest die Tür von Lady Constances Zimmer im Blick.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_migraene"
+        ]
+      }
+    },
+    {
+      "id": "b_zofe_schluessel",
+      "wer": "zofe",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Am Abend trug Pell den Schlüsselring mit den Zweitschlüsseln für alle Schränke im Haus.",
+      "duText": "Am Abend trug Pell den Schlüsselring mit den Zweitschlüsseln für alle Schränke im Haus.",
+      "beleg": {
+        "zeitleiste": [
+          "z_sekretaer"
+        ]
+      },
+      "belastet": [
+        "butler"
+      ]
+    },
+    {
+      "id": "b_zofe_hintertreppe",
+      "wer": "zofe",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Die Hintertreppe führt vom Ankleidezimmer der Lady direkt in die Halle, gleich neben die Standuhr.",
+      "duText": "Die Hintertreppe führt vom Ankleidezimmer der Lady direkt in die Halle, gleich neben die Standuhr.",
+      "beleg": {
+        "wissen": "Wissen der Zofe über die Wege im Haus."
+      }
+    },
+    {
+      "id": "b_gaertner_fenster",
+      "wer": "gaertner",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Von seinem Häuschen aus sieht er aufs Küchenfenster. Beim Donnerschlag hat er hinübergeschaut.",
+      "duText": "Von deinem Häuschen aus siehst du aufs Küchenfenster. Beim Donnerschlag hast du hinübergeschaut.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner"
+        ]
+      }
+    },
+    {
+      "id": "b_gaertner_kiste",
+      "wer": "gaertner",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Der Riegel der Gerätekiste im Garten klemmt seit Jahren, und sie lässt sich nicht richtig schließen.",
+      "duText": "Der Riegel der Gerätekiste im Garten klemmt seit Jahren, und sie lässt sich nicht richtig schließen.",
+      "beleg": {
+        "wissen": "Wissen des Gärtners über seine Geräte."
+      }
+    },
+    {
+      "id": "b_gaertner_hecke",
+      "wer": "gaertner",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Die Buchsbaumhecke hat er erst gestern geschnitten. Ihre dichten Zweige verschlucken fast alles, was man hineinsteckt.",
+      "duText": "Die Buchsbaumhecke hast du erst gestern geschnitten. Ihre dichten Zweige verschlucken fast alles, was man hineinsteckt.",
+      "beleg": {
+        "wissen": "Wissen des Gärtners über seine Hecke."
+      }
+    },
+    {
+      "id": "b_anwalt_bibliothek",
+      "wer": "anwalt",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Er wartete beim Donnerschlag in der Bibliothek auf Lord Edmund. Um Mitternacht sollte er das neue Testament beurkunden.",
+      "duText": "Du wartetest beim Donnerschlag in der Bibliothek auf Lord Edmund. Um Mitternacht solltest du das neue Testament beurkunden.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_dinner"
+        ]
+      }
+    },
+    {
+      "id": "b_anwalt_testament",
+      "wer": "anwalt",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Lord Edmund wollte in dieser Nacht sein Testament ändern. Der Entwurf war fertig; es fehlte nur noch das Siegel.",
+      "duText": "Lord Edmund wollte in dieser Nacht sein Testament ändern. Der Entwurf war fertig; es fehlte nur noch das Siegel.",
+      "beleg": {
+        "zeitleiste": [
+          "z_dinner"
+        ]
+      }
+    },
+    {
+      "id": "b_koechin_tee",
+      "wer": "koechin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um zehn Uhr trug Pell das Teetablett ins Arbeitszimmer.",
+      "duText": "Um zehn Uhr trug Pell das Teetablett ins Arbeitszimmer.",
+      "beleg": {
+        "zeitleiste": [
+          "z_tee"
+        ]
+      }
+    },
+    {
+      "id": "b_koechin_uhr",
+      "wer": "koechin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Julian trug beim Dinner keine Taschenuhr, obwohl er sonst immer eine bei sich hat.",
+      "duText": "Julian trug beim Dinner keine Taschenuhr, obwohl er sonst immer eine bei sich hat.",
+      "beleg": {
+        "zeitleiste": [
+          "z_dinner",
+          "z_pfand"
+        ]
+      },
+      "belastet": [
+        "neffe"
+      ]
+    },
+    {
+      "id": "b_aerztin_tee",
+      "wer": "aerztin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Gegen halb elf brachte sie Lady Constance einen Kräutertee. Danach schrieb sie in der Bibliothek ihren Bericht.",
+      "duText": "Gegen halb elf brachtest du Lady Constance einen Kräutertee. Danach schriebst du in der Bibliothek deinen Bericht.",
+      "beleg": {
+        "zeitleiste": [
+          "z_marsh_tee"
+        ]
+      }
+    },
+    {
+      "id": "b_aerztin_herz",
+      "wer": "aerztin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Lord Edmund hatte ein schwaches Herz.",
+      "duText": "Lord Edmund hatte ein schwaches Herz.",
+      "beleg": {
+        "wissen": "Wissen der Hausärztin über ihren Patienten."
+      }
+    },
+    {
+      "id": "b_witwe_dinner",
+      "wer": "witwe",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Beim Dinner war Julian nervös wie ein Rennpferd. Doktor Marsh beobachtete Lord Edmund den ganzen Abend.",
+      "duText": "Beim Dinner war Julian nervös wie ein Rennpferd. Doktor Marsh beobachtete Lord Edmund den ganzen Abend.",
+      "beleg": {
+        "zeitleiste": [
+          "z_dinner",
+          "z_streit"
+        ]
+      }
+    },
+    {
+      "id": "b_neffe_geld",
+      "wer": "neffe",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Lord Edmund hat ihm beim Dinner den Zuschuss gestrichen.",
+      "duText": "Lord Edmund hat dir beim Dinner den Zuschuss gestrichen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_streit"
+        ]
+      },
+      "belastet": [
+        "neffe"
+      ]
+    },
+    {
+      "id": "b_butler_silber",
+      "wer": "butler",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Nach dem Dinner löschte Pell die Kerzen im Speisesaal. Die Silberleuchter ließ er auf der Tafel zum Polieren stehen.",
+      "duText": "Nach dem Dinner löschst du die Kerzen im Speisesaal. Die Silberleuchter lässt du auf der Tafel zum Polieren stehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_tee"
+        ]
+      }
+    },
+    {
+      "id": "b_inspektor_donner",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Du lagst im Gästezimmer, als es um zehn nach elf donnerte. Alle Gaslampen gingen aus, und die Standuhr in der Halle blieb stehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner"
+        ]
+      }
+    },
+    {
+      "id": "b_edmund_fund",
+      "wer": "edmund",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Lord Edmund wurde um 23:40 tot vor dem Kamin seines Arbeitszimmers gefunden, die Brille noch auf der Nase.",
+      "beleg": {
+        "zeitleiste": [
+          "z_fund"
+        ]
+      }
+    },
+    {
+      "id": "b_zofe_lady_bett",
+      "wer": "zofe",
+      "pfade": [
+        "butler",
+        "aerztin"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag lag Lady Constance in ihrem dunklen Zimmer im Bett. Die Zofe saß davor und hörte sie atmen.",
+      "duText": "Beim Donnerschlag lag Lady Constance in ihrem dunklen Zimmer im Bett. Du saßt davor und hörtest sie atmen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_migraene"
+        ]
+      },
+      "entlastet": [
+        "witwe"
+      ],
+      "trenner": "witwe",
+      "grundVerborgen": "Sie will die Lady nicht in Verruf bringen, solange niemand fragt."
+    },
+    {
+      "id": "b_zofe_lady_leer",
+      "wer": "zofe",
+      "pfade": [
+        "witwe",
+        "neffe"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag war Lady Constances Zimmer leer. Sie kam erst eine Viertelstunde später über die Hintertreppe zurück.",
+      "duText": "Beim Donnerschlag war Lady Constances Zimmer leer. Sie kam erst eine Viertelstunde später über die Hintertreppe zurück.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_migraene"
+        ]
+      },
+      "belastet": [
+        "witwe"
+      ],
+      "trenner": "witwe",
+      "grundVerborgen": "Sie dient der Lady seit deren Hochzeit und möchte ihr nicht schaden."
+    },
+    {
+      "id": "b_gaertner_pell_kueche",
+      "wer": "gaertner",
+      "pfade": [
+        "witwe",
+        "aerztin",
+        "neffe"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag sah er Pell in der hellen Küche über das Silber gebeugt.",
+      "duText": "Beim Donnerschlag sahst du Pell in der hellen Küche über das Silber gebeugt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner"
+        ]
+      },
+      "entlastet": [
+        "butler"
+      ],
+      "trenner": "butler",
+      "grundVerborgen": "Er redet nicht gern, und Pell ist sein alter Freund."
+    },
+    {
+      "id": "b_gaertner_pell_dunkel",
+      "wer": "gaertner",
+      "pfade": [
+        "butler"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag war die Küche dunkel. Pell war nicht beim Silber.",
+      "duText": "Beim Donnerschlag war die Küche dunkel. Pell war nicht beim Silber.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner"
+        ]
+      },
+      "belastet": [
+        "butler"
+      ],
+      "trenner": "butler",
+      "grundVerborgen": "Pell ist sein alter Freund, und er will ihn nicht ohne Not belasten."
+    },
+    {
+      "id": "b_anwalt_marsh_pult",
+      "wer": "anwalt",
+      "pfade": [
+        "witwe",
+        "butler",
+        "neffe"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag saß Doktor Marsh in der Bibliothek am Pult. Die Feder kratzte über das Papier.",
+      "duText": "Beim Donnerschlag saß Doktor Marsh in der Bibliothek am Pult. Die Feder kratzte über das Papier.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_marsh_tee"
+        ]
+      },
+      "entlastet": [
+        "aerztin"
+      ],
+      "trenner": "aerztin",
+      "grundVerborgen": "Er fürchtet, dass der Streit um das Testament seine Pflicht als Anwalt verletzt."
+    },
+    {
+      "id": "b_anwalt_marsh_leer",
+      "wer": "anwalt",
+      "pfade": [
+        "aerztin"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag war die Bibliothek still. Doktor Marsh kam erst danach durch die Tür.",
+      "duText": "Beim Donnerschlag war die Bibliothek still. Doktor Marsh kam erst danach durch die Tür.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_marsh_tee"
+        ]
+      },
+      "belastet": [
+        "aerztin"
+      ],
+      "trenner": "aerztin",
+      "grundVerborgen": "Er will Doktor Marsh nicht ohne Not belasten."
+    },
+    {
+      "id": "b_koechin_streit",
+      "wer": "koechin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Beim Dinner stritten Julian und Lord Edmund heftig über Geld.",
+      "duText": "Beim Dinner stritten Julian und Lord Edmund heftig über Geld.",
+      "beleg": {
+        "zeitleiste": [
+          "z_streit"
+        ]
+      },
+      "belastet": [
+        "neffe"
+      ],
+      "widerlegt": [
+        "luege_koechin_streit"
+      ],
+      "grundVerborgen": "Sie klatscht nicht über die Familie, und Julian liegt ihr am Herzen."
+    },
+    {
+      "id": "b_aerztin_testament",
+      "wer": "aerztin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Lord Edmunds altes Testament bedachte das Armenhospital von Doktor Marsh. Das neue Testament sollte es streichen.",
+      "duText": "Lord Edmunds altes Testament bedachte dein Armenhospital. Das neue Testament sollte es streichen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_dinner"
+        ]
+      },
+      "belastet": [
+        "aerztin"
+      ],
+      "grundVerborgen": "Das Geld für das Hospital ist ihr wichtiger als ihr Ruf, doch sie will nicht verdächtig wirken."
+    },
+    {
+      "id": "b_neffe_schulden",
+      "wer": "neffe",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Julian hat hohe Schulden und hoffte auf Lord Edmunds Geld.",
+      "duText": "Du hast hohe Schulden und hofftest auf Lord Edmunds Geld.",
+      "beleg": {
+        "zeitleiste": [
+          "z_streit",
+          "z_pfand"
+        ]
+      },
+      "belastet": [
+        "neffe"
+      ],
+      "widerlegt": [
+        "luege_neffe_schulden"
+      ],
+      "grundVerborgen": "Schulden sind ihm peinlich."
+    },
+    {
+      "id": "b_anwalt_pfand",
+      "wer": "anwalt",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Um 23:50 bat Julian ihn um einen Vorschuss auf sein Erbe und ließ dabei einen Pfandschein für Lord Edmunds goldene Taschenuhr sehen.",
+      "duText": "Um 23:50 bat Julian dich um einen Vorschuss auf sein Erbe und ließ dabei einen Pfandschein für Lord Edmunds goldene Taschenuhr sehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_vorschuss",
+          "z_pfand"
+        ]
+      },
+      "belastet": [
+        "neffe"
+      ],
+      "widerlegt": [
+        "luege_neffe_uhr",
+        "luege_anwalt_mandant"
+      ],
+      "grundVerborgen": "Das Mandantengeheimnis hindert ihn am Reden, solange niemand gezielt fragt."
+    },
+    {
+      "id": "b_koechin_brief",
+      "wer": "koechin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Um 00:10 sah sie Lady Constance im Salonkamin einen Brief verbrennen. Auf dem Umschlag stand ein Londoner Poststempel.",
+      "duText": "Um 00:10 sahst du Lady Constance im Salonkamin einen Brief verbrennen. Auf dem Umschlag stand ein Londoner Poststempel.",
+      "beleg": {
+        "zeitleiste": [
+          "z_brief_verbrannt"
+        ]
+      },
+      "belastet": [
+        "witwe"
+      ],
+      "widerlegt": [
+        "luege_witwe_post"
+      ],
+      "grundVerborgen": "Sie mag die Lady und will ihr nicht schaden."
+    },
+    {
+      "id": "b_koechin_julian_da",
+      "wer": "koechin",
+      "pfade": [
+        "witwe",
+        "butler",
+        "aerztin"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag hörte sie aus dem Salon das Klappern von Julians Karten und sein Murmeln.",
+      "duText": "Beim Donnerschlag hörtest du aus dem Salon das Klappern von Julians Karten und sein Murmeln.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner"
+        ]
+      },
+      "entlastet": [
+        "neffe"
+      ],
+      "trenner": "neffe",
+      "grundVerborgen": "Julian liegt ihr am Herzen, und sie will nicht unnötig reden."
+    },
+    {
+      "id": "b_koechin_julian_weg",
+      "wer": "koechin",
+      "pfade": [
+        "neffe"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag blieb es im Salon still. Julian kam erst Minuten später mit nassen Schuhen herein.",
+      "duText": "Beim Donnerschlag blieb es im Salon still. Julian kam erst Minuten später mit nassen Schuhen herein.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner"
+        ]
+      },
+      "belastet": [
+        "neffe"
+      ],
+      "trenner": "neffe",
+      "grundVerborgen": "Sie will Julian nicht ohne Not belasten."
+    },
+    {
+      "id": "b_witwe_bett",
+      "wer": "witwe",
+      "pfade": [
+        "butler",
+        "aerztin"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag liegt sie in ihrem Zimmer im Bett. Tilly sitzt vor der Tür.",
+      "duText": "Beim Donnerschlag liegst du in deinem Zimmer im Bett. Tilly sitzt vor der Tür.",
+      "beleg": {
+        "zeitleiste": [
+          "z_donner",
+          "z_migraene"
+        ]
+      },
+      "grundVerborgen": "Sonst müsste sie erklären, warum sie später den Brief aus London verbrennt."
+    },
+    {
+      "id": "b_witwe_salon",
+      "wer": "witwe",
+      "pfade": [
+        "neffe"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Donnerschlag sitzt sie allein im Salon und liest den Brief aus London bei Kerzenlicht. Die Hintertreppe hat sie unbemerkt genommen.",
+      "duText": "Beim Donnerschlag sitzt du allein im Salon und liest den Brief aus London bei Kerzenlicht. Die Hintertreppe hast du unbemerkt genommen.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "witwe",
+          "ort": "bei_witwe",
+          "von": "23:05:00",
+          "bis": "23:25:00"
+        }
+      },
+      "entlastet": [
+        "witwe"
+      ],
+      "eigenwissen": true,
+      "grundVerborgen": "Sonst müsste sie erklären, was in dem Brief aus London steht."
+    }
+  ]
+}

@@ -1,0 +1,489 @@
+{
+  "hinweis": "Autoren-Overlay: alles, was nicht aus dem Szenario content/scenarios/ravensmoor.json kommt. Der Konverter akte_klassik_ravensmoor.dart verbindet beides zu figuren.json.",
+  "lookHinweis": "Haut- und Haarfarben stammen aus dem Szenario oder sind für die neuen Rollen frei gewählt. kopf cloche und top kennt der Renderer. statur und schnitt wie im Renderer.",
+  "positionNeu": {
+    "koechin": {
+      "x": 21,
+      "y": 5
+    },
+    "zofe": {
+      "x": 12,
+      "y": 12
+    },
+    "anwalt": {
+      "x": 6,
+      "y": 2
+    }
+  },
+  "detektiv": {
+    "id": "detective",
+    "title": "Der Inspektor / Die Inspektorin",
+    "selectableGenders": [
+      "m",
+      "w"
+    ],
+    "colorCode": "#B8A48A",
+    "farbname": "Sandbeige",
+    "visualSpecs": {
+      "silhouette": "Mittelgroß, aufmerksame Haltung, Kopf leicht schief beim Zuhören",
+      "baseOutfit": "Langer sandbeiger Reisemantel über dunklem Anzug, feste Stiefel",
+      "accessories": [
+        "Schmale Brille",
+        "Braun karierte Schirmmütze",
+        "Ein ledernes Notizbuch"
+      ],
+      "interactiveTool": "Taschenlaterne mit schmalem Lichtkegel",
+      "idleAnimation": "Blättert im Notizbuch und lauscht dem Regen"
+    },
+    "tatnacht": "Du lagst im Gästezimmer, als es um zehn nach elf donnerte. Die Gaslampen gingen aus. Kurz vor Mitternacht rief Pell durchs Haus: Lord Edmund ist tot.",
+    "auftrag": "Um halb eins bittet dich Pell: „Finden Sie heraus, wer das war. Bis das Wasser sinkt.“",
+    "nieVerdaechtig": true,
+    "look": {
+      "haut": "#d9a983",
+      "haar": "#4a3222",
+      "kopf": "detektivhut",
+      "statur": "normal",
+      "schnitt": "suit"
+    }
+  },
+  "opfer": {
+    "id": "edmund",
+    "age": 61,
+    "geschlecht": "m",
+    "roleTitle": "Herr des Hauses",
+    "isNpc": true,
+    "colorCode": "#3a1f24",
+    "farbname": "Schwarzpurpur",
+    "status": "Tot. Er wurde um 23:40 vor dem Kamin seines Arbeitszimmers gefunden, die Brille noch auf der Nase.",
+    "visualSpecs": {
+      "silhouette": "Breiter Körperbau, silbergraues Haar, strenger Blick",
+      "outfit": "Dunkelpurpurner Hausrock über weißem Hemd",
+      "distinguishingFeature": "Trägt am rechten Ringfinger einen schweren Siegelring",
+      "idleAnimation": "Liegt still vor dem Kamin"
+    },
+    "motiveAndConflict": "Er wollte noch in dieser Nacht sein Testament ändern und hatte ein Geheimnis dafür aufgedeckt. Der neue Wille sollte um Mitternacht gesiegelt werden.",
+    "warmeSeite": "Er liebte den Rosengarten seiner ersten Frau mehr, als er je zugab.",
+    "erinnerung": "Keine. Edmund kann nichts mehr erzählen.",
+    "schluesselbund": "siegelring_edmund",
+    "gedaechtnisLueckeAb": "23:10:00",
+    "look": {
+      "haut": "#e0bfa4",
+      "haar": "#b8b8b8",
+      "kopf": "none",
+      "statur": "broad",
+      "schnitt": "suit"
+    },
+    "schluesselbundMaterial": "Schwerer Goldring mit dem Wappen von Ravensmoor, in Siegellack gedrückt."
+  },
+  "figuren": [
+    {
+      "id": "witwe",
+      "name": "Lady Constance",
+      "aussprache": "Lady Konstens",
+      "age": 29,
+      "geschlecht": "w",
+      "herkunft": "englisch",
+      "tier": 1,
+      "besetzungsplatz": 1,
+      "isPotentialKiller": true,
+      "farbname": "Dunkelaubergine",
+      "visualSpecs": {
+        "silhouette": "Schlank, aufrechte Haltung, blasses Gesicht, blonde Locken unter einem kleinen Hut",
+        "outfit": "Dunkles Abendkleid aus Samt, schmale Seidenschuhe, ein Hauch Veilchenparfüm",
+        "distinguishingFeature": "Schmale Hände, die sie beim Reden elegant bewegt; sie führt die Feder mit links",
+        "idleAnimation": "Streicht über den Samt ihres Kleides und lauscht dem Regen"
+      },
+      "motiveAndConflict": "Edmunds zweite Frau. Er wollte noch in dieser Nacht sein Testament ändern, und sie hätte fast nichts geerbt. Dazu kennt sie ein Geheimnis aus London, das nie ans Licht soll.",
+      "blackoutAlibi": "Behauptet, ab halb elf mit Migräne im dunklen Zimmer im Bett gelegen zu haben.",
+      "roleSecret": "Sie sang in London unter dem Namen Constance Duval. Am Abend kam ein Brief von dort, den sie nach Mitternacht im Salonkamin verbrennt.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass sie in London unter anderem Namen gesungen hat.",
+      "nebendelikt": {
+        "id": "nd_brief",
+        "text": "Hat nach Mitternacht einen Brief aus London im Salonkamin verbrannt."
+      },
+      "loyalitaet": {
+        "zu": "zofe",
+        "grund": "Tilly kennt ihr Geheimnis und hält zu ihr."
+      },
+      "luegen": [
+        {
+          "id": "luege_witwe_post",
+          "behauptung": "Ich bekomme keine Post aus London. Dort kennt mich niemand mehr.",
+          "wahrheit": "Am Abend kam ein Brief aus London, den sie später verbrennt.",
+          "duWahrheit": "Am Abend kam ein Brief aus London, den du später verbrennst."
+        },
+        {
+          "id": "luege_witwe_name",
+          "behauptung": "Ich habe nie unter einem anderen Namen gesungen.",
+          "wahrheit": "Sie sang in London unter dem Namen Constance Duval.",
+          "duWahrheit": "Du sangst in London unter dem Namen Constance Duval."
+        }
+      ],
+      "killerProfile": {
+        "crimeExecution": "Beim Dinner hört sie, dass Edmund sein Testament in dieser Nacht ändern will. Um halb elf zieht sie sich mit Migräne zurück. Doktor Marsh bringt ihr einen Kräutertee, in den sie im Ankleidezimmer Tropfen mischt. Über die Hintertreppe trägt sie die Tasse als Friedensangebot zu Edmund ins Arbeitszimmer. Beim Donnerschlag um zehn nach elf sinkt er im Sessel zusammen. Sie drückt ihm ihr Taschentuch in die Hand, zieht den Siegelring von seinem Finger und versteckt ihn im Gehäuse der Standuhr in der Halle. Um Mitternacht verbrennt sie den Brief aus London; ihre Finger sind noch blau von Tinte.",
+        "smokingGun": "Unter dem Teeduft am Taschentuch in Edmunds Hand liegt ihr Veilchenparfüm.",
+        "zusatzindiz": "Ein frischer Tintenfleck am verkohlten Rand des Briefs aus London."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Zieht sich um halb elf mit Migräne zurück und liegt im Bett (Pfade Pell und Doktor Marsh) oder sitzt allein im Salon und liest bei Kerzenlicht den Brief aus London (Pfad Julian). Um Mitternacht verbrennt sie den Brief."
+      },
+      "look": {
+        "haut": "#f0d2bd",
+        "haar": "#e3c06a",
+        "kopf": "cloche",
+        "statur": "slim",
+        "schnitt": "dress"
+      },
+      "alltag": "Ist früher Sängerin gewesen und führt jetzt als Lady das Haus."
+    },
+    {
+      "id": "neffe",
+      "name": "Julian",
+      "aussprache": "Julian",
+      "age": 27,
+      "geschlecht": "m",
+      "herkunft": "englisch",
+      "tier": 1,
+      "besetzungsplatz": 2,
+      "isPotentialKiller": true,
+      "farbname": "Granatrot",
+      "visualSpecs": {
+        "silhouette": "Schlank, flotte Haltung, gepflegter Schnurrbart, Zylinder",
+        "outfit": "Granatroter Gehrock, helle Weste, glänzende Lackschuhe, eine Fliege",
+        "distinguishingFeature": "Greift ständig an die Westentasche, in der früher eine Uhr steckte",
+        "idleAnimation": "Wippt auf den Zehen und mischt ein Kartenspiel"
+      },
+      "motiveAndConflict": "Edmunds Neffe und bisher Haupterbe. Er ist hoch verschuldet und fürchtet, dass Edmund ihn in dieser Nacht enterbt.",
+      "blackoutAlibi": "Behauptet, den ganzen Abend im Salon Patience gelegt zu haben.",
+      "roleSecret": "Er hat Lord Edmunds goldene Taschenuhr versetzt. Gegen Mitternacht zeigt er dem Anwalt den Pfandschein und bittet um einen Vorschuss.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass er die Taschenuhr seines Onkels versetzt hat.",
+      "nebendelikt": {
+        "id": "nd_pfand",
+        "text": "Hat Lord Edmunds goldene Taschenuhr versetzt."
+      },
+      "loyalitaet": {
+        "zu": "koechin",
+        "grund": "Mrs Hobbs hat ihn als Kind verwöhnt, und er hält zu ihr."
+      },
+      "luegen": [
+        {
+          "id": "luege_neffe_uhr",
+          "behauptung": "Die Taschenuhr? Die hab ich nur zum Uhrmacher gebracht.",
+          "wahrheit": "Die goldene Taschenuhr liegt beim Pfandleiher.",
+          "duWahrheit": "Die goldene Taschenuhr liegt beim Pfandleiher."
+        },
+        {
+          "id": "luege_neffe_schulden",
+          "behauptung": "Meine Schulden sind längst bezahlt.",
+          "wahrheit": "Er schuldet dem Pfandleiher und seinem Schneider viel Geld.",
+          "duWahrheit": "Du schuldest dem Pfandleiher und deinem Schneider viel Geld."
+        }
+      ],
+      "killerProfile": {
+        "crimeExecution": "Beim Dinner streicht Edmund ihm den Zuschuss. Julian spielt den Abend lang Patience im Salon, bis kurz nach elf. Als die Gaslampen flackern, nimmt er einen schweren Silberleuchter aus dem Speisesaal und geht damit zu Edmund ins Arbeitszimmer, um ihn umzustimmen. Beim Donnerschlag um zehn nach elf eskaliert der Streit; Edmund stürzt vor dem Kamin. Julian erschrickt, nimmt den Siegelring und läuft durch den Garten zurück, um ihn in der Buchsbaumhecke zu verstecken. Tinte klebt noch an seinen Fingern, als er den Pfandschein später berührt.",
+        "smokingGun": "Unter dem Teeduft am Taschentuch in Edmunds Hand liegt der scharfe Geruch von Pferdesalbe.",
+        "zusatzindiz": "Frische Tintenfinger auf dem Pfandschein in seiner Westentasche."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Sitzt am Kartentisch im Salon und legt Patience, bis Pell durchs Haus ruft. Seine Taschenuhr hat er schon am Nachmittag versetzt."
+      },
+      "look": {
+        "haut": "#e6bfa3",
+        "haar": "#2e1d12",
+        "kopf": "top",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "alltag": "Besucht Pferderennen und lebt vom Zuschuss seines Onkels."
+    },
+    {
+      "id": "butler",
+      "name": "Pell",
+      "aussprache": "Pell",
+      "age": 44,
+      "geschlecht": "m",
+      "herkunft": "irisch",
+      "tier": 1,
+      "besetzungsplatz": 3,
+      "isPotentialKiller": true,
+      "farbname": "Nachtschwarz",
+      "visualSpecs": {
+        "silhouette": "Groß, schmal, steife Haltung, graue Schläfen",
+        "outfit": "Schwarzer Frack, weiße Handschuhe, glänzende Lackschuhe, das Haar mit Wachs gescheitelt",
+        "distinguishingFeature": "Trägt ein silbernes Medaillon, das er nie öffnet; arbeitet mit der linken Hand",
+        "idleAnimation": "Glättet seine Handschuhe und prüft die Kerzen"
+      },
+      "motiveAndConflict": "Seit dreißig Jahren im Dienst der Familie, der ihm eine alte Rechnung schuldet. Er ahnt, wer sein Vater ist, und fürchtet, dass Edmund es ihm nie sagt.",
+      "blackoutAlibi": "Behauptet, nach dem Dinner in der Küche das Silber poliert zu haben.",
+      "roleSecret": "Während des Dinners öffnet er Lord Edmunds Sekretär mit dem Zweitschlüssel und liest dessen Briefe. Er sucht den Beweis, wer sein Vater ist.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass er in Edmunds Briefen gelesen hat.",
+      "nebendelikt": {
+        "id": "nd_sekretaer",
+        "text": "Hat mit dem Zweitschlüssel Lord Edmunds Sekretär geöffnet und dessen Briefe gelesen."
+      },
+      "loyalitaet": {
+        "zu": "gaertner",
+        "grund": "Silas und er kennen sich seit dreißig Jahren und halten zusammen."
+      },
+      "luegen": [
+        {
+          "id": "luege_butler_sekretaer",
+          "behauptung": "Lord Edmunds Sekretär habe ich nie angerührt. Er war immer abgeschlossen.",
+          "wahrheit": "Er öffnete ihn während des Dinners mit dem Zweitschlüssel und las die Briefe.",
+          "duWahrheit": "Du öffnetest ihn während des Dinners mit dem Zweitschlüssel und lasest die Briefe."
+        },
+        {
+          "id": "luege_butler_medaillon",
+          "behauptung": "Das Medaillon ist nur ein Andenken an meine Mutter.",
+          "wahrheit": "Im Medaillon steckt auch ein winziges Bild des jungen Lord Edmund.",
+          "duWahrheit": "In deinem Medaillon steckt auch ein winziges Bild des jungen Lord Edmund."
+        }
+      ],
+      "killerProfile": {
+        "crimeExecution": "Pell liest im Sekretär einen Brief, der ihm zeigt, dass Edmund ihn zeitlebens verleugnet hat. Er kehrt nicht in die Küche zurück, sondern geht zum Arbeitszimmer. Beim Donnerschlag um zehn nach elf nimmt er Edmunds silbernen Brieföffner vom Schreibtisch. Edmund stürzt vor dem Kamin. Pell zieht ihm den Siegelring vom Finger, wischt den Brieföffner ab und versteckt beides im Silberkasten des Geschirrschranks im Speisesaal. Bienenwachs aus seiner Silberpolitur klebt an den Handschuhen.",
+        "smokingGun": "In den weißen Handschuhen steckt frisches Bienenwachs, wie er es zum Silberpolieren braucht.",
+        "zusatzindiz": "Frische Tintenfinger auf den Briefen im Sekretär."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Poliert in der Küche das Silber, bis er um zwanzig vor zwölf Lord Edmund findet. Während des Dinners hat er im Sekretär gelesen."
+      },
+      "look": {
+        "haut": "#d9b08c",
+        "haar": "#9c9c9c",
+        "kopf": "none",
+        "statur": "tall",
+        "schnitt": "suit"
+      },
+      "alltag": "Führt das Personal und sorgt dafür, dass im Haus alles seinen Gang geht."
+    },
+    {
+      "id": "aerztin",
+      "name": "Doktor Marsh",
+      "aussprache": "Doktor Marsch",
+      "age": 41,
+      "geschlecht": "w",
+      "herkunft": "schottisch",
+      "tier": 1,
+      "besetzungsplatz": 4,
+      "isPotentialKiller": true,
+      "farbname": "Schieferblau",
+      "visualSpecs": {
+        "silhouette": "Mittelgroß, nüchterne Haltung, streng nach hinten gebundenes rotbraunes Haar",
+        "outfit": "Schieferblaues Reisekleid, feste Stiefel, eine Ledertasche",
+        "distinguishingFeature": "Riecht nach Karbol und hat Tintenflecken am rechten Zeigefinger",
+        "idleAnimation": "Prüft ihren Puls und zählt leise"
+      },
+      "motiveAndConflict": "Die einzige Ärztin der Grafschaft. Edmunds altes Testament bedachte ihr Armenhospital. Er hat ihr Geheimnis aufgedeckt und wollte es am Morgen öffentlich machen.",
+      "blackoutAlibi": "Behauptet, nach dem Tee für die Lady in der Bibliothek ihren Bericht geschrieben zu haben.",
+      "roleSecret": "Ihr Diplom trägt den Namen ihres verstorbenen Bruders Henry. Sie arbeitet seit Jahren unter seinem Namen.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass ihr Diplom ihrem Bruder gehörte.",
+      "nebendelikt": {
+        "id": "nd_diplom",
+        "text": "Praktiziert mit dem Diplom ihres verstorbenen Bruders Henry."
+      },
+      "loyalitaet": null,
+      "luegen": [
+        {
+          "id": "luege_aerztin_diplom",
+          "behauptung": "Mein Diplom ist echt und trägt meinen Namen.",
+          "wahrheit": "Das Diplom trägt den Namen ihres verstorbenen Bruders Henry.",
+          "duWahrheit": "Dein Diplom trägt den Namen deines verstorbenen Bruders Henry."
+        }
+      ],
+      "killerProfile": {
+        "crimeExecution": "Edmund hat ihr Geheimnis entdeckt und will es am Morgen öffentlich machen. Sie geht zu ihm ins Arbeitszimmer, statt in der Bibliothek weiterzuschreiben. Beim Donnerschlag um zehn nach elf nimmt sie den silbernen Brieföffner vom Schreibtisch. Edmund stürzt vor dem Kamin. Sie nimmt den Siegelring, wischt den Brieföffner ab und versteckt beides unter den Säcken mit Rosenerde in der Gerätekiste des Gärtners. Karbol hängt noch in ihrem Taschentuch, das sie Edmund in die Hand legt.",
+        "smokingGun": "Unter dem Teeduft am Taschentuch in Edmunds Hand liegt Karbol, wie es in Krankenzimmern gebraucht wird.",
+        "zusatzindiz": "Frische Tintenfinger am Griff des Chemiekastens."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Schreibt in der Bibliothek ihren Bericht, bis Pell durchs Haus ruft. Ihr Chemiekasten steht aufgeklappt auf dem Tisch."
+      },
+      "look": {
+        "haut": "#e9c6a8",
+        "haar": "#7a3b1f",
+        "kopf": "bun",
+        "statur": "normal",
+        "schnitt": "dress"
+      },
+      "alltag": "Ist die einzige Ärztin der Grafschaft und führt eine Praxis im Dorf."
+    },
+    {
+      "id": "gaertner",
+      "name": "Silas",
+      "aussprache": "Sailas",
+      "age": 63,
+      "geschlecht": "m",
+      "herkunft": "walisisch",
+      "tier": 2,
+      "besetzungsplatz": 5,
+      "isPotentialKiller": false,
+      "farbname": "Moosgrün",
+      "visualSpecs": {
+        "silhouette": "Breit, gebeugt, wetterfest, struppiger weißer Bart",
+        "outfit": "Moosgrüne Jacke, Schirmmütze, schwere Stiefel, Gartenhandschuhe in der Tasche",
+        "distinguishingFeature": "Riecht nach Erde und Rosenöl und hat immer eine Gartenschere in der Hand",
+        "idleAnimation": "Brummt vor sich hin und schnippt eine Rosenblüte ab"
+      },
+      "motiveAndConflict": "Länger auf Ravensmoor als jeder andere. Edmund ließ die Rosen seiner ersten Frau ausreißen, und das hat Silas ihm nie verziehen.",
+      "blackoutAlibi": "Behauptet, die ganze Nacht in seinem Häuschen gewesen zu sein.",
+      "roleSecret": "Nach dem Donnerschlag lief er kurz in den Garten, um die Gerätekiste zu schließen. Beim Donnerschlag blickte er aus dem Fenster auf die Küche.",
+      "persoenlichesZiel": "Pell nicht verraten, solange der es nicht selbst will.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "butler",
+        "grund": "Pell und er kennen sich seit dreißig Jahren."
+      },
+      "luegen": [
+        {
+          "id": "luege_gaertner_haeuschen",
+          "behauptung": "Ich war die ganze Nacht in meinem Häuschen. Nicht einmal vor der Tür war ich.",
+          "wahrheit": "Nach dem Donnerschlag lief er kurz in den Garten, um die Gerätekiste zu schließen.",
+          "duWahrheit": "Nach dem Donnerschlag liefst du kurz in den Garten, um die Gerätekiste zu schließen."
+        }
+      ],
+      "look": {
+        "haut": "#c99a74",
+        "haar": "#d8d8d0",
+        "kopf": "cap",
+        "statur": "broad",
+        "schnitt": "suit"
+      },
+      "alltag": "Pflegt seit vierzig Jahren die Rosen und den Garten von Ravensmoor."
+    },
+    {
+      "id": "koechin",
+      "name": "Mrs Hobbs",
+      "vollerName": "Agnes Hobbs",
+      "roleTitle": "Die Köchin",
+      "aussprache": "Missis Hobbs",
+      "age": 54,
+      "geschlecht": "w",
+      "herkunft": "englisch",
+      "tier": 2,
+      "besetzungsplatz": 6,
+      "isPotentialKiller": false,
+      "farbname": "Kupferbraun",
+      "colorCode": "#A0673A",
+      "visualSpecs": {
+        "silhouette": "Breit, rundes Gesicht, energische Haltung",
+        "outfit": "Kupferbraunes Kleid, große weiße Schürze, Haube",
+        "distinguishingFeature": "Trägt immer einen Holzlöffel im Schürzenband",
+        "idleAnimation": "Rührt in einer unsichtbaren Schüssel und summt"
+      },
+      "motiveAndConflict": "Die Köchin von Ravensmoor. Sie hört alles, was in Küche und Speisesaal gesprochen wird, und sagt davon nur, was sie muss.",
+      "blackoutAlibi": "Behauptet, vom Streit beim Dinner nichts mitbekommen zu haben.",
+      "roleSecret": "Sie lauschte an der Tür des Speisesaals und hörte den Streit zwischen Julian und Lord Edmund. Nach Mitternacht sah sie Lady Constance einen Brief verbrennen.",
+      "persoenlichesZiel": "Julian schützen, wie sie es schon als Kind getan hat.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "neffe",
+        "grund": "Sie hat Julian als Kind großgezogen und hält zu ihm."
+      },
+      "luegen": [
+        {
+          "id": "luege_koechin_streit",
+          "behauptung": "Vom Streit beim Dinner habe ich nichts mitbekommen. Ich war nur in der Küche.",
+          "wahrheit": "Sie lauschte an der Tür und hörte, wie Julian und Lord Edmund über Geld stritten.",
+          "duWahrheit": "Du lauschtest an der Tür und hörtest, wie Julian und Lord Edmund über Geld stritten."
+        }
+      ],
+      "look": {
+        "haut": "#e6c0a0",
+        "haar": "#8a8a8a",
+        "kopf": "bun",
+        "statur": "broad",
+        "schnitt": "dress"
+      },
+      "alltag": "Kocht seit zwanzig Jahren für Ravensmoor und führt ihre Küche mit fester Hand."
+    },
+    {
+      "id": "zofe",
+      "name": "Tilly",
+      "vollerName": "Tilly Wren",
+      "roleTitle": "Die Zofe",
+      "aussprache": "Tilli",
+      "age": 19,
+      "geschlecht": "w",
+      "herkunft": "irisch",
+      "tier": 3,
+      "besetzungsplatz": 7,
+      "isPotentialKiller": false,
+      "farbname": "Taubenblau",
+      "colorCode": "#9BB0C4",
+      "visualSpecs": {
+        "silhouette": "Klein, flinke Schritte, aufmerksamer Blick",
+        "outfit": "Taubenblaues Kleid, weiße Schürze und Häubchen",
+        "distinguishingFeature": "Trägt einen Schlüsselring an der Schürze und knetet ihn, wenn sie nervös ist",
+        "idleAnimation": "Dreht den Schlüsselring und späht zur Treppe"
+      },
+      "motiveAndConflict": "Die Zofe von Lady Constance. Sie weiß mehr, als sie sagt, weil sie ihre Herrin mag.",
+      "blackoutAlibi": "Behauptet, die Post der Lady nie angerührt zu haben.",
+      "roleSecret": "Sie hielt den Umschlag aus London gegen das Licht, ehe sie ihn der Lady brachte. Beim Donnerschlag saß sie im oberen Flur und hatte die Tür der Lady im Blick.",
+      "persoenlichesZiel": "Lady Constance beschützen, solange sie kann.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "witwe",
+        "grund": "Sie dient Lady Constance seit deren Hochzeit und hält zu ihr."
+      },
+      "luegen": [
+        {
+          "id": "luege_zofe_post",
+          "behauptung": "Ich habe die Post der Lady nie angerührt. Ich bringe sie ungelesen.",
+          "wahrheit": "Sie hielt den Umschlag aus London gegen das Licht, ehe sie ihn brachte.",
+          "duWahrheit": "Du hieltest den Umschlag aus London gegen das Licht, ehe du ihn brachtest."
+        }
+      ],
+      "look": {
+        "haut": "#f2d6c0",
+        "haar": "#b5651d",
+        "kopf": "bun",
+        "statur": "small",
+        "schnitt": "dress"
+      },
+      "alltag": "Dient Lady Constance als Zofe und kennt jede Treppe im Haus."
+    },
+    {
+      "id": "anwalt",
+      "name": "Mr Crane",
+      "vollerName": "Algernon Crane",
+      "roleTitle": "Der Familienanwalt",
+      "aussprache": "Mister Crehn",
+      "age": 48,
+      "geschlecht": "m",
+      "herkunft": "schottisch",
+      "tier": 3,
+      "besetzungsplatz": 8,
+      "isPotentialKiller": false,
+      "farbname": "Olivgold",
+      "colorCode": "#8A7A3B",
+      "visualSpecs": {
+        "silhouette": "Mittelgroß, glatt rasiert, sorgfältige Haltung, Aktenmappe unter dem Arm",
+        "outfit": "Olivgoldener Gehrock, dunkle Weste, Zylinder, Kneifer",
+        "distinguishingFeature": "Trägt stets eine Ledermappe mit Siegellack und Feder",
+        "idleAnimation": "Rückt den Kneifer zurecht und blättert in seiner Mappe"
+      },
+      "motiveAndConflict": "Der Familienanwalt. Er sollte um Mitternacht das neue Testament beurkunden und wartete dafür in der Bibliothek.",
+      "blackoutAlibi": "Behauptet, von Julians Geldsorgen nichts zu wissen.",
+      "roleSecret": "Gegen Mitternacht zeigte Julian ihm einen Pfandschein und bat um einen Vorschuss. Das Mandantengeheimnis hindert ihn am Reden.",
+      "persoenlichesZiel": "Das Mandantengeheimnis wahren und trotzdem nichts Falsches sagen.",
+      "nebendelikt": null,
+      "loyalitaet": null,
+      "luegen": [
+        {
+          "id": "luege_anwalt_mandant",
+          "behauptung": "Von Julians Geldsorgen weiß ich nichts. Ich vertrete nur Lord Edmund.",
+          "wahrheit": "Julian zeigte ihm in der Nacht einen Pfandschein und bat um einen Vorschuss.",
+          "duWahrheit": "Julian zeigte dir in der Nacht einen Pfandschein und bat dich um einen Vorschuss."
+        }
+      ],
+      "look": {
+        "haut": "#e0c0a0",
+        "haar": "#5a4a3a",
+        "kopf": "top",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Berät die Familie Ravensmoor seit zwölf Jahren in allen rechtlichen Fragen."
+    }
+  ]
+}

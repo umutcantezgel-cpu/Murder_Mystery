@@ -1,0 +1,147 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "g_gaertner_3_1",
+      "rolle": "gaertner",
+      "runde": 3,
+      "nr": 1,
+      "partner": "butler",
+      "thema": "Meine Gerätekiste",
+      "ziel": "Ich will sagen, was mit meiner Gerätekiste los ist.",
+      "preisgabe": [
+        "beobachtung:b_gaertner_kiste"
+      ],
+      "text": "Der Riegel meiner Gerätekiste klemmt seit Jahren. Sie lässt sich nicht richtig schließen. Wer will, kann alles hineinlegen und wieder herausnehmen."
+    },
+    {
+      "id": "g_gaertner_3_2",
+      "rolle": "gaertner",
+      "runde": 3,
+      "nr": 2,
+      "partner": "koechin",
+      "thema": "Meine Hecke",
+      "ziel": "Ich will sagen, wie es um meine Buchsbaumhecke steht.",
+      "preisgabe": [
+        "beobachtung:b_gaertner_hecke"
+      ],
+      "text": "Die Buchsbaumhecke hab ich erst gestern geschnitten. Ihre dichten Zweige verschlucken fast alles, was man hineinsteckt. Der Regen macht sie nur dichter."
+    },
+    {
+      "id": "g_gaertner_3_3",
+      "rolle": "gaertner",
+      "runde": 3,
+      "nr": 3,
+      "partner": "anwalt",
+      "thema": "Das Erbe",
+      "ziel": "Ich will wissen, was nach dem Lord aus dem Garten wird.",
+      "preisgabe": [],
+      "text": "Wem gehört Ravensmoor jetzt? Ich bin hier länger als jeder andere und will wissen, was aus dem Garten wird."
+    },
+    {
+      "id": "g_koechin_3_1",
+      "rolle": "koechin",
+      "runde": 3,
+      "nr": 1,
+      "partner": "neffe",
+      "thema": "Iss etwas",
+      "ziel": "Ich will Julian trösten, wie ich es immer getan habe.",
+      "preisgabe": [],
+      "text": "Junge, iss etwas. Wer hungrig ist, denkt schlecht. Und was auch war, wir halten zusammen."
+    },
+    {
+      "id": "g_koechin_3_2",
+      "rolle": "koechin",
+      "runde": 3,
+      "nr": 2,
+      "partner": "witwe",
+      "thema": "Der Salon",
+      "ziel": "Ich will wissen, ob ich im Salon nach dem Rechten sehen soll.",
+      "preisgabe": [],
+      "text": "Mylady, soll ich im Salon nach dem Rechten sehen? Ich frage lieber, bevor ich dort etwas anrühre."
+    },
+    {
+      "id": "g_koechin_3_3",
+      "rolle": "koechin",
+      "runde": 3,
+      "nr": 3,
+      "partner": "zofe",
+      "thema": "Der obere Flur",
+      "ziel": "Ich will wissen, ob oben im Flur alles ruhig ist.",
+      "preisgabe": [],
+      "text": "Ist oben im Flur alles ruhig? Ich höre die Dielen knarren. Bei dem Gewitter traue ich keiner Tür."
+    },
+    {
+      "id": "g_zofe_3_1",
+      "rolle": "zofe",
+      "runde": 3,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Die Hintertreppe",
+      "ziel": "Ich will Lady Constance sagen, wo die Hintertreppe endet.",
+      "preisgabe": [
+        "beobachtung:b_zofe_hintertreppe"
+      ],
+      "text": "Mylady, die Hintertreppe führt von Eurem Ankleidezimmer direkt in die Halle, gleich neben die Standuhr. Soll ich dort Licht machen, damit Ihr nicht stolpert?"
+    },
+    {
+      "id": "g_zofe_3_2",
+      "rolle": "zofe",
+      "runde": 3,
+      "nr": 2,
+      "partner": "butler",
+      "thema": "Das Licht",
+      "ziel": "Ich will wissen, ob die Gaslampen die Nacht über brennen.",
+      "preisgabe": [],
+      "text": "Pell, bleiben die Gaslampen jetzt an? Ich traue dem Licht nicht, seit der Donner es ausgeblasen hat."
+    },
+    {
+      "id": "g_zofe_3_3",
+      "rolle": "zofe",
+      "runde": 3,
+      "nr": 3,
+      "partner": "anwalt",
+      "thema": "Die Gäste",
+      "ziel": "Ich will wissen, wer das Haus verlassen darf.",
+      "preisgabe": [],
+      "text": "Darf morgen jemand das Haus verlassen, sobald das Wasser sinkt? Oder müssen wir alle bleiben, bis alles geklärt ist?"
+    },
+    {
+      "id": "g_anwalt_3_1",
+      "rolle": "anwalt",
+      "runde": 3,
+      "nr": 1,
+      "partner": "aerztin",
+      "thema": "Das Mandantengeheimnis",
+      "ziel": "Ich will, dass niemand mich nach Julians Sorgen fragt.",
+      "preisgabe": [
+        "luege:luege_anwalt_mandant"
+      ],
+      "text": "Doktor Marsh, von Julians Geldsorgen weiß ich nichts. Ich vertrete nur Lord Edmund und nicht seinen Neffen."
+    },
+    {
+      "id": "g_anwalt_3_2",
+      "rolle": "anwalt",
+      "runde": 3,
+      "nr": 2,
+      "partner": "zofe",
+      "thema": "Die Nacht danach",
+      "ziel": "Ich will wissen, wie die Nacht für die anderen weitergeht.",
+      "preisgabe": [],
+      "text": "Wie geht es dir? Vielleicht hilft es, wenn wir gemeinsam überlegen, was heute Nacht noch zu tun ist."
+    },
+    {
+      "id": "g_anwalt_3_3",
+      "rolle": "anwalt",
+      "runde": 3,
+      "nr": 3,
+      "partner": "koechin",
+      "thema": "Das Siegel",
+      "ziel": "Ich will wissen, ob jemand Lord Edmunds Siegelring gesehen hat.",
+      "preisgabe": [],
+      "text": "Dem neuen Testament fehlt nur das Siegel. Hat jemand Lord Edmunds Siegelring gesehen? Ohne ihn lässt sich der Wille nicht besiegeln."
+    }
+  ]
+}

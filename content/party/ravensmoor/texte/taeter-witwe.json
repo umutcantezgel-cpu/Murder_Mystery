@@ -1,0 +1,58 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung witwe.",
+  "eintraege": [
+    {
+      "rolle": "witwe",
+      "tarnung": "Du sagst: „Ich hatte Migräne und lag ab halb elf im dunklen Zimmer im Bett.“ Bleib dabei blass und müde. Zeig, wie sehr dich Lord Edmunds Tod trifft, und sprich leise.",
+      "tatwissen": [
+        {
+          "text": "Beim Dinner kündigt Lord Edmund an, in dieser Nacht sein Testament zu ändern. Du würdest fast nichts erben."
+        },
+        {
+          "text": "Um halb elf ziehst du dich mit Migräne zurück. Doktor Marsh bringt dir einen Kräutertee. In deinem Ankleidezimmer mischst du Tropfen aus einem kleinen Fläschchen hinein."
+        },
+        {
+          "text": "Über die Hintertreppe trägst du die Tasse in die Halle und weiter ins Arbeitszimmer, als Friedensangebot für Lord Edmund. Er trinkt vor dem Kamin. Beim Donnerschlag um zehn nach elf sinkt er im Sessel zusammen."
+        },
+        {
+          "text": "Du drückst ihm dein Taschentuch in die Hand, als er nach Luft ringt."
+        },
+        {
+          "ref": "spur:spur_tuch_veilchen"
+        },
+        {
+          "text": "Du ziehst den Siegelring von seinem Finger, damit das neue Testament nie gesiegelt wird. Dabei stößt du das Tintenfass um."
+        },
+        {
+          "text": "Du läufst zurück in die Halle. Dort öffnest du das Gehäuse der Standuhr und legst Ring und Fläschchen hinter das Pendel. Eine Viertelstunde später liegst du wieder im Bett."
+        },
+        {
+          "ref": "spur:spur_standuhr_ring"
+        },
+        {
+          "text": "Kurz nach Mitternacht verbrennst du im Salonkamin den Brief aus London. Mrs Hobbs sieht dich. Deine Finger sind noch blau von der Tinte."
+        },
+        {
+          "ref": "spur:spur_asche_tinte"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_witwe_post"
+        },
+        {
+          "ref": "luege:luege_witwe_name"
+        },
+        {
+          "ref": "nebendelikt:nd_brief"
+        },
+        {
+          "text": "Kommt es heraus, erfahren alle, wer du in London warst."
+        }
+      ],
+      "ziel": "Du willst unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}

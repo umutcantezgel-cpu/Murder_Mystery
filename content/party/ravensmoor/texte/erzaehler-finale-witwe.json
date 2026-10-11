@@ -1,0 +1,27 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad witwe: finale.witwe.<ende> (4) und rueckblende.witwe.",
+  "eintraege": [
+    {
+      "id": "finale.witwe.ende_meister",
+      "text": "Du zeigst auf Lady Constance, und die Anklage stimmt. Sie gesteht ohne ein Zittern: Sie wollte nicht alles verlieren. Sie gesteht auch, dass sie Lord Edmund Tropfen in den Kräutertee mischte. Zusammen seht ihr euch das Taschentuch in Lord Edmunds Hand an. Unter dem Teeduft liegt ihr Veilchenparfüm. Lady Constance führt euch in die Halle und holt den Siegelring hinter dem Pendel der Standuhr hervor. Als der Morgen graut, sinkt das Wasser, und die Brücke wird frei. Lady Constance trägt ihr Trauerkleid mit Haltung, als man sie abführt. An der Kutsche dreht sie sich nicht mehr um."
+    },
+    {
+      "id": "finale.witwe.ende_teilerfolg",
+      "text": "Du klagst Lady Constance an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Sie gesteht und holt den Siegelring hinter dem Pendel der Standuhr hervor. Im Haus bleibt ein Schweigen, das niemand brechen will. Als das Wasser sinkt, führt man sie ab. Sie trägt ihr Trauerkleid mit Haltung und dreht sich an der Kutsche nicht mehr um."
+    },
+    {
+      "id": "finale.witwe.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Der Siegelring bleibt verschwunden. Am Morgen sinkt das Wasser, und die Kutsche fährt vor. Ein Unschuldiger wird im Regen zur Kutsche geführt. Hinter einem Fenster von Ravensmoor lächelt jemand. Lady Constance reist nach der Beerdigung nach Monte Carlo. Man sagt, sie singe dort wieder, unter neuem Namen."
+    },
+    {
+      "id": "finale.witwe.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander, und die Stimmen werden immer lauter. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Runde zerfällt in kleine Gruppen, und keiner glaubt mehr dem anderen. Der Siegelring bleibt verschwunden. Die Akte wird geschlossen, und das Moor verschluckt die Wahrheit wie alles andere. Lady Constance reist nach der Beerdigung nach Monte Carlo. Man sagt, sie singe dort wieder, unter neuem Namen."
+    },
+    {
+      "id": "rueckblende.witwe",
+      "text": "Um halb elf zieht sich Lady Constance mit Migräne zurück. Doktor Marsh bringt ihr einen Kräutertee. Im Ankleidezimmer mischt sie Tropfen hinein. Über die Hintertreppe trägt sie die Tasse in die Halle und ins Arbeitszimmer. Lord Edmund trinkt vor dem Kamin. Beim Donnerschlag um zehn nach elf sinkt er im Sessel zusammen. Sie drückt ihm ihr Taschentuch in die Hand und zieht den Siegelring von seinem Finger. In der Halle legt sie ihn hinter das Pendel der Standuhr. Eine Viertelstunde später liegt sie wieder im Bett. Um Mitternacht verbrennt sie den Brief aus London. Ihre Finger sind noch blau von der Tinte."
+    }
+  ]
+}

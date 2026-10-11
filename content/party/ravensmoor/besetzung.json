@@ -1,0 +1,88 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Besetzungsreihenfolge. Gezählt werden alle Rollen; es gibt kein Geburtstagskind. Bei N Rollen werden die Plätze 1 bis N besetzt; alle übrigen Gäste sind NPC-Gäste ohne Spieler: Sie existieren in der Tatnacht, ihr Wissen erreicht den Inspektor über Sprechblasen oder den Erzähler. Weitere Mitspielende werden Assistenz-Plätze ohne eigene Rolle.",
+  "minRollen": 4,
+  "maxRollen": 8,
+  "reihenfolge": [
+    "witwe",
+    "neffe",
+    "butler",
+    "aerztin",
+    "gaertner",
+    "koechin",
+    "zofe",
+    "anwalt"
+  ],
+  "stufen": [
+    {
+      "stufe": 1,
+      "plaetze": [
+        1,
+        4
+      ]
+    },
+    {
+      "stufe": 2,
+      "plaetze": [
+        5,
+        8
+      ]
+    }
+  ],
+  "geschlechterBilanz": [
+    {
+      "rollen": 4,
+      "m": 2,
+      "w": 2
+    },
+    {
+      "rollen": 5,
+      "m": 3,
+      "w": 2
+    },
+    {
+      "rollen": 6,
+      "m": 3,
+      "w": 3
+    },
+    {
+      "rollen": 7,
+      "m": 3,
+      "w": 4
+    },
+    {
+      "rollen": 8,
+      "m": 4,
+      "w": 4
+    }
+  ],
+  "regeln": [
+    "Die vier Kernverdächtigen sind immer besetzt (Plätze 1 bis 4).",
+    "Ab 5 Rollen unterscheiden sich Frauen- und Männerrollen höchstens um eine; bei 4 Rollen sind es zwei zu zwei.",
+    "Jede Rolle darf von jeder Person gespielt werden, unabhängig vom eigenen Geschlecht.",
+    "Fehlt ein Gesprächspartner, übernimmt der erste besetzte Ersatzpartner aus ersatzpartner, sonst der Inspektor. Kernrollen sind immer besetzt und brauchen keinen Ersatz.",
+    "Unbesetzte Gäste sind NPC. Ihre Pflichtgespräch-Beobachtungen und ihre Antworten auf Befragungen des Inspektors kommen aus dem Kanon."
+  ],
+  "ersatzpartner": {
+    "gaertner": [
+      "koechin",
+      "butler",
+      "zofe"
+    ],
+    "koechin": [
+      "gaertner",
+      "zofe",
+      "butler"
+    ],
+    "zofe": [
+      "koechin",
+      "witwe",
+      "aerztin"
+    ],
+    "anwalt": [
+      "aerztin",
+      "neffe",
+      "witwe"
+    ]
+  }
+}

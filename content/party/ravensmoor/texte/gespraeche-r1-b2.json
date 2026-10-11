@@ -1,0 +1,149 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "g_gaertner_1_1",
+      "rolle": "gaertner",
+      "runde": 1,
+      "nr": 1,
+      "partner": "butler",
+      "thema": "Mein Fenster",
+      "ziel": "Ich will sagen, was ich vom Küchenfenster gesehen habe.",
+      "preisgabe": [
+        "beobachtung:b_gaertner_fenster"
+      ],
+      "text": "Von meinem Häuschen seh ich aufs Küchenfenster. Beim Donnerschlag hab ich hinübergeschaut. Mehr sag ich nicht."
+    },
+    {
+      "id": "g_gaertner_1_2",
+      "rolle": "gaertner",
+      "runde": 1,
+      "nr": 2,
+      "partner": "aerztin",
+      "thema": "Das Gewitter",
+      "ziel": "Ich will wissen, wer bei dem Wetter draußen war.",
+      "preisgabe": [],
+      "text": "Bei dem Wetter jagt man keinen Hund vor die Tür. Wer war trotzdem draußen? Das will ich wissen."
+    },
+    {
+      "id": "g_gaertner_1_3",
+      "rolle": "gaertner",
+      "runde": 1,
+      "nr": 3,
+      "partner": "koechin",
+      "thema": "Der Tee",
+      "ziel": "Ich will etwas Heißes zu trinken.",
+      "preisgabe": [],
+      "text": "Ist noch Tee da? Ich bin nass bis auf die Knochen und friere. Ich brauch was Heißes."
+    },
+    {
+      "id": "g_koechin_1_1",
+      "rolle": "koechin",
+      "runde": 1,
+      "nr": 1,
+      "partner": "neffe",
+      "thema": "Das Teetablett",
+      "ziel": "Ich will Julian sagen, was ich um zehn Uhr bemerkt habe.",
+      "preisgabe": [
+        "beobachtung:b_koechin_tee"
+      ],
+      "text": "Julian, um zehn Uhr trug Pell das Teetablett ins Arbeitszimmer. Danach wurde es still in der Küche."
+    },
+    {
+      "id": "g_koechin_1_2",
+      "rolle": "koechin",
+      "runde": 1,
+      "nr": 2,
+      "partner": "zofe",
+      "thema": "Der Streit beim Dinner",
+      "ziel": "Ich will, dass niemand denkt, ich hätte gelauscht.",
+      "preisgabe": [
+        "luege:luege_koechin_streit"
+      ],
+      "text": "Vom Streit beim Dinner habe ich nichts mitbekommen. Ich war nur in der Küche."
+    },
+    {
+      "id": "g_koechin_1_3",
+      "rolle": "koechin",
+      "runde": 1,
+      "nr": 3,
+      "partner": "anwalt",
+      "thema": "Das Haus bei Nacht",
+      "ziel": "Ich will wissen, wer heute Nacht noch Hunger hat.",
+      "preisgabe": [],
+      "text": "Das Dinner war ein Genuss, und jetzt ist das Haus still geworden. Wer hat heute Nacht noch Hunger? Ich koche für alle weiter."
+    },
+    {
+      "id": "g_zofe_1_1",
+      "rolle": "zofe",
+      "runde": 1,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Mein Platz oben",
+      "ziel": "Ich will Lady Constance sagen, wo ich beim Donner saß.",
+      "preisgabe": [
+        "beobachtung:b_zofe_flur"
+      ],
+      "text": "Mylady, beim Donnerschlag saß ich im oberen Flur und hatte Eure Tür im Blick."
+    },
+    {
+      "id": "g_zofe_1_2",
+      "rolle": "zofe",
+      "runde": 1,
+      "nr": 2,
+      "partner": "koechin",
+      "thema": "Das Haus bei Nacht",
+      "ziel": "Ich will wissen, ob in der Küche alles ruhig war.",
+      "preisgabe": [],
+      "text": "Bei dem Gewitter traut sich keiner mehr durchs Haus. War in der Küche alles ruhig? Ich habe den ganzen Abend oben gewacht."
+    },
+    {
+      "id": "g_zofe_1_3",
+      "rolle": "zofe",
+      "runde": 1,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Eine Zofe hört viel",
+      "ziel": "Ich will dem Inspektor helfen und trotzdem schweigen, wenn ich muss.",
+      "preisgabe": [],
+      "text": "Ich bin nur eine Zofe, aber ich höre vieles. Frag mich, was du wissen willst. Ich sage, was ich darf."
+    },
+    {
+      "id": "g_anwalt_1_1",
+      "rolle": "anwalt",
+      "runde": 1,
+      "nr": 1,
+      "partner": "aerztin",
+      "thema": "Das Warten",
+      "ziel": "Ich will sagen, wo ich beim Donner war.",
+      "preisgabe": [
+        "beobachtung:b_anwalt_bibliothek"
+      ],
+      "text": "Doktor Marsh, beim Donnerschlag habe ich in der Bibliothek auf Lord Edmund gewartet. Um Mitternacht sollte ich das neue Testament beurkunden."
+    },
+    {
+      "id": "g_anwalt_1_2",
+      "rolle": "anwalt",
+      "runde": 1,
+      "nr": 2,
+      "partner": "neffe",
+      "thema": "Der Abend",
+      "ziel": "Ich will wissen, wie Julian den Abend erlebt hat.",
+      "preisgabe": [],
+      "text": "Julian, wie hast du den Abend erlebt? Ich sehe dich sonst selten ohne ein Lächeln."
+    },
+    {
+      "id": "g_anwalt_1_3",
+      "rolle": "anwalt",
+      "runde": 1,
+      "nr": 3,
+      "partner": "gaertner",
+      "thema": "Der Weg im Regen",
+      "ziel": "Ich will wissen, wie man bei Regen von Raum zu Raum kommt.",
+      "preisgabe": [],
+      "text": "Ich bin hier nur zu Gast und kenne das Haus nicht. Wie kommt man bei dem Regen am besten bis in den Garten?"
+    }
+  ]
+}

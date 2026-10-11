@@ -1,0 +1,75 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "erzaehler",
+  "hinweis": "Auflösung: aufloesung.gruppe.N und aufloesung.<rolle> bzw. aufloesung.<kernrolle>.<taeter|unschuldig>; bei eigenem Pfadverhalten aufloesung.<kernrolle>.unschuldig.<pfad>.",
+  "eintraege": [
+    {
+      "id": "aufloesung.gruppe.0",
+      "text": "Ihr habt in keiner der drei Runden zusammengehalten. Gute Gesellschaft seid ihr trotzdem, und das bleibt auch so."
+    },
+    {
+      "id": "aufloesung.gruppe.1",
+      "text": "Einmal habt ihr in den drei Runden zusammengehalten. Eure Gemeinschaft hält mehr aus als jedes Rätsel auf Ravensmoor."
+    },
+    {
+      "id": "aufloesung.gruppe.2",
+      "text": "Zweimal habt ihr in den drei Runden zusammengehalten. Man merkt, dass ihr euch vertraut, und das ist schön zu sehen."
+    },
+    {
+      "id": "aufloesung.gruppe.3",
+      "text": "Dreimal habt ihr in den drei Runden zusammengehalten. Das ist Vertrauen, wie man es in einer stürmischen Nacht braucht."
+    },
+    {
+      "id": "aufloesung.gaertner",
+      "text": "Silas hat verschwiegen, dass er nach dem Donnerschlag kurz im Garten war, um die Gerätekiste zu schließen. Was er vom Küchenfenster aus sah, hat er für sich behalten. Pell ist sein ältester Freund, und Silas wollte ihn nicht verraten."
+    },
+    {
+      "id": "aufloesung.koechin",
+      "text": "Mrs Hobbs hat verschwiegen, dass sie den Streit zwischen Julian und Lord Edmund gehört hat. Nach Mitternacht sah sie Lady Constance einen Brief verbrennen. Sie mag Julian und die Lady und wollte beiden nicht schaden."
+    },
+    {
+      "id": "aufloesung.zofe",
+      "text": "Tilly hat den Umschlag aus London gegen das Licht gehalten, ehe sie ihn der Lady brachte. Wo die Lady beim Donnerschlag war, hat sie nur preisgegeben, wenn jemand genau fragte. Sie wollte ihre Herrin schützen."
+    },
+    {
+      "id": "aufloesung.anwalt",
+      "text": "Mr Crane hat verschwiegen, dass Julian ihm kurz vor Mitternacht einen Pfandschein zeigte und um einen Vorschuss bat. Das Mandantengeheimnis band ihn. Er wollte nichts Falsches sagen und blieb deshalb still."
+    },
+    {
+      "id": "aufloesung.witwe.taeter",
+      "text": "Lady Constance hat nicht nur ihren alten Namen aus London verschwiegen. Sie hat Lord Edmund Tropfen in den Kräutertee gemischt, weil sie fast nichts geerbt hätte. Den Brief aus London verbrannte sie nach Mitternacht im Salonkamin."
+    },
+    {
+      "id": "aufloesung.witwe.unschuldig",
+      "text": "Lady Constance hat einen Brief aus London im Salonkamin verbrannt, weil niemand ihren Künstlernamen kennen sollte. Beim Donnerschlag lag sie in ihrem Zimmer im Bett. Mit Lord Edmunds Tod hatte sie nichts zu tun."
+    },
+    {
+      "id": "aufloesung.witwe.unschuldig.neffe",
+      "text": "Lady Constance hat einen Brief aus London im Salonkamin verbrannt, weil niemand ihren Künstlernamen kennen sollte. Beim Donnerschlag saß sie allein im Salon und las ihn. Mit Lord Edmunds Tod hatte sie nichts zu tun."
+    },
+    {
+      "id": "aufloesung.butler.taeter",
+      "text": "Pell hat Lord Edmunds Sekretär geöffnet und dessen Briefe gelesen. Einer davon zeigte ihm, dass Lord Edmund ihn dreißig Jahre lang verleugnet hat. Hinter den alten Vorräten im Keller liegt Lord Edmunds wahrer letzter Wille. Er hätte Pell Ravensmoor zugesprochen, hätte Pell nur gewartet."
+    },
+    {
+      "id": "aufloesung.butler.unschuldig",
+      "text": "Pell hat Lord Edmunds Sekretär geöffnet und dessen Briefe gelesen, weil er wissen wollte, wer sein Vater ist. Beim Donnerschlag polierte er das Silber. Hinter den alten Vorräten im Keller liegt Lord Edmunds wahrer letzter Wille: Ravensmoor soll an Pell fallen."
+    },
+    {
+      "id": "aufloesung.aerztin.taeter",
+      "text": "Doktor Marsh hat unter dem Namen ihres verstorbenen Bruders praktiziert. Lord Edmund wollte ihr Geheimnis am Morgen öffentlich machen. Das konnte sie nicht zulassen."
+    },
+    {
+      "id": "aufloesung.aerztin.unschuldig",
+      "text": "Doktor Marsh hat unter dem Namen ihres verstorbenen Bruders praktiziert und dieses Geheimnis gehütet. Beim Donnerschlag schrieb sie in der Bibliothek ihren Bericht. Mit Lord Edmunds Tod hatte sie nichts zu tun."
+    },
+    {
+      "id": "aufloesung.neffe.taeter",
+      "text": "Julian hat Lord Edmunds goldene Taschenuhr versetzt und hohe Schulden gehabt. Als sein Onkel ihm den Zuschuss strich, verlor er den Kopf. Seine Lieblingsausrede, es sei alles nur ein Spiel, half ihm nicht mehr."
+    },
+    {
+      "id": "aufloesung.neffe.unschuldig",
+      "text": "Julian hat Lord Edmunds goldene Taschenuhr versetzt und hohe Schulden gehabt. Beim Donnerschlag saß er im Salon und legte Patience. Mit Lord Edmunds Tod hatte er nichts zu tun."
+    }
+  ]
+}

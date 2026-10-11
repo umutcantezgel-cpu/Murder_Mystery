@@ -1,0 +1,155 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "rolle": "witwe",
+      "wer": "Du bist Lady Constance Ravensmoor, die Witwe von Lord Edmund. Seit einem Jahr warst du mit ihm verheiratet, und du bist neunundzwanzig. Früher hast du in London gesungen, doch davon spricht im Haus niemand. Man erkennt dich an deinem dunklen Abendkleid, den Seidenschuhen und deinem Veilchenparfüm.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_witwe_dinner"
+        },
+        {
+          "text": "Um halb elf hast du dich mit Migräne auf dein Zimmer zurückgezogen."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Um Viertel vor elf bringt der Abendbote einen Brief aus London. Er trägt den Namen deiner alten Theatertruppe."
+        },
+        {
+          "ref": "beobachtung:b_witwe_bett"
+        },
+        {
+          "ref": "beobachtung:b_witwe_salon"
+        },
+        {
+          "text": "Kurz nach Mitternacht verbrennst du den Brief im Salonkamin."
+        },
+        {
+          "ref": "nebendelikt:nd_brief"
+        },
+        {
+          "ref": "luege:luege_witwe_post"
+        },
+        {
+          "ref": "luege:luege_witwe_name"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, wer du in London warst."
+        }
+      ],
+      "ziel": "Du willst verhindern, dass jemand erfährt, dass du in London unter anderem Namen gesungen hast.",
+      "besetzung": "Jede Person kann Lady Constance spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "neffe",
+      "wer": "Du bist Julian Ravensmoor, Lord Edmunds Neffe. Du bist siebenundzwanzig, charmant und stets auf dem Sprung zum nächsten Pferderennen. Man erkennt dich an deinem granatroten Gehrock, den Lackschuhen und dem Zylinder. Du greifst ständig an deine Westentasche und riechst schon von Weitem nach Pferdesalbe.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_neffe_geld"
+        },
+        {
+          "text": "Bisher warst du der Haupterbe von Lord Edmund."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_neffe_schulden"
+        },
+        {
+          "text": "Am Nachmittag hast du in der Stadt Lord Edmunds goldene Taschenuhr versetzt. Den Pfandschein trägst du in der Westentasche."
+        },
+        {
+          "text": "Beim Donnerschlag sitzt du am Kartentisch im Salon und legst Patience."
+        },
+        {
+          "text": "Kurz vor Mitternacht bittest du Mr Crane um einen Vorschuss und zeigst ihm den Pfandschein."
+        },
+        {
+          "ref": "nebendelikt:nd_pfand"
+        },
+        {
+          "ref": "luege:luege_neffe_uhr"
+        },
+        {
+          "ref": "luege:luege_neffe_schulden"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du deinem Onkel die Uhr genommen hast."
+        }
+      ],
+      "ziel": "Du willst verhindern, dass jemand erfährt, dass du die Taschenuhr deines Onkels versetzt hast.",
+      "besetzung": "Jede Person kann Julian spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "butler",
+      "wer": "Du bist Ambrose Pell, der Butler, und seit dreißig Jahren im Dienst der Familie. Du sprichst wenig und siehst viel. Man erkennt dich an deinem schwarzen Frack, den weißen Handschuhen und dem Medaillon, das du nie öffnest. Du riechst nach Bienenwachs und arbeitest mit der linken Hand.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_butler_silber"
+        },
+        {
+          "text": "Um zwanzig vor zwölf hast du Lord Edmund tot vor dem Kamin gefunden und durchs Haus gerufen."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Während des Dinners öffnest du Lord Edmunds Sekretär mit dem Zweitschlüssel und liest seine Briefe. Du suchst einen Beweis, wer dein Vater ist."
+        },
+        {
+          "text": "Beim Donnerschlag polierst du in der Küche das Silber."
+        },
+        {
+          "ref": "nebendelikt:nd_sekretaer"
+        },
+        {
+          "ref": "luege:luege_butler_sekretaer"
+        },
+        {
+          "ref": "luege:luege_butler_medaillon"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du in den Briefen deines Herrn gelesen hast."
+        }
+      ],
+      "ziel": "Du willst verhindern, dass jemand erfährt, dass du in Lord Edmunds Briefen gelesen hast.",
+      "besetzung": "Jede Person kann Pell spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "aerztin",
+      "wer": "Du bist Doktor Helena Marsh, die einzige Ärztin der Grafschaft. Du bist einundvierzig, nüchtern und klar im Kopf. Man erkennt dich an deinem schieferblauen Kleid, den festen Stiefeln und dem Karbolgeruch an deinen Händen. Deinen Chemiekasten hast du in der Bibliothek aufgebaut.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_aerztin_tee"
+        },
+        {
+          "ref": "beobachtung:b_aerztin_herz"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_aerztin_testament"
+        },
+        {
+          "text": "Dein Diplom trägt den Namen deines verstorbenen Bruders Henry. Seit Jahren arbeitest du unter seinem Namen."
+        },
+        {
+          "text": "Beim Donnerschlag sitzt du in der Bibliothek am Pult und schreibst deinen Bericht."
+        },
+        {
+          "ref": "nebendelikt:nd_diplom"
+        },
+        {
+          "ref": "luege:luege_aerztin_diplom"
+        },
+        {
+          "text": "Du schweigst, weil man dir sonst die Praxis nimmt und die Armen im Dorf ohne Ärztin bleiben."
+        }
+      ],
+      "ziel": "Du willst verhindern, dass jemand erfährt, dass dein Diplom deinem Bruder gehörte.",
+      "besetzung": "Jede Person kann Doktor Marsh spielen, egal welches Geschlecht sie hat."
+    }
+  ]
+}

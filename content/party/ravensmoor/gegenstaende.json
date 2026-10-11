@@ -1,0 +1,528 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Gegenstände und Indizien. Lage = wo der Gegenstand während der Ermittlungsrunden ist; sie ist in allen Pfaden gleich (Regel K-1), außer beim versteckten Siegelring. Jede Spur nennt, in welchem Pfad sie entsteht (entstehtWenn mit der Pfadliste), was sie dort zeigt und was in den anderen Pfaden zu sehen ist (harmlos). Der Siegelring ist nie ein Kartenmarker; seine vier möglichen Verstecke gibt es in allen Pfaden als gleiche Untersuchungsziele.",
+  "gegenstaende": [
+    {
+      "id": "taschentuch_edmund",
+      "name": "Taschentuch in Edmunds Hand",
+      "beschreibung": "Ein zerknülltes Taschentuch ohne Monogramm in Lord Edmunds Hand. Es riecht stark nach Tee.",
+      "lage": {
+        "ort": "bei_edmund",
+        "stelle": "in Lord Edmunds rechter Hand"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_tuch_tee",
+          "stelle": "Stoff",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Das Taschentuch gehört nicht zu Lord Edmunds Wäsche. Es trägt kein Monogramm und ist mit Tee getränkt.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        },
+        {
+          "id": "spur_tuch_veilchen",
+          "stelle": "Stoff",
+          "entstehtWenn": {
+            "pfade": [
+              "witwe"
+            ]
+          },
+          "zeigt": "Unter dem Teeduft liegt ein zweiter Duft: Veilchenparfüm.",
+          "harmlos": "Das Taschentuch ist zerknüllt und noch feucht vom Tee.",
+          "rolle": {
+            "witwe": "schluesselbeweis"
+          }
+        },
+        {
+          "id": "spur_tuch_pferdesalbe",
+          "stelle": "Stoff",
+          "entstehtWenn": {
+            "pfade": [
+              "neffe"
+            ]
+          },
+          "zeigt": "Unter dem Teeduft liegt ein zweiter Geruch: scharfe Pferdesalbe.",
+          "harmlos": "Das Taschentuch ist zerknüllt und noch feucht vom Tee.",
+          "rolle": {
+            "neffe": "schluesselbeweis"
+          }
+        },
+        {
+          "id": "spur_tuch_karbol",
+          "stelle": "Stoff",
+          "entstehtWenn": {
+            "pfade": [
+              "aerztin"
+            ]
+          },
+          "zeigt": "Unter dem Teeduft liegt ein zweiter Geruch: Karbol, wie es in Krankenzimmern gebraucht wird.",
+          "harmlos": "Das Taschentuch ist zerknüllt und noch feucht vom Tee.",
+          "rolle": {
+            "aerztin": "schluesselbeweis"
+          }
+        }
+      ]
+    },
+    {
+      "id": "handschuhe_pell",
+      "name": "Pells weiße Handschuhe",
+      "beschreibung": "Das Paar weiße Baumwollhandschuhe, das Pell zum Servieren trägt.",
+      "lage": {
+        "traeger": "butler",
+        "stelle": "in der Fracktasche"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_handschuh_wachs",
+          "stelle": "Fingerspitzen",
+          "entstehtWenn": {
+            "pfade": [
+              "butler"
+            ]
+          },
+          "zeigt": "An den Fingerspitzen haftet frisches Bienenwachs, wie man es zum Silberpolieren nimmt.",
+          "harmlos": "Die weißen Handschuhe sind gestärkt und frisch gebügelt.",
+          "rolle": {
+            "butler": "schluesselbeweis"
+          }
+        }
+      ]
+    },
+    {
+      "id": "salonkamin",
+      "name": "Kamin im Salon",
+      "beschreibung": "Der Kamin im Salon. In der Asche liegen frische Papierreste.",
+      "lage": {
+        "ort": "am_salonkamin",
+        "stelle": "in der Asche"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_asche_brief",
+          "stelle": "Asche",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Salonkamin liegt ein halb verbrannter Brief mit Londoner Poststempel. Darauf angesprochen gibt Lady Constance zu: Sie hat ihn nach Mitternacht verbrannt.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_brief",
+          "widerlegt": [
+            "luege_witwe_post"
+          ]
+        },
+        {
+          "id": "spur_asche_tinte",
+          "stelle": "Briefrand",
+          "entstehtWenn": {
+            "pfade": [
+              "witwe"
+            ]
+          },
+          "zeigt": "Am verkohlten Briefrand klebt ein frischer Fleck blauschwarzer Tinte.",
+          "harmlos": "Am verkohlten Briefrand klebt Ruß.",
+          "rolle": {
+            "witwe": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pfandschein_julian",
+      "name": "Julians Pfandschein",
+      "beschreibung": "Ein Zettel aus Julians Westentasche.",
+      "lage": {
+        "traeger": "neffe",
+        "stelle": "in Julians Westentasche"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_pfandschein",
+          "stelle": "Zettel",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "In Julians Westentasche steckt ein Pfandschein für Lord Edmunds goldene Taschenuhr. Darauf angesprochen gibt Julian zu: Er hat die Uhr versetzt.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_pfand",
+          "widerlegt": [
+            "luege_neffe_uhr"
+          ]
+        },
+        {
+          "id": "spur_pfandschein_tinte",
+          "stelle": "Rand",
+          "entstehtWenn": {
+            "pfade": [
+              "neffe"
+            ]
+          },
+          "zeigt": "Auf dem Pfandschein kleben frische blauschwarze Tintenfinger.",
+          "harmlos": "Der Pfandschein ist am Rand eingerissen und abgegriffen.",
+          "rolle": {
+            "neffe": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sekretaer",
+      "name": "Edmunds Sekretär",
+      "beschreibung": "Lord Edmunds Sekretär im Arbeitszimmer. Die oberste Lade steht einen Fingerbreit offen.",
+      "lage": {
+        "ort": "am_sekretaer",
+        "stelle": "oberste Lade"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_sekretaer_gelesen",
+          "stelle": "Schloss",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Das Schloss des Sekretärs wurde mit einem Nachschlüssel geöffnet, und Lord Edmunds Briefe liegen verschoben. Darauf angesprochen gibt Pell zu: Er hat sie gelesen.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_sekretaer",
+          "widerlegt": [
+            "luege_butler_sekretaer"
+          ]
+        },
+        {
+          "id": "spur_sekretaer_tinte",
+          "stelle": "Briefe",
+          "entstehtWenn": {
+            "pfade": [
+              "butler"
+            ]
+          },
+          "zeigt": "Auf den Briefen liegen frische blauschwarze Tintenfinger.",
+          "harmlos": "Auf den Briefen liegt eine dünne Staubschicht.",
+          "rolle": {
+            "butler": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "chemiekasten",
+      "name": "Chemiekasten von Doktor Marsh",
+      "beschreibung": "Der Chemiekasten von Doktor Marsh auf dem Lesetisch der Bibliothek. Der Deckel steht offen.",
+      "lage": {
+        "ort": "am_chemiekasten",
+        "stelle": "auf dem Lesetisch"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_diplom",
+          "stelle": "Deckel",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Deckel des Chemiekastens steckt ein Diplom auf den Namen Henry Marsh. Darauf angesprochen gibt Doktor Marsh zu: Es gehörte ihrem verstorbenen Bruder.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_diplom",
+          "widerlegt": [
+            "luege_aerztin_diplom"
+          ]
+        },
+        {
+          "id": "spur_chemiekasten_tinte",
+          "stelle": "Griff",
+          "entstehtWenn": {
+            "pfade": [
+              "aerztin"
+            ]
+          },
+          "zeigt": "Am Griff des Chemiekastens kleben frische blauschwarze Tintenfinger.",
+          "harmlos": "Am Griff des Chemiekastens haften Glasstaub und ein Wollfaden.",
+          "rolle": {
+            "aerztin": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kartentisch",
+      "name": "Kartentisch im Salon",
+      "beschreibung": "Der Kartentisch im Salon mit einer halbfertigen Patience, einer Teetasse und einem Kerzenleuchter.",
+      "lage": {
+        "ort": "am_kartentisch",
+        "stelle": "auf dem Tisch"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_patience",
+          "stelle": "Tischplatte",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Eine halbfertige Patience, eine Teetasse und eine Kerze, die weit heruntergebrannt ist.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "arbeitskamin",
+      "name": "Kamin im Arbeitszimmer",
+      "beschreibung": "Der Kamin im Arbeitszimmer. In der Asche liegen verkohlte Briefbögen.",
+      "lage": {
+        "ort": "am_arbeitskamin",
+        "stelle": "in der Asche"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_asche_arbeitszimmer",
+          "stelle": "Asche",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Verkohlte Briefbögen liegen als schwarze Flocken im Kamin. Ein paar Wörter schimmern noch durch.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tintenfass",
+      "name": "Tintenfass auf Edmunds Schreibtisch",
+      "beschreibung": "Das Tintenfass auf Lord Edmunds Schreibtisch ist umgestoßen. Die blauschwarze Tinte ist noch frisch.",
+      "lage": {
+        "ort": "am_schreibtisch",
+        "stelle": "auf der Schreibunterlage"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_tinte_umgestossen",
+          "stelle": "Schreibunterlage",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Das Tintenfass liegt umgestoßen auf der Schreibunterlage. Blauschwarze Tinte ist über die Briefbögen gelaufen.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "standuhr",
+      "name": "Standuhr in der Halle",
+      "beschreibung": "Die Standuhr in der Halle steht still auf zehn nach elf.",
+      "lage": {
+        "ort": "an_der_standuhr",
+        "stelle": "im Gehäuse"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_uhr_steht",
+          "stelle": "Zifferblatt",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Das Pendel der Standuhr hängt still. Die Zeiger stehen auf zehn nach elf, seit der Donner das Haus erschüttert hat.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        },
+        {
+          "id": "spur_standuhr_ring",
+          "stelle": "Gehäuse",
+          "entstehtWenn": {
+            "pfade": [
+              "witwe"
+            ]
+          },
+          "zeigt": "Hinter dem Pendel im Gehäuse der Standuhr liegt Lord Edmunds Siegelring.",
+          "harmlos": "Hinter dem Pendel im Gehäuse der Standuhr hängt der Schlüssel für den Vorratskeller.",
+          "rolle": {
+            "witwe": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rosenbeet",
+      "name": "Rosenbeet unter dem Salonfenster",
+      "beschreibung": "Das Rosenbeet unter dem Salonfenster. Der Regen hat die Erde aufgeweicht; tiefe Abdrücke sind zu sehen.",
+      "lage": {
+        "ort": "am_rosenbeet",
+        "stelle": "in der weichen Erde"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "laeufer",
+      "name": "Läufer vor dem Portal",
+      "beschreibung": "Der Läufer vor dem Portal ist voller Schlammspuren.",
+      "lage": {
+        "ort": "am_laeufer",
+        "stelle": "auf dem Läufer"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "leuchter_speisesaal",
+      "name": "Silberleuchter im Speisesaal",
+      "beschreibung": "Die schweren Silberleuchter stehen zum Polieren auf der Tafel im Speisesaal.",
+      "lage": {
+        "ort": "an_den_leuchtern",
+        "stelle": "auf der Tafel"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "geschirrschrank",
+      "name": "Geschirrschrank im Speisesaal",
+      "beschreibung": "Der Geschirrschrank im Speisesaal mit Tellern, Tassen und dem Silberkasten.",
+      "lage": {
+        "ort": "am_geschirrschrank",
+        "stelle": "im Silberkasten"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_schrank_ring",
+          "stelle": "Silberkasten",
+          "entstehtWenn": {
+            "pfade": [
+              "butler"
+            ]
+          },
+          "zeigt": "Hinter dem Silberkasten im Geschirrschrank liegt Lord Edmunds Siegelring.",
+          "harmlos": "Im Geschirrschrank stehen Teller, Tassen und der Silberkasten.",
+          "rolle": {
+            "butler": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hecke",
+      "name": "Buchsbaumhecke im Garten",
+      "beschreibung": "Die Buchsbaumhecke im Garten, vom Regen durchnässt.",
+      "lage": {
+        "ort": "an_der_hecke",
+        "stelle": "tief im Buchs"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_hecke_ring",
+          "stelle": "Buchs",
+          "entstehtWenn": {
+            "pfade": [
+              "neffe"
+            ]
+          },
+          "zeigt": "Tief in der Buchsbaumhecke steckt Lord Edmunds Siegelring.",
+          "harmlos": "In der Buchsbaumhecke hängen nasse Blätter und ein altes Spinnennetz.",
+          "rolle": {
+            "neffe": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "geraetekiste",
+      "name": "Gerätekiste des Gärtners",
+      "beschreibung": "Die Gerätekiste des Gärtners im Garten, voller Säcke mit Rosenerde.",
+      "lage": {
+        "ort": "an_der_geraetekiste",
+        "stelle": "unter den Säcken"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_kiste_ring",
+          "stelle": "Boden der Kiste",
+          "entstehtWenn": {
+            "pfade": [
+              "aerztin"
+            ]
+          },
+          "zeigt": "Unter den Säcken mit Rosenerde in der Gerätekiste liegt Lord Edmunds Siegelring.",
+          "harmlos": "In der Gerätekiste liegen Säcke mit Rosenerde und Gartenwerkzeug.",
+          "rolle": {
+            "aerztin": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "siegelring_edmund",
+      "name": "Lord Edmunds Siegelring",
+      "beschreibung": "Der schwere Goldring mit dem Wappen von Ravensmoor. Ohne ihn lässt sich das neue Testament nicht siegeln.",
+      "lage": {
+        "versteckt": true
+      },
+      "sichtbar": false,
+      "versteckJePfad": {
+        "witwe": {
+          "ort": "an_der_standuhr",
+          "stelle": "hinter dem Pendel im Gehäuse der Standuhr"
+        },
+        "butler": {
+          "ort": "am_geschirrschrank",
+          "stelle": "hinter dem Silberkasten im Geschirrschrank"
+        },
+        "aerztin": {
+          "ort": "an_der_geraetekiste",
+          "stelle": "unter den Säcken in der Gerätekiste"
+        },
+        "neffe": {
+          "ort": "an_der_hecke",
+          "stelle": "tief in der Buchsbaumhecke"
+        }
+      }
+    }
+  ],
+  "nebendelikte": [
+    {
+      "id": "nd_brief",
+      "person": "witwe",
+      "text": "Nach Mitternacht einen Brief aus London im Salonkamin verbrannt.",
+      "duText": "Du hast nach Mitternacht einen Brief aus London im Salonkamin verbrannt."
+    },
+    {
+      "id": "nd_pfand",
+      "person": "neffe",
+      "text": "Lord Edmunds goldene Taschenuhr versetzt.",
+      "duText": "Du hast Lord Edmunds goldene Taschenuhr versetzt."
+    },
+    {
+      "id": "nd_sekretaer",
+      "person": "butler",
+      "text": "Mit dem Zweitschlüssel Lord Edmunds Sekretär geöffnet und dessen Briefe gelesen.",
+      "duText": "Du hast mit dem Zweitschlüssel Lord Edmunds Sekretär geöffnet und dessen Briefe gelesen."
+    },
+    {
+      "id": "nd_diplom",
+      "person": "aerztin",
+      "text": "Mit dem Diplom ihres verstorbenen Bruders Henry praktiziert.",
+      "duText": "Du praktizierst mit dem Diplom deines verstorbenen Bruders Henry."
+    }
+  ]
+}

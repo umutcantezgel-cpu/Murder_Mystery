@@ -1,0 +1,55 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung aerztin.",
+  "eintraege": [
+    {
+      "rolle": "aerztin",
+      "tarnung": "Du sagst: „Nach dem Kräutertee für die Lady habe ich in der Bibliothek meinen Bericht geschrieben, bis Pell durchs Haus rief.“ Bleib sachlich und ruhig, wie es einer Ärztin zusteht.",
+      "tatwissen": [
+        {
+          "text": "Lord Edmund hat entdeckt, dass dein Diplom deinem verstorbenen Bruder gehörte. Er will es am Morgen öffentlich machen. Dann wärst du deine Praxis los."
+        },
+        {
+          "text": "Nach dem Tee für die Lady lässt du deinen Bericht liegen und gehst ins Arbeitszimmer. Du willst Lord Edmund bitten zu schweigen."
+        },
+        {
+          "text": "Er lehnt ab. Beim Donnerschlag um zehn nach elf greifst du nach dem silbernen Brieföffner auf dem Schreibtisch. Als der Donner verhallt, liegt er still vor dem Kamin."
+        },
+        {
+          "text": "Du drückst ihm dein Taschentuch in die Hand. Es riecht nach Karbol."
+        },
+        {
+          "ref": "spur:spur_tuch_karbol"
+        },
+        {
+          "text": "Du ziehst den Siegelring von seinem Finger und wischst den Brieföffner ab. Dabei stößt du das Tintenfass um, und blaue Tinte klebt an deinen Fingern. Später bleibt sie am Griff deines Chemiekastens zurück."
+        },
+        {
+          "ref": "spur:spur_chemiekasten_tinte"
+        },
+        {
+          "text": "Du läufst durch den Garten zur Gerätekiste des Gärtners und verbirgst Ring und Brieföffner unter den Säcken mit Rosenerde. Dann kehrst du in die Bibliothek zurück."
+        },
+        {
+          "ref": "spur:spur_kiste_ring"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_aerztin_testament"
+        },
+        {
+          "ref": "luege:luege_aerztin_diplom"
+        },
+        {
+          "ref": "nebendelikt:nd_diplom"
+        },
+        {
+          "text": "Kommt es heraus, verlierst du deine Praxis."
+        }
+      ],
+      "ziel": "Du willst unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}

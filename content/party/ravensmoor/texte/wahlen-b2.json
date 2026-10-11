@@ -1,0 +1,67 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "gw_gaertner_1",
+      "a": "Ich sage dem Inspektor alles, was ich von Pell weiß. Damit verrate ich ihn.",
+      "b": "Ich schweige. Pell hat es nicht verdient, dass ich über ihn rede."
+    },
+    {
+      "id": "gw_gaertner_2",
+      "a": "Ich erzähle dem Inspektor, was ich vom Küchenfenster gesehen habe. Damit bringe ich Pell in Gefahr.",
+      "b": "Pell und ich halten zusammen. Dem Inspektor sage ich dazu nichts."
+    },
+    {
+      "id": "gw_gaertner_3",
+      "a": "Ich sage es offen: Nach dem Donnerschlag war ich draußen im Garten.",
+      "b": "Ich war die ganze Nacht im Häuschen. Mehr gibt es dazu nicht."
+    },
+    {
+      "id": "gw_koechin_1",
+      "a": "Ich sage dem Inspektor, dass Julian beim Dinner heftig mit seinem Onkel gestritten hat. Julian wird mir das nicht verzeihen.",
+      "b": "Ich schweige. Julian soll meinetwegen keinen Ärger bekommen."
+    },
+    {
+      "id": "gw_koechin_2",
+      "a": "Ich sage dem Inspektor, dass Julian ohne Taschenuhr am Tisch saß. Damit bringe ich Julian in Schwierigkeiten.",
+      "b": "Julian und ich halten zusammen. Dem Inspektor sage ich dazu nichts."
+    },
+    {
+      "id": "gw_koechin_3",
+      "a": "Ich sage es offen: Ich habe nach Mitternacht Lady Constance am Salonkamin gesehen.",
+      "b": "Was im Salon geschieht, geht die Küche nichts an. Ich halte dicht."
+    },
+    {
+      "id": "gw_zofe_1",
+      "a": "Ich sage dem Inspektor, dass ich den Umschlag aus London gegen das Licht gehalten habe. Lady Constance wird mir das nicht verzeihen.",
+      "b": "Ich schweige. Lady Constance soll sich auf mich verlassen können."
+    },
+    {
+      "id": "gw_zofe_2",
+      "a": "Ich sage dem Inspektor, dass Lady Constance nicht immer im Zimmer war. Damit bringe ich sie in Schwierigkeiten.",
+      "b": "Lady Constance und ich halten zusammen. Dem Inspektor sage ich dazu nichts."
+    },
+    {
+      "id": "gw_zofe_3",
+      "a": "Ich sage dem Inspektor alles, was ich über die Lady und den Brief aus London weiß.",
+      "b": "Was ich über die Lady weiß, behalte ich für mich."
+    },
+    {
+      "id": "gw_anwalt_1",
+      "a": "Ich sage dem Inspektor, dass Julian mir einen Pfandschein gezeigt hat. Damit breche ich das Mandantengeheimnis.",
+      "b": "Ich schweige. Das Mandantengeheimnis ist mein Beruf."
+    },
+    {
+      "id": "gw_anwalt_2",
+      "a": "Ich sage dem Inspektor, was Lord Edmund im neuen Testament vorgesehen hatte. Damit breche ich meine Schweigepflicht.",
+      "b": "Ich wahre meine Schweigepflicht. Über das Testament spreche ich nicht."
+    },
+    {
+      "id": "gw_anwalt_3",
+      "a": "Ich sage es offen: Julian bat mich nachts um einen Vorschuss und zeigte mir den Pfandschein.",
+      "b": "Mandanten verrät man nicht. Ich halte dicht."
+    }
+  ]
+}

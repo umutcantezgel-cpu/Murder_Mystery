@@ -1,0 +1,94 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Regeln für Wege und Wahrnehmung in der Tatnacht von Ravensmoor. Die Akte hat keine physische Simulation (fall.simulation ist false); die Werte dienen nur der Karte und dem Licht.",
+  "tempo": {
+    "dunkel": 1.0,
+    "hell": 1.5,
+    "rennen": 2.5,
+    "regel": "Gehen im Dunkeln höchstens 1 m/s, bei Licht höchstens 1,5 m/s. Rennen höchstens 2,5 m/s und nie lautlos."
+  },
+  "licht": {
+    "voll": [
+      "lampe"
+    ],
+    "schwach": [
+      "kerze",
+      "feuer"
+    ],
+    "rest": [
+      "notlicht",
+      "nachleuchten"
+    ],
+    "erkennenSchwachBis": 3.0,
+    "regel": "Sehen braucht Licht am Ziel und eine freie Sichtlinie. Bei Gaslicht erkennt man Personen im ganzen Raum. Bei Kerzenschein erkennt man Gesicht und Farben bis 3 m, weiter weg nur Umrisse."
+  },
+  "hoeren": {
+    "klassen": {
+      "sehr_laut": "im selben Raum und in jedem direkt angrenzenden Raum hinter offener oder angelehnter Tür; zwei Räume weiter nicht",
+      "laut": "im selben Raum; im Nachbarraum nur bis 3 m von der offenen Tür",
+      "leise": "im selben Raum bis 3 m"
+    },
+    "tumult": {
+      "von": "23:09:50",
+      "bis": "23:10:30",
+      "raeume": [
+        "hall",
+        "study",
+        "salon",
+        "library",
+        "dining"
+      ],
+      "lautBis": 3.0,
+      "leiseBis": 1.5,
+      "regel": "Im Donner hört man Lautes nur bis 3 m und Leises nur bis 1,5 m. Sehr Lautes hört man weiter überall."
+    },
+    "zweiTueren": "Zwei Räume weiter oder hinter einer geschlossenen Tür hört man nichts Genaues.",
+    "schritte": {
+      "gehen": "leise",
+      "rennen": "laut"
+    },
+    "liegend": "Wer bewusstlos liegt, hört nichts.",
+    "bund": "Wer den Schlüsselring trägt, hält ihn fest in der Hand. Er klimpert nur beim Gehen.",
+    "tueren": "Eine offene Tür quietscht nicht, wenn man hindurchgeht. Wird eine quietschende Tür geöffnet oder geschlossen, ist das laut.",
+    "hindernisse": "Möbel dämpfen nicht; es zählen nur Räume, Türen und Abstand."
+  },
+  "fuehlen": {
+    "bis": 1.0,
+    "regel": "Berührung bis 1 m. Man spürt, dass jemand da ist, aber nicht, wer."
+  },
+  "riechen": {
+    "nachwirkenSekunden": 90,
+    "regel": "Im selben Raum oder in Räumen, in die der Luftzug den Geruch trägt."
+  },
+  "haltungen": {
+    "steht": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "sitzt": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "kauert": {
+      "sieht": false,
+      "hoert": "alles"
+    },
+    "liegt": {
+      "sieht": false,
+      "hoert": "nichts"
+    }
+  },
+  "abtastung": {
+    "sekunden": 1,
+    "matrixSchritt": 15,
+    "fenster": [
+      "23:05:00",
+      "23:15:00"
+    ],
+    "planFenster": [
+      "22:30:00",
+      "00:15:00"
+    ]
+  },
+  "zeitgefuehl": "Im Dunkeln schätzt niemand Zeitabstände verlässlich. Als Wissen zählt nur die Reihenfolge von Ereignissen, die eine Person selbst wahrgenommen hat."
+}

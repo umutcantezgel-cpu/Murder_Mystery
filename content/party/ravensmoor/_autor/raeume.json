@@ -1,0 +1,437 @@
+{
+  "hinweis": "Autoren-Overlay für raeume.json. Räume, Türen, Einrichtung und Standorte der Hotspots und Figuren erzeugt der Konverter mechanisch aus der Karte des Szenarios; hier stehen nur Namen, Beschreibungen und Zusatzorte.",
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l). Das Haus hat ein Erdgeschoss; das obere Stockwerk mit den Schlafzimmern liegt außerhalb der Karte.",
+  "raeume": {
+    "library": {
+      "features": [
+        "Bücherregale bis zur Decke",
+        "Pult am Fenster",
+        "Chemiekasten der Ärztin",
+        "Lesesessel",
+        "Stehlampe"
+      ],
+      "beschreibung": "Der Westflügel des Hauses. Bücher bis unter die Decke, ein Pult am Fenster und ein warmer Lesesessel."
+    },
+    "study": {
+      "features": [
+        "Schreibtisch mit Tintenfass",
+        "Sekretär",
+        "Kamin",
+        "Sessel",
+        "Bücherregale"
+      ],
+      "beschreibung": "Lord Edmunds Arbeitszimmer. Vor dem Kamin wurde er tot gefunden."
+    },
+    "kitchen": {
+      "features": [
+        "Herd",
+        "Spüle",
+        "Speiseschrank",
+        "Arbeitstisch",
+        "Tür zum Vorratskeller"
+      ],
+      "beschreibung": "Die große Küche mit dem Herd an der Nordwand. Hier hat Mrs Hobbs das Sagen."
+    },
+    "cellar": {
+      "features": [
+        "alte Vorräte in Tonnen",
+        "Regal an der Wand",
+        "Kerzen"
+      ],
+      "beschreibung": "Der kühle Vorratskeller hinter der Küche. Die Tür zu ist, der Schlüssel liegt im Gehäuse der Standuhr."
+    },
+    "salon": {
+      "features": [
+        "Klavier",
+        "Kamin",
+        "Kartentisch",
+        "Sofa und Sessel"
+      ],
+      "beschreibung": "Der gemütliche Salon mit dem Klavier und dem Kamin. Hier treffen sich alle, wenn es etwas zu besprechen gibt."
+    },
+    "hall": {
+      "anzeigename": "Halle",
+      "features": [
+        "Standuhr",
+        "Garderobe",
+        "Portal",
+        "Treppenaufgang"
+      ],
+      "beschreibung": "Die Eingangshalle mit Schachbrettboden und der großen Standuhr. Von hier führt jeder Weg ins Haus."
+    },
+    "dining": {
+      "features": [
+        "lange Tafel mit zwölf Stühlen",
+        "Silberleuchter",
+        "Geschirrschrank",
+        "Kamin"
+      ],
+      "beschreibung": "Der Speisesaal mit der langen Tafel. Das Silber glänzt im Licht der Kerzen."
+    },
+    "garden": {
+      "features": [
+        "Rosenbeet unter dem Salonfenster",
+        "Buchsbaumhecke",
+        "Gerätekiste des Gärtners",
+        "Statue der ersten Lady"
+      ],
+      "beschreibung": "Der weitläufige Garten hinter dem Haus. Der Regen hat Wege und Beete in Schlamm verwandelt."
+    }
+  },
+  "einrichtungNamen": {
+    "bookshelf": "Bücherregal",
+    "lamp": "Gaslampe",
+    "armchair": "Sessel",
+    "table": "Tisch",
+    "chair": "Stuhl",
+    "rug": "Teppich",
+    "desk": "Schreibtisch",
+    "plant": "Zimmerpflanze",
+    "cabinet": "Schrank",
+    "fireplace": "Kamin",
+    "papers": "Papiere",
+    "stove": "Herd",
+    "sink": "Spüle",
+    "counter": "Arbeitsfläche",
+    "fridge": "Eisschrank",
+    "barrel": "Tonne",
+    "crate": "Kiste",
+    "candles": "Kerzen",
+    "piano": "Klavier",
+    "seat": "Hocker",
+    "sofa": "Sofa",
+    "statue": "Statue",
+    "clock": "Standuhr",
+    "wardrobe": "Garderobenschrank",
+    "tree": "Baum",
+    "bush": "Busch",
+    "puddle": "Pfütze"
+  },
+  "einrichtungSonder": {
+    "10,5": "Kamin im Arbeitszimmer",
+    "6,8": "Kamin im Salon",
+    "24,8": "Kamin im Speisesaal",
+    "12,3": "Edmunds Schreibtisch",
+    "13,3": "Edmunds Schreibtisch",
+    "10,2": "Edmunds Sekretär",
+    "15,8": "Standuhr",
+    "2,8": "Klavier",
+    "19,8": "Geschirrschrank",
+    "27,8": "Anrichte",
+    "17,1": "Speiseschrank",
+    "22,19": "Buchsbaumhecke",
+    "23,19": "Buchsbaumhecke",
+    "7,16": "Rosenstrauch",
+    "3,16": "Rosenstrauch",
+    "27,21": "Gerätekiste",
+    "26,21": "Gerätekiste",
+    "1,18": "Statue der ersten Lady",
+    "11,13": "Garderobe",
+    "5,3": "Chemiekasten",
+    "4,3": "Lesetisch",
+    "1,5": "Lesesessel",
+    "2,13": "Kartentisch",
+    "25,6": "Kellerregal",
+    "25,5": "Kellerregal",
+    "20,8": "Silberleuchter",
+    "22,8": "Silberleuchter",
+    "26,8": "Silberleuchter"
+  },
+  "tueren": {
+    "tuer_library_study": {
+      "name": "Tür zwischen Bibliothek und Arbeitszimmer",
+      "art": "Eichentür mit Messingklinke",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    "tuer_kitchen_cellar": {
+      "name": "Tür zum Vorratskeller",
+      "art": "schwere Eichentür mit Kastenschloss",
+      "zustand": "zu, der Schlüssel liegt im Gehäuse der Standuhr",
+      "quietscht": true
+    },
+    "tuer_library_salon": {
+      "name": "Tür zwischen Bibliothek und Salon",
+      "art": "Eichentür",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    "tuer_study_hall": {
+      "name": "Tür zwischen Arbeitszimmer und Eingangshalle",
+      "art": "Eichentür mit Milchglas",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    "tuer_kitchen_dining": {
+      "name": "Tür zwischen Küche und Speisesaal",
+      "art": "Pendeltür",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    "tuer_salon_hall": {
+      "name": "Tür zwischen Salon und Eingangshalle",
+      "art": "zweiflügelige Flügeltür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    "tuer_hall_dining": {
+      "name": "Tür zwischen Eingangshalle und Speisesaal",
+      "art": "zweiflügelige Flügeltür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    "tuer_salon_garden": {
+      "name": "Gartentür des Salons",
+      "art": "Glastür mit Holzrahmen",
+      "zustand": "zu",
+      "quietscht": true
+    },
+    "tuer_hall_garden": {
+      "name": "Portal zum Garten",
+      "art": "schweres Portal mit Eisenbeschlag",
+      "zustand": "zu",
+      "quietscht": true
+    },
+    "tuer_dining_garden": {
+      "name": "Gartentür des Speisesaals",
+      "art": "Glastür mit Holzrahmen",
+      "zustand": "zu",
+      "quietscht": true
+    }
+  },
+  "hotspotOrte": {
+    "h_leiche": [
+      "bei_edmund",
+      "bei Lord Edmund vor dem Kamin"
+    ],
+    "h_schreibtisch": [
+      "am_schreibtisch",
+      "am Schreibtisch im Arbeitszimmer"
+    ],
+    "h_kamin": [
+      "am_arbeitskamin",
+      "am Kamin im Arbeitszimmer"
+    ],
+    "h_sekretaer": [
+      "am_sekretaer",
+      "am Sekretär im Arbeitszimmer"
+    ],
+    "h_tropfen": [
+      "bei_den_flecken",
+      "bei den Flecken auf dem Parkett"
+    ],
+    "h_labor": [
+      "am_chemiekasten",
+      "am Chemiekasten in der Bibliothek"
+    ],
+    "h_sessel": [
+      "am_lesesessel",
+      "am Lesesessel in der Bibliothek"
+    ],
+    "h_kartentisch": [
+      "am_kartentisch",
+      "am Kartentisch im Salon"
+    ],
+    "h_uhr": [
+      "an_der_standuhr",
+      "an der Standuhr in der Halle"
+    ],
+    "h_laeufer": [
+      "am_laeufer",
+      "auf dem Läufer vor dem Portal"
+    ],
+    "h_garderobe": [
+      "an_der_garderobe",
+      "an der Garderobe in der Halle"
+    ],
+    "h_schuhkasten": [
+      "am_schuhkasten",
+      "am Schuhputzkasten in der Küche"
+    ],
+    "h_speiseschrank": [
+      "am_speiseschrank",
+      "am Speiseschrank in der Küche"
+    ],
+    "h_anrichte": [
+      "an_der_anrichte",
+      "an der Anrichte im Speisesaal"
+    ],
+    "h_geschirrschrank": [
+      "am_geschirrschrank",
+      "am Geschirrschrank im Speisesaal"
+    ],
+    "h_beet": [
+      "am_rosenbeet",
+      "am Rosenbeet unter dem Salonfenster"
+    ],
+    "h_hecke": [
+      "an_der_hecke",
+      "an der Buchsbaumhecke"
+    ],
+    "h_schuppen": [
+      "an_der_geraetekiste",
+      "an der Gerätekiste des Gärtners"
+    ],
+    "h_kellerregal": [
+      "am_kellerregal",
+      "am Regal der alten Vorräte"
+    ],
+    "h_geist": [
+      "an_der_statue",
+      "an der Statue der ersten Lady"
+    ]
+  },
+  "figurOrte": {
+    "witwe": [
+      "bei_witwe",
+      "Platz von Lady Constance im Salon"
+    ],
+    "neffe": [
+      "bei_neffe",
+      "Platz von Julian im Speisesaal"
+    ],
+    "butler": [
+      "bei_butler",
+      "Platz von Pell in der Halle"
+    ],
+    "aerztin": [
+      "bei_aerztin",
+      "Platz von Doktor Marsh in der Bibliothek"
+    ],
+    "gaertner": [
+      "bei_gaertner",
+      "Platz von Silas in der Küche"
+    ],
+    "koechin": [
+      "bei_koechin",
+      "Platz von Mrs Hobbs in der Küche"
+    ],
+    "zofe": [
+      "bei_zofe",
+      "Platz von Tilly in der Halle"
+    ],
+    "anwalt": [
+      "bei_anwalt",
+      "Platz von Mr Crane in der Bibliothek"
+    ],
+    "edmund": [
+      "bei_edmund",
+      "bei Lord Edmund vor dem Kamin"
+    ],
+    "detective": [
+      "treffpunkt_salon",
+      "Treffpunkt der Ermittlung im Salon"
+    ]
+  },
+  "detektivPlatz": {
+    "x": 6,
+    "y": 12
+  },
+  "zusatzOrte": [
+    {
+      "id": "am_salonkamin",
+      "raum": "salon",
+      "x": 7,
+      "y": 8,
+      "name": "am Kamin im Salon"
+    },
+    {
+      "id": "an_den_leuchtern",
+      "raum": "dining",
+      "x": 20,
+      "y": 9,
+      "name": "bei den Silberleuchtern im Speisesaal"
+    },
+    {
+      "id": "am_treppenaufgang",
+      "raum": "hall",
+      "x": 12,
+      "y": 10,
+      "name": "am Fuß der Treppe in der Halle"
+    },
+    {
+      "id": "vor_dem_portal",
+      "raum": "hall",
+      "x": 14,
+      "y": 14,
+      "name": "vor dem Portal in der Halle"
+    }
+  ],
+  "lichtLitRaeume": {
+    "salon": {
+      "art": "lampe",
+      "name": "Gaslampen im Salon",
+      "an": [
+        [
+          "17:00",
+          "23:09:50"
+        ],
+        [
+          "23:20:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Der Salon ist der helle Schutzraum des Hauses. Beim Donnerschlag erlöschen auch hier die Gaslampen; Pell zündet sie um zwanzig nach elf wieder an."
+    }
+  },
+  "lichtZusatz": [
+    {
+      "id": "licht_gas_haus",
+      "art": "lampe",
+      "name": "Gaslampen im Haus",
+      "raeume": [
+        "library",
+        "study",
+        "kitchen",
+        "hall",
+        "dining"
+      ],
+      "an": [
+        [
+          "17:00",
+          "23:09:50"
+        ],
+        [
+          "23:20:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Beim Donnerschlag um zehn nach elf erlöschen die Gaslampen im ganzen Haus. Pell zündet sie um zwanzig nach elf wieder an."
+    },
+    {
+      "id": "licht_kamin_arbeitszimmer",
+      "art": "feuer",
+      "name": "Kaminfeuer im Arbeitszimmer",
+      "ort": "am_arbeitskamin",
+      "farbe": "#FF9329",
+      "radius": 3.0,
+      "flackern": 0.3,
+      "an": [
+        [
+          "18:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Das Feuer im Arbeitszimmer brennt die ganze Nacht."
+    },
+    {
+      "id": "licht_kamin_salon",
+      "art": "feuer",
+      "name": "Brennender Brief im Salonkamin",
+      "ort": "am_salonkamin",
+      "farbe": "#FF7A29",
+      "radius": 2.0,
+      "flackern": 0.5,
+      "an": [
+        [
+          "00:05:00",
+          "00:30:00"
+        ]
+      ],
+      "hinweis": "Der Kamin im Salon brennt nur kurz nach Mitternacht, als ein Brief darin verbrennt."
+    }
+  ],
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören: Räume mit einer Tür, die nicht verschlossen ist, grenzen aneinander. Der Donner übertönt in der Nacht alles Leise."
+  }
+}

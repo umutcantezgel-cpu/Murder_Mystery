@@ -1,0 +1,145 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "id": "g_witwe_3_1",
+      "rolle": "witwe",
+      "runde": 3,
+      "nr": 1,
+      "partner": "neffe",
+      "thema": "Julian und Lord Edmund",
+      "ziel": "Ich will wissen, was zwischen Julian und Lord Edmund gewesen ist.",
+      "preisgabe": [],
+      "text": "Julian, ihr habt euch beim Essen lange nicht angesehen. Was ist zwischen dir und Edmund vorgefallen? Sag es mir ehrlich."
+    },
+    {
+      "id": "g_witwe_3_2",
+      "rolle": "witwe",
+      "runde": 3,
+      "nr": 2,
+      "partner": "butler",
+      "thema": "Das Gerede im Haus",
+      "ziel": "Ich will das Gerede über mein altes Leben aus der Welt schaffen.",
+      "preisgabe": [
+        "luege:luege_witwe_name"
+      ],
+      "text": "Pell, im Haus flüstert man, ich hätte in London unter anderem Namen gesungen. Das ist Unsinn. Ich habe nie unter einem anderen Namen gesungen."
+    },
+    {
+      "id": "g_witwe_3_3",
+      "rolle": "witwe",
+      "runde": 3,
+      "nr": 3,
+      "partner": "aerztin",
+      "thema": "Die Ärztin und der Lord",
+      "ziel": "Ich will wissen, ob Doktor Marsh etwas gegen Lord Edmund hatte.",
+      "preisgabe": [],
+      "text": "Marsh, du kennst Lord Edmunds Herz besser als jeder andere. Hätte ihn ein Streit töten können? Sag es mir offen."
+    },
+    {
+      "id": "g_neffe_3_1",
+      "rolle": "neffe",
+      "runde": 3,
+      "nr": 1,
+      "partner": "aerztin",
+      "thema": "Meine Schulden",
+      "ziel": "Ich will wissen, ob Doktor Marsh Gerede über meine Schulden gehört hat.",
+      "preisgabe": [
+        "luege:luege_neffe_schulden"
+      ],
+      "text": "Marsh, falls du etwas gehört hast: Meine Schulden sind längst bezahlt. Wer etwas anderes sagt, redet Unsinn."
+    },
+    {
+      "id": "g_neffe_3_2",
+      "rolle": "neffe",
+      "runde": 3,
+      "nr": 2,
+      "partner": "witwe",
+      "thema": "Edmunds letzter Wille",
+      "ziel": "Ich will wissen, was Lady Constance vom neuen Testament hielt.",
+      "preisgabe": [],
+      "text": "Constance, wenn Onkel Edmund sein Testament geändert hätte, wer hätte am meisten verloren? Du oder ich?"
+    },
+    {
+      "id": "g_neffe_3_3",
+      "rolle": "neffe",
+      "runde": 3,
+      "nr": 3,
+      "partner": "koechin",
+      "thema": "Ich bin unschuldig",
+      "ziel": "Ich will, dass mir jemand glaubt, dass ich keinem etwas tun würde.",
+      "preisgabe": [],
+      "text": "Ich könnte keiner Fliege etwas zuleide tun. Das weiß doch jeder, der mich länger kennt. Oder etwa nicht?"
+    },
+    {
+      "id": "g_butler_3_1",
+      "rolle": "butler",
+      "runde": 3,
+      "nr": 1,
+      "partner": "aerztin",
+      "thema": "Das Medaillon",
+      "ziel": "Ich will, dass niemand mein Medaillon öffnen will.",
+      "preisgabe": [
+        "luege:luege_butler_medaillon"
+      ],
+      "text": "Doktor Marsh, das Medaillon an meiner Kette ist nur ein Andenken an meine Mutter. Mehr gibt es dazu nicht zu sagen."
+    },
+    {
+      "id": "g_butler_3_2",
+      "rolle": "butler",
+      "runde": 3,
+      "nr": 2,
+      "partner": "neffe",
+      "thema": "Der Schreck",
+      "ziel": "Ich will wissen, wann Julian vom Tod seines Onkels erfuhr.",
+      "preisgabe": [],
+      "text": "Julian, wie hast du den Donner erlebt? Und wann hast du erfahren, dass Lord Edmund tot ist?"
+    },
+    {
+      "id": "g_butler_3_3",
+      "rolle": "butler",
+      "runde": 3,
+      "nr": 3,
+      "partner": "witwe",
+      "thema": "Die Nacht im Haus",
+      "ziel": "Ich will der Lady zeigen, dass ich Wache halte.",
+      "preisgabe": [],
+      "text": "Mylady, noch ein Tee? Das Haus hat nachts seine eigenen Wege, und ich halte Wache."
+    },
+    {
+      "id": "g_aerztin_3_1",
+      "rolle": "aerztin",
+      "runde": 3,
+      "nr": 1,
+      "partner": "butler",
+      "thema": "Pells Handschuhe",
+      "ziel": "Ich will wissen, warum Pell nie ohne Handschuhe auftritt.",
+      "preisgabe": [],
+      "text": "Pell, du trägst immer weiße Handschuhe, sogar jetzt. Gibt es etwas, das du darunter verbirgst? Ich frage als Ärztin."
+    },
+    {
+      "id": "g_aerztin_3_2",
+      "rolle": "aerztin",
+      "runde": 3,
+      "nr": 2,
+      "partner": "neffe",
+      "thema": "Aufregung und Herz",
+      "ziel": "Ich will wissen, ob Julian seinem Onkel in dieser Nacht noch begegnet ist.",
+      "preisgabe": [],
+      "text": "Julian, bist du Lord Edmund heute Nacht noch einmal begegnet? Ein Streit hätte sein Herz nicht ausgehalten. Wie habt ihr euch verabschiedet?"
+    },
+    {
+      "id": "g_aerztin_3_3",
+      "rolle": "aerztin",
+      "runde": 3,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Was ich gesehen habe",
+      "ziel": "Ich will dem Inspektor sachlich schildern, was ich als Ärztin gesehen habe.",
+      "preisgabe": [],
+      "text": "Ich habe Lord Edmund untersucht, als man mich rief. Er war schon kalt. Mehr kann ich als Ärztin nicht sagen. Den Rest musst du herausfinden."
+    }
+  ]
+}

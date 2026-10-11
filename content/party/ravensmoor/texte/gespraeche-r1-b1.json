@@ -1,0 +1,147 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "id": "g_witwe_1_1",
+      "rolle": "witwe",
+      "runde": 1,
+      "nr": 1,
+      "partner": "butler",
+      "thema": "Der Abendbote",
+      "ziel": "Ich will wissen, ob Pell am Abend etwas bemerkt hat.",
+      "preisgabe": [
+        "luege:luege_witwe_post"
+      ],
+      "text": "Pell, der Bote hat heute Abend nichts für mich gebracht. Ich bekomme keine Post aus London. Dort kennt mich niemand mehr."
+    },
+    {
+      "id": "g_witwe_1_2",
+      "rolle": "witwe",
+      "runde": 1,
+      "nr": 2,
+      "partner": "neffe",
+      "thema": "Der Donner",
+      "ziel": "Ich will wissen, wo Julian war, als es donnerte.",
+      "preisgabe": [],
+      "text": "Julian, wo warst du, als der Donner kam? Ich lag mit Migräne im Dunkeln und habe von allem nichts mitbekommen."
+    },
+    {
+      "id": "g_witwe_1_3",
+      "rolle": "witwe",
+      "runde": 1,
+      "nr": 3,
+      "partner": "zofe",
+      "thema": "Mein Abend",
+      "ziel": "Ich will, dass mein Abend glaubhaft klingt.",
+      "preisgabe": [],
+      "text": "Ich hatte Migräne und habe den Abend im dunklen Zimmer verbracht. Und du, wo warst du, als der Donner kam?"
+    },
+    {
+      "id": "g_neffe_1_1",
+      "rolle": "neffe",
+      "runde": 1,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Der Streit mit Onkel Edmund",
+      "ziel": "Ich will wissen, was Lady Constance vom Dinner mitbekommen hat.",
+      "preisgabe": [
+        "beobachtung:b_neffe_geld"
+      ],
+      "text": "Constance, Onkel Edmund hat mir beim Dinner den Zuschuss gestrichen. Glatt gestrichen, vor allen Gästen. Hast du das gehört?"
+    },
+    {
+      "id": "g_neffe_1_2",
+      "rolle": "neffe",
+      "runde": 1,
+      "nr": 2,
+      "partner": "koechin",
+      "thema": "Mein Abend",
+      "ziel": "Ich will, dass mein Abend langweilig klingt.",
+      "preisgabe": [],
+      "text": "Ich saß den ganzen Abend im Salon und habe Patience gelegt. Der langweiligste Abend meines Lebens. Und du, was hast du vom Donner mitbekommen?"
+    },
+    {
+      "id": "g_neffe_1_3",
+      "rolle": "neffe",
+      "runde": 1,
+      "nr": 3,
+      "partner": "aerztin",
+      "thema": "Meine Nerven",
+      "ziel": "Ich will wissen, ob Doktor Marsh etwas gegen meine Nerven hat.",
+      "preisgabe": [],
+      "text": "Marsh, mir zittern die Hände. Das liegt am Donner und am Tee, nicht an mir. Hast du etwas für meine Nerven?"
+    },
+    {
+      "id": "g_butler_1_1",
+      "rolle": "butler",
+      "runde": 1,
+      "nr": 1,
+      "partner": "gaertner",
+      "thema": "Das Silber",
+      "ziel": "Ich will, dass mein Abend in der Küche glaubhaft klingt.",
+      "preisgabe": [
+        "beobachtung:b_butler_silber"
+      ],
+      "text": "Nach dem Dinner habe ich die Kerzen im Speisesaal gelöscht. Die Silberleuchter ließ ich zum Polieren auf der Tafel stehen. Danach war ich in der Küche."
+    },
+    {
+      "id": "g_butler_1_2",
+      "rolle": "butler",
+      "runde": 1,
+      "nr": 2,
+      "partner": "anwalt",
+      "thema": "Der Fund",
+      "ziel": "Ich will berichten, was ich um zwanzig vor zwölf getan habe.",
+      "preisgabe": [],
+      "text": "Um zwanzig vor zwölf habe ich Lord Edmund vor dem Kamin gefunden. Ich bin sofort durchs Haus gelaufen und habe gerufen. Wo warst du, als es donnerte?"
+    },
+    {
+      "id": "g_butler_1_3",
+      "rolle": "butler",
+      "runde": 1,
+      "nr": 3,
+      "partner": "neffe",
+      "thema": "Der Rundweg",
+      "ziel": "Ich will wissen, ob Julian nach zehn jemanden in der Halle bemerkt hat.",
+      "preisgabe": [],
+      "text": "Julian, ist dir nach zehn Uhr jemand durch die Halle aufgefallen? Ich muss das Haus im Blick behalten."
+    },
+    {
+      "id": "g_aerztin_1_1",
+      "rolle": "aerztin",
+      "runde": 1,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Der Kräutertee",
+      "ziel": "Ich will wissen, ob Lady Constance sich besser fühlt.",
+      "preisgabe": [
+        "beobachtung:b_aerztin_tee"
+      ],
+      "text": "Constance, ich habe dir gegen halb elf einen Kräutertee gebracht. Danach habe ich in der Bibliothek meinen Bericht geschrieben. Geht es dir besser?"
+    },
+    {
+      "id": "g_aerztin_1_2",
+      "rolle": "aerztin",
+      "runde": 1,
+      "nr": 2,
+      "partner": "zofe",
+      "thema": "Wer war unterwegs?",
+      "ziel": "Ich will wissen, wer beim Donner im Haus unterwegs war.",
+      "preisgabe": [],
+      "text": "Als der Donner kam, saß ich in der Bibliothek und habe geschrieben. Wer war sonst noch auf den Beinen?"
+    },
+    {
+      "id": "g_aerztin_1_3",
+      "rolle": "aerztin",
+      "runde": 1,
+      "nr": 3,
+      "partner": "butler",
+      "thema": "Der Fund",
+      "ziel": "Ich will wissen, wie Pell Lord Edmund gefunden hat.",
+      "preisgabe": [],
+      "text": "Pell, du bist als Erster zu Lord Edmund gelaufen. Wie hast du ihn gefunden? Ich muss es für den Totenschein wissen."
+    }
+  ]
+}

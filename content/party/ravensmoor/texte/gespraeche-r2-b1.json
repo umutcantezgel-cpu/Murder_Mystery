@@ -1,0 +1,149 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "id": "g_witwe_2_1",
+      "rolle": "witwe",
+      "runde": 2,
+      "nr": 1,
+      "partner": "aerztin",
+      "thema": "Das Dinner",
+      "ziel": "Ich will wissen, was Doktor Marsh beim Dinner im Sinn hatte.",
+      "preisgabe": [
+        "beobachtung:b_witwe_dinner"
+      ],
+      "text": "Marsh, beim Dinner war Julian nervös wie ein Rennpferd. Und du hast Lord Edmund den ganzen Abend beobachtet. Warum?"
+    },
+    {
+      "id": "g_witwe_2_2",
+      "rolle": "witwe",
+      "runde": 2,
+      "nr": 2,
+      "partner": "anwalt",
+      "thema": "Das neue Testament",
+      "ziel": "Ich will wissen, wer durch das neue Testament verloren hätte.",
+      "preisgabe": [],
+      "text": "Lord Edmund wollte sein Testament ändern. Wer hätte dabei verloren? Und wer kannte den Entwurf?"
+    },
+    {
+      "id": "g_witwe_2_3",
+      "rolle": "witwe",
+      "runde": 2,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Was ich dir sage",
+      "ziel": "Ich will dem Inspektor helfen, ohne mehr zu verraten als nötig.",
+      "preisgabe": [],
+      "text": "Du fragst dich bestimmt, wo ich war. Ich lag ab halb elf mit Migräne auf meinem Zimmer. Frag, was du willst, aber bitte leise."
+    },
+    {
+      "id": "g_neffe_2_1",
+      "rolle": "neffe",
+      "runde": 2,
+      "nr": 1,
+      "partner": "butler",
+      "thema": "Die Taschenuhr",
+      "ziel": "Ich will, dass niemand nach meiner Uhr fragt.",
+      "preisgabe": [
+        "luege:luege_neffe_uhr"
+      ],
+      "text": "Pell, falls jemand fragt: Meine Taschenuhr? Die hab ich nur zum Uhrmacher gebracht. Sie ging immer ein bisschen nach."
+    },
+    {
+      "id": "g_neffe_2_2",
+      "rolle": "neffe",
+      "runde": 2,
+      "nr": 2,
+      "partner": "zofe",
+      "thema": "Die Sitzordnung",
+      "ziel": "Ich will wissen, wer beim Dinner wo gesessen hat.",
+      "preisgabe": [],
+      "text": "Wer saß beim Dinner neben Onkel Edmund? Und wer hat am meisten geredet? Ich war zu nervös, um darauf zu achten."
+    },
+    {
+      "id": "g_neffe_2_3",
+      "rolle": "neffe",
+      "runde": 2,
+      "nr": 3,
+      "partner": "witwe",
+      "thema": "Der Salon",
+      "ziel": "Ich will wissen, warum Lady Constance früh nach oben ging.",
+      "preisgabe": [],
+      "text": "Constance, du bist nach oben gegangen, bevor wir Karten legen konnten. Schade, ich hätte Gesellschaft gebraucht."
+    },
+    {
+      "id": "g_butler_2_1",
+      "rolle": "butler",
+      "runde": 2,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Der Sekretär",
+      "ziel": "Ich will, dass niemand an Lord Edmunds Sekretär denkt.",
+      "preisgabe": [
+        "luege:luege_butler_sekretaer"
+      ],
+      "text": "Mylady, falls jemand fragt: Lord Edmunds Sekretär habe ich nie angerührt. Er war immer abgeschlossen."
+    },
+    {
+      "id": "g_butler_2_2",
+      "rolle": "butler",
+      "runde": 2,
+      "nr": 2,
+      "partner": "aerztin",
+      "thema": "Die Gaslampen",
+      "ziel": "Ich will wissen, ob Doktor Marsh nach dem Donner jemandem begegnet ist.",
+      "preisgabe": [],
+      "text": "Doktor Marsh, nach dem Donner waren alle Gaslampen aus. Ich habe sie um zwanzig nach elf wieder angezündet. Ist dir dabei jemand begegnet?"
+    },
+    {
+      "id": "g_butler_2_3",
+      "rolle": "butler",
+      "runde": 2,
+      "nr": 3,
+      "partner": "koechin",
+      "thema": "Das Teegeschirr",
+      "ziel": "Ich will wissen, wer heute Abend an den Teekannen war.",
+      "preisgabe": [],
+      "text": "Wer hat heute Abend an den Teekannen gestanden? Ich zähle morgens immer das Geschirr."
+    },
+    {
+      "id": "g_aerztin_2_1",
+      "rolle": "aerztin",
+      "runde": 2,
+      "nr": 1,
+      "partner": "neffe",
+      "thema": "Edmunds Herz",
+      "ziel": "Ich will Julian sagen, wie es um Lord Edmunds Herz stand.",
+      "preisgabe": [
+        "beobachtung:b_aerztin_herz"
+      ],
+      "text": "Julian, dein Onkel hatte ein schwaches Herz. Das habe ich ihm seit Monaten gesagt. Jede Aufregung konnte gefährlich werden."
+    },
+    {
+      "id": "g_aerztin_2_2",
+      "rolle": "aerztin",
+      "runde": 2,
+      "nr": 2,
+      "partner": "gaertner",
+      "thema": "Mein Diplom",
+      "ziel": "Ich will klarstellen, dass mein Diplom echt ist.",
+      "preisgabe": [
+        "luege:luege_aerztin_diplom"
+      ],
+      "text": "Falls hier jemand Gerede verbreitet: Mein Diplom ist echt und trägt meinen Namen. Daran gibt es nichts zu rütteln."
+    },
+    {
+      "id": "g_aerztin_2_3",
+      "rolle": "aerztin",
+      "runde": 2,
+      "nr": 3,
+      "partner": "anwalt",
+      "thema": "Der Chemiekasten",
+      "ziel": "Ich will, dass niemand meinen Chemiekasten durchwühlt.",
+      "preisgabe": [],
+      "text": "Mein Chemiekasten steht offen in der Bibliothek, weil ich damit arbeite. Wer ihn anfasst, soll es mir sagen. Er enthält Mittel, die in falschen Händen gefährlich sind."
+    }
+  ]
+}
