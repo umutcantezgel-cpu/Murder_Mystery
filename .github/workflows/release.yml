@@ -387,8 +387,8 @@ jobs:
             printf '  Bei einem Signaturwechsel (Test- auf Release-Schlüssel oder zurück) die alte App zuerst deinstallieren.\n'
             printf -- '- **iOS:** Die IPA ist unsigniert. Mit AltStore oder Sideloadly auf dem eigenen Gerät signieren und installieren.\n'
             printf -- '- **Web:** ZIP entpacken und auf einen beliebigen statischen Webhost legen (Wurzelverzeichnis).\n\n'
-            printf 'Der Schlosskeller funktioniert offline. Online benötigt einen eingerichteten öffentlichen Server. '
-            printf 'Aktueller Funktions- und Prüfstand: planung/abschluss/STATUS.md im Repository.\n'
+            printf 'Der Schlosskeller funktioniert offline. Online läuft ohne Einrichtung über das eingebaute Supabase-Relais (Raumcode). '
+            printf 'Spielanleitung: docs/ANLEITUNG.md. Aktueller Funktions- und Prüfstand: planung/einspiel/STATUS.md im Repository.\n'
           } >release/NOTES.md
 
           # „latest“ nur, wenn dieser Stand noch die Spitze von main oder des Arbeitsbranches ist.

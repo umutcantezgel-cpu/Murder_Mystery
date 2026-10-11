@@ -89,7 +89,13 @@ if [ "$STUFE" != "schnell" ]; then
   # Build-Cache leeren: Nach einem Build ohne „-o“ (build.sh) schreibt
   # Flutter sonst AssetManifest/FontManifest nicht neu (Nachtlauf E52).
   rm -rf .dart_tool/flutter_build
-  flutter build web --release --no-web-resources-cdn -o build/web
+  # Dieses Artefakt wird Release-ZIP und GitHub Pages: Server und Relais kommen wie in
+  # build.sh über tool/ci/dart_defines.sh (nur die gesetzten, öffentlichen Werte).
+  web_args=(--release --no-web-resources-cdn -o build/web)
+  while IFS= read -r zeile; do
+    if [ -n "$zeile" ]; then web_args+=("$zeile"); fi
+  done < <(bash tool/ci/dart_defines.sh)
+  flutter build web "${web_args[@]}"
 fi
 
 if [ "$STUFE" = "ci" ]; then

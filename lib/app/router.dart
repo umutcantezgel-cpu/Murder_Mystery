@@ -109,6 +109,25 @@ CustomTransitionPage<void> _fade(BuildContext context, GoRouterState state, Widg
   );
 }
 
+/// Hält die System-Zurück-Taste (Android) in der App: Die Seiten der obersten
+/// Ebene liegen allein im Navigator (der Wechsel läuft über `go`), die Taste
+/// würde sonst die App schließen. Sie führt stattdessen nach [ziel]; liegt unter
+/// der Seite eine andere (Deck-Bau per `push`), schließt sie nur die Seite.
+Widget _zurueckNach(String ziel, Widget seite) => Builder(
+  builder: (context) => PopScope(
+    canPop: false,
+    onPopInvokedWithResult: (didPop, _) {
+      if (didPop) return;
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go(ziel);
+      }
+    },
+    child: seite,
+  ),
+);
+
 GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, AbendHalter? abend, OnlineHalter? online}) => GoRouter(
   initialLocation: initialLocation,
   refreshListenable: app,
@@ -126,20 +145,37 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
   },
   routes: [
     GoRoute(path: Routes.detektei, pageBuilder: (c, s) => _fade(c, s, const DetekteiSeite())),
-    GoRoute(path: Routes.akte, pageBuilder: (c, s) => _fade(c, s, AkteSeite(akteId: s.pathParameters['id'] ?? ''))),
-    GoRoute(path: Routes.druckmappe, pageBuilder: (c, s) => _fade(c, s, DruckmappeSeite(akteId: s.pathParameters['id'] ?? ''))),
+    GoRoute(
+      path: Routes.akte,
+      pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.start, AkteSeite(akteId: s.pathParameters['id'] ?? ''))),
+    ),
+    GoRoute(
+      path: Routes.druckmappe,
+      pageBuilder: (c, s) {
+        final id = s.pathParameters['id'] ?? '';
+        return _fade(c, s, _zurueckNach(Routes.akteVon(id), DruckmappeSeite(akteId: id)));
+      },
+    ),
     GoRoute(
       path: Routes.abendNeu,
       pageBuilder: (c, s) => _fade(c, s, AbendNeuSeite(akteId: s.uri.queryParameters['akte'])),
     ),
-    GoRoute(path: Routes.abend, pageBuilder: (c, s) => _fade(c, s, const AbendSeite())),
+    GoRoute(
+      path: Routes.abend,
+      pageBuilder: (c, s) => _fade(c, s, const AbendSeite()),
+      // Solo und reihum fragt das Verlassen nach (auch die Browser-Zurück-Taste); die Belohnung ist ausgenommen.
+      onExit: (c, s) => abend == null ? true : abendVerlassen(c, abend),
+    ),
     GoRoute(path: Routes.abendLobby, pageBuilder: (c, s) => _fade(c, s, const GastgeberLobbySeite())),
-    GoRoute(path: Routes.beitreten, pageBuilder: (c, s) => _fade(c, s, BeitretenSeite(raum: s.uri.queryParameters['raum']))),
+    GoRoute(
+      path: Routes.beitreten,
+      pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.start, BeitretenSeite(raum: s.uri.queryParameters['raum']))),
+    ),
     GoRoute(path: Routes.gast, pageBuilder: (c, s) => _fade(c, s, const GastSeite())),
     GoRoute(path: Routes.abendBelohnung, pageBuilder: (c, s) => _fade(c, s, const BelohnungSeite())),
-    GoRoute(path: Routes.sammlung, pageBuilder: (c, s) => _fade(c, s, const SammlungSeite())),
-    GoRoute(path: Routes.sammlungDeck, pageBuilder: (c, s) => _fade(c, s, const DeckSeite())),
-    GoRoute(path: Routes.profile, pageBuilder: (c, s) => _fade(c, s, const ProfileScreen())),
+    GoRoute(path: Routes.sammlung, pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.start, const SammlungSeite()))),
+    GoRoute(path: Routes.sammlungDeck, pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.sammlung, const DeckSeite()))),
+    GoRoute(path: Routes.profile, pageBuilder: (c, s) => _fade(c, s, _zurueckNach(Routes.start, const ProfileScreen()))),
     // Entwickler- und Altrouten (nicht im Menü).
     GoRoute(path: Routes.klassik, pageBuilder: (c, s) => _fade(c, s, const HubScreen())),
     GoRoute(path: Routes.cases, pageBuilder: (c, s) => _fade(c, s, const CasesScreen())),

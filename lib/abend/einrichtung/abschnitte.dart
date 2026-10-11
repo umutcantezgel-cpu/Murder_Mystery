@@ -268,36 +268,54 @@ class PersonenAbschnitt extends _Abschnitt {
     );
   }
 
-  /// Eine besetzte Rolle: Farbpunkt, Figur und Feld für den Spielernamen.
+  /// Eine besetzte Rolle: Farbpunkt, Figur und Feld für den Spielernamen. Auf
+  /// schmalen Bildschirmen und bei großer Schrift steht das Feld unter Figur und
+  /// Titel; sonst bliebe dem Titel kaum Platz und Wörter bräche es mitten durch.
   Widget _rollenZeile(BuildContext context, String rolle, MSchrift t) => Padding(
         key: ValueKey('rolle-$rolle'),
         padding: const EdgeInsets.only(bottom: 10),
-        child: Row(
-          children: [
-            FarbPunkt(s.figurFarbe(rolle), groesse: 16),
-            const SizedBox(width: MMass.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(s.figurName(rolle), style: t.text),
-                  Text(s.figurTitel(rolle), style: t.leise),
-                ],
-              ),
-            ),
-            if (!werte.solo) const SizedBox(width: MMass.s12),
-            if (!werte.solo)
-              SizedBox(
-                width: 150,
-                child: TextField(
-                  key: ValueKey('name-$rolle'),
-                  controller: werte.namenFeld(rolle),
-                  textCapitalization: TextCapitalization.words,
-                  style: t.text,
-                  decoration: einrichtungFeld(context, s.ui('ui.einrichtung.name_feld')),
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final skala = MediaQuery.textScalerOf(context).scale(1);
+            final untereinander = box.maxWidth < 400 * (skala < 1 ? 1 : skala);
+            final feld = TextField(
+              key: ValueKey('name-$rolle'),
+              controller: werte.namenFeld(rolle),
+              textCapitalization: TextCapitalization.words,
+              style: t.text,
+              decoration: einrichtungFeld(context, s.ui('ui.einrichtung.name_feld')),
+            );
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    FarbPunkt(s.figurFarbe(rolle), groesse: 16),
+                    const SizedBox(width: MMass.s12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(s.figurName(rolle), style: t.text),
+                          Text(s.figurTitel(rolle), style: t.leise),
+                        ],
+                      ),
+                    ),
+                    if (!werte.solo && !untereinander) ...[
+                      const SizedBox(width: MMass.s12),
+                      SizedBox(width: 150, child: feld),
+                    ],
+                  ],
                 ),
-              ),
-          ],
+                if (!werte.solo && untereinander)
+                  Padding(
+                    // Unter dem Text der Figur: Breite des Farbpunkts plus Abstand.
+                    padding: const EdgeInsets.only(left: 16 + MMass.s12, top: MMass.s8),
+                    child: feld,
+                  ),
+              ],
+            );
+          },
         ),
       );
 }

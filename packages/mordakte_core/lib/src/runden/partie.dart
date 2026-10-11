@@ -189,13 +189,19 @@ class RundenPartie {
   }
 
   /// [karte] (Art werkzeug) ist die Quelle in der Welt für +1 (K-07); der
-  /// Deckel +2 bleibt. Sie wird erst mit dem Wurf verbraucht.
+  /// Deckel +2 bleibt. Sie wird erst mit dem Wurf verbraucht, und nur, wenn sie
+  /// wirkt: Liegt der Wurf auch ohne sie schon beim Deckel, bleibt die Ladung
+  /// (wie bei der Marke).
   Wurf wuerfeln({bool werkzeug = false, bool marke = false, String? karte}) {
     final z = _erwarte(RundenZugPhase.wurf);
     if (karte != null) {
       if (z.istAuftakt) throw const KartenFehler('card_wrong_moment');
       vorrat.pruefe(karte, {KartenArt.werkzeug});
-      werkzeug = true;
+      if (vorschau().mod >= WuerfelRegel.modMax) {
+        karte = null;
+      } else {
+        werkzeug = true;
+      }
     }
     if (z.istAbstecher) {
       final w = _zuege.abstecher('abstecher:${z.abstecher}',

@@ -294,29 +294,36 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
     return AkteThema(
       akte: _akteId ?? '',
       child: Builder(
-        builder: (context) => Scaffold(
-          backgroundColor: MFarben.von(context).grund,
-          body: MRahmen(
-            marke: l.abend_schritt(nummer, _Schritt.values.length),
-            titel: titel,
-            untertitel: untertitel,
-            kopf: _Schrittanzeige(aktuell: _schritt.index),
-            aktionen: [
-              MKnopf(
-                text: _schritt == _Schritt.akte ? l.common_cancel : l.common_back,
-                art: MKnopfArt.zweit,
-                onPressed: _zurueck,
+        // Die Zurück-Taste (Android) geht wie der Knopf einen Schritt zurück, statt die App zu verlassen.
+        builder: (context) => PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) _zurueck();
+          },
+          child: Scaffold(
+            backgroundColor: MFarben.von(context).grund,
+            body: MRahmen(
+              marke: l.abend_schritt(nummer, _Schritt.values.length),
+              titel: titel,
+              untertitel: untertitel,
+              kopf: _Schrittanzeige(aktuell: _schritt.index),
+              aktionen: [
+                MKnopf(
+                  text: _schritt == _Schritt.akte ? l.common_cancel : l.common_back,
+                  art: MKnopfArt.zweit,
+                  onPressed: _zurueck,
+                ),
+                MKnopf(
+                  text: letzter ? (_weise == Spielweise.eigene ? l.online_raum_oeffnen : l.abend_start) : l.abend_weiter,
+                  icon: letzter ? (_weise == Spielweise.eigene ? Icons.meeting_room_outlined : Icons.play_arrow_rounded) : null,
+                  onPressed: _kannWeiter && !_oeffnet ? (letzter ? _starten : _weiter) : null,
+                ),
+              ],
+              child: AnimatedSwitcher(
+                duration: MBewegung.normal(context),
+                layoutBuilder: (aktuell, vorher) => Stack(alignment: Alignment.topCenter, children: [...vorher, ?aktuell]),
+                child: KeyedSubtree(key: ValueKey(_schritt), child: _inhalt(context, l)),
               ),
-              MKnopf(
-                text: letzter ? (_weise == Spielweise.eigene ? l.online_raum_oeffnen : l.abend_start) : l.abend_weiter,
-                icon: letzter ? (_weise == Spielweise.eigene ? Icons.meeting_room_outlined : Icons.play_arrow_rounded) : null,
-                onPressed: _kannWeiter && !_oeffnet ? (letzter ? _starten : _weiter) : null,
-              ),
-            ],
-            child: AnimatedSwitcher(
-              duration: MBewegung.normal(context),
-              layoutBuilder: (aktuell, vorher) => Stack(alignment: Alignment.topCenter, children: [...vorher, ?aktuell]),
-              child: KeyedSubtree(key: ValueKey(_schritt), child: _inhalt(context, l)),
             ),
           ),
         ),
