@@ -13,6 +13,12 @@ Einstellungen _einstellungen(String pfad, {int rollen = 7}) => Einstellungen(
 RundenPartie _partie({WuerfelQuelle quelle = const FesterWuerfel.pech(), String pfad = 'ahmet'}) =>
     RundenPartie(kanon, quelle: quelle, ermittlung: _erm)..einrichten(_einstellungen(pfad));
 
+/// Partie mit einer Werkzeugkarte im Tischvorrat (Neutralwürfel 3+4).
+RundenPartie _partieMitWerkzeug(KartenDef karte) => RundenPartie(
+  kanon, quelle: const FesterWuerfel.neutral(), ermittlung: _erm,
+  vorrat: TischVorrat.aus([karte.id], KartenKatalog([karte])),
+)..einrichten(_einstellungen('ahmet'));
+
 /// Vollständiger Zug einschließlich der sichtbaren Aktion und des Fundlesens.
 void _zugFertig(RundenPartie p, {Tischruf ruf = Tischruf.nochmal}) {
   var schritte = 0;
@@ -163,6 +169,40 @@ void main() {
     expect(w.mod, v.mod);
     expect(w.garantie, v.garantie);
     expect(p.marken, bestand + 1); // Pech schenkt eine Marke, keine verfällt.
+  });
+
+  test('Werkzeugkarte am Deckel (gründlich): keine Ladung verbraucht, derselbe Wurf', () {
+    final lupe = KartenDef(
+      id: 'schlosskeller:ahmet:lupe', akte: 'schlosskeller', figur: 'ahmet', seltenheit: Seltenheit.gewoehnlich,
+      art: KartenArt.werkzeug, ladungen: 2, titel: 'Lupe', text: 'Eine Lupe.', quellen: const [KartenQuelle('start')],
+    );
+    final mit = _partieMitWerkzeug(lupe);
+    _bisEntscheidungen(mit, 2);
+    mit.waehle(mit.naechsteEntscheidung!.optionen.first.id, gruendlich: true);
+    mit.aktionFertig(mit.zug!.aktion);
+    expect(mit.vorschau().mod, WuerfelRegel.modMax, reason: 'gründlich liegt schon am Deckel');
+    final w = mit.wuerfeln(karte: lupe.id);
+    expect(mit.vorrat.rest(lupe.id), 2, reason: 'Die Werkzeugkarte wirkt nicht und bleibt erhalten');
+
+    final ohne = _partie(quelle: const FesterWuerfel.neutral());
+    _bisEntscheidungen(ohne, 2);
+    ohne.waehle(ohne.naechsteEntscheidung!.optionen.first.id, gruendlich: true);
+    ohne.aktionFertig(ohne.zug!.aktion);
+    expect(w.zeile, ohne.wuerfeln().zeile, reason: 'Würfelergebnis und Modifikator wie ohne Karte');
+  });
+
+  test('Werkzeugkarte unter dem Deckel: Ladung verbraucht, +1 im Wurf', () {
+    final lupe = KartenDef(
+      id: 'schlosskeller:ahmet:lupe', akte: 'schlosskeller', figur: 'ahmet', seltenheit: Seltenheit.gewoehnlich,
+      art: KartenArt.werkzeug, ladungen: 2, titel: 'Lupe', text: 'Eine Lupe.', quellen: const [KartenQuelle('start')],
+    );
+    final p = _partieMitWerkzeug(lupe);
+    _bisEntscheidungen(p, 2);
+    p.waehle(p.naechsteEntscheidung!.optionen.first.id);
+    p.aktionFertig(p.zug!.aktion);
+    final w = p.wuerfeln(karte: lupe.id);
+    expect(w.mod, 1);
+    expect(p.vorrat.rest(lupe.id), 1);
   });
 
   test('Zug-Ansichten und öffentliche Sammlungen sind unveränderlich', () {
