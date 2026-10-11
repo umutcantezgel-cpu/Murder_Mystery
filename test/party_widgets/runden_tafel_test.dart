@@ -85,4 +85,42 @@ void main() {
     expect(t.takeException(), isNull);
     await t.pumpWidget(const SizedBox());
   });
+
+  testWidgets('Pech: Tischruf und Marke nennen keine alten Begriffe (Seifenblasen, Handy, Kellerwürfel)', (t) async {
+    // Pech bringt eine Marke. Der Tischruf erzählt die Szene neutral; „Nochmal“ bringt die Würfeltafel
+    // mit dem Marken-Häkchen zurück. (Die Browser-Probe abbrechen.mjs erreicht nur den Auftakt.)
+    const verboten = ['Seifenblasen', 'Handy', 'Kellerwürfel'];
+    final s = neueSitzung(rollen: 20, wuerfel: const FesterWuerfel.pech());
+    spieleBis(s, PartyPhase.entscheidungen, runde: 2);
+    s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
+    s.bestaetigen();
+    s.aktionFertig(s.zug!.aktion);
+    await zeige(t, s, 390, 1);
+    await t.ensureVisible(find.text(s.ui('ui.zug.werfen')));
+    await t.tap(find.text(s.ui('ui.zug.werfen')));
+    await t.pump();
+    expect(find.byType(TischrufTafel), findsOneWidget);
+    expect(s.marken, greaterThan(0), reason: 'Pech bringt eine Marke');
+    expect(find.text(s.ui('ui.zug.pech_szene')), findsOneWidget);
+    expect(find.textContaining(s.ui('ui.zug.marken', {'zahl': '${s.marken}'})), findsWidgets, reason: 'Die Marken-Zeile zählt neutral');
+    for (final wort in verboten) {
+      expect(find.textContaining(wort), findsNothing, reason: 'Tischruf ohne „$wort“');
+    }
+
+    await t.ensureVisible(find.text(s.ui('ui.zug.nochmal')));
+    await t.tap(find.text(s.ui('ui.zug.nochmal')));
+    await t.pump();
+    expect(s.zug!.phase, RundenZugPhase.aktion, reason: 'Nochmal wiederholt die Untersuchung');
+    s.aktionFertig(s.zug!.aktion);
+    await t.pump();
+    expect(s.zug!.phase, RundenZugPhase.wurf);
+    expect(find.byType(WuerfelTafel), findsOneWidget);
+    expect(find.text(s.ui('ui.zug.wuerfel')), findsOneWidget);
+    expect(find.text(s.ui('ui.zug.marke_einsetzen')), findsOneWidget, reason: 'Die Marke wird angeboten');
+    for (final wort in verboten) {
+      expect(find.textContaining(wort), findsNothing, reason: 'Würfeltafel ohne „$wort“');
+    }
+    expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox());
+  });
 }

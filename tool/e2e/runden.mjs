@@ -79,7 +79,7 @@ try {
     const data = (await fs.readFile(path.join(output, filename))).toString('base64');
     return `<figure><figcaption>${label}</figcaption><img src="data:image/png;base64,${data}"></figure>`;
   }));
-  await sheet.setContent(`<html><body style="margin:0;background:#18151f;color:#f1ede4;font:16px sans-serif"><h2 style="margin:24px">Mordakte · Kartenaktion und Kellerwürfel</h2><main style="display:grid;grid-template-columns:repeat(3,390px);gap:18px;padding:0 12px 20px">${images.join('')}</main><style>figure{margin:0}figcaption{margin-bottom:12px}img{display:block;max-height:844px;max-width:390px}</style></body></html>`);
+  await sheet.setContent(`<html><body style="margin:0;background:#18151f;color:#f1ede4;font:16px sans-serif"><h2 style="margin:24px">Mordakte · Kartenaktion und Würfel</h2><main style="display:grid;grid-template-columns:repeat(3,390px);gap:18px;padding:0 12px 20px">${images.join('')}</main><style>figure{margin:0}figcaption{margin-bottom:12px}img{display:block;max-height:844px;max-width:390px}</style></body></html>`);
   await sheet.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
   await sheet.screenshot({ path: path.join(output, 'kontaktbogen.png'), fullPage: true });
   await sheet.close();
