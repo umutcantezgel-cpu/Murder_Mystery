@@ -3294,7 +3294,7 @@ abstract class L {
   /// No description provided for @detektei_beitreten_hinweis.
   ///
   /// In de, this message translates to:
-  /// **'Beitreten mit Raumcode kommt bald.'**
+  /// **'Mit Raumcode oder QR-Code einem Abend beitreten.'**
   String get detektei_beitreten_hinweis;
 
   /// No description provided for @detektei_bald.
@@ -3492,7 +3492,7 @@ abstract class L {
   /// No description provided for @abend_spielweise_eigene_text.
   ///
   /// In de, this message translates to:
-  /// **'Jede Person spielt mit ihrem eigenen Handy.'**
+  /// **'Jede Person spielt mit ihrem eigenen Handy. Ihr verbindet euch über einen Raumcode.'**
   String get abend_spielweise_eigene_text;
 
   /// No description provided for @abend_spielweise_eigene_bald.
@@ -4172,6 +4172,1080 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Belohnung ansehen'**
   String get abend_belohnung_ansehen;
+
+  /// No description provided for @online_einstellungen_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie viele Rollen es gibt, legst du gleich in der Lobby fest. Freie Rollen übernehmen Bots.'**
+  String get online_einstellungen_hinweis;
+
+  /// No description provided for @online_raum_oeffnen.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum öffnen'**
+  String get online_raum_oeffnen;
+
+  /// No description provided for @online_start_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.'**
+  String get online_start_hinweis;
+
+  /// No description provided for @online_oeffnen_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Raum konnte nicht angelegt werden.'**
+  String get online_oeffnen_fehler;
+
+  /// No description provided for @online_lobby_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder am eigenen Gerät'**
+  String get online_lobby_marke;
+
+  /// No description provided for @online_lobby_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Lobby'**
+  String get online_lobby_titel;
+
+  /// No description provided for @online_lobby_untertitel.
+  ///
+  /// In de, this message translates to:
+  /// **'Die anderen treten mit dem Raumcode bei. Sind alle bereit, startest du den Abend.'**
+  String get online_lobby_untertitel;
+
+  /// No description provided for @online_lobby_verbinde.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum wird geöffnet …'**
+  String get online_lobby_verbinde;
+
+  /// No description provided for @online_lobby_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Relais ist nicht erreichbar. Prüfe die Internetverbindung und versuche es noch einmal.'**
+  String get online_lobby_fehler;
+
+  /// No description provided for @online_abend_starten.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend starten'**
+  String get online_abend_starten;
+
+  /// No description provided for @online_code_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumcode'**
+  String get online_code_titel;
+
+  /// No description provided for @online_code_semantik.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumcode {code}'**
+  String online_code_semantik(String code);
+
+  /// No description provided for @online_code_kopieren.
+  ///
+  /// In de, this message translates to:
+  /// **'Code kopieren'**
+  String get online_code_kopieren;
+
+  /// No description provided for @online_link_kopieren.
+  ///
+  /// In de, this message translates to:
+  /// **'Link kopieren'**
+  String get online_link_kopieren;
+
+  /// No description provided for @online_kopiert.
+  ///
+  /// In de, this message translates to:
+  /// **'Kopiert'**
+  String get online_kopiert;
+
+  /// No description provided for @online_qr_semantik.
+  ///
+  /// In de, this message translates to:
+  /// **'QR-Code zum Beitreten'**
+  String get online_qr_semantik;
+
+  /// No description provided for @online_qr_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Scannen oder in der Detektei auf „Beitreten“ tippen und den Code eingeben.'**
+  String get online_qr_hinweis;
+
+  /// No description provided for @online_tisch_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch'**
+  String get online_tisch_titel;
+
+  /// No description provided for @online_tisch_leer.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch ist niemand beigetreten.'**
+  String get online_tisch_leer;
+
+  /// No description provided for @online_spielleitung.
+  ///
+  /// In de, this message translates to:
+  /// **'Spielleitung'**
+  String get online_spielleitung;
+
+  /// No description provided for @online_bereit.
+  ///
+  /// In de, this message translates to:
+  /// **'Bereit'**
+  String get online_bereit;
+
+  /// No description provided for @online_nicht_bereit.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht bereit'**
+  String get online_nicht_bereit;
+
+  /// No description provided for @online_getrennt.
+  ///
+  /// In de, this message translates to:
+  /// **'Getrennt'**
+  String get online_getrennt;
+
+  /// No description provided for @online_verbunden.
+  ///
+  /// In de, this message translates to:
+  /// **'Verbunden'**
+  String get online_verbunden;
+
+  /// No description provided for @online_assistenz.
+  ///
+  /// In de, this message translates to:
+  /// **'Assistenz'**
+  String get online_assistenz;
+
+  /// No description provided for @online_alle_bereit.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle sind bereit.'**
+  String get online_alle_bereit;
+
+  /// No description provided for @online_warten_bereit.
+  ///
+  /// In de, this message translates to:
+  /// **'Warten, bis alle bereit sind.'**
+  String get online_warten_bereit;
+
+  /// No description provided for @online_rollen_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Rollen'**
+  String get online_rollen_titel;
+
+  /// No description provided for @online_rollen_anzahl.
+  ///
+  /// In de, this message translates to:
+  /// **'{n} Rollen'**
+  String online_rollen_anzahl(int n);
+
+  /// No description provided for @online_rollen_weniger.
+  ///
+  /// In de, this message translates to:
+  /// **'Weniger Rollen'**
+  String get online_rollen_weniger;
+
+  /// No description provided for @online_rollen_mehr.
+  ///
+  /// In de, this message translates to:
+  /// **'Mehr Rollen'**
+  String get online_rollen_mehr;
+
+  /// No description provided for @online_rollen_bots.
+  ///
+  /// In de, this message translates to:
+  /// **'{n, plural, =0{Alle Rollen sind mit Gästen besetzt.} =1{Ein Bot übernimmt die freie Rolle.} other{{n} Bots übernehmen die freien Rollen.}}'**
+  String online_rollen_bots(int n);
+
+  /// No description provided for @online_rollen_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Mindestens so viele Rollen wie Gäste, höchstens so viele, wie die Akte kennt.'**
+  String get online_rollen_hinweis;
+
+  /// No description provided for @online_schliessen_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum schließen?'**
+  String get online_schliessen_titel;
+
+  /// No description provided for @online_schliessen_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle, die schon beigetreten sind, werden getrennt.'**
+  String get online_schliessen_text;
+
+  /// No description provided for @online_schliessen_ja.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum schließen'**
+  String get online_schliessen_ja;
+
+  /// No description provided for @online_schliessen_nein.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter warten'**
+  String get online_schliessen_nein;
+
+  /// No description provided for @online_leiste_raum.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum {code}'**
+  String online_leiste_raum(String code);
+
+  /// No description provided for @online_leiste_online.
+  ///
+  /// In de, this message translates to:
+  /// **'{n} von {gesamt} Gästen online'**
+  String online_leiste_online(int n, int gesamt);
+
+  /// No description provided for @online_menue.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum und Gäste'**
+  String get online_menue;
+
+  /// No description provided for @online_beenden.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend beenden'**
+  String get online_beenden;
+
+  /// No description provided for @online_beenden_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend für alle beenden?'**
+  String get online_beenden_titel;
+
+  /// No description provided for @online_beenden_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Gäste werden getrennt. Der Abend lässt sich danach nicht fortsetzen.'**
+  String get online_beenden_text;
+
+  /// No description provided for @online_beenden_ja.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend beenden'**
+  String get online_beenden_ja;
+
+  /// No description provided for @online_beenden_nein.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiterspielen'**
+  String get online_beenden_nein;
+
+  /// No description provided for @online_rollen_erklaerung.
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.'**
+  String get online_rollen_erklaerung;
+
+  /// No description provided for @online_rollen_warten.
+  ///
+  /// In de, this message translates to:
+  /// **'Warten auf die Gäste: {x} von {y} haben ihre Rolle gelesen'**
+  String online_rollen_warten(int x, int y);
+
+  /// No description provided for @online_rollen_alle.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Gäste haben ihre Rolle gelesen.'**
+  String get online_rollen_alle;
+
+  /// No description provided for @online_rollen_ohne_gaeste.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Rollen spielen Bots. Es kann weitergehen.'**
+  String get online_rollen_ohne_gaeste;
+
+  /// No description provided for @online_rollen_gelesen.
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen'**
+  String get online_rollen_gelesen;
+
+  /// No description provided for @online_rollen_liest.
+  ///
+  /// In de, this message translates to:
+  /// **'Liest noch'**
+  String get online_rollen_liest;
+
+  /// No description provided for @online_wahl_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Gäste wählen auf ihren Geräten. Die Bots stimmen von selbst ab.'**
+  String get online_wahl_hinweis;
+
+  /// No description provided for @online_wahl_fortschritt.
+  ///
+  /// In de, this message translates to:
+  /// **'{x} von {y} Gästen haben abgestimmt'**
+  String online_wahl_fortschritt(int x, int y);
+
+  /// No description provided for @online_wahl_nur_bots.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Rollen spielen Bots, sie haben von selbst abgestimmt.'**
+  String get online_wahl_nur_bots;
+
+  /// No description provided for @online_wahl_abgegeben_kurz.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgestimmt'**
+  String get online_wahl_abgegeben_kurz;
+
+  /// No description provided for @online_wahl_waehlt.
+  ///
+  /// In de, this message translates to:
+  /// **'Wählt noch'**
+  String get online_wahl_waehlt;
+
+  /// No description provided for @online_wuerfelt.
+  ///
+  /// In de, this message translates to:
+  /// **'{name} würfelt …'**
+  String online_wuerfelt(String name);
+
+  /// No description provided for @online_fehler_nicht_bereit.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch nicht alle sind bereit.'**
+  String get online_fehler_nicht_bereit;
+
+  /// No description provided for @online_fehler_nicht_dran.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist gerade nicht mit Würfeln dran.'**
+  String get online_fehler_nicht_dran;
+
+  /// No description provided for @online_fehler_phase.
+  ///
+  /// In de, this message translates to:
+  /// **'Das geht in diesem Abschnitt gerade nicht.'**
+  String get online_fehler_phase;
+
+  /// No description provided for @online_fehler_schon_gewaehlt.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast schon gewählt.'**
+  String get online_fehler_schon_gewaehlt;
+
+  /// No description provided for @online_fehler_keine_antwort.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Antwort von der Spielleitung. Versuche es noch einmal.'**
+  String get online_fehler_keine_antwort;
+
+  /// No description provided for @online_fehler_allgemein.
+  ///
+  /// In de, this message translates to:
+  /// **'Das hat nicht geklappt. Versuche es noch einmal.'**
+  String get online_fehler_allgemein;
+
+  /// No description provided for @online_fehler_code.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Raumcode ist nicht gültig. Er hat sechs Zeichen.'**
+  String get online_fehler_code;
+
+  /// No description provided for @online_fehler_relay.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Relais ist nicht erreichbar. Prüfe deine Internetverbindung.'**
+  String get online_fehler_relay;
+
+  /// No description provided for @online_fehler_kein_raum.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.'**
+  String get online_fehler_kein_raum;
+
+  /// No description provided for @online_fehler_zeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Antwort in der Zeit. Versuche es noch einmal.'**
+  String get online_fehler_zeit;
+
+  /// No description provided for @online_fehler_voll.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Raum ist voll.'**
+  String get online_fehler_voll;
+
+  /// No description provided for @online_fehler_gestartet.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Abend hat schon begonnen.'**
+  String get online_fehler_gestartet;
+
+  /// No description provided for @online_fehler_proto.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese App-Version passt nicht zum Raum. Aktualisiere die App.'**
+  String get online_fehler_proto;
+
+  /// No description provided for @online_fehler_inhalt.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Fassungen der Akten passen nicht zusammen. Aktualisiere die App auf beiden Geräten.'**
+  String get online_fehler_inhalt;
+
+  /// No description provided for @online_fehler_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Namen ein.'**
+  String get online_fehler_name;
+
+  /// No description provided for @online_beitreten_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Online-Abend'**
+  String get online_beitreten_marke;
+
+  /// No description provided for @online_beitreten_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Einem Abend beitreten'**
+  String get online_beitreten_titel;
+
+  /// No description provided for @online_beitreten_untertitel.
+  ///
+  /// In de, this message translates to:
+  /// **'Gib den Raumcode ein, den die Spielleitung zeigt.'**
+  String get online_beitreten_untertitel;
+
+  /// No description provided for @online_code_feld.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumcode'**
+  String get online_code_feld;
+
+  /// No description provided for @online_code_platzhalter.
+  ///
+  /// In de, this message translates to:
+  /// **'ABC-DEF'**
+  String get online_code_platzhalter;
+
+  /// No description provided for @online_name_feld.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Name'**
+  String get online_name_feld;
+
+  /// No description provided for @online_name_platzhalter.
+  ///
+  /// In de, this message translates to:
+  /// **'So heißt du am Tisch'**
+  String get online_name_platzhalter;
+
+  /// No description provided for @online_beitreten_los.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten'**
+  String get online_beitreten_los;
+
+  /// No description provided for @online_beitreten_laeuft.
+  ///
+  /// In de, this message translates to:
+  /// **'Verbinde …'**
+  String get online_beitreten_laeuft;
+
+  /// No description provided for @online_zurueck_in_raum.
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück in Raum {code}'**
+  String online_zurueck_in_raum(String code);
+
+  /// No description provided for @online_zurueck_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast noch einen Platz in diesem Abend.'**
+  String get online_zurueck_hinweis;
+
+  /// No description provided for @online_vergessen.
+  ///
+  /// In de, this message translates to:
+  /// **'Vergessen'**
+  String get online_vergessen;
+
+  /// No description provided for @online_zurueck_zum_abend.
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück zum Abend {code}'**
+  String online_zurueck_zum_abend(String code);
+
+  /// No description provided for @online_zurueck_gastgeber_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Du führst diesen Abend. Er ist auf diesem Gerät gespeichert.'**
+  String get online_zurueck_gastgeber_hinweis;
+
+  /// No description provided for @online_verwerfen.
+  ///
+  /// In de, this message translates to:
+  /// **'Verwerfen'**
+  String get online_verwerfen;
+
+  /// No description provided for @online_rueckkehr_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Rückkehr hat nicht geklappt.'**
+  String get online_rueckkehr_fehler;
+
+  /// No description provided for @online_status_verbinde.
+  ///
+  /// In de, this message translates to:
+  /// **'Verbinde …'**
+  String get online_status_verbinde;
+
+  /// No description provided for @online_status_pausiert.
+  ///
+  /// In de, this message translates to:
+  /// **'Spielleitung getrennt – Abend pausiert'**
+  String get online_status_pausiert;
+
+  /// No description provided for @online_status_geschlossen.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Abend wurde beendet.'**
+  String get online_status_geschlossen;
+
+  /// No description provided for @online_zur_detektei.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Detektei'**
+  String get online_zur_detektei;
+
+  /// No description provided for @online_gast_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum {code}'**
+  String online_gast_marke(String code);
+
+  /// No description provided for @online_gast_lobby_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Warten auf den Start'**
+  String get online_gast_lobby_titel;
+
+  /// No description provided for @online_gast_lobby_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.'**
+  String get online_gast_lobby_hinweis;
+
+  /// No description provided for @online_bereit_knopf.
+  ///
+  /// In de, this message translates to:
+  /// **'Bereit'**
+  String get online_bereit_knopf;
+
+  /// No description provided for @online_bereit_zurueck.
+  ///
+  /// In de, this message translates to:
+  /// **'Doch nicht bereit'**
+  String get online_bereit_zurueck;
+
+  /// No description provided for @online_rolle_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Rolle'**
+  String get online_rolle_marke;
+
+  /// No description provided for @online_dossier_wer.
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ich bin'**
+  String get online_dossier_wer;
+
+  /// No description provided for @online_dossier_ziel.
+  ///
+  /// In de, this message translates to:
+  /// **'Mein Ziel'**
+  String get online_dossier_ziel;
+
+  /// No description provided for @online_dossier_weiss.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ich weiß'**
+  String get online_dossier_weiss;
+
+  /// No description provided for @online_dossier_verbirgt.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ich verberge'**
+  String get online_dossier_verbirgt;
+
+  /// No description provided for @online_dossier_tarnung.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Tarngeschichte'**
+  String get online_dossier_tarnung;
+
+  /// No description provided for @online_dossier_tatwissen.
+  ///
+  /// In de, this message translates to:
+  /// **'Was wirklich geschah'**
+  String get online_dossier_tatwissen;
+
+  /// No description provided for @online_dossier_besetzung.
+  ///
+  /// In de, this message translates to:
+  /// **'Besetzung'**
+  String get online_dossier_besetzung;
+
+  /// No description provided for @online_dossier_stempel.
+  ///
+  /// In de, this message translates to:
+  /// **'Geheim'**
+  String get online_dossier_stempel;
+
+  /// No description provided for @online_gelesen_knopf.
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen'**
+  String get online_gelesen_knopf;
+
+  /// No description provided for @online_gelesen_warten.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.'**
+  String get online_gelesen_warten;
+
+  /// No description provided for @online_assistenz_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast keine eigene Rolle und verfolgst den öffentlichen Verlauf des Abends mit.'**
+  String get online_assistenz_text;
+
+  /// No description provided for @online_meine_rolle.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Rolle: {name}'**
+  String online_meine_rolle(String name);
+
+  /// No description provided for @online_warten_spielleitung.
+  ///
+  /// In de, this message translates to:
+  /// **'Warten auf die Spielleitung …'**
+  String get online_warten_spielleitung;
+
+  /// No description provided for @online_runde.
+  ///
+  /// In de, this message translates to:
+  /// **'Runde {n}'**
+  String online_runde(int n);
+
+  /// No description provided for @online_erzaehler_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler'**
+  String get online_erzaehler_titel;
+
+  /// No description provided for @online_phase_rollen.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Rollen werden gelesen'**
+  String get online_phase_rollen;
+
+  /// No description provided for @online_phase_intro.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Nacht beginnt'**
+  String get online_phase_intro;
+
+  /// No description provided for @online_phase_gespraeche.
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräche'**
+  String get online_phase_gespraeche;
+
+  /// No description provided for @online_phase_entscheidungen.
+  ///
+  /// In de, this message translates to:
+  /// **'Ermittlung'**
+  String get online_phase_entscheidungen;
+
+  /// No description provided for @online_phase_gruppenwahl.
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppenwahl'**
+  String get online_phase_gruppenwahl;
+
+  /// No description provided for @online_phase_bonus.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Hinweis'**
+  String get online_phase_bonus;
+
+  /// No description provided for @online_phase_resuemee.
+  ///
+  /// In de, this message translates to:
+  /// **'Zwischenresümee'**
+  String get online_phase_resuemee;
+
+  /// No description provided for @online_phase_anklage.
+  ///
+  /// In de, this message translates to:
+  /// **'Anklage'**
+  String get online_phase_anklage;
+
+  /// No description provided for @online_phase_finale.
+  ///
+  /// In de, this message translates to:
+  /// **'Finale'**
+  String get online_phase_finale;
+
+  /// No description provided for @online_phase_aufloesung.
+  ///
+  /// In de, this message translates to:
+  /// **'Auflösung'**
+  String get online_phase_aufloesung;
+
+  /// No description provided for @online_phase_ende.
+  ///
+  /// In de, this message translates to:
+  /// **'Ende des Abends'**
+  String get online_phase_ende;
+
+  /// No description provided for @online_phase_unbekannt.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Abend läuft'**
+  String get online_phase_unbekannt;
+
+  /// No description provided for @online_gespraeche_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Gespräche in dieser Runde'**
+  String get online_gespraeche_titel;
+
+  /// No description provided for @online_gespraeche_keine.
+  ///
+  /// In de, this message translates to:
+  /// **'In dieser Runde hast du kein Pflichtgespräch.'**
+  String get online_gespraeche_keine;
+
+  /// No description provided for @online_gespraech_mit.
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräch mit {name}'**
+  String online_gespraech_mit(String name);
+
+  /// No description provided for @online_gespraech_thema.
+  ///
+  /// In de, this message translates to:
+  /// **'Thema'**
+  String get online_gespraech_thema;
+
+  /// No description provided for @online_gespraech_ziel.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Ziel'**
+  String get online_gespraech_ziel;
+
+  /// No description provided for @online_gespraech_eroeffnung.
+  ///
+  /// In de, this message translates to:
+  /// **'Eröffnung'**
+  String get online_gespraech_eroeffnung;
+
+  /// No description provided for @online_bots_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Was am Tisch zu hören ist'**
+  String get online_bots_titel;
+
+  /// No description provided for @online_bot_spricht.
+  ///
+  /// In de, this message translates to:
+  /// **'{sprecher} spricht mit {partner}'**
+  String online_bot_spricht(String sprecher, String partner);
+
+  /// No description provided for @online_preisgabe.
+  ///
+  /// In de, this message translates to:
+  /// **'Verrät'**
+  String get online_preisgabe;
+
+  /// No description provided for @online_frage_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Frage'**
+  String get online_frage_titel;
+
+  /// No description provided for @online_gewaehlt_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewählt'**
+  String get online_gewaehlt_titel;
+
+  /// No description provided for @online_optionen_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Wahl stehen'**
+  String get online_optionen_titel;
+
+  /// No description provided for @online_ermittlung_wartet.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung wählt gerade …'**
+  String get online_ermittlung_wartet;
+
+  /// No description provided for @online_ermittlung_fertig.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.'**
+  String get online_ermittlung_fertig;
+
+  /// No description provided for @online_nachtzeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Nachtzeit: {min} Min.'**
+  String online_nachtzeit(int min);
+
+  /// No description provided for @online_marken.
+  ///
+  /// In de, this message translates to:
+  /// **'Marken: {n}'**
+  String online_marken(int n);
+
+  /// No description provided for @online_auftakt.
+  ///
+  /// In de, this message translates to:
+  /// **'Der erste Wurf: Die Gruppe sucht nach Spuren.'**
+  String get online_auftakt;
+
+  /// No description provided for @online_abstecher.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung erkundet einen Ort.'**
+  String get online_abstecher;
+
+  /// No description provided for @online_zug_aktion.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung ist unterwegs …'**
+  String get online_zug_aktion;
+
+  /// No description provided for @online_wuerfel_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Würfel'**
+  String get online_wuerfel_titel;
+
+  /// No description provided for @online_wuerfel_du.
+  ///
+  /// In de, this message translates to:
+  /// **'Du würfelst für die Gruppe.'**
+  String get online_wuerfel_du;
+
+  /// No description provided for @online_chancen.
+  ///
+  /// In de, this message translates to:
+  /// **'Chancen (Modifikator {mod})'**
+  String online_chancen(int mod);
+
+  /// No description provided for @online_stufe_erfolg.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfolg'**
+  String get online_stufe_erfolg;
+
+  /// No description provided for @online_stufe_teilerfolg.
+  ///
+  /// In de, this message translates to:
+  /// **'Teilerfolg'**
+  String get online_stufe_teilerfolg;
+
+  /// No description provided for @online_stufe_pech.
+  ///
+  /// In de, this message translates to:
+  /// **'Pech'**
+  String get online_stufe_pech;
+
+  /// No description provided for @online_marke_einsetzen.
+  ///
+  /// In de, this message translates to:
+  /// **'Seifenblasen-Marke einsetzen'**
+  String get online_marke_einsetzen;
+
+  /// No description provided for @online_werkzeug_einsetzen.
+  ///
+  /// In de, this message translates to:
+  /// **'Werkzeug-Karte einsetzen: {titel} (+1)'**
+  String online_werkzeug_einsetzen(String titel);
+
+  /// No description provided for @online_wuerfeln_knopf.
+  ///
+  /// In de, this message translates to:
+  /// **'Würfeln'**
+  String get online_wuerfeln_knopf;
+
+  /// No description provided for @online_wurf_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Wurf'**
+  String get online_wurf_titel;
+
+  /// No description provided for @online_wurf_rechnung.
+  ///
+  /// In de, this message translates to:
+  /// **'{a} + {b} + {mod} = {summe}'**
+  String online_wurf_rechnung(int a, int b, int mod, int summe);
+
+  /// No description provided for @online_wurf_garantie.
+  ///
+  /// In de, this message translates to:
+  /// **'Pech-Garantie: Pech zählt als Teilerfolg.'**
+  String get online_wurf_garantie;
+
+  /// No description provided for @online_wurf_zeile.
+  ///
+  /// In de, this message translates to:
+  /// **'{stufe}: {a} + {b} + {mod} = {summe}'**
+  String online_wurf_zeile(String stufe, int a, int b, int mod, int summe);
+
+  /// No description provided for @online_wuerfe_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Würfelprotokoll'**
+  String get online_wuerfe_titel;
+
+  /// No description provided for @online_tischruf_wartet.
+  ///
+  /// In de, this message translates to:
+  /// **'Pech. Die Spielleitung entscheidet, wie es weitergeht.'**
+  String get online_tischruf_wartet;
+
+  /// No description provided for @online_fund_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Fund'**
+  String get online_fund_titel;
+
+  /// No description provided for @online_fund_wartet.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung liest den Fund.'**
+  String get online_fund_wartet;
+
+  /// No description provided for @online_notizbuch_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Notizbuch'**
+  String get online_notizbuch_titel;
+
+  /// No description provided for @online_wahl_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Wahl in dieser Runde'**
+  String get online_wahl_titel;
+
+  /// No description provided for @online_wahl_geheim.
+  ///
+  /// In de, this message translates to:
+  /// **'Niemand sieht, was du wählst. Tippe eine Karte an und gib deine Wahl ab.'**
+  String get online_wahl_geheim;
+
+  /// No description provided for @online_wahl_abgeben.
+  ///
+  /// In de, this message translates to:
+  /// **'Wahl abgeben'**
+  String get online_wahl_abgeben;
+
+  /// No description provided for @online_wahl_abgegeben.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Stimme ist abgegeben. Warten auf die anderen …'**
+  String get online_wahl_abgegeben;
+
+  /// No description provided for @online_wahl_assistenz.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Gruppenwahl läuft. Du hast keine Stimme, weil du keine Rolle hast.'**
+  String get online_wahl_assistenz;
+
+  /// No description provided for @online_verdaechtige_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Verdächtige'**
+  String get online_verdaechtige_titel;
+
+  /// No description provided for @online_anklage_wartet.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.'**
+  String get online_anklage_wartet;
+
+  /// No description provided for @online_aufloesung_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Auflösung'**
+  String get online_aufloesung_titel;
+
+  /// No description provided for @online_aufloesung_taeter.
+  ///
+  /// In de, this message translates to:
+  /// **'Täter oder Täterin'**
+  String get online_aufloesung_taeter;
+
+  /// No description provided for @online_aufloesung_punkte.
+  ///
+  /// In de, this message translates to:
+  /// **'Richtige Entscheidungen'**
+  String get online_aufloesung_punkte;
+
+  /// No description provided for @online_aufloesung_ende.
+  ///
+  /// In de, this message translates to:
+  /// **'Ende'**
+  String get online_aufloesung_ende;
+
+  /// No description provided for @online_aufloesung_code.
+  ///
+  /// In de, this message translates to:
+  /// **'Fall-Code'**
+  String get online_aufloesung_code;
+
+  /// No description provided for @online_verlassen.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend verlassen'**
+  String get online_verlassen;
+
+  /// No description provided for @online_verlassen_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend verlassen?'**
+  String get online_verlassen_titel;
+
+  /// No description provided for @online_verlassen_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Du verlierst deinen Platz und deine Rolle in diesem Abend.'**
+  String get online_verlassen_text;
+
+  /// No description provided for @online_verlassen_ja.
+  ///
+  /// In de, this message translates to:
+  /// **'Verlassen'**
+  String get online_verlassen_ja;
+
+  /// No description provided for @online_verlassen_nein.
+  ///
+  /// In de, this message translates to:
+  /// **'Bleiben'**
+  String get online_verlassen_nein;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

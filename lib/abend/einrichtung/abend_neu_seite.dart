@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -11,10 +13,13 @@ import '../../karten/katalog_laden.dart';
 import '../../karten/widgets/deck_zeile.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
+import '../../netz/ablage_prefs.dart';
 import '../../party/daten.dart';
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
+import '../online/gastgeber_dienst.dart';
+import '../online/online_halter.dart';
 import 'abschnitte.dart';
 
 /// Spielweise eines Abends. Sie wird im Assistenten vor den Einstellungen gewählt.
@@ -25,7 +30,7 @@ enum Spielweise {
   /// Ein Gerät geht reihum.
   reihum,
 
-  /// Jede Person am eigenen Gerät (kommt später; heute gesperrt).
+  /// Jede Person am eigenen Gerät: online über einen Raumcode, ein Gerät führt.
   eigene,
 }
 
@@ -67,6 +72,10 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   String? _ladeId;
   bool _ladeFehler = false;
   bool _uebergeben = false;
+
+  /// Der Raum für „Jeder am eigenen Gerät“ wird gerade geöffnet.
+  bool _oeffnet = false;
+  bool _oeffnenFehler = false;
 
   /// Katalog der Sammelkarten für die Zeile „Deck für diesen Abend“ (null, solange er lädt).
   KartenKatalog? _katalog;
@@ -174,7 +183,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
 
   bool get _kannWeiter => switch (_schritt) {
         _Schritt.akte => _akte != null,
-        _Schritt.spielweise => _weise == Spielweise.solo || _weise == Spielweise.reihum,
+        _Schritt.spielweise => _weise != null,
         _Schritt.einstellungen => _geladen != null && _geladen!.werte.codeOk,
         _Schritt.start => _geladen != null,
       };
@@ -202,6 +211,10 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   void _starten() {
     final g = _geladen;
     if (g == null || _weise == null || _uebergeben) return;
+    if (_weise == Spielweise.eigene) {
+      unawaited(_raumOeffnen());
+      return;
+    }
     g.werte.solo = _weise == Spielweise.solo;
     // Das Deck des Geräts ist der Kartenvorrat des Abends (Solo wie reihum);
     // die Erkundungsorte gehören zur Akte. Beides gilt vor der Einrichtung.
@@ -216,6 +229,49 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
     context.go(Routes.abend);
   }
 
+  /// „Jeder am eigenen Gerät“: Raum und Schlüssel anlegen und in die Lobby
+  /// wechseln. Das Relais wird erst dort verbunden.
+  Future<void> _raumOeffnen() async {
+    final g = _geladen;
+    if (g == null || _oeffnet) return;
+    final meta = context.read<MetaStore>();
+    final online = context.read<OnlineHalter>();
+    final router = GoRouter.of(context);
+    final standardName = L.of(context).name_default;
+    setState(() {
+      _oeffnet = true;
+      _oeffnenFehler = false;
+    });
+    try {
+      final katalog = _katalog ?? await kartenBereit(meta);
+      final name = (meta.name ?? '').trim();
+      final dienst = await GastgeberDienst.neu(
+        daten: g.sitzung.daten,
+        akteId: g.akteId,
+        name: name.isEmpty ? standardName : name,
+        detektiv: g.werte.detektiv,
+        ablage: const AblagePrefs(),
+        abstecher: g.abstecher,
+        katalog: katalog,
+        fallCodeEingabe: g.werte.codeWahl == CodeWahl.eingabe ? g.werte.code.text : null,
+        geburtstagskind: g.werte.geburtstag.text.trim(),
+        minuten: g.werte.minuten,
+        stimme: g.werte.stimme,
+      );
+      if (!mounted) {
+        await dienst.schliessen();
+        return;
+      }
+      online.uebernehmeDienst(dienst);
+      router.go(Routes.abendLobby);
+    } catch (e, st) {
+      debugPrint('ABEND raum fehler $e\n$st');
+      if (mounted) setState(() => _oeffnenFehler = true);
+    } finally {
+      if (mounted) setState(() => _oeffnet = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
@@ -225,7 +281,9 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
       _Schritt.spielweise => (l.abend_spielweise_titel, l.abend_spielweise_hinweis),
       _Schritt.einstellungen => (
           l.abend_einstellungen_titel,
-          _geladen?.sitzung.ui(_weise == Spielweise.solo ? 'ui.solo.einrichtung' : 'ui.einrichtung.hinweis'),
+          _weise == Spielweise.eigene
+              ? l.online_einstellungen_hinweis
+              : _geladen?.sitzung.ui(_weise == Spielweise.solo ? 'ui.solo.einrichtung' : 'ui.einrichtung.hinweis'),
         ),
       _Schritt.start => (l.abend_start_titel, l.abend_start_hinweis),
     };
@@ -247,9 +305,9 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                 onPressed: _zurueck,
               ),
               MKnopf(
-                text: letzter ? l.abend_start : l.abend_weiter,
-                icon: letzter ? Icons.play_arrow_rounded : null,
-                onPressed: _kannWeiter ? (letzter ? _starten : _weiter) : null,
+                text: letzter ? (_weise == Spielweise.eigene ? l.online_raum_oeffnen : l.abend_start) : l.abend_weiter,
+                icon: letzter ? (_weise == Spielweise.eigene ? Icons.meeting_room_outlined : Icons.play_arrow_rounded) : null,
+                onPressed: _kannWeiter && !_oeffnet ? (letzter ? _starten : _weiter) : null,
               ),
             ],
             child: AnimatedSwitcher(
@@ -297,10 +355,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
               icon: Icons.devices_outlined,
               titel: l.abend_spielweise_eigene,
               text: l.abend_spielweise_eigene_text,
-              gewaehlt: false,
-              gesperrtHinweis: l.abend_spielweise_eigene_bald,
-              baldText: l.detektei_bald,
-              onTap: null,
+              gewaehlt: _weise == Spielweise.eigene,
+              onTap: () => _waehleWeise(Spielweise.eigene),
             ),
           ],
         );
@@ -316,7 +372,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         }
         final g = _geladen;
         if (g == null) return _Laedt(text: l.abend_laedt);
-        return EinrichtungsAbschnitte(werte: g.werte);
+        return EinrichtungsAbschnitte(werte: g.werte, online: _weise == Spielweise.eigene);
       case _Schritt.start:
         final g = _geladen;
         final akte = _akte;
@@ -333,9 +389,14 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                     _Zeile(l.abend_start_akte, akte.titel),
                     _Zeile(
                       l.abend_start_spielweise,
-                      _weise == Spielweise.solo ? l.abend_spielweise_solo : l.abend_spielweise_reihum,
+                      switch (_weise) {
+                        Spielweise.solo => l.abend_spielweise_solo,
+                        Spielweise.eigene => l.abend_spielweise_eigene,
+                        _ => l.abend_spielweise_reihum,
+                      },
                     ),
-                    _Zeile(l.abend_start_personen, '${g.werte.rollen}'),
+                    // Online legt die Lobby die Rollen fest, sobald klar ist, wer mitspielt.
+                    if (_weise != Spielweise.eigene) _Zeile(l.abend_start_personen, '${g.werte.rollen}'),
                     if (_weise != Spielweise.solo) _Zeile(l.abend_start_dauer, l.common_minutes(g.werte.minuten), letzte: true),
                   ],
                 ),
@@ -343,6 +404,14 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
               const SizedBox(height: MMass.s12),
               // Das Deck dieses Geräts liegt am Abend als gemeinsame Hilfe auf dem Tisch.
               DeckZeile(katalog: _katalog, onAendern: () => context.push(Routes.sammlungDeck)),
+              if (_weise == Spielweise.eigene) ...[
+                const SizedBox(height: MMass.s12),
+                MTafel(child: Text(l.online_start_hinweis, style: MSchrift.von(context).leise)),
+                if (_oeffnenFehler) ...[
+                  const SizedBox(height: MMass.s12),
+                  _Fehler(text: l.online_oeffnen_fehler, nochmal: _raumOeffnen),
+                ],
+              ],
             ],
           ),
         );
@@ -385,7 +454,7 @@ class _Schrittanzeige extends StatelessWidget {
   }
 }
 
-/// Eine Spielweise zur Wahl. Mit [gesperrtHinweis] ist sie sichtbar, aber gesperrt.
+/// Eine Spielweise zur Wahl.
 class _WeiseOption extends StatelessWidget {
   const _WeiseOption({
     required this.icon,
@@ -393,8 +462,6 @@ class _WeiseOption extends StatelessWidget {
     required this.text,
     required this.gewaehlt,
     required this.onTap,
-    this.gesperrtHinweis,
-    this.baldText,
   });
 
   final IconData icon;
@@ -402,66 +469,48 @@ class _WeiseOption extends StatelessWidget {
   final String text;
   final bool gewaehlt;
   final VoidCallback? onTap;
-  final String? gesperrtHinweis;
-  final String? baldText;
 
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
     final t = MSchrift.von(context);
-    final gesperrt = gesperrtHinweis != null;
     return Padding(
       padding: const EdgeInsets.only(bottom: MMass.s12),
       child: Semantics(
         button: true,
-        enabled: !gesperrt,
         selected: gewaehlt,
         label: titel,
-        hint: gesperrt ? gesperrtHinweis : text,
+        hint: text,
         onTap: onTap,
         excludeSemantics: true,
-        child: Opacity(
-          opacity: gesperrt ? 0.62 : 1,
-          child: MTafel(
-            hervorgehoben: gewaehlt,
-            padding: EdgeInsets.zero,
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: onTap,
-                child: Padding(
-                  padding: const EdgeInsets.all(MMass.s16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(icon, color: gewaehlt ? f.akzent : f.papierLeise, size: 30),
-                      const SizedBox(width: MMass.s16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(titel, style: t.ueberschrift),
-                            const SizedBox(height: MMass.s4),
-                            Text(text, style: t.leise),
-                            if (gesperrt) ...[
-                              const SizedBox(height: MMass.s8),
-                              Row(
-                                children: [
-                                  if (baldText != null) ...[MChip(baldText!, farbe: f.papierLeise), const SizedBox(width: MMass.s8)],
-                                  Expanded(child: Text(gesperrtHinweis!, style: t.leise.copyWith(fontSize: 13))),
-                                ],
-                              ),
-                            ],
-                          ],
-                        ),
+        child: MTafel(
+          hervorgehoben: gewaehlt,
+          padding: EdgeInsets.zero,
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.all(MMass.s16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(icon, color: gewaehlt ? f.akzent : f.papierLeise, size: 30),
+                    const SizedBox(width: MMass.s16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(titel, style: t.ueberschrift),
+                          const SizedBox(height: MMass.s4),
+                          Text(text, style: t.leise),
+                        ],
                       ),
-                      if (!gesperrt) ...[
-                        const SizedBox(width: MMass.s8),
-                        Icon(gewaehlt ? Icons.check_circle_rounded : Icons.circle_outlined, color: gewaehlt ? f.akzent : f.papierLeise),
-                      ],
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: MMass.s8),
+                    Icon(gewaehlt ? Icons.check_circle_rounded : Icons.circle_outlined, color: gewaehlt ? f.akzent : f.papierLeise),
+                  ],
                 ),
               ),
             ),

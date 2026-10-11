@@ -5,6 +5,7 @@ import 'package:mordakte_core/runden.dart';
 
 import '../../karten/widgets/karten_ansicht.dart';
 import '../../karten/widgets/karten_hand.dart';
+import '../../l10n/lookup.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 
@@ -37,6 +38,9 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
     final v = s.wuerfelVorschau(marke: _marke, werkzeug: werkzeug);
     // Auch ein Abstecher kennt keine Marke; dort wirkt sie nie.
     final markeMoeglich = !z.istAbstecher && s.wuerfelVorschau(marke: true, werkzeug: werkzeug).markeWirkt;
+    // Online würfelt nur das Gerät der Würfelpatin oder des Würfelpaten; sonst
+    // steht hier, wer würfelt (die Chancen sind für alle am Tisch öffentlich).
+    final darf = s.darfWuerfeln;
     return PartyTafel(child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,7 +65,7 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
           const SizedBox(height: 10),
           Text(s.ui('ui.zug.garantie'), style: Keller.text),
         ],
-        if (!z.istAuftakt && s.hatKarten) ...[
+        if (darf && !z.istAuftakt && s.hatKarten) ...[
           const SizedBox(height: 10),
           KartenHand(
             vorrat: s.vorrat,
@@ -71,7 +75,7 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
             onTipp: _tippe,
           ),
         ],
-        if (!z.istAuftakt && !z.istAbstecher && s.marken > 0) Material(color: Colors.transparent, child: CheckboxListTile(
+        if (darf && !z.istAuftakt && !z.istAbstecher && s.marken > 0) Material(color: Colors.transparent, child: CheckboxListTile(
           contentPadding: EdgeInsets.zero,
           controlAffinity: ListTileControlAffinity.leading,
           activeColor: Keller.kerze,
@@ -82,7 +86,10 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
         const SizedBox(height: 10),
         Text(z.istAbstecher ? KartenTexte.erkundenWuerfel : s.ui(z.istAuftakt ? 'ui.zug.auftakt_folge' : 'ui.zug.pech_folge'), style: Keller.leise),
         const SizedBox(height: 16),
-        PartyKnopf(text: s.ui('ui.zug.werfen'), onPressed: () => s.wuerfeln(marke: _marke && markeMoeglich, karte: _karte)),
+        if (darf)
+          PartyKnopf(text: s.ui('ui.zug.werfen'), onPressed: () => s.wuerfeln(marke: _marke && markeMoeglich, karte: _karte))
+        else
+          Text(L.of(context).online_wuerfelt(s.wuerfelPate), key: const ValueKey('wuerfelt-gerade'), style: Keller.ueberschrift),
       ],
     ));
   }

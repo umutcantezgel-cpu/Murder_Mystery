@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/runden.dart' show KartenKatalog;
 import 'package:provider/provider.dart';
 
+import '../abend/online/rueckkehr.dart';
 import '../app/router.dart';
 import '../karten/katalog_laden.dart';
 import '../l10n/lookup.dart';
@@ -60,6 +61,8 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
           children: [
             const _Kopf(),
             const SizedBox(height: MMass.s24),
+            // Ein Platz in einem Online-Abend, in den man zurückkehren kann.
+            const OnlineRueckkehr(),
             MKnopf(
               text: l.detektei_neuer_abend,
               icon: Icons.nightlight_round,
@@ -68,15 +71,9 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
               onPressed: () => context.go(Routes.abendNeu),
             ),
             const SizedBox(height: MMass.s12),
-            MKnopf(text: l.detektei_beitreten, art: MKnopfArt.zweit, breit: true, onPressed: null),
+            MKnopf(text: l.detektei_beitreten, art: MKnopfArt.zweit, breit: true, onPressed: () => context.go(Routes.beitreten)),
             const SizedBox(height: MMass.s8),
-            Row(
-              children: [
-                MChip(l.detektei_bald, farbe: f.papierLeise),
-                const SizedBox(width: MMass.s8),
-                Expanded(child: Text(l.detektei_beitreten_hinweis, style: t.leise.copyWith(fontSize: 13))),
-              ],
-            ),
+            Text(l.detektei_beitreten_hinweis, style: t.leise.copyWith(fontSize: 13)),
             const SizedBox(height: MMass.s32),
             Text(l.detektei_kampagne.toUpperCase(), style: t.marke),
             const SizedBox(height: 2),

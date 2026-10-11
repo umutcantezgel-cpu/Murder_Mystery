@@ -5,6 +5,10 @@ import '../abend/abend_halter.dart';
 import '../abend/abend_seite.dart';
 import '../abend/belohnung_seite.dart';
 import '../abend/einrichtung/abend_neu_seite.dart';
+import '../abend/online/beitreten_seite.dart';
+import '../abend/online/gast_seite.dart';
+import '../abend/online/gastgeber_lobby.dart';
+import '../abend/online/online_halter.dart';
 import '../detektei/akte_seite.dart';
 import '../detektei/detektei_seite.dart';
 import '../detektei/druckmappe_seite.dart';
@@ -55,6 +59,17 @@ abstract final class Routes {
   /// Der laufende Abend (Schlosskeller-Runden).
   static const abend = '/abend';
 
+  /// Lobby des Gastgebers eines Online-Abends („Jeder am eigenen Gerät“): Raumcode,
+  /// QR-Code, Gäste, Rollen. Ohne geöffneten Raum führt sie in die Detektei zurück.
+  static const abendLobby = '/abend/lobby';
+
+  /// Einem Online-Abend beitreten; `?raum=<CODE>` füllt den Raumcode vor (QR-Code).
+  static const beitreten = '/beitreten';
+  static String beitretenMit(String code) => '/beitreten?raum=$code';
+
+  /// Der Abend auf dem Gerät eines Gastes (nur mit bestehender Verbindung).
+  static const gast = '/gast';
+
   /// Belohnung nach dem Abend: Karten, Erfahrung, Rang (nur nach einem beendeten Abend).
   static const abendBelohnung = '/abend/belohnung';
   static const sammlung = '/sammlung';
@@ -94,7 +109,7 @@ CustomTransitionPage<void> _fade(BuildContext context, GoRouterState state, Widg
   );
 }
 
-GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, AbendHalter? abend}) => GoRouter(
+GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, AbendHalter? abend, OnlineHalter? online}) => GoRouter(
   initialLocation: initialLocation,
   refreshListenable: app,
   redirect: (context, state) {
@@ -104,6 +119,9 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
     if (loc == Routes.abend && abend != null && !abend.laeuft) return Routes.start;
     // Die Belohnung gibt es nur direkt nach einem beendeten Abend.
     if (loc == Routes.abendBelohnung && abend != null && abend.abschluss == null) return Routes.start;
+    // Lobby und Gastseite gibt es nur mit einer bestehenden Online-Verbindung.
+    if (loc == Routes.abendLobby && online != null && online.dienst == null) return Routes.start;
+    if (loc == Routes.gast && online != null && online.gast == null) return Routes.start;
     return null;
   },
   routes: [
@@ -115,6 +133,9 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
       pageBuilder: (c, s) => _fade(c, s, AbendNeuSeite(akteId: s.uri.queryParameters['akte'])),
     ),
     GoRoute(path: Routes.abend, pageBuilder: (c, s) => _fade(c, s, const AbendSeite())),
+    GoRoute(path: Routes.abendLobby, pageBuilder: (c, s) => _fade(c, s, const GastgeberLobbySeite())),
+    GoRoute(path: Routes.beitreten, pageBuilder: (c, s) => _fade(c, s, BeitretenSeite(raum: s.uri.queryParameters['raum']))),
+    GoRoute(path: Routes.gast, pageBuilder: (c, s) => _fade(c, s, const GastSeite())),
     GoRoute(path: Routes.abendBelohnung, pageBuilder: (c, s) => _fade(c, s, const BelohnungSeite())),
     GoRoute(path: Routes.sammlung, pageBuilder: (c, s) => _fade(c, s, const SammlungSeite())),
     GoRoute(path: Routes.sammlungDeck, pageBuilder: (c, s) => _fade(c, s, const DeckSeite())),
