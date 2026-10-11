@@ -13,6 +13,7 @@ import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/detektei/detektei_seite.dart';
+import 'package:mordakte/karten/katalog_laden.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
@@ -38,9 +39,19 @@ Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu}) as
   return state;
 }
 
-/// Lässt den echten Ladevorgang der Akte laufen, danach Übergänge und Bilder.
-Future<void> warten(WidgetTester tester) async {
-  await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
+/// Ladeanzeige des Assistenten, solange die Akte (Daten, Erkundungsorte) gelesen wird.
+const _laedt = 'Die Akte wird vorbereitet …';
+
+/// Lässt die echten Ladevorgänge der Akte ablaufen, bis die Ladeanzeige weg ist (und
+/// [bis], falls angegeben, erscheint), danach Übergänge und Bilder. Die Wartezeit ist
+/// echte Zeit: Dateien aus dem Bündel kommen über Kanäle, die die Testuhr nicht vorstellt.
+Future<void> warten(WidgetTester tester, {Finder? bis}) async {
+  for (var i = 0; i < 400; i++) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 10)));
+    await tester.pump(const Duration(milliseconds: 16));
+    final fertig = find.text(_laedt).evaluate().isEmpty && (bis == null || bis.evaluate().isNotEmpty);
+    if (fertig && i >= 3) break;
+  }
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 500));
 }
@@ -66,11 +77,14 @@ Future<void> bisZumStart(WidgetTester tester, String weise) async {
   await tippen(tester, 'Weiter');
   await tippen(tester, weise);
   await tippen(tester, 'Weiter');
-  await tippen(tester, 'Weiter');
+  await tester.tap(find.text('Weiter'));
+  await warten(tester, bis: find.text('Bereit?'));
   expect(find.text('Bereit?'), findsOneWidget);
 }
 
 void main() {
+  setUp(vergisKartenKatalog);
+
   testWidgets('Weiter bleibt ohne Spielweise gesperrt', (tester) async {
     final state = await oeffnen(tester);
     expect(find.text('SCHRITT 1 VON 4'), findsOneWidget);
@@ -122,7 +136,8 @@ void main() {
       await tippen(tester, 'Weiter');
       // Online legt die Lobby die Rollen fest: der Einstellungsschritt zeigt keine Personenzahl.
       expect(find.byType(PersonenAbschnitt), findsNothing);
-      await tippen(tester, 'Weiter');
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Raum öffnen'));
       expect(find.text('Raum öffnen'), findsOneWidget, reason: 'Der Startknopf öffnet den Raum');
       expect(find.text('Abend beginnen'), findsNothing);
       expect(tester.takeException(), isNull);
