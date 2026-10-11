@@ -46,7 +46,8 @@ class _Teilnehmer {
 ///
 /// Der Gastgeber steuert den gemeinsamen Detektiv; unbesetzte Rollen sind Bots.
 /// Dadurch können auch wenige verbundene Geräte einen kanongültigen Abend mit
-/// mindestens vier Rollen spielen. Kapazität: 20 Gäste plus Geburtstagskind.
+/// mindestens vier Rollen spielen. Kapazität: größte Besetzung der Akte plus
+/// Spielleitung plus vier Assistenz-Plätze (Schlosskeller: 25 Geräte).
 /// Die Methodennamen entsprechen RaumSpiel; der Transportadapter bleibt separat.
 ///
 /// Der Raum spielt jede Akte (Schlosskeller, Gewölbe, Klassiker): Rollenzahl

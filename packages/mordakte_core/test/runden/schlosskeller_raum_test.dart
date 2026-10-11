@@ -30,7 +30,7 @@ void _start(SchlosskellerRaum r, int clients, int rollen, {List<String>? vorrat}
     expect(r.beitreten('p$i', 'Person $i'), isTrue);
     _befehl(r, 'p$i', 'bereit', {'wert': true});
   }
-  _befehl(r, 'p0', 'start', {'rollen': rollen, if (vorrat != null) 'vorrat': vorrat});
+  _befehl(r, 'p0', 'start', {'rollen': rollen, 'vorrat': ?vorrat});
 }
 
 /// Treiber benutzt nur Ansichten und Nachrichten, niemals den internen Zustand.
