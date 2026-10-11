@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/abend_seite.dart';
 import 'package:mordakte/abend/einrichtung/abschnitte.dart';
@@ -236,6 +237,11 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     expect(find.byType(AbendSeite), findsOneWidget);
     expect(halter.laeuft, isTrue, reason: 'Weiterspielen lässt den Abend unberührt');
+    expect(
+      GoRouter.of(tester.element(find.byType(AbendSeite))).routeInformationProvider.value.uri.path,
+      Routes.abend,
+      reason: 'Weiterspielen navigiert nicht: die Adresse bleibt die des Abends',
+    );
 
     await tester.tap(find.text('Abend abbrechen'));
     await warten(tester, bis: find.byType(AlertDialog));
@@ -258,6 +264,11 @@ void main() {
     expect(find.text('Abend abbrechen?'), findsOneWidget);
     await tippen(tester, 'Weiterspielen');
     expect(find.byType(AbendSeite), findsOneWidget, reason: 'Die App bleibt auf dem Abend');
+    expect(
+      GoRouter.of(tester.element(find.byType(AbendSeite))).routeInformationProvider.value.uri.path,
+      Routes.abend,
+      reason: 'Weiterspielen navigiert nicht: die Adresse bleibt die des Abends',
+    );
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
