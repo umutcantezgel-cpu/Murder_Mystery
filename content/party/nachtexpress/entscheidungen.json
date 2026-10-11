@@ -1,0 +1,885 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Die neun Entscheidungen des Inspektors (E-024). Eine Option deckt Fakten auf; ein Fakt erscheint in einem Pfad nur, wenn seine Quelle dort entsteht (Beobachtung mit pfade, Spur mit entstehtWenn). Sonst zeigt die Option die harmlose Fassung der Spur. Die Restverdächtigen folgen allein aus den Regeln und den aufgedeckten Fakten; Bonus-Hinweise zählen nicht (W-1).",
+  "regeln": [
+    {
+      "id": "R-ENTLASTET",
+      "wenn": [
+        "alibi",
+        "nebendelikt"
+      ],
+      "folge": "entlastet",
+      "text": "Wer beim Ruck nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Der Ruck ist der Schneerutsch um fünf vor eins, bei dem alle Lichter ausgingen."
+    },
+    {
+      "id": "R-UEBERFUEHRT",
+      "wenn": [
+        "schluesselbeweis",
+        "fundort"
+      ],
+      "folge": "ueberfuehrt",
+      "text": "Ein Schlüsselbeweis überführt eine Person, wenn man auch Lindqvists Obligationen an ihrem Versteck findet. Alle anderen scheiden aus."
+    }
+  ],
+  "fakten": [
+    {
+      "id": "f_alibi_watchmaker",
+      "typ": "alibi",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "beobachtung": "b_lukas_ruck_frueh"
+      }
+    },
+    {
+      "id": "f_spaet_watchmaker",
+      "typ": "spaetankunft",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "beobachtung": "b_lukas_ruck_spaet"
+      }
+    },
+    {
+      "id": "f_alibi_singer",
+      "typ": "alibi",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "beobachtung": "b_szabo_ruck_frueh"
+      }
+    },
+    {
+      "id": "f_spaet_singer",
+      "typ": "spaetankunft",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "beobachtung": "b_szabo_ruck_spaet"
+      }
+    },
+    {
+      "id": "f_alibi_secretary",
+      "typ": "alibi",
+      "personen": [
+        "secretary"
+      ],
+      "quelle": {
+        "beobachtung": "b_morel_ruck_frueh"
+      }
+    },
+    {
+      "id": "f_spaet_secretary",
+      "typ": "spaetankunft",
+      "personen": [
+        "secretary"
+      ],
+      "quelle": {
+        "beobachtung": "b_morel_ruck_spaet"
+      }
+    },
+    {
+      "id": "f_huber_streit",
+      "typ": "ausgangslage",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_huber_streit"
+      }
+    },
+    {
+      "id": "f_briefblock_leer",
+      "typ": "luege",
+      "personen": [
+        "countess"
+      ],
+      "quelle": {
+        "spur": "spur_briefblock_leer"
+      }
+    },
+    {
+      "id": "f_rosenkarte",
+      "typ": "motiv",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "spur": "spur_rosenkarte"
+      }
+    },
+    {
+      "id": "f_nd_watchmaker",
+      "typ": "nebendelikt",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "spur": "spur_koffer_boden"
+      }
+    },
+    {
+      "id": "f_z_watchmaker",
+      "typ": "zusatzindiz",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "spur": "spur_koffer_zins"
+      }
+    },
+    {
+      "id": "f_nd_countess",
+      "typ": "nebendelikt",
+      "personen": [
+        "countess"
+      ],
+      "quelle": {
+        "spur": "spur_ofen_briefe"
+      }
+    },
+    {
+      "id": "f_z_countess",
+      "typ": "zusatzindiz",
+      "personen": [
+        "countess"
+      ],
+      "quelle": {
+        "spur": "spur_ofen_seide"
+      }
+    },
+    {
+      "id": "f_nd_singer",
+      "typ": "nebendelikt",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "spur": "spur_pass_name"
+      }
+    },
+    {
+      "id": "f_z_singer",
+      "typ": "zusatzindiz",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "spur": "spur_pass_brief"
+      }
+    },
+    {
+      "id": "f_plattform",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_plattform_spuren"
+      }
+    },
+    {
+      "id": "f_nd_secretary",
+      "typ": "nebendelikt",
+      "personen": [
+        "secretary"
+      ],
+      "quelle": {
+        "spur": "spur_mappe_durchsucht"
+      }
+    },
+    {
+      "id": "f_z_secretary",
+      "typ": "zusatzindiz",
+      "personen": [
+        "secretary"
+      ],
+      "quelle": {
+        "spur": "spur_mappe_tuetchen"
+      }
+    },
+    {
+      "id": "f_koffer_alt",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_ueberseekoffer"
+      }
+    },
+    {
+      "id": "f_fundort_countess",
+      "typ": "fundort",
+      "personen": [
+        "countess"
+      ],
+      "quelle": {
+        "spur": "spur_schrank_obligationen"
+      }
+    },
+    {
+      "id": "f_fundort_singer",
+      "typ": "fundort",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "spur": "spur_klavier_obligationen"
+      }
+    },
+    {
+      "id": "f_fundort_watchmaker",
+      "typ": "fundort",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "spur": "spur_herd_obligationen"
+      }
+    },
+    {
+      "id": "f_fundort_secretary",
+      "typ": "fundort",
+      "personen": [
+        "secretary"
+      ],
+      "quelle": {
+        "spur": "spur_maschine_obligationen"
+      }
+    },
+    {
+      "id": "f_riegel",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_riegel_eis"
+      }
+    },
+    {
+      "id": "f_k_countess",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "countess"
+      ],
+      "quelle": {
+        "spur": "spur_riegel_countess"
+      }
+    },
+    {
+      "id": "f_k_watchmaker",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "spur": "spur_riegel_watchmaker"
+      }
+    },
+    {
+      "id": "f_k_secretary",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "secretary"
+      ],
+      "quelle": {
+        "spur": "spur_riegel_secretary"
+      }
+    },
+    {
+      "id": "f_k_singer",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "singer"
+      ],
+      "quelle": {
+        "spur": "spur_handschuh_perle"
+      }
+    },
+    {
+      "id": "f_nd_countess_morel",
+      "typ": "nebendelikt",
+      "personen": [
+        "countess"
+      ],
+      "quelle": {
+        "beobachtung": "b_morel_ofen"
+      }
+    },
+    {
+      "id": "f_nd_watchmaker_huber",
+      "typ": "nebendelikt",
+      "personen": [
+        "watchmaker"
+      ],
+      "quelle": {
+        "beobachtung": "b_huber_trinkgeld"
+      }
+    }
+  ],
+  "entscheidungen": [
+    {
+      "id": "e1_1",
+      "runde": 1,
+      "nr": 1,
+      "art": "person",
+      "frage": "Wer weiß, wo Brändli beim Ruck saß?",
+      "optionen": [
+        {
+          "id": "e1_1_huber",
+          "ziel": {
+            "person": "conductor"
+          },
+          "text": "Huber zum Streit befragen",
+          "fakten": [
+            "f_huber_streit"
+          ]
+        },
+        {
+          "id": "e1_1_lukas",
+          "ziel": {
+            "person": "student"
+          },
+          "text": "Lukas befragen",
+          "fakten": [
+            "f_alibi_watchmaker",
+            "f_spaet_watchmaker"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e1_1_lukas",
+        "singer": "e1_1_lukas",
+        "watchmaker": "e1_1_lukas",
+        "secretary": "e1_1_lukas"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_lukas_tisch",
+            "beobachtung:b_detektiv_ruck"
+          ],
+          "text": "Lukas lag in Schlafwagen II, nahe bei Brändlis Klapptisch. Er hat gesehen, ob Brändli beim Ruck an seinem Platz war."
+        }
+      }
+    },
+    {
+      "id": "e1_2",
+      "runde": 1,
+      "nr": 2,
+      "art": "person",
+      "frage": "Wer weiß, wo Ruby beim Ruck war?",
+      "optionen": [
+        {
+          "id": "e1_2_szabo",
+          "ziel": {
+            "person": "doctor"
+          },
+          "text": "Doktor Szabó befragen",
+          "fakten": [
+            "f_alibi_singer",
+            "f_spaet_singer"
+          ]
+        },
+        {
+          "id": "e1_2_orlowa",
+          "ziel": {
+            "person": "countess"
+          },
+          "text": "Gräfin Orlowa nach ihrem Briefblock fragen",
+          "fakten": [
+            "f_briefblock_leer"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e1_2_szabo",
+        "singer": "e1_2_szabo",
+        "watchmaker": "e1_2_szabo",
+        "secretary": "e1_2_szabo"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_szabo_klavier",
+            "beobachtung:b_detektiv_ruck"
+          ],
+          "text": "Doktor Szabó saß im Salonwagen und hörte Ruby zu. Sie weiß, ob das Klavier beim Ruck spielte."
+        }
+      }
+    },
+    {
+      "id": "e1_3",
+      "runde": 1,
+      "nr": 3,
+      "art": "person",
+      "frage": "Wer weiß, wo Greta beim Ruck war?",
+      "optionen": [
+        {
+          "id": "e1_3_morel",
+          "ziel": {
+            "person": "waiter"
+          },
+          "text": "Morel befragen",
+          "fakten": [
+            "f_alibi_secretary",
+            "f_spaet_secretary"
+          ]
+        },
+        {
+          "id": "e1_3_ruby",
+          "ziel": {
+            "person": "singer"
+          },
+          "text": "Ruby nach den Rosen fragen",
+          "fakten": [
+            "f_rosenkarte"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e1_3_morel",
+        "singer": "e1_3_morel",
+        "watchmaker": "e1_3_morel",
+        "secretary": "e1_3_morel"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_morel_tippen",
+            "beobachtung:b_detektiv_ruck"
+          ],
+          "text": "Morel räumte im Speisewagen die Tische ab, während Greta tippte. Er weiß, ob die Maschine beim Ruck klapperte."
+        }
+      }
+    },
+    {
+      "id": "e2_1",
+      "runde": 2,
+      "nr": 1,
+      "art": "gegenstand",
+      "frage": "Wessen Heimlichtuerei klärst du jetzt?",
+      "optionen": [
+        {
+          "id": "e2_1_koffer",
+          "ziel": {
+            "gegenstand": "musterkoffer"
+          },
+          "text": "Brändlis Musterkoffer untersuchen",
+          "fakten": [
+            "f_nd_watchmaker",
+            "f_z_watchmaker"
+          ]
+        },
+        {
+          "id": "e2_1_ofen",
+          "ziel": {
+            "gegenstand": "ofen_salon"
+          },
+          "text": "Den Ofen im Salonwagen untersuchen",
+          "fakten": [
+            "f_nd_countess",
+            "f_z_countess"
+          ]
+        }
+      ],
+      "richtig": {
+        "watchmaker": "e2_1_koffer",
+        "singer": "e2_1_koffer",
+        "secretary": "e2_1_koffer",
+        "countess": "e2_1_ofen"
+      },
+      "begruendung": {
+        "watchmaker": {
+          "kette": [
+            "fakt:f_spaet_watchmaker",
+            "beobachtung:b_huber_koffer",
+            "luege:luege_watchmaker_koffer"
+          ],
+          "text": "Brändli saß beim Ruck nicht an seinem Platz. Sein Koffer ist ungewöhnlich schwer, und er behauptet, darin seien nur Uhren."
+        },
+        "singer": {
+          "kette": [
+            "fakt:f_alibi_watchmaker",
+            "beobachtung:b_huber_koffer",
+            "luege:luege_watchmaker_koffer"
+          ],
+          "text": "Brändli saß beim Ruck an seinem Platz. Doch sein Koffer ist ungewöhnlich schwer, und er behauptet, darin seien nur Uhren."
+        },
+        "secretary": {
+          "kette": [
+            "fakt:f_alibi_watchmaker",
+            "beobachtung:b_huber_koffer",
+            "luege:luege_watchmaker_koffer"
+          ],
+          "text": "Brändli saß beim Ruck an seinem Platz. Doch sein Koffer ist ungewöhnlich schwer, und er behauptet, darin seien nur Uhren."
+        },
+        "countess": {
+          "kette": [
+            "fakt:f_alibi_singer",
+            "fakt:f_alibi_secretary",
+            "beobachtung:b_greta_bahnsteig",
+            "karte:ofen_salon"
+          ],
+          "text": "Ruby und Greta saßen beim Ruck an ihren Plätzen. Brändli und die Gräfin nicht. Die Gräfin hat Lindqvist in Wien angeschrien, und der Ofen im Salonwagen ist noch warm."
+        }
+      }
+    },
+    {
+      "id": "e2_2",
+      "runde": 2,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Was untersuchst du als Nächstes?",
+      "optionen": [
+        {
+          "id": "e2_2_hutschachtel",
+          "ziel": {
+            "gegenstand": "hutschachtel_ruby"
+          },
+          "text": "Rubys Hutschachtel untersuchen",
+          "fakten": [
+            "f_nd_singer",
+            "f_z_singer"
+          ]
+        },
+        {
+          "id": "e2_2_plattform",
+          "ziel": {
+            "raum": "platform",
+            "ort": "auf_der_plattform"
+          },
+          "text": "Die Plattform absuchen",
+          "fakten": [
+            "f_plattform"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e2_2_hutschachtel",
+        "singer": "e2_2_hutschachtel",
+        "watchmaker": "e2_2_hutschachtel",
+        "secretary": "e2_2_hutschachtel"
+      },
+      "begruendung": {
+        "watchmaker": {
+          "kette": [
+            "fakt:f_alibi_singer",
+            "beobachtung:b_szabo_hutschachtel",
+            "luege:luege_singer_name"
+          ],
+          "text": "Ruby saß beim Ruck am Klavier. Doch über ihren Namen sagt sie nicht alles, und die Hutschachtel hütet sie wie einen Schatz."
+        },
+        "singer": {
+          "kette": [
+            "fakt:f_spaet_singer",
+            "beobachtung:b_szabo_hutschachtel"
+          ],
+          "text": "Ruby kam erst nach dem Ruck an ihr Klavier zurück. Ihre Hutschachtel hütet sie wie einen Schatz."
+        },
+        "secretary": {
+          "kette": [
+            "fakt:f_alibi_singer",
+            "beobachtung:b_szabo_hutschachtel",
+            "luege:luege_singer_name"
+          ],
+          "text": "Ruby saß beim Ruck am Klavier. Doch über ihren Namen sagt sie nicht alles, und die Hutschachtel hütet sie wie einen Schatz."
+        },
+        "countess": {
+          "kette": [
+            "fakt:f_alibi_singer",
+            "beobachtung:b_szabo_hutschachtel",
+            "luege:luege_singer_name"
+          ],
+          "text": "Ruby saß beim Ruck am Klavier. Doch über ihren Namen sagt sie nicht alles, und die Hutschachtel hütet sie wie einen Schatz."
+        }
+      }
+    },
+    {
+      "id": "e2_3",
+      "runde": 2,
+      "nr": 3,
+      "art": "gegenstand",
+      "frage": "Was nimmst du dir als Nächstes vor?",
+      "optionen": [
+        {
+          "id": "e2_3_mappe",
+          "ziel": {
+            "gegenstand": "aktenmappe_lindqvist"
+          },
+          "text": "Lindqvists Mappe untersuchen",
+          "fakten": [
+            "f_nd_secretary",
+            "f_z_secretary"
+          ]
+        },
+        {
+          "id": "e2_3_koffer",
+          "ziel": {
+            "gegenstand": "ueberseekoffer"
+          },
+          "text": "Den Überseekoffer im Gepäckwagen durchsuchen",
+          "fakten": [
+            "f_koffer_alt"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e2_3_mappe",
+        "singer": "e2_3_mappe",
+        "watchmaker": "e2_3_mappe",
+        "secretary": "e2_3_mappe"
+      },
+      "begruendung": {
+        "watchmaker": {
+          "kette": [
+            "fakt:f_alibi_secretary",
+            "beobachtung:b_morel_mappe",
+            "luege:luege_secretary_tippen"
+          ],
+          "text": "Greta saß beim Ruck an der Maschine. Doch ihr Satz, sie habe die halbe Nacht getippt, passt nicht zur offenen Mappe."
+        },
+        "singer": {
+          "kette": [
+            "fakt:f_alibi_secretary",
+            "beobachtung:b_morel_mappe",
+            "luege:luege_secretary_tippen"
+          ],
+          "text": "Greta saß beim Ruck an der Maschine. Doch ihr Satz, sie habe die halbe Nacht getippt, passt nicht zur offenen Mappe."
+        },
+        "secretary": {
+          "kette": [
+            "fakt:f_spaet_secretary",
+            "beobachtung:b_morel_mappe"
+          ],
+          "text": "Greta kam erst nach dem Ruck an ihre Maschine zurück. Und Lindqvists Mappe lag in der Nacht offen am Stammplatz."
+        },
+        "countess": {
+          "kette": [
+            "fakt:f_alibi_secretary",
+            "beobachtung:b_morel_mappe",
+            "luege:luege_secretary_tippen"
+          ],
+          "text": "Greta saß beim Ruck an der Maschine. Doch ihr Satz, sie habe die halbe Nacht getippt, passt nicht zur offenen Mappe."
+        }
+      }
+    },
+    {
+      "id": "e3_1",
+      "runde": 3,
+      "nr": 1,
+      "art": "ort",
+      "frage": "Wo suchst du nach Lindqvists Obligationen?",
+      "optionen": [
+        {
+          "id": "e3_1_abteil8",
+          "ziel": {
+            "raum": "cabin8",
+            "ort": "am_kleiderschrank_8"
+          },
+          "text": "Im Abteil der Gräfin suchen",
+          "fakten": [
+            "f_fundort_countess"
+          ]
+        },
+        {
+          "id": "e3_1_salon",
+          "ziel": {
+            "raum": "salon",
+            "ort": "am_klavier"
+          },
+          "text": "Im Salonwagen am Klavier suchen",
+          "fakten": [
+            "f_fundort_singer"
+          ]
+        },
+        {
+          "id": "e3_1_speisewagen",
+          "ziel": {
+            "raum": "dining",
+            "ort": "im_speisewagen_mitte"
+          },
+          "text": "Im Speisewagen suchen",
+          "fakten": [
+            "f_fundort_watchmaker",
+            "f_fundort_secretary"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e3_1_abteil8",
+        "singer": "e3_1_salon",
+        "watchmaker": "e3_1_speisewagen",
+        "secretary": "e3_1_speisewagen"
+      },
+      "begruendung": {
+        "countess": {
+          "kette": [
+            "fakt:f_z_countess",
+            "beobachtung:b_ruby_klopft",
+            "karte:kleiderschrank_orlowa"
+          ],
+          "text": "In der Asche des Ofens liegt ein angesengter Zipfel dunkelroter Seide. Die Gräfin öffnete Ruby selbst die Tür, und ihr Kleiderschrank bietet viel Platz."
+        },
+        "singer": {
+          "kette": [
+            "fakt:f_spaet_singer",
+            "fakt:f_z_singer",
+            "karte:klavier_salon"
+          ],
+          "text": "Ruby kam erst nach dem Ruck ans Klavier zurück. In ihrem Pass steckt Lindqvists Drohbrief, und im Klavier ist Platz für ein Bündel."
+        },
+        "watchmaker": {
+          "kette": [
+            "fakt:f_spaet_watchmaker",
+            "fakt:f_z_watchmaker",
+            "karte:herd_bordkueche"
+          ],
+          "text": "Brändli war beim Ruck weg, und zwischen seinen Uhrwerken liegt ein Zinsschein von Lindqvist. Vom Schlafwagen ist es nur ein Schritt durch den Übergang in den Speisewagen."
+        },
+        "secretary": {
+          "kette": [
+            "fakt:f_spaet_secretary",
+            "fakt:f_z_secretary",
+            "karte:schreibmaschine_greta"
+          ],
+          "text": "Greta war beim Ruck von ihrer Maschine weg, und in Lindqvists Mappe steckt ein Tütchen aus Wien. Unter dem Deckel ihrer Maschine ist Platz für Papiere."
+        }
+      }
+    },
+    {
+      "id": "e3_2",
+      "runde": 3,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Was untersuchst du jetzt?",
+      "optionen": [
+        {
+          "id": "e3_2_riegel",
+          "ziel": {
+            "gegenstand": "fensterriegel"
+          },
+          "text": "Den Fensterriegel untersuchen",
+          "fakten": [
+            "f_riegel",
+            "f_k_countess",
+            "f_k_watchmaker",
+            "f_k_secretary"
+          ]
+        },
+        {
+          "id": "e3_2_ruby",
+          "ziel": {
+            "gegenstand": "handschuhe_ruby"
+          },
+          "text": "Rubys Perlenhandschuhe untersuchen",
+          "fakten": [
+            "f_k_singer"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e3_2_riegel",
+        "singer": "e3_2_ruby",
+        "watchmaker": "e3_2_riegel",
+        "secretary": "e3_2_riegel"
+      },
+      "begruendung": {
+        "countess": {
+          "kette": [
+            "fakt:f_z_countess",
+            "karte:fensterriegel"
+          ],
+          "text": "Im Ofen liegt ein angesengter Zipfel Seide. Am Fensterriegel von Abteil 7 kann ein Faden hängen geblieben sein."
+        },
+        "singer": {
+          "kette": [
+            "fakt:f_z_singer",
+            "merkmal:singer"
+          ],
+          "text": "Lindqvists Drohbrief steckt in Rubys Pass. Zu jedem Auftritt trägt sie weiße Perlenhandschuhe, die leicht Spuren annehmen."
+        },
+        "watchmaker": {
+          "kette": [
+            "fakt:f_z_watchmaker",
+            "karte:fensterriegel"
+          ],
+          "text": "Zwischen Brändlis Uhrwerken liegt ein Zinsschein von Lindqvist. Wer Uhrenöl an den Fingern hat, hinterlässt es auch am Fenster."
+        },
+        "secretary": {
+          "kette": [
+            "fakt:f_z_secretary",
+            "karte:fensterriegel"
+          ],
+          "text": "Das Papiertütchen in Lindqvists Mappe stammt aus Wien. Wer es in der Hand hielt, kann am Fenster von Abteil 7 Spuren hinterlassen haben."
+        }
+      }
+    },
+    {
+      "id": "e3_3",
+      "runde": 3,
+      "nr": 3,
+      "art": "person",
+      "frage": "Mit wem sprichst du zuletzt?",
+      "optionen": [
+        {
+          "id": "e3_3_huber",
+          "ziel": {
+            "person": "conductor"
+          },
+          "text": "Huber zu Brändlis Koffer fragen",
+          "fakten": [
+            "f_nd_watchmaker_huber"
+          ]
+        },
+        {
+          "id": "e3_3_morel",
+          "ziel": {
+            "person": "waiter"
+          },
+          "text": "Morel zum Salonwagen fragen",
+          "fakten": [
+            "f_nd_countess_morel"
+          ]
+        }
+      ],
+      "richtig": {
+        "countess": "e3_3_huber",
+        "singer": "e3_3_morel",
+        "watchmaker": "e3_3_morel",
+        "secretary": "e3_3_morel"
+      },
+      "begruendung": {
+        "countess": {
+          "kette": [
+            "fakt:f_spaet_watchmaker",
+            "beobachtung:b_huber_koffer"
+          ],
+          "text": "Brändli kam erst nach dem Ruck an seinen Tisch zurück, und sein Koffer ist ungewöhnlich schwer. Huber hat ihn getragen und kennt Brändlis Gründe."
+        },
+        "singer": {
+          "kette": [
+            "fakt:f_nd_watchmaker",
+            "beobachtung:b_greta_bahnsteig",
+            "beobachtung:b_morel_mappe"
+          ],
+          "text": "Brändlis Koffer ist geklärt, die Gräfin nicht. Greta sah sie in Wien schreien, und Morel kam gegen halb eins durch den Salonwagen."
+        },
+        "watchmaker": {
+          "kette": [
+            "fakt:f_nd_watchmaker",
+            "beobachtung:b_greta_bahnsteig",
+            "beobachtung:b_morel_mappe"
+          ],
+          "text": "Brändlis Koffer ist geklärt, die Gräfin nicht. Greta sah sie in Wien schreien, und Morel kam gegen halb eins durch den Salonwagen."
+        },
+        "secretary": {
+          "kette": [
+            "fakt:f_nd_watchmaker",
+            "beobachtung:b_greta_bahnsteig",
+            "beobachtung:b_morel_mappe"
+          ],
+          "text": "Brändlis Koffer ist geklärt, die Gräfin nicht. Greta sah sie in Wien schreien, und Morel kam gegen halb eins durch den Salonwagen."
+        }
+      }
+    }
+  ]
+}

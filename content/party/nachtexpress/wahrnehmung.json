@@ -1,0 +1,97 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Der Nachtexpress hat keine physische Tatnacht-Simulation (fall.simulation: false). Diese Datei gibt nur die Zeitfenster und die Hörweiten vor, die Karte und Erzähler brauchen. Weder Tatmatrix noch Plausibilitätsprüfer lesen sie.",
+  "tempo": {
+    "dunkel": 1.0,
+    "hell": 1.5,
+    "rennen": 2.5,
+    "regel": "Gehen im Dunkeln höchstens 1 m/s, bei Licht höchstens 1,5 m/s. Rennen höchstens 2,5 m/s und nie lautlos."
+  },
+  "licht": {
+    "voll": [
+      "elektrisch"
+    ],
+    "schwach": [
+      "kerze",
+      "lampe",
+      "feuer"
+    ],
+    "rest": [
+      "notlicht",
+      "nachleuchten"
+    ],
+    "erkennenSchwachBis": 3.0,
+    "regel": "Sehen braucht Licht am Ziel und eine freie Sichtlinie. Bei Kerzenlicht erkennt man Gesichter bis 3 m."
+  },
+  "hoeren": {
+    "klassen": {
+      "sehr_laut": "im selben Wagen und in jedem Wagen hinter einer offenen Tür",
+      "laut": "im selben Wagen",
+      "leise": "im selben Wagen bis 3 m"
+    },
+    "tumult": {
+      "von": "00:55:00",
+      "bis": "00:56:00",
+      "raeume": [
+        "corridor",
+        "salon",
+        "dining"
+      ],
+      "lautBis": 3.0,
+      "leiseBis": 1.5,
+      "regel": "Im Ruck klirrt Glas, und alle rufen durcheinander. Lautes hört man dort nur bis 3 m, Leises nur bis 1,5 m."
+    },
+    "zweiTueren": "Zwei Wagen weiter oder hinter einer geschlossenen Tür hört man nichts Genaues.",
+    "schritte": {
+      "gehen": "leise",
+      "rennen": "laut"
+    },
+    "liegend": "Wer schläft, hört nichts.",
+    "bund": "Nicht benutzt.",
+    "tueren": "Eine offene Tür quietscht nicht, wenn man hindurchgeht.",
+    "hindernisse": "Es zählen nur Wagen, Türen und Abstand."
+  },
+  "fuehlen": {
+    "bis": 1.0,
+    "regel": "Berührung bis 1 m. Man spürt, dass jemand da ist, aber nicht, wer."
+  },
+  "riechen": {
+    "nachwirkenSekunden": 90,
+    "regel": "Im selben Wagen oder im Wagen nebenan."
+  },
+  "haltungen": {
+    "steht": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "sitzt": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "kauert": {
+      "sieht": false,
+      "hoert": "alles"
+    },
+    "augenbinde": {
+      "sieht": false,
+      "hoert": "nur_sehr_laut"
+    },
+    "liegt": {
+      "sieht": false,
+      "hoert": "nichts"
+    }
+  },
+  "abtastung": {
+    "sekunden": 1,
+    "matrixSchritt": 15,
+    "fenster": [
+      "00:50:00",
+      "01:10:00"
+    ],
+    "planFenster": [
+      "00:30:00",
+      "01:30:00"
+    ]
+  },
+  "zeitgefuehl": "Im Dunkeln schätzt niemand Zeitabstände verlässlich. Als Wissen zählt nur die Reihenfolge von Ereignissen, die eine Person selbst wahrgenommen hat."
+}

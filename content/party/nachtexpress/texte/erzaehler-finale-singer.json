@@ -1,0 +1,28 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "nachtexpress",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad singer: finale.singer.<ende> (4) und rueckblende.singer.",
+  "eintraege": [
+    {
+      "id": "finale.singer.ende_meister",
+      "text": "Du klagst Ruby an, und es stimmt. Du hast die Spuren sauber zusammengetragen. Ruby gesteht: Sie wollte nie wieder zurück nach Chicago. Lindqvist besaß Briefe, die jemanden im Zug ruiniert hätten, und ließ sich sein Schweigen teuer bezahlen. Der Täter wollte endlich frei sein. Im linken Perlenhandschuh steckt ein Glassplitter vom Fenster von Abteil sieben. Hinter den Hämmern des Klaviers liegen Lindqvists Obligationen. Messingabrieb im Haar: Die Waffe war ein schwerer Leuchter aus dem Zug. Täter, Motiv und Waffe – lückenlos bewiesen. Als die Gendarmerie den Zug betritt, liegt das Geständnis schon unterschrieben im Speisewagen. Ruby Lafleur summt leise, als man sie abführt. Das Varieté in Paris wartet vergeblich auf seinen neuen Star."
+    },
+    {
+      "id": "finale.singer.ende_teilerfolg",
+      "text": "Du klagst Ruby an, und es stimmt. Ein gutes Stück Glück war auch dabei. Ruby gesteht: Sie wollte nie wieder zurück nach Chicago. Lindqvist besaß Briefe, die jemanden im Zug ruiniert hätten, und ließ sich sein Schweigen teuer bezahlen. Der Täter wollte endlich frei sein. Der richtige Name, aber eine dünne Akte. Ein guter Pariser Anwalt wird daraus ein Kunststück machen. Ruby Lafleur summt leise, als man sie abführt. Das Varieté in Paris wartet vergeblich auf seinen neuen Star."
+    },
+    {
+      "id": "finale.singer.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wird, ist entsetzt und wütend. Der Speisewagen sitzt danach geteilt da, und die Stimmung wird kalt. Ein Unschuldiger wird in Handschellen durch den Schnee geführt. Der wahre Täter steigt in Paris aus und verschwindet im Morgennebel. Eine Woche später singt Ruby Lafleur im großen Varieté. Ihr letztes Lied widmet sie „einem Mann im Schnee“."
+    },
+    {
+      "id": "finale.singer.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wird, brüllt zurück, und keiner hört mehr zu. Der Nachtexpress rollt weiter nach Paris – und mit ihm ein Mörder. Eine Woche später singt Ruby Lafleur im großen Varieté. Ihr letztes Lied widmet sie „einem Mann im Schnee“."
+    },
+    {
+      "id": "rueckblende.singer",
+      "text": "Ruby spielt bis tief in die Nacht Klavier. Um Viertel vor eins holt sie bei der Gräfin Kerzen. Fünf vor eins kommt der Ruck, und alle Lichter erlöschen. Im Dunkeln lässt Ruby das Klavier stehen. Sie nimmt den schweren Messingleuchter und geht nach Abteil sieben. Dort ist nur ein dumpfer Schlag zu hören. Mit Handschuhen öffnet sie das Fenster einen Spalt. Den Leuchter stellt sie zurück. Das Bündel mit den Obligationen verschwindet im Klavier, und Ruby spielt weiter."
+    }
+  ]
+}

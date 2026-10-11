@@ -1,0 +1,287 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, alle acht Rollen.",
+  "eintraege": [
+    {
+      "id": "g_countess_2_1",
+      "rolle": "countess",
+      "runde": 2,
+      "nr": 1,
+      "partner": "watchmaker",
+      "thema": "Der Mann mit der Lupe",
+      "ziel": "Ich will prüfen, ob die andere Person bei ihrer Geschichte bleibt.",
+      "preisgabe": [
+        "beobachtung:b_countess_ruby"
+      ],
+      "text": "Um Viertel vor eins habe ich Ruby an meiner Tür Kerzen gegeben. Das war meine einzige Störung. Was war Ihre?"
+    },
+    {
+      "id": "g_countess_2_2",
+      "rolle": "countess",
+      "runde": 2,
+      "nr": 2,
+      "partner": "doctor",
+      "thema": "Das Klavier im Salonwagen",
+      "ziel": "Ich will prüfen, was die andere Person von der Nacht gehört hat.",
+      "preisgabe": [],
+      "text": "Man hat in der Nacht Klavier gehört. Wann genau haben Sie die Musik zuletzt gehört?"
+    },
+    {
+      "id": "g_countess_2_3",
+      "rolle": "countess",
+      "runde": 2,
+      "nr": 3,
+      "partner": "conductor",
+      "thema": "Wer ging durch den Zug?",
+      "ziel": "Ich will wissen, wer nach dem Ruck im Gang war.",
+      "preisgabe": [],
+      "text": "Wer ging nach dem Ruck im Dunkeln durch den Zug? Und warum erfahre ich das erst jetzt?"
+    },
+    {
+      "id": "g_watchmaker_2_1",
+      "rolle": "watchmaker",
+      "runde": 2,
+      "nr": 1,
+      "partner": "singer",
+      "thema": "Die Dame am Klavier",
+      "ziel": "Ich will prüfen, ob die andere Person bei ihrer Geschichte bleibt.",
+      "preisgabe": [],
+      "text": "Ich möchte wissen, ob Ihre Geschichte vom Klavier hält. Haben Sie wirklich die ganze Nacht gespielt?"
+    },
+    {
+      "id": "g_watchmaker_2_2",
+      "rolle": "watchmaker",
+      "runde": 2,
+      "nr": 2,
+      "partner": "waiter",
+      "thema": "Der Nachttee",
+      "ziel": "Ich will wissen, wer in der Nacht Tee gebracht hat.",
+      "preisgabe": [],
+      "text": "Der Nachttee ist in diesem Zug eine heilige Sache. Wer hat ihn gebracht, und wann?"
+    },
+    {
+      "id": "g_watchmaker_2_3",
+      "rolle": "watchmaker",
+      "runde": 2,
+      "nr": 3,
+      "partner": "secretary",
+      "thema": "Der Koffer",
+      "ziel": "Ich will prüfen, ob die andere Person etwas über meinen Koffer weiß.",
+      "preisgabe": [
+        "luege:luege_watchmaker_koffer"
+      ],
+      "text": "In meinem Musterkoffer sind nur Uhren. Jeder Zöllner kann das bestätigen. Wer behauptet etwas anderes?"
+    },
+    {
+      "id": "g_singer_2_1",
+      "rolle": "singer",
+      "runde": 2,
+      "nr": 1,
+      "partner": "secretary",
+      "thema": "Die Frau mit der Maschine",
+      "ziel": "Ich will prüfen, ob die andere Person nachts etwas gesehen hat.",
+      "preisgabe": [],
+      "text": "Ihre Schreibmaschine hört man im ganzen Zug. Haben Sie beim Tippen etwas Seltsames bemerkt?"
+    },
+    {
+      "id": "g_singer_2_2",
+      "rolle": "singer",
+      "runde": 2,
+      "nr": 2,
+      "partner": "student",
+      "thema": "Die Hutschachtel",
+      "ziel": "Ich will wissen, ob jemand an meiner Hutschachtel war.",
+      "preisgabe": [
+        "luege:luege_singer_name"
+      ],
+      "text": "Ich heiße Ruby Lafleur, seit ich denken kann. Meine Hutschachtel gehört mir allein. Hat jemand etwas anderes gesagt?"
+    },
+    {
+      "id": "g_singer_2_3",
+      "rolle": "singer",
+      "runde": 2,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Rosen",
+      "ziel": "Ich will wissen, was der Inspektor über Lindqvist weiß.",
+      "preisgabe": [],
+      "text": "Lindqvist hat mir einmal Rosen geschickt. Ich habe sie zurückgeschickt. Das macht mich doch nicht verdächtig, oder?"
+    },
+    {
+      "id": "g_secretary_2_1",
+      "rolle": "secretary",
+      "runde": 2,
+      "nr": 1,
+      "partner": "watchmaker",
+      "thema": "Lindqvists Papiere",
+      "ziel": "Ich will wissen, was die andere Person über Lindqvists Geschäfte sagt.",
+      "preisgabe": [],
+      "text": "Lindqvist sammelte Papiere, wie andere Leute Briefmarken. Haben Sie je mit ihm Geschäfte gemacht?"
+    },
+    {
+      "id": "g_secretary_2_2",
+      "rolle": "secretary",
+      "runde": 2,
+      "nr": 2,
+      "partner": "doctor",
+      "thema": "Ein Tod in einer Nacht",
+      "ziel": "Ich will wissen, was die andere Person über Lindqvists Tod denkt.",
+      "preisgabe": [],
+      "text": "Lindqvist war gesund wie ein Stier. Wie kann so ein Mann in einer Nacht sterben?"
+    },
+    {
+      "id": "g_secretary_2_3",
+      "rolle": "secretary",
+      "runde": 2,
+      "nr": 3,
+      "partner": "waiter",
+      "thema": "Heißer Tee",
+      "ziel": "Ich will wissen, wer den Nachttee zubereitet hat.",
+      "preisgabe": [],
+      "text": "Der Nachttee kommt jede Nacht um dieselbe Zeit. Wer hat ihn heute zubereitet?"
+    },
+    {
+      "id": "g_conductor_2_1",
+      "rolle": "conductor",
+      "runde": 2,
+      "nr": 1,
+      "partner": "countess",
+      "thema": "Dunkel wie in einem Sack",
+      "ziel": "Ich will wissen, ob die andere Person nachts jemanden im Gang gesehen hat.",
+      "preisgabe": [],
+      "text": "Im Gang war es nach dem Ruck dunkel wie in einem Sack. Haben Sie jemanden gesehen oder gehört?"
+    },
+    {
+      "id": "g_conductor_2_2",
+      "rolle": "conductor",
+      "runde": 2,
+      "nr": 2,
+      "partner": "student",
+      "thema": "Fahrkarten, bitte",
+      "ziel": "Ich will wissen, ob jemand etwas verbirgt.",
+      "preisgabe": [
+        "beobachtung:b_huber_dunkel"
+      ],
+      "text": "Kurz nach dem Ruck huschte im Dunkeln jemand an meinem Dienstabteil vorbei. Ich hob die Laterne, und die Gestalt hielt mir wortlos eine Fahrkarte hin."
+    },
+    {
+      "id": "g_conductor_2_3",
+      "rolle": "conductor",
+      "runde": 2,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Mein Bericht",
+      "ziel": "Ich will wissen, was der Inspektor von meinem Bericht hält.",
+      "preisgabe": [],
+      "text": "Ich fahre seit fünfundzwanzig Jahren ohne Zwischenfall. Das hier schreibe ich nie in mein Dienstbuch."
+    },
+    {
+      "id": "g_student_2_1",
+      "rolle": "student",
+      "runde": 2,
+      "nr": 1,
+      "partner": "watchmaker",
+      "thema": "Eine Frage der Wärme",
+      "ziel": "Ich will wissen, ob mir jemand eine Decke leiht.",
+      "preisgabe": [
+        "luege:luege_student_karte"
+      ],
+      "text": "Ich habe meinen Schlafplatz ganz normal bezahlt. Trotzdem friere ich. Hätten Sie vielleicht eine Decke?"
+    },
+    {
+      "id": "g_student_2_2",
+      "rolle": "student",
+      "runde": 2,
+      "nr": 2,
+      "partner": "waiter",
+      "thema": "Etwas Warmes",
+      "ziel": "Ich will wissen, wo es etwas Warmes zu trinken gibt.",
+      "preisgabe": [],
+      "text": "Mir sind die Finger fast abgefallen. Gibt es noch heiße Schokolade oder wenigstens Tee?"
+    },
+    {
+      "id": "g_student_2_3",
+      "rolle": "student",
+      "runde": 2,
+      "nr": 3,
+      "partner": "singer",
+      "thema": "Ein Lied für die Nacht",
+      "ziel": "Ich will wissen, ob die andere Person weiterspielt.",
+      "preisgabe": [],
+      "text": "Man hört das Klavier bis in den Schlafwagen. Spielen Sie noch etwas, bevor die Gendarmerie kommt?"
+    },
+    {
+      "id": "g_doctor_2_1",
+      "rolle": "doctor",
+      "runde": 2,
+      "nr": 1,
+      "partner": "secretary",
+      "thema": "Lindqvists Abend",
+      "ziel": "Ich will wissen, was die andere Person über Lindqvists Abend weiß.",
+      "preisgabe": [],
+      "text": "Lindqvist war ein Fahrgast wie jeder andere. Er ist in dieser Nacht gestorben. Was wissen Sie über seinen Abend?"
+    },
+    {
+      "id": "g_doctor_2_2",
+      "rolle": "doctor",
+      "runde": 2,
+      "nr": 2,
+      "partner": "conductor",
+      "thema": "Die Hutschachtel",
+      "ziel": "Ich will wissen, ob die andere Person das auch bemerkt hat.",
+      "preisgabe": [
+        "beobachtung:b_szabo_hutschachtel"
+      ],
+      "text": "Ruby lässt ihre Hutschachtel nie aus den Augen. Beim Spielen stand sie neben ihr auf dem Sofa. Ist das normal?"
+    },
+    {
+      "id": "g_doctor_2_3",
+      "rolle": "doctor",
+      "runde": 2,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Mein ärztlicher Blick",
+      "ziel": "Ich will wissen, wie ich dem Inspektor helfen kann.",
+      "preisgabe": [],
+      "text": "Ich bin Ärztin und habe viele Menschen sterben sehen. Fragen Sie mich, wenn Sie etwas wissen wollen."
+    },
+    {
+      "id": "g_waiter_2_1",
+      "rolle": "waiter",
+      "runde": 2,
+      "nr": 1,
+      "partner": "countess",
+      "thema": "Die Gräfin und der Ofen",
+      "ziel": "Ich will wissen, ob die Gräfin noch etwas wünscht.",
+      "preisgabe": [
+        "beobachtung:b_morel_mappe"
+      ],
+      "text": "Als ich gegen halb eins durch den Salonwagen kam, lag Lindqvists Mappe offen am Stammplatz. Ich habe nichts angerührt, Gräfin."
+    },
+    {
+      "id": "g_waiter_2_2",
+      "rolle": "waiter",
+      "runde": 2,
+      "nr": 2,
+      "partner": "singer",
+      "thema": "Der Nachttee",
+      "ziel": "Ich will wissen, ob die andere Person den Nachttee bemerkt hat.",
+      "preisgabe": [
+        "beobachtung:b_morel_tee"
+      ],
+      "text": "Um zwanzig nach zwölf habe ich Lindqvist den Nachttee in Abteil 7 gebracht. Haben Sie mich dabei gesehen?"
+    },
+    {
+      "id": "g_waiter_2_3",
+      "rolle": "waiter",
+      "runde": 2,
+      "nr": 3,
+      "partner": "student",
+      "thema": "Heiße Schokolade",
+      "ziel": "Ich will wissen, ob die andere Person etwas Warmes möchte.",
+      "preisgabe": [],
+      "text": "Es gibt heiße Schokolade oder Tee, mehr hat die Bordküche nicht. Was darf es sein?"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Alle Dateien der Textsammlung (E-026). Jede Kennung kommt genau einmal vor; Verweise auf Kanon-Tatsachen statt Abschrift. Fehlende ui.*-Texte ergänzt die App aus der Textsammlung des Schlosskellers.",
+  "dateien": [
+    {
+      "datei": "erzaehler-intro.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-runden.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-countess.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-singer.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-watchmaker.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-secretary.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-aufloesung.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "dossiers-b1.json",
+      "bereich": "dossier"
+    },
+    {
+      "datei": "dossiers-b2.json",
+      "bereich": "dossier"
+    },
+    {
+      "datei": "taeter-countess.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "taeter-singer.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "taeter-watchmaker.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "taeter-secretary.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "detektiv.json",
+      "bereich": "detektiv"
+    },
+    {
+      "datei": "gespraeche-r1.json",
+      "bereich": "gespraech"
+    },
+    {
+      "datei": "gespraeche-r2.json",
+      "bereich": "gespraech"
+    },
+    {
+      "datei": "gespraeche-r3.json",
+      "bereich": "gespraech"
+    },
+    {
+      "datei": "wahlen-kern.json",
+      "bereich": "wahl"
+    },
+    {
+      "datei": "wahlen-b2.json",
+      "bereich": "wahl"
+    },
+    {
+      "datei": "ui-akte.json",
+      "bereich": "ui"
+    }
+  ]
+}

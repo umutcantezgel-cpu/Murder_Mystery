@@ -1,0 +1,167 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Gemeinsame Zeitleiste von der Abfahrt in Wien bis zum Morgen. Sie ist in allen Pfaden gleich; was beim Ruck je Pfad anders ist, steht in den Beobachtungen mit pfade.",
+  "eintraege": [
+    {
+      "id": "z_wien",
+      "zeit": "18:30",
+      "ort": "am_speisetisch",
+      "wer": [
+        "alle"
+      ],
+      "text": "Der Nachtexpress verlässt Wien. Auf dem Bahnsteig schreit die Gräfin Lindqvist an, auf Russisch.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_salzburg",
+      "zeit": "21:40",
+      "ort": "am_speisetisch",
+      "wer": [
+        "singer",
+        "watchmaker"
+      ],
+      "text": "In Salzburg steigen Ruby und Brändli zu. Ruby trägt ihre Hutschachtel selbst die Stufen hinauf.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_karte",
+      "zeit": "22:30",
+      "ort": "beim_sitzplatz",
+      "wer": [
+        "student",
+        "conductor"
+      ],
+      "text": "Huber kontrolliert die Fahrkarten. Lukas versteckt seine Fahrkarte der dritten Klasse in der Manteltasche.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_klavier",
+      "zeit": "22:45",
+      "ort": "neben_dem_klavier",
+      "wer": [
+        "singer",
+        "doctor"
+      ],
+      "text": "Ruby spielt im Salonwagen Klavier. Die Ärztin hört ihr bei Kerzenschein zu.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_halt",
+      "zeit": "23:50",
+      "ort": "im_gang",
+      "wer": [
+        "alle"
+      ],
+      "text": "Der Zug bleibt in einer Schneewehe stecken. Es geht nicht vor und nicht zurück.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_brandli_tisch",
+      "zeit": "23:55",
+      "ort": "am_wagenende",
+      "wer": [
+        "watchmaker",
+        "student"
+      ],
+      "text": "Brändli sitzt am Klapptisch im Schlafwagen und poliert Uhrwerke. Lukas sieht ihm zu.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_streit",
+      "zeit": "00:05",
+      "ort": "vor_abteil_7",
+      "wer": [
+        "lindqvist",
+        "conductor"
+      ],
+      "text": "Lindqvist schimpft laut in Abteil 7. Huber hört es im Gang und geht weiter.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_tee",
+      "zeit": "00:20",
+      "ort": "am_klapptisch_7",
+      "wer": [
+        "waiter",
+        "lindqvist"
+      ],
+      "text": "Morel bringt Lindqvist den Nachttee in Abteil 7. Der Tee hat vorher zehn Minuten in der Bordküche gestanden.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_tippen",
+      "zeit": "00:25",
+      "ort": "an_der_schreibmaschine",
+      "wer": [
+        "secretary",
+        "waiter"
+      ],
+      "text": "Greta tippt im Speisewagen Briefe. Morel räumt dabei die Tische ab.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_ofen",
+      "zeit": "00:30",
+      "ort": "am_salonofen",
+      "wer": [
+        "countess",
+        "waiter"
+      ],
+      "text": "Die Gräfin steckt im Salonwagen Briefbögen in den Ofen. Morel kommt durch den Wagen und sieht es.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_mappe",
+      "zeit": "00:35",
+      "ort": "am_stammplatz",
+      "wer": [
+        "secretary",
+        "waiter"
+      ],
+      "text": "Greta blättert im Salonwagen in Lindqvists Mappe. Morel sieht es von der Tür aus.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_klopfen",
+      "zeit": "00:45",
+      "ort": "vor_abteil_8",
+      "wer": [
+        "singer",
+        "countess"
+      ],
+      "text": "Ruby klopft bei der Gräfin an und holt Kerzen. Die Gräfin öffnet mit der Feder in der Hand.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_ruck",
+      "zeit": "00:55",
+      "ort": "im_gang",
+      "wer": [
+        "alle"
+      ],
+      "text": "Ein Schneerutsch trifft den Zug. Es gibt einen Ruck, und alle Lichter erlöschen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_licht",
+      "zeit": "01:05",
+      "ort": "im_gepaeckwagen",
+      "wer": [
+        "conductor"
+      ],
+      "text": "Huber geht mit der Laterne durch die Wagen. Nach und nach brennen die Lampen wieder.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_fund",
+      "zeit": "06:30",
+      "ort": "beim_toten",
+      "wer": [
+        "conductor",
+        "lindqvist"
+      ],
+      "text": "Huber findet Lindqvist tot in Abteil 7. Das Fenster hat einen Sprung, und in der Faust steckt ein kleiner Schlüssel.",
+      "pfade": "alle"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Besetzungsreihenfolge. Gezählt werden die Rollen ohne den Inspektor oder die Inspektorin. Bei N Rollen werden die Plätze 1 bis N besetzt; alle übrigen Figuren sind NPC ohne Spieler: Sie sind im Zug, ihr Wissen erreicht den Inspektor über NPC-Karten oder den Erzähler. Die ersten vier Plätze sind die vier Kernverdächtigen.",
+  "minRollen": 4,
+  "maxRollen": 8,
+  "reihenfolge": [
+    "countess",
+    "watchmaker",
+    "singer",
+    "secretary",
+    "conductor",
+    "student",
+    "doctor",
+    "waiter"
+  ],
+  "stufen": [
+    {
+      "stufe": 1,
+      "plaetze": [
+        1,
+        4
+      ]
+    },
+    {
+      "stufe": 2,
+      "plaetze": [
+        5,
+        8
+      ]
+    }
+  ],
+  "geschlechterBilanz": [
+    {
+      "rollen": 4,
+      "m": 1,
+      "w": 3
+    },
+    {
+      "rollen": 5,
+      "m": 2,
+      "w": 3
+    },
+    {
+      "rollen": 6,
+      "m": 3,
+      "w": 3
+    },
+    {
+      "rollen": 7,
+      "m": 3,
+      "w": 4
+    },
+    {
+      "rollen": 8,
+      "m": 4,
+      "w": 4
+    }
+  ],
+  "regeln": [
+    "Die vier Kernverdächtigen sind immer besetzt (Plätze 1–4).",
+    "Ab 6 Rollen unterscheiden sich Frauen- und Männerrollen höchstens um eine; bei 4 und 5 Rollen geben die Kernrollen 3 zu 1 und 3 zu 2 vor.",
+    "Jede Rolle darf von jeder Person gespielt werden, unabhängig vom eigenen Geschlecht.",
+    "Fehlt ein Gesprächspartner, übernimmt der erste besetzte Ersatzpartner aus ersatzpartner, sonst der Inspektor. Kernrollen sind immer besetzt und brauchen keinen Ersatz.",
+    "Unbesetzte Figuren sind NPC. Ihre Pflichtgespräch-Beobachtungen und ihre Antworten auf Befragungen des Inspektors kommen als NPC-Karte (App: aus dem Kanon, Druck: versiegelt je Fall-Code)."
+  ],
+  "ersatzpartner": {
+    "conductor": [
+      "waiter",
+      "student"
+    ],
+    "student": [
+      "doctor",
+      "conductor"
+    ],
+    "doctor": [
+      "student",
+      "waiter"
+    ],
+    "waiter": [
+      "conductor",
+      "doctor"
+    ]
+  }
+}

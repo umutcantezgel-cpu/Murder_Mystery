@@ -1,0 +1,363 @@
+{
+  "hinweis": "Kanon der Figuren des Nachtexpress. Die Kennungen der fünf Verdächtigen stammen aus content/scenarios/nachtexpress.json; die Namen sind Anzeigenamen. Koordinaten in Metern auf dem Raster aus raeume.json; sie zeigen den Platz während der Ermittlungsrunden.",
+  "lookHinweis": "Haut- und Haarfarben sind über alle Figuren gestreut. kopf: Renderer-Kopfbedeckung (none, bun, cap, bowler, beret, cloche, detektivhut); statur und schnitt wie im Renderer (slim/normal/broad/tall/small, suit/dress).",
+  "detektiv": {
+    "id": "detective",
+    "title": "Der Inspektor / Die Inspektorin",
+    "selectableGenders": [
+      "m",
+      "w"
+    ],
+    "colorCode": "#B8A48A",
+    "farbname": "Sandbeige",
+    "ort": "am_speisetisch",
+    "visualSpecs": {
+      "silhouette": "Mittelgroß, aufmerksame Haltung, Notizbuch in der Hand",
+      "baseOutfit": "Grauer Reisemantel über dunklem Anzug, feste Lederschuhe",
+      "accessories": [
+        "Hut mit schmaler Krempe",
+        "Messinglupe an einer Kette",
+        "Notizbuch mit Bleistift"
+      ],
+      "interactiveTool": "Messinglupe",
+      "idleAnimation": "Notiert etwas ins Notizbuch und hebt die Lupe ans Auge"
+    },
+    "tatnacht": "Du schläfst im Speisewagen über deinem Notizbuch. Der Ruck um fünf vor eins weckt dich. Im Dunkeln siehst du nichts, aber du hörst alles.",
+    "auftrag": "Um halb sieben bittet Huber dich: „Finde heraus, wer das war. Bevor die Gendarmerie kommt.“",
+    "nieVerdaechtig": true,
+    "look": {
+      "haut": "#d9a983",
+      "haar": "#4a3222",
+      "kopf": "detektivhut",
+      "statur": "normal",
+      "schnitt": "suit"
+    }
+  },
+  "opfer": {
+    "quelle": "victim",
+    "id": "lindqvist",
+    "name": "Viktor Lindqvist",
+    "age": 61,
+    "geschlecht": "m",
+    "roleTitle": "Stahlmagnat aus Göteborg",
+    "isNpc": true,
+    "farbname": "Dunkelviolett",
+    "ort": "beim_toten",
+    "status": "Tot. Er liegt in Abteil 7 zwischen Bett und Fenster. Die rechte Faust hält einen kleinen plombierten Schlüssel der Bahnpost.",
+    "visualSpecs": {
+      "silhouette": "Breit gebaut, schwer, weißes Haar",
+      "outfit": "Dunkelvioletter Hausmantel über dem Nachthemd, Lederpantoffeln",
+      "distinguishingFeature": "Kleiner plombierter Schlüssel in der rechten Faust",
+      "idleAnimation": "Liegt still am Boden, die Hand geschlossen"
+    },
+    "motiveAndConflict": "Lindqvist baute sein Vermögen auf fremden Plänen, harten Verträgen und teurem Schweigen. Auf dieser Reise wollte er etwas wiedergutmachen. Er hatte der Staatsanwaltschaft in Paris ein Einschreiben geschickt.",
+    "warmeSeite": "Er war pünktlich, zahlte gut und gab großzügig Trinkgeld. Den Kellner fragte er jeden Abend nach seiner Familie.",
+    "erinnerung": "In der Nacht schrieb er seine Schuld auf. Er wollte sich in Paris stellen."
+  },
+  "figuren": [
+    {
+      "id": "countess",
+      "quelle": "suspect:countess",
+      "name": "Gräfin Orlowa",
+      "vollerName": "Gräfin Natalja Orlowa",
+      "aussprache": "Or-LO-wa",
+      "age": 52,
+      "geschlecht": "w",
+      "herkunft": "russisch",
+      "tier": 1,
+      "besetzungsplatz": 1,
+      "roleTitle": "Die Exil-Gräfin",
+      "isPotentialKiller": true,
+      "farbname": "Beerenrot",
+      "visualSpecs": {
+        "silhouette": "Groß, aufrecht, hochgesteckte silberne Haare",
+        "outfit": "Langes beerenrotes Reisekleid, Handschuhe aus feinem Glacéleder, ein dunkelroter Seidenschal mit gesticktem Krönchen",
+        "distinguishingFeature": "Dunkelroter Seidenschal mit Krönchen und ein Hauch Veilchenwasser",
+        "idleAnimation": "Streicht den Schal glatt und schaut hochmütig über alle hinweg"
+      },
+      "motiveAndConflict": "Die Gräfin floh 1920 aus Petrograd. Geblieben sind der Titel und ihre letzten Juwelen, und die hielt Lindqvist als Pfand. Er ließ sich sein Schweigen über ihre Briefe teuer bezahlen.",
+      "blackoutAlibi": "Behauptet, die ganze Nacht in Abteil 8 Briefe geschrieben zu haben.",
+      "roleSecret": "Gegen halb eins hat sie im Salonwagen heimlich Briefbögen im Ofen verbrannt.",
+      "persoenlichesZiel": "Niemand soll erfahren, was in den verbrannten Briefen stand.",
+      "nebendelikt": "countess",
+      "loyalitaet": {
+        "zu": "singer",
+        "grund": "Ruby hat ihr in Wien russische Lieder vorgespielt und nie nach den Briefen gefragt."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Sie verbrennt gegen halb eins Briefbögen im Ofen des Salonwagens. Um Viertel vor eins gibt sie Ruby an der Tür Kerzen. Beim Ruck sitzt sie in Abteil 8 und öffnet die Tür nicht, bis das Licht wieder brennt."
+      },
+      "killerProfile": {
+        "crimeExecution": "Nach dem Streit mit Lindqvist verbrennt sie die Briefe im Ofen. Beim Ruck schleicht sie im Dunkeln nach Abteil 7. Dort ist nur ein leises Poltern zu hören. Mit ihrem Seidenschal ist alles vorbei. Sie öffnet das Fenster einen Spalt und nimmt Lindqvists Obligationen mit. Den angesengten Schal-Zipfel wirft sie in den Ofen. Das Bündel versteckt sie im Kleiderschrank von Abteil 8.",
+        "smokingGun": "Am Fensterrahmen von Abteil 7 klebt eine dunkelrote Seidenfaser mit dem Rest eines gestickten Krönchens.",
+        "zusatzindiz": "Zwischen der Asche im Ofen liegt ein angesengter Zipfel dunkelroter Seide."
+      },
+      "alltag": "Lebt in Paris von einer kleinen Rente und von den Erinnerungen an Petrograd."
+    },
+    {
+      "id": "watchmaker",
+      "quelle": "suspect:watchmaker",
+      "name": "Brändli",
+      "vollerName": "Emil Brändli",
+      "aussprache": "BRÄND-li",
+      "age": 47,
+      "geschlecht": "m",
+      "herkunft": "schweizerisch",
+      "tier": 1,
+      "besetzungsplatz": 2,
+      "roleTitle": "Der Uhrmacher",
+      "isPotentialKiller": true,
+      "farbname": "Graubraun",
+      "visualSpecs": {
+        "silhouette": "Klein, schmal, vorgebeugt wie über einem Uhrwerk",
+        "outfit": "Graubrauner Anzug, Weste mit Uhrkette, steifer Bowlerhut",
+        "distinguishingFeature": "Uhrmacherlupe im Auge und ein Hauch Uhrenöl an den Fingern",
+        "idleAnimation": "Klemmt die Lupe ins Auge und dreht an einer kleinen Schraube"
+      },
+      "motiveAndConflict": "Brändli braucht dringend Geld, und Lindqvist reiste mit Inhaberobligationen über ein Vermögen. Außerdem verkaufte er Lindqvist einst fremde Pläne und fürchtet, dass Lindqvist es herumerzählt.",
+      "blackoutAlibi": "Behauptet, die ganze Nacht an Hubers Taschenuhr gearbeitet zu haben.",
+      "roleSecret": "Im doppelten Boden seines Musterkoffers stecken Uhrwerke ohne Zollplombe. Huber schaut dafür weg.",
+      "persoenlichesZiel": "Der Zoll soll nie von dem Koffer erfahren.",
+      "nebendelikt": "watchmaker",
+      "loyalitaet": {
+        "zu": "conductor",
+        "grund": "Huber schaut seit Jahren bei seinem Koffer weg und hat nie Fragen gestellt."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Er sitzt bis nach Mitternacht am Klapptisch und poliert Uhrwerke. Beim Ruck bleibt er am Tisch und hält das Uhrwerk fest, bis das Licht wieder angeht."
+      },
+      "killerProfile": {
+        "crimeExecution": "Er füllt Schlafpulver gegen seine Schlaflosigkeit in Lindqvists Nachttee. Beim Ruck lässt er den Tisch im Dunkeln allein. Er geht durch den Übergang nach Abteil 7 und nimmt Lindqvists Obligationen. Am Fenster hinterlässt er einen Tropfen Uhrenöl. Das Bündel versteckt er im kalten Herd der Bordküche.",
+        "smokingGun": "Auf dem Fensterbrett von Abteil 7 glänzt ein Tropfen feines Uhrenöl.",
+        "zusatzindiz": "Zwischen den Uhrwerken im Musterkoffer liegt ein abgerissener Zinsschein mit Lindqvists Stempel."
+      },
+      "alltag": "Führt in Biel eine kleine Werkstatt und sammelt alte Taschenuhren."
+    },
+    {
+      "id": "singer",
+      "quelle": "suspect:singer",
+      "name": "Ruby",
+      "vollerName": "Ruby Lafleur",
+      "aussprache": "RUH-bi La-FLÖR",
+      "age": 29,
+      "geschlecht": "w",
+      "herkunft": "amerikanisch",
+      "tier": 1,
+      "besetzungsplatz": 3,
+      "roleTitle": "Die Jazzsängerin",
+      "isPotentialKiller": true,
+      "farbname": "Smaragdgrün",
+      "visualSpecs": {
+        "silhouette": "Schlank, federnder Gang, immer ein Lied auf den Lippen",
+        "outfit": "Smaragdgrünes Kleid, Glockenhut, weiße Handschuhe mit Perlen",
+        "distinguishingFeature": "Weiße Perlenhandschuhe und eine runde Hutschachtel, die sie nie aus der Hand legt",
+        "idleAnimation": "Trommelt einen Takt auf die Hutschachtel und summt dazu"
+      },
+      "motiveAndConflict": "Ruby heißt in Wahrheit Ruth Kowalski. Sie ist in Chicago aus einem schlimmen Vertrag geflohen. Lindqvist wusste es und drohte, es zu verraten, wenn sie nicht zahlt.",
+      "blackoutAlibi": "Behauptet, die ganze Nacht im Salonwagen Klavier gespielt zu haben.",
+      "roleSecret": "Sie reist mit einem Pass auf den Namen Ruth Kowalski. Er steckt in ihrer Hutschachtel.",
+      "persoenlichesZiel": "Niemand soll ihren echten Namen erfahren.",
+      "nebendelikt": "singer",
+      "loyalitaet": {
+        "zu": "doctor",
+        "grund": "Die Ärztin hat ihr bei Kopfschmerzen geholfen und nicht nach dem Pass gefragt."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Sie spielt bis nach eins Klavier. Um Viertel vor eins holt sie bei der Gräfin Kerzen. Beim Ruck sitzt sie wieder am Klavier und spielt im Dunkeln weiter."
+      },
+      "killerProfile": {
+        "crimeExecution": "Beim Ruck lässt sie das Klavier im Dunkeln allein. Sie nimmt den schweren Messingleuchter vom Klavier mit nach Abteil 7. Dort ist nur ein dumpfer Schlag zu hören. Mit Handschuhen öffnet sie das Fenster einen Spalt und nimmt Lindqvists Obligationen mit. Den Leuchter stellt sie zurück, das Bündel steckt sie ins Klavier.",
+        "smokingGun": "Am linken Perlenhandschuh fehlt eine Perle, und im Futter steckt ein Glassplitter vom Fenster von Abteil 7.",
+        "zusatzindiz": "In ihrem falschen Pass liegt ein Brief von Lindqvist: „Chicago erfährt, wer Sie sind.“"
+      },
+      "alltag": "Singt in Klubs und träumt von der großen Bühne in Paris."
+    },
+    {
+      "id": "secretary",
+      "quelle": "suspect:secretary",
+      "name": "Greta",
+      "vollerName": "Greta Falk",
+      "aussprache": "GRE-ta FALK",
+      "age": 38,
+      "geschlecht": "w",
+      "herkunft": "schwedisch",
+      "tier": 1,
+      "besetzungsplatz": 4,
+      "roleTitle": "Die Sekretärin",
+      "isPotentialKiller": true,
+      "farbname": "Schiefergrau",
+      "visualSpecs": {
+        "silhouette": "Schmal, ruhig, spricht leise und sieht alles",
+        "outfit": "Schiefergraues Kostüm, Baskenmütze, Tintenfleck am Zeigefinger",
+        "distinguishingFeature": "Violetter Tintenfleck am Zeigefinger der rechten Hand",
+        "idleAnimation": "Tippt in der Luft und streicht sich eine Strähne hinters Ohr"
+      },
+      "motiveAndConflict": "Lindqvists Geschäfte haben Gretas Vater ruiniert. Sie kam unter falschem Namen zu Lindqvist und tippt seit neun Jahren seine Briefe. Sie wartet darauf, dass er seine Schuld bezahlt.",
+      "blackoutAlibi": "Behauptet, die halbe Nacht im Speisewagen Briefe getippt zu haben.",
+      "roleSecret": "Nach halb eins hat sie heimlich in Lindqvists Mappe gelesen.",
+      "persoenlichesZiel": "Niemand soll erfahren, warum sie wirklich zu Lindqvist kam.",
+      "nebendelikt": "secretary",
+      "loyalitaet": {
+        "zu": "waiter",
+        "grund": "Morel bringt ihr jede Nacht heißen Tee. Er ist der Einzige, der freundlich zu ihr ist."
+      },
+      "innocentProfile": {
+        "actualBehavior": "Sie tippt bis halb eins und liest dann kurz in Lindqvists Mappe. Beim Ruck sitzt sie wieder an der Reiseschreibmaschine, und das Farbband klemmt."
+      },
+      "killerProfile": {
+        "crimeExecution": "Zwischen Mitternacht und zwanzig nach zwölf rührt sie Schlafpulver in Lindqvists Nachttee. Beim Ruck lässt sie die Schreibmaschine im Dunkeln stehen. Sie geht nach Abteil 7 und nimmt Lindqvists Obligationen mit. Am Fenster bleibt ein violetter Fleck von ihren Fingern zurück. Das leere Pulvertütchen steckt sie in die Mappe, das Bündel unter den Deckel der Schreibmaschine.",
+        "smokingGun": "Auf der Fensterscheibe von Abteil 7 klebt ein violetter Fleck, wie ihn ein altes Farbband hinterlässt.",
+        "zusatzindiz": "Zwischen Lindqvists Briefen steckt ein leeres Papiertütchen mit dem Stempel einer Wiener Apotheke."
+      },
+      "alltag": "Tippt schneller als jede andere und kann jedes Diktat auswendig."
+    },
+    {
+      "id": "conductor",
+      "quelle": "suspect:conductor",
+      "name": "Huber",
+      "vollerName": "Anton Huber",
+      "aussprache": "HU-ber",
+      "age": 58,
+      "geschlecht": "m",
+      "herkunft": "österreichisch",
+      "tier": 2,
+      "besetzungsplatz": 5,
+      "roleTitle": "Der Schlafwagenschaffner",
+      "isPotentialKiller": false,
+      "farbname": "Nachtblau",
+      "visualSpecs": {
+        "silhouette": "Breit, stämmig, aufrechter Gang eines Beamten",
+        "outfit": "Nachtblaue Dienstuniform mit Messingknöpfen, Schirmmütze",
+        "distinguishingFeature": "Laterne am Arm und ein Bund mit dem Vierkantschlüssel des Zuges",
+        "idleAnimation": "Zieht die Taschenuhr und schüttelt den Kopf über die Verspätung"
+      },
+      "motiveAndConflict": "Huber fährt seit 25 Jahren ohne Zwischenfall. Er hat Brändlis Koffer nie geöffnet und Trinkgeld genommen. Gegen Mitternacht hörte er hinter Abteil 7 einen Streit und schwieg.",
+      "blackoutAlibi": "Kontrolliert nach dem Ruck mit der Laterne alle Wagen.",
+      "roleSecret": "Er hat sich von Brändli Trinkgeld geben lassen und weggeschaut. Den Streit hinter Abteil 7 hat er verschwiegen.",
+      "persoenlichesZiel": "Die Schlafwagengesellschaft soll nie vom Trinkgeld erfahren.",
+      "nebendelikt": "conductor",
+      "loyalitaet": {
+        "zu": "watchmaker",
+        "grund": "Brändli ist seit Jahren Stammgast und freigiebig."
+      },
+      "alltag": "Kennt jede Fahrkarte, jedes Trinkgeld und jedes Knarren dieses Zuges."
+    },
+    {
+      "id": "student",
+      "quelle": null,
+      "name": "Lukas",
+      "vollerName": "Lukas Hartmann",
+      "aussprache": "LU-kas",
+      "age": 21,
+      "geschlecht": "m",
+      "herkunft": "deutsch",
+      "tier": 3,
+      "besetzungsplatz": 6,
+      "roleTitle": "Der Student",
+      "isPotentialKiller": false,
+      "colorCode": "#8B4A2F",
+      "farbname": "Rostbraun",
+      "ort": "beim_sitzplatz",
+      "look": {
+        "haut": "#efd3c0",
+        "haar": "#6b4a2a",
+        "kopf": "cap",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "visualSpecs": {
+        "silhouette": "Schlank, hochgewachsen, ständig in Bewegung",
+        "outfit": "Rostbrauner Wollmantel, Schiebermütze, abgetragene Schuhe",
+        "distinguishingFeature": "Dicke Brille und ein Reisebuch voller Notizen",
+        "idleAnimation": "Reibt sich die kalten Hände und blättert in seinem Reisebuch"
+      },
+      "motiveAndConflict": "Lukas studiert Physik in Wien und fährt zu einem Kongress nach Paris. Er hat nur eine Fahrkarte der dritten Klasse und sich in einen freien Schlafplatz gelegt. Er sah in der Nacht, wo Brändli war.",
+      "blackoutAlibi": "Lag im Schlafwagen und konnte vor Kälte nicht schlafen.",
+      "roleSecret": "Er sah, ob Brändli beim Ruck an seinem Tisch saß, und hat es nicht erzählt.",
+      "persoenlichesZiel": "Niemand soll merken, dass er nur eine Fahrkarte der dritten Klasse hat.",
+      "nebendelikt": "student",
+      "loyalitaet": {
+        "zu": "doctor",
+        "grund": "Die Ärztin hat ihm eine Wolldecke geliehen."
+      },
+      "alltag": "Studiert Physik in Wien und baut in der Freizeit Radios."
+    },
+    {
+      "id": "doctor",
+      "quelle": null,
+      "name": "Doktor Szabó",
+      "vollerName": "Dr. Margit Szabó",
+      "aussprache": "SA-bo",
+      "age": 44,
+      "geschlecht": "w",
+      "herkunft": "ungarisch",
+      "tier": 3,
+      "besetzungsplatz": 7,
+      "roleTitle": "Die Ärztin",
+      "isPotentialKiller": false,
+      "colorCode": "#B5892E",
+      "farbname": "Ockergelb",
+      "ort": "am_salonende",
+      "look": {
+        "haut": "#e6c3a5",
+        "haar": "#4a3222",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "dress"
+      },
+      "visualSpecs": {
+        "silhouette": "Mittelgroß, ruhige Haltung, aufmerksamer Blick",
+        "outfit": "Ockergelber Reisemantel, dunkles Kleid, flache Schuhe",
+        "distinguishingFeature": "Kleine schwarze Arzttasche und eine Brille an einer Kette",
+        "idleAnimation": "Setzt die Brille auf, liest eine Zeile und schaut zum Klavier"
+      },
+      "motiveAndConflict": "Margit Szabó ist Ärztin in Budapest und reist zu einem Kongress. Sie saß die Nacht im Salonwagen und hörte Ruby zu. Sie hat Ruby versprochen, über ihren Pass zu schweigen.",
+      "blackoutAlibi": "Saß im Salonwagen und las bei Kerzenlicht ein Buch.",
+      "roleSecret": "Sie sah in Rubys Hutschachtel einen Pass mit einem anderen Namen und hat es versprochen für sich behalten.",
+      "persoenlichesZiel": "Ruby nicht verraten, solange es keinen Grund gibt.",
+      "nebendelikt": null,
+      "loyalitaet": null,
+      "alltag": "Ist Ärztin in Budapest und liest in jeder freien Minute Romane."
+    },
+    {
+      "id": "waiter",
+      "quelle": null,
+      "name": "Morel",
+      "vollerName": "Jacques Morel",
+      "aussprache": "Mo-REL",
+      "age": 55,
+      "geschlecht": "m",
+      "herkunft": "französisch",
+      "tier": 3,
+      "besetzungsplatz": 8,
+      "roleTitle": "Der Kellner",
+      "isPotentialKiller": false,
+      "colorCode": "#E5DFCF",
+      "farbname": "Elfenbein",
+      "ort": "bordkueche",
+      "look": {
+        "haut": "#e2b99a",
+        "haar": "#2b2118",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "visualSpecs": {
+        "silhouette": "Aufrecht, flinke Schritte, ein Tuch über dem Arm",
+        "outfit": "Elfenbeinfarbene Kellnerjacke, schwarze Fliege, weiße Handschuhe",
+        "distinguishingFeature": "Silbernes Tablett mit Teekanne und ein höfliches Lächeln",
+        "idleAnimation": "Poliert das Tablett mit einem weißen Tuch und prüft die Teekanne"
+      },
+      "motiveAndConflict": "Morel bedient seit dreißig Jahren in Speisewagen. Er brachte Lindqvist um zwanzig nach zwölf den Nachttee. Den Tee ließ er vorher kurz stehen, und das verschweigt er.",
+      "blackoutAlibi": "Räumte im Speisewagen die Tische ab.",
+      "roleSecret": "Er ließ den Nachttee zehn Minuten allein in der Bordküche stehen. Er sah Greta in Lindqvists Mappe blättern und die Gräfin am Ofen.",
+      "persoenlichesZiel": "Er will keinen Gast verpetzen und sein Trinkgeld behalten.",
+      "nebendelikt": "waiter",
+      "loyalitaet": {
+        "zu": "secretary",
+        "grund": "Greta ist die Einzige, die ihm nach Mitternacht Gesellschaft leistet."
+      },
+      "alltag": "Bedient seit dreißig Jahren in Speisewagen und kennt jedes Gesicht der Strecke."
+    }
+  ]
+}

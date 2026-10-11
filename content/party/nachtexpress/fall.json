@@ -1,0 +1,99 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "nachtexpress",
+  "kanonVersion": "1.0.0",
+  "titel": "Nachtexpress 1931",
+  "untertitel": "Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann.",
+  "simulation": false,
+  "pfade": [
+    "countess",
+    "singer",
+    "watchmaker",
+    "secretary"
+  ],
+  "kernverdaechtige": [
+    "countess",
+    "singer",
+    "watchmaker",
+    "secretary"
+  ],
+  "personen": {
+    "min": 4,
+    "max": 8,
+    "hinweis": "Gezählt werden die Rollen ohne den Inspektor oder die Inspektorin. Ab 8 Mitspielenden gibt es Assistenzplätze ohne Rolle."
+  },
+  "runden": [
+    {
+      "nr": 1,
+      "name": "Das Alibi-Geflecht",
+      "uhrzeit": "06:45",
+      "kern": "Alle vier Verdächtigen haben gute Gründe, in der Nacht wach gewesen zu sein."
+    },
+    {
+      "nr": 2,
+      "name": "Die Indizien-Filterung",
+      "uhrzeit": "07:30",
+      "kern": "Heimlichkeiten werden vom Mord getrennt."
+    },
+    {
+      "nr": 3,
+      "name": "Die finale Gegenüberstellung",
+      "uhrzeit": "08:15",
+      "kern": "Bei gutem Spiel stehen zwei Restverdächtige dem Schlüsselbeweis gegenüber."
+    }
+  ],
+  "finaleUhrzeit": "09:00",
+  "morgenUhrzeit": "10:00",
+  "rundendauerMinuten": 30,
+  "schwellen": {
+    "regel": "wahr, wenn 5 × kooperativ ≥ 3 × Rollen; sonst neutral, wenn 5 × kooperativ ≥ 2 × Rollen; sonst falsche Fährte",
+    "wahr": {
+      "faktor": 5,
+      "gegen": 3
+    },
+    "neutral": {
+      "faktor": 5,
+      "gegen": 2
+    }
+  },
+  "enden": {
+    "matrix": [
+      {
+        "id": "ende_meister",
+        "name": "Endstation Wahrheit",
+        "anklage": "richtig",
+        "punkteVon": 7,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_teilerfolg",
+        "name": "Mit knapper Not",
+        "anklage": "richtig",
+        "punkteVon": 0,
+        "punkteBis": 6
+      },
+      {
+        "id": "ende_justizirrtum",
+        "name": "Falscher Bahnsteig",
+        "anklage": "falsch",
+        "punkteVon": 4,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_eskalation",
+        "name": "Akte ungelöst",
+        "anklage": "falsch",
+        "punkteVon": 0,
+        "punkteBis": 3
+      }
+    ]
+  },
+  "regeln": {
+    "W-1": "Ein wahrer Bonus-Hinweis liefert einen wahren Baustein, entlastet aber nie allein einen Kernverdächtigen.",
+    "S-1": "Resümees nur aus dem Wissen des Inspektors; bei nur einer Restperson kein Name.",
+    "D-1": "Optionen mit 0 Punkten zeigen weder Schlüsselbeweis noch Zusatzindiz.",
+    "G-1": "Die Option B der Täterrolle (Sabotage) zählt netto −1. Vor der Auflösung wird weder die Qualität des Hinweises noch die Stimmenzahl gezeigt (E-025).",
+    "K-1": "Objekte, Marker und Licht auf der Karte sind vor dem Finale in allen Pfaden gleich.",
+    "P-1": "Pflichtgespräche geben nur pfadneutrales Wissen preis."
+  }
+}

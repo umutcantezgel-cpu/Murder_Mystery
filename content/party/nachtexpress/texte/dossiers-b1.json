@@ -1,0 +1,140 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "rolle": "countess",
+      "wer": "Du bist Gräfin Natalja Orlowa, aus Petrograd geflohen und seit Jahren im Exil. Dir sind der Titel und ein Hauch Veilchenwasser geblieben. Du trägst ein beerenrotes Reisekleid und einen dunkelroten Seidenschal mit gesticktem Krönchen. Deine silbernen Haare sind hoch gesteckt.",
+      "weiss": [
+        {
+          "text": "Dein Abteil ist Abteil 8, nur wenige Schritte von Lindqvists Abteil entfernt."
+        },
+        {
+          "ref": "beobachtung:b_countess_ruby"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Lindqvist hielt deine letzten Juwelen und deine Briefe als Pfand. Er ließ sich sein Schweigen teuer bezahlen."
+        },
+        {
+          "ref": "beobachtung:b_countess_ruhig"
+        },
+        {
+          "ref": "nebendelikt:nd_briefe"
+        },
+        {
+          "ref": "luege:luege_countess_briefe"
+        },
+        {
+          "ref": "luege:luege_countess_wien"
+        },
+        {
+          "text": "Du schweigst, weil niemand lesen soll, was in den Briefen stand."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, was in den verbrannten Briefen stand.",
+      "besetzung": "Jede Person kann die Gräfin spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "watchmaker",
+      "wer": "Du bist Emil Brändli, Uhrmacher aus Biel, und reist mit einem Musterkoffer voller Taschenuhren. Du bist klein und trägst einen steifen Bowlerhut und eine Weste mit Uhrkette. Du sprichst fünf Sprachen, die meisten nur, wenn du glaubst, dass keiner zuhört.",
+      "weiss": [
+        {
+          "text": "Du hast in der Nacht am Klapptisch im Schlafwagen gearbeitet. Unter dem Tisch stand dein schwerer Musterkoffer."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Lindqvists Inhaberobligationen wären ein Vermögen. Du könntest Geld gut gebrauchen, und du hast ihm einst fremde Pläne verkauft."
+        },
+        {
+          "ref": "beobachtung:b_watchmaker_tisch"
+        },
+        {
+          "ref": "beobachtung:b_watchmaker_trinkgeld"
+        },
+        {
+          "ref": "nebendelikt:nd_schmuggel"
+        },
+        {
+          "ref": "luege:luege_watchmaker_koffer"
+        },
+        {
+          "ref": "luege:luege_watchmaker_uhr"
+        },
+        {
+          "text": "Du schweigst, weil der Zoll sonst deinen Koffer öffnet."
+        }
+      ],
+      "ziel": "Der Zoll soll nie von dem Koffer erfahren.",
+      "besetzung": "Jede Person kann Brändli spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "singer",
+      "wer": "Du bist Ruby Lafleur, Jazzsängerin aus Amerika, und auf dem Weg zu deinem ersten großen Engagement in Paris. Du lachst laut, schläfst fast nie und vergisst kein Gesicht. Zu jedem Auftritt trägst du weiße Perlenhandschuhe, und deine runde Hutschachtel verlässt dich nie.",
+      "weiss": [
+        {
+          "text": "Du hast bis tief in die Nacht im Salonwagen Klavier gespielt, bei Kerzenschein."
+        },
+        {
+          "ref": "beobachtung:b_ruby_klopft"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Lindqvist wusste, wer du wirklich bist. Er drohte, es zu verraten, wenn du nicht zahlst."
+        },
+        {
+          "ref": "nebendelikt:nd_pass"
+        },
+        {
+          "ref": "luege:luege_singer_klavier"
+        },
+        {
+          "ref": "luege:luege_singer_name"
+        },
+        {
+          "text": "Du schweigst, weil du nie wieder zurück nach Chicago willst."
+        }
+      ],
+      "ziel": "Niemand soll deinen echten Namen erfahren.",
+      "besetzung": "Jede Person kann Ruby spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "secretary",
+      "wer": "Du bist Greta Falk, seit neun Jahren Lindqvists Sekretärin. Du tippst seine Briefe, kennst seine Termine und erträgst seine Launen. Du bist schmal, sprichst leise und siehst alles. An deinem Zeigefinger klebt ein violetter Tintenfleck.",
+      "weiss": [
+        {
+          "text": "Du hast im Speisewagen Briefe für Paris getippt. Die Schreibmaschine steht auf dem Tisch am Fenster."
+        },
+        {
+          "ref": "beobachtung:b_greta_bahnsteig"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Lindqvists Geschäfte haben deinen Vater ruiniert. Du kamst unter falschem Namen zu ihm und wartest seit Jahren auf deine Gelegenheit."
+        },
+        {
+          "ref": "beobachtung:b_greta_tisch"
+        },
+        {
+          "ref": "nebendelikt:nd_mappe"
+        },
+        {
+          "ref": "luege:luege_secretary_tippen"
+        },
+        {
+          "ref": "luege:luege_secretary_name"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, warum du wirklich zu Lindqvist kamst."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, warum du wirklich zu Lindqvist kamst.",
+      "besetzung": "Jede Person kann Greta spielen, egal welches Geschlecht sie hat."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "erzaehler",
+  "hinweis": "Auflösung: aufloesung.gruppe.N und aufloesung.<rolle> bzw. aufloesung.<kernrolle>.<taeter|unschuldig>; bei eigenem Pfadverhalten aufloesung.<kernrolle>.unschuldig.<pfad>.",
+  "eintraege": [
+    {
+      "id": "aufloesung.gruppe.0",
+      "text": "Ihr habt in keiner der drei Runden zusammengehalten. Reisegefährten seid ihr trotzdem, und das bleibt auch so."
+    },
+    {
+      "id": "aufloesung.gruppe.1",
+      "text": "Einmal habt ihr in den drei Runden zusammengehalten. Eure Gemeinschaft hält mehr aus als jedes Schneetreiben."
+    },
+    {
+      "id": "aufloesung.gruppe.2",
+      "text": "Zweimal habt ihr in den drei Runden zusammengehalten. Man merkt, dass ihr euch vertraut, und das ist schön zu sehen."
+    },
+    {
+      "id": "aufloesung.gruppe.3",
+      "text": "Dreimal habt ihr in den drei Runden zusammengehalten. Das ist eine Gemeinschaft, wie man sie sich in einer langen Nacht wünscht."
+    },
+    {
+      "id": "aufloesung.countess.taeter",
+      "text": "Gräfin Orlowa hat Lindqvist getötet. Er hielt ihre Briefe und ihre letzten Juwelen als Pfand und wollte immer mehr. Sie hat ihre Spuren mit Hochmut und Schweigen verdeckt."
+    },
+    {
+      "id": "aufloesung.countess.unschuldig",
+      "text": "Gräfin Orlowa hat Lindqvist nicht getötet. Sie hat nachts Briefe im Ofen verbrannt, damit niemand sie liest. Deshalb hat sie so hochmütig geschwiegen."
+    },
+    {
+      "id": "aufloesung.singer.taeter",
+      "text": "Ruby hat Lindqvist getötet. Er wusste, wer sie wirklich ist, und drohte, es zu verraten. Sie hat im Dunkeln weitergespielt, als wäre nichts gewesen."
+    },
+    {
+      "id": "aufloesung.singer.unschuldig",
+      "text": "Ruby hat Lindqvist nicht getötet. Sie reist unter falschem Namen und wollte nicht, dass es jemand erfährt. Deshalb hat sie so laut gelacht und so viel geredet."
+    },
+    {
+      "id": "aufloesung.watchmaker.taeter",
+      "text": "Brändli hat Lindqvist getötet. Er brauchte Geld und wollte die Obligationen. Das Schlafpulver stammte aus seiner eigenen Reisetasche."
+    },
+    {
+      "id": "aufloesung.watchmaker.unschuldig",
+      "text": "Brändli hat Lindqvist nicht getötet. Er schmuggelt Uhrwerke im doppelten Boden seines Koffers. Deshalb hat er so ruhig über seine Arbeit gesprochen."
+    },
+    {
+      "id": "aufloesung.watchmaker.unschuldig.countess",
+      "text": "Brändli hat Lindqvist nicht getötet. Er schmuggelt Uhrwerke im doppelten Boden seines Koffers. Beim Ruck war er im Gepäckwagen und gab Huber Trinkgeld, damit der wegschaut."
+    },
+    {
+      "id": "aufloesung.secretary.taeter",
+      "text": "Greta hat Lindqvist getötet. Er hat ihren Vater ruiniert, und sie kam unter falschem Namen zu ihm. Neun Jahre lang hat sie auf diese Nacht gewartet."
+    },
+    {
+      "id": "aufloesung.secretary.unschuldig",
+      "text": "Greta hat Lindqvist nicht getötet. Sie hat nachts heimlich in seiner Mappe gelesen und ist unter falschem Namen zu ihm gekommen. Ihr Vater verlor wegen Lindqvist sein Geschäft."
+    },
+    {
+      "id": "aufloesung.conductor",
+      "text": "Huber hat in Brändlis Koffer nie hineingesehen und dafür Trinkgeld genommen. Den Streit hinter Abteil sieben hat er verschwiegen, weil er nicht in die Sache gezogen werden wollte."
+    },
+    {
+      "id": "aufloesung.student",
+      "text": "Lukas hat nur eine Fahrkarte der dritten Klasse und sich in einen freien Schlafplatz gelegt. Er hat gesehen, ob Brändli beim Ruck an seinem Tisch saß, und es lange nicht erzählt."
+    },
+    {
+      "id": "aufloesung.doctor",
+      "text": "Doktor Szabó sah in Rubys Hutschachtel einen Pass mit einem anderen Namen. Sie hat Ruby versprochen zu schweigen und hielt ihr Wort, bis es um einen Mord ging."
+    },
+    {
+      "id": "aufloesung.waiter",
+      "text": "Morel ließ den Nachttee zehn Minuten allein in der Bordküche stehen. Er sah Greta in Lindqvists Mappe blättern und die Gräfin am Ofen. Er wollte keinen Gast verpetzen."
+    }
+  ]
+}

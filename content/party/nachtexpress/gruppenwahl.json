@@ -1,0 +1,695 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Gruppenwahl je Rolle und Runde (Master 7.8, E-013 G1-10, E-024). Option A ist kooperativ (+1) und kostet die Rolle ein Geheimnis, einen Freund oder ihr Ziel. Option B ist eigennützig (0) und schützt Ziel oder Freund. In der Täterfassung einer Kernrolle heißt B Sabotage (bTaeter): sie zählt 0 und hebt eine kooperative Stimme auf (G-1). Die Texte der Optionen stehen in texte/wahlen-*.json unter derselben Kennung (E-026).",
+  "wertung": {
+    "kooperativ": 1,
+    "eigennuetzig": 0,
+    "sabotage": -1
+  },
+  "wahlen": [
+    {
+      "id": "gw_countess_1",
+      "rolle": "countess",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_briefe"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_countess_2",
+      "rolle": "countess",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "singer"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "singer"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_countess_3",
+      "rolle": "countess",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_briefe"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_watchmaker_1",
+      "rolle": "watchmaker",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_schmuggel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_watchmaker_2",
+      "rolle": "watchmaker",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "conductor"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "conductor"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_watchmaker_3",
+      "rolle": "watchmaker",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_schmuggel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_singer_1",
+      "rolle": "singer",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_pass"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_singer_2",
+      "rolle": "singer",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "doctor"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "doctor"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_singer_3",
+      "rolle": "singer",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_pass"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_secretary_1",
+      "rolle": "secretary",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_mappe"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_secretary_2",
+      "rolle": "secretary",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "waiter"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "waiter"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_secretary_3",
+      "rolle": "secretary",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_mappe"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_conductor_1",
+      "rolle": "conductor",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_trinkgeld"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_conductor_2",
+      "rolle": "conductor",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "watchmaker"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "watchmaker"
+        }
+      }
+    },
+    {
+      "id": "gw_conductor_3",
+      "rolle": "conductor",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_trinkgeld"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_student_1",
+      "rolle": "student",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_schwarzfahrt"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_student_2",
+      "rolle": "student",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "doctor"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "doctor"
+        }
+      }
+    },
+    {
+      "id": "gw_student_3",
+      "rolle": "student",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_schwarzfahrt"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_doctor_1",
+      "rolle": "doctor",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_doctor_2",
+      "rolle": "doctor",
+      "runde": 2,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_doctor_3",
+      "rolle": "doctor",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_waiter_1",
+      "rolle": "waiter",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_tee"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_waiter_2",
+      "rolle": "waiter",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "secretary"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "secretary"
+        }
+      }
+    },
+    {
+      "id": "gw_waiter_3",
+      "rolle": "waiter",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_tee"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    }
+  ]
+}
