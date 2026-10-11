@@ -1,0 +1,143 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "rolle": "gaertner",
+      "wer": "Du bist Silas Brannock, der Gärtner von Ravensmoor. Seit vierzig Jahren pflegst du die Rosen. Du bist grantig, wetterfest und redest lieber mit Pflanzen als mit Menschen. Man erkennt dich an der Schirmmütze, den schweren Stiefeln und dem Duft nach Erde und Rosenöl.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_gaertner_fenster"
+        },
+        {
+          "ref": "beobachtung:b_gaertner_kiste"
+        },
+        {
+          "ref": "beobachtung:b_gaertner_hecke"
+        },
+        {
+          "text": "Lord Edmund ließ die Rosen seiner ersten Frau ausreißen. Das hast du ihm nie verziehen."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_gaertner_pell_kueche"
+        },
+        {
+          "ref": "beobachtung:b_gaertner_pell_dunkel"
+        },
+        {
+          "text": "Nach dem Donnerschlag läufst du kurz in den Garten, um die Gerätekiste zu schließen."
+        },
+        {
+          "ref": "luege:luege_gaertner_haeuschen"
+        },
+        {
+          "text": "Du schweigst, weil Pell dein ältester Freund ist und du ihn nicht verraten willst."
+        }
+      ],
+      "ziel": "Du willst Pell nicht verraten, solange er nicht selbst redet.",
+      "besetzung": "Jede Person kann Silas spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "koechin",
+      "wer": "Du bist Mrs Hobbs, die Köchin von Ravensmoor. Du kochst seit zwanzig Jahren für das Haus und führst deine Küche mit fester Hand. Man erkennt dich an der großen weißen Schürze, dem Holzlöffel im Schürzenband und deinem Duft nach Zimt und Gebäck.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_koechin_tee"
+        },
+        {
+          "ref": "beobachtung:b_koechin_uhr"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_koechin_streit"
+        },
+        {
+          "ref": "beobachtung:b_koechin_brief"
+        },
+        {
+          "ref": "beobachtung:b_koechin_julian_da"
+        },
+        {
+          "ref": "beobachtung:b_koechin_julian_weg"
+        },
+        {
+          "ref": "luege:luege_koechin_streit"
+        },
+        {
+          "text": "Du schweigst, weil du Julian als Kind großgezogen hast und die Lady magst."
+        }
+      ],
+      "ziel": "Du willst Julian schützen, wie du es schon als Kind getan hast.",
+      "besetzung": "Jede Person kann Mrs Hobbs spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "zofe",
+      "wer": "Du bist Tilly Wren, die Zofe von Lady Constance. Du bist neunzehn und kennst jede Treppe im Haus. Man erkennt dich an dem taubenblauen Kleid, der weißen Schürze und dem Schlüsselring, den du knetest, wenn du nervös bist.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_zofe_flur"
+        },
+        {
+          "ref": "beobachtung:b_zofe_schluessel"
+        },
+        {
+          "ref": "beobachtung:b_zofe_hintertreppe"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_zofe_lady_bett"
+        },
+        {
+          "ref": "beobachtung:b_zofe_lady_leer"
+        },
+        {
+          "text": "Um Viertel vor elf bringst du den Brief aus London nach oben. Vorher hältst du den Umschlag gegen das Licht."
+        },
+        {
+          "ref": "luege:luege_zofe_post"
+        },
+        {
+          "text": "Du schweigst, weil du Lady Constance seit ihrer Hochzeit dienst und sie nicht verraten willst."
+        }
+      ],
+      "ziel": "Du willst Lady Constance beschützen, solange du kannst.",
+      "besetzung": "Jede Person kann Tilly spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "anwalt",
+      "wer": "Du bist Algernon Crane, der Familienanwalt von Ravensmoor. Du berätst die Familie seit zwölf Jahren. Man erkennt dich an deinem olivgoldenen Gehrock, dem Kneifer und der Ledermappe mit Siegellack und Feder.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_anwalt_bibliothek"
+        },
+        {
+          "ref": "beobachtung:b_anwalt_testament"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_anwalt_marsh_pult"
+        },
+        {
+          "ref": "beobachtung:b_anwalt_marsh_leer"
+        },
+        {
+          "ref": "beobachtung:b_anwalt_pfand"
+        },
+        {
+          "ref": "luege:luege_anwalt_mandant"
+        },
+        {
+          "text": "Du schweigst, weil das Mandantengeheimnis dich bindet und du nichts Falsches sagen willst."
+        }
+      ],
+      "ziel": "Du willst das Mandantengeheimnis wahren und trotzdem nichts Falsches sagen.",
+      "besetzung": "Jede Person kann Mr Crane spielen, egal welches Geschlecht sie hat."
+    }
+  ]
+}

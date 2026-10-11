@@ -1,0 +1,149 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "g_gaertner_2_1",
+      "rolle": "gaertner",
+      "runde": 2,
+      "nr": 1,
+      "partner": "zofe",
+      "thema": "Mein Häuschen",
+      "ziel": "Ich will, dass man mir glaubt, ich sei nicht draußen gewesen.",
+      "preisgabe": [
+        "luege:luege_gaertner_haeuschen"
+      ],
+      "text": "Ich war die ganze Nacht in meinem Häuschen. Nicht einmal vor der Tür war ich. Das kann jeder bestätigen."
+    },
+    {
+      "id": "g_gaertner_2_2",
+      "rolle": "gaertner",
+      "runde": 2,
+      "nr": 2,
+      "partner": "neffe",
+      "thema": "Die Rosen",
+      "ziel": "Ich will Julian die Rosen seines Onkels ans Herz legen.",
+      "preisgabe": [],
+      "text": "Dein Onkel hat die Rosen seiner ersten Frau ausreißen lassen. Am Tag nach der Beerdigung. Das sagt alles über ihn."
+    },
+    {
+      "id": "g_gaertner_2_3",
+      "rolle": "gaertner",
+      "runde": 2,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Das Haus bei Nacht",
+      "ziel": "Ich will dem Inspektor sagen, was ich vom Haus halte.",
+      "preisgabe": [],
+      "text": "Ich red nicht gern. Aber das Haus ist schlecht, seit der Lord die Rosen ausreißen ließ. Frag, was du willst, ich antworte, wenn ich kann."
+    },
+    {
+      "id": "g_koechin_2_1",
+      "rolle": "koechin",
+      "runde": 2,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Julians Uhr",
+      "ziel": "Ich will sagen, was mir an Julian aufgefallen ist.",
+      "preisgabe": [
+        "beobachtung:b_koechin_uhr"
+      ],
+      "text": "Mylady, Julian trug beim Dinner keine Taschenuhr, obwohl er sonst immer eine bei sich hat. Das ist mir aufgefallen, sonst nichts."
+    },
+    {
+      "id": "g_koechin_2_2",
+      "rolle": "koechin",
+      "runde": 2,
+      "nr": 2,
+      "partner": "butler",
+      "thema": "Das Geschirr",
+      "ziel": "Ich will wissen, wer nach dem Dinner in meiner Küche war.",
+      "preisgabe": [],
+      "text": "Pell, wer war nach dem Dinner in meiner Küche? Ich finde morgens immer alles verrückt, wenn jemand dort war."
+    },
+    {
+      "id": "g_koechin_2_3",
+      "rolle": "koechin",
+      "runde": 2,
+      "nr": 3,
+      "partner": "gaertner",
+      "thema": "Der nasse Garten",
+      "ziel": "Ich will wissen, ob draußen alles in Ordnung ist.",
+      "preisgabe": [],
+      "text": "Wie sieht es im Garten aus? Ich habe das Küchenfenster geschlossen, weil es hereinregnete."
+    },
+    {
+      "id": "g_zofe_2_1",
+      "rolle": "zofe",
+      "runde": 2,
+      "nr": 1,
+      "partner": "aerztin",
+      "thema": "Der Schlüsselring",
+      "ziel": "Ich will sagen, was mir an Pell aufgefallen ist.",
+      "preisgabe": [
+        "beobachtung:b_zofe_schluessel"
+      ],
+      "text": "Doktor Marsh, Pell trug heute Abend den Schlüsselring mit den Zweitschlüsseln für alle Schränke im Haus. Das fiel mir auf, weil es so laut klimperte."
+    },
+    {
+      "id": "g_zofe_2_2",
+      "rolle": "zofe",
+      "runde": 2,
+      "nr": 2,
+      "partner": "butler",
+      "thema": "Die Post der Lady",
+      "ziel": "Ich will, dass niemand denkt, ich lese fremde Post.",
+      "preisgabe": [
+        "luege:luege_zofe_post"
+      ],
+      "text": "Pell, ich habe die Post der Lady nie angerührt. Ich bringe sie jeden Abend ungelesen nach oben."
+    },
+    {
+      "id": "g_zofe_2_3",
+      "rolle": "zofe",
+      "runde": 2,
+      "nr": 3,
+      "partner": "neffe",
+      "thema": "Tee im Flur",
+      "ziel": "Ich will wissen, ob Julian Tee möchte.",
+      "preisgabe": [],
+      "text": "Julian, soll ich dir Tee bringen? Der Flur oben ist kalt, und ich gehe ohnehin hinunter."
+    },
+    {
+      "id": "g_anwalt_2_1",
+      "rolle": "anwalt",
+      "runde": 2,
+      "nr": 1,
+      "partner": "witwe",
+      "thema": "Das Testament",
+      "ziel": "Ich will Lady Constance sagen, was ich über das Testament weiß.",
+      "preisgabe": [
+        "beobachtung:b_anwalt_testament"
+      ],
+      "text": "Lady Constance, Lord Edmund wollte in dieser Nacht sein Testament ändern. Der Entwurf war fertig; es fehlte nur noch das Siegel."
+    },
+    {
+      "id": "g_anwalt_2_2",
+      "rolle": "anwalt",
+      "runde": 2,
+      "nr": 2,
+      "partner": "koechin",
+      "thema": "Der Entwurf",
+      "ziel": "Ich will wissen, wer den Entwurf gesehen haben könnte.",
+      "preisgabe": [],
+      "text": "Der Entwurf lag in meiner Mappe, bis Lord Edmund ihn sehen wollte. Wer war heute Abend in meiner Nähe? Ich frage nur der Ordnung halber."
+    },
+    {
+      "id": "g_anwalt_2_3",
+      "rolle": "anwalt",
+      "runde": 2,
+      "nr": 3,
+      "partner": "zofe",
+      "thema": "Die Wartezeit",
+      "ziel": "Ich will wissen, ob jemand nach mir gefragt hat.",
+      "preisgabe": [],
+      "text": "Hat jemand nach mir gefragt, als ich in der Bibliothek wartete? Ich bin hier fremd und weiß nichts über das Haus."
+    }
+  ]
+}

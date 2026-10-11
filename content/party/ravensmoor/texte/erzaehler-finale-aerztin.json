@@ -1,0 +1,27 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad aerztin: finale.aerztin.<ende> (4) und rueckblende.aerztin.",
+  "eintraege": [
+    {
+      "id": "finale.aerztin.ende_meister",
+      "text": "Du zeigst auf Doktor Marsh, und die Anklage stimmt. Sie gesteht, ohne mit der Wimper zu zucken: Lord Edmund wollte ihr Geheimnis am Morgen öffentlich machen. Zusammen seht ihr euch das Taschentuch in seiner Hand an. Unter dem Teeduft liegt Karbol. Doktor Marsh führt euch in den Garten und holt Ring und Brieföffner unter den Säcken in der Gerätekiste hervor. Als der Morgen graut, sinkt das Wasser, und die Brücke wird frei. Ihren Chemiekasten übergibt sie dir mit einer knappen Gebrauchsanweisung."
+    },
+    {
+      "id": "finale.aerztin.ende_teilerfolg",
+      "text": "Du klagst Doktor Marsh an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Sie gesteht ruhig und holt Ring und Brieföffner unter den Säcken in der Gerätekiste hervor. Im Haus bleibt ein Schweigen, das niemand brechen will. Als das Wasser sinkt, geht sie mit euch zur Kutsche und nimmt ihre Ledertasche mit."
+    },
+    {
+      "id": "finale.aerztin.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Der Siegelring bleibt verschwunden. Am Morgen sinkt das Wasser, und die Kutsche fährt vor. Ein Unschuldiger wird im Regen zur Kutsche geführt. Hinter einem Fenster von Ravensmoor lächelt jemand. Doktor Marsh praktiziert weiter, in einer anderen Grafschaft, unter einem anderen Namen. Ihre Patienten loben die ruhige Hand."
+    },
+    {
+      "id": "finale.aerztin.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander, und die Stimmen werden immer lauter. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Runde zerfällt in kleine Gruppen, und keiner glaubt mehr dem anderen. Der Siegelring bleibt verschwunden. Die Akte wird geschlossen, und das Moor verschluckt die Wahrheit wie alles andere. Doktor Marsh praktiziert weiter, in einer anderen Grafschaft, unter einem anderen Namen. Ihre Patienten loben die ruhige Hand."
+    },
+    {
+      "id": "rueckblende.aerztin",
+      "text": "Lord Edmund hat entdeckt, dass Doktor Marshs Diplom ihrem verstorbenen Bruder gehörte. Nach dem Tee für die Lady lässt sie ihren Bericht liegen. Sie geht ins Arbeitszimmer und bittet ihn zu schweigen. Er lehnt ab. Beim Donnerschlag um zehn nach elf greift sie nach dem silbernen Brieföffner. Als der Donner verhallt, liegt Lord Edmund still vor dem Kamin. Sie drückt ihm ihr Taschentuch in die Hand, das nach Karbol riecht. Dann nimmt sie den Siegelring. Blaue Tinte klebt an ihren Fingern. Durch den Garten läuft sie zur Gerätekiste und verbirgt Ring und Brieföffner unter den Säcken mit Rosenerde. Dann kehrt sie in die Bibliothek zurück."
+    }
+  ]
+}

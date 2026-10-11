@@ -1,0 +1,1875 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "ravensmoor",
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l). Das Haus hat ein Erdgeschoss; das obere Stockwerk mit den Schlafzimmern liegt außerhalb der Karte.",
+  "raster": {
+    "breite": 30,
+    "hoehe": 23
+  },
+  "rooms": [
+    {
+      "id": "library",
+      "name": "Bibliothek",
+      "anzeigename": "Bibliothek",
+      "widthMeters": 8,
+      "rechteck": {
+        "x": 1,
+        "y": 1,
+        "b": 8,
+        "l": 6
+      },
+      "boden": "parquet",
+      "features": [
+        "Bücherregale bis zur Decke",
+        "Pult am Fenster",
+        "Chemiekasten der Ärztin",
+        "Lesesessel",
+        "Stehlampe"
+      ],
+      "beschreibung": "Der Westflügel des Hauses. Bücher bis unter die Decke, ein Pult am Fenster und ein warmer Lesesessel."
+    },
+    {
+      "id": "study",
+      "name": "Arbeitszimmer",
+      "anzeigename": "Arbeitszimmer",
+      "widthMeters": 6,
+      "rechteck": {
+        "x": 10,
+        "y": 1,
+        "b": 6,
+        "l": 6
+      },
+      "boden": "parquet",
+      "features": [
+        "Schreibtisch mit Tintenfass",
+        "Sekretär",
+        "Kamin",
+        "Sessel",
+        "Bücherregale"
+      ],
+      "beschreibung": "Lord Edmunds Arbeitszimmer. Vor dem Kamin wurde er tot gefunden."
+    },
+    {
+      "id": "kitchen",
+      "name": "Küche",
+      "anzeigename": "Küche",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 17,
+        "y": 1,
+        "b": 7,
+        "l": 6
+      },
+      "boden": "tiles",
+      "features": [
+        "Herd",
+        "Spüle",
+        "Speiseschrank",
+        "Arbeitstisch",
+        "Tür zum Vorratskeller"
+      ],
+      "beschreibung": "Die große Küche mit dem Herd an der Nordwand. Hier hat Mrs Hobbs das Sagen."
+    },
+    {
+      "id": "cellar",
+      "name": "Vorratskeller",
+      "anzeigename": "Vorratskeller",
+      "widthMeters": 4,
+      "rechteck": {
+        "x": 25,
+        "y": 1,
+        "b": 4,
+        "l": 6
+      },
+      "boden": "stone",
+      "features": [
+        "alte Vorräte in Tonnen",
+        "Regal an der Wand",
+        "Kerzen"
+      ],
+      "beschreibung": "Der kühle Vorratskeller hinter der Küche. Die Tür zu ist, der Schlüssel liegt im Gehäuse der Standuhr."
+    },
+    {
+      "id": "salon",
+      "name": "Salon",
+      "anzeigename": "Salon",
+      "widthMeters": 9,
+      "rechteck": {
+        "x": 1,
+        "y": 8,
+        "b": 9,
+        "l": 7
+      },
+      "boden": "carpet",
+      "features": [
+        "Klavier",
+        "Kamin",
+        "Kartentisch",
+        "Sofa und Sessel"
+      ],
+      "beschreibung": "Der gemütliche Salon mit dem Klavier und dem Kamin. Hier treffen sich alle, wenn es etwas zu besprechen gibt."
+    },
+    {
+      "id": "hall",
+      "name": "Eingangshalle",
+      "anzeigename": "Halle",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 11,
+        "y": 8,
+        "b": 7,
+        "l": 7
+      },
+      "boden": "checker",
+      "features": [
+        "Standuhr",
+        "Garderobe",
+        "Portal",
+        "Treppenaufgang"
+      ],
+      "beschreibung": "Die Eingangshalle mit Schachbrettboden und der großen Standuhr. Von hier führt jeder Weg ins Haus."
+    },
+    {
+      "id": "dining",
+      "name": "Speisesaal",
+      "anzeigename": "Speisesaal",
+      "widthMeters": 10,
+      "rechteck": {
+        "x": 19,
+        "y": 8,
+        "b": 10,
+        "l": 7
+      },
+      "boden": "parquet",
+      "features": [
+        "lange Tafel mit zwölf Stühlen",
+        "Silberleuchter",
+        "Geschirrschrank",
+        "Kamin"
+      ],
+      "beschreibung": "Der Speisesaal mit der langen Tafel. Das Silber glänzt im Licht der Kerzen."
+    },
+    {
+      "id": "garden",
+      "name": "Garten",
+      "anzeigename": "Garten",
+      "widthMeters": 28,
+      "rechteck": {
+        "x": 1,
+        "y": 16,
+        "b": 28,
+        "l": 6
+      },
+      "boden": "grass",
+      "features": [
+        "Rosenbeet unter dem Salonfenster",
+        "Buchsbaumhecke",
+        "Gerätekiste des Gärtners",
+        "Statue der ersten Lady"
+      ],
+      "beschreibung": "Der weitläufige Garten hinter dem Haus. Der Regen hat Wege und Beete in Schlamm verwandelt."
+    }
+  ],
+  "tueren": [
+    {
+      "id": "tuer_library_study",
+      "name": "Tür zwischen Bibliothek und Arbeitszimmer",
+      "von": "library",
+      "nach": "study",
+      "kacheln": [
+        [
+          9,
+          3
+        ]
+      ],
+      "art": "Eichentür mit Messingklinke",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    {
+      "id": "tuer_kitchen_cellar",
+      "name": "Tür zum Vorratskeller",
+      "von": "kitchen",
+      "nach": "cellar",
+      "kacheln": [
+        [
+          24,
+          3
+        ]
+      ],
+      "art": "schwere Eichentür mit Kastenschloss",
+      "zustand": "zu, der Schlüssel liegt im Gehäuse der Standuhr",
+      "quietscht": true
+    },
+    {
+      "id": "tuer_library_salon",
+      "name": "Tür zwischen Bibliothek und Salon",
+      "von": "library",
+      "nach": "salon",
+      "kacheln": [
+        [
+          4,
+          7
+        ]
+      ],
+      "art": "Eichentür",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    {
+      "id": "tuer_study_hall",
+      "name": "Tür zwischen Arbeitszimmer und Eingangshalle",
+      "von": "study",
+      "nach": "hall",
+      "kacheln": [
+        [
+          13,
+          7
+        ]
+      ],
+      "art": "Eichentür mit Milchglas",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    {
+      "id": "tuer_kitchen_dining",
+      "name": "Tür zwischen Küche und Speisesaal",
+      "von": "kitchen",
+      "nach": "dining",
+      "kacheln": [
+        [
+          21,
+          7
+        ]
+      ],
+      "art": "Pendeltür",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    {
+      "id": "tuer_salon_hall",
+      "name": "Tür zwischen Salon und Eingangshalle",
+      "von": "salon",
+      "nach": "hall",
+      "kacheln": [
+        [
+          10,
+          11
+        ]
+      ],
+      "art": "zweiflügelige Flügeltür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "tuer_hall_dining",
+      "name": "Tür zwischen Eingangshalle und Speisesaal",
+      "von": "hall",
+      "nach": "dining",
+      "kacheln": [
+        [
+          18,
+          11
+        ]
+      ],
+      "art": "zweiflügelige Flügeltür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "tuer_salon_garden",
+      "name": "Gartentür des Salons",
+      "von": "salon",
+      "nach": "garden",
+      "kacheln": [
+        [
+          5,
+          15
+        ]
+      ],
+      "art": "Glastür mit Holzrahmen",
+      "zustand": "zu",
+      "quietscht": true
+    },
+    {
+      "id": "tuer_hall_garden",
+      "name": "Portal zum Garten",
+      "von": "hall",
+      "nach": "garden",
+      "kacheln": [
+        [
+          14,
+          15
+        ]
+      ],
+      "art": "schweres Portal mit Eisenbeschlag",
+      "zustand": "zu",
+      "quietscht": true
+    },
+    {
+      "id": "tuer_dining_garden",
+      "name": "Gartentür des Speisesaals",
+      "von": "dining",
+      "nach": "garden",
+      "kacheln": [
+        [
+          25,
+          15
+        ]
+      ],
+      "art": "Glastür mit Holzrahmen",
+      "zustand": "zu",
+      "quietscht": true
+    }
+  ],
+  "einrichtung": [
+    {
+      "id": "bookshelf_1_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 1,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_2_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 2,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_3_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 3,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_4_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 4,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_5_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 5,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_6_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 6,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_7_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 7,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_8_1",
+      "name": "Gaslampe",
+      "typ": "lamp",
+      "x": 8,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_1_2",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 1,
+      "y": 2,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_1_3",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 1,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_1_4",
+      "name": "Gaslampe",
+      "typ": "lamp",
+      "x": 1,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_1_5",
+      "name": "Lesesessel",
+      "typ": "armchair",
+      "x": 1,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "table_4_3",
+      "name": "Lesetisch",
+      "typ": "table",
+      "x": 4,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "table_5_3",
+      "name": "Chemiekasten",
+      "typ": "table",
+      "x": 5,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "chair_4_4",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 4,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "chair_5_4",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 5,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "rug_3_5",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 3,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "rug_4_5",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 4,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "rug_5_5",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 5,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "rug_6_5",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 6,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "desk_8_5",
+      "name": "Schreibtisch",
+      "typ": "desk",
+      "x": 8,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "plant_8_6",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 8,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_10_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 10,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_11_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 11,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bookshelf_14_1",
+      "name": "Bücherregal",
+      "typ": "bookshelf",
+      "x": 14,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_15_1",
+      "name": "Gaslampe",
+      "typ": "lamp",
+      "x": 15,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_10_2",
+      "name": "Edmunds Sekretär",
+      "typ": "cabinet",
+      "x": 10,
+      "y": 2,
+      "blockiert": true
+    },
+    {
+      "id": "fireplace_10_5",
+      "name": "Kamin im Arbeitszimmer",
+      "typ": "fireplace",
+      "x": 10,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "chair_13_2",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 13,
+      "y": 2,
+      "blockiert": true
+    },
+    {
+      "id": "desk_12_3",
+      "name": "Edmunds Schreibtisch",
+      "typ": "desk",
+      "x": 12,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "desk_13_3",
+      "name": "Edmunds Schreibtisch",
+      "typ": "desk",
+      "x": 13,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "rug_12_4",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 12,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "rug_13_4",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 13,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "rug_12_5",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 12,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "rug_13_5",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 13,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "papers_14_3",
+      "name": "Papiere",
+      "typ": "papers",
+      "x": 14,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_15_4",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 15,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "plant_15_6",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 15,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_17_1",
+      "name": "Speiseschrank",
+      "typ": "cabinet",
+      "x": 17,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "stove_18_1",
+      "name": "Herd",
+      "typ": "stove",
+      "x": 18,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "sink_19_1",
+      "name": "Spüle",
+      "typ": "sink",
+      "x": 19,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "counter_20_1",
+      "name": "Arbeitsfläche",
+      "typ": "counter",
+      "x": 20,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "counter_21_1",
+      "name": "Arbeitsfläche",
+      "typ": "counter",
+      "x": 21,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "fridge_22_1",
+      "name": "Eisschrank",
+      "typ": "fridge",
+      "x": 22,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_23_1",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 23,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "counter_17_3",
+      "name": "Arbeitsfläche",
+      "typ": "counter",
+      "x": 17,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "crate_17_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 17,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_17_6",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 17,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "table_20_3",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 20,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "table_21_3",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 21,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "chair_20_4",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 20,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "chair_21_4",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 21,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_25_1",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 25,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_26_1",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 26,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_27_1",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 27,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_28_1",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 28,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_28_2",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 28,
+      "y": 2,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_28_3",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 28,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "candles_28_4",
+      "name": "Kerzen",
+      "typ": "candles",
+      "x": 28,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_28_5",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 28,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "crate_28_6",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 28,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_25_5",
+      "name": "Kellerregal",
+      "typ": "cabinet",
+      "x": 25,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_25_6",
+      "name": "Kellerregal",
+      "typ": "cabinet",
+      "x": 25,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_1_8",
+      "name": "Gaslampe",
+      "typ": "lamp",
+      "x": 1,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "piano_2_8",
+      "name": "Klavier",
+      "typ": "piano",
+      "x": 2,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "seat_2_9",
+      "name": "Hocker",
+      "typ": "seat",
+      "x": 2,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "fireplace_6_8",
+      "name": "Kamin im Salon",
+      "typ": "fireplace",
+      "x": 6,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_9_8",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 9,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_5_9",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 5,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "table_6_9",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 6,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_7_9",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 7,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "rug_5_10",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 5,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "rug_6_10",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 6,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "rug_7_10",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 7,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_5_11",
+      "name": "Sofa",
+      "typ": "sofa",
+      "x": 5,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_6_11",
+      "name": "Sofa",
+      "typ": "sofa",
+      "x": 6,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_7_11",
+      "name": "Sofa",
+      "typ": "sofa",
+      "x": 7,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_1_11",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 1,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "chair_1_13",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 1,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "table_2_13",
+      "name": "Kartentisch",
+      "typ": "table",
+      "x": 2,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "chair_3_13",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 3,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "plant_9_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 9,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "statue_11_8",
+      "name": "Statue",
+      "typ": "statue",
+      "x": 11,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "plant_12_8",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 12,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "clock_15_8",
+      "name": "Standuhr",
+      "typ": "clock",
+      "x": 15,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "statue_17_8",
+      "name": "Statue",
+      "typ": "statue",
+      "x": 17,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "table_14_10",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 14,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "wardrobe_11_13",
+      "name": "Garderobe",
+      "typ": "wardrobe",
+      "x": 11,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "rug_13_12",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 13,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "rug_14_12",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 14,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "rug_15_12",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 15,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "rug_13_13",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 13,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "rug_14_13",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 14,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "rug_15_13",
+      "name": "Teppich",
+      "typ": "rug",
+      "x": 15,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "plant_13_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 13,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "plant_15_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 15,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_19_8",
+      "name": "Geschirrschrank",
+      "typ": "cabinet",
+      "x": 19,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "candles_20_8",
+      "name": "Silberleuchter",
+      "typ": "candles",
+      "x": 20,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "candles_22_8",
+      "name": "Silberleuchter",
+      "typ": "candles",
+      "x": 22,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "fireplace_24_8",
+      "name": "Kamin im Speisesaal",
+      "typ": "fireplace",
+      "x": 24,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "candles_26_8",
+      "name": "Silberleuchter",
+      "typ": "candles",
+      "x": 26,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_27_8",
+      "name": "Anrichte",
+      "typ": "cabinet",
+      "x": 27,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_28_8",
+      "name": "Gaslampe",
+      "typ": "lamp",
+      "x": 28,
+      "y": 8,
+      "blockiert": true
+    },
+    {
+      "id": "chair_21_10",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 21,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "chair_22_10",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 22,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "chair_23_10",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 23,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "chair_24_10",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 24,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "chair_25_10",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 25,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "chair_26_10",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 26,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "chair_20_11",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 20,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "table_21_11",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 21,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "table_22_11",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 22,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "table_23_11",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 23,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "table_24_11",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 24,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "table_25_11",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 25,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "table_26_11",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 26,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "chair_27_11",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 27,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "chair_21_12",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 21,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "chair_22_12",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 22,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "chair_23_12",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 23,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "chair_24_12",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 24,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "chair_25_12",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 25,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "chair_26_12",
+      "name": "Stuhl",
+      "typ": "chair",
+      "x": 26,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "plant_19_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 19,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "plant_28_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 28,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "tree_1_16",
+      "name": "Baum",
+      "typ": "tree",
+      "x": 1,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "statue_1_18",
+      "name": "Statue der ersten Lady",
+      "typ": "statue",
+      "x": 1,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "tree_1_21",
+      "name": "Baum",
+      "typ": "tree",
+      "x": 1,
+      "y": 21,
+      "blockiert": true
+    },
+    {
+      "id": "bush_3_16",
+      "name": "Rosenstrauch",
+      "typ": "bush",
+      "x": 3,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "bush_7_16",
+      "name": "Rosenstrauch",
+      "typ": "bush",
+      "x": 7,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "tree_9_16",
+      "name": "Baum",
+      "typ": "tree",
+      "x": 9,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "tree_20_16",
+      "name": "Baum",
+      "typ": "tree",
+      "x": 20,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "tree_28_16",
+      "name": "Baum",
+      "typ": "tree",
+      "x": 28,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "bush_11_18",
+      "name": "Busch",
+      "typ": "bush",
+      "x": 11,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "bush_17_18",
+      "name": "Busch",
+      "typ": "bush",
+      "x": 17,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "plant_12_20",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 12,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "seat_14_20",
+      "name": "Hocker",
+      "typ": "seat",
+      "x": 14,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "plant_16_20",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 16,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "bush_4_20",
+      "name": "Busch",
+      "typ": "bush",
+      "x": 4,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "bush_5_20",
+      "name": "Busch",
+      "typ": "bush",
+      "x": 5,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "bush_22_19",
+      "name": "Buchsbaumhecke",
+      "typ": "bush",
+      "x": 22,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "bush_23_19",
+      "name": "Buchsbaumhecke",
+      "typ": "bush",
+      "x": 23,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "crate_26_21",
+      "name": "Gerätekiste",
+      "typ": "crate",
+      "x": 26,
+      "y": 21,
+      "blockiert": true
+    },
+    {
+      "id": "crate_27_21",
+      "name": "Gerätekiste",
+      "typ": "crate",
+      "x": 27,
+      "y": 21,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_28_21",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 28,
+      "y": 21,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_13_17",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 13,
+      "y": 17,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_6_18",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 6,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_20_19",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 20,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_25_18",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 25,
+      "y": 18,
+      "blockiert": true
+    }
+  ],
+  "orte": [
+    {
+      "id": "bei_edmund",
+      "raum": "study",
+      "x": 11.5,
+      "y": 5.5,
+      "name": "bei Lord Edmund vor dem Kamin"
+    },
+    {
+      "id": "am_schreibtisch",
+      "raum": "study",
+      "x": 12.5,
+      "y": 2.5,
+      "name": "am Schreibtisch im Arbeitszimmer"
+    },
+    {
+      "id": "am_arbeitskamin",
+      "raum": "study",
+      "x": 10.5,
+      "y": 4.5,
+      "name": "am Kamin im Arbeitszimmer"
+    },
+    {
+      "id": "am_sekretaer",
+      "raum": "study",
+      "x": 11.5,
+      "y": 2.5,
+      "name": "am Sekretär im Arbeitszimmer"
+    },
+    {
+      "id": "bei_den_flecken",
+      "raum": "study",
+      "x": 11.5,
+      "y": 4.5,
+      "name": "bei den Flecken auf dem Parkett"
+    },
+    {
+      "id": "am_chemiekasten",
+      "raum": "library",
+      "x": 5.5,
+      "y": 2.5,
+      "name": "am Chemiekasten in der Bibliothek"
+    },
+    {
+      "id": "am_lesesessel",
+      "raum": "library",
+      "x": 2.5,
+      "y": 5.5,
+      "name": "am Lesesessel in der Bibliothek"
+    },
+    {
+      "id": "am_kartentisch",
+      "raum": "salon",
+      "x": 2.5,
+      "y": 12.5,
+      "name": "am Kartentisch im Salon"
+    },
+    {
+      "id": "an_der_standuhr",
+      "raum": "hall",
+      "x": 16.5,
+      "y": 8.5,
+      "name": "an der Standuhr in der Halle"
+    },
+    {
+      "id": "am_laeufer",
+      "raum": "hall",
+      "x": 14.5,
+      "y": 13.5,
+      "name": "auf dem Läufer vor dem Portal"
+    },
+    {
+      "id": "an_der_garderobe",
+      "raum": "hall",
+      "x": 11.5,
+      "y": 12.5,
+      "name": "an der Garderobe in der Halle"
+    },
+    {
+      "id": "am_schuhkasten",
+      "raum": "kitchen",
+      "x": 18.5,
+      "y": 4.5,
+      "name": "am Schuhputzkasten in der Küche"
+    },
+    {
+      "id": "am_speiseschrank",
+      "raum": "kitchen",
+      "x": 17.5,
+      "y": 2.5,
+      "name": "am Speiseschrank in der Küche"
+    },
+    {
+      "id": "an_der_anrichte",
+      "raum": "dining",
+      "x": 27.5,
+      "y": 9.5,
+      "name": "an der Anrichte im Speisesaal"
+    },
+    {
+      "id": "am_geschirrschrank",
+      "raum": "dining",
+      "x": 19.5,
+      "y": 9.5,
+      "name": "am Geschirrschrank im Speisesaal"
+    },
+    {
+      "id": "am_rosenbeet",
+      "raum": "garden",
+      "x": 8.5,
+      "y": 16.5,
+      "name": "am Rosenbeet unter dem Salonfenster"
+    },
+    {
+      "id": "an_der_hecke",
+      "raum": "garden",
+      "x": 22.5,
+      "y": 18.5,
+      "name": "an der Buchsbaumhecke"
+    },
+    {
+      "id": "an_der_geraetekiste",
+      "raum": "garden",
+      "x": 27.5,
+      "y": 20.5,
+      "name": "an der Gerätekiste des Gärtners"
+    },
+    {
+      "id": "am_kellerregal",
+      "raum": "cellar",
+      "x": 26.5,
+      "y": 6.5,
+      "name": "am Regal der alten Vorräte"
+    },
+    {
+      "id": "an_der_statue",
+      "raum": "garden",
+      "x": 1.5,
+      "y": 17.5,
+      "name": "an der Statue der ersten Lady"
+    },
+    {
+      "id": "am_salonkamin",
+      "raum": "salon",
+      "x": 7.5,
+      "y": 8.5,
+      "name": "am Kamin im Salon"
+    },
+    {
+      "id": "an_den_leuchtern",
+      "raum": "dining",
+      "x": 20.5,
+      "y": 9.5,
+      "name": "bei den Silberleuchtern im Speisesaal"
+    },
+    {
+      "id": "am_treppenaufgang",
+      "raum": "hall",
+      "x": 12.5,
+      "y": 10.5,
+      "name": "am Fuß der Treppe in der Halle"
+    },
+    {
+      "id": "vor_dem_portal",
+      "raum": "hall",
+      "x": 14.5,
+      "y": 14.5,
+      "name": "vor dem Portal in der Halle"
+    },
+    {
+      "id": "bei_witwe",
+      "raum": "salon",
+      "x": 3.5,
+      "y": 9.5,
+      "name": "Platz von Lady Constance im Salon"
+    },
+    {
+      "id": "bei_neffe",
+      "raum": "dining",
+      "x": 20.5,
+      "y": 9.5,
+      "name": "Platz von Julian im Speisesaal"
+    },
+    {
+      "id": "bei_butler",
+      "raum": "hall",
+      "x": 16.5,
+      "y": 10.5,
+      "name": "Platz von Pell in der Halle"
+    },
+    {
+      "id": "bei_aerztin",
+      "raum": "library",
+      "x": 7.5,
+      "y": 4.5,
+      "name": "Platz von Doktor Marsh in der Bibliothek"
+    },
+    {
+      "id": "bei_gaertner",
+      "raum": "kitchen",
+      "x": 19.5,
+      "y": 5.5,
+      "name": "Platz von Silas in der Küche"
+    },
+    {
+      "id": "bei_koechin",
+      "raum": "kitchen",
+      "x": 21.5,
+      "y": 5.5,
+      "name": "Platz von Mrs Hobbs in der Küche"
+    },
+    {
+      "id": "bei_zofe",
+      "raum": "hall",
+      "x": 12.5,
+      "y": 12.5,
+      "name": "Platz von Tilly in der Halle"
+    },
+    {
+      "id": "bei_anwalt",
+      "raum": "library",
+      "x": 6.5,
+      "y": 2.5,
+      "name": "Platz von Mr Crane in der Bibliothek"
+    },
+    {
+      "id": "treffpunkt_salon",
+      "raum": "salon",
+      "x": 6.5,
+      "y": 12.5,
+      "name": "Treffpunkt der Ermittlung im Salon"
+    }
+  ],
+  "lichtquellen": [
+    {
+      "id": "licht_salon",
+      "art": "lampe",
+      "name": "Gaslampen im Salon",
+      "raeume": [
+        "salon"
+      ],
+      "an": [
+        [
+          "17:00",
+          "23:09:50"
+        ],
+        [
+          "23:20:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Der Salon ist der helle Schutzraum des Hauses. Beim Donnerschlag erlöschen auch hier die Gaslampen; Pell zündet sie um zwanzig nach elf wieder an."
+    },
+    {
+      "id": "licht_gas_haus",
+      "art": "lampe",
+      "name": "Gaslampen im Haus",
+      "raeume": [
+        "library",
+        "study",
+        "kitchen",
+        "hall",
+        "dining"
+      ],
+      "an": [
+        [
+          "17:00",
+          "23:09:50"
+        ],
+        [
+          "23:20:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Beim Donnerschlag um zehn nach elf erlöschen die Gaslampen im ganzen Haus. Pell zündet sie um zwanzig nach elf wieder an."
+    },
+    {
+      "id": "licht_kamin_arbeitszimmer",
+      "art": "feuer",
+      "name": "Kaminfeuer im Arbeitszimmer",
+      "ort": "am_arbeitskamin",
+      "farbe": "#FF9329",
+      "radius": 3.0,
+      "flackern": 0.3,
+      "an": [
+        [
+          "18:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Das Feuer im Arbeitszimmer brennt die ganze Nacht."
+    },
+    {
+      "id": "licht_kamin_salon",
+      "art": "feuer",
+      "name": "Brennender Brief im Salonkamin",
+      "ort": "am_salonkamin",
+      "farbe": "#FF7A29",
+      "radius": 2.0,
+      "flackern": 0.5,
+      "an": [
+        [
+          "00:05:00",
+          "00:30:00"
+        ]
+      ],
+      "hinweis": "Der Kamin im Salon brennt nur kurz nach Mitternacht, als ein Brief darin verbrennt."
+    }
+  ],
+  "luftzug": [],
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören: Räume mit einer Tür, die nicht verschlossen ist, grenzen aneinander. Der Donner übertönt in der Nacht alles Leise.",
+    "nachbarn": [
+      [
+        "cellar",
+        "kitchen"
+      ],
+      [
+        "dining",
+        "garden"
+      ],
+      [
+        "dining",
+        "hall"
+      ],
+      [
+        "dining",
+        "kitchen"
+      ],
+      [
+        "garden",
+        "hall"
+      ],
+      [
+        "garden",
+        "salon"
+      ],
+      [
+        "hall",
+        "salon"
+      ],
+      [
+        "hall",
+        "study"
+      ],
+      [
+        "library",
+        "salon"
+      ],
+      [
+        "library",
+        "study"
+      ]
+    ],
+    "geschlossen": []
+  }
+}

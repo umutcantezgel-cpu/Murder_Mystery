@@ -1,0 +1,27 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad neffe: finale.neffe.<ende> (4) und rueckblende.neffe.",
+  "eintraege": [
+    {
+      "id": "finale.neffe.ende_meister",
+      "text": "Du zeigst auf Julian, und die Anklage stimmt. Julian lacht, als er gesteht. Erst in der Kutsche hört er damit auf. Zusammen seht ihr euch das Taschentuch in Lord Edmunds Hand an. Unter dem Teeduft liegt scharfe Pferdesalbe. Julian führt euch in den Garten und holt den Siegelring tief aus der Buchsbaumhecke. Als der Morgen graut, sinkt das Wasser, und die Brücke wird frei. Seine Schulden sind nun seine kleinste Sorge."
+    },
+    {
+      "id": "finale.neffe.ende_teilerfolg",
+      "text": "Du klagst Julian an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Julian gesteht und holt den Siegelring tief aus der Buchsbaumhecke. Im Haus bleibt ein Schweigen, das niemand brechen will. Als das Wasser sinkt, führt man ihn ab. Er lacht nicht mehr."
+    },
+    {
+      "id": "finale.neffe.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Der Siegelring bleibt verschwunden. Am Morgen sinkt das Wasser, und die Kutsche fährt vor. Ein Unschuldiger wird im Regen zur Kutsche geführt. Hinter einem Fenster von Ravensmoor lächelt jemand. Julian verlässt England auf einem Dampfer nach Buenos Aires. Seine Gläubiger warten vergeblich am Kai."
+    },
+    {
+      "id": "finale.neffe.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander, und die Stimmen werden immer lauter. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Runde zerfällt in kleine Gruppen, und keiner glaubt mehr dem anderen. Der Siegelring bleibt verschwunden. Die Akte wird geschlossen, und das Moor verschluckt die Wahrheit wie alles andere. Julian verlässt England auf einem Dampfer nach Buenos Aires. Seine Gläubiger warten vergeblich am Kai."
+    },
+    {
+      "id": "rueckblende.neffe",
+      "text": "Beim Dinner streicht Lord Edmund Julian den Zuschuss. Julian legt im Salon Patience und zündet eine Kerze an. Als der Donner um zehn nach elf die Lampen löscht, nimmt er im dunklen Speisesaal einen schweren Silberleuchter. Er tastet sich ins Arbeitszimmer, um seinen Onkel umzustimmen. Der Streit wird heftig. Als es erneut donnert, liegt Lord Edmund still vor dem Kamin. Julian drückt ihm sein Taschentuch in die Hand, das nach Pferdesalbe riecht. Er nimmt den Siegelring und stellt den Leuchter zurück auf die Tafel. Durch die Gartentür läuft er hinaus und steckt den Ring tief in die Buchsbaumhecke. Seine Schuhe sind nass, als er in den Salon zurückkehrt."
+    }
+  ]
+}

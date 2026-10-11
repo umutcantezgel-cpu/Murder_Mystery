@@ -1,0 +1,87 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "ui",
+  "hinweis": "Oberflächentexte dieser Akte. Alles, was hier fehlt, übernimmt die App aus den Schlosskeller-Texten (ergaenzeUi).",
+  "eintraege": [
+    {
+      "id": "ui.allgemein.detektiv",
+      "text": "Inspektor/in"
+    },
+    {
+      "id": "ui.allgemein.laden",
+      "text": "Ravensmoor wird vorbereitet …"
+    },
+    {
+      "id": "ui.allgemein.uhrzeit",
+      "text": "Auf Ravensmoor ist es {uhrzeit} Uhr."
+    },
+    {
+      "id": "ui.karte.hinweis",
+      "text": "Geh mit dem Inspektor zu einer der leuchtenden Stellen oder zu einer der Personen, die du ansprechen kannst. Steuern: Joystick, Pfeiltasten oder WASD. Handeln: Knopf unten rechts oder Leertaste."
+    },
+    {
+      "id": "ui.gruppenwahl.erklaerung",
+      "text": "Reihum wählt ihr geheim zwischen zwei Handlungen. Der Inspektor wählt nicht mit. Danach flüstert die Runde dem Inspektor etwas zu, und wie viel das taugt, verrät niemand."
+    },
+    {
+      "id": "ui.gruppenwahl.alle",
+      "text": "Alle haben gewählt. Es wird still im Haus."
+    },
+    {
+      "id": "ui.einrichtung.hinweis",
+      "text": "Jemand außer dem Inspektor richtet ein. Der Inspektor schaut bitte weg."
+    },
+    {
+      "id": "ui.einrichtung.geburtstag",
+      "text": "Der Inspektor"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_m",
+      "text": "Inspektor"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_w",
+      "text": "Inspektorin"
+    },
+    {
+      "id": "ui.titel.hinweis",
+      "text": "Der Inspektor schaut beim Einrichten weg."
+    },
+    {
+      "id": "ui.intro.marke",
+      "text": "Die Nacht auf Ravensmoor"
+    },
+    {
+      "id": "ui.intro.titel",
+      "text": "Was vor Mitternacht geschah"
+    },
+    {
+      "id": "ui.resuemee.bonus_titel",
+      "text": "Was die Runde dem Inspektor zuflüstert"
+    },
+    {
+      "id": "ui.druck.rollen.detektiv",
+      "text": "der Inspektor oder die Inspektorin"
+    },
+    {
+      "id": "ui.druck.spielleitung.personen",
+      "text": "{anzahl} Rollen und der Inspektor oder die Inspektorin"
+    },
+    {
+      "id": "ui.druck.spielleitung.datei.01",
+      "text": "Detektivbogen mit Ermittlungsbogen. Gehört dem Inspektor oder der Inspektorin."
+    },
+    {
+      "id": "ui.druck.spielleitung.entscheidung",
+      "text": "Drei Entscheidungen. Der Inspektor wählt auf dem Detektivbogen. Du gibst die Indizkarte mit dem gewählten Code aus."
+    },
+    {
+      "id": "ui.druck.spielleitung.anklage.klagt",
+      "text": "Nach Runde 3 liest du die Anklage vor. Der Inspektor klagt eine der vier Verdächtigen an."
+    },
+    {
+      "id": "ui.druck.karte.aussen",
+      "text": "Indizkarte. Erst umdrehen, wenn der Inspektor diesen Code gewählt hat."
+    }
+  ]
+}

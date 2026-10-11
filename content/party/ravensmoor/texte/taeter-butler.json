@@ -1,0 +1,58 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung butler.",
+  "eintraege": [
+    {
+      "rolle": "butler",
+      "tarnung": "Du sagst: „Nach dem Dinner habe ich in der Küche das Silber poliert. Silas sah mein Licht.“ Bleib höflich, still und unerschütterlich, wie immer.",
+      "tatwissen": [
+        {
+          "text": "Während des Dinners öffnest du Lord Edmunds Sekretär und liest seine Briefe. Einer davon zeigt dir, dass Lord Edmund dich dreißig Jahre lang verleugnet hat."
+        },
+        {
+          "text": "Nach dem Dinner löschst du die Kerzen im Speisesaal. Statt in der Küche das Silber zu polieren, löschst du dort das Licht und gehst zum Arbeitszimmer."
+        },
+        {
+          "text": "Beim Donnerschlag um zehn nach elf greifst du nach Lord Edmunds silbernem Brieföffner. Als der Donner verhallt, liegt er still vor dem Kamin."
+        },
+        {
+          "text": "Du ziehst ihm den Siegelring vom Finger und wischst den Brieföffner ab. Beides trägst du durch die Halle in den Speisesaal und verbirgst es im Silberkasten des Geschirrschranks."
+        },
+        {
+          "ref": "spur:spur_schrank_ring"
+        },
+        {
+          "text": "Bienenwachs aus deiner Silberpolitur klebt an deinen Handschuhen."
+        },
+        {
+          "ref": "spur:spur_handschuh_wachs"
+        },
+        {
+          "text": "Du legst die Briefe im Sekretär zurück, damit niemand merkt, dass du darin gelesen hast. Deine Fingerspitzen sind noch blau von Tinte."
+        },
+        {
+          "ref": "spur:spur_sekretaer_tinte"
+        },
+        {
+          "text": "Um zwanzig vor zwölf „findest“ du Lord Edmund und rufst durchs Haus."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_butler_sekretaer"
+        },
+        {
+          "ref": "luege:luege_butler_medaillon"
+        },
+        {
+          "ref": "nebendelikt:nd_sekretaer"
+        },
+        {
+          "text": "Kommt es heraus, erfährt das ganze Haus, wer du wirklich bist."
+        }
+      ],
+      "ziel": "Du willst unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}

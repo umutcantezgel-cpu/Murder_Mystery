@@ -1,0 +1,79 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der vier Kernrollen mit Sabotage.",
+  "eintraege": [
+    {
+      "id": "gw_witwe_1",
+      "a": "Ich gebe zu, dass ich nach Mitternacht einen Brief aus London im Salonkamin verbrannt habe.",
+      "b": "Ich schweige. Niemand soll erfahren, dass ich in London unter anderem Namen gesungen habe.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meiner Migräne. Das lenkt von allem anderen ab."
+    },
+    {
+      "id": "gw_witwe_2",
+      "a": "Ich sage dem Inspektor, dass Tilly den Brief aus London kennt. Damit bringe ich sie in eine unangenehme Lage.",
+      "b": "Tilly und ich halten zusammen. Dem Inspektor sage ich dazu nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber, wie sehr ich Lord Edmund geschätzt habe. Das rührt jeden."
+    },
+    {
+      "id": "gw_witwe_3",
+      "a": "Ich sage es offen: Ich habe den Brief verbrannt, weil niemand meinen alten Namen kennen soll.",
+      "b": "Mein altes Leben in London geht niemanden etwas an. Ich halte dicht.",
+      "sabotage": "Ich spreche lieber über mein schlechtes Gewissen als über Briefe."
+    },
+    {
+      "id": "gw_neffe_1",
+      "a": "Ich gebe zu, dass ich Lord Edmunds goldene Taschenuhr versetzt habe.",
+      "b": "Ich schweige. Niemand soll erfahren, dass ich die Uhr meines Onkels versetzt habe.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meinem Pech bei den Pferden."
+    },
+    {
+      "id": "gw_neffe_2",
+      "a": "Ich sage dem Inspektor, dass Mrs Hobbs vom Streit mit meinem Onkel wusste. Damit bringe ich sie in eine unangenehme Lage.",
+      "b": "Mrs Hobbs und ich halten zusammen. Dem Inspektor sage ich dazu nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber von meinen Kindertagen in diesem Haus."
+    },
+    {
+      "id": "gw_neffe_3",
+      "a": "Ich sage es offen: Die Uhr liegt beim Pfandleiher, und ich habe es meinem Onkel nie gesagt.",
+      "b": "Vor dem Morgen soll niemand etwas von der Uhr erfahren. Ich halte dicht.",
+      "sabotage": "Ich halte mich zurück und schwärme lieber von meinem Lieblingspferd."
+    },
+    {
+      "id": "gw_butler_1",
+      "a": "Ich gebe zu, dass ich mit dem Zweitschlüssel Lord Edmunds Sekretär geöffnet und seine Briefe gelesen habe.",
+      "b": "Ich schweige. Niemand soll erfahren, dass ich in den Briefen meines Herrn gelesen habe.",
+      "sabotage": "Ich halte mich zurück und spreche lieber über die Pflichten eines guten Butlers."
+    },
+    {
+      "id": "gw_butler_2",
+      "a": "Ich sage dem Inspektor, dass Silas nach dem Donnerschlag im Garten war. Damit bringe ich meinen ältesten Freund in eine unangenehme Lage.",
+      "b": "Silas und ich halten zusammen. Dem Inspektor sage ich dazu nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber vom Silber, das ich jeden Abend poliere."
+    },
+    {
+      "id": "gw_butler_3",
+      "a": "Ich sage es offen: Ich habe die Briefe gelesen, weil ich wissen wollte, wer mein Vater ist.",
+      "b": "Mein Medaillon und meine Herkunft gehen niemanden etwas an. Ich halte dicht.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber, wie lange ich dem Haus schon diene."
+    },
+    {
+      "id": "gw_aerztin_1",
+      "a": "Ich gebe zu, dass mein Diplom auf den Namen meines verstorbenen Bruders ausgestellt ist.",
+      "b": "Ich schweige. Niemand soll erfahren, dass ich unter dem Namen meines Bruders praktiziere.",
+      "sabotage": "Ich halte mich zurück und spreche lieber über Lord Edmunds schwaches Herz."
+    },
+    {
+      "id": "gw_aerztin_2",
+      "a": "Ich sage dem Inspektor offen, dass ich unter dem Namen meines Bruders arbeite. Damit riskiere ich meine Praxis.",
+      "b": "Meine Praxis ist mir zu wichtig. Über mein Diplom spreche ich nicht.",
+      "sabotage": "Ich erzähle dem Inspektor lieber von den Armen im Dorf, die auf mich angewiesen sind."
+    },
+    {
+      "id": "gw_aerztin_3",
+      "a": "Ich sage es offen: Mein Diplom gehörte meinem Bruder Henry. Alles andere kann ich erklären.",
+      "b": "Mein Diplom und mein Name bleiben mein Geheimnis. Ich halte dicht.",
+      "sabotage": "Ich halte mich zurück und erkläre lieber, woran man ein schwaches Herz erkennt."
+    }
+  ]
+}

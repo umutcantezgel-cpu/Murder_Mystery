@@ -1,0 +1,99 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "ravensmoor",
+  "kanonVersion": "1.0.0",
+  "simulation": false,
+  "titel": "Ravensmoor",
+  "untertitel": "Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte.",
+  "pfade": [
+    "witwe",
+    "butler",
+    "aerztin",
+    "neffe"
+  ],
+  "kernverdaechtige": [
+    "witwe",
+    "butler",
+    "aerztin",
+    "neffe"
+  ],
+  "personen": {
+    "min": 4,
+    "max": 8,
+    "hinweis": "Gezählt werden alle Rollen. Es gibt kein Geburtstagskind; der Inspektor oder die Inspektorin ermittelt zusätzlich."
+  },
+  "runden": [
+    {
+      "nr": 1,
+      "name": "Das Netz der Alibis",
+      "uhrzeit": "00:30",
+      "kern": "Alle vier Verdächtigen waren beim Donnerschlag angeblich woanders. Wer kann das bestätigen?"
+    },
+    {
+      "nr": 2,
+      "name": "Die kleinen Heimlichkeiten",
+      "uhrzeit": "01:15",
+      "kern": "Kleine Vergehen werden vom Mord getrennt."
+    },
+    {
+      "nr": 3,
+      "name": "Die Gegenüberstellung",
+      "uhrzeit": "02:00",
+      "kern": "Bei gutem Spiel stehen zwei Restverdächtige dem Schlüsselbeweis gegenüber."
+    }
+  ],
+  "finaleUhrzeit": "02:45",
+  "morgenUhrzeit": "07:00",
+  "rundendauerMinuten": 30,
+  "schwellen": {
+    "regel": "wahr, wenn 5 × kooperativ ≥ 3 × Rollen; sonst neutral, wenn 5 × kooperativ ≥ 2 × Rollen; sonst falsche Fährte",
+    "wahr": {
+      "faktor": 5,
+      "gegen": 3
+    },
+    "neutral": {
+      "faktor": 5,
+      "gegen": 2
+    }
+  },
+  "enden": {
+    "matrix": [
+      {
+        "id": "ende_meister",
+        "name": "Lückenlos",
+        "anklage": "richtig",
+        "punkteVon": 7,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_teilerfolg",
+        "name": "Auf dünnem Eis",
+        "anklage": "richtig",
+        "punkteVon": 0,
+        "punkteBis": 6
+      },
+      {
+        "id": "ende_justizirrtum",
+        "name": "Justizirrtum",
+        "anklage": "falsch",
+        "punkteVon": 4,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_eskalation",
+        "name": "Akte geschlossen",
+        "anklage": "falsch",
+        "punkteVon": 0,
+        "punkteBis": 3
+      }
+    ]
+  },
+  "regeln": {
+    "W-1": "Ein wahrer Bonus-Hinweis liefert einen wahren Baustein, entlastet aber nie allein einen Kernverdächtigen.",
+    "S-1": "Resümees nur aus dem Wissen des Inspektors; bei nur einer Restperson kein Name.",
+    "D-1": "Optionen mit 0 Punkten zeigen weder Schlüsselbeweis noch Zusatzindiz.",
+    "G-1": "Die Option B der Täterrolle (Sabotage) zählt netto −1. Vor der Auflösung wird weder die Qualität des Hinweises noch die Stimmenzahl gezeigt.",
+    "K-1": "Objekte, Marker und Licht auf der Karte sind vor dem Finale in allen Pfaden gleich.",
+    "P-1": "Pflichtgespräche geben nur pfadneutrales Wissen preis."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung neffe.",
+  "eintraege": [
+    {
+      "rolle": "neffe",
+      "tarnung": "Du sagst: „Ich saß den ganzen Abend im Salon und legte Patience. Die Karten liegen noch da.“ Bleib charmant und gelangweilt. Lach über den Abend, als wäre alles nur ein Spiel.",
+      "tatwissen": [
+        {
+          "text": "Beim Dinner streicht dir Lord Edmund den Zuschuss. Du bist hoch verschuldet und fürchtest, dass er dich in dieser Nacht enterbt."
+        },
+        {
+          "text": "Nach dem Dinner setzt du dich an den Kartentisch im Salon und legst Patience. Du zündest eine Kerze an und lässt sie brennen."
+        },
+        {
+          "text": "Als der Donner um zehn nach elf die Lampen löscht, nimmst du im dunklen Speisesaal einen schweren Silberleuchter von der Tafel. Du tastest dich ins Arbeitszimmer, um deinen Onkel umzustimmen."
+        },
+        {
+          "text": "Der Streit wird heftig. Als es erneut donnert, liegt Lord Edmund still vor dem Kamin."
+        },
+        {
+          "text": "Du drückst ihm dein Taschentuch in die Hand. Es riecht nach Pferdesalbe."
+        },
+        {
+          "ref": "spur:spur_tuch_pferdesalbe"
+        },
+        {
+          "text": "Du erschrickst, nimmst den Siegelring und stellst den Leuchter zurück auf die Tafel. Dabei stößt du das Tintenfass um."
+        },
+        {
+          "text": "Durch die Gartentür läufst du hinaus und steckst den Siegelring tief in die Buchsbaumhecke. Deine Schuhe sind danach nass. Dann kehrst du in den Salon zurück."
+        },
+        {
+          "ref": "spur:spur_hecke_ring"
+        },
+        {
+          "text": "Die blaue Tinte klebt noch an deinen Fingern. Später greifst du nach dem Pfandschein in deiner Westentasche und lässt Flecken darauf zurück."
+        },
+        {
+          "ref": "spur:spur_pfandschein_tinte"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_neffe_schulden"
+        },
+        {
+          "ref": "luege:luege_neffe_uhr"
+        },
+        {
+          "ref": "luege:luege_neffe_schulden"
+        },
+        {
+          "ref": "nebendelikt:nd_pfand"
+        },
+        {
+          "text": "Kommt es heraus, weiß das ganze Haus, was du getan hast."
+        }
+      ],
+      "ziel": "Du willst unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}

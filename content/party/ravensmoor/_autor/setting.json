@@ -1,0 +1,23 @@
+{
+  "hinweis": "Setting der Akte Ravensmoor. Die Darstellung (Palette, Wetter, Blitze, Licht) kommt aus dem Szenario content/scenarios/ravensmoor.json und wird vom Konverter ergänzt.",
+  "schauplatz": "Ravensmoor, ein altes Herrenhaus am Rand des Moores, im Oktober 1891. Ein Gewitter tobt, und das Hochwasser hat die einzige Brücke verschluckt.",
+  "anlass": "Lord Edmund Ravensmoor wollte in dieser Nacht sein Testament ändern. Dazu hatte er seine Familie, die Hausärztin und seinen Anwalt zum Dinner geladen. Du bist als Inspektor oder Inspektorin einer seiner Gäste.",
+  "datum": "eine Oktobernacht im Jahr 1891; draußen Regen, Wind und Gewitter",
+  "essen": "Ein Dinner mit vier Gängen im Speisesaal: Suppe, Fisch, Braten und Pudding. Danach gibt es Tee im Salon und im Arbeitszimmer.",
+  "getraenke": [
+    "schwarzer Tee",
+    "Kräutertee",
+    "Kaffee",
+    "Wasser",
+    "Zitronenlimonade"
+  ],
+  "empfang": "Das Hochwasser hat die Brücke überflutet. Niemand kommt ins Haus, und niemand verlässt es, bis das Wasser sinkt. Eine Nachricht kann erst am Morgen hinausgehen.",
+  "atmosphaere": [
+    "Der Regen trommelt an die Fenster.",
+    "Gaslampen flackern bei jedem Donnerschlag.",
+    "Die Standuhr in der Halle tickt schwer und langsam.",
+    "Auf den Fluren knarrt das alte Holz."
+  ],
+  "brandschutz": "Im Herrenhaus brennen Gaslampen und Kaminfeuer. Wer eine Kerze trägt, achtet auf die Vorhänge.",
+  "ton": "Dunkles Noir mit trockenem Humor: Gewitter, Gaslicht, knarrendes Holz und höfliche Lügen. Keine Einzelheiten der Tat; nur Spuren, Schatten und Geräusche."
+}

@@ -1,0 +1,19 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "erzaehler",
+  "hinweis": "Intro: intro.start und intro.auftrag.<m|w>.",
+  "eintraege": [
+    {
+      "id": "intro.start",
+      "text": "Oktober achtzehnhunderteinundneunzig. Ein altes Herrenhaus am Rand des Moores. Draußen tobt ein Gewitter, und das Hochwasser hat die einzige Brücke verschluckt. Heute Abend hat Lord Edmund Ravensmoor zum Dinner geladen. Er wollte noch in dieser Nacht sein Testament ändern. Um zehn nach elf erschütterte ein gewaltiger Donnerschlag das Haus. Alle Gaslampen erloschen, und die Standuhr in der Halle blieb stehen. Um zwanzig vor zwölf fand Pell den Lord tot vor dem Kamin seines Arbeitszimmers. Sein Siegelring fehlt. Niemand kann das Haus verlassen, bis das Wasser sinkt. Wer es getan hat, ist noch im Haus."
+    },
+    {
+      "id": "intro.auftrag.m",
+      "text": "Eigentlich warst du nur als Gast zum Dinner geladen. Jetzt bist du der Inspektor, und Pell bittet dich: „Finden Sie heraus, wer das war. Bis das Wasser sinkt.“"
+    },
+    {
+      "id": "intro.auftrag.w",
+      "text": "Eigentlich warst du nur als Gast zum Dinner geladen. Jetzt bist du die Inspektorin, und Pell bittet dich: „Finden Sie heraus, wer das war. Bis das Wasser sinkt.“"
+    }
+  ]
+}

@@ -1,0 +1,498 @@
+{
+  "settingId": "ravensmoor",
+  "hinweis": "Bonus-Hinweise je Pfad, Runde und Qualität. Alle erscheinen im selben Rahmen ohne Quelle; je Runde haben die Hinweise möglichst dieselbe Satzform. Vor der Auflösung wird weder die Qualität noch die Stimmenzahl gezeigt. Wahr: ein wahrer Baustein, der nie allein ausschließt (W-1). Neutral: wahre, pfadgleiche Sätze ohne neuen Wert. Falsch: ein Gerücht über einen Unschuldigen, widerlegt durch eine im Pfad richtige Entscheidung.",
+  "hinweise": [
+    {
+      "id": "h_witwe_1_wahr",
+      "pfad": "witwe",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag war Lady Constances Zimmer leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "witwe"
+      },
+      "quelle": [
+        "beobachtung:b_zofe_lady_leer"
+      ]
+    },
+    {
+      "id": "h_witwe_1_neutral",
+      "pfad": "witwe",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Beim Donnerschlag gingen alle Gaslampen im Haus aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_inspektor_donner"
+      ]
+    },
+    {
+      "id": "h_witwe_1_falsch",
+      "pfad": "witwe",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Donnerschlag war die Küche dunkel.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "butler"
+      },
+      "widerlegtDurch": [
+        "e1_2_gaertner"
+      ]
+    },
+    {
+      "id": "h_witwe_2_wahr",
+      "pfad": "witwe",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Lady Constance hat nach Mitternacht einen Brief aus London im Salonkamin verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "witwe"
+      },
+      "quelle": [
+        "beobachtung:b_koechin_brief"
+      ]
+    },
+    {
+      "id": "h_witwe_2_neutral",
+      "pfad": "witwe",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wollte in dieser Nacht sein Testament ändern.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_anwalt_testament"
+      ]
+    },
+    {
+      "id": "h_witwe_2_falsch",
+      "pfad": "witwe",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Julian hat nach Mitternacht im Salonkamin einen Brief verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "neffe"
+      },
+      "widerlegtDurch": [
+        "e2_1_salonkamin"
+      ]
+    },
+    {
+      "id": "h_witwe_3_wahr",
+      "pfad": "witwe",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag klapperten im Salon Julians Karten.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "neffe"
+      },
+      "quelle": [
+        "beobachtung:b_koechin_julian_da"
+      ]
+    },
+    {
+      "id": "h_witwe_3_neutral",
+      "pfad": "witwe",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wurde um zwanzig vor zwölf tot vor dem Kamin gefunden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_edmund_fund"
+      ]
+    },
+    {
+      "id": "h_witwe_3_falsch",
+      "pfad": "witwe",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Julian hat den Siegelring in der Buchsbaumhecke versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "neffe"
+      },
+      "widerlegtDurch": [
+        "e3_1_halle"
+      ]
+    },
+    {
+      "id": "h_butler_1_wahr",
+      "pfad": "butler",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag war die Küche dunkel.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "butler"
+      },
+      "quelle": [
+        "beobachtung:b_gaertner_pell_dunkel"
+      ]
+    },
+    {
+      "id": "h_butler_1_neutral",
+      "pfad": "butler",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Beim Donnerschlag gingen alle Gaslampen im Haus aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_inspektor_donner"
+      ]
+    },
+    {
+      "id": "h_butler_1_falsch",
+      "pfad": "butler",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Donnerschlag war Lady Constances Zimmer leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "witwe"
+      },
+      "widerlegtDurch": [
+        "e1_1_zofe"
+      ]
+    },
+    {
+      "id": "h_butler_2_wahr",
+      "pfad": "butler",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Pell hat Lord Edmunds Sekretär mit einem Nachschlüssel geöffnet.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "butler"
+      },
+      "quelle": [
+        "spur:spur_sekretaer_gelesen"
+      ]
+    },
+    {
+      "id": "h_butler_2_neutral",
+      "pfad": "butler",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wollte in dieser Nacht sein Testament ändern.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_anwalt_testament"
+      ]
+    },
+    {
+      "id": "h_butler_2_falsch",
+      "pfad": "butler",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Doktor Marsh hat nach Mitternacht im Salonkamin einen Brief verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "aerztin"
+      },
+      "widerlegtDurch": [
+        "e2_1_salonkamin"
+      ]
+    },
+    {
+      "id": "h_butler_3_wahr",
+      "pfad": "butler",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag klapperten im Salon Julians Karten.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "neffe"
+      },
+      "quelle": [
+        "beobachtung:b_koechin_julian_da"
+      ]
+    },
+    {
+      "id": "h_butler_3_neutral",
+      "pfad": "butler",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wurde um zwanzig vor zwölf tot vor dem Kamin gefunden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_edmund_fund"
+      ]
+    },
+    {
+      "id": "h_butler_3_falsch",
+      "pfad": "butler",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Doktor Marsh hat den Siegelring in der Gerätekiste versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "aerztin"
+      },
+      "widerlegtDurch": [
+        "e3_1_speisesaal"
+      ]
+    },
+    {
+      "id": "h_aerztin_1_wahr",
+      "pfad": "aerztin",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag war die Bibliothek still und leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "aerztin"
+      },
+      "quelle": [
+        "beobachtung:b_anwalt_marsh_leer"
+      ]
+    },
+    {
+      "id": "h_aerztin_1_neutral",
+      "pfad": "aerztin",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Beim Donnerschlag gingen alle Gaslampen im Haus aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_inspektor_donner"
+      ]
+    },
+    {
+      "id": "h_aerztin_1_falsch",
+      "pfad": "aerztin",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Donnerschlag war Lady Constances Zimmer leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "witwe"
+      },
+      "widerlegtDurch": [
+        "e1_1_zofe"
+      ]
+    },
+    {
+      "id": "h_aerztin_2_wahr",
+      "pfad": "aerztin",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Doktor Marsh arbeitet mit dem Diplom ihres verstorbenen Bruders.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "aerztin"
+      },
+      "quelle": [
+        "spur:spur_diplom"
+      ]
+    },
+    {
+      "id": "h_aerztin_2_neutral",
+      "pfad": "aerztin",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wollte in dieser Nacht sein Testament ändern.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_anwalt_testament"
+      ]
+    },
+    {
+      "id": "h_aerztin_2_falsch",
+      "pfad": "aerztin",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Pell hat nach Mitternacht im Salonkamin einen Brief verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "butler"
+      },
+      "widerlegtDurch": [
+        "e2_1_salonkamin"
+      ]
+    },
+    {
+      "id": "h_aerztin_3_wahr",
+      "pfad": "aerztin",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag klapperten im Salon Julians Karten.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "neffe"
+      },
+      "quelle": [
+        "beobachtung:b_koechin_julian_da"
+      ]
+    },
+    {
+      "id": "h_aerztin_3_neutral",
+      "pfad": "aerztin",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wurde um zwanzig vor zwölf tot vor dem Kamin gefunden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_edmund_fund"
+      ]
+    },
+    {
+      "id": "h_aerztin_3_falsch",
+      "pfad": "aerztin",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Pell hat den Siegelring im Geschirrschrank versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "butler"
+      },
+      "widerlegtDurch": [
+        "e3_1_garten"
+      ]
+    },
+    {
+      "id": "h_neffe_1_wahr",
+      "pfad": "neffe",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Donnerschlag blieb es im Salon still. Julian kam erst Minuten später mit nassen Schuhen herein.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "neffe"
+      },
+      "quelle": [
+        "beobachtung:b_koechin_julian_weg"
+      ]
+    },
+    {
+      "id": "h_neffe_1_neutral",
+      "pfad": "neffe",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Beim Donnerschlag gingen alle Gaslampen im Haus aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_inspektor_donner"
+      ]
+    },
+    {
+      "id": "h_neffe_1_falsch",
+      "pfad": "neffe",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Donnerschlag war die Bibliothek leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "aerztin"
+      },
+      "widerlegtDurch": [
+        "e1_3_anwalt"
+      ]
+    },
+    {
+      "id": "h_neffe_2_wahr",
+      "pfad": "neffe",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Julian hat Lord Edmunds goldene Taschenuhr versetzt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "neffe"
+      },
+      "quelle": [
+        "beobachtung:b_anwalt_pfand"
+      ]
+    },
+    {
+      "id": "h_neffe_2_neutral",
+      "pfad": "neffe",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wollte in dieser Nacht sein Testament ändern.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_anwalt_testament"
+      ]
+    },
+    {
+      "id": "h_neffe_2_falsch",
+      "pfad": "neffe",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Doktor Marsh hat Lord Edmunds goldene Taschenuhr versetzt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "aerztin"
+      },
+      "widerlegtDurch": [
+        "e2_1_westentasche"
+      ]
+    },
+    {
+      "id": "h_neffe_3_wahr",
+      "pfad": "neffe",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Lady Constance saß beim Donnerschlag allein im Salon und las einen Brief.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "witwe"
+      },
+      "quelle": [
+        "beobachtung:b_witwe_salon"
+      ]
+    },
+    {
+      "id": "h_neffe_3_neutral",
+      "pfad": "neffe",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Lord Edmund wurde um zwanzig vor zwölf tot vor dem Kamin gefunden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_edmund_fund"
+      ]
+    },
+    {
+      "id": "h_neffe_3_falsch",
+      "pfad": "neffe",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Lady Constance hat den Siegelring in der Standuhr versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "witwe"
+      },
+      "widerlegtDurch": [
+        "e3_1_garten"
+      ]
+    }
+  ]
+}

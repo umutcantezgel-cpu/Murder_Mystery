@@ -1,0 +1,55 @@
+{
+  "settingId": "ravensmoor",
+  "bereich": "detektiv",
+  "hinweis": "Detektiv-Bogen (m und w) und Ermittlungsbogen.",
+  "eintraege": [
+    {
+      "id": "detektiv.m.wer",
+      "text": "Du bist der Inspektor, mittelgroß und mit aufmerksamer Haltung. Du trägst einen langen sandbeigen Reisemantel über einem dunklen Anzug und feste Stiefel. Zu dir gehören eine schmale Brille, eine braun karierte Schirmmütze und ein ledernes Notizbuch."
+    },
+    {
+      "id": "detektiv.w.wer",
+      "text": "Du bist die Inspektorin, mittelgroß und mit aufmerksamer Haltung. Du trägst einen langen sandbeigen Reisemantel über einem dunklen Anzug und feste Stiefel. Zu dir gehören eine schmale Brille, eine braun karierte Schirmmütze und ein ledernes Notizbuch."
+    },
+    {
+      "id": "detektiv.m.auftrag",
+      "text": "Um halb eins bittet dich Pell: „Finden Sie heraus, wer das war. Bis das Wasser sinkt.“ Du ermittelst in drei Runden und triffst dafür neun Entscheidungen. Am Ende erhebst du eine Anklage."
+    },
+    {
+      "id": "detektiv.w.auftrag",
+      "text": "Um halb eins bittet dich Pell: „Finden Sie heraus, wer das war. Bis das Wasser sinkt.“ Du ermittelst in drei Runden und triffst dafür neun Entscheidungen. Am Ende erhebst du eine Anklage."
+    },
+    {
+      "id": "detektiv.regeln.entscheidungen",
+      "text": "Jede Entscheidung hat mehrere Möglichkeiten, und du wählst genau eine davon. Du kannst einen Ort betreten, einen Gegenstand untersuchen oder eine Person befragen."
+    },
+    {
+      "id": "detektiv.regeln.punkte",
+      "text": "Jede gute Entscheidung bringt dir einen Punkt. Wie viele Punkte du hast, siehst du erst am Ende."
+    },
+    {
+      "id": "detektiv.regeln.hinweise",
+      "text": "In jeder Runde wird dir aus der Gruppe etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "detektiv.regeln.anklage",
+      "text": "Am Ende klagst du einen der vier an: Lady Constance, Pell, Doktor Marsh oder Julian. Deine Anklage und deine Punkte bestimmen zusammen, wie die Nacht ausgeht."
+    },
+    {
+      "id": "ermittlungsbogen.einleitung",
+      "text": "Auf diesem Bogen führst du die Liste der Verdächtigen. Hier schreibst du mit, wer ausscheidet und wer übrig bleibt. Diesen Bogen siehst nur du."
+    },
+    {
+      "id": "ermittlungsbogen.entlastet",
+      "text": "Wer beim Donnerschlag nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Der Donnerschlag ist der gewaltige Schlag um zehn nach elf, der das ganze Haus erschütterte."
+    },
+    {
+      "id": "ermittlungsbogen.ueberfuehrt",
+      "text": "Ein Schlüsselbeweis überführt eine Person, wenn man auch Lord Edmunds Siegelring an ihrem Versteck findet. Alle anderen scheiden aus."
+    },
+    {
+      "id": "ermittlungsbogen.restverdaechtige",
+      "text": "Schreib die vier Namen auf: Lady Constance, Pell, Doktor Marsh und Julian. Streich jeden Namen durch, der ausscheidet. Wer übrig bleibt, ist noch verdächtig."
+    }
+  ]
+}
