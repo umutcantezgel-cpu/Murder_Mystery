@@ -18,7 +18,7 @@ import 'sitzung.dart';
 /// `Interact` wählt nicht direkt, sondern macht einen Vorschlag; die Sitzung
 /// fragt „Das ist endgültig“. Rückblende (erst nach dem Finale): Zeitraffer
 /// der Tatmatrix mit dem Licht im Stromausfall (B-04).
-class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSzene {
+class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz, GefuehrteSzene {
   PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25}) {
     final d = sitzung.kanon.figur((sitzung.kanon.figurenJson['detektiv'] as Map)['id'] as String)!;
     final ort = sitzung.kanon.graph.orte[d['ermittlungsOrt'] as String]!;
@@ -29,7 +29,8 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
       for (final t in sitzung.kanon.graph.tueren.values)
         if (t.zustand == 'offen') ...[(t.von, t.nach), (t.nach, t.von)],
     };
-    if (rueckblendeModus) {
+    // Akten ohne Simulation erzählen ihre Rückblende nur (Text); es gibt keine Szene.
+    if (rueckblendeModus && sitzung.hatRueckblende) {
       _rb = sitzung.rueckblende;
       zeit.value = _rb!.schritte.first;
     }
@@ -75,6 +76,10 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
   bool _entsorgt = false;
   KartenAktion? _aktion;
   int? _aktionsNummer;
+
+  /// Ein Abstecher, zu dem es keinen begehbaren Weg gibt: die Erkundung läuft
+  /// dann ohne Laufweg weiter (nie eine blockierte Würfelbühne).
+  bool _abstecherOhneWeg = false;
   late final TileGrid _raster = TileGrid(sitzung.daten.szenario.map);
 
   final ValueNotifier<double> aktionsFortschritt = ValueNotifier(0);
@@ -105,6 +110,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
     if (rueckblendeModus || z == null || z.phase != RundenZugPhase.aktion) {
       _aktion = null;
       _aktionsNummer = null;
+      _abstecherOhneWeg = false;
       return;
     }
     if (_aktionsNummer == z.aktion) return;
@@ -112,7 +118,14 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
     final ziel = sitzung.karte.ziele[z.option];
     double zx = _x, zy = _y;
     String? raum = _raster.roomAtPos(_x, _y)?.id;
-    if (ziel != null) {
+    final ort = z.istAbstecher ? sitzung.abstecherLaufend : null;
+    final stelle = ort == null ? null : sitzung.kanon.graph.orte[ort.ort];
+    if (stelle != null) {
+      // Erkundung: der sichtbare Weg führt zum Ort des Abstechers.
+      zx = stelle.x;
+      zy = stelle.y;
+      raum = stelle.raum;
+    } else if (ziel != null) {
       raum = ziel.raum;
       if (ziel.person case final person?) {
         final f = sitzung.karte.figuren.firstWhere((f) => f.id == person);
@@ -127,7 +140,8 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
       raster: _raster, startX: _x, startY: _y, facing: _f,
       zielX: zx, zielY: zy, raum: raum, suchen: z.suche, umweg: z.ruf == Tischruf.umweg,
     );
-    aktionsFehler.value = _aktion == null;
+    _abstecherOhneWeg = z.istAbstecher && _aktion == null;
+    aktionsFehler.value = _aktion == null && !z.istAbstecher;
     aktionsFortschritt.value = 0;
     if (bewegungReduziert) _aktion?.abkuerzen();
   }
@@ -138,6 +152,10 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
     _synchronisiereAktion();
     final a = _aktion;
     final nr = _aktionsNummer;
+    if (a == null && nr != null && _abstecherOhneWeg) {
+      sitzung.aktionFertig(nr);
+      return;
+    }
     if (a == null || nr == null) return;
     a.schritt(sekunden);
     _x = a.x;
@@ -212,7 +230,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
           x: _x, y: _y, facing: _f, life: LifeState.alive, hp: 3, maxHp: 3, nerves: 100, hidden: false,
           moving: _aktion?.geht ?? false,
           channel: _aktion != null && !_aktion!.geht ? ChannelView(
-            kind: _aktion!.suchen ? 'search' : 'talk', target: sitzung.zug?.option ?? 'auftakt', progress: posenFortschritt,
+            kind: _aktion!.suchen ? 'search' : 'talk', target: sitzung.zug?.option ?? sitzung.zug?.id ?? 'auftakt', progress: posenFortschritt,
           ) : null,
           effects: const [], downedLeftMs: 0,
         ),
@@ -335,6 +353,19 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
     _case.dispose();
     _connected.dispose();
     await _events.close();
+  }
+
+  // ---------------------------------------------------------------------------
+  // SzenenGlanz: offene Abstecher funkeln an ihrem Ort
+
+  @override
+  List<SzenenGlanzPunkt> get glanzpunkte {
+    if (rueckblendeModus || _entsorgt || sitzung.zug != null || sitzung.phase != PartyPhase.entscheidungen) return const [];
+    final orte = sitzung.kanon.graph.orte;
+    return [
+      for (final a in sitzung.abstecherOffen)
+        if (orte[a.ort] case final o?) SzenenGlanzPunkt(a.id, o.x, o.y),
+    ];
   }
 
   // ---------------------------------------------------------------------------

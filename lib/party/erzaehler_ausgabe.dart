@@ -15,12 +15,16 @@ bool wortgleich(PartySitzung s, String kennung, String text) => s.hatText(kennun
 /// wortgleich als Text. Ist die Erzählerstimme an, liest es sie nacheinander vor,
 /// aber nur, wenn der Wortlaut stimmt. Der Text bleibt immer sichtbar.
 class ErzaehlerFeld extends StatefulWidget {
-  const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen});
+  const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen, this.verborgen = const {}});
 
   final PartySitzung sitzung;
 
   /// Baustein-Kennungen in Lesereihenfolge.
   final List<String> kennungen;
+
+  /// Kennungen, die der Bildschirm selbst zeigt (z. B. die Rückblende als
+  /// Erinnerung): sie bekommen hier keine Tafel, werden aber vorgelesen.
+  final Set<String> verborgen;
 
   @override
   State<ErzaehlerFeld> createState() => _ErzaehlerFeldState();
@@ -115,10 +119,11 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
       children: [
         _kopf(),
         const SizedBox(height: 16),
-        for (var i = 0; i < kennungen.length; i++) ...[
-          _tafel(i, kennungen[i]),
-          const SizedBox(height: 12),
-        ],
+        for (var i = 0; i < kennungen.length; i++)
+          if (!widget.verborgen.contains(kennungen[i])) ...[
+            _tafel(i, kennungen[i]),
+            const SizedBox(height: 12),
+          ],
       ],
     );
   }

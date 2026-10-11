@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../../app/router.dart';
+import '../../l10n/gen/app_localizations_de.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
@@ -11,9 +12,12 @@ import '../sitzung.dart';
 /// In der Auflösung steht je Baustein der Erzählertext, bei den Rollen mit Name
 /// am Tisch und Farbpunkt. Im Ende steht die Abschlusstafel mit dem Weg ins Hauptmenü.
 class AufloesungBildschirm extends StatelessWidget {
-  const AufloesungBildschirm({super.key, required this.sitzung});
+  const AufloesungBildschirm({super.key, required this.sitzung, this.onEnde});
 
   final PartySitzung sitzung;
+
+  /// Weg vom Ende: im Abend die Belohnung, sonst (alter Einstieg) die Detektei.
+  final VoidCallback? onEnde;
 
   PartySitzung get s => sitzung;
 
@@ -40,8 +44,14 @@ class AufloesungBildschirm extends StatelessWidget {
     return PartyRahmen(
       marke: s.ui('ui.aufloesung.ende_marke'),
       titel: ende.name,
-      // Der Abend ist zu Ende: zurück ins Hauptmenü, von dort beginnt ein neuer Abend.
-      aktionen: [PartyKnopf(text: s.ui('ui.aufloesung.hauptmenue'), haupt: false, icon: Icons.home_rounded, onPressed: () => context.go(Routes.start))],
+      // Der Abend ist zu Ende: in der Detektei beginnt ein neuer Abend; im Abend
+      // der Weg über die Belohnung (Karten, Erfahrung, Rang).
+      aktionen: [
+        if (onEnde == null)
+          PartyKnopf(text: s.ui('ui.aufloesung.hauptmenue'), haupt: false, icon: Icons.home_rounded, onPressed: () => context.go(Routes.start))
+        else
+          PartyKnopf(text: LDe().abend_belohnung_ansehen, icon: Icons.style_rounded, onPressed: onEnde),
+      ],
       child: PartyTafel(
         akzent: ende.richtig ? Keller.notlicht : Keller.gefahr,
         padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),

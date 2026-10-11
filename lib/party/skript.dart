@@ -180,6 +180,12 @@ class PartySkript {
         }
       case PartyPhase.finale:
         await _foto('finale');
+        if (!s.hatRueckblende) {
+          // Akte ohne Simulation: nur ein Text als Rückblende, kein Zeitraffer.
+          await _foto('rueckblende_text');
+          s.weiter();
+          return;
+        }
         final dauer = s.rueckblende.schritte.last.minus(s.rueckblende.schritte.first) / (dev.zeitraffer ?? 25);
         // Das erste Rückblendenfoto liegt im Stromausfall, kurz nach dem Knall, in jedem
         // Pfad zur selben Kanon-Uhrzeit (F6-SICHT-04 Nr. 3). Höchstens 20 s warten.

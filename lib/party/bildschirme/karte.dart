@@ -4,9 +4,12 @@ import 'package:mordakte_core/runden.dart';
 
 import '../../game/game_view.dart';
 import '../../game/szenen_erweiterung.dart';
+import '../../karten/widgets/karten_ansicht.dart';
+import '../../karten/widgets/karten_hand.dart';
 import '../karte_session.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'abstecher.dart';
 import 'npc_karte.dart';
 import 'solo_gespraeche.dart';
 import 'zug_tafel.dart';
@@ -28,6 +31,12 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   late final TileGrid _raster;
   bool _hinweisOffen = true;
   bool _gruendlich = false;
+
+  /// Eingesetzte Gründlich-Karte der Entscheidung, die gerade bestätigt wird.
+  String? _gruendlichKarte;
+
+  /// Abstecher, dessen Bestätigung gerade offen ist.
+  AbstecherOrt? _abstecher;
 
   PartySitzung get s => widget.sitzung;
 
@@ -96,7 +105,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           final fund = s.letzterFund;
           final vorschlag = s.vorschlag;
           final zug = s.zug;
-          final aktiveFrage = zug != null && !zug.istAuftakt ? s.spiel.ermittlung.entscheidung(zug.id) : e;
+          final aktiveFrage = zug != null && !zug.istAuftakt && !zug.istAbstecher ? s.spiel.ermittlung.entscheidung(zug.id) : e;
           return LayoutBuilder(builder: (context, box) => Stack(
             children: [
               Positioned.fill(child: GameView(session: _session, steuerung: !_session.eingabeGesperrt)),
@@ -121,6 +130,17 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 ),
               ),
               if (vorschlag != null) _abgedeckt(_bestaetigung(vorschlag)),
+              if (_abstecher != null && zug == null && vorschlag == null && fund == null) _abgedeckt(AbstecherBestaetigung(
+                key: ValueKey('abstecher-${_abstecher!.id}'),
+                sitzung: s,
+                ort: _abstecher!,
+                onAbbruch: () => setState(() => _abstecher = null),
+                onLos: (karte) {
+                  final ort = _abstecher!;
+                  setState(() => _abstecher = null);
+                  s.starteAbstecher(ort.id, karte: karte);
+                },
+              )),
               if (zug?.phase == RundenZugPhase.aktion) Positioned(
                 left: 12, right: 12, bottom: 12,
                 child: SafeArea(top: false, child: ValueListenableBuilder<double>(
@@ -137,6 +157,14 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 ],
                 FundKarte(sitzung: s, ziel: fund.ziel, funde: fund.funde, onGelesen: s.fundGelesen),
               ])),
+              if (zug?.istAbstecher == true && zug?.phase == RundenZugPhase.fund) _abgedeckt(Column(
+                mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  WurfErgebnis(sitzung: s, wurf: zug!.wurf!),
+                  const SizedBox(height: 12),
+                  AbstecherFundKarte(sitzung: s, ort: s.abstecherLaufend!, text: zug.nebenfund ?? '', onGelesen: s.fundGelesen),
+                ],
+              )),
               if (zug?.istAuftakt == true && zug?.phase == RundenZugPhase.fund) _abgedeckt(Column(
                 mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -145,7 +173,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                   PartyKnopf(text: s.ui('ui.zug.auftakt_weiter'), onPressed: s.fundGelesen),
                 ],
               )),
-              if (s.kannWeiter && e == null && fund == null && vorschlag == null) _abgedeckt(_fertig()),
+              if (s.kannWeiter && e == null && fund == null && vorschlag == null && _abstecher == null) _abgedeckt(_fertig()),
             ],
           ));
         },
@@ -161,7 +189,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
     };
     return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: Keller.breite), child: PartyTafel(
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Text(zug.istAuftakt ? s.ui('ui.zug.auftakt') : s.karte.ziele[zug.option]!.name, style: Keller.ueberschrift),
+        Text(zug.istAuftakt ? s.ui('ui.zug.auftakt') : zug.istAbstecher ? s.abstecherLaufend!.name : s.karte.ziele[zug.option]!.name, style: Keller.ueberschrift),
         const SizedBox(height: 6),
         Text(s.ui(beschreibung), style: Keller.leise),
         const SizedBox(height: 8),
@@ -224,10 +252,96 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               ),
             ],
           ),
+          if (s.hatKarten && s.zug == null) ...[
+            const SizedBox(height: 4),
+            Center(child: KartenHand(
+              vorrat: s.vorrat,
+              aktiv: {for (final k in s.vorrat.karten) if (_sofortSpielbar(k)) k.id},
+              kompakt: true,
+              onTipp: _karteDialog,
+            )),
+          ],
         ],
       ),
     );
   }
+
+  /// Sofortkarten (Zeit, Marke, Erinnerung), die jetzt gespielt werden dürfen.
+  bool _sofortSpielbar(KartenDef k) {
+    if (s.zug != null || s.vorschlag != null || s.letzterFund != null) return false;
+    try {
+      s.vorrat.pruefe(k.id, const {KartenArt.zeit, KartenArt.marke, KartenArt.erinnerung}, runde: s.runde);
+      return true;
+    } on KartenFehler {
+      return false;
+    }
+  }
+
+  /// Große Ansicht einer Handkarte mit „Spielen“. Eine Erinnerung öffnet danach
+  /// das Notizbuch mit den bereits öffentlichen Sprechblasen.
+  Future<void> _karteDialog(KartenDef k) => showDialog<void>(
+        context: context,
+        builder: (c) {
+          final spielbar = _sofortSpielbar(k);
+          final sofort = k.art == KartenArt.zeit || k.art == KartenArt.marke || k.art == KartenArt.erinnerung;
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: SingleChildScrollView(child: PartyTafel(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(child: KartenKarte(def: k, breite: 150)),
+                  const SizedBox(height: 12),
+                  Text(k.titel, style: Keller.ueberschrift, textAlign: TextAlign.center),
+                  const SizedBox(height: 4),
+                  Text(k.text, style: Keller.text, textAlign: TextAlign.center),
+                  const SizedBox(height: 8),
+                  Text(
+                    spielbar ? KartenTexte.handSpielbar : sofort ? KartenTexte.handGesperrt : KartenTexte.handImZug,
+                    style: Keller.leise, textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    alignment: WrapAlignment.end,
+                    spacing: 10,
+                    runSpacing: 8,
+                    children: [
+                      PartyKnopf(text: KartenTexte.handSchliessen, haupt: false, onPressed: () => Navigator.of(c).pop()),
+                      PartyKnopf(text: KartenTexte.handSpielen, onPressed: spielbar ? () {
+                        Navigator.of(c).pop();
+                        s.karteSpielen(k.id);
+                        if (k.art == KartenArt.erinnerung) _notizbuch();
+                      } : null),
+                    ],
+                  ),
+                ],
+              ),
+            )),
+          );
+        },
+      );
+
+  /// Einträge „Erkunden: Name“ der offenen Abstecher (leer, wenn keiner offen ist).
+  List<Widget> _erkunden({VoidCallback? vorher}) => [
+        if (s.abstecherOffen.isNotEmpty) ...[
+          Text(KartenTexte.erkundenListe.toUpperCase(), style: Keller.marke),
+          const SizedBox(height: 8),
+          for (final a in s.abstecherOffen)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: PartyKnopf(
+                text: KartenTexte.erkunden(a.name),
+                haupt: false,
+                icon: Icons.explore_rounded,
+                onPressed: () {
+                  vorher?.call();
+                  setState(() => _abstecher = a);
+                },
+              ),
+            ),
+        ],
+      ];
 
   /// Kleine Knöpfe im Kopf: mit Rahmen, damit sie als Knöpfe erkennbar sind (B7).
   static final _kleinerKnopf = OutlinedButton.styleFrom(
@@ -270,18 +384,40 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
             title: Text(s.ui('ui.zug.gruendlich'), style: Keller.leise),
-            onChanged: (wert) => setState(() => _gruendlich = wert ?? false),
+            onChanged: (wert) => setState(() {
+              _gruendlich = wert ?? false;
+              if (!_gruendlich) _gruendlichKarte = null;
+            }),
           )),
+          if (s.hatKarten && istSuche(s.spiel.ermittlung.entscheidung(z.entscheidung))) ...[
+            const SizedBox(height: 8),
+            Center(child: KartenHand(
+              vorrat: s.vorrat,
+              aktiv: kartenDerArt(s.vorrat, const {KartenArt.gruendlich}),
+              gewaehlt: {?_gruendlichKarte},
+              hinweis: kartenDerArt(s.vorrat, const {KartenArt.gruendlich}).isEmpty ? null : KartenTexte.handGruendlich,
+              onTipp: (k) {
+                if (k.art != KartenArt.gruendlich || !s.vorrat.verfuegbar(k.id)) return;
+                setState(() {
+                  _gruendlichKarte = _gruendlichKarte == k.id ? null : k.id;
+                  _gruendlich = _gruendlichKarte != null;
+                });
+              },
+            )),
+          ],
           const SizedBox(height: 16),
           Wrap(
             alignment: WrapAlignment.end,
             spacing: 10,
             runSpacing: 8,
             children: [
-              PartyKnopf(text: s.ui('ui.karte.nein'), haupt: false, onPressed: () { _gruendlich = false; s.verwerfen(); }),
+              PartyKnopf(text: s.ui('ui.karte.nein'), haupt: false, onPressed: () { _gruendlich = false; _gruendlichKarte = null; s.verwerfen(); }),
               PartyKnopf(text: s.ui('ui.karte.ja'), onPressed: () {
-                s.bestaetigen(gruendlich: _gruendlich && istSuche(s.spiel.ermittlung.entscheidung(z.entscheidung)));
+                final gruendlich = _gruendlich && istSuche(s.spiel.ermittlung.entscheidung(z.entscheidung));
+                final karte = gruendlich ? _gruendlichKarte : null;
                 _gruendlich = false;
+                _gruendlichKarte = null;
+                s.bestaetigen(gruendlich: gruendlich, karte: karte);
               }),
             ],
           ),
@@ -297,6 +433,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           children: [
             Text(s.ui('ui.karte.fertig'), style: Keller.ueberschrift),
             const SizedBox(height: 16),
+            ..._erkunden(),
             Align(alignment: Alignment.centerRight, child: PartyKnopf(text: s.ui('ui.karte.zur_gruppenwahl'), onPressed: s.weiter)),
           ],
         ),
@@ -327,6 +464,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                       },
                     ),
                   ),
+                ..._erkunden(vorher: () => Navigator.of(c).pop()),
               ],
             ),
           )),

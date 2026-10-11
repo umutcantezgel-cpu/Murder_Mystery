@@ -57,6 +57,21 @@ abstract interface class GefuehrteSzene {
   void szenenSchritt(double sekunden);
 }
 
+/// Optional: freiwillige, glitzernde Markierungen in der Szene (offene
+/// Abstecher). Sie sind keine Hotspots der Entscheidung: nur ein Funkeln, das
+/// den Ort zeigt; gewählt wird über die Aktionsliste des Bildschirms.
+abstract interface class SzenenGlanz {
+  /// Aktuelle Markierungen in Kachelkoordinaten (leer, wenn nichts offen ist).
+  List<SzenenGlanzPunkt> get glanzpunkte;
+}
+
+/// Ein Funkeln an einem Ort ([x], [y] in Kachelkoordinaten).
+class SzenenGlanzPunkt {
+  final String id;
+  final double x, y;
+  const SzenenGlanzPunkt(this.id, this.x, this.y);
+}
+
 enum SzenenPose { gehen, suchen, befragen }
 
 /// Ein Lichtpunkt der Szene in Kachelkoordinaten.

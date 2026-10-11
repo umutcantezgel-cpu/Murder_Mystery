@@ -3,12 +3,14 @@ import 'package:go_router/go_router.dart';
 
 import '../abend/abend_halter.dart';
 import '../abend/abend_seite.dart';
+import '../abend/belohnung_seite.dart';
 import '../abend/einrichtung/abend_neu_seite.dart';
 import '../detektei/akte_seite.dart';
 import '../detektei/detektei_seite.dart';
 import '../detektei/druckmappe_seite.dart';
 import '../detektei/sammlung_seite.dart';
 import '../krimidinner/gewoelbe_seite.dart';
+import '../karten/deck_seite.dart';
 import '../party/party_seite.dart';
 import '../party/skript.dart';
 import '../stil/tokens.dart';
@@ -52,7 +54,13 @@ abstract final class Routes {
 
   /// Der laufende Abend (Schlosskeller-Runden).
   static const abend = '/abend';
+
+  /// Belohnung nach dem Abend: Karten, Erfahrung, Rang (nur nach einem beendeten Abend).
+  static const abendBelohnung = '/abend/belohnung';
   static const sammlung = '/sammlung';
+
+  /// Deck-Bau der Sammlung (drei Plätze).
+  static const sammlungDeck = '/sammlung/deck';
   static const profile = '/profile';
 
   // Entwickler- und Altrouten.
@@ -94,6 +102,8 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
     if ((loc == Routes.lobby || loc == Routes.game) && app.session == null) return Routes.start;
     // Ohne laufenden Abend gibt es keine Abendseite (z. B. nach dem Neuladen).
     if (loc == Routes.abend && abend != null && !abend.laeuft) return Routes.start;
+    // Die Belohnung gibt es nur direkt nach einem beendeten Abend.
+    if (loc == Routes.abendBelohnung && abend != null && abend.abschluss == null) return Routes.start;
     return null;
   },
   routes: [
@@ -105,7 +115,9 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
       pageBuilder: (c, s) => _fade(c, s, AbendNeuSeite(akteId: s.uri.queryParameters['akte'])),
     ),
     GoRoute(path: Routes.abend, pageBuilder: (c, s) => _fade(c, s, const AbendSeite())),
+    GoRoute(path: Routes.abendBelohnung, pageBuilder: (c, s) => _fade(c, s, const BelohnungSeite())),
     GoRoute(path: Routes.sammlung, pageBuilder: (c, s) => _fade(c, s, const SammlungSeite())),
+    GoRoute(path: Routes.sammlungDeck, pageBuilder: (c, s) => _fade(c, s, const DeckSeite())),
     GoRoute(path: Routes.profile, pageBuilder: (c, s) => _fade(c, s, const ProfileScreen())),
     // Entwickler- und Altrouten (nicht im Menü).
     GoRoute(path: Routes.klassik, pageBuilder: (c, s) => _fade(c, s, const HubScreen())),

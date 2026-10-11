@@ -27,15 +27,24 @@ class FinaleBildschirm extends StatelessWidget {
             const SizedBox(height: 8),
             // Fester Kasten: mindestens 260 px, sonst 45 % der Höhe; so beginnt der
             // Finaltext noch über der Fußleiste (B7).
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: SizedBox(
-                height: math.max(260.0, MediaQuery.sizeOf(context).height * 0.45),
-                child: RueckblendeAnsicht(sitzung: sitzung),
-              ),
-            ),
+            if (sitzung.hatRueckblende)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: SizedBox(
+                  height: math.max(260.0, MediaQuery.sizeOf(context).height * 0.45),
+                  child: RueckblendeAnsicht(sitzung: sitzung),
+                ),
+              )
+            else
+              // Akte ohne Simulation: die Rückblende wird erzählt, nicht gezeigt.
+              RueckblendeText(sitzung: sitzung),
             const SizedBox(height: 20),
-            ErzaehlerFeld(sitzung: sitzung, kennungen: sitzung.erzaehler),
+            ErzaehlerFeld(
+              sitzung: sitzung,
+              kennungen: sitzung.erzaehler,
+              // Der Text der Rückblende steht oben schon; die Stimme liest ihn trotzdem vor.
+              verborgen: {if (!sitzung.hatRueckblende) 'rueckblende.${sitzung.pfad}'},
+            ),
           ],
         ),
       );

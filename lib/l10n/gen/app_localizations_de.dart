@@ -2035,7 +2035,7 @@ class LDe extends L {
 
   @override
   String get karten_sammlung_text =>
-      'Hier sammelst du bald die Karten der Figuren, denen du in den Akten begegnest.';
+      'Die Karten der Figuren und Detektivklassen. Tippe eine Karte an, um sie groß zu sehen.';
 
   @override
   String get karten_seltenheit_zinn => 'Zinn';
@@ -2053,4 +2053,356 @@ class LDe extends L {
   String profil_chip_semantik(String name, String rang, int xp) {
     return 'Profil von $name, $rang, $xp Erfahrungspunkte';
   }
+
+  @override
+  String karten_sammlung_fortschritt(int x, int y) {
+    return '$x von $y Karten';
+  }
+
+  @override
+  String karten_figur_fortschritt(int x, int y) {
+    return '$x von $y';
+  }
+
+  @override
+  String get karten_tab_klassen => 'Detektivklassen';
+
+  @override
+  String get karten_sammlung_leer =>
+      'Für diese Akte gibt es noch keine Karten.';
+
+  @override
+  String get karten_laedt => 'Die Karten werden geladen …';
+
+  @override
+  String get karten_fehler => 'Die Karten konnten nicht geladen werden.';
+
+  @override
+  String get karten_unbekannt => 'Unbekannte Karte';
+
+  @override
+  String karten_unbekannt_semantik(String figur) {
+    return '$figur: noch nicht gefunden';
+  }
+
+  @override
+  String get karten_noch_nicht => 'Noch nicht gefunden';
+
+  @override
+  String get karten_neu => 'NEU';
+
+  @override
+  String karten_anzahl(int n) {
+    return '$n×';
+  }
+
+  @override
+  String karten_besitz(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Du besitzt $n Exemplare.',
+      one: 'Du besitzt 1 Exemplar.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String karten_ladungen(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Ladungen',
+      one: '1 Ladung',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get karten_seltenheit_gewoehnlich => 'Gewöhnlich';
+
+  @override
+  String get karten_seltenheit_selten => 'Selten';
+
+  @override
+  String get karten_seltenheit_legendaer => 'Legendär';
+
+  @override
+  String get karten_art_werkzeug => 'Werkzeug';
+
+  @override
+  String get karten_art_marke => 'Marke';
+
+  @override
+  String get karten_art_zeit => 'Zeit';
+
+  @override
+  String get karten_art_gruendlich => 'Gründlich';
+
+  @override
+  String get karten_art_nochmal => 'Nochmal';
+
+  @override
+  String get karten_art_umweg => 'Umweg';
+
+  @override
+  String get karten_art_abstecher => 'Abstecher';
+
+  @override
+  String get karten_art_erinnerung => 'Erinnerung';
+
+  @override
+  String get karten_art_kosmetik => 'Aussehen';
+
+  @override
+  String get karten_quelle_titel => 'So bekommst du sie';
+
+  @override
+  String get karten_quelle_rolle =>
+      'Spiele diese Rolle oder Klasse an einem Abend zu Ende.';
+
+  @override
+  String get karten_quelle_taeter =>
+      'Überführe diese Figur mit einer richtigen Anklage.';
+
+  @override
+  String get karten_quelle_meister => 'Erreiche das Meister-Ende der Akte.';
+
+  @override
+  String get karten_quelle_abstecher =>
+      'Erkunde einen Ort der Akte erfolgreich.';
+
+  @override
+  String get karten_quelle_start => 'Gehört zum Startset.';
+
+  @override
+  String get karten_deck_bearbeiten => 'Deck bearbeiten';
+
+  @override
+  String get karten_deck_titel => 'Dein Deck';
+
+  @override
+  String get karten_deck_text =>
+      'Höchstens drei Karten, je Art eine. Am Abend liegen sie als gemeinsame Hilfe auf dem Tisch. Eine Karte gleicher Art ersetzt die bisherige.';
+
+  @override
+  String karten_deck_platz(int n) {
+    return 'Platz $n';
+  }
+
+  @override
+  String get karten_deck_leer => 'Leer';
+
+  @override
+  String karten_deck_ladungen(int x, int y) {
+    return 'Ladungen $x von $y';
+  }
+
+  @override
+  String get karten_deck_voll =>
+      'Das Deck ist voll. Nimm zuerst eine Karte heraus.';
+
+  @override
+  String get karten_deck_zuviel => 'Zu viele Ladungen für das Deck.';
+
+  @override
+  String get karten_deck_deine => 'Deine spielbaren Karten';
+
+  @override
+  String get karten_deck_keine =>
+      'Du hast noch keine spielbare Karte. Spiele Abende, um Karten zu finden.';
+
+  @override
+  String karten_deck_einsetzen(String titel) {
+    return '$titel ins Deck legen';
+  }
+
+  @override
+  String karten_deck_entfernen(String titel) {
+    return '$titel aus dem Deck nehmen';
+  }
+
+  @override
+  String get karten_deck_drin => 'Im Deck';
+
+  @override
+  String get karten_deck_fertig => 'Fertig';
+
+  @override
+  String get karten_deck_abend_titel => 'Deck für diesen Abend';
+
+  @override
+  String get karten_deck_abend_leer =>
+      'Kein Deck gelegt. Der Abend läuft auch ohne Karten.';
+
+  @override
+  String get karten_deck_aendern => 'Deck ändern';
+
+  @override
+  String karten_detektei_neueste(String titel) {
+    return 'Neueste Karte: $titel';
+  }
+
+  @override
+  String get karten_hand_titel => 'Deine Karten';
+
+  @override
+  String karten_hand_karte(String titel, int rest, int max) {
+    return '$titel, noch $rest von $max Ladungen';
+  }
+
+  @override
+  String get karten_hand_spielbar => 'Jetzt spielbar';
+
+  @override
+  String get karten_hand_gesperrt => 'Jetzt nicht spielbar';
+
+  @override
+  String get karten_hand_gewaehlt => 'Eingesetzt';
+
+  @override
+  String get karten_hand_leer => 'Aufgebraucht';
+
+  @override
+  String get karten_hand_spielen => 'Spielen';
+
+  @override
+  String get karten_hand_schliessen => 'Schließen';
+
+  @override
+  String get karten_hand_wuerfel =>
+      'Tippe die Werkzeug-Karte: +1 auf diesen Wurf.';
+
+  @override
+  String get karten_hand_tischruf =>
+      'Tippe die passende Karte: Nochmal oder Umweg ohne Nachtminuten.';
+
+  @override
+  String get karten_hand_gruendlich =>
+      'Tippe die Gründlich-Karte: gründlich ohne Nachtminuten.';
+
+  @override
+  String get karten_hand_karte_hinweis =>
+      'Zeit-, Marken- und Erinnerungskarten spielst du zwischen den Zügen.';
+
+  @override
+  String get karten_hand_im_zug =>
+      'Diese Karte wirkt im passenden Moment eines Zuges: beim Würfeln, nach Pech oder bei der Wahl.';
+
+  @override
+  String karten_erkunden(String name) {
+    return 'Erkunden: $name';
+  }
+
+  @override
+  String get karten_erkunden_marke => 'Abstecher';
+
+  @override
+  String get karten_erkunden_text =>
+      'Freiwillig: ein kurzer Blick in eine Ecke. Das bringt Stimmung und vielleicht eine Karte, aber nie einen Hinweis zum Fall.';
+
+  @override
+  String karten_erkunden_kosten(int min, int pech) {
+    return 'Kostet $min Nachtminuten. Bei Pech kommen $pech dazu.';
+  }
+
+  @override
+  String get karten_erkunden_los => 'Erkunden';
+
+  @override
+  String get karten_erkunden_nein => 'Nicht jetzt';
+
+  @override
+  String karten_erkunden_karte(String titel) {
+    return 'Abstecher-Karte einsetzen: $titel (ohne Nachtminuten)';
+  }
+
+  @override
+  String get karten_erkunden_wuerfel =>
+      'Pech zeigt hier nur ein Missgeschick. Einen Tischruf gibt es nicht.';
+
+  @override
+  String get karten_erkunden_fund => 'Nebenfund';
+
+  @override
+  String get karten_erkunden_liste => 'Freiwillig erkunden';
+
+  @override
+  String karten_gruendlich_karte(String titel) {
+    return 'Gründlich-Karte einsetzen: $titel (ohne Nachtminuten)';
+  }
+
+  @override
+  String get abend_belohnung_marke => 'Belohnung';
+
+  @override
+  String get abend_belohnung_titel => 'Abend abgeschlossen';
+
+  @override
+  String get abend_belohnung_karten => 'Neue Karten';
+
+  @override
+  String get abend_belohnung_tipp => 'Tippe eine Karte, um sie umzudrehen.';
+
+  @override
+  String get abend_belohnung_alle => 'Alle umdrehen';
+
+  @override
+  String get abend_belohnung_keine => 'Diesmal gibt es keine Karte.';
+
+  @override
+  String get abend_belohnung_doppelt => 'Doppelt';
+
+  @override
+  String abend_belohnung_verdeckt(int nr, int gesamt) {
+    return 'Karte $nr von $gesamt, verdeckt. Tippen zum Umdrehen.';
+  }
+
+  @override
+  String abend_belohnung_xp(int xp) {
+    return '+$xp Erfahrungspunkte';
+  }
+
+  @override
+  String get abend_belohnung_xp_titel => 'Erfahrung';
+
+  @override
+  String abend_belohnung_rang_stempel(String rang) {
+    return 'BEFÖRDERT: $rang';
+  }
+
+  @override
+  String abend_belohnung_rang_semantik(String rang) {
+    return 'Neuer Rang: $rang';
+  }
+
+  @override
+  String get abend_belohnung_bereits => 'Dieser Abend ist schon verbucht.';
+
+  @override
+  String get abend_belohnung_laedt => 'Die Belohnung wird gezählt …';
+
+  @override
+  String get abend_belohnung_fehler =>
+      'Die Belohnung konnte nicht verbucht werden.';
+
+  @override
+  String get abend_belohnung_detektei => 'Zur Detektei';
+
+  @override
+  String karten_erkunden_erfolg_folge(int min) {
+    return 'Ein Fund für die Sammlung. Du gewinnst $min Nachtminuten.';
+  }
+
+  @override
+  String get karten_erkunden_teilerfolg_folge =>
+      'Ein kleiner Fund für die Sammlung. Die Nachtzeit bleibt, wie sie ist.';
+
+  @override
+  String karten_erkunden_pech_folge(int min) {
+    return 'Nur ein Missgeschick. Das kostet $min Nachtminuten, dafür gibt es eine Marke.';
+  }
+
+  @override
+  String get abend_belohnung_ansehen => 'Belohnung ansehen';
 }

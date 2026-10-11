@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart' show AbendErgebnis, KartenKatalog, TischVorrat, belohnungFuer, xpFuer;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'progression.dart';
@@ -62,6 +63,67 @@ class GameResult {
   bool get rankUp => rankAfter > rankBefore;
 }
 
+/// Besitz einer Sammelkarte: Anzahl der Exemplare und ob sie noch ungesehen ist.
+class KartenBesitz {
+  const KartenBesitz(this.n, {this.neu = false});
+
+  final int n;
+
+  /// Frisch erhalten und noch nicht in der Sammlung angesehen („NEU“).
+  final bool neu;
+
+  KartenBesitz copyWith({int? n, bool? neu}) => KartenBesitz(n ?? this.n, neu: neu ?? this.neu);
+}
+
+/// Stand einer Akte bei den Abenden dieses Geräts.
+class AkteStand {
+  const AkteStand({this.gespielt = 0, this.enden = const [], this.bestPunkte = 0});
+
+  final int gespielt;
+
+  /// Erreichte Enden (Kennungen, jede einmal).
+  final List<String> enden;
+  final int bestPunkte;
+
+  AkteStand copyWith({int? gespielt, List<String>? enden, int? bestPunkte}) =>
+      AkteStand(gespielt: gespielt ?? this.gespielt, enden: enden ?? this.enden, bestPunkte: bestPunkte ?? this.bestPunkte);
+}
+
+/// Was ein Abend dem Gerät bringt: Karten, Erfahrungspunkte, Rang.
+class AbendBelohnung {
+  const AbendBelohnung({
+    required this.karten,
+    required this.neu,
+    required this.xp,
+    this.xpVorher = 0,
+    this.rangVorher = 0,
+    this.rangNachher = 0,
+    this.schonVerbucht = false,
+  });
+
+  /// Leere Belohnung (z. B. für einen schon verbuchten Abend ohne Zwischenspeicher).
+  const AbendBelohnung.leer({this.xpVorher = 0, this.rangVorher = 0, this.rangNachher = 0, this.schonVerbucht = true})
+      : karten = const [],
+        neu = const [],
+        xp = 0;
+
+  /// Alle erhaltenen Karten in Reihenfolge (auch Doppelte).
+  final List<String> karten;
+
+  /// Davon erstmals im Besitz.
+  final List<String> neu;
+  final int xp;
+  final int xpVorher;
+  final int rangVorher;
+  final int rangNachher;
+
+  /// Der Abend war schon gebucht; es wurde nichts doppelt gutgeschrieben.
+  final bool schonVerbucht;
+
+  int get xpNachher => xpVorher + xp;
+  bool get rangAufstieg => rangNachher > rangVorher;
+}
+
 /// Was die App während eines Spiels mitzählt (falls die Engine keine Statistik liefert).
 class GameTally {
   int combos = 0;
@@ -107,6 +169,17 @@ class MetaStore extends ChangeNotifier {
   bool _loadoutChosen = false;
   String? _serverUrl;
 
+  // Sammelkarten (v2): Besitz, Deck, Stand je Akte, zuletzt gebuchte Abende.
+  final Map<String, KartenBesitz> _besitz = {};
+  final List<String> _deck = [];
+  final Map<String, AkteStand> _akten = {};
+  final List<String> _abende = [];
+  final Map<String, AbendBelohnung> _belohnungen = {};
+  bool _kartenAngelegt = false;
+
+  /// Wie viele gebuchte Abende sich das Gerät für die Doppelbuchungssperre merkt.
+  static const abendeMerken = 50;
+
   // --- Lesen -----------------------------------------------------------------
 
   String? get name => _name;
@@ -127,6 +200,31 @@ class MetaStore extends ChangeNotifier {
   bool scenarioSolved(String scenarioId) => _solvedScenarios.contains(scenarioId);
   bool dailyDone(DateTime now) => _dailyDone == dayKey(now);
   int stat(String key) => _stats[key] ?? 0;
+
+  // --- Sammelkarten -----------------------------------------------------------
+
+  /// Besitz je Karten-Kennung (Reihenfolge: zuerst erhaltene Karte zuerst).
+  Map<String, KartenBesitz> get besitz => Map.unmodifiable(_besitz);
+  bool besitztKarte(String id) => _besitz.containsKey(id);
+  int kartenAnzahl(String id) => _besitz[id]?.n ?? 0;
+
+  /// Karten, die noch nicht in der Sammlung angesehen wurden.
+  Set<String> get neueKarten => {for (final e in _besitz.entries) if (e.value.neu) e.key};
+
+  /// Zuletzt erstmals erhaltene Karte (für die Detektei) oder null.
+  String? get neuesteKarte => _besitz.isEmpty ? null : _besitz.keys.last;
+
+  /// Das Deck für Abende: höchstens drei Karten-Kennungen in Reihenfolge.
+  List<String> get deck => List.unmodifiable(_deck);
+
+  /// Stand je Akte-Kennung.
+  Map<String, AkteStand> get akten => Map.unmodifiable(_akten);
+
+  /// Die zuletzt gebuchten Abend-Kennungen (älteste zuerst).
+  List<String> get gebuchteAbende => List.unmodifiable(_abende);
+
+  /// Wurde das Kartenkonto schon angelegt (Startset vergeben)?
+  bool get kartenBereit => _kartenAngelegt;
 
   bool classUnlocked(String cls) => rank >= classUnlockRank(cls);
   bool hatUnlocked(String hat) => rank >= hatRank(hat);
@@ -165,6 +263,134 @@ class MetaStore extends ChangeNotifier {
     _xp = xp;
     _write();
     notifyListeners();
+  }
+
+
+  // --- Sammelkarten schreiben ----------------------------------------------------
+
+  /// Legt das Kartenkonto an, falls es fehlt: Das Startset (alle Karten mit der
+  /// Quelle `start`) gehört einmalig dazu, und die ersten passenden davon liegen
+  /// im Deck. Ein vorhandenes Konto bleibt unverändert; der Aufruf ist idempotent.
+  void initKarten(KartenKatalog katalog) {
+    if (_kartenAngelegt) return;
+    final start = [for (final k in katalog.alle) if (k.hatQuelle('start')) k];
+    for (final k in start) {
+      _besitz[k.id] = const KartenBesitz(1);
+    }
+    _deck
+      ..clear()
+      ..addAll([for (final k in TischVorrat.aus([for (final k in start) k.id], katalog).karten) k.id]);
+    _kartenAngelegt = true;
+    _schreibeKarten();
+    _schreibeAbende();
+    notifyListeners();
+  }
+
+  /// Legt das Deck fest. Unbekannte (nicht besessene) und doppelte Karten fallen
+  /// weg, mehr als drei werden abgeschnitten. Mit [katalog] gilt zusätzlich die
+  /// Regel des Tischvorrats (je Art eine Karte, höchstens vier Ladungen).
+  void setzeDeck(List<String> ids, {KartenKatalog? katalog}) {
+    if (!_kartenAngelegt) return;
+    var gewollt = <String>[];
+    for (final id in ids) {
+      if (_besitz.containsKey(id) && !gewollt.contains(id)) gewollt.add(id);
+    }
+    if (katalog != null) {
+      gewollt = [for (final k in TischVorrat.aus(gewollt, katalog).karten) k.id];
+    } else if (gewollt.length > TischVorrat.maxKarten) {
+      gewollt = gewollt.sublist(0, TischVorrat.maxKarten);
+    }
+    _deck
+      ..clear()
+      ..addAll(gewollt);
+    _schreibeKarten();
+    notifyListeners();
+  }
+
+  /// Nimmt die „NEU“-Marke von Karten, die der Spieler angesehen hat.
+  void markiereGesehen(Iterable<String> ids) {
+    var geaendert = false;
+    for (final id in ids) {
+      final b = _besitz[id];
+      if (b != null && b.neu) {
+        _besitz[id] = b.copyWith(neu: false);
+        geaendert = true;
+      }
+    }
+    if (!geaendert) return;
+    _schreibeKarten();
+    notifyListeners();
+  }
+
+  /// Verbucht einen beendeten Abend genau einmal (Schlüssel: [abendId]): Karten
+  /// nach [belohnungFuer], Erfahrungspunkte nach [xpFuer] zum bestehenden
+  /// Fortschritt, Stand der Akte. Ein zweiter Aufruf mit derselben Kennung
+  /// schreibt nichts gut und liefert die zuerst berechnete Belohnung (oder, nach
+  /// einem Neustart, eine leere mit [AbendBelohnung.schonVerbucht]).
+  AbendBelohnung verbucheAbend({
+    required String abendId,
+    required AbendErgebnis ergebnis,
+    required KartenKatalog katalog,
+    int punkte = 0,
+  }) {
+    if (_abende.contains(abendId)) {
+      final alt = _belohnungen[abendId];
+      if (alt != null) {
+        return AbendBelohnung(
+          karten: alt.karten,
+          neu: alt.neu,
+          xp: alt.xp,
+          xpVorher: alt.xpVorher,
+          rangVorher: alt.rangVorher,
+          rangNachher: alt.rangNachher,
+          schonVerbucht: true,
+        );
+      }
+      return AbendBelohnung.leer(xpVorher: _xp, rangVorher: rank, rangNachher: rank);
+    }
+    initKarten(katalog);
+    final rangVorher = rank;
+    final xpVorher = _xp;
+    final karten = belohnungFuer(ergebnis, katalog, {..._besitz.keys});
+    final neu = <String>[];
+    for (final id in karten) {
+      final b = _besitz[id];
+      if (b == null) {
+        _besitz[id] = const KartenBesitz(1, neu: true);
+        neu.add(id);
+      } else {
+        _besitz[id] = b.copyWith(n: b.n + 1);
+      }
+    }
+    final xp = xpFuer(ergebnis.ende);
+    _xp += xp;
+
+    final alt = _akten[ergebnis.akte] ?? const AkteStand();
+    _akten[ergebnis.akte] = AkteStand(
+      gespielt: alt.gespielt + 1,
+      enden: alt.enden.contains(ergebnis.ende) ? alt.enden : [...alt.enden, ergebnis.ende],
+      bestPunkte: punkte > alt.bestPunkte ? punkte : alt.bestPunkte,
+    );
+    _abende.add(abendId);
+    while (_abende.length > abendeMerken) {
+      final weg = _abende.removeAt(0);
+      _belohnungen.remove(weg);
+    }
+    final b = AbendBelohnung(
+      karten: List.unmodifiable(karten),
+      neu: List.unmodifiable(neu),
+      xp: xp,
+      xpVorher: xpVorher,
+      rangVorher: rangVorher,
+      rangNachher: rank,
+    );
+    _belohnungen[abendId] = b;
+    _write();
+    _schreibeKarten();
+    _schreibeAkten();
+    _schreibeAbende();
+    notifyListeners();
+    return b;
   }
 
   /// Verbucht ein beendetes Spiel genau einmal.
@@ -283,6 +509,7 @@ class MetaStore extends ChangeNotifier {
   }
 
   void _read() {
+    _leseKarten();
     try {
       final n = _get('name');
       _name = (n == null || n.isEmpty) ? null : n;
@@ -312,6 +539,74 @@ class MetaStore extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Meta: Fortschritt nicht lesbar ($e)');
+    }
+  }
+
+  void _schreibeKarten() => _put(
+        'karten',
+        jsonEncode({
+          'v': 1,
+          'besitz': {for (final e in _besitz.entries) e.key: {'n': e.value.n, 'neu': e.value.neu}},
+          'deck': _deck,
+        }),
+      );
+
+  void _schreibeAkten() => _put(
+        'akten',
+        jsonEncode({
+          for (final e in _akten.entries)
+            e.key: {'gespielt': e.value.gespielt, 'enden': e.value.enden, 'bestPunkte': e.value.bestPunkte},
+        }),
+      );
+
+  void _schreibeAbende() => _put('abende', jsonEncode(_abende));
+
+  /// Liest Karten, Akten und Abende. Fehlt `mordakte.karten`, bleibt das Konto
+  /// unangelegt, bis [initKarten] das Startset vergibt.
+  void _leseKarten() {
+    try {
+      final raw = _get('karten');
+      if (raw != null && raw.isNotEmpty) {
+        final j = jsonDecode(raw) as Map<String, dynamic>;
+        for (final e in (j['besitz'] as Map? ?? const {}).entries) {
+          final v = e.value as Map;
+          final n = (v['n'] as num? ?? 1).toInt();
+          if (n > 0) _besitz[e.key as String] = KartenBesitz(n, neu: v['neu'] == true);
+        }
+        for (final id in (j['deck'] as List? ?? const []).cast<String>()) {
+          if (_besitz.containsKey(id) && !_deck.contains(id) && _deck.length < TischVorrat.maxKarten) _deck.add(id);
+        }
+        _kartenAngelegt = true;
+      }
+    } catch (e) {
+      debugPrint('Meta: Karten nicht lesbar ($e)');
+    }
+    try {
+      final raw = _get('akten');
+      if (raw != null && raw.isNotEmpty) {
+        final j = jsonDecode(raw) as Map<String, dynamic>;
+        for (final e in j.entries) {
+          final v = e.value as Map;
+          _akten[e.key] = AkteStand(
+            gespielt: (v['gespielt'] as num? ?? 0).toInt(),
+            enden: (v['enden'] as List? ?? const []).cast<String>(),
+            bestPunkte: (v['bestPunkte'] as num? ?? 0).toInt(),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Meta: Akten nicht lesbar ($e)');
+    }
+    try {
+      final raw = _get('abende');
+      if (raw != null && raw.isNotEmpty) {
+        _abende.addAll((jsonDecode(raw) as List).cast<String>());
+        while (_abende.length > abendeMerken) {
+          _abende.removeAt(0);
+        }
+      }
+    } catch (e) {
+      debugPrint('Meta: Abende nicht lesbar ($e)');
     }
   }
 
