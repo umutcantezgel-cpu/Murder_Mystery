@@ -2035,6 +2035,40 @@ class LDe extends L {
   String get abend_start => 'Abend beginnen';
 
   @override
+  String get abend_klasse_titel => 'Deine Ermittlerklasse';
+
+  @override
+  String get abend_klasse_hinweis =>
+      'Dein Abend bringt dir immer eine Sammelkarte deiner Klasse.';
+
+  @override
+  String abend_klasse_gesperrt(String klasse, String rang) {
+    return '$klasse, gesperrt, $rang';
+  }
+
+  @override
+  String get abend_feste_loesung_titel => 'Feste Lösung';
+
+  @override
+  String get abend_feste_loesung_hinweis =>
+      'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung.';
+
+  @override
+  String get abend_feste_loesung_solo =>
+      'Diese Akte hat eine feste Lösung. Wer sie schon kennt, wählt besser eine andere Akte.';
+
+  @override
+  String get abend_feste_loesung_online =>
+      'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.';
+
+  @override
+  String get profil_klasse_hinweis =>
+      'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.';
+
+  @override
+  String get profil_klasse_gewaehlt => 'Gewählt';
+
+  @override
   String get karten_sammlung_titel => 'Sammlung';
 
   @override

@@ -14,6 +14,8 @@ import '../../meta/meta_store.dart';
 import '../../netz/relay_einstellung.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
+import '../einrichtung/abschnitte.dart' show FesteLoesungHinweis;
+import '../einrichtung/klasse_zeile.dart';
 import 'ansicht.dart';
 import 'gastgeber_dienst.dart';
 import 'gastgeber_sitzung.dart';
@@ -232,6 +234,10 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
           gaeste: d.gaeste.length,
           onAendern: (n) => setState(() => _rollen = n),
         ),
+        const SizedBox(height: MMass.s16),
+        // Eine Akte mit fester Lösung kennt keinen Fall-Code; eine Druckfassung gibt es online nie.
+        if (d.daten.kanon.festeLoesung) const FesteLoesungHinweis(online: true),
+        const KlasseZeile(),
         const SizedBox(height: MMass.s16),
         DeckZeile(katalog: d.katalog, onAendern: () => context.push(Routes.sammlungDeck)),
       ],
