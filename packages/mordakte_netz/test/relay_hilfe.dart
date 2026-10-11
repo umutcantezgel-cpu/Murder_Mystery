@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:mordakte_core/mordakte_core.dart' show FallCode, Kanon, Rng, Texte, Textsammlung;
-import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, SchlosskellerRaum;
+import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, ProtokollRaum, SchlosskellerRaum;
 import 'package:mordakte_netz/io.dart';
 import 'package:mordakte_netz/mordakte_netz.dart';
 import 'package:test/test.dart';
@@ -65,10 +65,49 @@ String _partyDir() {
   throw StateError('content/party/schlosskeller nicht gefunden');
 }
 
+/// Raum mit kleinerer Platzgrenze (Test „voll“). Alles andere geht an den
+/// Schlosskeller-Raum, dessen Platzgrenze (25) hier nicht greift.
+class BegrenzterRaum implements AbendRaum {
+  BegrenzterRaum(this.innen, this.maxSpieler);
+
+  final AbendRaum innen;
+
+  @override
+  final int maxSpieler;
+
+  @override
+  String get raumCode => innen.raumCode;
+  @override
+  int get version => innen.version;
+  @override
+  bool get vorStart => innen.vorStart;
+  @override
+  bool get beendet => innen.beendet;
+  @override
+  List<String> get spielerIds => innen.spielerIds;
+
+  @override
+  bool beitreten(String id, String name) {
+    if (!spielerIds.contains(id) && spielerIds.length >= maxSpieler) return false;
+    return innen.beitreten(id, name);
+  }
+
+  @override
+  void verlassen(String id) => innen.verlassen(id);
+  @override
+  void verbunden(String id, bool ja) => innen.verbunden(id, ja);
+  @override
+  void nachricht(String id, Map<String, Object?> inhalt) => innen.nachricht(id, inhalt);
+  @override
+  Map<String, Object?> zustandFuer(String id) => innen.zustandFuer(id);
+}
+
 class Abend {
   Abend._(this.attrappe, this.relay, this.kanon, this.texte, this.host);
 
-  static Future<Abend> starten() async {
+  /// [offlineFrist], [umschlagFrist] und [maxSpieler] setzen Fristen und Platzgrenze
+  /// für einzelne Tests; ohne Angabe gelten die Standardwerte des Pakets.
+  static Future<Abend> starten({Duration? offlineFrist, Duration? umschlagFrist, int? maxSpieler}) async {
     final attrappe = await PhoenixAttrappe.starten();
     final relay = RelayParameter(url: attrappe.url, schluessel: attrappe.schluessel);
     final dir = _partyDir();
@@ -77,19 +116,24 @@ class Abend {
     final texte = Texte(kanon, Textsammlung.lade(lesen));
     final fall = FallCode.zufall(Rng(4711));
     final host = await RelayHost.neu(
-      fabrik: (code, meta) => SchlosskellerRaum(
-        raumCode: code,
-        kanon: kanon,
-        texte: texte,
-        fallCode: FallCode.lesen(meta['fallCode'] as String)!,
-        salz: meta['salz'] as String,
-        festerGastgeber: true,
-      ),
+      fabrik: (code, meta) {
+        final raum = SchlosskellerRaum(
+          raumCode: code,
+          kanon: kanon,
+          texte: texte,
+          fallCode: FallCode.lesen(meta['fallCode'] as String)!,
+          salz: meta['salz'] as String,
+          festerGastgeber: true,
+        );
+        return maxSpieler == null ? raum : BegrenzterRaum(raum, maxSpieler);
+      },
       meta: {'salz': salz, 'fallCode': fall.code},
       relay: relay,
       akte: 'schlosskeller',
       inhalt: 'test',
       ablage: SpeicherAblage(),
+      offlineFrist: offlineFrist ?? offlineFristStandard,
+      umschlagFrist: umschlagFrist ?? umschlagFristStandard,
     );
     final a = Abend._(attrappe, relay, kanon, texte, host);
     a.hostPlatz = host.lokaleVerbindung('host', 'Gastgeber');
