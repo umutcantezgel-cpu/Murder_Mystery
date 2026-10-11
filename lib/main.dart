@@ -52,9 +52,12 @@ Map<String, String> get _query {
 /// Einstieg ohne Parameter ist die Detektei (`/`), der Start des einen Spiels.
 ///
 /// Entwickler-Einstieg (Web): `?fake=<phase>` öffnet eine Fake-Session in dieser Phase,
-/// `?screen=detektei|neu|akte|sammlung|deck|profile` springt zu einem Bildschirm des Spiels
-/// (`neu` und `akte` mit `&akte=<id>`), `?screen=hub|cases|collection|online` zu den
+/// `?screen=detektei|neu|akte|sammlung|deck|profile|beitreten` springt zu einem Bildschirm des Spiels
+/// (`neu` und `akte` mit `&akte=<id>`, `beitreten` mit `&raum=<CODE>`), `?screen=hub|cases|collection|online` zu den
 /// klassischen Bildschirmen (nicht im Menü).
+/// Online-Abende: `?relay=ws://127.0.0.1:<port>` nimmt die lokale Relais-Attrappe (nur auf
+/// `127.0.0.1`/`localhost`, siehe `lib/netz/relay_einstellung.dart`); der QR-Link eines Gastgebers
+/// ist `<Seite>#/beitreten?raum=<CODE>`.
 /// Zusätzlich: `open=notebook|board|dialog|signals|map`, `life=downed|ghost`,
 /// `name=<Spielername>`, `xp=<Zahl>`. `?autoplay=<scenarioId>` startet ein echtes Solo-Spiel,
 /// in dem die KI den eigenen Detektiv steuert. `?party=<fall>` öffnet den Partymodus.
@@ -85,6 +88,7 @@ String _devEntry(AppState app) {
   return switch (q['screen']) {
     'detektei' => Routes.detektei,
     'neu' => q['akte'] == null ? Routes.abendNeu : Routes.abendNeuMit(q['akte']!),
+    'beitreten' => q['raum'] == null ? Routes.beitreten : Routes.beitretenMit(q['raum']!),
     'akte' => Routes.akteVon(q['akte'] ?? 'schlosskeller'),
     'sammlung' => Routes.sammlung,
     'deck' => Routes.sammlungDeck,

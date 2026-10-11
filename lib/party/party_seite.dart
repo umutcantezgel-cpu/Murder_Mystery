@@ -101,10 +101,14 @@ class _PartySeiteState extends State<PartySeite> {
 /// Wechsel über. Gemeinsam für den alten Einstieg `/party` ([PartySeite]) und
 /// den Abend im Spiel (`AbendSeite`). [menu] erscheint nur auf dem Titel.
 class PartyAblauf extends StatelessWidget {
-  const PartyAblauf({super.key, required this.sitzung, this.menu, this.onEnde});
+  const PartyAblauf({super.key, required this.sitzung, this.menu, this.onEnde, this.ersatz});
 
   final PartySitzung sitzung;
   final Widget? menu;
+
+  /// Eigener Bildschirm für einen Abschnitt (Online-Abend des Gastgebers: Warten
+  /// auf die Gäste statt der Geräteübergabe); `null` heißt der übliche Bildschirm.
+  final Widget? Function(PartySitzung sitzung)? ersatz;
 
   /// Weg vom Ende des Abends; ohne Angabe führt die Abschlusstafel in die Detektei.
   final VoidCallback? onEnde;
@@ -120,7 +124,7 @@ class PartyAblauf extends StatelessWidget {
           duration: MBewegung.ruhig(context) ? Duration.zero : const Duration(milliseconds: 350),
           child: KeyedSubtree(
             key: ValueKey('${s.phase.name}-${s.runde}'),
-            child: bildschirm(s, menu: menu, onEnde: onEnde),
+            child: ersatz?.call(s) ?? bildschirm(s, menu: menu, onEnde: onEnde),
           ),
         ),
       ),

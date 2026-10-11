@@ -21,15 +21,41 @@ import 'runden_texte.dart';
 class PartySitzung extends ChangeNotifier {
   /// [vorrat] (Deck des Geräts) und [abstecher] (Erkundungsorte der Akte) sind
   /// optional; ohne sie läuft der Abend wie bisher ohne Karten und Abstecher.
-  PartySitzung(this.daten, {WuerfelQuelle? wuerfel, String? salz, TischVorrat? vorrat, List<AbstecherOrt> abstecher = const []}) {
+  ///
+  /// Mit [partie] liest die Sitzung eine schon eingerichtete Partie, die ein
+  /// anderer führt (Online-Abend: der Raum des Gastgebergeräts, siehe
+  /// `GastgeberSitzung`). [salz] muss dann das Salz dieses Raums sein.
+  PartySitzung(
+    this.daten, {
+    WuerfelQuelle? wuerfel,
+    String? salz,
+    TischVorrat? vorrat,
+    List<AbstecherOrt> abstecher = const [],
+    RundenPartie? partie,
+  }) {
     // Das Salz ist unabhängig von Fall-Code, Pfad, Besetzung und Optionswahl.
     // Eine Vorgabe dient reproduzierbaren Tests, nicht dem Einrichtungsbildschirm.
     final zufall = math.Random.secure();
     _salz = salz ?? List.generate(16, (_) => zufall.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
     if (_salz.isEmpty) throw ArgumentError('leeres Salz');
     _quelle = wuerfel ?? SalzWuerfel(_salz);
-    _partie = RundenPartie(daten.kanon, quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: vorrat, abstecher: abstecher);
+    if (partie != null) {
+      _partie = partie;
+      // Die Partie ist schon eingerichtet; der Fall-Code steht in ihren Einstellungen.
+      if (partie.phase.index > PartyPhase.einrichtung.index) _code = partie.spiel.einstellungen.code;
+    } else {
+      _partie = RundenPartie(daten.kanon, quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: vorrat, abstecher: abstecher);
+    }
   }
+
+  /// Läuft der Abend online über einen Raum (Gastgebergerät)? Dann gehen alle
+  /// Eingaben als Raumnachrichten hinaus, und Bildschirme, die auf Gäste warten,
+  /// zeigen den Fortschritt statt der Geräteübergabe.
+  bool get online => false;
+
+  /// Darf dieses Gerät jetzt würfeln? Offline immer; online nur die Würfelpatin
+  /// oder der Würfelpate des Raums.
+  bool get darfWuerfeln => true;
 
   final PartyDaten daten;
   late final String _salz;
@@ -174,6 +200,31 @@ class PartySitzung extends ChangeNotifier {
   /// Bausteine, die der Erzähler beim letzten Schritt ausgegeben hat.
   List<String> get erzaehler => spiel.bausteine.sublist(_erzaehlerAb);
   int _erzaehlerAb = 0;
+
+  /// Für Online-Abende: Der Raum hat die Partie verändert (eigener Befehl oder
+  /// ein Gast). Gleicht Erzählerfenster und letzten Fund mit der Partie ab und
+  /// meldet allen Zuhörern die Änderung. [erzaehlerAb] ist der Beginn des
+  /// Erzählerfensters in `spiel.bausteine`.
+  @protected
+  void raumGeaendert({required int erzaehlerAb}) {
+    _erzaehlerAb = erzaehlerAb.clamp(0, spiel.bausteine.length);
+    final z = zug;
+    if (z != null && z.phase == RundenZugPhase.fund && z.option != null) {
+      final ziel = karte.ziele[z.option];
+      if (ziel != null) {
+        _funde[z.id] = z.funde;
+        _letzterFund = (entscheidung: z.id, ziel: ziel, funde: z.funde);
+      }
+    } else {
+      _letzterFund = null;
+    }
+    _melde();
+    notifyListeners();
+  }
+
+  /// Für Online-Abende: das gewählte, noch nicht bestätigte Ziel vergessen.
+  @protected
+  void vorschlagLoeschen() => _vorschlag = null;
 
   // ---------------------------------------------------------------------------
   // Figuren

@@ -167,11 +167,14 @@ abstract class _Abschnitt extends StatelessWidget {
 }
 
 /// Alle Abschnitte in der festen Reihenfolge des Einrichtungsbildschirms. Im
-/// Solo-Spiel entfallen Druckfassung und Rundendauer.
+/// Solo-Spiel entfallen Druckfassung und Rundendauer. Im Online-Abend
+/// ([online]: jeder am eigenen Gerät) entfallen Personenzahl und Spielnamen
+/// (die Lobby legt die Rollen fest) und die Druckfassung.
 class EinrichtungsAbschnitte extends StatelessWidget {
-  const EinrichtungsAbschnitte({super.key, required this.werte});
+  const EinrichtungsAbschnitte({super.key, required this.werte, this.online = false});
 
   final EinrichtungsWerte werte;
+  final bool online;
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -179,11 +182,11 @@ class EinrichtungsAbschnitte extends StatelessWidget {
         builder: (context, _) => Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PersonenAbschnitt(werte: werte),
+            if (!online) PersonenAbschnitt(werte: werte),
             GeburtstagAbschnitt(werte: werte),
             DetektivAbschnitt(werte: werte),
             FallAbschnitt(werte: werte),
-            if (!werte.solo) SpielartAbschnitt(werte: werte),
+            if (!werte.solo && !online) SpielartAbschnitt(werte: werte),
             if (!werte.solo) DauerAbschnitt(werte: werte),
             StimmeAbschnitt(werte: werte),
           ],

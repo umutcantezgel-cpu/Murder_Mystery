@@ -1881,7 +1881,8 @@ class LDe extends L {
   String get detektei_beitreten => 'Beitreten';
 
   @override
-  String get detektei_beitreten_hinweis => 'Beitreten mit Raumcode kommt bald.';
+  String get detektei_beitreten_hinweis =>
+      'Mit Raumcode oder QR-Code einem Abend beitreten.';
 
   @override
   String get detektei_bald => 'bald';
@@ -1990,7 +1991,7 @@ class LDe extends L {
 
   @override
   String get abend_spielweise_eigene_text =>
-      'Jede Person spielt mit ihrem eigenen Handy.';
+      'Jede Person spielt mit ihrem eigenen Handy. Ihr verbindet euch über einen Raumcode.';
 
   @override
   String get abend_spielweise_eigene_bald =>
@@ -2408,4 +2409,627 @@ class LDe extends L {
 
   @override
   String get abend_belohnung_ansehen => 'Belohnung ansehen';
+
+  @override
+  String get online_einstellungen_hinweis =>
+      'Wie viele Rollen es gibt, legst du gleich in der Lobby fest. Freie Rollen übernehmen Bots.';
+
+  @override
+  String get online_raum_oeffnen => 'Raum öffnen';
+
+  @override
+  String get online_start_hinweis =>
+      'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.';
+
+  @override
+  String get online_oeffnen_fehler => 'Der Raum konnte nicht angelegt werden.';
+
+  @override
+  String get online_lobby_marke => 'Jeder am eigenen Gerät';
+
+  @override
+  String get online_lobby_titel => 'Lobby';
+
+  @override
+  String get online_lobby_untertitel =>
+      'Die anderen treten mit dem Raumcode bei. Sind alle bereit, startest du den Abend.';
+
+  @override
+  String get online_lobby_verbinde => 'Raum wird geöffnet …';
+
+  @override
+  String get online_lobby_fehler =>
+      'Das Relais ist nicht erreichbar. Prüfe die Internetverbindung und versuche es noch einmal.';
+
+  @override
+  String get online_abend_starten => 'Abend starten';
+
+  @override
+  String get online_code_titel => 'Raumcode';
+
+  @override
+  String online_code_semantik(String code) {
+    return 'Raumcode $code';
+  }
+
+  @override
+  String get online_code_kopieren => 'Code kopieren';
+
+  @override
+  String get online_link_kopieren => 'Link kopieren';
+
+  @override
+  String get online_kopiert => 'Kopiert';
+
+  @override
+  String get online_qr_semantik => 'QR-Code zum Beitreten';
+
+  @override
+  String get online_qr_hinweis =>
+      'Scannen oder in der Detektei auf „Beitreten“ tippen und den Code eingeben.';
+
+  @override
+  String get online_tisch_titel => 'Am Tisch';
+
+  @override
+  String get online_tisch_leer => 'Noch ist niemand beigetreten.';
+
+  @override
+  String get online_spielleitung => 'Spielleitung';
+
+  @override
+  String get online_bereit => 'Bereit';
+
+  @override
+  String get online_nicht_bereit => 'Nicht bereit';
+
+  @override
+  String get online_getrennt => 'Getrennt';
+
+  @override
+  String get online_verbunden => 'Verbunden';
+
+  @override
+  String get online_assistenz => 'Assistenz';
+
+  @override
+  String get online_alle_bereit => 'Alle sind bereit.';
+
+  @override
+  String get online_warten_bereit => 'Warten, bis alle bereit sind.';
+
+  @override
+  String get online_rollen_titel => 'Rollen';
+
+  @override
+  String online_rollen_anzahl(int n) {
+    return '$n Rollen';
+  }
+
+  @override
+  String get online_rollen_weniger => 'Weniger Rollen';
+
+  @override
+  String get online_rollen_mehr => 'Mehr Rollen';
+
+  @override
+  String online_rollen_bots(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Bots übernehmen die freien Rollen.',
+      one: 'Ein Bot übernimmt die freie Rolle.',
+      zero: 'Alle Rollen sind mit Gästen besetzt.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get online_rollen_hinweis =>
+      'Mindestens so viele Rollen wie Gäste, höchstens so viele, wie die Akte kennt.';
+
+  @override
+  String get online_schliessen_titel => 'Raum schließen?';
+
+  @override
+  String get online_schliessen_text =>
+      'Alle, die schon beigetreten sind, werden getrennt.';
+
+  @override
+  String get online_schliessen_ja => 'Raum schließen';
+
+  @override
+  String get online_schliessen_nein => 'Weiter warten';
+
+  @override
+  String online_leiste_raum(String code) {
+    return 'Raum $code';
+  }
+
+  @override
+  String online_leiste_online(int n, int gesamt) {
+    return '$n von $gesamt Gästen online';
+  }
+
+  @override
+  String get online_menue => 'Raum und Gäste';
+
+  @override
+  String get online_beenden => 'Abend beenden';
+
+  @override
+  String get online_beenden_titel => 'Abend für alle beenden?';
+
+  @override
+  String get online_beenden_text =>
+      'Alle Gäste werden getrennt. Der Abend lässt sich danach nicht fortsetzen.';
+
+  @override
+  String get online_beenden_ja => 'Abend beenden';
+
+  @override
+  String get online_beenden_nein => 'Weiterspielen';
+
+  @override
+  String get online_rollen_erklaerung =>
+      'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.';
+
+  @override
+  String online_rollen_warten(int x, int y) {
+    return 'Warten auf die Gäste: $x von $y haben ihre Rolle gelesen';
+  }
+
+  @override
+  String get online_rollen_alle => 'Alle Gäste haben ihre Rolle gelesen.';
+
+  @override
+  String get online_rollen_ohne_gaeste =>
+      'Alle Rollen spielen Bots. Es kann weitergehen.';
+
+  @override
+  String get online_rollen_gelesen => 'Gelesen';
+
+  @override
+  String get online_rollen_liest => 'Liest noch';
+
+  @override
+  String get online_wahl_hinweis =>
+      'Die Gäste wählen auf ihren Geräten. Die Bots stimmen von selbst ab.';
+
+  @override
+  String online_wahl_fortschritt(int x, int y) {
+    return '$x von $y Gästen haben abgestimmt';
+  }
+
+  @override
+  String get online_wahl_nur_bots =>
+      'Alle Rollen spielen Bots, sie haben von selbst abgestimmt.';
+
+  @override
+  String get online_wahl_abgegeben_kurz => 'Abgestimmt';
+
+  @override
+  String get online_wahl_waehlt => 'Wählt noch';
+
+  @override
+  String online_wuerfelt(String name) {
+    return '$name würfelt …';
+  }
+
+  @override
+  String get online_fehler_nicht_bereit => 'Noch nicht alle sind bereit.';
+
+  @override
+  String get online_fehler_nicht_dran =>
+      'Du bist gerade nicht mit Würfeln dran.';
+
+  @override
+  String get online_fehler_phase =>
+      'Das geht in diesem Abschnitt gerade nicht.';
+
+  @override
+  String get online_fehler_schon_gewaehlt => 'Du hast schon gewählt.';
+
+  @override
+  String get online_fehler_keine_antwort =>
+      'Keine Antwort von der Spielleitung. Versuche es noch einmal.';
+
+  @override
+  String get online_fehler_allgemein =>
+      'Das hat nicht geklappt. Versuche es noch einmal.';
+
+  @override
+  String get online_fehler_code =>
+      'Der Raumcode ist nicht gültig. Er hat sechs Zeichen.';
+
+  @override
+  String get online_fehler_relay =>
+      'Das Relais ist nicht erreichbar. Prüfe deine Internetverbindung.';
+
+  @override
+  String get online_fehler_kein_raum =>
+      'Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.';
+
+  @override
+  String get online_fehler_zeit =>
+      'Keine Antwort in der Zeit. Versuche es noch einmal.';
+
+  @override
+  String get online_fehler_voll => 'Der Raum ist voll.';
+
+  @override
+  String get online_fehler_gestartet => 'Der Abend hat schon begonnen.';
+
+  @override
+  String get online_fehler_proto =>
+      'Diese App-Version passt nicht zum Raum. Aktualisiere die App.';
+
+  @override
+  String get online_fehler_inhalt =>
+      'Die Fassungen der Akten passen nicht zusammen. Aktualisiere die App auf beiden Geräten.';
+
+  @override
+  String get online_fehler_name => 'Bitte gib einen Namen ein.';
+
+  @override
+  String get online_beitreten_marke => 'Online-Abend';
+
+  @override
+  String get online_beitreten_titel => 'Einem Abend beitreten';
+
+  @override
+  String get online_beitreten_untertitel =>
+      'Gib den Raumcode ein, den die Spielleitung zeigt.';
+
+  @override
+  String get online_code_feld => 'Raumcode';
+
+  @override
+  String get online_code_platzhalter => 'ABC-DEF';
+
+  @override
+  String get online_name_feld => 'Dein Name';
+
+  @override
+  String get online_name_platzhalter => 'So heißt du am Tisch';
+
+  @override
+  String get online_beitreten_los => 'Beitreten';
+
+  @override
+  String get online_beitreten_laeuft => 'Verbinde …';
+
+  @override
+  String online_zurueck_in_raum(String code) {
+    return 'Zurück in Raum $code';
+  }
+
+  @override
+  String get online_zurueck_hinweis =>
+      'Du hast noch einen Platz in diesem Abend.';
+
+  @override
+  String get online_vergessen => 'Vergessen';
+
+  @override
+  String online_zurueck_zum_abend(String code) {
+    return 'Zurück zum Abend $code';
+  }
+
+  @override
+  String get online_zurueck_gastgeber_hinweis =>
+      'Du führst diesen Abend. Er ist auf diesem Gerät gespeichert.';
+
+  @override
+  String get online_verwerfen => 'Verwerfen';
+
+  @override
+  String get online_rueckkehr_fehler => 'Die Rückkehr hat nicht geklappt.';
+
+  @override
+  String get online_status_verbinde => 'Verbinde …';
+
+  @override
+  String get online_status_pausiert => 'Spielleitung getrennt – Abend pausiert';
+
+  @override
+  String get online_status_geschlossen => 'Der Abend wurde beendet.';
+
+  @override
+  String get online_zur_detektei => 'Zur Detektei';
+
+  @override
+  String online_gast_marke(String code) {
+    return 'Raum $code';
+  }
+
+  @override
+  String get online_gast_lobby_titel => 'Warten auf den Start';
+
+  @override
+  String get online_gast_lobby_hinweis =>
+      'Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.';
+
+  @override
+  String get online_bereit_knopf => 'Bereit';
+
+  @override
+  String get online_bereit_zurueck => 'Doch nicht bereit';
+
+  @override
+  String get online_rolle_marke => 'Deine Rolle';
+
+  @override
+  String get online_dossier_wer => 'Wer ich bin';
+
+  @override
+  String get online_dossier_ziel => 'Mein Ziel';
+
+  @override
+  String get online_dossier_weiss => 'Was ich weiß';
+
+  @override
+  String get online_dossier_verbirgt => 'Was ich verberge';
+
+  @override
+  String get online_dossier_tarnung => 'Meine Tarngeschichte';
+
+  @override
+  String get online_dossier_tatwissen => 'Was wirklich geschah';
+
+  @override
+  String get online_dossier_besetzung => 'Besetzung';
+
+  @override
+  String get online_dossier_stempel => 'Geheim';
+
+  @override
+  String get online_gelesen_knopf => 'Gelesen';
+
+  @override
+  String get online_gelesen_warten =>
+      'Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.';
+
+  @override
+  String get online_assistenz_text =>
+      'Du hast keine eigene Rolle und verfolgst den öffentlichen Verlauf des Abends mit.';
+
+  @override
+  String online_meine_rolle(String name) {
+    return 'Meine Rolle: $name';
+  }
+
+  @override
+  String get online_warten_spielleitung => 'Warten auf die Spielleitung …';
+
+  @override
+  String online_runde(int n) {
+    return 'Runde $n';
+  }
+
+  @override
+  String get online_erzaehler_titel => 'Erzähler';
+
+  @override
+  String get online_phase_rollen => 'Die Rollen werden gelesen';
+
+  @override
+  String get online_phase_intro => 'Die Nacht beginnt';
+
+  @override
+  String get online_phase_gespraeche => 'Gespräche';
+
+  @override
+  String get online_phase_entscheidungen => 'Ermittlung';
+
+  @override
+  String get online_phase_gruppenwahl => 'Gruppenwahl';
+
+  @override
+  String get online_phase_bonus => 'Ein Hinweis';
+
+  @override
+  String get online_phase_resuemee => 'Zwischenresümee';
+
+  @override
+  String get online_phase_anklage => 'Anklage';
+
+  @override
+  String get online_phase_finale => 'Finale';
+
+  @override
+  String get online_phase_aufloesung => 'Auflösung';
+
+  @override
+  String get online_phase_ende => 'Ende des Abends';
+
+  @override
+  String get online_phase_unbekannt => 'Der Abend läuft';
+
+  @override
+  String get online_gespraeche_titel => 'Deine Gespräche in dieser Runde';
+
+  @override
+  String get online_gespraeche_keine =>
+      'In dieser Runde hast du kein Pflichtgespräch.';
+
+  @override
+  String online_gespraech_mit(String name) {
+    return 'Gespräch mit $name';
+  }
+
+  @override
+  String get online_gespraech_thema => 'Thema';
+
+  @override
+  String get online_gespraech_ziel => 'Dein Ziel';
+
+  @override
+  String get online_gespraech_eroeffnung => 'Eröffnung';
+
+  @override
+  String get online_bots_titel => 'Was am Tisch zu hören ist';
+
+  @override
+  String online_bot_spricht(String sprecher, String partner) {
+    return '$sprecher spricht mit $partner';
+  }
+
+  @override
+  String get online_preisgabe => 'Verrät';
+
+  @override
+  String get online_frage_titel => 'Die Frage';
+
+  @override
+  String get online_gewaehlt_titel => 'Gewählt';
+
+  @override
+  String get online_optionen_titel => 'Zur Wahl stehen';
+
+  @override
+  String get online_ermittlung_wartet => 'Die Spielleitung wählt gerade …';
+
+  @override
+  String get online_ermittlung_fertig =>
+      'Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.';
+
+  @override
+  String online_nachtzeit(int min) {
+    return 'Nachtzeit: $min Min.';
+  }
+
+  @override
+  String online_marken(int n) {
+    return 'Marken: $n';
+  }
+
+  @override
+  String get online_auftakt => 'Der erste Wurf: Die Gruppe sucht nach Spuren.';
+
+  @override
+  String get online_abstecher => 'Die Spielleitung erkundet einen Ort.';
+
+  @override
+  String get online_zug_aktion => 'Die Spielleitung ist unterwegs …';
+
+  @override
+  String get online_wuerfel_titel => 'Würfel';
+
+  @override
+  String get online_wuerfel_du => 'Du würfelst für die Gruppe.';
+
+  @override
+  String online_chancen(int mod) {
+    return 'Chancen (Modifikator $mod)';
+  }
+
+  @override
+  String get online_stufe_erfolg => 'Erfolg';
+
+  @override
+  String get online_stufe_teilerfolg => 'Teilerfolg';
+
+  @override
+  String get online_stufe_pech => 'Pech';
+
+  @override
+  String get online_marke_einsetzen => 'Seifenblasen-Marke einsetzen';
+
+  @override
+  String online_werkzeug_einsetzen(String titel) {
+    return 'Werkzeug-Karte einsetzen: $titel (+1)';
+  }
+
+  @override
+  String get online_wuerfeln_knopf => 'Würfeln';
+
+  @override
+  String get online_wurf_titel => 'Wurf';
+
+  @override
+  String online_wurf_rechnung(int a, int b, int mod, int summe) {
+    return '$a + $b + $mod = $summe';
+  }
+
+  @override
+  String get online_wurf_garantie =>
+      'Pech-Garantie: Pech zählt als Teilerfolg.';
+
+  @override
+  String online_wurf_zeile(String stufe, int a, int b, int mod, int summe) {
+    return '$stufe: $a + $b + $mod = $summe';
+  }
+
+  @override
+  String get online_wuerfe_titel => 'Würfelprotokoll';
+
+  @override
+  String get online_tischruf_wartet =>
+      'Pech. Die Spielleitung entscheidet, wie es weitergeht.';
+
+  @override
+  String get online_fund_titel => 'Fund';
+
+  @override
+  String get online_fund_wartet => 'Die Spielleitung liest den Fund.';
+
+  @override
+  String get online_notizbuch_titel => 'Notizbuch';
+
+  @override
+  String get online_wahl_titel => 'Deine Wahl in dieser Runde';
+
+  @override
+  String get online_wahl_geheim =>
+      'Niemand sieht, was du wählst. Tippe eine Karte an und gib deine Wahl ab.';
+
+  @override
+  String get online_wahl_abgeben => 'Wahl abgeben';
+
+  @override
+  String get online_wahl_abgegeben =>
+      'Deine Stimme ist abgegeben. Warten auf die anderen …';
+
+  @override
+  String get online_wahl_assistenz =>
+      'Die Gruppenwahl läuft. Du hast keine Stimme, weil du keine Rolle hast.';
+
+  @override
+  String get online_verdaechtige_titel => 'Verdächtige';
+
+  @override
+  String get online_anklage_wartet =>
+      'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.';
+
+  @override
+  String get online_aufloesung_titel => 'Die Auflösung';
+
+  @override
+  String get online_aufloesung_taeter => 'Täter oder Täterin';
+
+  @override
+  String get online_aufloesung_punkte => 'Richtige Entscheidungen';
+
+  @override
+  String get online_aufloesung_ende => 'Ende';
+
+  @override
+  String get online_aufloesung_code => 'Fall-Code';
+
+  @override
+  String get online_verlassen => 'Abend verlassen';
+
+  @override
+  String get online_verlassen_titel => 'Abend verlassen?';
+
+  @override
+  String get online_verlassen_text =>
+      'Du verlierst deinen Platz und deine Rolle in diesem Abend.';
+
+  @override
+  String get online_verlassen_ja => 'Verlassen';
+
+  @override
+  String get online_verlassen_nein => 'Bleiben';
 }
