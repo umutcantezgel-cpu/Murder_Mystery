@@ -174,11 +174,26 @@ void main() {
       _karte('fatma', 'start', KartenArt.werkzeug, quellen: const [KartenQuelle('start')]),
       taeter, meister, fund1, fund2,
     ]);
-    final ohne = belohnungFuer(_abend(anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1'}), pool, {});
-    final mit = belohnungFuer(_abend(anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1'}, tisch: {'ahmet', 'fatma'}), pool, {});
-    expect(mit, hasLength(ohne.length + 1), reason: 'genau eine zusätzliche Karte');
-    expect(mit.sublist(0, ohne.length), ohne, reason: 'die übrigen Züge bleiben gleich');
-    expect(mit.last, anyOf('schlosskeller:ahmet:rolle', 'schlosskeller:fatma:rolle'));
+    // Über mehrere Spielerkennungen: die Start-Karte kommt nie dazu.
+    for (var i = 1; i <= 12; i++) {
+      final ohne = belohnungFuer(_abend(spieler: 'p$i', anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1'}), pool, {});
+      final mit = belohnungFuer(
+          _abend(spieler: 'p$i', anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1'}, tisch: {'ahmet', 'fatma'}), pool, {});
+      expect(mit, hasLength(ohne.length + 1), reason: 'p$i: genau eine zusätzliche Karte');
+      expect(mit.sublist(0, ohne.length), ohne, reason: 'p$i: die übrigen Züge bleiben gleich');
+      expect(mit.last, anyOf('schlosskeller:ahmet:rolle', 'schlosskeller:fatma:rolle'), reason: 'p$i: nur Rollenkarten');
+    }
+  });
+
+  test('Tisch-Figur ohne Rollenkarte bringt keine Zusatzkarte', () {
+    final pool = KartenKatalog([
+      _karte('can', 'rolle', KartenArt.werkzeug),
+      _karte('fatma', 'start', KartenArt.werkzeug, quellen: const [KartenQuelle('start')]),
+    ]);
+    for (var i = 1; i <= 8; i++) {
+      expect(belohnungFuer(_abend(spieler: 'p$i', tisch: {'fatma'}), pool, {}),
+          belohnungFuer(_abend(spieler: 'p$i'), pool, {}), reason: 'p$i');
+    }
   });
 
   test('Tisch-Belohnung ist deterministisch und je Spieler verschieden', () {
