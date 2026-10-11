@@ -1,0 +1,69 @@
+{
+  "hinweis": "Abstecher der Akte „Spuk im Gewölbe“: freiwillige Erkundungsorte. Reine Stimmung und Nebenfunde, auf allen Pfaden gleich; kein Satz berührt Beweise, Alibis, Geheimnisse oder Verdächtige. Ein Erfolg oder Teilerfolg bringt die Sammelkarte dieses Fundorts (content/karten/gewoelbe.json), Pech nur ein Missgeschick mit Glück im Unglück.",
+  "akte": "gewoelbe",
+  "abstecher": [
+    {
+      "id": "sternkarte_brunnen",
+      "ort": "am_brunnen",
+      "name": "Am Rand des Brunnens",
+      "erfolg": "Auf dem Brunnenrand liegt eine drehbare Sternkarte, steif vor Kälte. Jemand hat mit Filzstift einen Pfeil und „Hier lang!“ daneben gekritzelt.",
+      "teilerfolg": "Du findest nur einen Pappstern vom Rand einer Sternkarte. Der Rest ist wohl im Brunnen gelandet.",
+      "pech": "Du beugst dich über den Brunnenrand, und deine Mütze rutscht fast hinein. Du fängst sie gerade noch, und nur dein Herz hüpft kurz.",
+      "abRunde": 1
+    },
+    {
+      "id": "feder_torhaus",
+      "ort": "vor_torhaus",
+      "name": "Vor dem Torhaus",
+      "erfolg": "Im Frost vor dem Torhaus steckt eine blau gebänderte Eichelhäherfeder. Sie sieht aus, als hätte ein Waldgeist sie verloren.",
+      "teilerfolg": "Du findest ein paar winzige Daunen auf dem Boden. Die Feder dazu hat wohl der Wind geholt.",
+      "pech": "Du stolperst über die Fußmatte vor dem Torhaus und landest auf den Knien. Es ist bloß kalt und ein bisschen peinlich.",
+      "abRunde": 1
+    },
+    {
+      "id": "sitzplan_festtafel",
+      "ort": "platz_dino",
+      "name": "Unter der Festtafel",
+      "erfolg": "Unter der Tischkante klebt ein Sitzplan mit Pfeilen und gelben Haftnotizen. Ganz unten steht: „Alle bitte lächeln!“",
+      "teilerfolg": "Du findest nur eine gelbe Haftnotiz mit einem Pfeil. Wohin er zeigt, steht nirgends.",
+      "pech": "Du krabbelst unter den Tisch und stößt dir das Knie an. Über dir klirrt ein Löffel, und dann ist wieder Ruhe.",
+      "abRunde": 1
+    },
+    {
+      "id": "halstuch_hoftuer",
+      "ort": "an_der_hoftuer",
+      "name": "An der Hoftür",
+      "erfolg": "An der Klinke der Hoftür baumelt ein orangefarbenes Halstuch mit kleinen Füchsen. Es riecht nach Tannenwald und Pfefferminztee.",
+      "teilerfolg": "An der Klinke hängt nur ein Fuchsschwanz aus Filz. Das Tuch dazu fehlt.",
+      "pech": "Die Tür geht plötzlich auf, und du stehst im Windzug. Dein Hut wirbelt einmal im Kreis, dann landet er wieder auf deinem Kopf.",
+      "abRunde": 2
+    },
+    {
+      "id": "heulpfeife_scharte",
+      "ort": "platz_zofia",
+      "name": "An der Schießscharte",
+      "erfolg": "In der Schießscharte steckt eine kleine Heulpfeife aus Pappe. Wenn du hineinpustest, heult sie wie ein Gespenst mit Schnupfen.",
+      "teilerfolg": "Aus der Schießscharte pfeift es ganz leise. Es klingt, als würde ein Gespenst üben.",
+      "pech": "Ein Windstoß weht dir die Haare ins Gesicht und in den Mund. Du prustest, und niemand hat es gesehen.",
+      "abRunde": 2
+    },
+    {
+      "id": "skizze_saeule",
+      "ort": "platz_annika",
+      "name": "Hinter der Säule",
+      "erfolg": "Hinter der Säule klemmt ein kleiner Skizzenblock. Auf der ersten Seite wacht ein Strichmännchen-Gespenst über das Gewölbe.",
+      "teilerfolg": "Du findest nur einen abgekauten Bleistiftstummel. Zum Zeichnen reicht er nicht mehr.",
+      "pech": "Du lehnst dich an die Säule, und sie ist kälter als gedacht. Du hüpfst zurück und lachst über dich selbst.",
+      "abRunde": 3
+    },
+    {
+      "id": "loeffel_konserven",
+      "ort": "an_der_torte",
+      "name": "Zwischen den Konserven",
+      "erfolg": "Zwischen den Konserven steckt ein Holzlöffel mit einem eingeritzten Gespensterkopf. Auf dem Stiel steht in Filzstift: „Rührt sich von allein.“",
+      "teilerfolg": "Du findest nur einen Löffelstiel ohne Löffel. Auf dem Stiel ist ein halbes Gespenst eingeritzt.",
+      "pech": "Eine Dose Mais kullert dir vor die Füße. Du fängst sie auf, und dein Herz klopft kurz schneller, bevor du lachen musst.",
+      "abRunde": 3
+    }
+  ]
+}
