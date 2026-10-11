@@ -9,10 +9,12 @@ WORKDIR /src
 
 # Erst nur die pubspecs → Abhängigkeiten werden gecacht.
 COPY packages/mordakte_core/pubspec.yaml packages/mordakte_core/
+COPY packages/mordakte_netz/pubspec.yaml packages/mordakte_netz/
 COPY server/pubspec.yaml server/pubspec.lock server/
 RUN cd server && dart pub get
 
 COPY packages/mordakte_core packages/mordakte_core
+COPY packages/mordakte_netz packages/mordakte_netz
 COPY server server
 COPY content content
 

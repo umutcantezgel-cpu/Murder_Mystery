@@ -64,6 +64,7 @@ if [ "$STUFE" != "schnell" ]; then
     # jeden Push zu langsam; sie laufen in alles/e2e. Hier genügt eine Stufe mit 4 echten Clients.
     schritt "Party-Online-Matrix (CI): 4 echte Clients in einem Raum, private Rollenkarten"
     (cd server && dart run tool/party_matrix.dart --clients=4)
+    (cd server && dart run tool/relay_matrix.dart --lokal --clients=4)
   else
     schritt "Online-Matrix: 4–20 echte Clients, klassische Räume"
     (cd server && dart run tool/online_matrix.dart)

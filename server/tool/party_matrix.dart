@@ -197,10 +197,11 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
           _require(_keys(view).toSet().intersection({'pfad', 'fallCode', 'salz', 'seed', 'richtig', 'qualitaeten'}).isEmpty, 'Geheimer Steuerwert vor dem Finale übertragen.');
           // Ein zufälliger fünfstelliger Code kann zufällig in einem Hash/Bezeichner
           // vorkommen. Statt fehleranfälliger Teilwortsuche das gesamte Schema sperren.
-          const allowed = {'t', 'protokoll', 'version', 'spiel', 'raum', 'host', 'phase', 'runde',
+          // Öffentlich am Tisch: gewählte Optionen, Tischvorrat der Karten und Erkundungsorte.
+          const allowed = {'t', 'protokoll', 'version', 'spiel', 'akte', 'raum', 'host', 'phase', 'runde',
             'wuerfelZusage', 'spieler', 'kannWeiter', 'rollen', 'restMinuten', 'marken',
-            'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'entscheidung', 'zug',
-            'botGespraeche', 'verdaechtige', 'privat'};
+            'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher',
+            'abstecherErgebnis', 'entscheidung', 'zug', 'botGespraeche', 'verdaechtige', 'privat'};
           _require(view.keys.every(allowed.contains), 'Nicht freigegebenes Feld vor dem Finale übertragen.');
         }
         if (private['rolle'] case final String role) {

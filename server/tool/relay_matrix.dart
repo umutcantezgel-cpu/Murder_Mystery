@@ -511,8 +511,8 @@ Future<void> _lauf({
     _stage = 'Privatheitsprüfung';
     const erlaubt = {
       't', 'protokoll', 'version', 'spiel', 'akte', 'raum', 'host', 'phase', 'runde', 'wuerfelZusage', 'spieler', 'kannWeiter', 'rollen',
-      'restMinuten', 'marken', 'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'entscheidung', 'zug', 'botGespraeche',
-      'verdaechtige', 'privat',
+      'restMinuten', 'marken', 'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher', 'abstecherErgebnis',
+      'entscheidung', 'zug', 'botGespraeche', 'verdaechtige', 'privat',
     };
     const geheim = {'pfad', 'fallCode', 'salz', 'seed', 'richtig', 'qualitaeten', 'aufloesung'};
     final dossiersAlle = <String, Map<String, Object?>>{

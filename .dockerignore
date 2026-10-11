@@ -1,5 +1,5 @@
 # Build-Kontext für server/Dockerfile (Kontext = Repo-Root).
-# Gebraucht werden nur: packages/mordakte_core, server, content.
+# Gebraucht werden nur: packages/mordakte_core, packages/mordakte_netz, server, content.
 # Hinweis: Muster sind relativ zum Root verankert (`lib` = nur /lib, nicht server/lib).
 
 .git
