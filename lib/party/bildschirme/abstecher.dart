@@ -3,6 +3,7 @@ import 'package:mordakte_core/runden.dart';
 
 import '../../karten/widgets/karten_ansicht.dart';
 import '../../karten/widgets/karten_hand.dart';
+import '../karten_figur.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 
@@ -38,7 +39,7 @@ class _AbstecherBestaetigungState extends State<AbstecherBestaetigung> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(KartenTexte.erkundenMarke.toUpperCase(), style: Keller.marke),
+          Text(KartenTexte.erkundenMarke.toUpperCase(), style: context.schrift.marke),
           const SizedBox(height: 8),
           Text(widget.ort.name, style: Keller.ueberschrift),
           const SizedBox(height: 10),
@@ -52,6 +53,7 @@ class _AbstecherBestaetigungState extends State<AbstecherBestaetigung> {
               aktiv: karten,
               gewaehlt: {?eingesetzt},
               hinweis: def == null ? null : KartenTexte.erkundenKarte(def.titel),
+              figurVon: s.kartenFigur,
               onTipp: (k) {
                 if (k.art != KartenArt.abstecher || !s.vorrat.verfuegbar(k.id)) return;
                 setState(() => _karte = _karte == k.id ? null : k.id);
@@ -95,7 +97,7 @@ class AbstecherFundKarte extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.explore_rounded, size: 40, color: Keller.kerze),
+              Icon(Icons.explore_rounded, size: 40, color: context.farben.akzent),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -109,7 +111,7 @@ class AbstecherFundKarte extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Text(KartenTexte.erkundenFund.toUpperCase(), style: Keller.marke),
+          Text(KartenTexte.erkundenFund.toUpperCase(), style: context.schrift.marke),
           const SizedBox(height: 8),
           Text(text, style: Keller.text),
           const SizedBox(height: 8),

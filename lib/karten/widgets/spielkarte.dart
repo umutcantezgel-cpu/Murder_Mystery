@@ -338,7 +338,7 @@ class _Vorderseite extends StatelessWidget {
             top: h * 0.64,
             height: h * 0.225,
             child: DecoratedBox(
-              decoration: BoxDecoration(color: const Color(0x38000000), borderRadius: BorderRadius.circular(w * 0.025)),
+              decoration: BoxDecoration(color: const Color(0x4D000000), borderRadius: BorderRadius.circular(w * 0.025)),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: w * 0.02),
                 child: Center(

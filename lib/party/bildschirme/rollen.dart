@@ -28,7 +28,7 @@ const _runden = [1, 2, 3];
 /// Wie lange die Meldung „wieder zugedeckt“ über der Liste stehen bleibt.
 const _meldungDauer = Duration(seconds: 4);
 
-const _unterkopf = TextStyle(fontFamily: Keller.schrift, fontSize: 17, height: 1.5, fontWeight: FontWeight.w700, color: Keller.kerzeHell);
+TextStyle _unterkopf(BuildContext context) => TextStyle(fontFamily: Keller.schrift, fontSize: 17, height: 1.5, fontWeight: FontWeight.w700, color: context.farben.akzentHell);
 
 class _RollenBildschirmState extends State<RollenBildschirm> {
   /// Rollen, deren Karte schon gesehen wurde.
@@ -99,7 +99,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
             const SizedBox(height: 16),
           ],
           if (_zugedeckt) ...[
-            PartyTafel(akzent: Keller.kerze, child: Text(s.ui('ui.verdeckt.neutral'), style: Keller.text)),
+            PartyTafel(akzent: context.farben.akzent, child: Text(s.ui('ui.verdeckt.neutral'), style: Keller.text)),
             const SizedBox(height: 16),
           ],
           if (vorbereitet == null) _liste() else _zwischenstufe(vorbereitet),
@@ -222,7 +222,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
   /// Die Pflichtgespräche, je Runde eine Überschrift.
   List<Widget> _gespraeche(Dossier d) => [
         for (final r in _runden) ...[
-          Text(s.ui('ui.allgemein.runde', {'nr': '$r'}), style: Keller.marke),
+          Text(s.ui('ui.allgemein.runde', {'nr': '$r'}), style: context.schrift.marke),
           const SizedBox(height: 8),
           for (final (g, partner) in d.gespraeche[r] ?? const <(Gespraech, String)>[])
             Padding(padding: const EdgeInsets.only(bottom: 14), child: _gespraech(g, partner)),
@@ -233,7 +233,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
   Widget _gespraech(Gespraech g, String partner) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(s.ui('ui.rollen.gespraech_mit', {'name': s.personAmTisch(partner)}), style: _unterkopf),
+          Text(s.ui('ui.rollen.gespraech_mit', {'name': s.personAmTisch(partner)}), style: _unterkopf(context)),
           const SizedBox(height: 4),
           Text(s.ui('ui.rollen.gespraech_thema'), style: Keller.leise),
           Text(g.thema, style: Keller.text),
@@ -257,7 +257,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(s.ui('ui.allgemein.runde', {'nr': '$runde'}), style: Keller.marke),
+        Text(s.ui('ui.allgemein.runde', {'nr': '$runde'}), style: context.schrift.marke),
         const SizedBox(height: 8),
         Text(s.ui('ui.rollen.wahl_a'), style: Keller.leise),
         Text(w.a, style: Keller.text),

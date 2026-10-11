@@ -105,22 +105,22 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(s.ui('ui.runde.uhr').toUpperCase(), style: Keller.marke, textAlign: TextAlign.center),
+          Text(s.ui('ui.runde.uhr').toUpperCase(), style: context.schrift.marke, textAlign: TextAlign.center),
           const SizedBox(height: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
               _zeit,
-              style: Keller.titel.copyWith(
+              style: context.schrift.titel.copyWith(
                 fontSize: 64,
-                color: um ? Keller.kerze : Keller.kerzeHell,
+                color: um ? context.farben.akzent : context.farben.akzentHell,
                 fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
           ),
           if (um) ...[
             const SizedBox(height: 4),
-            Text(s.ui('ui.runde.zeit_um'), style: Keller.ueberschrift.copyWith(color: Keller.kerze), textAlign: TextAlign.center),
+            Text(s.ui('ui.runde.zeit_um'), style: Keller.ueberschrift.copyWith(color: context.farben.akzent), textAlign: TextAlign.center),
           ],
           const SizedBox(height: 12),
           Wrap(
@@ -142,7 +142,7 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
         tooltip: tipp,
         onPressed: onPressed,
         icon: Icon(symbol),
-        style: IconButton.styleFrom(foregroundColor: Keller.kerzeHell, disabledForegroundColor: Keller.papierGedaempft),
+        style: IconButton.styleFrom(foregroundColor: context.farben.akzentHell, disabledForegroundColor: Keller.papierGedaempft),
       );
 
   /// Die Pflichtgespräche der Runde, je Rolle eine Tafel in der Farbe der Figur.

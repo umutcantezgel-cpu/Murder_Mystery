@@ -28,6 +28,9 @@ class AkteDeckel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stil = AkteStil.fuer(akte.id);
+    // Zweiter Akzent der Akte (z. B. das Neon-Rosa von Blue Palm) als weicher Schein
+    // in der Ecke, damit sich die Deckel auch ohne Beschriftung unterscheiden.
+    final schein = stil.akzent2 ?? stil.akzentHell;
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -37,32 +40,41 @@ class AkteDeckel extends StatelessWidget {
             colors: [stil.hintergrund, Color.lerp(stil.hintergrund, stil.akzent, 0.5)!],
           ),
         ),
-        child: Center(
-          child: Container(
-            width: siegel,
-            height: siegel,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: const Color(0x33000000),
-              border: Border.all(color: stil.akzentHell.withValues(alpha: 0.8), width: 2),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: const Alignment(0.9, -0.9),
+              radius: 1.1,
+              colors: [schein.withValues(alpha: 0.32), schein.withValues(alpha: 0)],
             ),
+          ),
+          child: Center(
             child: Container(
-              width: siegel - 10,
-              height: siegel - 10,
+              width: siegel,
+              height: siegel,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: stil.akzentHell.withValues(alpha: 0.4)),
+                color: const Color(0x33000000),
+                border: Border.all(color: stil.akzentHell.withValues(alpha: 0.8), width: 2),
               ),
-              child: Text(
-                akteSigel(akte),
-                maxLines: 1,
-                style: TextStyle(
-                  fontFamily: MRohSchrift.anzeige,
-                  fontSize: siegel * 0.36,
-                  letterSpacing: 1,
-                  color: stil.akzentHell,
+              child: Container(
+                width: siegel - 10,
+                height: siegel - 10,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: stil.akzentHell.withValues(alpha: 0.4)),
+                ),
+                child: Text(
+                  akteSigel(akte),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontFamily: MRohSchrift.anzeige,
+                    fontSize: siegel * 0.36,
+                    letterSpacing: 1,
+                    color: stil.akzentHell,
+                  ),
                 ),
               ),
             ),

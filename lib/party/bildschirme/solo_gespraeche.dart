@@ -45,7 +45,7 @@ class _SoloGespraecheBildschirmState extends State<SoloGespraecheBildschirm> {
             const SizedBox(height: 20),
           ],
           if (g != null) ...[
-            Text(s.ui('ui.solo.fortschritt', {'nr': '${_nummer + 1}', 'gesamt': '${liste.length}'}), style: Keller.marke),
+            Text(s.ui('ui.solo.fortschritt', {'nr': '${_nummer + 1}', 'gesamt': '${liste.length}'}), style: context.schrift.marke),
             const SizedBox(height: 12),
             BotSprechblase(sitzung: s, gespraech: g),
           ] else PartyTafel(child: Text(s.ui('ui.solo.fertig'), style: Keller.text)),

@@ -179,6 +179,16 @@ class MordakteGame extends Game with KeyboardEvents {
   /// Nur für Entwicklungs-Vorschau/Screenshots.
   static double debugInitialZoom = 1;
 
+  /// Kamera passt Zoom und Ausschnitt an Detektiv und Ziele an (Partykarte,
+  /// braucht eine Sitzung mit [SzenenKamera]); sonst der feste Zoom wie bisher.
+  bool kameraPassend = false;
+
+  /// Vom Bedienfeld verdeckter Teil des Bildes; der Ausschnitt liegt im Rest.
+  SzenenRand sichtRand = SzenenRand.keiner;
+
+  /// Hintergrund außerhalb der Karte statt reinem Schwarz (Palette der Akte).
+  SzenenUmgebung? umgebung;
+
   /// Aktuelles Ziel für den Aktionsknopf.
   final ValueNotifier<ActionTarget?> target = ValueNotifier(null);
 
@@ -207,6 +217,9 @@ class MordakteGame extends Game with KeyboardEvents {
   Offset _cam = Offset.zero;
   bool _camInit = false;
   double _zoom = 1;
+
+  /// Grundzoom der passenden Kamera (ohne Pinch), sanft nachgeführt.
+  double _zoomBasis = 1;
   static const double _camY = 0.5;
 
   // --- eigener Spieler ---
@@ -628,11 +641,26 @@ class MordakteGame extends Game with KeyboardEvents {
     if (size.x <= 0 || size.y <= 0) return;
     final short = math.min(size.x, size.y);
     final base = (short / (10.5 * Iso.tileW)).clamp(0.42, 2.4);
-    _zoom = base * userZoom.clamp(0.6, 1.8);
-    Offset targetCam;
+    final user = userZoom.clamp(0.6, 1.8);
+    final ruhig = _fuehrung?.bewegungReduziert == true;
     final festeKamera = _ext?.kamera;
+    final passend = festeKamera == null ? _passendeKamera(base, user) : null;
+    final k = 1 - math.exp(-dt * 7);
+    if (passend == null) {
+      _zoomBasis = base;
+    } else if (!_camInit || ruhig) {
+      _zoomBasis = passend.zoom;
+    } else {
+      _zoomBasis += (passend.zoom - _zoomBasis) * k;
+    }
+    _zoom = _zoomBasis * user;
+    Offset targetCam;
     if (festeKamera != null) {
       targetCam = Iso.toScreen(festeKamera.dx, festeKamera.dy, 0.6);
+    } else if (passend != null) {
+      // Die Mitte des Ausschnitts liegt in der Mitte des freien Bildteils.
+      final frei = _freierBereich();
+      targetCam = passend.mitte - (frei.center - Offset(size.x / 2, size.y * _camY)) / _zoom;
     } else if (_hasPos) {
       targetCam = Iso.toScreen(_px, _py, 0.6);
     } else {
@@ -640,13 +668,74 @@ class MordakteGame extends Game with KeyboardEvents {
       final sp = m.spawn.isNotEmpty ? m.spawn.first : Pt(m.width ~/ 2, m.height ~/ 2);
       targetCam = Iso.toScreen(sp.x + 0.5, sp.y + 0.5, 0.6);
     }
-    if (!_camInit || _fuehrung?.bewegungReduziert == true) {
+    if (!_camInit || ruhig) {
       _cam = targetCam;
       _camInit = true;
     } else {
-      final k = 1 - math.exp(-dt * 7);
       _cam = Offset.lerp(_cam, targetCam, k)!;
     }
+  }
+
+  /// Der Teil des Bildes, den kein Bedienfeld verdeckt (mit kleinem Rand).
+  Rect _freierBereich() => Rect.fromLTRB(
+        sichtRand.links + 8,
+        sichtRand.oben + 8,
+        size.x - sichtRand.rechts - 8,
+        size.y - sichtRand.unten - 8,
+      );
+
+  /// Zoom und Mitte (Welt-Bildpunkt), bei denen der Detektiv und seine Ziele
+  /// den freien Bildteil füllen, ohne unter den Grundzoom [base] · 0,85 zu
+  /// fallen. Ziele, die dafür zu weit weg liegen, bleiben außen vor. `null`
+  /// ohne [kameraPassend], ohne [SzenenKamera] oder ohne Position.
+  ({double zoom, Offset mitte})? _passendeKamera(double base, double user) {
+    final sitzung = session;
+    if (!kameraPassend || sitzung is! SzenenKamera || !_hasPos) return null;
+    final frei = _freierBereich();
+    if (frei.width < 120 || frei.height < 120) return null;
+    // Platz für Namen und Sprechblasen über den Köpfen.
+    Rect punkt(double x, double y) {
+      final o = Iso.toScreen(x, y);
+      return Rect.fromLTRB(o.dx - 44, o.dy - 96, o.dx + 44, o.dy + 16);
+    }
+
+    // Mindestgröße des Ausschnitts, damit ein einzelnes Ziel nicht übergroß wird.
+    Rect weiten(Rect r) => Rect.fromCenter(
+          center: r.center,
+          width: math.max(r.width, 448.0),
+          height: math.max(r.height, 288.0),
+        );
+    double zoomFuer(Rect r) {
+      final b = weiten(r);
+      return math.min(frei.width / b.width, frei.height / b.height);
+    }
+
+    final zMin = base * 0.85;
+    final zMax = math.min(base * 1.7, 2.4);
+    final ich = punkt(_px, _py);
+    final nah = Iso.toScreen(_px, _py);
+    final ziele = [...(sitzung as SzenenKamera).kameraZiele]
+      ..sort((a, b) => (Iso.toScreen(a.dx, a.dy) - nah).distanceSquared.compareTo((Iso.toScreen(b.dx, b.dy) - nah).distanceSquared));
+    var box = ich;
+    for (final z in ziele) {
+      final erweitert = box.expandToInclude(punkt(z.dx, z.dy));
+      if (zoomFuer(erweitert) >= zMin) box = erweitert;
+    }
+    final zoom = zoomFuer(box).clamp(zMin, zMax);
+    var mitte = weiten(box).center;
+    // Wer hineinzoomt, folgt dem Detektiv statt dem Ausschnitt.
+    final folgen = ((user - 1) / 0.4).clamp(0.0, 1.0);
+    mitte = Offset.lerp(mitte, ich.center, folgen)!;
+    // Der Detektiv bleibt immer im freien Bildteil.
+    final zf = zoom * user;
+    final halbB = frei.width / (2 * zf), halbH = frei.height / (2 * zf);
+    final minX = ich.right - halbB, maxX = ich.left + halbB;
+    final minY = ich.bottom - halbH, maxY = ich.top + halbH;
+    mitte = Offset(
+      minX <= maxX ? mitte.dx.clamp(minX, maxX) : ich.center.dx,
+      minY <= maxY ? mitte.dy.clamp(minY, maxY) : ich.center.dy,
+    );
+    return (zoom: zoom, mitte: mitte);
   }
 
   static const _itemNames = {
@@ -1012,6 +1101,10 @@ class MordakteGame extends Game with KeyboardEvents {
     _renderPostLight(canvas, scene, w, cv, cull);
     canvas.restore();
 
+    // 5b) Außerhalb der Karte: Palette der Akte statt Schwarz
+    final umg = umgebung;
+    if (umg != null) _renderUmgebung(canvas, scene, umg);
+
     // 6) Wetter (Bildschirm)
     _weather?.render(canvas, viewSize, t);
 
@@ -1021,19 +1114,84 @@ class MordakteGame extends Game with KeyboardEvents {
     // 8) Vignette + Blitz
     final vr = Rect.fromLTWH(0, 0, size.x, size.y);
     final night = szLicht != null || phase == Phase.night;
+    // Mit Umgebung der Akte: leichterer Rand in einem dunklen Ton der Akte, nie reines Schwarz.
+    final vignette = umg == null ? const Color(0xFF000000) : Color.lerp(umg.rand, const Color(0xFF000000), 0.45)!;
     canvas.drawRect(
       vr,
       Paint()
         ..shader = Gradient.radial(
           vr.center,
           vr.longestSide * 0.72,
-          [const Color(0x00000000), withAlpha(const Color(0xFF000000), night ? 0.62 : 0.38)],
+          [vignette.withValues(alpha: 0), withAlpha(vignette, umg == null ? (night ? 0.62 : 0.38) : 0.5)],
           const [0.45, 1.0],
         ),
     );
     if (_flash > 0.01) {
       canvas.drawRect(vr, Paint()..color = withAlpha(const Color(0xFFE6EEFF), 0.22 * _flash));
     }
+  }
+
+  /// Silhouette der Karte (Kacheln samt Wandhöhe) in Welt-Bildkoordinaten, zeilenweise.
+  Path? _umriss;
+  String? _umrissFuer;
+
+  Path _kartenUmriss(StaticScene scene) {
+    final id = scene.scenario.id;
+    if (_umriss != null && _umrissFuer == id) return _umriss!;
+    final m = scene.scenario.map;
+    final p = Path();
+    const hoehe = 1.6;
+    for (var y = 0; y < m.height; y++) {
+      var x = 0;
+      while (x < m.width) {
+        if (m.charAt(x, y) == TileChar.void_) {
+          x++;
+          continue;
+        }
+        final a = x;
+        while (x < m.width && m.charAt(x, y) != TileChar.void_) {
+          x++;
+        }
+        // Lauf [a, x) in Zeile y: Boden samt hochgezogenem Rand als Sechseck.
+        final p1 = Iso.toScreen(a.toDouble(), y.toDouble());
+        final p2 = Iso.toScreen(x.toDouble(), y.toDouble());
+        final p3 = Iso.toScreen(x.toDouble(), y + 1.0);
+        final p4 = Iso.toScreen(a.toDouble(), y + 1.0);
+        const hub = Offset(0, -hoehe * Iso.unitZ);
+        p.addPolygon([p1 + hub, p2 + hub, p2, p3, p4, p4 + hub], true);
+      }
+    }
+    _umrissFuer = id;
+    return _umriss = p;
+  }
+
+  /// Verlauf außerhalb der Karte: Die Silhouette wird aus einer Ebene mit dem
+  /// Verlauf ausgestanzt, innen bleibt die Szene unverändert.
+  void _renderUmgebung(Canvas canvas, StaticScene scene, SzenenUmgebung u) {
+    final vr = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.saveLayer(vr, Paint());
+    canvas.drawRect(
+      vr,
+      Paint()
+        ..shader = Gradient.radial(
+          _freierBereich().center,
+          vr.longestSide * 0.75,
+          [u.mitte, u.rand],
+          const [0.0, 1.0],
+        ),
+    );
+    canvas.save();
+    canvas.translate(size.x / 2, size.y * _camY);
+    canvas.scale(_zoom);
+    canvas.translate(-_cam.dx, -_cam.dy);
+    canvas.drawPath(
+      _kartenUmriss(scene),
+      Paint()
+        ..blendMode = BlendMode.dstOut
+        ..color = const Color(0xFF000000),
+    );
+    canvas.restore();
+    canvas.restore();
   }
 
   void _renderPhasenLicht(Canvas canvas, Rect view, StaticScene scene, Phase? phase, ScenarioDef s, Rect cull, double t) {

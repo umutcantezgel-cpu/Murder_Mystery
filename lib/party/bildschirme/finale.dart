@@ -23,7 +23,7 @@ class FinaleBildschirm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(sitzung.ui('ui.finale.rueckblende').toUpperCase(), style: Keller.marke),
+            Text(sitzung.ui('ui.finale.rueckblende').toUpperCase(), style: context.schrift.marke),
             const SizedBox(height: 8),
             // Fester Kasten: mindestens 260 px, sonst 45 % der Höhe; so beginnt der
             // Finaltext noch über der Fußleiste (B7).

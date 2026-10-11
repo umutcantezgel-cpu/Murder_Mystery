@@ -116,3 +116,12 @@ class FarbPunkt extends StatelessWidget {
         decoration: BoxDecoration(color: farbe, shape: BoxShape.circle, border: Border.all(color: Keller.papierGedaempft, width: 1.5)),
       );
 }
+
+/// Farben und Schriften des Themas: in einer Akte mit deren Akzent (Kerzenorange,
+/// Spukcyan, Mondblau, Messing, Neon), sonst im Grundton Kerzenmessing. Die
+/// Konstanten in [Keller] bleiben der Grundton; Bildschirme des Abends nehmen
+/// diese Zugriffe, damit der Akzent der Akte sichtbar wird.
+extension KellerThema on BuildContext {
+  MFarben get farben => MFarben.von(this);
+  MSchrift get schrift => MSchrift.von(this);
+}

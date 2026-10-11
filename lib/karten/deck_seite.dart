@@ -291,9 +291,14 @@ class _Auswahl extends StatelessWidget {
                   ),
                   child: Align(
                     alignment: Alignment.bottomCenter,
+                    // Bei schmalen Karten oder großer Schrift schrumpft die ganze Marke,
+                    // statt den Text zu kürzen.
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: MMass.s8),
-                      child: MChip(l.karten_deck_drin, icon: Icons.check_rounded, gefuellt: true),
+                      padding: const EdgeInsets.fromLTRB(MMass.s4, 0, MMass.s4, MMass.s8),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: MChip(l.karten_deck_drin, icon: Icons.check_rounded, gefuellt: true, passend: true),
+                      ),
                     ),
                   ),
                 ),
