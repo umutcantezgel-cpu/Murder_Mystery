@@ -10,6 +10,14 @@
       "vorlage": "content/scenarios/ravensmoor.json"
     },
     {
+      "id": "nachtexpress",
+      "titel": "Nachtexpress 1931",
+      "untertitel": "Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann.",
+      "ton": "noir",
+      "freiAb": 0,
+      "vorlage": "content/scenarios/nachtexpress.json"
+    },
+    {
       "id": "blue_palm",
       "titel": "Blue Palm Motel",
       "untertitel": "Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7",
