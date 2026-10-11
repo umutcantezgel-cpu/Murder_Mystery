@@ -1901,6 +1901,9 @@ class LDe extends L {
   String get detektei_ton_spuk => 'Spuk';
 
   @override
+  String get detektei_ton_noir => 'Noir';
+
+  @override
   String get detektei_sammlung => 'Sammlung';
 
   @override

@@ -1084,6 +1084,7 @@
   "detektei_personen": "{min} bis {max} Personen",
   "@detektei_personen": {"placeholders": {"min": {"type": "int"}, "max": {"type": "int"}}},
   "detektei_ton_spuk": "Spuk",
+  "detektei_ton_noir": "Noir",
   "detektei_sammlung": "Sammlung",
   "detektei_sammlung_hinweis": "Die Karten der Figuren",
   "detektei_profil": "Profil",

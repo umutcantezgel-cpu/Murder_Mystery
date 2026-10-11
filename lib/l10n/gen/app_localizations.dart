@@ -3327,6 +3327,12 @@ abstract class L {
   /// **'Spuk'**
   String get detektei_ton_spuk;
 
+  /// No description provided for @detektei_ton_noir.
+  ///
+  /// In de, this message translates to:
+  /// **'Noir'**
+  String get detektei_ton_noir;
+
   /// No description provided for @detektei_sammlung.
   ///
   /// In de, this message translates to:

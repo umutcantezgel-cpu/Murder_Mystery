@@ -44,6 +44,8 @@ flutter:
     - content/party/schlosskeller/
     - content/party/schlosskeller/tatmatrix/
     - content/party/schlosskeller/texte/
+    - content/party/blue_palm/
+    - content/party/blue_palm/texte/
   fonts:
     - family: SpecialElite
       fonts:

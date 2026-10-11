@@ -7,6 +7,7 @@ import 'akten.dart';
 /// Ton einer Akte in Worten (`spuk` → „Spuk“); unbekannte Töne erscheinen, wie sie in der Datei stehen.
 String akteTonText(L l, String ton) => switch (ton) {
       'spuk' => l.detektei_ton_spuk,
+      'noir' => l.detektei_ton_noir,
       _ => ton,
     };
 

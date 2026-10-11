@@ -8,6 +8,14 @@
       "ton": "spuk",
       "freiAb": 0,
       "vorlage": "content/scenarios/ravensmoor.json"
+    },
+    {
+      "id": "blue_palm",
+      "titel": "Blue Palm Motel",
+      "untertitel": "Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7",
+      "ton": "noir",
+      "freiAb": 0,
+      "vorlage": "content/scenarios/blue_palm.json"
     }
   ]
 }
