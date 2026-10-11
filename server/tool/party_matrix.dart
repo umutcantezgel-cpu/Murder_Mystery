@@ -138,7 +138,7 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
                   await pate.expect(Msg.error, where: (m) => m['key'] == 'invalid');
                   forgedDiceChecked = true;
                 }
-                if (z['id'] != 'auftakt') await _command(host, pate, 'wuerfelHilfe', {'werkzeug': true});
+                if (z['id'] != 'auftakt') await _command(host, pate, 'wuerfelHilfe', {'marke': true});
                 await _command(host, pate, 'wurf');
               case 'tischruf':
                 await _command(host, host, 'tischruf', {'ruf': count.isEven ? 'nochmal' : 'umweg'});
