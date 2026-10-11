@@ -344,7 +344,12 @@ class RelayGast implements AbendVerbindung {
       return;
     }
     final gleich = _hostPub != null && _epoch == epoch && b64(_hostPub!) == b64(hpub);
-    if (gleich) return;
+    if (gleich) {
+      // Ein wiederholter Turm heißt meist: Der Gastgeber hört jetzt auf dem
+      // Sitzthema. Ein früheres Hallo kann davor verloren gegangen sein.
+      if (!_aktiv && _paar != null) _sendeHallo();
+      return;
+    }
     // Eine laufende, bestätigte Sitzung wird nicht durch einen (unbeglaubigten)
     // Turm mit anderer Epoche abgelöst; ein echter Neustart des Gastgebers
     // macht ihn zuerst unerreichbar.
