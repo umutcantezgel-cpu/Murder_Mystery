@@ -41,9 +41,14 @@ flutter:
     - content/party/akten.json
     - content/karten/
     - content/party/zusatz/schlosskeller/
+    - content/party/zusatz/ravensmoor/
+    - content/party/zusatz/nachtexpress/
+    - content/party/zusatz/blue_palm/
     - content/party/schlosskeller/
     - content/party/schlosskeller/tatmatrix/
     - content/party/schlosskeller/texte/
+    - content/party/gewoelbe/
+    - content/party/gewoelbe/texte/
     - content/party/ravensmoor/
     - content/party/ravensmoor/texte/
     - content/party/nachtexpress/

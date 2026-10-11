@@ -10,6 +10,14 @@
       "vorlage": "content/scenarios/ravensmoor.json"
     },
     {
+      "id": "gewoelbe",
+      "titel": "Spuk im Gewölbe",
+      "untertitel": "Ein Geburtstag auf Burg Schartenfels",
+      "ton": "spuk",
+      "freiAb": 0,
+      "vorlage": "content/scenarios/ravensmoor.json"
+    },
+    {
       "id": "ravensmoor",
       "titel": "Ravensmoor",
       "untertitel": "Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte.",
