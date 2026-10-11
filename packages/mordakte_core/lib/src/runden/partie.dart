@@ -2,6 +2,9 @@ import '../party/ablauf.dart';
 import '../party/entscheidungen.dart';
 import '../party/gruppenwahl.dart';
 import '../party/kanon/kanon.dart';
+import '../karten/abstecher.dart';
+import '../karten/karte.dart';
+import '../karten/vorrat.dart';
 import 'wuerfel.dart';
 import 'zugschicht.dart';
 
@@ -23,6 +26,12 @@ class RundenZug {
   final Wurf? wurf;
   final List<Aufdeckung> funde;
 
+  /// Erkundungsort bei einem Abstecher (sonst null).
+  final String? abstecher;
+
+  /// Nebenfund eines Abstechers (Stimmung, nie ein Fakt).
+  final String? nebenfund;
+
   const RundenZug._({
     required this.id,
     required this.option,
@@ -32,9 +41,12 @@ class RundenZug {
     this.ruf,
     this.wurf,
     this.funde = const [],
+    this.abstecher,
+    this.nebenfund,
   });
 
-  bool get istAuftakt => option == null;
+  bool get istAuftakt => option == null && abstecher == null;
+  bool get istAbstecher => abstecher != null;
 }
 
 /// Verbindet Kanon-Ablauf und Würfelkern, ohne Flutter, Uhr oder Transport.
@@ -50,17 +62,34 @@ class RundenZug {
 /// Weder Spiel noch Controller dürfen als Online-Zustand serialisiert werden:
 /// dafür ist eine separate, spielerbezogene Projektion erforderlich.
 class RundenPartie {
-  factory RundenPartie(Kanon kanon, {required WuerfelQuelle quelle, Ermittlung? ermittlung}) {
+  factory RundenPartie(
+    Kanon kanon, {
+    required WuerfelQuelle quelle,
+    Ermittlung? ermittlung,
+    TischVorrat? vorrat,
+    List<AbstecherOrt> abstecher = const [],
+  }) {
     final spiel = Spiel(kanon, ermittlung: ermittlung);
-    return RundenPartie._(spiel, Zugschicht(spiel.ermittlung, quelle));
+    return RundenPartie._(spiel, Zugschicht(spiel.ermittlung, quelle), vorrat ?? TischVorrat.leer(), List.unmodifiable(abstecher));
   }
 
-  RundenPartie._(this.spiel, this._zuege);
+  RundenPartie._(this.spiel, this._zuege, this.vorrat, this.abstecherOrte);
 
   final Spiel spiel;
   final Zugschicht _zuege;
   RundenZug? _zug;
   int _aktionsNummer = 0;
+
+  /// Karten des Tisches (höchstens 3, siehe [TischVorrat]); Bots haben keine.
+  final TischVorrat vorrat;
+
+  /// Erkundungsorte der Akte (optional, nie Fakten).
+  final List<AbstecherOrt> abstecherOrte;
+
+  /// Ergebnis je besuchtem Erkundungsort.
+  final Map<String, Stufe> abstecherErgebnis = {};
+  bool _abstecherGruendlich = false;
+  String? _abstecherKarte;
 
   PartyPhase get phase => spiel.phase;
   int get runde => spiel.runde;
@@ -110,12 +139,20 @@ class RundenPartie {
 
   /// Wahl vor Wurf. Eine weitere Auswahl ist bis zum Lesen des Fundes gesperrt.
   /// „Gründlich“ gehört nur zu Suchen, nie zu Befragungen.
-  void waehle(String option, {bool gruendlich = false}) {
+  ///
+  /// [karte] (Art gründlich) macht „gründlich“ kostenfrei; sie wirkt erst nach
+  /// der endgültigen Wahl und für jede Option gleich (K-06).
+  void waehle(String option, {bool gruendlich = false, String? karte}) {
     final e = naechsteEntscheidung ?? (throw StateError('Keine neue Entscheidung möglich.'));
     e.option(option); // vor jeder Zustandsänderung prüfen
     final suche = istSuche(e);
     if (gruendlich && !suche) throw ArgumentError('Befragungen sind würfelfrei.');
-    _zuege.waehle(option, gruendlich: gruendlich);
+    if (karte != null) {
+      if (!gruendlich) throw const KartenFehler('card_wrong_moment');
+      vorrat.pruefe(karte, {KartenArt.gruendlich});
+    }
+    _zuege.waehle(option, gruendlich: gruendlich, gratis: karte != null);
+    if (karte != null) vorrat.verbrauche(karte);
     _zug = RundenZug._(
       id: e.id, option: option, suche: suche,
       phase: RundenZugPhase.aktion, aktion: ++_aktionsNummer,
@@ -126,7 +163,7 @@ class RundenPartie {
   bool aktionFertig(int aktion) {
     final z = _zug;
     if (z == null || z.phase != RundenZugPhase.aktion || z.aktion != aktion) return false;
-    if (z.suche) {
+    if (z.suche || z.istAbstecher) {
       _setzePhase(RundenZugPhase.wurf);
     } else {
       _aufdecken();
@@ -142,14 +179,41 @@ class RundenPartie {
       return (mod: 0, garantie: false, markeWirkt: false,
         prozent: Map.unmodifiable(WuerfelRegel.chancenProzent(0)));
     }
+    if (z.istAbstecher) {
+      final mod = WuerfelRegel.modifikator(werkzeug: werkzeug, gruendlich: _abstecherGruendlich, marke: false);
+      return (mod: mod, garantie: false, markeWirkt: false, prozent: Map.unmodifiable(WuerfelRegel.chancenProzent(mod)));
+    }
     final v = _zuege.vorschau(werkzeug: werkzeug, marke: marke);
     return (mod: v.mod, garantie: v.garantie, markeWirkt: v.markeWirkt,
       prozent: Map.unmodifiable(v.prozent));
   }
 
-  Wurf wuerfeln({bool werkzeug = false, bool marke = false}) {
+  /// [karte] (Art werkzeug) ist die Quelle in der Welt für +1 (K-07); der
+  /// Deckel +2 bleibt. Sie wird erst mit dem Wurf verbraucht.
+  Wurf wuerfeln({bool werkzeug = false, bool marke = false, String? karte}) {
     final z = _erwarte(RundenZugPhase.wurf);
+    if (karte != null) {
+      if (z.istAuftakt) throw const KartenFehler('card_wrong_moment');
+      vorrat.pruefe(karte, {KartenArt.werkzeug});
+      werkzeug = true;
+    }
+    if (z.istAbstecher) {
+      final w = _zuege.abstecher('abstecher:${z.abstecher}',
+          mitWurf: true, werkzeug: werkzeug, gruendlich: _abstecherGruendlich, gratis: _abstecherKarte != null)!;
+      if (karte != null) vorrat.verbrauche(karte);
+      if (_abstecherKarte != null) vorrat.verbrauche(_abstecherKarte!);
+      _abstecherKarte = null;
+      abstecherErgebnis[z.abstecher!] = w.stufe;
+      final ort = abstecherOrte.firstWhere((a) => a.id == z.abstecher);
+      _zug = RundenZug._(
+        id: z.id, option: null, suche: true, phase: RundenZugPhase.fund, aktion: z.aktion, wurf: w,
+        abstecher: z.abstecher,
+        nebenfund: switch (w.stufe) { Stufe.erfolg => ort.erfolg, Stufe.teilerfolg => ort.teilerfolg, Stufe.pech => ort.pech },
+      );
+      return w;
+    }
     final w = z.istAuftakt ? _zuege.auftakt() : _zuege.anlauf(werkzeug: werkzeug, marke: marke);
+    if (karte != null) vorrat.verbrauche(karte);
     if (z.istAuftakt) {
       // Der Auftakt hat keine wertende Entscheidung und keine Kanon-Funde.
       _setzePhase(RundenZugPhase.fund, wurf: w);
@@ -163,9 +227,14 @@ class RundenPartie {
 
   /// Beide Wege behalten dieselbe gewählte Kanon-Quelle. Auch ein neuer Anlauf
   /// braucht eine neue sichtbare Kartenaktion, bevor wieder gewürfelt wird.
-  void tischruf(Tischruf ruf) {
+  ///
+  /// [karte] (Art nochmal bzw. umweg passend zum Ruf) macht den Gang kostenfrei.
+  void tischruf(Tischruf ruf, {String? karte}) {
     final z = _erwarte(RundenZugPhase.tischruf);
-    if (_zuege.tischruf(ruf)) {
+    if (karte != null) vorrat.pruefe(karte, {ruf == Tischruf.nochmal ? KartenArt.nochmal : KartenArt.umweg});
+    final weiterLauf = _zuege.tischruf(ruf, gratis: karte != null);
+    if (karte != null) vorrat.verbrauche(karte);
+    if (weiterLauf) {
       _zug = RundenZug._(
         id: z.id, option: z.option, suche: z.suche,
         phase: RundenZugPhase.aktion, aktion: ++_aktionsNummer,
@@ -181,6 +250,52 @@ class RundenPartie {
     _erwarte(RundenZugPhase.fund);
     _zug = null;
   }
+
+  /// Sofort wirkende Karten: Zeit (Nachtminuten, einmal je Runde), Marke (in den
+  /// Bestand) und Erinnerung (reine Anzeige öffentlicher Texte). Zeit und Marke
+  /// nur in der Ermittlung. Nichts davon berührt Wahl, Fakten oder Wertung.
+  KartenDef karteSpielen(String id) {
+    final k = vorrat.pruefe(id, {KartenArt.zeit, KartenArt.marke, KartenArt.erinnerung}, runde: runde);
+    if (k.art != KartenArt.erinnerung && phase != PartyPhase.entscheidungen) throw const KartenFehler('card_wrong_moment');
+    switch (k.art) {
+      case KartenArt.zeit:
+        _zuege.zeitDazu(k.wert);
+      case KartenArt.marke:
+        _zuege.markeGutschrift();
+      default:
+        break;
+    }
+    vorrat.verbrauche(id, runde: runde);
+    return k;
+  }
+
+  /// Erkundungsorte, die jetzt besucht werden dürfen: in der Ermittlung, ohne
+  /// laufenden Zug, ab ihrer Runde, einmal je Abend und nur, wenn die
+  /// Reserve-Regel alle offenen Pflichtzüge deckt (K-12).
+  List<AbstecherOrt> get abstecherOffen {
+    if (phase != PartyPhase.entscheidungen || _zug != null || !_zuege.abstecherErlaubt()) return const [];
+    return [for (final a in abstecherOrte) if (a.abRunde <= runde && !abstecherErgebnis.containsKey(a.id)) a];
+  }
+
+  /// Beginnt einen Abstecher mit sichtbarer Kartenaktion; danach Wurf und Fund.
+  /// [karte] (Art abstecher) macht den Gang kostenfrei.
+  void starteAbstecher(String id, {bool gruendlich = false, String? karte}) {
+    if (!abstecherOffen.any((a) => a.id == id)) throw StateError('Abstecher $id ist jetzt nicht möglich.');
+    if (gruendlich && !_zuege.abstecherErlaubt(gruendlich: true)) throw StateError('Reserve-Regel sperrt gründlich.');
+    if (karte != null) vorrat.pruefe(karte, {KartenArt.abstecher});
+    _abstecherGruendlich = gruendlich;
+    _abstecherKarte = karte;
+    _zug = RundenZug._(
+      id: 'abstecher:$id', option: null, suche: true,
+      phase: RundenZugPhase.aktion, aktion: ++_aktionsNummer, abstecher: id,
+    );
+  }
+
+  /// Gelungene Erkundungen (Erfolg oder Teilerfolg) – Quelle für Kartenfunde.
+  Set<String> get abstecherFunde => {
+        for (final e in abstecherErgebnis.entries)
+          if (e.value != Stufe.pech) e.key,
+      };
 
   Qualitaet abstimmen({required int kooperativ, required bool taeterSabotiert}) =>
       spiel.abstimmen(kooperativ: kooperativ, taeterSabotiert: taeterSabotiert);
@@ -208,6 +323,7 @@ class RundenPartie {
     _zug = RundenZug._(
       id: z.id, option: z.option, suche: z.suche, phase: phase,
       aktion: z.aktion, ruf: z.ruf, wurf: wurf ?? z.wurf, funde: z.funde,
+      abstecher: z.abstecher, nebenfund: z.nebenfund,
     );
   }
 }

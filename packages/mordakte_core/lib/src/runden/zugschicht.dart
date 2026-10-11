@@ -156,10 +156,12 @@ class Zugschicht {
 
   /// Ein Abstecher (nichtwertend, nie `fakt:`-Glieder). Ohne [mitWurf] Rückgabe null;
   /// „gründlich“ nur mit Wurf, es kostet wie im Pflichtzug +2 min (Kern 1.1).
-  Wurf? abstecher(String id, {bool mitWurf = false, bool werkzeug = false, bool gruendlich = false, bool marke = false}) {
+  /// Mit [gratis] (Abstecher-Karte) kostet der Gang selbst keine Nachtminuten;
+  /// ein Pech-Zuschlag bleibt, die Reserve-Regel ebenso.
+  Wurf? abstecher(String id, {bool mitWurf = false, bool werkzeug = false, bool gruendlich = false, bool marke = false, bool gratis = false}) {
     final g = mitWurf && gruendlich;
     if (!abstecherErlaubt(gruendlich: g)) throw StateError('Reserve-Regel sperrt Abstecher $id');
-    rest -= p.abstecher + (g ? p.gruendlich : 0);
+    rest -= (gratis ? 0 : p.abstecher) + (g ? p.gruendlich : 0);
     abstecherZahl++;
     if (!mitWurf) {
       ereignisse.add('$id:-');
@@ -176,6 +178,20 @@ class Zugschicht {
     }
     ereignisse.add('$id:${w.stufe.kurz}');
     return w;
+  }
+
+  /// Zeit-Karte: Nachtminuten dazu. Lockert nur Grenzen, ändert keine Wahl.
+  void zeitDazu(int minuten) {
+    if (minuten < 0) throw ArgumentError('nur dazu');
+    rest += minuten;
+    ereignisse.add('karte:zeit+$minuten');
+  }
+
+  /// Marken-Karte: eine Seifenblasen-Marke in den Bestand. Einlösen bleibt an
+  /// die Grenzen 1 je Wurf, 2 je Ziel und [ZugParameter.markenMax] je Partie gebunden.
+  void markeGutschrift() {
+    markenBestand++;
+    ereignisse.add('karte:marke');
   }
 
   /// Glück im Unglück (K-10, Kern 1.1): jedes Pech bringt eine Seifenblasen-Marke.
@@ -207,7 +223,7 @@ class Zugschicht {
 
   /// Öffnet die nächste Pflichtentscheidung der Runde in Kanon-Reihenfolge und
   /// wählt endgültig [option] (Wahl vor Wurf). Gibt zurück, ob gewürfelt wird.
-  bool waehle(String option, {bool gruendlich = false}) {
+  bool waehle(String option, {bool gruendlich = false, bool gratis = false}) {
     if (_lauf != null) throw StateError('Untersuchung ${_lauf!.id} läuft noch');
     if (offen.isEmpty) throw StateError('keine Pflichtentscheidung offen');
     final id = offen.first;
@@ -222,7 +238,8 @@ class Zugschicht {
     offen.removeAt(0);
     standBeimOeffnen[id] = Set.of(fakten);
     gewaehlt[id] = option;
-    rest -= p.pflicht + (gruendlich ? p.gruendlich : 0);
+    // Mit der Gründlich-Karte kostet „gründlich“ keine Nachtminuten (+2 bleibt).
+    rest -= p.pflicht + (gruendlich && !gratis ? p.gruendlich : 0);
     if (!istSuche(e)) {
       _decke(id);
       ereignisse.add('$option:B');
@@ -266,12 +283,13 @@ class Zugschicht {
 
   /// Tischruf nach Pech. Reicht die Restzeit nicht (Rundenschranke), gilt die
   /// Untersuchung als Teilerfolg; Rückgabe dann `false`.
-  bool tischruf(Tischruf ruf) {
+  bool tischruf(Tischruf ruf, {bool gratis = false}) {
     final u = _lauf ?? (throw StateError('keine Untersuchung offen'));
     if (!u.wartetAufTischruf) throw StateError('kein Pech offen');
     u.anlauf++;
     ereignisse.add('${u.option}:ruf:${ruf.name}');
-    final zusatz = ruf == Tischruf.umweg ? p.umweg : (u.anlauf == 2 ? p.zweit : p.dritt);
+    // Nochmal-/Umweg-Karte: dieser Gang kostet keine Nachtminuten.
+    final zusatz = gratis ? 0 : (ruf == Tischruf.umweg ? p.umweg : (u.anlauf == 2 ? p.zweit : p.dritt));
     u.wartetAufTischruf = false;
     if (rest - zusatz < 0) {
       _decke(u.id);
