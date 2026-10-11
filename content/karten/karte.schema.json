@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sammelkarten einer Akte",
+  "description": "content/karten/<akte>.json: dauerhafte Komfort-Karten. Die Wirkung kommt allein aus dem geschlossenen Katalog KartenArt; der Text beschreibt genau diese Wirkung und verspricht nie Wissen.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "kartenId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*:[a-z][a-z0-9_]*$"
+    },
+    "figur": {
+      "type": "string",
+      "pattern": "^(klasse:)?[a-z][a-z0-9_]*$"
+    },
+    "seltenheit": {
+      "enum": [
+        "gewoehnlich",
+        "selten",
+        "legendaer"
+      ]
+    },
+    "art": {
+      "enum": [
+        "werkzeug",
+        "marke",
+        "zeit",
+        "gruendlich",
+        "nochmal",
+        "umweg",
+        "abstecher",
+        "erinnerung",
+        "kosmetik"
+      ]
+    },
+    "titel": {
+      "type": "string",
+      "pattern": "^[^\\s].{0,26}[^\\s]$"
+    },
+    "text": {
+      "type": "string",
+      "pattern": "^[^\\s].{0,118}[^\\s]$"
+    },
+    "motiv": {
+      "type": "string",
+      "pattern": "^[^\\s].{0,38}[^\\s]$"
+    },
+    "quelle": {
+      "type": "object",
+      "required": [
+        "art"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "art": {
+          "enum": [
+            "rolle",
+            "taeter",
+            "meister",
+            "abstecher",
+            "start"
+          ]
+        },
+        "abstecher": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "karte": {
+      "type": "object",
+      "required": [
+        "id",
+        "akte",
+        "figur",
+        "seltenheit",
+        "art",
+        "ladungen",
+        "wert",
+        "titel",
+        "text",
+        "motiv",
+        "quellen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/kartenId"
+        },
+        "akte": {
+          "$ref": "#/$defs/id"
+        },
+        "figur": {
+          "$ref": "#/$defs/figur"
+        },
+        "seltenheit": {
+          "$ref": "#/$defs/seltenheit"
+        },
+        "art": {
+          "$ref": "#/$defs/art"
+        },
+        "ladungen": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
+        },
+        "wert": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "titel": {
+          "$ref": "#/$defs/titel"
+        },
+        "text": {
+          "$ref": "#/$defs/text"
+        },
+        "motiv": {
+          "$ref": "#/$defs/motiv"
+        },
+        "quellen": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/quelle"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "akte",
+    "karten"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "hinweis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "karten": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/karte"
+      }
+    }
+  }
+}

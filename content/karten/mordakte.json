@@ -1,0 +1,276 @@
+{
+  "hinweis": "Sammelkarten der Detektivklassen. figur klasse:forensic = Forensikerin, klasse:profiler = Profiler, klasse:journalist = Journalistin, klasse:excop = Ex-Cop, klasse:medic = Sanitäter. Die erste Karte jeder Klasse gehört zum Startset einer neuen Sammlung.",
+  "akte": "mordakte",
+  "karten": [
+    {
+      "id": "mordakte:forensic:koefferchen",
+      "akte": "mordakte",
+      "figur": "klasse:forensic",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Forensik-Köfferchen",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "köfferchen mit pinsel und lupe",
+      "quellen": [
+        {
+          "art": "start"
+        },
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:forensic:abdruck",
+      "akte": "mordakte",
+      "figur": "klasse:forensic",
+      "seltenheit": "gewoehnlich",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Der zweite Abdruck",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "fingerabdruck auf glas",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:forensic:lupe",
+      "akte": "mordakte",
+      "figur": "klasse:forensic",
+      "seltenheit": "selten",
+      "art": "werkzeug",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Die große Lupe",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "große lupe mit holzgriff",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:profiler:zweiter_blick",
+      "akte": "mordakte",
+      "figur": "klasse:profiler",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Der zweite Blick",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "brille und nachdenkliche stirn",
+      "quellen": [
+        {
+          "art": "start"
+        },
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:profiler:protokoll",
+      "akte": "mordakte",
+      "figur": "klasse:profiler",
+      "seltenheit": "gewoehnlich",
+      "art": "erinnerung",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Das Gesprächsprotokoll",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "protokollblock mit notizen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:profiler:gedankenpalast",
+      "akte": "mordakte",
+      "figur": "klasse:profiler",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Der Gedankenpalast",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "kleines schloss im kopf",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:journalist:presseausweis",
+      "akte": "mordakte",
+      "figur": "klasse:journalist",
+      "seltenheit": "gewoehnlich",
+      "art": "abstecher",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Der Presseausweis",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "presseausweis am band",
+      "quellen": [
+        {
+          "art": "start"
+        },
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:journalist:trenchcoat",
+      "akte": "mordakte",
+      "figur": "klasse:journalist",
+      "seltenheit": "gewoehnlich",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Der Reporter-Trenchcoat",
+      "text": "Ein Mantel in Senfgelb, nur fürs Aussehen.",
+      "motiv": "trenchcoat in senfgelb",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:journalist:exklusiv",
+      "akte": "mordakte",
+      "figur": "klasse:journalist",
+      "seltenheit": "selten",
+      "art": "abstecher",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Die Exklusiv-Geschichte",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "schlagzeile mit ausrufezeichen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:excop:streifenplan",
+      "akte": "mordakte",
+      "figur": "klasse:excop",
+      "seltenheit": "gewoehnlich",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Der Streifenplan",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "stadtplan mit streifenroute",
+      "quellen": [
+        {
+          "art": "start"
+        },
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:excop:dienstmarke",
+      "akte": "mordakte",
+      "figur": "klasse:excop",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Die alte Dienstmarke",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "alte dienstmarke",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:excop:hintertuer",
+      "akte": "mordakte",
+      "figur": "klasse:excop",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Die Hintertür des Reviers",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "hintertür mit notausgangsschild",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:medic:notfalltasche",
+      "akte": "mordakte",
+      "figur": "klasse:medic",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Die Notfalltasche",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "notfalltasche mit pflaster",
+      "quellen": [
+        {
+          "art": "start"
+        },
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:medic:rettungsmantel",
+      "akte": "mordakte",
+      "figur": "klasse:medic",
+      "seltenheit": "gewoehnlich",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Der Rettungsmantel",
+      "text": "Ein Mantel in Warnorange, nur fürs Aussehen.",
+      "motiv": "mantel in warnorange",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "mordakte:medic:ruhige_hand",
+      "akte": "mordakte",
+      "figur": "klasse:medic",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Die ruhige Hand",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "ruhige hand mit pflaster",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Abstecher einer Akte",
+  "description": "content/party/zusatz/<akte>/abstecher.json: freiwillige Erkundungsorte. Reine Stimmung, auf allen Pfaden gleich, nie ein Fakt.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ort": {
+      "type": "object",
+      "required": [
+        "id",
+        "ort",
+        "name",
+        "erfolg",
+        "teilerfolg",
+        "pech",
+        "abRunde"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "ort": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "erfolg": {
+          "$ref": "#/$defs/text"
+        },
+        "teilerfolg": {
+          "$ref": "#/$defs/text"
+        },
+        "pech": {
+          "$ref": "#/$defs/text"
+        },
+        "abRunde": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "akte",
+    "abstecher"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "abstecher": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/ort"
+      }
+    }
+  }
+}

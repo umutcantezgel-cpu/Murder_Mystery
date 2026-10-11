@@ -1,0 +1,779 @@
+{
+  "hinweis": "Sammelkarten der Akte „Spuk im Schlosskeller“: je Rolle zwei Karten (eine gewöhnliche, eine seltene), die vier Kernverdächtigen zusätzlich eine Täterkarte, dazu die legendäre Meisterkarte. Motive und Namen stammen aus Aussehen, Beruf und Alltag der Figuren, nie aus einem Beweisstück oder einem Geheimnis. Die Wirkung kommt allein aus dem geschlossenen Katalog (Komfort, nie Wissen).",
+  "akte": "schlosskeller",
+  "karten": [
+    {
+      "id": "schlosskeller:ahmet:plan_b",
+      "akte": "schlosskeller",
+      "figur": "ahmet",
+      "seltenheit": "gewoehnlich",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ahmets Plan B",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "faltplan mit zwei pfeilen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:ahmet:programmheft",
+      "akte": "schlosskeller",
+      "figur": "ahmet",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ahmets Programmheft",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "heft mit adventsmarkt-programm",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:ahmet:ertappt",
+      "akte": "schlosskeller",
+      "figur": "ahmet",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Ertappt: Ahmet",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:fatma:feinpinsel",
+      "akte": "schlosskeller",
+      "figur": "fatma",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Fatmas Feinpinsel",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "feiner aquarellpinsel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:fatma:aquarellwuerfel",
+      "akte": "schlosskeller",
+      "figur": "fatma",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Fatmas Aquarellwürfel",
+      "text": "Ein Würfelbild in zarten Aquarellfarben, nur fürs Aussehen.",
+      "motiv": "würfel in aquarellfarben",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:fatma:ertappt",
+      "akte": "schlosskeller",
+      "figur": "fatma",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Fatma",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:olli:sackkarre",
+      "akte": "schlosskeller",
+      "figur": "olli",
+      "seltenheit": "gewoehnlich",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ollis Sackkarre",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "sackkarre mit kisten",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:olli:zweiter_anlauf",
+      "akte": "schlosskeller",
+      "figur": "olli",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ollis zweiter Anlauf",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "anlauf mit hochgekrempelten ärmeln",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:olli:ertappt",
+      "akte": "schlosskeller",
+      "figur": "olli",
+      "seltenheit": "selten",
+      "art": "werkzeug",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Olli",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:can:neuer_take",
+      "akte": "schlosskeller",
+      "figur": "can",
+      "seltenheit": "gewoehnlich",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Cans Neuer Take",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "klappe für den nächsten take",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:can:zeitlupe",
+      "akte": "schlosskeller",
+      "figur": "can",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Cans Zeitlupe",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "handy mit zeitlupen-symbol",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:can:ertappt",
+      "akte": "schlosskeller",
+      "figur": "can",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ertappt: Can",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:leyla:buffetrunde",
+      "akte": "schlosskeller",
+      "figur": "leyla",
+      "seltenheit": "gewoehnlich",
+      "art": "abstecher",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Lejlas Buffetrunde",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "schüsseln in reihe und holzlöffel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:leyla:notfallkekse",
+      "akte": "schlosskeller",
+      "figur": "leyla",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Lejlas Notfallkekse",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "keksdose mit tannenbaum",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "kekse_ostbank"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:emine:sternchenstempel",
+      "akte": "schlosskeller",
+      "figur": "emine",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Emines Sternchenstempel",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "stempel mit goldenem stern",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:emine:tafelbild",
+      "akte": "schlosskeller",
+      "figur": "emine",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Emines Tafelbild",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "tafel mit kreideskizze",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:tim:stirnlampe",
+      "akte": "schlosskeller",
+      "figur": "tim",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Tims Stirnlampe",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "stirnlampe am band",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:tim:karomantel",
+      "akte": "schlosskeller",
+      "figur": "tim",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Tims Karomantel",
+      "text": "Ein Mantel in Rot-Schwarz-Karo, nur fürs Aussehen.",
+      "motiv": "mantel im rot-schwarz-karo",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:johanna:aufsteckleuchte",
+      "akte": "schlosskeller",
+      "figur": "johanna",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Joannas Aufsteckleuchte",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "handyhalter mit aufsteckleuchte",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:johanna:zoomfinger",
+      "akte": "schlosskeller",
+      "figur": "johanna",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Joannas Zoomfinger",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "finger zoomt ins foto",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:murat:kuechenuhr",
+      "akte": "schlosskeller",
+      "figur": "murat",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Mareks Küchenuhr",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "küchenuhr neben warmhaltebehältern",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:murat:servierwagen",
+      "akte": "schlosskeller",
+      "figur": "murat",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Mareks Servierwagen",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "servierwagen mit quietschrad",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "servierwagen_vorrat"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:zeynep:kaugummiblase",
+      "akte": "schlosskeller",
+      "figur": "zeynep",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Zeyneps Kaugummiblase",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "kaugummiblase vor dem gesicht",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:zeynep:trainerpfiff",
+      "akte": "schlosskeller",
+      "figur": "zeynep",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Zeyneps Trainerpfiff",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "trillerpfeife und kappe",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "gummiball_saalmitte"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:baran:neonwuerfel",
+      "akte": "schlosskeller",
+      "figur": "baran",
+      "seltenheit": "gewoehnlich",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Barans Neonwürfel",
+      "text": "Ein Würfelbild mit neongrünen Kordeln, nur fürs Aussehen.",
+      "motiv": "würfel mit neongrünen kordeln",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:baran:mitschnitt",
+      "akte": "schlosskeller",
+      "figur": "baran",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Barans Mitschnitt",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "musikbox mit aufnahmeknopf",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:meryem:glueckseichel",
+      "akte": "schlosskeller",
+      "figur": "meryem",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Hanas Glückseichel",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "eichel mit kleinem blatt",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:meryem:waldspaziergang",
+      "akte": "schlosskeller",
+      "figur": "meryem",
+      "seltenheit": "selten",
+      "art": "abstecher",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Hanas Waldspaziergang",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "waldweg mit tannenzapfen",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "zapfen_suedbank"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:serkan:taschenlampe",
+      "akte": "schlosskeller",
+      "figur": "serkan",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Serkans Taschenlampe",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "schwere taschenlampe",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:serkan:umleitung",
+      "akte": "schlosskeller",
+      "figur": "serkan",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Serkans Umleitung",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "umleitungsschild mit pfeil",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:aylin:pruefstempel",
+      "akte": "schlosskeller",
+      "figur": "aylin",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Aylins Prüfstempel",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "prüfstempel mit häkchen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:aylin:treuepunkt",
+      "akte": "schlosskeller",
+      "figur": "aylin",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Aylins Treuepunkt",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "stempelkarte mit neun punkten",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "stempelkarte_windfang"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:kaan:massband",
+      "akte": "schlosskeller",
+      "figur": "kaan",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Wojteks Maßband",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "zimmermannsbleistift und maßband",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:kaan:serviettenskizze",
+      "akte": "schlosskeller",
+      "figur": "kaan",
+      "seltenheit": "selten",
+      "art": "abstecher",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Wojteks Serviettenskizze",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "serviette mit skizze",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "serviette_tafel"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:dilara:flohmarktbummel",
+      "akte": "schlosskeller",
+      "figur": "dilara",
+      "seltenheit": "gewoehnlich",
+      "art": "abstecher",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Azras Flohmarktbummel",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "flohmarktstand mit trödel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:dilara:lupe",
+      "akte": "schlosskeller",
+      "figur": "dilara",
+      "seltenheit": "selten",
+      "art": "werkzeug",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Azras Lupe",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "lupe an silberkette",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:enes:schwarztee",
+      "akte": "schlosskeller",
+      "figur": "enes",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Damirs Schwarztee",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "teeglas auf untertasse",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:enes:teepause",
+      "akte": "schlosskeller",
+      "figur": "enes",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Damirs Teepause",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "teekanne mit sanduhr",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:selin:doppelcheck",
+      "akte": "schlosskeller",
+      "figur": "selin",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Sibels Doppelcheck",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "zwei häkchen auf einem zettel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:selin:mutprobe",
+      "akte": "schlosskeller",
+      "figur": "selin",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Sibels Mutprobe",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "kleine heldin mit fransenschal",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "rohr_wendeltreppe"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:hakan:geduld",
+      "akte": "schlosskeller",
+      "figur": "hakan",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Pawels Geduld",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "ruhige hand mit teetasse",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:hakan:steppmantel",
+      "akte": "schlosskeller",
+      "figur": "hakan",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Pawels Steppmantel",
+      "text": "Ein Mantel in Schokobraun, nur fürs Aussehen.",
+      "motiv": "steppmantel in schokobraun",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:tugba:stoppuhr",
+      "akte": "schlosskeller",
+      "figur": "tugba",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Tugbas Stoppuhr",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "goldene stoppuhr mit tortenstück",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:tugba:partyhut",
+      "akte": "schlosskeller",
+      "figur": "tugba",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Tugbas Partyhut",
+      "text": "Ein goldener Partyhut, nur fürs Aussehen.",
+      "motiv": "goldener partyhut",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "partyhut_kisten"
+        }
+      ]
+    },
+    {
+      "id": "schlosskeller:schneider:dank",
+      "akte": "schlosskeller",
+      "figur": "schneider",
+      "seltenheit": "legendaer",
+      "art": "zeit",
+      "ladungen": 2,
+      "wert": 5,
+      "titel": "Herr Schneiders Dank",
+      "text": "+5 Nachtminuten in dieser Runde.",
+      "motiv": "urkunde mit goldenem stern",
+      "quellen": [
+        {
+          "art": "meister"
+        }
+      ]
+    }
+  ]
+}
