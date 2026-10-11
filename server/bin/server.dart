@@ -23,13 +23,13 @@ Future<void> main() async {
   final port = int.tryParse(env['PORT'] ?? '') ?? 8080;
   final scenarioDir = resolveScenarioDir(env['SCENARIO_DIR']);
   final scenarios = loadScenarios(scenarioDir, log: defaultLog, includeSample: env['INCLUDE_SAMPLE'] == '1');
-  final partyFactory = loadSchlosskellerFactory(resolvePartyDir(env['PARTY_DIR']));
+  final abendFactories = loadAktenFactories(resolvePartyDir(env['PARTY_DIR']));
 
   // Ein Fehler darf den Prozess nie beenden: alles (auch die Raum-Timer) läuft in dieser Zone.
   await runZonedGuarded(() async {
     final rooms = RoomManager(
       runtimeFactory: coreRuntimeFactory(scenarios),
-      abendFactories: {'schlosskeller': partyFactory},
+      abendFactories: abendFactories,
     );
     final server = await serveMordakte(rooms, port: port, trustProxy: env['TRUST_PROXY'] != '0');
     defaultLog('Mordakte-Server lauscht auf :${server.port} – '

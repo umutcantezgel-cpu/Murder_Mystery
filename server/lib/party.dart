@@ -17,8 +17,9 @@ class SchlosskellerRuntime implements AbendRuntime {
   final SchlosskellerRaum inner;
   final Map<String, int> _gesendet = {};
 
+  /// Kennung der Akte (der Raum spielt jede Akte des Spiels).
   @override
-  String get abend => 'schlosskeller';
+  String get abend => inner.akte;
   @override
   int get maxPlayers => inner.maxSpieler;
   @override
@@ -83,4 +84,43 @@ RuntimeFactory loadSchlosskellerFactory(String dir) {
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
     salz: [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join(),
   ));
+}
+
+
+/// Fabriken für alle Akten aus `content/party/akten.json` (ein Spiel, viele
+/// Akten). [partyDir] ist der Schlosskeller-Ordner; daneben liegen die übrigen
+/// Akten, `zusatz/` (Erkundungsorte) und zwei Ebenen höher `content/karten/`.
+Map<String, RuntimeFactory> loadAktenFactories(String partyDir) {
+  final root = Directory(partyDir).parent.path;
+  Map<String, Object?> json(String path) => (jsonDecode(File(path).readAsStringSync()) as Map).cast<String, Object?>();
+  final index = File('$root/akten.json');
+  final ids = index.existsSync()
+      ? [for (final a in (json(index.path)['akten'] as List)) (a as Map)['id'] as String]
+      : ['schlosskeller'];
+  final kartenDir = Directory('${Directory(root).parent.path}/karten');
+  final katalog = KartenKatalog.ausDateien([
+    if (kartenDir.existsSync())
+      for (final f in kartenDir.listSync().whereType<File>())
+        if (f.path.endsWith('.json') && !f.path.endsWith('.schema.json')) json(f.path),
+  ]);
+  final basis = Textsammlung.lade((p) => json('$partyDir/$p'));
+  final zufall = Random.secure();
+  return {
+    for (final id in ids)
+      id: () {
+        final dir = '$root/$id';
+        Map<String, Object?> lesen(String path) => json('$dir/$path');
+        final kanon = Kanon.lade(lesen);
+        final sammlung = Textsammlung.lade(lesen);
+        if (id != 'schlosskeller') sammlung.ergaenzeUi(basis);
+        final texte = Texte(kanon, sammlung);
+        final ab = File('$root/zusatz/$id/abstecher.json');
+        final abstecher = ab.existsSync() ? AbstecherOrt.liste(json(ab.path)) : const <AbstecherOrt>[];
+        return (String roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
+              raumCode: roomCode, kanon: kanon, texte: texte, akte: id, katalog: katalog, abstecher: abstecher,
+              fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
+              salz: [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join(),
+            ));
+      }(),
+  };
 }

@@ -16,19 +16,21 @@ COPY packages/mordakte_core packages/mordakte_core
 COPY server server
 COPY content content
 
-RUN mkdir -p /out/content/scenarios /out/content/party/schlosskeller \
+RUN mkdir -p /out/content/scenarios /out/content/party /out/content/karten \
  && cd server \
  && dart pub get --offline \
  && dart compile exe bin/server.dart -o /out/server \
  && if [ -d /src/content/scenarios ]; then cp -r /src/content/scenarios/. /out/content/scenarios/; fi \
- && cp -r /src/content/party/schlosskeller/. /out/content/party/schlosskeller/
+ && cp -r /src/content/party/. /out/content/party/ \
+ && if [ -d /src/content/karten ]; then cp -r /src/content/karten/. /out/content/karten/; fi
 
 # --- Stage 2: minimales Laufzeit-Image ---------------------------------------
 FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /out/server /app/bin/server
 COPY --from=build /out/content/scenarios /app/content/scenarios
-COPY --from=build /out/content/party/schlosskeller /app/content/party/schlosskeller
+COPY --from=build /out/content/party /app/content/party
+COPY --from=build /out/content/karten /app/content/karten
 
 ENV SCENARIO_DIR=/app/content/scenarios
 ENV PARTY_DIR=/app/content/party/schlosskeller
