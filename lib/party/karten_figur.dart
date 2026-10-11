@@ -3,7 +3,7 @@ import 'package:mordakte_core/runden.dart' show KartenDef;
 import '../karten/katalog_laden.dart' show KartenFigur, kartenFigurenAus;
 import 'sitzung.dart';
 
-final _zwischen = Expando<Map<String, KartenFigur>>('PartyKartenFiguren');
+final _zwischen = Expando<Map<String, KartenFigur>>();
 
 /// Farbcode und Büste der Figuren der Akte für die Karten am Tisch.
 extension PartyKartenFiguren on PartySitzung {

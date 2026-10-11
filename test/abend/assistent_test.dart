@@ -37,6 +37,8 @@ Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu}) as
     await AktenKatalog.laden();
     await PartyDaten.laden(rootBundle, fall: 'schlosskeller');
     await ladeAbstecher('schlosskeller');
+    await PartyDaten.laden(rootBundle, fall: 'gewoelbe');
+    await ladeAbstecher('gewoelbe');
     await ladeKartenKatalog();
     await tester.pumpWidget(MordakteApp(app: state, initialLocation: ort));
   });
@@ -149,6 +151,30 @@ void main() {
     } finally {
       semantik.dispose();
     }
+  });
+
+  testWidgets('Gewölbe hat eine feste Lösung: Hinweis statt Fall-Code', (tester) async {
+    final state = await oeffnen(tester);
+    await tippen(tester, 'Spuk im Gewölbe');
+    await tippen(tester, 'Weiter');
+    await tippen(tester, 'Solo mit Bots');
+    await tippen(tester, 'Weiter');
+    expect(find.byKey(const ValueKey('feste-loesung')), findsOneWidget, reason: 'Der Hinweis zur festen Lösung');
+    expect(find.text('Code eingeben'), findsNothing, reason: 'Ohne Fall-Code keine Eingabe');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Die Ermittlerklasse im Start wird gewählt und gespeichert', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tester.ensureVisible(find.text('Profiler'));
+    await tippen(tester, 'Profiler');
+    expect(state.meta.loadout.cls, 'profiler', reason: 'Die gewählte Klasse liegt in der Ausrüstung');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
   });
 
   testWidgets('/abend ohne laufenden Abend führt in die Detektei', (tester) async {
