@@ -5,81 +5,141 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
+import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/meta/meta_store.dart';
-import 'package:mordakte/party/daten.dart';
+import 'package:mordakte/stil/stil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   setUpAll(() async {
-    final font = FontLoader('SpecialElite')
-      ..addFont(rootBundle.load('assets/fonts/SpecialElite-Regular.ttf'));
-    await font.load();
+    // Die echten Schriften der App, damit Textbreiten wie auf dem Gerät gemessen werden.
+    final elite = FontLoader('SpecialElite')..addFont(rootBundle.load('assets/fonts/SpecialElite-Regular.ttf'));
+    final inter = FontLoader('Inter')
+      ..addFont(rootBundle.load('assets/fonts/Inter-Regular.ttf'))
+      ..addFont(rootBundle.load('assets/fonts/Inter-SemiBold.ttf'))
+      ..addFont(rootBundle.load('assets/fonts/Inter-Bold.ttf'));
+    await elite.load();
+    await inter.load();
   });
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  AppState app() =>
-      AppState(meta: MetaStore.memory()..name = 'Test', scenarios: const {});
+  AppState app() => AppState(meta: MetaStore.memory()..name = 'Test', scenarios: const {});
 
-  test('App und Router verwenden denselben Schlosskeller-Standard', () {
+  /// Bildschirm eines Handys (Breite, Schriftgröße); wird nach dem Test zurückgesetzt.
+  void handy(WidgetTester tester, double breite, double schrift) {
+    tester.view.physicalSize = Size(breite, 844);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = schrift;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+  }
+
+  /// Lässt Ladevorgänge (echte Zeit) und Übergänge ablaufen, bis [finder] etwas findet.
+  Future<void> warten(WidgetTester tester, [Finder? finder]) async {
+    for (var i = 0; i < 100; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump(const Duration(milliseconds: 50));
+      if (finder == null || finder.evaluate().isNotEmpty) break;
+    }
+    await tester.pump(const Duration(milliseconds: 500));
+  }
+
+  /// Startet die App. Die Detektei liest die Akten über rootBundle; der Zwischenspeicher
+  /// wird deshalb vorab im echten Laufzeitmodus gefüllt, wie beim Start auf dem Gerät.
+  Future<AppState> starte(WidgetTester tester, {String ort = Routes.start}) async {
+    final state = app();
+    await tester.runAsync(() async {
+      await AktenKatalog.laden();
+      await tester.pumpWidget(MordakteApp(app: state, initialLocation: ort));
+    });
+    await warten(tester);
+    return state;
+  }
+
+  test('App und Router starten in der Detektei', () {
     final state = app();
     final router = buildRouter(state);
-    expect(MordakteApp(app: state).initialLocation, Routes.party);
-    expect(router.routeInformationProvider.value.uri.path, Routes.party);
+    expect(Routes.start, '/');
+    expect(MordakteApp(app: state).initialLocation, Routes.start);
+    expect(router.routeInformationProvider.value.uri.path, Routes.start);
     router.dispose();
     state.dispose();
   });
 
-  for (final width in [320.0, 390.0]) {
-    for (final scale in [1.0, 2.0]) {
-      testWidgets(
-        'Start im Schlosskeller: $width px, Schrift $scale, ohne Überlauf',
-        (tester) async {
-          tester.view.physicalSize = Size(width, 844);
-          tester.view.devicePixelRatio = 1;
-          tester.platformDispatcher.textScaleFactorTestValue = scale;
-          addTearDown(tester.view.resetPhysicalSize);
-          addTearDown(tester.view.resetDevicePixelRatio);
-          addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-          final state = app();
-          await tester.runAsync(() async {
-            await tester.pumpWidget(MordakteApp(app: state));
-            await PartyDaten.laden(rootBundle);
-          });
-          await tester.pump();
-          await tester.pump(const Duration(milliseconds: 500));
-          expect(find.text('Spuk im Schlosskeller'), findsOneWidget);
-          if (scale == 1) {
-            final title = tester.renderObject<RenderParagraph>(find.text('Spuk im Schlosskeller'));
-            final boxes = title.getBoxesForSelection(const TextSelection(baseOffset: 8, extentOffset: 21));
-            expect(boxes.map((box) => box.top.round()).toSet(), hasLength(1),
+  for (final breite in [320.0, 390.0]) {
+    for (final schrift in [1.0, 2.0]) {
+      testWidgets('Detektei: $breite px, Schrift $schrift, ohne Überlauf', (tester) async {
+        final semantik = tester.ensureSemantics();
+        try {
+          handy(tester, breite, schrift);
+          final state = await starte(tester);
+          for (final text in [
+            'MORDAKTE',
+            'Neuer Abend',
+            'Beitreten',
+            'bald',
+            'Beitreten mit Raumcode kommt bald.',
+            'KAMPAGNE',
+            'Spuk im Schlosskeller',
+            'Das Buffet hinter dicken Mauern',
+            'Spuk',
+            '4 bis 20 Personen',
+            'Sammlung',
+            'Profil',
+          ]) {
+            expect(find.text(text), findsOneWidget, reason: text);
+          }
+          final beitreten = tester.widget<MKnopf>(find.ancestor(of: find.text('Beitreten'), matching: find.byType(MKnopf)));
+          expect(beitreten.onPressed, isNull, reason: 'Beitreten ist noch gesperrt');
+          expect(find.bySemanticsLabel(RegExp(r'^Profil von Test, .+, \d+ Erfahrungspunkte$')), findsOneWidget);
+          expect(find.bySemanticsLabel(RegExp(r'Spuk im Schlosskeller[\s\S]*Das Buffet hinter dicken Mauern')), findsOneWidget);
+          for (final alt in ['Andere Abende & Fälle', 'Spuk im Gewölbe', 'Klassische Fälle', 'Fallakten']) {
+            expect(find.text(alt), findsNothing, reason: alt);
+          }
+          if (schrift == 1) {
+            final titel = tester.renderObject<RenderParagraph>(find.text('Spuk im Schlosskeller'));
+            final boxen = titel.getBoxesForSelection(const TextSelection(baseOffset: 8, extentOffset: 21));
+            expect(boxen.map((box) => box.top.round()).toSet(), hasLength(1),
                 reason: 'Schlosskeller darf am kleinen Handy nicht mitten im Wort umbrechen.');
           }
-          expect(find.text('Abend vorbereiten'), findsOneWidget);
-          expect(find.text('Andere Abende & Fälle'), findsOneWidget);
           expect(tester.takeException(), isNull);
           await tester.pumpWidget(const SizedBox.shrink());
           state.dispose();
-        },
-      );
+        } finally {
+          semantik.dispose();
+        }
+      });
     }
   }
 
-  testWidgets('Das Schlosskeller-Menü erreicht Gewölbe und klassische Fälle', (
-    tester,
-  ) async {
-    final state = app();
-    await tester.runAsync(() async {
-      await tester.pumpWidget(MordakteApp(app: state));
-      await PartyDaten.laden(rootBundle);
-    });
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 500));
-    await tester.tap(find.text('Andere Abende & Fälle'));
-    await tester.pump();
-    await tester.pump(const Duration(seconds: 2));
-    expect(find.text('Spuk im Gewölbe'), findsOneWidget);
-    expect(find.text('Klassische Fälle'), findsOneWidget);
-    expect(find.text('Fallakten'), findsOneWidget);
+  testWidgets('Neuer Abend öffnet den Assistenten', (tester) async {
+    handy(tester, 390, 1);
+    final state = await starte(tester);
+    await tester.tap(find.text('Neuer Abend'));
+    await warten(tester, find.text('Welche Akte spielt ihr?'));
+    expect(find.text('Welche Akte spielt ihr?'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Die Akte öffnet ihre Seite mit „Diese Akte spielen“', (tester) async {
+    handy(tester, 390, 1);
+    final state = await starte(tester);
+    await tester.tap(find.text('Spuk im Schlosskeller'));
+    await warten(tester, find.text('Diese Akte spielen'));
+    expect(find.text('Diese Akte spielen'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Detektei auf breitem Bildschirm (800 px) ohne Ausnahme', (tester) async {
+    handy(tester, 800, 1);
+    final state = await starte(tester);
+    expect(find.text('Sammlung'), findsOneWidget);
+    expect(find.text('Profil'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
@@ -88,12 +148,7 @@ void main() {
   testWidgets(
     'Online erklärt die fehlende öffentliche Adresse auf einem kleinen Handy',
     (tester) async {
-      tester.view.physicalSize = const Size(320, 844);
-      tester.view.devicePixelRatio = 1;
-      tester.platformDispatcher.textScaleFactorTestValue = 2;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
-      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      handy(tester, 320, 2);
       final state = app();
       await tester.pumpWidget(
         MordakteApp(app: state, initialLocation: Routes.online),

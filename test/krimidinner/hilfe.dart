@@ -12,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:krimidinner_kanon/krimidinner_kanon.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
+import 'package:mordakte/app/router.dart';
 import 'package:mordakte/krimidinner/gewoelbe_seite.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte_core/mordakte_core.dart' show ScenarioDef, sampleScenarioJson;
@@ -44,12 +45,12 @@ Widget gewoelbeApp({GewoelbeTeil? teil, int? n}) {
   );
 }
 
-/// Die ganze App, Start im Hub.
+/// Die ganze App, Start im alten Hub (`/hub`, nur über `?screen=hub` erreichbar).
 Widget hubApp() {
   SharedPreferences.setMockInitialValues({});
   final meta = MetaStore.memory()..name = 'Test';
   final sample = ScenarioDef.fromJson(jsonDecode(sampleScenarioJson) as Map<String, dynamic>);
-  return MordakteApp(app: AppState(meta: meta, scenarios: {sample.id: sample}), initialLocation: '/');
+  return MordakteApp(app: AppState(meta: meta, scenarios: {sample.id: sample}), initialLocation: Routes.klassik);
 }
 
 bool _schriften = false;

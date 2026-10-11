@@ -1,4 +1,4 @@
-// Echter Solo-Abend vom Titel bis zum Ende, ohne Entwicklerroute oder PartySkript.
+// Echter Solo-Abend von der Detektei bis zum Ende, ohne Entwicklerroute oder PartySkript.
 // Nur öffentliche Sprechblasen fotografieren, keine Dossiers oder Auflösung.
 // Aufruf: node tool/e2e/solo.mjs [--nur320]
 import assert from 'node:assert/strict';
@@ -46,6 +46,8 @@ try {
         errors.push('Fremde Anfrage'); await route.abort();
       } else await route.continue();
     });
+    // Ein Name vermeidet den Ersteinrichtungsdialog der Detektei, der sonst den Start verdeckt.
+    await page.addInitScript(() => localStorage.setItem('flutter.mordakte.name', JSON.stringify('Testdetektiv')));
     await page.goto(base, { waitUntil: 'load' });
     const semantics = page.locator('flt-semantics-placeholder');
     await semantics.waitFor({ state: 'attached', timeout: 30000 });
@@ -84,14 +86,19 @@ try {
       }
       throw new Error('Kein erlaubter nächster Bedienknopf');
     };
-    await click('ui.titel.start');
+    // Die Detektei führt über den Assistenten: Akte (vorgewählt), Spielweise, Einstellungen, Start.
+    stage = `${width} px · Assistent: Akte und Spielweise`;
+    await click('detektei_neuer_abend');
+    await click('abend_weiter');
+    await click('abend_spielweise_solo');
+    await click('abend_weiter');
     stage = `${width} px · Solo einrichten`;
-    await click('ui.solo.solo');
     for (let i = 0; i < 3; i++) await click('ui.einrichtung.weniger');
     assert.equal(await page.getByText(text('ui.solo.rollen_anzahl').replace('{anzahl}', '4'), { exact: true }).count(), 1);
     assert.equal(await button('ui.einrichtung.spiel_druck').count(), 0);
     await photo('einrichtung', 'Solo mit vier Bot-Rollen');
-    await click('ui.einrichtung.start');
+    await click('abend_weiter');
+    await click('abend_start');
     stage = `${width} px · Bot-Karten bleiben zu`;
     await page.getByText(text('ui.solo.rollen_start'), { exact: true }).waitFor();
     assert.equal(await page.getByText(text('ui.rollen.verbirgt_titel'), { exact: true }).count(), 0);

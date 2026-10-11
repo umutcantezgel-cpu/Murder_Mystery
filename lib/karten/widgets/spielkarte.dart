@@ -107,7 +107,8 @@ class _SpielKarteState extends State<SpielKarte> with SingleTickerProviderStateM
   }
 
   void _setze(bool vorn, {bool melden = true}) {
-    _ziel = vorn;
+    // Neu bauen, damit die Beschriftung für Bildschirmleser die sichtbare Seite nennt.
+    setState(() => _ziel = vorn);
     final ruhig = MBewegung.ruhig(context);
     // Bei reduzierter Bewegung nur überblenden: kurz, ohne Drehung.
     _c.duration = ruhig ? MBewegung.von(context).dauerSchnell : MBewegung.von(context).dauerLangsam;

@@ -1,10 +1,12 @@
-// Hub: drei gleichrangige Bereiche, beide Partyabende gleich groß und in gleicher
-// Titelschrift (am Telefon untereinander, breit nebeneinander), Wege zu /party und
-// /gewoelbe, Zurück aus dem Gewölbe in den Hub, kein Überlauf bei 360 px.
+// Alter Hub (/hub, nur über ?screen=hub): drei gleichrangige Bereiche, beide Partyabende
+// gleich groß und in gleicher Titelschrift (am Telefon untereinander, breit nebeneinander),
+// Wege zu /party und /gewoelbe, Zurück aus dem Gewölbe in die Detektei (/), kein Überlauf bei 360 px.
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordakte/app/router.dart';
+import 'package:mordakte/detektei/detektei_seite.dart';
 import 'package:mordakte/krimidinner/gewoelbe_seite.dart';
 import 'package:mordakte/krimidinner/kanon_laden.dart';
 import 'package:mordakte/ui/screens/hub_screen.dart';
@@ -148,7 +150,7 @@ void main() {
     expect(find.byType(HubScreen, skipOffstage: false), findsNothing);
   });
 
-  testWidgets('Zurück-Geste im Gewölbe führt in den Hub, statt die App zu verlassen', (tester) async {
+  testWidgets('Zurück-Geste im Gewölbe führt in die Detektei, statt die App zu verlassen', (tester) async {
     groesse(tester, const Size(430, 1400));
     await tester.pumpWidget(hubApp());
     await bilder(tester, 6);
@@ -158,8 +160,9 @@ void main() {
     final behandelt = await tester.binding.handlePopRoute();
     await bilder(tester, 6);
     expect(behandelt, isTrue, reason: 'die App bleibt offen');
-    expect(pfad(tester), '/');
-    expect(find.byType(HubScreen), findsOneWidget);
+    expect(pfad(tester), Routes.detektei);
+    expect(find.byType(DetekteiSeite), findsOneWidget);
+    expect(find.byType(HubScreen, skipOffstage: false), findsNothing);
   });
 
   testWidgets('bei 360 px Breite kein Überlauf', (tester) async {

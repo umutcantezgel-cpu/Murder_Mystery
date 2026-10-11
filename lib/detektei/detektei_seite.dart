@@ -113,9 +113,12 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                 if (box.maxWidth < 440) {
                   return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [sammlung, const SizedBox(height: MMass.s12), profil]);
                 }
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [Expanded(child: sammlung), const SizedBox(width: MMass.s12), Expanded(child: profil)],
+                // Gleich hohe Kacheln ohne unbegrenzte Höhe in der Spalte.
+                return IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [Expanded(child: sammlung), const SizedBox(width: MMass.s12), Expanded(child: profil)],
+                  ),
                 );
               },
             ),
