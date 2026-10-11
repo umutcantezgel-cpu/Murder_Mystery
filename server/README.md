@@ -1,14 +1,20 @@
-# Mordakte-Server
+# Mordakte-Server (optional)
 
-WebSocket-Server für klassische Räume (1–6 Detektive) und den Schlosskeller
-(bis zu 20 Rollen plus Geburtstagskind). Beide teilen sich Anmeldung, Raumcodes,
-Verbindungslimits und Reconnect; ihre Spielansichten und Befehle bleiben getrennt.
-Klassisch nutzt die bestehende `RoomRuntime`, Schlosskeller den neuen transportfreien
-`SchlosskellerRaum` mit `RundenPartie` aus `mordakte_core`.
+> **Für Online-Abende brauchst du diesen Server nicht.** Die Online-Abende der App („Jeder am eigenen Gerät“)
+> laufen über ein Supabase-Realtime-Relais und das Gastgeber-Gerät (`packages/mordakte_netz`, siehe
+> [README](../README.md#online-relais)). Dieser Dart-Server bleibt als **optionaler Weg**: Er spielt dieselben
+> Abende mit einem Raum auf dem Server statt auf dem Gastgeber-Gerät. Seine Adresse käme als `MORDAKTE_SERVER`
+> in den Build. Die App-Oberfläche für Abende nutzt sie heute nicht. Nur der klassische Entwickler-Bildschirm
+> (`?screen=online`) liest `MORDAKTE_SERVER`.
 
-**Zwischenstand:** Das Partyprotokoll ist mit echten Clients lokal geprüft, aber noch
-nicht an die App-Oberfläche angeschlossen. Es ist deshalb noch kein freigegebener
-Online-Partyabend für Handys. Öffentliche Railway-Abnahme steht ebenfalls aus.
+WebSocket-Server für klassische Räume (1–6 Detektive, nur Entwicklercode der Echtzeit-Engine) und für Abende
+**jeder Akte** aus `content/party/akten.json` (Schlosskeller und Gewölbe bis zu 20 Rollen, die Noir-Akten bis zu 8).
+Beide teilen sich Anmeldung, Raumcodes, Verbindungslimits und Reconnect; ihre Spielansichten und Befehle bleiben
+getrennt. Klassisch nutzt die bestehende `RoomRuntime`, die Abende den transportfreien `SchlosskellerRaum` mit
+`RundenPartie` aus `mordakte_core`, einschließlich Tischvorrat und Erkundungsorten. Beim Start lädt der Server
+für jede Akte des Index eine eigene Raum-Fabrik (`loadAktenFactories` in `lib/party.dart`).
+
+**Stand:** Das Partyprotokoll ist mit echten Clients lokal geprüft. Eine öffentliche Railway-Abnahme steht aus.
 
 ## Lokal starten
 
@@ -19,9 +25,9 @@ dart run bin/server.dart                 # http://localhost:8080/health, ws://lo
 INCLUDE_SAMPLE=1 dart run bin/server.dart  # zusätzlich das eingebaute Szenario "sample"
 ```
 
-Der lokale Server ist für Protokoll-/Engine-Tests. Die App verwendet für Internet-Räume
-nur die freigegebene öffentliche `wss://…/ws`-Adresse; es gibt keinen localhost-Fallback.
-Ohne Adresse erscheint ein Einrichtungshinweis, offline kann weiterhin gespielt werden.
+Der lokale Server ist für Protokoll-/Engine-Tests. Der klassische Entwickler-Bildschirm der App
+(`?screen=online`) verwendet nur eine freigegebene öffentliche `wss://…/ws`-Adresse; es gibt keinen
+localhost-Fallback. Ohne Adresse erscheint ein Einrichtungshinweis, offline kann weiterhin gespielt werden.
 
 Smoke-Test (Fake-Runtime + echte RoomRuntime, echte WebSocket-Clients):
 
@@ -47,7 +53,12 @@ Detektiv; die maximale Kanonbesetzung mit 20 Gästen plus Detektiv ist zusätzli
 `dart run tool/party_matrix.dart --clients=21` prüfbar. `--clients=4` ist die kurze Probe.
 Sitzungsschlüssel, Rohpakete und geheime Karten werden nie in Prüfprotokolle geschrieben.
 
-Nach der Railway-Freigabe beide Tests gegen den öffentlichen Server ausführen:
+`dart run tool/relay_matrix.dart --lokal --clients=4,8` prüft dagegen das **Supabase-Relais** der App
+(Paket `mordakte_netz`): einen vollständigen Abend mit Gastgeber und Gästen gegen eine lokale Attrappe, mit
+Privatheits-, Mithörer-, Wiederholungs- und Neuverbindungsprüfungen. Ohne `--lokal` läuft er live gegen das
+Relais (`--url=` und `--key=` überschreiben die Standardwerte). `tool/pruefen.sh ci` führt ihn mit `--lokal --clients=4` aus.
+
+Nach einer Railway-Freigabe beide Tests gegen den öffentlichen Server ausführen:
 `dart run tool/party_matrix.dart --url=wss://<freigegebener-host>/ws` und
 `dart run tool/online_matrix.dart --url=wss://<freigegebener-host>/ws`.
 Dabei entstehen ausschließlich neue Prüfräume; die Clients verlassen sie am Ende. Leere
@@ -67,7 +78,7 @@ Das ist ein AOT-Beleg, aber noch kein Docker-/Railway-Deployment-Beleg.
 |------------------|-----------------------------------------------------------------|---------------------------------------------|
 | `PORT`           | `8080`                                                          | HTTP-Port (Railway setzt ihn selbst)        |
 | `SCENARIO_DIR`   | `/app/content/scenarios`, sonst `../content/scenarios`          | Alle `*.json` darin werden geladen          |
-| `PARTY_DIR`      | `/app/content/party/schlosskeller`, sonst Repo-Kanon             | Unveränderter Schlosskeller-Kanon und Texte |
+| `PARTY_DIR`      | `/app/content/party/schlosskeller`, sonst Repo-Kanon             | Ordner des Schlosskeller-Kanons; die übrigen Akten, `zusatz/` und `../karten/` werden relativ dazu gefunden |
 | `INCLUDE_SAMPLE` | –                                                               | `1` = Beispiel-Szenario `sample` dazuladen  |
 | `TRUST_PROXY`    | `1`                                                             | `0` = Client-Adresse aus der TCP-Verbindung statt aus `X-Real-IP`/`X-Forwarded-For` (nur ohne Proxy davor) |
 
@@ -84,8 +95,8 @@ docker build -f server/Dockerfile -t mordakte-server .
 docker run --rm -p 8080:8080 mordakte-server
 ```
 
-Das Image ist `FROM scratch` mit AOT-Binary, `content/scenarios` und dem unveränderten
-`content/party/schlosskeller`. Es läuft ohne Root-Rechte.
+Das Image ist `FROM scratch` mit AOT-Binary, `content/scenarios`, `content/party` (alle Akten) und
+`content/karten`. Es läuft ohne Root-Rechte.
 
 ## Railway
 
@@ -128,8 +139,9 @@ Umschläge wie in `packages/mordakte_core/lib/src/protocol/messages.dart`, mit d
 
 ### Partyprotokoll (Version 1)
 
-- `create` mit `abend: "schlosskeller"` legt einen Partyraum an; ohne dieses Feld
-  bleibt `create` unverändert klassisch. `join` nutzt den gemeinsamen Raumcode.
+- `create` mit `abend: "<akte-id>"` (jede Kennung aus `content/party/akten.json`, zum Beispiel `schlosskeller`
+  oder `ravensmoor`) legt einen Partyraum dieser Akte an; ohne dieses Feld bleibt `create` unverändert
+  klassisch. Eine unbekannte Kennung wird abgewiesen. `join` nutzt den gemeinsamen Raumcode.
 - `abend_cmd` trägt unter `c` einen festen `typ` und die passenden Felder:
   `bereit`, `start`, `rollenGelesen`, `weiter`, `wahl`, `aktionFertig`,
   `wuerfelHilfe`, `wurf`, `tischruf`, `fundGelesen`, `stimme`, `anklage`.
@@ -143,7 +155,8 @@ Umschläge wie in `packages/mordakte_core/lib/src/protocol/messages.dart`, mit d
 - Vor dem ersten Zug gibt es eine SHA-256-Zusage des zufälligen Server-Salzes;
   erst im Finale erscheinen Salz, Fall-Code und Lösung. Jeder Wurf lässt sich
   dann nachrechnen. **Noch offen:** gemeinsame Commit/Reveal-Beiträge aller Geräte
-  gemäß der BOLLWERK-Fairnessregel, Wiederherstellung nach Serverneustart und App-UI.
+  gemäß der BOLLWERK-Fairnessregel und Wiederherstellung nach Serverneustart. (Im Relais-Weg der App
+  stellt das Gastgeber-Gerät den Abend aus seinem abgelegten Protokoll wieder her.)
 - Die Kartenaktion muss durch `aktionFertig` mit der aktuellen Aktionsnummer
   bestätigt werden. Die sichtbare Animation in der App ist separat zu integrieren
   und abzunehmen; ein Protokolltest ist dafür kein Bildbeleg.
@@ -157,8 +170,9 @@ Umschläge wie in `packages/mordakte_core/lib/src/protocol/messages.dart`, mit d
 | `lib/connection.dart`| Eine WebSocket-Verbindung: Parsing, Limits              |
 | `lib/rooms.dart`     | `RoomManager`, `Room` (Tick-/Snapshot-Schleife), Spieler |
 | `lib/runtime.dart`   | Gemeinsamer Lebenszyklus, klassische und Party-Schnittstelle |
-| `lib/party.dart`     | Kanon-Lader und Adapter auf `SchlosskellerRaum`             |
+| `lib/party.dart`     | Kanon-Lader für alle Akten und Adapter auf `SchlosskellerRaum` |
 | `tool/party_matrix.dart` | Ein Partyraum mit 4–20 echten Clients, privater Zustand |
+| `tool/relay_matrix.dart` | Ein Abend über das Supabase-Relais (lokal oder live)   |
 | `lib/codes.dart`     | Raumcodes (ohne 0/O/1/I), Spieler-IDs, Tokens           |
 | `lib/wire.dart`      | JSON-Umschläge                                          |
 | `lib/scenarios.dart` | Szenarien von Platte laden                              |
