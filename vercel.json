@@ -1,5 +1,5 @@
 {
-    "buildCommand": "s=\"$(pwd)\"; d=\"$s\"; while [ ! -f \"$d/build.sh\" ] || [ ! -f \"$d/pubspec.yaml\" ]; do if [ \"$d\" = \"/\" ]; then echo \"build.sh nicht gefunden ab $s\"; exit 1; fi; d=\"$(dirname \"$d\")\"; done; echo \"Repo-Wurzel: $d, Vercel-Ordner: $s\"; bash \"$d/build.sh\" && if [ \"$d\" != \"$s\" ]; then rm -rf \"$s/build\" && mkdir -p \"$s/build\" && cp -r \"$d/build/web\" \"$s/build/web\"; fi",
+    "buildCommand": "d=$PWD;until [ -f \"$d/build.sh\" ]||[ -z \"$d\" ];do d=${d%/*};done;bash \"$d/tool/vercel_build.sh\" \"$PWD\"",
     "outputDirectory": "build/web",
     "installCommand": "echo 'No npm install needed'",
     "framework": null,
