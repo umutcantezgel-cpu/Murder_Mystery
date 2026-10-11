@@ -10,6 +10,14 @@
       "vorlage": "content/scenarios/ravensmoor.json"
     },
     {
+      "id": "ravensmoor",
+      "titel": "Ravensmoor",
+      "untertitel": "Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte.",
+      "ton": "noir",
+      "freiAb": 0,
+      "vorlage": "content/scenarios/ravensmoor.json"
+    },
+    {
       "id": "nachtexpress",
       "titel": "Nachtexpress 1931",
       "untertitel": "Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann.",
