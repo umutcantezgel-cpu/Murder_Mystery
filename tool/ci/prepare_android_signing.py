@@ -1,9 +1,19 @@
 #!/usr/bin/env python3
-"""Materialize an optional CI keystore. Never log or pass secret values as arguments."""
+"""Wählt die Android-Signatur für CI-Builds. Niemals Secret-Werte loggen oder als Argument übergeben.
+
+Modi (Ausgabe auf stdout, ein Wort):
+  release  alle vier Secrets vorhanden: Keystore wird im temporären CI-Ordner abgelegt
+  test     kein Secret vorhanden: öffentlicher Test-Schlüssel aus tool/ci/signing (nur Sideload-Tests)
+Teilweise gesetzte Secrets sind ein Fehler, kein stiller Rückfall.
+
+`--test-env` gibt die Umgebungsvariablen für den Test-Schlüssel als `export`-Zeilen aus. Gradle liest
+sie genauso wie die Release-Werte (android/app/build.gradle.kts), dort ist keine Änderung nötig.
+"""
 import base64
 import binascii
 import os
 from pathlib import Path
+import shlex
 import sys
 
 SIGNING_FIELDS = (
@@ -11,11 +21,29 @@ SIGNING_FIELDS = (
     "ANDROID_KEY_PASSWORD", "ANDROID_KEY_ALIAS",
 )
 
+# Öffentlicher Test-Schlüssel, absichtlich im Repository (siehe tool/ci/signing/README.md).
+TEST_KEYSTORE = Path(__file__).resolve().parent / "signing" / "mordakte-test.p12"
+TEST_ALIAS = "mordakte-test"
+TEST_PASSWORD = "mordakte-test"
 
-def prepare_signing(env):
+
+def public_test_key_env(keystore=None):
+    """Umgebungsvariablen, die build.gradle.kts für den öffentlichen Test-Schlüssel liest."""
+    return {
+        "ANDROID_KEYSTORE_PATH": str(keystore or TEST_KEYSTORE),
+        "ANDROID_KEYSTORE_PASSWORD": TEST_PASSWORD,
+        "ANDROID_KEY_PASSWORD": TEST_PASSWORD,
+        "ANDROID_KEY_ALIAS": TEST_ALIAS,
+    }
+
+
+def prepare_signing(env, test_keystore=None):
     present = [name for name in SIGNING_FIELDS if env.get(name, "").strip()]
     if not present:
-        return "debug"
+        keystore = Path(test_keystore or TEST_KEYSTORE)
+        if not keystore.is_file():
+            raise ValueError("Öffentlicher Test-Schlüssel fehlt: tool/ci/signing/mordakte-test.p12")
+        return "test"
     if len(present) != len(SIGNING_FIELDS):
         missing = ", ".join(name for name in SIGNING_FIELDS if name not in present)
         raise ValueError(f"Signatur unvollständig; fehlende Secret-Namen: {missing}")
@@ -41,6 +69,14 @@ def prepare_signing(env):
 
 
 if __name__ == "__main__":
+    if sys.argv[1:] == ["--test-env"]:
+        # Nur öffentliche Werte des Test-Schlüssels, keine Secrets.
+        for key, value in public_test_key_env().items():
+            print(f"export {key}={shlex.quote(value)}")
+        sys.exit(0)
+    if sys.argv[1:]:
+        print("Aufruf: prepare_android_signing.py [--test-env]", file=sys.stderr)
+        sys.exit(2)
     try:
         print(prepare_signing(os.environ))
     except (ValueError, OSError) as error:
