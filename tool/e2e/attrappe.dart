@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 // Lokale Attrappe des Relais für den Browser-Lauf (tool/e2e/geraete.mjs).
 // Startet die Phoenix-Attrappe aus mordakte_netz auf 127.0.0.1 und läuft, bis sie
 // beendet wird. Die Seite bekommt sie über `?relay=ws://127.0.0.1:<port>`.
