@@ -966,7 +966,8 @@ Widget _aufloesung(GastKontext c) {
       wert(l.online_aufloesung_taeter, c.figurName(jText(a['pfad']))),
       wert(l.online_aufloesung_punkte, '${jZahl(a['punkte'])}'),
       if (regel != null) wert(l.online_aufloesung_ende, regel.name),
-      wert(l.online_aufloesung_code, jText(a['fallCode'])),
+      // Bei fester Lösung führt kein Code zu einem anderen Abend (wie auf der Abschlusstafel).
+      if (c.daten?.kanon.festeLoesung != true) wert(l.online_aufloesung_code, jText(a['fallCode'])),
     ],
   );
 }
