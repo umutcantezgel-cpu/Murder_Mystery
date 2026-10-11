@@ -8,12 +8,12 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 | Nr. | Inhalt | Stand |
 |---|---|---|
 | M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | CI läuft auf dem Branch (Toolchain grün); Gate-Fehler behoben, erste APK steht aus |
-| M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | gemergt (540b6f4, 9fa68e9, 4d638d7); Tests/E2E grün bis auf behobene Befunde |
-| M2 | Eigene Geräte online (mordakte_netz, Relais) | Netzpaket gemergt, live gegen Supabase mit 4/8 Geräten grün; App-Oberfläche in Arbeit |
-| M3 | Karten und Erkundung | Kern, Inhalte (60 Karten) und App-Oberfläche gemergt (ae61d6d); Karten der Klassik-Akten in Arbeit |
-| M4 | Akte Gewölbe | Konverter/Overlay in Arbeit |
+| M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | fertig; Feinschliff (Kamera, Akte-Verlauf, Akzente, Kartenfronten) gemergt (1d59dd2) |
+| M2 | Eigene Geräte online (mordakte_netz, Relais) | Netzpaket und App-Oberfläche (Lobby, Beitreten, Gastansicht) gemergt; live gegen Supabase mit 4/8 Geräten grün; Browserlauf geraete.mjs bei Haiku |
+| M3 | Karten und Erkundung | fertig: 171 Karten über 6 Kataloge, 33 Abstecher-Orte, Sammlung/Deck/Hand/Belohnung |
+| M4 | Akte Gewölbe | fertig, in akten.json, Prüfung 0 Befunde; feste Lösung mit Hinweis im Assistenten (d135247) |
 | M5 | Klassik-Akten Ravensmoor, Nachtexpress, Blue Palm | alle drei gemergt und in akten.json (Proben 0 Befunde) |
-| M6 | Fertigstellen, Doku, finale Release | offen |
+| M6 | Fertigstellen, Doku, finale Release | Doku neu (README, docs/ANLEITUNG.md); Assistent mit Klassenwahl; main per Fast-Forward auf d135247 (Vercel); offen: grünes Gate → erste Release |
 
 ## Entscheidungen (Fortsetzung von planung/abschluss/STATUS.md)
 
@@ -29,3 +29,4 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 - 2026-10-11 09:50 UTC: Flutter 3.47.6 geladen, `flutter pub get` und `dart pub get` in allen Paketen grün. Supabase-Projekt seit 06:54 UTC ACTIVE_HEALTHY.
 - 2026-10-11 ~10:40 UTC: Kern aktenneutral (Simulation optional, Prüfprofil, Raum für jede Akte, werkzeug nur aus Karten), Kartenkern mit Tischvorrat/Belohnung/Abstecher, Server lädt alle Akten. Analyse sauber; Testtor durch Haiku steht aus.
 - 2026-10-11 ~11:15 UTC: Kampagne mit Schlosskeller, Ravensmoor, Nachtexpress, Blue Palm; Karten-UI (Sammlung, Deck, Hand, Erkundung, Belohnung); Netzpaket mit Ende-zu-Ende-Verschlüsselung live geprüft.
+- 2026-10-11 ~11:50 UTC: Fünf Akten in der Kampagne, alle Akten-Prüfungen 0 Befunde. CI-Gate scheiterte nur an zwei Analyse-Hinweisen (tool/e2e/attrappe.dart), behoben in d135247. Vercel: Build-Befehl sucht build.sh aufwärts (Root Directory tool/e2e), Logik in tool/vercel_build.sh.
