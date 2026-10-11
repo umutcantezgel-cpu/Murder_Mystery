@@ -2,7 +2,9 @@
 // Gastgeberin Anna in der Detektei bis zur Lobby, Gäste Ben und Cleo über den Beitrittslink.
 // Rollen lesen, Runde 1 bis zur Gruppenwahl, Gäste geben ihre Stimme ab. Relais ist die lokale
 // Attrappe (server/ → dart run ../tool/e2e/attrappe.dart). Keine Anfrage außerhalb von localhost.
-// Aufruf: node tool/e2e/geraete.mjs. Fotos: planung/einspiel/fotos/m2/ (Fehlerbild unter tool/e2e/fotos/geraete/).
+// Aufruf: node tool/e2e/geraete.mjs. Eine schon laufende Attrappe nimmt MORDAKTE_RELAIS=ws://127.0.0.1:4455.
+// Fotos ohne geheime Texte: planung/einspiel/fotos/m2/ (390 px). Rollen- und Wahlfotos (Dossiers) und Fehlerbilder
+// bleiben lokal unter tool/e2e/fotos/geraete/ (gitignoriert).
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -13,8 +15,11 @@ import { starteServer } from './server.mjs';
 const repo = path.resolve(import.meta.dirname, '../..');
 const fotos = path.join(repo, 'planung/einspiel/fotos/m2');
 const fehlerOrdner = path.join(import.meta.dirname, 'fotos/geraete');
+// Rollen- und Wahlfotos zeigen geheime Dossiers und bleiben lokal (tool/e2e/fotos ist ignoriert).
+const geheimOrdner = path.join(fehlerOrdner, 'geheim');
 await fs.mkdir(fotos, { recursive: true });
 await fs.mkdir(fehlerOrdner, { recursive: true });
+await fs.mkdir(geheimOrdner, { recursive: true });
 
 const readJson = async file => JSON.parse(await fs.readFile(path.join(repo, file), 'utf8'));
 const arb = await readJson('lib/l10n/app_de.arb');
@@ -31,6 +36,10 @@ const text = key => {
 };
 const choices = (await readJson(`${root}/entscheidungen.json`)).entscheidungen;
 const besetzung = await readJson(`${root}/besetzung.json`);
+const dossiere = [];
+for (const eintrag of index.dateien.filter(e => e.bereich === 'dossier')) {
+  dossiere.push(...(await readJson(`${root}/texte/${eintrag.datei}`)).eintraege);
+}
 const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const WIDTH = 390;
@@ -103,9 +112,18 @@ async function warteAuf(h, pruefung, label, frist = 30000) {
   throw new Error(`${h.name}: Zeitüberschreitung bei „${label}“`);
 }
 
+/** Ein Name steht als eigene Zeile in den Texten (Zeilen einer Liste dürfen mehr Text enthalten). */
+const nennt = (texte, name) => texte.some(t => t.split(/\n|,|·/).map(s => s.trim()).includes(name));
+
 /** Alle sichtbaren Texte und Beschriftungen der Seite in Dokumentreihenfolge. */
+// Flutter-Web legt Text als flt-Semantik-Knoten mit <span> ab (Kinder ohne Semantik) und Knöpfe
+// oft ohne aria-label; daher: aria-label, sonst der Text eines Blattknotens (ohne Semantik-Kinder).
 const alleTexte = page => page.evaluate(() => [...document.querySelectorAll('flt-semantics')]
-  .map(node => (node.getAttribute('aria-label') || (node.childElementCount === 0 ? node.textContent : '') || '').trim())
+  .flatMap(node => {
+    const label = (node.getAttribute('aria-label') || '').trim();
+    if (label) return [label];
+    return node.querySelector('flt-semantics') ? [] : [(node.textContent || '').trim()];
+  })
   .filter(Boolean));
 
 const zeigt = (page, muster) => page.getByText(muster).count().then(n => n > 0);
@@ -149,22 +167,27 @@ async function gastTippt(gastListe, name) {
   return null;
 }
 
-/** Name der Gäste: Wer ich bin, so wie er auf dem Dossier steht. */
-async function wer(h) {
-  const texte = await alleTexte(h.page);
-  const i = texte.indexOf(text('online_dossier_wer'));
-  if (i >= 0 && texte[i + 1]) return texte[i + 1];
-  const zusammen = texte.find(t => t.startsWith(text('online_dossier_wer')));
-  return zusammen ? zusammen.slice(text('online_dossier_wer').length).trim() : null;
-}
+const norm = s => s.replace(/\s+/g, ' ').trim();
+const zeilen = liste => (liste ?? []).map(z => (typeof z === 'string' ? z : z?.text)).filter(t => typeof t === 'string');
+
+/** Die privaten Zeilen eines Dossiers (Wer ich bin, Ziel, Was ich weiß, Was ich verberge), ab 20 Zeichen. */
+const privat = e => [e.wer, e.ziel, ...zeilen(e.weiss), ...zeilen(e.verbirgt)]
+  .filter(t => typeof t === 'string').map(norm).filter(t => t.length >= 20);
+
+/** Das Dossier, dessen „Wer ich bin“-Zeile auf dieser Seite steht; `null`, solange nichts gezeichnet ist. */
+const eigenesDossier = texte => {
+  const alles = norm(texte.join('\n'));
+  return dossiere.find(e => typeof e.wer === 'string' && alles.includes(norm(e.wer))) ?? null;
+};
 
 /** Die beiden Antwortkarten der Gruppenwahl: die Knöpfe direkt vor „Wahl abgeben“. */
 async function wahlOptionen(page) {
   return page.evaluate(label => {
+    const beschriftung = node => (node.getAttribute('aria-label') || node.textContent || '').trim();
     const knoepfe = [...document.querySelectorAll('flt-semantics[role="button"]')];
-    const i = knoepfe.findIndex(node => (node.getAttribute('aria-label') || '').trim() === label);
+    const i = knoepfe.findIndex(node => beschriftung(node) === label);
     if (i < 2) return [];
-    return knoepfe.slice(i - 2, i).map(node => (node.getAttribute('aria-label') || '').trim());
+    return knoepfe.slice(i - 2, i).map(beschriftung);
   }, text('online_wahl_abgeben'));
 }
 
@@ -175,7 +198,10 @@ async function fotografiere(h, dateiname, label, ordner = fotos) {
 }
 
 async function main() {
-  const { prozess, ws } = await starteAttrappe();
+  // MORDAKTE_RELAIS=ws://127.0.0.1:4455 nimmt eine schon laufende Attrappe; sonst startet dieser Lauf eine eigene.
+  const vorhanden = process.env.MORDAKTE_RELAIS?.trim();
+  const { prozess, ws } = vorhanden ? { prozess: null, ws: vorhanden } : await starteAttrappe();
+  assert(/^ws:\/\/127\.0\.0\.1:\d+$/.test(ws), `Relais muss lokal sein: ${ws}`);
   log(`Attrappe: ${ws}`);
   const server = await starteServer(path.join(repo, 'build/web'));
   const base = `http://127.0.0.1:${server.address().port}`;
@@ -194,8 +220,12 @@ async function main() {
     handys.push(anna);
     const p = anna.page;
     await warteAuf(anna, () => knopf(p, text('detektei_neuer_abend')).isVisible().catch(() => false), 'Detektei');
+    stufe = 'Anna: Neuer Abend';
+    await tippeKnopf(anna, text('detektei_neuer_abend'));
+    stufe = 'Anna: Akte Schlosskeller';
+    await warteAuf(anna, () => offen(p, text('abend_weiter')), 'Akte-Schritt des Abends');
     await tippe(p, p.getByRole('button', { name: /Spuk im Schlosskeller/ }), 'Akte Schlosskeller');
-    await tippeKnopf(anna, text('detektei_akte_spielen'));
+    await tippeKnopf(anna, text('abend_weiter'));
     stufe = 'Anna: Spielweise „Jeder am eigenen Gerät“';
     await tippe(p, p.getByRole('button', { name: new RegExp(`^${escapeRe(text('abend_spielweise_eigene'))}`) }), 'Spielweise');
     await tippeKnopf(anna, text('abend_weiter'));
@@ -225,6 +255,7 @@ async function main() {
       await warteAuf(g, () => zeigt(g.page, text('online_beitreten_titel')), 'Beitreten-Seite');
       await tippeKnopf(g, text('online_beitreten_los'));
       await warteAuf(g, () => zeigt(g.page, text('online_gast_lobby_titel')), 'Warten auf den Start', 60000);
+      if (name === 'Ben') await fotografiere(g, 'geraete-gast-lobby-390x844.png', 'Gast-Lobby (Ben)');
       stufe = `${name}: Bereit`;
       await tippeKnopf(g, text('online_bereit_knopf'));
       await warteAuf(g, () => zeigt(g.page, text('online_bereit_zurueck')), '„Doch nicht bereit“');
@@ -233,7 +264,7 @@ async function main() {
     stufe = 'Anna: Gäste bereit';
     await warteAuf(anna, async () => {
       const texte = await alleTexte(p);
-      return gaeste.every(name => texte.includes(name)) && (await offen(p, text('online_abend_starten')));
+      return gaeste.every(name => nennt(texte, name)) && (await offen(p, text('online_abend_starten')));
     }, '„Abend starten“ freigeschaltet', 60000);
 
     // 4. Rollen auf das Minimum, Lobbyfoto, Start
@@ -254,18 +285,39 @@ async function main() {
 
     // 5. Rollen: jede Person liest auf dem eigenen Gerät
     stufe = 'Gäste: Deine Rolle';
-    const dossier = {};
+    const rollen = {};
     for (const g of gastHandys) {
       await warteAuf(g, () => zeigt(g.page, new RegExp(`^${escapeRe(text('online_rolle_marke'))}$`, 'i')), 'Deine Rolle', 60000);
-      dossier[g.name] = await warteAuf(g, () => wer(g), 'Wer ich bin');
+      rollen[g.name] = await warteAuf(g, async () => {
+        const texte = await alleTexte(g.page);
+        const eintrag = eigenesDossier(texte);
+        return eintrag ? { texte, eintrag } : null;
+      }, 'Eigenes Dossier mit „Wer ich bin“', 60000);
     }
-    assert.notEqual(dossier.Ben, dossier.Cleo, 'Ben und Cleo bekommen dieselbe Rolle');
-    const alleBen = await alleTexte(gastHandys[0].page);
-    const alleCleo = await alleTexte(gastHandys[1].page);
-    assert(!alleBen.includes(dossier.Cleo), 'Ben sieht Cleos Rolle');
-    assert(!alleCleo.includes(dossier.Ben), 'Cleo sieht Bens Rolle');
-    log(`Dossier Ben: „${dossier.Ben.slice(0, 60)}…“ · Cleo: „${dossier.Cleo.slice(0, 60)}…“`);
-    await fotografiere(gastHandys[0], 'geraete-gast-rolle-390x844.png', 'Gastseite Rolle (Ben)');
+    assert.notEqual(rollen.Ben.eintrag.rolle, rollen.Cleo.eintrag.rolle, 'Ben und Cleo bekommen dieselbe Rolle');
+    // Jedes Gerät zeigt nur die eigene Rolle: keine private Zeile des anderen Gastes auf dem Bildschirm,
+    // gemeinsame Sätze ausgenommen. Die Gastgeberin sieht gar keine Dossierzeile.
+    const priv = Object.fromEntries(gastHandys.map(g => [g.name, privat(rollen[g.name].eintrag)]));
+    for (const g of gastHandys) {
+      const sicht = norm((await alleTexte(g.page)).join('\n'));
+      const eigene = new Set(priv[g.name]);
+      const eigeneVerborgen = zeilen(rollen[g.name].eintrag.verbirgt).map(norm);
+      assert(eigeneVerborgen.some(z => sicht.includes(z)), `${g.name}: die eigenen Zeilen „Was ich verberge“ fehlen auf dem Gerät`);
+      for (const fremder of gastHandys.filter(x => x !== g)) {
+        for (const zeile of priv[fremder.name]) {
+          if (eigene.has(zeile)) continue;
+          assert(!sicht.includes(zeile), `${g.name} sieht eine private Zeile von ${fremder.name}: „${zeile.slice(0, 60)}…“`);
+        }
+      }
+      log(`${g.name}: eigene Rolle ${rollen[g.name].eintrag.rolle}, keine private Zeile von ${gaeste.filter(x => x !== g.name).join(', ')} (${priv[gaeste.find(x => x !== g.name)].length} Zeilen geprüft)`);
+    }
+    const hostSicht = norm((await alleTexte(p)).join('\n'));
+    for (const g of gastHandys) {
+      for (const zeile of priv[g.name]) assert(!hostSicht.includes(zeile), `Die Gastgeberin sieht eine private Zeile von ${g.name}: „${zeile.slice(0, 60)}…“`);
+    }
+    log(`Gastgeberin: keine Dossierzeile auf dem Gerät`);
+    await fotografiere(gastHandys[0], 'geraete-gast-rolle-ben-390x844.png', 'Rolle Ben (geheim, nur lokal)', geheimOrdner);
+    await fotografiere(gastHandys[1], 'geraete-gast-rolle-cleo-390x844.png', 'Rolle Cleo (geheim, nur lokal)', geheimOrdner);
 
     stufe = 'Gäste: Gelesen';
     await tippeKnopf(gastHandys[0], text('online_gelesen_knopf'));
@@ -335,7 +387,7 @@ async function main() {
       }, 'Zwei Wahlkarten');
       log(`${g.name} wählt: „${optionen[0].slice(0, 50)}“`);
       await tippe(g.page, g.page.getByRole('button', { name: optionen[0], exact: true }), `${g.name}: Wahlkarte`);
-      if (g === gastHandys[0]) await fotografiere(g, 'geraete-gast-wahl-390x844.png', 'Gruppenwahl (Ben)');
+      if (g === gastHandys[0]) await fotografiere(g, 'geraete-gast-wahl-ben-390x844.png', 'Gruppenwahl Ben (geheim, nur lokal)', geheimOrdner);
       await tippeKnopf(g, text('online_wahl_abgeben'));
       await warteAuf(g, () => zeigt(g.page, text('online_wahl_abgegeben')), 'Stimme abgegeben');
     }
@@ -362,12 +414,17 @@ async function main() {
       await h.page.screenshot({ path: datei }).then(() => aufnahmen.push(datei)).catch(() => {});
     }
     console.error(`GERÄTE ROT · ${stufe} · ${String(error.message).slice(0, 1600)}${aufnahmen.length ? ` · Fehlerbilder: ${aufnahmen.map(f => path.relative(repo, f)).join(', ')}` : ''}`);
+    // Diagnose: was die Semantik-Auswertung auf jedem Gerät sieht (Anfang der Liste).
+    for (const h of handys) {
+      const texte = await alleTexte(h.page).catch(() => []);
+      console.error(`  ${h.name} · ${texte.length} Semantik-Texte: ${texte.slice(0, 30).map(t => JSON.stringify(t.slice(0, 80))).join(', ')}`);
+    }
     process.exitCode = 1;
   } finally {
     for (const h of handys) await h.context.close().catch(() => {});
     await browser?.close();
     server.close();
-    prozess.kill();
+    prozess?.kill();
   }
 }
 
