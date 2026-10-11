@@ -3102,7 +3102,7 @@ abstract class L {
   /// No description provided for @party_zug_marken.
   ///
   /// In de, this message translates to:
-  /// **'Seifenblasen-Marken: {zahl}'**
+  /// **'Marken: {zahl}'**
   String party_zug_marken(String zahl);
 
   /// No description provided for @party_zug_gruendlich.
@@ -3114,7 +3114,7 @@ abstract class L {
   /// No description provided for @party_zug_wuerfel.
   ///
   /// In de, this message translates to:
-  /// **'Der Kellerwürfel'**
+  /// **'Der Würfel'**
   String get party_zug_wuerfel;
 
   /// No description provided for @party_zug_pate.
@@ -3132,7 +3132,7 @@ abstract class L {
   /// No description provided for @party_zug_marke_einsetzen.
   ///
   /// In de, this message translates to:
-  /// **'Eine Seifenblasen-Marke einsetzen · +1'**
+  /// **'Eine Marke einsetzen · +1'**
   String get party_zug_marke_einsetzen;
 
   /// No description provided for @party_zug_marke_deckel.
@@ -3162,19 +3162,19 @@ abstract class L {
   /// No description provided for @party_zug_erfolg.
   ///
   /// In de, this message translates to:
-  /// **'Erfolg · Lupe'**
+  /// **'Erfolg'**
   String get party_zug_erfolg;
 
   /// No description provided for @party_zug_teilerfolg.
   ///
   /// In de, this message translates to:
-  /// **'Teilerfolg · Handy'**
+  /// **'Teilerfolg'**
   String get party_zug_teilerfolg;
 
   /// No description provided for @party_zug_pech.
   ///
   /// In de, this message translates to:
-  /// **'Pech · Gespenst'**
+  /// **'Pech'**
   String get party_zug_pech;
 
   /// No description provided for @party_zug_erfolg_folge.
@@ -3222,7 +3222,7 @@ abstract class L {
   /// No description provided for @party_zug_pech_szene.
   ///
   /// In de, this message translates to:
-  /// **'Das Handy-Licht wandert kurz über die Decke. Die Quelle bleibt dieselbe. Glück im Unglück: eine Seifenblasen-Marke!'**
+  /// **'Die Spur verläuft sich kurz. Die Quelle bleibt dieselbe. Glück im Unglück: eine Marke!'**
   String get party_zug_pech_szene;
 
   /// No description provided for @party_zug_nochmal.
@@ -3573,6 +3573,36 @@ abstract class L {
   /// **'Abend beginnen'**
   String get abend_start;
 
+  /// No description provided for @abend_abbrechen.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend abbrechen'**
+  String get abend_abbrechen;
+
+  /// No description provided for @abend_abbrechen_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend abbrechen?'**
+  String get abend_abbrechen_titel;
+
+  /// No description provided for @abend_abbrechen_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Abend endet hier, es gibt keine Belohnung. Er lässt sich danach nicht fortsetzen.'**
+  String get abend_abbrechen_text;
+
+  /// No description provided for @abend_abbrechen_ja.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend abbrechen'**
+  String get abend_abbrechen_ja;
+
+  /// No description provided for @abend_abbrechen_nein.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiterspielen'**
+  String get abend_abbrechen_nein;
+
   /// No description provided for @abend_klasse_titel.
   ///
   /// In de, this message translates to:
@@ -3828,7 +3858,7 @@ abstract class L {
   /// No description provided for @karten_quelle_rolle.
   ///
   /// In de, this message translates to:
-  /// **'Spiele diese Rolle oder Klasse an einem Abend zu Ende.'**
+  /// **'Spiele diese Rolle oder Klasse zu Ende, oder habe die Figur an deinem Tisch.'**
   String get karten_quelle_rolle;
 
   /// No description provided for @karten_quelle_taeter.
@@ -5130,7 +5160,7 @@ abstract class L {
   /// No description provided for @online_marke_einsetzen.
   ///
   /// In de, this message translates to:
-  /// **'Seifenblasen-Marke einsetzen'**
+  /// **'Marke einsetzen'**
   String get online_marke_einsetzen;
 
   /// No description provided for @online_werkzeug_einsetzen.

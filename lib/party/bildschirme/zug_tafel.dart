@@ -27,8 +27,12 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
   String? _karte;
   PartySitzung get s => widget.sitzung;
 
+  /// Eine Werkzeugkarte wirkt nur unter dem Deckel +2; liegt der Wurf auch ohne sie
+  /// schon dort (z. B. mit „gründlich“), wird sie nicht angeboten und nicht verbraucht.
+  bool get _werkzeugWirkt => s.wuerfelVorschau().mod < WuerfelRegel.modMax;
+
   void _tippe(KartenDef k) {
-    if (k.art != KartenArt.werkzeug || !s.vorrat.verfuegbar(k.id)) return;
+    if (k.art != KartenArt.werkzeug || !s.vorrat.verfuegbar(k.id) || !_werkzeugWirkt) return;
     setState(() => _karte = _karte == k.id ? null : k.id);
   }
 
@@ -42,6 +46,7 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
     // Online würfelt nur das Gerät der Würfelpatin oder des Würfelpaten; sonst
     // steht hier, wer würfelt (die Chancen sind für alle am Tisch öffentlich).
     final darf = s.darfWuerfeln;
+    final werkzeugKarten = _werkzeugWirkt ? kartenDerArt(s.vorrat, const {KartenArt.werkzeug}) : const <String>{};
     return PartyTafel(child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -70,9 +75,9 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
           const SizedBox(height: 10),
           KartenHand(
             vorrat: s.vorrat,
-            aktiv: kartenDerArt(s.vorrat, const {KartenArt.werkzeug}),
+            aktiv: werkzeugKarten,
             gewaehlt: {?_karte},
-            hinweis: kartenDerArt(s.vorrat, const {KartenArt.werkzeug}).isEmpty ? null : KartenTexte.handWuerfel,
+            hinweis: werkzeugKarten.isEmpty ? null : KartenTexte.handWuerfel,
             figurVon: s.kartenFigur,
             onTipp: _tippe,
           ),
@@ -193,7 +198,7 @@ class StufenSymbol extends StatelessWidget {
   @override
   Widget build(BuildContext context) => switch (stufe) {
     Stufe.erfolg => Icon(Icons.search_rounded, color: context.farben.akzentHell, size: groesse),
-    Stufe.teilerfolg => Icon(Icons.phone_android_rounded, color: Keller.papier, size: groesse),
+    Stufe.teilerfolg => Icon(Icons.lightbulb_outline_rounded, color: Keller.papier, size: groesse),
     Stufe.pech => CustomPaint(size: Size.square(groesse), painter: const _Gespenst()),
   };
 }

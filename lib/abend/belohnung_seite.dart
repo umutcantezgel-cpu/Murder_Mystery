@@ -299,14 +299,17 @@ class _KartenStapelState extends State<_KartenStapel> with SingleTickerProviderS
                 rueckseitenSemantik: l.abend_belohnung_verdeckt(i + 1, widget.defs.length),
               ),
               const SizedBox(height: MMass.s8),
-              SizedBox(
-                height: 32,
-                child: AnimatedOpacity(
-                  duration: MBewegung.schnell(context),
-                  opacity: vorn ? 1 : 0,
-                  child: vorn
-                      ? (widget.neu.contains(d.id) ? const NeuMarke() : MChip(l.abend_belohnung_doppelt, farbe: f.papierLeise))
-                      : const SizedBox.shrink(),
+              // Der Platz bleibt auch bei verdeckter Karte reserviert und wächst bei großer Schrift mit.
+              ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 32),
+                child: Center(
+                  child: AnimatedOpacity(
+                    duration: MBewegung.schnell(context),
+                    opacity: vorn ? 1 : 0,
+                    child: vorn
+                        ? (widget.neu.contains(d.id) ? const NeuMarke() : MChip(l.abend_belohnung_doppelt, farbe: f.papierLeise))
+                        : const SizedBox.shrink(),
+                  ),
                 ),
               ),
             ],

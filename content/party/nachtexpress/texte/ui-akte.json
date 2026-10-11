@@ -44,6 +44,14 @@
       "text": "Der Inspektor"
     },
     {
+      "id": "ui.einrichtung.detektiv_m",
+      "text": "Inspektor"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_w",
+      "text": "Inspektorin"
+    },
+    {
       "id": "ui.titel.hinweis",
       "text": "Der Inspektor schaut beim Einrichten weg."
     },

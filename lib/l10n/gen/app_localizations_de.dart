@@ -1753,7 +1753,7 @@ class LDe extends L {
 
   @override
   String party_zug_marken(String zahl) {
-    return 'Seifenblasen-Marken: $zahl';
+    return 'Marken: $zahl';
   }
 
   @override
@@ -1761,7 +1761,7 @@ class LDe extends L {
       'Gründlich suchen · +2 auf den Wurf · 2 Nachtminuten mehr';
 
   @override
-  String get party_zug_wuerfel => 'Der Kellerwürfel';
+  String get party_zug_wuerfel => 'Der Würfel';
 
   @override
   String party_zug_pate(String name) {
@@ -1772,8 +1772,7 @@ class LDe extends L {
   String get party_zug_werfen => 'Würfeln';
 
   @override
-  String get party_zug_marke_einsetzen =>
-      'Eine Seifenblasen-Marke einsetzen · +1';
+  String get party_zug_marke_einsetzen => 'Eine Marke einsetzen · +1';
 
   @override
   String get party_zug_marke_deckel =>
@@ -1792,13 +1791,13 @@ class LDe extends L {
   String get party_zug_garantie_kurz => 'Garantie';
 
   @override
-  String get party_zug_erfolg => 'Erfolg · Lupe';
+  String get party_zug_erfolg => 'Erfolg';
 
   @override
-  String get party_zug_teilerfolg => 'Teilerfolg · Handy';
+  String get party_zug_teilerfolg => 'Teilerfolg';
 
   @override
-  String get party_zug_pech => 'Pech · Gespenst';
+  String get party_zug_pech => 'Pech';
 
   @override
   String get party_zug_erfolg_folge =>
@@ -1832,7 +1831,7 @@ class LDe extends L {
 
   @override
   String get party_zug_pech_szene =>
-      'Das Handy-Licht wandert kurz über die Decke. Die Quelle bleibt dieselbe. Glück im Unglück: eine Seifenblasen-Marke!';
+      'Die Spur verläuft sich kurz. Die Quelle bleibt dieselbe. Glück im Unglück: eine Marke!';
 
   @override
   String get party_zug_nochmal => 'Nochmal · 3 Nachtminuten';
@@ -2035,6 +2034,22 @@ class LDe extends L {
   String get abend_start => 'Abend beginnen';
 
   @override
+  String get abend_abbrechen => 'Abend abbrechen';
+
+  @override
+  String get abend_abbrechen_titel => 'Abend abbrechen?';
+
+  @override
+  String get abend_abbrechen_text =>
+      'Der Abend endet hier, es gibt keine Belohnung. Er lässt sich danach nicht fortsetzen.';
+
+  @override
+  String get abend_abbrechen_ja => 'Abend abbrechen';
+
+  @override
+  String get abend_abbrechen_nein => 'Weiterspielen';
+
+  @override
   String get abend_klasse_titel => 'Deine Ermittlerklasse';
 
   @override
@@ -2197,7 +2212,7 @@ class LDe extends L {
 
   @override
   String get karten_quelle_rolle =>
-      'Spiele diese Rolle oder Klasse an einem Abend zu Ende.';
+      'Spiele diese Rolle oder Klasse zu Ende, oder habe die Figur an deinem Tisch.';
 
   @override
   String get karten_quelle_taeter =>
@@ -2968,7 +2983,7 @@ class LDe extends L {
   String get online_stufe_pech => 'Pech';
 
   @override
-  String get online_marke_einsetzen => 'Seifenblasen-Marke einsetzen';
+  String get online_marke_einsetzen => 'Marke einsetzen';
 
   @override
   String online_werkzeug_einsetzen(String titel) {

@@ -61,8 +61,11 @@ class AufloesungBildschirm extends StatelessWidget {
           children: [
             _Wert(titel: s.ui('ui.aufloesung.punkte_titel'), wert: s.ui('ui.aufloesung.punkte', {'punkte': '${s.spiel.punkte}'})),
             _Wert(titel: s.ui('ui.aufloesung.taeter_titel'), wert: s.figurName(s.pfad)),
-            _Wert(titel: s.ui('ui.aufloesung.code_titel'), wert: s.fallCode.code),
-            Text(s.ui('ui.aufloesung.code_hinweis'), style: Keller.leise),
+            // Eine Akte mit fester Lösung kennt keinen Fall-Code; der Code ließe sich nirgends eingeben.
+            if (!s.daten.kanon.festeLoesung) ...[
+              _Wert(titel: s.ui('ui.aufloesung.code_titel'), wert: s.fallCode.code),
+              Text(s.ui('ui.aufloesung.code_hinweis'), style: Keller.leise),
+            ],
             const SizedBox(height: 18),
             Text(s.ui('ui.aufloesung.dank'), style: Keller.text),
           ],
