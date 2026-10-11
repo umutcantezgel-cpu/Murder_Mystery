@@ -107,19 +107,21 @@ class _Leiste extends StatelessWidget {
           builder: (context, _) {
             final gaeste = sitzung.dienst.gaeste;
             final da = gaeste.where((g) => g.online).length;
+            // Ohne Relais ist der Stand der Gäste veraltet: nur die Trennung zeigen.
+            final getrennt = !sitzung.dienst.geschlossen && !sitzung.dienst.verbunden;
             return Padding(
               padding: const EdgeInsets.only(left: MMass.s16, right: MMass.s4),
               child: Row(
                 children: [
-                  Icon(Icons.groups_2_outlined, size: 20, color: f.akzent),
+                  Icon(getrennt ? Icons.wifi_off_rounded : Icons.groups_2_outlined, size: 20, color: getrennt ? f.warnung : f.akzent),
                   const SizedBox(width: MMass.s8),
                   Expanded(
                     child: Text(
-                      '${l.online_leiste_raum(raumCodeAnzeige(sitzung.dienst.raumCode))} · ${l.online_leiste_online(da, gaeste.length)}',
+                      '${l.online_leiste_raum(raumCodeAnzeige(sitzung.dienst.raumCode))} · ${getrennt ? l.online_leiste_getrennt : l.online_leiste_online(da, gaeste.length)}',
                       key: const ValueKey('online-leiste'),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: t.leise.copyWith(fontSize: 13),
+                      style: t.leise.copyWith(fontSize: 13, color: getrennt ? f.warnung : null),
                     ),
                   ),
                   IconButton(

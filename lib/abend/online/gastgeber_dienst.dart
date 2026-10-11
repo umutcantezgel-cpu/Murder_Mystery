@@ -47,8 +47,10 @@ class GastgeberDienst extends ChangeNotifier {
   final Ablage ablage;
 
   StreamSubscription<Map<String, Object?>>? _hoerer;
+  StreamSubscription<bool>? _verbindungsHoerer;
   bool _offen = false;
   bool _zu = false;
+  bool _verbunden = false;
 
   /// Raumcode (6 Zeichen, ohne Trennstrich).
   String get raumCode => host.raumCode;
@@ -68,8 +70,12 @@ class GastgeberDienst extends ChangeNotifier {
 
   bool get geschlossen => _zu;
 
-  /// Ist das Relais verbunden und der Raum für Gäste offen?
+  /// Wurde der Raum geöffnet (Relais war erreichbar)? Bleibt wahr, bis der Raum zu ist.
   bool get offen => _offen;
+
+  /// Steht die Verbindung zum Relais gerade? Fällt sie weg, erfährt kein Gast
+  /// etwas, bis sie zurück ist.
+  bool get verbunden => _verbunden;
 
   /// Die aktuelle Ansicht des Gastgeberplatzes.
   Map<String, Object?> get ansicht => verb.letzteAnsicht ?? const {};
@@ -220,6 +226,11 @@ class GastgeberDienst extends ChangeNotifier {
     if (_offen || _zu) return;
     await host.starten();
     _offen = true;
+    _verbindungsHoerer ??= host.verbindung.listen((v) {
+      if (_zu || v == _verbunden) return;
+      _verbunden = v;
+      notifyListeners();
+    });
     notifyListeners();
   }
 
@@ -240,8 +251,11 @@ class GastgeberDienst extends ChangeNotifier {
     if (_zu) return;
     _zu = true;
     _offen = false;
+    _verbunden = false;
     await _hoerer?.cancel();
     _hoerer = null;
+    await _verbindungsHoerer?.cancel();
+    _verbindungsHoerer = null;
     try {
       await host.schliessen(endgueltig: endgueltig, gaesteBenachrichtigen: endgueltig);
     } catch (e) {
@@ -254,6 +268,8 @@ class GastgeberDienst extends ChangeNotifier {
   void dispose() {
     unawaited(_hoerer?.cancel());
     _hoerer = null;
+    unawaited(_verbindungsHoerer?.cancel());
+    _verbindungsHoerer = null;
     super.dispose();
   }
 }

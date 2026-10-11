@@ -175,7 +175,8 @@ class _GastSeiteState extends State<GastSeite> {
   }
 }
 
-/// Hinweis zum Zustand der Verbindung: Aufbau, Spielleitung getrennt, Abend beendet.
+/// Hinweis zum Zustand der Verbindung: Aufbau, eigene Verbindung weg, Spielleitung
+/// getrennt, Abend beendet.
 class _StatusBand extends StatelessWidget {
   const _StatusBand({required this.dienst, required this.onDetektei});
 
@@ -190,7 +191,8 @@ class _StatusBand extends StatelessWidget {
     final (icon, text, farbe) = switch (dienst.status) {
       VerbindungsStatus.verbinde => (Icons.sync_rounded, l.online_status_verbinde, f.akzent),
       VerbindungsStatus.verbunden => (Icons.wifi_rounded, '', f.erfolg),
-      VerbindungsStatus.getrennt || VerbindungsStatus.pausiert => (Icons.pause_circle_outline_rounded, l.online_status_pausiert, f.warnung),
+      VerbindungsStatus.getrennt => (Icons.wifi_off_rounded, l.online_status_getrennt, f.warnung),
+      VerbindungsStatus.pausiert => (Icons.pause_circle_outline_rounded, l.online_status_pausiert, f.warnung),
       VerbindungsStatus.geschlossen => (Icons.info_outline_rounded, l.online_status_geschlossen, f.gefahr),
     };
     return Semantics(

@@ -2770,6 +2770,18 @@ class LDe extends L {
   String get online_status_geschlossen => 'Der Abend wurde beendet.';
 
   @override
+  String get online_status_getrennt =>
+      'Keine Verbindung – prüfe dein Internet. Dein Platz bleibt reserviert.';
+
+  @override
+  String get online_lobby_getrennt =>
+      'Die Verbindung zum Relais ist weg. Gäste können gerade nicht beitreten, und der Abend lässt sich nicht starten. Dein Gerät verbindet sich von selbst neu.';
+
+  @override
+  String get online_leiste_getrennt =>
+      'Relais getrennt – Gäste erfahren gerade nichts';
+
+  @override
   String get online_zur_detektei => 'Zur Detektei';
 
   @override

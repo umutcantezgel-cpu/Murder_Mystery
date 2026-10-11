@@ -136,8 +136,10 @@ class GastgeberSitzung extends PartySitzung {
   @override
   void wuerfeln({bool marke = false, String? karte}) {
     if (!darfWuerfeln) return;
+    // Immer den eigenen Stand mitschicken: Ein früherer Würfelpate (Gast) kann im
+    // Raum Marke oder Werkzeug angehakt haben, die sonst still in diesen Wurf einflössen.
     _senden([
-      if (marke || karte != null) {'typ': 'wuerfelHilfe', 'marke': marke, 'karte': ?karte},
+      {'typ': 'wuerfelHilfe', 'marke': marke, 'karte': ?karte},
       {'typ': 'wurf'},
     ]);
   }

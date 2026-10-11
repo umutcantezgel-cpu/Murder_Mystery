@@ -6,9 +6,9 @@
 ///   turm   Gastgeber -> alle  {hpub, epoch, proto, akte, inhalt, offen, plaetze}  (Klartext)
 /// Sitz-Thema   mordakte:v1:<CODE>:<cid>     nur Gastgeber und dieser Gast, Ereignis "m"
 ///   Nachrichten ausschließlich als Umschlag (siehe umschlag.dart)
-///   Gast -> Gastgeber  hallo{name,proto,app,r}  befehl{q,c}  sync{v}  ping{v}  tschuess{}
+///   Gast -> Gastgeber  hallo{name,proto,app,r,inhalt}  befehl{q,c}  sync{v}  ping{v}  tschuess{}
 ///   Gastgeber -> Gast  willkommen{spieler,raum,epoch,r}  abend{…zustandFuer…}
-///                      ok{q}  fehler{q,key}  nein{key}  zu{grund}  pong{v}
+///                      ok{q}  fehler{q,key}  nein{key}  zu{grund[,r]}  pong{v}
 /// ```
 library;
 
@@ -29,6 +29,10 @@ String spielerIdVon(String cid) => 'g_$cid';
 
 /// Wie lange ein Gast offline sein darf, bevor der Gastgeber ihn aus dem Raum nimmt.
 const offlineFristStandard = Duration(seconds: 120);
+
+/// Wie lange ein angemeldeter Gast ohne beglaubigten Umschlag bleiben darf, bevor
+/// der Gastgeber ihn trotz Presence als offline führt (Pings kommen alle 20 s).
+const umschlagFristStandard = Duration(seconds: 50);
 
 /// Ereignisname auf den Sitz-Themen.
 const sitzEreignis = 'm';
