@@ -31,8 +31,13 @@ Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu}) as
   SharedPreferences.setMockInitialValues({});
   final state = AppState(meta: MetaStore.memory()..name = 'Test', scenarios: const {});
   await tester.runAsync(() async {
+    // rootBundle merkt sich jede Textdatei samt Ladevorgang (CachingAssetBundle). Was der
+    // Assistent braucht, lädt deshalb hier in echter Zeit: ein Vorgang, der erst in der
+    // Testuhr startet und endet, hängte sonst jeden späteren Test am gemerkten Ergebnis.
     await AktenKatalog.laden();
     await PartyDaten.laden(rootBundle, fall: 'schlosskeller');
+    await ladeAbstecher('schlosskeller');
+    await ladeKartenKatalog();
     await tester.pumpWidget(MordakteApp(app: state, initialLocation: ort));
   });
   await warten(tester);
@@ -83,8 +88,6 @@ Future<void> bisZumStart(WidgetTester tester, String weise) async {
 }
 
 void main() {
-  setUp(vergisKartenKatalog);
-
   testWidgets('Weiter bleibt ohne Spielweise gesperrt', (tester) async {
     final state = await oeffnen(tester);
     expect(find.text('SCHRITT 1 VON 4'), findsOneWidget);

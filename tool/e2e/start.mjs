@@ -12,8 +12,9 @@ const output = path.join(import.meta.dirname, 'fotos/start');
 await fs.mkdir(output, { recursive: true });
 const server = await starteServer(path.join(repo, 'build/web'));
 const base = `http://127.0.0.1:${server.address().port}`;
-// Texte des alten Menüs; sie dürfen im Start nirgends mehr stehen.
-const altesMenue = ['Andere Abende & Fälle', 'Spuk im Gewölbe', 'Klassische Fälle'];
+// Texte des alten Menüs; sie dürfen im Start nirgends mehr stehen. „Spuk im Gewölbe“ ist seit der
+// Kampagne eine eigene Akte in der Detektei und gehört deshalb nicht dazu.
+const altesMenue = ['Andere Abende & Fälle', 'Klassische Fälle'];
 let browser;
 const errors = [];
 const pictures = [];
