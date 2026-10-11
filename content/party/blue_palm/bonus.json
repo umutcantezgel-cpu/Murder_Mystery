@@ -1,0 +1,498 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Bonus-Hinweise je Pfad, Runde und Qualität (E-024, E-025). Alle erscheinen im selben Rahmen ohne Quelle; je Runde haben die Hinweise möglichst dieselbe Satzform. Vor der Auflösung wird weder die Qualität noch die Stimmenzahl gezeigt. Wahr: ein wahrer Baustein, der nie allein ausschließt (W-1). Neutral: ein wahrer, pfadgleicher Satz ohne neuen Wert. Falsch: ein Gerücht über einen Unschuldigen, widerlegt durch eine im Pfad richtige Entscheidung.",
+  "hinweise": [
+    {
+      "id": "h_viv_1_wahr",
+      "pfad": "viv",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Flackern war die Bühne leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "viv"
+      },
+      "quelle": [
+        "beobachtung:b_marcy_viv_weg"
+      ]
+    },
+    {
+      "id": "h_viv_1_neutral",
+      "pfad": "viv",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Draußen goss es in Strömen, und der Wind drückte gegen die Läden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_bruecke"
+      ]
+    },
+    {
+      "id": "h_viv_1_falsch",
+      "pfad": "viv",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Die Verbindung nach Houston brach nach zwei Minuten ab.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "dale"
+      },
+      "widerlegtDurch": [
+        "e1_2_toby"
+      ]
+    },
+    {
+      "id": "h_viv_2_wahr",
+      "pfad": "viv",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Den Hit von Viv hat angeblich eine andere gesungen, und Lucky besaß die alten Bänder.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "viv"
+      },
+      "quelle": [
+        "beobachtung:b_marcy_geruecht"
+      ]
+    },
+    {
+      "id": "h_viv_2_neutral",
+      "pfad": "viv",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Kurz vor Mitternacht kam ein Fax für Lucky an.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_toby_fax"
+      ]
+    },
+    {
+      "id": "h_viv_2_falsch",
+      "pfad": "viv",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Frank hat sich dreihundert Dollar aus der Kasse genommen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "frank"
+      },
+      "widerlegtDurch": [
+        "e2_3_sol"
+      ]
+    },
+    {
+      "id": "h_viv_3_wahr",
+      "pfad": "viv",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Flackern saß Frank am Steuer seines Wagens und schrieb.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "frank"
+      },
+      "quelle": [
+        "beobachtung:b_gus_frank_sitzt"
+      ]
+    },
+    {
+      "id": "h_viv_3_neutral",
+      "pfad": "viv",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Der Teppich in Zimmer sieben ist violett und war vom Fenster her nass.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_dottie_teppich"
+      ]
+    },
+    {
+      "id": "h_viv_3_falsch",
+      "pfad": "viv",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Dale hat Luckys schwarzes Notizbuch in der Telefonzelle versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "dale"
+      },
+      "widerlegtDurch": [
+        "e3_1_container"
+      ]
+    },
+    {
+      "id": "h_dale_1_wahr",
+      "pfad": "dale",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Die Verbindung nach Houston brach nach zwei Minuten ab.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "dale"
+      },
+      "quelle": [
+        "beobachtung:b_toby_dale_abbruch"
+      ]
+    },
+    {
+      "id": "h_dale_1_neutral",
+      "pfad": "dale",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Draußen goss es in Strömen, und der Wind drückte gegen die Läden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_bruecke"
+      ]
+    },
+    {
+      "id": "h_dale_1_falsch",
+      "pfad": "dale",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Flackern war das Hämmern an den Läden verstummt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "sol"
+      },
+      "widerlegtDurch": [
+        "e1_3_gus"
+      ]
+    },
+    {
+      "id": "h_dale_2_wahr",
+      "pfad": "dale",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "In Zimmer drei lagen eine Police ohne Stempel und ein Bündel Scheine auf dem Bett.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "dale"
+      },
+      "quelle": [
+        "beobachtung:b_dottie_zimmer3"
+      ]
+    },
+    {
+      "id": "h_dale_2_neutral",
+      "pfad": "dale",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Kurz vor Mitternacht kam ein Fax für Lucky an.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_toby_fax"
+      ]
+    },
+    {
+      "id": "h_dale_2_falsch",
+      "pfad": "dale",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Sol hat Luckys Prämie für die Police in Scheinen angenommen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "sol"
+      },
+      "widerlegtDurch": [
+        "e2_1_koffer"
+      ]
+    },
+    {
+      "id": "h_dale_3_wahr",
+      "pfad": "dale",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Flackern saß Frank am Steuer seines Wagens und schrieb.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "frank"
+      },
+      "quelle": [
+        "beobachtung:b_gus_frank_sitzt"
+      ]
+    },
+    {
+      "id": "h_dale_3_neutral",
+      "pfad": "dale",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Der Teppich in Zimmer sieben ist violett und war vom Fenster her nass.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_dottie_teppich"
+      ]
+    },
+    {
+      "id": "h_dale_3_falsch",
+      "pfad": "dale",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Sol hat Luckys schwarzes Notizbuch im Wäscheschrank versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "sol"
+      },
+      "widerlegtDurch": [
+        "e3_1_zelle"
+      ]
+    },
+    {
+      "id": "h_sol_1_wahr",
+      "pfad": "sol",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Flackern war das Hämmern verstummt, und Sol war zehn Minuten fort.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "sol"
+      },
+      "quelle": [
+        "beobachtung:b_gus_sol_pause"
+      ]
+    },
+    {
+      "id": "h_sol_1_neutral",
+      "pfad": "sol",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Draußen goss es in Strömen, und der Wind drückte gegen die Läden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_bruecke"
+      ]
+    },
+    {
+      "id": "h_sol_1_falsch",
+      "pfad": "sol",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Flackern war die Bühne leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "viv"
+      },
+      "widerlegtDurch": [
+        "e1_1_marcy"
+      ]
+    },
+    {
+      "id": "h_sol_2_wahr",
+      "pfad": "sol",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Lucky sagte am Telefon: Das Blue Palm gehört bald jemand anderem, und Sol bekommt keinen Cent.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "sol"
+      },
+      "quelle": [
+        "beobachtung:b_dottie_telefonat"
+      ]
+    },
+    {
+      "id": "h_sol_2_neutral",
+      "pfad": "sol",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Kurz vor Mitternacht kam ein Fax für Lucky an.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_toby_fax"
+      ]
+    },
+    {
+      "id": "h_sol_2_falsch",
+      "pfad": "sol",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Dale hat zwei alte Masterbänder aus Luckys Regal genommen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "dale"
+      },
+      "widerlegtDurch": [
+        "e2_2_tasche"
+      ]
+    },
+    {
+      "id": "h_sol_3_wahr",
+      "pfad": "sol",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Flackern saß Frank am Steuer seines Wagens und schrieb.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "frank"
+      },
+      "quelle": [
+        "beobachtung:b_gus_frank_sitzt"
+      ]
+    },
+    {
+      "id": "h_sol_3_neutral",
+      "pfad": "sol",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Der Teppich in Zimmer sieben ist violett und war vom Fenster her nass.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_dottie_teppich"
+      ]
+    },
+    {
+      "id": "h_sol_3_falsch",
+      "pfad": "sol",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Frank hat Luckys schwarzes Notizbuch in seinem Kleiderschrank versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "frank"
+      },
+      "widerlegtDurch": [
+        "e3_1_waesche"
+      ]
+    },
+    {
+      "id": "h_frank_1_wahr",
+      "pfad": "frank",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Im Wagen auf dem Parkplatz brannte Licht, aber der Fahrersitz war leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "frank"
+      },
+      "quelle": [
+        "beobachtung:b_gus_frank_leer"
+      ]
+    },
+    {
+      "id": "h_frank_1_neutral",
+      "pfad": "frank",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Draußen goss es in Strömen, und der Wind drückte gegen die Läden.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_bruecke"
+      ]
+    },
+    {
+      "id": "h_frank_1_falsch",
+      "pfad": "frank",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Flackern war die Bühne leer.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "viv"
+      },
+      "widerlegtDurch": [
+        "e1_1_marcy"
+      ]
+    },
+    {
+      "id": "h_frank_2_wahr",
+      "pfad": "frank",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Auf einem Band sagt Lucky zu Frank: Die Umschläge werden nächste Woche dicker.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "frank"
+      },
+      "quelle": [
+        "beobachtung:b_marcy_mitschnitt"
+      ]
+    },
+    {
+      "id": "h_frank_2_neutral",
+      "pfad": "frank",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Kurz vor Mitternacht kam ein Fax für Lucky an.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_toby_fax"
+      ]
+    },
+    {
+      "id": "h_frank_2_falsch",
+      "pfad": "frank",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Dale hat über Jahre Umschläge von Lucky angenommen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "dale"
+      },
+      "widerlegtDurch": [
+        "e2_1_fach"
+      ]
+    },
+    {
+      "id": "h_frank_3_wahr",
+      "pfad": "frank",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Flackern war Dale in Zimmer drei, denn das Unwetter hatte die Leitung nach Houston gekappt.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "dale"
+      },
+      "quelle": [
+        "beobachtung:b_dale_leitung_tot"
+      ]
+    },
+    {
+      "id": "h_frank_3_neutral",
+      "pfad": "frank",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Der Teppich in Zimmer sieben ist violett und war vom Fenster her nass.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_dottie_teppich"
+      ]
+    },
+    {
+      "id": "h_frank_3_falsch",
+      "pfad": "frank",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Viv hat Luckys schwarzes Notizbuch im Müllcontainer versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "viv"
+      },
+      "widerlegtDurch": [
+        "e3_1_schrank6"
+      ]
+    }
+  ]
+}

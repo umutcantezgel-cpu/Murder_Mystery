@@ -1,0 +1,27 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad dale: finale.dale.<ende> (4) und rueckblende.dale.",
+  "eintraege": [
+    {
+      "id": "finale.dale.ende_meister",
+      "text": "Du klagst Dale an, und es stimmt. Du hast die Spuren sauber zusammengetragen: Täter, Motiv und Waffe, lückenlos. Dale gesteht: Er hat Kundengeld verspielt und brauchte die Lebensversicherung. Luckys Tod sollte wie ein Unfall am nassen Teppich aussehen. Zusammen seht ihr euch das Fenster an. Im Puder steht der Absatz eines Cowboystiefels, am Rahmen klebt der Abdruck seiner tätowierten Hand. In der Telefonzelle klemmt Luckys Notizbuch, in eine Zeitung gewickelt. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst. Dale verhandelt noch in Handschellen, über Strafmaß, Zinsen und eine Police für seinen Zellengenossen."
+    },
+    {
+      "id": "finale.dale.ende_teilerfolg",
+      "text": "Du klagst Dale an, und es stimmt. Ein gutes Stück Glück war auch dabei. Dale gesteht: Er hat Kundengeld verspielt und brauchte die Lebensversicherung. Luckys Tod sollte wie ein Unfall am nassen Teppich aussehen. Dale gibt zu, dass Luckys Notizbuch in der Telefonzelle klemmt, in eine Zeitung gewickelt. Der richtige Name, aber dünne Beweise. Ein Anwalt aus Miami wird sich die Hände reiben. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst."
+    },
+    {
+      "id": "finale.dale.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Die Handschellen klicken am falschen Handgelenk. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Das Notizbuch bleibt verschwunden, bis die Brücke aufgeht. Dale gesteht erst danach: Er hat Kundengeld verspielt und brauchte die Lebensversicherung. Dale fährt mit dem Mietwagen nach Westen. In Houston wartet schon der nächste Kunde mit einer frischen Police."
+    },
+    {
+      "id": "finale.dale.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, brüllt zurück, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Das Notizbuch bleibt verschwunden. Irgendwo auf dem Highway nach Süden dreht jemand das Radio lauter. Dale gesteht erst danach: Er hat Kundengeld verspielt und brauchte die Lebensversicherung. Dale fährt mit dem Mietwagen nach Westen. In Houston wartet schon der nächste Kunde mit einer frischen Police."
+    },
+    {
+      "id": "rueckblende.dale",
+      "text": "Kurz nach dem Anruf legt Dale in Zimmer drei auf und verlässt das Zimmer durch die Tür zum Pooldeck. Klatschnass wartet er unter dem Fenster von Zimmer sieben. Um zehn nach zwölf geht er hinein. Lucky lacht über die Police. Dale reißt das Kabel der Stehlampe ab und legt es auf den nassen Teppich. Das Licht flackert, dann wird es still. Er nimmt Luckys Notizbuch, in dem Luckys eigener Plan steht, seinen Tod vorzutäuschen. Er versteckt es in der Telefonzelle. Kurz nach halb eins wählt er wieder Houston, als wäre nichts gewesen."
+    }
+  ]
+}

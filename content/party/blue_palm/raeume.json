@@ -1,0 +1,1548 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "blue_palm_motel",
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l)",
+  "raster": {
+    "breite": 30,
+    "hoehe": 22
+  },
+  "rooms": [
+    {
+      "id": "office",
+      "name": "Luckys Büro",
+      "anzeigename": "Luckys Büro",
+      "widthMeters": 6,
+      "rechteck": {
+        "x": 1,
+        "y": 1,
+        "b": 6,
+        "l": 5
+      },
+      "boden": "parquet",
+      "features": [
+        "Schreibtisch mit Anrufbeantworter",
+        "Wandtresor",
+        "Aktenschrank",
+        "Standuhr"
+      ],
+      "beschreibung": "Das Büro hinter der Rezeption. Ein Schreibtisch, ein Wandtresor und ein Fernseher mit Rauschen. Hier hat Lucky seine Geschäfte erledigt."
+    },
+    {
+      "id": "room6",
+      "name": "Zimmer 6",
+      "anzeigename": "Zimmer 6",
+      "widthMeters": 6,
+      "rechteck": {
+        "x": 8,
+        "y": 1,
+        "b": 6,
+        "l": 5
+      },
+      "boden": "carpet",
+      "features": [
+        "Bett",
+        "Kleiderschrank",
+        "Koffer",
+        "Bad"
+      ],
+      "beschreibung": "Ein Gästezimmer direkt neben Luckys Zimmer. Das Bett ist grün bezogen, im Kleiderschrank liegt eine Wolldecke."
+    },
+    {
+      "id": "room7",
+      "name": "Zimmer 7",
+      "anzeigename": "Zimmer 7",
+      "widthMeters": 6,
+      "rechteck": {
+        "x": 15,
+        "y": 1,
+        "b": 6,
+        "l": 5
+      },
+      "boden": "carpet",
+      "features": [
+        "Bett",
+        "Nachttisch",
+        "Badewanne",
+        "Fenster zum Pooldeck",
+        "nasser Teppich"
+      ],
+      "beschreibung": "Luckys Zimmer. Der violette Teppich ist vom Regen am Fenster durchnässt. Der Fernseher zeigt nur noch Rauschen."
+    },
+    {
+      "id": "laundry",
+      "name": "Waschküche",
+      "anzeigename": "Waschküche",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 22,
+        "y": 1,
+        "b": 7,
+        "l": 5
+      },
+      "boden": "linoleum",
+      "features": [
+        "Waschmaschine",
+        "Wäschetrockner",
+        "Wäscheschrank",
+        "Bügeltisch"
+      ],
+      "beschreibung": "Die Waschküche des Motels hinter der Lounge. Es riecht nach Seife und warmer Wäsche, und ein Notlicht brennt."
+    },
+    {
+      "id": "lobby",
+      "name": "Rezeption",
+      "anzeigename": "Rezeption",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 1,
+        "y": 7,
+        "b": 7,
+        "l": 8
+      },
+      "boden": "stone",
+      "features": [
+        "Empfangstheke mit Vermittlung",
+        "Faxgerät",
+        "Neonschild",
+        "Sofas",
+        "Limonadenautomat"
+      ],
+      "beschreibung": "Die Lobby des Blue Palm mit dem rosa Neonschild. Hinter der Empfangstheke sitzt der Nachtportier an der Telefonvermittlung. Ein Notstrom-Aggregat brummt."
+    },
+    {
+      "id": "pool",
+      "name": "Pooldeck",
+      "anzeigename": "Pooldeck",
+      "widthMeters": 12,
+      "rechteck": {
+        "x": 9,
+        "y": 7,
+        "b": 12,
+        "l": 8
+      },
+      "boden": "tiles",
+      "features": [
+        "Becken mit Skimmer",
+        "Sonnenliegen",
+        "Palmen",
+        "Tür zu Zimmer 6 und 7"
+      ],
+      "beschreibung": "Das Pooldeck unter freiem Himmel. Regen trommelt auf die Fliesen, und das Wetterleuchten färbt das Becken violett."
+    },
+    {
+      "id": "diner",
+      "name": "Diner & Lounge",
+      "anzeigename": "Diner & Lounge",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 22,
+        "y": 7,
+        "b": 7,
+        "l": 8
+      },
+      "boden": "checker",
+      "features": [
+        "Theke mit Hockern",
+        "Jukebox",
+        "Klavier mit Bühne",
+        "Kassettenregal",
+        "Tisch vor der Bühne"
+      ],
+      "beschreibung": "Der Diner mit der Lounge. Vorn die Theke, hinten die kleine Bühne mit dem Klavier. Freitags singt hier Viv."
+    },
+    {
+      "id": "parking",
+      "name": "Parkplatz",
+      "anzeigename": "Parkplatz",
+      "widthMeters": 28,
+      "rechteck": {
+        "x": 1,
+        "y": 16,
+        "b": 28,
+        "l": 5
+      },
+      "boden": "asphalt",
+      "features": [
+        "Telefonzelle",
+        "Müllcontainer",
+        "Autos",
+        "Palmen",
+        "Öllache"
+      ],
+      "beschreibung": "Der lange Parkplatz vor dem Motel. Pfützen, nasse Palmen und ein paar Autos. Hier steht Franks Wagen, und das Licht im Wagen brennt die ganze Nacht."
+    }
+  ],
+  "tueren": [
+    {
+      "id": "office_lobby",
+      "name": "Bürotür",
+      "von": "office",
+      "nach": "lobby",
+      "kacheln": [
+        [
+          3,
+          6
+        ]
+      ],
+      "art": "Holztür mit Sicherheitsschloss",
+      "zustand": "angelehnt",
+      "quietscht": false
+    },
+    {
+      "id": "room6_pool",
+      "name": "Tür von Zimmer 6",
+      "von": "room6",
+      "nach": "pool",
+      "kacheln": [
+        [
+          11,
+          6
+        ]
+      ],
+      "art": "Tür mit Fliegengitter zum Pooldeck",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "room7_pool",
+      "name": "Tür von Zimmer 7",
+      "von": "room7",
+      "nach": "pool",
+      "kacheln": [
+        [
+          18,
+          6
+        ]
+      ],
+      "art": "Tür mit Fliegengitter zum Pooldeck",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "laundry_diner",
+      "name": "Tür zur Waschküche",
+      "von": "laundry",
+      "nach": "diner",
+      "kacheln": [
+        [
+          25,
+          6
+        ]
+      ],
+      "art": "Holztür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "lobby_pool",
+      "name": "Glastür zum Pooldeck",
+      "von": "lobby",
+      "nach": "pool",
+      "kacheln": [
+        [
+          8,
+          10
+        ]
+      ],
+      "art": "Glastür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "pool_diner",
+      "name": "Seitentür zur Lounge",
+      "von": "pool",
+      "nach": "diner",
+      "kacheln": [
+        [
+          21,
+          10
+        ]
+      ],
+      "art": "Holztür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "lobby_parking",
+      "name": "Eingangstür der Rezeption",
+      "von": "lobby",
+      "nach": "parking",
+      "kacheln": [
+        [
+          4,
+          15
+        ]
+      ],
+      "art": "Glastür mit Klingel",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "pool_parking",
+      "name": "Tor zum Parkplatz",
+      "von": "pool",
+      "nach": "parking",
+      "kacheln": [
+        [
+          14,
+          15
+        ],
+        [
+          15,
+          15
+        ]
+      ],
+      "art": "zweiflügeliges Gittertor",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "diner_parking",
+      "name": "Hintertür des Diners",
+      "von": "diner",
+      "nach": "parking",
+      "kacheln": [
+        [
+          25,
+          15
+        ]
+      ],
+      "art": "Stahltür",
+      "zustand": "offen",
+      "quietscht": false
+    }
+  ],
+  "einrichtung": [
+    {
+      "id": "aktenschrank_buero",
+      "name": "Aktenschrank im Büro",
+      "typ": "cabinet",
+      "x": 1,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "standuhr_buero",
+      "name": "Standuhr im Büro",
+      "typ": "clock",
+      "x": 5,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "wandtresor",
+      "name": "Wandtresor",
+      "typ": "cabinet",
+      "x": 6,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "stuhl_buero",
+      "name": "Stuhl am Schreibtisch",
+      "typ": "chair",
+      "x": 4,
+      "y": 2,
+      "blockiert": true
+    },
+    {
+      "id": "schreibtisch",
+      "name": "Luckys Schreibtisch",
+      "typ": "desk",
+      "x": 3,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "schreibtisch_2",
+      "name": "Schreibtisch mit Anrufbeantworter",
+      "typ": "desk",
+      "x": 4,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_1_3",
+      "name": "Stehlampe",
+      "typ": "lamp",
+      "x": 1,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "fernseher_buero",
+      "name": "Fernseher im Büro",
+      "typ": "tv",
+      "x": 6,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "papers_2_4",
+      "name": "Papiere",
+      "typ": "papers",
+      "x": 2,
+      "y": 4,
+      "blockiert": false
+    },
+    {
+      "id": "plant_6_5",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 6,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "bathtub_8_1",
+      "name": "Badewanne",
+      "typ": "bathtub",
+      "x": 8,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "toilet_9_1",
+      "name": "Toilette",
+      "typ": "toilet",
+      "x": 9,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "sink_10_1",
+      "name": "Waschbecken",
+      "typ": "sink",
+      "x": 10,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "kleiderschrank_6",
+      "name": "Kleiderschrank in Zimmer 6",
+      "typ": "wardrobe",
+      "x": 13,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "tv_8_3",
+      "name": "Fernseher",
+      "typ": "tv",
+      "x": 8,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "bett_6",
+      "name": "Bett in Zimmer 6",
+      "typ": "bed",
+      "x": 12,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "table_13_3",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 13,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_10_4",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 10,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_8_5",
+      "name": "Stehlampe",
+      "typ": "lamp",
+      "x": 8,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "luggage_13_5",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 13,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "kleiderschrank_7",
+      "name": "Kleiderschrank in Zimmer 7",
+      "typ": "wardrobe",
+      "x": 15,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "sink_18_1",
+      "name": "Waschbecken",
+      "typ": "sink",
+      "x": 18,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "toilet_19_1",
+      "name": "Toilette",
+      "typ": "toilet",
+      "x": 19,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "badewanne_7",
+      "name": "Badewanne in Zimmer 7",
+      "typ": "bathtub",
+      "x": 20,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "nachttisch_7",
+      "name": "Nachttisch in Zimmer 7",
+      "typ": "table",
+      "x": 15,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "bett_7",
+      "name": "Bett in Zimmer 7",
+      "typ": "bed",
+      "x": 16,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "tv_20_3",
+      "name": "Fernseher",
+      "typ": "tv",
+      "x": 20,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_15_5",
+      "name": "Stehlampe",
+      "typ": "lamp",
+      "x": 15,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_16_5",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 16,
+      "y": 5,
+      "blockiert": false
+    },
+    {
+      "id": "luggage_20_5",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 20,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "waescheschrank",
+      "name": "Wäscheschrank",
+      "typ": "cabinet",
+      "x": 22,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "trockner",
+      "name": "Wäschetrockner",
+      "typ": "fridge",
+      "x": 23,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "waschmaschine",
+      "name": "Waschmaschine",
+      "typ": "fridge",
+      "x": 24,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "counter_25_1",
+      "name": "Theke",
+      "typ": "counter",
+      "x": 25,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "counter_26_1",
+      "name": "Theke",
+      "typ": "counter",
+      "x": 26,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "sink_27_1",
+      "name": "Waschbecken",
+      "typ": "sink",
+      "x": 27,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_28_1",
+      "name": "Stehlampe",
+      "typ": "lamp",
+      "x": 28,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "buegeltisch",
+      "name": "Bügeltisch",
+      "typ": "table",
+      "x": 27,
+      "y": 3,
+      "blockiert": true
+    },
+    {
+      "id": "crate_22_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 22,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_22_5",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 22,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_28_5",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 28,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "limoautomat",
+      "name": "Limonadenautomat",
+      "typ": "vending",
+      "x": 1,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "neonschild_lobby",
+      "name": "Neonschild der Rezeption",
+      "typ": "neon_sign",
+      "x": 2,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_6_7",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 6,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "plant_7_7",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 7,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "empfangstheke_1",
+      "name": "Empfangstheke",
+      "typ": "counter",
+      "x": 4,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "empfangstheke_2",
+      "name": "Empfangstheke mit Vermittlung",
+      "typ": "counter",
+      "x": 5,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "faxgeraet",
+      "name": "Faxgerät auf der Empfangstheke",
+      "typ": "counter",
+      "x": 6,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_1_10",
+      "name": "Stehlampe",
+      "typ": "lamp",
+      "x": 1,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_1_12",
+      "name": "Sofa",
+      "typ": "sofa",
+      "x": 1,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_1_13",
+      "name": "Sofa",
+      "typ": "sofa",
+      "x": 1,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "table_2_13",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 2,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "plant_7_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 7,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "tree_9_7",
+      "name": "Palme",
+      "typ": "tree",
+      "x": 9,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "plant_13_7",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 13,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "tree_20_7",
+      "name": "Palme",
+      "typ": "tree",
+      "x": 20,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_12_9",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 12,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_13_9",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 13,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_14_9",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 14,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_15_9",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 15,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_16_9",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 16,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_17_9",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 17,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_12_10",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 12,
+      "y": 10,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_13_10",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 13,
+      "y": 10,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_14_10",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 14,
+      "y": 10,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_15_10",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 15,
+      "y": 10,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_16_10",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 16,
+      "y": 10,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_17_10",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 17,
+      "y": 10,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_12_11",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 12,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_13_11",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 13,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_14_11",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 14,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_15_11",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 15,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_16_11",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 16,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "puddle_17_11",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 17,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "sonnenliege_1",
+      "name": "Sonnenliege",
+      "typ": "seat",
+      "x": 10,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "sonnenliege_2",
+      "name": "Sonnenliege",
+      "typ": "seat",
+      "x": 19,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "sonnenliege_3",
+      "name": "Sonnenliege",
+      "typ": "seat",
+      "x": 19,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "sonnenliege_4",
+      "name": "Sonnenliege",
+      "typ": "seat",
+      "x": 10,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "table_11_13",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 11,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "tree_9_14",
+      "name": "Palme",
+      "typ": "tree",
+      "x": 9,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "plant_20_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 20,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "fridge_22_7",
+      "name": "Kühlschrank",
+      "typ": "fridge",
+      "x": 22,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "stove_23_7",
+      "name": "Herd",
+      "typ": "stove",
+      "x": 23,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "neon_sign_27_7",
+      "name": "Neonschild",
+      "typ": "neon_sign",
+      "x": 27,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "kassettenregal",
+      "name": "Kassettenregal in der Lounge",
+      "typ": "cabinet",
+      "x": 28,
+      "y": 7,
+      "blockiert": true
+    },
+    {
+      "id": "diner_theke_1",
+      "name": "Theke im Diner",
+      "typ": "counter",
+      "x": 23,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "diner_theke_2",
+      "name": "Theke im Diner",
+      "typ": "counter",
+      "x": 24,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "diner_theke_3",
+      "name": "Theke im Diner",
+      "typ": "counter",
+      "x": 25,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "diner_theke_4",
+      "name": "Theke im Diner",
+      "typ": "counter",
+      "x": 26,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "hocker_1",
+      "name": "Hocker an der Theke",
+      "typ": "bar_stool",
+      "x": 23,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "hocker_2",
+      "name": "Hocker an der Theke",
+      "typ": "bar_stool",
+      "x": 24,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "hocker_3",
+      "name": "Hocker an der Theke",
+      "typ": "bar_stool",
+      "x": 25,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "hocker_4",
+      "name": "Hocker an der Theke",
+      "typ": "bar_stool",
+      "x": 26,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "jukebox",
+      "name": "Jukebox",
+      "typ": "vending",
+      "x": 22,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "lounge_tisch",
+      "name": "Tisch vor der Bühne",
+      "typ": "table",
+      "x": 24,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "lounge_sessel",
+      "name": "Sessel vor der Bühne",
+      "typ": "seat",
+      "x": 24,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "klavier",
+      "name": "Klavier mit Kassettenrekorder",
+      "typ": "piano",
+      "x": 27,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "plant_28_14",
+      "name": "Zimmerpflanze",
+      "typ": "plant",
+      "x": 28,
+      "y": 14,
+      "blockiert": true
+    },
+    {
+      "id": "tree_1_16",
+      "name": "Palme",
+      "typ": "tree",
+      "x": 1,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "neon_sign_7_16",
+      "name": "Neonschild",
+      "typ": "neon_sign",
+      "x": 7,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "telefonzelle",
+      "name": "Telefonzelle",
+      "typ": "cabinet",
+      "x": 11,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "vending_17_16",
+      "name": "Automat",
+      "typ": "vending",
+      "x": 17,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "neon_sign_21_16",
+      "name": "Neonschild",
+      "typ": "neon_sign",
+      "x": 21,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "tree_28_16",
+      "name": "Palme",
+      "typ": "tree",
+      "x": 28,
+      "y": 16,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_6_17",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 6,
+      "y": 17,
+      "blockiert": false
+    },
+    {
+      "id": "car_3_18",
+      "name": "Auto",
+      "typ": "car",
+      "x": 3,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "car_9_19",
+      "name": "Auto",
+      "typ": "car",
+      "x": 9,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "car_13_19",
+      "name": "Auto",
+      "typ": "car",
+      "x": 13,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_16_19",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 16,
+      "y": 19,
+      "blockiert": false
+    },
+    {
+      "id": "franks_wagen",
+      "name": "Franks Wagen",
+      "typ": "car",
+      "x": 19,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "car_24_18",
+      "name": "Auto",
+      "typ": "car",
+      "x": 24,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_25_18",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 25,
+      "y": 18,
+      "blockiert": false
+    },
+    {
+      "id": "bush_11_20",
+      "name": "Busch",
+      "typ": "bush",
+      "x": 11,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "bush_16_20",
+      "name": "Busch",
+      "typ": "bush",
+      "x": 16,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "puddle_22_20",
+      "name": "Pfütze",
+      "typ": "puddle",
+      "x": 22,
+      "y": 20,
+      "blockiert": false
+    },
+    {
+      "id": "barrel_1_20",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 1,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_2_20",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 2,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "muellcontainer",
+      "name": "Müllcontainer",
+      "typ": "crate",
+      "x": 28,
+      "y": 20,
+      "blockiert": true
+    }
+  ],
+  "orte": [
+    {
+      "id": "am_toten",
+      "raum": "room7",
+      "x": 17.5,
+      "y": 4.5,
+      "name": "beim Toten in Zimmer 7"
+    },
+    {
+      "id": "am_bett_7",
+      "raum": "room7",
+      "x": 16.5,
+      "y": 4.5,
+      "name": "neben dem Bett in Zimmer 7"
+    },
+    {
+      "id": "im_bad_7",
+      "raum": "room7",
+      "x": 20.5,
+      "y": 2.5,
+      "name": "im Bad von Zimmer 7"
+    },
+    {
+      "id": "am_nachttisch_7",
+      "raum": "room7",
+      "x": 15.5,
+      "y": 4.5,
+      "name": "am Nachttisch in Zimmer 7"
+    },
+    {
+      "id": "unter_fenster_7",
+      "raum": "pool",
+      "x": 16.5,
+      "y": 7.5,
+      "name": "unter dem Fenster von Zimmer 7"
+    },
+    {
+      "id": "am_beckenrand",
+      "raum": "pool",
+      "x": 18.5,
+      "y": 8.5,
+      "name": "am Beckenrand"
+    },
+    {
+      "id": "an_der_sonnenliege",
+      "raum": "pool",
+      "x": 19.5,
+      "y": 10.5,
+      "name": "an der Sonnenliege"
+    },
+    {
+      "id": "am_skimmer",
+      "raum": "pool",
+      "x": 14.5,
+      "y": 12.5,
+      "name": "am Skimmer des Beckens"
+    },
+    {
+      "id": "an_der_jukebox",
+      "raum": "diner",
+      "x": 22.5,
+      "y": 13.5,
+      "name": "an der Jukebox"
+    },
+    {
+      "id": "am_klavier",
+      "raum": "diner",
+      "x": 27.5,
+      "y": 13.5,
+      "name": "am Klavier mit dem Rekorder"
+    },
+    {
+      "id": "am_trockner",
+      "raum": "laundry",
+      "x": 23.5,
+      "y": 2.5,
+      "name": "am Wäschetrockner"
+    },
+    {
+      "id": "am_buegeltisch",
+      "raum": "laundry",
+      "x": 27.5,
+      "y": 4.5,
+      "name": "am Bügeltisch"
+    },
+    {
+      "id": "am_waescheschrank",
+      "raum": "laundry",
+      "x": 22.5,
+      "y": 2.5,
+      "name": "am Wäscheschrank"
+    },
+    {
+      "id": "am_kleiderschrank_6",
+      "raum": "room6",
+      "x": 13.5,
+      "y": 2.5,
+      "name": "am Kleiderschrank in Zimmer 6"
+    },
+    {
+      "id": "an_der_telefonzelle",
+      "raum": "parking",
+      "x": 11.5,
+      "y": 17.5,
+      "name": "an der Telefonzelle"
+    },
+    {
+      "id": "am_faxgeraet",
+      "raum": "lobby",
+      "x": 6.5,
+      "y": 10.5,
+      "name": "am Faxgerät"
+    },
+    {
+      "id": "am_schreibtisch",
+      "raum": "office",
+      "x": 3.5,
+      "y": 4.5,
+      "name": "an Luckys Schreibtisch"
+    },
+    {
+      "id": "am_wandtresor",
+      "raum": "office",
+      "x": 6.5,
+      "y": 2.5,
+      "name": "am Wandtresor"
+    },
+    {
+      "id": "am_muellcontainer",
+      "raum": "parking",
+      "x": 28.5,
+      "y": 19.5,
+      "name": "am Müllcontainer"
+    },
+    {
+      "id": "an_der_oellache",
+      "raum": "parking",
+      "x": 25.5,
+      "y": 18.5,
+      "name": "an der Öllache"
+    },
+    {
+      "id": "am_franks_wagen",
+      "raum": "parking",
+      "x": 19.5,
+      "y": 20.5,
+      "name": "an Franks Wagen"
+    },
+    {
+      "id": "am_fenster_7",
+      "raum": "room7",
+      "x": 16.5,
+      "y": 5.5,
+      "name": "am Fenster von Zimmer 7"
+    },
+    {
+      "id": "am_kassettenregal",
+      "raum": "diner",
+      "x": 28.5,
+      "y": 8.5,
+      "name": "am Kassettenregal in der Lounge"
+    },
+    {
+      "id": "im_foyer",
+      "raum": "lobby",
+      "x": 3.5,
+      "y": 11.5,
+      "name": "im Foyer der Rezeption"
+    },
+    {
+      "id": "an_der_buehne",
+      "raum": "diner",
+      "x": 26.5,
+      "y": 12.5,
+      "name": "an der Bühne der Lounge"
+    },
+    {
+      "id": "am_pool_west",
+      "raum": "pool",
+      "x": 11.5,
+      "y": 11.5,
+      "name": "am Westrand des Pooldecks"
+    },
+    {
+      "id": "hinter_der_theke",
+      "raum": "diner",
+      "x": 24.5,
+      "y": 8.5,
+      "name": "hinter der Theke im Diner"
+    },
+    {
+      "id": "beim_wagen",
+      "raum": "parking",
+      "x": 18.5,
+      "y": 18.5,
+      "name": "neben Franks Wagen"
+    },
+    {
+      "id": "an_der_vermittlung",
+      "raum": "lobby",
+      "x": 5.5,
+      "y": 8.5,
+      "name": "an der Vermittlung hinter der Empfangstheke"
+    },
+    {
+      "id": "am_lounge_tisch",
+      "raum": "diner",
+      "x": 25.5,
+      "y": 13.5,
+      "name": "am Tisch vor der Bühne"
+    },
+    {
+      "id": "am_beckenrand_sued",
+      "raum": "pool",
+      "x": 16.5,
+      "y": 13.5,
+      "name": "am Südrand des Beckens"
+    },
+    {
+      "id": "bei_der_waesche",
+      "raum": "laundry",
+      "x": 24.5,
+      "y": 4.5,
+      "name": "bei den Waschmaschinen"
+    }
+  ],
+  "lichtquellen": [
+    {
+      "id": "licht_lobby",
+      "art": "lampe",
+      "name": "Notstrom-Licht und rosa Neonschild in der Rezeption",
+      "raeume": [
+        "lobby"
+      ],
+      "an": [
+        [
+          "18:00",
+          "07:00"
+        ]
+      ],
+      "hinweis": "Die Rezeption ist der Schutzraum des Motels: Das Aggregat hält das Licht auch bei Stromausfall."
+    }
+  ],
+  "luftzug": [],
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören: Räume mit einer gemeinsamen Tür sind Nachbarn. Das Hämmern am Pool hört man bis in die Lounge, das Flackern bemerkt das ganze Motel.",
+    "nachbarn": [
+      [
+        "office",
+        "lobby"
+      ],
+      [
+        "room6",
+        "pool"
+      ],
+      [
+        "room7",
+        "pool"
+      ],
+      [
+        "laundry",
+        "diner"
+      ],
+      [
+        "lobby",
+        "pool"
+      ],
+      [
+        "pool",
+        "diner"
+      ],
+      [
+        "lobby",
+        "parking"
+      ],
+      [
+        "pool",
+        "parking"
+      ],
+      [
+        "diner",
+        "parking"
+      ]
+    ],
+    "geschlossen": []
+  }
+}

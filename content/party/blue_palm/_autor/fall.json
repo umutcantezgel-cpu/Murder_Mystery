@@ -1,0 +1,84 @@
+{
+  "settingId": "blue_palm_motel",
+  "kanonVersion": "1.0.0",
+  "simulation": false,
+  "personen": {
+    "min": 4,
+    "max": 8,
+    "hinweis": "Gezählt werden die Rollen ohne den Inspektor (Detektiv). Es gibt in dieser Akte kein Geburtstagskind."
+  },
+  "runden": [
+    {
+      "nr": 1,
+      "name": "Das Alibi-Geflecht",
+      "uhrzeit": "01:15",
+      "kern": "Alle vier Verdächtigen haben eine Erklärung für das Flackern. Prüfe, wer sie belegen kann."
+    },
+    {
+      "nr": 2,
+      "name": "Die Indizien-Filterung",
+      "uhrzeit": "02:00",
+      "kern": "Kleine Heimlichkeiten werden von echter Gewalt getrennt."
+    },
+    {
+      "nr": 3,
+      "name": "Die finale Gegenüberstellung",
+      "uhrzeit": "02:45",
+      "kern": "Bei gutem Spiel stehen zwei Restverdächtige einer Spur gegenüber, die nur zu einem passt."
+    }
+  ],
+  "finaleUhrzeit": "03:30",
+  "morgenUhrzeit": "07:00",
+  "rundendauerMinuten": 30,
+  "schwellen": {
+    "regel": "wahr, wenn 5 × kooperativ ≥ 3 × Rollen; sonst neutral, wenn 5 × kooperativ ≥ 2 × Rollen; sonst falsche Fährte",
+    "wahr": {
+      "faktor": 5,
+      "gegen": 3
+    },
+    "neutral": {
+      "faktor": 5,
+      "gegen": 2
+    }
+  },
+  "enden": {
+    "matrix": [
+      {
+        "id": "ende_meister",
+        "name": "Jackpot",
+        "anklage": "richtig",
+        "punkteVon": 7,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_teilerfolg",
+        "name": "Glück gehabt",
+        "anklage": "richtig",
+        "punkteVon": 0,
+        "punkteBis": 6
+      },
+      {
+        "id": "ende_justizirrtum",
+        "name": "Falsches Pferd",
+        "anklage": "falsch",
+        "punkteVon": 4,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_eskalation",
+        "name": "Chaos im Motel",
+        "anklage": "falsch",
+        "punkteVon": 0,
+        "punkteBis": 3
+      }
+    ]
+  },
+  "regeln": {
+    "W-1": "Ein wahrer Bonus-Hinweis liefert einen wahren Baustein, entlastet aber nie allein einen Kernverdächtigen.",
+    "S-1": "Resümees nur aus dem Wissen des Inspektors; bei nur einer Restperson kein Name.",
+    "D-1": "Optionen mit 0 Punkten zeigen weder Schlüsselbeweis noch Zusatzindiz.",
+    "G-1": "Die Option B der Täterrolle (Sabotage) zählt netto −1. Vor der Auflösung wird weder die Qualität des Hinweises noch die Stimmenzahl gezeigt (E-025).",
+    "K-1": "Objekte, Marker und Licht auf der Karte sind vor dem Finale in allen Pfaden gleich.",
+    "P-1": "Pflichtgespräche geben nur pfadneutrales Wissen preis."
+  }
+}

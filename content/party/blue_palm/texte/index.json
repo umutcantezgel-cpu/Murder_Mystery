@@ -1,0 +1,86 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Alle Dateien der Textsammlung der Akte Blue Palm (E-026). Jede Kennung kommt genau einmal vor; Verweise auf Kanon-Tatsachen statt Abschrift. Oberflächentexte (ui.*), die hier fehlen, übernimmt der Lader aus dem Schlosskeller; ui-akte.json überschreibt die Stellen mit Geburtstagskind und Keller.",
+  "dateien": [
+    {
+      "datei": "erzaehler-intro.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-runden.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-viv.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-dale.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-sol.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-finale-frank.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-aufloesung.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "dossiers-b1.json",
+      "bereich": "dossier"
+    },
+    {
+      "datei": "dossiers-b2.json",
+      "bereich": "dossier"
+    },
+    {
+      "datei": "taeter-viv.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "taeter-dale.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "taeter-sol.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "taeter-frank.json",
+      "bereich": "taeter"
+    },
+    {
+      "datei": "detektiv.json",
+      "bereich": "detektiv"
+    },
+    {
+      "datei": "gespraeche-r1.json",
+      "bereich": "gespraech"
+    },
+    {
+      "datei": "gespraeche-r2.json",
+      "bereich": "gespraech"
+    },
+    {
+      "datei": "gespraeche-r3.json",
+      "bereich": "gespraech"
+    },
+    {
+      "datei": "wahlen-kern.json",
+      "bereich": "wahl"
+    },
+    {
+      "datei": "wahlen-zeugen.json",
+      "bereich": "wahl"
+    },
+    {
+      "datei": "ui-akte.json",
+      "bereich": "ui"
+    }
+  ]
+}

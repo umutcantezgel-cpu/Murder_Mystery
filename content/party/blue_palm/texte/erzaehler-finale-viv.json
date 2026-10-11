@@ -1,0 +1,27 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad viv: finale.viv.<ende> (4) und rueckblende.viv.",
+  "eintraege": [
+    {
+      "id": "finale.viv.ende_meister",
+      "text": "Du klagst Viv an, und es stimmt. Du hast die Spuren sauber zusammengetragen: Täter, Motiv und Waffe, lückenlos. Viv gesteht: Lucky hat sie jahrelang wegen der alten Bänder unter Druck gesetzt und wollte den Preis erhöhen. Das Kabel neben dem nassen Teppich sollte wie ein Unfall aussehen. Zusammen seht ihr euch ihren Goldring an. In der Kerbe steckt ein haarfeiner Kupferdraht aus dem Kabel. Im Müllcontainer liegt Luckys Notizbuch, in ein nasses Badetuch gewickelt. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst. Viv summt leise, als man sie zum Wagen führt. Ihr letzter Auftritt, und diesmal hört ganz Florida zu."
+    },
+    {
+      "id": "finale.viv.ende_teilerfolg",
+      "text": "Du klagst Viv an, und es stimmt. Ein gutes Stück Glück war auch dabei. Viv gesteht: Lucky hat sie jahrelang wegen der alten Bänder unter Druck gesetzt und wollte den Preis erhöhen. Das Kabel neben dem nassen Teppich sollte wie ein Unfall aussehen. Viv gibt zu, dass Luckys Notizbuch im Müllcontainer liegt, in ein nasses Badetuch gewickelt. Der richtige Name, aber dünne Beweise. Ein Anwalt aus Miami wird sich die Hände reiben. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst."
+    },
+    {
+      "id": "finale.viv.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Die Handschellen klicken am falschen Handgelenk. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Das Notizbuch bleibt verschwunden, bis die Brücke aufgeht. Viv gesteht erst danach: Lucky hat sie jahrelang wegen der alten Bänder unter Druck gesetzt. Ein Jahr später singt eine Frau mit Goldring in einer Hotellounge in Nassau. Niemand fragt nach ihrem Namen."
+    },
+    {
+      "id": "finale.viv.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, brüllt zurück, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Das Notizbuch bleibt verschwunden. Irgendwo auf dem Highway nach Süden dreht jemand das Radio lauter. Viv gesteht erst danach: Lucky hat sie jahrelang wegen der alten Bänder unter Druck gesetzt. Ein Jahr später singt eine Frau mit Goldring in einer Hotellounge in Nassau. Niemand fragt nach ihrem Namen."
+    },
+    {
+      "id": "rueckblende.viv",
+      "text": "Fünf vor zwölf verlässt Viv die Bühne. Im Rekorder läuft ein altes Band weiter, und nur wer genau hinsieht, merkt es. Im Regen wartet sie unter dem Fenster von Zimmer sieben. Um zehn nach zwölf tritt sie durch die Tür vom Pooldeck ein. Lucky sagt, der Preis für sein Schweigen steige. Neben dem nassen Teppich liegt ein Kabel ohne Hülle. Viv greift danach, und das Neonlicht flackert. Dann wird es still. Sie wickelt Kabel und Notizbuch in ein Badetuch und wirft es in den Müllcontainer. Fünf vor halb eins steht sie wieder auf der Bühne und singt weiter."
+    }
+  ]
+}

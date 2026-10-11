@@ -1,0 +1,27 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad frank: finale.frank.<ende> (4) und rueckblende.frank.",
+  "eintraege": [
+    {
+      "id": "finale.frank.ende_meister",
+      "text": "Du klagst Frank an, und es stimmt. Du hast die Spuren sauber zusammengetragen: Täter, Motiv und Waffe, lückenlos. Frank gesteht: Lucky führte Buch über jeden Umschlag und wollte den Preis erhöhen. In Panik griff Frank nach dem schweren Messingflamingo. Das Poltern war das Ende. Zusammen seht ihr euch das Fenster an. Am Vorhang klebt der Abdruck seiner Hand mit dem Ehering, im Puder davor steht der Absatz seines Cowboystiefels. Im Kleiderschrank von Zimmer sechs liegt Luckys Notizbuch unter einer Wolldecke, mit rosa Lackflecken des Flamingos. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst. Frank hat keine Marke mehr, die er abgeben könnte. Er hält einfach die Hände hin, wie er es bei anderen so oft gesehen hat."
+    },
+    {
+      "id": "finale.frank.ende_teilerfolg",
+      "text": "Du klagst Frank an, und es stimmt. Ein gutes Stück Glück war auch dabei. Frank gesteht: Lucky führte Buch über jeden Umschlag und wollte den Preis erhöhen. In Panik griff Frank nach dem schweren Messingflamingo. Das Poltern war das Ende. Frank gibt zu, dass Luckys Notizbuch in seinem Kleiderschrank in Zimmer sechs liegt, unter einer Wolldecke. Der richtige Name, aber dünne Beweise. Ein Anwalt aus Miami wird sich die Hände reiben. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst."
+    },
+    {
+      "id": "finale.frank.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Die Handschellen klicken am falschen Handgelenk. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Das Notizbuch bleibt verschwunden, bis die Brücke aufgeht. Frank gesteht erst danach: Lucky führte Buch über jeden Umschlag, und Frank griff in Panik nach dem Messingflamingo. Frank wird rehabilitiert und kehrt zur Sitte zurück. Manchmal, nachts, fährt er noch am Blue Palm vorbei."
+    },
+    {
+      "id": "finale.frank.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, brüllt zurück, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Das Notizbuch bleibt verschwunden. Irgendwo auf dem Highway nach Süden dreht jemand das Radio lauter. Frank gesteht erst danach: Lucky führte Buch über jeden Umschlag, und Frank griff in Panik nach dem Messingflamingo. Frank wird rehabilitiert und kehrt zur Sitte zurück. Manchmal, nachts, fährt er noch am Blue Palm vorbei."
+    },
+    {
+      "id": "rueckblende.frank",
+      "text": "Um fünf nach zwölf steigt Frank aus seinem Wagen. Das Licht lässt er brennen. Über das Pooldeck geht er zu Zimmer sieben und tritt um zehn nach zwölf ein. Lucky sagt, der Preis steige und das Notizbuch bleibe bei ihm. Frank greift den schweren Messingflamingo vom Fernseher. Dumpfes Poltern, das Licht flackert. Er nimmt das Notizbuch und lässt den Flamingo im Becken verschwinden. Das Buch versteckt er in seinem Kleiderschrank in Zimmer sechs. Fünf vor halb eins sitzt er wieder im Wagen."
+    }
+  ]
+}

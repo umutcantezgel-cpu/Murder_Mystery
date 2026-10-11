@@ -1,0 +1,530 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Beobachtungen der Zeugen. Kanal: pflichtgespraech = darf am Tisch erzählt werden (nur pfadneutral, Regel P-1); verborgen = steht im Dossier unter „Was ich verberge“ und erreicht den Inspektor nur über eine Entscheidung oder den Bonus-Hinweis; erzaehler = kommt über den Erzähler. Ein Trenner unterscheidet den Pfad einer Kernperson; jeder hat genau einen Zeugen. Die Akte hat keine physische Simulation: Der Beleg verweist auf die Zeitleiste oder nennt das Wissen.",
+  "beobachtungen": [
+    {
+      "id": "b_detektiv_flackern",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Du hast um Viertel nach zwölf das Flackern der Lampen gesehen. Aus Zimmer sieben kam ein dumpfes Poltern.",
+      "beleg": {
+        "zeitleiste": [
+          "z_flackern"
+        ]
+      }
+    },
+    {
+      "id": "b_toby_vermittlung",
+      "wer": "toby",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um 23:41 stöpselte Toby ein Ferngespräch nach Houston für Zimmer 3.",
+      "duText": "Um 23:41 hast du ein Ferngespräch nach Houston für Zimmer 3 gestöpselt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_telefon"
+        ]
+      }
+    },
+    {
+      "id": "b_toby_fax",
+      "wer": "toby",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um 23:52 kam ein Fax für Lucky an. Die Dienstaufsicht in Miami lädt Lucky für Montag als Zeugen vor.",
+      "duText": "Um 23:52 hast du ein Fax für Lucky bekommen. Die Dienstaufsicht in Miami lädt Lucky für Montag als Zeugen vor.",
+      "beleg": {
+        "zeitleiste": [
+          "z_fax"
+        ]
+      },
+      "belastet": [
+        "frank"
+      ]
+    },
+    {
+      "id": "b_toby_zimmerliste",
+      "wer": "toby",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Frank wohnt in Zimmer 6, direkt neben Lucky. Dale hat Zimmer 3.",
+      "duText": "Du hast die Zimmerliste. Frank wohnt in Zimmer 6, direkt neben Lucky. Dale hat Zimmer 3.",
+      "beleg": {
+        "wissen": "Zimmerliste an der Rezeption."
+      }
+    },
+    {
+      "id": "b_marcy_auftritt",
+      "wer": "marcy",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Marcy saß seit 21:00 in der Lounge und sah Viv singen.",
+      "duText": "Du hast seit 21:00 in der Lounge gesessen und Viv singen sehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_lounge"
+        ]
+      }
+    },
+    {
+      "id": "b_gus_laeden",
+      "wer": "gus",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Gus half ab Mitternacht Sol an der Poolseite. Er hielt die Taschenlampe, und sie hämmerte die Läden fest.",
+      "duText": "Du hast ab Mitternacht Sol an der Poolseite geholfen. Du hast die Taschenlampe gehalten, und sie hat die Läden festgehämmert.",
+      "beleg": {
+        "zeitleiste": [
+          "z_haemmern"
+        ]
+      }
+    },
+    {
+      "id": "b_viv_wagen_licht",
+      "wer": "viv",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Von der Bühne aus sieht man den Parkplatz. In Franks Wagen brannte die ganze Nacht Licht.",
+      "duText": "Von der Bühne aus siehst du den Parkplatz. In Franks Wagen hat die ganze Nacht Licht gebrannt.",
+      "beleg": {
+        "wissen": "Blick von der Bühne durch das Lounge-Fenster auf den Parkplatz."
+      }
+    },
+    {
+      "id": "b_dottie_teppich",
+      "wer": "dottie",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Der Teppich in Zimmer 7 ist violett. Seit dem Nachmittag war er vom Fenster her nass.",
+      "duText": "Der Teppich in Zimmer 7 ist violett. Du hast gesehen, dass er seit dem Nachmittag vom Fenster her nass war.",
+      "beleg": {
+        "wissen": "Dottie putzt die Zimmer."
+      }
+    },
+    {
+      "id": "b_marcy_viv_buehne",
+      "wer": "marcy",
+      "pfade": [
+        "dale",
+        "sol",
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Marcy saß vor der Bühne. Beim Flackern stand Viv dort und sang weiter.",
+      "duText": "Du hast vor der Bühne gesessen. Beim Flackern hat Viv dort gestanden und weitergesungen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_lounge",
+          "z_auftritt_ende"
+        ]
+      },
+      "entlastet": [
+        "viv"
+      ],
+      "trenner": "viv",
+      "grundVerborgen": "Sie schreibt an einer Reportage über Viv und verrät ihre Quellen nicht."
+    },
+    {
+      "id": "b_marcy_viv_weg",
+      "wer": "marcy",
+      "pfade": [
+        "viv"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Marcy saß vor der Bühne. Beim Flackern war die Bühne leer, und aus dem Rekorder lief nur ein Band.",
+      "duText": "Du hast vor der Bühne gesessen. Beim Flackern war die Bühne leer, und aus dem Rekorder lief nur ein Band.",
+      "beleg": {
+        "zeitleiste": [
+          "z_lounge"
+        ]
+      },
+      "belastet": [
+        "viv"
+      ],
+      "trenner": "viv",
+      "grundVerborgen": "Sie mag Viv und will ihr nicht ohne Not schaden."
+    },
+    {
+      "id": "b_toby_dale_leitung",
+      "wer": "toby",
+      "pfade": [
+        "viv",
+        "sol"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Die Verbindung nach Houston stand von 23:41 bis 0:33. Das Lämpchen für Zimmer 3 blieb die ganze Zeit an.",
+      "duText": "Du hast gesehen: Die Verbindung nach Houston stand von 23:41 bis 0:33. Das Lämpchen für Zimmer 3 blieb die ganze Zeit an.",
+      "beleg": {
+        "zeitleiste": [
+          "z_telefon",
+          "z_leitung_ende"
+        ]
+      },
+      "entlastet": [
+        "dale"
+      ],
+      "trenner": "dale",
+      "grundVerborgen": "Er hütet das Vermittlungsgeheimnis und redet nur, wenn jemand fragt."
+    },
+    {
+      "id": "b_toby_dale_abbruch",
+      "wer": "toby",
+      "pfade": [
+        "dale",
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Die Verbindung nach Houston brach nach zwei Minuten ab. Das Lämpchen für Zimmer 3 blieb danach aus.",
+      "duText": "Du hast gesehen: Die Verbindung nach Houston brach nach zwei Minuten ab. Das Lämpchen für Zimmer 3 blieb danach aus.",
+      "beleg": {
+        "zeitleiste": [
+          "z_telefon"
+        ]
+      },
+      "belastet": [
+        "dale"
+      ],
+      "trenner": "dale",
+      "grundVerborgen": "Er kennt Dale kaum und will ihn nicht ohne Not belasten."
+    },
+    {
+      "id": "b_gus_sol_haemmert",
+      "wer": "gus",
+      "pfade": [
+        "viv",
+        "dale",
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Gus hielt Sol die Taschenlampe. Beim Flackern hämmerte sie noch immer, ohne Pause bis halb eins.",
+      "duText": "Du hast Sol die Taschenlampe gehalten. Beim Flackern hat sie noch immer gehämmert, ohne Pause bis halb eins.",
+      "beleg": {
+        "zeitleiste": [
+          "z_haemmern",
+          "z_haemmern_ende"
+        ]
+      },
+      "entlastet": [
+        "sol"
+      ],
+      "trenner": "sol",
+      "grundVerborgen": "Er ist Sols Freund und redet nur, wenn jemand fragt."
+    },
+    {
+      "id": "b_gus_sol_pause",
+      "wer": "gus",
+      "pfade": [
+        "sol"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Gus hielt Sol die Taschenlampe. Beim Flackern war das Hämmern verstummt, und Sol war zehn Minuten fort.",
+      "duText": "Du hast Sol die Taschenlampe gehalten. Beim Flackern war das Hämmern verstummt, und Sol war zehn Minuten fort.",
+      "beleg": {
+        "zeitleiste": [
+          "z_haemmern"
+        ]
+      },
+      "belastet": [
+        "sol"
+      ],
+      "trenner": "sol",
+      "grundVerborgen": "Er will Sol nicht ohne Not belasten."
+    },
+    {
+      "id": "b_dottie_telefonat",
+      "wer": "dottie",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Um 21:30 hörte Dottie vor Luckys Büro: „Das Blue Palm gehört bald jemand anderem. Sol bekommt keinen Cent.“",
+      "duText": "Um 21:30 hast du vor Luckys Büro gehört: „Das Blue Palm gehört bald jemand anderem. Sol bekommt keinen Cent.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_telefonat"
+        ]
+      },
+      "belastet": [
+        "sol"
+      ],
+      "grundVerborgen": "Sie hat gelauscht und schämt sich dafür."
+    },
+    {
+      "id": "b_sol_zimmernummer",
+      "wer": "sol",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Sol hörte, wie Dale zweimal nach Luckys Zimmernummer fragte.",
+      "duText": "Du hast gehört, wie Dale zweimal nach Luckys Zimmernummer gefragt hat.",
+      "beleg": {
+        "wissen": "Sol bedient in der Lounge, wo Dale fragte."
+      },
+      "belastet": [
+        "dale"
+      ],
+      "grundVerborgen": "Sie will Dale nicht ohne Not verdächtigen."
+    },
+    {
+      "id": "b_frank_funk_meldung",
+      "wer": "frank",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Frank hörte im Polizeifunk: Die Brücke bleibt bis zum Morgen gesperrt, und Hilfe kommt nicht vor sieben Uhr.",
+      "duText": "Du hast im Polizeifunk gehört: Die Brücke bleibt bis zum Morgen gesperrt, und Hilfe kommt nicht vor sieben Uhr.",
+      "beleg": {
+        "zeitleiste": [
+          "z_bruecke"
+        ]
+      },
+      "widerlegt": [
+        "luege_frank_funk"
+      ],
+      "grundVerborgen": "Er ist suspendiert und darf den Funk nicht mehr abhören."
+    },
+    {
+      "id": "b_marcy_mitschnitt",
+      "wer": "marcy",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Auf Marcys Band ist Lucky zu hören. Um 22:10 sagt er auf dem Parkplatz zu Frank: „Die Umschläge werden nächste Woche dicker.“",
+      "duText": "Auf deinem Band ist Lucky zu hören. Um 22:10 sagt er auf dem Parkplatz zu Frank: „Die Umschläge werden nächste Woche dicker.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_umschlag"
+        ]
+      },
+      "widerlegt": [
+        "luege_frank_umschlag",
+        "luege_marcy_rekorder"
+      ],
+      "belastet": [
+        "frank"
+      ],
+      "grundVerborgen": "Sie hat heimlich mitgeschnitten und will keinen Ärger."
+    },
+    {
+      "id": "b_dottie_zimmer3",
+      "wer": "dottie",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Um 22:00 war Dottie in Zimmer 3. Auf dem Bett lagen eine Police ohne Stempel und ein Bündel Scheine.",
+      "duText": "Um 22:00 warst du in Zimmer 3. Auf dem Bett lagen eine Police ohne Stempel und ein Bündel Scheine.",
+      "beleg": {
+        "zeitleiste": [
+          "z_zimmer3"
+        ]
+      },
+      "widerlegt": [
+        "luege_dottie_klopfen",
+        "luege_dale_praemie",
+        "luege_dale_police"
+      ],
+      "belastet": [
+        "dale"
+      ],
+      "grundVerborgen": "Sie ist ohne Klopfen eingetreten und schämt sich dafür."
+    },
+    {
+      "id": "b_marcy_geruecht",
+      "wer": "marcy",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Marcy kennt das Gerücht: Den Hit von 1979 hat eine andere gesungen. Lucky besaß die alten Bänder.",
+      "duText": "Du kennst das Gerücht: Den Hit von 1979 hat eine andere gesungen. Lucky besaß die alten Bänder.",
+      "beleg": {
+        "zeitleiste": [
+          "z_baender"
+        ]
+      },
+      "widerlegt": [
+        "luege_viv_hit"
+      ],
+      "belastet": [
+        "viv"
+      ],
+      "grundVerborgen": "Sie hat das Gerücht nie gesendet, um Viv zu schützen."
+    },
+    {
+      "id": "b_gus_frank_leer",
+      "wer": "gus",
+      "pfade": [
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Gus sah Franks Wagen. Beim Flackern brannte das Licht, aber der Fahrersitz war leer.",
+      "duText": "Du hast Franks Wagen gesehen. Beim Flackern brannte das Licht, aber der Fahrersitz war leer.",
+      "beleg": {
+        "wissen": "Gus geht um das Motel und prüft die Läden."
+      },
+      "belastet": [
+        "frank"
+      ],
+      "trenner": "frank",
+      "grundVerborgen": "Er will keinen Polizisten ohne Not beschuldigen."
+    },
+    {
+      "id": "b_gus_frank_sitzt",
+      "wer": "gus",
+      "pfade": [
+        "viv",
+        "dale",
+        "sol"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Gus sah Franks Wagen. Beim Flackern saß Frank am Steuer und schrieb.",
+      "duText": "Du hast Franks Wagen gesehen. Beim Flackern hat Frank am Steuer gesessen und geschrieben.",
+      "beleg": {
+        "wissen": "Gus geht um das Motel und prüft die Läden."
+      },
+      "entlastet": [
+        "frank"
+      ],
+      "trenner": "frank",
+      "grundVerborgen": "Er redet nur, wenn ihn jemand direkt fragt."
+    },
+    {
+      "id": "b_dale_telefoniert",
+      "wer": "dale",
+      "pfade": [
+        "viv",
+        "sol"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Dale telefonierte von 23:41 bis 0:33 ohne Pause mit Houston. Er verließ Zimmer 3 nicht.",
+      "duText": "Du telefonierst von 23:41 bis 0:33 ohne Pause mit Houston. Du verlässt Zimmer 3 nicht.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "dale",
+          "ort": "am_pool_west",
+          "von": "23:41",
+          "bis": "00:33"
+        }
+      },
+      "entlastet": [
+        "dale"
+      ],
+      "grundVerborgen": "Er will nicht, dass jemand nach dem Inhalt des Gesprächs fragt."
+    },
+    {
+      "id": "b_dale_leitung_tot",
+      "wer": "dale",
+      "pfade": [
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Nach zwei Minuten brach die Leitung nach Houston ab. Das Unwetter hatte die Kabel gekappt. Dale blieb allein in Zimmer 3 und wählte erst um 0:33 neu.",
+      "duText": "Nach zwei Minuten bricht die Leitung nach Houston ab. Das Unwetter hat die Kabel gekappt. Du bleibst allein in Zimmer 3 und wählst erst um 0:33 neu.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "dale",
+          "ort": "am_pool_west",
+          "von": "23:43",
+          "bis": "00:33"
+        }
+      },
+      "entlastet": [
+        "dale"
+      ],
+      "eigenwissen": true,
+      "grundVerborgen": "Er will nicht, dass jemand seine Unterlagen sieht."
+    },
+    {
+      "id": "b_viv_buehne",
+      "wer": "viv",
+      "pfade": [
+        "dale",
+        "sol",
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Viv stand bis kurz vor eins auf der Bühne. Das Band im Rekorder lief nur mit.",
+      "duText": "Du stehst bis kurz vor eins auf der Bühne. Das Band im Rekorder läuft nur mit.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "viv",
+          "ort": "an_der_buehne",
+          "von": "23:55",
+          "bis": "00:40"
+        }
+      },
+      "entlastet": [
+        "viv"
+      ],
+      "grundVerborgen": "Sie will nicht über ihren Auftritt ausgefragt werden."
+    },
+    {
+      "id": "b_sol_haemmert",
+      "wer": "sol",
+      "pfade": [
+        "viv",
+        "dale",
+        "frank"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Sol hämmerte ab Mitternacht ohne Pause mit Gus an den Läden, bis halb eins.",
+      "duText": "Du hämmerst ab Mitternacht ohne Pause mit Gus an den Läden, bis halb eins.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "sol",
+          "ort": "am_beckenrand_sued",
+          "von": "00:00",
+          "bis": "00:30"
+        }
+      },
+      "entlastet": [
+        "sol"
+      ],
+      "grundVerborgen": "Sie will nicht über den Nachmittag reden."
+    },
+    {
+      "id": "b_frank_wagen",
+      "wer": "frank",
+      "pfade": [
+        "viv",
+        "dale",
+        "sol"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Frank saß in seinem Wagen, hörte den Funk ab und schrieb mit.",
+      "duText": "Du sitzt in deinem Wagen, hörst den Funk ab und schreibst mit.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "frank",
+          "ort": "beim_wagen",
+          "von": "00:00",
+          "bis": "00:30"
+        }
+      },
+      "entlastet": [
+        "frank"
+      ],
+      "grundVerborgen": "Er ist suspendiert und will den Funk nicht verraten."
+    }
+  ]
+}

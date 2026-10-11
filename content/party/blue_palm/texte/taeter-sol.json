@@ -1,0 +1,55 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung sol.",
+  "eintraege": [
+    {
+      "rolle": "sol",
+      "tarnung": "Du sagst: Ab Mitternacht habe ich mit Gus die Läden an der Poolseite vernagelt, ohne Pause. Die Kasse stimmt auf den Cent, und mit Lucky habe ich heute Nachmittag nicht gestritten. Bleib ruhig und trocken wie immer.",
+      "tatwissen": [
+        {
+          "text": "Heute Abend hast du erfahren, dass Lucky das Motel heimlich verkauft. Dir hat er es versprochen, und deine Ersparnisse stecken darin."
+        },
+        {
+          "text": "Bis 0:10 hämmerst du mit Gus an den Läden. Dann sagst du, du holst Nägel. In der Lounge kochst du Luckys Nachttee und rührst ein starkes Schlafmittel hinein."
+        },
+        {
+          "text": "Klatschnass bringst du die Tasse durch die Tür vom Pooldeck in Zimmer 7. Lucky trinkt. Um 0:15 flackert das Licht, und es poltert dumpf. Du nimmst sein Notizbuch mit dem Kaufvertrag."
+        },
+        {
+          "ref": "spur:spur_fenster_sol"
+        },
+        {
+          "text": "Das Notizbuch versteckst du in der Waschküche im Wäscheschrank, die Teetasse daneben."
+        },
+        {
+          "ref": "spur:spur_schrank_notizbuch"
+        },
+        {
+          "text": "Um 0:28 hämmerst du wieder an den Läden. Gus fragt nichts. An deinem Schürzenband sind Fasern vom nassen Teppich hängen geblieben."
+        },
+        {
+          "ref": "spur:spur_schuerze_fasern"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_sol_kasse"
+        },
+        {
+          "ref": "luege:luege_sol_nachmittag"
+        },
+        {
+          "ref": "nebendelikt:nd_kasse"
+        },
+        {
+          "ref": "beobachtung:b_sol_zimmernummer"
+        },
+        {
+          "text": "Kommt es heraus, verlierst du alles, wofür du zehn Jahre gearbeitet hast."
+        }
+      ],
+      "ziel": "Bleib unentdeckt, ohne einen Unschuldigen ins Unglück zu stürzen. Niemand soll von der Kasse und vom Streit mit Lucky erfahren."
+    }
+  ]
+}

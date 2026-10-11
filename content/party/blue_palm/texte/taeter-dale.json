@@ -1,0 +1,52 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung dale.",
+  "eintraege": [
+    {
+      "rolle": "dale",
+      "tarnung": "Du sagst: Ich habe fast eine Stunde mit Houston telefoniert, aus Zimmer 3, ohne Pause. Frag Toby, der hat gestöpselt. Meine Policen sind alle in Ordnung. Bleib freundlich wie ein Verkäufer.",
+      "tatwissen": [
+        {
+          "text": "Du hast Kundengelder verspielt. Lucky hat bei dir eine Police über 250.000 Dollar gekauft, doppelt bei Unfalltod. Als Begünstigten hast du dich selbst eingetragen."
+        },
+        {
+          "text": "Um 23:43 legst du auf. Du verlässt Zimmer 3 durch die Tür zum Pooldeck und wartest klatschnass unter dem Fenster von Zimmer 7. Um 0:10 gehst du hinein."
+        },
+        {
+          "text": "Lucky lacht über die Police und sagt, er habe längst andere Pläne. Du reißt das Kabel der Stehlampe ab und legst es auf den nassen Teppich. Das Licht flackert. Dann wird es still."
+        },
+        {
+          "ref": "spur:spur_fenster_dale"
+        },
+        {
+          "text": "In Luckys Notizbuch steht sein eigener Plan, seinen Tod vorzutäuschen. Das würde die Auszahlung zerstören. Du nimmst es mit und versteckst es in der Telefonzelle auf dem Parkplatz, in eine Zeitung gewickelt."
+        },
+        {
+          "ref": "spur:spur_zelle_notizbuch"
+        },
+        {
+          "text": "Um 0:33 wählst du wieder Houston, als wäre nichts gewesen. Auf dem Griff deines Aktenkoffers sind Fasern vom nassen Teppich hängen geblieben."
+        },
+        {
+          "ref": "spur:spur_koffer_fasern"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_dale_praemie"
+        },
+        {
+          "ref": "luege:luege_dale_police"
+        },
+        {
+          "ref": "nebendelikt:nd_praemie"
+        },
+        {
+          "text": "Kommt es heraus, ist es um dich und deine Policen geschehen."
+        }
+      ],
+      "ziel": "Bleib unentdeckt, ohne einen Unschuldigen ins Unglück zu stürzen. Niemand soll von der Police ohne Stempel erfahren."
+    }
+  ]
+}

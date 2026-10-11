@@ -1,0 +1,79 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der vier Kernrollen mit Sabotage (Varianten-Regel).",
+  "eintraege": [
+    {
+      "id": "gw_viv_1",
+      "a": "Ich gestehe dem Inspektor, dass ich zwei alte Masterbänder aus Luckys Regal genommen habe. Das ist mir peinlich.",
+      "b": "Von den Bändern sage ich nichts. Niemand soll erfahren, dass ich den Hit nie selbst gesungen habe.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meinen Auftritten in der Lounge."
+    },
+    {
+      "id": "gw_viv_2",
+      "a": "Ich sage dem Inspektor, dass Toby heute Nacht kurz weg war. Damit bringe ich ihn in eine blöde Lage.",
+      "b": "Toby und ich halten zusammen. Dem Inspektor sage ich dazu nichts.",
+      "sabotage": "Ich erzähle lieber von meinem Hit. Davon gibt es viel zu erzählen."
+    },
+    {
+      "id": "gw_viv_3",
+      "a": "Ich sage es offen: Ich habe die Bänder genommen, und den Hit hat eine andere gesungen.",
+      "b": "Ich schweige. Niemand soll erfahren, dass der Hit nicht von mir ist.",
+      "sabotage": "Ich erzähle lieber vom Applaus in der Lounge."
+    },
+    {
+      "id": "gw_dale_1",
+      "a": "Ich gestehe, dass ich Luckys Prämie in Scheinen angenommen habe. Die Gesellschaft hat sie nie gesehen.",
+      "b": "Von der Prämie sage ich nichts. Niemand soll erfahren, dass die Police nie angekommen ist.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meinen Kunden in Houston."
+    },
+    {
+      "id": "gw_dale_2",
+      "a": "Ich zeige dem Inspektor meinen Aktenkoffer. Dann sieht er die Police ohne Stempel.",
+      "b": "Der Aktenkoffer bleibt zu. Ich verkaufe Sicherheit und rede nicht über Fehler.",
+      "sabotage": "Ich erzähle lieber von der Gulf Coast Mutual. Das dauert."
+    },
+    {
+      "id": "gw_dale_3",
+      "a": "Ich sage es offen: Die Prämie liegt bei mir und nicht bei der Gesellschaft.",
+      "b": "Ich halte dicht. Niemand soll von der Police ohne Stempel erfahren.",
+      "sabotage": "Ich erzähle lieber, wie ich nach Florida gekommen bin."
+    },
+    {
+      "id": "gw_sol_1",
+      "a": "Ich gebe zu, dass ich mir 300 Dollar aus der Kasse genommen habe. Einen Zettel habe ich hineingelegt.",
+      "b": "Von der Kasse sage ich nichts. Niemand soll erfahren, dass ich Geld genommen habe.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber, was die Gäste so bestellen."
+    },
+    {
+      "id": "gw_sol_2",
+      "a": "Ich sage dem Inspektor, was Dottie über Luckys Telefonat gehört hat. Damit bringe ich meine beste Freundin in eine blöde Lage.",
+      "b": "Dottie und ich halten zusammen. Dem Inspektor sage ich dazu nichts.",
+      "sabotage": "Ich erzähle lieber von zehn Jahren hinter der Theke."
+    },
+    {
+      "id": "gw_sol_3",
+      "a": "Ich sage es offen: Die 300 Dollar aus der Kasse waren ein Stück meiner Ersparnisse.",
+      "b": "Ich schweige. Niemand soll erfahren, dass ich Geld aus der Kasse genommen habe.",
+      "sabotage": "Ich erzähle lieber, wie man den besten Kaffee kocht."
+    },
+    {
+      "id": "gw_frank_1",
+      "a": "Ich gebe zu, dass ich über Jahre Umschläge von Lucky genommen habe. Das kostet mich meinen Ruf.",
+      "b": "Von den Umschlägen sage ich nichts. Niemand soll erfahren, dass ich Geld genommen habe.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meinen Jahren bei der Sitte."
+    },
+    {
+      "id": "gw_frank_2",
+      "a": "Ich öffne dem Inspektor mein Handschuhfach. Dann sieht er die Umschläge.",
+      "b": "Das Handschuhfach bleibt zu. Meine Umschläge gehen niemanden etwas an.",
+      "sabotage": "Ich erzähle lieber, wie man ein Verhör führt."
+    },
+    {
+      "id": "gw_frank_3",
+      "a": "Ich sage es offen: Lucky hatte für jeden Cop einen Umschlag, und ich war dumm genug, ihn zu nehmen.",
+      "b": "Ich schweige. Niemand soll erfahren, dass ich Umschläge genommen habe.",
+      "sabotage": "Ich erzähle lieber, wie es bei der Sitte in Miami zuging."
+    }
+  ]
+}

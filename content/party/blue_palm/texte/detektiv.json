@@ -1,0 +1,55 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "detektiv",
+  "hinweis": "Detektiv-Bogen (m und w) und Ermittlungsbogen.",
+  "eintraege": [
+    {
+      "id": "detektiv.m.wer",
+      "text": "Du bist der Inspektor der Staatspolizei, mittelgroß und mit aufmerksamer Haltung. Du trägst einen dunkelblauen Regenmantel über einem grauen Anzug und einen Filzhut. Zu dir gehören eine Polizeimarke, ein Notizblock und eine Taschenlampe. Der Hurrikan hat dich im Blue Palm festgesetzt, wie alle anderen."
+    },
+    {
+      "id": "detektiv.w.wer",
+      "text": "Du bist die Inspektorin der Staatspolizei, mittelgroß und mit aufmerksamer Haltung. Du trägst einen dunkelblauen Regenmantel über einem grauen Anzug und einen Filzhut. Zu dir gehören eine Polizeimarke, ein Notizblock und eine Taschenlampe. Der Hurrikan hat dich im Blue Palm festgesetzt, wie alle anderen."
+    },
+    {
+      "id": "detektiv.m.auftrag",
+      "text": "Um zehn vor eins findet Toby Lucky tot in Zimmer 7. Er bittet dich: „Finden Sie heraus, wer das war. Bis die Brücke öffnet.“ Du ermittelst in drei Runden und triffst dafür neun Entscheidungen. Am Ende erhebst du eine Anklage."
+    },
+    {
+      "id": "detektiv.w.auftrag",
+      "text": "Um zehn vor eins findet Toby Lucky tot in Zimmer 7. Er bittet dich: „Finden Sie heraus, wer das war. Bis die Brücke öffnet.“ Du ermittelst in drei Runden und triffst dafür neun Entscheidungen. Am Ende erhebst du eine Anklage."
+    },
+    {
+      "id": "detektiv.regeln.entscheidungen",
+      "text": "Jede Entscheidung hat mehrere Möglichkeiten, und du wählst genau eine davon. Du kannst eine Stelle absuchen, einen Gegenstand untersuchen oder eine Person befragen."
+    },
+    {
+      "id": "detektiv.regeln.punkte",
+      "text": "Jede gute Entscheidung bringt dir einen Punkt. Wie viele Punkte du hast, siehst du erst am Ende."
+    },
+    {
+      "id": "detektiv.regeln.hinweise",
+      "text": "In jeder Runde wird dir aus der Gruppe etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "detektiv.regeln.anklage",
+      "text": "Am Ende klagst du einen der vier an: Viv, Dale, Sol oder Frank. Deine Anklage und deine Punkte bestimmen zusammen, wie der Abend ausgeht."
+    },
+    {
+      "id": "ermittlungsbogen.einleitung",
+      "text": "Auf diesem Bogen führst du die Liste der Verdächtigen. Hier schreibst du mit, wer ausscheidet und wer übrig bleibt. Diesen Bogen siehst nur du."
+    },
+    {
+      "id": "ermittlungsbogen.entlastet",
+      "text": "Wer beim Flackern nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Das Flackern ist der Augenblick um Viertel nach zwölf, in dem alle Lampen im Motel zucken."
+    },
+    {
+      "id": "ermittlungsbogen.ueberfuehrt",
+      "text": "Ein Schlüsselbeweis überführt eine Person, wenn man auch Luckys schwarzes Notizbuch an ihrem Versteck findet. Alle anderen scheiden aus."
+    },
+    {
+      "id": "ermittlungsbogen.restverdaechtige",
+      "text": "Schreib die vier Namen auf: Viv, Dale, Sol und Frank. Streich jeden Namen durch, der ausscheidet. Wer übrig bleibt, ist noch verdächtig."
+    }
+  ]
+}

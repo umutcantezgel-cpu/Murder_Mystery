@@ -1,0 +1,221 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Gemeinsame Zeitleiste vom Nachmittag bis zum Morgen. Sie ist in allen Pfaden gleich; was ab 23:41 je Pfad anders ist, steht in den Beobachtungen mit pfade. Das Flackern um 0:15 ist der Zeitpunkt, an dem sich alle Alibis messen lassen.",
+  "eintraege": [
+    {
+      "id": "z_baender",
+      "zeit": "16:30",
+      "ort": "am_kassettenregal",
+      "wer": [
+        "viv"
+      ],
+      "text": "Viv nimmt zwei alte Masterbänder aus Luckys Kassettenregal in der Lounge.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_praemie",
+      "zeit": "17:45",
+      "ort": "am_pool_west",
+      "wer": [
+        "lucky",
+        "dale"
+      ],
+      "text": "Lucky zahlt Dale die Prämie für die Lebensversicherung in Scheinen. Dale schreibt eine Quittung auf einen Zettel.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_bruecke",
+      "zeit": "18:00",
+      "ort": "im_foyer",
+      "wer": [
+        "alle"
+      ],
+      "text": "Die Brücke zum Festland wird gesperrt. Hurrikan Delia dreht auf die Küste zu, und im Blue Palm sitzen alle fest.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_streit",
+      "zeit": "18:30",
+      "ort": "hinter_der_theke",
+      "wer": [
+        "sol",
+        "lucky"
+      ],
+      "text": "Sol und Lucky streiten hinter der Theke über die Zukunft des Motels. Lucky winkt ab.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_kasse",
+      "zeit": "20:15",
+      "ort": "hinter_der_theke",
+      "wer": [
+        "sol"
+      ],
+      "text": "Sol nimmt sich 300 Dollar aus der Kasse und legt einen Zettel hinein.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_lounge",
+      "zeit": "21:00",
+      "ort": "an_der_buehne",
+      "wer": [
+        "viv",
+        "marcy"
+      ],
+      "text": "Viv beginnt ihren Auftritt in der Lounge. Marcy setzt sich mit Notizblock und Rekorder an den Tisch vor der Bühne.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_telefonat",
+      "zeit": "21:30",
+      "ort": "im_foyer",
+      "wer": [
+        "lucky",
+        "dottie"
+      ],
+      "text": "Dottie hört vor Luckys Büro: „Das Blue Palm gehört bald jemand anderem. Sol bekommt keinen Cent.“",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_zimmer3",
+      "zeit": "22:00",
+      "ort": "am_pool_west",
+      "wer": [
+        "dottie",
+        "dale"
+      ],
+      "text": "Dottie geht ohne Klopfen in Zimmer 3. Auf dem Bett liegen eine Police ohne Stempel und ein Bündel Scheine.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_umschlag",
+      "zeit": "22:10",
+      "ort": "beim_wagen",
+      "wer": [
+        "lucky",
+        "frank",
+        "marcy"
+      ],
+      "text": "Auf dem Parkplatz steckt Lucky Frank einen dicken Umschlag zu. Marcys Rekorder läuft in der Nähe mit.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_jukebox",
+      "zeit": "22:40",
+      "ort": "an_der_jukebox",
+      "wer": [
+        "toby",
+        "sol"
+      ],
+      "text": "Die Jukebox spielt dreimal dasselbe Lied, bis Sol den Stecker zieht.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_telefon",
+      "zeit": "23:41",
+      "ort": "an_der_vermittlung",
+      "wer": [
+        "toby",
+        "dale"
+      ],
+      "text": "Toby stöpselt ein Ferngespräch nach Houston für Zimmer 3.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_fax",
+      "zeit": "23:52",
+      "ort": "am_faxgeraet",
+      "wer": [
+        "toby"
+      ],
+      "text": "Ein Fax für Lucky kommt an. Die Dienstaufsicht in Miami lädt ihn für Montag als Zeugen vor.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_haemmern",
+      "zeit": "00:00",
+      "ort": "am_beckenrand_sued",
+      "wer": [
+        "sol",
+        "gus"
+      ],
+      "text": "Sol und Gus beginnen, die Läden an der Poolseite zu vernageln.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_flackern",
+      "zeit": "00:15",
+      "ort": "am_toten",
+      "wer": [
+        "alle"
+      ],
+      "text": "Das Neonschild und alle Lampen im Motel flackern. Aus Zimmer 7 kommt ein dumpfes Poltern.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_haemmern_ende",
+      "zeit": "00:30",
+      "ort": "am_beckenrand_sued",
+      "wer": [
+        "sol",
+        "gus"
+      ],
+      "text": "Das Hämmern an den Läden hört auf.",
+      "pfade": [
+        "viv",
+        "dale",
+        "frank"
+      ]
+    },
+    {
+      "id": "z_leitung_ende",
+      "zeit": "00:33",
+      "ort": "an_der_vermittlung",
+      "wer": [
+        "toby",
+        "dale"
+      ],
+      "text": "Das Ferngespräch nach Houston wird beendet.",
+      "pfade": [
+        "viv",
+        "sol"
+      ]
+    },
+    {
+      "id": "z_auftritt_ende",
+      "zeit": "00:40",
+      "ort": "an_der_buehne",
+      "wer": [
+        "viv",
+        "marcy"
+      ],
+      "text": "Viv beendet ihren Auftritt mit dem letzten Lied. Die Lounge klatscht.",
+      "pfade": [
+        "dale",
+        "sol",
+        "frank"
+      ]
+    },
+    {
+      "id": "z_fund",
+      "zeit": "00:50",
+      "ort": "am_toten",
+      "wer": [
+        "toby",
+        "lucky"
+      ],
+      "text": "Toby findet Lucky tot in Zimmer 7. Er holt den Inspektor.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_morgen",
+      "zeit": "07:00",
+      "ort": "im_foyer",
+      "wer": [
+        "alle"
+      ],
+      "text": "Die Brücke zum Festland wird wieder freigegeben.",
+      "pfade": "alle"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "settingId": "blue_palm_motel",
+  "schauplatz": "Das Blue Palm Motel an der Golfküste Floridas: Rezeption mit rosa Neonschild, Pooldeck, Diner mit Lounge, Waschküche und ein langer Parkplatz.",
+  "anlass": "Hurrikan Delia zieht heran, und die Brücke zum Festland ist gesperrt. Motelbesitzer Ray „Lucky“ Delgado wird tot in Zimmer 7 gefunden. Fünf Menschen hatten in dieser Nacht einen Grund, an seine Tür zu klopfen.",
+  "datum": "ein Freitag im Juli 1986; draußen Regen, Wind und Wetterleuchten",
+  "essen": "Im Diner gibt es Sandwiches, Pommes, Pancakes und Eiskrem. Die Thekenkraft hält die Pfannen bis zum Morgen warm.",
+  "getraenke": [
+    "Kaffee",
+    "Limonade",
+    "Eistee",
+    "Wasser",
+    "Milchshakes"
+  ],
+  "empfang": "Das Telefonnetz ist fast tot. Nur die Vermittlung an der Rezeption und die Telefonzelle auf dem Parkplatz funktionieren manchmal.",
+  "atmosphaere": [
+    "Der Wind drückt gegen die Läden, und das Neonschild summt.",
+    "Regen trommelt auf das Pooldeck, und Wetterleuchten färbt das Becken violett.",
+    "In der Rezeption brummt ein Notstrom-Aggregat."
+  ],
+  "brandschutz": "Im Motel sind offene Flammen verboten. Für den Notfall gibt es Taschenlampen und das Aggregat in der Rezeption.",
+  "lacher": [
+    {
+      "id": "lacher_flamingo",
+      "zeit": "20:30",
+      "wer": "gus",
+      "ort": "im_foyer",
+      "was": "Gus trägt den schweren Messingflamingo aus der Rezeption vor dem Hurrikan ins Trockene. Dabei stößt er gegen die Glastür, und der Flamingo bekommt eine Delle.",
+      "traegt": "Falsche Fährte: Die Delle am Flamingo stammt von der Glastür, nicht von einem Streit."
+    },
+    {
+      "id": "lacher_interview",
+      "zeit": "21:45",
+      "wer": "marcy",
+      "ort": "am_lounge_tisch",
+      "was": "Marcy hält Viv mitten im Lied das Mikrofon unter die Nase und fragt nach dem alten Hit. Viv singt einfach lauter.",
+      "traegt": "Spur: Marcy interessiert sich für Vivs Hit von 1979."
+    },
+    {
+      "id": "lacher_jukebox",
+      "zeit": "22:40",
+      "wer": "toby",
+      "ort": "an_der_jukebox",
+      "was": "Toby wirft eine Münze in die Jukebox. Sie spielt dreimal dasselbe Lied, bis Sol den Stecker zieht.",
+      "traegt": "Falsche Fährte: Die Jukebox spielt bei jeder Stromschwankung von allein."
+    }
+  ],
+  "ton": "Neon-Noir mit Augenzwinkern: summende Leuchtschrift, prasselnder Regen und trockene Sprüche. Lucky ist tot, doch erzählt wird nur ein Schatten, ein Flackern und ein dumpfes Poltern. Alle Gäste dürfen bis zum Schluss verdächtig bleiben."
+}

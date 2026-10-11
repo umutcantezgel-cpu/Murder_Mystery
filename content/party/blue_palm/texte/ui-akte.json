@@ -1,0 +1,83 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "ui",
+  "hinweis": "Oberflächentexte, die in der Akte Blue Palm anders heißen als im Schlosskeller: Der Inspektor ersetzt das Geburtstagskind, und das Motel ersetzt den Keller. Alle übrigen ui-Texte kommen aus dem Schlosskeller.",
+  "eintraege": [
+    {
+      "id": "ui.allgemein.detektiv",
+      "text": "Inspektor"
+    },
+    {
+      "id": "ui.allgemein.laden",
+      "text": "Das Motel wird vorbereitet …"
+    },
+    {
+      "id": "ui.allgemein.uhrzeit",
+      "text": "Im Motel ist es {uhrzeit} Uhr."
+    },
+    {
+      "id": "ui.karte.hinweis",
+      "text": "Geh mit dem Inspektor zu einer der leuchtenden Stellen oder zu einer der Personen, die du ansprechen kannst. Steuern: Joystick, Pfeiltasten oder WASD. Handeln: Knopf unten rechts oder Leertaste."
+    },
+    {
+      "id": "ui.druck.rollen.detektiv",
+      "text": "der Inspektor"
+    },
+    {
+      "id": "ui.gruppenwahl.erklaerung",
+      "text": "Reihum wählt ihr geheim zwischen zwei Handlungen. Der Inspektor wählt nicht mit. Danach flüstert die Runde dem Inspektor etwas zu, und wie viel das taugt, verrät niemand."
+    },
+    {
+      "id": "ui.gruppenwahl.alle",
+      "text": "Alle haben gewählt. Es wird still im Motel."
+    },
+    {
+      "id": "ui.druck.spielleitung.personen",
+      "text": "{anzahl} Rollen und der Inspektor"
+    },
+    {
+      "id": "ui.druck.spielleitung.datei.01",
+      "text": "Detektivbogen mit Ermittlungsbogen. Gehört dem Inspektor."
+    },
+    {
+      "id": "ui.druck.spielleitung.entscheidung",
+      "text": "Drei Entscheidungen. Der Inspektor wählt auf dem Detektivbogen. Du gibst die Indizkarte mit dem gewählten Code aus."
+    },
+    {
+      "id": "ui.druck.spielleitung.anklage.klagt",
+      "text": "Nach Runde 3 liest du die Anklage vor. Der Inspektor klagt eine der vier Verdächtigen an."
+    },
+    {
+      "id": "ui.einrichtung.hinweis",
+      "text": "Jemand außer dem Inspektor richtet ein. Der Inspektor schaut bitte weg."
+    },
+    {
+      "id": "ui.einrichtung.geburtstag",
+      "text": "Der Inspektor"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_m",
+      "text": "Inspektor"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_w",
+      "text": "Inspektorin"
+    },
+    {
+      "id": "ui.titel.hinweis",
+      "text": "Der Inspektor schaut beim Einrichten weg."
+    },
+    {
+      "id": "ui.intro.marke",
+      "text": "Hurrikan im Blue Palm"
+    },
+    {
+      "id": "ui.resuemee.bonus_titel",
+      "text": "Was die Runde dem Inspektor zuflüstert"
+    },
+    {
+      "id": "ui.druck.karte.aussen",
+      "text": "Indizkarte. Erst umdrehen, wenn der Inspektor diesen Code gewählt hat."
+    }
+  ]
+}

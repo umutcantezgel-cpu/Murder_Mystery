@@ -1,0 +1,43 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "erzaehler",
+  "hinweis": "Intro: intro.start, intro.lacher.<id>.<besetzt|npc>, intro.auftrag.<m|w>.",
+  "eintraege": [
+    {
+      "id": "intro.start",
+      "text": "Freitagnacht im Juli, neunzehnhundertsechsundachtzig. Hurrikan Delia dreht auf die Küste zu, und die Brücke zum Festland ist gesperrt. Im Blue Palm Motel summt das Neonschild, und der Regen trommelt auf das Pooldeck. Um Viertel nach zwölf flackern alle Lampen, und aus Zimmer sieben kommt ein dumpfes Poltern. Als Toby nachsieht, liegt Motelbesitzer Lucky Delgado tot auf dem violetten Teppich. Sein schwarzes Notizbuch ist verschwunden. Niemand kann weg, und ihr sitzt bis zum Morgen zusammen fest."
+    },
+    {
+      "id": "intro.lacher.lacher_flamingo.besetzt",
+      "text": "Um halb neun abends trug Gus den schweren Messingflamingo aus der Rezeption vor dem Hurrikan ins Trockene. Dabei stieß er gegen die Glastür, und der Flamingo bekam eine Delle."
+    },
+    {
+      "id": "intro.lacher.lacher_flamingo.npc",
+      "text": "Um halb neun abends trug ein Gast den schweren Messingflamingo aus der Rezeption ins Trockene. Dabei stieß er gegen die Glastür, und der Flamingo bekam eine Delle."
+    },
+    {
+      "id": "intro.lacher.lacher_interview.besetzt",
+      "text": "Um Viertel vor zehn hielt Marcy Viv mitten im Lied das Mikrofon unter die Nase und fragte nach dem alten Hit. Viv sang einfach lauter."
+    },
+    {
+      "id": "intro.lacher.lacher_interview.npc",
+      "text": "Um Viertel vor zehn hielt ein Gast Viv mitten im Lied ein Mikrofon unter die Nase und fragte nach dem alten Hit. Viv sang einfach lauter."
+    },
+    {
+      "id": "intro.lacher.lacher_jukebox.besetzt",
+      "text": "Um zwanzig vor elf warf Toby eine Münze in die Jukebox. Sie spielte dreimal dasselbe Lied, bis Sol den Stecker zog."
+    },
+    {
+      "id": "intro.lacher.lacher_jukebox.npc",
+      "text": "Um zwanzig vor elf warf ein Gast eine Münze in die Jukebox. Sie spielte dreimal dasselbe Lied, bis Sol den Stecker zog."
+    },
+    {
+      "id": "intro.auftrag.m",
+      "text": "Du bist Inspektor der Staatspolizei und sitzt im Blue Palm fest, wie alle anderen. Um zehn vor eins bittet dich Toby: „Finden Sie heraus, wer das war. Bis die Brücke öffnet.“"
+    },
+    {
+      "id": "intro.auftrag.w",
+      "text": "Du bist Inspektorin der Staatspolizei und sitzt im Blue Palm fest, wie alle anderen. Um zehn vor eins bittet dich Toby: „Finden Sie heraus, wer das war. Bis die Brücke öffnet.“"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Besetzungsreihenfolge. Gezählt werden die Rollen ohne den Inspektor (Detektiv). Bei N Rollen werden die Plätze 1 bis N besetzt; alle übrigen Gäste sind NPC-Gäste ohne Spieler: Sie existieren in der Tatnacht, ihr Wissen erreicht den Inspektor über Erzähler-Karten. Es gibt in dieser Akte kein Geburtstagskind.",
+  "minRollen": 4,
+  "maxRollen": 8,
+  "reihenfolge": [
+    "viv",
+    "dale",
+    "sol",
+    "frank",
+    "toby",
+    "marcy",
+    "gus",
+    "dottie"
+  ],
+  "stufen": [
+    {
+      "stufe": 1,
+      "plaetze": [
+        1,
+        4
+      ]
+    },
+    {
+      "stufe": 2,
+      "plaetze": [
+        5,
+        8
+      ]
+    }
+  ],
+  "geschlechterBilanz": [
+    {
+      "rollen": 4,
+      "m": 2,
+      "w": 2
+    },
+    {
+      "rollen": 5,
+      "m": 3,
+      "w": 2
+    },
+    {
+      "rollen": 6,
+      "m": 3,
+      "w": 3
+    },
+    {
+      "rollen": 7,
+      "m": 4,
+      "w": 3
+    },
+    {
+      "rollen": 8,
+      "m": 4,
+      "w": 4
+    }
+  ],
+  "regeln": [
+    "Die vier Kernverdächtigen Viv, Dale, Sol und Frank sind immer besetzt (Plätze 1–4).",
+    "Bei vier Rollen sind es zwei Frauen- und zwei Männerrollen; ab fünf Rollen unterscheiden sich Frauen- und Männerrollen höchstens um eine.",
+    "Jede Rolle darf von jeder Person gespielt werden, unabhängig vom eigenen Geschlecht.",
+    "Fehlt ein Gesprächspartner, übernimmt der erste besetzte Ersatzpartner aus ersatzpartner, sonst der Inspektor. Kernrollen sind immer besetzt und brauchen keinen Ersatz.",
+    "Unbesetzte Gäste sind NPC. Ihre Pflichtgespräch-Beobachtungen und ihre Antworten auf Befragungen des Inspektors kommen als NPC-Karte (App: aus dem Kanon, Druck: versiegelt je Fall-Code).",
+    "Wer mehr als acht Spieler hat, nimmt Assistenz-Plätze ohne eigene Rolle."
+  ],
+  "ersatzpartner": {
+    "toby": [
+      "marcy",
+      "gus",
+      "dottie"
+    ],
+    "marcy": [
+      "dottie",
+      "toby",
+      "gus"
+    ],
+    "gus": [
+      "toby",
+      "dottie",
+      "marcy"
+    ],
+    "dottie": [
+      "marcy",
+      "gus",
+      "toby"
+    ]
+  }
+}

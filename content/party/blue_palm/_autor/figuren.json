@@ -1,0 +1,480 @@
+{
+  "hinweis": "Autoren-Overlay für figuren.json der Akte Blue Palm. Aussehen, Farbcodes und Standorte der fünf Verdächtigen des Szenarios erzeugt der Konverter mechanisch aus content/scenarios/blue_palm.json; die drei neuen Zeugen (Marcy, Gus, Dottie) tragen Look, Farbe und Platz hier selbst. Gezählt werden die acht Rollen ohne den Inspektor.",
+  "lookHinweis": "kopf: Kopfbedeckung des Renderers (none, bun, cap, fedora, detektivhut …); statur: slim, normal, broad, tall, small; schnitt: suit oder dress. Die Farben folgen keiner Herkunft.",
+  "detektiv": {
+    "id": "detective",
+    "title": "Der Inspektor / Die Inspektorin",
+    "selectableGenders": [
+      "m",
+      "w"
+    ],
+    "colorCode": "#5b6b8c",
+    "farbname": "Stahlblau",
+    "ort": {
+      "id": "im_foyer",
+      "name": "im Foyer der Rezeption",
+      "spawn": 0
+    },
+    "visualSpecs": {
+      "silhouette": "Mittelgroß, aufmerksame Haltung, Kopf leicht geneigt beim Zuhören",
+      "baseOutfit": "Dunkelblauer Regenmantel über grauem Anzug, Filzhut",
+      "accessories": [
+        "Polizeimarke am Gürtel",
+        "Notizblock mit Stift",
+        "Taschenlampe"
+      ],
+      "interactiveTool": "Taschenlampe mit Lichtkegel",
+      "idleAnimation": "Notiert etwas und tippt mit dem Stift an die Hutkrempe"
+    },
+    "tatnacht": "Um Viertel nach zwölf liegt der Inspektor in Zimmer 5 wach. Er sieht die Lampen flackern und hört aus Zimmer 7 ein dumpfes Poltern.",
+    "auftrag": "Um zehn vor eins findet Toby Lucky tot in Zimmer 7. Er bittet den Inspektor: „Finden Sie heraus, wer das war. Bis die Brücke öffnet.“",
+    "look": {
+      "haut": "#d9a983",
+      "haar": "#4a3222",
+      "kopf": "detektivhut",
+      "statur": "normal",
+      "schnitt": "suit"
+    }
+  },
+  "opfer": {
+    "id": "lucky",
+    "name": "Lucky",
+    "age": 54,
+    "geschlecht": "m",
+    "roleTitle": "Motelbesitzer",
+    "farbname": "Elfenbein",
+    "status": "Tot in Zimmer 7. Der Fernseher zeigt nur noch Rauschen, und das schwarze Notizbuch fehlt.",
+    "visualSpecs": {
+      "silhouette": "Breit und gemütlich, graue Schläfen",
+      "outfit": "Heller Leinenanzug und Fedora",
+      "distinguishingFeature": "Goldkette um den Hals, schwarzes Notizbuch in der Brusttasche",
+      "idleAnimation": "liegt still auf dem Teppich"
+    },
+    "motiveAndConflict": "Ray „Lucky“ Delgado hatte für jeden im Motel ein Versprechen und ein Notizbuch voller Geheimnisse. Er wollte das Blue Palm verkaufen und sich mit der Lebensversicherung nach Nassau absetzen.",
+    "warmeSeite": "Bei jedem Unwetter hat er Gäste ohne Zimmer ins Blue Palm gelassen.",
+    "erinnerung": "Neonlicht, Regen am Fenster und ein Besucher an der Tür. Dann ein Flackern und Stille."
+  },
+  "figuren": [
+    {
+      "id": "viv",
+      "szenario": "viv",
+      "ort": {
+        "id": "an_der_buehne",
+        "name": "an der Bühne der Lounge"
+      },
+      "name": "Viv",
+      "vollerName": "Vivian „Viv“ LaRue",
+      "aussprache": "Wiw",
+      "age": 46,
+      "geschlecht": "w",
+      "herkunft": "amerikanisch",
+      "tier": 1,
+      "besetzungsplatz": 1,
+      "roleTitle": "Die Lounge-Sängerin",
+      "farbname": "Magenta",
+      "visualSpecs": {
+        "silhouette": "Schlank, aufrechte Bühnenhaltung, blonde Locken",
+        "outfit": "Magentafarbenes Paillettenkleid und rosa Pumps",
+        "distinguishingFeature": "Breiter Goldring an der rechten Hand, Kassettentasche am Klavier",
+        "idleAnimation": "Summt ihren alten Hit und rückt das Mikrofon zurecht"
+      },
+      "motiveAndConflict": "1979 hatte Viv einen Hit, der noch manchmal im Radio läuft. Gesungen hat ihn in Wahrheit eine andere. Lucky besitzt die alten Bänder und lässt sich sein Schweigen jeden Monat bezahlen. Heute hat er gesagt, der Preis steigt.",
+      "blackoutAlibi": "Behauptet, den ganzen Abend auf der Bühne gestanden zu haben.",
+      "roleSecret": "Am Nachmittag hat sie zwei alte Masterbänder aus Luckys Kassettenregal in der Lounge genommen.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Viv den Hit von 1979 nie selbst gesungen hat.",
+      "nebendelikt": {
+        "id": "nd_baender",
+        "text": "Hat zwei alte Masterbänder aus Luckys Kassettenregal genommen, ohne zu fragen."
+      },
+      "loyalitaet": {
+        "zu": "toby",
+        "grund": "Sie kennt Toby seit seiner Kindheit und wacht über ihn wie eine Tante."
+      },
+      "luegen": [
+        {
+          "id": "luege_viv_baender",
+          "behauptung": "Ich habe nie Bänder von Lucky angefasst.",
+          "wahrheit": "Viv hat zwei alte Masterbänder aus Luckys Kassettenregal genommen.",
+          "duWahrheit": "Du hast zwei alte Masterbänder aus Luckys Kassettenregal genommen."
+        },
+        {
+          "id": "luege_viv_hit",
+          "behauptung": "Den Hit von 1979 habe ich selbst gesungen.",
+          "wahrheit": "Eine andere Sängerin hat den Hit gesungen. Viv hat nur die Lippen dazu bewegt.",
+          "duWahrheit": "Eine andere Sängerin hat den Hit gesungen. Du hast nur die Lippen dazu bewegt."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Singt ohne Pause bis kurz vor eins auf der Bühne. Das Band im Rekorder auf dem Klavier läuft mit. Marcy sitzt vor der Bühne und schreibt."
+      },
+      "killerProfile": {
+        "crimeExecution": "Um 23:55 verlässt Viv die Bühne durch die Seitentür. Im Rekorder läuft ein altes Band vom Vorjahr weiter. Im Regen wartet sie unter dem Fenster von Zimmer 7. Um 0:10 tritt sie durch die Tür vom Pooldeck ein. Lucky sagt ihr, der Preis für sein Schweigen steige. Neben dem nassen Teppich liegt ein abisoliertes Verlängerungskabel. Viv greift danach, und das Neonlicht flackert. Sie wickelt Kabel und Notizbuch in ein nasses Badetuch und wirft es in den Müllcontainer. Um 0:25 steht sie wieder auf der Bühne.",
+        "smokingGun": "In der Kerbe von Vivs Goldring steckt ein haarfeiner Kupferdraht aus dem Kabel.",
+        "zusatzindiz": "An Vivs Kassettentasche kleben violette Teppichfasern aus Zimmer 7."
+      },
+      "alltag": "Singt seit Jahren freitags in Luckys Lounge, für ein Zimmer, Limonade und Trinkgeld."
+    },
+    {
+      "id": "dale",
+      "szenario": "dale",
+      "ort": {
+        "id": "am_pool_west",
+        "name": "am Westrand des Pooldecks"
+      },
+      "name": "Dale",
+      "vollerName": "Dale Whitmore",
+      "aussprache": "Dehl",
+      "age": 41,
+      "geschlecht": "m",
+      "herkunft": "amerikanisch",
+      "tier": 1,
+      "besetzungsplatz": 2,
+      "roleTitle": "Der Versicherungsvertreter",
+      "farbname": "Pastellmint",
+      "visualSpecs": {
+        "silhouette": "Breit gebaut, strahlendes Verkäuferlächeln",
+        "outfit": "Mintgrüner Pastellanzug und Cowboystiefel",
+        "distinguishingFeature": "Aktenkoffer in der Hand, Tattoo eines Ankers auf dem Handrücken",
+        "idleAnimation": "Schüttelt Hände und verteilt Visitenkarten"
+      },
+      "motiveAndConflict": "Dale hat Kundengelder verspielt und braucht dringend Geld. Vor drei Wochen hat er Lucky eine Lebensversicherung über 250.000 Dollar verkauft, doppelt bei Unfalltod. Als Begünstigten hat er heimlich sich selbst eingetragen.",
+      "blackoutAlibi": "Behauptet, aus Zimmer 3 fast eine Stunde mit Houston telefoniert zu haben.",
+      "roleSecret": "Luckys Prämie hat er in Scheinen angenommen und nicht an die Gesellschaft weitergegeben.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Luckys Police nie bei der Gesellschaft angekommen ist.",
+      "nebendelikt": {
+        "id": "nd_praemie",
+        "text": "Hat Luckys Prämie in Scheinen angenommen und nicht an die Gesellschaft weitergegeben."
+      },
+      "loyalitaet": null,
+      "luegen": [
+        {
+          "id": "luege_dale_praemie",
+          "behauptung": "Luckys Prämie liegt längst bei der Gesellschaft in Houston.",
+          "wahrheit": "Dale hat die Prämie in Scheinen angenommen und behalten.",
+          "duWahrheit": "Du hast die Prämie in Scheinen angenommen und behalten."
+        },
+        {
+          "id": "luege_dale_police",
+          "behauptung": "Meine Policen sind alle in Ordnung.",
+          "wahrheit": "Die Police auf Lucky hat keinen Stempel der Gesellschaft.",
+          "duWahrheit": "Die Police auf Lucky hat keinen Stempel der Gesellschaft."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "In den Pfaden Viv und Sol telefoniert er von 23:41 bis 0:33 ohne Pause mit Houston. Im Pfad Frank bricht die Leitung nach zwei Minuten zusammen, und er bleibt allein in Zimmer 3."
+      },
+      "killerProfile": {
+        "crimeExecution": "Um 23:43 legt Dale auf und verlässt Zimmer 3 durch die Tür zum Pooldeck. Klatschnass wartet er unter dem Fenster von Zimmer 7. Um 0:10 geht er hinein. Lucky lacht über die Police. Dale reißt das Kabel der Stehlampe ab und stellt am nassen Teppich einen Unfall nach. Das Licht flackert. Luckys Notizbuch verrät, dass Lucky seinen eigenen Tod vortäuschen wollte. Dale versteckt es in der Telefonzelle. Um 0:33 wählt er wieder Houston.",
+        "smokingGun": "Im Puder auf der Fensterbank steht der Absatz eines Cowboystiefels, am Fensterrahmen klebt ein Handabdruck mit Tattoo.",
+        "zusatzindiz": "Am Griff des Aktenkoffers kleben violette Teppichfasern aus Zimmer 7."
+      },
+      "alltag": "Verkauft Policen an der Golfküste, seit er aus Texas weggezogen ist."
+    },
+    {
+      "id": "sol",
+      "szenario": "sol",
+      "ort": {
+        "id": "hinter_der_theke",
+        "name": "hinter der Theke im Diner"
+      },
+      "name": "Sol",
+      "vollerName": "Marisol „Sol“ Vega",
+      "aussprache": "Soll",
+      "age": 38,
+      "geschlecht": "w",
+      "herkunft": "kubanisch",
+      "tier": 1,
+      "besetzungsplatz": 3,
+      "roleTitle": "Die Thekenkraft",
+      "farbname": "Violett",
+      "visualSpecs": {
+        "silhouette": "Mittelgroß, kräftige Arme, dunkler Dutt",
+        "outfit": "Violette Diner-Schürze über dunklem Kleid, Absatzschuhe",
+        "distinguishingFeature": "Rosen-Tattoo am Handgelenk, Schürze mit voller Tasche",
+        "idleAnimation": "Poliert Tassen und zählt heimlich Scheine in der Schürze"
+      },
+      "motiveAndConflict": "Sol steht seit zehn Jahren hinter Luckys Theke. Er hat ihr versprochen, das Motel werde einmal ihres. Ihre Ersparnisse stecken im Laden, nur mit Handschlag. Heute Abend hat sie erfahren, dass Lucky verkaufen will.",
+      "blackoutAlibi": "Behauptet, ab Mitternacht an der Poolseite die Läden vernagelt zu haben.",
+      "roleSecret": "Heute Abend hat sie sich 300 Dollar aus der Kasse geliehen, ein Stück ihrer Ersparnisse zurück.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Sol Geld aus der Kasse genommen hat.",
+      "nebendelikt": {
+        "id": "nd_kasse",
+        "text": "Hat sich 300 Dollar aus der Kasse genommen und einen Zettel hineingelegt."
+      },
+      "loyalitaet": {
+        "zu": "dottie",
+        "grund": "Dottie ist seit zehn Jahren ihre beste Freundin im Motel."
+      },
+      "luegen": [
+        {
+          "id": "luege_sol_kasse",
+          "behauptung": "Die Kasse stimmt auf den Cent.",
+          "wahrheit": "Sol hat sich 300 Dollar aus der Kasse genommen.",
+          "duWahrheit": "Du hast dir 300 Dollar aus der Kasse genommen."
+        },
+        {
+          "id": "luege_sol_nachmittag",
+          "behauptung": "Ich habe heute Nachmittag nicht mit Lucky gestritten.",
+          "wahrheit": "Sol hat am Nachmittag mit Lucky über die Zukunft des Motels gestritten.",
+          "duWahrheit": "Du hast am Nachmittag mit Lucky über die Zukunft des Motels gestritten."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Hämmert ab Mitternacht ohne Pause mit Gus an den Läden, bis halb eins. Gus hält die Taschenlampe."
+      },
+      "killerProfile": {
+        "crimeExecution": "Bis 0:10 hämmert Sol mit Gus an den Läden. Dann sagt sie, sie hole Nägel. In der Lounge kocht sie Luckys Nachttee und rührt ein starkes Schlafmittel hinein. Klatschnass bringt sie die Tasse durch die Tür vom Pooldeck in Zimmer 7. Lucky trinkt, und um 0:15 flackert das Licht. Sol nimmt das Notizbuch mit dem Kaufvertrag und versteckt es im Wäscheschrank der Waschküche. Um 0:28 hämmert sie wieder an den Läden.",
+        "smokingGun": "Am Fenstergriff klebt ein Handabdruck mit Tattoo am Handgelenk, auf dem Teppich darunter ein dünner Absatz.",
+        "zusatzindiz": "An Sols Schürzenband kleben violette Teppichfasern aus Zimmer 7."
+      },
+      "alltag": "Kennt jeden Gast, jedes Getränk und jede Ausrede im Blue Palm."
+    },
+    {
+      "id": "frank",
+      "szenario": "frank",
+      "ort": {
+        "id": "beim_wagen",
+        "name": "neben Franks Wagen"
+      },
+      "name": "Frank",
+      "vollerName": "Frank Kowalski",
+      "aussprache": "Kowalski",
+      "age": 45,
+      "geschlecht": "m",
+      "herkunft": "polnisch",
+      "tier": 1,
+      "besetzungsplatz": 4,
+      "roleTitle": "Der Cop außer Dienst",
+      "farbname": "Sandbeige",
+      "visualSpecs": {
+        "silhouette": "Groß, breite Schultern, müder Blick",
+        "outfit": "Beige Windjacke über Hemd, Cowboystiefel",
+        "distinguishingFeature": "Ehering am Finger, die Hand liegt oft am Handschuhfach seines Wagens",
+        "idleAnimation": "Kaut Kaugummi und tippt aufs Lenkrad"
+      },
+      "motiveAndConflict": "Frank von der Sitte Miami ist suspendiert. Jahrelang hat er Umschläge von Lucky genommen. Lucky führt Buch über jeden Umschlag, und das Buch ist seine Versicherung. Diese Woche hat er gesagt: Der Preis steigt. Die Dienstaufsicht wartet auf Luckys Aussage.",
+      "blackoutAlibi": "Behauptet, die ganze Nacht im Wagen den Funk mitgeschrieben zu haben.",
+      "roleSecret": "Er hört den Polizeifunk ab, obwohl er suspendiert ist, und hat Luckys Umschläge im Handschuhfach.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Frank Umschläge von Lucky genommen hat.",
+      "nebendelikt": {
+        "id": "nd_umschlaege",
+        "text": "Hat über Jahre Umschläge mit Geld von Lucky angenommen."
+      },
+      "loyalitaet": null,
+      "luegen": [
+        {
+          "id": "luege_frank_umschlag",
+          "behauptung": "Von Lucky habe ich nie einen Cent genommen.",
+          "wahrheit": "Frank hat über Jahre Umschläge mit Geld von Lucky angenommen.",
+          "duWahrheit": "Du hast über Jahre Umschläge mit Geld von Lucky angenommen."
+        },
+        {
+          "id": "luege_frank_funk",
+          "behauptung": "Ich höre nur den Wetterfunk, nichts Dienstliches.",
+          "wahrheit": "Frank hört den Polizeifunk ab, obwohl er suspendiert ist.",
+          "duWahrheit": "Du hörst den Polizeifunk ab, obwohl du suspendiert bist."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Sitzt in seinem Wagen, hört den Polizeifunk ab und schreibt mit. Das Licht im Wagen brennt die ganze Nacht."
+      },
+      "killerProfile": {
+        "crimeExecution": "Um 0:05 verlässt Frank den Wagen. Das Licht lässt er an. Über das Pooldeck geht er zu Zimmer 7. Um 0:10 tritt er ein. Lucky sagt, der Preis steige und das Notizbuch bleibe bei ihm. Frank greift den schweren Messingflamingo vom Fernseher. Dumpfes Poltern, das Licht flackert. Er nimmt das Notizbuch und lässt den Flamingo im Becken verschwinden. Das Buch versteckt er unter der Wolldecke in seinem Kleiderschrank in Zimmer 6. Um 0:25 sitzt er wieder im Wagen.",
+        "smokingGun": "Am Vorhang klebt der Abdruck einer Hand mit breitem Ehering, im nassen Puder davor der Absatz eines Cowboystiefels.",
+        "zusatzindiz": "Auf dem obersten Umschlag im Handschuhfach kleben violette Teppichfasern aus Zimmer 7."
+      },
+      "alltag": "Zwölf Jahre Sitte in Miami, jetzt suspendiert und viel zu viel Zeit."
+    },
+    {
+      "id": "toby",
+      "szenario": "toby",
+      "ort": {
+        "id": "an_der_vermittlung",
+        "name": "an der Vermittlung hinter der Empfangstheke"
+      },
+      "name": "Toby",
+      "vollerName": "Toby Reyes",
+      "aussprache": "Tobi",
+      "age": 19,
+      "geschlecht": "m",
+      "herkunft": "mexikanisch",
+      "tier": 2,
+      "besetzungsplatz": 5,
+      "roleTitle": "Der Nachtportier",
+      "farbname": "Türkis",
+      "visualSpecs": {
+        "silhouette": "Schmal, kleiner als die anderen, Kopfhörer um den Hals",
+        "outfit": "Türkisfarbene Uniformjacke, Mütze, Turnschuhe",
+        "distinguishingFeature": "Digitaluhr am Handgelenk, Walkman am Gürtel",
+        "idleAnimation": "Wippt mit dem Fuß zu Musik, die nur er hört"
+      },
+      "motiveAndConflict": "Toby ist Luckys Neffe, irgendwie. Er macht die Nachtschicht an der Vermittlung. Tagsüber übt er Gitarre und spart auf einen Bus nach Nashville. Gestern hat er mit Lucky um Geld gestritten.",
+      "blackoutAlibi": "Behauptet, die Rezeption die ganze Nacht nicht verlassen zu haben.",
+      "roleSecret": "Aus der Trinkgeldkasse hat er 40 Dollar für den Bus nach Nashville genommen.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Toby Geld für den Bus aus der Trinkgeldkasse genommen hat.",
+      "nebendelikt": {
+        "id": "nd_busgeld",
+        "text": "Hat 40 Dollar aus der Trinkgeldkasse für den Bus nach Nashville genommen."
+      },
+      "loyalitaet": {
+        "zu": "sol",
+        "grund": "Sol ist wie eine große Schwester für ihn und deckt ihn, wenn er etwas anstellt."
+      },
+      "luegen": [
+        {
+          "id": "luege_toby_empfang",
+          "behauptung": "Ich habe die Rezeption die ganze Nacht nicht verlassen.",
+          "wahrheit": "Toby war kurz nach Mitternacht ein paar Minuten weg und hat das Geld in seine Reisetasche gelegt.",
+          "duWahrheit": "Du warst kurz nach Mitternacht ein paar Minuten weg und hast das Geld in deine Reisetasche gelegt."
+        }
+      ],
+      "alltag": "Schiebt Nachtschicht, übt tagsüber Gitarre und träumt von Nashville."
+    },
+    {
+      "id": "marcy",
+      "x": 25,
+      "y": 13,
+      "ort": {
+        "id": "am_lounge_tisch",
+        "name": "am Tisch vor der Bühne"
+      },
+      "name": "Marcy",
+      "vollerName": "Marcy Ellison",
+      "aussprache": "Marssi",
+      "age": 29,
+      "geschlecht": "w",
+      "herkunft": "amerikanisch",
+      "tier": 2,
+      "besetzungsplatz": 6,
+      "roleTitle": "Die Reporterin",
+      "farbname": "Korallenrot",
+      "colorCode": "#ff7043",
+      "visualSpecs": {
+        "silhouette": "Sportlich, flotter Schritt, Notizblock unter dem Arm",
+        "outfit": "Korallenrote Regenjacke, Jeans, Turnschuhe",
+        "distinguishingFeature": "Kleiner Kassettenrekorder am Gurt, Kuli hinter dem Ohr",
+        "idleAnimation": "Drückt auf den Rekorder und murmelt Notizen"
+      },
+      "motiveAndConflict": "Marcy arbeitet für einen Lokalsender in Tampa. Wegen des Hurrikans ist sie im Blue Palm gestrandet. Sie schreibt an einer Reportage über Viv und den alten Hit.",
+      "blackoutAlibi": "Behauptet, ihr Rekorder sei die ganze Nacht ausgeschaltet gewesen.",
+      "roleSecret": "Ihr Rekorder lief den ganzen Abend heimlich mit.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Marcy heimlich Gespräche im Motel mitgeschnitten hat.",
+      "nebendelikt": {
+        "id": "nd_mitschnitt",
+        "text": "Hat heimlich Gespräche im Motel mit ihrem Kassettenrekorder mitgeschnitten."
+      },
+      "loyalitaet": null,
+      "luegen": [
+        {
+          "id": "luege_marcy_rekorder",
+          "behauptung": "Mein Rekorder war heute Nacht ausgeschaltet.",
+          "wahrheit": "Marcys Rekorder lief den ganzen Abend mit.",
+          "duWahrheit": "Dein Rekorder lief den ganzen Abend mit."
+        }
+      ],
+      "look": {
+        "haut": "#f1c9a5",
+        "haar": "#8b4a2b",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Jagt Geschichten für einen Lokalsender und trägt ihren Rekorder überall hin."
+    },
+    {
+      "id": "gus",
+      "x": 16,
+      "y": 13,
+      "ort": {
+        "id": "am_beckenrand_sued",
+        "name": "am Südrand des Beckens"
+      },
+      "name": "Gus",
+      "vollerName": "Gus Papadakis",
+      "aussprache": "Gas",
+      "age": 47,
+      "geschlecht": "m",
+      "herkunft": "griechisch",
+      "tier": 2,
+      "besetzungsplatz": 7,
+      "roleTitle": "Der Hausmeister",
+      "farbname": "Olivgrün",
+      "colorCode": "#6d8b3a",
+      "visualSpecs": {
+        "silhouette": "Breit und bärtig, Werkzeuggürtel",
+        "outfit": "Olivgrüne Latzhose, Schirmmütze, Gummistiefel",
+        "distinguishingFeature": "Große Taschenlampe in der Hand, Hammer im Gürtel",
+        "idleAnimation": "Prüft Schrauben und klopft auf nasses Holz"
+      },
+      "motiveAndConflict": "Gus ist seit zwölf Jahren Hausmeister im Blue Palm. Vor dem Hurrikan muss er alles sichern. Sol hilft ihm dabei, und er hält ihr die Taschenlampe.",
+      "blackoutAlibi": "Hat ab Mitternacht Sol an der Poolseite geholfen.",
+      "roleSecret": "Am Nachmittag hat er ein Nickerchen gemacht, statt die Läden zu sichern.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Gus am Nachmittag ein Nickerchen gemacht hat, statt die Läden zu sichern.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "dottie",
+        "grund": "Dottie bringt ihm jeden Freitag Suppe, wenn er lange arbeitet."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d8a47a",
+        "haar": "#3a3a3a",
+        "kopf": "cap",
+        "statur": "broad",
+        "schnitt": "suit"
+      },
+      "alltag": "Repariert alles im Blue Palm und kennt jede Schraube beim Vornamen."
+    },
+    {
+      "id": "dottie",
+      "x": 24,
+      "y": 4,
+      "ort": {
+        "id": "bei_der_waesche",
+        "name": "bei den Waschmaschinen"
+      },
+      "name": "Dottie",
+      "vollerName": "Dorothy „Dottie“ Marsh",
+      "aussprache": "Dotti",
+      "age": 58,
+      "geschlecht": "w",
+      "herkunft": "amerikanisch",
+      "tier": 2,
+      "besetzungsplatz": 8,
+      "roleTitle": "Das Zimmermädchen",
+      "farbname": "Sonnengelb",
+      "colorCode": "#f9c74f",
+      "visualSpecs": {
+        "silhouette": "Klein und rundlich, flinke Hände",
+        "outfit": "Sonnengelber Kittel, Haarnetz, bequeme Schuhe",
+        "distinguishingFeature": "Schlüsselbund am Kittel, graue Haare in einem Dutt",
+        "idleAnimation": "Faltet Handtücher und summt vor sich hin"
+      },
+      "motiveAndConflict": "Dottie putzt seit achtzehn Jahren im Blue Palm. Sie kennt jedes Zimmer und jede Gewohnheit. Heute Abend hat sie vor Luckys Büro etwas gehört, das sie nicht hören sollte.",
+      "blackoutAlibi": "Behauptet, nie ohne Klopfen in ein Zimmer zu gehen.",
+      "roleSecret": "Um 22:00 ist sie ohne Klopfen in Zimmer 3 gegangen und hat Dales Unterlagen gesehen.",
+      "persoenlichesZiel": "Niemand soll erfahren, dass Dottie in Gästezimmer geht, ohne zu klopfen.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "sol",
+        "grund": "Sol und sie halten seit zehn Jahren zusammen."
+      },
+      "luegen": [
+        {
+          "id": "luege_dottie_klopfen",
+          "behauptung": "Ich gehe nie in ein Zimmer, ohne zu klopfen.",
+          "wahrheit": "Dottie ist um 22:00 ohne Klopfen in Zimmer 3 gegangen.",
+          "duWahrheit": "Du bist um 22:00 ohne Klopfen in Zimmer 3 gegangen."
+        }
+      ],
+      "look": {
+        "haut": "#b9794f",
+        "haar": "#9a9a9a",
+        "kopf": "bun",
+        "statur": "small",
+        "schnitt": "dress"
+      },
+      "alltag": "Putzt, faltet und weiß mehr, als sie sagt."
+    }
+  ]
+}

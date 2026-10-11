@@ -1,0 +1,301 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, alle acht Rollen.",
+  "eintraege": [
+    {
+      "id": "g_viv_1_1",
+      "rolle": "viv",
+      "runde": 1,
+      "nr": 1,
+      "partner": "dale",
+      "thema": "Wo warst du beim Flackern?",
+      "ziel": "Ich will wissen, wo die andere Person beim Flackern war.",
+      "preisgabe": [],
+      "text": "Ich stand heute Abend auf der Bühne, wie jeden Freitag. Und du, Dale, wo warst du beim Flackern?"
+    },
+    {
+      "id": "g_viv_1_2",
+      "rolle": "viv",
+      "runde": 1,
+      "nr": 2,
+      "partner": "sol",
+      "thema": "Die alten Bänder",
+      "ziel": "Ich will wissen, ob die andere Person etwas über Bänder gehört hat.",
+      "preisgabe": [
+        "luege:luege_viv_baender"
+      ],
+      "text": "Von Lucky habe ich nie Bänder angefasst. Hast du in der Lounge etwas anderes gehört, Sol?"
+    },
+    {
+      "id": "g_viv_1_3",
+      "rolle": "viv",
+      "runde": 1,
+      "nr": 3,
+      "partner": "toby",
+      "thema": "Der Hit von früher",
+      "ziel": "Ich will wissen, was die andere Person über mich gehört hat.",
+      "preisgabe": [
+        "luege:luege_viv_hit"
+      ],
+      "text": "Den Hit von 1979 habe ich selbst gesungen, und das bleibt so. Was erzählt man sich über mich?"
+    },
+    {
+      "id": "g_dale_1_1",
+      "rolle": "dale",
+      "runde": 1,
+      "nr": 1,
+      "partner": "sol",
+      "thema": "Wo warst du beim Flackern?",
+      "ziel": "Ich will wissen, wo die andere Person beim Flackern war.",
+      "preisgabe": [],
+      "text": "Ich habe lange mit Houston telefoniert. Mein Chef redet gern, und es wird teuer. Und du, Sol, wo hast du gestanden?"
+    },
+    {
+      "id": "g_dale_1_2",
+      "rolle": "dale",
+      "runde": 1,
+      "nr": 2,
+      "partner": "frank",
+      "thema": "Die Prämie",
+      "ziel": "Ich will wissen, ob die andere Person gut versichert ist.",
+      "preisgabe": [
+        "luege:luege_dale_praemie"
+      ],
+      "text": "Furchtbare Sache, Frank. Luckys Prämie liegt längst bei der Gesellschaft in Houston. Sagen Sie, sind Sie eigentlich ausreichend versichert?"
+    },
+    {
+      "id": "g_dale_1_3",
+      "rolle": "dale",
+      "runde": 1,
+      "nr": 3,
+      "partner": "marcy",
+      "thema": "Meine Policen",
+      "ziel": "Ich will wissen, was die andere Person heute Nacht gesehen hat.",
+      "preisgabe": [
+        "luege:luege_dale_police"
+      ],
+      "text": "Meine Policen sind alle in Ordnung. Ich verkaufe Sicherheit und gefährde sie nicht. Was hast du heute gesehen?"
+    },
+    {
+      "id": "g_sol_1_1",
+      "rolle": "sol",
+      "runde": 1,
+      "nr": 1,
+      "partner": "frank",
+      "thema": "Wo warst du beim Flackern?",
+      "ziel": "Ich will wissen, wo die andere Person beim Flackern war.",
+      "preisgabe": [],
+      "text": "Ab Mitternacht habe ich an der Poolseite die Läden vernagelt. Das Hämmern hört man bis Key West. Und du, Frank?"
+    },
+    {
+      "id": "g_sol_1_2",
+      "rolle": "sol",
+      "runde": 1,
+      "nr": 2,
+      "partner": "toby",
+      "thema": "Die Kasse",
+      "ziel": "Ich will wissen, ob der anderen Person etwas mit Geld aufgefallen ist.",
+      "preisgabe": [
+        "luege:luege_sol_kasse"
+      ],
+      "text": "Die Kasse stimmt auf den Cent. Ich zähle jeden Abend nach. Ist dir etwas aufgefallen, das mit Geld zu tun hat?"
+    },
+    {
+      "id": "g_sol_1_3",
+      "rolle": "sol",
+      "runde": 1,
+      "nr": 3,
+      "partner": "gus",
+      "thema": "Lucky und ich",
+      "ziel": "Ich will wissen, was die andere Person über Lucky denkt.",
+      "preisgabe": [
+        "luege:luege_sol_nachmittag"
+      ],
+      "text": "Ich habe heute Nachmittag nicht mit Lucky gestritten. Warum sollte ich? Er hat mir mal versprochen, das hier wird eines Tages auch mein Laden."
+    },
+    {
+      "id": "g_frank_1_1",
+      "rolle": "frank",
+      "runde": 1,
+      "nr": 1,
+      "partner": "toby",
+      "thema": "Wo warst du beim Flackern?",
+      "ziel": "Ich will wissen, wo die andere Person beim Flackern war.",
+      "preisgabe": [],
+      "text": "Ich saß im Wagen und habe den Funk mitgeschrieben. Alte Gewohnheit. Und du, wo warst du?"
+    },
+    {
+      "id": "g_frank_1_2",
+      "rolle": "frank",
+      "runde": 1,
+      "nr": 2,
+      "partner": "marcy",
+      "thema": "Geld von Lucky",
+      "ziel": "Ich will wissen, was die andere Person über Geld im Motel gehört hat.",
+      "preisgabe": [
+        "luege:luege_frank_umschlag"
+      ],
+      "text": "Von Lucky habe ich nie einen Cent genommen. Das können Sie jedem sagen. Was haben Sie über Geld gehört?"
+    },
+    {
+      "id": "g_frank_1_3",
+      "rolle": "frank",
+      "runde": 1,
+      "nr": 3,
+      "partner": "dottie",
+      "thema": "Der Funk",
+      "ziel": "Ich will wissen, was die andere Person über mich denkt.",
+      "preisgabe": [
+        "luege:luege_frank_funk"
+      ],
+      "text": "Ich höre nur den Wetterfunk, nichts Dienstliches. Unwetterwarnungen, Unfälle. Alte Gewohnheit."
+    },
+    {
+      "id": "g_toby_1_1",
+      "rolle": "toby",
+      "runde": 1,
+      "nr": 1,
+      "partner": "marcy",
+      "thema": "Das Gespräch nach Houston",
+      "ziel": "Ich will wissen, ob die andere Person das Telefon gehört hat.",
+      "preisgabe": [
+        "beobachtung:b_toby_vermittlung"
+      ],
+      "text": "Um 23:41 habe ich ein Ferngespräch nach Houston für Zimmer 3 gestöpselt. Hast du etwas davon mitbekommen?"
+    },
+    {
+      "id": "g_toby_1_2",
+      "rolle": "toby",
+      "runde": 1,
+      "nr": 2,
+      "partner": "gus",
+      "thema": "Die Rezeption",
+      "ziel": "Ich will wissen, was die andere Person in der Nacht gesehen hat.",
+      "preisgabe": [
+        "luege:luege_toby_empfang"
+      ],
+      "text": "Ich habe die Rezeption die ganze Nacht nicht verlassen. Keine Sekunde. Was hast du in der Nacht gesehen?"
+    },
+    {
+      "id": "g_toby_1_3",
+      "rolle": "toby",
+      "runde": 1,
+      "nr": 3,
+      "partner": "viv",
+      "thema": "Onkel Ray",
+      "ziel": "Ich will wissen, was die andere Person über Lucky sagt.",
+      "preisgabe": [],
+      "text": "Onkel Ray sagte immer: Das Haus gewinnt. Er hat nie gesagt, was passiert, wenn man selbst das Haus ist."
+    },
+    {
+      "id": "g_marcy_1_1",
+      "rolle": "marcy",
+      "runde": 1,
+      "nr": 1,
+      "partner": "gus",
+      "thema": "Vivs Auftritt",
+      "ziel": "Ich will wissen, wie die andere Person den Abend erlebt hat.",
+      "preisgabe": [
+        "beobachtung:b_marcy_auftritt"
+      ],
+      "text": "Ich habe seit 21:00 in der Lounge gesessen und Viv singen sehen. Wie hast du den Abend erlebt?"
+    },
+    {
+      "id": "g_marcy_1_2",
+      "rolle": "marcy",
+      "runde": 1,
+      "nr": 2,
+      "partner": "dottie",
+      "thema": "Mein Rekorder",
+      "ziel": "Ich will wissen, was die andere Person gesehen hat.",
+      "preisgabe": [
+        "luege:luege_marcy_rekorder"
+      ],
+      "text": "Mein Rekorder war heute Nacht ausgeschaltet. Ich schreibe lieber mit der Hand. Was hast du gesehen?"
+    },
+    {
+      "id": "g_marcy_1_3",
+      "rolle": "marcy",
+      "runde": 1,
+      "nr": 3,
+      "partner": "dale",
+      "thema": "Ein Kommentar zur Nacht",
+      "ziel": "Ich will wissen, was die andere Person zur Nacht sagt.",
+      "preisgabe": [],
+      "text": "Marcy Ellison, Lokalsender aus Tampa. Haben Sie einen Kommentar zur Nacht, Dale?"
+    },
+    {
+      "id": "g_gus_1_1",
+      "rolle": "gus",
+      "runde": 1,
+      "nr": 1,
+      "partner": "dottie",
+      "thema": "Die Läden",
+      "ziel": "Ich will wissen, ob die andere Person die Läden gehört hat.",
+      "preisgabe": [
+        "beobachtung:b_gus_laeden"
+      ],
+      "text": "Ich habe ab Mitternacht Sol an der Poolseite geholfen. Ich habe die Taschenlampe gehalten, und sie hat die Läden festgehämmert. Hast du das Hämmern gehört?"
+    },
+    {
+      "id": "g_gus_1_2",
+      "rolle": "gus",
+      "runde": 1,
+      "nr": 2,
+      "partner": "viv",
+      "thema": "Der Hurrikan",
+      "ziel": "Ich will wissen, wie die andere Person den Hurrikan erlebt.",
+      "preisgabe": [],
+      "text": "Das Unwetter wird schlimmer. Ich habe alle Türen geprüft, die Läden sind dicht. Hast du schon eine solche Nacht erlebt, Viv?"
+    },
+    {
+      "id": "g_gus_1_3",
+      "rolle": "gus",
+      "runde": 1,
+      "nr": 3,
+      "partner": "sol",
+      "thema": "Gute Arbeit",
+      "ziel": "Ich will wissen, wie es der anderen Person nach der Arbeit geht.",
+      "preisgabe": [],
+      "text": "Ohne dich wären die Läden nie fertig geworden, Sol. Wie hältst du dich?"
+    },
+    {
+      "id": "g_dottie_1_1",
+      "rolle": "dottie",
+      "runde": 1,
+      "nr": 1,
+      "partner": "viv",
+      "thema": "Das Flackern",
+      "ziel": "Ich will wissen, wo die andere Person beim Flackern war.",
+      "preisgabe": [],
+      "text": "Ich war in der Wäsche, als das Flackern kam. Alles hat gezittert, sogar die Maschinen. Wo warst du, Viv?"
+    },
+    {
+      "id": "g_dottie_1_2",
+      "rolle": "dottie",
+      "runde": 1,
+      "nr": 2,
+      "partner": "dale",
+      "thema": "Klopfen",
+      "ziel": "Ich will wissen, ob die andere Person gern Besuch bekommt.",
+      "preisgabe": [
+        "luege:luege_dottie_klopfen"
+      ],
+      "text": "Ich gehe nie in ein Zimmer, ohne zu klopfen. Das gehört sich so, Dale."
+    },
+    {
+      "id": "g_dottie_1_3",
+      "rolle": "dottie",
+      "runde": 1,
+      "nr": 3,
+      "partner": "frank",
+      "thema": "Der Teppich",
+      "ziel": "Ich will wissen, ob die andere Person Zimmer 7 kennt.",
+      "preisgabe": [
+        "beobachtung:b_dottie_teppich"
+      ],
+      "text": "Der Teppich in Zimmer 7 ist violett. Seit dem Nachmittag war er vom Fenster her nass. Warst du dort, Frank?"
+    }
+  ]
+}

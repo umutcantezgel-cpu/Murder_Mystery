@@ -1,0 +1,695 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Gruppenwahl je Rolle und Runde (Master 7.8, E-013 G1-10, E-024). Option A ist kooperativ (+1) und kostet die Rolle ein Geheimnis, einen Freund oder ihr Ziel. Option B ist eigennützig (0) und schützt Ziel oder Freund. In der Täterfassung einer Kernrolle heißt B Sabotage (bTaeter): sie zählt 0 und hebt eine kooperative Stimme auf (G-1). Die Texte der Optionen stehen in texte/wahlen-*.json unter derselben Kennung (E-026). Acht Rollen mal drei Runden ergeben 24 Wahlen.",
+  "wertung": {
+    "kooperativ": 1,
+    "eigennuetzig": 0,
+    "sabotage": -1
+  },
+  "wahlen": [
+    {
+      "id": "gw_viv_1",
+      "rolle": "viv",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_baender"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_viv_2",
+      "rolle": "viv",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "toby"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "toby"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_viv_3",
+      "rolle": "viv",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_baender"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_dale_1",
+      "rolle": "dale",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_praemie"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_dale_2",
+      "rolle": "dale",
+      "runde": 2,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_praemie"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_dale_3",
+      "rolle": "dale",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_praemie"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_sol_1",
+      "rolle": "sol",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_kasse"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_sol_2",
+      "rolle": "sol",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "dottie"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "dottie"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_sol_3",
+      "rolle": "sol",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_kasse"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_frank_1",
+      "rolle": "frank",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_umschlaege"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_frank_2",
+      "rolle": "frank",
+      "runde": 2,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_umschlaege"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_frank_3",
+      "rolle": "frank",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_umschlaege"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_toby_1",
+      "rolle": "toby",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_busgeld"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_toby_2",
+      "rolle": "toby",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "sol"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "sol"
+        }
+      }
+    },
+    {
+      "id": "gw_toby_3",
+      "rolle": "toby",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_busgeld"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_marcy_1",
+      "rolle": "marcy",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_mitschnitt"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_marcy_2",
+      "rolle": "marcy",
+      "runde": 2,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_mitschnitt"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_marcy_3",
+      "rolle": "marcy",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_mitschnitt"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_gus_1",
+      "rolle": "gus",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_gus_2",
+      "rolle": "gus",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "dottie"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "dottie"
+        }
+      }
+    },
+    {
+      "id": "gw_gus_3",
+      "rolle": "gus",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_dottie_1",
+      "rolle": "dottie",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_dottie_2",
+      "rolle": "dottie",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "sol"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "sol"
+        }
+      }
+    },
+    {
+      "id": "gw_dottie_3",
+      "rolle": "dottie",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    }
+  ]
+}

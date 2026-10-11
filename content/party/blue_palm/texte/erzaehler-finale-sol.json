@@ -1,0 +1,27 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad sol: finale.sol.<ende> (4) und rueckblende.sol.",
+  "eintraege": [
+    {
+      "id": "finale.sol.ende_meister",
+      "text": "Du klagst Sol an, und es stimmt. Du hast die Spuren sauber zusammengetragen: Täter, Motiv und Waffe, lückenlos. Sol gesteht: Lucky hatte ihr das Motel versprochen und wollte es heimlich verkaufen. Sie hat ihm den Nachttee gebracht. Das Schlafmittel darin war viel zu stark. Zusammen seht ihr euch das Fenster an. Am Griff klebt der Abdruck ihrer Hand mit dem Rosen-Tattoo. Im Wäscheschrank liegt Luckys Notizbuch, daneben eine Teetasse mit einem weißlichen Rest. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst. Sol poliert eine letzte Tasse, stellt sie auf die Theke und legt die Hände daneben. „Okay“, sagt sie nur."
+    },
+    {
+      "id": "finale.sol.ende_teilerfolg",
+      "text": "Du klagst Sol an, und es stimmt. Ein gutes Stück Glück war auch dabei. Sol gesteht: Lucky hatte ihr das Motel versprochen und wollte es heimlich verkaufen. Sie hat ihm den Nachttee gebracht. Das Schlafmittel darin war viel zu stark. Sol gibt zu, dass Luckys Notizbuch im Wäscheschrank liegt, daneben die Teetasse. Der richtige Name, aber dünne Beweise. Ein Anwalt aus Miami wird sich die Hände reiben. Als die Brücke aufgeht, wartet die Staatspolizei schon mit Blaulicht im Morgendunst."
+    },
+    {
+      "id": "finale.sol.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Die Handschellen klicken am falschen Handgelenk. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Das Notizbuch bleibt verschwunden, bis die Brücke aufgeht. Sol gesteht erst danach: Sie hat Lucky den Nachttee gebracht, und das Schlafmittel darin war viel zu stark. Sol schenkt im Blue Palm weiter Kaffee aus. Der neue Besitzer ahnt nicht, wem er den Laden zu verdanken hat."
+    },
+    {
+      "id": "finale.sol.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, brüllt zurück, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Das Notizbuch bleibt verschwunden. Irgendwo auf dem Highway nach Süden dreht jemand das Radio lauter. Sol gesteht erst danach: Sie hat Lucky den Nachttee gebracht, und das Schlafmittel darin war viel zu stark. Sol schenkt im Blue Palm weiter Kaffee aus. Der neue Besitzer ahnt nicht, wem er den Laden zu verdanken hat."
+    },
+    {
+      "id": "rueckblende.sol",
+      "text": "Bis zehn nach zwölf hämmert Sol mit Gus an den Läden. Dann sagt sie, sie hole Nägel. In der Lounge kocht sie Luckys Nachttee und rührt ein starkes Schlafmittel hinein. Klatschnass bringt sie die Tasse durch die Tür vom Pooldeck in Zimmer sieben. Lucky trinkt, und um Viertel nach zwölf flackert das Licht. Sol nimmt sein Notizbuch mit dem Kaufvertrag und versteckt es im Wäscheschrank der Waschküche. Fünf vor halb eins hämmert sie wieder an den Läden."
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, alle acht Rollen.",
+  "eintraege": [
+    {
+      "id": "g_viv_2_1",
+      "rolle": "viv",
+      "runde": 2,
+      "nr": 1,
+      "partner": "frank",
+      "thema": "Der Wagen auf dem Parkplatz",
+      "ziel": "Ich will wissen, was die andere Person nachts im Wagen treibt.",
+      "preisgabe": [
+        "beobachtung:b_viv_wagen_licht"
+      ],
+      "text": "Von der Bühne aus sieht man den Parkplatz. In deinem Wagen brannte die ganze Nacht Licht, Frank. Wer sitzt da so lange?"
+    },
+    {
+      "id": "g_viv_2_2",
+      "rolle": "viv",
+      "runde": 2,
+      "nr": 2,
+      "partner": "marcy",
+      "thema": "Fragen heute Nacht",
+      "ziel": "Ich will wissen, was die andere Person von mir will.",
+      "preisgabe": [],
+      "text": "Mich fragt heute jeder etwas. Was willst du von mir wissen?"
+    },
+    {
+      "id": "g_viv_2_3",
+      "rolle": "viv",
+      "runde": 2,
+      "nr": 3,
+      "partner": "gus",
+      "thema": "Lucky und ich",
+      "ziel": "Ich will wissen, ob die andere Person Lucky gut kannte.",
+      "preisgabe": [],
+      "text": "Lucky gab mir eine Bühne, als mich keiner mehr wollte. Er ließ mich nie vergessen, wem ich sie verdanke. Und du, wie kanntest du ihn?"
+    },
+    {
+      "id": "g_dale_2_1",
+      "rolle": "dale",
+      "runde": 2,
+      "nr": 1,
+      "partner": "toby",
+      "thema": "Das Gespräch nach Houston",
+      "ziel": "Ich will wissen, wer heute Nacht sonst noch telefoniert hat.",
+      "preisgabe": [],
+      "text": "Mein Gespräch nach Houston war lang und teuer. Wer hat heute Nacht sonst noch telefoniert?"
+    },
+    {
+      "id": "g_dale_2_2",
+      "rolle": "dale",
+      "runde": 2,
+      "nr": 2,
+      "partner": "gus",
+      "thema": "Lucky und das Risiko",
+      "ziel": "Ich will wissen, was die andere Person über Luckys Pläne weiß.",
+      "preisgabe": [],
+      "text": "Lucky war ein Spieler. Spieler versichern alles, nur nicht sich selbst. Was weißt du über seine Pläne?"
+    },
+    {
+      "id": "g_dale_2_3",
+      "rolle": "dale",
+      "runde": 2,
+      "nr": 3,
+      "partner": "dottie",
+      "thema": "Ein ruhiges Wort",
+      "ziel": "Ich will wissen, ob die andere Person etwas gesehen hat, das ich wissen sollte.",
+      "preisgabe": [],
+      "text": "Ich verkaufe Sicherheit, ich bin nicht der, der sie gefährdet. Hast du heute etwas gesehen, das ich wissen sollte?"
+    },
+    {
+      "id": "g_sol_2_1",
+      "rolle": "sol",
+      "runde": 2,
+      "nr": 1,
+      "partner": "marcy",
+      "thema": "Ein Kaffee für die Nacht",
+      "ziel": "Ich will wissen, was die andere Person von mir will.",
+      "preisgabe": [],
+      "text": "Für dich mache ich eine Ausnahme: Kaffee, schwarz wie die Nacht da draußen. Was willst du wissen?"
+    },
+    {
+      "id": "g_sol_2_2",
+      "rolle": "sol",
+      "runde": 2,
+      "nr": 2,
+      "partner": "dottie",
+      "thema": "Zehn Jahre im Laden",
+      "ziel": "Ich will wissen, ob die andere Person zu mir hält.",
+      "preisgabe": [],
+      "text": "Zehn Jahre schmeiße ich hier den Laden. Und jetzt zeigt jemand mit dem Finger auf mich?"
+    },
+    {
+      "id": "g_sol_2_3",
+      "rolle": "sol",
+      "runde": 2,
+      "nr": 3,
+      "partner": "viv",
+      "thema": "Lampenfieber",
+      "ziel": "Ich will wissen, wie es der anderen Person nach dem Auftritt geht.",
+      "preisgabe": [],
+      "text": "Du warst heute nicht in Form, Viv. Zu viel Lampenfieber, zu wenig Publikum. Was war los?"
+    },
+    {
+      "id": "g_frank_2_1",
+      "rolle": "frank",
+      "runde": 2,
+      "nr": 1,
+      "partner": "gus",
+      "thema": "Ein Cop außer Dienst",
+      "ziel": "Ich will wissen, wie die andere Person mich einschätzt.",
+      "preisgabe": [],
+      "text": "Kowalski, Sitte. War Sitte. Ich sehe sofort, wer hier etwas verbirgt. Und du, was verbirgst du?"
+    },
+    {
+      "id": "g_frank_2_2",
+      "rolle": "frank",
+      "runde": 2,
+      "nr": 2,
+      "partner": "viv",
+      "thema": "Der Wagen mit dem Licht",
+      "ziel": "Ich will wissen, was die andere Person von der Bühne aus gesehen hat.",
+      "preisgabe": [],
+      "text": "Du siehst von der Bühne den Parkplatz, Viv. Dann weißt du ja, dass ich immer im Wagen sitze."
+    },
+    {
+      "id": "g_frank_2_3",
+      "rolle": "frank",
+      "runde": 2,
+      "nr": 3,
+      "partner": "dale",
+      "thema": "Policen und Ehen",
+      "ziel": "Ich will wissen, ob die andere Person mich versichern will.",
+      "preisgabe": [],
+      "text": "Sagen Sie, Dale, brauche ich eine Police? Eine Ehe habe ich hinter mir, mehr kann ich nicht verlieren."
+    },
+    {
+      "id": "g_toby_2_1",
+      "rolle": "toby",
+      "runde": 2,
+      "nr": 1,
+      "partner": "dottie",
+      "thema": "Das Fax",
+      "ziel": "Ich will wissen, ob die andere Person das Fax kennt.",
+      "preisgabe": [
+        "beobachtung:b_toby_fax"
+      ],
+      "text": "Um 23:52 kam ein Fax für Lucky an. Die Dienstaufsicht in Miami lädt ihn für Montag als Zeugen vor. Hast du davon gehört?"
+    },
+    {
+      "id": "g_toby_2_2",
+      "rolle": "toby",
+      "runde": 2,
+      "nr": 2,
+      "partner": "dale",
+      "thema": "Zimmer 3 und Zimmer 6",
+      "ziel": "Ich will wissen, wer in welchem Zimmer wohnt.",
+      "preisgabe": [
+        "beobachtung:b_toby_zimmerliste"
+      ],
+      "text": "Frank wohnt in Zimmer 6, direkt neben Lucky. Und du hast Zimmer 3, Dale. Stimmt das so?"
+    },
+    {
+      "id": "g_toby_2_3",
+      "rolle": "toby",
+      "runde": 2,
+      "nr": 3,
+      "partner": "sol",
+      "thema": "Nur der Typ mit den Schlüsseln",
+      "ziel": "Ich will wissen, ob die andere Person mir glaubt.",
+      "preisgabe": [],
+      "text": "Ich hab nichts gemacht, Sol! Ich bin nur der Typ, der die Schlüssel ausgibt!"
+    },
+    {
+      "id": "g_marcy_2_1",
+      "rolle": "marcy",
+      "runde": 2,
+      "nr": 1,
+      "partner": "viv",
+      "thema": "Eine Reportage",
+      "ziel": "Ich will wissen, ob die andere Person noch etwas sagen möchte.",
+      "preisgabe": [],
+      "text": "Ich schreibe eine Reportage über dich, Viv. Willst du dem Publikum noch etwas sagen?"
+    },
+    {
+      "id": "g_marcy_2_2",
+      "rolle": "marcy",
+      "runde": 2,
+      "nr": 2,
+      "partner": "sol",
+      "thema": "Ein Kaffee",
+      "ziel": "Ich will wissen, wie lange die andere Person schon arbeitet.",
+      "preisgabe": [],
+      "text": "Einen Kaffee, schwarz. Und für meine Reportage: Wie lange stehst du schon hinter dieser Theke, Sol?"
+    },
+    {
+      "id": "g_marcy_2_3",
+      "rolle": "marcy",
+      "runde": 2,
+      "nr": 3,
+      "partner": "frank",
+      "thema": "Die Polizei im Hurrikan",
+      "ziel": "Ich will wissen, was die andere Person erzählen würde.",
+      "preisgabe": [],
+      "text": "Ein Cop außer Dienst im Hurrikan. Das ist eine Geschichte, Frank. Erzählst du sie mir?"
+    },
+    {
+      "id": "g_gus_2_1",
+      "rolle": "gus",
+      "runde": 2,
+      "nr": 1,
+      "partner": "dale",
+      "thema": "Ein Hausmeister sieht viel",
+      "ziel": "Ich will wissen, was die andere Person im Motel sucht.",
+      "preisgabe": [],
+      "text": "Ich gehe jede Nacht um das Motel und prüfe alles. Da sieht man so einiges. Und Sie, Dale, was suchen Sie hier?"
+    },
+    {
+      "id": "g_gus_2_2",
+      "rolle": "gus",
+      "runde": 2,
+      "nr": 2,
+      "partner": "frank",
+      "thema": "Licht im Wagen",
+      "ziel": "Ich will wissen, ob die andere Person mit mir redet.",
+      "preisgabe": [],
+      "text": "Auf dem Parkplatz brennt Licht in einem Wagen. Ich schaue da lieber nicht zu genau hin, Frank."
+    },
+    {
+      "id": "g_gus_2_3",
+      "rolle": "gus",
+      "runde": 2,
+      "nr": 3,
+      "partner": "toby",
+      "thema": "Wenn die Leitung geht",
+      "ziel": "Ich will wissen, was die andere Person gehört hat.",
+      "preisgabe": [],
+      "text": "Wenn die Leitung wieder geht, muss ich als Erster die Brücke prüfen. Was hast du gehört?"
+    },
+    {
+      "id": "g_dottie_2_1",
+      "rolle": "dottie",
+      "runde": 2,
+      "nr": 1,
+      "partner": "sol",
+      "thema": "Zehn Jahre zusammen",
+      "ziel": "Ich will wissen, wie es der anderen Person geht.",
+      "preisgabe": [],
+      "text": "Wir zwei halten seit zehn Jahren zusammen, Sol. Das ändert auch diese Nacht nicht."
+    },
+    {
+      "id": "g_dottie_2_2",
+      "rolle": "dottie",
+      "runde": 2,
+      "nr": 2,
+      "partner": "toby",
+      "thema": "Eine stille Nacht",
+      "ziel": "Ich will wissen, was die andere Person hört.",
+      "preisgabe": [],
+      "text": "Ich putze und höre nichts. Was hörst du in dieser Nacht?"
+    },
+    {
+      "id": "g_dottie_2_3",
+      "rolle": "dottie",
+      "runde": 2,
+      "nr": 3,
+      "partner": "marcy",
+      "thema": "Staub und Geschichten",
+      "ziel": "Ich will wissen, ob die andere Person mir etwas verrät.",
+      "preisgabe": [],
+      "text": "Wer viel fragt, wird viel belogen. Das habe ich in achtzehn Jahren gelernt."
+    }
+  ]
+}

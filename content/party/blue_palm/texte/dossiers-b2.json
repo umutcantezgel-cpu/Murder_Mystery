@@ -1,0 +1,137 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 5 bis 8 (Zeugen).",
+  "eintraege": [
+    {
+      "rolle": "toby",
+      "wer": "Du bist Toby Reyes, der Nachtportier des Blue Palm. Du bist neunzehn, Luckys Neffe, irgendwie, und trägst eine türkisfarbene Uniformjacke. Am Gürtel hängt dein Walkman, am Handgelenk eine Digitaluhr. Tagsüber übst du Gitarre und sparst auf einen Bus nach Nashville.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_toby_vermittlung"
+        },
+        {
+          "ref": "beobachtung:b_toby_fax"
+        },
+        {
+          "ref": "beobachtung:b_toby_zimmerliste"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_toby_dale_leitung"
+        },
+        {
+          "ref": "beobachtung:b_toby_dale_abbruch"
+        },
+        {
+          "text": "Gestern hast du mit Lucky um Geld gestritten. Er hat gesagt, für Nashville gebe es keinen Cent."
+        },
+        {
+          "ref": "nebendelikt:nd_busgeld"
+        },
+        {
+          "ref": "luege:luege_toby_empfang"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du Geld aus der Trinkgeldkasse genommen hast."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du Geld für den Bus aus der Trinkgeldkasse genommen hast.",
+      "besetzung": "Jede Person kann Toby spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "marcy",
+      "wer": "Du bist Marcy Ellison, Reporterin eines Lokalsenders aus Tampa. Wegen des Hurrikans bist du im Blue Palm gestrandet. Du trägst eine korallenrote Regenjacke und einen kleinen Kassettenrekorder am Gurt. Gerade schreibst du an einer Reportage über Viv und ihren alten Hit.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_marcy_auftritt"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_marcy_viv_buehne"
+        },
+        {
+          "ref": "beobachtung:b_marcy_viv_weg"
+        },
+        {
+          "ref": "beobachtung:b_marcy_mitschnitt"
+        },
+        {
+          "ref": "beobachtung:b_marcy_geruecht"
+        },
+        {
+          "ref": "nebendelikt:nd_mitschnitt"
+        },
+        {
+          "ref": "luege:luege_marcy_rekorder"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du heimlich mitgeschnitten hast."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du heimlich Gespräche im Motel mitgeschnitten hast.",
+      "besetzung": "Jede Person kann Marcy spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "gus",
+      "wer": "Du bist Gus Papadakis, seit zwölf Jahren Hausmeister im Blue Palm. Du bist breit und bärtig und trägst eine olivgrüne Latzhose, eine Schirmmütze und einen Hammer im Gürtel. Vor dem Hurrikan musst du alles sichern, und Sol hilft dir dabei.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_gus_laeden"
+        },
+        {
+          "text": "Du hast in den letzten Tagen alle Läden und Türen im Motel geprüft."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_gus_sol_haemmert"
+        },
+        {
+          "ref": "beobachtung:b_gus_sol_pause"
+        },
+        {
+          "ref": "beobachtung:b_gus_frank_leer"
+        },
+        {
+          "ref": "beobachtung:b_gus_frank_sitzt"
+        },
+        {
+          "text": "Am Nachmittag hast du ein Nickerchen gemacht, statt die Läden zu sichern. Darum hat Sol früh angefangen."
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du ein Nickerchen gemacht hast, statt die Läden zu sichern."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du am Nachmittag ein Nickerchen gemacht hast, statt die Läden zu sichern.",
+      "besetzung": "Jede Person kann Gus spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "dottie",
+      "wer": "Du bist Dottie Marsh und putzt seit achtzehn Jahren im Blue Palm. Du bist klein und rundlich, trägst einen sonnengelben Kittel und einen Schlüsselbund. Du kennst jedes Zimmer und jede Gewohnheit der Gäste.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_dottie_teppich"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_dottie_telefonat"
+        },
+        {
+          "ref": "beobachtung:b_dottie_zimmer3"
+        },
+        {
+          "ref": "luege:luege_dottie_klopfen"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du in Gästezimmer gehst, ohne zu klopfen."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du in Gästezimmer gehst, ohne zu klopfen.",
+      "besetzung": "Jede Person kann Dottie spielen, egal welches Geschlecht sie hat."
+    }
+  ]
+}

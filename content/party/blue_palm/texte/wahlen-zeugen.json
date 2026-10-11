@@ -1,0 +1,67 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der vier Zeugen.",
+  "eintraege": [
+    {
+      "id": "gw_toby_1",
+      "a": "Ich gestehe, dass ich 40 Dollar aus der Trinkgeldkasse genommen habe. Es war für den Bus.",
+      "b": "Von dem Geld sage ich nichts. Niemand soll erfahren, dass ich die Kasse angefasst habe."
+    },
+    {
+      "id": "gw_toby_2",
+      "a": "Ich sage dem Inspektor, dass Sol mit Lucky gestritten hat. Damit bringe ich sie in eine blöde Lage.",
+      "b": "Sol deckt mich, also decke ich sie. Dem Inspektor sage ich nichts."
+    },
+    {
+      "id": "gw_toby_3",
+      "a": "Ich sage es offen: Ich war kurz nach Mitternacht von der Rezeption weg und habe das Geld genommen.",
+      "b": "Ich schweige. Niemand soll von meinem Busgeld erfahren."
+    },
+    {
+      "id": "gw_marcy_1",
+      "a": "Ich gebe zu, dass mein Rekorder den ganzen Abend mitlief. Ich habe heimlich Gespräche aufgenommen.",
+      "b": "Von dem Rekorder sage ich nichts. Niemand soll erfahren, dass ich mitgeschnitten habe."
+    },
+    {
+      "id": "gw_marcy_2",
+      "a": "Ich spiele dem Inspektor ein Stück vom Band vor. Dann hören alle, was ich aufgenommen habe.",
+      "b": "Das Band bleibt in der Tasche. Meine Quellen verrate ich nicht."
+    },
+    {
+      "id": "gw_marcy_3",
+      "a": "Ich sage es offen: Mein Band hat mehr gehört, als es durfte.",
+      "b": "Ich halte dicht. Niemand soll erfahren, was auf meinem Band ist."
+    },
+    {
+      "id": "gw_gus_1",
+      "a": "Ich gestehe dem Inspektor, dass ich am Nachmittag ein Nickerchen gemacht habe. Sol musste die Läden allein anfangen.",
+      "b": "Vom Nickerchen sage ich nichts. Niemand soll glauben, dass ich meine Arbeit schleifen lasse."
+    },
+    {
+      "id": "gw_gus_2",
+      "a": "Ich sage dem Inspektor, dass Dottie in alle Zimmer geht, ohne zu klopfen. Damit bringe ich sie in eine blöde Lage.",
+      "b": "Dottie bringt mir Suppe, also halte ich zu ihr. Dem Inspektor sage ich nichts."
+    },
+    {
+      "id": "gw_gus_3",
+      "a": "Ich sage es offen: Ich habe am Nachmittag geschlafen, statt die Läden zu sichern.",
+      "b": "Ich schweige. Meine Arbeit soll nicht schlecht aussehen."
+    },
+    {
+      "id": "gw_dottie_1",
+      "a": "Ich gestehe, dass ich ohne Klopfen in Zimmer 3 gegangen bin. Das war nicht in Ordnung.",
+      "b": "Davon sage ich nichts. Niemand soll erfahren, dass ich ohne Klopfen eintrete."
+    },
+    {
+      "id": "gw_dottie_2",
+      "a": "Ich sage dem Inspektor, was ich vor Luckys Büro über Sol gehört habe. Damit bringe ich meine beste Freundin in eine blöde Lage.",
+      "b": "Sol und ich halten zusammen. Dem Inspektor sage ich dazu nichts."
+    },
+    {
+      "id": "gw_dottie_3",
+      "a": "Ich sage es offen: Ich habe in Zimmer 3 eine Police und viel Geld gesehen.",
+      "b": "Ich schweige. Ich will keine Gäste anschwärzen."
+    }
+  ]
+}

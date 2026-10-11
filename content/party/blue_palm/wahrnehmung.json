@@ -1,0 +1,83 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Die Akte Blue Palm hat keine physische Tatnacht-Simulation (fall.simulation ist false). Diese Datei trägt nur die Grundwerte, die der Kanon-Lader verlangt; Wege und Wahrnehmung werden hier nicht berechnet. Die Beobachtungen beruhen auf der Zeitleiste.",
+  "tempo": {
+    "dunkel": 1.0,
+    "hell": 1.5,
+    "rennen": 2.5,
+    "regel": "Gehen im Regen höchstens 1 m/s, bei Licht höchstens 1,5 m/s. Rennen höchstens 2,5 m/s und nie lautlos."
+  },
+  "licht": {
+    "voll": [
+      "elektrisch"
+    ],
+    "schwach": [
+      "lampe"
+    ],
+    "rest": [
+      "notlicht"
+    ],
+    "erkennenSchwachBis": 3.0,
+    "regel": "Sehen braucht Licht am Ziel. Bei Neonlicht erkennt man Personen im ganzen Raum, bei schwachem Licht nur bis 3 m."
+  },
+  "hoeren": {
+    "klassen": {
+      "sehr_laut": "im selben Raum und in jedem angrenzenden Raum hinter offener Tür",
+      "laut": "im selben Raum; im Nachbarraum nur bis 3 m von der offenen Tür",
+      "leise": "im selben Raum bis 3 m"
+    },
+    "tumult": {
+      "von": "00:14:00",
+      "bis": "00:16:00",
+      "raeume": [
+        "room7",
+        "pool",
+        "lobby"
+      ],
+      "lautBis": 3.0,
+      "leiseBis": 1.5,
+      "regel": "Im Prasseln des Regens hört man Lautes nur bis 3 m, Leises nur bis 1,5 m."
+    },
+    "zweiTueren": "Zwei Räume weiter oder hinter einer geschlossenen Tür hört man nichts Genaues.",
+    "schritte": {
+      "gehen": "leise",
+      "rennen": "laut"
+    },
+    "liegend": "Wer bewusstlos liegt, hört nichts.",
+    "bund": "Wer ein Notizbuch trägt, hält es fest an sich gedrückt."
+  },
+  "fuehlen": {
+    "bis": 1.0,
+    "regel": "Berührung bis 1 m."
+  },
+  "riechen": {
+    "nachwirkenSekunden": 90,
+    "regel": "Im selben Raum."
+  },
+  "haltungen": {
+    "steht": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "sitzt": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "liegt": {
+      "sieht": false,
+      "hoert": "nichts"
+    }
+  },
+  "abtastung": {
+    "sekunden": 1,
+    "matrixSchritt": 15,
+    "fenster": [
+      "00:10:00",
+      "00:20:00"
+    ],
+    "planFenster": [
+      "23:40:00",
+      "00:40:00"
+    ]
+  }
+}

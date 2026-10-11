@@ -1,0 +1,55 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung frank.",
+  "eintraege": [
+    {
+      "rolle": "frank",
+      "tarnung": "Du sagst: Ich habe die ganze Nacht im Wagen den Funk mitgeschrieben, nur den Wetterfunk, nichts Dienstliches. Von Lucky habe ich nie Geld genommen. Bleib kühl wie bei einem Verhör.",
+      "tatwissen": [
+        {
+          "text": "Lucky führt Buch über jeden Umschlag, den er dir gegeben hat. Das Buch ist seine Versicherung. Diese Woche hat er gesagt: Der Preis steigt. Die Dienstaufsicht wartet auf seine Aussage."
+        },
+        {
+          "text": "Um 0:05 steigst du aus dem Wagen. Das Licht lässt du brennen. Über das Pooldeck gehst du zu Zimmer 7 und trittst um 0:10 ein."
+        },
+        {
+          "text": "Lucky sagt dir ins Gesicht, das Buch bleibe bei ihm. In Panik greifst du den schweren Messingflamingo vom Fernseher. Dumpfes Poltern, das Licht flackert. Dann wird es still."
+        },
+        {
+          "ref": "spur:spur_fenster_frank"
+        },
+        {
+          "text": "Du nimmst das Notizbuch und lässt den Flamingo im Becken verschwinden. Das Buch versteckst du in deinem Kleiderschrank in Zimmer 6 unter der Wolldecke."
+        },
+        {
+          "ref": "spur:spur_kleiderschrank_notizbuch"
+        },
+        {
+          "text": "Um 0:25 sitzt du wieder im Wagen. Die Umschläge im Handschuhfach hast du dabei mit nassen Fingern berührt."
+        },
+        {
+          "ref": "spur:spur_fach_fasern"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_frank_umschlag"
+        },
+        {
+          "ref": "luege:luege_frank_funk"
+        },
+        {
+          "ref": "nebendelikt:nd_umschlaege"
+        },
+        {
+          "ref": "beobachtung:b_frank_funk_meldung"
+        },
+        {
+          "text": "Kommt es heraus, bist du für die Dienstaufsicht erledigt."
+        }
+      ],
+      "ziel": "Bleib unentdeckt, ohne einen Unschuldigen ins Unglück zu stürzen. Niemand soll von den Umschlägen erfahren."
+    }
+  ]
+}

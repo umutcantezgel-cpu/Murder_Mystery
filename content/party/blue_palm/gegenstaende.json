@@ -1,0 +1,489 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Gegenstände und Indizien. Lage = wo der Gegenstand während der Ermittlungsrunden ist; sie ist in allen Pfaden gleich (Regel K-1), außer beim versteckten Notizbuch. Jede Spur nennt, in welchem Pfad sie entsteht (entstehtWenn: immer oder eine Pfadliste), was sie dort zeigt und was in den anderen Pfaden zu sehen ist (harmlos). Das Notizbuch ist nie ein Kartenmarker; seine vier möglichen Verstecke gibt es in allen Pfaden als gleiche Untersuchungsziele. Die violetten Teppichfasern stammen vom nassen Teppich in Zimmer 7 und kleben nur am Besitz der Täterperson.",
+  "gegenstaende": [
+    {
+      "id": "notizbuch",
+      "name": "Luckys schwarzes Notizbuch",
+      "beschreibung": "Luckys schwarzes Notizbuch. Darin stehen die Geheimnisse des Motels: Umschläge, Bänder, Prämien und Schulden. Bis kurz vor Mitternacht lag es auf dem Nachttisch in Zimmer 7.",
+      "lage": {
+        "versteckt": true
+      },
+      "sichtbar": false,
+      "versteckJePfad": {
+        "viv": {
+          "einrichtung": "muellcontainer",
+          "ort": "am_muellcontainer",
+          "stelle": "im nassen Badetuch zwischen den Müllsäcken"
+        },
+        "dale": {
+          "einrichtung": "telefonzelle",
+          "ort": "an_der_telefonzelle",
+          "stelle": "im Münzfach, in eine Zeitung gewickelt"
+        },
+        "sol": {
+          "einrichtung": "waescheschrank",
+          "ort": "am_waescheschrank",
+          "stelle": "unter den Betttüchern"
+        },
+        "frank": {
+          "einrichtung": "kleiderschrank_6",
+          "ort": "am_kleiderschrank_6",
+          "stelle": "unter der Wolldecke"
+        }
+      }
+    },
+    {
+      "id": "muellcontainer",
+      "name": "Müllcontainer hinter dem Parkplatz",
+      "beschreibung": "Der große grüne Müllcontainer am Ende des Parkplatzes. Der Regen hat die Säcke durchnässt.",
+      "lage": {
+        "einrichtung": "muellcontainer",
+        "ort": "am_muellcontainer",
+        "stelle": "am Ende des Parkplatzes"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_container_notizbuch",
+          "stelle": "zwischen den Müllsäcken",
+          "entstehtWenn": {
+            "pfade": [
+              "viv"
+            ]
+          },
+          "zeigt": "Zwischen den Müllsäcken liegt ein nasses Badetuch. Darin stecken Luckys schwarzes Notizbuch und ein abisoliertes Kabel.",
+          "harmlos": "Im Container liegen Müllsäcke und nasse Pappe.",
+          "rolle": {
+            "viv": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "telefonzelle",
+      "name": "Telefonzelle auf dem Parkplatz",
+      "beschreibung": "Die Telefonzelle auf dem Parkplatz. Wenn die Zimmerleitung tot ist, ruft man von hier an.",
+      "lage": {
+        "einrichtung": "telefonzelle",
+        "ort": "an_der_telefonzelle",
+        "stelle": "auf dem Parkplatz"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_zelle_notizbuch",
+          "stelle": "im Münzfach",
+          "entstehtWenn": {
+            "pfade": [
+              "dale"
+            ]
+          },
+          "zeigt": "Im Münzfach der Telefonzelle klemmt Luckys schwarzes Notizbuch, in eine Zeitung gewickelt.",
+          "harmlos": "Im Münzfach der Telefonzelle liegt Kleingeld.",
+          "rolle": {
+            "dale": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "waescheschrank",
+      "name": "Wäscheschrank in der Waschküche",
+      "beschreibung": "Der Wäscheschrank in der Waschküche hinter der Lounge. Betttücher und Handtücher liegen in hohen Stapeln.",
+      "lage": {
+        "einrichtung": "waescheschrank",
+        "ort": "am_waescheschrank",
+        "stelle": "an der Nordwand der Waschküche"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_schrank_notizbuch",
+          "stelle": "unter den Betttüchern",
+          "entstehtWenn": {
+            "pfade": [
+              "sol"
+            ]
+          },
+          "zeigt": "Unter den Betttüchern im Wäscheschrank liegt Luckys schwarzes Notizbuch. Daneben steht eine Teetasse mit einem weißlichen Rest.",
+          "harmlos": "Im Wäscheschrank liegen frisch gefaltete Betttücher und Handtücher.",
+          "rolle": {
+            "sol": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kleiderschrank_6",
+      "name": "Kleiderschrank in Zimmer 6",
+      "beschreibung": "Der Kleiderschrank in Zimmer 6, direkt neben Luckys Zimmer. Hier wohnt Frank.",
+      "lage": {
+        "einrichtung": "kleiderschrank_6",
+        "ort": "am_kleiderschrank_6",
+        "stelle": "an der Nordwand von Zimmer 6"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_kleiderschrank_notizbuch",
+          "stelle": "unter der Wolldecke",
+          "entstehtWenn": {
+            "pfade": [
+              "frank"
+            ]
+          },
+          "zeigt": "Im Kleiderschrank liegt Luckys schwarzes Notizbuch unter einer Wolldecke. Auf der Decke kleben rosa Lackflecken.",
+          "harmlos": "Im Kleiderschrank hängen leere Bügel, und eine Wolldecke liegt am Boden.",
+          "rolle": {
+            "frank": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aktenkoffer",
+      "name": "Dales Aktenkoffer",
+      "beschreibung": "Dales brauner Aktenkoffer. Er trägt ihn überall hin und lässt ihn nie aus der Hand.",
+      "lage": {
+        "traeger": "dale",
+        "stelle": "in Dales Hand"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_koffer_police",
+          "stelle": "Innenfach",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Innenfach steckt eine Police auf Lucky ohne Stempel der Gesellschaft. Daneben liegt ein Umschlag mit Luckys Prämie in Scheinen. Darauf angesprochen gibt Dale zu: Er hat die Prämie behalten.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_praemie",
+          "widerlegt": [
+            "luege_dale_praemie",
+            "luege_dale_police"
+          ]
+        },
+        {
+          "id": "spur_koffer_fasern",
+          "stelle": "Griff",
+          "entstehtWenn": {
+            "pfade": [
+              "dale"
+            ]
+          },
+          "zeigt": "Am Griff des Aktenkoffers kleben violette Teppichfasern.",
+          "harmlos": "Am Griff des Aktenkoffers klebt etwas Staub.",
+          "rolle": {
+            "dale": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "handschuhfach",
+      "name": "Franks Handschuhfach",
+      "beschreibung": "Das Handschuhfach in Franks Wagen auf dem Parkplatz. Frank legt oft die Hand darauf.",
+      "lage": {
+        "einrichtung": "franks_wagen",
+        "ort": "am_franks_wagen",
+        "stelle": "im Wagen auf dem Parkplatz"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_fach_umschlaege",
+          "stelle": "Fach",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Handschuhfach stecken sieben Umschläge mit Luckys Handschrift. Sechs sind leer, einer enthält Geld. Darauf angesprochen gibt Frank zu: Er hat über Jahre Umschläge von Lucky genommen.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_umschlaege",
+          "widerlegt": [
+            "luege_frank_umschlag"
+          ]
+        },
+        {
+          "id": "spur_fach_fasern",
+          "stelle": "Umschlag",
+          "entstehtWenn": {
+            "pfade": [
+              "frank"
+            ]
+          },
+          "zeigt": "Am obersten Umschlag kleben violette Teppichfasern.",
+          "harmlos": "Auf dem obersten Umschlag ist ein Fettfleck.",
+          "rolle": {
+            "frank": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kassettentasche",
+      "name": "Vivs Kassettentasche",
+      "beschreibung": "Vivs Kassettentasche am Klavier. Sie nimmt sie zu jedem Auftritt mit.",
+      "lage": {
+        "einrichtung": "klavier",
+        "ort": "am_klavier",
+        "stelle": "neben dem Klavier"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_baender_da",
+          "stelle": "Fach",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "In der Kassettentasche liegen zwei alte Masterbänder mit Luckys Archivnummer. Auf dem Etikett steht „V. LaRue, 1979“. Darauf angesprochen gibt Viv zu: Sie hat die Bänder aus Luckys Kassettenregal genommen.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_baender",
+          "widerlegt": [
+            "luege_viv_baender"
+          ]
+        },
+        {
+          "id": "spur_tasche_fasern",
+          "stelle": "Reißverschluss",
+          "entstehtWenn": {
+            "pfade": [
+              "viv"
+            ]
+          },
+          "zeigt": "Am Reißverschluss der Tasche kleben violette Teppichfasern.",
+          "harmlos": "Am Reißverschluss der Tasche hängt ein loser Faden.",
+          "rolle": {
+            "viv": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "schuerze_sol",
+      "name": "Sols Schürze",
+      "beschreibung": "Sols violette Diner-Schürze mit der großen Tasche vorn.",
+      "lage": {
+        "traeger": "sol",
+        "stelle": "um Sols Hüfte"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_schuerze_geld",
+          "stelle": "Tasche",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "In der Schürzentasche steckt ein Bündel Scheine, dazu ein Zettel. Darauf steht: „Geliehen von Sol.“ Darauf angesprochen gibt Sol zu: Sie hat sich 300 Dollar aus der Kasse genommen.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_kasse",
+          "widerlegt": [
+            "luege_sol_kasse"
+          ]
+        },
+        {
+          "id": "spur_schuerze_fasern",
+          "stelle": "Schürzenband",
+          "entstehtWenn": {
+            "pfade": [
+              "sol"
+            ]
+          },
+          "zeigt": "Am Schürzenband kleben violette Teppichfasern.",
+          "harmlos": "Am Schürzenband hängt ein Fussel.",
+          "rolle": {
+            "sol": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "jukebox",
+      "name": "Jukebox in der Lounge",
+      "beschreibung": "Die rosa Jukebox in der Lounge. Bei Stromschwankungen spielt sie von allein.",
+      "lage": {
+        "einrichtung": "jukebox",
+        "ort": "an_der_jukebox",
+        "stelle": "an der Westwand der Lounge"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_jukebox_spielt",
+          "stelle": "Stecker",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Die Jukebox spielt dreimal dasselbe Lied. Der Stecker sitzt locker in der Wand.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nachttisch_7",
+      "name": "Nachttisch in Zimmer 7",
+      "beschreibung": "Der Nachttisch neben Luckys Bett in Zimmer 7.",
+      "lage": {
+        "einrichtung": "nachttisch_7",
+        "ort": "am_nachttisch_7",
+        "stelle": "neben dem Bett"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_nachttisch_leer",
+          "stelle": "Platte",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Auf dem Nachttisch liegen Luckys Lesebrille und ein Glas Wasser. Im Staub ist ein heller Fleck, wo ein Buch lag. Der Teppich ringsum ist violett und feucht.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ring_viv",
+      "name": "Vivs breiter Goldring",
+      "beschreibung": "Ein breiter, glatter Goldring an Vivs rechter Hand.",
+      "lage": {
+        "traeger": "viv",
+        "stelle": "an Vivs rechter Hand"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_ring_kupfer",
+          "stelle": "Kerbe",
+          "entstehtWenn": {
+            "pfade": [
+              "viv"
+            ]
+          },
+          "zeigt": "In einer Kerbe des Rings steckt ein haarfeiner Kupferdraht, wie aus einem abisolierten Kabel.",
+          "harmlos": "In einer Kerbe des Rings stecken Bühnenpuder und etwas Glitzer.",
+          "rolle": {
+            "viv": "schluesselbeweis"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fenster_7",
+      "name": "Fenster in Zimmer 7",
+      "beschreibung": "Das Fenster zum Pooldeck in Zimmer 7. Die Scheibe ist von innen beschlagen.",
+      "lage": {
+        "ort": "am_fenster_7",
+        "stelle": "an der Südwand von Zimmer 7"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_fenster_beschlagen",
+          "stelle": "Scheibe",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Die Scheibe ist von innen beschlagen. Draußen trommelt der Regen gegen das Glas.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        },
+        {
+          "id": "spur_fenster_dale",
+          "stelle": "Fensterbank",
+          "entstehtWenn": {
+            "pfade": [
+              "dale"
+            ]
+          },
+          "zeigt": "Im Puder auf der Fensterbank steht der Absatz eines Cowboystiefels. Am Rahmen klebt der Abdruck einer Hand mit Tattoo auf dem Handrücken.",
+          "harmlos": "Auf der Fensterbank liegt etwas Puder.",
+          "rolle": {
+            "dale": "schluesselbeweis"
+          }
+        },
+        {
+          "id": "spur_fenster_sol",
+          "stelle": "Fenstergriff",
+          "entstehtWenn": {
+            "pfade": [
+              "sol"
+            ]
+          },
+          "zeigt": "Am Fenstergriff klebt der Abdruck einer Hand mit Tattoo am Handgelenk. Auf dem Teppich darunter drückt sich ein dünner Absatz ab.",
+          "harmlos": "Der Fenstergriff ist feucht vom Regen.",
+          "rolle": {
+            "sol": "schluesselbeweis"
+          }
+        },
+        {
+          "id": "spur_fenster_frank",
+          "stelle": "Vorhang",
+          "entstehtWenn": {
+            "pfade": [
+              "frank"
+            ]
+          },
+          "zeigt": "Am Vorhang klebt der Abdruck einer Hand mit breitem Ehering. Im nassen Puder davor steht der Absatz eines Cowboystiefels.",
+          "harmlos": "Der Vorhang ist nass und hängt schief.",
+          "rolle": {
+            "frank": "schluesselbeweis"
+          }
+        }
+      ]
+    }
+  ],
+  "nebendelikte": [
+    {
+      "id": "nd_baender",
+      "person": "viv",
+      "text": "Hat zwei alte Masterbänder aus Luckys Kassettenregal genommen.",
+      "duText": "Du hast zwei alte Masterbänder aus Luckys Kassettenregal genommen."
+    },
+    {
+      "id": "nd_praemie",
+      "person": "dale",
+      "text": "Hat Luckys Prämie in Scheinen angenommen und nicht an die Gesellschaft weitergegeben.",
+      "duText": "Du hast Luckys Prämie in Scheinen angenommen und nicht an die Gesellschaft weitergegeben."
+    },
+    {
+      "id": "nd_kasse",
+      "person": "sol",
+      "text": "Hat sich 300 Dollar aus der Kasse genommen und einen Zettel hineingelegt.",
+      "duText": "Du hast dir 300 Dollar aus der Kasse genommen und einen Zettel hineingelegt."
+    },
+    {
+      "id": "nd_umschlaege",
+      "person": "frank",
+      "text": "Hat über Jahre Umschläge mit Geld von Lucky angenommen.",
+      "duText": "Du hast über Jahre Umschläge mit Geld von Lucky angenommen."
+    },
+    {
+      "id": "nd_busgeld",
+      "person": "toby",
+      "text": "Hat 40 Dollar aus der Trinkgeldkasse für den Bus nach Nashville genommen.",
+      "duText": "Du hast 40 Dollar aus der Trinkgeldkasse für den Bus nach Nashville genommen."
+    },
+    {
+      "id": "nd_mitschnitt",
+      "person": "marcy",
+      "text": "Hat heimlich Gespräche im Motel mit ihrem Kassettenrekorder mitgeschnitten.",
+      "duText": "Du hast heimlich Gespräche im Motel mit deinem Kassettenrekorder mitgeschnitten."
+    }
+  ]
+}

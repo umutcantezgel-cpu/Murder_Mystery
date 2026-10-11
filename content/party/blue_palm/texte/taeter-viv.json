@@ -1,0 +1,55 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung viv.",
+  "eintraege": [
+    {
+      "rolle": "viv",
+      "tarnung": "Du sagst: Ich stand heute Abend die ganze Zeit auf der Bühne, wie jeden Freitag. Marcy hat mich doch gesehen. Von Lucky habe ich nie Bänder angefasst. Bleib ruhig und charmant, wie auf der Bühne.",
+      "tatwissen": [
+        {
+          "text": "Heute Nachmittag hat Lucky dir gesagt, der Preis für sein Schweigen steige. Zwei alte Masterbänder hast du schon aus seinem Regal genommen, aber das reicht nicht."
+        },
+        {
+          "text": "Um 23:55 gehst du durch die Seitentür von der Bühne. Im Rekorder läuft ein altes Band vom Vorjahr weiter. Wer genau hinsieht, merkt, dass die Bühne leer ist."
+        },
+        {
+          "text": "Im Regen wartest du unter dem Fenster von Zimmer 7. Um 0:10 gehst du durch die Tür vom Pooldeck hinein. Lucky sagt dir ins Gesicht: Der Preis steigt, und das Notizbuch bleibt bei ihm."
+        },
+        {
+          "text": "Neben dem nassen Teppich liegt ein abisoliertes Kabel. Du greifst danach, und das Neonlicht flackert. Dann wird es still. Du nimmst das Notizbuch."
+        },
+        {
+          "ref": "spur:spur_ring_kupfer"
+        },
+        {
+          "text": "Du wickelst Kabel und Notizbuch in ein nasses Badetuch. Am Müllcontainer wirfst du das Bündel zwischen die Säcke."
+        },
+        {
+          "ref": "spur:spur_container_notizbuch"
+        },
+        {
+          "text": "Auf dem Rückweg streifst du mit deiner Kassettentasche an der nassen Tür entlang. Um 0:25 stehst du wieder auf der Bühne und singst live weiter."
+        },
+        {
+          "ref": "spur:spur_tasche_fasern"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_viv_baender"
+        },
+        {
+          "ref": "luege:luege_viv_hit"
+        },
+        {
+          "ref": "nebendelikt:nd_baender"
+        },
+        {
+          "text": "Kommt es heraus, erfährt ganz Florida, dass du den Hit nie selbst gesungen hast."
+        }
+      ],
+      "ziel": "Bleib unentdeckt, ohne einen Unschuldigen ins Unglück zu stürzen. Niemand soll von deinem Hit und den Bändern erfahren."
+    }
+  ]
+}

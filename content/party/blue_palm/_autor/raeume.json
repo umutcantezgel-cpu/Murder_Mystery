@@ -1,0 +1,140 @@
+{
+  "hinweis": "Autoren-Overlay für raeume.json der Akte Blue Palm. Karte, Räume, Türen, Möbel und Standorte erzeugt der Konverter packages/mordakte_core/bin/akte_klassik_blue_palm.dart mechanisch aus content/scenarios/blue_palm.json; hier stehen nur Namen und Texte.",
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l)",
+  "raeume": {
+    "office": {
+      "anzeigename": "Luckys Büro",
+      "features": ["Schreibtisch mit Anrufbeantworter", "Wandtresor", "Aktenschrank", "Standuhr"],
+      "beschreibung": "Das Büro hinter der Rezeption. Ein Schreibtisch, ein Wandtresor und ein Fernseher mit Rauschen. Hier hat Lucky seine Geschäfte erledigt."
+    },
+    "room6": {
+      "anzeigename": "Zimmer 6",
+      "features": ["Bett", "Kleiderschrank", "Koffer", "Bad"],
+      "beschreibung": "Ein Gästezimmer direkt neben Luckys Zimmer. Das Bett ist grün bezogen, im Kleiderschrank liegt eine Wolldecke."
+    },
+    "room7": {
+      "anzeigename": "Zimmer 7",
+      "features": ["Bett", "Nachttisch", "Badewanne", "Fenster zum Pooldeck", "nasser Teppich"],
+      "beschreibung": "Luckys Zimmer. Der violette Teppich ist vom Regen am Fenster durchnässt. Der Fernseher zeigt nur noch Rauschen."
+    },
+    "laundry": {
+      "anzeigename": "Waschküche",
+      "features": ["Waschmaschine", "Wäschetrockner", "Wäscheschrank", "Bügeltisch"],
+      "beschreibung": "Die Waschküche des Motels hinter der Lounge. Es riecht nach Seife und warmer Wäsche, und ein Notlicht brennt."
+    },
+    "lobby": {
+      "anzeigename": "Rezeption",
+      "features": ["Empfangstheke mit Vermittlung", "Faxgerät", "Neonschild", "Sofas", "Limonadenautomat"],
+      "beschreibung": "Die Lobby des Blue Palm mit dem rosa Neonschild. Hinter der Empfangstheke sitzt der Nachtportier an der Telefonvermittlung. Ein Notstrom-Aggregat brummt."
+    },
+    "pool": {
+      "anzeigename": "Pooldeck",
+      "features": ["Becken mit Skimmer", "Sonnenliegen", "Palmen", "Tür zu Zimmer 6 und 7"],
+      "beschreibung": "Das Pooldeck unter freiem Himmel. Regen trommelt auf die Fliesen, und das Wetterleuchten färbt das Becken violett."
+    },
+    "diner": {
+      "anzeigename": "Diner & Lounge",
+      "features": ["Theke mit Hockern", "Jukebox", "Klavier mit Bühne", "Kassettenregal", "Tisch vor der Bühne"],
+      "beschreibung": "Der Diner mit der Lounge. Vorn die Theke, hinten die kleine Bühne mit dem Klavier. Freitags singt hier Viv."
+    },
+    "parking": {
+      "anzeigename": "Parkplatz",
+      "features": ["Telefonzelle", "Müllcontainer", "Autos", "Palmen", "Öllache"],
+      "beschreibung": "Der lange Parkplatz vor dem Motel. Pfützen, nasse Palmen und ein paar Autos. Hier steht Franks Wagen, und das Licht im Wagen brennt die ganze Nacht."
+    }
+  },
+  "tueren": {
+    "office_lobby": {"name": "Bürotür", "art": "Holztür mit Sicherheitsschloss", "zustand": "angelehnt", "quietscht": false},
+    "room6_pool": {"name": "Tür von Zimmer 6", "art": "Tür mit Fliegengitter zum Pooldeck", "zustand": "offen", "quietscht": false},
+    "room7_pool": {"name": "Tür von Zimmer 7", "art": "Tür mit Fliegengitter zum Pooldeck", "zustand": "offen", "quietscht": false},
+    "laundry_diner": {"name": "Tür zur Waschküche", "art": "Holztür", "zustand": "offen", "quietscht": false},
+    "lobby_pool": {"name": "Glastür zum Pooldeck", "art": "Glastür", "zustand": "offen", "quietscht": false},
+    "pool_diner": {"name": "Seitentür zur Lounge", "art": "Holztür", "zustand": "offen", "quietscht": false},
+    "lobby_parking": {"name": "Eingangstür der Rezeption", "art": "Glastür mit Klingel", "zustand": "offen", "quietscht": false},
+    "pool_parking": {"name": "Tor zum Parkplatz", "art": "zweiflügeliges Gittertor", "zustand": "offen", "quietscht": false},
+    "diner_parking": {"name": "Hintertür des Diners", "art": "Stahltür", "zustand": "offen", "quietscht": false}
+  },
+  "einrichtung": {
+    "1,1": {"id": "aktenschrank_buero", "name": "Aktenschrank im Büro"},
+    "5,1": {"id": "standuhr_buero", "name": "Standuhr im Büro"},
+    "6,1": {"id": "wandtresor", "name": "Wandtresor"},
+    "4,2": {"id": "stuhl_buero", "name": "Stuhl am Schreibtisch"},
+    "3,3": {"id": "schreibtisch", "name": "Luckys Schreibtisch"},
+    "4,3": {"id": "schreibtisch_2", "name": "Schreibtisch mit Anrufbeantworter"},
+    "6,3": {"id": "fernseher_buero", "name": "Fernseher im Büro"},
+    "13,1": {"id": "kleiderschrank_6", "name": "Kleiderschrank in Zimmer 6"},
+    "12,3": {"id": "bett_6", "name": "Bett in Zimmer 6"},
+    "15,1": {"id": "kleiderschrank_7", "name": "Kleiderschrank in Zimmer 7"},
+    "16,3": {"id": "bett_7", "name": "Bett in Zimmer 7"},
+    "15,3": {"id": "nachttisch_7", "name": "Nachttisch in Zimmer 7"},
+    "20,1": {"id": "badewanne_7", "name": "Badewanne in Zimmer 7"},
+    "22,1": {"id": "waescheschrank", "name": "Wäscheschrank"},
+    "23,1": {"id": "trockner", "name": "Wäschetrockner"},
+    "24,1": {"id": "waschmaschine", "name": "Waschmaschine"},
+    "27,3": {"id": "buegeltisch", "name": "Bügeltisch"},
+    "4,9": {"id": "empfangstheke_1", "name": "Empfangstheke"},
+    "5,9": {"id": "empfangstheke_2", "name": "Empfangstheke mit Vermittlung"},
+    "6,9": {"id": "faxgeraet", "name": "Faxgerät auf der Empfangstheke"},
+    "1,7": {"id": "limoautomat", "name": "Limonadenautomat"},
+    "2,7": {"id": "neonschild_lobby", "name": "Neonschild der Rezeption"},
+    "11,16": {"id": "telefonzelle", "name": "Telefonzelle"},
+    "28,20": {"id": "muellcontainer", "name": "Müllcontainer"},
+    "19,19": {"id": "franks_wagen", "name": "Franks Wagen"},
+    "27,12": {"id": "klavier", "name": "Klavier mit Kassettenrekorder"},
+    "22,12": {"id": "jukebox", "name": "Jukebox"},
+    "28,7": {"id": "kassettenregal", "name": "Kassettenregal in der Lounge"},
+    "23,9": {"id": "diner_theke_1", "name": "Theke im Diner"},
+    "24,9": {"id": "diner_theke_2", "name": "Theke im Diner"},
+    "25,9": {"id": "diner_theke_3", "name": "Theke im Diner"},
+    "26,9": {"id": "diner_theke_4", "name": "Theke im Diner"},
+    "23,10": {"id": "hocker_1", "name": "Hocker an der Theke"},
+    "24,10": {"id": "hocker_2", "name": "Hocker an der Theke"},
+    "25,10": {"id": "hocker_3", "name": "Hocker an der Theke"},
+    "26,10": {"id": "hocker_4", "name": "Hocker an der Theke"},
+    "24,12": {"id": "lounge_tisch", "name": "Tisch vor der Bühne"},
+    "24,13": {"id": "lounge_sessel", "name": "Sessel vor der Bühne"},
+    "10,9": {"id": "sonnenliege_1", "name": "Sonnenliege"},
+    "19,9": {"id": "sonnenliege_2", "name": "Sonnenliege"},
+    "19,12": {"id": "sonnenliege_3", "name": "Sonnenliege"},
+    "10,12": {"id": "sonnenliege_4", "name": "Sonnenliege"}
+  },
+  "orte": {
+    "h_body": {"id": "am_toten", "name": "beim Toten in Zimmer 7"},
+    "h_blood7": {"id": "am_bett_7", "name": "neben dem Bett in Zimmer 7"},
+    "h_bath7": {"id": "im_bad_7", "name": "im Bad von Zimmer 7"},
+    "h_nightstand7": {"id": "am_nachttisch_7", "name": "am Nachttisch in Zimmer 7"},
+    "h_sill7": {"id": "unter_fenster_7", "name": "unter dem Fenster von Zimmer 7"},
+    "h_poolsteps": {"id": "am_beckenrand", "name": "am Beckenrand"},
+    "h_lounger": {"id": "an_der_sonnenliege", "name": "an der Sonnenliege"},
+    "h_skimmer": {"id": "am_skimmer", "name": "am Skimmer des Beckens"},
+    "h_jukebox": {"id": "an_der_jukebox", "name": "an der Jukebox"},
+    "h_recorder": {"id": "am_klavier", "name": "am Klavier mit dem Rekorder"},
+    "h_dryer": {"id": "am_trockner", "name": "am Wäschetrockner"},
+    "h_lab": {"id": "am_buegeltisch", "name": "am Bügeltisch"},
+    "h_linen": {"id": "am_waescheschrank", "name": "am Wäscheschrank"},
+    "h_wardrobe6": {"id": "am_kleiderschrank_6", "name": "am Kleiderschrank in Zimmer 6"},
+    "h_booth": {"id": "an_der_telefonzelle", "name": "an der Telefonzelle"},
+    "h_fax": {"id": "am_faxgeraet", "name": "am Faxgerät"},
+    "h_desk": {"id": "am_schreibtisch", "name": "an Luckys Schreibtisch"},
+    "h_safe": {"id": "am_wandtresor", "name": "am Wandtresor"},
+    "h_dumpster": {"id": "am_muellcontainer", "name": "am Müllcontainer"},
+    "h_oil": {"id": "an_der_oellache", "name": "an der Öllache"},
+    "h_franks_car": {"id": "am_franks_wagen", "name": "an Franks Wagen"}
+  },
+  "orteExtra": [
+    {"id": "am_fenster_7", "name": "am Fenster von Zimmer 7", "x": 16, "y": 5},
+    {"id": "am_kassettenregal", "name": "am Kassettenregal in der Lounge", "x": 28, "y": 8}
+  ],
+  "lichtquellen": {
+    "lobby": {
+      "id": "licht_lobby",
+      "art": "lampe",
+      "name": "Notstrom-Licht und rosa Neonschild in der Rezeption",
+      "an": [["18:00", "07:00"]],
+      "hinweis": "Die Rezeption ist der Schutzraum des Motels: Das Aggregat hält das Licht auch bei Stromausfall."
+    }
+  },
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören: Räume mit einer gemeinsamen Tür sind Nachbarn. Das Hämmern am Pool hört man bis in die Lounge, das Flackern bemerkt das ganze Motel."
+  }
+}

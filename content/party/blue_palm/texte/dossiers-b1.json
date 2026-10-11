@@ -1,0 +1,143 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 1 bis 4 (Kernrollen).",
+  "eintraege": [
+    {
+      "rolle": "viv",
+      "wer": "Du bist Viv LaRue, die Lounge-Sängerin des Blue Palm. 1979 hattest du einen Hit, der im Radio noch manchmal läuft. Freitags singst du für ein Zimmer, Limonade und Trinkgeld. Man erkennt dich an den blonden Locken, dem magentafarbenen Paillettenkleid und dem breiten Goldring an der rechten Hand.",
+      "weiss": [
+        {
+          "text": "Um 21:00 hast du deinen Auftritt in der Lounge begonnen. Marcy sitzt mit Notizblock vor der Bühne."
+        },
+        {
+          "ref": "beobachtung:b_viv_wagen_licht"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Heute Nachmittag hat Lucky dir gesagt: Der Preis für sein Schweigen über deinen Hit steigt."
+        },
+        {
+          "ref": "beobachtung:b_viv_buehne"
+        },
+        {
+          "ref": "nebendelikt:nd_baender"
+        },
+        {
+          "ref": "luege:luege_viv_baender"
+        },
+        {
+          "ref": "luege:luege_viv_hit"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du den Hit von 1979 nie selbst gesungen hast."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du den Hit von 1979 nie selbst gesungen hast.",
+      "besetzung": "Jede Person kann Viv spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "dale",
+      "wer": "Du bist Dale Whitmore, Versicherungsvertreter der Gulf Coast Mutual. Du trägst einen mintgrünen Pastellanzug, Cowboystiefel und einen braunen Aktenkoffer. Auf deinem Handrücken sitzt ein kleiner Anker als Tattoo. Vor drei Wochen hast du Lucky eine Lebensversicherung verkauft.",
+      "weiss": [
+        {
+          "text": "Du wohnst in Zimmer 3 und führst heute Abend ein Ferngespräch nach Houston."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Die Police auf Lucky lautet über 250.000 Dollar, doppelt bei Unfalltod. Du hast Kundengelder verspielt und brauchst dringend Geld. Als Begünstigten hast du dich heimlich selbst eingetragen."
+        },
+        {
+          "ref": "beobachtung:b_dale_telefoniert"
+        },
+        {
+          "ref": "beobachtung:b_dale_leitung_tot"
+        },
+        {
+          "ref": "nebendelikt:nd_praemie"
+        },
+        {
+          "ref": "luege:luege_dale_praemie"
+        },
+        {
+          "ref": "luege:luege_dale_police"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass Luckys Police nie bei der Gesellschaft angekommen ist."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass Luckys Police nie bei der Gesellschaft angekommen ist.",
+      "besetzung": "Jede Person kann Dale spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "sol",
+      "wer": "Du bist Sol Vega und stehst seit zehn Jahren hinter Luckys Theke. Du kennst jeden Gast, jedes Getränk und jede Ausrede im Blue Palm. Man erkennt dich an der violetten Schürze, dem dunklen Dutt und dem Rosen-Tattoo am Handgelenk.",
+      "weiss": [
+        {
+          "text": "Du hältst die Pfannen im Diner bis zum Morgen warm. Um 22:40 hast du den Stecker der Jukebox gezogen."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_sol_haemmert"
+        },
+        {
+          "ref": "beobachtung:b_sol_zimmernummer"
+        },
+        {
+          "text": "Lucky hat dir versprochen, dass das Motel einmal deins wird. Deine Ersparnisse stecken darin, nur mit Handschlag."
+        },
+        {
+          "ref": "nebendelikt:nd_kasse"
+        },
+        {
+          "ref": "luege:luege_sol_kasse"
+        },
+        {
+          "ref": "luege:luege_sol_nachmittag"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du Geld aus der Kasse genommen hast."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du Geld aus der Kasse genommen hast.",
+      "besetzung": "Jede Person kann Sol spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "frank",
+      "wer": "Du bist Frank Kowalski, zwölf Jahre bei der Sitte in Miami und jetzt suspendiert. Du bist groß, trägst eine beige Windjacke und Cowboystiefel und kaust Kaugummi. Am Finger steckt der Ehering einer Ehe, die es nicht mehr gibt. Dein Wagen steht auf dem Parkplatz.",
+      "weiss": [
+        {
+          "text": "Du wohnst in Zimmer 6, direkt neben Lucky. Das Licht in deinem Wagen brennt die ganze Nacht."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Lucky hatte für jeden Cop im County einen Umschlag, auch für dich. Diese Woche hat er gesagt: Der Preis steigt."
+        },
+        {
+          "ref": "beobachtung:b_frank_wagen"
+        },
+        {
+          "ref": "beobachtung:b_frank_funk_meldung"
+        },
+        {
+          "ref": "nebendelikt:nd_umschlaege"
+        },
+        {
+          "ref": "luege:luege_frank_umschlag"
+        },
+        {
+          "ref": "luege:luege_frank_funk"
+        },
+        {
+          "text": "Du schweigst, weil niemand erfahren soll, dass du Umschläge von Lucky genommen hast."
+        }
+      ],
+      "ziel": "Niemand soll erfahren, dass du Umschläge von Lucky genommen hast.",
+      "besetzung": "Jede Person kann Frank spielen, egal welches Geschlecht sie hat."
+    }
+  ]
+}

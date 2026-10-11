@@ -1,0 +1,75 @@
+{
+  "settingId": "blue_palm_motel",
+  "bereich": "erzaehler",
+  "hinweis": "Auflösung: aufloesung.gruppe.N, aufloesung.<kernrolle>.<taeter|unschuldig>, bei eigenem Pfadverhalten aufloesung.<kernrolle>.unschuldig.<pfad>, und aufloesung.<rolle> für die Nebenrollen.",
+  "eintraege": [
+    {
+      "id": "aufloesung.gruppe.0",
+      "text": "Ihr habt in keiner der drei Runden zusammengehalten. Gestrandet seid ihr trotzdem gemeinsam, und das bleibt so."
+    },
+    {
+      "id": "aufloesung.gruppe.1",
+      "text": "Einmal habt ihr in den drei Runden zusammengehalten. Ein Hurrikan verbindet mehr, als man denkt."
+    },
+    {
+      "id": "aufloesung.gruppe.2",
+      "text": "Zweimal habt ihr in den drei Runden zusammengehalten. Man merkt, dass ihr euch vertraut, auch wenn draußen alles wackelt."
+    },
+    {
+      "id": "aufloesung.gruppe.3",
+      "text": "Dreimal habt ihr in den drei Runden zusammengehalten. Das ist Zusammenhalt, wie man ihn in einer Unwetternacht braucht."
+    },
+    {
+      "id": "aufloesung.viv.taeter",
+      "text": "Viv war es. Lucky besaß die alten Bänder zu ihrem Hit und ließ sich sein Schweigen bezahlen. Heute hat er gesagt, der Preis steige. Mit dem Kabel am nassen Teppich wollte sie einen Unfall vortäuschen. Notizbuch und Kabel verschwanden im Müllcontainer. Später öffnet die Polizei Luckys Tresor: ein Pass auf den Namen Raymond Lucero, ein Bootsticket nach Nassau und eine rot umkringelte Karte vom Hurrikan. Lucky wollte seinen eigenen Tod vortäuschen. Wer es getan hat, kam ihm nur um Stunden zuvor."
+    },
+    {
+      "id": "aufloesung.dale.taeter",
+      "text": "Dale war es. Er hatte Kundengeld verspielt und sich heimlich als Begünstigten der Police eingetragen. Am nassen Teppich stellte er einen Unfall nach. Das Notizbuch mit Luckys Plan versteckte er in der Telefonzelle. Später öffnet die Polizei Luckys Tresor: ein Pass auf den Namen Raymond Lucero, ein Bootsticket nach Nassau und eine rot umkringelte Karte vom Hurrikan. Lucky wollte seinen eigenen Tod vortäuschen. Wer es getan hat, kam ihm nur um Stunden zuvor."
+    },
+    {
+      "id": "aufloesung.sol.taeter",
+      "text": "Sol war es. Lucky hatte ihr das Motel versprochen und wollte es verkaufen. Sie rührte ein starkes Schlafmittel in seinen Nachttee. Das Notizbuch mit dem Kaufvertrag versteckte sie im Wäscheschrank. Später öffnet die Polizei Luckys Tresor: ein Pass auf den Namen Raymond Lucero, ein Bootsticket nach Nassau und eine rot umkringelte Karte vom Hurrikan. Lucky wollte seinen eigenen Tod vortäuschen. Wer es getan hat, kam ihm nur um Stunden zuvor."
+    },
+    {
+      "id": "aufloesung.frank.taeter",
+      "text": "Frank war es. Lucky führte Buch über jeden Umschlag und wollte den Preis erhöhen. In Panik griff Frank nach dem Messingflamingo. Das Notizbuch versteckte er in seinem Kleiderschrank. Später öffnet die Polizei Luckys Tresor: ein Pass auf den Namen Raymond Lucero, ein Bootsticket nach Nassau und eine rot umkringelte Karte vom Hurrikan. Lucky wollte seinen eigenen Tod vortäuschen. Wer es getan hat, kam ihm nur um Stunden zuvor."
+    },
+    {
+      "id": "aufloesung.viv.unschuldig",
+      "text": "Viv stand wirklich auf der Bühne. Verschwiegen hat sie, dass sie am Nachmittag zwei alte Masterbänder aus Luckys Regal genommen hat. Und sie hat den Hit von neunzehnhundertneunundsiebzig nie selbst gesungen. Das sollte niemand erfahren."
+    },
+    {
+      "id": "aufloesung.dale.unschuldig",
+      "text": "Dale hat wirklich von zwanzig vor zwölf bis nach halb eins mit Houston telefoniert. Verschwiegen hat er, dass er Luckys Prämie in Scheinen angenommen und behalten hat. Die Police ist nie bei der Gesellschaft angekommen. Das sollte niemand erfahren."
+    },
+    {
+      "id": "aufloesung.dale.unschuldig.frank",
+      "text": "Dale hat nicht die ganze Zeit mit Houston telefoniert. Das Unwetter hat die Leitung nach zwei Minuten gekappt, und er blieb allein in Zimmer drei. Das sah nach einem fehlenden Alibi aus. Außerdem hat er Luckys Prämie behalten, und die Police ist nie bei der Gesellschaft angekommen."
+    },
+    {
+      "id": "aufloesung.sol.unschuldig",
+      "text": "Sol hat wirklich ohne Pause an den Läden gehämmert. Verschwiegen hat sie, dass sie sich dreihundert Dollar aus der Kasse genommen hat. Und sie hat heute Nachmittag mit Lucky gestritten, weil er das Motel verkaufen wollte."
+    },
+    {
+      "id": "aufloesung.frank.unschuldig",
+      "text": "Frank saß wirklich im Wagen und hörte den Polizeifunk ab, obwohl er suspendiert ist. Verschwiegen hat er, dass er über Jahre Umschläge von Lucky genommen hat. Das sollte niemand erfahren, am wenigsten die Dienstaufsicht."
+    },
+    {
+      "id": "aufloesung.toby",
+      "text": "Toby hat kurz nach Mitternacht die Rezeption verlassen und vierzig Dollar aus der Trinkgeldkasse für den Bus nach Nashville genommen. Sol hat ihn gedeckt, weil sie wie eine große Schwester für ihn ist."
+    },
+    {
+      "id": "aufloesung.marcy",
+      "text": "Marcy hat heimlich den ganzen Abend mitgeschnitten. Auf ihrem Band ist zu hören, wie Lucky Frank zusteckt, dass die Umschläge dicker werden. Das Gerücht um Vivs Hit hat sie nie gesendet, um Viv zu schützen."
+    },
+    {
+      "id": "aufloesung.gus",
+      "text": "Gus hat am Nachmittag ein Nickerchen gemacht, statt die Läden zu sichern. Darum musste Sol früh anfangen. Er hat nur gesagt, was er gesehen hat, wenn man ihn direkt fragte."
+    },
+    {
+      "id": "aufloesung.dottie",
+      "text": "Dottie ist ohne Klopfen in Zimmer drei gegangen und hat Dales Police ohne Stempel gesehen. Vor Luckys Büro hat sie außerdem gehört, dass das Motel verkauft werden soll. Sie hat geschwiegen, weil sie sich schämte und Sol schützen wollte."
+    }
+  ]
+}

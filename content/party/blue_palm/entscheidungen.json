@@ -1,0 +1,899 @@
+{
+  "settingId": "blue_palm_motel",
+  "hinweis": "Die neun Entscheidungen des Inspektors. Eine Option deckt Fakten auf; ein Fakt erscheint in einem Pfad nur, wenn seine Quelle dort entsteht (Beobachtung mit pfade, Spur mit entstehtWenn). Sonst zeigt die Option die harmlose Fassung der Spur. Die Restverdächtigen folgen allein aus den Regeln und den aufgedeckten Fakten; Bonus-Hinweise zählen nicht (W-1). Aufbau wie im Schlosskeller: Runde 1 prüft drei Alibis (Frank hat nie einen Zeugen), Runde 2 deckt Heimlichtuereien und Zusatzindizien auf, Runde 3 findet das Versteck und den Schlüsselbeweis.",
+  "regeln": [
+    {
+      "id": "R-ENTLASTET",
+      "wenn": [
+        "alibi",
+        "nebendelikt"
+      ],
+      "folge": "entlastet",
+      "text": "Wer beim Flackern nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Das Flackern ist der Augenblick um Viertel nach zwölf, in dem alle Lampen im Motel zucken und aus Zimmer sieben ein Poltern kommt."
+    },
+    {
+      "id": "R-UEBERFUEHRT",
+      "wenn": [
+        "schluesselbeweis",
+        "fundort"
+      ],
+      "folge": "ueberfuehrt",
+      "text": "Ein Schlüsselbeweis überführt eine Person, wenn man auch Luckys schwarzes Notizbuch an ihrem Versteck findet. Alle anderen scheiden aus."
+    }
+  ],
+  "fakten": [
+    {
+      "id": "f_alibi_viv",
+      "typ": "alibi",
+      "personen": [
+        "viv"
+      ],
+      "quelle": {
+        "beobachtung": "b_marcy_viv_buehne"
+      }
+    },
+    {
+      "id": "f_spaet_viv",
+      "typ": "spaetankunft",
+      "personen": [
+        "viv"
+      ],
+      "quelle": {
+        "beobachtung": "b_marcy_viv_weg"
+      }
+    },
+    {
+      "id": "f_alibi_dale",
+      "typ": "alibi",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "beobachtung": "b_toby_dale_leitung"
+      }
+    },
+    {
+      "id": "f_spaet_dale",
+      "typ": "spaetankunft",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "beobachtung": "b_toby_dale_abbruch"
+      }
+    },
+    {
+      "id": "f_alibi_sol",
+      "typ": "alibi",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "beobachtung": "b_gus_sol_haemmert"
+      }
+    },
+    {
+      "id": "f_spaet_sol",
+      "typ": "spaetankunft",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "beobachtung": "b_gus_sol_pause"
+      }
+    },
+    {
+      "id": "f_motiv_sol",
+      "typ": "motiv",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "beobachtung": "b_dottie_telefonat"
+      }
+    },
+    {
+      "id": "f_motiv_dale",
+      "typ": "motiv",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "beobachtung": "b_sol_zimmernummer"
+      }
+    },
+    {
+      "id": "f_funk",
+      "typ": "ausgangslage",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_frank_funk_meldung"
+      }
+    },
+    {
+      "id": "f_nd_dale",
+      "typ": "nebendelikt",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "spur": "spur_koffer_police"
+      }
+    },
+    {
+      "id": "f_z_dale",
+      "typ": "zusatzindiz",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "spur": "spur_koffer_fasern"
+      }
+    },
+    {
+      "id": "f_nd_frank",
+      "typ": "nebendelikt",
+      "personen": [
+        "frank"
+      ],
+      "quelle": {
+        "spur": "spur_fach_umschlaege"
+      }
+    },
+    {
+      "id": "f_z_frank",
+      "typ": "zusatzindiz",
+      "personen": [
+        "frank"
+      ],
+      "quelle": {
+        "spur": "spur_fach_fasern"
+      }
+    },
+    {
+      "id": "f_jukebox",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_jukebox_spielt"
+      }
+    },
+    {
+      "id": "f_nd_viv",
+      "typ": "nebendelikt",
+      "personen": [
+        "viv"
+      ],
+      "quelle": {
+        "spur": "spur_baender_da"
+      }
+    },
+    {
+      "id": "f_z_viv",
+      "typ": "zusatzindiz",
+      "personen": [
+        "viv"
+      ],
+      "quelle": {
+        "spur": "spur_tasche_fasern"
+      }
+    },
+    {
+      "id": "f_nd_sol",
+      "typ": "nebendelikt",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "spur": "spur_schuerze_geld"
+      }
+    },
+    {
+      "id": "f_z_sol",
+      "typ": "zusatzindiz",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "spur": "spur_schuerze_fasern"
+      }
+    },
+    {
+      "id": "f_nachttisch",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_nachttisch_leer"
+      }
+    },
+    {
+      "id": "f_fundort_viv",
+      "typ": "fundort",
+      "personen": [
+        "viv"
+      ],
+      "quelle": {
+        "spur": "spur_container_notizbuch"
+      }
+    },
+    {
+      "id": "f_fundort_dale",
+      "typ": "fundort",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "spur": "spur_zelle_notizbuch"
+      }
+    },
+    {
+      "id": "f_fundort_sol",
+      "typ": "fundort",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "spur": "spur_schrank_notizbuch"
+      }
+    },
+    {
+      "id": "f_fundort_frank",
+      "typ": "fundort",
+      "personen": [
+        "frank"
+      ],
+      "quelle": {
+        "spur": "spur_kleiderschrank_notizbuch"
+      }
+    },
+    {
+      "id": "f_k_viv",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "viv"
+      ],
+      "quelle": {
+        "spur": "spur_ring_kupfer"
+      }
+    },
+    {
+      "id": "f_k_dale",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "spur": "spur_fenster_dale"
+      }
+    },
+    {
+      "id": "f_k_sol",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "sol"
+      ],
+      "quelle": {
+        "spur": "spur_fenster_sol"
+      }
+    },
+    {
+      "id": "f_k_frank",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "frank"
+      ],
+      "quelle": {
+        "spur": "spur_fenster_frank"
+      }
+    },
+    {
+      "id": "f_fenster",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_fenster_beschlagen"
+      }
+    },
+    {
+      "id": "f_nd_frank_marcy",
+      "typ": "nebendelikt",
+      "personen": [
+        "frank"
+      ],
+      "quelle": {
+        "beobachtung": "b_marcy_mitschnitt"
+      }
+    },
+    {
+      "id": "f_nd_dale_dottie",
+      "typ": "nebendelikt",
+      "personen": [
+        "dale"
+      ],
+      "quelle": {
+        "beobachtung": "b_dottie_zimmer3"
+      }
+    }
+  ],
+  "entscheidungen": [
+    {
+      "id": "e1_1",
+      "runde": 1,
+      "nr": 1,
+      "art": "person",
+      "frage": "Wer weiß, was beim Flackern in der Lounge los war?",
+      "optionen": [
+        {
+          "id": "e1_1_marcy",
+          "ziel": {
+            "person": "marcy"
+          },
+          "text": "Marcy befragen",
+          "fakten": [
+            "f_alibi_viv",
+            "f_spaet_viv"
+          ]
+        },
+        {
+          "id": "e1_1_frank",
+          "ziel": {
+            "person": "frank"
+          },
+          "text": "Frank nach dem Funk befragen",
+          "fakten": [
+            "f_funk"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e1_1_marcy",
+        "dale": "e1_1_marcy",
+        "sol": "e1_1_marcy",
+        "frank": "e1_1_marcy"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_marcy_auftritt",
+            "beobachtung:b_detektiv_flackern"
+          ],
+          "text": "Marcy saß seit neun Uhr vor der Bühne. Wenn Viv beim Flackern fehlte, hat sie es bemerkt."
+        }
+      }
+    },
+    {
+      "id": "e1_2",
+      "runde": 1,
+      "nr": 2,
+      "art": "person",
+      "frage": "Wer weiß, wer beim Flackern am Telefon hing?",
+      "optionen": [
+        {
+          "id": "e1_2_toby",
+          "ziel": {
+            "person": "toby"
+          },
+          "text": "Toby befragen",
+          "fakten": [
+            "f_alibi_dale",
+            "f_spaet_dale"
+          ]
+        },
+        {
+          "id": "e1_2_sol",
+          "ziel": {
+            "person": "sol"
+          },
+          "text": "Sol befragen",
+          "fakten": [
+            "f_motiv_dale"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e1_2_toby",
+        "dale": "e1_2_toby",
+        "sol": "e1_2_toby",
+        "frank": "e1_2_toby"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_toby_vermittlung",
+            "beobachtung:b_detektiv_flackern"
+          ],
+          "text": "Toby hat das Gespräch nach Houston gestöpselt. An seiner Vermittlung sieht man, wie lange eine Leitung steht."
+        }
+      }
+    },
+    {
+      "id": "e1_3",
+      "runde": 1,
+      "nr": 3,
+      "art": "person",
+      "frage": "Wer weiß, wer beim Flackern draußen an den Läden stand?",
+      "optionen": [
+        {
+          "id": "e1_3_gus",
+          "ziel": {
+            "person": "gus"
+          },
+          "text": "Gus befragen",
+          "fakten": [
+            "f_alibi_sol",
+            "f_spaet_sol"
+          ]
+        },
+        {
+          "id": "e1_3_dottie",
+          "ziel": {
+            "person": "dottie"
+          },
+          "text": "Dottie befragen",
+          "fakten": [
+            "f_motiv_sol"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e1_3_gus",
+        "dale": "e1_3_gus",
+        "sol": "e1_3_gus",
+        "frank": "e1_3_gus"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_gus_laeden",
+            "beobachtung:b_detektiv_flackern"
+          ],
+          "text": "Gus hielt Sol die Taschenlampe. Wenn das Hämmern aussetzte, hat er es gehört."
+        }
+      }
+    },
+    {
+      "id": "e2_1",
+      "runde": 2,
+      "nr": 1,
+      "art": "gegenstand",
+      "frage": "Wessen Heimlichtuerei klärst du jetzt?",
+      "optionen": [
+        {
+          "id": "e2_1_koffer",
+          "ziel": {
+            "gegenstand": "aktenkoffer"
+          },
+          "text": "Dales Aktenkoffer untersuchen",
+          "fakten": [
+            "f_nd_dale",
+            "f_z_dale"
+          ]
+        },
+        {
+          "id": "e2_1_fach",
+          "ziel": {
+            "gegenstand": "handschuhfach"
+          },
+          "text": "Franks Handschuhfach untersuchen",
+          "fakten": [
+            "f_nd_frank",
+            "f_z_frank"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e2_1_koffer",
+        "dale": "e2_1_koffer",
+        "sol": "e2_1_koffer",
+        "frank": "e2_1_fach"
+      },
+      "begruendung": {
+        "viv": {
+          "kette": [
+            "fakt:f_alibi_dale",
+            "merkmal:dale"
+          ],
+          "text": "Dale war beim Flackern am Telefon. Er hat aber Grund zu schweigen, denn seinen Aktenkoffer lässt er nie los."
+        },
+        "dale": {
+          "kette": [
+            "fakt:f_spaet_dale",
+            "merkmal:dale"
+          ],
+          "text": "Dale hatte beim Flackern keine Verbindung mehr. Seinen Aktenkoffer trägt er überall hin."
+        },
+        "sol": {
+          "kette": [
+            "fakt:f_alibi_dale",
+            "merkmal:dale"
+          ],
+          "text": "Dale war beim Flackern am Telefon. Er hat aber Grund zu schweigen, denn seinen Aktenkoffer lässt er nie los."
+        },
+        "frank": {
+          "kette": [
+            "fakt:f_alibi_viv",
+            "fakt:f_alibi_sol",
+            "beobachtung:b_toby_fax",
+            "merkmal:frank"
+          ],
+          "text": "Viv und Sol haben ein Alibi, Dale und Frank nicht. Das Fax aus Miami betrifft die Dienstaufsicht, und Frank hält die Hand am Handschuhfach."
+        }
+      }
+    },
+    {
+      "id": "e2_2",
+      "runde": 2,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Was untersuchst du als Nächstes?",
+      "optionen": [
+        {
+          "id": "e2_2_jukebox",
+          "ziel": {
+            "gegenstand": "jukebox"
+          },
+          "text": "Die Jukebox in der Lounge untersuchen",
+          "fakten": [
+            "f_jukebox"
+          ]
+        },
+        {
+          "id": "e2_2_tasche",
+          "ziel": {
+            "gegenstand": "kassettentasche"
+          },
+          "text": "Vivs Kassettentasche untersuchen",
+          "fakten": [
+            "f_nd_viv",
+            "f_z_viv"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e2_2_tasche",
+        "dale": "e2_2_tasche",
+        "sol": "e2_2_tasche",
+        "frank": "e2_2_tasche"
+      },
+      "begruendung": {
+        "viv": {
+          "kette": [
+            "fakt:f_spaet_viv",
+            "merkmal:viv"
+          ],
+          "text": "Viv war beim Flackern nicht auf der Bühne. Ihre Kassettentasche steht am Klavier."
+        },
+        "dale": {
+          "kette": [
+            "fakt:f_alibi_viv",
+            "merkmal:viv",
+            "luege:luege_viv_baender"
+          ],
+          "text": "Viv hat ein Alibi für das Flackern. Sie behauptet, nie Bänder von Lucky angefasst zu haben, und ihre Kassettentasche steht am Klavier."
+        },
+        "sol": {
+          "kette": [
+            "fakt:f_alibi_viv",
+            "merkmal:viv",
+            "luege:luege_viv_baender"
+          ],
+          "text": "Viv hat ein Alibi für das Flackern. Sie behauptet, nie Bänder von Lucky angefasst zu haben, und ihre Kassettentasche steht am Klavier."
+        },
+        "frank": {
+          "kette": [
+            "fakt:f_alibi_viv",
+            "merkmal:viv",
+            "luege:luege_viv_baender"
+          ],
+          "text": "Viv hat ein Alibi für das Flackern. Sie behauptet, nie Bänder von Lucky angefasst zu haben, und ihre Kassettentasche steht am Klavier."
+        }
+      }
+    },
+    {
+      "id": "e2_3",
+      "runde": 2,
+      "nr": 3,
+      "art": "person",
+      "frage": "Wo suchst du weiter?",
+      "optionen": [
+        {
+          "id": "e2_3_sol",
+          "ziel": {
+            "person": "sol"
+          },
+          "text": "Sol und ihre Schürze untersuchen",
+          "fakten": [
+            "f_nd_sol",
+            "f_z_sol"
+          ]
+        },
+        {
+          "id": "e2_3_nachttisch",
+          "ziel": {
+            "gegenstand": "nachttisch_7"
+          },
+          "text": "Den Nachttisch in Zimmer 7 untersuchen",
+          "fakten": [
+            "f_nachttisch"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e2_3_sol",
+        "dale": "e2_3_sol",
+        "sol": "e2_3_sol",
+        "frank": "e2_3_sol"
+      },
+      "begruendung": {
+        "viv": {
+          "kette": [
+            "fakt:f_alibi_sol",
+            "merkmal:sol",
+            "luege:luege_sol_kasse"
+          ],
+          "text": "Sol hat ein Alibi für das Flackern. Sie sagt, die Kasse stimme auf den Cent, doch ihre Schürzentasche ist voll."
+        },
+        "dale": {
+          "kette": [
+            "fakt:f_alibi_sol",
+            "merkmal:sol",
+            "luege:luege_sol_kasse"
+          ],
+          "text": "Sol hat ein Alibi für das Flackern. Sie sagt, die Kasse stimme auf den Cent, doch ihre Schürzentasche ist voll."
+        },
+        "sol": {
+          "kette": [
+            "fakt:f_spaet_sol",
+            "merkmal:sol"
+          ],
+          "text": "Sol fehlte beim Flackern an den Läden. Ihre Schürzentasche ist auffällig voll."
+        },
+        "frank": {
+          "kette": [
+            "fakt:f_alibi_sol",
+            "merkmal:sol",
+            "luege:luege_sol_kasse"
+          ],
+          "text": "Sol hat ein Alibi für das Flackern. Sie sagt, die Kasse stimme auf den Cent, doch ihre Schürzentasche ist voll."
+        }
+      }
+    },
+    {
+      "id": "e3_1",
+      "runde": 3,
+      "nr": 1,
+      "art": "ort",
+      "frage": "Wo suchst du nach Luckys schwarzem Notizbuch?",
+      "optionen": [
+        {
+          "id": "e3_1_container",
+          "ziel": {
+            "raum": "parking",
+            "ort": "am_muellcontainer"
+          },
+          "text": "Beim Müllcontainer suchen",
+          "fakten": [
+            "f_fundort_viv"
+          ]
+        },
+        {
+          "id": "e3_1_zelle",
+          "ziel": {
+            "raum": "parking",
+            "ort": "an_der_telefonzelle"
+          },
+          "text": "In der Telefonzelle suchen",
+          "fakten": [
+            "f_fundort_dale"
+          ]
+        },
+        {
+          "id": "e3_1_waesche",
+          "ziel": {
+            "raum": "laundry",
+            "ort": "am_waescheschrank"
+          },
+          "text": "Im Wäscheschrank der Waschküche suchen",
+          "fakten": [
+            "f_fundort_sol"
+          ]
+        },
+        {
+          "id": "e3_1_schrank6",
+          "ziel": {
+            "raum": "room6",
+            "ort": "am_kleiderschrank_6"
+          },
+          "text": "Im Kleiderschrank von Zimmer 6 suchen",
+          "fakten": [
+            "f_fundort_frank"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e3_1_container",
+        "dale": "e3_1_zelle",
+        "sol": "e3_1_waesche",
+        "frank": "e3_1_schrank6"
+      },
+      "begruendung": {
+        "viv": {
+          "kette": [
+            "fakt:f_spaet_viv",
+            "fakt:f_z_viv",
+            "beobachtung:b_dottie_teppich",
+            "karte:muellcontainer"
+          ],
+          "text": "Viv fehlte beim Flackern, und an ihrer Kassettentasche kleben Fasern vom violetten Teppich. Vom Pooldeck führt ein kurzer Weg zum Müllcontainer."
+        },
+        "dale": {
+          "kette": [
+            "fakt:f_spaet_dale",
+            "fakt:f_z_dale",
+            "beobachtung:b_dottie_teppich",
+            "karte:telefonzelle"
+          ],
+          "text": "Dale hatte beim Flackern keine Verbindung mehr, und an seinem Aktenkoffer kleben Fasern vom violetten Teppich. Für einen Vertreter, der viel telefoniert, ist die Telefonzelle ein guter Ort."
+        },
+        "sol": {
+          "kette": [
+            "fakt:f_spaet_sol",
+            "fakt:f_z_sol",
+            "beobachtung:b_dottie_teppich",
+            "karte:waescheschrank"
+          ],
+          "text": "Sol fehlte beim Flackern an den Läden, und an ihrem Schürzenband kleben Fasern vom violetten Teppich. Die Waschküche liegt gleich hinter der Lounge."
+        },
+        "frank": {
+          "kette": [
+            "fakt:f_z_frank",
+            "beobachtung:b_toby_zimmerliste",
+            "beobachtung:b_dottie_teppich",
+            "karte:kleiderschrank_6"
+          ],
+          "text": "Auf dem Umschlag in Franks Handschuhfach kleben Fasern vom violetten Teppich. Frank wohnt in Zimmer 6, direkt neben Lucky."
+        }
+      }
+    },
+    {
+      "id": "e3_2",
+      "runde": 3,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Was untersuchst du jetzt?",
+      "optionen": [
+        {
+          "id": "e3_2_ring",
+          "ziel": {
+            "person": "viv"
+          },
+          "text": "Vivs Hände und ihren Ring untersuchen",
+          "fakten": [
+            "f_k_viv"
+          ]
+        },
+        {
+          "id": "e3_2_fenster",
+          "ziel": {
+            "gegenstand": "fenster_7"
+          },
+          "text": "Das Fenster in Zimmer 7 untersuchen",
+          "fakten": [
+            "f_fenster",
+            "f_k_dale",
+            "f_k_sol",
+            "f_k_frank"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e3_2_ring",
+        "dale": "e3_2_fenster",
+        "sol": "e3_2_fenster",
+        "frank": "e3_2_fenster"
+      },
+      "begruendung": {
+        "viv": {
+          "kette": [
+            "fakt:f_z_viv",
+            "merkmal:viv"
+          ],
+          "text": "An Vivs Kassettentasche kleben Fasern aus Zimmer 7. Ihr breiter Goldring kann beim Zupacken etwas aufgenommen haben."
+        },
+        "dale": {
+          "kette": [
+            "fakt:f_z_dale",
+            "merkmal:dale",
+            "beobachtung:b_dottie_teppich"
+          ],
+          "text": "Am Aktenkoffer kleben Fasern vom violetten Teppich. Dales Cowboystiefel und sein Tattoo hinterlassen am Fenster Spuren."
+        },
+        "sol": {
+          "kette": [
+            "fakt:f_z_sol",
+            "merkmal:sol",
+            "beobachtung:b_dottie_teppich"
+          ],
+          "text": "Am Schürzenband kleben Fasern vom violetten Teppich. Sols Absatzschuhe und ihr Tattoo hinterlassen am Fenster Spuren."
+        },
+        "frank": {
+          "kette": [
+            "fakt:f_z_frank",
+            "merkmal:frank",
+            "beobachtung:b_dottie_teppich"
+          ],
+          "text": "Am Umschlag im Handschuhfach kleben Fasern vom violetten Teppich. Franks Cowboystiefel und sein Ehering hinterlassen am Fenster Spuren."
+        }
+      }
+    },
+    {
+      "id": "e3_3",
+      "runde": 3,
+      "nr": 3,
+      "art": "person",
+      "frage": "Mit wem sprichst du zuletzt?",
+      "optionen": [
+        {
+          "id": "e3_3_marcy",
+          "ziel": {
+            "person": "marcy"
+          },
+          "text": "Marcy nach ihrem Mitschnitt fragen",
+          "fakten": [
+            "f_nd_frank_marcy"
+          ]
+        },
+        {
+          "id": "e3_3_dottie",
+          "ziel": {
+            "person": "dottie"
+          },
+          "text": "Dottie nach Zimmer 3 fragen",
+          "fakten": [
+            "f_nd_dale_dottie"
+          ]
+        }
+      ],
+      "richtig": {
+        "viv": "e3_3_marcy",
+        "dale": "e3_3_marcy",
+        "sol": "e3_3_marcy",
+        "frank": "e3_3_dottie"
+      },
+      "begruendung": {
+        "viv": {
+          "kette": [
+            "beobachtung:b_toby_fax",
+            "beobachtung:b_viv_wagen_licht",
+            "luege:luege_frank_umschlag"
+          ],
+          "text": "Das Fax aus Miami betrifft die Dienstaufsicht, und in Franks Wagen brannte die ganze Nacht Licht. Frank sagt, er habe nie Geld von Lucky genommen. Marcys Band kann das klären."
+        },
+        "dale": {
+          "kette": [
+            "beobachtung:b_toby_fax",
+            "beobachtung:b_viv_wagen_licht",
+            "luege:luege_frank_umschlag"
+          ],
+          "text": "Das Fax aus Miami betrifft die Dienstaufsicht, und in Franks Wagen brannte die ganze Nacht Licht. Frank sagt, er habe nie Geld von Lucky genommen. Marcys Band kann das klären."
+        },
+        "sol": {
+          "kette": [
+            "beobachtung:b_toby_fax",
+            "beobachtung:b_viv_wagen_licht",
+            "luege:luege_frank_umschlag"
+          ],
+          "text": "Das Fax aus Miami betrifft die Dienstaufsicht, und in Franks Wagen brannte die ganze Nacht Licht. Frank sagt, er habe nie Geld von Lucky genommen. Marcys Band kann das klären."
+        },
+        "frank": {
+          "kette": [
+            "fakt:f_spaet_dale",
+            "luege:luege_dale_praemie",
+            "beobachtung:b_toby_zimmerliste"
+          ],
+          "text": "Dale hatte beim Flackern keine Verbindung mehr und sagt, Luckys Prämie liege bei der Gesellschaft. Er wohnt in Zimmer 3, und das Zimmermädchen kommt in jedes Zimmer."
+        }
+      }
+    }
+  ]
+}
