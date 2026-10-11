@@ -57,6 +57,11 @@ if [ "$STUFE" != "schnell" ]; then
   (cd packages/mordakte_core && dart run bin/validate.dart)
   schritt "Partymodus: Plausibilität, Story-Bibel, Simulator"
   (cd packages/mordakte_core && dart run bin/party_pruefen.dart && dart run bin/party_bibel.dart --pruefen && dart run bin/party_simulate.dart --pruefen && dart run bin/party_prompts.dart --pruefen)
+  schritt "Akten und Karten: Lösbarkeit, Texte, Privatheit je Akte"
+  for akte in $(python3 -c 'import json; print(" ".join(a["id"] for a in json.load(open("content/party/akten.json"))["akten"]))'); do
+    (cd packages/mordakte_core && dart run bin/akte_pruefen.dart --fall "$akte")
+  done
+  (cd packages/mordakte_core && dart run bin/karten_pruefen.dart)
   schritt "Server-Smoke (Bestand)"
   (cd server && dart run tool/smoke.dart)
   if [ "$STUFE" = "ci" ]; then
