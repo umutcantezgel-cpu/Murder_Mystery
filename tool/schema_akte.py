@@ -10,6 +10,10 @@ Was gelockert wird (alles andere bleibt unverändert streng):
   * Feste Anzahlen: Pfade (mindestens 1), Besetzung (4 bis 20 Rollen, Stufen, Bilanz), Figuren (4 bis 20),
     Gruppenwahl (12 bis 60), Bonus-Hinweise (9 bis 36, also ein bis vier Pfade).
   * Der Opfer-Kennung `schneider` wird jede Kennung.
+  * `setting.lacher`, `figuren.opfer.schluesselbund` und `figuren.opfer.gedaechtnisLueckeAb` werden optional
+    (die Engine liest sie mit `?? const []` beziehungsweise als `String?`).
+  * `look.kopf` kennt alle Kopfbedeckungen des Zeichners (zusätzlich fedora, bowler, top, beret, cloche).
+  * `herkunft` wird eine freie Zeichenkette (nur die Herkunftsprüfung und die Bibel lesen sie).
 Was dazukommt (optional, für Akten ohne Simulation):
   * fall: simulation, pruefprofil, zug
   * setting: darstellung
@@ -30,6 +34,7 @@ QUELLE = os.path.join(WURZEL, 'content', 'party', 'schema')
 ZIEL = os.path.join(WURZEL, 'content', 'party', 'schema-akte')
 
 PFADE = ['ahmet', 'fatma', 'olli', 'can']
+KOEPFE = ['none', 'bun', 'cap', 'kopftuch', 'detektivhut', 'fedora', 'bowler', 'top', 'beret', 'cloche']
 ID_SCHEMA = {'type': 'string', 'pattern': '^[a-z][a-z0-9_]*$'}
 
 
@@ -97,6 +102,7 @@ def lockere(name, s):
         p['zug'] = {'type': 'object', 'additionalProperties': {'type': 'integer', 'minimum': 0}}
 
     elif name == 'setting':
+        s['required'].remove('lacher')
         p['darstellung'] = {
             'type': 'object',
             'additionalProperties': False,
@@ -126,6 +132,12 @@ def lockere(name, s):
 
     elif name == 'figuren':
         p['opfer']['properties']['id'] = copy.deepcopy(ID_SCHEMA)
+        for feld in ('schluesselbund', 'gedaechtnisLueckeAb'):
+            p['opfer']['required'].remove(feld)
+        for look in (p['detektiv']['properties']['look'], p['opfer']['properties']['look'], p['figuren']['items']['properties']['look']):
+            assert look['properties']['kopf']['enum'][:5] == KOEPFE[:5], 'Kopf-Aufzählung weicht ab'
+            look['properties']['kopf']['enum'] = list(KOEPFE)
+        p['figuren']['items']['properties']['herkunft'] = {'type': 'string', 'minLength': 1}
         p['figuren']['minItems'] = 4
         p['figuren']['maxItems'] = 20
 
@@ -163,7 +175,8 @@ Diese Schemas leitet `tool/schema_akte.py` aus `content/party/schema/` ab. Sie g
 Datei von Hand ändern gilt nicht: `python3 tool/schema_akte.py` schreibt alles neu, `--pruefen` prüft die Ableitung.
 
 Gelockert: feste Pfadlisten (ahmet, fatma, olli, can), Pflichtschlüssel je Pfad, feste Anzahlen (Pfade, Besetzung,
-Figuren, Gruppenwahl, Bonus-Hinweise). Neu und optional: `fall.simulation`, `fall.pruefprofil`, `fall.zug`,
+Figuren, Gruppenwahl, Bonus-Hinweise), `setting.lacher` und die Opfer-Felder `schluesselbund` und `gedaechtnisLueckeAb`
+(jetzt optional), die Kopfbedeckungen (alle des Zeichners) und `herkunft` (freie Zeichenkette). Neu und optional: `fall.simulation`, `fall.pruefprofil`, `fall.zug`,
 `setting.darstellung`, Spurbedingung `{"pfade": [...]}` und die Marke `generiert` in jeder Datei.
 Alles andere bleibt so streng wie im Schlosskeller.
 """

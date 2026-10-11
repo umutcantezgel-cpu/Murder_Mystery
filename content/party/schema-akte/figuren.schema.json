@@ -196,7 +196,12 @@
                 "bun",
                 "cap",
                 "kopftuch",
-                "detektivhut"
+                "detektivhut",
+                "fedora",
+                "bowler",
+                "top",
+                "beret",
+                "cloche"
               ]
             },
             "statur": {
@@ -245,8 +250,6 @@
         "motiveAndConflict",
         "warmeSeite",
         "erinnerung",
-        "schluesselbund",
-        "gedaechtnisLueckeAb",
         "look"
       ],
       "properties": {
@@ -364,7 +367,12 @@
                 "bun",
                 "cap",
                 "kopftuch",
-                "detektivhut"
+                "detektivhut",
+                "fedora",
+                "bowler",
+                "top",
+                "beret",
+                "cloche"
               ]
             },
             "statur": {
@@ -470,13 +478,8 @@
             ]
           },
           "herkunft": {
-            "enum": [
-              "deutsch",
-              "türkisch",
-              "kurdisch",
-              "polnisch",
-              "bosnisch"
-            ]
+            "type": "string",
+            "minLength": 1
           },
           "tier": {
             "type": "integer",
@@ -690,7 +693,12 @@
                   "bun",
                   "cap",
                   "kopftuch",
-                  "detektivhut"
+                  "detektivhut",
+                  "fedora",
+                  "bowler",
+                  "top",
+                  "beret",
+                  "cloche"
                 ]
               },
               "statur": {

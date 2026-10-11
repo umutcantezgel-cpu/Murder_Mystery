@@ -666,24 +666,14 @@
       "frage": "Wo suchst du nach Luckys schwarzem Notizbuch?",
       "optionen": [
         {
-          "id": "e3_1_container",
+          "id": "e3_1_parkplatz",
           "ziel": {
             "raum": "parking",
-            "ort": "am_muellcontainer"
+            "ort": "an_der_oellache"
           },
-          "text": "Beim Müllcontainer suchen",
+          "text": "Den Parkplatz mit Müllcontainer und Telefonzelle absuchen",
           "fakten": [
-            "f_fundort_viv"
-          ]
-        },
-        {
-          "id": "e3_1_zelle",
-          "ziel": {
-            "raum": "parking",
-            "ort": "an_der_telefonzelle"
-          },
-          "text": "In der Telefonzelle suchen",
-          "fakten": [
+            "f_fundort_viv",
             "f_fundort_dale"
           ]
         },
@@ -711,8 +701,8 @@
         }
       ],
       "richtig": {
-        "viv": "e3_1_container",
-        "dale": "e3_1_zelle",
+        "viv": "e3_1_parkplatz",
+        "dale": "e3_1_parkplatz",
         "sol": "e3_1_waesche",
         "frank": "e3_1_schrank6"
       },
