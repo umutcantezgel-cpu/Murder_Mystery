@@ -165,9 +165,9 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
     case 'anklage':
       return _abschnitt(c, marke, l.online_phase_anklage, [_anklage(c)]);
     case 'finale':
-      return _abschnitt(c, marke, l.online_phase_finale, []);
+      return _abschnitt(c, marke, l.online_phase_finale, [], aktionen: _belohnungOhneSpielleitung(c));
     case 'aufloesung':
-      return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c)]);
+      return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c)], aktionen: _belohnungOhneSpielleitung(c));
     case 'ende':
       return _ende(c, marke);
     default:
@@ -306,7 +306,7 @@ Widget _meineRolle(GastKontext c) {
 }
 
 /// Rahmen eines Abschnitts: Erzähler, Spezifisches, dann Rolle und Tisch.
-GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch) {
+GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch, {List<Widget> aktionen = const []}) {
   final l = c.l;
   return GastSeiteninhalt(
     marke: marke,
@@ -319,8 +319,16 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
       _meineRolle(c),
       _tisch(c),
     ],
+    aktionen: aktionen,
   );
 }
+
+/// Schließt der Raum, bevor dieses Gerät die Phase „ende“ erhalten hat, bleiben
+/// Finale oder Auflösung die letzte Ansicht, und sie enthält alles für die
+/// Belohnung: Ist die Spielleitung weg oder der Raum zu, lässt sie sich hier abholen.
+List<Widget> _belohnungOhneSpielleitung(GastKontext c) => [
+      if (c.belohnung != null && !c.verbunden) MKnopf(text: c.l.abend_belohnung_ansehen, icon: Icons.style_rounded, onPressed: c.belohnung),
+    ];
 
 // -------------------------------------------------------------------- Lobby
 

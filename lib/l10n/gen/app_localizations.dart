@@ -4773,6 +4773,24 @@ abstract class L {
   /// **'Der Abend wurde beendet.'**
   String get online_status_geschlossen;
 
+  /// No description provided for @online_status_getrennt.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Verbindung – prüfe dein Internet. Dein Platz bleibt reserviert.'**
+  String get online_status_getrennt;
+
+  /// No description provided for @online_lobby_getrennt.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Verbindung zum Relais ist weg. Gäste können gerade nicht beitreten, und der Abend lässt sich nicht starten. Dein Gerät verbindet sich von selbst neu.'**
+  String get online_lobby_getrennt;
+
+  /// No description provided for @online_leiste_getrennt.
+  ///
+  /// In de, this message translates to:
+  /// **'Relais getrennt – Gäste erfahren gerade nichts'**
+  String get online_leiste_getrennt;
+
   /// No description provided for @online_zur_detektei.
   ///
   /// In de, this message translates to:

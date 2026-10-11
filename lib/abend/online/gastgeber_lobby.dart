@@ -69,10 +69,11 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     final d = _dienst;
     if (d != null) {
       d.removeListener(_geaendert);
-      // Verlässt der Gastgeber die Lobby, ohne zu starten, ist der Raum zu.
+      // Verlässt der Gastgeber die Lobby, ohne zu starten, ist der Raum zu; ein
+      // wiederhergestellter, schon laufender Abend bleibt in der Ablage liegen.
       if (!_uebergeben) {
         _halter.vergissDienst(d);
-        unawaited(d.schliessen());
+        unawaited(d.schliessen(endgueltig: !d.gestartet));
       }
     }
     super.dispose();
@@ -154,7 +155,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
       ),
     );
     if (ja != true || !mounted) return;
-    await _d.schliessen();
+    await _d.schliessen(endgueltig: !_d.gestartet);
     _halter.vergissDienst(_d);
     if (mounted) context.go(Routes.start);
   }
@@ -179,7 +180,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
               MKnopf(
                 text: l.online_abend_starten,
                 icon: Icons.play_arrow_rounded,
-                onPressed: d.offen && !_startet && _alleBereit ? _starten : null,
+                onPressed: d.offen && d.verbunden && !_startet && _alleBereit ? _starten : null,
               ),
             ],
             child: _inhalt(context, d),
@@ -223,6 +224,10 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (!d.verbunden) ...[
+          const _GetrenntHinweis(),
+          const SizedBox(height: MMass.s16),
+        ],
         _CodeTafel(code: code, link: link),
         const SizedBox(height: MMass.s16),
         _TischTafel(dienst: d, alleBereit: _alleBereit),
@@ -241,6 +246,39 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
         const SizedBox(height: MMass.s16),
         DeckZeile(katalog: d.katalog, onAendern: () => context.push(Routes.sammlungDeck)),
       ],
+    );
+  }
+}
+
+/// Die Verbindung zum Relais ist weg: Gäste erfahren nichts, der Abend startet nicht.
+class _GetrenntHinweis extends StatelessWidget {
+  const _GetrenntHinweis();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final t = MSchrift.von(context);
+    final farbe = MFarben.von(context).warnung;
+    return Semantics(
+      liveRegion: true,
+      container: true,
+      child: Container(
+        key: const ValueKey('online-getrennt'),
+        padding: const EdgeInsets.all(MMass.s12),
+        decoration: BoxDecoration(
+          color: farbe.withValues(alpha: 0.14),
+          borderRadius: BorderRadius.circular(MMass.r10),
+          border: Border.all(color: farbe.withValues(alpha: 0.7)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.wifi_off_rounded, color: farbe),
+            const SizedBox(width: MMass.s12),
+            Expanded(child: Text(l.online_lobby_getrennt, style: t.text)),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -18,6 +18,7 @@ import 'phoenix.dart';
 import 'protokoll.dart';
 import 'relay_standard.dart';
 import 'umschlag.dart';
+import 'verbindung.dart' show LetzterWert;
 
 /// Baut einen frischen Raum für [raumCode]; [meta] sind die Geheimnisse des
 /// Raums (z. B. Salz und Fall-Code), die der Gastgeber mit dem Protokoll
@@ -59,6 +60,14 @@ class _Sitz {
   bool warBeigetreten = false;
   bool zu = false;
   String? name;
+
+  /// Grund, aus dem das Klopfen abgewiesen wurde (`voll`, `gestartet`, `inhalt`,
+  /// `proto`); das Hallo bekommt dieselbe Ablehnung statt eines Platzes.
+  String? abgewiesen;
+
+  /// Zeitpunkt des letzten beglaubigten Umschlags dieses Gastes (die unbeglaubigte
+  /// Presence allein beweist keine Anwesenheit).
+  DateTime letzterUmschlag = DateTime.now();
   int? letzteQ;
   String? letzteAntwort; // null = ok, sonst Fehlerschlüssel
   String? letzterHash;
@@ -95,6 +104,7 @@ class RelayHost {
     this.meta = const {},
     this.epoch = 1,
     this.offlineFrist = offlineFristStandard,
+    this.umschlagFrist = umschlagFristStandard,
     this.entprellung = const Duration(milliseconds: 200),
     this.maxProSekunde = 30,
     this.maxSitze = 64,
@@ -116,6 +126,7 @@ class RelayHost {
     String inhalt = '',
     Ablage? ablage,
     Duration offlineFrist = offlineFristStandard,
+    Duration umschlagFrist = umschlagFristStandard,
     void Function(String)? log,
   }) async {
     final schluessel = await Schluesselpaar.erzeugen();
@@ -129,6 +140,7 @@ class RelayHost {
       ablage: ablage,
       meta: meta,
       offlineFrist: offlineFrist,
+      umschlagFrist: umschlagFrist,
       log: log,
     );
   }
@@ -146,6 +158,7 @@ class RelayHost {
     RelayParameter relay = const RelayParameter(),
     String? inhalt,
     Duration offlineFrist = offlineFristStandard,
+    Duration umschlagFrist = umschlagFristStandard,
     void Function(String)? log,
   }) async {
     final roh = await ablage.lesen(ablageSchluessel);
@@ -173,6 +186,7 @@ class RelayHost {
         meta: meta,
         epoch: (d['epoch'] as int) + 1,
         offlineFrist: offlineFrist,
+        umschlagFrist: umschlagFrist,
         log: log,
       );
       final hostId = d['hostId'];
@@ -214,6 +228,10 @@ class RelayHost {
   final Map<String, Object?> meta;
   final int epoch;
   final Duration offlineFrist;
+
+  /// So lange darf ein angemeldeter Gast ohne beglaubigten Umschlag bleiben:
+  /// danach gilt er trotz Presence als offline ([umschlagFristStandard]).
+  final Duration umschlagFrist;
   final Duration entprellung;
   final int maxProSekunde;
   final int maxSitze;
@@ -241,12 +259,39 @@ class RelayHost {
   bool _speichernLaeuft = false;
   bool _speichernNoch = false;
   bool _lobbyWarDa = false;
+  Timer? _wacheTimer;
+  DateTime _verbundenSeit = DateTime.fromMillisecondsSinceEpoch(0);
+  final LetzterWert<bool> _verbindung = LetzterWert<bool>(false);
+
+  /// Stand geschlossener Sitze angemeldeter Gäste, solange die Epoche gilt (die
+  /// Schlüssel bleiben dieselben): Wiederholschutz, Sendezähler und letzte
+  /// Befehlsnummer dürfen beim Wiedereröffnen nicht zurückspringen, sonst ließen
+  /// sich alte Umschläge einspielen.
+  final Map<String, ({int empfangen, int gesendet, int? letzteQ})> _staende = {};
 
   /// Spieler-ID des Gastgebers (nach [lokaleVerbindung]).
   String? get hostId => _hostId;
 
   /// Zähler des Sockets (Ereignisse/s messen); vor dem Start `null`.
   PhoenixZaehler? get zaehler => _socket?.zaehler;
+
+  /// Steht die Verbindung zum Relais (Socket offen und Lobby-Thema beigetreten)?
+  /// Sonst erreicht den Gastgeber kein Gast, und er erreicht keinen.
+  bool get verbunden {
+    final s = _socket, l = _lobby;
+    return !_zu && s != null && s.offen && l != null && l.beigetreten;
+  }
+
+  /// Meldet jeden Wechsel von [verbunden]; ein neuer Zuhörer bekommt zuerst den
+  /// aktuellen Stand.
+  Stream<bool> get verbindung => _verbindung.strom;
+
+  void _verbindungNeu() {
+    final v = verbunden;
+    if (_verbindung.wert == v) return;
+    if (v) _verbundenSeit = DateTime.now();
+    _verbindung.add(v);
+  }
 
   /// Angemeldete Gäste (Spieler-IDs).
   List<String> get gaeste => [
@@ -279,6 +324,7 @@ class RelayHost {
     if (_gestartet) return;
     _gestartet = true;
     final socket = _socket = PhoenixSocket(relay.socketUri, fabrik: relay.kanalFabrik, log: log);
+    socket.status.listen((_) => _verbindungNeu());
     try {
       await socket.verbinde(timeout: timeout);
       await _lobbyOeffnen(socket, timeout);
@@ -300,6 +346,8 @@ class RelayHost {
         _geaendert();
       }));
     }
+    _wacheTimer?.cancel();
+    _wacheTimer = Timer.periodic(umschlagFrist ~/ 5, (_) => _wache());
     await _speichernJetzt();
   }
 
@@ -314,6 +362,7 @@ class RelayHost {
       }
     });
     lobby.status.listen((s) {
+      _verbindungNeu();
       if (s == KanalStatus.beigetreten) {
         if (_lobbyWarDa) {
           // Wieder verbunden: Turm neu ausrufen, alle Plätze auffrischen.
@@ -400,6 +449,7 @@ class RelayHost {
       statistik.klopfVerworfen++;
       return;
     }
+    if (!sitz.angemeldet) sitz.abgewiesen = ablehnung;
     if (ablehnung != null && !sitz.angemeldet) {
       statistik.klopfAbgewiesen++;
       await _abweisen(sitz, ablehnung);
@@ -408,8 +458,10 @@ class RelayHost {
     }
   }
 
-  Future<void> _abweisen(_Sitz s, String grund) async {
-    await _senden(s, {'t': 'zu', 'grund': grund});
+  /// Schickt die Ablehnung; auf ein Hallo trägt sie dessen Kennung [r], denn nur
+  /// so nimmt der Gast sie vor dem Willkommen an.
+  Future<void> _abweisen(_Sitz s, String grund, {Object? r}) async {
+    await _senden(s, {'t': 'zu', 'grund': grund, 'r': ?(r is String ? r : null)});
     // Kurze Gnadenzeit, damit der Gast die Ablehnung noch bekommt.
     Timer(const Duration(seconds: 3), () {
       if (!s.angemeldet) _sitzSchliessen(s);
@@ -438,7 +490,12 @@ class RelayHost {
         cid: cid,
       );
       final topic = sitzThema(raumCode, cid);
-      sitz.paar = UmschlagPaar(topic: topic, eigeneSeite: 'h', schluessel: keys);
+      final stand = _staende[cid];
+      final paar = sitz.paar = UmschlagPaar(topic: topic, eigeneSeite: 'h', schluessel: keys, startN: stand?.gesendet ?? 0);
+      if (stand != null) {
+        paar.empfangsUntergrenze(stand.empfangen);
+        sitz.letzteQ = stand.letzteQ;
+      }
       final kanal = sitz.kanal = socket.kanal(topic, presenceKey: hostPresenceKey);
       sitz.subNachricht = kanal.nachrichten.listen((m) => _sitzNachricht(sitz, m));
       sitz.subPraesenz = kanal.praesenz.listen((k) => _praesenz(sitz, k));
@@ -472,6 +529,10 @@ class RelayHost {
     if (s.zu) return;
     s.zu = true;
     s.timerStoppen();
+    final paar = s.paar;
+    if (s.angemeldet && paar != null) {
+      _staende[s.cid] = (empfangen: paar.empfangenN, gesendet: paar.gesendetN, letzteQ: s.letzteQ);
+    }
     _wartend.remove(s.cid);
     if (_sitze[s.cid] == s) _sitze.remove(s.cid);
     if (!s.offen.isCompleted) s.offen.complete(false);
@@ -489,6 +550,10 @@ class RelayHost {
     final da = keys.contains(s.cid);
     if (da) {
       s.sahPraesenz = true;
+      // Presence ist unbeglaubigt: Wer den Raumcode kennt, kann den Schlüssel des
+      // Gastes eintragen. Sie hält einen Platz nur online, wenn zuletzt ein echter
+      // Umschlag kam; sonst zählt allein die Wache.
+      if (!_frisch(s)) return;
       s.offlineTimer?.cancel();
       s.offlineTimer = null;
       if (s.angemeldet && !s.online) {
@@ -498,6 +563,21 @@ class RelayHost {
       }
     } else if (s.sahPraesenz) {
       _offline(s);
+    }
+  }
+
+  bool _frisch(_Sitz s) {
+    final bezug = s.letzterUmschlag.isAfter(_verbundenSeit) ? s.letzterUmschlag : _verbundenSeit;
+    return DateTime.now().difference(bezug) <= umschlagFrist;
+  }
+
+  /// Presence dient nur als schneller Hinweis auf Abwesenheit: Wer zu lange
+  /// keinen beglaubigten Umschlag geschickt hat (Pings kommen alle 20 s), gilt
+  /// als offline. Ohne eigene Verbindung kann nichts ankommen: dann ruht die Wache.
+  void _wache() {
+    if (_zu || !verbunden) return;
+    for (final s in List.of(_sitze.values)) {
+      if (s.angemeldet && s.online && !_frisch(s)) _offline(s);
     }
   }
 
@@ -553,6 +633,7 @@ class RelayHost {
   }
 
   Future<void> _gastNachricht(_Sitz s, Map<String, Object?> m) async {
+    s.letzterUmschlag = DateTime.now();
     final t = m['t'];
     if (t == 'hallo') return _hallo(s, m);
     if (!s.angemeldet) {
@@ -591,8 +672,13 @@ class RelayHost {
       await _senden(s, {'t': 'nein', 'key': 'kein_gastgeber'});
       return;
     }
+    final grund = s.abgewiesen;
+    if (grund != null) {
+      await _abweisen(s, grund, r: r);
+      return;
+    }
     if (m['proto'] != protokollVersion) {
-      await _abweisen(s, 'proto');
+      await _abweisen(s, 'proto', r: r);
       return;
     }
     if (name is! String || name.trim().isEmpty || name.runes.length > 40 || r is! String || r.isEmpty || r.length > 64) {
@@ -606,7 +692,7 @@ class RelayHost {
       ok = false;
     }
     if (!ok) {
-      await _abweisen(s, raum.vorStart ? 'voll' : 'gestartet');
+      await _abweisen(s, raum.vorStart ? 'voll' : 'gestartet', r: r);
       return;
     }
     s.angemeldet = true;
@@ -862,6 +948,8 @@ class RelayHost {
       await Future<void>.delayed(const Duration(milliseconds: 150));
     }
     _zu = true;
+    _verbindungNeu();
+    _wacheTimer?.cancel();
     _turmTimer?.cancel();
     _drainTimer?.cancel();
     for (final t in _restTimer) {
@@ -874,6 +962,7 @@ class RelayHost {
     _sitze.clear();
     await _socket?.schliessen();
     await _lokal?.schliessen();
+    await _verbindung.schliessen();
     if (endgueltig) await ablage?.loeschen(ablageSchluessel);
   }
 

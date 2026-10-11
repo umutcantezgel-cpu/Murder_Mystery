@@ -49,6 +49,7 @@ class RelayGast implements AbendVerbindung {
         _cid = schluessel.cid,
         _zufall = zufall {
     _startN = DateTime.now().millisecondsSinceEpoch;
+    _hoechstesN = _startN;
     _q = _startN;
   }
 
@@ -147,6 +148,11 @@ class RelayGast implements AbendVerbindung {
   final Random _zufall;
 
   late final int _startN;
+
+  /// Höchster je vergebener Sendezähler, unabhängig vom jeweiligen [_paar]: Nach
+  /// einem Zurücksetzen des Paars darf der Zähler nie unter den Empfangsstand
+  /// des Gastgebers fallen, sonst verwirft er alles (Wiederholschutz).
+  late int _hoechstesN;
   late int _q;
 
   late final PhoenixSocket _socket;
@@ -378,7 +384,7 @@ class RelayGast implements AbendVerbindung {
       topic: sitzThema(raumCode, _cid),
       eigeneSeite: 'c',
       schluessel: keys,
-      startN: max(_startN, _paar?.gesendetN ?? 0),
+      startN: max(_hoechstesN, _paar?.gesendetN ?? 0),
       zufall: _zufall,
     );
     _aktiv = false;
@@ -403,6 +409,7 @@ class RelayGast implements AbendVerbindung {
       _halloVersuche++;
       if (_halloVersuche >= 4) {
         // Der Gastgeber antwortet nicht mit diesen Schlüsseln: neuen Turm holen.
+        _hoechstesN = max(_hoechstesN, _paar!.gesendetN);
         _paar = null;
         _hostPub = null;
         _epoch = null;
@@ -493,7 +500,13 @@ class RelayGast implements AbendVerbindung {
       return;
     }
     if (!_aktiv) {
-      // Vor dem Willkommen gilt nichts: sonst ließe sich Altes wiedereinspielen.
+      // Eine Ablehnung (voll, gestartet, inhalt, proto) beantwortet das Hallo und
+      // trägt dessen Kennung: Nur so gilt sie schon vor dem Willkommen.
+      if (t == 'zu' && _r != null && m['r'] == _r) {
+        unawaited(_schliesse(m['grund'] is String ? m['grund'] as String : 'geschlossen'));
+        return;
+      }
+      // Vor dem Willkommen gilt sonst nichts: Altes ließe sich wiedereinspielen.
       verworfen++;
       return;
     }
