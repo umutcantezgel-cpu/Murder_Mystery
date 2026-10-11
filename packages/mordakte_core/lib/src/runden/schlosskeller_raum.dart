@@ -118,6 +118,21 @@ class SchlosskellerRaum implements AbendRaum {
   @override
   List<String> get spielerIds => List.unmodifiable(_teilnehmer.keys);
 
+  /// Laufende Partie zum Lesen auf dem Gastgebergerät (Relais-Modus). Der
+  /// Gastgeber ist die Autorität und kennt Salz und Pfad ohnehin; Änderungen
+  /// laufen trotzdem ausschließlich über [nachricht]. Nie an Gäste geben.
+  RundenPartie? get partieFuerGastgeber => _partie;
+
+  /// Würfelpate (Geräte-Kennung) des nächsten Wurfs.
+  String? get wuerfelPate => _wuerfelPate;
+
+  /// Rollen, deren Gerät die Rollenkarte gelesen bzw. in dieser Runde gestimmt hat.
+  Set<String> get gelesen => {for (final t in _teilnehmer.values) if (t.gelesen && t.rolle != null) t.rolle!};
+  Set<String> get gestimmt => Set.of(_stimmen.keys);
+
+  /// Rolle eines Geräts (null für Gastgeber und Assistenz).
+  String? rolleVon(String id) => _teilnehmer[id]?.rolle;
+
   @override
   bool beitreten(String id, String name) {
     if (id.isEmpty || name.trim().isEmpty || name.runes.length > 40) return false;
