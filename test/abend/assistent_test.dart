@@ -1,5 +1,6 @@
 // Assistent für einen neuen Abend (/abend/neu): „Weiter“ erst nach einer Spielweise,
-// Solo- und Reihum-Abend bis in die Rollenphase, gesperrte Spielweise, /abend ohne Abend.
+// Solo- und Reihum-Abend bis in die Rollenphase, gesperrte Spielweise, /abend ohne Abend,
+// Zurück-Taste im Assistenten, „Abend abbrechen“ mit Rückfrage auf dem Solo-Abend.
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -181,6 +182,83 @@ void main() {
     final state = await oeffnen(tester, ort: Routes.abend);
     expect(find.byType(DetekteiSeite), findsOneWidget);
     expect(find.byType(AbendSeite), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Android-Zurück im Assistenten geht einen Schritt zurück, statt die App zu schließen', (tester) async {
+    final state = await oeffnen(tester);
+    await tippen(tester, 'Weiter');
+    await tippen(tester, 'Solo mit Bots');
+    await tippen(tester, 'Weiter');
+    expect(find.text('SCHRITT 3 VON 4'), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await warten(tester);
+    expect(find.text('SCHRITT 2 VON 4'), findsOneWidget, reason: 'Ein Schritt zurück: zur Spielweise');
+    expect(find.text('Wie spielt ihr?'), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await warten(tester);
+    expect(find.text('SCHRITT 1 VON 4'), findsOneWidget, reason: 'Ein weiterer Schritt: zur Akte');
+    expect(find.byType(DetekteiSeite), findsNothing);
+    await tester.binding.handlePopRoute();
+    await warten(tester, bis: find.byType(DetekteiSeite));
+    expect(find.byType(DetekteiSeite), findsOneWidget, reason: 'Auf dem ersten Schritt führt Zurück in die Detektei');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Android-Zurück auf der Beitritts-Seite führt in die Detektei, die App bleibt offen', (tester) async {
+    final state = await oeffnen(tester, ort: '${Routes.beitreten}?raum=ABC-DEF');
+    expect(find.byType(DetekteiSeite), findsNothing);
+    await tester.binding.handlePopRoute();
+    await warten(tester, bis: find.byType(DetekteiSeite));
+    expect(find.byType(DetekteiSeite), findsOneWidget, reason: 'Zurück geht in die Detektei');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Solo-Abend: „Abend abbrechen“ fragt nach und führt nach Ja in die Detektei', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tippen(tester, 'Abend beginnen');
+    expect(find.byType(AbendSeite), findsOneWidget);
+    final halter = tester.element(find.byType(AbendSeite)).read<AbendHalter>();
+    expect(halter.laeuft, isTrue);
+
+    await tester.tap(find.text('Abend abbrechen'));
+    await warten(tester, bis: find.byType(AlertDialog));
+    expect(find.text('Abend abbrechen?'), findsOneWidget, reason: 'Die Rückfrage');
+    expect(find.byType(AbendSeite), findsOneWidget, reason: 'Vor der Antwort bleibt der Abend stehen');
+
+    await tippen(tester, 'Weiterspielen');
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.byType(AbendSeite), findsOneWidget);
+    expect(halter.laeuft, isTrue, reason: 'Weiterspielen lässt den Abend unberührt');
+
+    await tester.tap(find.text('Abend abbrechen'));
+    await warten(tester, bis: find.byType(AlertDialog));
+    await tester.tap(find.descendant(of: find.byType(AlertDialog), matching: find.text('Abend abbrechen')));
+    await warten(tester, bis: find.byType(DetekteiSeite));
+    expect(find.byType(DetekteiSeite), findsOneWidget, reason: 'Nach Ja geht es in die Detektei');
+    expect(find.byType(AbendSeite), findsNothing);
+    expect(halter.laeuft, isFalse, reason: 'Der Abend ist freigegeben und lässt sich nicht fortsetzen');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Android-Zurück auf dem Solo-Abend fragt ebenso nach', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tippen(tester, 'Abend beginnen');
+    await tester.binding.handlePopRoute();
+    await warten(tester, bis: find.byType(AlertDialog));
+    expect(find.text('Abend abbrechen?'), findsOneWidget);
+    await tippen(tester, 'Weiterspielen');
+    expect(find.byType(AbendSeite), findsOneWidget, reason: 'Die App bleibt auf dem Abend');
+    expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

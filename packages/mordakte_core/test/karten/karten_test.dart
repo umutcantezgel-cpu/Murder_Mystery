@@ -17,9 +17,10 @@ List<String> _befunde(KartenDef k) => KartenKatalog([k]).pruefe();
 AbendErgebnis _abend({
   String rolle = 'can', String pfad = 'ahmet', bool anklageRichtig = false,
   String ende = 'ende_teilerfolg', Set<String> funde = const {}, String spieler = 'p1',
+  Set<String> tisch = const {},
 }) => AbendErgebnis(
   akte: 'schlosskeller', salz: 'belohnung-salz', spielerId: spieler, rolle: rolle, pfad: pfad,
-  anklageRichtig: anklageRichtig, ende: ende, abstecherFunde: funde,
+  anklageRichtig: anklageRichtig, ende: ende, abstecherFunde: funde, tischFiguren: tisch,
 );
 
 void main() {
@@ -146,5 +147,74 @@ void main() {
     final voll = belohnungFuer(_abend(funde: {'ab_1', 'ab_2'}, anklageRichtig: true, ende: 'ende_meister'), pool, {});
     expect(voll.toSet(), hasLength(voll.length), reason: 'keine Karte doppelt');
     expect(voll, containsAll([rolle.id, fund1.id, fund2.id, taeter.id, meister.id]));
+  });
+
+  test('Belohnung ohne Tischfiguren ist unverändert (Festwerte von vor der Tisch-Belohnung)', () {
+    // Festwerte aus dem Stand vor 98b0256 (5cfdea0), für dieselben Abende und Karten.
+    final pool = KartenKatalog([for (final s in ['a', 'b', 'c', 'd']) _karte('can', 'rolle_$s', KartenArt.werkzeug), taeter, meister, fund1, fund2]);
+    expect(belohnungFuer(_abend(), pool, {}), ['schlosskeller:can:rolle_d']);
+    expect(belohnungFuer(_abend(spieler: 'p2'), pool, {}), ['schlosskeller:can:rolle_b']);
+    expect(belohnungFuer(_abend(spieler: 'p3'), pool, {}), ['schlosskeller:can:rolle_d']);
+    expect(belohnungFuer(_abend(spieler: 'p4'), pool, {'schlosskeller:can:rolle_a'}), ['schlosskeller:can:rolle_b']);
+    expect(belohnungFuer(_abend(spieler: 'p5'), pool, {'schlosskeller:can:rolle_a', 'schlosskeller:can:rolle_b', 'schlosskeller:can:rolle_c'}),
+        ['schlosskeller:can:rolle_d']);
+    expect(belohnungFuer(_abend(spieler: 'p6', anklageRichtig: true), pool, {}), ['schlosskeller:can:rolle_b', 'schlosskeller:ahmet:taeter']);
+    expect(belohnungFuer(_abend(spieler: 'p7', anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1', 'ab_2'}), pool, {}), [
+      'schlosskeller:can:rolle_d', 'schlosskeller:ahmet:taeter', 'schlosskeller:can:meister', 'schlosskeller:can:fund1', 'schlosskeller:can:fund2',
+    ]);
+    expect(belohnungFuer(_abend(spieler: 'p8', funde: {'ab_1'}), pool, {'schlosskeller:can:fund1'}), ['schlosskeller:can:rolle_b']);
+  });
+
+  test('Am Tisch kommt genau eine Rollenkarte einer Tisch-Figur ans Ende, die übrigen Züge bleiben', () {
+    final pool = KartenKatalog([
+      _karte('can', 'rolle', KartenArt.werkzeug),
+      _karte('ahmet', 'rolle', KartenArt.werkzeug),
+      _karte('fatma', 'rolle', KartenArt.marke),
+      // Keine Rollenquelle: kommt am Tisch nicht in Frage.
+      _karte('fatma', 'start', KartenArt.werkzeug, quellen: const [KartenQuelle('start')]),
+      taeter, meister, fund1, fund2,
+    ]);
+    // Über mehrere Spielerkennungen: die Start-Karte kommt nie dazu.
+    for (var i = 1; i <= 12; i++) {
+      final ohne = belohnungFuer(_abend(spieler: 'p$i', anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1'}), pool, {});
+      final mit = belohnungFuer(
+          _abend(spieler: 'p$i', anklageRichtig: true, ende: 'ende_meister', funde: {'ab_1'}, tisch: {'ahmet', 'fatma'}), pool, {});
+      expect(mit, hasLength(ohne.length + 1), reason: 'p$i: genau eine zusätzliche Karte');
+      expect(mit.sublist(0, ohne.length), ohne, reason: 'p$i: die übrigen Züge bleiben gleich');
+      expect(mit.last, anyOf('schlosskeller:ahmet:rolle', 'schlosskeller:fatma:rolle'), reason: 'p$i: nur Rollenkarten');
+    }
+  });
+
+  test('Tisch-Figur ohne Rollenkarte bringt keine Zusatzkarte', () {
+    final pool = KartenKatalog([
+      _karte('can', 'rolle', KartenArt.werkzeug),
+      _karte('fatma', 'start', KartenArt.werkzeug, quellen: const [KartenQuelle('start')]),
+    ]);
+    for (var i = 1; i <= 8; i++) {
+      expect(belohnungFuer(_abend(spieler: 'p$i', tisch: {'fatma'}), pool, {}),
+          belohnungFuer(_abend(spieler: 'p$i'), pool, {}), reason: 'p$i');
+    }
+  });
+
+  test('Tisch-Belohnung ist deterministisch und je Spieler verschieden', () {
+    final pool = KartenKatalog([for (final s in ['a', 'b', 'c', 'd']) _karte('fatma', 'rolle_$s', KartenArt.werkzeug)]);
+    final e = _abend(tisch: {'fatma'});
+    expect(belohnungFuer(e, pool, {}), belohnungFuer(e, pool, {}));
+    expect(belohnungFuer(e, pool, {}), hasLength(1));
+    final je = {for (var i = 1; i <= 12; i++) belohnungFuer(_abend(spieler: 'p$i', tisch: {'fatma'}), pool, {}).single};
+    expect(je.length, greaterThan(1));
+  });
+
+  test('Tisch-Belohnung zieht zuerst unbesessene Karten der Tisch-Figur', () {
+    final pool = KartenKatalog([
+      _karte('can', 'rolle_a', KartenArt.werkzeug),
+      _karte('fatma', 'rolle_a', KartenArt.werkzeug),
+      _karte('fatma', 'rolle_b', KartenArt.werkzeug),
+    ]);
+    final besitz = {'schlosskeller:fatma:rolle_a'};
+    for (var i = 1; i <= 8; i++) {
+      expect(belohnungFuer(_abend(spieler: 'p$i', tisch: {'fatma'}), pool, besitz),
+          ['schlosskeller:can:rolle_a', 'schlosskeller:fatma:rolle_b'], reason: 'p$i');
+    }
   });
 }
