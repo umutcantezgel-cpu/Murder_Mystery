@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../party/party_stil.dart';
+import '../stil/tokens.dart';
 
 /// Farben aus der Look-Bibel K9 des Krimidinners „Spuk im Gewölbe“.
 ///
 /// Grundlage bleibt der Kellerstil der Partyabende ([Keller], [PartyTafel],
-/// [PartyKnopf]); die K9-Farben setzen nur Akzente, damit beide Abende wie aus
-/// einem Guss wirken.
+/// [PartyKnopf]) und damit das Designsystem `lib/stil/`; die K9-Farben setzen
+/// nur Akzente (Bernstein und Spukcyan sind dieselben Token-Werte).
 abstract final class K9 {
   static const bruchstein = Color(0xFF6B6660);
   static const eisenschwarz = Color(0xFF22201E);
-  static const kerzenbernstein = Color(0xFFE8A33D);
+  static const kerzenbernstein = MRoh.akzent;
   static const glutorange = Color(0xFFC8642B);
   static const punschbraun = Color(0xFF9C4A23);
   static const nachtblau = Color(0xFF1E2A3A);
   static const moosgruen = Color(0xFF4A5A3C);
   static const pergament = Color(0xFFE9DCC0);
-  static const spukcyan = Color(0xFFA9D6D9);
+  static const spukcyan = MRoh.geist;
 
   /// Alle Rollen tragen denselben Akzent: keine Farbe verrät eine Rolle.
   static const akzent = kerzenbernstein;

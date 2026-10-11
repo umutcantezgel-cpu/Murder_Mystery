@@ -4,10 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/gen/app_localizations.dart';
+import '../abend/abend_halter.dart';
 import '../meta/meta_store.dart';
+import '../stil/thema.dart';
 import 'app_state.dart';
 import 'router.dart';
-import 'theme.dart';
 
 class MordakteApp extends StatefulWidget {
   const MordakteApp({super.key, required this.app, this.initialLocation = Routes.start});
@@ -20,12 +21,14 @@ class MordakteApp extends StatefulWidget {
 }
 
 class _MordakteAppState extends State<MordakteApp> {
-  late final GoRouter _router = buildRouter(widget.app, initialLocation: widget.initialLocation);
-  final _theme = buildNoirTheme();
+  final _abend = AbendHalter();
+  late final GoRouter _router = buildRouter(widget.app, initialLocation: widget.initialLocation, abend: _abend);
+  final _theme = buildMordakteTheme();
 
   @override
   void dispose() {
     _router.dispose();
+    _abend.dispose();
     super.dispose();
   }
 
@@ -35,6 +38,7 @@ class _MordakteAppState extends State<MordakteApp> {
       providers: [
         ChangeNotifierProvider<AppState>.value(value: widget.app),
         ChangeNotifierProvider<MetaStore>.value(value: widget.app.meta),
+        ChangeNotifierProvider<AbendHalter>.value(value: _abend),
       ],
       child: MaterialApp.router(
         onGenerateTitle: (c) => L.of(c).appTitle,

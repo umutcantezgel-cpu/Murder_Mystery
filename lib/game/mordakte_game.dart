@@ -14,6 +14,7 @@ import 'scene/figure_painter.dart';
 import 'scene/lighting.dart';
 import 'szenen_erweiterung.dart';
 import 'scene/markers.dart';
+import 'scene/nebel.dart';
 import 'scene/palette.dart';
 import 'scene/prop_painter.dart';
 import 'scene/static_scene.dart';
@@ -137,9 +138,14 @@ class _Teilchen {
 }
 
 class _Nebel {
-  _Nebel(this.sicht) : offen = sicht > 0.5;
+  _Nebel(this.sicht)
+      : offen = sicht > 0.5,
+        erinnert = sicht > 0.5;
   double sicht;
   bool offen;
+
+  /// Der Raum war schon einmal im Sichtfeld: Sein Schleier ist dann leichter.
+  bool erinnert;
   Offset? ursprung;
 }
 
@@ -1144,6 +1150,7 @@ class MordakteGame extends Game with KeyboardEvents {
     for (final r in scene.scenario.map.rooms) {
       final n = _nebel.putIfAbsent(r.id, () => _Nebel(sicht.contains(r.id) ? 1 : 0));
       final soll = sicht.contains(r.id);
+      if (soll) n.erinnert = true;
       if (soll && !n.offen) {
         n.offen = true;
         n.ursprung = Offset(_px, _py);
@@ -1167,12 +1174,17 @@ class MordakteGame extends Game with KeyboardEvents {
     return 1;
   }
 
+  /// Weicher Schleier statt schwarzer Fläche: unbekannte Räume liegen zu
+  /// höchstens 62 % im Dunst, bekannte zu 38 % ([nebelDeckkraft]).
   void _renderNebel(Canvas c, StaticScene scene) {
     if (_sichtbar == null) return;
     const wand = 1.6;
+    final schleier = nebelSchleier(_pal);
     for (final r in scene.scenario.map.rooms) {
       final n = _nebel[r.id];
       if (n == null || n.sicht >= 0.999) continue;
+      final deckkraft = nebelDeckkraft(n.sicht, erinnert: n.erinnert);
+      if (deckkraft < 0.01) continue;
       // Boden randgenau, nur die hinteren Kanten (eigene Rückwände) angehoben.
       final x0 = r.x.toDouble(), y0 = r.y.toDouble(), x1 = (r.x + r.w).toDouble(), y1 = (r.y + r.h).toDouble();
       final a = Iso.toScreen(x0, y0), b = Iso.toScreen(x1, y0), d = Iso.toScreen(x1, y1), e = Iso.toScreen(x0, y1);
@@ -1185,16 +1197,19 @@ class MordakteGame extends Game with KeyboardEvents {
         ..lineTo(e.dx, e.dy)
         ..lineTo(eh.dx, eh.dy)
         ..close();
-      final paint = Paint();
+      // Weicher Rand statt harter Kante zwischen Schleier und sichtbarem Raum.
+      final paint = Paint()..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
       final u = n.ursprung;
       if (n.offen && u != null) {
         // Radialer Übergang von der Stelle, an der der Raum ins Sichtfeld kam.
         final o = Iso.toScreen(u.dx, u.dy);
         final weit = (a - d).distance + (b - e).distance;
         final rad = math.max(1.0, weit * n.sicht);
-        paint.shader = Gradient.radial(o, rad, const [Color(0x00000000), Color(0x00000000), Color(0xFF000000)], const [0.0, 0.7, 1.0]);
+        final klar = schleier.withValues(alpha: 0);
+        final voll = schleier.withValues(alpha: nebelDeckkraft(0, erinnert: n.erinnert));
+        paint.shader = Gradient.radial(o, rad, [klar, klar, voll], const [0.0, 0.7, 1.0]);
       } else {
-        paint.color = Color.fromRGBO(0, 0, 0, 1 - n.sicht);
+        paint.color = schleier.withValues(alpha: deckkraft);
       }
       c.drawPath(path, paint);
     }

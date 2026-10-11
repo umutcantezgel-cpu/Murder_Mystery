@@ -9,6 +9,7 @@ import '../../session/session_factory.dart';
 import '../../app/app_state.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
+import '../../detektei/name_dialog.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../meta/progression.dart';
@@ -19,6 +20,9 @@ import '../widgets/meters.dart';
 import '../widgets/noir_backdrop.dart';
 import '../widgets/panels.dart';
 import '../widgets/paper.dart';
+
+// Der Namensdialog liegt in der Detektei; der alte Hub und das Profil benutzen ihn weiter.
+export '../../detektei/name_dialog.dart' show showNameDialog;
 
 class HubScreen extends StatefulWidget {
   const HubScreen({super.key});
@@ -654,70 +658,4 @@ class _DailyCard extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Fragt den Spielernamen ab (beim ersten Start Pflicht).
-Future<void> showNameDialog(BuildContext context, {bool first = false}) async {
-  final meta = context.read<MetaStore>();
-  final l = L.of(context);
-  final ctrl = TextEditingController(text: meta.name ?? '');
-  await showDialog<void>(
-    context: context,
-    barrierDismissible: !first,
-    barrierColor: Noir.scrim,
-    builder: (c) {
-      void save() {
-        final v = ctrl.text.trim();
-        meta.name = v.isEmpty ? l.name_default : (v.length > 16 ? v.substring(0, 16) : v);
-        Navigator.of(c).pop();
-      }
-
-      return Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: PaperCard(
-            clip: true,
-            padding: const EdgeInsets.fromLTRB(22, 26, 22, 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(first ? l.name_prompt_title_du : l.name_edit, style: Noir.title(22, color: Noir.ink, spacing: 0.5)),
-                const SizedBox(height: 6),
-                Text(l.name_prompt_text_du, style: Noir.typed(13.5, color: Noir.inkSoft)),
-                const SizedBox(height: 18),
-                TextField(
-                  controller: ctrl,
-                  autofocus: true,
-                  maxLength: 16,
-                  textCapitalization: TextCapitalization.words,
-                  style: Noir.typed(20, color: Noir.ink),
-                  cursorColor: Noir.blood,
-                  decoration: InputDecoration(
-                    hintText: l.name_prompt_hint,
-                    counterText: '',
-                    filled: true,
-                    fillColor: Noir.shadeFaint,
-                    hintStyle: Noir.typed(20, color: Noir.inkSoft.withValues(alpha: 0.5)),
-                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Noir.inkSoft)),
-                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Noir.blood, width: 2)),
-                  ),
-                  onSubmitted: (_) => save(),
-                ),
-                const SizedBox(height: 20),
-                NoirButton(
-                  label: first ? l.name_prompt_confirm : l.common_save,
-                  icon: Icons.badge_rounded,
-                  style: NoirButtonStyle.danger,
-                  onPressed: save,
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
 }

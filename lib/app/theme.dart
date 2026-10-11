@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 /// Farbpalette und Schriften des Noir-Stils.
+///
+/// Nur noch für die klassische Echtzeit-Oberfläche (Fälle, Lobby, Spiel). Das
+/// Spiel „Mordakte“ verwendet das Designsystem `lib/stil/`.
 abstract final class Noir {
   static const night = Color(0xFF0D0F1D);
   static const night2 = Color(0xFF14172A);
@@ -157,6 +160,7 @@ Color accentOf(ScenarioDef? s) => s == null ? Noir.brass : Color(s.theme.color('
 
 Color coatColor(int index) => hexColor(detectiveCoats[index.clamp(0, detectiveCoats.length - 1)]);
 
+/// Thema der klassischen Oberfläche und der Vorschauen; die App nutzt `buildMordakteTheme`.
 ThemeData buildNoirTheme() {
   const scheme = ColorScheme.dark(
     primary: Noir.brass,

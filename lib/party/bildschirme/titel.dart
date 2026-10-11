@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../stil/tokens.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 
@@ -61,6 +62,17 @@ class _LichtscheinState extends State<_Lichtschein> with SingleTickerProviderSta
   void initState() {
     super.initState();
     _takt = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Bewegung reduzieren: ruhiger Schein ohne Flackern.
+    if (MBewegung.ruhig(context)) {
+      _takt.stop();
+    } else if (!_takt.isAnimating) {
+      _takt.repeat();
+    }
   }
 
   @override
