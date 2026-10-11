@@ -101,10 +101,13 @@ class _PartySeiteState extends State<PartySeite> {
 /// Wechsel über. Gemeinsam für den alten Einstieg `/party` ([PartySeite]) und
 /// den Abend im Spiel (`AbendSeite`). [menu] erscheint nur auf dem Titel.
 class PartyAblauf extends StatelessWidget {
-  const PartyAblauf({super.key, required this.sitzung, this.menu});
+  const PartyAblauf({super.key, required this.sitzung, this.menu, this.onEnde});
 
   final PartySitzung sitzung;
   final Widget? menu;
+
+  /// Weg vom Ende des Abends; ohne Angabe führt die Abschlusstafel in die Detektei.
+  final VoidCallback? onEnde;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +120,7 @@ class PartyAblauf extends StatelessWidget {
           duration: MBewegung.ruhig(context) ? Duration.zero : const Duration(milliseconds: 350),
           child: KeyedSubtree(
             key: ValueKey('${s.phase.name}-${s.runde}'),
-            child: bildschirm(s, menu: menu),
+            child: bildschirm(s, menu: menu, onEnde: onEnde),
           ),
         ),
       ),
@@ -126,7 +129,7 @@ class PartyAblauf extends StatelessWidget {
 }
 
 /// Bildschirm je Abschnitt des Abends.
-Widget bildschirm(PartySitzung s, {Widget? menu}) => switch (s.phase) {
+Widget bildschirm(PartySitzung s, {Widget? menu, VoidCallback? onEnde}) => switch (s.phase) {
       PartyPhase.titel => TitelBildschirm(sitzung: s, menu: menu),
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
@@ -137,7 +140,7 @@ Widget bildschirm(PartySitzung s, {Widget? menu}) => switch (s.phase) {
       PartyPhase.bonus || PartyPhase.resuemee => ResuemeeBildschirm(sitzung: s),
       PartyPhase.anklage => AnklageBildschirm(sitzung: s),
       PartyPhase.finale => FinaleBildschirm(sitzung: s),
-      PartyPhase.aufloesung || PartyPhase.ende => AufloesungBildschirm(sitzung: s),
+      PartyPhase.aufloesung || PartyPhase.ende => AufloesungBildschirm(sitzung: s, onEnde: onEnde),
     };
 
 /// Lade- und Fehleranzeige ohne Textsammlung (die ist dann noch nicht da).

@@ -1317,6 +1317,16 @@ class MordakteGame extends Game with KeyboardEvents {
         () => _markers!.hotspot(c, o, e.value, h.kind, _time, seed),
       ));
     }
+    // Freiwillige Funkelstellen der Szene (offene Abstecher): kühles Funkeln,
+    // damit sie nicht mit den goldenen Hotspots der Entscheidung verwechselt werden.
+    final glanz = session is SzenenGlanz ? (session as SzenenGlanz).glanzpunkte : const <SzenenGlanzPunkt>[];
+    for (final g in glanz) {
+      if (_nebelSicht(g.x, g.y) < 0.5) continue;
+      final o = Iso.toScreen(g.x, g.y, 0.42);
+      if (!cull.contains(o)) continue;
+      final seed = g.id.hashCode % 13;
+      items.add((g.x + g.y + 1.0, 1, () => _markers!.hotspot(c, o, 'fresh', 'lab', _time, seed)));
+    }
     // Items (Spuren: nur der Rauchfaden steht im Raum)
     for (final it in cv?.items ?? const <ItemView>[]) {
       if (it.type == 'trace') {

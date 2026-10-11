@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordakte_core/runden.dart' show KartenKatalog;
 import 'package:provider/provider.dart';
 
 import '../app/router.dart';
+import '../karten/katalog_laden.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
 import '../stil/stil.dart';
@@ -23,9 +25,18 @@ class DetekteiSeite extends StatefulWidget {
 class _DetekteiSeiteState extends State<DetekteiSeite> {
   late Future<List<AkteInfo>> _akten = AktenKatalog.laden();
 
+  /// Katalog der Sammelkarten für den Fortschritt auf dem Eintrag „Sammlung“.
+  KartenKatalog? _katalog;
+
   @override
   void initState() {
     super.initState();
+    kartenBereit(context.read<MetaStore>()).then((k) {
+      if (mounted) setState(() => _katalog = k);
+    }).catchError((Object e) {
+      // Ohne Katalog zeigt der Eintrag nur seinen Hinweis.
+      debugPrint('DETEKTEI karten fehler $e');
+    });
     // Beim ersten Start fragt die Detektei nach dem Namen (wie früher der Hub).
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -38,6 +49,9 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
     final l = L.of(context);
     final t = MSchrift.von(context);
     final f = MFarben.von(context);
+    final meta = context.watch<MetaStore>();
+    final katalog = _katalog;
+    final neueste = katalog == null || meta.neuesteKarte == null ? null : katalog[meta.neuesteKarte!];
     return Scaffold(
       backgroundColor: f.grund,
       body: MRahmen(
@@ -102,6 +116,10 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                   icon: Icons.style_outlined,
                   titel: l.detektei_sammlung,
                   hinweis: l.detektei_sammlung_hinweis,
+                  zusatz: [
+                    if (katalog != null) l.karten_sammlung_fortschritt(katalog.alle.where((k) => meta.besitztKarte(k.id)).length, katalog.alle.length),
+                    if (neueste != null) l.karten_detektei_neueste(neueste.titel),
+                  ],
                   onTap: () => context.go(Routes.sammlung),
                 );
                 final profil = _Eintrag(
@@ -198,12 +216,15 @@ class _Kopf extends StatelessWidget {
 
 /// Eintrag „Sammlung“ oder „Profil“ unter der Kampagne.
 class _Eintrag extends StatelessWidget {
-  const _Eintrag({required this.icon, required this.titel, required this.hinweis, required this.onTap});
+  const _Eintrag({required this.icon, required this.titel, required this.hinweis, required this.onTap, this.zusatz = const []});
 
   final IconData icon;
   final String titel;
   final String hinweis;
   final VoidCallback onTap;
+
+  /// Zusätzliche Zeilen unter dem Hinweis (z. B. Fortschritt der Sammlung).
+  final List<String> zusatz;
 
   @override
   Widget build(BuildContext context) {
@@ -230,6 +251,7 @@ class _Eintrag extends StatelessWidget {
                       children: [
                         Text(titel, style: t.ueberschrift.copyWith(fontSize: 18)),
                         Text(hinweis, style: t.leise.copyWith(fontSize: 13)),
+                        for (final z in zusatz) Text(z, style: t.leise.copyWith(fontSize: 13, color: f.akzentHell)),
                       ],
                     ),
                   ),

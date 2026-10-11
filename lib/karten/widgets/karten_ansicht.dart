@@ -1,0 +1,248 @@
+import 'package:flutter/material.dart';
+import 'package:mordakte_core/mordakte_core.dart' show LookDef;
+import 'package:mordakte_core/runden.dart';
+
+import '../../l10n/gen/app_localizations_de.dart';
+import '../../stil/stil.dart';
+import '../../ui/widgets/portrait.dart' show PortraitPainter;
+import '../katalog_laden.dart';
+import 'spielkarte.dart';
+
+final _de = LDe();
+
+/// Texte der Karten ohne Kontext (die Oberfläche ist deutsch; die Quelle ist
+/// `app_de.arb`). Hand und Spielkarten im Abend brauchen so keine Lokalisierung
+/// über dem Widgetbaum.
+abstract final class KartenTexte {
+  static String seltenheit(Seltenheit s) => switch (s) {
+        Seltenheit.gewoehnlich => _de.karten_seltenheit_gewoehnlich,
+        Seltenheit.selten => _de.karten_seltenheit_selten,
+        Seltenheit.legendaer => _de.karten_seltenheit_legendaer,
+      };
+
+  static String art(KartenArt a) => switch (a) {
+        KartenArt.werkzeug => _de.karten_art_werkzeug,
+        KartenArt.marke => _de.karten_art_marke,
+        KartenArt.zeit => _de.karten_art_zeit,
+        KartenArt.gruendlich => _de.karten_art_gruendlich,
+        KartenArt.nochmal => _de.karten_art_nochmal,
+        KartenArt.umweg => _de.karten_art_umweg,
+        KartenArt.abstecher => _de.karten_art_abstecher,
+        KartenArt.erinnerung => _de.karten_art_erinnerung,
+        KartenArt.kosmetik => _de.karten_art_kosmetik,
+      };
+
+  static String ladungen(int n) => _de.karten_ladungen(n);
+
+  static String quelle(KartenQuelle q) => switch (q.art) {
+        'rolle' => _de.karten_quelle_rolle,
+        'taeter' => _de.karten_quelle_taeter,
+        'meister' => _de.karten_quelle_meister,
+        'abstecher' => _de.karten_quelle_abstecher,
+        'start' => _de.karten_quelle_start,
+        _ => '',
+      };
+
+  static String get unbekannt => _de.karten_unbekannt;
+  static String get rueckseite => _de.karten_rueckseite;
+
+  // Hand und Abend (Party-Bildschirme, ohne Lokalisierung im Widgetbaum).
+  static String get handTitel => _de.karten_hand_titel;
+  static String handKarte(String titel, int rest, int max) => _de.karten_hand_karte(titel, rest, max);
+  static String get handSpielbar => _de.karten_hand_spielbar;
+  static String get handGesperrt => _de.karten_hand_gesperrt;
+  static String get handGewaehlt => _de.karten_hand_gewaehlt;
+  static String get handLeer => _de.karten_hand_leer;
+  static String get handSpielen => _de.karten_hand_spielen;
+  static String get handSchliessen => _de.karten_hand_schliessen;
+  static String get handWuerfel => _de.karten_hand_wuerfel;
+  static String get handTischruf => _de.karten_hand_tischruf;
+  static String get handGruendlich => _de.karten_hand_gruendlich;
+  static String get handKartenHinweis => _de.karten_hand_karte_hinweis;
+  static String get handImZug => _de.karten_hand_im_zug;
+  static String erkunden(String name) => _de.karten_erkunden(name);
+  static String get erkundenMarke => _de.karten_erkunden_marke;
+  static String get erkundenText => _de.karten_erkunden_text;
+  static String erkundenKosten(int min, int pech) => _de.karten_erkunden_kosten(min, pech);
+  static String get erkundenLos => _de.karten_erkunden_los;
+  static String get erkundenNein => _de.karten_erkunden_nein;
+  static String erkundenKarte(String titel) => _de.karten_erkunden_karte(titel);
+  static String get erkundenWuerfel => _de.karten_erkunden_wuerfel;
+  static String get erkundenFund => _de.karten_erkunden_fund;
+  static String get erkundenListe => _de.karten_erkunden_liste;
+  static String gruendlichKarte(String titel) => _de.karten_gruendlich_karte(titel);
+
+  /// Folgezeile unter dem Wurf eines Abstechers (Minuten aus [ZugParameter]).
+  static String erkundenFolge(Stufe stufe, ZugParameter p) => switch (stufe) {
+        Stufe.erfolg => _de.karten_erkunden_erfolg_folge(p.erfolgGewinn),
+        Stufe.teilerfolg => _de.karten_erkunden_teilerfolg_folge,
+        Stufe.pech => _de.karten_erkunden_pech_folge(p.abstecherPechZeit),
+      };
+}
+
+/// Zinn, Messing oder Blutgold je Seltenheit der Karte.
+KartenSeltenheit seltenheitStufe(Seltenheit s) => switch (s) {
+      Seltenheit.gewoehnlich => KartenSeltenheit.zinn,
+      Seltenheit.selten => KartenSeltenheit.messing,
+      Seltenheit.legendaer => KartenSeltenheit.blutgold,
+    };
+
+/// Symbol der Wirkung einer Karte.
+IconData artSymbol(KartenArt a) => switch (a) {
+      KartenArt.werkzeug => Icons.search_rounded,
+      KartenArt.marke => Icons.bubble_chart_rounded,
+      KartenArt.zeit => Icons.hourglass_bottom_rounded,
+      KartenArt.gruendlich => Icons.zoom_in_rounded,
+      KartenArt.nochmal => Icons.replay_rounded,
+      KartenArt.umweg => Icons.alt_route_rounded,
+      KartenArt.abstecher => Icons.explore_rounded,
+      KartenArt.erinnerung => Icons.menu_book_rounded,
+      KartenArt.kosmetik => Icons.palette_rounded,
+    };
+
+/// Siegel der Akte unten auf der Karte (zwei Buchstaben).
+String akteSigel(String akte) => AkteStil.fuer(akte).sigel;
+
+/// Eine Sammelkarte des Katalogs als [SpielKarte]. Das Bildfeld zeigt das
+/// Symbol der Wirkung und, wenn bekannt, die Büste der Figur.
+class KartenKarte extends StatelessWidget {
+  const KartenKarte({
+    super.key,
+    required this.def,
+    this.figur,
+    this.breite,
+    this.aufgedeckt = true,
+    this.umdrehbar = false,
+    this.onUmgedreht,
+    this.rueckseitenSemantik,
+  });
+
+  final KartenDef def;
+  final KartenFigur? figur;
+  final double? breite;
+  final bool aufgedeckt;
+  final bool umdrehbar;
+  final ValueChanged<bool>? onUmgedreht;
+
+  /// Beschriftung der Rückseite für den Bildschirmleser (sonst „Kartenrückseite“).
+  final String? rueckseitenSemantik;
+
+  @override
+  Widget build(BuildContext context) {
+    final f = MFarben.von(context);
+    final stufe = seltenheitStufe(def.seltenheit);
+    final grund = f.seltenheit(stufe.index);
+    final farbe = figur?.farbe == null ? grund : Color.lerp(grund, figur!.farbe, 0.45)!;
+    return SpielKarte(
+      name: def.titel,
+      farbe: farbe,
+      wirkung: def.text,
+      seltenheit: stufe,
+      seltenheitText: KartenTexte.seltenheit(def.seltenheit),
+      akte: akteSigel(def.akte),
+      aufgedeckt: aufgedeckt,
+      umdrehbar: umdrehbar,
+      onUmgedreht: onUmgedreht,
+      rueckseitenSemantik: rueckseitenSemantik ?? KartenTexte.rueckseite,
+      breite: breite,
+      bild: KartenMotiv(art: def.art, look: figur?.look),
+    );
+  }
+}
+
+/// Bild einer Karte: großes Symbol der Wirkung, unten links die Büste der Figur.
+class KartenMotiv extends StatelessWidget {
+  const KartenMotiv({super.key, required this.art, this.look});
+
+  final KartenArt art;
+  final LookDef? look;
+
+  @override
+  Widget build(BuildContext context) {
+    final f = MFarben.von(context);
+    return SizedBox.square(
+      dimension: 100,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  colors: [f.papier.withValues(alpha: 0.2), f.papier.withValues(alpha: 0)],
+                ),
+              ),
+            ),
+          ),
+          Center(child: Icon(artSymbol(art), size: 56, color: f.papier.withValues(alpha: 0.92))),
+          if (look != null)
+            Positioned(
+              left: 6,
+              bottom: 6,
+              width: 34,
+              height: 34,
+              child: ClipOval(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(border: Border.all(color: f.papier.withValues(alpha: 0.7))),
+                  child: CustomPaint(painter: PortraitPainter(look: look!, background: false, accent: f.akzentHell)),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Eine noch unbekannte Karte: verdeckt, gedämpft, mit Silhouette.
+class UnbekannteKarte extends StatelessWidget {
+  const UnbekannteKarte({super.key, this.breite, this.semantik});
+
+  final double? breite;
+
+  /// Beschriftung für den Bildschirmleser.
+  final String? semantik;
+
+  @override
+  Widget build(BuildContext context) {
+    final f = MFarben.von(context);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final w = breite ?? (box.maxWidth.isFinite ? box.maxWidth : 120.0);
+        return Semantics(
+          label: semantik ?? KartenTexte.unbekannt,
+          image: true,
+          excludeSemantics: true,
+          child: SizedBox(
+            width: w,
+            height: w / MMass.kartenSeiten,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Opacity(
+                  opacity: 0.55,
+                  child: SpielKarte(
+                    name: '',
+                    farbe: f.zinn,
+                    aufgedeckt: false,
+                    umdrehbar: false,
+                    breite: w,
+                    rueckseitenSemantik: KartenTexte.unbekannt,
+                  ),
+                ),
+                Center(child: Icon(Icons.person_rounded, size: w * 0.42, color: f.grund.withValues(alpha: 0.78))),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Kleine Marke „NEU“ für eine frisch erhaltene Karte.
+class NeuMarke extends StatelessWidget {
+  const NeuMarke({super.key});
+
+  @override
+  Widget build(BuildContext context) => MChip(_de.karten_neu, gefuellt: true, farbe: MFarben.von(context).akzent);
+}

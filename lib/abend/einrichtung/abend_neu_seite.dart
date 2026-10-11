@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordakte_core/runden.dart' show AbstecherOrt, KartenKatalog, TischVorrat;
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
 import '../../detektei/akte_bausteine.dart';
 import '../../detektei/akten.dart';
+import '../../karten/katalog_laden.dart';
+import '../../karten/widgets/deck_zeile.dart';
 import '../../l10n/lookup.dart';
+import '../../meta/meta_store.dart';
 import '../../party/daten.dart';
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
@@ -30,11 +34,14 @@ enum _Schritt { akte, spielweise, einstellungen, start }
 
 /// Eine geladene Akte samt Sitzung und Einstellungen.
 class _Geladen {
-  _Geladen(this.akteId, this.sitzung, this.werte);
+  _Geladen(this.akteId, this.sitzung, this.werte, this.abstecher);
 
   final String akteId;
   final PartySitzung sitzung;
   final EinrichtungsWerte werte;
+
+  /// Erkundungsorte der Akte (leer, wenn die Akte keine hat).
+  final List<AbstecherOrt> abstecher;
 }
 
 /// Assistent für einen neuen Abend (Route `/abend/neu`): Akte, Spielweise,
@@ -61,11 +68,25 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   bool _ladeFehler = false;
   bool _uebergeben = false;
 
+  /// Katalog der Sammelkarten für die Zeile „Deck für diesen Abend“ (null, solange er lädt).
+  KartenKatalog? _katalog;
+
   @override
   void initState() {
     super.initState();
     _akteId = widget.akteId;
     _leseAkten();
+    _leseKatalog();
+  }
+
+  Future<void> _leseKatalog() async {
+    try {
+      final k = await kartenBereit(context.read<MetaStore>());
+      if (mounted) setState(() => _katalog = k);
+    } catch (e, st) {
+      // Ohne Katalog läuft der Abend ohne Karten weiter.
+      debugPrint('ABEND karten fehler $e\n$st');
+    }
   }
 
   Future<void> _leseAkten() async {
@@ -99,13 +120,13 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
     _verwerfeGeladene();
     _ladeId = id;
     _ladeFehler = false;
-    PartyDaten.laden(rootBundle, fall: id).then((daten) {
+    Future.wait<Object>([PartyDaten.laden(rootBundle, fall: id), ladeAbstecher(id)]).then((r) {
       if (!mounted || _ladeId != id) return;
-      final s = PartySitzung(daten);
+      final s = PartySitzung(r[0] as PartyDaten);
       final werte = EinrichtungsWerte(s)..solo = _weise == Spielweise.solo;
       // Der Fußbereich hängt vom Fall-Code ab: bei jeder Eingabe neu zeichnen.
       werte.addListener(_werteGeaendert);
-      setState(() => _geladen = _Geladen(id, s, werte));
+      setState(() => _geladen = _Geladen(id, s, werte, r[1] as List<AbstecherOrt>));
     }).catchError((Object e, StackTrace st) {
       debugPrint('ABEND laden fehler $e\n$st');
       if (mounted && _ladeId == id) setState(() => _ladeFehler = true);
@@ -180,8 +201,15 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   /// ([EinrichtungsWerte.starten]) und übergibt sie dem Abend.
   void _starten() {
     final g = _geladen;
-    if (g == null || _weise == null) return;
+    if (g == null || _weise == null || _uebergeben) return;
     g.werte.solo = _weise == Spielweise.solo;
+    // Das Deck des Geräts ist der Kartenvorrat des Abends (Solo wie reihum);
+    // die Erkundungsorte gehören zur Akte. Beides gilt vor der Einrichtung.
+    final katalog = _katalog;
+    g.sitzung.kartenAnlegen(
+      vorrat: katalog == null ? null : TischVorrat.aus(context.read<MetaStore>().deck, katalog),
+      abstecher: g.abstecher,
+    );
     g.werte.starten();
     _uebergeben = true;
     context.read<AbendHalter>().uebernehmen(g.sitzung);
@@ -295,19 +323,27 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         if (g == null || akte == null) return _Laedt(text: l.abend_laedt);
         return ListenableBuilder(
           listenable: g.werte,
-          builder: (context, _) => MTafel(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _Zeile(l.abend_start_akte, akte.titel),
-                _Zeile(
-                  l.abend_start_spielweise,
-                  _weise == Spielweise.solo ? l.abend_spielweise_solo : l.abend_spielweise_reihum,
+          builder: (context, _) => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              MTafel(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _Zeile(l.abend_start_akte, akte.titel),
+                    _Zeile(
+                      l.abend_start_spielweise,
+                      _weise == Spielweise.solo ? l.abend_spielweise_solo : l.abend_spielweise_reihum,
+                    ),
+                    _Zeile(l.abend_start_personen, '${g.werte.rollen}'),
+                    if (_weise != Spielweise.solo) _Zeile(l.abend_start_dauer, l.common_minutes(g.werte.minuten), letzte: true),
+                  ],
                 ),
-                _Zeile(l.abend_start_personen, '${g.werte.rollen}'),
-                if (_weise != Spielweise.solo) _Zeile(l.abend_start_dauer, l.common_minutes(g.werte.minuten), letzte: true),
-              ],
-            ),
+              ),
+              const SizedBox(height: MMass.s12),
+              // Das Deck dieses Geräts liegt am Abend als gemeinsame Hilfe auf dem Tisch.
+              DeckZeile(katalog: _katalog, onAendern: () => context.push(Routes.sammlungDeck)),
+            ],
           ),
         );
     }

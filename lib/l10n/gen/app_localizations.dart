@@ -3576,7 +3576,7 @@ abstract class L {
   /// No description provided for @karten_sammlung_text.
   ///
   /// In de, this message translates to:
-  /// **'Hier sammelst du bald die Karten der Figuren, denen du in den Akten begegnest.'**
+  /// **'Die Karten der Figuren und Detektivklassen. Tippe eine Karte an, um sie groß zu sehen.'**
   String get karten_sammlung_text;
 
   /// No description provided for @karten_seltenheit_zinn.
@@ -3608,6 +3608,564 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Profil von {name}, {rang}, {xp} Erfahrungspunkte'**
   String profil_chip_semantik(String name, String rang, int xp);
+
+  /// No description provided for @karten_sammlung_fortschritt.
+  ///
+  /// In de, this message translates to:
+  /// **'{x} von {y} Karten'**
+  String karten_sammlung_fortschritt(int x, int y);
+
+  /// No description provided for @karten_figur_fortschritt.
+  ///
+  /// In de, this message translates to:
+  /// **'{x} von {y}'**
+  String karten_figur_fortschritt(int x, int y);
+
+  /// No description provided for @karten_tab_klassen.
+  ///
+  /// In de, this message translates to:
+  /// **'Detektivklassen'**
+  String get karten_tab_klassen;
+
+  /// No description provided for @karten_sammlung_leer.
+  ///
+  /// In de, this message translates to:
+  /// **'Für diese Akte gibt es noch keine Karten.'**
+  String get karten_sammlung_leer;
+
+  /// No description provided for @karten_laedt.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Karten werden geladen …'**
+  String get karten_laedt;
+
+  /// No description provided for @karten_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Karten konnten nicht geladen werden.'**
+  String get karten_fehler;
+
+  /// No description provided for @karten_unbekannt.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannte Karte'**
+  String get karten_unbekannt;
+
+  /// No description provided for @karten_unbekannt_semantik.
+  ///
+  /// In de, this message translates to:
+  /// **'{figur}: noch nicht gefunden'**
+  String karten_unbekannt_semantik(String figur);
+
+  /// No description provided for @karten_noch_nicht.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch nicht gefunden'**
+  String get karten_noch_nicht;
+
+  /// No description provided for @karten_neu.
+  ///
+  /// In de, this message translates to:
+  /// **'NEU'**
+  String get karten_neu;
+
+  /// No description provided for @karten_anzahl.
+  ///
+  /// In de, this message translates to:
+  /// **'{n}×'**
+  String karten_anzahl(int n);
+
+  /// No description provided for @karten_besitz.
+  ///
+  /// In de, this message translates to:
+  /// **'{n, plural, =1{Du besitzt 1 Exemplar.} other{Du besitzt {n} Exemplare.}}'**
+  String karten_besitz(int n);
+
+  /// No description provided for @karten_ladungen.
+  ///
+  /// In de, this message translates to:
+  /// **'{n, plural, =1{1 Ladung} other{{n} Ladungen}}'**
+  String karten_ladungen(int n);
+
+  /// No description provided for @karten_seltenheit_gewoehnlich.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewöhnlich'**
+  String get karten_seltenheit_gewoehnlich;
+
+  /// No description provided for @karten_seltenheit_selten.
+  ///
+  /// In de, this message translates to:
+  /// **'Selten'**
+  String get karten_seltenheit_selten;
+
+  /// No description provided for @karten_seltenheit_legendaer.
+  ///
+  /// In de, this message translates to:
+  /// **'Legendär'**
+  String get karten_seltenheit_legendaer;
+
+  /// No description provided for @karten_art_werkzeug.
+  ///
+  /// In de, this message translates to:
+  /// **'Werkzeug'**
+  String get karten_art_werkzeug;
+
+  /// No description provided for @karten_art_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Marke'**
+  String get karten_art_marke;
+
+  /// No description provided for @karten_art_zeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Zeit'**
+  String get karten_art_zeit;
+
+  /// No description provided for @karten_art_gruendlich.
+  ///
+  /// In de, this message translates to:
+  /// **'Gründlich'**
+  String get karten_art_gruendlich;
+
+  /// No description provided for @karten_art_nochmal.
+  ///
+  /// In de, this message translates to:
+  /// **'Nochmal'**
+  String get karten_art_nochmal;
+
+  /// No description provided for @karten_art_umweg.
+  ///
+  /// In de, this message translates to:
+  /// **'Umweg'**
+  String get karten_art_umweg;
+
+  /// No description provided for @karten_art_abstecher.
+  ///
+  /// In de, this message translates to:
+  /// **'Abstecher'**
+  String get karten_art_abstecher;
+
+  /// No description provided for @karten_art_erinnerung.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerung'**
+  String get karten_art_erinnerung;
+
+  /// No description provided for @karten_art_kosmetik.
+  ///
+  /// In de, this message translates to:
+  /// **'Aussehen'**
+  String get karten_art_kosmetik;
+
+  /// No description provided for @karten_quelle_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'So bekommst du sie'**
+  String get karten_quelle_titel;
+
+  /// No description provided for @karten_quelle_rolle.
+  ///
+  /// In de, this message translates to:
+  /// **'Spiele diese Rolle oder Klasse an einem Abend zu Ende.'**
+  String get karten_quelle_rolle;
+
+  /// No description provided for @karten_quelle_taeter.
+  ///
+  /// In de, this message translates to:
+  /// **'Überführe diese Figur mit einer richtigen Anklage.'**
+  String get karten_quelle_taeter;
+
+  /// No description provided for @karten_quelle_meister.
+  ///
+  /// In de, this message translates to:
+  /// **'Erreiche das Meister-Ende der Akte.'**
+  String get karten_quelle_meister;
+
+  /// No description provided for @karten_quelle_abstecher.
+  ///
+  /// In de, this message translates to:
+  /// **'Erkunde einen Ort der Akte erfolgreich.'**
+  String get karten_quelle_abstecher;
+
+  /// No description provided for @karten_quelle_start.
+  ///
+  /// In de, this message translates to:
+  /// **'Gehört zum Startset.'**
+  String get karten_quelle_start;
+
+  /// No description provided for @karten_deck_bearbeiten.
+  ///
+  /// In de, this message translates to:
+  /// **'Deck bearbeiten'**
+  String get karten_deck_bearbeiten;
+
+  /// No description provided for @karten_deck_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Deck'**
+  String get karten_deck_titel;
+
+  /// No description provided for @karten_deck_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Höchstens drei Karten, je Art eine. Am Abend liegen sie als gemeinsame Hilfe auf dem Tisch. Eine Karte gleicher Art ersetzt die bisherige.'**
+  String get karten_deck_text;
+
+  /// No description provided for @karten_deck_platz.
+  ///
+  /// In de, this message translates to:
+  /// **'Platz {n}'**
+  String karten_deck_platz(int n);
+
+  /// No description provided for @karten_deck_leer.
+  ///
+  /// In de, this message translates to:
+  /// **'Leer'**
+  String get karten_deck_leer;
+
+  /// No description provided for @karten_deck_ladungen.
+  ///
+  /// In de, this message translates to:
+  /// **'Ladungen {x} von {y}'**
+  String karten_deck_ladungen(int x, int y);
+
+  /// No description provided for @karten_deck_voll.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Deck ist voll. Nimm zuerst eine Karte heraus.'**
+  String get karten_deck_voll;
+
+  /// No description provided for @karten_deck_zuviel.
+  ///
+  /// In de, this message translates to:
+  /// **'Zu viele Ladungen für das Deck.'**
+  String get karten_deck_zuviel;
+
+  /// No description provided for @karten_deck_deine.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine spielbaren Karten'**
+  String get karten_deck_deine;
+
+  /// No description provided for @karten_deck_keine.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast noch keine spielbare Karte. Spiele Abende, um Karten zu finden.'**
+  String get karten_deck_keine;
+
+  /// No description provided for @karten_deck_einsetzen.
+  ///
+  /// In de, this message translates to:
+  /// **'{titel} ins Deck legen'**
+  String karten_deck_einsetzen(String titel);
+
+  /// No description provided for @karten_deck_entfernen.
+  ///
+  /// In de, this message translates to:
+  /// **'{titel} aus dem Deck nehmen'**
+  String karten_deck_entfernen(String titel);
+
+  /// No description provided for @karten_deck_drin.
+  ///
+  /// In de, this message translates to:
+  /// **'Im Deck'**
+  String get karten_deck_drin;
+
+  /// No description provided for @karten_deck_fertig.
+  ///
+  /// In de, this message translates to:
+  /// **'Fertig'**
+  String get karten_deck_fertig;
+
+  /// No description provided for @karten_deck_abend_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deck für diesen Abend'**
+  String get karten_deck_abend_titel;
+
+  /// No description provided for @karten_deck_abend_leer.
+  ///
+  /// In de, this message translates to:
+  /// **'Kein Deck gelegt. Der Abend läuft auch ohne Karten.'**
+  String get karten_deck_abend_leer;
+
+  /// No description provided for @karten_deck_aendern.
+  ///
+  /// In de, this message translates to:
+  /// **'Deck ändern'**
+  String get karten_deck_aendern;
+
+  /// No description provided for @karten_detektei_neueste.
+  ///
+  /// In de, this message translates to:
+  /// **'Neueste Karte: {titel}'**
+  String karten_detektei_neueste(String titel);
+
+  /// No description provided for @karten_hand_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Karten'**
+  String get karten_hand_titel;
+
+  /// No description provided for @karten_hand_karte.
+  ///
+  /// In de, this message translates to:
+  /// **'{titel}, noch {rest} von {max} Ladungen'**
+  String karten_hand_karte(String titel, int rest, int max);
+
+  /// No description provided for @karten_hand_spielbar.
+  ///
+  /// In de, this message translates to:
+  /// **'Jetzt spielbar'**
+  String get karten_hand_spielbar;
+
+  /// No description provided for @karten_hand_gesperrt.
+  ///
+  /// In de, this message translates to:
+  /// **'Jetzt nicht spielbar'**
+  String get karten_hand_gesperrt;
+
+  /// No description provided for @karten_hand_gewaehlt.
+  ///
+  /// In de, this message translates to:
+  /// **'Eingesetzt'**
+  String get karten_hand_gewaehlt;
+
+  /// No description provided for @karten_hand_leer.
+  ///
+  /// In de, this message translates to:
+  /// **'Aufgebraucht'**
+  String get karten_hand_leer;
+
+  /// No description provided for @karten_hand_spielen.
+  ///
+  /// In de, this message translates to:
+  /// **'Spielen'**
+  String get karten_hand_spielen;
+
+  /// No description provided for @karten_hand_schliessen.
+  ///
+  /// In de, this message translates to:
+  /// **'Schließen'**
+  String get karten_hand_schliessen;
+
+  /// No description provided for @karten_hand_wuerfel.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe die Werkzeug-Karte: +1 auf diesen Wurf.'**
+  String get karten_hand_wuerfel;
+
+  /// No description provided for @karten_hand_tischruf.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe die passende Karte: Nochmal oder Umweg ohne Nachtminuten.'**
+  String get karten_hand_tischruf;
+
+  /// No description provided for @karten_hand_gruendlich.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe die Gründlich-Karte: gründlich ohne Nachtminuten.'**
+  String get karten_hand_gruendlich;
+
+  /// No description provided for @karten_hand_karte_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Zeit-, Marken- und Erinnerungskarten spielst du zwischen den Zügen.'**
+  String get karten_hand_karte_hinweis;
+
+  /// No description provided for @karten_hand_im_zug.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Karte wirkt im passenden Moment eines Zuges: beim Würfeln, nach Pech oder bei der Wahl.'**
+  String get karten_hand_im_zug;
+
+  /// No description provided for @karten_erkunden.
+  ///
+  /// In de, this message translates to:
+  /// **'Erkunden: {name}'**
+  String karten_erkunden(String name);
+
+  /// No description provided for @karten_erkunden_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Abstecher'**
+  String get karten_erkunden_marke;
+
+  /// No description provided for @karten_erkunden_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Freiwillig: ein kurzer Blick in eine Ecke. Das bringt Stimmung und vielleicht eine Karte, aber nie einen Hinweis zum Fall.'**
+  String get karten_erkunden_text;
+
+  /// No description provided for @karten_erkunden_kosten.
+  ///
+  /// In de, this message translates to:
+  /// **'Kostet {min} Nachtminuten. Bei Pech kommen {pech} dazu.'**
+  String karten_erkunden_kosten(int min, int pech);
+
+  /// No description provided for @karten_erkunden_los.
+  ///
+  /// In de, this message translates to:
+  /// **'Erkunden'**
+  String get karten_erkunden_los;
+
+  /// No description provided for @karten_erkunden_nein.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht jetzt'**
+  String get karten_erkunden_nein;
+
+  /// No description provided for @karten_erkunden_karte.
+  ///
+  /// In de, this message translates to:
+  /// **'Abstecher-Karte einsetzen: {titel} (ohne Nachtminuten)'**
+  String karten_erkunden_karte(String titel);
+
+  /// No description provided for @karten_erkunden_wuerfel.
+  ///
+  /// In de, this message translates to:
+  /// **'Pech zeigt hier nur ein Missgeschick. Einen Tischruf gibt es nicht.'**
+  String get karten_erkunden_wuerfel;
+
+  /// No description provided for @karten_erkunden_fund.
+  ///
+  /// In de, this message translates to:
+  /// **'Nebenfund'**
+  String get karten_erkunden_fund;
+
+  /// No description provided for @karten_erkunden_liste.
+  ///
+  /// In de, this message translates to:
+  /// **'Freiwillig erkunden'**
+  String get karten_erkunden_liste;
+
+  /// No description provided for @karten_gruendlich_karte.
+  ///
+  /// In de, this message translates to:
+  /// **'Gründlich-Karte einsetzen: {titel} (ohne Nachtminuten)'**
+  String karten_gruendlich_karte(String titel);
+
+  /// No description provided for @abend_belohnung_marke.
+  ///
+  /// In de, this message translates to:
+  /// **'Belohnung'**
+  String get abend_belohnung_marke;
+
+  /// No description provided for @abend_belohnung_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend abgeschlossen'**
+  String get abend_belohnung_titel;
+
+  /// No description provided for @abend_belohnung_karten.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Karten'**
+  String get abend_belohnung_karten;
+
+  /// No description provided for @abend_belohnung_tipp.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe eine Karte, um sie umzudrehen.'**
+  String get abend_belohnung_tipp;
+
+  /// No description provided for @abend_belohnung_alle.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle umdrehen'**
+  String get abend_belohnung_alle;
+
+  /// No description provided for @abend_belohnung_keine.
+  ///
+  /// In de, this message translates to:
+  /// **'Diesmal gibt es keine Karte.'**
+  String get abend_belohnung_keine;
+
+  /// No description provided for @abend_belohnung_doppelt.
+  ///
+  /// In de, this message translates to:
+  /// **'Doppelt'**
+  String get abend_belohnung_doppelt;
+
+  /// No description provided for @abend_belohnung_verdeckt.
+  ///
+  /// In de, this message translates to:
+  /// **'Karte {nr} von {gesamt}, verdeckt. Tippen zum Umdrehen.'**
+  String abend_belohnung_verdeckt(int nr, int gesamt);
+
+  /// No description provided for @abend_belohnung_xp.
+  ///
+  /// In de, this message translates to:
+  /// **'+{xp} Erfahrungspunkte'**
+  String abend_belohnung_xp(int xp);
+
+  /// No description provided for @abend_belohnung_xp_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfahrung'**
+  String get abend_belohnung_xp_titel;
+
+  /// No description provided for @abend_belohnung_rang_stempel.
+  ///
+  /// In de, this message translates to:
+  /// **'BEFÖRDERT: {rang}'**
+  String abend_belohnung_rang_stempel(String rang);
+
+  /// No description provided for @abend_belohnung_rang_semantik.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Rang: {rang}'**
+  String abend_belohnung_rang_semantik(String rang);
+
+  /// No description provided for @abend_belohnung_bereits.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Abend ist schon verbucht.'**
+  String get abend_belohnung_bereits;
+
+  /// No description provided for @abend_belohnung_laedt.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Belohnung wird gezählt …'**
+  String get abend_belohnung_laedt;
+
+  /// No description provided for @abend_belohnung_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Belohnung konnte nicht verbucht werden.'**
+  String get abend_belohnung_fehler;
+
+  /// No description provided for @abend_belohnung_detektei.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Detektei'**
+  String get abend_belohnung_detektei;
+
+  /// No description provided for @karten_erkunden_erfolg_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fund für die Sammlung. Du gewinnst {min} Nachtminuten.'**
+  String karten_erkunden_erfolg_folge(int min);
+
+  /// No description provided for @karten_erkunden_teilerfolg_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein kleiner Fund für die Sammlung. Die Nachtzeit bleibt, wie sie ist.'**
+  String get karten_erkunden_teilerfolg_folge;
+
+  /// No description provided for @karten_erkunden_pech_folge.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur ein Missgeschick. Das kostet {min} Nachtminuten, dafür gibt es eine Marke.'**
+  String karten_erkunden_pech_folge(int min);
+
+  /// No description provided for @abend_belohnung_ansehen.
+  ///
+  /// In de, this message translates to:
+  /// **'Belohnung ansehen'**
+  String get abend_belohnung_ansehen;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

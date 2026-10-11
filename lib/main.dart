@@ -7,6 +7,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'app/app.dart';
 import 'app/app_state.dart';
 import 'app/router.dart';
+import 'karten/katalog_laden.dart';
 import 'meta/meta_store.dart';
 import 'session/scenario_repository.dart';
 import 'ui/haptics.dart';
@@ -17,6 +18,12 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
   final meta = await MetaStore.load();
+  try {
+    // Das Kartenkonto (Startset) entsteht beim ersten Start, bevor die Oberfläche es braucht.
+    await kartenBereit(meta);
+  } catch (e) {
+    debugPrint('Karten konnten nicht geladen werden: $e');
+  }
   Map<String, ScenarioDef> scenarios;
   try {
     scenarios = (await ScenarioRepository.load()).scenarios;
@@ -45,7 +52,7 @@ Map<String, String> get _query {
 /// Einstieg ohne Parameter ist die Detektei (`/`), der Start des einen Spiels.
 ///
 /// Entwickler-Einstieg (Web): `?fake=<phase>` öffnet eine Fake-Session in dieser Phase,
-/// `?screen=detektei|neu|akte|sammlung|profile` springt zu einem Bildschirm des Spiels
+/// `?screen=detektei|neu|akte|sammlung|deck|profile` springt zu einem Bildschirm des Spiels
 /// (`neu` und `akte` mit `&akte=<id>`), `?screen=hub|cases|collection|online` zu den
 /// klassischen Bildschirmen (nicht im Menü).
 /// Zusätzlich: `open=notebook|board|dialog|signals|map`, `life=downed|ghost`,
@@ -80,6 +87,7 @@ String _devEntry(AppState app) {
     'neu' => q['akte'] == null ? Routes.abendNeu : Routes.abendNeuMit(q['akte']!),
     'akte' => Routes.akteVon(q['akte'] ?? 'schlosskeller'),
     'sammlung' => Routes.sammlung,
+    'deck' => Routes.sammlungDeck,
     'hub' => Routes.klassik,
     'cases' => Routes.cases,
     'collection' => Routes.collection,

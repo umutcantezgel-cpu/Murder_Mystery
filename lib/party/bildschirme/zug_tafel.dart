@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/runden.dart';
 
+import '../../karten/widgets/karten_ansicht.dart';
+import '../../karten/widgets/karten_hand.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 
@@ -18,13 +20,23 @@ class WuerfelTafel extends StatefulWidget {
 
 class _WuerfelTafelState extends State<WuerfelTafel> {
   bool _marke = false;
+
+  /// Eingesetzte Werkzeug-Karte (+1 auf diesen Wurf), sonst null.
+  String? _karte;
   PartySitzung get s => widget.sitzung;
+
+  void _tippe(KartenDef k) {
+    if (k.art != KartenArt.werkzeug || !s.vorrat.verfuegbar(k.id)) return;
+    setState(() => _karte = _karte == k.id ? null : k.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     final z = s.zug!;
-    final v = s.wuerfelVorschau(marke: _marke);
-    final markeMoeglich = s.wuerfelVorschau(marke: true).markeWirkt;
+    final werkzeug = _karte != null;
+    final v = s.wuerfelVorschau(marke: _marke, werkzeug: werkzeug);
+    // Auch ein Abstecher kennt keine Marke; dort wirkt sie nie.
+    final markeMoeglich = !z.istAbstecher && s.wuerfelVorschau(marke: true, werkzeug: werkzeug).markeWirkt;
     return PartyTafel(child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,7 +61,17 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
           const SizedBox(height: 10),
           Text(s.ui('ui.zug.garantie'), style: Keller.text),
         ],
-        if (!z.istAuftakt && s.marken > 0) Material(color: Colors.transparent, child: CheckboxListTile(
+        if (!z.istAuftakt && s.hatKarten) ...[
+          const SizedBox(height: 10),
+          KartenHand(
+            vorrat: s.vorrat,
+            aktiv: kartenDerArt(s.vorrat, const {KartenArt.werkzeug}),
+            gewaehlt: {?_karte},
+            hinweis: kartenDerArt(s.vorrat, const {KartenArt.werkzeug}).isEmpty ? null : KartenTexte.handWuerfel,
+            onTipp: _tippe,
+          ),
+        ],
+        if (!z.istAuftakt && !z.istAbstecher && s.marken > 0) Material(color: Colors.transparent, child: CheckboxListTile(
           contentPadding: EdgeInsets.zero,
           controlAffinity: ListTileControlAffinity.leading,
           activeColor: Keller.kerze,
@@ -58,9 +80,9 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
           title: Text(s.ui(markeMoeglich ? 'ui.zug.marke_einsetzen' : 'ui.zug.marke_deckel'), style: Keller.leise),
         )),
         const SizedBox(height: 10),
-        Text(s.ui(z.istAuftakt ? 'ui.zug.auftakt_folge' : 'ui.zug.pech_folge'), style: Keller.leise),
+        Text(z.istAbstecher ? KartenTexte.erkundenWuerfel : s.ui(z.istAuftakt ? 'ui.zug.auftakt_folge' : 'ui.zug.pech_folge'), style: Keller.leise),
         const SizedBox(height: 16),
-        PartyKnopf(text: s.ui('ui.zug.werfen'), onPressed: () => s.wuerfeln(marke: _marke && markeMoeglich)),
+        PartyKnopf(text: s.ui('ui.zug.werfen'), onPressed: () => s.wuerfeln(marke: _marke && markeMoeglich, karte: _karte)),
       ],
     ));
   }
@@ -109,7 +131,8 @@ class WurfErgebnis extends StatelessWidget {
       }), style: Keller.leise, textAlign: TextAlign.center),
       if (wurf.garantie) Text(s.ui('ui.zug.garantie'), style: Keller.leise, textAlign: TextAlign.center),
       const SizedBox(height: 8),
-      Text(s.ui(s.zug?.istAuftakt == true ? 'ui.zug.auftakt_folge' : 'ui.zug.${wurf.stufe.name}_folge'),
+      Text(s.zug?.istAbstecher == true ? KartenTexte.erkundenFolge(wurf.stufe, const ZugParameter())
+          : s.ui(s.zug?.istAuftakt == true ? 'ui.zug.auftakt_folge' : 'ui.zug.${wurf.stufe.name}_folge'),
         style: Keller.leise, textAlign: TextAlign.center),
     ]));
   }
@@ -129,6 +152,19 @@ class TischrufTafel extends StatelessWidget {
         Text(s.ui('ui.zug.tischruf'), style: Keller.ueberschrift),
         const SizedBox(height: 8),
         Text(s.ui('ui.zug.pech_szene'), style: Keller.text),
+        if (s.hatKarten) ...[
+          const SizedBox(height: 12),
+          Center(child: KartenHand(
+            vorrat: s.vorrat,
+            aktiv: kartenDerArt(s.vorrat, const {KartenArt.nochmal, KartenArt.umweg}),
+            hinweis: kartenDerArt(s.vorrat, const {KartenArt.nochmal, KartenArt.umweg}).isEmpty ? null : KartenTexte.handTischruf,
+            onTipp: (k) {
+              if (!s.vorrat.verfuegbar(k.id)) return;
+              if (k.art == KartenArt.nochmal) s.tischruf(Tischruf.nochmal, karte: k.id);
+              if (k.art == KartenArt.umweg) s.tischruf(Tischruf.umweg, karte: k.id);
+            },
+          )),
+        ],
         const SizedBox(height: 16),
         PartyKnopf(text: s.ui('ui.zug.nochmal'), onPressed: () => s.tischruf(Tischruf.nochmal)),
         const SizedBox(height: 8),

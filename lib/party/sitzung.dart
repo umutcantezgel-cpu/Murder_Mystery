@@ -19,18 +19,22 @@ import 'runden_texte.dart';
 ///   in der verdeckten Einzelansicht ([verdeckt]); vor dem Finale verrät keine
 ///   andere Methode den Täter-Pfad (E-008).
 class PartySitzung extends ChangeNotifier {
-  PartySitzung(this.daten, {WuerfelQuelle? wuerfel, String? salz}) {
+  /// [vorrat] (Deck des Geräts) und [abstecher] (Erkundungsorte der Akte) sind
+  /// optional; ohne sie läuft der Abend wie bisher ohne Karten und Abstecher.
+  PartySitzung(this.daten, {WuerfelQuelle? wuerfel, String? salz, TischVorrat? vorrat, List<AbstecherOrt> abstecher = const []}) {
     // Das Salz ist unabhängig von Fall-Code, Pfad, Besetzung und Optionswahl.
     // Eine Vorgabe dient reproduzierbaren Tests, nicht dem Einrichtungsbildschirm.
     final zufall = math.Random.secure();
     _salz = salz ?? List.generate(16, (_) => zufall.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
     if (_salz.isEmpty) throw ArgumentError('leeres Salz');
-    _partie = RundenPartie(daten.kanon, quelle: wuerfel ?? SalzWuerfel(_salz), ermittlung: daten.karte.ermittlung);
+    _quelle = wuerfel ?? SalzWuerfel(_salz);
+    _partie = RundenPartie(daten.kanon, quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: vorrat, abstecher: abstecher);
   }
 
   final PartyDaten daten;
   late final String _salz;
-  late final RundenPartie _partie;
+  late final WuerfelQuelle _quelle;
+  late RundenPartie _partie;
   Spiel? _druckSpiel;
   bool _solo = false;
   bool get solo => _solo;
@@ -43,6 +47,90 @@ class PartySitzung extends ChangeNotifier {
   int get reserveMinuten => _partie.reserveMinuten;
   int get marken => _partie.marken;
   List<Wurf> get wuerfe => _partie.wuerfe;
+
+  // ---------------------------------------------------------------------------
+  // Karten und Abstecher
+
+  /// Legt das Deck (Tischvorrat) und die Erkundungsorte fest. Nur vor der
+  /// Einrichtung des Abends, denn der Assistent lädt die Akte, bevor das Deck
+  /// feststeht; danach ändert sich der Vorrat nur noch durch Ausspielen.
+  void kartenAnlegen({TischVorrat? vorrat, List<AbstecherOrt> abstecher = const []}) {
+    if (_druckSpiel != null || phase.index > PartyPhase.einrichtung.index) {
+      throw StateError('Karten lassen sich nur vor der Einrichtung des Abends festlegen.');
+    }
+    _partie = RundenPartie(daten.kanon, quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: vorrat, abstecher: abstecher);
+    notifyListeners();
+  }
+
+  /// Karten des Tisches (höchstens drei; je Art eine); leer ohne Deck und im Druckspiel.
+  TischVorrat get vorrat => mitWuerfel ? _partie.vorrat : TischVorrat.leer();
+
+  /// Liegt mindestens eine Karte auf dem Tisch?
+  bool get hatKarten => mitWuerfel && _partie.vorrat.karten.isNotEmpty;
+
+  /// Spielt eine Sofortkarte (Zeit, Marke, Erinnerung). Zeit und Marke wirken nur
+  /// in der Ermittlung, einmal je Runde bzw. Ladung; nichts berührt Wahl oder Wertung.
+  KartenDef karteSpielen(String id) {
+    final k = _partie.karteSpielen(id);
+    _melde();
+    notifyListeners();
+    return k;
+  }
+
+  /// Erkundungsorte dieser Akte (auch bereits besuchte).
+  List<AbstecherOrt> get abstecherOrte => _partie.abstecherOrte;
+
+  /// Erkundungsorte, die jetzt besucht werden dürfen (ohne laufenden Zug).
+  List<AbstecherOrt> get abstecherOffen => mitWuerfel ? _partie.abstecherOffen : const [];
+
+  /// Ergebnis je besuchtem Erkundungsort.
+  Map<String, Stufe> get abstecherErgebnis => Map.unmodifiable(_partie.abstecherErgebnis);
+
+  /// Gelungene Erkundungen (Erfolg oder Teilerfolg), Quelle der Kartenfunde.
+  Set<String> get abstecherFunde => _partie.abstecherFunde;
+
+  /// Beginnt eine Erkundung: sichtbarer Weg, dann Würfelbühne, dann der Nebenfund.
+  /// Mit [karte] (Art Abstecher) kostet der Gang keine Nachtminuten.
+  void starteAbstecher(String id, {String? karte}) {
+    if (!mitWuerfel) throw StateError('Abstecher gibt es nur mit Würfeln.');
+    _partie.starteAbstecher(id, karte: karte);
+    _vorschlag = null;
+    _zugGeaendert();
+  }
+
+  /// Der Erkundungsort des laufenden Zugs (sonst null).
+  AbstecherOrt? get abstecherLaufend {
+    final id = zug?.abstecher;
+    if (id == null) return null;
+    for (final a in _partie.abstecherOrte) {
+      if (a.id == id) return a;
+    }
+    return null;
+  }
+
+  /// Stabile Kennung dieses Abends für die Belohnungsbuchung: aus dem Salz
+  /// abgeleitet (zwei FNV-Hashes), verrät es nicht.
+  String get abendId {
+    String hex(String s) => Rng.hashString(s).toRadixString(16).padLeft(8, '0');
+    return '${hex('abend:a:$_salz')}${hex('abend:b:$_salz')}';
+  }
+
+  /// Ergebnis dieses Abends aus Sicht eines Geräts (erst nach dem Finale):
+  /// Grundlage der Kartenbelohnung. [rolle] ist die gespielte Rolle oder
+  /// `klasse:<name>` für den Detektiv.
+  AbendErgebnis abendErgebnis({String spielerId = 'me', String? rolle}) {
+    _nurNachFinale();
+    return AbendErgebnis(
+      akte: daten.fall,
+      salz: _salz,
+      spielerId: spielerId,
+      rolle: rolle,
+      pfad: spiel.pfad,
+      anklageRichtig: spiel.ende.richtig,
+      ende: spiel.ende.id,
+      abstecherFunde: abstecherFunde,
+    );
+  }
 
   /// Würfelpate wechselt mit jedem Wurf; Rollen haben keinen Einfluss auf die Augen.
   String get wuerfelPate => solo ? personAmTisch(Besetzung.detektiv) : spielerName(besetzt[wuerfe.length % besetzt.length]);
@@ -363,10 +451,10 @@ class PartySitzung extends ChangeNotifier {
 
   /// Endgültige Auswahl. Digital beginnt jetzt erst der sichtbare Laufweg;
   /// weder Fundtext noch die nächste Entscheidung sind bereits freigegeben.
-  void bestaetigen({bool gruendlich = false}) {
+  void bestaetigen({bool gruendlich = false, String? karte}) {
     final z = _vorschlag ?? (throw StateError('kein Vorschlag'));
     if (mitWuerfel) {
-      _partie.waehle(z.option, gruendlich: gruendlich);
+      _partie.waehle(z.option, gruendlich: gruendlich, karte: karte);
     } else {
       final funde = spiel.waehle(z.entscheidung, z.option);
       _funde[z.entscheidung] = funde;
@@ -383,16 +471,19 @@ class PartySitzung extends ChangeNotifier {
     return true;
   }
 
-  ({int mod, bool garantie, bool markeWirkt, Map<Stufe, int> prozent}) wuerfelVorschau({bool marke = false}) =>
-      _partie.vorschau(marke: marke);
+  /// Chancen vor dem Wurf; [werkzeug] zeigt sie mit einer Werkzeug-Karte (+1).
+  ({int mod, bool garantie, bool markeWirkt, Map<Stufe, int> prozent}) wuerfelVorschau({bool marke = false, bool werkzeug = false}) =>
+      _partie.vorschau(werkzeug: werkzeug, marke: marke);
 
-  void wuerfeln({bool marke = false}) {
-    _partie.wuerfeln(marke: marke);
+  /// Wirft. [karte] (Art Werkzeug) ist die Quelle des +1 und wird mit dem Wurf verbraucht.
+  void wuerfeln({bool marke = false, String? karte}) {
+    _partie.wuerfeln(marke: marke, karte: karte);
     _zugGeaendert();
   }
 
-  void tischruf(Tischruf ruf) {
-    _partie.tischruf(ruf);
+  /// Tischruf nach Pech; [karte] (Nochmal bzw. Umweg passend zum Ruf) macht ihn kostenfrei.
+  void tischruf(Tischruf ruf, {String? karte}) {
+    _partie.tischruf(ruf, karte: karte);
     _zugGeaendert();
   }
 
@@ -494,7 +585,11 @@ class PartySitzung extends ChangeNotifier {
     return spiel.ende;
   }
 
-  /// Rückblende des Pfads (erst nach dem Finale).
+  /// Gibt es zu dieser Akte eine Rückblende als Zeitraffer? Akten ohne
+  /// Simulation erzählen sie nur: Text `rueckblende.<pfad>`, keine Bildszene.
+  bool get hatRueckblende => kanon.hatSimulation;
+
+  /// Rückblende des Pfads (erst nach dem Finale); nur für Akten mit [hatRueckblende].
   Rueckblende get rueckblende {
     _nurNachFinale();
     return _rueckblende ??= karte.rueckblende(spiel.pfad);
