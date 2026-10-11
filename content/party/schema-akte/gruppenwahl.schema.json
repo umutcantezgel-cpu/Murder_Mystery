@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Gruppenwahl",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "runde": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "wertung",
+    "wahlen"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "wertung": {
+      "type": "object",
+      "required": [
+        "kooperativ",
+        "eigennuetzig",
+        "sabotage"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kooperativ": {
+          "const": 1
+        },
+        "eigennuetzig": {
+          "const": 0
+        },
+        "sabotage": {
+          "const": -1
+        }
+      }
+    },
+    "wahlen": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "rolle",
+          "runde",
+          "quelle",
+          "a",
+          "b"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "rolle": {
+            "$ref": "#/$defs/id"
+          },
+          "runde": {
+            "$ref": "#/$defs/runde"
+          },
+          "quelle": {
+            "enum": [
+              "geheimnis",
+              "loyalitaet"
+            ]
+          },
+          "a": {
+            "type": "object",
+            "required": [
+              "kosten",
+              "nutzen"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "kosten": {
+                "type": "object",
+                "required": [
+                  "art"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "art": {
+                    "enum": [
+                      "gruppe",
+                      "geheimnis",
+                      "freund",
+                      "ziel",
+                      "tarnung"
+                    ]
+                  },
+                  "bezug": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_]*$"
+                  }
+                }
+              },
+              "nutzen": {
+                "type": "object",
+                "required": [
+                  "art"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "art": {
+                    "enum": [
+                      "gruppe",
+                      "geheimnis",
+                      "freund",
+                      "ziel",
+                      "tarnung"
+                    ]
+                  },
+                  "bezug": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_]*$"
+                  }
+                }
+              }
+            }
+          },
+          "b": {
+            "type": "object",
+            "required": [
+              "kosten",
+              "nutzen"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "kosten": {
+                "type": "object",
+                "required": [
+                  "art"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "art": {
+                    "enum": [
+                      "gruppe",
+                      "geheimnis",
+                      "freund",
+                      "ziel",
+                      "tarnung"
+                    ]
+                  },
+                  "bezug": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_]*$"
+                  }
+                }
+              },
+              "nutzen": {
+                "type": "object",
+                "required": [
+                  "art"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "art": {
+                    "enum": [
+                      "gruppe",
+                      "geheimnis",
+                      "freund",
+                      "ziel",
+                      "tarnung"
+                    ]
+                  },
+                  "bezug": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_]*$"
+                  }
+                }
+              }
+            }
+          },
+          "bTaeter": {
+            "type": "object",
+            "required": [
+              "art",
+              "kosten",
+              "nutzen"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "art": {
+                "const": "sabotage"
+              },
+              "kosten": {
+                "type": "object",
+                "required": [
+                  "art"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "art": {
+                    "enum": [
+                      "gruppe",
+                      "geheimnis",
+                      "freund",
+                      "ziel",
+                      "tarnung"
+                    ]
+                  },
+                  "bezug": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_]*$"
+                  }
+                }
+              },
+              "nutzen": {
+                "type": "object",
+                "required": [
+                  "art"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "art": {
+                    "enum": [
+                      "gruppe",
+                      "geheimnis",
+                      "freund",
+                      "ziel",
+                      "tarnung"
+                    ]
+                  },
+                  "bezug": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_]*$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

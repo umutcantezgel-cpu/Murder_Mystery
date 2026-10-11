@@ -1,0 +1,140 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 9 bis 12.",
+  "eintraege": [
+    {
+      "id": "g_tomasz_3_1",
+      "rolle": "tomasz",
+      "runde": 3,
+      "nr": 1,
+      "partner": "dino",
+      "thema": "Die Zeitleiste",
+      "ziel": "Ordne deine Beobachtung in die Zeitleiste ein.",
+      "preisgabe": [],
+      "text": "Um zehn vor zwölf saß der Burgwart noch hinter dem Regal, bei Kerzenlicht. Das war vor dem Knall."
+    },
+    {
+      "id": "g_tomasz_3_2",
+      "rolle": "tomasz",
+      "runde": 3,
+      "nr": 2,
+      "partner": "paulina",
+      "thema": "Was bleibt unklar?",
+      "ziel": "Nenne, was du nicht erklären kannst.",
+      "preisgabe": [],
+      "text": "Ich verstehe nicht, wer um die Zeit noch in die Speisekammer wollte. Ein Ablauf muss ruhen, bevor man ihn bewertet."
+    },
+    {
+      "id": "g_tomasz_3_3",
+      "rolle": "tomasz",
+      "runde": 3,
+      "nr": 3,
+      "partner": "annika",
+      "thema": "Licht und Torte",
+      "ziel": "Bringe die Runde zur Torte.",
+      "preisgabe": [],
+      "text": "Wenn es hell wird, gibt es Torte. Kurz nach Mitternacht wollte ich sie bereithalten."
+    },
+    {
+      "id": "g_annika_3_1",
+      "rolle": "annika",
+      "runde": 3,
+      "nr": 1,
+      "partner": "kamil",
+      "thema": "Wolle am Ärmel",
+      "ziel": "Prüfe, wer gestrickte Ärmel trug.",
+      "preisgabe": [],
+      "text": "Wolle am Ärmel trägt nicht jeder. Wer hatte etwas Gestricktes an?"
+    },
+    {
+      "id": "g_annika_3_2",
+      "rolle": "annika",
+      "runde": 3,
+      "nr": 2,
+      "partner": "diyar",
+      "thema": "Der Zeitpunkt",
+      "ziel": "Ordne dein Erlebnis zeitlich ein.",
+      "preisgabe": [],
+      "text": "Das Streifen war kurz nach dem Quietschen und kurz vor dem Schrei. Ich war sicher nicht allein dort."
+    },
+    {
+      "id": "g_annika_3_3",
+      "rolle": "annika",
+      "runde": 3,
+      "nr": 3,
+      "partner": "tomasz",
+      "thema": "Ich steh hier gut",
+      "ziel": "Bleibe bei deiner Aussage.",
+      "preisgabe": [],
+      "text": "Ich bleibe dabei: Ich habe auf meinem Platz gestanden, bis der Schrei kam. Mehr weiß ich nicht."
+    },
+    {
+      "id": "g_berfin_3_1",
+      "rolle": "berfin",
+      "runde": 3,
+      "nr": 1,
+      "partner": "elif",
+      "thema": "Wer blieb oben?",
+      "ziel": "Ordne die Wege auf dem Wehrgang.",
+      "preisgabe": [],
+      "text": "Oben blieb nur einer, der telefonierte. Alle anderen Schritte gingen nach unten."
+    },
+    {
+      "id": "g_berfin_3_2",
+      "rolle": "berfin",
+      "runde": 3,
+      "nr": 2,
+      "partner": "emre",
+      "thema": "Der Blick nach unten",
+      "ziel": "Beschreibe, was du um Mitternacht gehört hast.",
+      "preisgabe": [],
+      "text": "Um Mitternacht hörte ich von unten einen gedämpften Schrei. Danach ging Jonas mit Handylicht hinunter."
+    },
+    {
+      "id": "g_berfin_3_3",
+      "rolle": "berfin",
+      "runde": 3,
+      "nr": 3,
+      "partner": "dino",
+      "thema": "Entfernungen",
+      "ziel": "Rechne die Wege nach.",
+      "preisgabe": [],
+      "text": "Hier geht es um Entfernungen: Fünf Minuten für eine Treppe sind weit. Stell dir vor, wie viel man in der Zeit tun kann."
+    },
+    {
+      "id": "g_dino_3_1",
+      "rolle": "dino",
+      "runde": 3,
+      "nr": 1,
+      "partner": "tomasz",
+      "thema": "Wege",
+      "ziel": "Finde heraus, wer durch welche Tür konnte.",
+      "preisgabe": [],
+      "text": "Es gibt nur zwei Wege in die Speisekammer. Einer war verkeilt, also blieb der über den Turm."
+    },
+    {
+      "id": "g_dino_3_2",
+      "rolle": "dino",
+      "runde": 3,
+      "nr": 2,
+      "partner": "lejla",
+      "thema": "Kälte",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Ich gehe nie auf den Wehrgang. Mir ist da oben viel zu kalt."
+    },
+    {
+      "id": "g_dino_3_3",
+      "rolle": "dino",
+      "runde": 3,
+      "nr": 3,
+      "partner": "berfin",
+      "thema": "Sauber nacheinander",
+      "ziel": "Beruhige die Runde.",
+      "preisgabe": [],
+      "text": "Sorry, sorry, ich entschuldige mich lieber einmal zu oft. Lasst uns sauber nacheinander prüfen."
+    }
+  ],
+  "generiert": "akte_export"
+}

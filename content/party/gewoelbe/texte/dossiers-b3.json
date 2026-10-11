@@ -1,0 +1,96 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 9 bis 12.",
+  "eintraege": [
+    {
+      "rolle": "tomasz",
+      "wer": "Du bist Tomasz, der Koch. Du bist stellvertretender Küchenchef in einer Betriebskantine und backst am Wochenende Torten. Du trägst eine dunkelblaue Kochschürze ohne Taschen. Wenn du nervös bist, zählst du leise rückwärts.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_tomasz_eisentuer"
+        },
+        {
+          "text": "Du hast die Geburtstagstorte durch die Eisentür in die Speisekammer gestellt, damit sie kühl bleibt."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du bist seit dem Sommer heimlich mit Annika verlobt. Kurz nach Mitternacht willst du ihr bei Licht und Torte einen Antrag machen."
+        },
+        {
+          "text": "Den Ring trägt Annika in einer Schachtel, weil deine Schürze keine Taschen hat."
+        }
+      ],
+      "ziel": "Du willst dein Geheimnis hüten, bis der Antrag bei Licht und Torte gelungen ist.",
+      "besetzung": "Jede Person kann Tomasz spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "annika",
+      "wer": "Du bist Annika, die Grafikerin. Du gestaltest Plakate und Buchumschläge und beschreibst Geräusche in Farben und Formen. Du trägst eine senfgelbe Latzhose mit vielen Taschen und einen Bleistift hinterm Ohr.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_annika_turmtuer"
+        },
+        {
+          "ref": "beobachtung:b_annika_vorbei"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du bist seit dem Sommer heimlich mit Tomasz verlobt und trägst die Ringschachtel für ihn."
+        },
+        {
+          "text": "Vor Mitternacht hast du die Schachtel hinter einer Säule an der Turmtür versteckt. Deshalb bist du dort stehen geblieben."
+        }
+      ],
+      "ziel": "Du willst die Ringschachtel schützen, bis der Antrag da ist.",
+      "besetzung": "Jede Person kann Annika spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "berfin",
+      "wer": "Du bist Berfin, die Astrophysikerin. Du studierst im Master und rechnest gern Entfernungen in Lichtjahre um. Du trägst eine dunkelblaue Daunenjacke mit einem Saturn und eine Rotlicht-Stirnlampe.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_berfin_dunkel"
+        },
+        {
+          "ref": "beobachtung:b_berfin_merle_zinne"
+        },
+        {
+          "ref": "beobachtung:b_berfin_telefonat"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast auf dem Wehrgang Sterne gesehen, obwohl der Burgwart ihn nachts verboten hat."
+        },
+        {
+          "text": "Du schreibst heimlich Gedichte über Sterne für das Geburtstagskind. Du traust dich nicht, eines zu verschenken."
+        }
+      ],
+      "ziel": "Du willst dein Gedicht für das Geburtstagskind nicht verraten. Und du willst dich nicht für den verbotenen Wehrgang rechtfertigen.",
+      "besetzung": "Jede Person kann Berfin spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "dino",
+      "wer": "Du bist Dino, der Statiker. Du klopfst gern an Wände und nennst das Material: „Bruchstein, Kalkmörtel, schön.“ Du trägst eine anthrazitfarbene Steppweste mit einem Zollstock im Seitenfach. Zu jedem Geburtstag baust du ein Holzmodell.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_dino_speisekammer"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast Höhenangst. Deshalb gehst du nie auf den Wehrgang. Als Berfin dich mitnehmen wollte, hast du gesagt, dir sei zu kalt."
+        },
+        {
+          "text": "Nach dem Knall glaubst du, dein Heizstrahler habe die Sicherung kaputt gemacht. Du entschuldigst dich bei allen."
+        }
+      ],
+      "ziel": "Du willst deine Höhenangst nicht zugeben und trotzdem die alten Mauern verstehen.",
+      "besetzung": "Jede Person kann Dino spielen, egal welches Geschlecht sie hat."
+    }
+  ],
+  "generiert": "akte_export"
+}

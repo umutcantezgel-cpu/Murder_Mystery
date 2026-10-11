@@ -1,0 +1,91 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Regeln für Wege und Wahrnehmung in der Tatnacht. Das Gewölbe hat keine physische Simulation (fall.simulation ist false); die Datei hält nur die Wahrnehmungsregeln der Burg, damit Karte und Zeitfenster dieselben Werte nutzen wie jede andere Akte.",
+  "tempo": {
+    "dunkel": 1.0,
+    "hell": 1.5,
+    "rennen": 2.5,
+    "regel": "Gehen im Dunkeln höchstens 1 m/s, bei Licht höchstens 1,5 m/s. Rennen höchstens 2,5 m/s und nie lautlos. Als hell gilt ein Weg nur, wenn Start und Ziel volles oder schwaches Licht haben."
+  },
+  "licht": {
+    "voll": [
+      "elektrisch"
+    ],
+    "schwach": [
+      "kerze",
+      "lampe",
+      "feuer"
+    ],
+    "rest": [
+      "notlicht",
+      "nachleuchten"
+    ],
+    "erkennenSchwachBis": 3.0,
+    "regel": "Sehen braucht Licht am Ziel und eine freie Sichtlinie. Bei vollem Licht erkennt man Personen im ganzen Raum. Bei schwachem Licht erkennt man Gesicht und Farben bis 3 m, weiter weg nur Umrisse. Wer kauert oder liegt, sieht nichts."
+  },
+  "hoeren": {
+    "klassen": {
+      "sehr_laut": "im selben Raum und in jedem direkt angrenzenden Raum hinter offener oder angelehnter Tür; zwei Räume weiter nicht",
+      "laut": "im selben Raum; im Nachbarraum nur bis 3 m von der offenen Tür",
+      "leise": "im selben Raum bis 3 m"
+    },
+    "tumult": {
+      "von": "23:58:00",
+      "bis": "00:00:00",
+      "raeume": [
+        "kamin_gewoelbe"
+      ],
+      "lautBis": 3.0,
+      "leiseBis": 1.5,
+      "regel": "Im Dunkeln rufen alle durcheinander und die Box spielt weiter. Lautes hört man im Gewölbe nur bis 3 m, Leises nur bis 1,5 m. Sehr Lautes hört man weiter überall."
+    },
+    "zweiTueren": "Zwei Räume weiter oder hinter einer geschlossenen Tür hört man nichts Genaues.",
+    "schritte": {
+      "gehen": "leise",
+      "rennen": "laut"
+    },
+    "liegend": "Wer bewusstlos liegt, hört nichts.",
+    "bund": "Wer den Schlüsselbund trägt, hält ihn fest in der Faust. Er klimpert nur, als er vom Gürtel gezogen wird.",
+    "tueren": "Die Eisentür quietscht laut, sobald man sie aufzieht. Ihr Zufallen hört man kaum.",
+    "hindernisse": "Möbel dämpfen nicht; es zählen nur Räume, Türen und Abstand."
+  },
+  "fuehlen": {
+    "bis": 1.0,
+    "regel": "Berührung bis 1 m. Man spürt, dass jemand da ist oder vorbeistreift, aber nicht, wer."
+  },
+  "riechen": {
+    "nachwirkenSekunden": 90,
+    "regel": "Im selben Raum oder in Räumen, in die der Luftzug den Geruch trägt."
+  },
+  "haltungen": {
+    "steht": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "sitzt": {
+      "sieht": true,
+      "hoert": "alles"
+    },
+    "kauert": {
+      "sieht": false,
+      "hoert": "alles"
+    },
+    "liegt": {
+      "sieht": false,
+      "hoert": "nichts"
+    }
+  },
+  "abtastung": {
+    "sekunden": 1,
+    "matrixSchritt": 15,
+    "fenster": [
+      "23:55:00",
+      "00:05:00"
+    ],
+    "planFenster": [
+      "23:50:00",
+      "00:15:00"
+    ]
+  },
+  "zeitgefuehl": "Im Dunkeln schätzt niemand Zeitabstände verlässlich. Als Wissen zählt nur die Reihenfolge von Ereignissen, die eine Person selbst wahrgenommen hat."
+}

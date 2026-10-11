@@ -1,0 +1,247 @@
+{
+  "eintraege": {
+    "gw_adnan_1": {
+      "a": "Ich sage dem Detektiv, dass ich für einen Streich den Code aufgeschrieben und meine Lampe verliehen habe. Wem, behalte ich noch für mich.",
+      "b": "Ich schweige zu Code und Lampe. Erst will ich alles in Ordnung bringen, ohne eine Freundin zu verraten."
+    },
+    "gw_adnan_2": {
+      "a": "Ich sage dem Detektiv, dass Rojda den Code und die Lampe von mir hat. Damit bringe ich sie in eine blöde Lage.",
+      "b": "Rojda und ich halten zusammen. Dem Detektiv sage ich dazu nichts."
+    },
+    "gw_adnan_3": {
+      "a": "Ich gebe offen zu, dass die Schrift auf dem Zettel meine ist und die Lampe mir gehört. Mehr weiß ich nicht.",
+      "b": "Zu Zettel und Lampe sage ich nichts. Erst soll Rojda selbst reden."
+    },
+    "gw_rojda_1": {
+      "a": "Ich erzähle dem Detektiv von meinem Streich mit der Box und dem Hebel. Dann stehe ich als Schuldige da.",
+      "b": "Zum Streich schweige ich. Ich habe versprochen, das Gespenst nicht zu verraten."
+    },
+    "gw_rojda_2": {
+      "a": "Ich sage dem Detektiv, dass Merle das Gespenst sein sollte. Damit bringe ich meine Freundin in Not.",
+      "b": "Merle ist meine Freundin. Ich halte zu ihr und sage nichts."
+    },
+    "gw_rojda_3": {
+      "a": "Ich gebe zu, dass der Schrei mein Track war und ich den Hebel gezogen habe.",
+      "b": "Meinen Streich halte ich zurück. Das Gespenst bleibt ungenannt."
+    },
+    "gw_merle_1": {
+      "a": "Ich erzähle dem Detektiv, dass ich den Taler bei der Führung in der Hand hatte. Mehr sage ich nicht.",
+      "b": "Ich schweige. Auf keinen Fall will ich vor der Gruppe als Lügnerin dastehen.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von der Burg und ihren Geschichten."
+    },
+    "gw_merle_2": {
+      "a": "Ich sage dem Detektiv, dass Jonas mich auf dem Wehrgang gesehen hat. Dann muss er erklären, was er dort wollte.",
+      "b": "Jonas ist mein Zeuge, und ich bringe ihn nicht in Verlegenheit. Dazu sage ich nichts.",
+      "sabotage": "Ich erzähle dem Detektiv lieber vom Silberbergbau im Harz."
+    },
+    "gw_merle_3": {
+      "a": "Ich gebe zu, dass mir im Dunkeln unheimlich war und ich für den Weg durch den Turm lange gebraucht habe.",
+      "b": "Ich bleibe bei meiner Geschichte und halte mich an das, was ich gesagt habe.",
+      "sabotage": "Ich halte mich zurück und frage den Detektiv lieber nach seinem Geburtstag."
+    },
+    "gw_jonas_1": {
+      "a": "Ich gebe zu, dass ich von allen Miete eingesammelt habe, obwohl der Keller nichts kostete.",
+      "b": "Zum Geld schweige ich. Bis zum Frühstück soll niemand erfahren, dass ich arbeitslos bin."
+    },
+    "gw_jonas_2": {
+      "a": "Ich sage dem Detektiv, dass ich Merle oben auf dem Wehrgang gesehen habe. Damit belaste ich eine alte Freundin.",
+      "b": "Merle ist eine alte Freundin. Ich lasse sie aus dem Spiel."
+    },
+    "gw_jonas_3": {
+      "a": "Ich sage offen, dass ich oben an der Zinne telefoniert habe, um Geld zu leihen.",
+      "b": "Mein Telefonat geht niemanden etwas an. Ich bleibe dabei, dass ich nichts zu erzählen habe."
+    },
+    "gw_paulina_1": {
+      "a": "Ich sage dem Detektiv, dass ich meine Stelle gekündigt habe. Das wollte ich eigentlich für mich behalten.",
+      "b": "Ich bleibe bei den Belegen, die ich habe. Über meine Stelle sage ich nichts."
+    },
+    "gw_paulina_2": {
+      "a": "Ich erzähle dem Detektiv, dass Jonas mit erhobenem Handy in den Turm ging. Damit stelle ich ihn bloß.",
+      "b": "Ich will keinen Freund ungerecht anprangern. Jonas lasse ich aus dem Spiel."
+    },
+    "gw_paulina_3": {
+      "a": "Ich gebe zu, dass ich im Januar die Kanzlei wechsle. Meine Eltern wissen es noch nicht.",
+      "b": "Meine neue Stelle bleibt mein Geheimnis. Ich rede nur über Belege."
+    },
+    "gw_diyar_1": {
+      "a": "Ich sage dem Detektiv, warum ich um Kunibert einen Bogen mache. Es geht um eine alte Angst.",
+      "b": "Meine Angst vor Rüstungen bleibt bei mir. Ich helfe lieber mit dem, was ich gesehen habe."
+    },
+    "gw_diyar_2": {
+      "a": "Ich erzähle dem Detektiv alles über Adnan, auch das, was ihn nicht gut aussehen lässt.",
+      "b": "Adnan hat mich in die Gruppe gebracht. Ich sage nur, was ihn entlastet."
+    },
+    "gw_diyar_3": {
+      "a": "Ich gestehe dem Detektiv meine Angst vor dem Visier der Rüstung.",
+      "b": "Über meine Angst rede ich nicht. Ich bleibe bei Adnan am Kamin."
+    },
+    "gw_emre_1": {
+      "a": "Ich sage dem Detektiv, dass ich Rojda für den Track nicht ganz bezahlen ließ. Das klingt nach mehr, als es ist.",
+      "b": "Das mit dem Track und der Bezahlung bleibt unter uns. Ich erzähle nur vom Klang."
+    },
+    "gw_emre_2": {
+      "a": "Ich erzähle dem Detektiv, dass ich selbst das Gespenst sein wollte. Rojda wollte nicht sagen, wen sie nahm.",
+      "b": "Rojda soll vor allen nicht bloßgestellt werden. Ich schweige zu ihrem Streich."
+    },
+    "gw_emre_3": {
+      "a": "Ich gebe zu, dass ich heimlich in Rojda verliebt bin. Sie wäre vor allen bloßgestellt.",
+      "b": "Ich sage nichts über meine Gefühle. Rojdas Ruf geht vor."
+    },
+    "gw_lejla_1": {
+      "a": "Ich sage dem Detektiv, dass ich im Seminar eine Lehrprobe verhauen habe. Merle weiß davon nichts.",
+      "b": "Meine Lehrprobe vergesse ich lieber. Ich erzähle nur, was ich gesehen habe."
+    },
+    "gw_lejla_2": {
+      "a": "Ich sage dem Detektiv, was Merle mir kurz vor elf zugeflüstert hat. Damit schade ich meiner Freundin.",
+      "b": "Merle ist meine Seminarfreundin. Ich verrate nicht, was sie mir leise gesagt hat."
+    },
+    "gw_lejla_3": {
+      "a": "Ich erzähle dem Detektiv, dass eine Anzeige Merles Verbeamtung gefährden kann.",
+      "b": "Das mit der Verbeamtung behalte ich für mich. Ich will Merle nicht verraten."
+    },
+    "gw_tomasz_1": {
+      "a": "Ich sage dem Detektiv, dass ich vor dem Antrag an Annika noch etwas vorhabe. Mehr sage ich nicht.",
+      "b": "Mein großes Geheimnis halte ich bis zu Licht und Torte. Der Antrag soll gelingen."
+    },
+    "gw_tomasz_2": {
+      "a": "Ich erzähle dem Detektiv, dass Annika und ich verlobt sind. Dann ist der Antrag verdorben.",
+      "b": "Annika und ich halten dicht. Der Antrag soll bei Licht und Torte kommen."
+    },
+    "gw_tomasz_3": {
+      "a": "Ich gebe zu, dass ich beim Nachsehen nach der Torte im Kerzenlicht etwas gesehen habe.",
+      "b": "Ich bleibe bei dem, was ich gesagt habe. Mein Geheimnis wartet bis zur Torte."
+    },
+    "gw_annika_1": {
+      "a": "Ich sage dem Detektiv, warum ich so lange neben der Turmtür stand. Ich habe etwas versteckt.",
+      "b": "Ich stehe dort, weil ich da gut stehe. Die Ringschachtel bleibt mein Geheimnis."
+    },
+    "gw_annika_2": {
+      "a": "Ich verrate dem Detektiv, dass Tomasz und ich verlobt sind. Der Antrag fällt dann aus.",
+      "b": "Tomasz und ich halten zusammen. Ich sage nichts zu Ring und Antrag."
+    },
+    "gw_annika_3": {
+      "a": "Ich gebe zu, dass ich die Ringschachtel hinter der Säule versteckt habe.",
+      "b": "Die Schachtel bleibt, wo sie ist. Davon erfährt keiner etwas, bis der Antrag da ist."
+    },
+    "gw_berfin_1": {
+      "a": "Ich gebe zu, dass ich heimlich Gedichte für das Geburtstagskind schreibe. Dann weiß es bald jeder.",
+      "b": "Mein Gedicht verrate ich nicht. Ich erzähle nur von den Sternen und vom Wehrgang."
+    },
+    "gw_berfin_2": {
+      "a": "Ich erzähle dem Detektiv alles über Paulinas Verhalten an diesem Abend, auch das Unangenehme.",
+      "b": "Paulina ist meine Mitbewohnerin. Ich sage nichts, was ihr schaden könnte."
+    },
+    "gw_berfin_3": {
+      "a": "Ich gestehe, dass ich trotz des Verbots auf dem Wehrgang war.",
+      "b": "Ich bleibe dabei, dass ich nur Sterne gesehen habe. Alles andere ist mein Geheimnis."
+    },
+    "gw_dino_1": {
+      "a": "Ich sage dem Detektiv, dass ich wegen meiner Höhenangst nie auf den Wehrgang gehe.",
+      "b": "Meine Höhenangst gebe ich nicht zu. Ich rede nur über Mauern und Balken."
+    },
+    "gw_dino_2": {
+      "a": "Ich erzähle dem Detektiv, was Diyar mir über seine Angst vor Rüstungen anvertraut hat.",
+      "b": "Diyar ist ein alter Freund. Was er mir erzählt hat, bleibt unter uns."
+    },
+    "gw_dino_3": {
+      "a": "Ich gestehe, dass ich meinen Heizstrahler für schuldig hielt und mich deshalb bei allen entschuldigt habe.",
+      "b": "Ich entschuldige mich nur noch einmal, mehr nicht. Meine Höhenangst bleibt bei mir."
+    },
+    "gw_selin_1": {
+      "a": "Ich sage dem Detektiv, dass die achthundert Euro für Jonas aus meinem Café-Plan stammen.",
+      "b": "Von meinem Café erzähle ich nichts. Ich will nur mein Geld zurück."
+    },
+    "gw_selin_2": {
+      "a": "Ich erzähle dem Detektiv, was ich über Adnan weiß, auch das Peinliche.",
+      "b": "Adnan ist ein Freund, dem ich jederzeit etwas leihen würde. Ich schweige."
+    },
+    "gw_selin_3": {
+      "a": "Ich gestehe, dass ich meine Stelle bei der Bank aufgeben und ein Café eröffnen will.",
+      "b": "Meinen Plan behalte ich für mich. Meine Eltern sollen es nicht zuerst von anderen hören."
+    },
+    "gw_kamil_1": {
+      "a": "Ich sage dem Detektiv, dass ich Adnan bei der Eichentür umsonst helfen will.",
+      "b": "Davon soll niemand erfahren. Ein Freund hilft, und man redet nicht darüber."
+    },
+    "gw_kamil_2": {
+      "a": "Ich erzähle dem Detektiv, was Adnan mir über sein Gespräch mit dem Burgwart gesagt hat.",
+      "b": "Adnan soll sein Gesicht wahren. Ich sage nichts, was ihn in Verlegenheit bringt."
+    },
+    "gw_kamil_3": {
+      "a": "Ich gebe zu, dass ich Adnan meine Hilfe angeboten habe. Er soll dafür nicht schlecht dastehen.",
+      "b": "Ich halte den Mund. Das Angebot bleibt zwischen Adnan und mir."
+    },
+    "gw_derya_1": {
+      "a": "Ich sage dem Detektiv, dass ich einen großen Teil der Feier selbst bezahlt habe.",
+      "b": "Das bleibt bei mir. Niemand soll sich verpflichtet fühlen."
+    },
+    "gw_derya_2": {
+      "a": "Ich erzähle dem Detektiv alles, was Selin mir anvertraut hat, auch das Heikle.",
+      "b": "Selin hat mich in die Clique gebracht. Ich sage nichts, was ihr schaden könnte."
+    },
+    "gw_derya_3": {
+      "a": "Ich gestehe, wie viel ich für Essen und Deko ausgegeben habe.",
+      "b": "Über Geld rede ich nicht. Das ist abgedeckt."
+    },
+    "gw_amar_1": {
+      "a": "Ich sage dem Detektiv, dass mein Geschenk viel zu teuer ist. Es wirkt vielleicht protzig.",
+      "b": "Mein Geschenk bleibt vorerst in der Tasche. Ich rede nur über Zahlen und Zeiten."
+    },
+    "gw_amar_2": {
+      "a": "Ich erzähle dem Detektiv alles über Jonas’ Geldsorgen und seine Anfrage an mich.",
+      "b": "Jonas’ Geldsorgen plaudere ich nicht aus. Ich bleibe bei dem, was ich gesagt habe."
+    },
+    "gw_amar_3": {
+      "a": "Ich gebe zu, dass ich überlege, mein Geschenk wieder mit nach Hause zu nehmen.",
+      "b": "Ich schweige zum Geschenk. Es ist nicht der Moment, es zu zeigen."
+    },
+    "gw_henrik_1": {
+      "a": "Ich sage dem Detektiv, dass ich für das Geburtstagskind ein Bienenvolk adoptiert habe.",
+      "b": "Mein Geschenk bleibt geheim bis zum Nachtisch. Ich rede nur über Wachs und Raureif."
+    },
+    "gw_henrik_2": {
+      "a": "Ich erzähle dem Detektiv, was Adnan mir über das Tor und den Hof berichtet hat.",
+      "b": "Adnan hat mir vertraut. Ich plaudere nichts aus."
+    },
+    "gw_henrik_3": {
+      "a": "Ich gestehe, dass das Schild am Bienenstock für das Geburtstagskind gedacht ist.",
+      "b": "Das Schild bleibt mein Geheimnis. Es wäre jetzt kitschig."
+    },
+    "gw_elif_1": {
+      "a": "Ich sage dem Detektiv, dass ich mein Studium beinahe abgebrochen hätte.",
+      "b": "Meine Studienzeit behalte ich für mich. Ich zitiere nur, was ich weiß."
+    },
+    "gw_elif_2": {
+      "a": "Ich erzähle dem Detektiv, was Merle mir neben Adnan über ihre Lampe gesagt hat.",
+      "b": "Merle sitzt oft neben mir, und ich höre ihr gern zu. Ich belaste sie nicht."
+    },
+    "gw_elif_3": {
+      "a": "Ich gestehe, dass der Antrag auf Exmatrikulation fertig auf meinem Schreibtisch lag.",
+      "b": "Davon weiß niemand etwas, auch meine Großmutter nicht. Dabei bleibt es."
+    },
+    "gw_azad_1": {
+      "a": "Ich sage dem Detektiv, dass ich mich in Berlin als Fotoredakteur bewerbe.",
+      "b": "Mein Vorstellungsgespräch bleibt geheim. Ich zeige nur meine Fotos von diesem Abend."
+    },
+    "gw_azad_2": {
+      "a": "Ich zeige dem Detektiv alle Fotos von Merle, auch die, die sie verdächtig aussehen lassen.",
+      "b": "Merle ist eine Freundin, die auf einem meiner Fotos zu sehen ist. Ich zeige nur die harmlosen."
+    },
+    "gw_azad_3": {
+      "a": "Ich gebe zu, dass ich vielleicht weggehe. Die Clique soll es von mir erfahren.",
+      "b": "Mein Plan bleibt mein Geheimnis. Zuerst muss ich selbst wissen, was ich will."
+    },
+    "gw_zofia_1": {
+      "a": "Ich sage dem Detektiv, dass ich einen Fuchs Ottokar nenne und füttere. Das ist verboten.",
+      "b": "Mein Fuchs bleibt mein Geheimnis. Ich rede nur über den Hof und das Geleucht."
+    },
+    "gw_zofia_2": {
+      "a": "Ich erzähle dem Detektiv, welche Ausrede Jonas vor mir erzählt hat.",
+      "b": "Jonas soll Zeit bekommen. Ich verrate keine Ausrede."
+    },
+    "gw_zofia_3": {
+      "a": "Ich gestehe, dass ich im Harz Wildtiere füttere, obwohl ich es besser weiß.",
+      "b": "Ottokar verrate ich nicht. Der Fuchs bleibt unser Geheimnis."
+    }
+  }
+}

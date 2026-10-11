@@ -1,0 +1,146 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 13 bis 16.",
+  "eintraege": [
+    {
+      "id": "g_selin_2_1",
+      "rolle": "selin",
+      "runde": 2,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Das Freibad",
+      "ziel": "Berichte, wo du Jonas gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_selin_freibad"
+      ],
+      "text": "Im September habe ich Jonas an einem Dienstagvormittag im Freibad gesehen. Zur Arbeit ging er nicht."
+    },
+    {
+      "id": "g_selin_2_2",
+      "rolle": "selin",
+      "runde": 2,
+      "nr": 2,
+      "partner": "tomasz",
+      "thema": "Ein Tilgungsplan",
+      "ziel": "Frage nach dem Geld.",
+      "preisgabe": [],
+      "text": "Wir machen einen Tilgungsplan. Wer weiß, wohin das eingesammelte Geld ging?"
+    },
+    {
+      "id": "g_selin_2_3",
+      "rolle": "selin",
+      "runde": 2,
+      "nr": 3,
+      "partner": "kamil",
+      "thema": "Der Glutschein",
+      "ziel": "Beschreibe, wer im Kaminschein zu sehen war.",
+      "preisgabe": [],
+      "text": "Im Glutschein am Kamin war vor allem einer zu sehen. Er kniete mit der Pistole und hustete."
+    },
+    {
+      "id": "g_kamil_2_1",
+      "rolle": "kamil",
+      "runde": 2,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Das Licht am Turm-Fuß",
+      "ziel": "Beschreibe, was du am Turm-Fuß vorfandest.",
+      "preisgabe": [],
+      "text": "Am Turm-Fuß stand Rojda noch am Sicherungskasten. Das Licht ihres Handys leuchtete. Na ja … ein seltsamer Anblick."
+    },
+    {
+      "id": "g_kamil_2_2",
+      "rolle": "kamil",
+      "runde": 2,
+      "nr": 2,
+      "partner": "annika",
+      "thema": "Gutes Handwerk",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Eiche, schöne Arbeit. Die Tür kann man retten. Drei Stunden, nicht mehr."
+    },
+    {
+      "id": "g_kamil_2_3",
+      "rolle": "kamil",
+      "runde": 2,
+      "nr": 3,
+      "partner": "selin",
+      "thema": "Der Balken",
+      "ziel": "Prüfe die Verkeilung.",
+      "preisgabe": [],
+      "text": "Na ja … der Balken saß von innen. Wer die Tür aufbekommen wollte, musste außen herum."
+    },
+    {
+      "id": "g_derya_2_1",
+      "rolle": "derya",
+      "runde": 2,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Merle kam zurück",
+      "ziel": "Berichte, wie Merle nach dem Ultimatum aussah.",
+      "preisgabe": [
+        "beobachtung:b_derya_merle_tasche"
+      ],
+      "text": "Um fünf vor elf kam Merle blass von der Toilette zurück. Ihre Hand steckte in der Strickjackentasche."
+    },
+    {
+      "id": "g_derya_2_2",
+      "rolle": "derya",
+      "runde": 2,
+      "nr": 2,
+      "partner": "berfin",
+      "thema": "Wer haftet?",
+      "ziel": "Frage, wer für den Überfall einstehen müsste.",
+      "preisgabe": [],
+      "text": "Was ist, wenn niemand haften will? Wer im Dunkeln zuschlägt, haftet für alles."
+    },
+    {
+      "id": "g_derya_2_3",
+      "rolle": "derya",
+      "runde": 2,
+      "nr": 3,
+      "partner": "amar",
+      "thema": "Das Einstecktuch",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Ich falte mein Einstecktuch neu, wenn ich nachdenke. Es hilft mir beim Sortieren."
+    },
+    {
+      "id": "g_amar_2_1",
+      "rolle": "amar",
+      "runde": 2,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Die Nachricht",
+      "ziel": "Berichte, was um zwölf nach zwölf an der Zinne ankam.",
+      "preisgabe": [
+        "beobachtung:b_amar_lukas"
+      ],
+      "text": "Um zwölf nach zwölf kam an der dritten Zinne eine Nachricht an: „Jonas hat mich kurz vor zwölf angerufen, alles okay bei euch?“"
+    },
+    {
+      "id": "g_amar_2_2",
+      "rolle": "amar",
+      "runde": 2,
+      "nr": 2,
+      "partner": "dino",
+      "thema": "Der Bruder",
+      "ziel": "Erkläre, woher du den Absender kennst.",
+      "preisgabe": [],
+      "text": "Der Absender hat in Häusern gearbeitet, die ich verwalte. Ein ordentlicher Kerl, aber knapp bei Kasse."
+    },
+    {
+      "id": "g_amar_2_3",
+      "rolle": "amar",
+      "runde": 2,
+      "nr": 3,
+      "partner": "derya",
+      "thema": "Quadratmeter",
+      "ziel": "Beruhige dich selbst.",
+      "preisgabe": [],
+      "text": "Wenn ich nervös bin, rede ich über Quadratmeter. Das Gewölbe hat gut hundertfünfzig davon."
+    }
+  ],
+  "generiert": "akte_export"
+}

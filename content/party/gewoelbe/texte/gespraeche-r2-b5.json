@@ -1,0 +1,144 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 17 bis 20.",
+  "eintraege": [
+    {
+      "id": "g_henrik_2_1",
+      "rolle": "henrik",
+      "runde": 2,
+      "nr": 1,
+      "partner": "zofia",
+      "thema": "Flüssiges Wachs",
+      "ziel": "Erkläre, was mit Wachs und Abdrücken ist.",
+      "preisgabe": [
+        "beobachtung:b_henrik_wachs"
+      ],
+      "text": "Dicke Kerzen haben minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck entsteht nur, solange das Wachs flüssig ist."
+    },
+    {
+      "id": "g_henrik_2_2",
+      "rolle": "henrik",
+      "runde": 2,
+      "nr": 2,
+      "partner": "selin",
+      "thema": "Die Gruppe schwärmt",
+      "ziel": "Beschreibe die Stimmung.",
+      "preisgabe": [],
+      "text": "Die Gruppe schwärmt. Alle fliegen durcheinander, und niemand sieht die Königin."
+    },
+    {
+      "id": "g_henrik_2_3",
+      "rolle": "henrik",
+      "runde": 2,
+      "nr": 3,
+      "partner": "elif",
+      "thema": "Spuren lesen",
+      "ziel": "Erkläre, wie man Spuren liest.",
+      "preisgabe": [],
+      "text": "Eine Spur lügt nicht. Man muss nur wissen, wann sie entstanden ist."
+    },
+    {
+      "id": "g_elif_2_1",
+      "rolle": "elif",
+      "runde": 2,
+      "nr": 1,
+      "partner": "berfin",
+      "thema": "Der Bund",
+      "ziel": "Erkläre, was der Schlüsselbund bedeutet.",
+      "preisgabe": [
+        "beobachtung:b_elif_bund"
+      ],
+      "text": "Am Bund hängt der Torhausschlüssel. Wer den Bund nimmt, verhindert, dass jemand im Torhaus die Polizei ruft."
+    },
+    {
+      "id": "g_elif_2_2",
+      "rolle": "elif",
+      "runde": 2,
+      "nr": 2,
+      "partner": "kamil",
+      "thema": "Rein rechtlich",
+      "ziel": "Prüfe, was strafbar ist.",
+      "preisgabe": [],
+      "text": "Rein rechtlich ist Körperverletzung strafbar, auch im Dunkeln. Ein Streich entschuldigt nichts."
+    },
+    {
+      "id": "g_elif_2_3",
+      "rolle": "elif",
+      "runde": 2,
+      "nr": 3,
+      "partner": "henrik",
+      "thema": "Einspruch",
+      "ziel": "Widersprich einer Aussage.",
+      "preisgabe": [],
+      "text": "Einspruch! Wer behauptet, niemand sei im Hof gewesen, muss das beweisen."
+    },
+    {
+      "id": "g_azad_2_1",
+      "rolle": "azad",
+      "runde": 2,
+      "nr": 1,
+      "partner": "kamil",
+      "thema": "Die Fotowand",
+      "ziel": "Weise auf das Sofortbild hin.",
+      "preisgabe": [],
+      "text": "An der Fotowand hängt ein Sofortbild von der Führung. Die Uhrzeit steht auf dem Rand."
+    },
+    {
+      "id": "g_azad_2_2",
+      "rolle": "azad",
+      "runde": 2,
+      "nr": 2,
+      "partner": "derya",
+      "thema": "Das Licht",
+      "ziel": "Beschreibe die Lichtlage.",
+      "preisgabe": [],
+      "text": "Schönes Licht, schreckliche Lage. Im Kaminschein sieht man nur Umrisse, keine Gesichter."
+    },
+    {
+      "id": "g_azad_2_3",
+      "rolle": "azad",
+      "runde": 2,
+      "nr": 3,
+      "partner": "zofia",
+      "thema": "Bildausschnitte",
+      "ziel": "Lenke auf das Wesentliche.",
+      "preisgabe": [],
+      "text": "Ich denke in Bildausschnitten: Wer steht im Hintergrund, wer nur am Rand? Meist ist der Rand interessanter."
+    },
+    {
+      "id": "g_zofia_2_1",
+      "rolle": "zofia",
+      "runde": 2,
+      "nr": 1,
+      "partner": "henrik",
+      "thema": "Kein Fremder",
+      "ziel": "Schließe Fremde aus.",
+      "preisgabe": [],
+      "text": "Es kam niemand von draußen. Das Tor war zu, und im Hof lagen keine fremden Spuren."
+    },
+    {
+      "id": "g_zofia_2_2",
+      "rolle": "zofia",
+      "runde": 2,
+      "nr": 2,
+      "partner": "amar",
+      "thema": "Der Raureif",
+      "ziel": "Stütze die Raureif-Beobachtung.",
+      "preisgabe": [],
+      "text": "Der Raureif hielt jede Spur fest. Draußen vor dem Tor lag er unberührt."
+    },
+    {
+      "id": "g_zofia_2_3",
+      "rolle": "zofia",
+      "runde": 2,
+      "nr": 3,
+      "partner": "azad",
+      "thema": "Tiere im Dunkeln",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Nachts hört man im Harz jedes Knacken. Ich erkenne Tiere an ihren Schritten."
+    }
+  ],
+  "generiert": "akte_export"
+}

@@ -1,0 +1,56 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "detektiv",
+  "hinweis": "Detektiv-Bogen (m und w) und Ermittlungsbogen.",
+  "eintraege": [
+    {
+      "id": "detektiv.m.wer",
+      "text": "Du bist das Geburtstagskind und der Detektiv, mittelgroß und mit aufmerksamer Haltung. Du trägst einen hellen sandbeigen Mantel über deiner Alltagskleidung, dazu eine schwarze Jeans und dunkle Turnschuhe. Zu dir gehören eine markante Brille, ein braun karierter Detektivhut und eine unangezündete Pfeife, aus der Seifenblasen steigen."
+    },
+    {
+      "id": "detektiv.w.wer",
+      "text": "Du bist das Geburtstagskind und die Detektivin, mittelgroß und mit aufmerksamer Haltung. Du trägst einen hellen sandbeigen Mantel über deiner Alltagskleidung, dazu eine schwarze Jeans und dunkle Turnschuhe. Zu dir gehören eine markante Brille, ein braun karierter Detektivhut und eine unangezündete Pfeife, aus der Seifenblasen steigen."
+    },
+    {
+      "id": "detektiv.m.auftrag",
+      "text": "Fünf vor halb eins bittet dich der Burgwart: „Du hast heute Geburtstag, du hast den klarsten Kopf. Finde raus, wer es war.“ Du ermittelst in drei Runden und triffst dafür neun Entscheidungen. Am Ende erhebst du eine Anklage."
+    },
+    {
+      "id": "detektiv.w.auftrag",
+      "text": "Fünf vor halb eins bittet dich der Burgwart: „Du hast heute Geburtstag, du hast den klarsten Kopf. Finde raus, wer es war.“ Du ermittelst in drei Runden und triffst dafür neun Entscheidungen. Am Ende erhebst du eine Anklage."
+    },
+    {
+      "id": "detektiv.regeln.entscheidungen",
+      "text": "Jede Entscheidung hat mehrere Möglichkeiten, und du wählst genau eine davon. Du kannst eine Person befragen oder einen Gegenstand untersuchen."
+    },
+    {
+      "id": "detektiv.regeln.punkte",
+      "text": "Jede gute Entscheidung bringt dir einen Punkt. Wie viele Punkte du hast, siehst du erst am Ende."
+    },
+    {
+      "id": "detektiv.regeln.hinweise",
+      "text": "In jeder Runde wird dir aus der Gruppe etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "detektiv.regeln.anklage",
+      "text": "Am Ende klagst du einen der vier an: Adnan, Rojda, Merle oder Jonas. Deine Anklage und deine Punkte bestimmen zusammen, wie der Abend ausgeht."
+    },
+    {
+      "id": "ermittlungsbogen.einleitung",
+      "text": "Auf diesem Bogen führst du die Liste der Verdächtigen. Hier schreibst du mit, wer ausscheidet und wer übrig bleibt. Diesen Bogen siehst nur du."
+    },
+    {
+      "id": "ermittlungsbogen.entlastet",
+      "text": "Wer zur Tatzeit nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Die Tatzeit liegt kurz nach dem Knall, noch vor dem Kettenrasseln der Box."
+    },
+    {
+      "id": "ermittlungsbogen.ueberfuehrt",
+      "text": "Ein Abdruck im Wachs und eine Sohle, die dazu passt, überführen eine Person. Alle anderen scheiden aus."
+    },
+    {
+      "id": "ermittlungsbogen.restverdaechtige",
+      "text": "Schreib die vier Namen auf: Adnan, Rojda, Merle und Jonas. Streich jeden Namen durch, der ausscheidet. Wer übrig bleibt, ist noch verdächtig."
+    }
+  ],
+  "generiert": "akte_export"
+}

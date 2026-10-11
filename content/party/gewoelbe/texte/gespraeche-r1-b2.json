@@ -1,0 +1,150 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "g_paulina_1_1",
+      "rolle": "paulina",
+      "runde": 1,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Beleg für die Miete",
+      "ziel": "Bekomme Klarheit über das Geld für den Keller.",
+      "preisgabe": [
+        "beobachtung:b_paulina_quittung"
+      ],
+      "text": "Beleg? Hast du für den Keller eine Rechnung bekommen? Ich habe fünfundfünfzig Euro bezahlt und nichts in der Hand."
+    },
+    {
+      "id": "g_paulina_1_2",
+      "rolle": "paulina",
+      "runde": 1,
+      "nr": 2,
+      "partner": "merle",
+      "thema": "Wo saßt du beim Knall?",
+      "ziel": "Vergleiche, wo die anderen beim Knall waren.",
+      "preisgabe": [],
+      "text": "Ich saß von halb zwölf an der Festtafel, auch als es dunkel wurde. Und du?"
+    },
+    {
+      "id": "g_paulina_1_3",
+      "rolle": "paulina",
+      "runde": 1,
+      "nr": 3,
+      "partner": "diyar",
+      "thema": "Wer ging in den Turm?",
+      "ziel": "Berichte, was du um sieben vor zwölf gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_paulina_jonas_turm"
+      ],
+      "text": "Ich habe Jonas um sieben vor zwölf mit erhobenem Handy in den Turm gehen sehen, wie einen, der Netz sucht. Nicht in den Hof."
+    },
+    {
+      "id": "g_diyar_1_1",
+      "rolle": "diyar",
+      "runde": 1,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Wer kniete am Kamin?",
+      "ziel": "Sage, wer vor dem Schrei am Kamin war.",
+      "preisgabe": [
+        "beobachtung:b_diyar_adnan_kamin"
+      ],
+      "text": "Ich kniete ab zwölf vor zwölf neben Adnan am Kamin und wedelte mit einem Tablett den Qualm weg. Adnan war die ganze Zeit neben mir, nur um acht vor zwölf sprang er kurz zur Turmtür."
+    },
+    {
+      "id": "g_diyar_1_2",
+      "rolle": "diyar",
+      "runde": 1,
+      "nr": 2,
+      "partner": "jonas",
+      "thema": "Wie geht es dir?",
+      "ziel": "Prüfe, ob jemand im Dunkeln Hilfe braucht.",
+      "preisgabe": [],
+      "text": "Auf einer Skala von eins bis zehn: Wie sehr hat dich der Knall erschreckt? Ich frage nur, damit niemand allein bleibt."
+    },
+    {
+      "id": "g_diyar_1_3",
+      "rolle": "diyar",
+      "runde": 1,
+      "nr": 3,
+      "partner": "paulina",
+      "thema": "Der Feuerlöscher",
+      "ziel": "Erkläre, was du mit dem Feuerlöscher wolltest.",
+      "preisgabe": [],
+      "text": "Ich habe den Feuerlöscher geholt, falls der Kamin Feuer fängt. Benutzt habe ich ihn nie. Wer hat das gesehen?"
+    },
+    {
+      "id": "g_emre_1_1",
+      "rolle": "emre",
+      "runde": 1,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Das war nicht auf dem Track",
+      "ziel": "Erkläre, was du aus der Speisekammer gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_emre_track"
+      ],
+      "text": "Der Schrei kam vom Track, klar. Aber gleich nach dem Knall, noch vor den Ketten, kamen ein tiefer Ruf und Poltern durch die Tür. Das war nicht auf dem Track."
+    },
+    {
+      "id": "g_emre_1_2",
+      "rolle": "emre",
+      "runde": 1,
+      "nr": 2,
+      "partner": "adnan",
+      "thema": "Mein Platz",
+      "ziel": "Sage, wo du beim Knall gesessen hast.",
+      "preisgabe": [],
+      "text": "Ich saß an der Festtafel, am Ende nahe der Eichentür. Von da aus habe ich alles gehört. Ich sag ja nichts."
+    },
+    {
+      "id": "g_emre_1_3",
+      "rolle": "emre",
+      "runde": 1,
+      "nr": 3,
+      "partner": "lejla",
+      "thema": "Zu viel Hall",
+      "ziel": "Beurteile den Klang der Box.",
+      "preisgabe": [],
+      "text": "Beim Testschrei am Abend war zu viel Hall. Das war die Box, kein Zufall. Stichwort: Kathedrale."
+    },
+    {
+      "id": "g_lejla_1_1",
+      "rolle": "lejla",
+      "runde": 1,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Die Taler-Fotos",
+      "ziel": "Zeige, was auf deinen Fotos von der Führung zu sehen ist.",
+      "preisgabe": [
+        "beobachtung:b_lejla_taler_fotos"
+      ],
+      "text": "Ich habe den Taler ewig fotografiert, oder? Auf meinen Bildern ist nur die Münze, ganz scharf. Leute sind keine drauf."
+    },
+    {
+      "id": "g_lejla_1_2",
+      "rolle": "lejla",
+      "runde": 1,
+      "nr": 2,
+      "partner": "rojda",
+      "thema": "Mein Platz",
+      "ziel": "Sage, wo du beim Knall gesessen hast.",
+      "preisgabe": [],
+      "text": "Ich saß ab halb zwölf an der Festtafel, auch im Dunkeln. Und was folgt daraus, wenn wir alle sitzen geblieben sind?"
+    },
+    {
+      "id": "g_lejla_1_3",
+      "rolle": "lejla",
+      "runde": 1,
+      "nr": 3,
+      "partner": "emre",
+      "thema": "Adrenalin",
+      "ziel": "Beruhige jemanden nach dem Schrecken.",
+      "preisgabe": [],
+      "text": "Das ist Adrenalin, das geht vorbei. Atme durch, oder? Danach fällt dir mehr ein."
+    }
+  ],
+  "generiert": "akte_export"
+}

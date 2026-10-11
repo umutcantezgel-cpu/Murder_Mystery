@@ -1,0 +1,124 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "erzaehler",
+  "hinweis": "Runden: runde.N.start, bonus.rahmen, resuemee.gruppe.N, resuemee.rest.*, resuemee.lage.N.*, anklage.start.",
+  "eintraege": [
+    {
+      "id": "runde.1.start",
+      "text": "Es ist halb eins. Im Gewölbe flackern die Kerzen. Die erste Runde heißt: Tatort und Stationen. Der Burgwart sitzt mit seiner Beule auf der Bank am Kamin. Er brummt: „Ins Bett? Hab ich extra so gesagt. Ich wollte nur gucken, wer den Taler bringt.“ Und: „Geschrien? Ich? Dreißig Jahre unter Tage, ich hab nie geschrien.“ Hört jetzt genau zu."
+    },
+    {
+      "id": "runde.2.start",
+      "text": "Es ist Viertel nach eins. Die zweite Runde heißt: Kreuzverhör. Der Burgwart redet mit Kunibert, klappt dessen Visier auf und zieht seinen Schlüsselbund heraus. „Da ist er ja. Du alter Dieb!“ Dann erzählt er: „Ich saß im Dunkeln und hatte die Kerzen ausgepustet. Da klimperte es in meiner Dose, und ich packte zu. Ich brüllte: Hab ich dich! Gebrüllt, nicht geschrien. Dann war es dunkel.“"
+    },
+    {
+      "id": "runde.3.start",
+      "text": "Es ist zwei Uhr. Die letzte Runde heißt: Alibis und Zeitleiste. Der Burgwart reibt sich die Beule. „Was ich am Handgelenk gepackt habe, war ein Laken. Glatter Stoff. Und darunter ein Ärmel, etwas Gestricktes, Wolle.“ Dann brummt er: „Ich habe mein Ehrenwort gebrochen, als ich mich in die Speisekammer setzte. Das war mein Fehler.“ Jetzt wird es ernst."
+    },
+    {
+      "id": "bonus.rahmen",
+      "text": "Aus der Runde wird dir etwas zugeflüstert …"
+    },
+    {
+      "id": "resuemee.gruppe.1",
+      "text": "Die Runde hat dir etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "resuemee.gruppe.2",
+      "text": "Auch diesmal hat die Runde dir etwas zugeflüstert. Prüfe selbst, ob es stimmt."
+    },
+    {
+      "id": "resuemee.gruppe.3",
+      "text": "Zum Schluss hat die Runde dir noch etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "resuemee.rest.alle",
+      "text": "Alle vier sind noch verdächtig: Adnan, Rojda, Merle und Jonas. Noch ist niemand raus."
+    },
+    {
+      "id": "resuemee.rest.eins",
+      "text": "Die Spuren haben sich gelichtet. Jetzt liegt es an dir."
+    },
+    {
+      "id": "resuemee.rest.rojda_merle_jonas",
+      "text": "Rojda, Merle und Jonas sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.adnan_merle_jonas",
+      "text": "Adnan, Merle und Jonas sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.adnan_rojda_jonas",
+      "text": "Adnan, Rojda und Jonas sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.adnan_rojda_merle",
+      "text": "Adnan, Rojda und Merle sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.adnan_rojda",
+      "text": "Adnan und Rojda sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.adnan_merle",
+      "text": "Adnan und Merle sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.adnan_jonas",
+      "text": "Adnan und Jonas sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.rojda_merle",
+      "text": "Rojda und Merle sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.rojda_jonas",
+      "text": "Rojda und Jonas sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.merle_jonas",
+      "text": "Merle und Jonas sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.lage.1.offen",
+      "text": "Noch gibt es keine Spur gegen jemanden. Frag weiter nach."
+    },
+    {
+      "id": "resuemee.lage.1.spur",
+      "text": "Es gibt erste Spuren. Schau sie dir genau an."
+    },
+    {
+      "id": "resuemee.lage.1.klar",
+      "text": "Ein entscheidender Beweis liegt vor. Behalte ihn gut im Kopf."
+    },
+    {
+      "id": "resuemee.lage.2.offen",
+      "text": "Noch gibt es keine Spur gegen jemanden. Bleib dran."
+    },
+    {
+      "id": "resuemee.lage.2.spur",
+      "text": "Es gibt erste Spuren. Schau genau hin."
+    },
+    {
+      "id": "resuemee.lage.2.klar",
+      "text": "Ein entscheidender Beweis liegt vor. Jetzt wird es spannend."
+    },
+    {
+      "id": "resuemee.lage.3.offen",
+      "text": "Noch gibt es keine Spur gegen jemanden. Die Nacht läuft davon."
+    },
+    {
+      "id": "resuemee.lage.3.spur",
+      "text": "Es gibt erste Spuren. Die Zeit wird knapp."
+    },
+    {
+      "id": "resuemee.lage.3.klar",
+      "text": "Ein entscheidender Beweis liegt vor. Jetzt zählt jede Antwort."
+    },
+    {
+      "id": "anklage.start",
+      "text": "Die Nacht ist fast vorbei. Du stehst vor den vier Verdächtigen und musst dich entscheiden. Klage eine Person an und sage laut, warum. Dann zeigt sich, ob du richtig lagst."
+    }
+  ],
+  "generiert": "akte_export"
+}

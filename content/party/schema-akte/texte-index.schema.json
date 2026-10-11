@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Textsammlung: Index",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schluessel": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$"
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^(beobachtung|luege|nebendelikt|zeitleiste|spur):[a-z][a-z0-9_]*$"
+    },
+    "punkt": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "$ref": "#/$defs/text"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "ref"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ref": {
+              "$ref": "#/$defs/ref"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "dateien"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "dateien": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "datei",
+          "bereich"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "datei": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+\\.json$"
+          },
+          "bereich": {
+            "enum": [
+              "erzaehler",
+              "dossier",
+              "taeter",
+              "detektiv",
+              "gespraech",
+              "wahl",
+              "ui"
+            ]
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

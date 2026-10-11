@@ -1,0 +1,1076 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Die Figuren des Falls: Detektiv, Opfer und 20 Rollen. Name, Alter, Herkunft, Besetzungsplatz und Tarn-Alibi stammen aus dem Kanon (K2), alles andere aus der Überlagerung.",
+  "lookHinweis": "Look: Farben als Hex, Kopfform und Statur aus festen Listen. Die Farbe jeder Rolle unterscheidet sich im selben Raum deutlich von den anderen.",
+  "detektiv": {
+    "id": "detective",
+    "title": "Der Detektiv / Die Detektivin (Geburtstagskind)",
+    "selectableGenders": [
+      "m",
+      "w"
+    ],
+    "colorCode": "#B8A48A",
+    "farbname": "Sandbeige",
+    "startRoom": "kamin_gewoelbe",
+    "ermittlungsOrt": "geburtstagsplatz",
+    "coordinates": {
+      "x": 12.5,
+      "y": 17.5
+    },
+    "visualSpecs": {
+      "silhouette": "Mittelgroß, aufmerksame Haltung, Kopf leicht schief beim Zuhören",
+      "baseOutfit": "Heller sandbeiger Trenchcoat über Alltagskleidung, schwarze Jeans, dunkle Turnschuhe",
+      "accessories": [
+        "Markante Brille",
+        "Braun karierter Detektivhut",
+        "Unangezündete Pfeife, aus der Seifenblasen steigen"
+      ],
+      "interactiveTool": "Handy in der Hand mit Taschenlampen-Lichtkegel",
+      "idleAnimation": "Bläst mit der Pfeife ein paar Seifenblasen und tippt aufs Handy"
+    },
+    "tatnacht": "Ab vier Minuten vor Mitternacht steht das Geburtstagskind an der verkeilten Eichentür und lauscht. Durch die gesplitterte Füllung hört es nach dem Knall ein Klimpern, einen tiefen Ruf, einen dumpfen Schlag, Poltern und rollende Dosen. Danach folgt der Schrei, direkt neben der Tür. Damals hält es alles für die Show.",
+    "auftrag": "Fünf vor halb eins bittet der Burgwart das Geburtstagskind: „Du hast heute Geburtstag, du hast den klarsten Kopf. Finde raus, wer’s war.“",
+    "nieVerdaechtig": true,
+    "look": {
+      "haut": "#d9a983",
+      "haar": "#4a3222",
+      "kopf": "detektivhut",
+      "statur": "normal",
+      "schnitt": "suit"
+    }
+  },
+  "opfer": {
+    "id": "burgwart",
+    "name": "Eckehard Lüddecke",
+    "age": 71,
+    "geschlecht": "m",
+    "roleTitle": "Der Burgwart",
+    "isNpc": true,
+    "colorCode": "#7A6A55",
+    "farbname": "Graubraun",
+    "startRoom": "kamin_gewoelbe",
+    "ermittlungsOrt": "an_der_bank",
+    "coordinates": {
+      "x": 3.5,
+      "y": 17.5
+    },
+    "status": "Nach dem Schlag kurz bewusstlos. Er kommt nach zweieinhalb Minuten zu sich, hat eine Beule am Hinterkopf und eine Gedächtnislücke für die Sekunden davor. Danach sitzt er mit einem Kühlpack aus Tiefkühlerbsen auf der Bank am Kamin und ist bald wieder grantig.",
+    "visualSpecs": {
+      "silhouette": "Kräftig, leicht gebeugt, buschige weiße Augenbrauen, kurzer weißer Bart",
+      "outfit": "Cordhose, Strickweste mit vielen Taschen, festes Schuhwerk, Gürtel mit Karabiner",
+      "distinguishingFeature": "Eine Lesebrille auf der Stirn und ein Kühlpack aus Tiefkühlerbsen auf dem Kopf",
+      "idleAnimation": "Brummt vor sich hin und drückt das Kühlpack an die Beule"
+    },
+    "motiveAndConflict": "Seit 1994 hütet er die Burg. Er duzt alle und grüßt mit „Glück auf!“. Heute ärgert er sich über die zerstörte Eichentür und den verschwundenen Taler, aber er hat Humor.",
+    "warmeSeite": "Er redet mit der Rüstung Kunibert wie mit einem alten Kameraden und hat Adnan den Türschaden mit Handschlag verziehen.",
+    "erinnerung": "Er saß im Dunkeln hinter dem Regal, hörte die Dose klimpern und packte zu. Er rief „Hab ich dich!“. Danach weiß er nichts mehr, nur noch, dass der Arm in Wolle und Leinen steckte.",
+    "schluesselbund": "schluesselbund",
+    "gedaechtnisLueckeAb": "23:58:18",
+    "look": {
+      "haut": "#e0b79a",
+      "haar": "#e8e6e0",
+      "kopf": "none",
+      "statur": "broad",
+      "schnitt": "suit"
+    },
+    "schluesselbundMaterial": "Große Buntbartschlüssel aus dunklem Eisen an einem Karabinerhaken und ein kleiner Vitrinenschlüssel."
+  },
+  "figuren": [
+    {
+      "id": "adnan",
+      "name": "Adnan",
+      "vollerName": "Adnan Hodžić",
+      "aussprache": "AD-nan HOD-schitsch",
+      "age": 33,
+      "geschlecht": "m",
+      "herkunft": "bosnisch",
+      "tier": 1,
+      "besetzungsplatz": 1,
+      "minPlayers": 1,
+      "roleTitle": "Der Veranstaltungstechniker",
+      "isPotentialKiller": true,
+      "colorCode": "#1A1A1A",
+      "farbname": "Schwarz",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_adnan",
+      "coordinates": {
+        "x": 2.5,
+        "y": 16.5
+      },
+      "visualSpecs": {
+        "silhouette": "Schlank, aufrecht, ruhiger und praktischer Blick, kurzer gepflegter Bart",
+        "outfit": "Schwarze Arbeitsjacke mit vielen Taschen, graue Strickmütze, feste Arbeitsschuhe",
+        "distinguishingFeature": "Ein Multitool am Gürtel und Kabelbinder in der Jackentasche",
+        "idleAnimation": "Prüft mit dem Daumen die Kante seines Multitools und nickt zufrieden"
+      },
+      "motiveAndConflict": "arbeitet seit drei Jahren bei den Burgfesten für die Stiftung; hat den Keller für die Feier besorgt; hat um 17:40 mit dem Punschkessel-Wagen die Eichentür der Speisekammer beschädigt, der Burgwart verlangte daraufhin 3.800 Euro bar bis Mitternacht",
+      "blackoutAlibi": "„Ich war die ganze Zeit am Kamin und hab gegen den Qualm gekämpft. Kurz vor dem Schrei stand Merle neben mir. Dann bin ich mit dem Geburtstagskind über den Turm in die Speisekammer.“",
+      "roleSecret": "1) Er hat Rojda um 18:30 für ihren Geburtstagsstreich den Code des Sicherungskastens aufgeschrieben und seine Stablampe „HODŽIĆ VT · 3“ geliehen, mit der Warnung, vorher Kessel und Heizstrahler auszuschalten. Er weiß nicht, wer das Gespenst sein sollte. Dass der Knall seine Hauptsicherung zerstört hat, ist ihm peinlich. 2) Der Keller war umsonst, ein Gefallen gegen eine neue Lichtanlage fürs Burgfest. Seit Jonas' Rede „Die Miete ist bezahlt!“ ahnt er, dass Jonas Geld eingesammelt hat, hat ihn aber nicht darauf angesprochen. 3) Um 23:30 hat er den Türschaden per Handschlag erledigt: Er repariert die Tür selbst und baut beim Burgfest zusätzliches Licht.",
+      "persoenlichesZiel": "Den Türschaden und den Stromausfall in Ordnung bringen, ohne eine Freundin zu verraten.",
+      "nebendelikt": {
+        "id": "nd_adnan_code",
+        "text": "Hat Rojda für ihren Streich den Code des Sicherungskastens aufgeschrieben und seine Stablampe geliehen."
+      },
+      "loyalitaet": {
+        "zu": "rojda",
+        "grund": "Er hat ihr für den Streich Code und Lampe gegeben und will sie nicht verraten."
+      },
+      "luegen": [
+        {
+          "id": "luege_adnan_code",
+          "behauptung": "Den Code kenn nur ich und der Alte.",
+          "wahrheit": "Er hat Rojda den Code für ihren Streich aufgeschrieben.",
+          "duWahrheit": "Du hast Rojda den Code für ihren Streich aufgeschrieben."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Kniet ab zwölf vor zwölf am Kamin, reißt um acht vor zwölf Turmtür und Läden auf und bleibt bis zum Schrei bei der Glut. Der Ruß an seinen Händen stammt vom Kamin."
+      },
+      "look": {
+        "haut": "#d6a982",
+        "haar": "#3b2a20",
+        "kopf": "cap",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Ist selbstständiger Veranstaltungstechniker und fährt mit seinem Transporter zu jedem Fest."
+    },
+    {
+      "id": "rojda",
+      "name": "Rojda",
+      "vollerName": "Rojda Baran",
+      "aussprache": "ROSCH-da BA-ran (das J wie in „Journal“)",
+      "age": 29,
+      "geschlecht": "w",
+      "herkunft": "kurdisch",
+      "tier": 1,
+      "besetzungsplatz": 2,
+      "minPlayers": 2,
+      "roleTitle": "Die Geräuschemacherin",
+      "isPotentialKiller": true,
+      "colorCode": "#5A5F66",
+      "farbname": "Anthrazit",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_rojda",
+      "coordinates": {
+        "x": 4.5,
+        "y": 14.5
+      },
+      "visualSpecs": {
+        "silhouette": "Lebhaft, schnell in den Gesten, lange dunkle Locken",
+        "outfit": "Schwarzer Hoodie, weiße Turnschuhe mit glatter Sohle, Kopfhörer um den Hals",
+        "distinguishingFeature": "Große Kopfhörer, aus denen leise ein Wind pfeift",
+        "idleAnimation": "Hält die Hand ans Ohr, lauscht und zeichnet mit dem Finger Klangwellen in die Luft"
+      },
+      "motiveAndConflict": "hat ihn bei der Führung über die Akustik des Gewölbes ausgefragt; er nennt sie „Radio“",
+      "blackoutAlibi": "„Ich war im Gewölbe, und als es kurz vor zwölf dunkel wurde, war ich schon unten im Turm, weil ich das Licht wieder anmachen wollte. Ich kenn mich doch mit Technik aus.“",
+      "roleSecret": "Sie ist die Regisseurin des Geburtstagsstreichs. Sie hat den Track „Geisterstunde“ gebaut und Merle vor Wochen als Gespenst gewonnen. Von Adnan hat sie Code und Lampe. Sie hat die Box neben die Eichentür gestellt und das Geburtstagskind zum Lauschen geschickt. Um 23:58:00 hat sie selbst den Hauptschalter umgelegt, ohne Kessel und Heizstrahler auszuschalten. Sie fühlt sich schuld an allem.",
+      "persoenlichesZiel": "Ihr Versprechen an das Gespenst halten und gutmachen, was ihr Streich angerichtet hat.",
+      "nebendelikt": {
+        "id": "nd_rojda_streich",
+        "text": "Hat den Geisterstreich geplant, den Track aufgenommen und den Hebel am Sicherungskasten gezogen."
+      },
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist ihre Freundin und das Gespenst, das sie für den Streich gewonnen hat."
+      },
+      "luegen": [
+        {
+          "id": "luege_rojda_licht",
+          "behauptung": "Ich wollte nur das Licht wieder anmachen.",
+          "wahrheit": "Sie hat den Hebel für ihren Streich selbst gezogen.",
+          "duWahrheit": "Du hast den Hebel für deinen Streich selbst gezogen."
+        },
+        {
+          "id": "luege_rojda_box",
+          "behauptung": "Die Box spinnt. Einen Streich gab es nicht.",
+          "wahrheit": "Der Schrei kam von ihrem Track Geisterstunde. Sie hat den Streich geplant.",
+          "duWahrheit": "Der Schrei kam von deinem Track Geisterstunde. Du hast den Streich geplant."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Stellt um zehn vor zwölf die Box in die Nische, schickt das Geburtstagskind zur Eichentür und startet am Turm-Fuß den Track. Um zwei vor zwölf zieht sie den Hebel und steht danach starr am Sicherungskasten."
+      },
+      "look": {
+        "haut": "#c99872",
+        "haar": "#2a1a14",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Arbeitet als Mediengestalterin beim Lokalradio und baut aus Geräuschen ganze Geschichten."
+    },
+    {
+      "id": "merle",
+      "name": "Merle",
+      "vollerName": "Merle Hartwig",
+      "aussprache": "MER-le HART-wich",
+      "age": 28,
+      "geschlecht": "w",
+      "herkunft": "deutsch",
+      "tier": 1,
+      "besetzungsplatz": 3,
+      "minPlayers": 3,
+      "roleTitle": "Die Geschichtsreferendarin",
+      "isPotentialKiller": true,
+      "colorCode": "#1F5A3A",
+      "farbname": "Tannengrün",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_merle",
+      "coordinates": {
+        "x": 5.5,
+        "y": 16.5
+      },
+      "visualSpecs": {
+        "silhouette": "Zierlich, neugierige Augen, Haarspange und Sommersprossen",
+        "outfit": "Dunkelgrüne Strickjacke mit Zopfmuster über weißer Bluse, Jeans, feste Schuhe",
+        "distinguishingFeature": "Ein Notizheft, in das sie jede Stufe des Turms zeichnet",
+        "idleAnimation": "Notiert etwas ins Heft, schaut auf und lächelt nervös"
+      },
+      "motiveAndConflict": "Sie ist begeistert von seinen Geschichten, hat bei der Führung die meisten Fragen gestellt und den Taler fotografiert. Bekannt ist, dass sie seit einer Geisterbahnfahrt als Kind Angst im Dunkeln hat.",
+      "blackoutAlibi": "„Ich wollte um acht vor zwölf aufs Klo und hab mich im dunklen Turm verlaufen – plötzlich stand ich auf dem Wehrgang, frag Jonas. Dann ging das Licht aus, ich hab mich die Treppe runtergetastet und bin durch die Turmtür ins Gewölbe. Beim Schrei stand ich neben Adnan.“",
+      "roleSecret": "Sie hat große Angst im Dunkeln und wollte beim Streich trotzdem das Gespenst sein.",
+      "persoenlichesZiel": "Auf keinen Fall vor der Gruppe als Lügnerin dastehen.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Jonas ist ihr Zeuge für den Weg über den Wehrgang, und sie will ihn nicht bloßstellen."
+      },
+      "luegen": [
+        {
+          "id": "luege_merle_weg",
+          "behauptung": "Ich hab mich im dunklen Turm verlaufen, bis auf den Wehrgang. Beim Schrei stand ich neben Adnan.",
+          "wahrheit": "Das Verlaufen stimmt nur bis sechs vor zwölf. Danach wartete sie als Gespenst an der Eisentür und kam erst kurz vor dem Schrei zu Adnan.",
+          "duWahrheit": "Das Verlaufen stimmt nur bis sechs vor zwölf. Danach hast du als Gespenst an der Eisentür gewartet und bist erst kurz vor dem Schrei zu Adnan gekommen."
+        },
+        {
+          "id": "luege_merle_gekniffen",
+          "behauptung": "Ich hab gekniffen, als es geknallt hat. Ich war nicht drin.",
+          "wahrheit": "Sie war in der Speisekammer und hat den Taler in die Blechdose geworfen.",
+          "duWahrheit": "Du warst in der Speisekammer und hast den Taler in die Blechdose geworfen."
+        },
+        {
+          "id": "luege_merle_lampe",
+          "behauptung": "Meine Lampe liegt im Auto, die war eh fast leer.",
+          "wahrheit": "Adnans Lampe ging über Rojda an Merle und fiel ihr in der Speisekammer aus der Hand.",
+          "duWahrheit": "Adnans Lampe ging über Rojda an dich und fiel dir in der Speisekammer aus der Hand."
+        }
+      ],
+      "killerProfile": {
+        "crimeExecution": "Merle steckt den Taler bei der Führung ein und bringt ihn im Dunkeln heimlich zurück. Der Burgwart packt zu, und sie trifft ihn in Panik einmal mit dem Kerzenständer. Dann nimmt sie ihm den Bund ab, versteckt ihn im Helm der Rüstung und stopft das Laken in die Truhe.",
+        "smokingGun": "Der Absatzabdruck im Wachs passt zu Merles linkem Stiefel, dem ein Stollen fehlt.",
+        "zusatzindiz": "Ein Streifen vom Laken mit dem Wäschezeichen Schartenfels sieben hängt am Panzerhandschuh der Rüstung."
+      },
+      "look": {
+        "haut": "#efd0b4",
+        "haar": "#8a6a45",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Ist Referendarin für Geschichte und Deutsch und erzählt gern Fun Facts über alte Burgen."
+    },
+    {
+      "id": "jonas",
+      "name": "Jonas",
+      "vollerName": "Jonas Brinkmann",
+      "aussprache": "JO-nas BRINK-man",
+      "age": 34,
+      "geschlecht": "m",
+      "herkunft": "deutsch",
+      "tier": 1,
+      "besetzungsplatz": 4,
+      "minPlayers": 4,
+      "roleTitle": "Der Organisator",
+      "isPotentialKiller": true,
+      "colorCode": "#8B8C2F",
+      "farbname": "Olivgrün",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_jonas",
+      "coordinates": {
+        "x": 9.5,
+        "y": 16.5
+      },
+      "visualSpecs": {
+        "silhouette": "Breites Lächeln, aufrechte Haltung, beide Hände wie beim Vortragen erhoben",
+        "outfit": "Olivgrüner grober Strickpullover über kariertem Hemd, Jeans, Armbanduhr mit großem Ziffernblatt",
+        "distinguishingFeature": "Eine große Armbanduhr, auf die er bei jedem Satz zeigt",
+        "idleAnimation": "Hebt beide Hände und zählt an den Fingern „Punkt eins, Punkt zwei“"
+      },
+      "motiveAndConflict": "Bei der Begrüßung rief der Burgwart laut „Welche Miete?“; seitdem macht Jonas einen Bogen um ihn.",
+      "blackoutAlibi": "„Ich war draußen im Hof, frische Luft schnappen – der Qualm! Als es geknallt hat, war ich draußen. Dann bin ich zu euch runter.“",
+      "roleSecret": "1) Er ist seit Juni arbeitslos und hat es niemandem gesagt. 2) Er hat von allen 55 Euro „Miete“ eingesammelt, obwohl der Keller umsonst war, und damit zwei Raten seines Autokredits bezahlt. Er führt heimlich eine Liste, um alles zurückzuzahlen. 3) Um 23:33 hat der Burgwart ihm gedroht, es beim Frühstück allen zu sagen. 4) Von 23:54 bis 00:01 war er auf dem Wehrgang an der dritten Zinne. Von 23:56:40 bis 23:58:10 hat er seinen Bruder Lukas um dreitausend Euro gebeten; Lukas sagte nein.",
+      "persoenlichesZiel": "Niemand soll vor dem Frühstück erfahren, dass er seit Juni arbeitslos ist.",
+      "nebendelikt": {
+        "id": "nd_jonas_miete",
+        "text": "Hat von allen 55 Euro Miete eingesammelt, obwohl der Keller nichts gekostet hat, und ist seit Juni arbeitslos."
+      },
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist eine alte Freundin, und er will sie nicht belasten."
+      },
+      "luegen": [
+        {
+          "id": "luege_jonas_hof",
+          "behauptung": "Ich war draußen im Hof, frische Luft schnappen.",
+          "wahrheit": "Er stand oben an der dritten Zinne und telefonierte.",
+          "duWahrheit": "Du standest oben an der dritten Zinne und hast telefoniert."
+        },
+        {
+          "id": "luege_jonas_job",
+          "behauptung": "Ich bin Vertriebler für Medizintechnik.",
+          "wahrheit": "Er ist seit Juni arbeitslos.",
+          "duWahrheit": "Du bist seit Juni arbeitslos."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Geht um sieben vor zwölf mit erhobenem Handy in den Turm, wird von Merle erschreckt und telefoniert von der dritten Zinne mit seinem Bruder. Beim Knall sitzt er oben im Wind."
+      },
+      "look": {
+        "haut": "#e8c4a2",
+        "haar": "#c9a35a",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Verkauft Medizintechnik, wie er sagt, und organisiert jede Feier mit Tabellen und großen Versprechen."
+    },
+    {
+      "id": "paulina",
+      "name": "Paulina",
+      "vollerName": "Paulina Zielińska",
+      "aussprache": "pau-LI-na sche-LIN-ska",
+      "age": 31,
+      "geschlecht": "w",
+      "herkunft": "polnisch",
+      "tier": 2,
+      "besetzungsplatz": 5,
+      "minPlayers": 5,
+      "roleTitle": "Die Steuerfachfrau",
+      "isPotentialKiller": false,
+      "colorCode": "#2547A8",
+      "farbname": "Kobaltblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_paulina",
+      "coordinates": {
+        "x": 6.5,
+        "y": 14.5
+      },
+      "visualSpecs": {
+        "silhouette": "Aufrecht, schmale Brille, ein skeptisch gehobener Augenbrauenbogen",
+        "outfit": "Dunkelblauer Cordblazer mit Kugelschreiber im Revers, Jeans",
+        "distinguishingFeature": "Ein Kugelschreiber im Revers und ein selbst gedruckter Quittungsvordruck",
+        "idleAnimation": "Hält den Vordruck hoch und tippt mit dem Stift darauf"
+      },
+      "motiveAndConflict": "kennt ihn erst seit heute; findet ihn „korrekt“, weil er über den Türschaden an der Eichentür ordentlich einen Zettel geschrieben hat",
+      "blackoutAlibi": "„Ich saß von halb zwölf an der Festtafel im Gewölbe, auch im Qualm und auch, als es kurz vor zwölf dunkel wurde. Nach dem Schrei bin ich im Gewölbe geblieben, bis halb eins.“",
+      "roleSecret": "Sie hat heimlich ihre Stelle gekündigt und fängt im Januar bei einer anderen Kanzlei an. Ihr jetziger Chef ist ein alter Bekannter ihrer Eltern, die so stolz auf die „sichere Stelle“ sind, dass Paulina es ihnen noch nicht sagen konnte. In der Gruppe weiß es niemand.",
+      "persoenlichesZiel": "Eine Quittung für ihre Miete bekommen und trotzdem keinen Freund ungerecht anprangern.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Sie mochte ihn als großzügigen Organisator und ist umso enttäuschter."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#ecd0b8",
+        "haar": "#8b6f3d",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Arbeitet als Steuerfachangestellte in einer Kanzlei und macht die Steuererklärung für die ganze Verwandtschaft."
+    },
+    {
+      "id": "diyar",
+      "name": "Diyar",
+      "vollerName": "Diyar Kaya",
+      "aussprache": "di-JAR KA-ja",
+      "age": 34,
+      "geschlecht": "m",
+      "herkunft": "kurdisch",
+      "tier": 2,
+      "besetzungsplatz": 6,
+      "minPlayers": 6,
+      "roleTitle": "Der Rettungssanitäter",
+      "isPotentialKiller": false,
+      "colorCode": "#8E1B2B",
+      "farbname": "Dunkelrot",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_diyar",
+      "coordinates": {
+        "x": 3.5,
+        "y": 15.5
+      },
+      "visualSpecs": {
+        "silhouette": "Ruhig, kräftige Schultern, Dreitagebart",
+        "outfit": "Dunkelblaue Funktionsjacke und ein dunkelrotes Halstuch",
+        "distinguishingFeature": "Ein dunkelrotes Halstuch, das er sich bei Gefahr vor Mund und Nase zieht",
+        "idleAnimation": "Hält ein Tablett wie einen Fächer und wedelt gelassen"
+      },
+      "motiveAndConflict": "kannte ihn vor heute nicht; nach dem Überfall hat er ihm mit Adnan die Beule untersucht, und der Burgwart hat sich das widerwillig gefallen lassen",
+      "blackoutAlibi": "„Bis der Qualm kam, saß ich an der Tafel. Ab zwölf vor zwölf hab ich neben Adnan am Kamin gekniet und mit einem Tablett den Qualm weggewedelt, auch als es dunkel wurde, bis kurz nach dem Schrei. Danach war ich im Gewölbe, und ab fünf nach zwölf hab ich Adnan geholfen, den Burgwart zu versorgen.“",
+      "roleSecret": "Er hat seit Kindertagen Angst vor Ritterrüstungen: Bei einem Museumsbesuch in der Grundschule stieß er gegen eine Rüstung, und das Visier klappte direkt vor seinem Gesicht herunter. Seit der Führung macht er um Kunibert einen großen Bogen und verrät niemandem, warum.",
+      "persoenlichesZiel": "Adnan entlasten und dabei niemandem etwas anhängen.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan hat ihn in die Gruppe gebracht, und die beiden helfen sich bei jedem Fest."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#c8946b",
+        "haar": "#16110e",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Fährt als Rettungssanitäter Einsätze und übernimmt am Wochenende Sanitätsdienste bei Festen."
+    },
+    {
+      "id": "emre",
+      "name": "Emre",
+      "vollerName": "Emre Kaplan",
+      "aussprache": "EM-re kap-LAN",
+      "age": 30,
+      "geschlecht": "m",
+      "herkunft": "türkisch",
+      "tier": 2,
+      "besetzungsplatz": 7,
+      "minPlayers": 7,
+      "roleTitle": "Der Tontechniker",
+      "isPotentialKiller": false,
+      "colorCode": "#8A5530",
+      "farbname": "Lederbraun",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_emre",
+      "coordinates": {
+        "x": 10.5,
+        "y": 18.5
+      },
+      "visualSpecs": {
+        "silhouette": "Schlank, wuschelige Haare, leicht schmollender Mund",
+        "outfit": "Abgewetzte braune Lederjacke voller Anstecker von Theaterproduktionen",
+        "distinguishingFeature": "Anstecker von vielen Theaterproduktionen an der Jacke",
+        "idleAnimation": "Summt leise vor sich hin und tippt den Takt auf den Tisch"
+      },
+      "motiveAndConflict": "kennt ihn erst seit heute; hat sich von ihm erzählen lassen, wie es unter Tage klingt, und war begeistert",
+      "blackoutAlibi": "„Ich saß die ganze Zeit an der Festtafel, am Ende nahe der Eichentür zur Speisekammer. Da saß ich auch, als es kurz vor zwölf dunkel wurde, und nach dem Schrei bin ich im Gewölbe geblieben, bis halb eins.“",
+      "roleSecret": "Er hat in den Wochen vor der Feier mit Rojda den Track „Geisterstunde“ im Tonstudio des Theaters gemischt und ihn ihr als Freundschaftsdienst nicht vollständig bezahlen lassen. Er ist seit Langem heimlich in Rojda verliebt und hat es ihr nie gesagt. Er wollte selbst das Gespenst sein; Rojda nahm jemand anderen und verriet ihm nicht, wen: „Geheimnis.“",
+      "persoenlichesZiel": "Rojda helfen, ohne dass sie vor allen bloßgestellt wird.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "rojda",
+        "grund": "Er hat mit ihr den Track gemischt und ist heimlich in sie verliebt."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d4a47c",
+        "haar": "#2c1d14",
+        "kopf": "none",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "alltag": "Arbeitet als Tontechniker am Stadttheater und redet in Bühnenwörtern."
+    },
+    {
+      "id": "lejla",
+      "name": "Lejla",
+      "vollerName": "Lejla Mehmedović",
+      "aussprache": "LEJ-la meh-MEH-do-witsch",
+      "age": 27,
+      "geschlecht": "w",
+      "herkunft": "bosnisch",
+      "tier": 2,
+      "besetzungsplatz": 8,
+      "minPlayers": 8,
+      "roleTitle": "Die Biologiereferendarin",
+      "isPotentialKiller": false,
+      "colorCode": "#1F6F78",
+      "farbname": "Petrol",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_lejla",
+      "coordinates": {
+        "x": 7.5,
+        "y": 16.5
+      },
+      "visualSpecs": {
+        "silhouette": "Zierlich, nachdenklicher Blick, Haare in einem tiefen Dutt",
+        "outfit": "Dunkelblauer Pullover aus Baumwolle, kleine Marienkäfer-Ohrringe",
+        "distinguishingFeature": "Ohrringe in Form kleiner Marienkäfer",
+        "idleAnimation": "Hebt die Handykamera, prüft das Foto und nickt wie im Unterricht"
+      },
+      "motiveAndConflict": "hat ihn bei der Führung mit Fragen über den Taler gelöchert; er hat sie die Münze lange halten lassen",
+      "blackoutAlibi": "„Ich saß von halb zwölf an der Festtafel im Gewölbe, auch als es kurz vor zwölf dunkel wurde. Nach dem Schrei bin ich im Gewölbe geblieben, bis halb eins.“",
+      "roleSecret": "Sie hat im Seminar eine Lehrprobe verhauen und muss sie wiederholen. Sie hat es weder ihrer Familie noch Merle erzählt und fürchtet die Wiederholung mehr als jede Klausur.",
+      "persoenlichesZiel": "Ihre eigene Lehrprobe vergessen und Merle nicht verraten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist ihre Seminarfreundin, und sie weiß, wie viel für sie auf dem Spiel steht."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#e0b896",
+        "haar": "#241812",
+        "kopf": "bun",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "alltag": "Ist Referendarin für Biologie am selben Seminar wie Merle und erklärt Gefühle gern biologisch."
+    },
+    {
+      "id": "tomasz",
+      "name": "Tomasz",
+      "vollerName": "Tomasz Wróbel",
+      "aussprache": "TO-masch WRU-bel",
+      "age": 36,
+      "geschlecht": "m",
+      "herkunft": "polnisch",
+      "tier": 3,
+      "besetzungsplatz": 9,
+      "minPlayers": 9,
+      "roleTitle": "Der Koch",
+      "isPotentialKiller": false,
+      "colorCode": "#4C86C6",
+      "farbname": "Schürzenblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_tomasz",
+      "coordinates": {
+        "x": 8.5,
+        "y": 14.5
+      },
+      "visualSpecs": {
+        "silhouette": "Breit, freundliches rundes Gesicht, nervöser Blick",
+        "outfit": "Dunkelblaue Kochschürze ohne Taschen, die er den ganzen Abend anbehält",
+        "distinguishingFeature": "Eine Kochschürze ohne Taschen",
+        "idleAnimation": "Zählt leise rückwärts und rückt die Schürze zurecht"
+      },
+      "motiveAndConflict": "Der Burgwart hat ihm erlaubt, die Geburtstagstorte in der Speisekammer kühl zu stellen; Tomasz hat ihm dafür das erste Stück versprochen",
+      "blackoutAlibi": "„Ich war im Gewölbe an der Tafel. Um zehn vor zwölf bin ich kurz durch die Turmtür runter zur Eisentür, nach der Torte sehen, und eine Minute später war ich wieder im Gewölbe. Als es kurz vor zwölf dunkel wurde, saß ich an der Tafel, und nach dem Schrei bin ich im Gewölbe geblieben, bis halb eins.“",
+      "roleSecret": "Er ist seit dem Sommer heimlich mit Annika (R10) verlobt. Niemand weiß es, weil er ihr vor allen Freunden noch einmal richtig einen Antrag machen will: um 00:02 bei Licht und Torte, mit dem Ring in der Schachtel, die Annika für ihn trägt, weil seine Schürze keine Taschen hat.",
+      "persoenlichesZiel": "Sein großes Geheimnis bis zum Antrag bei Licht und Torte hüten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "annika",
+        "grund": "Sie sind heimlich verlobt, und er will den Antrag nicht verderben."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#f0d2b6",
+        "haar": "#7a4a2a",
+        "kopf": "none",
+        "statur": "broad",
+        "schnitt": "suit"
+      },
+      "alltag": "Ist stellvertretender Küchenchef in einer Betriebskantine und backt am Wochenende Torten für Freunde."
+    },
+    {
+      "id": "annika",
+      "name": "Annika",
+      "vollerName": "Annika Thielemann",
+      "aussprache": "AN-ni-ka TIE-le-man",
+      "age": 30,
+      "geschlecht": "w",
+      "herkunft": "deutsch",
+      "tier": 3,
+      "besetzungsplatz": 10,
+      "minPlayers": 10,
+      "roleTitle": "Die Grafikerin",
+      "isPotentialKiller": false,
+      "colorCode": "#D1A31A",
+      "farbname": "Senfgelb",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_annika",
+      "coordinates": {
+        "x": 13.5,
+        "y": 20.5
+      },
+      "visualSpecs": {
+        "silhouette": "Klein und flink, kurzer platinblonder Haarschnitt",
+        "outfit": "Senfgelbe Latzhose mit vielen Taschen, Bleistift hinter dem Ohr",
+        "distinguishingFeature": "Ein Bleistift hinter dem Ohr",
+        "idleAnimation": "Zeichnet mit dem Finger kleine Skizzen auf die Tischplatte"
+      },
+      "motiveAndConflict": "hat ihn bei der Führung skizziert und will ihm die Zeichnung zum Abschied schenken",
+      "blackoutAlibi": "„Bis kurz vor zwölf saß ich an der Tafel. Ab drei vor zwölf stand ich im Gewölbe direkt neben der offenen Turmtür an einer Säule, und da bin ich auch im Dunkeln stehen geblieben, bis kurz nach dem Schrei. Dann bin ich zurück zu den anderen und bis halb eins im Gewölbe geblieben.“",
+      "roleSecret": "Sie ist seit dem Sommer heimlich mit Tomasz (R09) verlobt. Weil seine Schürze keine Taschen hat, trägt sie die Ringschachtel. Um 23:57 versteckte sie sie hinter einer Säule direkt neben der Turmtür, wo Tomasz sie auf dem Weg zur Torte greifen sollte, und blieb stehen, damit niemand sie findet; als es dunkel wurde, rührte sie sich erst recht nicht.",
+      "persoenlichesZiel": "Die Ringschachtel schützen, bis der Antrag da ist.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "tomasz",
+        "grund": "Sie sind heimlich verlobt, und sie trägt die Ringschachtel für ihn."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#f2dcc4",
+        "haar": "#e6dcc0",
+        "kopf": "none",
+        "statur": "small",
+        "schnitt": "suit"
+      },
+      "alltag": "Arbeitet freiberuflich als Grafikdesignerin und gestaltet Plakate und Buchumschläge."
+    },
+    {
+      "id": "berfin",
+      "name": "Berfin",
+      "vollerName": "Berfin Demir",
+      "aussprache": "BER-fin DE-mir",
+      "age": 26,
+      "geschlecht": "w",
+      "herkunft": "kurdisch",
+      "tier": 3,
+      "besetzungsplatz": 11,
+      "minPlayers": 11,
+      "roleTitle": "Die Astrophysikerin",
+      "isPotentialKiller": false,
+      "colorCode": "#6A45A8",
+      "farbname": "Violett",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_berfin",
+      "coordinates": {
+        "x": 10.5,
+        "y": 14.5
+      },
+      "visualSpecs": {
+        "silhouette": "Schlank, lange glatte schwarze Haare, verträumter Blick nach oben",
+        "outfit": "Dunkelblaue Daunenjacke mit aufgenähtem Saturn, Rotlicht-Stirnlampe um den Hals",
+        "distinguishingFeature": "Eine Rotlicht-Stirnlampe um den Hals und ein kleiner Saturn auf der Jacke",
+        "idleAnimation": "Schaut nach oben und flüstert „Stell dir vor …“"
+      },
+      "motiveAndConflict": "weiß, dass der Burgwart den Wehrgang nachts verboten hat",
+      "blackoutAlibi": "„Bis zehn vor zwölf war ich im Gewölbe. Dann bin ich mit meiner Stirnlampe auf den Wehrgang, an die fünfte Zinne, Sterne gucken. Ja, ich weiß, nachts verboten. Da war ich auch, als die ganze Burg dunkel wurde. Kurz nach zwölf bin ich runter ins Gewölbe und bis halb eins dageblieben.“",
+      "roleSecret": "Sie schreibt heimlich Gedichte über Sterne für das Geburtstagskind und traut sich nicht, auch nur eines davon zu verschenken.",
+      "persoenlichesZiel": "Ihr Gedicht für das Geburtstagskind nicht verraten und das Wehrgangverbot nicht zugeben.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "paulina",
+        "grund": "Paulina ist ihre Mitbewohnerin und Freundin."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#bf8a63",
+        "haar": "#0f0c0b",
+        "kopf": "none",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "alltag": "Studiert Astrophysik im Master und rechnet gern Entfernungen in Lichtjahre um."
+    },
+    {
+      "id": "dino",
+      "name": "Dino",
+      "vollerName": "Dino Begović",
+      "aussprache": "DI-no BE-go-witsch",
+      "age": 32,
+      "geschlecht": "m",
+      "herkunft": "bosnisch",
+      "tier": 3,
+      "besetzungsplatz": 12,
+      "minPlayers": 12,
+      "roleTitle": "Der Statiker",
+      "isPotentialKiller": false,
+      "colorCode": "#8C9AA8",
+      "farbname": "Schiefergrau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_dino",
+      "coordinates": {
+        "x": 4.5,
+        "y": 20.5
+      },
+      "visualSpecs": {
+        "silhouette": "Groß, Brille, Hände immer in Mauernähe",
+        "outfit": "Anthrazitfarbene Steppweste mit Zollstock im Seitenfach, Hemd",
+        "distinguishingFeature": "Ein Zollstock im Seitenfach der Weste",
+        "idleAnimation": "Klopft mit dem Fingerknöchel an die Wand und nickt"
+      },
+      "motiveAndConflict": "kennt ihn vom letzten Burgfest, für das er die Statik der Bühne gerechnet hat; sie fachsimpeln über Bruchstein und Kalkmörtel",
+      "blackoutAlibi": "„Ich saß die ganze Zeit an der Festtafel. Um drei vor zwölf hab ich den Heizstrahler an der Tafel höher gedreht, weil mir kalt war. Da saß ich auch, als es geknallt hat und dunkel wurde, und nach dem Schrei bin ich im Gewölbe geblieben, bis halb eins.“",
+      "roleSecret": "Er hat Höhenangst. Deshalb geht er nie auf den Wehrgang, obwohl ihn alte Mauern mehr interessieren als alles andere; als Berfin ihn mitnehmen wollte, sagte er nur, ihm sei zu kalt. Als Statiker findet er das peinlich.",
+      "persoenlichesZiel": "Seine Höhenangst nicht zugeben und trotzdem die alten Mauern verstehen.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "diyar",
+        "grund": "Diyar hat ihn in die Gruppe gebracht, und die beiden sind alte Freunde."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d9b08c",
+        "haar": "#241a14",
+        "kopf": "none",
+        "statur": "tall",
+        "schnitt": "suit"
+      },
+      "alltag": "Arbeitet als Statiker in einem Ingenieurbüro für Altbausanierung."
+    },
+    {
+      "id": "selin",
+      "name": "Selin",
+      "vollerName": "Selin Aksoy",
+      "aussprache": "SE-lin AK-soi",
+      "age": 33,
+      "geschlecht": "w",
+      "herkunft": "türkisch",
+      "tier": 4,
+      "besetzungsplatz": 13,
+      "minPlayers": 13,
+      "roleTitle": "Die Bankkauffrau",
+      "isPotentialKiller": false,
+      "colorCode": "#14213D",
+      "farbname": "Nachtblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_selin",
+      "coordinates": {
+        "x": 3.5,
+        "y": 19.5
+      },
+      "visualSpecs": {
+        "silhouette": "Aufrecht, glatter Pferdeschwanz, sachlicher Blick",
+        "outfit": "Marineblauer Hosenanzug mit roter Granatapfel-Brosche",
+        "distinguishingFeature": "Eine rote Granatapfel-Brosche aus Emaille",
+        "idleAnimation": "Zeigt mit dem Zeigefinger ein Beispiel auf dem Tisch und nickt"
+      },
+      "motiveAndConflict": "kannte ihn vorher nicht; er nennt sie „Kassenwartin“, seit sie beim Essen gefragt hat, wer bei der Stiftung eigentlich die Bücher führt",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Als es kurz vor zwölf geknallt hat, saß ich auf der Bank neben dem Kamin, direkt bei Adnan, und da bin ich sitzen geblieben, bis der Schrei kam. Danach war ich mit allen anderen zusammen, und ab zwanzig nach zwölf saßen wir wieder an der Tafel.“",
+      "roleSecret": "Sie will ihre sichere Stelle bei der Bank aufgeben und ein kleines eigenes Café mit den Rezepten ihrer Großmutter eröffnen. Die 800 Euro, die sie Jonas geliehen hat, stammen aus dem Ersparten dafür; deshalb drängt sie so. Sie hat Angst, es ihren Eltern zu sagen, die so stolz auf ihre Festanstellung sind, und Angst, dass die Clique sie belächelt.",
+      "persoenlichesZiel": "Ihr Geld von Jonas zurückbekommen, ohne ihren Plan vom eigenen Café zu verraten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan ist ein Freund, dem sie jederzeit etwas leihen würde."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#cf9f78",
+        "haar": "#1d1410",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Berät als Bankkauffrau Privatkunden bei Krediten und denkt in Tilgungsplänen."
+    },
+    {
+      "id": "kamil",
+      "name": "Kamil",
+      "vollerName": "Kamil Nowak",
+      "aussprache": "KA-mil NO-wak",
+      "age": 35,
+      "geschlecht": "m",
+      "herkunft": "polnisch",
+      "tier": 4,
+      "besetzungsplatz": 14,
+      "minPlayers": 14,
+      "roleTitle": "Der Tischlermeister",
+      "isPotentialKiller": false,
+      "colorCode": "#A07C5A",
+      "farbname": "Holzbraun",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_kamil",
+      "coordinates": {
+        "x": 6.5,
+        "y": 20.5
+      },
+      "visualSpecs": {
+        "silhouette": "Breite Schultern, Vollbart, grummelnder Blick",
+        "outfit": "Dunkelblaue Cordweste über grauem Shirt, Arbeitshose",
+        "distinguishingFeature": "Ein flacher Tischlerbleistift hinter dem rechten Ohr",
+        "idleAnimation": "Fährt prüfend mit dem Daumen über die Kante des Tisches und brummt"
+      },
+      "motiveAndConflict": "kannte ihn vorher nicht; bewundert die alten Türen der Burg und sagt laut, die 3.800 Euro für die Eichentür seien „na ja … sportlich“",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Kurz vor zwölf saß ich an der Festtafel, mit Blick auf die Turmtür, und da saß ich auch, als es geknallt hat und dunkel wurde. Nach dem Schrei bin ich mit Handylicht runter an den Turm-Fuß. Danach war ich bei den anderen, ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Er hat Adnan heimlich angeboten, die Eichentür umsonst mit ihm zusammen zu reparieren. Er erzählt es niemandem, damit Adnan vor dem Burgwart und der Gruppe sein Gesicht wahrt: Ein Freund hilft, und man redet nicht darüber.",
+      "persoenlichesZiel": "Adnan heimlich beim Reparieren der Eichentür helfen, ohne dass es jemand erfährt.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan ist ein Freund, dem er die Tür umsonst reparieren will."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#e6c3a0",
+        "haar": "#8a6b4a",
+        "kopf": "none",
+        "statur": "broad",
+        "schnitt": "suit"
+      },
+      "alltag": "Betreibt eine eigene Tischlerei und restauriert alte Türen und Fenster."
+    },
+    {
+      "id": "derya",
+      "name": "Derya",
+      "vollerName": "Derya Öztürk",
+      "aussprache": "DER-ja ÖS-türk",
+      "age": 29,
+      "geschlecht": "w",
+      "herkunft": "türkisch",
+      "tier": 4,
+      "besetzungsplatz": 15,
+      "minPlayers": 15,
+      "roleTitle": "Die Versicherungskauffrau",
+      "isPotentialKiller": false,
+      "colorCode": "#7B1E4B",
+      "farbname": "Brombeere",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_derya",
+      "coordinates": {
+        "x": 7.5,
+        "y": 18.5
+      },
+      "visualSpecs": {
+        "silhouette": "Gerade Haltung, lange wellige Haare, beruhigendes Lächeln",
+        "outfit": "Dunkelroter Blazer mit Einstecktuch über schwarzem Shirt, dunkle Jeans",
+        "distinguishingFeature": "Ein Einstecktuch, das sie immer wieder neu faltet",
+        "idleAnimation": "Faltet das Einstecktuch zu einem Dreieck und sagt „Das ist abgedeckt“"
+      },
+      "motiveAndConflict": "hat ihn bei der Führung gefragt, ob die Burg gegen Sturm versichert ist, und gleich nach Jonas' Rüstungsschreck, ob Kunibert versichert ist",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Als es geknallt hat, saß ich an der Festtafel im Dunkeln. Nach dem Schrei war ich mit allen anderen zusammen, ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Sie hat Essen und Deko für die Feier zu einem großen Teil aus eigener Tasche bezahlt, viel mehr als alle anderen. Sie sagt es nicht, weil sich niemand verpflichtet fühlen soll und weil man über so etwas nicht redet.",
+      "persoenlichesZiel": "Niemanden spüren lassen, wie viel von der Feier sie selbst bezahlt hat.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "selin",
+        "grund": "Selin hat sie in die Clique gebracht, und die beiden halten zusammen."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d7a77f",
+        "haar": "#3a2418",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Betreut als Versicherungskauffrau im Außendienst kleine Betriebe und Selbstständige."
+    },
+    {
+      "id": "amar",
+      "name": "Amar",
+      "vollerName": "Amar Softić",
+      "aussprache": "A-mar SOF-titsch",
+      "age": 37,
+      "geschlecht": "m",
+      "herkunft": "bosnisch",
+      "tier": 4,
+      "besetzungsplatz": 16,
+      "minPlayers": 16,
+      "roleTitle": "Der Immobilienkaufmann",
+      "isPotentialKiller": false,
+      "colorCode": "#463C38",
+      "farbname": "Dunkelbraun",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_amar",
+      "coordinates": {
+        "x": 8.5,
+        "y": 20.5
+      },
+      "visualSpecs": {
+        "silhouette": "Gepflegt, zurückgekämmte Haare, kurzer Bart mit grauen Strähnen",
+        "outfit": "Anthrazitfarbenes Sakko über dunklem Hemd, Manschettenknöpfe in Hausform",
+        "distinguishingFeature": "Manschettenknöpfe in Form kleiner Häuser",
+        "idleAnimation": "Beschreibt mit großer Geste einen Raum wie in einem Exposé"
+      },
+      "motiveAndConflict": "hat ihn beim Essen gefragt, was so eine Burg wohl wert sei; der Burgwart: „Die ist nicht zu verkaufen, Stadtkind.“",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Als es geknallt hat, saß ich an der Festtafel im Dunkeln. Nach dem Schrei war ich mit allen zusammen. Um zwölf nach zwölf war ich oben an der dritten Zinne, als Jonas dort die Leitstelle angerufen hat, und ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Er hat dem Geburtstagskind ein viel zu teures Geschenk gekauft, ein handgearbeitetes Schachspiel aus Nussholz, und fürchtet, dass es protzig wirkt und die anderen mit ihren kleinen Geschenken beschämt. Er überlegt, es heimlich wieder mit nach Hause zu nehmen.",
+      "persoenlichesZiel": "Sein zu teures Geschenk nicht protzig wirken lassen.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Jonas ist ein Freund, dessen Geldnot er nicht ausplaudern will."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#cd9d76",
+        "haar": "#1f1a17",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Verwaltet und vermittelt als Immobilienkaufmann Wohnungen in Wolfsburg und Braunschweig."
+    },
+    {
+      "id": "henrik",
+      "name": "Henrik",
+      "vollerName": "Henrik Vogt",
+      "aussprache": "HEN-rik FOGT",
+      "age": 38,
+      "geschlecht": "m",
+      "herkunft": "deutsch",
+      "tier": 5,
+      "besetzungsplatz": 17,
+      "minPlayers": 17,
+      "roleTitle": "Der Förster",
+      "isPotentialKiller": false,
+      "colorCode": "#C0582B",
+      "farbname": "Rostrot",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_henrik",
+      "coordinates": {
+        "x": 11.5,
+        "y": 13.5
+      },
+      "visualSpecs": {
+        "silhouette": "Hochgewachsen, sandfarbene Haare, kurzer Bart",
+        "outfit": "Rostrote Softshelljacke, Cargohose, brauner Lederhut",
+        "distinguishingFeature": "Ein brauner Lederhut mit einer blau gebänderten Eichelhäherfeder",
+        "idleAnimation": "Rückt den Hut zurecht und erzählt mit ruhiger Hand von Bienen"
+      },
+      "motiveAndConflict": "Nachbar aus dem Forst; der Burgwart kauft bei ihm Honig und schimpft jedes Mal über den Preis",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Als es geknallt hat, saß ich an der Festtafel im Dunkeln. Nach dem Schrei war ich mit allen zusammen, ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Er hat für das Geburtstagskind ein Bienenvolk „adoptiert“: Ein Stock in seinem Garten trägt schon ein kleines Schild für das Geburtstagskind, und im Frühjahr gibt es den ersten eigenen Honig. Er will es erst zum Nachtisch verraten und hat Angst, dass es kitschig wirkt.",
+      "persoenlichesZiel": "Sein Bienengeschenk bis zum Nachtisch geheim halten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan hat ihm nach dem Überfall erzählt, was er am Tor gesehen hat."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#e9c7a5",
+        "haar": "#b58b55",
+        "kopf": "cap",
+        "statur": "tall",
+        "schnitt": "suit"
+      },
+      "alltag": "Ist Revierförster im Oberharz und hält nebenbei Bienen."
+    },
+    {
+      "id": "elif",
+      "name": "Elif",
+      "vollerName": "Elif Şahin",
+      "aussprache": "e-LIF scha-HIN",
+      "age": 25,
+      "geschlecht": "w",
+      "herkunft": "türkisch",
+      "tier": 5,
+      "besetzungsplatz": 18,
+      "minPlayers": 18,
+      "roleTitle": "Die Jurastudentin",
+      "isPotentialKiller": false,
+      "colorCode": "#A9B8E0",
+      "farbname": "Taubenblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_elif",
+      "coordinates": {
+        "x": 9.5,
+        "y": 18.5
+      },
+      "visualSpecs": {
+        "silhouette": "Klein, lockige Haare bis zur Schulter, wacher Blick",
+        "outfit": "Dunkelblaues Hemdblusenkleid mit rundem Anstecker „Einspruch!“ am Kragen",
+        "distinguishingFeature": "Ein runder Anstecker mit der Aufschrift Einspruch am Kragen",
+        "idleAnimation": "Hebt die Hand und ruft leise „Rein rechtlich …“"
+      },
+      "motiveAndConflict": "hat ihm bei der Führung erklärt, dass er auf seiner Burg das Hausrecht hat; er brummte: „Weiß ich.“",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Um zwanzig vor zwölf saß ich neben Merle und Adnan. Als es geknallt hat, saß ich an der Festtafel im Dunkeln. Nach dem Schrei war ich mit allen zusammen, ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Sie hat das Jurastudium im Sommer fast abgebrochen, nach einem Semester, in dem sie sich in allem verloren fühlte; der Antrag auf Exmatrikulation lag schon ausgefüllt auf ihrem Schreibtisch. Sie hat ihn nicht abgeschickt und ist geblieben, erzählt hat sie es aber niemandem, schon gar nicht der Großmutter.",
+      "persoenlichesZiel": "Ihre fast abgebrochene Studienzeit für sich behalten und trotzdem Recht behalten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle sitzt oft neben ihr, und sie hört ihr gern zu."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#c28f68",
+        "haar": "#1c120d",
+        "kopf": "none",
+        "statur": "small",
+        "schnitt": "dress"
+      },
+      "alltag": "Studiert Jura in Göttingen und jobbt als studentische Hilfskraft in einer Kanzlei."
+    },
+    {
+      "id": "azad",
+      "name": "Azad",
+      "vollerName": "Azad Tekin",
+      "aussprache": "A-sad TE-kin",
+      "age": 31,
+      "geschlecht": "m",
+      "herkunft": "kurdisch",
+      "tier": 5,
+      "besetzungsplatz": 19,
+      "minPlayers": 19,
+      "roleTitle": "Der Fotograf",
+      "isPotentialKiller": false,
+      "colorCode": "#E03A3E",
+      "farbname": "Signalrot",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_azad",
+      "coordinates": {
+        "x": 5.5,
+        "y": 18.5
+      },
+      "visualSpecs": {
+        "silhouette": "Sehnig, kurzer Spitzbart, kneift ein Auge zu wie beim Bildausschnitt",
+        "outfit": "Schwarze Lederjacke über dunklem Hemd, breiter roter Kameragurt quer über der Brust",
+        "distinguishingFeature": "Ein breiter roter Kameragurt quer über der Brust",
+        "idleAnimation": "Hält die Hände wie einen Bildrahmen vor das Gesicht und ruft „Nicht bewegen!“"
+      },
+      "motiveAndConflict": "Der Burgwart lehnt jedes Foto ab: „Ich bin kein Museumsstück.“",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Um acht vor zwölf hab ich im Qualm fotografiert. Als es geknallt hat, saß ich an der Festtafel im Dunkeln. Nach dem Schrei war ich mit allen zusammen, ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Er bewirbt sich heimlich als Fotoredakteur bei einer Zeitung in Berlin; das Vorstellungsgespräch ist schon vereinbart. Er hat Angst, der Clique zu sagen, dass er vielleicht weggeht, und noch mehr Angst, es seinen Schwestern zu sagen.",
+      "persoenlichesZiel": "Sein Vorstellungsgespräch in Berlin geheim halten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist eine Freundin, die auf einem seiner Fotos zu sehen ist."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d2a27a",
+        "haar": "#0d0a09",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Arbeitet als freier Fotograf für Lokalzeitungen und Hochzeiten."
+    },
+    {
+      "id": "zofia",
+      "name": "Zofia",
+      "vollerName": "Zofia Lis",
+      "aussprache": "SO-fja LIS",
+      "age": 28,
+      "geschlecht": "w",
+      "herkunft": "polnisch",
+      "tier": 5,
+      "besetzungsplatz": 20,
+      "minPlayers": 20,
+      "roleTitle": "Die Rangerin",
+      "isPotentialKiller": false,
+      "colorCode": "#F08A2E",
+      "farbname": "Fuchsorange",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_zofia",
+      "coordinates": {
+        "x": 2.5,
+        "y": 21.5
+      },
+      "visualSpecs": {
+        "silhouette": "Geschmeidig, langer heller Zopf, belustigtes Grinsen",
+        "outfit": "Dunkelblaue Daunenweste über grauem Kapuzenpulli, orangefarbenes Halstuch mit Fuchs-Silhouetten",
+        "distinguishingFeature": "Ein orangefarbenes Halstuch mit kleinen Fuchs-Silhouetten",
+        "idleAnimation": "Flüstert eine Gruselgeschichte und löst sie mit einem Zwinkern auf"
+      },
+      "motiveAndConflict": "Der Burgwart nennt sie „Försterin“, sie korrigiert jedes Mal: „Rangerin.“ Er sagt es trotzdem weiter.",
+      "blackoutAlibi": "„Ich war die ganze Zeit im Gewölbe. Ab acht vor zwölf stand ich an einer Schießscharte zum Hof, frische Luft, und da bin ich bis zum Schrei geblieben, auch als es geknallt hat und dunkel wurde. Danach war ich mit allen zusammen, ab zwanzig nach zwölf wieder an der Tafel.“",
+      "roleSecret": "Sie hat einem Fuchs an einer Schutzhütte in ihrem Revier heimlich den Namen „Ottokar“ gegeben und füttert ihn ab und zu, obwohl sie als Rangerin genau weiß, dass man Wildtiere nicht füttern darf. Sie schämt sich dafür und hofft, dass es nie jemand erfährt.",
+      "persoenlichesZiel": "Ihren Fuchs Ottokar nicht verraten.",
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Jonas hat vor ihr eine Ausrede erzählt, und sie will ihm Zeit lassen."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#eacbab",
+        "haar": "#9a7a52",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "alltag": "Ist Rangerin im Nationalpark Harz und führt Wanderungen und Schulklassen."
+    }
+  ],
+  "generiert": "akte_export"
+}

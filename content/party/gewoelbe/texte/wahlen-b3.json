@@ -1,0 +1,68 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der Besetzungsplätze 9 bis 12.",
+  "eintraege": [
+    {
+      "id": "gw_tomasz_1",
+      "a": "Ich sage dem Detektiv, dass ich vor dem Antrag an Annika noch etwas vorhabe. Mehr sage ich nicht.",
+      "b": "Mein großes Geheimnis halte ich bis zu Licht und Torte. Der Antrag soll gelingen."
+    },
+    {
+      "id": "gw_tomasz_2",
+      "a": "Ich erzähle dem Detektiv, dass Annika und ich verlobt sind. Dann ist der Antrag verdorben.",
+      "b": "Annika und ich halten dicht. Der Antrag soll bei Licht und Torte kommen."
+    },
+    {
+      "id": "gw_tomasz_3",
+      "a": "Ich gebe zu, dass ich beim Nachsehen nach der Torte im Kerzenlicht etwas gesehen habe.",
+      "b": "Ich bleibe bei dem, was ich gesagt habe. Mein Geheimnis wartet bis zur Torte."
+    },
+    {
+      "id": "gw_annika_1",
+      "a": "Ich sage dem Detektiv, warum ich so lange neben der Turmtür stand. Ich habe etwas versteckt.",
+      "b": "Ich stehe dort, weil ich da gut stehe. Die Ringschachtel bleibt mein Geheimnis."
+    },
+    {
+      "id": "gw_annika_2",
+      "a": "Ich verrate dem Detektiv, dass Tomasz und ich verlobt sind. Der Antrag fällt dann aus.",
+      "b": "Tomasz und ich halten zusammen. Ich sage nichts zu Ring und Antrag."
+    },
+    {
+      "id": "gw_annika_3",
+      "a": "Ich gebe zu, dass ich die Ringschachtel hinter der Säule versteckt habe.",
+      "b": "Die Schachtel bleibt, wo sie ist. Davon erfährt keiner etwas, bis der Antrag da ist."
+    },
+    {
+      "id": "gw_berfin_1",
+      "a": "Ich gebe zu, dass ich heimlich Gedichte für das Geburtstagskind schreibe. Dann weiß es bald jeder.",
+      "b": "Mein Gedicht verrate ich nicht. Ich erzähle nur von den Sternen und vom Wehrgang."
+    },
+    {
+      "id": "gw_berfin_2",
+      "a": "Ich erzähle dem Detektiv alles über Paulinas Verhalten an diesem Abend, auch das Unangenehme.",
+      "b": "Paulina ist meine Mitbewohnerin. Ich sage nichts, was ihr schaden könnte."
+    },
+    {
+      "id": "gw_berfin_3",
+      "a": "Ich gestehe, dass ich trotz des Verbots auf dem Wehrgang war.",
+      "b": "Ich bleibe dabei, dass ich nur Sterne gesehen habe. Alles andere ist mein Geheimnis."
+    },
+    {
+      "id": "gw_dino_1",
+      "a": "Ich sage dem Detektiv, dass ich wegen meiner Höhenangst nie auf den Wehrgang gehe.",
+      "b": "Meine Höhenangst gebe ich nicht zu. Ich rede nur über Mauern und Balken."
+    },
+    {
+      "id": "gw_dino_2",
+      "a": "Ich erzähle dem Detektiv, was Diyar mir über seine Angst vor Rüstungen anvertraut hat.",
+      "b": "Diyar ist ein alter Freund. Was er mir erzählt hat, bleibt unter uns."
+    },
+    {
+      "id": "gw_dino_3",
+      "a": "Ich gestehe, dass ich meinen Heizstrahler für schuldig hielt und mich deshalb bei allen entschuldigt habe.",
+      "b": "Ich entschuldige mich nur noch einmal, mehr nicht. Meine Höhenangst bleibt bei mir."
+    }
+  ],
+  "generiert": "akte_export"
+}

@@ -1,0 +1,106 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "kanonVersion": "1.0.0",
+  "titel": "Spuk im Gewölbe",
+  "untertitel": "Ein Geburtstag auf Burg Schartenfels",
+  "pfade": [
+    "merle"
+  ],
+  "kernverdaechtige": [
+    "adnan",
+    "rojda",
+    "merle",
+    "jonas"
+  ],
+  "personen": {
+    "min": 4,
+    "max": 20,
+    "hinweis": "Gezählt werden besetzte Rollen ohne das Geburtstagskind, das den Detektiv spielt (ZM-2)."
+  },
+  "runden": [
+    {
+      "nr": 1,
+      "name": "Tatort und Stationen",
+      "uhrzeit": "00:30",
+      "kern": "An der Speisekammer, am Turm und im Gewölbe liegen die ersten Spuren des Überfalls."
+    },
+    {
+      "nr": 2,
+      "name": "Kreuzverhör",
+      "uhrzeit": "01:15",
+      "kern": "Mit den Beweisstücken in der Hand brechen die Verdächtigen unter Gegenbeweisen."
+    },
+    {
+      "nr": 3,
+      "name": "Alibis und Zeitleiste",
+      "uhrzeit": "02:00",
+      "kern": "Wer war wann wo? Die Zeitleiste entscheidet, wer am Ende übrig bleibt."
+    }
+  ],
+  "finaleUhrzeit": "02:45",
+  "morgenUhrzeit": "07:00",
+  "rundendauerMinuten": 30,
+  "schwellen": {
+    "regel": "wahr, wenn 5 × kooperativ ≥ 3 × Rollen; sonst neutral, wenn 5 × kooperativ ≥ 2 × Rollen; sonst falsche Fährte",
+    "wahr": {
+      "faktor": 5,
+      "gegen": 3
+    },
+    "neutral": {
+      "faktor": 5,
+      "gegen": 2
+    }
+  },
+  "enden": {
+    "matrix": [
+      {
+        "id": "ende_meister",
+        "name": "Meisterdetektiv",
+        "anklage": "richtig",
+        "punkteVon": 7,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_teilerfolg",
+        "name": "Teilerfolg",
+        "anklage": "richtig",
+        "punkteVon": 0,
+        "punkteBis": 6
+      },
+      {
+        "id": "ende_justizirrtum",
+        "name": "Justizirrtum",
+        "anklage": "falsch",
+        "punkteVon": 4,
+        "punkteBis": 9
+      },
+      {
+        "id": "ende_eskalation",
+        "name": "Totale Eskalation",
+        "anklage": "falsch",
+        "punkteVon": 0,
+        "punkteBis": 3
+      }
+    ]
+  },
+  "regeln": {
+    "W-1": "Ein wahrer Bonus-Hinweis liefert einen wahren Baustein, entlastet aber nie allein einen Kernverdächtigen.",
+    "S-1": "Resümees nur aus dem Wissen des Detektivs; bei nur einer Restperson kein Name.",
+    "D-1": "Optionen mit 0 Punkten zeigen weder Schlüsselbeweis noch Zusatzindiz.",
+    "G-1": "Die Option B der Täterrolle (Sabotage) zählt netto −1. Vor der Auflösung wird weder die Qualität des Hinweises noch die Stimmenzahl gezeigt (E-025).",
+    "K-1": "Objekte, Marker und Licht auf der Karte sind vor dem Finale gleich.",
+    "P-1": "Pflichtgespräche geben nur Wissen preis, das der Tisch ohnehin erfahren darf."
+  },
+  "simulation": false,
+  "pruefprofil": {
+    "restNachRunde2": 3,
+    "lageNachRunde1": null,
+    "nebendeliktJeKern": false,
+    "alleinNur": [
+      "schluesselbeweis",
+      "fundort"
+    ],
+    "mindestRestVorRunde3": 2
+  },
+  "generiert": "akte_export"
+}

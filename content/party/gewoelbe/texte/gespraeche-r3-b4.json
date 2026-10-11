@@ -1,0 +1,140 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 13 bis 16.",
+  "eintraege": [
+    {
+      "id": "g_selin_3_1",
+      "rolle": "selin",
+      "runde": 3,
+      "nr": 1,
+      "partner": "derya",
+      "thema": "Wer hat ein Alibi?",
+      "ziel": "Prüfe die Alibis der Verdächtigen.",
+      "preisgabe": [],
+      "text": "Adnan war unter meinen Augen. Das ist ein Alibi, das hält. Wer sonst kann das sagen?"
+    },
+    {
+      "id": "g_selin_3_2",
+      "rolle": "selin",
+      "runde": 3,
+      "nr": 2,
+      "partner": "tomasz",
+      "thema": "Die Zahlen",
+      "ziel": "Rechne die Zeiten nach.",
+      "preisgabe": [],
+      "text": "Rechnen wir: Zwei Minuten vom Knall bis zum Schrei. Wer war in der Zeit nicht zu sehen?"
+    },
+    {
+      "id": "g_selin_3_3",
+      "rolle": "selin",
+      "runde": 3,
+      "nr": 3,
+      "partner": "kamil",
+      "thema": "Abgerechnet",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich werde weich und ausführlich, wenn es ums Backen geht. Aber jetzt nicht. Jetzt wird abgerechnet."
+    },
+    {
+      "id": "g_kamil_3_1",
+      "rolle": "kamil",
+      "runde": 3,
+      "nr": 1,
+      "partner": "amar",
+      "thema": "Die Zeiten",
+      "ziel": "Ordne einen Weg zeitlich ein.",
+      "preisgabe": [],
+      "text": "Eine Person ging um vier vor zwölf in den Turm und stand um Mitternacht noch unten. Das ist eine lange Zeit."
+    },
+    {
+      "id": "g_kamil_3_2",
+      "rolle": "kamil",
+      "runde": 3,
+      "nr": 2,
+      "partner": "annika",
+      "thema": "Was heißt das?",
+      "ziel": "Ziehe einen Schluss.",
+      "preisgabe": [],
+      "text": "Na ja … wer so lange allein am Kasten steht, hat etwas vor oder etwas zu verbergen."
+    },
+    {
+      "id": "g_kamil_3_3",
+      "rolle": "kamil",
+      "runde": 3,
+      "nr": 3,
+      "partner": "selin",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich habe gesagt, was ich gesehen habe. Mehr kann ich nicht beitragen."
+    },
+    {
+      "id": "g_derya_3_1",
+      "rolle": "derya",
+      "runde": 3,
+      "nr": 1,
+      "partner": "azad",
+      "thema": "Versicherung und Motiv",
+      "ziel": "Prüfe, wer wirklich ein Motiv hatte.",
+      "preisgabe": [],
+      "text": "Beim Türschaden gab es kein Motiv, das war versichert. Wer hatte dann ein Motiv?"
+    },
+    {
+      "id": "g_derya_3_2",
+      "rolle": "derya",
+      "runde": 3,
+      "nr": 2,
+      "partner": "berfin",
+      "thema": "Das Risiko",
+      "ziel": "Wäge die Verdächtigen ab.",
+      "preisgabe": [],
+      "text": "Ein Risiko ist, wer etwas zu verlieren hat. Wer hatte an diesem Abend am meisten zu verlieren?"
+    },
+    {
+      "id": "g_derya_3_3",
+      "rolle": "derya",
+      "runde": 3,
+      "nr": 3,
+      "partner": "amar",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich habe gesagt, was ich weiß. Der Rest ist Sache des Detektivs."
+    },
+    {
+      "id": "g_amar_3_1",
+      "rolle": "amar",
+      "runde": 3,
+      "nr": 1,
+      "partner": "annika",
+      "thema": "Wer brauchte Geld?",
+      "ziel": "Prüfe das Geldmotiv.",
+      "preisgabe": [],
+      "text": "Wer dringend Geld braucht, tut dumme Dinge. Aber telefonieren ist keine Tat."
+    },
+    {
+      "id": "g_amar_3_2",
+      "rolle": "amar",
+      "runde": 3,
+      "nr": 2,
+      "partner": "dino",
+      "thema": "Das Telefonat",
+      "ziel": "Rechne die Zeiten nach.",
+      "preisgabe": [],
+      "text": "Das Telefonat lief kurz vor zwölf. Als unten etwas geschah, saß der Anrufer oben."
+    },
+    {
+      "id": "g_amar_3_3",
+      "rolle": "amar",
+      "runde": 3,
+      "nr": 3,
+      "partner": "derya",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Unter uns: Ich habe gesagt, was ich weiß. Für Geld würde ich nie jemanden verdächtigen."
+    }
+  ],
+  "generiert": "akte_export"
+}

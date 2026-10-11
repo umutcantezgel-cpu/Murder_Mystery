@@ -1,0 +1,800 @@
+{
+  "hinweis": "Die neun Entscheidungen des Detektivs. Der Gewölbe-Fall hat eine feste Lösung mit einem einzigen Pfad (merle). Eine Option deckt Fakten auf; die Restverdächtigen folgen allein aus den Regeln und den Fakten. Bonus-Hinweise zählen nicht (W-1).",
+  "regeln": [
+    {
+      "id": "R-ENTLASTET",
+      "wenn": [
+        "alibi",
+        "nebendelikt"
+      ],
+      "folge": "entlastet",
+      "text": "Wer zur Tatzeit nachweislich woanders war und zusätzlich eine bewiesene Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Die Tatzeit liegt kurz nach dem Knall, noch vor dem Kettenrasseln der Box."
+    },
+    {
+      "id": "R-UEBERFUEHRT",
+      "wenn": [
+        "schluesselbeweis",
+        "fundort"
+      ],
+      "folge": "ueberfuehrt",
+      "text": "Ein Abdruck im Wachs und eine Sohle, die dazu passt, überführen eine Person. Alle anderen scheiden aus."
+    }
+  ],
+  "fakten": [
+    {
+      "id": "f_lampe",
+      "typ": "ausgangslage",
+      "personen": [
+        "adnan"
+      ],
+      "quelle": {
+        "spur": "spur_lampe_adnan"
+      }
+    },
+    {
+      "id": "f_wachs",
+      "typ": "fundort",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "spur": "spur_abdruck_wachs"
+      }
+    },
+    {
+      "id": "f_torte",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_torte"
+      }
+    },
+    {
+      "id": "f_laken",
+      "typ": "zusatzindiz",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "spur": "spur_fetzen_laken"
+      }
+    },
+    {
+      "id": "f_kasten",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_kasten_durchgeschmort"
+      }
+    },
+    {
+      "id": "f_zettel_vorn",
+      "typ": "ausgangslage",
+      "personen": [
+        "adnan"
+      ],
+      "quelle": {
+        "spur": "spur_zettel_vorn"
+      }
+    },
+    {
+      "id": "f_vitrine",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_vitrine_leer"
+      }
+    },
+    {
+      "id": "f_kamin",
+      "typ": "ausgangslage",
+      "personen": [
+        "adnan"
+      ],
+      "quelle": {
+        "spur": "spur_kamin_russ"
+      }
+    },
+    {
+      "id": "f_kessel",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_kessel"
+      }
+    },
+    {
+      "id": "f_track",
+      "typ": "nebendelikt",
+      "personen": [
+        "rojda"
+      ],
+      "quelle": {
+        "spur": "spur_track_karte"
+      }
+    },
+    {
+      "id": "f_adnan_code",
+      "typ": "luege",
+      "personen": [
+        "adnan"
+      ],
+      "quelle": {
+        "beobachtung": "b_adnan_code"
+      }
+    },
+    {
+      "id": "f_jonas_torte",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_jonas_torte"
+      }
+    },
+    {
+      "id": "f_rojda_hebel",
+      "typ": "alibi",
+      "personen": [
+        "rojda"
+      ],
+      "quelle": {
+        "beobachtung": "b_rojda_hebel"
+      }
+    },
+    {
+      "id": "f_rojda_gespenst",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_rojda_gespenst"
+      }
+    },
+    {
+      "id": "f_rojda_nie_hof",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_rojda_nie_hof"
+      }
+    },
+    {
+      "id": "f_jonas_zinne",
+      "typ": "alibi",
+      "personen": [
+        "jonas"
+      ],
+      "quelle": {
+        "beobachtung": "b_jonas_zinne"
+      }
+    },
+    {
+      "id": "f_jonas_geld",
+      "typ": "motiv",
+      "personen": [
+        "jonas"
+      ],
+      "quelle": {
+        "beobachtung": "b_jonas_geld"
+      }
+    },
+    {
+      "id": "f_jonas_merle_oben",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_jonas_merle_oben"
+      }
+    },
+    {
+      "id": "f_merle_treppe",
+      "typ": "alibi",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "beobachtung": "b_merle_treppe"
+      }
+    },
+    {
+      "id": "f_sofortbild",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "spur": "spur_sofortbild"
+      }
+    },
+    {
+      "id": "f_jonas_gruen",
+      "typ": "motiv",
+      "personen": [
+        "jonas"
+      ],
+      "quelle": {
+        "beobachtung": "b_jonas_gruen"
+      }
+    },
+    {
+      "id": "f_merle_taler",
+      "typ": "motiv",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "beobachtung": "b_merle_taler"
+      }
+    },
+    {
+      "id": "f_adnan_nicht_auf_bild",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_adnan_nicht_auf_bild"
+      }
+    },
+    {
+      "id": "f_bw_im_turm",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_bw_im_turm"
+      }
+    },
+    {
+      "id": "f_schrei_hypothese",
+      "typ": "ausgangslage",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_schrei_hypothese"
+      }
+    },
+    {
+      "id": "f_tatzeit",
+      "typ": "luege",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "beobachtung": "b_tatzeit_nach_knall"
+      }
+    },
+    {
+      "id": "f_merle_wehrgang",
+      "typ": "spaetankunft",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "beobachtung": "b_merle_alibi_nur_schrei"
+      }
+    },
+    {
+      "id": "f_adnan_sichtbar",
+      "typ": "alibi",
+      "personen": [
+        "adnan"
+      ],
+      "quelle": {
+        "beobachtung": "b_adnan_sichtbar"
+      }
+    },
+    {
+      "id": "f_rojda_allein",
+      "typ": "motiv",
+      "personen": [
+        "rojda"
+      ],
+      "quelle": {
+        "beobachtung": "b_rojda_allein"
+      }
+    },
+    {
+      "id": "f_jonas_stiefel",
+      "typ": "ausgangslage",
+      "personen": [
+        "jonas"
+      ],
+      "quelle": {
+        "beobachtung": "b_jonas_stiefel_blass"
+      }
+    },
+    {
+      "id": "f_bw_spur",
+      "typ": "umgebung",
+      "personen": [],
+      "quelle": {
+        "beobachtung": "b_bw_spur_breiter"
+      }
+    },
+    {
+      "id": "f_sohlen",
+      "typ": "schluesselbeweis",
+      "personen": [
+        "merle"
+      ],
+      "quelle": {
+        "spur": "spur_sohlen_abgleich"
+      }
+    }
+  ],
+  "entscheidungen": [
+    {
+      "id": "e1_1",
+      "runde": 1,
+      "nr": 1,
+      "art": "gegenstand",
+      "frage": "In der Speisekammer kannst du eine Spur gründlich untersuchen, bevor alle durcheinanderlaufen. Welche nimmst du dir vor?",
+      "optionen": [
+        {
+          "id": "e1_1_lampe",
+          "ziel": {
+            "gegenstand": "stablampe"
+          },
+          "text": "Die Stablampe unter dem Regal untersuchen",
+          "fakten": [
+            "f_lampe"
+          ]
+        },
+        {
+          "id": "e1_1_wachs",
+          "ziel": {
+            "gegenstand": "wachsspritzer"
+          },
+          "text": "Die Wachsspritzer neben der Eisentür untersuchen",
+          "fakten": [
+            "f_wachs"
+          ]
+        },
+        {
+          "id": "e1_1_torte",
+          "ziel": {
+            "gegenstand": "torte"
+          },
+          "text": "Die Geburtstagstorte im Regal untersuchen",
+          "fakten": [
+            "f_torte"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e1_1_wachs"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_det_eichentuer",
+            "beobachtung:b_det_wachs_hart",
+            "karte:wachsspritzer"
+          ],
+          "text": "Die Eichentür war von innen verkeilt, also ging der Täter durch die Eisentür. Das Wachs daneben war schon hart, als du kamst, und in einem Spritzer steckt ein Abdruck. Wer dort stand, hat ihn hinterlassen."
+        }
+      }
+    },
+    {
+      "id": "e1_2",
+      "runde": 1,
+      "nr": 2,
+      "art": "gegenstand",
+      "frage": "Im Turm fallen dir drei Stellen auf. Welche untersuchst du zuerst?",
+      "optionen": [
+        {
+          "id": "e1_2_ruestung",
+          "ziel": {
+            "gegenstand": "ruestung_kunibert"
+          },
+          "text": "Die Rüstung Kunibert auf dem ersten Absatz untersuchen",
+          "fakten": [
+            "f_laken"
+          ]
+        },
+        {
+          "id": "e1_2_kasten",
+          "ziel": {
+            "gegenstand": "sicherungskasten"
+          },
+          "text": "Den offenen Sicherungskasten am Turm-Fuß untersuchen",
+          "fakten": [
+            "f_kasten",
+            "f_zettel_vorn"
+          ]
+        },
+        {
+          "id": "e1_2_vitrine",
+          "ziel": {
+            "gegenstand": "vitrine"
+          },
+          "text": "Die Schauvitrine auf der Hofebene untersuchen",
+          "fakten": [
+            "f_vitrine"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e1_2_ruestung"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_det_eichentuer",
+            "beobachtung:b_jonas_kunibert",
+            "karte:ruestung_kunibert"
+          ],
+          "text": "Wer nach der Tat durch die Eisentür ging, kam im Turm an Kunibert vorbei. Der Panzerhandschuh ist seit der Führung nach vorn verbogen und hält leicht Stoff fest."
+        }
+      }
+    },
+    {
+      "id": "e1_3",
+      "runde": 1,
+      "nr": 3,
+      "art": "gegenstand",
+      "frage": "Der Schrei um Mitternacht kam aus dem Gewölbe. Was nimmst du dir dort vor?",
+      "optionen": [
+        {
+          "id": "e1_3_kamin",
+          "ziel": {
+            "gegenstand": "kamin_heissluft"
+          },
+          "text": "Den Kamin und die Heißluftpistole untersuchen",
+          "fakten": [
+            "f_kamin"
+          ]
+        },
+        {
+          "id": "e1_3_kessel",
+          "ziel": {
+            "gegenstand": "punschkessel"
+          },
+          "text": "Den Punschkessel untersuchen",
+          "fakten": [
+            "f_kessel"
+          ]
+        },
+        {
+          "id": "e1_3_box",
+          "ziel": {
+            "gegenstand": "bluetooth_box"
+          },
+          "text": "Die Box in der Nische neben der Eichentür untersuchen",
+          "fakten": [
+            "f_track"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e1_3_box"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_det_geraeusche",
+            "beobachtung:b_bw_nie_geschrien",
+            "karte:bluetooth_box"
+          ],
+          "text": "Der Schrei hallte direkt neben dir, aber der Burgwart sagt, er habe nie geschrien. Seine Stimme ist tief, der Schrei war hoch. Er muss aus der Box in der Nische gekommen sein."
+        }
+      }
+    },
+    {
+      "id": "e2_1",
+      "runde": 2,
+      "nr": 1,
+      "art": "person",
+      "frage": "Auf der Rückseite des Code-Zettels steht in fremder Schrift ein Ablauf: Track, Hebel, Gespenst wartet unten, dann der Schrei, danach Licht und Torte. Wem hältst du den Zettel vor?",
+      "optionen": [
+        {
+          "id": "e2_1_adnan",
+          "ziel": {
+            "person": "adnan"
+          },
+          "text": "Adnan zur Rückseite des Zettels befragen",
+          "fakten": [
+            "f_adnan_code"
+          ]
+        },
+        {
+          "id": "e2_1_jonas",
+          "ziel": {
+            "person": "jonas"
+          },
+          "text": "Jonas zur Rückseite des Zettels befragen",
+          "fakten": [
+            "f_jonas_torte"
+          ]
+        },
+        {
+          "id": "e2_1_rojda",
+          "ziel": {
+            "person": "rojda"
+          },
+          "text": "Rojda zur Rückseite des Zettels befragen",
+          "fakten": [
+            "f_rojda_hebel",
+            "f_rojda_gespenst"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e2_1_rojda"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "fakt:f_track",
+            "beobachtung:b_det_rojda_kasten",
+            "karte:code_zettel"
+          ],
+          "text": "Der Schrei kam aus der Box, und Rojda stand am offenen Sicherungskasten. Der Ablauf auf dem Zettel passt zu ihrem Track. Also kennt sie den Streich."
+        }
+      }
+    },
+    {
+      "id": "e2_2",
+      "runde": 2,
+      "nr": 2,
+      "art": "person",
+      "frage": "Die Raureifspuren zeigen: Bis Adnan und Jonas um sieben nach zwölf zum Tor gingen, war im Hof außer dem Burgwart niemand. Wem hältst du die Karte vor?",
+      "optionen": [
+        {
+          "id": "e2_2_rojda",
+          "ziel": {
+            "person": "rojda"
+          },
+          "text": "Rojda zum Hof befragen",
+          "fakten": [
+            "f_rojda_nie_hof"
+          ]
+        },
+        {
+          "id": "e2_2_jonas",
+          "ziel": {
+            "person": "jonas"
+          },
+          "text": "Jonas zum Hof befragen",
+          "fakten": [
+            "f_jonas_zinne",
+            "f_jonas_geld",
+            "f_jonas_merle_oben"
+          ]
+        },
+        {
+          "id": "e2_2_merle",
+          "ziel": {
+            "person": "merle"
+          },
+          "text": "Merle zum Hof befragen",
+          "fakten": [
+            "f_merle_treppe"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e2_2_jonas"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "karte:raureif_spuren",
+            "luege:luege_jonas_hof",
+            "beobachtung:b_jonas_nicht_hof",
+            "beobachtung:b_box_verbindung_getrennt"
+          ],
+          "text": "Im Raureif gibt es keine Spur von Jonas, und die Box meldete, sein Handy habe das Gewölbe verlassen. Seine Geschichte vom Hof stimmt nicht. Er hat sie erfunden, um etwas anderes zu verbergen."
+        }
+      }
+    },
+    {
+      "id": "e2_3",
+      "runde": 2,
+      "nr": 3,
+      "art": "person",
+      "frage": "Der Burgwart sagt, es habe in seiner Dose geklimpert, und dann habe er zugepackt. Wem legst du das Sofortbild der Burgführung vor?",
+      "optionen": [
+        {
+          "id": "e2_3_jonas",
+          "ziel": {
+            "person": "jonas"
+          },
+          "text": "Jonas zum Sofortbild befragen",
+          "fakten": [
+            "f_sofortbild",
+            "f_jonas_gruen"
+          ]
+        },
+        {
+          "id": "e2_3_merle",
+          "ziel": {
+            "person": "merle"
+          },
+          "text": "Merle zum Sofortbild befragen",
+          "fakten": [
+            "f_sofortbild",
+            "f_merle_taler"
+          ]
+        },
+        {
+          "id": "e2_3_adnan",
+          "ziel": {
+            "person": "adnan"
+          },
+          "text": "Adnan zum Sofortbild befragen",
+          "fakten": [
+            "f_sofortbild",
+            "f_adnan_nicht_auf_bild"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e2_3_merle"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "karte:sofortbild",
+            "beobachtung:b_det_ultimatum",
+            "beobachtung:b_bw_dose_zugepackt",
+            "karte:blechdose"
+          ],
+          "text": "Wer den Taler in die Dose warf, wurde gepackt. Auf dem Sofortbild hält Merle die Münze, und beim Ultimatum rief sie, sie habe ihn zurückgegeben. Sie hatte also einen Grund, ihn heimlich zurückzubringen."
+        }
+      }
+    },
+    {
+      "id": "e3_1",
+      "runde": 3,
+      "nr": 1,
+      "art": "gegenstand",
+      "frage": "Wann wurde der Burgwart überfallen? Das entscheidet, wessen Alibi zählt.",
+      "optionen": [
+        {
+          "id": "e3_1_hof",
+          "ziel": {
+            "gegenstand": "raureif_spuren"
+          },
+          "text": "Die Raureifspuren zu Viertel vor zwölf untersuchen",
+          "fakten": [
+            "f_bw_im_turm"
+          ]
+        },
+        {
+          "id": "e3_1_box",
+          "ziel": {
+            "gegenstand": "bluetooth_box"
+          },
+          "text": "Die Box zum Schrei um Mitternacht untersuchen",
+          "fakten": [
+            "f_schrei_hypothese"
+          ]
+        },
+        {
+          "id": "e3_1_dose",
+          "ziel": {
+            "gegenstand": "blechdose"
+          },
+          "text": "Die Dose zum Klimpern kurz nach dem Knall untersuchen",
+          "fakten": [
+            "f_tatzeit"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e3_1_dose"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "fakt:f_track",
+            "fakt:f_rojda_hebel",
+            "beobachtung:b_det_geraeusche",
+            "beobachtung:b_bw_dose_zugepackt"
+          ],
+          "text": "Gleich nach dem Knall klimperte die Dose, und der Burgwart packte zu. Das war vor dem Kettenrasseln. Der Schrei um Mitternacht war nur die Box. Wer für den Schrei ein Alibi hat, hat für die Tat keins."
+        }
+      }
+    },
+    {
+      "id": "e3_2",
+      "runde": 3,
+      "nr": 2,
+      "art": "person",
+      "frage": "Wessen Weg zwischen sechs vor zwölf und Mitternacht prüfst du Minute für Minute?",
+      "optionen": [
+        {
+          "id": "e3_2_merle",
+          "ziel": {
+            "person": "merle"
+          },
+          "text": "Merle zu ihrem Weg befragen",
+          "fakten": [
+            "f_merle_wehrgang"
+          ]
+        },
+        {
+          "id": "e3_2_adnan",
+          "ziel": {
+            "person": "adnan"
+          },
+          "text": "Adnan zu seinem Weg befragen",
+          "fakten": [
+            "f_adnan_sichtbar"
+          ]
+        },
+        {
+          "id": "e3_2_rojda",
+          "ziel": {
+            "person": "rojda"
+          },
+          "text": "Rojda zu ihrem Weg befragen",
+          "fakten": [
+            "f_rojda_allein"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e3_2_merle"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "beobachtung:b_det_merle_verlaufen",
+            "beobachtung:b_det_merle_darstellung",
+            "fakt:f_jonas_merle_oben",
+            "beobachtung:b_merle_wehrgang"
+          ],
+          "text": "Um sechs vor zwölf war Merle oben auf dem Wehrgang, und erst kurz vor dem Schrei stand sie am Kamin. Dazwischen liegen fünf Minuten für eine Treppe. Ihr Alibi gilt nur für den Schrei."
+        }
+      }
+    },
+    {
+      "id": "e3_3",
+      "runde": 3,
+      "nr": 3,
+      "art": "gegenstand",
+      "frage": "Womit vergleichst du den Absatzabdruck aus dem Wachs?",
+      "optionen": [
+        {
+          "id": "e3_3_stiefel",
+          "ziel": {
+            "person": "jonas"
+          },
+          "text": "Die Wanderstiefel von Jonas untersuchen",
+          "fakten": [
+            "f_jonas_stiefel"
+          ]
+        },
+        {
+          "id": "e3_3_spur",
+          "ziel": {
+            "gegenstand": "raureif_spuren"
+          },
+          "text": "Die Stiefelspur des Burgwarts im Raureif untersuchen",
+          "fakten": [
+            "f_bw_spur"
+          ]
+        },
+        {
+          "id": "e3_3_karten",
+          "ziel": {
+            "gegenstand": "sohlenkarten"
+          },
+          "text": "Alle vier Sohlenkarten Stollen für Stollen untersuchen",
+          "fakten": [
+            "f_sohlen"
+          ]
+        }
+      ],
+      "richtig": {
+        "merle": "e3_3_karten"
+      },
+      "begruendung": {
+        "alle": {
+          "kette": [
+            "fakt:f_wachs",
+            "karte:sohlenkarten",
+            "beobachtung:b_jonas_stiefel_melde"
+          ],
+          "text": "Der Abdruck im Wachs hat Stollen, und eine Lücke zeigt, welcher Stiefel es war. Nur eine der vier Sohlenkarten hat dieselbe Lücke: Merles linker Stiefel."
+        }
+      }
+    }
+  ]
+}

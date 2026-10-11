@@ -1,0 +1,146 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 9 bis 12.",
+  "eintraege": [
+    {
+      "id": "g_tomasz_2_1",
+      "rolle": "tomasz",
+      "runde": 2,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Stimmen passen nicht",
+      "ziel": "Finde Widersprüche bei den Zeiten.",
+      "preisgabe": [],
+      "text": "Wer war zehn vor zwölf wo? Ich war an der Eisentür, das weiß ich genau. Zähl nach, das geht auf."
+    },
+    {
+      "id": "g_tomasz_2_2",
+      "rolle": "tomasz",
+      "runde": 2,
+      "nr": 2,
+      "partner": "paulina",
+      "thema": "Der Alte hinter dem Regal",
+      "ziel": "Frage, warum der Burgwart dort saß.",
+      "preisgabe": [],
+      "text": "Hinter dem Regal saß der Burgwart und lauerte auf die Dose. Das klang nach einem, der etwas vorhat."
+    },
+    {
+      "id": "g_tomasz_2_3",
+      "rolle": "tomasz",
+      "runde": 2,
+      "nr": 3,
+      "partner": "annika",
+      "thema": "Schweigen",
+      "ziel": "Erkläre, warum du danach still warst.",
+      "preisgabe": [],
+      "text": "Ich war danach still. Wenn mir etwas wirklich wichtig ist, spreche ich ganz leise."
+    },
+    {
+      "id": "g_annika_2_1",
+      "rolle": "annika",
+      "runde": 2,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Wer streifte vorbei?",
+      "ziel": "Erzähle, wer kurz vor dem Schrei an dir vorbeikam.",
+      "preisgabe": [
+        "beobachtung:b_annika_vorbei"
+      ],
+      "text": "Kurz vor dem Schrei streifte jemand an mir vorbei ins Gewölbe. Kalte Hand, Wolle am Ärmel, es roch nach ausgeblasener Kerze."
+    },
+    {
+      "id": "g_annika_2_2",
+      "rolle": "annika",
+      "runde": 2,
+      "nr": 2,
+      "partner": "diyar",
+      "thema": "Formen im Dunkeln",
+      "ziel": "Frage, wer ähnliche Umrisse gesehen hat.",
+      "preisgabe": [],
+      "text": "Im Dunkeln habe ich nur Umrisse gesehen, rund und kantig. Hast du auch etwas bemerkt?"
+    },
+    {
+      "id": "g_annika_2_3",
+      "rolle": "annika",
+      "runde": 2,
+      "nr": 3,
+      "partner": "tomasz",
+      "thema": "Die Taschen",
+      "ziel": "Lenke vom Thema ab.",
+      "preisgabe": [],
+      "text": "Meine Latzhose hat viele Taschen. Ich greife dauernd nach einer davon. Das hat nichts zu bedeuten."
+    },
+    {
+      "id": "g_berfin_2_1",
+      "rolle": "berfin",
+      "runde": 2,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Wer kam auf den Wehrgang?",
+      "ziel": "Berichte, wen du oben gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_berfin_merle_zinne"
+      ],
+      "text": "Um sechs vor zwölf tauchte Merle auf dem Wehrgang auf. Sie erschreckte Jonas und ging gleich wieder hinunter."
+    },
+    {
+      "id": "g_berfin_2_2",
+      "rolle": "berfin",
+      "runde": 2,
+      "nr": 2,
+      "partner": "emre",
+      "thema": "Das Telefonat",
+      "ziel": "Berichte, was du von Jonas gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_berfin_telefonat"
+      ],
+      "text": "Jonas telefonierte an der dritten Zinne. Ich hörte nur Fetzen: „dreitausend“ und „bis Monatsende“."
+    },
+    {
+      "id": "g_berfin_2_3",
+      "rolle": "berfin",
+      "runde": 2,
+      "nr": 3,
+      "partner": "dino",
+      "thema": "Funkloch",
+      "ziel": "Frage nach dem Handyempfang.",
+      "preisgabe": [],
+      "text": "Stell dir vor, im ganzen Gewölbe gibt es kein Netz. Nur an einer einzigen Zinne. Wer wusste das?"
+    },
+    {
+      "id": "g_dino_2_1",
+      "rolle": "dino",
+      "runde": 2,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Der Balken",
+      "ziel": "Prüfe, wer die Eichentür öffnen konnte.",
+      "preisgabe": [],
+      "text": "Den Balken an der Eichentür kann man nur von innen lösen. Von hier aus kam also niemand durch."
+    },
+    {
+      "id": "g_dino_2_2",
+      "rolle": "dino",
+      "runde": 2,
+      "nr": 2,
+      "partner": "lejla",
+      "thema": "Wände und Mörtel",
+      "ziel": "Lenke auf das Bauwerk.",
+      "preisgabe": [],
+      "text": "Bruchstein, Kalkmörtel, schön. Die Mauer fällt acht Meter auf Fels ab. Da klettert niemand hinaus."
+    },
+    {
+      "id": "g_dino_2_3",
+      "rolle": "dino",
+      "runde": 2,
+      "nr": 3,
+      "partner": "berfin",
+      "thema": "Mit Faktor zwei",
+      "ziel": "Beurteile die Sicherheit der Burg.",
+      "preisgabe": [],
+      "text": "Mit Faktor zwei hält das Gewölbe. Aber ein Hebel unter Last hält nicht. Der Knall war Technik, kein Zufall."
+    }
+  ],
+  "generiert": "akte_export"
+}

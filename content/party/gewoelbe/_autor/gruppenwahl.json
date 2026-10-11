@@ -1,0 +1,6 @@
+{
+  "hinweis": "Gruppenwahl je Rolle und Runde. Option A ist kooperativ (+1) und kostet die Rolle ein Geheimnis oder einen Freund. Option B ist eigennützig (0) und schützt Ziel oder Freund. In der Täterfassung der Täterin heißt B Sabotage (bTaeter): sie zählt 0 und hebt eine kooperative Stimme auf (G-1). Die Texte der Optionen stehen in texte/wahlen-*.json unter derselben Kennung. Die Wahlen leitet akte_export aus Nebendelikt und Loyalität jeder Figur ab.",
+  "sabotage": [
+    "merle"
+  ]
+}

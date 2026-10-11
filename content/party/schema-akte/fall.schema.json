@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fall",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "zeit": {
+      "type": "string",
+      "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "pfade": {
+      "anyOf": [
+        {
+          "const": "alle"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/pfad"
+          }
+        }
+      ]
+    },
+    "idListe": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "fenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/zeit"
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "kanonVersion",
+    "titel",
+    "untertitel",
+    "pfade",
+    "kernverdaechtige",
+    "personen",
+    "runden",
+    "finaleUhrzeit",
+    "morgenUhrzeit",
+    "rundendauerMinuten",
+    "schwellen",
+    "enden",
+    "regeln"
+  ],
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "kanonVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "titel": {
+      "$ref": "#/$defs/text"
+    },
+    "untertitel": {
+      "$ref": "#/$defs/text"
+    },
+    "pfade": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/pfad"
+      }
+    },
+    "kernverdaechtige": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/pfad"
+      }
+    },
+    "personen": {
+      "type": "object",
+      "required": [
+        "min",
+        "max",
+        "hinweis"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer"
+        },
+        "max": {
+          "type": "integer"
+        },
+        "hinweis": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "runden": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "nr",
+          "name",
+          "uhrzeit",
+          "kern"
+        ],
+        "properties": {
+          "nr": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "uhrzeit": {
+            "$ref": "#/$defs/zeit"
+          },
+          "kern": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "finaleUhrzeit": {
+      "$ref": "#/$defs/zeit"
+    },
+    "morgenUhrzeit": {
+      "$ref": "#/$defs/zeit"
+    },
+    "rundendauerMinuten": {
+      "type": "integer",
+      "minimum": 5
+    },
+    "schwellen": {
+      "type": "object",
+      "required": [
+        "regel",
+        "wahr",
+        "neutral"
+      ],
+      "properties": {
+        "regel": {
+          "$ref": "#/$defs/text"
+        },
+        "wahr": {
+          "type": "object",
+          "required": [
+            "faktor",
+            "gegen"
+          ],
+          "properties": {
+            "faktor": {
+              "type": "integer"
+            },
+            "gegen": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "neutral": {
+          "type": "object",
+          "required": [
+            "faktor",
+            "gegen"
+          ],
+          "properties": {
+            "faktor": {
+              "type": "integer"
+            },
+            "gegen": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "enden": {
+      "type": "object",
+      "required": [
+        "matrix"
+      ],
+      "properties": {
+        "matrix": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "anklage",
+              "punkteVon",
+              "punkteBis"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "name": {
+                "$ref": "#/$defs/text"
+              },
+              "anklage": {
+                "enum": [
+                  "richtig",
+                  "falsch"
+                ]
+              },
+              "punkteVon": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9
+              },
+              "punkteBis": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "regeln": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "simulation": {
+      "type": "boolean"
+    },
+    "pruefprofil": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "restNachRunde2": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "lageNachRunde1": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "nebendeliktJeKern": {
+          "type": "boolean"
+        },
+        "alleinNur": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "mindestRestVorRunde3": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "zug": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

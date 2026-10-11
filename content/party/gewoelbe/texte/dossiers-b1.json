@@ -1,0 +1,185 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "rolle": "adnan",
+      "wer": "Du bist Adnan, der Veranstaltungstechniker. Wenn etwas kaputt ist, ruft dich jeder an. Du trägst eine schwarze Arbeitsjacke mit vielen Taschen, eine graue Strickmütze und ein Multitool am Gürtel.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_adnan_russ"
+        },
+        {
+          "ref": "beobachtung:b_adnan_handschlag"
+        },
+        {
+          "ref": "beobachtung:b_adnan_kamin"
+        },
+        {
+          "ref": "beobachtung:b_adnan_merle_spaet"
+        },
+        {
+          "ref": "beobachtung:b_adnan_code_warnung"
+        },
+        {
+          "text": "Du hast den Kamin mit der Heißluftpistole angefeuert. Dabei hat der Qualm vom Kamin den ganzen Keller gefüllt."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_adnan_code"
+        },
+        {
+          "ref": "nebendelikt:nd_adnan_code"
+        },
+        {
+          "ref": "beobachtung:b_adnan_code"
+        },
+        {
+          "ref": "beobachtung:b_adnan_sichtbar"
+        },
+        {
+          "ref": "beobachtung:b_adnan_nicht_auf_bild"
+        },
+        {
+          "text": "Dass deine Hauptsicherung durchgebrannt ist, ist dir peinlich."
+        },
+        {
+          "text": "Der Keller war umsonst, ein Gefallen gegen neue Lichttechnik. Seit Jonas’ Rede ahnst du, dass er Geld eingesammelt hat."
+        },
+        {
+          "text": "Rojda willst du nicht verraten, solange sie nicht selbst redet."
+        }
+      ],
+      "ziel": "Du willst den Türschaden und den Stromausfall in Ordnung bringen. Dabei willst du keine Freundin verraten.",
+      "besetzung": "Jede Person kann Adnan spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "rojda",
+      "wer": "Du bist Rojda, die Geräuschemacherin. Du arbeitest beim Lokalradio und beschreibst alles über Geräusche. Du trägst einen schwarzen Hoodie, weiße Turnschuhe mit glatter Sohle und Kopfhörer um den Hals.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_rojda_turmfuss"
+        },
+        {
+          "ref": "beobachtung:b_rojda_gespenst_melde"
+        },
+        {
+          "ref": "beobachtung:b_rojda_track"
+        },
+        {
+          "text": "Du hast die Box in die Nische neben der Eichentür gestellt."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_rojda_licht"
+        },
+        {
+          "ref": "luege:luege_rojda_box"
+        },
+        {
+          "ref": "nebendelikt:nd_rojda_streich"
+        },
+        {
+          "ref": "beobachtung:b_rojda_hebel"
+        },
+        {
+          "ref": "beobachtung:b_rojda_gespenst"
+        },
+        {
+          "ref": "beobachtung:b_rojda_nie_hof"
+        },
+        {
+          "ref": "beobachtung:b_rojda_allein"
+        },
+        {
+          "text": "Merle hat dir später zugeflüstert, sie habe gekniffen. Du hast aber das Gespenst an der Tür gesehen. Wer stand darunter?"
+        },
+        {
+          "text": "Du fühlst dich schuld an allem, was dein Streich angerichtet hat."
+        }
+      ],
+      "ziel": "Du willst dein Versprechen an das Gespenst halten. Und du willst gutmachen, was dein Streich angerichtet hat.",
+      "besetzung": "Jede Person kann Rojda spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "merle",
+      "wer": "Du bist Merle, die Geschichtsreferendarin. Du erzählst gern Fun Facts über alte Burgen. Du trägst eine dunkelgrüne Strickjacke mit Zopfmuster, Jeans und braune Wanderstiefel. In ein Notizheft zeichnest du jede Stufe des Turms.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_merle_wehrgang"
+        },
+        {
+          "ref": "beobachtung:b_merle_taler_melde"
+        },
+        {
+          "ref": "beobachtung:b_merle_schrei_neben_adnan"
+        },
+        {
+          "text": "Seit einer Geisterbahnfahrt als Kind hast du Angst im Dunkeln. Das wissen alle."
+        }
+      ],
+      "verbirgt": [],
+      "ziel": "Du willst auf keinen Fall vor der Gruppe als Lügnerin dastehen.",
+      "besetzung": "Jede Person kann Merle spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "jonas",
+      "wer": "Du bist Jonas, der Organisator. Du verkaufst Medizintechnik, wie du sagst, und planst jede Feier mit Tabellen. Du trägst einen olivgrünen Strickpullover, ein kariertes Hemd und eine große Armbanduhr. Du rufst gern: „Leute, Leute, Leute!“",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_jonas_kunibert"
+        },
+        {
+          "ref": "beobachtung:b_jonas_stiefel_melde"
+        },
+        {
+          "ref": "beobachtung:b_jonas_nicht_hof"
+        },
+        {
+          "ref": "beobachtung:b_jonas_telefonat"
+        },
+        {
+          "text": "Du hast zu dieser Feier eingeladen und den Keller organisiert."
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_jonas_hof"
+        },
+        {
+          "ref": "luege:luege_jonas_job"
+        },
+        {
+          "ref": "nebendelikt:nd_jonas_miete"
+        },
+        {
+          "ref": "beobachtung:b_jonas_zinne"
+        },
+        {
+          "ref": "beobachtung:b_jonas_geld"
+        },
+        {
+          "ref": "beobachtung:b_jonas_merle_oben"
+        },
+        {
+          "ref": "beobachtung:b_jonas_gruen"
+        },
+        {
+          "ref": "beobachtung:b_jonas_stiefel_blass"
+        },
+        {
+          "ref": "beobachtung:b_jonas_torte"
+        },
+        {
+          "text": "Der Burgwart hat dir gedroht, beim Frühstück allen von der Miete zu erzählen."
+        }
+      ],
+      "ziel": "Du willst, dass bis zum Frühstück niemand erfährt, dass du seit Juni arbeitslos bist.",
+      "besetzung": "Jede Person kann Jonas spielen, egal welches Geschlecht sie hat."
+    }
+  ],
+  "generiert": "akte_export"
+}

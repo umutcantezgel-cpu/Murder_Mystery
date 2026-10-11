@@ -1,0 +1,724 @@
+{
+  "detektiv": {
+    "title": "Der Detektiv / Die Detektivin (Geburtstagskind)",
+    "selectableGenders": [
+      "m",
+      "w"
+    ],
+    "colorCode": "#B8A48A",
+    "farbname": "Sandbeige",
+    "startRoom": "kamin_gewoelbe",
+    "ermittlungsOrt": "geburtstagsplatz",
+    "visualSpecs": {
+      "silhouette": "Mittelgroß, aufmerksame Haltung, Kopf leicht schief beim Zuhören",
+      "baseOutfit": "Heller sandbeiger Trenchcoat über Alltagskleidung, schwarze Jeans, dunkle Turnschuhe",
+      "accessories": [
+        "Markante Brille",
+        "Braun karierter Detektivhut",
+        "Unangezündete Pfeife, aus der Seifenblasen steigen"
+      ],
+      "interactiveTool": "Handy in der Hand mit Taschenlampen-Lichtkegel",
+      "idleAnimation": "Bläst mit der Pfeife ein paar Seifenblasen und tippt aufs Handy"
+    },
+    "tatnacht": "Ab vier Minuten vor Mitternacht steht das Geburtstagskind an der verkeilten Eichentür und lauscht. Durch die gesplitterte Füllung hört es nach dem Knall ein Klimpern, einen tiefen Ruf, einen dumpfen Schlag, Poltern und rollende Dosen. Danach folgt der Schrei, direkt neben der Tür. Damals hält es alles für die Show.",
+    "auftrag": "Fünf vor halb eins bittet der Burgwart das Geburtstagskind: „Du hast heute Geburtstag, du hast den klarsten Kopf. Finde raus, wer’s war.“",
+    "nieVerdaechtig": true,
+    "look": {
+      "haut": "#d9a983",
+      "haar": "#4a3222",
+      "kopf": "detektivhut",
+      "statur": "normal",
+      "schnitt": "suit"
+    }
+  },
+  "opfer": {
+    "name": "Eckehard Lüddecke",
+    "age": 71,
+    "geschlecht": "m",
+    "roleTitle": "Der Burgwart",
+    "isNpc": true,
+    "colorCode": "#7A6A55",
+    "farbname": "Graubraun",
+    "startRoom": "kamin_gewoelbe",
+    "ermittlungsOrt": "an_der_bank",
+    "status": "Nach dem Schlag kurz bewusstlos. Er kommt nach zweieinhalb Minuten zu sich, hat eine Beule am Hinterkopf und eine Gedächtnislücke für die Sekunden davor. Danach sitzt er mit einem Kühlpack aus Tiefkühlerbsen auf der Bank am Kamin und ist bald wieder grantig.",
+    "visualSpecs": {
+      "silhouette": "Kräftig, leicht gebeugt, buschige weiße Augenbrauen, kurzer weißer Bart",
+      "outfit": "Cordhose, Strickweste mit vielen Taschen, festes Schuhwerk, Gürtel mit Karabiner",
+      "distinguishingFeature": "Eine Lesebrille auf der Stirn und ein Kühlpack aus Tiefkühlerbsen auf dem Kopf",
+      "idleAnimation": "Brummt vor sich hin und drückt das Kühlpack an die Beule"
+    },
+    "motiveAndConflict": "Seit 1994 hütet er die Burg. Er duzt alle und grüßt mit „Glück auf!“. Heute ärgert er sich über die zerstörte Eichentür und den verschwundenen Taler, aber er hat Humor.",
+    "warmeSeite": "Er redet mit der Rüstung Kunibert wie mit einem alten Kameraden und hat Adnan den Türschaden mit Handschlag verziehen.",
+    "erinnerung": "Er saß im Dunkeln hinter dem Regal, hörte die Dose klimpern und packte zu. Er rief „Hab ich dich!“. Danach weiß er nichts mehr, nur noch, dass der Arm in Wolle und Leinen steckte.",
+    "schluesselbund": "schluesselbund",
+    "gedaechtnisLueckeAb": "23:58:18",
+    "look": {
+      "haut": "#e0b79a",
+      "haar": "#e8e6e0",
+      "kopf": "none",
+      "statur": "broad",
+      "schnitt": "suit"
+    },
+    "schluesselbundMaterial": "Große Buntbartschlüssel aus dunklem Eisen an einem Karabinerhaken und ein kleiner Vitrinenschlüssel.",
+    "id": "burgwart"
+  },
+  "figuren": {
+    "adnan": {
+      "kanon": "R01",
+      "roleTitle": "Der Veranstaltungstechniker",
+      "alltag": "Ist selbstständiger Veranstaltungstechniker und fährt mit seinem Transporter zu jedem Fest.",
+      "persoenlichesZiel": "Den Türschaden und den Stromausfall in Ordnung bringen, ohne eine Freundin zu verraten.",
+      "visualSpecs": {
+        "silhouette": "Schlank, aufrecht, ruhiger und praktischer Blick, kurzer gepflegter Bart",
+        "outfit": "Schwarze Arbeitsjacke mit vielen Taschen, graue Strickmütze, feste Arbeitsschuhe",
+        "distinguishingFeature": "Ein Multitool am Gürtel und Kabelbinder in der Jackentasche",
+        "idleAnimation": "Prüft mit dem Daumen die Kante seines Multitools und nickt zufrieden"
+      },
+      "nebendelikt": {
+        "id": "nd_adnan_code",
+        "text": "Hat Rojda für ihren Streich den Code des Sicherungskastens aufgeschrieben und seine Stablampe geliehen."
+      },
+      "loyalitaet": {
+        "zu": "rojda",
+        "grund": "Er hat ihr für den Streich Code und Lampe gegeben und will sie nicht verraten."
+      },
+      "luegen": [
+        {
+          "id": "luege_adnan_code",
+          "behauptung": "Den Code kenn nur ich und der Alte.",
+          "wahrheit": "Er hat Rojda den Code für ihren Streich aufgeschrieben.",
+          "duWahrheit": "Du hast Rojda den Code für ihren Streich aufgeschrieben."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Kniet ab zwölf vor zwölf am Kamin, reißt um acht vor zwölf Turmtür und Läden auf und bleibt bis zum Schrei bei der Glut. Der Ruß an seinen Händen stammt vom Kamin."
+      },
+      "look": {
+        "haut": "#d6a982",
+        "haar": "#3b2a20",
+        "kopf": "cap",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#1A1A1A",
+      "farbname": "Schwarz",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_adnan"
+    },
+    "rojda": {
+      "kanon": "R02",
+      "roleTitle": "Die Geräuschemacherin",
+      "alltag": "Arbeitet als Mediengestalterin beim Lokalradio und baut aus Geräuschen ganze Geschichten.",
+      "persoenlichesZiel": "Ihr Versprechen an das Gespenst halten und gutmachen, was ihr Streich angerichtet hat.",
+      "visualSpecs": {
+        "silhouette": "Lebhaft, schnell in den Gesten, lange dunkle Locken",
+        "outfit": "Schwarzer Hoodie, weiße Turnschuhe mit glatter Sohle, Kopfhörer um den Hals",
+        "distinguishingFeature": "Große Kopfhörer, aus denen leise ein Wind pfeift",
+        "idleAnimation": "Hält die Hand ans Ohr, lauscht und zeichnet mit dem Finger Klangwellen in die Luft"
+      },
+      "nebendelikt": {
+        "id": "nd_rojda_streich",
+        "text": "Hat den Geisterstreich geplant, den Track aufgenommen und den Hebel am Sicherungskasten gezogen."
+      },
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist ihre Freundin und das Gespenst, das sie für den Streich gewonnen hat."
+      },
+      "luegen": [
+        {
+          "id": "luege_rojda_licht",
+          "behauptung": "Ich wollte nur das Licht wieder anmachen.",
+          "wahrheit": "Sie hat den Hebel für ihren Streich selbst gezogen.",
+          "duWahrheit": "Du hast den Hebel für deinen Streich selbst gezogen."
+        },
+        {
+          "id": "luege_rojda_box",
+          "behauptung": "Die Box spinnt. Einen Streich gab es nicht.",
+          "wahrheit": "Der Schrei kam von ihrem Track Geisterstunde. Sie hat den Streich geplant.",
+          "duWahrheit": "Der Schrei kam von deinem Track Geisterstunde. Du hast den Streich geplant."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Stellt um zehn vor zwölf die Box in die Nische, schickt das Geburtstagskind zur Eichentür und startet am Turm-Fuß den Track. Um zwei vor zwölf zieht sie den Hebel und steht danach starr am Sicherungskasten."
+      },
+      "look": {
+        "haut": "#c99872",
+        "haar": "#2a1a14",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#5A5F66",
+      "farbname": "Anthrazit",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_rojda"
+    },
+    "merle": {
+      "kanon": "R03",
+      "roleTitle": "Die Geschichtsreferendarin",
+      "alltag": "Ist Referendarin für Geschichte und Deutsch und erzählt gern Fun Facts über alte Burgen.",
+      "persoenlichesZiel": "Auf keinen Fall vor der Gruppe als Lügnerin dastehen.",
+      "visualSpecs": {
+        "silhouette": "Zierlich, neugierige Augen, Haarspange und Sommersprossen",
+        "outfit": "Dunkelgrüne Strickjacke mit Zopfmuster über weißer Bluse, Jeans, feste Schuhe",
+        "distinguishingFeature": "Ein Notizheft, in das sie jede Stufe des Turms zeichnet",
+        "idleAnimation": "Notiert etwas ins Heft, schaut auf und lächelt nervös"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Jonas ist ihr Zeuge für den Weg über den Wehrgang, und sie will ihn nicht bloßstellen."
+      },
+      "luegen": [
+        {
+          "id": "luege_merle_weg",
+          "behauptung": "Ich hab mich im dunklen Turm verlaufen, bis auf den Wehrgang. Beim Schrei stand ich neben Adnan.",
+          "wahrheit": "Das Verlaufen stimmt nur bis sechs vor zwölf. Danach wartete sie als Gespenst an der Eisentür und kam erst kurz vor dem Schrei zu Adnan.",
+          "duWahrheit": "Das Verlaufen stimmt nur bis sechs vor zwölf. Danach hast du als Gespenst an der Eisentür gewartet und bist erst kurz vor dem Schrei zu Adnan gekommen."
+        },
+        {
+          "id": "luege_merle_gekniffen",
+          "behauptung": "Ich hab gekniffen, als es geknallt hat. Ich war nicht drin.",
+          "wahrheit": "Sie war in der Speisekammer und hat den Taler in die Blechdose geworfen.",
+          "duWahrheit": "Du warst in der Speisekammer und hast den Taler in die Blechdose geworfen."
+        },
+        {
+          "id": "luege_merle_lampe",
+          "behauptung": "Meine Lampe liegt im Auto, die war eh fast leer.",
+          "wahrheit": "Adnans Lampe ging über Rojda an Merle und fiel ihr in der Speisekammer aus der Hand.",
+          "duWahrheit": "Adnans Lampe ging über Rojda an dich und fiel dir in der Speisekammer aus der Hand."
+        }
+      ],
+      "roleSecret": "Sie hat große Angst im Dunkeln und wollte beim Streich trotzdem das Gespenst sein.",
+      "killerProfile": {
+        "crimeExecution": "Merle steckt den Taler bei der Führung ein und bringt ihn im Dunkeln heimlich zurück. Der Burgwart packt zu, und sie trifft ihn in Panik einmal mit dem Kerzenständer. Dann nimmt sie ihm den Bund ab, versteckt ihn im Helm der Rüstung und stopft das Laken in die Truhe.",
+        "smokingGun": "Der Absatzabdruck im Wachs passt zu Merles linkem Stiefel, dem ein Stollen fehlt.",
+        "zusatzindiz": "Ein Streifen vom Laken mit dem Wäschezeichen Schartenfels sieben hängt am Panzerhandschuh der Rüstung."
+      },
+      "look": {
+        "haut": "#efd0b4",
+        "haar": "#8a6a45",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#1F5A3A",
+      "farbname": "Tannengrün",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_merle"
+    },
+    "jonas": {
+      "kanon": "R04",
+      "roleTitle": "Der Organisator",
+      "alltag": "Verkauft Medizintechnik, wie er sagt, und organisiert jede Feier mit Tabellen und großen Versprechen.",
+      "persoenlichesZiel": "Niemand soll vor dem Frühstück erfahren, dass er seit Juni arbeitslos ist.",
+      "visualSpecs": {
+        "silhouette": "Breites Lächeln, aufrechte Haltung, beide Hände wie beim Vortragen erhoben",
+        "outfit": "Olivgrüner grober Strickpullover über kariertem Hemd, Jeans, Armbanduhr mit großem Ziffernblatt",
+        "distinguishingFeature": "Eine große Armbanduhr, auf die er bei jedem Satz zeigt",
+        "idleAnimation": "Hebt beide Hände und zählt an den Fingern „Punkt eins, Punkt zwei“"
+      },
+      "nebendelikt": {
+        "id": "nd_jonas_miete",
+        "text": "Hat von allen 55 Euro Miete eingesammelt, obwohl der Keller nichts gekostet hat, und ist seit Juni arbeitslos."
+      },
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist eine alte Freundin, und er will sie nicht belasten."
+      },
+      "luegen": [
+        {
+          "id": "luege_jonas_hof",
+          "behauptung": "Ich war draußen im Hof, frische Luft schnappen.",
+          "wahrheit": "Er stand oben an der dritten Zinne und telefonierte.",
+          "duWahrheit": "Du standest oben an der dritten Zinne und hast telefoniert."
+        },
+        {
+          "id": "luege_jonas_job",
+          "behauptung": "Ich bin Vertriebler für Medizintechnik.",
+          "wahrheit": "Er ist seit Juni arbeitslos.",
+          "duWahrheit": "Du bist seit Juni arbeitslos."
+        }
+      ],
+      "innocentProfile": {
+        "actualBehavior": "Geht um sieben vor zwölf mit erhobenem Handy in den Turm, wird von Merle erschreckt und telefoniert von der dritten Zinne mit seinem Bruder. Beim Knall sitzt er oben im Wind."
+      },
+      "look": {
+        "haut": "#e8c4a2",
+        "haar": "#c9a35a",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#8B8C2F",
+      "farbname": "Olivgrün",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_jonas"
+    },
+    "paulina": {
+      "kanon": "R05",
+      "roleTitle": "Die Steuerfachfrau",
+      "alltag": "Arbeitet als Steuerfachangestellte in einer Kanzlei und macht die Steuererklärung für die ganze Verwandtschaft.",
+      "persoenlichesZiel": "Eine Quittung für ihre Miete bekommen und trotzdem keinen Freund ungerecht anprangern.",
+      "visualSpecs": {
+        "silhouette": "Aufrecht, schmale Brille, ein skeptisch gehobener Augenbrauenbogen",
+        "outfit": "Dunkelblauer Cordblazer mit Kugelschreiber im Revers, Jeans",
+        "distinguishingFeature": "Ein Kugelschreiber im Revers und ein selbst gedruckter Quittungsvordruck",
+        "idleAnimation": "Hält den Vordruck hoch und tippt mit dem Stift darauf"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Sie mochte ihn als großzügigen Organisator und ist umso enttäuschter."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#ecd0b8",
+        "haar": "#8b6f3d",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#2547A8",
+      "farbname": "Kobaltblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_paulina"
+    },
+    "diyar": {
+      "kanon": "R06",
+      "roleTitle": "Der Rettungssanitäter",
+      "alltag": "Fährt als Rettungssanitäter Einsätze und übernimmt am Wochenende Sanitätsdienste bei Festen.",
+      "persoenlichesZiel": "Adnan entlasten und dabei niemandem etwas anhängen.",
+      "visualSpecs": {
+        "silhouette": "Ruhig, kräftige Schultern, Dreitagebart",
+        "outfit": "Dunkelblaue Funktionsjacke und ein dunkelrotes Halstuch",
+        "distinguishingFeature": "Ein dunkelrotes Halstuch, das er sich bei Gefahr vor Mund und Nase zieht",
+        "idleAnimation": "Hält ein Tablett wie einen Fächer und wedelt gelassen"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan hat ihn in die Gruppe gebracht, und die beiden helfen sich bei jedem Fest."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#c8946b",
+        "haar": "#16110e",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#8E1B2B",
+      "farbname": "Dunkelrot",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_diyar"
+    },
+    "emre": {
+      "kanon": "R07",
+      "roleTitle": "Der Tontechniker",
+      "alltag": "Arbeitet als Tontechniker am Stadttheater und redet in Bühnenwörtern.",
+      "persoenlichesZiel": "Rojda helfen, ohne dass sie vor allen bloßgestellt wird.",
+      "visualSpecs": {
+        "silhouette": "Schlank, wuschelige Haare, leicht schmollender Mund",
+        "outfit": "Abgewetzte braune Lederjacke voller Anstecker von Theaterproduktionen",
+        "distinguishingFeature": "Anstecker von vielen Theaterproduktionen an der Jacke",
+        "idleAnimation": "Summt leise vor sich hin und tippt den Takt auf den Tisch"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "rojda",
+        "grund": "Er hat mit ihr den Track gemischt und ist heimlich in sie verliebt."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d4a47c",
+        "haar": "#2c1d14",
+        "kopf": "none",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "colorCode": "#8A5530",
+      "farbname": "Lederbraun",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_emre"
+    },
+    "lejla": {
+      "kanon": "R08",
+      "roleTitle": "Die Biologiereferendarin",
+      "alltag": "Ist Referendarin für Biologie am selben Seminar wie Merle und erklärt Gefühle gern biologisch.",
+      "persoenlichesZiel": "Ihre eigene Lehrprobe vergessen und Merle nicht verraten.",
+      "visualSpecs": {
+        "silhouette": "Zierlich, nachdenklicher Blick, Haare in einem tiefen Dutt",
+        "outfit": "Dunkelblauer Pullover aus Baumwolle, kleine Marienkäfer-Ohrringe",
+        "distinguishingFeature": "Ohrringe in Form kleiner Marienkäfer",
+        "idleAnimation": "Hebt die Handykamera, prüft das Foto und nickt wie im Unterricht"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist ihre Seminarfreundin, und sie weiß, wie viel für sie auf dem Spiel steht."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#e0b896",
+        "haar": "#241812",
+        "kopf": "bun",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "colorCode": "#1F6F78",
+      "farbname": "Petrol",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_lejla"
+    },
+    "tomasz": {
+      "kanon": "R09",
+      "roleTitle": "Der Koch",
+      "alltag": "Ist stellvertretender Küchenchef in einer Betriebskantine und backt am Wochenende Torten für Freunde.",
+      "persoenlichesZiel": "Sein großes Geheimnis bis zum Antrag bei Licht und Torte hüten.",
+      "visualSpecs": {
+        "silhouette": "Breit, freundliches rundes Gesicht, nervöser Blick",
+        "outfit": "Dunkelblaue Kochschürze ohne Taschen, die er den ganzen Abend anbehält",
+        "distinguishingFeature": "Eine Kochschürze ohne Taschen",
+        "idleAnimation": "Zählt leise rückwärts und rückt die Schürze zurecht"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "annika",
+        "grund": "Sie sind heimlich verlobt, und er will den Antrag nicht verderben."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#f0d2b6",
+        "haar": "#7a4a2a",
+        "kopf": "none",
+        "statur": "broad",
+        "schnitt": "suit"
+      },
+      "colorCode": "#4C86C6",
+      "farbname": "Schürzenblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_tomasz"
+    },
+    "annika": {
+      "kanon": "R10",
+      "roleTitle": "Die Grafikerin",
+      "alltag": "Arbeitet freiberuflich als Grafikdesignerin und gestaltet Plakate und Buchumschläge.",
+      "persoenlichesZiel": "Die Ringschachtel schützen, bis der Antrag da ist.",
+      "visualSpecs": {
+        "silhouette": "Klein und flink, kurzer platinblonder Haarschnitt",
+        "outfit": "Senfgelbe Latzhose mit vielen Taschen, Bleistift hinter dem Ohr",
+        "distinguishingFeature": "Ein Bleistift hinter dem Ohr",
+        "idleAnimation": "Zeichnet mit dem Finger kleine Skizzen auf die Tischplatte"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "tomasz",
+        "grund": "Sie sind heimlich verlobt, und sie trägt die Ringschachtel für ihn."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#f2dcc4",
+        "haar": "#e6dcc0",
+        "kopf": "none",
+        "statur": "small",
+        "schnitt": "suit"
+      },
+      "colorCode": "#D1A31A",
+      "farbname": "Senfgelb",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_annika"
+    },
+    "berfin": {
+      "kanon": "R11",
+      "roleTitle": "Die Astrophysikerin",
+      "alltag": "Studiert Astrophysik im Master und rechnet gern Entfernungen in Lichtjahre um.",
+      "persoenlichesZiel": "Ihr Gedicht für das Geburtstagskind nicht verraten und das Wehrgangverbot nicht zugeben.",
+      "visualSpecs": {
+        "silhouette": "Schlank, lange glatte schwarze Haare, verträumter Blick nach oben",
+        "outfit": "Dunkelblaue Daunenjacke mit aufgenähtem Saturn, Rotlicht-Stirnlampe um den Hals",
+        "distinguishingFeature": "Eine Rotlicht-Stirnlampe um den Hals und ein kleiner Saturn auf der Jacke",
+        "idleAnimation": "Schaut nach oben und flüstert „Stell dir vor …“"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "paulina",
+        "grund": "Paulina ist ihre Mitbewohnerin und Freundin."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#bf8a63",
+        "haar": "#0f0c0b",
+        "kopf": "none",
+        "statur": "slim",
+        "schnitt": "suit"
+      },
+      "colorCode": "#6A45A8",
+      "farbname": "Violett",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_berfin"
+    },
+    "dino": {
+      "kanon": "R12",
+      "roleTitle": "Der Statiker",
+      "alltag": "Arbeitet als Statiker in einem Ingenieurbüro für Altbausanierung.",
+      "persoenlichesZiel": "Seine Höhenangst nicht zugeben und trotzdem die alten Mauern verstehen.",
+      "visualSpecs": {
+        "silhouette": "Groß, Brille, Hände immer in Mauernähe",
+        "outfit": "Anthrazitfarbene Steppweste mit Zollstock im Seitenfach, Hemd",
+        "distinguishingFeature": "Ein Zollstock im Seitenfach der Weste",
+        "idleAnimation": "Klopft mit dem Fingerknöchel an die Wand und nickt"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "diyar",
+        "grund": "Diyar hat ihn in die Gruppe gebracht, und die beiden sind alte Freunde."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d9b08c",
+        "haar": "#241a14",
+        "kopf": "none",
+        "statur": "tall",
+        "schnitt": "suit"
+      },
+      "colorCode": "#8C9AA8",
+      "farbname": "Schiefergrau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_dino"
+    },
+    "selin": {
+      "kanon": "R13",
+      "roleTitle": "Die Bankkauffrau",
+      "alltag": "Berät als Bankkauffrau Privatkunden bei Krediten und denkt in Tilgungsplänen.",
+      "persoenlichesZiel": "Ihr Geld von Jonas zurückbekommen, ohne ihren Plan vom eigenen Café zu verraten.",
+      "visualSpecs": {
+        "silhouette": "Aufrecht, glatter Pferdeschwanz, sachlicher Blick",
+        "outfit": "Marineblauer Hosenanzug mit roter Granatapfel-Brosche",
+        "distinguishingFeature": "Eine rote Granatapfel-Brosche aus Emaille",
+        "idleAnimation": "Zeigt mit dem Zeigefinger ein Beispiel auf dem Tisch und nickt"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan ist ein Freund, dem sie jederzeit etwas leihen würde."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#cf9f78",
+        "haar": "#1d1410",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#14213D",
+      "farbname": "Nachtblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_selin"
+    },
+    "kamil": {
+      "kanon": "R14",
+      "roleTitle": "Der Tischlermeister",
+      "alltag": "Betreibt eine eigene Tischlerei und restauriert alte Türen und Fenster.",
+      "persoenlichesZiel": "Adnan heimlich beim Reparieren der Eichentür helfen, ohne dass es jemand erfährt.",
+      "visualSpecs": {
+        "silhouette": "Breite Schultern, Vollbart, grummelnder Blick",
+        "outfit": "Dunkelblaue Cordweste über grauem Shirt, Arbeitshose",
+        "distinguishingFeature": "Ein flacher Tischlerbleistift hinter dem rechten Ohr",
+        "idleAnimation": "Fährt prüfend mit dem Daumen über die Kante des Tisches und brummt"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan ist ein Freund, dem er die Tür umsonst reparieren will."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#e6c3a0",
+        "haar": "#8a6b4a",
+        "kopf": "none",
+        "statur": "broad",
+        "schnitt": "suit"
+      },
+      "colorCode": "#A07C5A",
+      "farbname": "Holzbraun",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_kamil"
+    },
+    "derya": {
+      "kanon": "R15",
+      "roleTitle": "Die Versicherungskauffrau",
+      "alltag": "Betreut als Versicherungskauffrau im Außendienst kleine Betriebe und Selbstständige.",
+      "persoenlichesZiel": "Niemanden spüren lassen, wie viel von der Feier sie selbst bezahlt hat.",
+      "visualSpecs": {
+        "silhouette": "Gerade Haltung, lange wellige Haare, beruhigendes Lächeln",
+        "outfit": "Dunkelroter Blazer mit Einstecktuch über schwarzem Shirt, dunkle Jeans",
+        "distinguishingFeature": "Ein Einstecktuch, das sie immer wieder neu faltet",
+        "idleAnimation": "Faltet das Einstecktuch zu einem Dreieck und sagt „Das ist abgedeckt“"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "selin",
+        "grund": "Selin hat sie in die Clique gebracht, und die beiden halten zusammen."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d7a77f",
+        "haar": "#3a2418",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#7B1E4B",
+      "farbname": "Brombeere",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_derya"
+    },
+    "amar": {
+      "kanon": "R16",
+      "roleTitle": "Der Immobilienkaufmann",
+      "alltag": "Verwaltet und vermittelt als Immobilienkaufmann Wohnungen in Wolfsburg und Braunschweig.",
+      "persoenlichesZiel": "Sein zu teures Geschenk nicht protzig wirken lassen.",
+      "visualSpecs": {
+        "silhouette": "Gepflegt, zurückgekämmte Haare, kurzer Bart mit grauen Strähnen",
+        "outfit": "Anthrazitfarbenes Sakko über dunklem Hemd, Manschettenknöpfe in Hausform",
+        "distinguishingFeature": "Manschettenknöpfe in Form kleiner Häuser",
+        "idleAnimation": "Beschreibt mit großer Geste einen Raum wie in einem Exposé"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Jonas ist ein Freund, dessen Geldnot er nicht ausplaudern will."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#cd9d76",
+        "haar": "#1f1a17",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#463C38",
+      "farbname": "Dunkelbraun",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_amar"
+    },
+    "henrik": {
+      "kanon": "R17",
+      "roleTitle": "Der Förster",
+      "alltag": "Ist Revierförster im Oberharz und hält nebenbei Bienen.",
+      "persoenlichesZiel": "Sein Bienengeschenk bis zum Nachtisch geheim halten.",
+      "visualSpecs": {
+        "silhouette": "Hochgewachsen, sandfarbene Haare, kurzer Bart",
+        "outfit": "Rostrote Softshelljacke, Cargohose, brauner Lederhut",
+        "distinguishingFeature": "Ein brauner Lederhut mit einer blau gebänderten Eichelhäherfeder",
+        "idleAnimation": "Rückt den Hut zurecht und erzählt mit ruhiger Hand von Bienen"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "adnan",
+        "grund": "Adnan hat ihm nach dem Überfall erzählt, was er am Tor gesehen hat."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#e9c7a5",
+        "haar": "#b58b55",
+        "kopf": "cap",
+        "statur": "tall",
+        "schnitt": "suit"
+      },
+      "colorCode": "#C0582B",
+      "farbname": "Rostrot",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_henrik"
+    },
+    "elif": {
+      "kanon": "R18",
+      "roleTitle": "Die Jurastudentin",
+      "alltag": "Studiert Jura in Göttingen und jobbt als studentische Hilfskraft in einer Kanzlei.",
+      "persoenlichesZiel": "Ihre fast abgebrochene Studienzeit für sich behalten und trotzdem Recht behalten.",
+      "visualSpecs": {
+        "silhouette": "Klein, lockige Haare bis zur Schulter, wacher Blick",
+        "outfit": "Dunkelblaues Hemdblusenkleid mit rundem Anstecker „Einspruch!“ am Kragen",
+        "distinguishingFeature": "Ein runder Anstecker mit der Aufschrift Einspruch am Kragen",
+        "idleAnimation": "Hebt die Hand und ruft leise „Rein rechtlich …“"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle sitzt oft neben ihr, und sie hört ihr gern zu."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#c28f68",
+        "haar": "#1c120d",
+        "kopf": "none",
+        "statur": "small",
+        "schnitt": "dress"
+      },
+      "colorCode": "#A9B8E0",
+      "farbname": "Taubenblau",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_elif"
+    },
+    "azad": {
+      "kanon": "R19",
+      "roleTitle": "Der Fotograf",
+      "alltag": "Arbeitet als freier Fotograf für Lokalzeitungen und Hochzeiten.",
+      "persoenlichesZiel": "Sein Vorstellungsgespräch in Berlin geheim halten.",
+      "visualSpecs": {
+        "silhouette": "Sehnig, kurzer Spitzbart, kneift ein Auge zu wie beim Bildausschnitt",
+        "outfit": "Schwarze Lederjacke über dunklem Hemd, breiter roter Kameragurt quer über der Brust",
+        "distinguishingFeature": "Ein breiter roter Kameragurt quer über der Brust",
+        "idleAnimation": "Hält die Hände wie einen Bildrahmen vor das Gesicht und ruft „Nicht bewegen!“"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "merle",
+        "grund": "Merle ist eine Freundin, die auf einem seiner Fotos zu sehen ist."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#d2a27a",
+        "haar": "#0d0a09",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#E03A3E",
+      "farbname": "Signalrot",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_azad"
+    },
+    "zofia": {
+      "kanon": "R20",
+      "roleTitle": "Die Rangerin",
+      "alltag": "Ist Rangerin im Nationalpark Harz und führt Wanderungen und Schulklassen.",
+      "persoenlichesZiel": "Ihren Fuchs Ottokar nicht verraten.",
+      "visualSpecs": {
+        "silhouette": "Geschmeidig, langer heller Zopf, belustigtes Grinsen",
+        "outfit": "Dunkelblaue Daunenweste über grauem Kapuzenpulli, orangefarbenes Halstuch mit Fuchs-Silhouetten",
+        "distinguishingFeature": "Ein orangefarbenes Halstuch mit kleinen Fuchs-Silhouetten",
+        "idleAnimation": "Flüstert eine Gruselgeschichte und löst sie mit einem Zwinkern auf"
+      },
+      "nebendelikt": null,
+      "loyalitaet": {
+        "zu": "jonas",
+        "grund": "Jonas hat vor ihr eine Ausrede erzählt, und sie will ihm Zeit lassen."
+      },
+      "luegen": [],
+      "look": {
+        "haut": "#eacbab",
+        "haar": "#9a7a52",
+        "kopf": "none",
+        "statur": "normal",
+        "schnitt": "suit"
+      },
+      "colorCode": "#F08A2E",
+      "farbname": "Fuchsorange",
+      "startRoom": "kamin_gewoelbe",
+      "ermittlungsOrt": "platz_zofia"
+    }
+  }
+}

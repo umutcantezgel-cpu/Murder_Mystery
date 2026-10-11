@@ -1,0 +1,28 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad merle: finale.merle.<ende> und rueckblende.merle.",
+  "eintraege": [
+    {
+      "id": "finale.merle.ende_meister",
+      "text": "Du zeigst auf Merle, und die Anklage stimmt. Merle atmet tief durch und gesteht. Den Taler hat sie bei der Führung aus Reflex eingesteckt und später nicht mehr zugeben können. Als Gespenst stand sie im Dunkeln neben der Eisentür und wollte ihn heimlich zurücklegen. Der Burgwart packte zu, und in ihrer Panik griff sie zum Kerzenständer. Es gab einen dumpfen Schlag. „Das Schlimmste war, dass ich danach gelogen habe“, sagt sie. Der Burgwart brummt, grantig und warm: Er habe sein Ehrenwort gebrochen, als er sich auf die Lauer legte. Den Taler rechnet er ihr an, die Beule auch. Eine Anzeige gibt es nicht. Dafür repariert Merle mit Adnan die Eichentür und entschuldigt sich bei Kunibert. Dann gibt es Torte, und alle rufen: „Glück auf!“"
+    },
+    {
+      "id": "finale.merle.ende_teilerfolg",
+      "text": "Du klagst Merle an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Merle gesteht: Den Taler hat sie aus Reflex eingesteckt, und im Dunkeln griff sie in Panik zum Kerzenständer. Der Burgwart brummt, er habe sein Ehrenwort gebrochen, als er sich auf die Lauer legte. Eine Anzeige gibt es nicht. Merle repariert mit Adnan die Eichentür und entschuldigt sich bei Kunibert. Zwischen den Freunden bleibt ein kleiner Riss. Es gibt Torte und ein leises „Glück auf!“, ein bisschen stiller als am Abend."
+    },
+    {
+      "id": "finale.merle.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und sauer. Die Runde sitzt geteilt da, und die Stimmung wird kalt. Der Burgwart reibt sich die Beule und schüttelt den Kopf. Erst im Morgengrauen gesteht Merle: Sie hat den Taler eingesteckt und im Dunkeln in Panik zum Kerzenständer gegriffen. Um sieben Uhr, als der Eisnebel sich lichtet, schließt der Burgwart das Burgtor auf. Zwischen den Freunden klafft ein tiefer Riss."
+    },
+    {
+      "id": "finale.merle.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander, und die Stimmen werden immer lauter. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Runde zerfällt in kleine Grüppchen, und keiner glaubt mehr dem anderen. Der Burgwart hält sich die Ohren zu. Erst im Morgengrauen gesteht Merle: Sie hat den Taler eingesteckt und im Dunkeln in Panik zum Kerzenständer gegriffen. Um sieben Uhr, als der Eisnebel sich lichtet, schließt der Burgwart das Burgtor auf. Ihr geht hinaus, und keiner verabschiedet sich."
+    },
+    {
+      "id": "rueckblende.merle",
+      "text": "Bei der Führung steckt Merle den Taler aus Reflex ein. Beim Ultimatum ruft sie, sie habe ihn zurückgegeben, und findet ihn danach in ihrer Tasche. Aus Scham will sie ihn heimlich in die Dose legen. Rojdas Streich gibt ihr die Gelegenheit: Als Gespenst wartet sie im Laken am Turm-Fuß. Zwei vor zwölf legt Rojda den Hauptschalter um, und es knallt. Merle schlüpft in die dunkle Speisekammer und wirft den Taler in die Dose. Es klimpert. Der Burgwart springt aus dem Dunkeln auf, packt ihr Handgelenk und ruft: „Hab ich dich!“ In Panik greift Merle den Kerzenständer. Es gibt einen dumpfen Schlag, dann Poltern, und Dosen rollen über den Boden. Wachs spritzt, und ihr linker Stiefel tritt hinein. Sie nimmt dem Burgwart den Bund ab, damit er nicht gleich die Polizei ruft. Im Turm versteckt sie ihn in Kuniberts Helm. Dabei reißt das Laken am verbogenen Handschuh, und den Rest stopft sie in die Truhe. Dann tastet sie sich zum Kamin und ruft laut Adnans Namen. Um Mitternacht kommt der Schrei aus der Box, genau wie Rojda es geplant hat."
+    }
+  ],
+  "generiert": "akte_export"
+}

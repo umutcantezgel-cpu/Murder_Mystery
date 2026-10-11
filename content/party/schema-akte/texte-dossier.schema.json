@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Textsammlung: Dossiers",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schluessel": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$"
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^(beobachtung|luege|nebendelikt|zeitleiste|spur):[a-z][a-z0-9_]*$"
+    },
+    "punkt": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "$ref": "#/$defs/text"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "ref"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ref": {
+              "$ref": "#/$defs/ref"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "bereich",
+    "hinweis",
+    "eintraege"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "bereich": {
+      "enum": [
+        "dossier"
+      ]
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "eintraege": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rolle",
+          "wer",
+          "weiss",
+          "verbirgt",
+          "ziel",
+          "besetzung"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "rolle": {
+            "$ref": "#/$defs/id"
+          },
+          "wer": {
+            "$ref": "#/$defs/text"
+          },
+          "weiss": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/punkt"
+            }
+          },
+          "verbirgt": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/punkt"
+            }
+          },
+          "ziel": {
+            "$ref": "#/$defs/text"
+          },
+          "besetzung": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

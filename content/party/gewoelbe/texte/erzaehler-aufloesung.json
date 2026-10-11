@@ -1,0 +1,104 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "erzaehler",
+  "hinweis": "Auflösung: aufloesung.gruppe.N und aufloesung.<rolle>.",
+  "eintraege": [
+    {
+      "id": "aufloesung.gruppe.0",
+      "text": "Ihr habt in keiner der drei Runden zusammengehalten. Freunde seid ihr trotzdem, und das bleibt auch so."
+    },
+    {
+      "id": "aufloesung.gruppe.1",
+      "text": "Einmal habt ihr in den drei Runden zusammengehalten. Eure Freundschaft hält mehr aus als jedes Rätsel auf der Burg."
+    },
+    {
+      "id": "aufloesung.gruppe.2",
+      "text": "Zweimal habt ihr in den drei Runden zusammengehalten. Man merkt, dass ihr euch vertraut, und das ist schön zu sehen."
+    },
+    {
+      "id": "aufloesung.gruppe.3",
+      "text": "Dreimal habt ihr in den drei Runden zusammengehalten. Das ist Freundschaft, wie man sie sich zum Geburtstag wünscht."
+    },
+    {
+      "id": "aufloesung.paulina",
+      "text": "Paulina hat heimlich ihre Stelle gekündigt und fängt im Januar in einer anderen Kanzlei an. Ihre Eltern wissen es nicht. Darum hat sie nur über Belege geredet."
+    },
+    {
+      "id": "aufloesung.diyar",
+      "text": "Diyar hat Angst vor Ritterrüstungen, seit ihm als Kind in einem Museum ein Visier vor dem Gesicht zuklappte. Deshalb machte er um Kunibert einen großen Bogen. Das wollte er niemandem erzählen."
+    },
+    {
+      "id": "aufloesung.emre",
+      "text": "Emre hat mit Rojda den Track gemischt und ist heimlich in sie verliebt. Er wollte selbst das Gespenst sein. Davon sollte niemand etwas erfahren, um Rojda nicht bloßzustellen."
+    },
+    {
+      "id": "aufloesung.lejla",
+      "text": "Lejla hat im Seminar eine Lehrprobe verhauen und musste sie wiederholen. Das wusste nicht einmal Merle. Sie hörte Merle um fünf vor elf leise sagen, bei einer Anzeige sei alles aus, und schwieg aus Freundschaft."
+    },
+    {
+      "id": "aufloesung.tomasz",
+      "text": "Tomasz ist heimlich mit Annika verlobt und wollte ihr kurz nach Mitternacht bei Licht und Torte einen Antrag machen. Darum schwieg er über vieles und zählte leise rückwärts."
+    },
+    {
+      "id": "aufloesung.annika",
+      "text": "Annika hatte die Ringschachtel hinter einer Säule neben der Turmtür versteckt. Deshalb stand sie dort wie angewurzelt. Sie trug den Ring für Tomasz, und der Antrag sollte eine Überraschung bleiben."
+    },
+    {
+      "id": "aufloesung.berfin",
+      "text": "Berfin war auf dem Wehrgang, obwohl der Burgwart ihn nachts verboten hat. Außerdem schreibt sie heimlich Sterngedichte für das Geburtstagskind. Beides wollte sie nicht zugeben."
+    },
+    {
+      "id": "aufloesung.dino",
+      "text": "Dino hat Höhenangst und geht deshalb nie auf den Wehrgang. Außerdem hielt er seinen Heizstrahler für schuld am Stromausfall und entschuldigte sich bei allen."
+    },
+    {
+      "id": "aufloesung.selin",
+      "text": "Selin hat Jonas achthundert Euro geliehen, die sie für ein eigenes Café gespart hatte. Davon sollte niemand wissen. Darum drängte sie auf die Rückzahlung, ohne den Grund zu nennen."
+    },
+    {
+      "id": "aufloesung.kamil",
+      "text": "Kamil wollte Adnan heimlich ohne Lohn bei der Eichentür helfen. Ein Freund hilft, und man redet nicht darüber. Deshalb hat er nichts davon gesagt."
+    },
+    {
+      "id": "aufloesung.derya",
+      "text": "Derya hat einen großen Teil der Feier selbst bezahlt. Das hat sie nicht gesagt, damit sich niemand verpflichtet fühlt. Vom Türschaden wusste sie, dass er versichert war."
+    },
+    {
+      "id": "aufloesung.amar",
+      "text": "Amar hat ein sehr teures Geschenk gekauft, ein Schachspiel aus Nussholz. Er fürchtete, es wirke protzig. Dass Jonas ihn um dreitausend Euro bat, wollte er eigentlich für sich behalten."
+    },
+    {
+      "id": "aufloesung.henrik",
+      "text": "Henrik hat für das Geburtstagskind ein Bienenvolk adoptiert. Das sollte erst zum Nachtisch herauskommen. Darum redete er nur über Raureif und Wachs."
+    },
+    {
+      "id": "aufloesung.elif",
+      "text": "Elif hat ihr Jurastudium im Sommer fast abgebrochen. Der Antrag lag schon ausgefüllt auf dem Schreibtisch. Davon wusste niemand, auch ihre Großmutter nicht."
+    },
+    {
+      "id": "aufloesung.azad",
+      "text": "Azad bewirbt sich heimlich als Fotoredakteur in Berlin. Das Vorstellungsgespräch steht schon fest. Er hatte Angst, der Clique zu sagen, dass er vielleicht weggeht."
+    },
+    {
+      "id": "aufloesung.zofia",
+      "text": "Zofia hat an einer Schutzhütte einem Fuchs den Namen Ottokar gegeben und füttert ihn manchmal. Als Rangerin weiß sie, dass man das nicht darf. Darum schwieg sie."
+    },
+    {
+      "id": "aufloesung.adnan.unschuldig",
+      "text": "Adnan hat für Rojdas Streich den Code des Sicherungskastens aufgeschrieben und seine Stablampe geliehen. Auf dem Zettel warnte er vor genau dem Fehler, der den Knall verursachte. Rojda wollte er nicht verraten. Er kniete vom ersten Qualm bis zum Schrei am Kamin. Nur kurz sprang er auf und riss Turmtür und Läden auf."
+    },
+    {
+      "id": "aufloesung.rojda.unschuldig",
+      "text": "Rojda hat den Streich geplant: den Track, die Box und das Gespenst. Um zwei vor zwölf zog sie den Hebel, ohne vorher Kessel und Heizstrahler auszuschalten. Deshalb knallte es. Sie fühlt sich schuld, aber an der Tat war sie nicht beteiligt. Ihre Ausrede, die Box spinne, war gelogen."
+    },
+    {
+      "id": "aufloesung.jonas.unschuldig",
+      "text": "Jonas ist seit Juni arbeitslos und hat von allen fünfundfünfzig Euro Miete für einen kostenlosen Keller eingesammelt. Deshalb stand er oben an der dritten Zinne und bat seinen Bruder um Geld. Seine Ausrede, er sei im Hof gewesen, war gelogen. Er war es nicht."
+    },
+    {
+      "id": "aufloesung.merle.taeter",
+      "text": "Merle gesteht: Den Taler hat sie aus Reflex eingesteckt und danach öffentlich geleugnet. Aus Scham und Angst um ihre Verbeamtung wollte sie ihn heimlich zurücklegen. Im Dunkeln packte sie der Burgwart, und in ihrer Panik griff sie zum Kerzenständer. Den Bund nahm sie, damit er nicht gleich die Polizei ruft. Das Schlimmste war die Lüge danach."
+    }
+  ],
+  "generiert": "akte_export"
+}

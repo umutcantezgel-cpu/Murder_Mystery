@@ -1,0 +1,140 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 17 bis 20.",
+  "eintraege": [
+    {
+      "id": "g_henrik_3_1",
+      "rolle": "henrik",
+      "runde": 3,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Wer trat ins Wachs?",
+      "ziel": "Ziehe einen Schluss aus dem Abdruck.",
+      "preisgabe": [],
+      "text": "Wer einen Abdruck im Wachs hinterließ, ist hineingetreten, solange es flüssig war. Das waren nur Sekunden."
+    },
+    {
+      "id": "g_henrik_3_2",
+      "rolle": "henrik",
+      "runde": 3,
+      "nr": 2,
+      "partner": "selin",
+      "thema": "Die Spuren im Hof",
+      "ziel": "Prüfe, wer im Hof war.",
+      "preisgabe": [],
+      "text": "Im Hof liegen nur die Spuren des Burgwarts und die von zwei Männern am Tor. Sonst niemand."
+    },
+    {
+      "id": "g_henrik_3_3",
+      "rolle": "henrik",
+      "runde": 3,
+      "nr": 3,
+      "partner": "elif",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich sag mal so: Wer genau hinschaut, findet die Antwort."
+    },
+    {
+      "id": "g_elif_3_1",
+      "rolle": "elif",
+      "runde": 3,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Die Lampe und die Zeit",
+      "ziel": "Verbinde Lampe und Tat.",
+      "preisgabe": [],
+      "text": "Um zwanzig vor zwölf war die Lampe fast leer. Wer sie dabei hatte, saß später im Dunkeln."
+    },
+    {
+      "id": "g_elif_3_2",
+      "rolle": "elif",
+      "runde": 3,
+      "nr": 2,
+      "partner": "kamil",
+      "thema": "Wer nimmt den Bund?",
+      "ziel": "Prüfe das Motiv für den Bund.",
+      "preisgabe": [],
+      "text": "Der Bund hat nur einen Sinn: Der Burgwart soll nicht telefonieren. Das ist ein Motiv gegen die Polizei."
+    },
+    {
+      "id": "g_elif_3_3",
+      "rolle": "elif",
+      "runde": 3,
+      "nr": 3,
+      "partner": "henrik",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Rein rechtlich zählt nur, was man beweisen kann. Ich habe gesagt, was ich gehört habe."
+    },
+    {
+      "id": "g_azad_3_1",
+      "rolle": "azad",
+      "runde": 3,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Wer ging zuerst?",
+      "ziel": "Ordne die Fotos zeitlich.",
+      "preisgabe": [],
+      "text": "Merle ging zuerst durch die Turmtür, danach Jonas. Die Reihenfolge ist auf den Bildern klar."
+    },
+    {
+      "id": "g_azad_3_2",
+      "rolle": "azad",
+      "runde": 3,
+      "nr": 2,
+      "partner": "derya",
+      "thema": "Alle Bilder",
+      "ziel": "Biete deine Bilder an.",
+      "preisgabe": [],
+      "text": "Alle meine Bilder liegen offen. Wer etwas prüfen will, kann sie ansehen."
+    },
+    {
+      "id": "g_azad_3_3",
+      "rolle": "azad",
+      "runde": 3,
+      "nr": 3,
+      "partner": "zofia",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Bilder lügen nicht, wenn man sie richtig liest. Ich habe gezeigt, was ich habe."
+    },
+    {
+      "id": "g_zofia_3_1",
+      "rolle": "zofia",
+      "runde": 3,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Wer war im Gewölbe?",
+      "ziel": "Grenze den Kreis ein.",
+      "preisgabe": [],
+      "text": "Wenn niemand von draußen kam, muss der Täter hier sitzen. Das ist keine Magie, das ist Physik."
+    },
+    {
+      "id": "g_zofia_3_2",
+      "rolle": "zofia",
+      "runde": 3,
+      "nr": 2,
+      "partner": "amar",
+      "thema": "Ein Schatten im Nebel",
+      "ziel": "Deute den Schatten.",
+      "preisgabe": [],
+      "text": "Ein Gespenst im Laken ist auch nur ein Schatten mit Stoff drum. Man muss nur wissen, wer drunter steckt."
+    },
+    {
+      "id": "g_zofia_3_3",
+      "rolle": "zofia",
+      "runde": 3,
+      "nr": 3,
+      "partner": "azad",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich habe gesagt, was ich vom Hof aus sah. Der Rest liegt im Gewölbe."
+    }
+  ],
+  "generiert": "akte_export"
+}

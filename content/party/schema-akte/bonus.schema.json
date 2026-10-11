@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bonus-Hinweise",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "runde": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "hinweise"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "hinweise": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 36,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "pfad",
+          "runde",
+          "qualitaet",
+          "text",
+          "wirkung"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "pfad": {
+            "$ref": "#/$defs/pfad"
+          },
+          "runde": {
+            "$ref": "#/$defs/runde"
+          },
+          "qualitaet": {
+            "enum": [
+              "wahr",
+              "neutral",
+              "falsch"
+            ]
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          },
+          "wirkung": {
+            "type": "object",
+            "required": [
+              "art"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "art": {
+                "enum": [
+                  "belastet",
+                  "entlastet",
+                  "neutral"
+                ]
+              },
+              "person": {
+                "$ref": "#/$defs/pfad"
+              }
+            }
+          },
+          "quelle": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(beobachtung|zeitleiste|spur):[a-z][a-z0-9_]*$"
+            }
+          },
+          "widerlegtDurch": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

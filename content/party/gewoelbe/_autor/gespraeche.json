@@ -1,0 +1,1405 @@
+{
+  "eintraege": [
+    {
+      "id": "g_adnan_1_1",
+      "thema": "Die verschwundene Lampe",
+      "ziel": "Finde heraus, wo deine Stablampe geblieben ist.",
+      "preisgabe": [
+        "beobachtung:b_adnan_handschlag"
+      ],
+      "text": "Rojda, ich vermisse meine schwarze Stablampe. Den Türschaden habe ich um halb zwölf mit dem Burgwart per Handschlag geklärt."
+    },
+    {
+      "id": "g_adnan_1_2",
+      "thema": "Wer kam zum Schrei?",
+      "ziel": "Prüfe, wann Merle wirklich am Kamin ankam.",
+      "preisgabe": [
+        "beobachtung:b_adnan_merle_spaet"
+      ],
+      "text": "Merle, beim Schrei standest du neben mir. Gekommen bist du aber erst kurz davor, ich habe dich an der Wand entlangtasten hören."
+    },
+    {
+      "id": "g_adnan_1_3",
+      "thema": "Ruß und Kerzenständer",
+      "ziel": "Zeige, dass du mit dem Kerzenständer nichts zu tun hast.",
+      "preisgabe": [
+        "beobachtung:b_adnan_russ",
+        "luege:luege_adnan_code"
+      ],
+      "text": "Ich bin seit dem Kamin voller Ruß, aber den Kerzenständer habe ich nicht angefasst. Den Code für den Sicherungskasten kennen nur der Burgwart und ich."
+    },
+    {
+      "id": "g_adnan_2_1",
+      "thema": "Der Code-Zettel",
+      "ziel": "Lege offen, was auf dem Zettel am Sicherungskasten steht.",
+      "preisgabe": [
+        "beobachtung:b_adnan_code_warnung"
+      ],
+      "text": "Merle, den Code habe ich für jemand anderen aufgeschrieben. Auf dem Zettel steht die Warnung, vorher Kessel und Heizstrahler auszuschalten."
+    },
+    {
+      "id": "g_adnan_2_2",
+      "thema": "Das Geld für den Keller",
+      "ziel": "Finde heraus, wofür Jonas die Miete eingesammelt hat.",
+      "preisgabe": [],
+      "text": "Jonas, der Keller war ein Gefallen für mich. Was genau hast du da eigentlich eingesammelt?"
+    },
+    {
+      "id": "g_adnan_2_3",
+      "thema": "Was war am Kamin los?",
+      "ziel": "Sammle Zeugen für die Zeit am Kamin.",
+      "preisgabe": [],
+      "text": "Als der Qualm aus dem Kamin kam, habe ich Turmtür und Läden aufgerissen. Hast du in der Zeit etwas gesehen?"
+    },
+    {
+      "id": "g_adnan_3_1",
+      "thema": "Wer kniete wo?",
+      "ziel": "Stelle klar, wo du von zwölf vor zwölf bis zum Schrei warst.",
+      "preisgabe": [
+        "beobachtung:b_adnan_kamin"
+      ],
+      "text": "Jonas, ich habe vom Qualm bis zum Schrei am Kamin gekniet. Nur um acht vor zwölf bin ich kurz aufgesprungen."
+    },
+    {
+      "id": "g_adnan_3_2",
+      "thema": "Wer zog den Hebel?",
+      "ziel": "Frage, wer den großen Hebel unter Last gezogen hat.",
+      "preisgabe": [],
+      "text": "Rojda, wer den Hebel unter Last gezogen hat, hat meine Warnung nicht gelesen. Du standest doch unten am Kasten."
+    },
+    {
+      "id": "g_adnan_3_3",
+      "thema": "Das Kettenrasseln",
+      "ziel": "Prüfe, was nach dem Knall zu hören war.",
+      "preisgabe": [],
+      "text": "Nach dem Knall habe ich am Kamin nur die Box gehört. Was hast du von der Speisekammer mitbekommen?"
+    },
+    {
+      "id": "g_rojda_1_1",
+      "thema": "Der Weg zum Turm",
+      "ziel": "Finde heraus, wer vor dem Schrei durch die Turmtür kam.",
+      "preisgabe": [
+        "beobachtung:b_rojda_turmfuss"
+      ],
+      "text": "Adnan, wer kam kurz vor dem Schrei durch die Turmtür ins Gewölbe? Ich war beim Knall schon unten im Turm."
+    },
+    {
+      "id": "g_rojda_1_2",
+      "thema": "Wo warst du beim Knall?",
+      "ziel": "Finde heraus, wo Jonas beim Knall war.",
+      "preisgabe": [
+        "luege:luege_rojda_licht"
+      ],
+      "text": "Jonas, du warst plötzlich weg, als der Qualm vom Kamin kam. Ich war unten und wollte nur das Licht wieder anmachen."
+    },
+    {
+      "id": "g_rojda_1_3",
+      "thema": "Wer stand am Kamin?",
+      "ziel": "Finde einen Zeugen, wer vor dem Schrei am Kamin war.",
+      "preisgabe": [],
+      "text": "Wer stand vor dem Schrei am Kamin? Ich war unten im Turm und habe das nicht gesehen."
+    },
+    {
+      "id": "g_rojda_2_1",
+      "thema": "Die Box",
+      "ziel": "Frage Jonas, was er von der Box hält.",
+      "preisgabe": [
+        "luege:luege_rojda_box"
+      ],
+      "text": "Jonas, der Schrei um Mitternacht klang nach meiner Box. Die spinnt seit dem Nachmittag, keine Ahnung warum."
+    },
+    {
+      "id": "g_rojda_2_2",
+      "thema": "Das Gespenst",
+      "ziel": "Prüfe, ob Merle am Turm-Fuß etwas bemerkt hat.",
+      "preisgabe": [
+        "beobachtung:b_rojda_gespenst_melde"
+      ],
+      "text": "Merle, am Turm-Fuß stand kurz vor zwölf ein Gespenst im Laken an der Eisentür. Hast du etwas bemerkt?"
+    },
+    {
+      "id": "g_rojda_2_3",
+      "thema": "Dunkel und still",
+      "ziel": "Finde heraus, wer im Dunkeln etwas Auffälliges bemerkte.",
+      "preisgabe": [],
+      "text": "Ich habe unten am Kasten den Knall gehört. Danach war es stockdunkel. Wie war es bei dir?"
+    },
+    {
+      "id": "g_rojda_3_1",
+      "thema": "Der Schrei",
+      "ziel": "Prüfe, was Merle über den Schrei weiß.",
+      "preisgabe": [
+        "beobachtung:b_rojda_track"
+      ],
+      "text": "Merle, der Schrei um Mitternacht ist auf meinem Track. Mehr erzähle ich, wenn ich es selbst sortiert habe."
+    },
+    {
+      "id": "g_rojda_3_2",
+      "thema": "Dein Zettel",
+      "ziel": "Beschreibe, was du am Sicherungskasten vorgefunden hast.",
+      "preisgabe": [],
+      "text": "Adnan, am Sicherungskasten lag dein Zettel. Hätte ich auf deine Warnung geachtet, wäre nichts passiert."
+    },
+    {
+      "id": "g_rojda_3_3",
+      "thema": "Was bleibt ungeklärt?",
+      "ziel": "Finde heraus, was die anderen für unerklärlich halten.",
+      "preisgabe": [],
+      "text": "Ich frage mich, wer unter dem Laken stand. Was meinst du dazu?"
+    },
+    {
+      "id": "g_merle_1_1",
+      "thema": "Mein Weg im Turm",
+      "ziel": "Bitte Jonas, deinen Weg zu bestätigen.",
+      "preisgabe": [
+        "beobachtung:b_merle_wehrgang"
+      ],
+      "text": "Jonas, du hast mich doch oben auf dem Wehrgang gesehen, oder? Ich war um sechs vor zwölf dort."
+    },
+    {
+      "id": "g_merle_1_2",
+      "thema": "Meine Lampe",
+      "ziel": "Finde heraus, ob Adnan Batterien hat.",
+      "preisgabe": [
+        "luege:luege_merle_lampe"
+      ],
+      "text": "Adnan, hast du Batterien für meine Lampe? Ich habe sie im Auto gelassen, die war eh fast leer."
+    },
+    {
+      "id": "g_merle_1_3",
+      "thema": "Was war das für ein Schrei?",
+      "ziel": "Finde heraus, was der Schrei war und was sonst zu hören war.",
+      "preisgabe": [
+        "luege:luege_merle_weg"
+      ],
+      "text": "Ich habe mich im Turm total verlaufen und alles verpasst. Was hast du vom Schrei mitbekommen?"
+    },
+    {
+      "id": "g_merle_2_1",
+      "thema": "Der Taler bei der Führung",
+      "ziel": "Lege dar, was du bei der Führung getan hast.",
+      "preisgabe": [
+        "beobachtung:b_merle_taler_melde"
+      ],
+      "text": "Adnan, ich hatte den Taler bei der Führung in der Hand, als Jonas gegen Kunibert krachte. Mehr war da nicht."
+    },
+    {
+      "id": "g_merle_2_2",
+      "thema": "Gekniffen",
+      "ziel": "Erkläre Rojda, warum du nicht dabei warst.",
+      "preisgabe": [
+        "luege:luege_merle_gekniffen"
+      ],
+      "text": "Rojda, ich habe gekniffen, als es geknallt hat. Ich war gar nicht drin. Bitte behalte das für dich."
+    },
+    {
+      "id": "g_merle_2_3",
+      "thema": "Wer war wo?",
+      "ziel": "Finde heraus, wer vor dir am Kamin war.",
+      "preisgabe": [],
+      "text": "Ich bin im Dunkeln den Turm hinuntergetastet. Wer war eigentlich schon am Kamin, als ich ankam?"
+    },
+    {
+      "id": "g_merle_3_1",
+      "thema": "Beim Schrei",
+      "ziel": "Sage, wo du beim Schrei standest.",
+      "preisgabe": [
+        "beobachtung:b_merle_schrei_neben_adnan"
+      ],
+      "text": "Rojda, beim Schrei um Mitternacht stand ich neben Adnan. Das kann er bezeugen."
+    },
+    {
+      "id": "g_merle_3_2",
+      "thema": "Der Wehrgang",
+      "ziel": "Prüfe, ob Jonas bei seiner Geschichte bleibt.",
+      "preisgabe": [],
+      "text": "Jonas, du hast mich um sechs vor zwölf auf dem Wehrgang gesehen, nicht wahr? Dann stimmt auch mein Weg."
+    },
+    {
+      "id": "g_merle_3_3",
+      "thema": "Meine Angst im Dunkeln",
+      "ziel": "Erkläre, warum du so lange für den Weg gebraucht hast.",
+      "preisgabe": [],
+      "text": "Ich habe seit der Kindheit Angst im Dunkeln. Darum war ich im Turm so langsam. Das weiß hier jeder."
+    },
+    {
+      "id": "g_jonas_1_1",
+      "thema": "Die gleichen Stiefel",
+      "ziel": "Zeige, dass dich mit Merles Stiefeln nichts verbindet.",
+      "preisgabe": [
+        "beobachtung:b_jonas_stiefel_melde"
+      ],
+      "text": "Merle, wir haben dasselbe Wanderstiefelmodell, beide im Sonderangebot. Wo warst du eigentlich, als es geknallt hat?"
+    },
+    {
+      "id": "g_jonas_1_2",
+      "thema": "Beim Knall im Hof",
+      "ziel": "Halte an deiner Geschichte fest, bis jemand dich widerlegt.",
+      "preisgabe": [
+        "luege:luege_jonas_hof"
+      ],
+      "text": "Rojda, ich war beim Knall draußen im Hof. Frische Luft, der Qualm vom Kamin! Ich habe kaum Luft gekriegt."
+    },
+    {
+      "id": "g_jonas_1_3",
+      "thema": "Kunibert",
+      "ziel": "Erkläre, was bei der Führung mit der Rüstung war.",
+      "preisgabe": [
+        "beobachtung:b_jonas_kunibert"
+      ],
+      "text": "Leute, Leute! Ich dachte, im Dunkeln steht ein Mensch. Ich bin voll gegen Kunibert geprallt, und das Visier klapperte."
+    },
+    {
+      "id": "g_jonas_2_1",
+      "thema": "Mein Job",
+      "ziel": "Halte deine Fassade vom Vertrieb aufrecht.",
+      "preisgabe": [
+        "luege:luege_jonas_job"
+      ],
+      "text": "Rojda, ich verkaufe Medizintechnik, Vertrieb und Außendienst. Frag mich bloß nicht nach Umsätzen!"
+    },
+    {
+      "id": "g_jonas_2_2",
+      "thema": "Mitternacht",
+      "ziel": "Sage, wo du um Mitternacht nicht warst.",
+      "preisgabe": [
+        "beobachtung:b_jonas_nicht_hof"
+      ],
+      "text": "Adnan, um Mitternacht war ich nicht im Hof. Mehr sage ich dazu gerade nicht."
+    },
+    {
+      "id": "g_jonas_2_3",
+      "thema": "Der Hall der Box",
+      "ziel": "Lenke vom Thema Miete ab.",
+      "preisgabe": [],
+      "text": "Die Box hallt dreifach, hast du das gehört? Meine Begrüßung klang wie in einer Kathedrale."
+    },
+    {
+      "id": "g_jonas_3_1",
+      "thema": "Mein Telefonat",
+      "ziel": "Erzähle, was du oben an der Zinne gemacht hast.",
+      "preisgabe": [
+        "beobachtung:b_jonas_telefonat"
+      ],
+      "text": "Adnan, ich habe von vier vor zwölf bis kurz nach zwei vor zwölf telefoniert, oben an der dritten Zinne."
+    },
+    {
+      "id": "g_jonas_3_2",
+      "thema": "Der Wehrgang",
+      "ziel": "Prüfe, ob Merle dich als Zeugen nennt.",
+      "preisgabe": [],
+      "text": "Merle, ich habe dich auf dem Wehrgang gesehen. Wir sollten beide bei der Wahrheit bleiben."
+    },
+    {
+      "id": "g_jonas_3_3",
+      "thema": "Die Miete",
+      "ziel": "Beantworte Fragen zum Geld, ohne dich zu verraten.",
+      "preisgabe": [],
+      "text": "Leute, Leute! Das mit dem Geld kläre ich mit jedem Einzelnen selbst. Nicht heute, nicht hier."
+    },
+    {
+      "id": "g_paulina_1_1",
+      "thema": "Beleg für die Miete",
+      "ziel": "Bekomme Klarheit über das Geld für den Keller.",
+      "preisgabe": [
+        "beobachtung:b_paulina_quittung"
+      ],
+      "text": "Beleg? Hast du für den Keller eine Rechnung bekommen? Ich habe fünfundfünfzig Euro bezahlt und nichts in der Hand."
+    },
+    {
+      "id": "g_paulina_1_2",
+      "thema": "Wo saßt du beim Knall?",
+      "ziel": "Vergleiche, wo die anderen beim Knall waren.",
+      "preisgabe": [],
+      "text": "Ich saß von halb zwölf an der Festtafel, auch als es dunkel wurde. Und du?"
+    },
+    {
+      "id": "g_paulina_1_3",
+      "thema": "Wer ging in den Turm?",
+      "ziel": "Berichte, was du um sieben vor zwölf gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_paulina_jonas_turm"
+      ],
+      "text": "Ich habe Jonas um sieben vor zwölf mit erhobenem Handy in den Turm gehen sehen, wie einen, der Netz sucht. Nicht in den Hof."
+    },
+    {
+      "id": "g_paulina_2_1",
+      "partner": "tomasz",
+      "thema": "Stimmen die Zahlen?",
+      "ziel": "Prüfe, ob die Rechnung für den Keller aufgeht.",
+      "preisgabe": [],
+      "text": "Moment, das sind fünfundfünfzig Euro mal alle hier. Für einen Keller, den es im November gar nicht zu mieten gibt."
+    },
+    {
+      "id": "g_paulina_2_2",
+      "partner": "derya",
+      "thema": "Wer widerspricht sich?",
+      "ziel": "Finde Aussagen, die nicht zusammenpassen.",
+      "preisgabe": [],
+      "text": "Beleg? Mir erzählt jeder etwas anderes über den Hof. Wer war wirklich draußen?"
+    },
+    {
+      "id": "g_paulina_2_3",
+      "thema": "Der Burgwart",
+      "ziel": "Vergleiche, was der Burgwart zum Türschaden sagte.",
+      "preisgabe": [],
+      "text": "Der Burgwart hat über den Türschaden ordentlich einen Zettel geschrieben. Das finde ich korrekt."
+    },
+    {
+      "id": "g_paulina_3_1",
+      "thema": "Wem glaubst du?",
+      "ziel": "Sage, wem du nur mit Beleg glaubst.",
+      "preisgabe": [],
+      "text": "Ich glaube nur, was belegt ist. Wer kann beweisen, wo er beim Knall war?"
+    },
+    {
+      "id": "g_paulina_3_2",
+      "thema": "Was bleibt offen?",
+      "ziel": "Rechne nach, wer Zeit für die Speisekammer hatte.",
+      "preisgabe": [],
+      "text": "Ich rechne noch einmal nach. Wer hatte zwischen Knall und Schrei Zeit, in die Speisekammer zu gehen?"
+    },
+    {
+      "id": "g_paulina_3_3",
+      "thema": "Mein Fazit",
+      "ziel": "Ziehe dein Fazit vor der Anklage.",
+      "preisgabe": [],
+      "text": "Ich bleibe dabei: Ohne Beleg kein Verdacht. Und ohne Quittung kein Frieden."
+    },
+    {
+      "id": "g_diyar_1_1",
+      "thema": "Wer kniete am Kamin?",
+      "ziel": "Sage, wer vor dem Schrei am Kamin war.",
+      "preisgabe": [
+        "beobachtung:b_diyar_adnan_kamin"
+      ],
+      "text": "Ich kniete ab zwölf vor zwölf neben Adnan am Kamin und wedelte mit einem Tablett den Qualm weg. Adnan war die ganze Zeit neben mir, nur um acht vor zwölf sprang er kurz zur Turmtür."
+    },
+    {
+      "id": "g_diyar_1_2",
+      "thema": "Wie geht es dir?",
+      "ziel": "Prüfe, ob jemand im Dunkeln Hilfe braucht.",
+      "preisgabe": [],
+      "text": "Auf einer Skala von eins bis zehn: Wie sehr hat dich der Knall erschreckt? Ich frage nur, damit niemand allein bleibt."
+    },
+    {
+      "id": "g_diyar_1_3",
+      "thema": "Der Feuerlöscher",
+      "ziel": "Erkläre, was du mit dem Feuerlöscher wolltest.",
+      "preisgabe": [],
+      "text": "Ich habe den Feuerlöscher geholt, falls der Kamin Feuer fängt. Benutzt habe ich ihn nie. Wer hat das gesehen?"
+    },
+    {
+      "id": "g_diyar_2_1",
+      "partner": "dino",
+      "thema": "Wer kam zum Kamin?",
+      "ziel": "Beschreibe, wer ganz zum Schluss zum Kamin kam.",
+      "preisgabe": [
+        "beobachtung:b_diyar_merle_kam"
+      ],
+      "text": "Ganz zum Schluss kam jemand von der Turmtür-Seite her an den Kamin, außer Atem, mit eiskalten Händen. Das war Merle."
+    },
+    {
+      "id": "g_diyar_2_2",
+      "partner": "elif",
+      "thema": "Wer war nicht da?",
+      "ziel": "Gleiche ab, wer wann am Kamin war.",
+      "preisgabe": [],
+      "text": "Ich bleibe ruhig und gehe die Zeiten durch. Wer war um acht vor zwölf nicht am Kamin?"
+    },
+    {
+      "id": "g_diyar_2_3",
+      "thema": "Die Beule",
+      "ziel": "Erzähle, wie es dem Burgwart geht.",
+      "preisgabe": [],
+      "text": "Wir haben dem Burgwart die Beule untersucht. Die Pupillen sind gleich, und er ist ansprechbar. Das ist ein gutes Zeichen."
+    },
+    {
+      "id": "g_diyar_3_1",
+      "thema": "Mein Platz",
+      "ziel": "Bestätige dein Alibi für die Tatminute.",
+      "preisgabe": [],
+      "text": "Bis kurz nach dem Schrei war ich neben Adnan am Kamin. Wer das anzweifelt, soll sagen, wann ich weg war."
+    },
+    {
+      "id": "g_diyar_3_2",
+      "thema": "Was spricht gegen Adnan?",
+      "ziel": "Prüfe, was wirklich gegen Adnan spricht.",
+      "preisgabe": [],
+      "text": "Auf einer Skala von eins bis zehn: Wie verdächtig ist Ruß? Ruß beweist nur, dass jemand am Kamin war."
+    },
+    {
+      "id": "g_diyar_3_3",
+      "thema": "Ruhe bewahren",
+      "ziel": "Beruhige die Runde vor dem Schluss.",
+      "preisgabe": [],
+      "text": "Je hektischer es wird, desto ruhiger werde ich. Gehen wir nacheinander durch, wer wo stand."
+    },
+    {
+      "id": "g_emre_1_1",
+      "thema": "Das war nicht auf dem Track",
+      "ziel": "Erkläre, was du aus der Speisekammer gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_emre_track"
+      ],
+      "text": "Der Schrei kam vom Track, klar. Aber gleich nach dem Knall, noch vor den Ketten, kamen ein tiefer Ruf und Poltern durch die Tür. Das war nicht auf dem Track."
+    },
+    {
+      "id": "g_emre_1_2",
+      "thema": "Mein Platz",
+      "ziel": "Sage, wo du beim Knall gesessen hast.",
+      "preisgabe": [],
+      "text": "Ich saß an der Festtafel, am Ende nahe der Eichentür. Von da aus habe ich alles gehört. Ich sag ja nichts."
+    },
+    {
+      "id": "g_emre_1_3",
+      "thema": "Zu viel Hall",
+      "ziel": "Beurteile den Klang der Box.",
+      "preisgabe": [],
+      "text": "Beim Testschrei am Abend war zu viel Hall. Das war die Box, kein Zufall. Stichwort: Kathedrale."
+    },
+    {
+      "id": "g_emre_2_1",
+      "partner": "amar",
+      "thema": "Der Aufbau des Tracks",
+      "ziel": "Beschreibe, was auf einem Track zu hören sein kann.",
+      "preisgabe": [],
+      "text": "Ein Track hat einen festen Aufbau: Wind, Ketten, Schritte, Türknarren, Schrei. Ein tiefer Ruf und rollende Dosen kommen darin nicht vor."
+    },
+    {
+      "id": "g_emre_2_2",
+      "partner": "annika",
+      "thema": "Blackout",
+      "ziel": "Finde heraus, wer den Blackout erwartet hat.",
+      "preisgabe": [],
+      "text": "Ein Blackout ohne Stichwort. Wer wusste, dass das Licht ausgeht?"
+    },
+    {
+      "id": "g_emre_2_3",
+      "thema": "Wer hört den Schrei?",
+      "ziel": "Lenke das Gespräch auf den Schrei.",
+      "preisgabe": [],
+      "text": "Wie der Schrei klingt, erkenne ich sofort. Wer hat ihn schon vorher gehört?"
+    },
+    {
+      "id": "g_emre_3_1",
+      "partner": "henrik",
+      "thema": "Was beweist ein Schrei?",
+      "ziel": "Erkläre, warum der Schrei keine Tatzeit beweist.",
+      "preisgabe": [],
+      "text": "Wer den Schrei um Mitternacht für den Überfall hält, hat sich verhört. Der kam vom Track."
+    },
+    {
+      "id": "g_emre_3_2",
+      "partner": "berfin",
+      "thema": "Wer wusste Bescheid?",
+      "ziel": "Finde heraus, wer vom Schrei vorher wusste.",
+      "preisgabe": [],
+      "text": "Wer vorher wusste, wann der Schrei kommt, konnte sich ein Alibi für genau diesen Moment bauen. Das gibt zu denken."
+    },
+    {
+      "id": "g_emre_3_3",
+      "thema": "Schlussvorhang",
+      "ziel": "Ziehe dein Fazit vor der Anklage.",
+      "preisgabe": [],
+      "text": "Jetzt kommt der letzte Auftritt. Ich sag ja nichts, aber ich habe mir meinen Teil gedacht."
+    },
+    {
+      "id": "g_lejla_1_1",
+      "thema": "Die Taler-Fotos",
+      "ziel": "Zeige, was auf deinen Fotos von der Führung zu sehen ist.",
+      "preisgabe": [
+        "beobachtung:b_lejla_taler_fotos"
+      ],
+      "text": "Ich habe den Taler ewig fotografiert, oder? Auf meinen Bildern ist nur die Münze, ganz scharf. Leute sind keine drauf."
+    },
+    {
+      "id": "g_lejla_1_2",
+      "thema": "Mein Platz",
+      "ziel": "Sage, wo du beim Knall gesessen hast.",
+      "preisgabe": [],
+      "text": "Ich saß ab halb zwölf an der Festtafel, auch im Dunkeln. Und was folgt daraus, wenn wir alle sitzen geblieben sind?"
+    },
+    {
+      "id": "g_lejla_1_3",
+      "thema": "Adrenalin",
+      "ziel": "Beruhige jemanden nach dem Schrecken.",
+      "preisgabe": [],
+      "text": "Das ist Adrenalin, das geht vorbei. Atme durch, oder? Danach fällt dir mehr ein."
+    },
+    {
+      "id": "g_lejla_2_1",
+      "partner": "azad",
+      "thema": "Merle um fünf vor elf",
+      "ziel": "Berichte, was du von Merle gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_lejla_merle_blass"
+      ],
+      "text": "Um fünf vor elf kam Merle ganz blass von der Toilette zurück. Sie flüsterte mir zu, dass alles aus sei, wenn sie jemand anzeigt."
+    },
+    {
+      "id": "g_lejla_2_2",
+      "partner": "selin",
+      "thema": "Silber und Bakterien",
+      "ziel": "Lenke von den Fotos ab.",
+      "preisgabe": [],
+      "text": "Silber mag übrigens keine Bakterien. Aber das ist nicht das Thema, oder? Was folgt für den Taler daraus?"
+    },
+    {
+      "id": "g_lejla_2_3",
+      "thema": "Wer hatte den Taler?",
+      "ziel": "Finde heraus, wer den Taler zuletzt hatte.",
+      "preisgabe": [],
+      "text": "Wer hat den Taler nach der Führung noch gesehen? Auf meinen Fotos ist das nicht zu erkennen."
+    },
+    {
+      "id": "g_lejla_3_1",
+      "partner": "zofia",
+      "thema": "Die Verbeamtung",
+      "ziel": "Erkläre, was eine Anzeige bedeuten kann.",
+      "preisgabe": [],
+      "text": "Ein Ermittlungsverfahren kann die Verbeamtung auf Probe gefährden. Wer davor Angst hat, handelt unüberlegt, oder?"
+    },
+    {
+      "id": "g_lejla_3_2",
+      "partner": "selin",
+      "thema": "Was folgt daraus?",
+      "ziel": "Prüfe, wer unter Druck stand.",
+      "preisgabe": [],
+      "text": "Und was folgt daraus? Wer hatte Angst vor einer Anzeige und deshalb einen Grund, die Dose heimlich zu erreichen?"
+    },
+    {
+      "id": "g_lejla_3_3",
+      "thema": "Mein Fazit",
+      "ziel": "Ziehe ein Fazit für dich.",
+      "preisgabe": [],
+      "text": "Bei mir folgt aus dem Abend nur eins: Ich will nie wieder im Dunkeln sitzen. Und was folgt für dich daraus?"
+    },
+    {
+      "id": "g_tomasz_1_1",
+      "partner": "henrik",
+      "thema": "Kerzenlicht unter der Tür",
+      "ziel": "Erzähle, was du um zehn vor zwölf an der Speisekammer gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_tomasz_eisentuer"
+      ],
+      "text": "Ich wollte nach der Torte sehen. Unter der Eisentür schimmerte Kerzenlicht. Als ich öffnete, zischte der Burgwart hinter dem Regal: „Psst! Ich bin nicht hier. Geh wieder.“"
+    },
+    {
+      "id": "g_tomasz_1_2",
+      "thema": "Die Torte",
+      "ziel": "Frage, ob jemand an der Torte war.",
+      "preisgabe": [],
+      "text": "War jemand an der Torte? Die muss ruhen wie ein Hefeteig. Zehn, neun, acht …"
+    },
+    {
+      "id": "g_tomasz_1_3",
+      "thema": "Mein Alibi",
+      "ziel": "Sage, wo du beim Knall warst.",
+      "preisgabe": [],
+      "text": "Als es dunkel wurde, saß ich an der Festtafel. Eine Minute vorher war ich wieder im Gewölbe."
+    },
+    {
+      "id": "g_tomasz_2_1",
+      "thema": "Stimmen passen nicht",
+      "ziel": "Finde Widersprüche bei den Zeiten.",
+      "preisgabe": [],
+      "text": "Wer war zehn vor zwölf wo? Ich war an der Eisentür, das weiß ich genau. Zähl nach, das geht auf."
+    },
+    {
+      "id": "g_tomasz_2_2",
+      "thema": "Der Alte hinter dem Regal",
+      "ziel": "Frage, warum der Burgwart dort saß.",
+      "preisgabe": [],
+      "text": "Hinter dem Regal saß der Burgwart und lauerte auf die Dose. Das klang nach einem, der etwas vorhat."
+    },
+    {
+      "id": "g_tomasz_2_3",
+      "thema": "Schweigen",
+      "ziel": "Erkläre, warum du danach still warst.",
+      "preisgabe": [],
+      "text": "Ich war danach still. Wenn mir etwas wirklich wichtig ist, spreche ich ganz leise."
+    },
+    {
+      "id": "g_tomasz_3_1",
+      "partner": "dino",
+      "thema": "Die Zeitleiste",
+      "ziel": "Ordne deine Beobachtung in die Zeitleiste ein.",
+      "preisgabe": [],
+      "text": "Um zehn vor zwölf saß der Burgwart noch hinter dem Regal, bei Kerzenlicht. Das war vor dem Knall."
+    },
+    {
+      "id": "g_tomasz_3_2",
+      "thema": "Was bleibt unklar?",
+      "ziel": "Nenne, was du nicht erklären kannst.",
+      "preisgabe": [],
+      "text": "Ich verstehe nicht, wer um die Zeit noch in die Speisekammer wollte. Ein Ablauf muss ruhen, bevor man ihn bewertet."
+    },
+    {
+      "id": "g_tomasz_3_3",
+      "thema": "Licht und Torte",
+      "ziel": "Bringe die Runde zur Torte.",
+      "preisgabe": [],
+      "text": "Wenn es hell wird, gibt es Torte. Kurz nach Mitternacht wollte ich sie bereithalten."
+    },
+    {
+      "id": "g_annika_1_1",
+      "partner": "zofia",
+      "thema": "Die Säule",
+      "ziel": "Erkläre, warum du neben der Turmtür standest.",
+      "preisgabe": [],
+      "text": "Moin! Ich stand ab drei vor zwölf an der Säule neben der Turmtür. Ich steh hier gut."
+    },
+    {
+      "id": "g_annika_1_2",
+      "thema": "Zweimal Quietschen",
+      "ziel": "Berichte, was du aus dem Turm gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_annika_turmtuer"
+      ],
+      "text": "Aus dem Turm hörte ich im Dunkeln die Eisentür zweimal quietschen. Beide Male vor dem Schrei. Das war ein spitzes, kantiges Geräusch."
+    },
+    {
+      "id": "g_annika_1_3",
+      "thema": "Mein Platz im Dunkeln",
+      "ziel": "Sage, ob du etwas gesehen hast.",
+      "preisgabe": [],
+      "text": "Gesehen habe ich im Dunkeln niemanden. Ich blieb stehen, wo ich stand."
+    },
+    {
+      "id": "g_annika_2_1",
+      "thema": "Wer streifte vorbei?",
+      "ziel": "Erzähle, wer kurz vor dem Schrei an dir vorbeikam.",
+      "preisgabe": [
+        "beobachtung:b_annika_vorbei"
+      ],
+      "text": "Kurz vor dem Schrei streifte jemand an mir vorbei ins Gewölbe. Kalte Hand, Wolle am Ärmel, es roch nach ausgeblasener Kerze."
+    },
+    {
+      "id": "g_annika_2_2",
+      "thema": "Formen im Dunkeln",
+      "ziel": "Frage, wer ähnliche Umrisse gesehen hat.",
+      "preisgabe": [],
+      "text": "Im Dunkeln habe ich nur Umrisse gesehen, rund und kantig. Hast du auch etwas bemerkt?"
+    },
+    {
+      "id": "g_annika_2_3",
+      "thema": "Die Taschen",
+      "ziel": "Lenke vom Thema ab.",
+      "preisgabe": [],
+      "text": "Meine Latzhose hat viele Taschen. Ich greife dauernd nach einer davon. Das hat nichts zu bedeuten."
+    },
+    {
+      "id": "g_annika_3_1",
+      "partner": "kamil",
+      "thema": "Wolle am Ärmel",
+      "ziel": "Prüfe, wer gestrickte Ärmel trug.",
+      "preisgabe": [],
+      "text": "Wolle am Ärmel trägt nicht jeder. Wer hatte etwas Gestricktes an?"
+    },
+    {
+      "id": "g_annika_3_2",
+      "thema": "Der Zeitpunkt",
+      "ziel": "Ordne dein Erlebnis zeitlich ein.",
+      "preisgabe": [],
+      "text": "Das Streifen war kurz nach dem Quietschen und kurz vor dem Schrei. Ich war sicher nicht allein dort."
+    },
+    {
+      "id": "g_annika_3_3",
+      "thema": "Ich steh hier gut",
+      "ziel": "Bleibe bei deiner Aussage.",
+      "preisgabe": [],
+      "text": "Ich bleibe dabei: Ich habe auf meinem Platz gestanden, bis der Schrei kam. Mehr weiß ich nicht."
+    },
+    {
+      "id": "g_berfin_1_1",
+      "partner": "selin",
+      "thema": "Sterne und Dunkelheit",
+      "ziel": "Erzähle, was du vom Wehrgang aus gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_berfin_dunkel"
+      ],
+      "text": "Stell dir vor: Vom Wehrgang aus habe ich gesehen, wie die ganze Burg auf einmal dunkel wurde, nicht nur das Gewölbe."
+    },
+    {
+      "id": "g_berfin_1_2",
+      "thema": "Lichtjahre",
+      "ziel": "Erkläre dein Alibi.",
+      "preisgabe": [],
+      "text": "Ab zehn vor zwölf war ich auf dem Wehrgang an der fünften Zinne. Ja, ich weiß, das ist nachts verboten."
+    },
+    {
+      "id": "g_berfin_1_3",
+      "thema": "Rotlicht",
+      "ziel": "Erkläre deine Stirnlampe.",
+      "preisgabe": [],
+      "text": "Rotlicht blendet die Augen nicht. Darum trage ich es beim Sternegucken, auch wenn ich damit wie ein Fahrradrücklicht aussehe."
+    },
+    {
+      "id": "g_berfin_2_1",
+      "thema": "Wer kam auf den Wehrgang?",
+      "ziel": "Berichte, wen du oben gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_berfin_merle_zinne"
+      ],
+      "text": "Um sechs vor zwölf tauchte Merle auf dem Wehrgang auf. Sie erschreckte Jonas und ging gleich wieder hinunter."
+    },
+    {
+      "id": "g_berfin_2_2",
+      "thema": "Das Telefonat",
+      "ziel": "Berichte, was du von Jonas gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_berfin_telefonat"
+      ],
+      "text": "Jonas telefonierte an der dritten Zinne. Ich hörte nur Fetzen: „dreitausend“ und „bis Monatsende“."
+    },
+    {
+      "id": "g_berfin_2_3",
+      "thema": "Funkloch",
+      "ziel": "Frage nach dem Handyempfang.",
+      "preisgabe": [],
+      "text": "Stell dir vor, im ganzen Gewölbe gibt es kein Netz. Nur an einer einzigen Zinne. Wer wusste das?"
+    },
+    {
+      "id": "g_berfin_3_1",
+      "partner": "elif",
+      "thema": "Wer blieb oben?",
+      "ziel": "Ordne die Wege auf dem Wehrgang.",
+      "preisgabe": [],
+      "text": "Oben blieb nur einer, der telefonierte. Alle anderen Schritte gingen nach unten."
+    },
+    {
+      "id": "g_berfin_3_2",
+      "thema": "Der Blick nach unten",
+      "ziel": "Beschreibe, was du um Mitternacht gehört hast.",
+      "preisgabe": [],
+      "text": "Um Mitternacht hörte ich von unten einen gedämpften Schrei. Danach ging Jonas mit Handylicht hinunter."
+    },
+    {
+      "id": "g_berfin_3_3",
+      "thema": "Entfernungen",
+      "ziel": "Rechne die Wege nach.",
+      "preisgabe": [],
+      "text": "Hier geht es um Entfernungen: Fünf Minuten für eine Treppe sind weit. Stell dir vor, wie viel man in der Zeit tun kann."
+    },
+    {
+      "id": "g_dino_1_1",
+      "partner": "kamil",
+      "thema": "Die Bausubstanz",
+      "ziel": "Erkläre, wie die Speisekammer gebaut ist.",
+      "preisgabe": [
+        "beobachtung:b_dino_speisekammer"
+      ],
+      "text": "Die Speisekammer hat zwei Türen und kein Fenster, nur einen handbreiten Lüftungsschacht. Da passt kein Mensch durch."
+    },
+    {
+      "id": "g_dino_1_2",
+      "thema": "Mein Alibi",
+      "ziel": "Sage, wo du beim Knall warst.",
+      "preisgabe": [],
+      "text": "Um drei vor zwölf habe ich den Heizstrahler an der Tafel höher gedreht. Mir war kalt. Dann saß ich da, auch im Dunkeln."
+    },
+    {
+      "id": "g_dino_1_3",
+      "thema": "Sorry, sorry",
+      "ziel": "Entschuldige dich für den Strahler.",
+      "preisgabe": [],
+      "text": "Ich glaube, mein Heizstrahler hat die Sicherung herausgehauen. Sorry, sorry, das wollte ich nicht."
+    },
+    {
+      "id": "g_dino_2_1",
+      "thema": "Der Balken",
+      "ziel": "Prüfe, wer die Eichentür öffnen konnte.",
+      "preisgabe": [],
+      "text": "Den Balken an der Eichentür kann man nur von innen lösen. Von hier aus kam also niemand durch."
+    },
+    {
+      "id": "g_dino_2_2",
+      "thema": "Wände und Mörtel",
+      "ziel": "Lenke auf das Bauwerk.",
+      "preisgabe": [],
+      "text": "Bruchstein, Kalkmörtel, schön. Die Mauer fällt acht Meter auf Fels ab. Da klettert niemand hinaus."
+    },
+    {
+      "id": "g_dino_2_3",
+      "thema": "Mit Faktor zwei",
+      "ziel": "Beurteile die Sicherheit der Burg.",
+      "preisgabe": [],
+      "text": "Mit Faktor zwei hält das Gewölbe. Aber ein Hebel unter Last hält nicht. Der Knall war Technik, kein Zufall."
+    },
+    {
+      "id": "g_dino_3_1",
+      "partner": "tomasz",
+      "thema": "Wege",
+      "ziel": "Finde heraus, wer durch welche Tür konnte.",
+      "preisgabe": [],
+      "text": "Es gibt nur zwei Wege in die Speisekammer. Einer war verkeilt, also blieb der über den Turm."
+    },
+    {
+      "id": "g_dino_3_2",
+      "thema": "Kälte",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Ich gehe nie auf den Wehrgang. Mir ist da oben viel zu kalt."
+    },
+    {
+      "id": "g_dino_3_3",
+      "thema": "Sauber nacheinander",
+      "ziel": "Beruhige die Runde.",
+      "preisgabe": [],
+      "text": "Sorry, sorry, ich entschuldige mich lieber einmal zu oft. Lasst uns sauber nacheinander prüfen."
+    },
+    {
+      "id": "g_selin_1_1",
+      "partner": "elif",
+      "thema": "Wer kniete am Kamin?",
+      "ziel": "Bestätige, wo Adnan beim Knall war.",
+      "preisgabe": [
+        "beobachtung:b_selin_adnan_kamin"
+      ],
+      "text": "Beim Knall saß ich auf der Bank direkt am Kamin. Im Glutschein sah ich Adnan mit der Heißluftpistole knien, ohne Unterbrechung bis zum Schrei."
+    },
+    {
+      "id": "g_selin_1_2",
+      "thema": "Achthundert",
+      "ziel": "Erwähne die Schulden.",
+      "preisgabe": [
+        "beobachtung:b_selin_jonas_schulden"
+      ],
+      "text": "Das ist fällig: Jonas schuldet mir achthundert Euro aus dem Sommer. Zurückgezahlt hat er nichts."
+    },
+    {
+      "id": "g_selin_1_3",
+      "thema": "Mein Alibi",
+      "ziel": "Gib eine klare Auskunft.",
+      "preisgabe": [],
+      "text": "Ich war die ganze Zeit im Gewölbe. Ich sage jede Sache genau einmal."
+    },
+    {
+      "id": "g_selin_2_1",
+      "thema": "Das Freibad",
+      "ziel": "Berichte, wo du Jonas gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_selin_freibad"
+      ],
+      "text": "Im September habe ich Jonas an einem Dienstagvormittag im Freibad gesehen. Zur Arbeit ging er nicht."
+    },
+    {
+      "id": "g_selin_2_2",
+      "thema": "Ein Tilgungsplan",
+      "ziel": "Frage nach dem Geld.",
+      "preisgabe": [],
+      "text": "Wir machen einen Tilgungsplan. Wer weiß, wohin das eingesammelte Geld ging?"
+    },
+    {
+      "id": "g_selin_2_3",
+      "thema": "Der Glutschein",
+      "ziel": "Beschreibe, wer im Kaminschein zu sehen war.",
+      "preisgabe": [],
+      "text": "Im Glutschein am Kamin war vor allem einer zu sehen. Er kniete mit der Pistole und hustete."
+    },
+    {
+      "id": "g_selin_3_1",
+      "partner": "derya",
+      "thema": "Wer hat ein Alibi?",
+      "ziel": "Prüfe die Alibis der Verdächtigen.",
+      "preisgabe": [],
+      "text": "Adnan war unter meinen Augen. Das ist ein Alibi, das hält. Wer sonst kann das sagen?"
+    },
+    {
+      "id": "g_selin_3_2",
+      "thema": "Die Zahlen",
+      "ziel": "Rechne die Zeiten nach.",
+      "preisgabe": [],
+      "text": "Rechnen wir: Zwei Minuten vom Knall bis zum Schrei. Wer war in der Zeit nicht zu sehen?"
+    },
+    {
+      "id": "g_selin_3_3",
+      "thema": "Abgerechnet",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich werde weich und ausführlich, wenn es ums Backen geht. Aber jetzt nicht. Jetzt wird abgerechnet."
+    },
+    {
+      "id": "g_kamil_1_1",
+      "partner": "tomasz",
+      "thema": "Ein Handwerker schätzt",
+      "ziel": "Schätze den Schaden an der Eichentür.",
+      "preisgabe": [
+        "beobachtung:b_kamil_schaden"
+      ],
+      "text": "Na ja … Füllung neu, Scharnier neu setzen. Das sind etwa sechshundert Euro, nicht dreitausendachthundert."
+    },
+    {
+      "id": "g_kamil_1_2",
+      "thema": "Wer ging in den Turm?",
+      "ziel": "Berichte, wen du in den Turm gehen sahst.",
+      "preisgabe": [
+        "beobachtung:b_kamil_rojda_turm"
+      ],
+      "text": "Ich saß mit Blick auf die Turmtür. Um vier vor zwölf ging Rojda allein mit Handylicht hinein."
+    },
+    {
+      "id": "g_kamil_1_3",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel. Nach dem Schrei ging ich mit Handylicht zum Turm-Fuß."
+    },
+    {
+      "id": "g_kamil_2_1",
+      "thema": "Das Licht am Turm-Fuß",
+      "ziel": "Beschreibe, was du am Turm-Fuß vorfandest.",
+      "preisgabe": [],
+      "text": "Am Turm-Fuß stand Rojda noch am Sicherungskasten. Das Licht ihres Handys leuchtete. Na ja … ein seltsamer Anblick."
+    },
+    {
+      "id": "g_kamil_2_2",
+      "thema": "Gutes Handwerk",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Eiche, schöne Arbeit. Die Tür kann man retten. Drei Stunden, nicht mehr."
+    },
+    {
+      "id": "g_kamil_2_3",
+      "thema": "Der Balken",
+      "ziel": "Prüfe die Verkeilung.",
+      "preisgabe": [],
+      "text": "Na ja … der Balken saß von innen. Wer die Tür aufbekommen wollte, musste außen herum."
+    },
+    {
+      "id": "g_kamil_3_1",
+      "partner": "amar",
+      "thema": "Die Zeiten",
+      "ziel": "Ordne einen Weg zeitlich ein.",
+      "preisgabe": [],
+      "text": "Eine Person ging um vier vor zwölf in den Turm und stand um Mitternacht noch unten. Das ist eine lange Zeit."
+    },
+    {
+      "id": "g_kamil_3_2",
+      "thema": "Was heißt das?",
+      "ziel": "Ziehe einen Schluss.",
+      "preisgabe": [],
+      "text": "Na ja … wer so lange allein am Kasten steht, hat etwas vor oder etwas zu verbergen."
+    },
+    {
+      "id": "g_kamil_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich habe gesagt, was ich gesehen habe. Mehr kann ich nicht beitragen."
+    },
+    {
+      "id": "g_derya_1_1",
+      "partner": "dino",
+      "thema": "Das Ultimatum",
+      "ziel": "Berichte, wie Merle auf das Ultimatum reagierte.",
+      "preisgabe": [
+        "beobachtung:b_derya_ultimatum"
+      ],
+      "text": "Beim Ultimatum stand ich direkt neben Merle. Sie rief sofort: „Ich hab ihn doch zurückgegeben!“"
+    },
+    {
+      "id": "g_derya_1_2",
+      "thema": "Wer zahlt den Schaden?",
+      "ziel": "Kläre die Frage nach dem Geld.",
+      "preisgabe": [
+        "beobachtung:b_derya_versicherung"
+      ],
+      "text": "Adnans Betriebshaftpflicht zahlt einen Schaden wie den an der Eichentür. Ein Geldmotiv hatte er nicht."
+    },
+    {
+      "id": "g_derya_1_3",
+      "thema": "Das ist abgedeckt",
+      "ziel": "Beruhige die Runde.",
+      "preisgabe": [],
+      "text": "Ich denke laut in Risiken: Was ist, wenn jemand verletzt ist? Das ist abgedeckt, wir bleiben ruhig."
+    },
+    {
+      "id": "g_derya_2_1",
+      "thema": "Merle kam zurück",
+      "ziel": "Berichte, wie Merle nach dem Ultimatum aussah.",
+      "preisgabe": [
+        "beobachtung:b_derya_merle_tasche"
+      ],
+      "text": "Um fünf vor elf kam Merle blass von der Toilette zurück. Ihre Hand steckte in der Strickjackentasche."
+    },
+    {
+      "id": "g_derya_2_2",
+      "thema": "Wer haftet?",
+      "ziel": "Frage, wer für den Überfall einstehen müsste.",
+      "preisgabe": [],
+      "text": "Was ist, wenn niemand haften will? Wer im Dunkeln zuschlägt, haftet für alles."
+    },
+    {
+      "id": "g_derya_2_3",
+      "thema": "Das Einstecktuch",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Ich falte mein Einstecktuch neu, wenn ich nachdenke. Es hilft mir beim Sortieren."
+    },
+    {
+      "id": "g_derya_3_1",
+      "partner": "azad",
+      "thema": "Versicherung und Motiv",
+      "ziel": "Prüfe, wer wirklich ein Motiv hatte.",
+      "preisgabe": [],
+      "text": "Beim Türschaden gab es kein Motiv, das war versichert. Wer hatte dann ein Motiv?"
+    },
+    {
+      "id": "g_derya_3_2",
+      "thema": "Das Risiko",
+      "ziel": "Wäge die Verdächtigen ab.",
+      "preisgabe": [],
+      "text": "Ein Risiko ist, wer etwas zu verlieren hat. Wer hatte an diesem Abend am meisten zu verlieren?"
+    },
+    {
+      "id": "g_derya_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich habe gesagt, was ich weiß. Der Rest ist Sache des Detektivs."
+    },
+    {
+      "id": "g_amar_1_1",
+      "partner": "henrik",
+      "thema": "Die Kreditanfrage",
+      "ziel": "Berichte, wer dich um Geld bat.",
+      "preisgabe": [
+        "beobachtung:b_amar_kredit"
+      ],
+      "text": "Unter uns: Nach der Führung wollte Jonas dreitausend Euro bis Monatsende von mir leihen. Ich habe abgelehnt."
+    },
+    {
+      "id": "g_amar_1_2",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel im Dunkeln. Danach war ich mit allen zusammen."
+    },
+    {
+      "id": "g_amar_1_3",
+      "thema": "Der Mietwert",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "So ein Gewölbe, lichtdurchflutet, mit viel Charme, im November? Unbezahlbar!"
+    },
+    {
+      "id": "g_amar_2_1",
+      "thema": "Die Nachricht",
+      "ziel": "Berichte, was um zwölf nach zwölf an der Zinne ankam.",
+      "preisgabe": [
+        "beobachtung:b_amar_lukas"
+      ],
+      "text": "Um zwölf nach zwölf kam an der dritten Zinne eine Nachricht an: „Jonas hat mich kurz vor zwölf angerufen, alles okay bei euch?“"
+    },
+    {
+      "id": "g_amar_2_2",
+      "thema": "Der Bruder",
+      "ziel": "Erkläre, woher du den Absender kennst.",
+      "preisgabe": [],
+      "text": "Der Absender hat in Häusern gearbeitet, die ich verwalte. Ein ordentlicher Kerl, aber knapp bei Kasse."
+    },
+    {
+      "id": "g_amar_2_3",
+      "thema": "Quadratmeter",
+      "ziel": "Beruhige dich selbst.",
+      "preisgabe": [],
+      "text": "Wenn ich nervös bin, rede ich über Quadratmeter. Das Gewölbe hat gut hundertfünfzig davon."
+    },
+    {
+      "id": "g_amar_3_1",
+      "partner": "annika",
+      "thema": "Wer brauchte Geld?",
+      "ziel": "Prüfe das Geldmotiv.",
+      "preisgabe": [],
+      "text": "Wer dringend Geld braucht, tut dumme Dinge. Aber telefonieren ist keine Tat."
+    },
+    {
+      "id": "g_amar_3_2",
+      "thema": "Das Telefonat",
+      "ziel": "Rechne die Zeiten nach.",
+      "preisgabe": [],
+      "text": "Das Telefonat lief kurz vor zwölf. Als unten etwas geschah, saß der Anrufer oben."
+    },
+    {
+      "id": "g_amar_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Unter uns: Ich habe gesagt, was ich weiß. Für Geld würde ich nie jemanden verdächtigen."
+    },
+    {
+      "id": "g_henrik_1_1",
+      "partner": "azad",
+      "thema": "Raureif",
+      "ziel": "Erkläre, was der Raureif verrät.",
+      "preisgabe": [
+        "beobachtung:b_henrik_reif"
+      ],
+      "text": "Ich sag mal so: Der Raureif liegt hier seit etwa elf. Jede Spur danach kann man darin lesen."
+    },
+    {
+      "id": "g_henrik_1_2",
+      "thema": "Das Gespenst im Schnee",
+      "ziel": "Erzähle deine Geschichte.",
+      "preisgabe": [],
+      "text": "Ich bin einmal eine Stunde lang dem Brockengespenst durch den Schnee gefolgt. Es waren meine eigenen Spuren."
+    },
+    {
+      "id": "g_henrik_1_3",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel im Dunkeln. Danach war ich bei allen."
+    },
+    {
+      "id": "g_henrik_2_1",
+      "partner": "zofia",
+      "thema": "Flüssiges Wachs",
+      "ziel": "Erkläre, was mit Wachs und Abdrücken ist.",
+      "preisgabe": [
+        "beobachtung:b_henrik_wachs"
+      ],
+      "text": "Dicke Kerzen haben minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck entsteht nur, solange das Wachs flüssig ist."
+    },
+    {
+      "id": "g_henrik_2_2",
+      "thema": "Die Gruppe schwärmt",
+      "ziel": "Beschreibe die Stimmung.",
+      "preisgabe": [],
+      "text": "Die Gruppe schwärmt. Alle fliegen durcheinander, und niemand sieht die Königin."
+    },
+    {
+      "id": "g_henrik_2_3",
+      "thema": "Spuren lesen",
+      "ziel": "Erkläre, wie man Spuren liest.",
+      "preisgabe": [],
+      "text": "Eine Spur lügt nicht. Man muss nur wissen, wann sie entstanden ist."
+    },
+    {
+      "id": "g_henrik_3_1",
+      "thema": "Wer trat ins Wachs?",
+      "ziel": "Ziehe einen Schluss aus dem Abdruck.",
+      "preisgabe": [],
+      "text": "Wer einen Abdruck im Wachs hinterließ, ist hineingetreten, solange es flüssig war. Das waren nur Sekunden."
+    },
+    {
+      "id": "g_henrik_3_2",
+      "thema": "Die Spuren im Hof",
+      "ziel": "Prüfe, wer im Hof war.",
+      "preisgabe": [],
+      "text": "Im Hof liegen nur die Spuren des Burgwarts und die von zwei Männern am Tor. Sonst niemand."
+    },
+    {
+      "id": "g_henrik_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich sag mal so: Wer genau hinschaut, findet die Antwort."
+    },
+    {
+      "id": "g_elif_1_1",
+      "partner": "annika",
+      "thema": "Die Lampe",
+      "ziel": "Berichte, was du neben dir gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_elif_lampe"
+      ],
+      "text": "Rein rechtlich: Um zwanzig vor zwölf sagte Merle neben mir: „Meine Lampe ist fast leer.“"
+    },
+    {
+      "id": "g_elif_1_2",
+      "thema": "Hausrecht",
+      "ziel": "Erkläre das Hausrecht des Burgwarts.",
+      "preisgabe": [],
+      "text": "Rein rechtlich hat der Burgwart auf seiner Burg das Hausrecht. Paragraf irgendwas. Einspruch, wenn ihr mir widersprecht!"
+    },
+    {
+      "id": "g_elif_1_3",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel im Dunkeln. Davor saß ich neben Merle und Adnan."
+    },
+    {
+      "id": "g_elif_2_1",
+      "partner": "berfin",
+      "thema": "Der Bund",
+      "ziel": "Erkläre, was der Schlüsselbund bedeutet.",
+      "preisgabe": [
+        "beobachtung:b_elif_bund"
+      ],
+      "text": "Am Bund hängt der Torhausschlüssel. Wer den Bund nimmt, verhindert, dass jemand im Torhaus die Polizei ruft."
+    },
+    {
+      "id": "g_elif_2_2",
+      "thema": "Rein rechtlich",
+      "ziel": "Prüfe, was strafbar ist.",
+      "preisgabe": [],
+      "text": "Rein rechtlich ist Körperverletzung strafbar, auch im Dunkeln. Ein Streich entschuldigt nichts."
+    },
+    {
+      "id": "g_elif_2_3",
+      "thema": "Einspruch",
+      "ziel": "Widersprich einer Aussage.",
+      "preisgabe": [],
+      "text": "Einspruch! Wer behauptet, niemand sei im Hof gewesen, muss das beweisen."
+    },
+    {
+      "id": "g_elif_3_1",
+      "thema": "Die Lampe und die Zeit",
+      "ziel": "Verbinde Lampe und Tat.",
+      "preisgabe": [],
+      "text": "Um zwanzig vor zwölf war die Lampe fast leer. Wer sie dabei hatte, saß später im Dunkeln."
+    },
+    {
+      "id": "g_elif_3_2",
+      "thema": "Wer nimmt den Bund?",
+      "ziel": "Prüfe das Motiv für den Bund.",
+      "preisgabe": [],
+      "text": "Der Bund hat nur einen Sinn: Der Burgwart soll nicht telefonieren. Das ist ein Motiv gegen die Polizei."
+    },
+    {
+      "id": "g_elif_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Rein rechtlich zählt nur, was man beweisen kann. Ich habe gesagt, was ich gehört habe."
+    },
+    {
+      "id": "g_azad_1_1",
+      "partner": "berfin",
+      "thema": "Die Fotos",
+      "ziel": "Zeige deine Fotos von acht und sieben vor zwölf.",
+      "preisgabe": [
+        "beobachtung:b_azad_fotos"
+      ],
+      "text": "Halbtotale, Leute! Auf meinem Foto von acht vor zwölf geht Merle mit ihrer Tasche durch die Turmtür. Auf dem nächsten, von sieben vor zwölf, geht Jonas mit erhobenem Handy hinterher."
+    },
+    {
+      "id": "g_azad_1_2",
+      "thema": "Nicht bewegen",
+      "ziel": "Erkläre, warum du im Qualm am Kamin fotografiert hast.",
+      "preisgabe": [],
+      "text": "Schönes Licht, schreckliche Lage! Ich rief im Qualm vom Kamin „Nicht bewegen!“, und alle husteten."
+    },
+    {
+      "id": "g_azad_1_3",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel im Dunkeln. Davor habe ich fotografiert."
+    },
+    {
+      "id": "g_azad_2_1",
+      "partner": "kamil",
+      "thema": "Die Fotowand",
+      "ziel": "Weise auf das Sofortbild hin.",
+      "preisgabe": [],
+      "text": "An der Fotowand hängt ein Sofortbild von der Führung. Die Uhrzeit steht auf dem Rand."
+    },
+    {
+      "id": "g_azad_2_2",
+      "thema": "Das Licht",
+      "ziel": "Beschreibe die Lichtlage.",
+      "preisgabe": [],
+      "text": "Schönes Licht, schreckliche Lage. Im Kaminschein sieht man nur Umrisse, keine Gesichter."
+    },
+    {
+      "id": "g_azad_2_3",
+      "thema": "Bildausschnitte",
+      "ziel": "Lenke auf das Wesentliche.",
+      "preisgabe": [],
+      "text": "Ich denke in Bildausschnitten: Wer steht im Hintergrund, wer nur am Rand? Meist ist der Rand interessanter."
+    },
+    {
+      "id": "g_azad_3_1",
+      "thema": "Wer ging zuerst?",
+      "ziel": "Ordne die Fotos zeitlich.",
+      "preisgabe": [],
+      "text": "Merle ging zuerst durch die Turmtür, danach Jonas. Die Reihenfolge ist auf den Bildern klar."
+    },
+    {
+      "id": "g_azad_3_2",
+      "thema": "Alle Bilder",
+      "ziel": "Biete deine Bilder an.",
+      "preisgabe": [],
+      "text": "Alle meine Bilder liegen offen. Wer etwas prüfen will, kann sie ansehen."
+    },
+    {
+      "id": "g_azad_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Bilder lügen nicht, wenn man sie richtig liest. Ich habe gezeigt, was ich habe."
+    },
+    {
+      "id": "g_zofia_1_1",
+      "partner": "derya",
+      "thema": "Der Hof",
+      "ziel": "Berichte, wer über den Hof ging.",
+      "preisgabe": [
+        "beobachtung:b_zofia_hof"
+      ],
+      "text": "Ab acht vor zwölf stand ich an einer Schießscharte zum Hof. Im Licht des Geleuchts ging niemand über den Hof und niemand ans Tor."
+    },
+    {
+      "id": "g_zofia_1_2",
+      "thema": "Gespenster sind Physik",
+      "ziel": "Entzaubere den Spuk.",
+      "preisgabe": [],
+      "text": "Gespenster im Harz sind Physik: Schatten im Nebel. Das Brockengespenst ist nur dein eigener Schatten."
+    },
+    {
+      "id": "g_zofia_1_3",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, stand ich noch an der Schießscharte. Danach war ich bei allen."
+    },
+    {
+      "id": "g_zofia_2_1",
+      "partner": "henrik",
+      "thema": "Kein Fremder",
+      "ziel": "Schließe Fremde aus.",
+      "preisgabe": [],
+      "text": "Es kam niemand von draußen. Das Tor war zu, und im Hof lagen keine fremden Spuren."
+    },
+    {
+      "id": "g_zofia_2_2",
+      "thema": "Der Raureif",
+      "ziel": "Stütze die Raureif-Beobachtung.",
+      "preisgabe": [],
+      "text": "Der Raureif hielt jede Spur fest. Draußen vor dem Tor lag er unberührt."
+    },
+    {
+      "id": "g_zofia_2_3",
+      "thema": "Tiere im Dunkeln",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "Nachts hört man im Harz jedes Knacken. Ich erkenne Tiere an ihren Schritten."
+    },
+    {
+      "id": "g_zofia_3_1",
+      "thema": "Wer war im Gewölbe?",
+      "ziel": "Grenze den Kreis ein.",
+      "preisgabe": [],
+      "text": "Wenn niemand von draußen kam, muss der Täter hier sitzen. Das ist keine Magie, das ist Physik."
+    },
+    {
+      "id": "g_zofia_3_2",
+      "thema": "Ein Schatten im Nebel",
+      "ziel": "Deute den Schatten.",
+      "preisgabe": [],
+      "text": "Ein Gespenst im Laken ist auch nur ein Schatten mit Stoff drum. Man muss nur wissen, wer drunter steckt."
+    },
+    {
+      "id": "g_zofia_3_3",
+      "thema": "Mein Beitrag",
+      "ziel": "Fasse zusammen.",
+      "preisgabe": [],
+      "text": "Ich habe gesagt, was ich vom Hof aus sah. Der Rest liegt im Gewölbe."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "eintraege": {
+    "merle": {
+      "tarnung": "Du sagst: „Ich wollte aufs Klo und habe mich im Turm verlaufen, bis auf den Wehrgang. Jonas hat mich dort gesehen. Beim Schrei stand ich neben Adnan.“ Fragt jemand nach der Speisekammer, sagst du: „Ich habe gekniffen, als es geknallt hat. Ich war nicht drin.“ Bleib bei diesen Sätzen und sei übertrieben höflich.",
+      "tatwissen": [
+        {
+          "text": "Bei der Führung hast du den Taler aus Reflex in deine Jackentasche gesteckt. Beim Ultimatum hast du laut gerufen, du hättest ihn zurückgegeben. Kurz danach hast du ihn in der Tasche gefunden."
+        },
+        {
+          "text": "Du hast Angst vor einer Anzeige und wolltest den Taler heimlich in die Dose legen. Das Gespenst im Streich war deine Gelegenheit."
+        },
+        {
+          "ref": "zeitleiste:z_2320"
+        },
+        {
+          "ref": "zeitleiste:z_2356c"
+        },
+        {
+          "ref": "zeitleiste:z_2358b"
+        },
+        {
+          "ref": "zeitleiste:z_2358e"
+        },
+        {
+          "ref": "zeitleiste:z_2358f"
+        },
+        {
+          "ref": "zeitleiste:z_2358g"
+        },
+        {
+          "text": "Du hast dem Burgwart den Schlüsselbund vom Gürtel genommen, damit er nicht gleich die Polizei ruft."
+        },
+        {
+          "ref": "zeitleiste:z_2358l"
+        },
+        {
+          "ref": "zeitleiste:z_2358m"
+        },
+        {
+          "ref": "zeitleiste:z_2359a"
+        },
+        {
+          "ref": "spur:spur_abdruck_wachs"
+        },
+        {
+          "ref": "spur:spur_fetzen_laken"
+        },
+        {
+          "ref": "spur:spur_sohlen_abgleich"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_merle_weg"
+        },
+        {
+          "ref": "luege:luege_merle_gekniffen"
+        },
+        {
+          "ref": "luege:luege_merle_lampe"
+        },
+        {
+          "ref": "beobachtung:b_merle_treppe"
+        },
+        {
+          "ref": "beobachtung:b_merle_taler"
+        },
+        {
+          "text": "Um vier nach zwölf hast du Rojda angelogen, du hättest gekniffen. Das war das Schlimmste von allem."
+        }
+      ],
+      "ziel": "Du willst unentdeckt bleiben. Dabei willst du niemanden ins Unglück stürzen, am wenigsten Jonas."
+    }
+  }
+}

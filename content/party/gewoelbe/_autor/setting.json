@@ -1,0 +1,76 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "schauplatz": "Burg Schartenfels, eine renovierte Höhenburg im Oberharz über dem Bergstädtchen Silberhau. Gefeiert wird im Kamin-Gewölbe, dem Gewölbekeller unter dem Turm.",
+  "anlass": "Geburtstag. Adnan hat den Gewölbekeller über einen Gefallen bekommen: Er erneuert der Stiftung umsonst die Lichtanlage für das Burgfest.",
+  "datum": "ein Samstag im November; draußen minus vier Grad, klarer Himmel und Raureif auf dem Hof, im Tal dichter Eisnebel",
+  "essen": "Lange Holztische mit Fladenbrot, Dips und großen Platten; dazu ein Kupferkessel mit warmem, alkoholfreiem Apfel-Zimt-Punsch.",
+  "getraenke": [
+    "warmer, alkoholfreier Apfel-Zimt-Punsch aus dem Kupferkessel",
+    "Tee",
+    "Wasser",
+    "Säfte"
+  ],
+  "empfang": "Hinter den meterdicken Mauern gibt es keinen Handyempfang. Netz hat man nur an der dritten Zinne des Wehrgangs.",
+  "atmosphaere": [
+    "Der Wind pfeift durch die Schießscharten.",
+    "Die Eisentür zur Speisekammer quietscht wie eine Katze im Keller.",
+    "Elektrische Kerzen flackern auf der Festtafel, und im Kamin glimmt die Glut."
+  ],
+  "brandschutz": "Offenes Feuer gibt es nur im Kamin unter Aufsicht und auf dem eisernen Kerzenständer in der Speisekammer.",
+  "lacher": [
+    {
+      "id": "lacher_ruestung",
+      "zeit": "21:20",
+      "wer": "jonas",
+      "ort": "an_kunibert",
+      "was": "Jonas hält die Rüstung Kunibert im dunklen Turm für einen Menschen, schreit auf und kracht gegen sie. Das Visier klappert, ein Panzerhandschuh verbiegt sich. Der Burgwart brummt: „Der beißt nicht, der ist seit 1911 tot.“",
+      "traegt": "Spur: Seitdem ist der rechte Panzerhandschuh nach vorn verbogen."
+    },
+    {
+      "id": "lacher_verlaufen",
+      "zeit": "23:53",
+      "wer": "merle",
+      "ort": "an_der_dritten_zinne",
+      "was": "Merle will nur aufs Klo, findet im dunklen Turm den Lichtschalter nicht und landet auf dem Wehrgang. Dort erschreckt sie Jonas an der dritten Zinne.",
+      "traegt": "Alibi: Jonas weiß, wo Merle um sechs vor zwölf war."
+    },
+    {
+      "id": "lacher_kamin",
+      "zeit": "23:48",
+      "wer": "adnan",
+      "ort": "am_kamin",
+      "was": "Jonas hat Mitternacht am lodernden Kamin versprochen. Adnan versucht, feuchtes Holz mit der Heißluftpistole anzufeuern. Es gibt dichten Qualm am Kamin, alle husten, Adnan reißt die Turmtür auf.",
+      "traegt": "Alibi: Adnan ist rußschwarz und kniet am Kamin."
+    },
+    {
+      "id": "lacher_feuerloescher",
+      "zeit": "23:48",
+      "wer": "diyar",
+      "ort": "am_kamin",
+      "was": "Diyar reißt beim ersten Qualm den Feuerlöscher von der Wand und kniet damit neben Adnan am Kamin. Benutzt hat er ihn nie.",
+      "traegt": "Alibi: Diyar sieht Adnan die ganze Zeit am Kamin."
+    }
+  ],
+  "ton": "Gemütlicher Grusel mit Humor: quietschende Türen, Wind, Kerzenflackern und verpatzte Streiche. Der Burgwart überlebt immer; der Schlag ist nur Schatten und Geräusch.",
+  "darstellung": {
+    "palette": {
+      "background": "#0b1014",
+      "floor": "#4b4f49",
+      "floorAlt": "#40443f",
+      "wall": "#22201e",
+      "wallTop": "#3f5a5c",
+      "trim": "#5f7f78",
+      "accent": "#a9d6d9",
+      "light": "#e8a33d",
+      "danger": "#b3263a",
+      "text": "#e9dcc0",
+      "fog": "#16242b"
+    },
+    "wetter": "none",
+    "blitze": false,
+    "tagLicht": 0.5,
+    "nachtLicht": 0.06,
+    "ratsraum": "kamin_gewoelbe",
+    "vorlage": "content/scenarios/ravensmoor.json"
+  }
+}
