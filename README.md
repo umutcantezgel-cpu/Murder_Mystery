@@ -47,7 +47,7 @@ Du wählst sie vor jedem Abend.
 | **Jeder am eigenen Gerät** | Der Gastgeber öffnet einen Raum mit **6-stelligem Code und QR-Code**. Die Gäste treten mit **Beitreten** bei. Bots füllen freie Rollen, überzählige Geräte werden Assistenten. Das Gastgeber-Gerät muss im Vordergrund bleiben. |
 
 Jeder Abend: Rollen lesen, **3 Runden** (Gespräche, drei Ermittlungsentscheidungen mit sichtbarem Weg auf der
-Karte, Kellerwürfel mit angezeigten Chancen, Funde, geheime Gruppenwahl, Resümee), Anklage, Finale, Auflösung.
+Karte, Würfel mit angezeigten Chancen, Funde, geheime Gruppenwahl, Resümee), Anklage, Finale, Auflösung.
 Das Ende ist **Meister, Teilerfolg, Justizirrtum oder Eskalation**. Dazu gibt es Karten und Erfahrung.
 Optional kannst du **erkunden** (Abstecher): Das kostet Nachtminuten und kann Karten bringen.
 
@@ -57,7 +57,8 @@ Jede Figur jeder Akte und fünf Detektivklassen haben **Sammelkarten**. Sie blei
 Dein **Deck** hat bis zu 3 Karten. Auf dem Tisch liegen höchstens 3 Karten, je Art eine, mit zusammen höchstens
 4 Ladungen. Karten sind Komfort (Werkzeug +1, Marke, Zeit, Gründlich, Nochmal, Umweg, Abstecher, Erinnerung,
 Aussehen). Sie ändern nie Fakten, Punkte oder Ende. Du bekommst sie am Abendende (eigene Rolle oder Klasse,
-Täterkarte bei richtiger Anklage, legendäre Karte beim Meister-Ende) und bei Funden beim Erkunden.
+Täterkarte bei richtiger Anklage, legendäre Karte beim Meister-Ende, solo und reihum eine Karte einer Figur vom
+Tisch) und bei Funden beim Erkunden.
 
 ## Die fünf Akten
 

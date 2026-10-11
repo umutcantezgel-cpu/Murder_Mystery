@@ -7,13 +7,13 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 
 | Nr. | Inhalt | Stand |
 |---|---|---|
-| M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | CI läuft auf dem Branch (Toolchain grün); Gate-Fehler behoben, erste APK steht aus |
+| M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | fertig: Gate grün, Releases mit APK, IPA, Web-ZIP und SHA256SUMS (erste: mordakte-49.1, geprüft) |
 | M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | fertig; Feinschliff (Kamera, Akte-Verlauf, Akzente, Kartenfronten) gemergt (1d59dd2) |
-| M2 | Eigene Geräte online (mordakte_netz, Relais) | Netzpaket und App-Oberfläche (Lobby, Beitreten, Gastansicht) gemergt; live gegen Supabase mit 4/8 Geräten grün; Browserlauf geraete.mjs bei Haiku |
+| M2 | Eigene Geräte online (mordakte_netz, Relais) | fertig: geraete.mjs grün (Gastgeber + 2 Gäste, keine fremden Dossiers), Relais-Matrix 4/8, Review-Fixes zu Wiederverbindung/Ablehnung/Wiederholschutz |
 | M3 | Karten und Erkundung | fertig: 171 Karten über 6 Kataloge, 33 Abstecher-Orte, Sammlung/Deck/Hand/Belohnung |
 | M4 | Akte Gewölbe | fertig, in akten.json, Prüfung 0 Befunde; feste Lösung mit Hinweis im Assistenten (d135247) |
 | M5 | Klassik-Akten Ravensmoor, Nachtexpress, Blue Palm | alle drei gemergt und in akten.json (Proben 0 Befunde) |
-| M6 | Fertigstellen, Doku, finale Release | Doku neu (README, docs/ANLEITUNG.md); Assistent mit Klassenwahl; main per Fast-Forward auf d135247 (Vercel); offen: grünes Gate → erste Release |
+| M6 | Fertigstellen, Doku, finale Release | Abschluss-Review (19 bestätigte Befunde) behoben und getestet; Doku und MORGENBERICHT.md aktualisiert; main per Fast-Forward |
 
 ## Entscheidungen (Fortsetzung von planung/abschluss/STATUS.md)
 
@@ -30,3 +30,7 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 - 2026-10-11 ~10:40 UTC: Kern aktenneutral (Simulation optional, Prüfprofil, Raum für jede Akte, werkzeug nur aus Karten), Kartenkern mit Tischvorrat/Belohnung/Abstecher, Server lädt alle Akten. Analyse sauber; Testtor durch Haiku steht aus.
 - 2026-10-11 ~11:15 UTC: Kampagne mit Schlosskeller, Ravensmoor, Nachtexpress, Blue Palm; Karten-UI (Sammlung, Deck, Hand, Erkundung, Belohnung); Netzpaket mit Ende-zu-Ende-Verschlüsselung live geprüft.
 - 2026-10-11 ~11:50 UTC: Fünf Akten in der Kampagne, alle Akten-Prüfungen 0 Befunde. CI-Gate scheiterte nur an zwei Analyse-Hinweisen (tool/e2e/attrappe.dart), behoben in d135247. Vercel: Build-Befehl sucht build.sh aufwärts (Root Directory tool/e2e), Logik in tool/vercel_build.sh.
+- 2026-10-11 ~15:45 UTC: Erste Release mordakte-49.1 (APK 72 MB, IPA 12 MB, Web 17 MB), Prüfsummen ok, APK mit INTERNET-Berechtigung und eingebautem Relais.
+- 2026-10-11 ~16:30 UTC: Abschluss-Review (5 Dimensionen, adversarial verifiziert): 21 bestätigt, 19 eigenständig. Behoben in zwei Bahnen (Online, App/Inhalt) plus Kernänderung Tisch-Rollenkarte (98b0256).
+- 2026-10-11 ~19:50 UTC: Haiku-Testtor grün: Kern 481, App 259, Netz 48 (Mutationen abgedeckt), Relais-Matrix 4/8, party_matrix, start/solo/geraete/abbrechen. CI 587f5f6 grün inkl. Release.
+- **A-019 · Belohnung am Tisch:** Solo und reihum bekommt das Gerät zusätzlich eine Rollenkarte einer besetzten Figur (zuletzt gezogen, übrige Züge unverändert), damit jede Figur ohne eigene Geräte sammelbar ist (Nutzerauftrag „Karten im Spiel erhältlich“).

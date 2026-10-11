@@ -232,11 +232,11 @@ Jede Runde hat fünf Schritte.
   keinen zweiten Versuch.
 - Danach **läuft die Figur sichtbar zum Ziel** und führt die Handlung aus. **Szene abkürzen** verkürzt nur die
   Darstellung, nie die Regeln.
-- **Befragungen sind würfelfrei.** Beim Suchen würfelst du den **Kellerwürfel**. Vorher zeigt die App die
-  **Chancen**: Lupe (Erfolg), Handy (Teilerfolg), Gespenst (Pech). Bei „reihum“ geht das Gerät dafür an den
+- **Befragungen sind würfelfrei.** Beim Suchen würfelst du den **Würfel**. Vorher zeigt die App die
+  **Chancen**: Lupe (Erfolg), Glühbirne (Teilerfolg), Gespenst (Pech). Bei „reihum“ geht das Gerät dafür an den
   Würfelpaten.
-- **Gründlich suchen** gibt +2 auf den Wurf und kostet 2 Nachtminuten mehr. Eine **Seifenblasen-Marke** gibt
-  +1. Insgesamt gilt höchstens +2.
+- **Gründlich suchen** gibt +2 auf den Wurf und kostet 2 Nachtminuten mehr. Eine **Marke** gibt
+  +1. Insgesamt gilt höchstens +2; eine Werkzeugkarte verbraucht am Deckel keine Ladung.
 - **Erfolg** gewinnt 7 Nachtminuten. **Pech** bringt eine Marke. Danach entscheidet der Tisch offen:
   **Nochmal** oder **Umweg**, je 3 Nachtminuten. Beides bleibt bei derselben Quelle. Der dritte Anlauf gelingt
   mindestens teilweise (**Pech-Garantie**).
@@ -284,6 +284,8 @@ Nach dem Ende kommt die **Belohnung**. Tippe die Karten an, um sie umzudrehen. D
 - bei einer richtigen Anklage die **Täterkarte**,
 - beim **Meister**-Ende eine **legendäre Karte** der Akte,
 - die Karten der **Abstecher**, die du gefunden hast,
+- solo und reihum außerdem eine Karte einer **Figur, die an deinem Tisch saß** (so ist jede Figur auch ohne
+  eigene Geräte sammelbar),
 - **Erfahrungspunkte** für den Rang.
 
 Hast du eine Karte schon, wird sie ein weiteres Exemplar. Jeder Abend wird nur **einmal** verbucht.
@@ -315,7 +317,7 @@ Verdächtigen.** Es gibt diese Arten:
 | Art | Wirkung |
 | --- | --- |
 | Werkzeug | +1 auf den nächsten Suchwurf (die Obergrenze +2 bleibt) |
-| Marke | eine Seifenblasen-Marke dazu |
+| Marke | eine Marke dazu (+1 auf einen Wurf) |
 | Zeit | Nachtminuten dazu, einmal je Runde und Karte |
 | Gründlich | gründlich suchen ohne die 2 Nachtminuten |
 | Nochmal / Umweg | nach Pech ohne Nachtminuten |
