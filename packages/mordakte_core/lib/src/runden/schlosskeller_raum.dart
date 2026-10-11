@@ -7,6 +7,9 @@ import '../party/entscheidungen.dart';
 import '../party/fall_code.dart';
 import '../party/kanon/kanon.dart';
 import '../party/texte.dart';
+import '../karten/abstecher.dart';
+import '../karten/karte.dart';
+import '../karten/vorrat.dart';
 import '../util/rng.dart';
 import 'abend_raum.dart';
 import 'bots.dart';
@@ -58,7 +61,9 @@ class SchlosskellerRaum implements AbendRaum {
     required String salz,
     this.akte = 'schlosskeller',
     this.festerGastgeber = false,
-  }) : _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
+    KartenKatalog? katalog,
+    List<AbstecherOrt> abstecher = const [],
+  }) : _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
     if (salz.isEmpty) throw const PartyRaumFehler('invalid_setup');
   }
@@ -69,6 +74,9 @@ class SchlosskellerRaum implements AbendRaum {
   /// Gastgebergerät als Autorität (Relais-Modus): Die Leitung wandert nie zu
   /// einem anderen Gerät, sonst bekäme ein Gast Salz und Täterpfad.
   final bool festerGastgeber;
+
+  final KartenKatalog _katalog;
+  final List<AbstecherOrt> _abstecher;
 
   /// Zusätzliche Plätze ohne Rolle über der größten Besetzung.
   static const assistenzPlaetze = 4;
@@ -93,6 +101,7 @@ class SchlosskellerRaum implements AbendRaum {
   int _erzaehlerAb = 0;
   bool _wurfWerkzeug = false;
   bool _wurfMarke = false;
+  String? _wurfKarte;
 
   int get _minRollen => _kanon.besetzungJson['minRollen'] as int;
   int get _maxRollen => _kanon.besetzungJson['maxRollen'] as int;
@@ -182,13 +191,15 @@ class SchlosskellerRaum implements AbendRaum {
     if (typ is! String) throw const PartyRaumFehler('invalid');
     final erlaubt = switch (typ) {
       'bereit' => {'wert'},
-      'start' => {'rollen', 'detektiv'},
+      'start' => {'rollen', 'detektiv', 'vorrat'},
       'rollenGelesen' || 'weiter' || 'fundGelesen' => <String>{},
-      'wahl' => {'option', 'gruendlich'},
+      'wahl' => {'option', 'gruendlich', 'karte'},
       'aktionFertig' => {'aktion'},
       'wurf' => <String>{},
-      'wuerfelHilfe' => {'marke'},
-      'tischruf' => {'ruf'},
+      'wuerfelHilfe' => {'marke', 'karte'},
+      'tischruf' => {'ruf', 'karte'},
+      'abstecher' => {'ort', 'gruendlich', 'karte'},
+      'karte' => {'id'},
       'stimme' => {'kooperativ'},
       'anklage' => {'person'},
       _ => throw const PartyRaumFehler('invalid'),
@@ -219,16 +230,28 @@ class SchlosskellerRaum implements AbendRaum {
         } else if (typ == 'wurf' || typ == 'wuerfelHilfe') {
           if (id != _wuerfelPate) throw const PartyRaumFehler('not_dice_player');
           if (typ == 'wuerfelHilfe') {
-            // Werkzeug kommt nur aus einer Quelle in der Welt (K-07), nie aus
-            // einem freien Nachrichtenfeld.
+            // Werkzeug kommt nur aus einer Quelle in der Welt (K-07): einer
+            // Werkzeug-Karte des Tischvorrats, nie aus einem freien Feld.
             final marke = _bool(inhalt, 'marke', sonst: false);
-            p.vorschau(werkzeug: _wurfWerkzeug, marke: marke); // Phase zuerst prüfen.
+            final karte = inhalt['karte'];
+            if (karte != null) {
+              if (karte is! String) throw const PartyRaumFehler('invalid');
+              p.vorrat.pruefe(karte, {KartenArt.werkzeug});
+            }
+            p.vorschau(werkzeug: karte != null, marke: marke); // Phase zuerst prüfen.
+            _wurfWerkzeug = karte != null;
+            _wurfKarte = karte as String?;
             _wurfMarke = marke;
           } else {
-            p.wuerfeln(werkzeug: _wurfWerkzeug, marke: _wurfMarke);
+            p.wuerfeln(marke: _wurfMarke, karte: _wurfKarte);
             _wurfWerkzeug = _wurfMarke = false;
+            _wurfKarte = null;
             _merkeFund();
           }
+        } else if (typ == 'karte') {
+          // Sofort wirkende Karten (Zeit, Marke, Erinnerung) legt die Spielleitung.
+          _nurHost(id);
+          p.karteSpielen(_string(inhalt, 'id'));
         } else {
           _nurHost(id);
           switch (typ) {
@@ -242,7 +265,11 @@ class SchlosskellerRaum implements AbendRaum {
                 _botStimmen();
               }
             case 'wahl':
-              p.waehle(_string(inhalt, 'option'), gruendlich: _bool(inhalt, 'gruendlich', sonst: false));
+              p.waehle(_string(inhalt, 'option'),
+                  gruendlich: _bool(inhalt, 'gruendlich', sonst: false), karte: _kannString(inhalt, 'karte'));
+            case 'abstecher':
+              p.starteAbstecher(_string(inhalt, 'ort'),
+                  gruendlich: _bool(inhalt, 'gruendlich', sonst: false), karte: _kannString(inhalt, 'karte'));
             case 'aktionFertig':
               final aktion = inhalt['aktion'];
               if (aktion is! int || !p.aktionFertig(aktion)) throw const PartyRaumFehler('stale');
@@ -253,7 +280,7 @@ class SchlosskellerRaum implements AbendRaum {
                 'umweg' => Tischruf.umweg,
                 _ => throw const PartyRaumFehler('invalid'),
               };
-              p.tischruf(ruf);
+              p.tischruf(ruf, karte: _kannString(inhalt, 'karte'));
               _merkeFund();
             case 'fundGelesen':
               p.fundGelesen();
@@ -264,6 +291,8 @@ class SchlosskellerRaum implements AbendRaum {
       }
     } on StateError {
       throw const PartyRaumFehler('invalid_phase');
+    } on KartenFehler catch (e) {
+      throw PartyRaumFehler(e.code);
     } on ArgumentError {
       throw const PartyRaumFehler('invalid');
     }
@@ -280,7 +309,14 @@ class SchlosskellerRaum implements AbendRaum {
         (detektiv != 'm' && detektiv != 'w')) {
       throw const PartyRaumFehler('invalid');
     }
-    final p = RundenPartie(_kanon, quelle: SalzWuerfel(_salz));
+    // Tischvorrat: höchstens 3 Karten aus den Wünschen der Spielleitung
+    // (Vereinigung der Decks am Tisch), unabhängig von der Besetzung (K-06).
+    final wunsch = inhalt['vorrat'];
+    if (wunsch != null && (wunsch is! List || wunsch.length > 12 || wunsch.any((w) => w is! String))) {
+      throw const PartyRaumFehler('invalid');
+    }
+    final vorrat = TischVorrat.aus([for (final w in (wunsch as List?) ?? const []) w as String], _katalog);
+    final p = RundenPartie(_kanon, quelle: SalzWuerfel(_salz), vorrat: vorrat, abstecher: _abstecher);
     p.einrichten(Einstellungen(rollen: rollen, detektiv: detektiv as String, code: _fallCode));
     final zuteilung = [...p.spiel.besetzt];
     Rng(Rng.hashString('rollen:$_salz')).shuffle(zuteilung);
@@ -298,6 +334,8 @@ class SchlosskellerRaum implements AbendRaum {
     if (v is! bool) throw const PartyRaumFehler('invalid');
     return v;
   }
+
+  static String? _kannString(Map<String, Object?> j, String name) => j[name] == null ? null : _string(j, name);
 
   static String _string(Map<String, Object?> j, String name) {
     final v = j[name];
@@ -382,6 +420,11 @@ class SchlosskellerRaum implements AbendRaum {
         'wuerfelPate': _wuerfelPate,
         // Gewählte Optionen sind am Tisch öffentlich (Karte, Notizbuch).
         'gewaehlt': Map.of(p.spiel.gewaehlt),
+        'vorrat': p.vorrat.toJson(),
+        'abstecher': [
+          for (final a in p.abstecherOffen) {'id': a.id, 'ort': a.ort, 'name': a.name},
+        ],
+        'abstecherErgebnis': {for (final e in p.abstecherErgebnis.entries) e.key: e.value.kurz},
         if (e != null) 'entscheidung': {
           'id': e.id, 'frage': e.frage, 'suche': istSuche(e),
           'optionen': [for (final o in _optionen(e)) {'id': o.id, 'text': o.text, 'ziel': Map.of(o.ziel)}],
@@ -390,6 +433,7 @@ class SchlosskellerRaum implements AbendRaum {
           'id': zug.id, 'option': zug.option, 'suche': zug.suche,
           'phase': zug.phase.name, 'aktion': zug.aktion, 'ruf': zug.ruf?.name,
           'wurf': zug.wurf?.toJson(), 'funde': [for (final f in zug.funde) f.text],
+          if (zug.istAbstecher) ...{'abstecher': zug.abstecher, 'nebenfund': zug.nebenfund},
           if (zug.phase == RundenZugPhase.wurf) ...{
             'werkzeug': _wurfWerkzeug, 'marke': _wurfMarke,
             'mod': p.vorschau(werkzeug: _wurfWerkzeug, marke: _wurfMarke).mod,
@@ -434,6 +478,7 @@ class SchlosskellerRaum implements AbendRaum {
         'pfad': p.spiel.pfad, 'fallCode': _fallCode.code, 'salz': _salz,
         'punkte': p.spiel.punkte, 'ende': p.spiel.ende.id,
         'seifenblasen': p.seifenblasenBilanz,
+        'abstecherFunde': [...p.abstecherFunde]..sort(),
       },
     };
   }
