@@ -1,0 +1,727 @@
+{
+  "hinweis": "Sammelkarten der Akte „Spuk im Gewölbe“: je Rolle zwei Karten (eine gewöhnliche, eine seltene), Merle zusätzlich eine Täterkarte, dazu die legendäre Meisterkarte. Motive und Namen stammen aus Aussehen, Beruf und Alltag der Figuren, nie aus einem Beweisstück oder einem Geheimnis. Die Wirkung kommt allein aus dem geschlossenen Katalog (Komfort, nie Wissen).",
+  "akte": "gewoelbe",
+  "karten": [
+    {
+      "id": "gewoelbe:adnan:multitool",
+      "akte": "gewoelbe",
+      "figur": "adnan",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Adnans Multitool",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "multitool am gürtel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:adnan:transporter",
+      "akte": "gewoelbe",
+      "figur": "adnan",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Adnans Transporter",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "transporter mit lichtkisten",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:rojda:zweiter_take",
+      "akte": "gewoelbe",
+      "figur": "rojda",
+      "seltenheit": "gewoehnlich",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Rojdas zweiter Take",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "mikrofon mit windschutz",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:rojda:heulpfeife",
+      "akte": "gewoelbe",
+      "figur": "rojda",
+      "seltenheit": "selten",
+      "art": "abstecher",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Rojdas Heulpfeife",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "papierpfeife mit gespensterklang",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "heulpfeife_scharte"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:merle:notizheft",
+      "akte": "gewoelbe",
+      "figur": "merle",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Merles Notizheft",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "notizheft mit turmskizze",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:merle:haarspange",
+      "akte": "gewoelbe",
+      "figur": "merle",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Merles Haarspange",
+      "text": "Eine Haarspange mit Perlmuttglanz, nur fürs Aussehen.",
+      "motiv": "haarspange mit perlmuttglanz",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:merle:ertappt",
+      "akte": "gewoelbe",
+      "figur": "merle",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Ertappt: Merle",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:jonas:armbanduhr",
+      "akte": "gewoelbe",
+      "figur": "jonas",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Jonas’ Armbanduhr",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "große armbanduhr am handgelenk",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:jonas:sitzplan",
+      "akte": "gewoelbe",
+      "figur": "jonas",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Jonas’ Sitzplan",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "sitzplan mit haftnotizen",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "sitzplan_festtafel"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:paulina:kugelschreiber",
+      "akte": "gewoelbe",
+      "figur": "paulina",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Paulinas Kugelschreiber",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "kugelschreiber im blazerrevers",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:paulina:korrekturroller",
+      "akte": "gewoelbe",
+      "figur": "paulina",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Paulinas Korrekturroller",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "korrekturroller und lineal",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:diyar:verbandskasten",
+      "akte": "gewoelbe",
+      "figur": "diyar",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Diyars Verbandskasten",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "verbandskasten mit rotem kreuz",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:diyar:halstuch",
+      "akte": "gewoelbe",
+      "figur": "diyar",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Diyars Halstuch",
+      "text": "Ein dunkelrotes Halstuch, nur fürs Aussehen.",
+      "motiv": "dunkelrotes halstuch",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:emre:zweite_probe",
+      "akte": "gewoelbe",
+      "figur": "emre",
+      "seltenheit": "gewoehnlich",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Emres zweite Probe",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "probebühne mit mischpult",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:emre:ansteckerjacke",
+      "akte": "gewoelbe",
+      "figur": "emre",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Emres Ansteckerjacke",
+      "text": "Eine Lederjacke voller Theateranstecker, nur fürs Aussehen.",
+      "motiv": "lederjacke voller anstecker",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:lejla:handykamera",
+      "akte": "gewoelbe",
+      "figur": "lejla",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Lejlas Handykamera",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "handykamera prüft das foto",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:lejla:marienkaefer",
+      "akte": "gewoelbe",
+      "figur": "lejla",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Lejlas Marienkäfer",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "marienkäfer-ohrring auf blatt",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:tomasz:backtimer",
+      "akte": "gewoelbe",
+      "figur": "tomasz",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Tomasz’ Backtimer",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "backtimer neben tortenblech",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:tomasz:loeffel",
+      "akte": "gewoelbe",
+      "figur": "tomasz",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Tomasz’ Gespensterlöffel",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "holzlöffel mit gespensterkopf",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "loeffel_konserven"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:annika:bleistift",
+      "akte": "gewoelbe",
+      "figur": "annika",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Annikas Bleistift",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "bleistift hinter dem ohr",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:annika:skizzenblock",
+      "akte": "gewoelbe",
+      "figur": "annika",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Annikas Skizzenblock",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "skizzenblock mit strichgespenst",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "skizze_saeule"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:berfin:stirnlampe",
+      "akte": "gewoelbe",
+      "figur": "berfin",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Berfins Stirnlampe",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "stirnlampe mit rotlicht",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:berfin:sternenkarte",
+      "akte": "gewoelbe",
+      "figur": "berfin",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Berfins Sternenkarte",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "sternkarte mit saturnring",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "sternkarte_brunnen"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:dino:zollstock",
+      "akte": "gewoelbe",
+      "figur": "dino",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Dinos Zollstock",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "zollstock in der weste",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:dino:klopfecho",
+      "akte": "gewoelbe",
+      "figur": "dino",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Dinos Klopfecho",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "faust klopft an steinwand",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:selin:tilgungsplan",
+      "akte": "gewoelbe",
+      "figur": "selin",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Selins Tilgungsplan",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "tilgungsplan mit lineal",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:selin:granatapfel",
+      "akte": "gewoelbe",
+      "figur": "selin",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Selins Granatapfel",
+      "text": "Eine rote Granatapfel-Brosche, nur fürs Aussehen.",
+      "motiv": "emaille-brosche in rot",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:kamil:tischlerbleistift",
+      "akte": "gewoelbe",
+      "figur": "kamil",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Kamils Tischlerbleistift",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "tischlerbleistift und winkel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:kamil:schleifpapier",
+      "akte": "gewoelbe",
+      "figur": "kamil",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Kamils Schleifpapier",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "schleifklotz mit papier",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:derya:aussendienst",
+      "akte": "gewoelbe",
+      "figur": "derya",
+      "seltenheit": "gewoehnlich",
+      "art": "abstecher",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Deryas Außendienst",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "aktentasche und routenplan",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:derya:einstecktuch",
+      "akte": "gewoelbe",
+      "figur": "derya",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Deryas Einstecktuch",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "einstecktuch als dreieck",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:amar:besichtigung",
+      "akte": "gewoelbe",
+      "figur": "amar",
+      "seltenheit": "gewoehnlich",
+      "art": "abstecher",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Amars Besichtigung",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "wohnung mit offener tür",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:amar:expose",
+      "akte": "gewoelbe",
+      "figur": "amar",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Amars Exposé",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "exposé mit hausfoto",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:henrik:waldpfad",
+      "akte": "gewoelbe",
+      "figur": "henrik",
+      "seltenheit": "gewoehnlich",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Henriks Waldpfad",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "wanderweg zwischen tannen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:henrik:haeherfeder",
+      "akte": "gewoelbe",
+      "figur": "henrik",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Henriks Häherfeder",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "häherfeder mit blauem band",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "feder_torhaus"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:elif:anstecker",
+      "akte": "gewoelbe",
+      "figur": "elif",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Elifs Anstecker",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "runder anstecker mit einspruch",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:elif:protokoll",
+      "akte": "gewoelbe",
+      "figur": "elif",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Elifs Protokoll",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "protokollblock und stift",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:azad:perspektivwechsel",
+      "akte": "gewoelbe",
+      "figur": "azad",
+      "seltenheit": "gewoehnlich",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Azads Perspektivwechsel",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "kamera von schräg unten",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:azad:langzeitbelichtung",
+      "akte": "gewoelbe",
+      "figur": "azad",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Azads Langzeitbelichtung",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "kamera mit offenem verschluss",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:zofia:rangerblick",
+      "akte": "gewoelbe",
+      "figur": "zofia",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Zofias Rangerblick",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "rangerblick durchs fernglas",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:zofia:fuchstuch",
+      "akte": "gewoelbe",
+      "figur": "zofia",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Zofias Fuchstuch",
+      "text": "Ein orangefarbenes Halstuch mit Füchsen, nur fürs Aussehen.",
+      "motiv": "halstuch mit fuchs-silhouetten",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "halstuch_hoftuer"
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe:burgwart:dank",
+      "akte": "gewoelbe",
+      "figur": "burgwart",
+      "seltenheit": "legendaer",
+      "art": "zeit",
+      "ladungen": 2,
+      "wert": 5,
+      "titel": "Der Dank des Burgwarts",
+      "text": "+5 Nachtminuten in dieser Runde.",
+      "motiv": "urkunde mit goldenem burgwappen",
+      "quellen": [
+        {
+          "art": "meister"
+        }
+      ]
+    }
+  ]
+}
