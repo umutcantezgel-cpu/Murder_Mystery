@@ -122,6 +122,14 @@ class Simulator {
   List<String> get _alleinNur => [for (final t in (profil['alleinNur'] as List?) ?? const ['schluesselbeweis', 'fundort']) t as String];
   int get _mindestRest => profil['mindestRestVorRunde3'] as int? ?? 2;
 
+  static String _typName(String typ) => switch (typ) {
+        'schluesselbeweis' => 'Schlüsselbeweis',
+        'fundort' => 'Fundort',
+        'zusatzindiz' => 'Zusatzindiz',
+        'nebendelikt' => 'Nebendelikt',
+        _ => typ,
+      };
+
   /// Höchste Punktzahl: eine je Entscheidung.
   int get maxPunkte => _e.length;
 
@@ -207,7 +215,7 @@ class Simulator {
         if (v.rest.length == 1) {
           final typen = {for (final id in v.fakten) if (ermittlung.fakten[id]!.personen.contains(p)) ermittlung.fakten[id]!.typ};
           if (!_alleinNur.every(typen.contains)) {
-            f.add('Pfad $p: allein übrig ohne ${_alleinNur.join(' und ')} (${folge.join(',')})');
+            f.add('Pfad $p: allein übrig ohne ${_alleinNur.map(_typName).join(' und ')} (${folge.join(',')})');
           }
         }
         // W-1 scharf: Hinweise sind keine Fakten und ändern die Restmenge nie.
