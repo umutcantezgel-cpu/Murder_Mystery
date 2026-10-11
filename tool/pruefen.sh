@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
-# Gesamtprüfung des Repos. Aufruf: tool/pruefen.sh [schnell|alles|e2e]
+# Gesamtprüfung des Repos. Aufruf: tool/pruefen.sh [schnell|alles|ci|e2e]
 #   schnell: Pakete auflösen, Analyse, Kern-Tests (Kanon, Logik, Partymodus)
-#   alles:   dazu Szenario-Validator, Server-Smoke, Flutter-Tests, Web-Build ohne CDN
-#   e2e:     dazu automatisierte Durchläufe (tool/e2e) gegen den Web-Build
+#   alles:   dazu Szenario-Validator, Server-Smoke, Online-Matrizen, Flutter-Tests, Web-Build ohne CDN
+#   ci:      wie alles, aber ohne die langsamen Matrizen (stattdessen Party-Matrix mit 4 Clients)
+#            und dazu die schnellen Browser-Proben (Konfiguration, Start, Runden, Solo bei 320 px)
+#   e2e:     alles plus alle 84 Party-Durchläufe (tool/e2e) gegen den Web-Build
 # Zum Schluss läuft immer der Secret-Scan.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 STUFE="${1:-alles}"
 case "$STUFE" in
-  schnell|alles|e2e) ;;
-  *) echo 'Aufruf: tool/pruefen.sh [schnell|alles|e2e]' >&2; exit 2 ;;
+  schnell|alles|ci|e2e) ;;
+  *) echo 'Aufruf: tool/pruefen.sh [schnell|alles|ci|e2e]' >&2; exit 2 ;;
 esac
 if [ -f .werkzeug/env.sh ]; then
   # shellcheck disable=SC1091
@@ -57,10 +59,17 @@ if [ "$STUFE" != "schnell" ]; then
   (cd packages/mordakte_core && dart run bin/party_pruefen.dart && dart run bin/party_bibel.dart --pruefen && dart run bin/party_simulate.dart --pruefen && dart run bin/party_prompts.dart --pruefen)
   schritt "Server-Smoke (Bestand)"
   (cd server && dart run tool/smoke.dart)
-  schritt "Online-Matrix: 4–20 echte Clients, klassische Räume"
-  (cd server && dart run tool/online_matrix.dart)
-  schritt "Party-Online-Matrix: 4–20 echte Clients in einem Raum, private Rollenkarten"
-  (cd server && dart run tool/party_matrix.dart)
+  if [ "$STUFE" = "ci" ]; then
+    # Die klassische Online-Matrix und der volle Party-Matrix-Durchlauf (4–20 Clients) sind für
+    # jeden Push zu langsam; sie laufen in alles/e2e. Hier genügt eine Stufe mit 4 echten Clients.
+    schritt "Party-Online-Matrix (CI): 4 echte Clients in einem Raum, private Rollenkarten"
+    (cd server && dart run tool/party_matrix.dart --clients=4)
+  else
+    schritt "Online-Matrix: 4–20 echte Clients, klassische Räume"
+    (cd server && dart run tool/online_matrix.dart)
+    schritt "Party-Online-Matrix: 4–20 echte Clients in einem Raum, private Rollenkarten"
+    (cd server && dart run tool/party_matrix.dart)
+  fi
   schritt "Native Server-Datei kompilieren und über HTTP/WebSocket prüfen"
   mkdir -p .werkzeug
   (cd server && dart compile exe bin/server.dart -o ../.werkzeug/server-pruefung)
@@ -75,6 +84,11 @@ if [ "$STUFE" != "schnell" ]; then
   # Flutter sonst AssetManifest/FontManifest nicht neu (Nachtlauf E52).
   rm -rf .dart_tool/flutter_build
   flutter build web --release --no-web-resources-cdn -o build/web
+fi
+
+if [ "$STUFE" = "ci" ]; then
+  schritt "Browser-Proben (Konfiguration, App-Start, Runden, Solo bei 320 px)"
+  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs --nur320)
 fi
 
 if [ "$STUFE" = "e2e" ]; then

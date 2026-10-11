@@ -148,22 +148,47 @@ Instanz, da Räume im Speicher liegen. Details in [`server/README.md`](server/RE
 
 ## Automatische Builds und Signatur
 
-`.github/workflows/release.yml` prüft bei jedem Push auf `main` Analyse, Paket-/Flutter-Tests,
-Server, Web-Build, Party-E2E und Secrets. Erst danach baut der Workflow die Release-APK und
-veröffentlicht das GitHub-Release **latest** mit APK und SHA-256-Prüfsumme. Jeder Lauf erhält
-ein neues, unveränderliches Tag; bestehende Tags oder Geschichte werden nicht umgeschrieben.
-Der stabile Download-Link oben zeigt auf das jeweils neueste freigegebene Release.
+`.github/workflows/release.yml` läuft bei jedem Push auf `main` und auf den Arbeitsbranch
+(außer bei reinen Änderungen unter `planung/`), per Hand (`workflow_dispatch`) und wöchentlich.
+Läufe desselben Branches werden nacheinander abgearbeitet, nie abgebrochen.
+
+- **`gate`** (Zeitlimit 40 min): `bash tool/pruefen.sh ci`, also Analyse, Paket-/Flutter-Tests, Server, Web-Build ohne CDN,
+  Party-Matrix mit 4 Clients, Browser-Proben und Secret-Scan. Der Web-Build geht als Artefakt `web-build` an die
+  folgenden Jobs.
+- **`e2e_voll`**: alle 84 Party-E2E-Läufe, aufgeteilt auf die vier Pfade (ahmet, fatma, olli, can) als Matrix. Nur bei
+  `workflow_dispatch` mit `voll_e2e` und im Wochenlauf (Montag, 03:17 UTC), nie bei normalen Pushes.
+- **`android`**: Release-APK `mordakte.apk` mit Prüfsumme (Artefakt `apk`).
+- **`ios`** (macOS, darf fehlschlagen): unsignierte `mordakte-ios-unsigned.ipa` (Artefakt `ipa`). Abschaltbar über die
+  Eingabe `ios` bei `workflow_dispatch`.
+- **`web`**: `mordakte-web.zip` (Artefakt `webzip`) und eine Kopie mit Basis `/Murder_Mystery/` für GitHub Pages.
+  **`pages`** veröffentlicht sie, schlägt aber ohne aktiviertes Pages oder ohne Erlaubnis des Branches fehl, ohne den Lauf
+  zu stören.
+- **`release`**: erstellt je Lauf ein neues GitHub-Release mit Tag `mordakte-<Lauf>.<Versuch>` und den festen Dateinamen
+  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `SHA256SUMS.txt`. Tags werden nie verschoben oder
+  neu gesetzt. **latest** erhält das Release nur, wenn der Stand noch die Spitze von `main` oder des Arbeitsbranches ist.
+  Der stabile Download-Link oben zeigt auf das jeweils neueste freigegebene Release.
+
+Die Artefakte jedes Laufs (`apk`, `ipa`, `webzip`) sind zusätzlich auf der Seite des Actions-Laufs herunterladbar.
 
 - GitHub Actions benötigt die Erlaubnis, Releases zu veröffentlichen (`contents: write`).
-- Öffentliche Repository-Variable **`MORDAKTE_SERVER`**: freigegebene `wss://…/ws`-Adresse.
-  In Netlify dieselbe Variable setzen. Sie ist kein Secret.
+- Öffentliche Repository-Variablen, alle optional und keine Secrets: **`MORDAKTE_SERVER`** (freigegebene
+  `wss://…/ws`-Adresse), **`MORDAKTE_RELAY_URL`** (`https://<projekt>.supabase.co`) und **`MORDAKTE_RELAY_KEY`**
+  (`sb_publishable_…` oder anon-JWT). Gesetzte Werte gehen über `tool/ci/dart_defines.sh` als `--dart-define` in
+  den APK- und iOS-Build sowie in `build.sh` (Netlify/Vercel); der Web-Build des `gate` (und damit
+  `mordakte-web.zip`) ist ein Prüfbuild ohne diese Werte. `tool/ci/check_server_url.py` weist falsche Formate und
+  geheime Schlüssel (`sb_secret_…`, `service_role`) ab. In Netlify dieselben Variablen setzen.
 - Optionale GitHub-Secrets: **`ANDROID_KEYSTORE_BASE64`**, **`ANDROID_KEYSTORE_PASSWORD`**,
   **`ANDROID_KEY_PASSWORD`**, **`ANDROID_KEY_ALIAS`**. Werte nur über GitHub Secrets, nie in Chat/Repository.
-- Alle vier fehlen: Debug-Signatur. Nur ein Teil vorhanden: Build schlägt fehl, kein stiller Fallback.
-- Keystore nur im temporären Actions-Verzeichnis mit Dateirechten 0600. Keine Passwörter in
+- Alle vier vorhanden: Release-Signatur. Alle vier fehlen: der **öffentliche Test-Schlüssel**
+  `tool/ci/signing/mordakte-test.p12` (Passwort öffentlich, nur für Sideload-Tests, nie für einen Store). Er hält das
+  Zertifikat stabil, sodass neue Test-APKs ohne Deinstallieren als Update installierbar sind. Nur ein Teil vorhanden:
+  Build schlägt fehl, kein stiller Fallback. Der Modus steht in den Release-Notizen.
+- Keystore aus Secrets nur im temporären Actions-Verzeichnis mit Dateirechten 0600. Keine Passwörter in
   Kommandozeilen oder `key.properties`; Gradle liest sie direkt aus der Umgebung.
+- iOS-IPA ist unsigniert: mit AltStore oder Sideloadly auf dem eigenen Gerät signieren und installieren.
 
-Gesamtprüfung: `bash tool/pruefen.sh alles`; mit allen Browserläufen: `bash tool/pruefen.sh e2e`.
+Gesamtprüfung: `bash tool/pruefen.sh alles`; wie im CI (schnell, mit Browser-Proben): `bash tool/pruefen.sh ci`;
+mit allen Browserläufen: `bash tool/pruefen.sh e2e`.
 Linux-Testvoraussetzungen: Flutter 3.47.6, Node 22, `pdfinfo`/`pdftotext` (Poppler) und
 Playwrights Chromium-Laufzeitbibliotheken. Die bereits deklarierten Browserpakete werden mit
 `cd tool/e2e && npm ci && npx playwright install chromium` installiert.

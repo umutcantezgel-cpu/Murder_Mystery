@@ -1,21 +1,52 @@
-name: Prüfen und Android-Release
+name: Prüfen und Builds
 
+# Jeder Push auf main und auf den Arbeitsbranch erzeugt herunterladbare Builds:
+#   gate    schnelle Gesamtprüfung (tool/pruefen.sh ci) und Web-Build
+#   android APK (Release-Schlüssel aus Secrets, sonst öffentlicher Test-Schlüssel)
+#   ios     unsignierte IPA zum Sideloaden (darf fehlschlagen)
+#   web     mordakte-web.zip und GitHub Pages
+#   release GitHub-Release mit festen Dateinamen und SHA256SUMS.txt
+# Die 84 Party-E2E-Läufe (e2e_voll) laufen nur auf Wunsch (workflow_dispatch) und wöchentlich.
 on:
   push:
-    branches: [main]
+    branches: [main, 'claude/ecstatic-lamport-w4jlzn']
+    paths-ignore: ['planung/**']
   workflow_dispatch:
+    inputs:
+      voll_e2e:
+        description: 'Zusätzlich alle 84 Party-E2E-Läufe ausführen (4 Pfade parallel)'
+        type: boolean
+        default: false
+      ios:
+        description: 'Unsignierte iOS-IPA mitbauen'
+        type: boolean
+        default: true
+  schedule:
+    - cron: '17 3 * * 1'
 
 permissions:
   contents: read
 
+# Läufe desselben Branches werden hintereinander abgearbeitet, nie abgebrochen.
+concurrency:
+  group: mordakte-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
+  # Öffentliche Werte (Adresse, publishable/anon-Schlüssel), keine Secrets. Leer ist erlaubt.
   MORDAKTE_SERVER: ${{ vars.MORDAKTE_SERVER }}
+  MORDAKTE_RELAY_URL: ${{ vars.MORDAKTE_RELAY_URL }}
+  MORDAKTE_RELAY_KEY: ${{ vars.MORDAKTE_RELAY_KEY }}
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  pruefen:
-    name: Analyse, Tests, Web und Party-E2E
+  gate:
+    name: Prüfen (Analyse, Tests, Web-Build, Browser-Proben)
     runs-on: ubuntu-24.04
-    timeout-minutes: 150
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,11 +55,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      # Pub-Cache zuerst: Der Hash soll nicht von später entpackten SDK-Dateien abhängen.
+      - name: Pub-Cache wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/pubspec.lock', '!.werkzeug/**') }}
+          restore-keys: |
+            pub-${{ runner.os }}-${{ runner.arch }}-
+      - name: Flutter-SDK wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: .werkzeug/flutter
+          key: flutter-3.47.6-${{ runner.os }}-${{ runner.arch }}
       - name: Gepinntes Flutter bereitstellen
         run: |
           source tool/flutter_env.sh
           echo "$PWD/.werkzeug/flutter/bin" >> "$GITHUB_PATH"
-      - name: Vorhandene PDF- und Browser-Testwerkzeuge bereitstellen
+      - name: PDF- und Browser-Testwerkzeuge bereitstellen
         run: |
           sudo apt-get update
           sudo apt-get install --yes poppler-utils
@@ -37,25 +81,80 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Konfiguration prüfen
         run: python3 tool/ci/check_server_url.py
-      - name: Gesamtprüfung einschließlich aller 84 Party-E2E-Läufe
-        run: bash tool/pruefen.sh e2e
-      - name: Prüfberichte aufbewahren
+      - name: Gesamtprüfung (ohne die langsamen Matrizen und die 84 Läufe)
+        run: bash tool/pruefen.sh ci
+      - name: Web-Build sichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+          if-no-files-found: error
+          retention-days: 7
+      - name: Prüfberichte sichern
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: party-e2e-${{ github.sha }}
+          name: gate-berichte
+          path: |
+            tool/e2e/fotos/e2e/bericht.json
+            tool/e2e/fotos/e2e/bericht.md
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Browser-Fotos bei Fehlern sichern
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-fotos
+          path: tool/e2e/fotos
+          if-no-files-found: ignore
+          retention-days: 3
+
+  e2e_voll:
+    name: Party-E2E (${{ matrix.pfad }})
+    needs: gate
+    if: ${{ github.event_name == 'schedule' || inputs.voll_e2e == true }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        pfad: [ahmet, fatma, olli, can]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Browser-Testwerkzeuge bereitstellen
+        run: |
+          npm ci --prefix tool/e2e
+          cd tool/e2e
+          npx playwright install --with-deps chromium
+      - name: Web-Build aus der Prüfung laden
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+      - name: 21 Läufe für den Pfad ${{ matrix.pfad }}
+        working-directory: tool/e2e
+        run: node e2e.mjs --nur pfad=${{ matrix.pfad }} --parallel 2
+      - name: Prüfberichte sichern
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-bericht-${{ matrix.pfad }}
           path: |
             tool/e2e/fotos/e2e/bericht.json
             tool/e2e/fotos/e2e/bericht.md
           if-no-files-found: warn
+          retention-days: 14
 
-  apk:
-    name: APK bauen und latest veröffentlichen
-    needs: pruefen
+  android:
+    name: Android-APK bauen
+    needs: gate
     runs-on: ubuntu-24.04
     timeout-minutes: 45
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,7 +163,20 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Release-APK mit optionaler Signatur
+          cache: gradle
+      - name: Pub-Cache wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/pubspec.lock', '!.werkzeug/**') }}
+          restore-keys: |
+            pub-${{ runner.os }}-${{ runner.arch }}-
+      - name: Flutter-SDK wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: .werkzeug/flutter
+          key: flutter-3.47.6-android-${{ runner.os }}-${{ runner.arch }}
+      - name: Release-APK mit Release- oder Test-Signatur
         env:
           ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/mordakte-release.jks
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -72,29 +184,228 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: bash tool/ci/build_apk.sh
-      - name: APK als Build-Artefakt sichern
+      - name: APK sichern
         uses: actions/upload-artifact@v4
         with:
-          name: mordakte-apk-${{ github.sha }}
+          name: apk
           path: |
             build/release/mordakte.apk
             build/release/mordakte.apk.sha256
+            build/release/signatur.txt
           if-no-files-found: error
-      - name: GitHub-Release erstellen, keine Tags verschieben
+
+  ios:
+    name: iOS-IPA bauen (unsigniert)
+    needs: gate
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.ios }}
+    runs-on: macos-15
+    timeout-minutes: 60
+    # Ein iOS-Fehler darf APK, Web und Release nicht verhindern.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Neueste stabile Xcode-Version wählen
+        run: |
+          latest="$(printf '%s\n' /Applications/Xcode*.app | grep -viE 'beta|_rc|candidate' | sort -V | tail -n 1 || true)"
+          if [ -d "$latest" ]; then
+            sudo xcode-select -s "$latest"
+          fi
+          xcodebuild -version
+      - name: Pub-Cache wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/pubspec.lock', '!.werkzeug/**') }}
+          restore-keys: |
+            pub-${{ runner.os }}-${{ runner.arch }}-
+      - name: Flutter-SDK wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: .werkzeug/flutter
+          key: flutter-3.47.6-ios-${{ runner.os }}-${{ runner.arch }}
+      - name: Gepinntes Flutter bereitstellen
+        run: |
+          source tool/flutter_env.sh
+          echo "$PWD/.werkzeug/flutter/bin" >> "$GITHUB_PATH"
+          flutter config --enable-swift-package-manager || true
+      - name: iOS-App ohne Signatur bauen
+        run: |
+          python3 tool/ci/check_server_url.py
+          flutter pub get
+          args=(--release --no-codesign --build-number "$GITHUB_RUN_NUMBER")
+          while IFS= read -r zeile; do
+            if [ -n "$zeile" ]; then args+=("$zeile"); fi
+          done < <(bash tool/ci/dart_defines.sh)
+          flutter build ios "${args[@]}"
+      - name: IPA verpacken
+        run: |
+          rm -rf out
+          mkdir -p out/Payload
+          cp -R build/ios/iphoneos/Runner.app out/Payload/
+          (cd out && zip -qry mordakte-ios-unsigned.ipa Payload)
+          ls -l out/mordakte-ios-unsigned.ipa
+      - name: IPA sichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa
+          path: out/mordakte-ios-unsigned.ipa
+          if-no-files-found: error
+
+  web:
+    name: Web-Paket und Pages-Kopie
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Web-Build aus der Prüfung laden
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+      - name: ZIP und Pages-Kopie erzeugen
+        run: |
+          (cd build/web && zip -qr ../../mordakte-web.zip .)
+          # Pages liegt unter /Murder_Mystery/, das ZIP bleibt für Hosting im Wurzelverzeichnis.
+          rm -rf pages-site
+          mkdir pages-site
+          cp -R build/web/. pages-site/
+          sed -i 's|<base href="/">|<base href="/Murder_Mystery/">|' pages-site/index.html
+          grep -q '<base href="/Murder_Mystery/">' pages-site/index.html
+          ls -l mordakte-web.zip
+      - name: Web-ZIP sichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: webzip
+          path: mordakte-web.zip
+          if-no-files-found: error
+      - name: Pages-Kopie bereitstellen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-site
+
+  pages:
+    name: GitHub Pages veröffentlichen
+    needs: web
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # Schlägt fehl, solange Pages im Repository nicht aktiviert oder der Branch nicht erlaubt ist.
+    continue-on-error: true
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  release:
+    name: GitHub-Release veröffentlichen
+    needs: [android, ios, web]
+    if: ${{ always() && needs.android.result == 'success' && github.event_name != 'schedule' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: APK laden
+        uses: actions/download-artifact@v4
+        with:
+          name: apk
+          path: artifacts/apk
+      - name: IPA laden (kann fehlen)
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: ipa
+          path: artifacts/ipa
+      - name: Web-ZIP laden (kann fehlen)
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: webzip
+          path: artifacts/webzip
+      - name: Release erstellen, keine Tags verschieben
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
+          mkdir -p release
+          cp artifacts/apk/mordakte.apk release/
+          for datei in artifacts/ipa/mordakte-ios-unsigned.ipa artifacts/webzip/mordakte-web.zip; do
+            if [ -f "$datei" ]; then cp "$datei" release/; fi
+          done
+          (
+            cd release
+            files=()
+            for f in mordakte.apk mordakte-ios-unsigned.ipa mordakte-web.zip; do
+              if [ -f "$f" ]; then files+=("$f"); fi
+            done
+            sha256sum -- "${files[@]}" >SHA256SUMS.txt
+          )
+
+          kurz="${GITHUB_SHA:0:7}"
           # Jeder Lauf hat ein unveränderliches Tag. Kein Force-Push, kein Retagging.
-          tag="apk-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          main_sha="$(gh api "repos/$GH_REPO/commits/main" --jq .sha)"
-          if [ "$main_sha" = "$GITHUB_SHA" ]; then
-            title=latest
-            latest=true
-          else
-            title="Mordakte APK ${GITHUB_SHA:0:7}"
-            latest=false
-          fi
-          gh release create "$tag" --target "$GITHUB_SHA" --title "$title" \
-            --latest="$latest" --notes-file build/release/NOTES.md \
-            build/release/mordakte.apk build/release/mordakte.apk.sha256
+          tag="mordakte-${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}"
+          modus="$(head -n 1 artifacts/apk/signatur.txt 2>/dev/null || true)"
+          zertifikat="$(sed -n 2p artifacts/apk/signatur.txt 2>/dev/null || true)"
+          case "$modus" in
+            release) signatur='Release-Schlüssel aus den GitHub-Secrets des Repositorys.' ;;
+            test) signatur='Öffentlicher Test-Schlüssel aus dem Repository (`tool/ci/signing`), nur für Sideload-Tests. Alle Test-Builds tragen dasselbe Zertifikat und lassen sich ohne Deinstallieren aktualisieren.' ;;
+            *) signatur='unbekannt' ;;
+          esac
+
+          {
+            printf '# Mordakte %s\n\n' "$kurz"
+            printf 'Code-Stand: [`%s`](https://github.com/%s/commit/%s) auf Branch `%s`, Lauf %s (Versuch %s).\n\n' \
+              "$kurz" "$GITHUB_REPOSITORY" "$GITHUB_SHA" "$GITHUB_REF_NAME" "$GITHUB_RUN_NUMBER" "$GITHUB_RUN_ATTEMPT"
+            printf '## Dateien\n\n'
+            printf -- '- `mordakte.apk`: Android\n'
+            if [ -f release/mordakte-ios-unsigned.ipa ]; then
+              printf -- '- `mordakte-ios-unsigned.ipa`: iOS, unsigniert\n'
+            else
+              printf -- '- iOS: in diesem Lauf keine IPA (Build fehlgeschlagen oder abgewählt)\n'
+            fi
+            if [ -f release/mordakte-web.zip ]; then
+              printf -- '- `mordakte-web.zip`: Web-Fassung\n'
+            else
+              printf -- '- Web: in diesem Lauf kein ZIP\n'
+            fi
+            printf -- '- `SHA256SUMS.txt`: Prüfsummen aller Dateien (`sha256sum -c SHA256SUMS.txt`)\n\n'
+            printf '## Installation\n\n'
+            printf -- '- **Android:** APK auf dem Handy öffnen und die Installation aus dieser Quelle erlauben (unbekannte Quellen).\n'
+            printf '  Signatur: %s\n' "$signatur"
+            if [ -n "$zertifikat" ]; then printf '  Zertifikat SHA-256: `%s`\n' "$zertifikat"; fi
+            printf '  Bei einem Signaturwechsel (Test- auf Release-Schlüssel oder zurück) die alte App zuerst deinstallieren.\n'
+            printf -- '- **iOS:** Die IPA ist unsigniert. Mit AltStore oder Sideloadly auf dem eigenen Gerät signieren und installieren.\n'
+            printf -- '- **Web:** ZIP entpacken und auf einen beliebigen statischen Webhost legen (Wurzelverzeichnis).\n\n'
+            printf 'Der Schlosskeller funktioniert offline. Online benötigt einen eingerichteten öffentlichen Server. '
+            printf 'Aktueller Funktions- und Prüfstand: planung/abschluss/STATUS.md im Repository.\n'
+          } >release/NOTES.md
+
+          # „latest“ nur, wenn dieser Stand noch die Spitze von main oder des Arbeitsbranches ist.
+          # Zwischenzeitlich neuere Pushes bekommen ihr eigenes Release; ältere Läufe überschreiben es nicht.
+          latest=false
+          case "$GITHUB_REF_NAME" in
+            main|claude/ecstatic-lamport-w4jlzn)
+              spitze="$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_REF_NAME" --jq .sha 2>/dev/null \
+                || gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$GITHUB_REF_NAME" --jq .object.sha 2>/dev/null \
+                || true)"
+              if [ "$spitze" = "$GITHUB_SHA" ]; then latest=true; fi
+              ;;
+          esac
+
+          assets=(release/mordakte.apk release/SHA256SUMS.txt)
+          if [ -f release/mordakte-ios-unsigned.ipa ]; then assets+=(release/mordakte-ios-unsigned.ipa); fi
+          if [ -f release/mordakte-web.zip ]; then assets+=(release/mordakte-web.zip); fi
+          gh release create "$tag" --target "$GITHUB_SHA" --title "Mordakte $kurz" \
+            --latest="$latest" --notes-file release/NOTES.md "${assets[@]}"
+          echo "Release $tag erstellt (latest=$latest)."
