@@ -6,7 +6,7 @@
 ///   turm   Gastgeber -> alle  {hpub, epoch, proto, akte, inhalt, offen, plaetze}  (Klartext)
 /// Sitz-Thema   mordakte:v1:<CODE>:<cid>     nur Gastgeber und dieser Gast, Ereignis "m"
 ///   Nachrichten ausschließlich als Umschlag (siehe umschlag.dart)
-///   Gast -> Gastgeber  hallo{name,proto,app,r}  befehl{q,c}  sync{v}  ping{v}  tschuess{}
+///   Gast -> Gastgeber  hallo{name,proto,app,r,inhalt}  befehl{q,c}  sync{v}  ping{v}  tschuess{}
 ///   Gastgeber -> Gast  willkommen{spieler,raum,epoch,r}  abend{…zustandFuer…}
 ///                      ok{q}  fehler{q,key}  nein{key}  zu{grund[,r]}  pong{v}
 /// ```

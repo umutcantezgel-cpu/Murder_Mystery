@@ -61,10 +61,6 @@ class _Sitz {
   bool zu = false;
   String? name;
 
-  /// Grund, aus dem das Klopfen abgewiesen wurde (`voll`, `gestartet`, `inhalt`,
-  /// `proto`); das Hallo bekommt dieselbe Ablehnung statt eines Platzes.
-  String? abgewiesen;
-
   /// Zeitpunkt des letzten beglaubigten Umschlags dieses Gastes (die unbeglaubigte
   /// Presence allein beweist keine Anwesenheit).
   DateTime letzterUmschlag = DateTime.now();
@@ -449,7 +445,6 @@ class RelayHost {
       statistik.klopfVerworfen++;
       return;
     }
-    if (!sitz.angemeldet) sitz.abgewiesen = ablehnung;
     if (ablehnung != null && !sitz.angemeldet) {
       statistik.klopfAbgewiesen++;
       await _abweisen(sitz, ablehnung);
@@ -672,13 +667,15 @@ class RelayHost {
       await _senden(s, {'t': 'nein', 'key': 'kein_gastgeber'});
       return;
     }
-    final grund = s.abgewiesen;
-    if (grund != null) {
-      await _abweisen(s, grund, r: r);
-      return;
-    }
+    // Die beglaubigte Ablehnung stützt sich nur auf das beglaubigte Hallo, nie auf
+    // den Klartext-Klopf (den kann jeder mit dem Raumcode fälschen).
     if (m['proto'] != protokollVersion) {
       await _abweisen(s, 'proto', r: r);
+      return;
+    }
+    final gast = m['inhalt'];
+    if (inhalt.isNotEmpty && gast is String && gast.isNotEmpty && gast != inhalt) {
+      await _abweisen(s, 'inhalt', r: r);
       return;
     }
     if (name is! String || name.trim().isEmpty || name.runes.length > 40 || r is! String || r.isEmpty || r.length > 64) {

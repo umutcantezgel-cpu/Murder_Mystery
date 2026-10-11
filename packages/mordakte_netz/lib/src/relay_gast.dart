@@ -432,7 +432,7 @@ class RelayGast implements AbendVerbindung {
     final paar = _paar, sitz = _sitz;
     if (_geschlossen || paar == null || sitz == null || !sitz.beigetreten) return;
     final r = _r ??= b64(zufallsBytes(12, _zufall));
-    unawaited(paar.senden(sitz, {'t': 'hallo', 'name': _name, 'proto': protokollVersion, 'app': app, 'r': r}));
+    unawaited(paar.senden(sitz, {'t': 'hallo', 'name': _name, 'proto': protokollVersion, 'app': app, 'r': r, 'inhalt': inhalt}));
   }
 
   void _ping() {
