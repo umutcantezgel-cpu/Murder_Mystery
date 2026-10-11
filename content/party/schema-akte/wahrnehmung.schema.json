@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wahrnehmungsregeln",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "zeit": {
+      "type": "string",
+      "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "pfade": {
+      "anyOf": [
+        {
+          "const": "alle"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/pfad"
+          }
+        }
+      ]
+    },
+    "idListe": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "fenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/zeit"
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "tempo",
+    "licht",
+    "hoeren",
+    "fuehlen",
+    "riechen",
+    "haltungen",
+    "abtastung"
+  ],
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "tempo": {
+      "type": "object",
+      "required": [
+        "dunkel",
+        "hell",
+        "rennen",
+        "regel"
+      ],
+      "properties": {
+        "dunkel": {
+          "type": "number"
+        },
+        "hell": {
+          "type": "number"
+        },
+        "rennen": {
+          "type": "number"
+        },
+        "regel": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "licht": {
+      "type": "object",
+      "required": [
+        "voll",
+        "schwach",
+        "rest",
+        "erkennenSchwachBis",
+        "regel"
+      ],
+      "properties": {
+        "voll": {
+          "$ref": "#/$defs/idListe"
+        },
+        "schwach": {
+          "$ref": "#/$defs/idListe"
+        },
+        "rest": {
+          "$ref": "#/$defs/idListe"
+        },
+        "erkennenSchwachBis": {
+          "type": "number"
+        },
+        "regel": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hoeren": {
+      "type": "object",
+      "required": [
+        "klassen",
+        "tumult",
+        "zweiTueren",
+        "schritte",
+        "liegend",
+        "bund"
+      ],
+      "properties": {
+        "klassen": {
+          "type": "object",
+          "required": [
+            "sehr_laut",
+            "laut",
+            "leise"
+          ],
+          "properties": {
+            "sehr_laut": {
+              "$ref": "#/$defs/text"
+            },
+            "laut": {
+              "$ref": "#/$defs/text"
+            },
+            "leise": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tumult": {
+          "type": "object",
+          "required": [
+            "von",
+            "bis",
+            "raeume",
+            "lautBis",
+            "leiseBis",
+            "regel"
+          ],
+          "properties": {
+            "von": {
+              "$ref": "#/$defs/zeit"
+            },
+            "bis": {
+              "$ref": "#/$defs/zeit"
+            },
+            "raeume": {
+              "$ref": "#/$defs/idListe"
+            },
+            "lautBis": {
+              "type": "number"
+            },
+            "leiseBis": {
+              "type": "number"
+            },
+            "regel": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "additionalProperties": false
+        },
+        "zweiTueren": {
+          "$ref": "#/$defs/text"
+        },
+        "schritte": {
+          "type": "object",
+          "required": [
+            "gehen",
+            "rennen"
+          ],
+          "properties": {
+            "gehen": {
+              "enum": [
+                "leise",
+                "laut"
+              ]
+            },
+            "rennen": {
+              "enum": [
+                "leise",
+                "laut"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "liegend": {
+          "$ref": "#/$defs/text"
+        },
+        "bund": {
+          "$ref": "#/$defs/text"
+        },
+        "tueren": {
+          "$ref": "#/$defs/text"
+        },
+        "hindernisse": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fuehlen": {
+      "type": "object",
+      "required": [
+        "bis",
+        "regel"
+      ],
+      "properties": {
+        "bis": {
+          "type": "number"
+        },
+        "regel": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "riechen": {
+      "type": "object",
+      "required": [
+        "nachwirkenSekunden",
+        "regel"
+      ],
+      "properties": {
+        "nachwirkenSekunden": {
+          "type": "integer"
+        },
+        "regel": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "haltungen": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "sieht",
+          "hoert"
+        ],
+        "properties": {
+          "sieht": {
+            "type": "boolean"
+          },
+          "hoert": {
+            "enum": [
+              "alles",
+              "nur_sehr_laut",
+              "nichts"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "abtastung": {
+      "type": "object",
+      "required": [
+        "sekunden",
+        "matrixSchritt",
+        "fenster",
+        "planFenster"
+      ],
+      "properties": {
+        "sekunden": {
+          "type": "integer"
+        },
+        "matrixSchritt": {
+          "type": "integer"
+        },
+        "fenster": {
+          "$ref": "#/$defs/fenster"
+        },
+        "planFenster": {
+          "$ref": "#/$defs/fenster"
+        }
+      },
+      "additionalProperties": false
+    },
+    "zeitgefuehl": {
+      "$ref": "#/$defs/text"
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

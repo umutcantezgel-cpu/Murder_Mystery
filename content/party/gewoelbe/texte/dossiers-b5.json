@@ -1,0 +1,81 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 17 bis 20.",
+  "eintraege": [
+    {
+      "rolle": "henrik",
+      "wer": "Du bist Henrik, der Förster. Du bist Revierförster im Oberharz und hältst nebenbei Bienen. Du trägst eine rostrote Softshelljacke und einen braunen Lederhut mit Eichelhäherfeder. Du vergleichst gern Menschen mit Bienen: „Die Gruppe schwärmt.“",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_henrik_reif"
+        },
+        {
+          "ref": "beobachtung:b_henrik_wachs"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast für das Geburtstagskind ein Bienenvolk adoptiert. Ein Stock in deinem Garten trägt schon ein kleines Schild. Du willst es erst zum Nachtisch verraten und fürchtest, es wirkt kitschig."
+        }
+      ],
+      "ziel": "Du willst dein Bienengeschenk bis zum Nachtisch geheim halten.",
+      "besetzung": "Jede Person kann Henrik spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "elif",
+      "wer": "Du bist Elif, die Jurastudentin. Du studierst in Göttingen und jobbst in einer Kanzlei. Du trägst ein dunkelblaues Hemdblusenkleid und einen Anstecker mit der Aufschrift „Einspruch!“. Wenn du aufgeregt bist, rufst du genau das.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_elif_lampe"
+        },
+        {
+          "ref": "beobachtung:b_elif_bund"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast dein Studium im Sommer fast abgebrochen. Der Antrag lag schon ausgefüllt auf deinem Schreibtisch. Du hast ihn nicht abgeschickt und niemandem davon erzählt."
+        }
+      ],
+      "ziel": "Du willst deine fast abgebrochene Studienzeit für dich behalten und trotzdem Recht behalten.",
+      "besetzung": "Jede Person kann Elif spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "azad",
+      "wer": "Du bist Azad, der Fotograf. Du arbeitest für Lokalzeitungen und fotografierst Hochzeiten. Du trägst eine schwarze Lederjacke und einen breiten roten Kameragurt. Du rufst oft: „Nicht bewegen!“",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_azad_fotos"
+        },
+        {
+          "text": "Dein Sofortbild von der Führung hängt an der Fotowand. Jonas prallt darauf gegen Kunibert."
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du bewirbst dich heimlich als Fotoredakteur bei einer Zeitung in Berlin. Das Vorstellungsgespräch ist schon vereinbart. Du fürchtest, dass die Clique dich dann nicht mehr sieht."
+        }
+      ],
+      "ziel": "Du willst dein Vorstellungsgespräch in Berlin geheim halten.",
+      "besetzung": "Jede Person kann Azad spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "zofia",
+      "wer": "Du bist Zofia, die Rangerin. Du führst im Nationalpark Harz Wanderungen und Schulklassen. Du trägst eine dunkelblaue Daunenweste und ein orangefarbenes Halstuch mit Fuchs-Silhouetten. Gespenster im Harz sind für dich Physik.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_zofia_hof"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast einem Fuchs an einer Schutzhütte den Namen Ottokar gegeben. Du fütterst ihn ab und zu, obwohl man Wildtiere nicht füttern darf. Das ist dir peinlich."
+        }
+      ],
+      "ziel": "Du willst deinen Fuchs Ottokar nicht verraten.",
+      "besetzung": "Jede Person kann Zofia spielen, egal welches Geschlecht sie hat."
+    }
+  ],
+  "generiert": "akte_export"
+}

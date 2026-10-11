@@ -1,0 +1,140 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "g_paulina_3_1",
+      "rolle": "paulina",
+      "runde": 3,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Wem glaubst du?",
+      "ziel": "Sage, wem du nur mit Beleg glaubst.",
+      "preisgabe": [],
+      "text": "Ich glaube nur, was belegt ist. Wer kann beweisen, wo er beim Knall war?"
+    },
+    {
+      "id": "g_paulina_3_2",
+      "rolle": "paulina",
+      "runde": 3,
+      "nr": 2,
+      "partner": "adnan",
+      "thema": "Was bleibt offen?",
+      "ziel": "Rechne nach, wer Zeit für die Speisekammer hatte.",
+      "preisgabe": [],
+      "text": "Ich rechne noch einmal nach. Wer hatte zwischen Knall und Schrei Zeit, in die Speisekammer zu gehen?"
+    },
+    {
+      "id": "g_paulina_3_3",
+      "rolle": "paulina",
+      "runde": 3,
+      "nr": 3,
+      "partner": "diyar",
+      "thema": "Mein Fazit",
+      "ziel": "Ziehe dein Fazit vor der Anklage.",
+      "preisgabe": [],
+      "text": "Ich bleibe dabei: Ohne Beleg kein Verdacht. Und ohne Quittung kein Frieden."
+    },
+    {
+      "id": "g_diyar_3_1",
+      "rolle": "diyar",
+      "runde": 3,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Mein Platz",
+      "ziel": "Bestätige dein Alibi für die Tatminute.",
+      "preisgabe": [],
+      "text": "Bis kurz nach dem Schrei war ich neben Adnan am Kamin. Wer das anzweifelt, soll sagen, wann ich weg war."
+    },
+    {
+      "id": "g_diyar_3_2",
+      "rolle": "diyar",
+      "runde": 3,
+      "nr": 2,
+      "partner": "rojda",
+      "thema": "Was spricht gegen Adnan?",
+      "ziel": "Prüfe, was wirklich gegen Adnan spricht.",
+      "preisgabe": [],
+      "text": "Auf einer Skala von eins bis zehn: Wie verdächtig ist Ruß? Ruß beweist nur, dass jemand am Kamin war."
+    },
+    {
+      "id": "g_diyar_3_3",
+      "rolle": "diyar",
+      "runde": 3,
+      "nr": 3,
+      "partner": "paulina",
+      "thema": "Ruhe bewahren",
+      "ziel": "Beruhige die Runde vor dem Schluss.",
+      "preisgabe": [],
+      "text": "Je hektischer es wird, desto ruhiger werde ich. Gehen wir nacheinander durch, wer wo stand."
+    },
+    {
+      "id": "g_emre_3_1",
+      "rolle": "emre",
+      "runde": 3,
+      "nr": 1,
+      "partner": "henrik",
+      "thema": "Was beweist ein Schrei?",
+      "ziel": "Erkläre, warum der Schrei keine Tatzeit beweist.",
+      "preisgabe": [],
+      "text": "Wer den Schrei um Mitternacht für den Überfall hält, hat sich verhört. Der kam vom Track."
+    },
+    {
+      "id": "g_emre_3_2",
+      "rolle": "emre",
+      "runde": 3,
+      "nr": 2,
+      "partner": "berfin",
+      "thema": "Wer wusste Bescheid?",
+      "ziel": "Finde heraus, wer vom Schrei vorher wusste.",
+      "preisgabe": [],
+      "text": "Wer vorher wusste, wann der Schrei kommt, konnte sich ein Alibi für genau diesen Moment bauen. Das gibt zu denken."
+    },
+    {
+      "id": "g_emre_3_3",
+      "rolle": "emre",
+      "runde": 3,
+      "nr": 3,
+      "partner": "lejla",
+      "thema": "Schlussvorhang",
+      "ziel": "Ziehe dein Fazit vor der Anklage.",
+      "preisgabe": [],
+      "text": "Jetzt kommt der letzte Auftritt. Ich sag ja nichts, aber ich habe mir meinen Teil gedacht."
+    },
+    {
+      "id": "g_lejla_3_1",
+      "rolle": "lejla",
+      "runde": 3,
+      "nr": 1,
+      "partner": "zofia",
+      "thema": "Die Verbeamtung",
+      "ziel": "Erkläre, was eine Anzeige bedeuten kann.",
+      "preisgabe": [],
+      "text": "Ein Ermittlungsverfahren kann die Verbeamtung auf Probe gefährden. Wer davor Angst hat, handelt unüberlegt, oder?"
+    },
+    {
+      "id": "g_lejla_3_2",
+      "rolle": "lejla",
+      "runde": 3,
+      "nr": 2,
+      "partner": "selin",
+      "thema": "Was folgt daraus?",
+      "ziel": "Prüfe, wer unter Druck stand.",
+      "preisgabe": [],
+      "text": "Und was folgt daraus? Wer hatte Angst vor einer Anzeige und deshalb einen Grund, die Dose heimlich zu erreichen?"
+    },
+    {
+      "id": "g_lejla_3_3",
+      "rolle": "lejla",
+      "runde": 3,
+      "nr": 3,
+      "partner": "emre",
+      "thema": "Mein Fazit",
+      "ziel": "Ziehe ein Fazit für dich.",
+      "preisgabe": [],
+      "text": "Bei mir folgt aus dem Abend nur eins: Ich will nie wieder im Dunkeln sitzen. Und was folgt für dich daraus?"
+    }
+  ],
+  "generiert": "akte_export"
+}

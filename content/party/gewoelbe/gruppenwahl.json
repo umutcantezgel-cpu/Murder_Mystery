@@ -1,0 +1,1479 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Gruppenwahl je Rolle und Runde. Option A ist kooperativ (+1) und kostet die Rolle ein Geheimnis oder einen Freund. Option B ist eigennützig (0) und schützt Ziel oder Freund. In der Täterfassung der Täterin heißt B Sabotage (bTaeter): sie zählt 0 und hebt eine kooperative Stimme auf (G-1). Die Texte der Optionen stehen in texte/wahlen-*.json unter derselben Kennung. Die Wahlen leitet akte_export aus Nebendelikt und Loyalität jeder Figur ab.",
+  "wertung": {
+    "kooperativ": 1,
+    "eigennuetzig": 0,
+    "sabotage": -1
+  },
+  "wahlen": [
+    {
+      "id": "gw_adnan_1",
+      "rolle": "adnan",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_adnan_code"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_adnan_2",
+      "rolle": "adnan",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "rojda"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "rojda"
+        }
+      }
+    },
+    {
+      "id": "gw_adnan_3",
+      "rolle": "adnan",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_adnan_code"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_rojda_1",
+      "rolle": "rojda",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_rojda_streich"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_rojda_2",
+      "rolle": "rojda",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "merle"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "merle"
+        }
+      }
+    },
+    {
+      "id": "gw_rojda_3",
+      "rolle": "rojda",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_rojda_streich"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_merle_1",
+      "rolle": "merle",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_merle_2",
+      "rolle": "merle",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "jonas"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "jonas"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_merle_3",
+      "rolle": "merle",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      },
+      "bTaeter": {
+        "art": "sabotage",
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "tarnung"
+        }
+      }
+    },
+    {
+      "id": "gw_jonas_1",
+      "rolle": "jonas",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_jonas_miete"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_jonas_2",
+      "rolle": "jonas",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "merle"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "merle"
+        }
+      }
+    },
+    {
+      "id": "gw_jonas_3",
+      "rolle": "jonas",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "nd_jonas_miete"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_paulina_1",
+      "rolle": "paulina",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_paulina_2",
+      "rolle": "paulina",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "jonas"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "jonas"
+        }
+      }
+    },
+    {
+      "id": "gw_paulina_3",
+      "rolle": "paulina",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_diyar_1",
+      "rolle": "diyar",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_diyar_2",
+      "rolle": "diyar",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "adnan"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "adnan"
+        }
+      }
+    },
+    {
+      "id": "gw_diyar_3",
+      "rolle": "diyar",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_emre_1",
+      "rolle": "emre",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_emre_2",
+      "rolle": "emre",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "rojda"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "rojda"
+        }
+      }
+    },
+    {
+      "id": "gw_emre_3",
+      "rolle": "emre",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_lejla_1",
+      "rolle": "lejla",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_lejla_2",
+      "rolle": "lejla",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "merle"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "merle"
+        }
+      }
+    },
+    {
+      "id": "gw_lejla_3",
+      "rolle": "lejla",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_tomasz_1",
+      "rolle": "tomasz",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_tomasz_2",
+      "rolle": "tomasz",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "annika"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "annika"
+        }
+      }
+    },
+    {
+      "id": "gw_tomasz_3",
+      "rolle": "tomasz",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_annika_1",
+      "rolle": "annika",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_annika_2",
+      "rolle": "annika",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "tomasz"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "tomasz"
+        }
+      }
+    },
+    {
+      "id": "gw_annika_3",
+      "rolle": "annika",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_berfin_1",
+      "rolle": "berfin",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_berfin_2",
+      "rolle": "berfin",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "paulina"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "paulina"
+        }
+      }
+    },
+    {
+      "id": "gw_berfin_3",
+      "rolle": "berfin",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_dino_1",
+      "rolle": "dino",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_dino_2",
+      "rolle": "dino",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "diyar"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "diyar"
+        }
+      }
+    },
+    {
+      "id": "gw_dino_3",
+      "rolle": "dino",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_selin_1",
+      "rolle": "selin",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_selin_2",
+      "rolle": "selin",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "adnan"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "adnan"
+        }
+      }
+    },
+    {
+      "id": "gw_selin_3",
+      "rolle": "selin",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_kamil_1",
+      "rolle": "kamil",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_kamil_2",
+      "rolle": "kamil",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "adnan"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "adnan"
+        }
+      }
+    },
+    {
+      "id": "gw_kamil_3",
+      "rolle": "kamil",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_derya_1",
+      "rolle": "derya",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_derya_2",
+      "rolle": "derya",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "selin"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "selin"
+        }
+      }
+    },
+    {
+      "id": "gw_derya_3",
+      "rolle": "derya",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_amar_1",
+      "rolle": "amar",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_amar_2",
+      "rolle": "amar",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "jonas"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "jonas"
+        }
+      }
+    },
+    {
+      "id": "gw_amar_3",
+      "rolle": "amar",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_henrik_1",
+      "rolle": "henrik",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_henrik_2",
+      "rolle": "henrik",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "adnan"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "adnan"
+        }
+      }
+    },
+    {
+      "id": "gw_henrik_3",
+      "rolle": "henrik",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_elif_1",
+      "rolle": "elif",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_elif_2",
+      "rolle": "elif",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "merle"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "merle"
+        }
+      }
+    },
+    {
+      "id": "gw_elif_3",
+      "rolle": "elif",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_azad_1",
+      "rolle": "azad",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_azad_2",
+      "rolle": "azad",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "merle"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "merle"
+        }
+      }
+    },
+    {
+      "id": "gw_azad_3",
+      "rolle": "azad",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_zofia_1",
+      "rolle": "zofia",
+      "runde": 1,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    },
+    {
+      "id": "gw_zofia_2",
+      "rolle": "zofia",
+      "runde": 2,
+      "quelle": "loyalitaet",
+      "a": {
+        "kosten": {
+          "art": "freund",
+          "bezug": "jonas"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "freund",
+          "bezug": "jonas"
+        }
+      }
+    },
+    {
+      "id": "gw_zofia_3",
+      "rolle": "zofia",
+      "runde": 3,
+      "quelle": "geheimnis",
+      "a": {
+        "kosten": {
+          "art": "geheimnis",
+          "bezug": "persoenlichesZiel"
+        },
+        "nutzen": {
+          "art": "gruppe"
+        }
+      },
+      "b": {
+        "kosten": {
+          "art": "gruppe"
+        },
+        "nutzen": {
+          "art": "ziel",
+          "bezug": "persoenlichesZiel"
+        }
+      }
+    }
+  ],
+  "generiert": "akte_export"
+}

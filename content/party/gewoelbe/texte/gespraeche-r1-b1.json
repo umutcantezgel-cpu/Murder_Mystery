@@ -1,0 +1,163 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "id": "g_adnan_1_1",
+      "rolle": "adnan",
+      "runde": 1,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Die verschwundene Lampe",
+      "ziel": "Finde heraus, wo deine Stablampe geblieben ist.",
+      "preisgabe": [
+        "beobachtung:b_adnan_handschlag"
+      ],
+      "text": "Rojda, ich vermisse meine schwarze Stablampe. Den Türschaden habe ich um halb zwölf mit dem Burgwart per Handschlag geklärt."
+    },
+    {
+      "id": "g_adnan_1_2",
+      "rolle": "adnan",
+      "runde": 1,
+      "nr": 2,
+      "partner": "merle",
+      "thema": "Wer kam zum Schrei?",
+      "ziel": "Prüfe, wann Merle wirklich am Kamin ankam.",
+      "preisgabe": [
+        "beobachtung:b_adnan_merle_spaet"
+      ],
+      "text": "Merle, beim Schrei standest du neben mir. Gekommen bist du aber erst kurz davor, ich habe dich an der Wand entlangtasten hören."
+    },
+    {
+      "id": "g_adnan_1_3",
+      "rolle": "adnan",
+      "runde": 1,
+      "nr": 3,
+      "partner": "paulina",
+      "thema": "Ruß und Kerzenständer",
+      "ziel": "Zeige, dass du mit dem Kerzenständer nichts zu tun hast.",
+      "preisgabe": [
+        "beobachtung:b_adnan_russ",
+        "luege:luege_adnan_code"
+      ],
+      "text": "Ich bin seit dem Kamin voller Ruß, aber den Kerzenständer habe ich nicht angefasst. Den Code für den Sicherungskasten kennen nur der Burgwart und ich."
+    },
+    {
+      "id": "g_rojda_1_1",
+      "rolle": "rojda",
+      "runde": 1,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Der Weg zum Turm",
+      "ziel": "Finde heraus, wer vor dem Schrei durch die Turmtür kam.",
+      "preisgabe": [
+        "beobachtung:b_rojda_turmfuss"
+      ],
+      "text": "Adnan, wer kam kurz vor dem Schrei durch die Turmtür ins Gewölbe? Ich war beim Knall schon unten im Turm."
+    },
+    {
+      "id": "g_rojda_1_2",
+      "rolle": "rojda",
+      "runde": 1,
+      "nr": 2,
+      "partner": "jonas",
+      "thema": "Wo warst du beim Knall?",
+      "ziel": "Finde heraus, wo Jonas beim Knall war.",
+      "preisgabe": [
+        "luege:luege_rojda_licht"
+      ],
+      "text": "Jonas, du warst plötzlich weg, als der Qualm vom Kamin kam. Ich war unten und wollte nur das Licht wieder anmachen."
+    },
+    {
+      "id": "g_rojda_1_3",
+      "rolle": "rojda",
+      "runde": 1,
+      "nr": 3,
+      "partner": "diyar",
+      "thema": "Wer stand am Kamin?",
+      "ziel": "Finde einen Zeugen, wer vor dem Schrei am Kamin war.",
+      "preisgabe": [],
+      "text": "Wer stand vor dem Schrei am Kamin? Ich war unten im Turm und habe das nicht gesehen."
+    },
+    {
+      "id": "g_merle_1_1",
+      "rolle": "merle",
+      "runde": 1,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Mein Weg im Turm",
+      "ziel": "Bitte Jonas, deinen Weg zu bestätigen.",
+      "preisgabe": [
+        "beobachtung:b_merle_wehrgang"
+      ],
+      "text": "Jonas, du hast mich doch oben auf dem Wehrgang gesehen, oder? Ich war um sechs vor zwölf dort."
+    },
+    {
+      "id": "g_merle_1_2",
+      "rolle": "merle",
+      "runde": 1,
+      "nr": 2,
+      "partner": "adnan",
+      "thema": "Meine Lampe",
+      "ziel": "Finde heraus, ob Adnan Batterien hat.",
+      "preisgabe": [
+        "luege:luege_merle_lampe"
+      ],
+      "text": "Adnan, hast du Batterien für meine Lampe? Ich habe sie im Auto gelassen, die war eh fast leer."
+    },
+    {
+      "id": "g_merle_1_3",
+      "rolle": "merle",
+      "runde": 1,
+      "nr": 3,
+      "partner": "emre",
+      "thema": "Was war das für ein Schrei?",
+      "ziel": "Finde heraus, was der Schrei war und was sonst zu hören war.",
+      "preisgabe": [
+        "luege:luege_merle_weg"
+      ],
+      "text": "Ich habe mich im Turm total verlaufen und alles verpasst. Was hast du vom Schrei mitbekommen?"
+    },
+    {
+      "id": "g_jonas_1_1",
+      "rolle": "jonas",
+      "runde": 1,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Die gleichen Stiefel",
+      "ziel": "Zeige, dass dich mit Merles Stiefeln nichts verbindet.",
+      "preisgabe": [
+        "beobachtung:b_jonas_stiefel_melde"
+      ],
+      "text": "Merle, wir haben dasselbe Wanderstiefelmodell, beide im Sonderangebot. Wo warst du eigentlich, als es geknallt hat?"
+    },
+    {
+      "id": "g_jonas_1_2",
+      "rolle": "jonas",
+      "runde": 1,
+      "nr": 2,
+      "partner": "rojda",
+      "thema": "Beim Knall im Hof",
+      "ziel": "Halte an deiner Geschichte fest, bis jemand dich widerlegt.",
+      "preisgabe": [
+        "luege:luege_jonas_hof"
+      ],
+      "text": "Rojda, ich war beim Knall draußen im Hof. Frische Luft, der Qualm vom Kamin! Ich habe kaum Luft gekriegt."
+    },
+    {
+      "id": "g_jonas_1_3",
+      "rolle": "jonas",
+      "runde": 1,
+      "nr": 3,
+      "partner": "lejla",
+      "thema": "Kunibert",
+      "ziel": "Erkläre, was bei der Führung mit der Rüstung war.",
+      "preisgabe": [
+        "beobachtung:b_jonas_kunibert"
+      ],
+      "text": "Leute, Leute! Ich dachte, im Dunkeln steht ein Mensch. Ich bin voll gegen Kunibert geprallt, und das Visier klapperte."
+    }
+  ],
+  "generiert": "akte_export"
+}

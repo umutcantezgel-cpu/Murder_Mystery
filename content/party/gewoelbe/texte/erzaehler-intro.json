@@ -1,0 +1,52 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "erzaehler",
+  "hinweis": "Intro: intro.start, intro.lacher.<id>.<besetzt|npc>, intro.auftrag.<m|w>.",
+  "eintraege": [
+    {
+      "id": "intro.start",
+      "text": "Burg Schartenfels im Oberharz. Draußen liegt Raureif, im Tal liegt dichter Eisnebel. Gefeiert wird im Kamin-Gewölbe, dem Gewölbekeller unter dem Turm. Der Wind pfeift durch die Schießscharten, und die Eisentür zur Speisekammer quietscht wie eine Katze. Gruselig, aber gemütlich. Aus dem Kupferkessel gibt es warmen, alkoholfreien Punsch. Kurz vor Mitternacht knallt es, und die ganze Burg ist dunkel. Dann hallt ein Schrei durch das Gewölbe. In der Speisekammer liegt der Burgwart, und er ist bewusstlos. Sein Schlüsselbund ist weg, und das Burgtor ist zu. Hinter den dicken Mauern gibt es kein Netz. Es sitzt also jemand in dieser Runde, der es war."
+    },
+    {
+      "id": "intro.lacher.lacher_ruestung.besetzt",
+      "text": "Um zwanzig nach neun, bei der Burgführung, hielt Jonas die Rüstung Kunibert für einen Menschen. Er schrie auf und krachte dagegen. Das Visier klapperte, und ein Panzerhandschuh verbog sich. Der Burgwart brummte: „Der beißt nicht, der ist seit neunzehnhundertelf tot.“"
+    },
+    {
+      "id": "intro.lacher.lacher_ruestung.npc",
+      "text": "Um zwanzig nach neun, bei der Burgführung, hielt ein Gast die Rüstung Kunibert für einen Menschen. Der Gast schrie auf und krachte dagegen. Das Visier klapperte, und ein Panzerhandschuh verbog sich. Der Burgwart brummte: „Der beißt nicht, der ist seit neunzehnhundertelf tot.“"
+    },
+    {
+      "id": "intro.lacher.lacher_verlaufen.besetzt",
+      "text": "Kurz vor Mitternacht wollte Merle nur auf die Toilette. Im dunklen Turm fand sie den Lichtschalter nicht. Sie folgte einem Handylicht nach oben und stand plötzlich auf dem Wehrgang. Dort erschreckte sie Jonas an der dritten Zinne."
+    },
+    {
+      "id": "intro.lacher.lacher_verlaufen.npc",
+      "text": "Kurz vor Mitternacht wollte ein Gast nur auf die Toilette. Im dunklen Turm fand der Gast den Lichtschalter nicht. Er folgte einem Handylicht nach oben und stand plötzlich auf dem Wehrgang. Dort erschreckte er einen anderen Gast an der dritten Zinne."
+    },
+    {
+      "id": "intro.lacher.lacher_kamin.besetzt",
+      "text": "Jonas hatte Mitternacht am lodernden Kamin versprochen. Um zwölf vor zwölf versuchte Adnan, den Kamin mit einer Heißluftpistole anzufeuern. Das Holz war feucht, und dichter Qualm füllte den Kamin und das ganze Gewölbe. Alle husteten."
+    },
+    {
+      "id": "intro.lacher.lacher_kamin.npc",
+      "text": "Der Gastgeber hatte Mitternacht am lodernden Kamin versprochen. Um zwölf vor zwölf versuchte ein Gast, den Kamin mit einer Heißluftpistole anzufeuern. Das Holz war feucht, und dichter Qualm füllte den Kamin und das ganze Gewölbe. Alle husteten."
+    },
+    {
+      "id": "intro.lacher.lacher_feuerloescher.besetzt",
+      "text": "Beim ersten Qualm am Kamin riss Diyar den Feuerlöscher von der Wand. Er zog sein Halstuch vor die Nase und kniete mit Feuerlöscher und Tablett neben Adnan. Benutzt hat er den Löscher nie."
+    },
+    {
+      "id": "intro.lacher.lacher_feuerloescher.npc",
+      "text": "Beim ersten Qualm am Kamin riss ein Gast den Feuerlöscher von der Wand. Der Gast zog sich ein Tuch vor die Nase und kniete mit Feuerlöscher und Tablett am Kamin. Benutzt hat er den Löscher nie."
+    },
+    {
+      "id": "intro.auftrag.m",
+      "text": "Eigentlich ist heute dein Geburtstag, und jetzt bist du auch noch der Detektiv. Der Burgwart bittet dich: „Du hast den klarsten Kopf. Finde raus, wer es war.“"
+    },
+    {
+      "id": "intro.auftrag.w",
+      "text": "Eigentlich ist heute dein Geburtstag, und jetzt bist du auch noch die Detektivin. Der Burgwart bittet dich: „Du hast den klarsten Kopf. Finde raus, wer es war.“"
+    }
+  ],
+  "generiert": "akte_export"
+}

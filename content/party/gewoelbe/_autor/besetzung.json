@@ -1,0 +1,54 @@
+{
+  "hinweis": "Besetzungsreihenfolge. Gezählt werden Rollen ohne das Geburtstagskind, das den Detektiv spielt. Bei N Rollen werden die Plätze 1 bis N besetzt; alle übrigen Gäste sind NPC-Gäste ohne Spieler. Ihr Wissen erreicht den Detektiv über den Erzähler oder die Sprechblasen der Bots.",
+  "regeln": [
+    "Die vier Kernverdächtigen sind immer besetzt (Plätze 1–4).",
+    "Ab 5 Rollen unterscheiden sich Frauen- und Männerrollen höchstens um eine; bei 4 Rollen geben die Kernnamen 2 zu 2 vor.",
+    "Jede Rolle darf von jeder Person gespielt werden, unabhängig vom eigenen Geschlecht.",
+    "Fehlt ein Gesprächspartner, übernimmt der erste besetzte Ersatzpartner aus ersatzpartner, sonst die besetzte Person mit der kleinsten Last. Kernrollen sind immer besetzt und brauchen keinen Ersatz.",
+    "Unbesetzte Gäste sind NPC. Ihre Beobachtungen für den Tisch kommen als Ansage des Erzählers; verborgenes Wissen bleibt in ihrer Karte."
+  ],
+  "ersatzpartner": {
+    "tomasz": [
+      "rojda",
+      "jonas"
+    ],
+    "annika": [
+      "adnan"
+    ],
+    "berfin": [
+      "merle",
+      "adnan"
+    ],
+    "dino": [
+      "rojda"
+    ],
+    "selin": [
+      "jonas",
+      "merle"
+    ],
+    "kamil": [
+      "adnan"
+    ],
+    "derya": [
+      "rojda",
+      "jonas"
+    ],
+    "amar": [
+      "merle"
+    ],
+    "henrik": [
+      "adnan",
+      "rojda"
+    ],
+    "elif": [
+      "jonas"
+    ],
+    "azad": [
+      "merle",
+      "adnan"
+    ],
+    "zofia": [
+      "rojda"
+    ]
+  }
+}

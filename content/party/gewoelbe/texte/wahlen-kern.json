@@ -1,0 +1,71 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der vier Kernrollen mit Sabotage der Täterfassung.",
+  "eintraege": [
+    {
+      "id": "gw_adnan_1",
+      "a": "Ich sage dem Detektiv, dass ich für einen Streich den Code aufgeschrieben und meine Lampe verliehen habe. Wem, behalte ich noch für mich.",
+      "b": "Ich schweige zu Code und Lampe. Erst will ich alles in Ordnung bringen, ohne eine Freundin zu verraten."
+    },
+    {
+      "id": "gw_adnan_2",
+      "a": "Ich sage dem Detektiv, dass Rojda den Code und die Lampe von mir hat. Damit bringe ich sie in eine blöde Lage.",
+      "b": "Rojda und ich halten zusammen. Dem Detektiv sage ich dazu nichts."
+    },
+    {
+      "id": "gw_adnan_3",
+      "a": "Ich gebe offen zu, dass die Schrift auf dem Zettel meine ist und die Lampe mir gehört. Mehr weiß ich nicht.",
+      "b": "Zu Zettel und Lampe sage ich nichts. Erst soll Rojda selbst reden."
+    },
+    {
+      "id": "gw_rojda_1",
+      "a": "Ich erzähle dem Detektiv von meinem Streich mit der Box und dem Hebel. Dann stehe ich als Schuldige da.",
+      "b": "Zum Streich schweige ich. Ich habe versprochen, das Gespenst nicht zu verraten."
+    },
+    {
+      "id": "gw_rojda_2",
+      "a": "Ich sage dem Detektiv, dass Merle das Gespenst sein sollte. Damit bringe ich meine Freundin in Not.",
+      "b": "Merle ist meine Freundin. Ich halte zu ihr und sage nichts."
+    },
+    {
+      "id": "gw_rojda_3",
+      "a": "Ich gebe zu, dass der Schrei mein Track war und ich den Hebel gezogen habe.",
+      "b": "Meinen Streich halte ich zurück. Das Gespenst bleibt ungenannt."
+    },
+    {
+      "id": "gw_merle_1",
+      "a": "Ich erzähle dem Detektiv, dass ich den Taler bei der Führung in der Hand hatte. Mehr sage ich nicht.",
+      "b": "Ich schweige. Auf keinen Fall will ich vor der Gruppe als Lügnerin dastehen.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von der Burg und ihren Geschichten."
+    },
+    {
+      "id": "gw_merle_2",
+      "a": "Ich sage dem Detektiv, dass Jonas mich auf dem Wehrgang gesehen hat. Dann muss er erklären, was er dort wollte.",
+      "b": "Jonas ist mein Zeuge, und ich bringe ihn nicht in Verlegenheit. Dazu sage ich nichts.",
+      "sabotage": "Ich erzähle dem Detektiv lieber vom Silberbergbau im Harz."
+    },
+    {
+      "id": "gw_merle_3",
+      "a": "Ich gebe zu, dass mir im Dunkeln unheimlich war und ich für den Weg durch den Turm lange gebraucht habe.",
+      "b": "Ich bleibe bei meiner Geschichte und halte mich an das, was ich gesagt habe.",
+      "sabotage": "Ich halte mich zurück und frage den Detektiv lieber nach seinem Geburtstag."
+    },
+    {
+      "id": "gw_jonas_1",
+      "a": "Ich gebe zu, dass ich von allen Miete eingesammelt habe, obwohl der Keller nichts kostete.",
+      "b": "Zum Geld schweige ich. Bis zum Frühstück soll niemand erfahren, dass ich arbeitslos bin."
+    },
+    {
+      "id": "gw_jonas_2",
+      "a": "Ich sage dem Detektiv, dass ich Merle oben auf dem Wehrgang gesehen habe. Damit belaste ich eine alte Freundin.",
+      "b": "Merle ist eine alte Freundin. Ich lasse sie aus dem Spiel."
+    },
+    {
+      "id": "gw_jonas_3",
+      "a": "Ich sage offen, dass ich oben an der Zinne telefoniert habe, um Geld zu leihen.",
+      "b": "Mein Telefonat geht niemanden etwas an. Ich bleibe dabei, dass ich nichts zu erzählen habe."
+    }
+  ],
+  "generiert": "akte_export"
+}

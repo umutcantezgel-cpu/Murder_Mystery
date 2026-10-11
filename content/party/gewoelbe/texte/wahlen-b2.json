@@ -1,0 +1,68 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "gw_paulina_1",
+      "a": "Ich sage dem Detektiv, dass ich meine Stelle gekündigt habe. Das wollte ich eigentlich für mich behalten.",
+      "b": "Ich bleibe bei den Belegen, die ich habe. Über meine Stelle sage ich nichts."
+    },
+    {
+      "id": "gw_paulina_2",
+      "a": "Ich erzähle dem Detektiv, dass Jonas mit erhobenem Handy in den Turm ging. Damit stelle ich ihn bloß.",
+      "b": "Ich will keinen Freund ungerecht anprangern. Jonas lasse ich aus dem Spiel."
+    },
+    {
+      "id": "gw_paulina_3",
+      "a": "Ich gebe zu, dass ich im Januar die Kanzlei wechsle. Meine Eltern wissen es noch nicht.",
+      "b": "Meine neue Stelle bleibt mein Geheimnis. Ich rede nur über Belege."
+    },
+    {
+      "id": "gw_diyar_1",
+      "a": "Ich sage dem Detektiv, warum ich um Kunibert einen Bogen mache. Es geht um eine alte Angst.",
+      "b": "Meine Angst vor Rüstungen bleibt bei mir. Ich helfe lieber mit dem, was ich gesehen habe."
+    },
+    {
+      "id": "gw_diyar_2",
+      "a": "Ich erzähle dem Detektiv alles über Adnan, auch das, was ihn nicht gut aussehen lässt.",
+      "b": "Adnan hat mich in die Gruppe gebracht. Ich sage nur, was ihn entlastet."
+    },
+    {
+      "id": "gw_diyar_3",
+      "a": "Ich gestehe dem Detektiv meine Angst vor dem Visier der Rüstung.",
+      "b": "Über meine Angst rede ich nicht. Ich bleibe bei Adnan am Kamin."
+    },
+    {
+      "id": "gw_emre_1",
+      "a": "Ich sage dem Detektiv, dass ich Rojda für den Track nicht ganz bezahlen ließ. Das klingt nach mehr, als es ist.",
+      "b": "Das mit dem Track und der Bezahlung bleibt unter uns. Ich erzähle nur vom Klang."
+    },
+    {
+      "id": "gw_emre_2",
+      "a": "Ich erzähle dem Detektiv, dass ich selbst das Gespenst sein wollte. Rojda wollte nicht sagen, wen sie nahm.",
+      "b": "Rojda soll vor allen nicht bloßgestellt werden. Ich schweige zu ihrem Streich."
+    },
+    {
+      "id": "gw_emre_3",
+      "a": "Ich gebe zu, dass ich heimlich in Rojda verliebt bin. Sie wäre vor allen bloßgestellt.",
+      "b": "Ich sage nichts über meine Gefühle. Rojdas Ruf geht vor."
+    },
+    {
+      "id": "gw_lejla_1",
+      "a": "Ich sage dem Detektiv, dass ich im Seminar eine Lehrprobe verhauen habe. Merle weiß davon nichts.",
+      "b": "Meine Lehrprobe vergesse ich lieber. Ich erzähle nur, was ich gesehen habe."
+    },
+    {
+      "id": "gw_lejla_2",
+      "a": "Ich sage dem Detektiv, was Merle mir kurz vor elf zugeflüstert hat. Damit schade ich meiner Freundin.",
+      "b": "Merle ist meine Seminarfreundin. Ich verrate nicht, was sie mir leise gesagt hat."
+    },
+    {
+      "id": "gw_lejla_3",
+      "a": "Ich erzähle dem Detektiv, dass eine Anzeige Merles Verbeamtung gefährden kann.",
+      "b": "Das mit der Verbeamtung behalte ich für mich. Ich will Merle nicht verraten."
+    }
+  ],
+  "generiert": "akte_export"
+}

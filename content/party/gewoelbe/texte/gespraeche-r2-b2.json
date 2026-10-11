@@ -1,0 +1,144 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "g_paulina_2_1",
+      "rolle": "paulina",
+      "runde": 2,
+      "nr": 1,
+      "partner": "tomasz",
+      "thema": "Stimmen die Zahlen?",
+      "ziel": "Prüfe, ob die Rechnung für den Keller aufgeht.",
+      "preisgabe": [],
+      "text": "Moment, das sind fünfundfünfzig Euro mal alle hier. Für einen Keller, den es im November gar nicht zu mieten gibt."
+    },
+    {
+      "id": "g_paulina_2_2",
+      "rolle": "paulina",
+      "runde": 2,
+      "nr": 2,
+      "partner": "derya",
+      "thema": "Wer widerspricht sich?",
+      "ziel": "Finde Aussagen, die nicht zusammenpassen.",
+      "preisgabe": [],
+      "text": "Beleg? Mir erzählt jeder etwas anderes über den Hof. Wer war wirklich draußen?"
+    },
+    {
+      "id": "g_paulina_2_3",
+      "rolle": "paulina",
+      "runde": 2,
+      "nr": 3,
+      "partner": "diyar",
+      "thema": "Der Burgwart",
+      "ziel": "Vergleiche, was der Burgwart zum Türschaden sagte.",
+      "preisgabe": [],
+      "text": "Der Burgwart hat über den Türschaden ordentlich einen Zettel geschrieben. Das finde ich korrekt."
+    },
+    {
+      "id": "g_diyar_2_1",
+      "rolle": "diyar",
+      "runde": 2,
+      "nr": 1,
+      "partner": "dino",
+      "thema": "Wer kam zum Kamin?",
+      "ziel": "Beschreibe, wer ganz zum Schluss zum Kamin kam.",
+      "preisgabe": [
+        "beobachtung:b_diyar_merle_kam"
+      ],
+      "text": "Ganz zum Schluss kam jemand von der Turmtür-Seite her an den Kamin, außer Atem, mit eiskalten Händen. Das war Merle."
+    },
+    {
+      "id": "g_diyar_2_2",
+      "rolle": "diyar",
+      "runde": 2,
+      "nr": 2,
+      "partner": "elif",
+      "thema": "Wer war nicht da?",
+      "ziel": "Gleiche ab, wer wann am Kamin war.",
+      "preisgabe": [],
+      "text": "Ich bleibe ruhig und gehe die Zeiten durch. Wer war um acht vor zwölf nicht am Kamin?"
+    },
+    {
+      "id": "g_diyar_2_3",
+      "rolle": "diyar",
+      "runde": 2,
+      "nr": 3,
+      "partner": "paulina",
+      "thema": "Die Beule",
+      "ziel": "Erzähle, wie es dem Burgwart geht.",
+      "preisgabe": [],
+      "text": "Wir haben dem Burgwart die Beule untersucht. Die Pupillen sind gleich, und er ist ansprechbar. Das ist ein gutes Zeichen."
+    },
+    {
+      "id": "g_emre_2_1",
+      "rolle": "emre",
+      "runde": 2,
+      "nr": 1,
+      "partner": "amar",
+      "thema": "Der Aufbau des Tracks",
+      "ziel": "Beschreibe, was auf einem Track zu hören sein kann.",
+      "preisgabe": [],
+      "text": "Ein Track hat einen festen Aufbau: Wind, Ketten, Schritte, Türknarren, Schrei. Ein tiefer Ruf und rollende Dosen kommen darin nicht vor."
+    },
+    {
+      "id": "g_emre_2_2",
+      "rolle": "emre",
+      "runde": 2,
+      "nr": 2,
+      "partner": "annika",
+      "thema": "Blackout",
+      "ziel": "Finde heraus, wer den Blackout erwartet hat.",
+      "preisgabe": [],
+      "text": "Ein Blackout ohne Stichwort. Wer wusste, dass das Licht ausgeht?"
+    },
+    {
+      "id": "g_emre_2_3",
+      "rolle": "emre",
+      "runde": 2,
+      "nr": 3,
+      "partner": "lejla",
+      "thema": "Wer hört den Schrei?",
+      "ziel": "Lenke das Gespräch auf den Schrei.",
+      "preisgabe": [],
+      "text": "Wie der Schrei klingt, erkenne ich sofort. Wer hat ihn schon vorher gehört?"
+    },
+    {
+      "id": "g_lejla_2_1",
+      "rolle": "lejla",
+      "runde": 2,
+      "nr": 1,
+      "partner": "azad",
+      "thema": "Merle um fünf vor elf",
+      "ziel": "Berichte, was du von Merle gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_lejla_merle_blass"
+      ],
+      "text": "Um fünf vor elf kam Merle ganz blass von der Toilette zurück. Sie flüsterte mir zu, dass alles aus sei, wenn sie jemand anzeigt."
+    },
+    {
+      "id": "g_lejla_2_2",
+      "rolle": "lejla",
+      "runde": 2,
+      "nr": 2,
+      "partner": "selin",
+      "thema": "Silber und Bakterien",
+      "ziel": "Lenke von den Fotos ab.",
+      "preisgabe": [],
+      "text": "Silber mag übrigens keine Bakterien. Aber das ist nicht das Thema, oder? Was folgt für den Taler daraus?"
+    },
+    {
+      "id": "g_lejla_2_3",
+      "rolle": "lejla",
+      "runde": 2,
+      "nr": 3,
+      "partner": "emre",
+      "thema": "Wer hatte den Taler?",
+      "ziel": "Finde heraus, wer den Taler zuletzt hatte.",
+      "preisgabe": [],
+      "text": "Wer hat den Taler nach der Führung noch gesehen? Auf meinen Fotos ist das nicht zu erkennen."
+    }
+  ],
+  "generiert": "akte_export"
+}

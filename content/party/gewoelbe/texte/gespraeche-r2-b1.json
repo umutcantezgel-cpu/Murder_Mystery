@@ -1,0 +1,154 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "id": "g_adnan_2_1",
+      "rolle": "adnan",
+      "runde": 2,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Der Code-Zettel",
+      "ziel": "Lege offen, was auf dem Zettel am Sicherungskasten steht.",
+      "preisgabe": [
+        "beobachtung:b_adnan_code_warnung"
+      ],
+      "text": "Merle, den Code habe ich für jemand anderen aufgeschrieben. Auf dem Zettel steht die Warnung, vorher Kessel und Heizstrahler auszuschalten."
+    },
+    {
+      "id": "g_adnan_2_2",
+      "rolle": "adnan",
+      "runde": 2,
+      "nr": 2,
+      "partner": "jonas",
+      "thema": "Das Geld für den Keller",
+      "ziel": "Finde heraus, wofür Jonas die Miete eingesammelt hat.",
+      "preisgabe": [],
+      "text": "Jonas, der Keller war ein Gefallen für mich. Was genau hast du da eigentlich eingesammelt?"
+    },
+    {
+      "id": "g_adnan_2_3",
+      "rolle": "adnan",
+      "runde": 2,
+      "nr": 3,
+      "partner": "lejla",
+      "thema": "Was war am Kamin los?",
+      "ziel": "Sammle Zeugen für die Zeit am Kamin.",
+      "preisgabe": [],
+      "text": "Als der Qualm aus dem Kamin kam, habe ich Turmtür und Läden aufgerissen. Hast du in der Zeit etwas gesehen?"
+    },
+    {
+      "id": "g_rojda_2_1",
+      "rolle": "rojda",
+      "runde": 2,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Die Box",
+      "ziel": "Frage Jonas, was er von der Box hält.",
+      "preisgabe": [
+        "luege:luege_rojda_box"
+      ],
+      "text": "Jonas, der Schrei um Mitternacht klang nach meiner Box. Die spinnt seit dem Nachmittag, keine Ahnung warum."
+    },
+    {
+      "id": "g_rojda_2_2",
+      "rolle": "rojda",
+      "runde": 2,
+      "nr": 2,
+      "partner": "merle",
+      "thema": "Das Gespenst",
+      "ziel": "Prüfe, ob Merle am Turm-Fuß etwas bemerkt hat.",
+      "preisgabe": [
+        "beobachtung:b_rojda_gespenst_melde"
+      ],
+      "text": "Merle, am Turm-Fuß stand kurz vor zwölf ein Gespenst im Laken an der Eisentür. Hast du etwas bemerkt?"
+    },
+    {
+      "id": "g_rojda_2_3",
+      "rolle": "rojda",
+      "runde": 2,
+      "nr": 3,
+      "partner": "paulina",
+      "thema": "Dunkel und still",
+      "ziel": "Finde heraus, wer im Dunkeln etwas Auffälliges bemerkte.",
+      "preisgabe": [],
+      "text": "Ich habe unten am Kasten den Knall gehört. Danach war es stockdunkel. Wie war es bei dir?"
+    },
+    {
+      "id": "g_merle_2_1",
+      "rolle": "merle",
+      "runde": 2,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Der Taler bei der Führung",
+      "ziel": "Lege dar, was du bei der Führung getan hast.",
+      "preisgabe": [
+        "beobachtung:b_merle_taler_melde"
+      ],
+      "text": "Adnan, ich hatte den Taler bei der Führung in der Hand, als Jonas gegen Kunibert krachte. Mehr war da nicht."
+    },
+    {
+      "id": "g_merle_2_2",
+      "rolle": "merle",
+      "runde": 2,
+      "nr": 2,
+      "partner": "rojda",
+      "thema": "Gekniffen",
+      "ziel": "Erkläre Rojda, warum du nicht dabei warst.",
+      "preisgabe": [
+        "luege:luege_merle_gekniffen"
+      ],
+      "text": "Rojda, ich habe gekniffen, als es geknallt hat. Ich war gar nicht drin. Bitte behalte das für dich."
+    },
+    {
+      "id": "g_merle_2_3",
+      "rolle": "merle",
+      "runde": 2,
+      "nr": 3,
+      "partner": "diyar",
+      "thema": "Wer war wo?",
+      "ziel": "Finde heraus, wer vor dir am Kamin war.",
+      "preisgabe": [],
+      "text": "Ich bin im Dunkeln den Turm hinuntergetastet. Wer war eigentlich schon am Kamin, als ich ankam?"
+    },
+    {
+      "id": "g_jonas_2_1",
+      "rolle": "jonas",
+      "runde": 2,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Mein Job",
+      "ziel": "Halte deine Fassade vom Vertrieb aufrecht.",
+      "preisgabe": [
+        "luege:luege_jonas_job"
+      ],
+      "text": "Rojda, ich verkaufe Medizintechnik, Vertrieb und Außendienst. Frag mich bloß nicht nach Umsätzen!"
+    },
+    {
+      "id": "g_jonas_2_2",
+      "rolle": "jonas",
+      "runde": 2,
+      "nr": 2,
+      "partner": "adnan",
+      "thema": "Mitternacht",
+      "ziel": "Sage, wo du um Mitternacht nicht warst.",
+      "preisgabe": [
+        "beobachtung:b_jonas_nicht_hof"
+      ],
+      "text": "Adnan, um Mitternacht war ich nicht im Hof. Mehr sage ich dazu gerade nicht."
+    },
+    {
+      "id": "g_jonas_2_3",
+      "rolle": "jonas",
+      "runde": 2,
+      "nr": 3,
+      "partner": "emre",
+      "thema": "Der Hall der Box",
+      "ziel": "Lenke vom Thema Miete ab.",
+      "preisgabe": [],
+      "text": "Die Box hallt dreifach, hast du das gehört? Meine Begrüßung klang wie in einer Kathedrale."
+    }
+  ],
+  "generiert": "akte_export"
+}

@@ -1,0 +1,417 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Gegenstände und Indizien der Burg. Lage = wo der Gegenstand während der Ermittlungsrunden ist; sie ist vor dem Finale immer gleich. Jede Spur nennt, wann sie entsteht (immer oder nur im Pfad der Täterin), was sie dort zeigt und, bei pfadabhängigen Spuren, was sonst zu sehen wäre (harmlos). Der Schlüsselbund ist nie ein Kartenmarker.",
+  "gegenstaende": [
+    {
+      "id": "eichentuer",
+      "name": "Eichentür zur Speisekammer",
+      "beschreibung": "Alte Eichentür mit gesplitterter Füllung und gebrochenem Scharnier. Von der Speisekammerseite ist sie mit einem Holzbalken verkeilt. Staub und Spinnweben am Balken sind unberührt.",
+      "lage": {
+        "ort": "vor_eichentuer",
+        "stelle": "zwischen Gewölbe und Speisekammer"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "kerzenstaender",
+      "name": "Eiserner Kerzenständer",
+      "beschreibung": "Schwerer Kerzenständer aus Eisen für drei dicke Bienenwachskerzen. Er stand auf der Tonne in der Speisekammer.",
+      "lage": {
+        "ort": "am_kerzenstaender",
+        "stelle": "auf dem Boden neben der Tonne"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_staender_griff",
+          "stelle": "Griff",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Der Kerzenständer ist schwer, die drei Kerzen sind kalt. Am Fuß und an den Tüllen klebt Wachs. Der Griff ist sauber, ohne Ruß.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stablampe",
+      "name": "Stablampe mit Klebeband",
+      "beschreibung": "Schwarze Stablampe mit dem Klebeband „HODŽIĆ VT · 3“. Der Schalter steht auf AN.",
+      "lage": {
+        "ort": "unter_dem_regal",
+        "stelle": "unter dem Regal neben der Eisentür"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_lampe_adnan",
+          "stelle": "Klebeband",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Auf dem Klebeband steht „HODŽIĆ VT · 3“. Es ist Adnans Lampe. Der Schalter steht auf AN, die Batterie ist leer. Wer sie zuletzt hatte, verrät sie nicht. Sie zeigt auf Adnan.",
+          "rolle": {
+            "alle": "falsche_faehrte"
+          },
+          "belastet": [
+            "adnan"
+          ],
+          "widerlegtDurch": "Adnan hat die Lampe um halb sieben Rojda geliehen. Von dort wanderte sie weiter."
+        }
+      ]
+    },
+    {
+      "id": "wachsspritzer",
+      "name": "Wachsspritzer mit Teilabdruck",
+      "beschreibung": "Erstarrte Wachsspritzer auf dem Steinboden neben der Eisentür.",
+      "lage": {
+        "ort": "wachs_an_eisentuer",
+        "stelle": "auf dem Steinboden neben der Eisentür"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_abdruck_wachs",
+          "stelle": "Wachsspritzer",
+          "entstehtWenn": {
+            "pfade": [
+              "merle"
+            ]
+          },
+          "zeigt": "Das Wachs ist aus den Tüllen gespritzt, als der Kerzenständer schwang. Auf dem kalten Stein ist es sofort erstarrt. In einem Spritzer steckt der Abdruck eines Absatzes mit Stollenprofil. Am Absatzrand fehlt ein Stollen, die Spitze zeigt zur Eisentür. Wer den Kerzenständer schwang, ging durch die Eisentür hinaus. Merk dir die Lücke im Profil.",
+          "harmlos": "Neben der Eisentür liegen erstarrte Wachsspritzer. Alle sind glatt, keiner trägt einen Abdruck.",
+          "rolle": {
+            "merle": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "torte",
+      "name": "Geburtstagstorte",
+      "beschreibung": "Die Geburtstagstorte steht im Regal der Speisekammer.",
+      "lage": {
+        "einrichtung": "regal_links",
+        "ort": "an_der_torte",
+        "stelle": "im Regal links"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_torte",
+          "stelle": "Oberseite",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Die Torte ist unversehrt. Obendrauf sitzt ein Marzipan-Kunibert. Hübsch, aber sie verrät nichts.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "blechdose",
+      "name": "Blechdose des Burgwarts",
+      "beschreibung": "Alte Kaffeedose im Regal rechts neben der Eisentür. Darin liegt der Ausbeutetaler.",
+      "lage": {
+        "einrichtung": "regal_rechts",
+        "ort": "an_der_dose",
+        "stelle": "im Regal rechts neben der Eisentür"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "ruestung_kunibert",
+      "name": "Rüstung Kunibert",
+      "beschreibung": "Die Ritterrüstung auf dem ersten Absatz. Ihr rechter Panzerhandschuh ist nach vorn verbogen, seit Jonas im Dunkeln dagegen geprallt ist.",
+      "lage": {
+        "einrichtung": "ruestung",
+        "ort": "an_kunibert",
+        "stelle": "auf dem ersten Absatz"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_fetzen_laken",
+          "stelle": "Panzerhandschuh",
+          "entstehtWenn": {
+            "pfade": [
+              "merle"
+            ]
+          },
+          "zeigt": "Am verbogenen Panzerhandschuh hängt ein Streifen weißes Leinen mit rotem Wäschezeichen „Schartenfels 7“. Wer nach der Tat hier hinaufging, trug ein Laken. Das Visier ist zu. An Kuniberts Visier traust du dich nicht.",
+          "harmlos": "Der rechte Panzerhandschuh ist nach vorn verbogen. Sonst hängt nichts daran. Das Visier ist zu.",
+          "rolle": {
+            "merle": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "schluesselbund",
+      "name": "Schlüsselbund des Burgwarts",
+      "beschreibung": "Großer Bund mit Buntbartschlüsseln für Burgtor und Torhaus und einem kleinen Vitrinenschlüssel. Der Karabiner ist offen und heil.",
+      "lage": {
+        "ort": "an_kunibert",
+        "stelle": "im Helm der Rüstung",
+        "versteckt": true
+      },
+      "sichtbar": false
+    },
+    {
+      "id": "sicherungskasten",
+      "name": "Sicherungskasten mit Zahlenschloss",
+      "beschreibung": "Grauer Sicherungskasten am Turm-Fuß mit dem großen Hauptschalter.",
+      "lage": {
+        "einrichtung": "sicherungskasten",
+        "ort": "am_sicherungskasten",
+        "stelle": "am Turm-Fuß"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_kasten_durchgeschmort",
+          "stelle": "Hauptsicherung",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im offenen Kasten ist die Hauptsicherung durchgeschmort. Jemand hat den großen Hebel unter Last gezogen.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "code_zettel",
+      "name": "Code-Zettel in zwei Handschriften",
+      "beschreibung": "Kariertes Papier, beidseitig beschrieben, in zwei verschiedenen Handschriften.",
+      "lage": {
+        "ort": "unter_dem_sicherungskasten",
+        "stelle": "unter dem Sicherungskasten"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_zettel_vorn",
+          "stelle": "Vorderseite",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Der Zettel trägt vorn Adnans Schrift. Dort steht der Code und die Warnung: Vorher Kessel und Heizstrahler aus, sonst knallt’s! Die Hauptsicherung ist durchgeschmort. Alles sieht nach dem Techniker aus.",
+          "rolle": {
+            "alle": "falsche_faehrte"
+          },
+          "belastet": [
+            "adnan"
+          ],
+          "widerlegtDurch": "Der Zettel warnt vor genau dem Fehler, der den Knall verursacht hat. Wer den Hebel zog, hat die Warnung nicht gelesen."
+        }
+      ]
+    },
+    {
+      "id": "vitrine",
+      "name": "Schauvitrine",
+      "beschreibung": "Die Schauvitrine auf der Hofebene, in der sonst der Silberhauer Ausbeutetaler liegt.",
+      "lage": {
+        "einrichtung": "vitrine",
+        "ort": "an_der_vitrine",
+        "stelle": "auf der Hofebene"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_vitrine_leer",
+          "stelle": "Samtmulde",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Die Vitrine ist abgeschlossen und leer. Um die Samtmulde liegt ein Staubrand. Der Taler liegt längst wieder in der Dose.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kamin_heissluft",
+      "name": "Kamin und Heißluftpistole",
+      "beschreibung": "Der große Steinkamin mit nassem Holz. Daneben liegt die Heißluftpistole.",
+      "lage": {
+        "einrichtung": "kamin",
+        "ort": "am_kamin",
+        "stelle": "im Kamin-Gewölbe"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_kamin_russ",
+          "stelle": "Kaminrand",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Nasses Holz, eine Heißluftpistole, Ruß bis zur Tafel. Adnan war hier. Aber wie lange, im Dunkeln am Kamin, mitten im Qualm?",
+          "rolle": {
+            "alle": "falsche_faehrte"
+          },
+          "belastet": [
+            "adnan"
+          ],
+          "widerlegtDurch": "Adnan kniete vom Qualm bis zum Schrei am Kamin. Viele haben ihn gesehen."
+        }
+      ]
+    },
+    {
+      "id": "punschkessel",
+      "name": "Punschkessel",
+      "beschreibung": "Großer Kupferkessel mit warmem, alkoholfreiem Apfel-Zimt-Punsch.",
+      "lage": {
+        "einrichtung": "punschkessel",
+        "ort": "am_punschkessel",
+        "stelle": "im Kamin-Gewölbe"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_kessel",
+          "stelle": "Kessel",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Der Punsch ist noch warm und duftet nach Zimt. Der Kessel lief bis zum Knall. Mehr verrät er nicht.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bluetooth_box",
+      "name": "Bluetooth-Box in der Nische",
+      "beschreibung": "Die kleine, wackelige Box steht in der Nische direkt neben der Eichentür.",
+      "lage": {
+        "ort": "an_der_nische",
+        "stelle": "in der Nische neben der Eichentür"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_track_karte",
+          "stelle": "Track-Karte",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Auf der Track-Karte „Geisterstunde“ steht: Wind, bei einer Minute dreißig Ketten, bei drei Minuten ein langer, hoher Schrei. Der Schrei um Mitternacht kam also aus der Box. Was du kurz nach dem Knall gehört hast, noch vor den Ketten, war echt.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_rojda_streich"
+        }
+      ]
+    },
+    {
+      "id": "holztruhe",
+      "name": "Holztruhe am Turm-Fuß",
+      "beschreibung": "Alte Holztruhe neben dem Sicherungskasten. Der Deckel knarrt.",
+      "lage": {
+        "einrichtung": "holztruhe",
+        "ort": "an_der_holztruhe",
+        "stelle": "am Turm-Fuß"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "sofortbild",
+      "name": "Sofortbild der Burgführung",
+      "beschreibung": "Ein Sofortbild an der Fotowand im Gewölbe. Die Uhrzeit steht am Rand.",
+      "lage": {
+        "ort": "an_der_fotowand",
+        "stelle": "an der Fotowand im Gewölbe"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_sofortbild",
+          "stelle": "Sofortbild",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Auf dem Sofortbild prallt Jonas gegen Kunibert. Dahinter steht Merle mit der Hand an der Tasche ihrer Strickjacke. Im Hintergrund ist die Samtmulde der Vitrine leer.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "raureif_spuren",
+      "name": "Spuren im Raureif",
+      "beschreibung": "Auf dem Hof liegt Raureif. Jede Spur, die danach gelaufen ist, bleibt darin lesbar.",
+      "lage": {
+        "ort": "im_raureif",
+        "stelle": "auf dem Hof"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "burgtor",
+      "name": "Burgtor",
+      "beschreibung": "Das schwere Burgtor mit dem alten Kastenschloss. Es öffnet auch von innen nur mit dem großen Schlüssel.",
+      "lage": {
+        "ort": "am_burgtor",
+        "stelle": "im Hof"
+      },
+      "sichtbar": true
+    },
+    {
+      "id": "sohlenkarten",
+      "name": "Sohlenkarten der vier Verdächtigen",
+      "beschreibung": "Vier Karten mit den Sohlenbildern von Adnan, Rojda, Merle und Jonas.",
+      "lage": {
+        "ort": "an_der_festtafel",
+        "stelle": "auf der Festtafel"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_sohlen_abgleich",
+          "stelle": "Sohlenbilder",
+          "entstehtWenn": {
+            "pfade": [
+              "merle"
+            ]
+          },
+          "zeigt": "Adnan trägt Arbeitsschuhe mit Kreuzprofil, Rojda glatte Turnschuhe. Merle und Jonas tragen dasselbe Stiefelmodell. Aber nur an Merles linkem Absatz fehlt ein Stollen, genau wie im Wachs. Der Abdruck stammt von Merle.",
+          "harmlos": "Adnan trägt Kreuzprofil, Rojda glatte Sohlen. Merle und Jonas tragen dasselbe Stiefelmodell. Bei beiden sind alle Stollen heil. Der Abdruck im Wachs passt zu keiner Karte.",
+          "rolle": {
+            "merle": "schluesselbeweis"
+          }
+        }
+      ]
+    }
+  ],
+  "nebendelikte": [
+    {
+      "id": "nd_adnan_code",
+      "person": "adnan",
+      "text": "Hat Rojda für ihren Streich den Code des Sicherungskastens aufgeschrieben und seine Stablampe geliehen.",
+      "duText": "Du hast Rojda für ihren Streich den Code des Sicherungskastens aufgeschrieben und deine Stablampe geliehen."
+    },
+    {
+      "id": "nd_rojda_streich",
+      "person": "rojda",
+      "text": "Hat den Geisterstreich geplant, den Track aufgenommen und den Hebel am Sicherungskasten gezogen.",
+      "duText": "Du hast den Geisterstreich geplant, den Track aufgenommen und den Hebel am Sicherungskasten gezogen."
+    },
+    {
+      "id": "nd_jonas_miete",
+      "person": "jonas",
+      "text": "Hat von allen 55 Euro Miete eingesammelt, obwohl der Keller nichts gekostet hat, und ist seit Juni arbeitslos.",
+      "duText": "Du hast von allen 55 Euro Miete eingesammelt, obwohl der Keller nichts gekostet hat, und bist seit Juni arbeitslos."
+    }
+  ],
+  "generiert": "akte_export"
+}

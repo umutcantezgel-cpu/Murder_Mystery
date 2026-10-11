@@ -1,0 +1,417 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Raumgraph",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "zeit": {
+      "type": "string",
+      "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "pfade": {
+      "anyOf": [
+        {
+          "const": "alle"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/pfad"
+          }
+        }
+      ]
+    },
+    "idListe": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "fenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/zeit"
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "massstab",
+    "raster",
+    "rooms",
+    "tueren",
+    "einrichtung",
+    "orte",
+    "lichtquellen",
+    "luftzug",
+    "geraeusch"
+  ],
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "massstab": {
+      "$ref": "#/$defs/text"
+    },
+    "raster": {
+      "type": "object",
+      "required": [
+        "breite",
+        "hoehe"
+      ],
+      "properties": {
+        "breite": {
+          "type": "integer"
+        },
+        "hoehe": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "anzeigename",
+          "rechteck",
+          "boden"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "anzeigename": {
+            "$ref": "#/$defs/text"
+          },
+          "widthMeters": {
+            "type": "integer"
+          },
+          "rechteck": {
+            "type": "object",
+            "required": [
+              "x",
+              "y",
+              "b",
+              "l"
+            ],
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "b": {
+                "type": "integer"
+              },
+              "l": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "boden": {
+            "$ref": "#/$defs/text"
+          },
+          "features": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "beschreibung": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tueren": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "von",
+          "nach",
+          "kacheln",
+          "art",
+          "zustand",
+          "quietscht"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "von": {
+            "$ref": "#/$defs/id"
+          },
+          "nach": {
+            "$ref": "#/$defs/id"
+          },
+          "kacheln": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          "art": {
+            "$ref": "#/$defs/text"
+          },
+          "schliesst": {
+            "$ref": "#/$defs/text"
+          },
+          "schluessel": {
+            "$ref": "#/$defs/id"
+          },
+          "zustand": {
+            "$ref": "#/$defs/text"
+          },
+          "quietscht": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "einrichtung": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "typ",
+          "x",
+          "y",
+          "blockiert"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "typ": {
+            "$ref": "#/$defs/id"
+          },
+          "x": {
+            "type": "integer"
+          },
+          "y": {
+            "type": "integer"
+          },
+          "blockiert": {
+            "type": "boolean"
+          },
+          "darstellung": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "orte": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "raum",
+          "x",
+          "y",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "raum": {
+            "$ref": "#/$defs/id"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "zusatzweg": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lichtquellen": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "art",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "art": {
+            "enum": [
+              "elektrisch",
+              "kerze",
+              "notlicht",
+              "feuer",
+              "nachleuchten",
+              "lampe"
+            ]
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "raeume": {
+            "$ref": "#/$defs/idListe"
+          },
+          "an": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "$ref": "#/$defs/fenster"
+            }
+          },
+          "hinweis": {
+            "$ref": "#/$defs/text"
+          },
+          "ort": {
+            "$ref": "#/$defs/id"
+          },
+          "farbe": {
+            "$ref": "#/$defs/hex"
+          },
+          "radius": {
+            "type": "number"
+          },
+          "flackern": {
+            "type": "number"
+          },
+          "traeger": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "luftzug": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "ab",
+          "weg",
+          "grund"
+        ],
+        "properties": {
+          "ab": {
+            "$ref": "#/$defs/zeit"
+          },
+          "weg": {
+            "$ref": "#/$defs/idListe"
+          },
+          "grund": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "geraeusch": {
+      "type": "object",
+      "required": [
+        "regel",
+        "nachbarn",
+        "geschlossen"
+      ],
+      "properties": {
+        "regel": {
+          "$ref": "#/$defs/text"
+        },
+        "nachbarn": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        "geschlossen": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,93 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "rolle": "paulina",
+      "wer": "Du bist Paulina, die Steuerfachfrau. Du arbeitest in einer Kanzlei und fragst bei jeder Behauptung: „Beleg?“ Du trägst einen dunkelblauen Cordblazer mit Kugelschreiber im Revers. Den ganzen Abend verfolgst du Jonas mit einem Quittungsvordruck.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_paulina_quittung"
+        },
+        {
+          "ref": "beobachtung:b_paulina_jonas_turm"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast heimlich deine Stelle gekündigt. Im Januar fängst du bei einer anderen Kanzlei an."
+        },
+        {
+          "text": "Dein Chef kennt deine Eltern, und sie sind stolz auf deine sichere Stelle. Deshalb hast du es ihnen noch nicht gesagt."
+        }
+      ],
+      "ziel": "Du willst eine Quittung für deine Miete. Du willst aber keinen Freund ungerecht anprangern.",
+      "besetzung": "Jede Person kann Paulina spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "diyar",
+      "wer": "Du bist Diyar, der Rettungssanitäter. Du fragst gern: „Auf einer Skala von eins bis zehn?“ Du trägst eine dunkelblaue Funktionsjacke und ein dunkelrotes Halstuch. Im Qualm am Kamin ziehst du das Tuch vor Mund und Nase.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_diyar_adnan_kamin"
+        },
+        {
+          "ref": "beobachtung:b_diyar_merle_kam"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast seit Kindertagen Angst vor Ritterrüstungen. Als Kind klappte in einem Museum ein Visier direkt vor deinem Gesicht zu."
+        },
+        {
+          "text": "Seit der Führung machst du einen Bogen um Kunibert. Den Grund verrätst du niemandem."
+        }
+      ],
+      "ziel": "Du willst Adnan entlasten. Dabei willst du niemandem etwas anhängen.",
+      "besetzung": "Jede Person kann Diyar spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "emre",
+      "wer": "Du bist Emre, der Tontechniker. Du arbeitest am Stadttheater und redest in Bühnenwörtern. Du trägst eine abgewetzte braune Lederjacke voller Anstecker von Theaterstücken. Wenn du schmollst, summst du leise.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_emre_track"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Rojda hat dich für den Track nicht ganz bezahlt, und du hast nicht darauf bestanden."
+        },
+        {
+          "text": "Du bist heimlich in Rojda verliebt. Du wolltest selbst das Gespenst sein, aber sie wollte dir nicht sagen, wen sie genommen hat."
+        }
+      ],
+      "ziel": "Du willst Rojda helfen, ohne sie vor allen bloßzustellen.",
+      "besetzung": "Jede Person kann Emre spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "lejla",
+      "wer": "Du bist Lejla, die Biologiereferendarin. Du sitzt im selben Seminar wie Merle. Du erklärst Gefühle gern biologisch: „Das ist Adrenalin, das geht vorbei.“ Du trägst einen dunkelblauen Pullover und kleine Marienkäfer-Ohrringe.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_lejla_taler_fotos"
+        },
+        {
+          "ref": "beobachtung:b_lejla_merle_blass"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast im Seminar eine Lehrprobe verhauen und musst sie wiederholen. Das hast du weder deiner Familie noch Merle erzählt."
+        },
+        {
+          "text": "Aus dem Seminar weißt du, was ein Ermittlungsverfahren für die Verbeamtung bedeuten kann."
+        }
+      ],
+      "ziel": "Du willst deine Lehrprobe vergessen. Und du willst Merle nicht verraten.",
+      "besetzung": "Jede Person kann Lejla spielen, egal welches Geschlecht sie hat."
+    }
+  ],
+  "generiert": "akte_export"
+}

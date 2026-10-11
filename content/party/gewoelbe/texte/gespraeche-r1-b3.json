@@ -1,0 +1,148 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 9 bis 12.",
+  "eintraege": [
+    {
+      "id": "g_tomasz_1_1",
+      "rolle": "tomasz",
+      "runde": 1,
+      "nr": 1,
+      "partner": "henrik",
+      "thema": "Kerzenlicht unter der Tür",
+      "ziel": "Erzähle, was du um zehn vor zwölf an der Speisekammer gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_tomasz_eisentuer"
+      ],
+      "text": "Ich wollte nach der Torte sehen. Unter der Eisentür schimmerte Kerzenlicht. Als ich öffnete, zischte der Burgwart hinter dem Regal: „Psst! Ich bin nicht hier. Geh wieder.“"
+    },
+    {
+      "id": "g_tomasz_1_2",
+      "rolle": "tomasz",
+      "runde": 1,
+      "nr": 2,
+      "partner": "paulina",
+      "thema": "Die Torte",
+      "ziel": "Frage, ob jemand an der Torte war.",
+      "preisgabe": [],
+      "text": "War jemand an der Torte? Die muss ruhen wie ein Hefeteig. Zehn, neun, acht …"
+    },
+    {
+      "id": "g_tomasz_1_3",
+      "rolle": "tomasz",
+      "runde": 1,
+      "nr": 3,
+      "partner": "annika",
+      "thema": "Mein Alibi",
+      "ziel": "Sage, wo du beim Knall warst.",
+      "preisgabe": [],
+      "text": "Als es dunkel wurde, saß ich an der Festtafel. Eine Minute vorher war ich wieder im Gewölbe."
+    },
+    {
+      "id": "g_annika_1_1",
+      "rolle": "annika",
+      "runde": 1,
+      "nr": 1,
+      "partner": "zofia",
+      "thema": "Die Säule",
+      "ziel": "Erkläre, warum du neben der Turmtür standest.",
+      "preisgabe": [],
+      "text": "Moin! Ich stand ab drei vor zwölf an der Säule neben der Turmtür. Ich steh hier gut."
+    },
+    {
+      "id": "g_annika_1_2",
+      "rolle": "annika",
+      "runde": 1,
+      "nr": 2,
+      "partner": "diyar",
+      "thema": "Zweimal Quietschen",
+      "ziel": "Berichte, was du aus dem Turm gehört hast.",
+      "preisgabe": [
+        "beobachtung:b_annika_turmtuer"
+      ],
+      "text": "Aus dem Turm hörte ich im Dunkeln die Eisentür zweimal quietschen. Beide Male vor dem Schrei. Das war ein spitzes, kantiges Geräusch."
+    },
+    {
+      "id": "g_annika_1_3",
+      "rolle": "annika",
+      "runde": 1,
+      "nr": 3,
+      "partner": "tomasz",
+      "thema": "Mein Platz im Dunkeln",
+      "ziel": "Sage, ob du etwas gesehen hast.",
+      "preisgabe": [],
+      "text": "Gesehen habe ich im Dunkeln niemanden. Ich blieb stehen, wo ich stand."
+    },
+    {
+      "id": "g_berfin_1_1",
+      "rolle": "berfin",
+      "runde": 1,
+      "nr": 1,
+      "partner": "selin",
+      "thema": "Sterne und Dunkelheit",
+      "ziel": "Erzähle, was du vom Wehrgang aus gesehen hast.",
+      "preisgabe": [
+        "beobachtung:b_berfin_dunkel"
+      ],
+      "text": "Stell dir vor: Vom Wehrgang aus habe ich gesehen, wie die ganze Burg auf einmal dunkel wurde, nicht nur das Gewölbe."
+    },
+    {
+      "id": "g_berfin_1_2",
+      "rolle": "berfin",
+      "runde": 1,
+      "nr": 2,
+      "partner": "emre",
+      "thema": "Lichtjahre",
+      "ziel": "Erkläre dein Alibi.",
+      "preisgabe": [],
+      "text": "Ab zehn vor zwölf war ich auf dem Wehrgang an der fünften Zinne. Ja, ich weiß, das ist nachts verboten."
+    },
+    {
+      "id": "g_berfin_1_3",
+      "rolle": "berfin",
+      "runde": 1,
+      "nr": 3,
+      "partner": "dino",
+      "thema": "Rotlicht",
+      "ziel": "Erkläre deine Stirnlampe.",
+      "preisgabe": [],
+      "text": "Rotlicht blendet die Augen nicht. Darum trage ich es beim Sternegucken, auch wenn ich damit wie ein Fahrradrücklicht aussehe."
+    },
+    {
+      "id": "g_dino_1_1",
+      "rolle": "dino",
+      "runde": 1,
+      "nr": 1,
+      "partner": "kamil",
+      "thema": "Die Bausubstanz",
+      "ziel": "Erkläre, wie die Speisekammer gebaut ist.",
+      "preisgabe": [
+        "beobachtung:b_dino_speisekammer"
+      ],
+      "text": "Die Speisekammer hat zwei Türen und kein Fenster, nur einen handbreiten Lüftungsschacht. Da passt kein Mensch durch."
+    },
+    {
+      "id": "g_dino_1_2",
+      "rolle": "dino",
+      "runde": 1,
+      "nr": 2,
+      "partner": "lejla",
+      "thema": "Mein Alibi",
+      "ziel": "Sage, wo du beim Knall warst.",
+      "preisgabe": [],
+      "text": "Um drei vor zwölf habe ich den Heizstrahler an der Tafel höher gedreht. Mir war kalt. Dann saß ich da, auch im Dunkeln."
+    },
+    {
+      "id": "g_dino_1_3",
+      "rolle": "dino",
+      "runde": 1,
+      "nr": 3,
+      "partner": "berfin",
+      "thema": "Sorry, sorry",
+      "ziel": "Entschuldige dich für den Strahler.",
+      "preisgabe": [],
+      "text": "Ich glaube, mein Heizstrahler hat die Sicherung herausgehauen. Sorry, sorry, das wollte ich nicht."
+    }
+  ],
+  "generiert": "akte_export"
+}

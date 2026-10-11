@@ -1,0 +1,1254 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Beobachtungen der Zeugen. Kanal: pflichtgespraech = darf am Tisch erzählt werden (Regel P-1); verborgen = steht im Dossier unter „Was ich verberge“ und erreicht den Detektiv nur über eine Entscheidung oder den Bonus-Hinweis; erzaehler = kommt aus der Detektiv-Mappe oder über den Erzähler. Das Gewölbe hat einen festen Täterpfad, darum gelten alle Beobachtungen in allen Pfaden.",
+  "beobachtungen": [
+    {
+      "id": "b_det_eichentuer",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Die Eichentür hat die ganze Zeit niemand von deiner Seite geöffnet. Sie war von innen verkeilt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356a"
+        ]
+      }
+    },
+    {
+      "id": "b_det_geraeusche",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Kurz nach dem Knall quietschte drüben eine Tür. Noch vor dem Kettenrasseln der Box hörtest du durch die gesplitterte Tür ein Klimpern, einen tiefen Ruf, einen dumpfen Schlag, Poltern und rollende Dosen. Unter dem Kettenrasseln quietschte die Tür noch einmal. Dann kam der Schrei, direkt neben dir.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a",
+          "z_0000a"
+        ]
+      }
+    },
+    {
+      "id": "b_det_merle_verlaufen",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Kurz vor dem Schrei sagte Merle drüben am Kamin laut: „Adnan? Ich bin’s, Merle! Ich hab mich total verlaufen.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2359c"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_det_merle_darstellung",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Merles eigene Darstellung: Sie wollte um acht vor zwölf auf die Toilette und verlief sich bis auf den Wehrgang. Dort sah Jonas sie. Nach dem Knall tastete sie sich die Treppe hinunter und stand beim Schrei neben Adnan.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2352b",
+          "z_2354a",
+          "z_2359c"
+        ]
+      }
+    },
+    {
+      "id": "b_det_rojda_kasten",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Nach dem Schrei stand Rojda mit Handylicht am offenen Sicherungskasten. Sie sagte: „Ich wollte nur das Licht wieder …“",
+      "beleg": {
+        "zeitleiste": [
+          "z_0000d"
+        ]
+      }
+    },
+    {
+      "id": "b_det_wachs_hart",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "In der Speisekammer lag der Burgwart, neben ihm der Kerzenständer. Das Wachs am Boden war schon hart, als du mit Adnan als Erster hereinkamst. In einem Spritzer steckte bereits ein Abdruck.",
+      "beleg": {
+        "zeitleiste": [
+          "z_0000d"
+        ]
+      }
+    },
+    {
+      "id": "b_det_ultimatum",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Um Viertel vor elf hat der Burgwart allen ein Ultimatum gestellt. Bis zwölf soll der Taler in der Blechdose im Regal neben der Eisentür liegen, sonst ruft er die Polizei. Merle rief: „Ich hab ihn doch zurückgegeben!“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2245"
+        ]
+      }
+    },
+    {
+      "id": "b_det_kamin_muetze",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Im Kaminschein kniete jemand mit Mütze und hustete.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2348"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_bw_nie_geschrien",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Der Burgwart sagt: „Geschrien? Ich? Dreißig Jahre unter Tage, ich hab nie geschrien.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_0000e"
+        ]
+      }
+    },
+    {
+      "id": "b_bw_dose_zugepackt",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Der Burgwart sagt: „Ich hab im Dunkeln gesessen, die Kerzen hatte ich ausgepustet. Dann hat’s in meiner Dose geklimpert. Da hab ich zugepackt und ‚Hab ich dich!‘ gebrüllt. Gebrüllt, nicht geschrien. Dann war’s dunkel bei mir.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2346",
+          "z_2358f"
+        ]
+      }
+    },
+    {
+      "id": "b_bw_bett",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Der Burgwart sagt: „Ins Bett? Hab ich extra so gesagt. Ich wollt nur gucken, wer den Taler bringt. Nur gucken.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2335"
+        ]
+      }
+    },
+    {
+      "id": "b_bw_laken",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Der Burgwart sagt: „Was ich am Handgelenk gepackt hab, war ein Laken. Glatter Stoff. Und drunter ein Ärmel, was Gestricktes, Wolle.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358f"
+        ]
+      }
+    },
+    {
+      "id": "b_box_verbindung_getrennt",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Um sechs vor zwölf dröhnte die Box „Verbindung getrennt“. Jonas’ Handy hatte den Funkbereich des Gewölbes verlassen. Schon um halb neun hatte seine Begrüßung dreifach aus der Box gehallt: „Die Miete ist bezahlt!“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2030",
+          "z_2354b"
+        ]
+      }
+    },
+    {
+      "id": "b_bw_im_turm",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Um Viertel vor zwölf stieg der Burgwart in den Turm, wie die Raureifspuren zeigen. Da war er noch munter. Das bringt dich nicht weiter.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2344",
+          "z_2345"
+        ]
+      }
+    },
+    {
+      "id": "b_schrei_hypothese",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Wenn es beim Schrei passierte, hatten Merle und Adnan ein Alibi, Rojda und Jonas nicht. Die Liste wird kurz, aber stimmt sie auch?",
+      "beleg": {
+        "zeitleiste": [
+          "z_0000a"
+        ]
+      }
+    },
+    {
+      "id": "b_tatzeit_nach_knall",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Alles fügt sich. Gleich nach dem Knall klimperte die Dose, der Burgwart brüllte „Hab ich dich!“, dann kamen Schlag und Poltern, alles vor den Ketten. Der Schrei um Mitternacht war die Box. Wer für den Schrei ein Alibi hat, hat für die Tat keins.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a",
+          "z_2358f",
+          "z_0000a"
+        ]
+      }
+    },
+    {
+      "id": "b_merle_alibi_nur_schrei",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Um sechs vor zwölf war Merle auf dem Wehrgang, bei Adnan am Kamin erst kurz vor dem Schrei. Das sind fünf Minuten für eine Treppe. Ihr Alibi gilt nur für den Schrei. Und wer im Streich mitspielte, wusste, wann der Schrei kommt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2354a",
+          "z_2359c"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_adnan_russ",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Adnan hat seit dem Kamin Ruß an Händen und Gesicht. Den Kerzenständer hat er nicht angefasst.",
+      "duText": "Du hast seit dem Kamin Ruß an Händen und Gesicht. Den Kerzenständer hast du nicht angefasst.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2352a"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_adnan_code_warnung",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Adnan hat den Code des Sicherungskastens für jemand anderen aufgeschrieben, mit der Warnung, vorher Kessel und Heizstrahler auszuschalten.",
+      "duText": "Du hast den Code des Sicherungskastens für jemand anderen aufgeschrieben, mit der Warnung, vorher Kessel und Heizstrahler auszuschalten.",
+      "beleg": {
+        "zeitleiste": [
+          "z_1830"
+        ]
+      },
+      "widerlegt": [
+        "luege_adnan_code"
+      ],
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_adnan_kamin",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Adnan kniete vom Qualm bis zum Schrei am Kamin. Nur um acht vor zwölf sprang er kurz auf und riss Turmtür und Läden auf.",
+      "duText": "Du hast vom Qualm bis zum Schrei am Kamin gekniet. Nur um acht vor zwölf bist du kurz aufgesprungen und hast Turmtür und Läden aufgerissen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2348",
+          "z_2352a"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_adnan_merle_spaet",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Kurz vor dem Schrei stand Merle plötzlich neben Adnan, außer Atem, mit eiskalten Händen. Sie sagte laut, sie habe sich verlaufen.",
+      "duText": "Kurz vor dem Schrei stand Merle plötzlich neben dir, außer Atem, mit eiskalten Händen. Sie sagte laut, sie habe sich verlaufen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2359c"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_adnan_handschlag",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Adnan hat den Türschaden um halb zwölf per Handschlag mit dem Burgwart geklärt. Er repariert die Tür selbst.",
+      "duText": "Du hast den Türschaden um halb zwölf per Handschlag mit dem Burgwart geklärt. Du reparierst die Tür selbst.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2330"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_rojda_turmfuss",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Als es knallte, war Rojda schon unten am Turm-Fuß.",
+      "duText": "Als es knallte, warst du schon unten am Turm-Fuß.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a"
+        ]
+      }
+    },
+    {
+      "id": "b_rojda_gespenst_melde",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Am Turm-Fuß stand kurz vor zwölf ein Gespenst im Laken an der Eisentür.",
+      "duText": "Am Turm-Fuß stand kurz vor zwölf ein Gespenst im Laken an der Eisentür.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356e"
+        ]
+      },
+      "widerlegt": [
+        "luege_rojda_box"
+      ]
+    },
+    {
+      "id": "b_rojda_track",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Der Schrei um Mitternacht ist auf Rojdas Track.",
+      "duText": "Der Schrei um Mitternacht ist auf deinem Track.",
+      "beleg": {
+        "zeitleiste": [
+          "z_0000a"
+        ]
+      },
+      "widerlegt": [
+        "luege_rojda_box"
+      ]
+    },
+    {
+      "id": "b_merle_wehrgang",
+      "wer": "merle",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um sechs vor zwölf war Merle oben auf dem Wehrgang.",
+      "duText": "Um sechs vor zwölf warst du oben auf dem Wehrgang.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2354a"
+        ]
+      }
+    },
+    {
+      "id": "b_merle_taler_melde",
+      "wer": "merle",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Bei der Führung hatte Merle den Taler in der Hand, als Jonas gegen Kunibert gekracht ist.",
+      "duText": "Bei der Führung hattest du den Taler in der Hand, als Jonas gegen Kunibert gekracht ist.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2120"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_merle_schrei_neben_adnan",
+      "wer": "merle",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Beim Schrei um Mitternacht stand Merle neben Adnan.",
+      "duText": "Beim Schrei um Mitternacht standest du neben Adnan.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2359c"
+        ]
+      }
+    },
+    {
+      "id": "b_jonas_stiefel_melde",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Merle und Jonas tragen das gleiche Wanderstiefelmodell, beide im Sonderangebot gekauft.",
+      "duText": "Merle und du tragt das gleiche Wanderstiefelmodell, beide im Sonderangebot gekauft.",
+      "beleg": {
+        "zeitleiste": [
+          "z_1735"
+        ]
+      }
+    },
+    {
+      "id": "b_jonas_nicht_hof",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um Mitternacht war Jonas nicht im Hof.",
+      "duText": "Um Mitternacht warst du nicht im Hof.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356d"
+        ]
+      },
+      "widerlegt": [
+        "luege_jonas_hof"
+      ]
+    },
+    {
+      "id": "b_jonas_telefonat",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Jonas hat von vier vor zwölf bis kurz nach zwei vor zwölf telefoniert, oben an der dritten Zinne.",
+      "duText": "Du hast von vier vor zwölf bis kurz nach zwei vor zwölf telefoniert, oben an der dritten Zinne.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356d"
+        ]
+      },
+      "widerlegt": [
+        "luege_jonas_hof"
+      ],
+      "entlastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_jonas_kunibert",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Jonas ist bei der Führung im Dunkeln gegen Kunibert geprallt. Das Visier klapperte, und seitdem ist der rechte Panzerhandschuh nach vorn verbogen.",
+      "duText": "Du bist bei der Führung im Dunkeln gegen Kunibert geprallt. Das Visier klapperte, und seitdem ist der rechte Panzerhandschuh nach vorn verbogen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2120"
+        ]
+      }
+    },
+    {
+      "id": "b_adnan_code",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Adnan erkennt vorn seine Schrift. Den Code hat er für einen Geburtstagsstreich aufgeschrieben, mit der Warnung vor Kessel und Heizstrahler. Wem, sagt er nicht. Die Rückseite? „Nicht meine Schrift.“ Er bleibt dabei, dass er am Kamin gekniet hat.",
+      "duText": "Du erkennst vorn deine Schrift. Den Code hast du für einen Geburtstagsstreich aufgeschrieben, mit der Warnung vor Kessel und Heizstrahler. Wem, sagst du nicht.",
+      "beleg": {
+        "zeitleiste": [
+          "z_1830"
+        ]
+      },
+      "belastet": [
+        "adnan"
+      ],
+      "grundVerborgen": "Er will Rojda nicht verraten, solange sie es nicht selbst sagt."
+    },
+    {
+      "id": "b_jonas_torte",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Jonas liest die Rückseite und strahlt: „Torte! Leute, die Torte!“ Vom Streich weiß er nichts.",
+      "duText": "Du liest die Rückseite und strahlst: „Torte! Leute, die Torte!“ Vom Streich weißt du nichts.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2315"
+        ]
+      },
+      "grundVerborgen": "Er wusste nichts von dem Streich."
+    },
+    {
+      "id": "b_rojda_hebel",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Rojda gibt den Streich zu. Um zwei vor zwölf hat sie den Hebel gezogen, der Schrei war ihr Track.",
+      "duText": "Du gibst den Streich zu. Um zwei vor zwölf hast du den Hebel gezogen, der Schrei war dein Track.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a",
+          "z_2357a"
+        ]
+      },
+      "widerlegt": [
+        "luege_rojda_licht"
+      ],
+      "entlastet": [
+        "rojda"
+      ],
+      "grundVerborgen": "Sie schämt sich für den Streich und die durchgebrannte Sicherung."
+    },
+    {
+      "id": "b_rojda_gespenst",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Am Turm-Fuß stand ein Gespenst im Laken an der Eisentür und zeigte ihr den Daumen. Wer darunter war, will sie dir nicht sagen.",
+      "duText": "Am Turm-Fuß stand ein Gespenst im Laken an der Eisentür und zeigte dir den Daumen. Wer darunter war, sagst du nicht.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356e"
+        ]
+      },
+      "grundVerborgen": "Sie hat versprochen, das Gespenst nicht zu verraten."
+    },
+    {
+      "id": "b_rojda_nie_hof",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Rojda zuckt mit den Schultern. Sie war im Turm, nie im Hof. Nichts Neues.",
+      "duText": "Du zuckst mit den Schultern. Du warst im Turm, nie im Hof.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356e"
+        ]
+      }
+    },
+    {
+      "id": "b_jonas_zinne",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Jonas gibt auf. Er war nicht im Hof, sondern oben an der dritten Zinne und hat telefoniert.",
+      "duText": "Du gibst auf. Du warst nicht im Hof, sondern oben an der dritten Zinne und hast telefoniert.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356d"
+        ]
+      },
+      "widerlegt": [
+        "luege_jonas_hof"
+      ],
+      "entlastet": [
+        "jonas"
+      ],
+      "grundVerborgen": "Er schämt sich für das Telefonat und das Geld."
+    },
+    {
+      "id": "b_jonas_geld",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Es ging um Geld, sagt er leise.",
+      "duText": "Es ging um Geld, sagst du leise.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356d"
+        ]
+      },
+      "belastet": [
+        "jonas"
+      ],
+      "grundVerborgen": "Er schämt sich für seine Geldnot."
+    },
+    {
+      "id": "b_jonas_merle_oben",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Merle hat ihn dort oben um sechs vor zwölf erschreckt und ist wieder hinuntergegangen.",
+      "duText": "Merle hat dich dort oben um sechs vor zwölf erschreckt und ist wieder hinuntergegangen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2354a"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ],
+      "grundVerborgen": "Er verriet es nicht, solange man ihn nicht darauf ansprach."
+    },
+    {
+      "id": "b_merle_treppe",
+      "wer": "merle",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Merle nickt erleichtert: „Siehst du, ich war ja auch nie im Hof. Ich war auf der Treppe.“ Ihre Geschichte klingt jetzt runder als vorher.",
+      "duText": "Du nickst erleichtert: „Siehst du, ich war ja auch nie im Hof. Ich war auf der Treppe.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2354a"
+        ]
+      },
+      "grundVerborgen": "Sie will ihren Weg glaubhaft halten."
+    },
+    {
+      "id": "b_jonas_gruen",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Jonas lacht verlegen: Ja, er ist gegen Kunibert gekracht, in seinem grünen Strickpullover. Der Burgwart hat etwas Grünes gesehen. Das passt verdächtig gut zu ihm.",
+      "duText": "Du lachst verlegen: Ja, du bist gegen Kunibert gekracht, in deinem grünen Strickpullover.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2120"
+        ]
+      },
+      "belastet": [
+        "jonas"
+      ],
+      "grundVerborgen": "Es ist ihm peinlich."
+    },
+    {
+      "id": "b_merle_taler",
+      "wer": "merle",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Merle schaut lange auf das Bild. Ja, sie hatte den Taler in der Hand, als Jonas gegen Kunibert prallte, und dachte, sie hätte ihn zurückgegeben. Wer ihn kurz nach dem Knall in die Dose warf, wurde gepackt. Und wer ihn hatte, hatte einen Grund, ihn heimlich zurückzubringen.",
+      "duText": "Du schaust lange auf das Bild. Ja, du hattest den Taler in der Hand, als Jonas gegen Kunibert prallte.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2120",
+          "z_2250"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ],
+      "grundVerborgen": "Sie fürchtet eine Anzeige und das Ende ihrer Verbeamtung."
+    },
+    {
+      "id": "b_adnan_nicht_auf_bild",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Adnan ist auf dem Bild nicht zu sehen. Kein Gewinn.",
+      "duText": "Du bist auf dem Bild nicht zu sehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2120"
+        ]
+      }
+    },
+    {
+      "id": "b_adnan_sichtbar",
+      "wer": "adnan",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Adnan kniete im Qualm am Kamin, rußschwarz bis zu den Ellbogen. Kaum jemand war so sichtbar wie er.",
+      "duText": "Du kniest im Qualm am Kamin, rußschwarz bis zu den Ellbogen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2348",
+          "z_2352a"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_rojda_allein",
+      "wer": "rojda",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Rojda stand allein am Sicherungskasten, die Eisentür nur ein paar Schritte entfernt, ohne Zeugen. Das sieht nicht gut für sie aus.",
+      "duText": "Du standest allein am Sicherungskasten, die Eisentür nur ein paar Schritte entfernt, ohne Zeugen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a"
+        ]
+      },
+      "belastet": [
+        "rojda"
+      ]
+    },
+    {
+      "id": "b_jonas_stiefel_blass",
+      "wer": "jonas",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Das Stollenprofil passt zum Modell: braune Wanderstiefel, genau wie Jonas sie trägt. Er wird blass.",
+      "duText": "Das Stollenprofil passt zum Modell: braune Wanderstiefel, genau wie du sie trägst. Du wirst blass.",
+      "beleg": {
+        "zeitleiste": [
+          "z_1735"
+        ]
+      },
+      "belastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_bw_spur_breiter",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Die Spur des Burgwarts im Raureif ist breiter und hat ein ganz anderes Profil. Er war es selbst jedenfalls nicht.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2344"
+        ]
+      }
+    },
+    {
+      "id": "b_paulina_quittung",
+      "wer": "paulina",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Paulina hat Jonas fünfundfünfzig Euro für den Keller gezahlt und bis jetzt keine Quittung bekommen. Laut der Stiftung wird der Gewölbekeller im November gar nicht vermietet.",
+      "duText": "Du hast Jonas fünfundfünfzig Euro für den Keller gezahlt und bis jetzt keine Quittung bekommen. Laut der Stiftung wird der Gewölbekeller im November gar nicht vermietet.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2030"
+        ]
+      },
+      "belastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_paulina_jonas_turm",
+      "wer": "paulina",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Paulina sah Jonas um sieben vor zwölf mit erhobenem Handy in den Turm gehen, wie einer, der Netz sucht. In den Hof ging er nicht.",
+      "duText": "Du sahst Jonas um sieben vor zwölf mit erhobenem Handy in den Turm gehen, wie einer, der Netz sucht. In den Hof ging er nicht.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2353a"
+        ]
+      },
+      "widerlegt": [
+        "luege_jonas_hof"
+      ],
+      "entlastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_diyar_adnan_kamin",
+      "wer": "diyar",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Diyar kniete ab zwölf vor zwölf neben Adnan am Kamin und wedelte mit einem Tablett den Qualm weg. Adnan war die ganze Zeit neben ihm, nur um acht vor zwölf sprang er kurz zur Turmtür.",
+      "duText": "Du kniest ab zwölf vor zwölf neben Adnan am Kamin und wedelst mit einem Tablett den Qualm weg. Adnan war die ganze Zeit neben dir, nur um acht vor zwölf sprang er kurz zur Turmtür.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2348",
+          "z_2352a"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_diyar_merle_kam",
+      "wer": "diyar",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Ganz zum Schluss kam Merle von der Turmtür-Seite her an den Kamin, außer Atem, mit eiskalten Händen.",
+      "duText": "Ganz zum Schluss kam Merle von der Turmtür-Seite her an den Kamin, außer Atem, mit eiskalten Händen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2359c"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_emre_track",
+      "wer": "emre",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Der Schrei um Mitternacht war vom Track „Geisterstunde“, den Emre mit Rojda gemischt hat. Gleich nach dem Knall, noch vor den Ketten, kamen ein tiefer Ruf und Poltern durch die Tür. Die waren nicht auf dem Track.",
+      "duText": "Der Schrei um Mitternacht war vom Track „Geisterstunde“, den du mit Rojda gemischt hast. Gleich nach dem Knall, noch vor den Ketten, kamen ein tiefer Ruf und Poltern durch die Tür. Die waren nicht auf dem Track.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a",
+          "z_0000a"
+        ]
+      }
+    },
+    {
+      "id": "b_lejla_taler_fotos",
+      "wer": "lejla",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Lejlas Fotos von der Führung zeigen nur den Taler in Nahaufnahme, keine Personen. Wer ihn danach hatte, ist darauf nicht zu sehen.",
+      "duText": "Deine Fotos von der Führung zeigen nur den Taler in Nahaufnahme, keine Personen. Wer ihn danach hatte, ist darauf nicht zu sehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2115"
+        ]
+      }
+    },
+    {
+      "id": "b_lejla_merle_blass",
+      "wer": "lejla",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Kurz vor elf kam Merle ganz blass vom Klo zurück und flüsterte Lejla zu, dass alles aus sei, wenn sie jemand anzeigt.",
+      "duText": "Kurz vor elf kam Merle ganz blass vom Klo zurück und flüsterte dir zu, dass alles aus sei, wenn sie jemand anzeigt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2250"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_tomasz_eisentuer",
+      "wer": "tomasz",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Tomasz sah um zehn vor zwölf Kerzenlicht unter der Eisentür. Als er öffnete, zischte der Burgwart hinter dem Regal: „Psst! Ich bin nicht hier. Geh wieder.“ Tomasz machte die Tür wieder zu.",
+      "duText": "Du sahst um zehn vor zwölf Kerzenlicht unter der Eisentür. Als du öffnetest, zischte der Burgwart hinter dem Regal: „Psst! Ich bin nicht hier. Geh wieder.“ Du machtest die Tür wieder zu.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2346"
+        ]
+      }
+    },
+    {
+      "id": "b_annika_turmtuer",
+      "wer": "annika",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Annika stand ab drei vor zwölf an der Säule neben der Turmtür. Aus dem Turm hörte sie im Dunkeln zweimal die Eisentür quietschen, beide Male vor dem Schrei.",
+      "duText": "Du standest ab drei vor zwölf an der Säule neben der Turmtür. Aus dem Turm hörtest du im Dunkeln zweimal die Eisentür quietschen, beide Male vor dem Schrei.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a"
+        ]
+      }
+    },
+    {
+      "id": "b_annika_vorbei",
+      "wer": "annika",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Kurz vor dem Schrei streifte im Dunkeln jemand an Annika vorbei ins Gewölbe. Die Hand war kalt, am Ärmel war Wolle, und es roch nach ausgeblasener Kerze.",
+      "duText": "Kurz vor dem Schrei streifte dich im Dunkeln jemand im Vorbeigehen. Die Hand war kalt, am Ärmel war Wolle, und es roch nach ausgeblasener Kerze.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2359c"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_berfin_dunkel",
+      "wer": "berfin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Berfin sah vom Wehrgang aus, wie die ganze Burg auf einmal dunkel wurde, nicht nur das Gewölbe.",
+      "duText": "Du sahst vom Wehrgang aus, wie die ganze Burg auf einmal dunkel wurde, nicht nur das Gewölbe.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358a"
+        ]
+      }
+    },
+    {
+      "id": "b_berfin_merle_zinne",
+      "wer": "berfin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um sechs vor zwölf tauchte Merle auf dem Wehrgang auf. Sie erschreckte Jonas und ging gleich wieder hinunter.",
+      "duText": "Um sechs vor zwölf tauchte Merle auf dem Wehrgang auf. Sie erschreckte Jonas und ging gleich wieder hinunter.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2354a"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_berfin_telefonat",
+      "wer": "berfin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Jonas telefonierte kurz vor zwölf an der dritten Zinne. Berfin hörte Fetzen: „… dreitausend … bis Monatsende …“",
+      "duText": "Jonas telefonierte kurz vor zwölf an der dritten Zinne. Du hörtest Fetzen: „… dreitausend … bis Monatsende …“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356d"
+        ]
+      },
+      "entlastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_dino_speisekammer",
+      "wer": "dino",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Die Speisekammer hat zwei Türen und kein Fenster, nur einen handbreiten Lüftungsschacht, durch den kein Mensch passt. Den Balken an der Eichentür kann man nur von innen lösen.",
+      "duText": "Die Speisekammer hat zwei Türen und kein Fenster, nur einen handbreiten Lüftungsschacht, durch den kein Mensch passt. Den Balken an der Eichentür kann man nur von innen lösen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2100"
+        ]
+      }
+    },
+    {
+      "id": "b_selin_adnan_kamin",
+      "wer": "selin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Selin saß beim Knall auf der Bank direkt am Kamin und sah im Glutschein Adnan mit der Heißluftpistole knien, ohne Unterbrechung bis zum Schrei.",
+      "duText": "Du saßt beim Knall auf der Bank direkt am Kamin und sahst im Glutschein Adnan mit der Heißluftpistole knien, ohne Unterbrechung bis zum Schrei.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2348"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_selin_jonas_schulden",
+      "wer": "selin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Jonas schuldet Selin achthundert Euro, die sie ihm im Sommer geliehen hat. Zurückgezahlt hat er nichts.",
+      "duText": "Jonas schuldet dir achthundert Euro, die du ihm im Sommer geliehen hast. Zurückgezahlt hat er nichts.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2030"
+        ]
+      },
+      "belastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_selin_freibad",
+      "wer": "selin",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Selin sah Jonas im September an einem Dienstagvormittag im Freibad. Zur Arbeit ging er an dem Tag nicht.",
+      "duText": "Du sahst Jonas im September an einem Dienstagvormittag im Freibad. Zur Arbeit ging er an dem Tag nicht.",
+      "beleg": {},
+      "widerlegt": [
+        "luege_jonas_job"
+      ],
+      "belastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_kamil_rojda_turm",
+      "wer": "kamil",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Kamil sah Rojda um vier vor zwölf allein mit Handylicht durch die Turmtür gehen. Als er nach dem Schrei mit Licht an den Turm-Fuß kam, stand sie noch am Sicherungskasten.",
+      "duText": "Du sahst Rojda um vier vor zwölf allein mit Handylicht durch die Turmtür gehen. Als du nach dem Schrei mit Licht an den Turm-Fuß kamst, stand sie noch am Sicherungskasten.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2356e",
+          "z_0000d"
+        ]
+      }
+    },
+    {
+      "id": "b_kamil_schaden",
+      "wer": "kamil",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Kamil schätzt den Schaden an der Eichentür als Tischlermeister auf höchstens sechshundert Euro, nicht auf dreitausendachthundert.",
+      "duText": "Du schätzt den Schaden an der Eichentür als Tischlermeister auf höchstens sechshundert Euro, nicht auf dreitausendachthundert.",
+      "beleg": {
+        "zeitleiste": [
+          "z_1740"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_derya_ultimatum",
+      "wer": "derya",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Derya stand beim Ultimatum direkt neben Merle. Merle rief sofort: „Ich hab ihn doch zurückgegeben!“",
+      "duText": "Du standest beim Ultimatum direkt neben Merle. Merle rief sofort: „Ich hab ihn doch zurückgegeben!“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2245"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_derya_merle_tasche",
+      "wer": "derya",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um fünf vor elf kam Merle blass von der Toilette zurück. Ihre Hand steckte in der Strickjackentasche.",
+      "duText": "Um fünf vor elf kam Merle blass von der Toilette zurück. Ihre Hand steckte in der Strickjackentasche.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2250"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_derya_versicherung",
+      "wer": "derya",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Adnans Betriebshaftpflicht zahlt einen Schaden wie den an der Eichentür. Ein Geldmotiv hatte Adnan nicht.",
+      "duText": "Adnans Betriebshaftpflicht zahlt einen Schaden wie den an der Eichentür. Du hast sie ihm selbst vermittelt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_1740"
+        ]
+      },
+      "entlastet": [
+        "adnan"
+      ]
+    },
+    {
+      "id": "b_amar_kredit",
+      "wer": "amar",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Jonas wollte nach der Führung dreitausend Euro bis Monatsende von Amar leihen. Amar hat abgelehnt.",
+      "duText": "Jonas wollte nach der Führung dreitausend Euro bis Monatsende von dir leihen. Du hast abgelehnt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2115"
+        ]
+      },
+      "belastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_amar_lukas",
+      "wer": "amar",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um zwölf nach zwölf kam an der dritten Zinne eine Nachricht von Lukas: „Jonas hat mich kurz vor zwölf angerufen, alles okay bei euch?“",
+      "duText": "Um zwölf nach zwölf kam an der dritten Zinne eine Nachricht von Lukas: „Jonas hat mich kurz vor zwölf angerufen, alles okay bei euch?“",
+      "beleg": {
+        "zeitleiste": [
+          "z_0012"
+        ]
+      },
+      "entlastet": [
+        "jonas"
+      ]
+    },
+    {
+      "id": "b_henrik_reif",
+      "wer": "henrik",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Der Raureif liegt hier seit etwa elf. Jede Spur, die danach gelaufen ist, kann man darin lesen.",
+      "duText": "Der Raureif liegt hier seit etwa elf. Jede Spur, die danach gelaufen ist, kannst du darin lesen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2300",
+          "z_0007"
+        ]
+      }
+    },
+    {
+      "id": "b_henrik_wachs",
+      "wer": "henrik",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Dicke Kerzen haben in der Tülle minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck darin entsteht nur, solange das Wachs noch flüssig ist.",
+      "duText": "Dicke Kerzen haben in der Tülle minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck darin entsteht nur, solange das Wachs noch flüssig ist.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358g",
+          "z_2358h"
+        ]
+      }
+    },
+    {
+      "id": "b_elif_lampe",
+      "wer": "elif",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um zwanzig vor zwölf hörte Elif, wie Merle neben ihr sagte: „Meine Lampe ist fast leer.“",
+      "duText": "Um zwanzig vor zwölf hörtest du, wie Merle neben dir sagte: „Meine Lampe ist fast leer.“",
+      "beleg": {
+        "zeitleiste": [
+          "z_2340"
+        ]
+      },
+      "widerlegt": [
+        "luege_merle_lampe"
+      ],
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_elif_bund",
+      "wer": "elif",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Am Bund hängt der Torhausschlüssel. Wer den Bund nimmt, verhindert, dass jemand vom Festnetz im Torhaus die Polizei ruft.",
+      "duText": "Am Bund hängt der Torhausschlüssel. Wer den Bund nimmt, verhindert, dass jemand vom Festnetz im Torhaus die Polizei ruft.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2358j"
+        ]
+      }
+    },
+    {
+      "id": "b_azad_fotos",
+      "wer": "azad",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Auf Azads Foto von acht vor zwölf geht Merle mit ihrer Tasche durch die Turmtür. Auf dem nächsten, von sieben vor zwölf, geht Jonas mit erhobenem Handy hinterher.",
+      "duText": "Auf deinem Foto von acht vor zwölf geht Merle mit ihrer Tasche durch die Turmtür. Auf dem nächsten, von sieben vor zwölf, geht Jonas mit erhobenem Handy hinterher.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2352b",
+          "z_2353a"
+        ]
+      },
+      "belastet": [
+        "merle"
+      ]
+    },
+    {
+      "id": "b_zofia_hof",
+      "wer": "zofia",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Zofia stand ab acht vor zwölf an einer Schießscharte zum Hof. Bis zum Schrei ging im Licht des Geleuchts niemand über den Hof und niemand ans Tor.",
+      "duText": "Du standest ab acht vor zwölf an einer Schießscharte zum Hof. Bis zum Schrei ging im Licht des Geleuchts niemand über den Hof und niemand ans Tor.",
+      "beleg": {
+        "zeitleiste": [
+          "z_2352a",
+          "z_2300"
+        ]
+      }
+    }
+  ],
+  "generiert": "akte_export"
+}

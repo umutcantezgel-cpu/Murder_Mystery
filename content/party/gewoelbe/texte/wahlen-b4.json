@@ -1,0 +1,68 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der Besetzungsplätze 13 bis 16.",
+  "eintraege": [
+    {
+      "id": "gw_selin_1",
+      "a": "Ich sage dem Detektiv, dass die achthundert Euro für Jonas aus meinem Café-Plan stammen.",
+      "b": "Von meinem Café erzähle ich nichts. Ich will nur mein Geld zurück."
+    },
+    {
+      "id": "gw_selin_2",
+      "a": "Ich erzähle dem Detektiv, was ich über Adnan weiß, auch das Peinliche.",
+      "b": "Adnan ist ein Freund, dem ich jederzeit etwas leihen würde. Ich schweige."
+    },
+    {
+      "id": "gw_selin_3",
+      "a": "Ich gestehe, dass ich meine Stelle bei der Bank aufgeben und ein Café eröffnen will.",
+      "b": "Meinen Plan behalte ich für mich. Meine Eltern sollen es nicht zuerst von anderen hören."
+    },
+    {
+      "id": "gw_kamil_1",
+      "a": "Ich sage dem Detektiv, dass ich Adnan bei der Eichentür umsonst helfen will.",
+      "b": "Davon soll niemand erfahren. Ein Freund hilft, und man redet nicht darüber."
+    },
+    {
+      "id": "gw_kamil_2",
+      "a": "Ich erzähle dem Detektiv, was Adnan mir über sein Gespräch mit dem Burgwart gesagt hat.",
+      "b": "Adnan soll sein Gesicht wahren. Ich sage nichts, was ihn in Verlegenheit bringt."
+    },
+    {
+      "id": "gw_kamil_3",
+      "a": "Ich gebe zu, dass ich Adnan meine Hilfe angeboten habe. Er soll dafür nicht schlecht dastehen.",
+      "b": "Ich halte den Mund. Das Angebot bleibt zwischen Adnan und mir."
+    },
+    {
+      "id": "gw_derya_1",
+      "a": "Ich sage dem Detektiv, dass ich einen großen Teil der Feier selbst bezahlt habe.",
+      "b": "Das bleibt bei mir. Niemand soll sich verpflichtet fühlen."
+    },
+    {
+      "id": "gw_derya_2",
+      "a": "Ich erzähle dem Detektiv alles, was Selin mir anvertraut hat, auch das Heikle.",
+      "b": "Selin hat mich in die Clique gebracht. Ich sage nichts, was ihr schaden könnte."
+    },
+    {
+      "id": "gw_derya_3",
+      "a": "Ich gestehe, wie viel ich für Essen und Deko ausgegeben habe.",
+      "b": "Über Geld rede ich nicht. Das ist abgedeckt."
+    },
+    {
+      "id": "gw_amar_1",
+      "a": "Ich sage dem Detektiv, dass mein Geschenk viel zu teuer ist. Es wirkt vielleicht protzig.",
+      "b": "Mein Geschenk bleibt vorerst in der Tasche. Ich rede nur über Zahlen und Zeiten."
+    },
+    {
+      "id": "gw_amar_2",
+      "a": "Ich erzähle dem Detektiv alles über Jonas’ Geldsorgen und seine Anfrage an mich.",
+      "b": "Jonas’ Geldsorgen plaudere ich nicht aus. Ich bleibe bei dem, was ich gesagt habe."
+    },
+    {
+      "id": "gw_amar_3",
+      "a": "Ich gebe zu, dass ich überlege, mein Geschenk wieder mit nach Hause zu nehmen.",
+      "b": "Ich schweige zum Geschenk. Es ist nicht der Moment, es zu zeigen."
+    }
+  ],
+  "generiert": "akte_export"
+}

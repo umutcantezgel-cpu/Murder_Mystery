@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Entscheidungen",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "runde": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "regeln",
+    "fakten",
+    "entscheidungen"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "regeln": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "wenn",
+          "folge",
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-[A-Z]+$"
+          },
+          "wenn": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "alibi",
+                "nebendelikt",
+                "schluesselbeweis",
+                "fundort"
+              ]
+            }
+          },
+          "folge": {
+            "enum": [
+              "entlastet",
+              "ueberfuehrt"
+            ]
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "fakten": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "typ",
+          "personen",
+          "quelle"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "typ": {
+            "enum": [
+              "alibi",
+              "spaetankunft",
+              "nebendelikt",
+              "zusatzindiz",
+              "schluesselbeweis",
+              "fundort",
+              "motiv",
+              "luege",
+              "ausgangslage",
+              "umgebung"
+            ]
+          },
+          "personen": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/pfad"
+            }
+          },
+          "quelle": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "beobachtung"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "beobachtung": {
+                    "$ref": "#/$defs/id"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "spur"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "spur": {
+                    "$ref": "#/$defs/id"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "entscheidungen": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "runde",
+          "nr",
+          "art",
+          "frage",
+          "optionen",
+          "richtig",
+          "begruendung"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "runde": {
+            "$ref": "#/$defs/runde"
+          },
+          "nr": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "art": {
+            "enum": [
+              "ort",
+              "gegenstand",
+              "person"
+            ]
+          },
+          "frage": {
+            "$ref": "#/$defs/text"
+          },
+          "optionen": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "ziel",
+                "text",
+                "fakten"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/id"
+                },
+                "text": {
+                  "$ref": "#/$defs/text"
+                },
+                "fakten": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/$defs/id"
+                  }
+                },
+                "ziel": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "person": {
+                      "$ref": "#/$defs/id"
+                    },
+                    "gegenstand": {
+                      "$ref": "#/$defs/id"
+                    },
+                    "raum": {
+                      "$ref": "#/$defs/id"
+                    },
+                    "ort": {
+                      "$ref": "#/$defs/id"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "richtig": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "begruendung": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "kette",
+                "text"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kette": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(beobachtung|fakt|karte|merkmal|zeitleiste|luege):[a-z][a-z0-9_]*$"
+                  }
+                },
+                "text": {
+                  "$ref": "#/$defs/text"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

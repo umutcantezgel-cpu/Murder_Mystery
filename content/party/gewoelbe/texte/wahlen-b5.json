@@ -1,0 +1,68 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der Besetzungsplätze 17 bis 20.",
+  "eintraege": [
+    {
+      "id": "gw_henrik_1",
+      "a": "Ich sage dem Detektiv, dass ich für das Geburtstagskind ein Bienenvolk adoptiert habe.",
+      "b": "Mein Geschenk bleibt geheim bis zum Nachtisch. Ich rede nur über Wachs und Raureif."
+    },
+    {
+      "id": "gw_henrik_2",
+      "a": "Ich erzähle dem Detektiv, was Adnan mir über das Tor und den Hof berichtet hat.",
+      "b": "Adnan hat mir vertraut. Ich plaudere nichts aus."
+    },
+    {
+      "id": "gw_henrik_3",
+      "a": "Ich gestehe, dass das Schild am Bienenstock für das Geburtstagskind gedacht ist.",
+      "b": "Das Schild bleibt mein Geheimnis. Es wäre jetzt kitschig."
+    },
+    {
+      "id": "gw_elif_1",
+      "a": "Ich sage dem Detektiv, dass ich mein Studium beinahe abgebrochen hätte.",
+      "b": "Meine Studienzeit behalte ich für mich. Ich zitiere nur, was ich weiß."
+    },
+    {
+      "id": "gw_elif_2",
+      "a": "Ich erzähle dem Detektiv, was Merle mir neben Adnan über ihre Lampe gesagt hat.",
+      "b": "Merle sitzt oft neben mir, und ich höre ihr gern zu. Ich belaste sie nicht."
+    },
+    {
+      "id": "gw_elif_3",
+      "a": "Ich gestehe, dass der Antrag auf Exmatrikulation fertig auf meinem Schreibtisch lag.",
+      "b": "Davon weiß niemand etwas, auch meine Großmutter nicht. Dabei bleibt es."
+    },
+    {
+      "id": "gw_azad_1",
+      "a": "Ich sage dem Detektiv, dass ich mich in Berlin als Fotoredakteur bewerbe.",
+      "b": "Mein Vorstellungsgespräch bleibt geheim. Ich zeige nur meine Fotos von diesem Abend."
+    },
+    {
+      "id": "gw_azad_2",
+      "a": "Ich zeige dem Detektiv alle Fotos von Merle, auch die, die sie verdächtig aussehen lassen.",
+      "b": "Merle ist eine Freundin, die auf einem meiner Fotos zu sehen ist. Ich zeige nur die harmlosen."
+    },
+    {
+      "id": "gw_azad_3",
+      "a": "Ich gebe zu, dass ich vielleicht weggehe. Die Clique soll es von mir erfahren.",
+      "b": "Mein Plan bleibt mein Geheimnis. Zuerst muss ich selbst wissen, was ich will."
+    },
+    {
+      "id": "gw_zofia_1",
+      "a": "Ich sage dem Detektiv, dass ich einen Fuchs Ottokar nenne und füttere. Das ist verboten.",
+      "b": "Mein Fuchs bleibt mein Geheimnis. Ich rede nur über den Hof und das Geleucht."
+    },
+    {
+      "id": "gw_zofia_2",
+      "a": "Ich erzähle dem Detektiv, welche Ausrede Jonas vor mir erzählt hat.",
+      "b": "Jonas soll Zeit bekommen. Ich verrate keine Ausrede."
+    },
+    {
+      "id": "gw_zofia_3",
+      "a": "Ich gestehe, dass ich im Harz Wildtiere füttere, obwohl ich es besser weiß.",
+      "b": "Ottokar verrate ich nicht. Der Fuchs bleibt unser Geheimnis."
+    }
+  ],
+  "generiert": "akte_export"
+}

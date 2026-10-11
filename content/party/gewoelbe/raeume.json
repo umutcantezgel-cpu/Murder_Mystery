@@ -1,0 +1,1027 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l). Die Stockwerke des Turms liegen nebeneinander und sind über die Wendeltreppen verbunden.",
+  "raster": {
+    "breite": 27,
+    "hoehe": 24
+  },
+  "rooms": [
+    {
+      "id": "torhaus",
+      "name": "Torhaus",
+      "anzeigename": "Torhaus",
+      "rechteck": {
+        "x": 1,
+        "y": 1,
+        "b": 6,
+        "l": 3
+      },
+      "boden": "planks",
+      "features": [
+        "Festnetztelefon",
+        "Ersatzsicherungen",
+        "Wohnung des Burgwarts"
+      ],
+      "beschreibung": "Die kleine Wohnung des Burgwarts neben dem Burgtor. Das Festnetztelefon und die Ersatzsicherungen liegen hier. Die Tür ist abgeschlossen, der Schlüssel hängt am Bund."
+    },
+    {
+      "id": "hof",
+      "name": "Hof",
+      "anzeigename": "Hof",
+      "rechteck": {
+        "x": 1,
+        "y": 5,
+        "b": 14,
+        "l": 6
+      },
+      "boden": "stone",
+      "features": [
+        "Brunnen mit Geleucht",
+        "Burgtor",
+        "Raureif"
+      ],
+      "beschreibung": "Der Burghof mit dem Brunnen und der Solarlaterne, die der Burgwart Geleucht nennt. Seit elf Uhr liegt Raureif auf dem Pflaster. Das Burgtor ist abgeschlossen."
+    },
+    {
+      "id": "wehrgang",
+      "name": "Wehrgang",
+      "anzeigename": "Wehrgang",
+      "rechteck": {
+        "x": 16,
+        "y": 1,
+        "b": 10,
+        "l": 2
+      },
+      "boden": "stone",
+      "features": [
+        "dritte Zinne",
+        "Handyempfang"
+      ],
+      "beschreibung": "Der schmale Wehrgang oben auf dem Turm. An der dritten Zinne gibt es als einziger Stelle der Burg Handyempfang. Nachts ist der Wehrgang verboten."
+    },
+    {
+      "id": "hofebene",
+      "name": "Hofebene",
+      "anzeigename": "Hofebene",
+      "rechteck": {
+        "x": 16,
+        "y": 4,
+        "b": 6,
+        "l": 3
+      },
+      "boden": "stone",
+      "features": [
+        "Hoftür",
+        "Schauvitrine",
+        "Toilette"
+      ],
+      "beschreibung": "Die Ebene im Turm, die zum Hof führt. Hier stehen die Schauvitrine mit der Samtmulde und die Toilette. Der Wäschekorb steht gleich daneben."
+    },
+    {
+      "id": "turm_absatz",
+      "name": "Erster Absatz",
+      "anzeigename": "Erster Absatz",
+      "rechteck": {
+        "x": 16,
+        "y": 8,
+        "b": 6,
+        "l": 3
+      },
+      "boden": "stone",
+      "features": [
+        "Rüstung Kunibert",
+        "Wendeltreppe"
+      ],
+      "beschreibung": "Acht Stufen über dem Turm-Fuß steht auf dem ersten Absatz die Rüstung Kunibert. Ihr rechter Panzerhandschuh ist nach vorn verbogen."
+    },
+    {
+      "id": "turm_fuss",
+      "name": "Turm-Fuß",
+      "anzeigename": "Turm-Fuß",
+      "rechteck": {
+        "x": 16,
+        "y": 12,
+        "b": 6,
+        "l": 4
+      },
+      "boden": "stone",
+      "features": [
+        "Sicherungskasten mit Zahlenschloss",
+        "Holztruhe",
+        "Eisentür",
+        "Turmtür"
+      ],
+      "beschreibung": "Der Fuß des Wendeltreppenturms. Hier stehen der Sicherungskasten und die alte Holztruhe. Zwei Türen führen weg: die Turmtür ins Gewölbe und die Eisentür zur Speisekammer."
+    },
+    {
+      "id": "speisekammer",
+      "name": "Speisekammer",
+      "anzeigename": "Speisekammer",
+      "rechteck": {
+        "x": 16,
+        "y": 17,
+        "b": 6,
+        "l": 6
+      },
+      "boden": "stone",
+      "features": [
+        "Regal mit Konserven",
+        "Tonne",
+        "Kartoffelkisten",
+        "Tiefkühltruhe",
+        "Eisentür",
+        "Eichentür"
+      ],
+      "beschreibung": "Die Speisekammer hat keine Fenster und zwei Türen. Die Eichentür zum Gewölbe ist von innen verkeilt. Die Eisentür zum Turm quietscht laut, sobald man sie aufzieht."
+    },
+    {
+      "id": "kamin_gewoelbe",
+      "name": "Kamin-Gewölbe",
+      "anzeigename": "Kamin-Gewölbe",
+      "rechteck": {
+        "x": 1,
+        "y": 12,
+        "b": 14,
+        "l": 11
+      },
+      "boden": "stone",
+      "features": [
+        "Kamin",
+        "Festtafel",
+        "Punschkessel",
+        "Fotowand",
+        "Nische mit der Box"
+      ],
+      "beschreibung": "Der Festsaal im Keller mit Bruchsteinwänden, einem großen Kamin und der langen Festtafel. Neben der verkeilten Eichentür steht die Bluetooth-Box in einer Nische."
+    }
+  ],
+  "tueren": [
+    {
+      "id": "eichentuer",
+      "name": "Eichentür",
+      "von": "kamin_gewoelbe",
+      "nach": "speisekammer",
+      "kacheln": [
+        [
+          15,
+          19
+        ]
+      ],
+      "art": "alte Eichentür mit gesplitterter Füllung und gebrochenem Scharnier",
+      "zustand": "verschlossen, von innen mit einem Holzbalken verkeilt",
+      "quietscht": false
+    },
+    {
+      "id": "eisentuer",
+      "name": "Eisentür",
+      "von": "speisekammer",
+      "nach": "turm_fuss",
+      "kacheln": [
+        [
+          18,
+          16
+        ]
+      ],
+      "art": "schwere Eisentür",
+      "zustand": "geschlossen, nicht abgeschlossen",
+      "quietscht": true
+    },
+    {
+      "id": "turmtuer",
+      "name": "Turmtür",
+      "von": "kamin_gewoelbe",
+      "nach": "turm_fuss",
+      "kacheln": [
+        [
+          15,
+          13
+        ]
+      ],
+      "art": "Holztür zum Turm",
+      "zustand": "offen, seit dem Kamin-Qualm aufgerissen",
+      "quietscht": false
+    },
+    {
+      "id": "kellerhals",
+      "name": "Kellerhals",
+      "von": "hof",
+      "nach": "kamin_gewoelbe",
+      "kacheln": [
+        [
+          3,
+          11
+        ]
+      ],
+      "art": "Treppe mit schwerer Tür zwischen Hof und Gewölbe",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "hoftuer",
+      "name": "Hoftür",
+      "von": "hof",
+      "nach": "hofebene",
+      "kacheln": [
+        [
+          15,
+          5
+        ]
+      ],
+      "art": "Tür vom Hof in den Turm",
+      "zustand": "geschlossen, nicht abgeschlossen",
+      "quietscht": false
+    },
+    {
+      "id": "treppe_unten",
+      "name": "Wendeltreppe unten",
+      "von": "turm_fuss",
+      "nach": "turm_absatz",
+      "kacheln": [
+        [
+          18,
+          11
+        ]
+      ],
+      "art": "Wendeltreppe mit acht Stufen",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "treppe_mitte",
+      "name": "Wendeltreppe Mitte",
+      "von": "turm_absatz",
+      "nach": "hofebene",
+      "kacheln": [
+        [
+          18,
+          7
+        ]
+      ],
+      "art": "Wendeltreppe",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "treppe_oben",
+      "name": "Wendeltreppe oben",
+      "von": "hofebene",
+      "nach": "wehrgang",
+      "kacheln": [
+        [
+          18,
+          3
+        ]
+      ],
+      "art": "Wendeltreppe zum Wehrgang",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "burgtor",
+      "name": "Burgtor",
+      "von": "hof",
+      "nach": "draussen",
+      "kacheln": [
+        [
+          10,
+          4
+        ]
+      ],
+      "art": "schweres Tor mit altem Kastenschloss",
+      "zustand": "verschlossen ab 23:00",
+      "quietscht": false,
+      "schliesst": "schluessel_beidseitig",
+      "schluessel": "schluesselbund"
+    },
+    {
+      "id": "torhaus_tuer",
+      "name": "Torhaustür",
+      "von": "hof",
+      "nach": "torhaus",
+      "kacheln": [
+        [
+          3,
+          4
+        ]
+      ],
+      "art": "Tür zur Wohnung des Burgwarts",
+      "zustand": "verschlossen",
+      "quietscht": false,
+      "schliesst": "schluessel_beidseitig",
+      "schluessel": "schluesselbund"
+    }
+  ],
+  "einrichtung": [
+    {
+      "id": "kamin",
+      "name": "Kamin",
+      "typ": "fireplace",
+      "x": 1,
+      "y": 17,
+      "blockiert": true
+    },
+    {
+      "id": "bank_am_kamin",
+      "name": "Bank am Kamin",
+      "typ": "seat",
+      "x": 2,
+      "y": 17,
+      "blockiert": true
+    },
+    {
+      "id": "punschkessel",
+      "name": "Punschkessel",
+      "typ": "stove",
+      "x": 13,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_4",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 4,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_5",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 5,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_6",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 6,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_7",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 7,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_8",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 8,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_9",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 9,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_nord_10",
+      "name": "Festtafel Nordseite",
+      "typ": "table",
+      "x": 10,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_4",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 4,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_5",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 5,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_6",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 6,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_7",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 7,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_8",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 8,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_9",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 9,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "tafel_sued_10",
+      "name": "Festtafel Südseite",
+      "typ": "table",
+      "x": 10,
+      "y": 19,
+      "blockiert": true
+    },
+    {
+      "id": "regal_rechts",
+      "name": "Regal rechts neben der Eisentür",
+      "typ": "bookshelf",
+      "x": 20,
+      "y": 17,
+      "blockiert": true
+    },
+    {
+      "id": "regal_links",
+      "name": "Regal mit der Torte",
+      "typ": "bookshelf",
+      "x": 16,
+      "y": 18,
+      "blockiert": true
+    },
+    {
+      "id": "tonne",
+      "name": "Tonne in der Mitte",
+      "typ": "barrel",
+      "x": 18,
+      "y": 20,
+      "blockiert": true
+    },
+    {
+      "id": "kartoffelkisten_1",
+      "name": "Kartoffelkiste",
+      "typ": "crate",
+      "x": 16,
+      "y": 22,
+      "blockiert": true
+    },
+    {
+      "id": "kartoffelkisten_2",
+      "name": "Kartoffelkiste",
+      "typ": "crate",
+      "x": 17,
+      "y": 22,
+      "blockiert": true
+    },
+    {
+      "id": "tiefkuehltruhe",
+      "name": "Tiefkühltruhe",
+      "typ": "fridge",
+      "x": 21,
+      "y": 22,
+      "blockiert": true
+    },
+    {
+      "id": "sicherungskasten",
+      "name": "Sicherungskasten",
+      "typ": "cabinet",
+      "x": 21,
+      "y": 13,
+      "blockiert": true
+    },
+    {
+      "id": "holztruhe",
+      "name": "Holztruhe",
+      "typ": "crate",
+      "x": 21,
+      "y": 15,
+      "blockiert": true
+    },
+    {
+      "id": "ruestung",
+      "name": "Rüstung Kunibert",
+      "typ": "statue",
+      "x": 19,
+      "y": 9,
+      "blockiert": true,
+      "darstellung": "party_ruestung"
+    },
+    {
+      "id": "vitrine",
+      "name": "Schauvitrine",
+      "typ": "cabinet",
+      "x": 21,
+      "y": 5,
+      "blockiert": true
+    },
+    {
+      "id": "toilette",
+      "name": "Toilette",
+      "typ": "toilet",
+      "x": 16,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "waeschekorb",
+      "name": "Wäschekorb",
+      "typ": "crate",
+      "x": 20,
+      "y": 6,
+      "blockiert": true
+    },
+    {
+      "id": "brunnen",
+      "name": "Brunnen mit Geleucht",
+      "typ": "lamp",
+      "x": 7,
+      "y": 7,
+      "blockiert": true
+    }
+  ],
+  "orte": [
+    {
+      "id": "am_kamin",
+      "raum": "kamin_gewoelbe",
+      "x": 2.5,
+      "y": 16.5,
+      "name": "am Kamin"
+    },
+    {
+      "id": "an_der_bank",
+      "raum": "kamin_gewoelbe",
+      "x": 3.5,
+      "y": 17.5,
+      "name": "an der Bank am Kamin"
+    },
+    {
+      "id": "vor_eichentuer",
+      "raum": "kamin_gewoelbe",
+      "x": 14.5,
+      "y": 19.5,
+      "name": "vor der Eichentür"
+    },
+    {
+      "id": "an_der_nische",
+      "raum": "kamin_gewoelbe",
+      "x": 14.5,
+      "y": 18.5,
+      "name": "an der Nische mit der Box"
+    },
+    {
+      "id": "am_punschkessel",
+      "raum": "kamin_gewoelbe",
+      "x": 12.5,
+      "y": 13.5,
+      "name": "am Punschkessel"
+    },
+    {
+      "id": "an_der_fotowand",
+      "raum": "kamin_gewoelbe",
+      "x": 8.5,
+      "y": 12.5,
+      "name": "an der Fotowand"
+    },
+    {
+      "id": "an_der_festtafel",
+      "raum": "kamin_gewoelbe",
+      "x": 11.5,
+      "y": 16.5,
+      "name": "an der Festtafel"
+    },
+    {
+      "id": "geburtstagsplatz",
+      "raum": "kamin_gewoelbe",
+      "x": 12.5,
+      "y": 17.5,
+      "name": "am Ehrenplatz des Geburtstagskinds"
+    },
+    {
+      "id": "an_der_dose",
+      "raum": "speisekammer",
+      "x": 20.5,
+      "y": 18.5,
+      "name": "am Regal mit der Blechdose"
+    },
+    {
+      "id": "unter_dem_regal",
+      "raum": "speisekammer",
+      "x": 21.5,
+      "y": 18.5,
+      "name": "unter dem Regal neben der Eisentür"
+    },
+    {
+      "id": "wachs_an_eisentuer",
+      "raum": "speisekammer",
+      "x": 17.5,
+      "y": 17.5,
+      "name": "am Wachsabdruck neben der Eisentür"
+    },
+    {
+      "id": "am_kerzenstaender",
+      "raum": "speisekammer",
+      "x": 19.5,
+      "y": 19.5,
+      "name": "am Kerzenständer auf dem Boden"
+    },
+    {
+      "id": "an_der_torte",
+      "raum": "speisekammer",
+      "x": 17.5,
+      "y": 18.5,
+      "name": "am Regal mit der Torte"
+    },
+    {
+      "id": "am_sicherungskasten",
+      "raum": "turm_fuss",
+      "x": 20.5,
+      "y": 13.5,
+      "name": "am Sicherungskasten"
+    },
+    {
+      "id": "unter_dem_sicherungskasten",
+      "raum": "turm_fuss",
+      "x": 21.5,
+      "y": 14.5,
+      "name": "unter dem Sicherungskasten"
+    },
+    {
+      "id": "an_der_holztruhe",
+      "raum": "turm_fuss",
+      "x": 20.5,
+      "y": 15.5,
+      "name": "an der Holztruhe"
+    },
+    {
+      "id": "an_kunibert",
+      "raum": "turm_absatz",
+      "x": 18.5,
+      "y": 9.5,
+      "name": "bei der Rüstung Kunibert"
+    },
+    {
+      "id": "an_der_vitrine",
+      "raum": "hofebene",
+      "x": 20.5,
+      "y": 5.5,
+      "name": "an der Schauvitrine"
+    },
+    {
+      "id": "an_der_toilette",
+      "raum": "hofebene",
+      "x": 17.5,
+      "y": 5.5,
+      "name": "vor der Toilette"
+    },
+    {
+      "id": "an_der_dritten_zinne",
+      "raum": "wehrgang",
+      "x": 23.5,
+      "y": 1.5,
+      "name": "an der dritten Zinne"
+    },
+    {
+      "id": "im_raureif",
+      "raum": "hof",
+      "x": 8.5,
+      "y": 8.5,
+      "name": "im Raureif auf dem Hof"
+    },
+    {
+      "id": "am_brunnen",
+      "raum": "hof",
+      "x": 6.5,
+      "y": 8.5,
+      "name": "am Brunnen mit dem Geleucht"
+    },
+    {
+      "id": "am_burgtor",
+      "raum": "hof",
+      "x": 10.5,
+      "y": 5.5,
+      "name": "am Burgtor"
+    },
+    {
+      "id": "vor_torhaus",
+      "raum": "hof",
+      "x": 3.5,
+      "y": 5.5,
+      "name": "vor dem Torhaus"
+    },
+    {
+      "id": "am_kellerhals",
+      "raum": "hof",
+      "x": 3.5,
+      "y": 10.5,
+      "name": "oben am Kellerhals"
+    },
+    {
+      "id": "an_der_hoftuer",
+      "raum": "hof",
+      "x": 14.5,
+      "y": 5.5,
+      "name": "an der Hoftür"
+    },
+    {
+      "id": "platz_adnan",
+      "raum": "kamin_gewoelbe",
+      "x": 2.5,
+      "y": 16.5,
+      "name": "beim Kamin"
+    },
+    {
+      "id": "platz_rojda",
+      "raum": "kamin_gewoelbe",
+      "x": 4.5,
+      "y": 14.5,
+      "name": "Festtafel, Nordseite, vorn"
+    },
+    {
+      "id": "platz_merle",
+      "raum": "kamin_gewoelbe",
+      "x": 5.5,
+      "y": 16.5,
+      "name": "Festtafel, Nordseite"
+    },
+    {
+      "id": "platz_jonas",
+      "raum": "kamin_gewoelbe",
+      "x": 9.5,
+      "y": 16.5,
+      "name": "Festtafel, Nordseite"
+    },
+    {
+      "id": "platz_paulina",
+      "raum": "kamin_gewoelbe",
+      "x": 6.5,
+      "y": 14.5,
+      "name": "Festtafel, Nordseite, vorn"
+    },
+    {
+      "id": "platz_diyar",
+      "raum": "kamin_gewoelbe",
+      "x": 3.5,
+      "y": 15.5,
+      "name": "neben dem Kamin"
+    },
+    {
+      "id": "platz_emre",
+      "raum": "kamin_gewoelbe",
+      "x": 10.5,
+      "y": 18.5,
+      "name": "Festtafel, Ostende"
+    },
+    {
+      "id": "platz_lejla",
+      "raum": "kamin_gewoelbe",
+      "x": 7.5,
+      "y": 16.5,
+      "name": "Festtafel, Nordseite"
+    },
+    {
+      "id": "platz_tomasz",
+      "raum": "kamin_gewoelbe",
+      "x": 8.5,
+      "y": 14.5,
+      "name": "Festtafel, Nordseite, vorn"
+    },
+    {
+      "id": "platz_annika",
+      "raum": "kamin_gewoelbe",
+      "x": 13.5,
+      "y": 20.5,
+      "name": "an der Säule"
+    },
+    {
+      "id": "platz_berfin",
+      "raum": "kamin_gewoelbe",
+      "x": 10.5,
+      "y": 14.5,
+      "name": "Festtafel, Nordseite, Ostende"
+    },
+    {
+      "id": "platz_dino",
+      "raum": "kamin_gewoelbe",
+      "x": 4.5,
+      "y": 20.5,
+      "name": "Festtafel, Südseite"
+    },
+    {
+      "id": "platz_selin",
+      "raum": "kamin_gewoelbe",
+      "x": 3.5,
+      "y": 19.5,
+      "name": "neben der Bank"
+    },
+    {
+      "id": "platz_kamil",
+      "raum": "kamin_gewoelbe",
+      "x": 6.5,
+      "y": 20.5,
+      "name": "Festtafel, Südseite"
+    },
+    {
+      "id": "platz_derya",
+      "raum": "kamin_gewoelbe",
+      "x": 7.5,
+      "y": 18.5,
+      "name": "Festtafel, Südseite, vorn"
+    },
+    {
+      "id": "platz_amar",
+      "raum": "kamin_gewoelbe",
+      "x": 8.5,
+      "y": 20.5,
+      "name": "Festtafel, Südseite"
+    },
+    {
+      "id": "platz_henrik",
+      "raum": "kamin_gewoelbe",
+      "x": 11.5,
+      "y": 13.5,
+      "name": "am Punschkessel"
+    },
+    {
+      "id": "platz_elif",
+      "raum": "kamin_gewoelbe",
+      "x": 9.5,
+      "y": 18.5,
+      "name": "Festtafel, Südseite, vorn"
+    },
+    {
+      "id": "platz_azad",
+      "raum": "kamin_gewoelbe",
+      "x": 5.5,
+      "y": 18.5,
+      "name": "Festtafel, Südseite, vorn"
+    },
+    {
+      "id": "platz_zofia",
+      "raum": "kamin_gewoelbe",
+      "x": 2.5,
+      "y": 21.5,
+      "name": "an der Schießscharte"
+    }
+  ],
+  "lichtquellen": [
+    {
+      "id": "licht_kamin",
+      "art": "feuer",
+      "name": "Kaminfeuer",
+      "ort": "am_kamin",
+      "farbe": "#E8A33D",
+      "radius": 5.0,
+      "flackern": 0.5,
+      "an": [
+        [
+          "23:48:00",
+          "23:59:59"
+        ],
+        [
+          "00:00:00",
+          "07:00:00"
+        ]
+      ],
+      "hinweis": "Seit dem Anfeuern mit der Heißluftpistole brennt der Kamin; kurz vor zwölf glimmt er nur noch."
+    },
+    {
+      "id": "licht_kerzen",
+      "art": "kerze",
+      "name": "Kerzen auf der Festtafel",
+      "raeume": [
+        "kamin_gewoelbe"
+      ],
+      "farbe": "#E8A33D",
+      "radius": 3.0,
+      "flackern": 0.4,
+      "an": [
+        [
+          "19:00:00",
+          "23:57:59"
+        ],
+        [
+          "00:20:00",
+          "07:00:00"
+        ]
+      ],
+      "hinweis": "Elektrische Kerzen; nach dem Stromausfall wieder an, sobald Licht da ist."
+    },
+    {
+      "id": "licht_geleucht",
+      "art": "lampe",
+      "name": "Geleucht am Brunnen",
+      "ort": "am_brunnen",
+      "farbe": "#A9D6D9",
+      "radius": 4.0,
+      "flackern": 0.1,
+      "an": [
+        [
+          "16:00:00",
+          "23:59:59"
+        ],
+        [
+          "00:00:00",
+          "07:00:00"
+        ]
+      ],
+      "hinweis": "Solarlaterne, brennt die ganze Nacht, auch beim Stromausfall."
+    },
+    {
+      "id": "licht_strom",
+      "art": "elektrisch",
+      "name": "Deckenlicht der Burg",
+      "raeume": [
+        "kamin_gewoelbe",
+        "speisekammer",
+        "turm_fuss",
+        "turm_absatz",
+        "hofebene"
+      ],
+      "an": [
+        [
+          "16:30:00",
+          "23:57:59"
+        ],
+        [
+          "00:20:00",
+          "07:00:00"
+        ]
+      ],
+      "hinweis": "Fällt mit dem Knall um zwei vor zwölf aus; erst nach der Ersatzsicherung wieder an."
+    }
+  ],
+  "luftzug": [
+    {
+      "ab": "23:52",
+      "weg": [
+        "kamin_gewoelbe",
+        "turm_fuss",
+        "turm_absatz"
+      ],
+      "grund": "Seit Adnan die Turmtür und die Läden aufgerissen hat, zieht Luft vom Gewölbe in den Turm."
+    }
+  ],
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören. Durch die gesplitterte Füllung der Eichentür dringen Geräusche aus der Speisekammer ins Gewölbe.",
+    "nachbarn": [
+      [
+        "kamin_gewoelbe",
+        "speisekammer"
+      ],
+      [
+        "kamin_gewoelbe",
+        "turm_fuss"
+      ],
+      [
+        "speisekammer",
+        "turm_fuss"
+      ],
+      [
+        "turm_fuss",
+        "turm_absatz"
+      ],
+      [
+        "turm_absatz",
+        "hofebene"
+      ],
+      [
+        "hofebene",
+        "wehrgang"
+      ],
+      [
+        "hof",
+        "hofebene"
+      ],
+      [
+        "hof",
+        "kamin_gewoelbe"
+      ],
+      [
+        "hof",
+        "torhaus"
+      ]
+    ],
+    "geschlossen": [
+      [
+        "hof",
+        "torhaus"
+      ]
+    ]
+  },
+  "generiert": "akte_export"
+}

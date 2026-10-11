@@ -1,0 +1,736 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Figuren",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "zeit": {
+      "type": "string",
+      "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "pfade": {
+      "anyOf": [
+        {
+          "const": "alle"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/pfad"
+          }
+        }
+      ]
+    },
+    "idListe": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "fenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/zeit"
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "lookHinweis",
+    "detektiv",
+    "opfer",
+    "figuren"
+  ],
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "lookHinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "detektiv": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "selectableGenders",
+        "colorCode",
+        "farbname",
+        "startRoom",
+        "ermittlungsOrt",
+        "coordinates",
+        "visualSpecs",
+        "tatnacht",
+        "auftrag",
+        "nieVerdaechtig",
+        "look"
+      ],
+      "properties": {
+        "id": {
+          "const": "detective"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "selectableGenders": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "enum": [
+              "m",
+              "w"
+            ]
+          }
+        },
+        "colorCode": {
+          "$ref": "#/$defs/hex"
+        },
+        "farbname": {
+          "$ref": "#/$defs/text"
+        },
+        "startRoom": {
+          "$ref": "#/$defs/id"
+        },
+        "ermittlungsOrt": {
+          "$ref": "#/$defs/id"
+        },
+        "coordinates": {
+          "type": "object",
+          "required": [
+            "x",
+            "y"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
+        "visualSpecs": {
+          "type": "object",
+          "required": [
+            "silhouette",
+            "baseOutfit",
+            "accessories",
+            "interactiveTool",
+            "idleAnimation"
+          ],
+          "properties": {
+            "silhouette": {
+              "$ref": "#/$defs/text"
+            },
+            "baseOutfit": {
+              "$ref": "#/$defs/text"
+            },
+            "accessories": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "interactiveTool": {
+              "$ref": "#/$defs/text"
+            },
+            "idleAnimation": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tatnacht": {
+          "$ref": "#/$defs/text"
+        },
+        "auftrag": {
+          "$ref": "#/$defs/text"
+        },
+        "nieVerdaechtig": {
+          "const": true
+        },
+        "look": {
+          "type": "object",
+          "required": [
+            "haut",
+            "haar",
+            "kopf",
+            "statur",
+            "schnitt"
+          ],
+          "properties": {
+            "haut": {
+              "$ref": "#/$defs/hex"
+            },
+            "haar": {
+              "$ref": "#/$defs/hex"
+            },
+            "kopf": {
+              "enum": [
+                "none",
+                "bun",
+                "cap",
+                "kopftuch",
+                "detektivhut"
+              ]
+            },
+            "statur": {
+              "enum": [
+                "slim",
+                "normal",
+                "broad",
+                "tall",
+                "small"
+              ]
+            },
+            "schnitt": {
+              "enum": [
+                "suit",
+                "dress"
+              ]
+            },
+            "kopftuchFarbe": {
+              "$ref": "#/$defs/hex"
+            },
+            "glatze": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "opfer": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "age",
+        "geschlecht",
+        "roleTitle",
+        "isNpc",
+        "colorCode",
+        "farbname",
+        "startRoom",
+        "ermittlungsOrt",
+        "coordinates",
+        "status",
+        "visualSpecs",
+        "motiveAndConflict",
+        "warmeSeite",
+        "erinnerung",
+        "schluesselbund",
+        "gedaechtnisLueckeAb",
+        "look"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "age": {
+          "type": "integer"
+        },
+        "geschlecht": {
+          "enum": [
+            "m",
+            "w"
+          ]
+        },
+        "roleTitle": {
+          "$ref": "#/$defs/text"
+        },
+        "isNpc": {
+          "const": true
+        },
+        "colorCode": {
+          "$ref": "#/$defs/hex"
+        },
+        "farbname": {
+          "$ref": "#/$defs/text"
+        },
+        "startRoom": {
+          "$ref": "#/$defs/id"
+        },
+        "ermittlungsOrt": {
+          "$ref": "#/$defs/id"
+        },
+        "coordinates": {
+          "type": "object",
+          "required": [
+            "x",
+            "y"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
+        "status": {
+          "$ref": "#/$defs/text"
+        },
+        "visualSpecs": {
+          "type": "object",
+          "required": [
+            "silhouette",
+            "outfit",
+            "distinguishingFeature",
+            "idleAnimation"
+          ],
+          "properties": {
+            "silhouette": {
+              "$ref": "#/$defs/text"
+            },
+            "outfit": {
+              "$ref": "#/$defs/text"
+            },
+            "distinguishingFeature": {
+              "$ref": "#/$defs/text"
+            },
+            "idleAnimation": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "additionalProperties": false
+        },
+        "motiveAndConflict": {
+          "$ref": "#/$defs/text"
+        },
+        "warmeSeite": {
+          "$ref": "#/$defs/text"
+        },
+        "erinnerung": {
+          "$ref": "#/$defs/text"
+        },
+        "schluesselbund": {
+          "$ref": "#/$defs/id"
+        },
+        "gedaechtnisLueckeAb": {
+          "$ref": "#/$defs/zeit"
+        },
+        "look": {
+          "type": "object",
+          "required": [
+            "haut",
+            "haar",
+            "kopf",
+            "statur",
+            "schnitt"
+          ],
+          "properties": {
+            "haut": {
+              "$ref": "#/$defs/hex"
+            },
+            "haar": {
+              "$ref": "#/$defs/hex"
+            },
+            "kopf": {
+              "enum": [
+                "none",
+                "bun",
+                "cap",
+                "kopftuch",
+                "detektivhut"
+              ]
+            },
+            "statur": {
+              "enum": [
+                "slim",
+                "normal",
+                "broad",
+                "tall",
+                "small"
+              ]
+            },
+            "schnitt": {
+              "enum": [
+                "suit",
+                "dress"
+              ]
+            },
+            "kopftuchFarbe": {
+              "$ref": "#/$defs/hex"
+            },
+            "glatze": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "schluesselbundMaterial": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "additionalProperties": false
+    },
+    "figuren": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "aussprache",
+          "age",
+          "geschlecht",
+          "herkunft",
+          "tier",
+          "besetzungsplatz",
+          "minPlayers",
+          "roleTitle",
+          "isPotentialKiller",
+          "colorCode",
+          "farbname",
+          "startRoom",
+          "ermittlungsOrt",
+          "coordinates",
+          "visualSpecs",
+          "motiveAndConflict",
+          "blackoutAlibi",
+          "roleSecret",
+          "persoenlichesZiel",
+          "nebendelikt",
+          "loyalitaet",
+          "luegen",
+          "look",
+          "alltag"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "vollerName": {
+            "$ref": "#/$defs/text"
+          },
+          "quelle": {
+            "type": "object",
+            "required": [
+              "name",
+              "nr"
+            ],
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/text"
+              },
+              "nr": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "aussprache": {
+            "$ref": "#/$defs/text"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "geschlecht": {
+            "enum": [
+              "m",
+              "w"
+            ]
+          },
+          "herkunft": {
+            "enum": [
+              "deutsch",
+              "türkisch",
+              "kurdisch",
+              "polnisch",
+              "bosnisch"
+            ]
+          },
+          "tier": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "besetzungsplatz": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "minPlayers": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "roleTitle": {
+            "$ref": "#/$defs/text"
+          },
+          "isPotentialKiller": {
+            "type": "boolean"
+          },
+          "colorCode": {
+            "$ref": "#/$defs/hex"
+          },
+          "farbname": {
+            "$ref": "#/$defs/text"
+          },
+          "startRoom": {
+            "$ref": "#/$defs/id"
+          },
+          "ermittlungsOrt": {
+            "$ref": "#/$defs/id"
+          },
+          "coordinates": {
+            "type": "object",
+            "required": [
+              "x",
+              "y"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false
+          },
+          "visualSpecs": {
+            "type": "object",
+            "required": [
+              "silhouette",
+              "outfit",
+              "distinguishingFeature",
+              "idleAnimation"
+            ],
+            "properties": {
+              "silhouette": {
+                "$ref": "#/$defs/text"
+              },
+              "outfit": {
+                "$ref": "#/$defs/text"
+              },
+              "distinguishingFeature": {
+                "$ref": "#/$defs/text"
+              },
+              "idleAnimation": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "additionalProperties": false
+          },
+          "motiveAndConflict": {
+            "$ref": "#/$defs/text"
+          },
+          "blackoutAlibi": {
+            "$ref": "#/$defs/text"
+          },
+          "roleSecret": {
+            "$ref": "#/$defs/text"
+          },
+          "persoenlichesZiel": {
+            "$ref": "#/$defs/text"
+          },
+          "nebendelikt": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "text"
+                ],
+                "properties": {
+                  "id": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "text": {
+                    "$ref": "#/$defs/text"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "loyalitaet": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "zu",
+                  "grund"
+                ],
+                "properties": {
+                  "zu": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "grund": {
+                    "$ref": "#/$defs/text"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "luegen": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "behauptung",
+                "wahrheit"
+              ],
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/id"
+                },
+                "behauptung": {
+                  "$ref": "#/$defs/text"
+                },
+                "wahrheit": {
+                  "$ref": "#/$defs/text"
+                },
+                "duWahrheit": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "innocentProfile": {
+            "type": "object",
+            "required": [
+              "actualBehavior"
+            ],
+            "properties": {
+              "actualBehavior": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "additionalProperties": false
+          },
+          "killerProfile": {
+            "type": "object",
+            "required": [
+              "crimeExecution",
+              "smokingGun",
+              "zusatzindiz"
+            ],
+            "properties": {
+              "crimeExecution": {
+                "$ref": "#/$defs/text"
+              },
+              "smokingGun": {
+                "$ref": "#/$defs/text"
+              },
+              "zusatzindiz": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "additionalProperties": false
+          },
+          "look": {
+            "type": "object",
+            "required": [
+              "haut",
+              "haar",
+              "kopf",
+              "statur",
+              "schnitt"
+            ],
+            "properties": {
+              "haut": {
+                "$ref": "#/$defs/hex"
+              },
+              "haar": {
+                "$ref": "#/$defs/hex"
+              },
+              "kopf": {
+                "enum": [
+                  "none",
+                  "bun",
+                  "cap",
+                  "kopftuch",
+                  "detektivhut"
+                ]
+              },
+              "statur": {
+                "enum": [
+                  "slim",
+                  "normal",
+                  "broad",
+                  "tall",
+                  "small"
+                ]
+              },
+              "schnitt": {
+                "enum": [
+                  "suit",
+                  "dress"
+                ]
+              },
+              "kopftuchFarbe": {
+                "$ref": "#/$defs/hex"
+              },
+              "glatze": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          },
+          "beweisFarbe": {
+            "$ref": "#/$defs/text"
+          },
+          "alltag": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

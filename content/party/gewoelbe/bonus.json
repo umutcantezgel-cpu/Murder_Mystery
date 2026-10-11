@@ -1,0 +1,134 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Bonus-Hinweise je Runde und Qualität. Alle erscheinen im selben Rahmen ohne Quelle; vor der Auflösung wird weder die Qualität noch die Stimmenzahl gezeigt. Wahr: ein wahrer Baustein, der nie allein ausschließt (W-1). Neutral: ein wahrer Satz ohne neuen Wert. Falsch: ein Gerücht über einen Unschuldigen, widerlegt durch eine im Pfad richtige Entscheidung.",
+  "hinweise": [
+    {
+      "id": "h_merle_1_wahr",
+      "pfad": "merle",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Knall stand Merle nicht am Kamin. Sie war schon Minuten vorher mit ihrer Tasche durch die Turmtür gegangen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "merle"
+      },
+      "quelle": [
+        "beobachtung:b_azad_fotos",
+        "zeitleiste:z_2352b"
+      ]
+    },
+    {
+      "id": "h_merle_1_neutral",
+      "pfad": "merle",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Im Kaminschein kniete jemand mit Mütze und hustete.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_det_kamin_muetze"
+      ]
+    },
+    {
+      "id": "h_merle_1_falsch",
+      "pfad": "merle",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Adnan hat um zwei vor zwölf den Hebel am Sicherungskasten gezogen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "adnan"
+      },
+      "widerlegtDurch": [
+        "e2_1_rojda"
+      ]
+    },
+    {
+      "id": "h_merle_2_wahr",
+      "pfad": "merle",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Kurz vor elf kam Merle ganz blass von der Toilette zurück.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "merle"
+      },
+      "quelle": [
+        "beobachtung:b_lejla_merle_blass",
+        "zeitleiste:z_2250"
+      ]
+    },
+    {
+      "id": "h_merle_2_neutral",
+      "pfad": "merle",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Um sechs vor zwölf dröhnte die Box: Verbindung getrennt.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_box_verbindung_getrennt",
+        "zeitleiste:z_2354b"
+      ]
+    },
+    {
+      "id": "h_merle_2_falsch",
+      "pfad": "merle",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Jonas hat sich um Mitternacht im Hof an der Mauer versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "jonas"
+      },
+      "widerlegtDurch": [
+        "e2_2_jonas"
+      ]
+    },
+    {
+      "id": "h_merle_3_wahr",
+      "pfad": "merle",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Merle wusste schon seit dem frühen Abend, dass der Schrei um Mitternacht aus der Box kommt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "merle"
+      },
+      "quelle": [
+        "zeitleiste:z_2320"
+      ]
+    },
+    {
+      "id": "h_merle_3_neutral",
+      "pfad": "merle",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Um sieben nach zwölf war im Hof außer dem Burgwart niemand zu sehen.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_zofia_hof",
+        "zeitleiste:z_0007"
+      ]
+    },
+    {
+      "id": "h_merle_3_falsch",
+      "pfad": "merle",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Rojda hat den Schlüsselbund vom Gürtel des Burgwarts genommen und versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "rojda"
+      },
+      "widerlegtDurch": [
+        "e3_3_karten"
+      ]
+    }
+  ],
+  "generiert": "akte_export"
+}

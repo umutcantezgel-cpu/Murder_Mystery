@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Beobachtungen",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "zeit": {
+      "type": "string",
+      "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "pfade": {
+      "anyOf": [
+        {
+          "const": "alle"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/pfad"
+          }
+        }
+      ]
+    },
+    "idListe": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "fenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/zeit"
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "beobachtungen"
+  ],
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "beobachtungen": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "wer",
+          "pfade",
+          "art",
+          "kanal",
+          "text",
+          "beleg"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "wer": {
+            "$ref": "#/$defs/id"
+          },
+          "pfade": {
+            "$ref": "#/$defs/pfade"
+          },
+          "art": {
+            "enum": [
+              "pfadneutral",
+              "pfadabhaengig"
+            ]
+          },
+          "kanal": {
+            "enum": [
+              "pflichtgespraech",
+              "verborgen",
+              "erzaehler"
+            ]
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          },
+          "duText": {
+            "$ref": "#/$defs/text",
+            "description": "Fassung in der Du-Form für das Dossier der beobachtenden Rolle (E-032). Fundkarten und Bibel nutzen text."
+          },
+          "beleg": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "alle": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "sinn",
+                    "quelle"
+                  ],
+                  "properties": {
+                    "sinn": {
+                      "enum": [
+                        "sehen",
+                        "hoeren",
+                        "fuehlen",
+                        "riechen"
+                      ]
+                    },
+                    "quelle": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "detail": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "enum": [
+                          "erkannt",
+                          "umriss",
+                          "leuchten",
+                          "sprecher",
+                          "anonym"
+                        ]
+                      }
+                    },
+                    "von": {
+                      "$ref": "#/$defs/zeit"
+                    },
+                    "bis": {
+                      "$ref": "#/$defs/zeit"
+                    },
+                    "umfasst": {
+                      "$ref": "#/$defs/zeit"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "keine": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "sinn",
+                    "quelle"
+                  ],
+                  "properties": {
+                    "sinn": {
+                      "enum": [
+                        "sehen",
+                        "hoeren",
+                        "fuehlen",
+                        "riechen"
+                      ]
+                    },
+                    "quelle": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "detail": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "enum": [
+                          "erkannt",
+                          "umriss",
+                          "leuchten",
+                          "sprecher",
+                          "anonym"
+                        ]
+                      }
+                    },
+                    "von": {
+                      "$ref": "#/$defs/zeit"
+                    },
+                    "bis": {
+                      "$ref": "#/$defs/zeit"
+                    },
+                    "umfasst": {
+                      "$ref": "#/$defs/zeit"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "reihenfolge": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "sinn",
+                    "quelle"
+                  ],
+                  "properties": {
+                    "sinn": {
+                      "enum": [
+                        "sehen",
+                        "hoeren",
+                        "fuehlen",
+                        "riechen"
+                      ]
+                    },
+                    "quelle": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "detail": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "enum": [
+                          "erkannt",
+                          "umriss",
+                          "leuchten",
+                          "sprecher",
+                          "anonym"
+                        ]
+                      }
+                    },
+                    "von": {
+                      "$ref": "#/$defs/zeit"
+                    },
+                    "bis": {
+                      "$ref": "#/$defs/zeit"
+                    },
+                    "umfasst": {
+                      "$ref": "#/$defs/zeit"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "aufenthalt": {
+                "type": "object",
+                "required": [
+                  "person",
+                  "ort",
+                  "von",
+                  "bis"
+                ],
+                "properties": {
+                  "person": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "ort": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "von": {
+                    "$ref": "#/$defs/zeit"
+                  },
+                  "bis": {
+                    "$ref": "#/$defs/zeit"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "zeitleiste": {
+                "$ref": "#/$defs/idListe"
+              },
+              "gegenstand": {
+                "$ref": "#/$defs/idListe"
+              },
+              "ereignis": {
+                "$ref": "#/$defs/idListe"
+              },
+              "wissen": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "additionalProperties": false
+          },
+          "widerlegt": {
+            "$ref": "#/$defs/idListe"
+          },
+          "belastet": {
+            "$ref": "#/$defs/idListe"
+          },
+          "entlastet": {
+            "$ref": "#/$defs/idListe"
+          },
+          "trenner": {
+            "$ref": "#/$defs/pfad"
+          },
+          "eigenwissen": {
+            "type": "boolean",
+            "description": "Pfadabhängiges Verhalten der eigenen Person in einem Pfad, in dem sie unschuldig ist (E-039). Nur sie selbst und ihr Trenner-Zeuge wissen davon; die Auflösung erzählt es mit aufloesung.<rolle>.unschuldig.<pfad>."
+          },
+          "grundVerborgen": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

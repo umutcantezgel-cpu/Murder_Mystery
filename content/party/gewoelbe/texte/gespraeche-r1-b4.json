@@ -1,0 +1,154 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 13 bis 16.",
+  "eintraege": [
+    {
+      "id": "g_selin_1_1",
+      "rolle": "selin",
+      "runde": 1,
+      "nr": 1,
+      "partner": "elif",
+      "thema": "Wer kniete am Kamin?",
+      "ziel": "Bestätige, wo Adnan beim Knall war.",
+      "preisgabe": [
+        "beobachtung:b_selin_adnan_kamin"
+      ],
+      "text": "Beim Knall saß ich auf der Bank direkt am Kamin. Im Glutschein sah ich Adnan mit der Heißluftpistole knien, ohne Unterbrechung bis zum Schrei."
+    },
+    {
+      "id": "g_selin_1_2",
+      "rolle": "selin",
+      "runde": 1,
+      "nr": 2,
+      "partner": "tomasz",
+      "thema": "Achthundert",
+      "ziel": "Erwähne die Schulden.",
+      "preisgabe": [
+        "beobachtung:b_selin_jonas_schulden"
+      ],
+      "text": "Das ist fällig: Jonas schuldet mir achthundert Euro aus dem Sommer. Zurückgezahlt hat er nichts."
+    },
+    {
+      "id": "g_selin_1_3",
+      "rolle": "selin",
+      "runde": 1,
+      "nr": 3,
+      "partner": "kamil",
+      "thema": "Mein Alibi",
+      "ziel": "Gib eine klare Auskunft.",
+      "preisgabe": [],
+      "text": "Ich war die ganze Zeit im Gewölbe. Ich sage jede Sache genau einmal."
+    },
+    {
+      "id": "g_kamil_1_1",
+      "rolle": "kamil",
+      "runde": 1,
+      "nr": 1,
+      "partner": "tomasz",
+      "thema": "Ein Handwerker schätzt",
+      "ziel": "Schätze den Schaden an der Eichentür.",
+      "preisgabe": [
+        "beobachtung:b_kamil_schaden"
+      ],
+      "text": "Na ja … Füllung neu, Scharnier neu setzen. Das sind etwa sechshundert Euro, nicht dreitausendachthundert."
+    },
+    {
+      "id": "g_kamil_1_2",
+      "rolle": "kamil",
+      "runde": 1,
+      "nr": 2,
+      "partner": "annika",
+      "thema": "Wer ging in den Turm?",
+      "ziel": "Berichte, wen du in den Turm gehen sahst.",
+      "preisgabe": [
+        "beobachtung:b_kamil_rojda_turm"
+      ],
+      "text": "Ich saß mit Blick auf die Turmtür. Um vier vor zwölf ging Rojda allein mit Handylicht hinein."
+    },
+    {
+      "id": "g_kamil_1_3",
+      "rolle": "kamil",
+      "runde": 1,
+      "nr": 3,
+      "partner": "selin",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel. Nach dem Schrei ging ich mit Handylicht zum Turm-Fuß."
+    },
+    {
+      "id": "g_derya_1_1",
+      "rolle": "derya",
+      "runde": 1,
+      "nr": 1,
+      "partner": "dino",
+      "thema": "Das Ultimatum",
+      "ziel": "Berichte, wie Merle auf das Ultimatum reagierte.",
+      "preisgabe": [
+        "beobachtung:b_derya_ultimatum"
+      ],
+      "text": "Beim Ultimatum stand ich direkt neben Merle. Sie rief sofort: „Ich hab ihn doch zurückgegeben!“"
+    },
+    {
+      "id": "g_derya_1_2",
+      "rolle": "derya",
+      "runde": 1,
+      "nr": 2,
+      "partner": "berfin",
+      "thema": "Wer zahlt den Schaden?",
+      "ziel": "Kläre die Frage nach dem Geld.",
+      "preisgabe": [
+        "beobachtung:b_derya_versicherung"
+      ],
+      "text": "Adnans Betriebshaftpflicht zahlt einen Schaden wie den an der Eichentür. Ein Geldmotiv hatte er nicht."
+    },
+    {
+      "id": "g_derya_1_3",
+      "rolle": "derya",
+      "runde": 1,
+      "nr": 3,
+      "partner": "amar",
+      "thema": "Das ist abgedeckt",
+      "ziel": "Beruhige die Runde.",
+      "preisgabe": [],
+      "text": "Ich denke laut in Risiken: Was ist, wenn jemand verletzt ist? Das ist abgedeckt, wir bleiben ruhig."
+    },
+    {
+      "id": "g_amar_1_1",
+      "rolle": "amar",
+      "runde": 1,
+      "nr": 1,
+      "partner": "henrik",
+      "thema": "Die Kreditanfrage",
+      "ziel": "Berichte, wer dich um Geld bat.",
+      "preisgabe": [
+        "beobachtung:b_amar_kredit"
+      ],
+      "text": "Unter uns: Nach der Führung wollte Jonas dreitausend Euro bis Monatsende von mir leihen. Ich habe abgelehnt."
+    },
+    {
+      "id": "g_amar_1_2",
+      "rolle": "amar",
+      "runde": 1,
+      "nr": 2,
+      "partner": "dino",
+      "thema": "Mein Platz",
+      "ziel": "Nenne dein Alibi.",
+      "preisgabe": [],
+      "text": "Als es knallte, saß ich an der Festtafel im Dunkeln. Danach war ich mit allen zusammen."
+    },
+    {
+      "id": "g_amar_1_3",
+      "rolle": "amar",
+      "runde": 1,
+      "nr": 3,
+      "partner": "derya",
+      "thema": "Der Mietwert",
+      "ziel": "Lenke ab.",
+      "preisgabe": [],
+      "text": "So ein Gewölbe, lichtdurchflutet, mit viel Charme, im November? Unbezahlbar!"
+    }
+  ],
+  "generiert": "akte_export"
+}

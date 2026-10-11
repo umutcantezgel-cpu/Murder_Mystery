@@ -1,0 +1,148 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 1 bis 4.",
+  "eintraege": [
+    {
+      "id": "g_adnan_3_1",
+      "rolle": "adnan",
+      "runde": 3,
+      "nr": 1,
+      "partner": "jonas",
+      "thema": "Wer kniete wo?",
+      "ziel": "Stelle klar, wo du von zwölf vor zwölf bis zum Schrei warst.",
+      "preisgabe": [
+        "beobachtung:b_adnan_kamin"
+      ],
+      "text": "Jonas, ich habe vom Qualm bis zum Schrei am Kamin gekniet. Nur um acht vor zwölf bin ich kurz aufgesprungen."
+    },
+    {
+      "id": "g_adnan_3_2",
+      "rolle": "adnan",
+      "runde": 3,
+      "nr": 2,
+      "partner": "rojda",
+      "thema": "Wer zog den Hebel?",
+      "ziel": "Frage, wer den großen Hebel unter Last gezogen hat.",
+      "preisgabe": [],
+      "text": "Rojda, wer den Hebel unter Last gezogen hat, hat meine Warnung nicht gelesen. Du standest doch unten am Kasten."
+    },
+    {
+      "id": "g_adnan_3_3",
+      "rolle": "adnan",
+      "runde": 3,
+      "nr": 3,
+      "partner": "emre",
+      "thema": "Das Kettenrasseln",
+      "ziel": "Prüfe, was nach dem Knall zu hören war.",
+      "preisgabe": [],
+      "text": "Nach dem Knall habe ich am Kamin nur die Box gehört. Was hast du von der Speisekammer mitbekommen?"
+    },
+    {
+      "id": "g_rojda_3_1",
+      "rolle": "rojda",
+      "runde": 3,
+      "nr": 1,
+      "partner": "merle",
+      "thema": "Der Schrei",
+      "ziel": "Prüfe, was Merle über den Schrei weiß.",
+      "preisgabe": [
+        "beobachtung:b_rojda_track"
+      ],
+      "text": "Merle, der Schrei um Mitternacht ist auf meinem Track. Mehr erzähle ich, wenn ich es selbst sortiert habe."
+    },
+    {
+      "id": "g_rojda_3_2",
+      "rolle": "rojda",
+      "runde": 3,
+      "nr": 2,
+      "partner": "adnan",
+      "thema": "Dein Zettel",
+      "ziel": "Beschreibe, was du am Sicherungskasten vorgefunden hast.",
+      "preisgabe": [],
+      "text": "Adnan, am Sicherungskasten lag dein Zettel. Hätte ich auf deine Warnung geachtet, wäre nichts passiert."
+    },
+    {
+      "id": "g_rojda_3_3",
+      "rolle": "rojda",
+      "runde": 3,
+      "nr": 3,
+      "partner": "lejla",
+      "thema": "Was bleibt ungeklärt?",
+      "ziel": "Finde heraus, was die anderen für unerklärlich halten.",
+      "preisgabe": [],
+      "text": "Ich frage mich, wer unter dem Laken stand. Was meinst du dazu?"
+    },
+    {
+      "id": "g_merle_3_1",
+      "rolle": "merle",
+      "runde": 3,
+      "nr": 1,
+      "partner": "rojda",
+      "thema": "Beim Schrei",
+      "ziel": "Sage, wo du beim Schrei standest.",
+      "preisgabe": [
+        "beobachtung:b_merle_schrei_neben_adnan"
+      ],
+      "text": "Rojda, beim Schrei um Mitternacht stand ich neben Adnan. Das kann er bezeugen."
+    },
+    {
+      "id": "g_merle_3_2",
+      "rolle": "merle",
+      "runde": 3,
+      "nr": 2,
+      "partner": "jonas",
+      "thema": "Der Wehrgang",
+      "ziel": "Prüfe, ob Jonas bei seiner Geschichte bleibt.",
+      "preisgabe": [],
+      "text": "Jonas, du hast mich um sechs vor zwölf auf dem Wehrgang gesehen, nicht wahr? Dann stimmt auch mein Weg."
+    },
+    {
+      "id": "g_merle_3_3",
+      "rolle": "merle",
+      "runde": 3,
+      "nr": 3,
+      "partner": "paulina",
+      "thema": "Meine Angst im Dunkeln",
+      "ziel": "Erkläre, warum du so lange für den Weg gebraucht hast.",
+      "preisgabe": [],
+      "text": "Ich habe seit der Kindheit Angst im Dunkeln. Darum war ich im Turm so langsam. Das weiß hier jeder."
+    },
+    {
+      "id": "g_jonas_3_1",
+      "rolle": "jonas",
+      "runde": 3,
+      "nr": 1,
+      "partner": "adnan",
+      "thema": "Mein Telefonat",
+      "ziel": "Erzähle, was du oben an der Zinne gemacht hast.",
+      "preisgabe": [
+        "beobachtung:b_jonas_telefonat"
+      ],
+      "text": "Adnan, ich habe von vier vor zwölf bis kurz nach zwei vor zwölf telefoniert, oben an der dritten Zinne."
+    },
+    {
+      "id": "g_jonas_3_2",
+      "rolle": "jonas",
+      "runde": 3,
+      "nr": 2,
+      "partner": "merle",
+      "thema": "Der Wehrgang",
+      "ziel": "Prüfe, ob Merle dich als Zeugen nennt.",
+      "preisgabe": [],
+      "text": "Merle, ich habe dich auf dem Wehrgang gesehen. Wir sollten beide bei der Wahrheit bleiben."
+    },
+    {
+      "id": "g_jonas_3_3",
+      "rolle": "jonas",
+      "runde": 3,
+      "nr": 3,
+      "partner": "diyar",
+      "thema": "Die Miete",
+      "ziel": "Beantworte Fragen zum Geld, ohne dich zu verraten.",
+      "preisgabe": [],
+      "text": "Leute, Leute! Das mit dem Geld kläre ich mit jedem Einzelnen selbst. Nicht heute, nicht hier."
+    }
+  ],
+  "generiert": "akte_export"
+}

@@ -1,0 +1,93 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 13 bis 16.",
+  "eintraege": [
+    {
+      "rolle": "selin",
+      "wer": "Du bist Selin, die Bankkauffrau. Du berätst Privatkunden bei Krediten und denkst in Tilgungsplänen. Du trägst einen marineblauen Hosenanzug und eine rote Granatapfel-Brosche. Auf Jonas’ „Leute, Leute, Leute!“ antwortest du trocken: „Achthundert, achthundert, achthundert.“",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_selin_adnan_kamin"
+        },
+        {
+          "ref": "beobachtung:b_selin_jonas_schulden"
+        },
+        {
+          "ref": "beobachtung:b_selin_freibad"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du willst deine sichere Stelle aufgeben und ein kleines Café eröffnen. Die achthundert Euro für Jonas stammten aus dem Ersparten dafür."
+        },
+        {
+          "text": "Du hast Angst, es deinen Eltern zu sagen. Sie sind stolz auf deine Festanstellung."
+        }
+      ],
+      "ziel": "Du willst dein Geld von Jonas zurückbekommen, ohne deinen Plan vom eigenen Café zu verraten.",
+      "besetzung": "Jede Person kann Selin spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "kamil",
+      "wer": "Du bist Kamil, der Tischlermeister. Du hast eine eigene Werkstatt und restaurierst alte Türen und Fenster. Du trägst eine dunkelblaue Cordweste und einen flachen Bleistift hinter dem rechten Ohr. Deine Sätze beginnen oft mit „Na ja …“.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_kamil_rojda_turm"
+        },
+        {
+          "ref": "beobachtung:b_kamil_schaden"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast Adnan heimlich angeboten, die Eichentür umsonst mit ihm zu reparieren. Davon soll niemand erfahren. Adnan soll vor dem Burgwart sein Gesicht wahren."
+        }
+      ],
+      "ziel": "Du willst Adnan heimlich bei der Reparatur der Eichentür helfen, ohne dass es jemand erfährt.",
+      "besetzung": "Jede Person kann Kamil spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "derya",
+      "wer": "Du bist Derya, die Versicherungskauffrau. Du betreust im Außendienst kleine Betriebe. Du trägst einen dunkelroten Blazer mit Einstecktuch, das du immer neu faltest. Du beruhigst alle mit: „Das ist abgedeckt.“",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_derya_ultimatum"
+        },
+        {
+          "ref": "beobachtung:b_derya_merle_tasche"
+        },
+        {
+          "ref": "beobachtung:b_derya_versicherung"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast Essen und Deko für die Feier zum großen Teil selbst bezahlt, viel mehr als alle anderen. Davon sprichst du nicht, damit sich niemand verpflichtet fühlt."
+        }
+      ],
+      "ziel": "Du willst niemanden spüren lassen, wie viel von der Feier du selbst bezahlt hast.",
+      "besetzung": "Jede Person kann Derya spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "amar",
+      "wer": "Du bist Amar, der Immobilienkaufmann. Du beschreibst Räume wie in einem Exposé: „lichtdurchflutet, mit viel Charme“. Du trägst ein anthrazitfarbenes Sakko und Manschettenknöpfe in Form kleiner Häuser.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_amar_kredit"
+        },
+        {
+          "ref": "beobachtung:b_amar_lukas"
+        }
+      ],
+      "verbirgt": [
+        {
+          "text": "Du hast dem Geburtstagskind ein sehr teures Geschenk gekauft, ein Schachspiel aus Nussholz. Du fürchtest, es wirkt protzig und beschämt die anderen. Vielleicht nimmst du es wieder mit nach Hause."
+        }
+      ],
+      "ziel": "Du willst dein zu teures Geschenk nicht protzig wirken lassen.",
+      "besetzung": "Jede Person kann Amar spielen, egal welches Geschlecht sie hat."
+    }
+  ],
+  "generiert": "akte_export"
+}

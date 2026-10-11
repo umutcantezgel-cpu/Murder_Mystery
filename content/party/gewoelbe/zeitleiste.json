@@ -1,0 +1,644 @@
+{
+  "settingId": "spuk_im_gewoelbe",
+  "hinweis": "Gemeinsame Zeitleiste vom Aufbau bis zur Tatnacht. Der Gewölbe-Fall hat nur einen Täterpfad, darum gilt jeder Eintrag in allen Pfaden. Zeit und Beteiligte stammen aus dem Kanon (Z-Datensätze), der Text ist für Spielende gekürzt.",
+  "eintraege": [
+    {
+      "id": "z_1630",
+      "zeit": "16:30",
+      "ort": "am_kamin",
+      "wer": [
+        "adnan",
+        "burgwart"
+      ],
+      "text": "Adnan und der Burgwart schließen den Gewölbekeller auf. Adnan baut Licht und Box auf.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_1735",
+      "zeit": "17:35",
+      "ort": "am_burgtor",
+      "wer": [
+        "alle",
+        "merle",
+        "jonas"
+      ],
+      "text": "Die Gruppe kommt den vereisten Burgweg herauf. Merle rutscht aus, und an ihrem linken Stiefel bricht ein Stollen ab. Jonas trägt dasselbe Modell, bei ihm ist alles heil.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_1740",
+      "zeit": "17:40",
+      "ort": "vor_eichentuer",
+      "wer": [
+        "adnan",
+        "burgwart"
+      ],
+      "text": "Adnan rammt mit dem Wagen und dem Punschkessel die Eichentür. Ein Scharnier bricht. Der Burgwart will dreitausendachthundert Euro bis Mitternacht, sonst bleibe das Tor zu.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_1830",
+      "zeit": "18:30",
+      "ort": "am_kamin",
+      "wer": [
+        "adnan",
+        "rojda"
+      ],
+      "text": "Adnan gibt Rojda für ihren Streich den Code des Sicherungskastens und seine Stablampe. Auf den Zettel schreibt er eine Warnung vor Kessel und Heizstrahler.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_1900",
+      "zeit": "19:00",
+      "ort": "an_der_festtafel",
+      "wer": [
+        "alle"
+      ],
+      "text": "Das Festmahl beginnt.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2030",
+      "zeit": "20:30",
+      "ort": "am_kamin",
+      "wer": [
+        "jonas",
+        "burgwart"
+      ],
+      "text": "Jonas begrüßt alle über die Box, und seine Worte hallen dreifach: „Die Miete ist bezahlt!“ Der Burgwart fragt laut: „Welche Miete?“",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2100",
+      "zeit": "21:00",
+      "ort": "vor_eichentuer",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart verkeilt die kaputte Eichentür von innen mit einem Balken. Er geht durch die Eisentür hinaus. Der einzige Weg in die Speisekammer führt nun über den Turm.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2115",
+      "zeit": "21:15",
+      "ort": "an_kunibert",
+      "wer": [
+        "alle",
+        "burgwart"
+      ],
+      "text": "Der Burgwart führt alle durch den Turm. Der Taler geht von Hand zu Hand. Merle schreibt mit, und Lejla fotografiert die Münze.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2120",
+      "zeit": "21:20",
+      "ort": "an_kunibert",
+      "wer": [
+        "merle",
+        "jonas",
+        "burgwart"
+      ],
+      "text": "Jonas erschrickt vor Kunibert und prallt gegen ihn. Merle hält gerade den Taler in der Hand und steckt ihn aus Reflex in ihre Strickjacke. Der Burgwart sieht ohne Brille nur etwas Grünes.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2140",
+      "zeit": "21:40",
+      "ort": "an_der_toilette",
+      "wer": [
+        "rojda"
+      ],
+      "text": "Rojda nimmt ein altes Burglaken aus dem Wäschekorb. Es trägt das rote Zeichen „Schartenfels 7“.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2240",
+      "zeit": "22:40",
+      "ort": "an_der_vitrine",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart merkt, dass der Taler fehlt.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2245",
+      "zeit": "22:45",
+      "ort": "am_kamin",
+      "wer": [
+        "burgwart",
+        "alle",
+        "merle"
+      ],
+      "text": "Der Burgwart stellt allen ein Ultimatum. Bis zwölf soll der Taler in seiner Blechdose liegen, sonst ruft er die Polizei. Merle ruft: „Ich hab ihn doch zurückgegeben!“",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2250",
+      "zeit": "22:50",
+      "ort": "an_der_toilette",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle findet den Taler in ihrer Jackentasche. Sie fürchtet eine Anzeige und beschließt, ihn heimlich in die Dose zu legen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2300",
+      "zeit": "23:00",
+      "ort": "am_burgtor",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart schließt das Burgtor ab. Den Bund trägt er am Gürtel. Auf dem Hof liegt Raureif.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2315",
+      "zeit": "23:15",
+      "ort": "am_kamin",
+      "wer": [
+        "rojda"
+      ],
+      "text": "Rojda schreibt den Ablauf des Streichs auf die Rückseite von Adnans Zettel.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2320",
+      "zeit": "23:20",
+      "ort": "am_punschkessel",
+      "wer": [
+        "rojda",
+        "merle"
+      ],
+      "text": "Rojda weist Merle als Gespenst ein. Merle soll am Turm-Fuß warten, bis der Schrei kommt. Sie bekommt die Stablampe, und das Laken steckt schon in ihrer Tasche.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2330",
+      "zeit": "23:30",
+      "ort": "am_kamin",
+      "wer": [
+        "adnan",
+        "burgwart"
+      ],
+      "text": "Adnan und der Burgwart besiegeln den Türschaden mit einem Handschlag. Adnan repariert die Tür selbst. Der Burgwart streicht den Zettel durch.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2333",
+      "zeit": "23:33",
+      "ort": "am_kellerhals",
+      "wer": [
+        "burgwart",
+        "jonas"
+      ],
+      "text": "Der Burgwart sagt Jonas leise, beim Frühstück erfahre die Gruppe von der erfundenen Miete.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2335",
+      "zeit": "23:35",
+      "ort": "am_kamin",
+      "wer": [
+        "burgwart",
+        "alle"
+      ],
+      "text": "Der Burgwart sagt laut, er gehe jetzt ins Bett. Er geht über den Kellerhals in den Hof.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2336",
+      "zeit": "23:36",
+      "ort": "im_raureif",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart geht über den Hof zum Torhaus. Das ist seine erste Spur im Raureif.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2340",
+      "zeit": "23:40",
+      "ort": "am_kamin",
+      "wer": [
+        "merle",
+        "adnan"
+      ],
+      "text": "Merle fragt Adnan nach Batterien und sagt: „Meine Lampe ist fast leer.“",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2344",
+      "zeit": "23:44",
+      "ort": "im_raureif",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart kommt zurück und geht zur Hoftür des Turms. Das ist seine zweite Spur im Raureif. Er will heimlich sehen, wer den Taler bringt.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2345",
+      "zeit": "23:45",
+      "ort": "an_kunibert",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart steigt den Turm hinab und klopft Kunibert auf die Schulter.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2346",
+      "zeit": "23:46",
+      "ort": "am_kerzenstaender",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart geht in die Speisekammer und zündet die drei Kerzen an. Er setzt sich hinter das Regal und behält die Dose im Blick.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2348",
+      "zeit": "23:48",
+      "ort": "am_kamin",
+      "wer": [
+        "adnan"
+      ],
+      "text": "Adnan feuert den Kamin mit der Heißluftpistole an. Das Holz ist feucht, und dichter Qualm füllt das Kamin-Gewölbe.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2350",
+      "zeit": "23:50",
+      "ort": "an_der_nische",
+      "wer": [
+        "rojda"
+      ],
+      "text": "Rojda stellt die Box in die Nische neben der Eichentür.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2352a",
+      "zeit": "23:52",
+      "ort": "am_kamin",
+      "wer": [
+        "adnan"
+      ],
+      "text": "Adnan reißt Turmtür und Läden auf. Gesicht und Hände sind schwarz vom Ruß.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2352b",
+      "zeit": "23:52",
+      "ort": "am_kamin",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle sagt: „Ich geh mal aufs Klo.“ Mit ihrer Tasche geht sie durch die Turmtür.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2353a",
+      "zeit": "23:53",
+      "ort": "am_kamin",
+      "wer": [
+        "jonas"
+      ],
+      "text": "Jonas sagt, er brauche frische Luft. Er geht durch die Turmtür und steigt mit erhobenem Handy hinauf. Er sucht Netz.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2353b",
+      "zeit": "23:53",
+      "ort": "an_der_toilette",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle findet im Dunkeln den Lichtschalter nicht. Sie folgt Jonas’ Handylicht aus Angst bis auf den Wehrgang.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2354a",
+      "zeit": "23:54",
+      "ort": "an_der_dritten_zinne",
+      "wer": [
+        "merle",
+        "jonas"
+      ],
+      "text": "Merle erschreckt Jonas an der dritten Zinne. Er ruft: „Das Klo ist eins tiefer!“ Merle geht wieder hinunter.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2354b",
+      "zeit": "23:54:20",
+      "ort": "an_der_nische",
+      "wer": [],
+      "text": "Jonas’ Handy verlässt den Funkbereich. Die Box dröhnt: „Verbindung getrennt“.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2355",
+      "zeit": "23:55",
+      "ort": "an_der_toilette",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle zieht das Laken über ihre Strickjacke und schaltet die Stablampe an.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2356a",
+      "zeit": "23:56:00",
+      "ort": "am_kamin",
+      "wer": [
+        "rojda",
+        "detective"
+      ],
+      "text": "Rojda schickt das Geburtstagskind an die Speisekammertür: „Gleich spukt’s.“ Das Geburtstagskind steht bald an der verkeilten Eichentür.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2356b",
+      "zeit": "23:56:20",
+      "ort": "an_kunibert",
+      "wer": [
+        "merle",
+        "burgwart"
+      ],
+      "text": "Merle steigt im Laken zum Turm-Fuß hinab. Der Burgwart hört Schritte und bläst die Kerzen aus.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2356c",
+      "zeit": "23:56:30",
+      "ort": "an_der_holztruhe",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle wartet als Gespenst neben der Holztruhe an der Eisentür. Die Lampe hält sie unter dem Laken.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2356d",
+      "zeit": "23:56:40",
+      "ort": "an_der_dritten_zinne",
+      "wer": [
+        "jonas"
+      ],
+      "text": "Jonas ruft seinen Bruder Lukas an. Es geht um Geld, und Lukas sagt nein. Das Gespräch dauert bis kurz nach zwei vor zwölf.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2356e",
+      "zeit": "23:56:40",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "rojda",
+        "merle"
+      ],
+      "text": "Rojda kommt mit Handylicht an den Turm-Fuß. Sie sieht das Gespenst an der Eisentür, und es hebt den Daumen. Ein Gesicht sieht sie nicht.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2357a",
+      "zeit": "23:57:00",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "rojda"
+      ],
+      "text": "Rojda startet den Track „Geisterstunde“. Aus der Box heult Wind.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2357b",
+      "zeit": "23:57:20",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "rojda"
+      ],
+      "text": "Rojda öffnet den Sicherungskasten mit dem Code vom Zettel.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358a",
+      "zeit": "23:58:00",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "rojda"
+      ],
+      "text": "Rojda legt den Hauptschalter um. Kessel und Heizstrahler laufen noch, und die Hauptsicherung brennt mit einem Knall durch. Die ganze Burg ist dunkel.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358b",
+      "zeit": "23:58:05",
+      "ort": "wachs_an_eisentuer",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle schlüpft durch die Eisentür in die dunkle Speisekammer. Die Tür quietscht.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358e",
+      "zeit": "23:58:15",
+      "ort": "an_der_dose",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle wirft den Taler in die Blechdose. Es klimpert deutlich.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358f",
+      "zeit": "23:58:18",
+      "ort": "an_der_dose",
+      "wer": [
+        "burgwart",
+        "merle"
+      ],
+      "text": "Der Burgwart springt auf und ruft: „Hab ich dich!“ Er packt Merles Handgelenk durch das Laken. Die Lampe fällt, geht aus und rollt unter das Regal.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358g",
+      "zeit": "23:58:22",
+      "ort": "am_kerzenstaender",
+      "wer": [
+        "merle",
+        "burgwart"
+      ],
+      "text": "Merle greift in Panik den Kerzenständer. Es folgt ein dumpfer Schlag, der Burgwart fällt ins Regal, und Dosen rollen. Wachs spritzt auf den Boden.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358h",
+      "zeit": "23:58:25",
+      "ort": "wachs_an_eisentuer",
+      "wer": [
+        "merle"
+      ],
+      "text": "Es wird still. Merle flüstert den Namen des Burgwarts. Er atmet. Beim Rückweg tritt sie mit dem linken Stiefel ins Wachs neben der Eisentür.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358j",
+      "zeit": "23:58:35",
+      "ort": "an_der_dose",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle denkt an den Polizeiruf vom Torhaus. Sie nimmt den Schlüsselbund vom Gürtel des Burgwarts.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358k",
+      "zeit": "23:58:45",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "merle",
+        "rojda"
+      ],
+      "text": "Merle verlässt die Speisekammer, und die Eisentür quietscht zum zweiten Mal. Rojda flüstert ihren Namen, aber es kommt keine Antwort.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358l",
+      "zeit": "23:58:50",
+      "ort": "an_kunibert",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle steckt den Bund in Kuniberts Helm. Das Visier klappert zu.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2358m",
+      "zeit": "23:58:55",
+      "ort": "an_kunibert",
+      "wer": [
+        "merle"
+      ],
+      "text": "Das Laken verhakt sich am verbogenen Panzerhandschuh. Ein Streifen mit dem roten Zeichen bleibt hängen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2359a",
+      "zeit": "23:59:05",
+      "ort": "an_der_holztruhe",
+      "wer": [
+        "merle"
+      ],
+      "text": "Merle stopft das Laken in die Holztruhe.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_2359c",
+      "zeit": "23:59:40",
+      "ort": "am_kamin",
+      "wer": [
+        "merle",
+        "adnan"
+      ],
+      "text": "Merle steht plötzlich neben Adnan und sagt laut: „Ich hab mich total verlaufen.“ Ihre Hände sind eiskalt.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0000a",
+      "zeit": "00:00:00",
+      "ort": "an_der_nische",
+      "wer": [],
+      "text": "Der Track erreicht den Schrei. Er kommt aus der Box, direkt neben dem Geburtstagskind.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0000b",
+      "zeit": "00:00:05",
+      "ort": "vor_eichentuer",
+      "wer": [
+        "detective",
+        "adnan"
+      ],
+      "text": "Das Geburtstagskind hämmert gegen die verkeilte Eichentür. Adnan schaltet sein Handylicht an und schickt es über den Turm.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0000c",
+      "zeit": "00:00:15",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "adnan",
+        "detective",
+        "merle",
+        "rojda"
+      ],
+      "text": "Adnan und das Geburtstagskind gehen durch die Turmtür, Merle folgt. Am Sicherungskasten steht Rojda: „Ich wollte nur das Licht wieder …“",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0000d",
+      "zeit": "00:00:25",
+      "ort": "wachs_an_eisentuer",
+      "wer": [
+        "adnan",
+        "detective"
+      ],
+      "text": "Die Eisentür geht auf. Der Burgwart liegt zwischen Kartoffeln und Konserven. Daneben liegen der Kerzenständer und erstarrte Wachsspritzer.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0000e",
+      "zeit": "00:00:50",
+      "ort": "wachs_an_eisentuer",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart kommt zu sich und fragt, wer ihm das Licht ausgeknipst hat.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0003",
+      "zeit": "00:03",
+      "ort": "wachs_an_eisentuer",
+      "wer": [
+        "burgwart"
+      ],
+      "text": "Der Burgwart greift an den Gürtel. Der Karabiner ist offen und leer.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0004",
+      "zeit": "00:04",
+      "ort": "am_sicherungskasten",
+      "wer": [
+        "merle",
+        "rojda"
+      ],
+      "text": "Merle flüstert Rojda zu, sie habe gekniffen und sei nicht in der Speisekammer gewesen. Rojda soll nichts vom Streich sagen.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0007",
+      "zeit": "00:07",
+      "ort": "am_burgtor",
+      "wer": [
+        "adnan",
+        "jonas"
+      ],
+      "text": "Adnan und Jonas prüfen das Burgtor und das Torhaus. Beides ist abgeschlossen. Im Raureif sind nur die Spuren des Burgwarts.",
+      "pfade": "alle"
+    },
+    {
+      "id": "z_0012",
+      "zeit": "00:12",
+      "ort": "an_der_dritten_zinne",
+      "wer": [
+        "jonas"
+      ],
+      "text": "Jonas ruft die Leitstelle an. Sie rät, den Burgwart zu beobachten und alle fünfzehn Minuten zu wecken.",
+      "pfade": "alle"
+    }
+  ],
+  "generiert": "akte_export"
+}

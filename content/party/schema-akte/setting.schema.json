@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Setting",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "zeit": {
+      "type": "string",
+      "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pfad": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "pfade": {
+      "anyOf": [
+        {
+          "const": "alle"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/pfad"
+          }
+        }
+      ]
+    },
+    "idListe": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "fenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/zeit"
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "schauplatz",
+    "anlass",
+    "datum",
+    "essen",
+    "getraenke",
+    "empfang",
+    "atmosphaere",
+    "brandschutz",
+    "lacher",
+    "ton"
+  ],
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "schauplatz": {
+      "$ref": "#/$defs/text"
+    },
+    "anlass": {
+      "$ref": "#/$defs/text"
+    },
+    "datum": {
+      "$ref": "#/$defs/text"
+    },
+    "essen": {
+      "$ref": "#/$defs/text"
+    },
+    "getraenke": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "empfang": {
+      "$ref": "#/$defs/text"
+    },
+    "atmosphaere": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "brandschutz": {
+      "$ref": "#/$defs/text"
+    },
+    "lacher": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "zeit",
+          "wer",
+          "ort",
+          "was",
+          "traegt"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "zeit": {
+            "$ref": "#/$defs/zeit"
+          },
+          "wer": {
+            "$ref": "#/$defs/id"
+          },
+          "ort": {
+            "$ref": "#/$defs/id"
+          },
+          "was": {
+            "$ref": "#/$defs/text"
+          },
+          "traegt": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ton": {
+      "$ref": "#/$defs/text"
+    },
+    "darstellung": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "palette",
+        "ratsraum"
+      ],
+      "properties": {
+        "palette": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/hex"
+          }
+        },
+        "wetter": {
+          "enum": [
+            "rain",
+            "snow",
+            "neon",
+            "dust",
+            "none"
+          ]
+        },
+        "blitze": {
+          "type": "boolean"
+        },
+        "tagLicht": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "nachtLicht": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "ratsraum": {
+          "$ref": "#/$defs/id"
+        },
+        "vorlage": {
+          "type": "string",
+          "pattern": "^content/scenarios/[a-z0-9_]+\\.json$"
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}
