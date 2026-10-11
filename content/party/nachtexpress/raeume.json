@@ -1,0 +1,1380 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "nachtexpress",
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l). Die Karte stammt aus content/scenarios/nachtexpress.json.",
+  "raster": {
+    "breite": 30,
+    "hoehe": 14
+  },
+  "rooms": [
+    {
+      "id": "post",
+      "name": "Postwagen",
+      "anzeigename": "Postwagen",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 1,
+        "y": 1,
+        "b": 7,
+        "l": 4
+      },
+      "boden": "planks",
+      "features": [
+        "Sortierfächer an der Wand",
+        "Schreibpult des Postbeamten",
+        "Postsäcke",
+        "Kisten"
+      ],
+      "beschreibung": "Der erste Wagen hinter der Lokomotive. Hier sortiert der Postbeamte die Briefe. Er ist auf Skiern ins Tal aufgebrochen, um Hilfe zu holen."
+    },
+    {
+      "id": "baggage",
+      "name": "Gepäckwagen",
+      "anzeigename": "Gepäckwagen",
+      "widthMeters": 9,
+      "rechteck": {
+        "x": 9,
+        "y": 1,
+        "b": 9,
+        "l": 4
+      },
+      "boden": "metal",
+      "features": [
+        "Schrankkoffer",
+        "Überseekoffer ohne Namensschild",
+        "Stapel von Kisten",
+        "Sortierpult"
+      ],
+      "beschreibung": "Ein langer, kalter Wagen mit Koffern bis unter die Decke. Huber hat hier seinen Platz zwischen Kisten und Netzen."
+    },
+    {
+      "id": "sleeper2",
+      "name": "Schlafwagen II",
+      "anzeigename": "Schlafwagen II",
+      "widthMeters": 10,
+      "rechteck": {
+        "x": 19,
+        "y": 1,
+        "b": 10,
+        "l": 4
+      },
+      "boden": "carpet",
+      "features": [
+        "Doppelbetten an der Nordwand",
+        "Zwei Kleiderschränke",
+        "Klapptisch am Wagenende",
+        "Sitze am Fenster"
+      ],
+      "beschreibung": "Ein Schlafwagen mit Teppich und schweren Vorhängen. Am Wagenende steht Brändlis Klapptisch mit Lupe und Werkzeug."
+    },
+    {
+      "id": "gangway",
+      "name": "Übergang",
+      "anzeigename": "Übergang",
+      "widthMeters": 1,
+      "rechteck": {
+        "x": 27,
+        "y": 6,
+        "b": 1,
+        "l": 2
+      },
+      "boden": "metal",
+      "features": [
+        "Faltenbalg zwischen den Wagen",
+        "Eisiger Luftzug"
+      ],
+      "beschreibung": "Der schmale Übergang zwischen Schlafwagen II und Speisewagen. Der Wind pfeift durch die Fugen, und der Boden ist vereist."
+    },
+    {
+      "id": "dining",
+      "name": "Speisewagen",
+      "anzeigename": "Speisewagen",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 22,
+        "y": 9,
+        "b": 7,
+        "l": 4
+      },
+      "boden": "parquet",
+      "features": [
+        "Gedeckte Tische",
+        "Bordküche am Ostende",
+        "Reiseschreibmaschine auf dem Tisch am Fenster",
+        "Elektrisches Licht"
+      ],
+      "beschreibung": "Der Speisewagen ist der Treffpunkt des Zuges. Hier brennt das Licht am längsten, und hier tippt Greta ihre Briefe."
+    },
+    {
+      "id": "salon",
+      "name": "Salonwagen",
+      "anzeigename": "Salonwagen",
+      "widthMeters": 7,
+      "rechteck": {
+        "x": 14,
+        "y": 9,
+        "b": 7,
+        "l": 4
+      },
+      "boden": "carpet",
+      "features": [
+        "Klavier",
+        "Ofen im Salonwagen",
+        "Lindqvists Stammplatz",
+        "Sessel und Sofas",
+        "Anrichte"
+      ],
+      "beschreibung": "Ein behaglicher Wagen mit Sesseln, Sofas und einem Klavier. An einem Tisch sitzt sonst Lindqvist mit seiner Mappe."
+    },
+    {
+      "id": "corridor",
+      "name": "Schlafwagen I – Gang",
+      "anzeigename": "Gang im Schlafwagen",
+      "widthMeters": 8,
+      "rechteck": {
+        "x": 5,
+        "y": 9,
+        "b": 8,
+        "l": 1
+      },
+      "boden": "parquet",
+      "features": [
+        "Roter Läufer",
+        "Abteiltüren",
+        "Wandleuchter"
+      ],
+      "beschreibung": "Ein enger Gang mit rotem Läufer. Von hier aus gehen die Türen zu Abteil 7 und Abteil 8 ab."
+    },
+    {
+      "id": "cabin7",
+      "name": "Abteil 7",
+      "anzeigename": "Abteil 7",
+      "widthMeters": 4,
+      "rechteck": {
+        "x": 5,
+        "y": 11,
+        "b": 4,
+        "l": 2
+      },
+      "boden": "carpet",
+      "features": [
+        "Zwei Betten",
+        "Klapptisch mit Teegeschirr",
+        "Fenster mit Sprung",
+        "Waschbecken"
+      ],
+      "beschreibung": "Lindqvists Abteil. Das Fenster hat seit der Nacht einen Sprung, und auf dem Klapptisch steht noch das Teegeschirr."
+    },
+    {
+      "id": "cabin8",
+      "name": "Abteil 8",
+      "anzeigename": "Abteil 8",
+      "widthMeters": 3,
+      "rechteck": {
+        "x": 10,
+        "y": 11,
+        "b": 3,
+        "l": 2
+      },
+      "boden": "carpet",
+      "features": [
+        "Kleiderschrank",
+        "Zwei Betten",
+        "Kerzenleuchter"
+      ],
+      "beschreibung": "Das Abteil der Gräfin. Es riecht nach Veilchenwasser, und im Kleiderschrank hängen schwere Pelze."
+    },
+    {
+      "id": "platform",
+      "name": "Aussichtsplattform",
+      "anzeigename": "Aussichtsplattform",
+      "widthMeters": 3,
+      "rechteck": {
+        "x": 1,
+        "y": 9,
+        "b": 3,
+        "l": 4
+      },
+      "boden": "snow",
+      "features": [
+        "Geländer",
+        "Neuschnee",
+        "Rote Laterne"
+      ],
+      "beschreibung": "Die offene Plattform am Ende des Zuges. Der Schnee liegt hier fußhoch, und der Wind treibt Flocken über das Geländer."
+    }
+  ],
+  "tueren": [
+    {
+      "id": "postwagen_tuer",
+      "name": "Tür zum Postwagen",
+      "von": "post",
+      "nach": "baggage",
+      "kacheln": [
+        [
+          8,
+          2
+        ]
+      ],
+      "art": "schwere Eisentür mit Griff",
+      "zustand": "zu, nicht abgesperrt",
+      "quietscht": true
+    },
+    {
+      "id": "gepaeck_tuer",
+      "name": "Tür zum Schlafwagen II",
+      "von": "baggage",
+      "nach": "sleeper2",
+      "kacheln": [
+        [
+          18,
+          2
+        ]
+      ],
+      "art": "Waggontür mit Messinggriff",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "uebergang_nord",
+      "name": "Tür zum Übergang",
+      "von": "sleeper2",
+      "nach": "gangway",
+      "kacheln": [
+        [
+          27,
+          5
+        ]
+      ],
+      "art": "Faltentür",
+      "zustand": "offen",
+      "quietscht": true
+    },
+    {
+      "id": "uebergang_sued",
+      "name": "Tür zum Speisewagen",
+      "von": "gangway",
+      "nach": "dining",
+      "kacheln": [
+        [
+          27,
+          8
+        ]
+      ],
+      "art": "Faltentür",
+      "zustand": "offen",
+      "quietscht": true
+    },
+    {
+      "id": "plattform_tuer",
+      "name": "Tür zur Plattform",
+      "von": "platform",
+      "nach": "corridor",
+      "kacheln": [
+        [
+          4,
+          9
+        ]
+      ],
+      "art": "Glastür mit Eisrand",
+      "zustand": "angelehnt",
+      "quietscht": true
+    },
+    {
+      "id": "salon_tuer",
+      "name": "Tür zum Salonwagen",
+      "von": "corridor",
+      "nach": "salon",
+      "kacheln": [
+        [
+          13,
+          9
+        ]
+      ],
+      "art": "Waggontür mit Messinggriff",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "abteil7_tuer",
+      "name": "Tür von Abteil 7",
+      "von": "corridor",
+      "nach": "cabin7",
+      "kacheln": [
+        [
+          7,
+          10
+        ]
+      ],
+      "art": "schmale Holztür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "abteil8_tuer",
+      "name": "Tür von Abteil 8",
+      "von": "corridor",
+      "nach": "cabin8",
+      "kacheln": [
+        [
+          11,
+          10
+        ]
+      ],
+      "art": "schmale Holztür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    {
+      "id": "speisewagen_tuer",
+      "name": "Tür zum Speisewagen",
+      "von": "salon",
+      "nach": "dining",
+      "kacheln": [
+        [
+          21,
+          10
+        ]
+      ],
+      "art": "Waggontür mit Messinggriff",
+      "zustand": "offen",
+      "quietscht": false
+    }
+  ],
+  "einrichtung": [
+    {
+      "id": "cabinet_1_1",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 1,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_2_1",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 2,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_3_1",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 3,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "schreibpult_post",
+      "name": "Schreibpult des Postbeamten",
+      "typ": "desk",
+      "x": 5,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_7_1",
+      "name": "Lampe",
+      "typ": "lamp",
+      "x": 7,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "papers_4_2",
+      "name": "Papiere",
+      "typ": "papers",
+      "x": 4,
+      "y": 2,
+      "blockiert": false
+    },
+    {
+      "id": "luggage_1_4",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 1,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "luggage_2_4",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 2,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_3_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 3,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_6_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 6,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "schrankkoffer_gepaeck",
+      "name": "Schrankkoffer",
+      "typ": "wardrobe",
+      "x": 9,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "crate_10_1",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 10,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "crate_11_1",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 11,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "sortierpult_gepaeck",
+      "name": "Sortierpult im Gepäckwagen",
+      "typ": "counter",
+      "x": 13,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_14_1",
+      "name": "Lampe",
+      "typ": "lamp",
+      "x": 14,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "crate_16_1",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 16,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "crate_17_1",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 17,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "luggage_9_4",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 9,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "luggage_10_4",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 10,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_12_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 12,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "ueberseekoffer_gepaeck",
+      "name": "Überseekoffer ohne Namensschild",
+      "typ": "luggage",
+      "x": 13,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "barrel_15_4",
+      "name": "Tonne",
+      "typ": "barrel",
+      "x": 15,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_16_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 16,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "crate_17_4",
+      "name": "Kiste",
+      "typ": "crate",
+      "x": 17,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_19_1",
+      "name": "Lampe",
+      "typ": "lamp",
+      "x": 19,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bed_20_1",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 20,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bed_21_1",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 21,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "kleiderschrank_schlafwagen",
+      "name": "Kleiderschrank im Schlafwagen",
+      "typ": "wardrobe",
+      "x": 22,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bed_23_1",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 23,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bed_24_1",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 24,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "wardrobe_25_1",
+      "name": "Kleiderschrank",
+      "typ": "wardrobe",
+      "x": 25,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bed_26_1",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 26,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "bed_27_1",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 27,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_28_1",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 28,
+      "y": 1,
+      "blockiert": true
+    },
+    {
+      "id": "klapptisch_brandli",
+      "name": "Brändlis Klapptisch",
+      "typ": "table",
+      "x": 28,
+      "y": 2,
+      "blockiert": true
+    },
+    {
+      "id": "luggage_20_4",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 20,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "seat_22_4",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 22,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "seat_23_4",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 23,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "luggage_25_4",
+      "name": "Koffer",
+      "typ": "luggage",
+      "x": 25,
+      "y": 4,
+      "blockiert": true
+    },
+    {
+      "id": "seat_22_9",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 22,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "table_23_9",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 23,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "seat_24_9",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 24,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "seat_25_9",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 25,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "table_26_9",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 26,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "herd_bordkueche",
+      "name": "Herd der Bordküche",
+      "typ": "stove",
+      "x": 28,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "counter_28_10",
+      "name": "Anrichte",
+      "typ": "counter",
+      "x": 28,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "spuele_bordkueche",
+      "name": "Spüle der Bordküche",
+      "typ": "sink",
+      "x": 28,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "counter_28_12",
+      "name": "Anrichte",
+      "typ": "counter",
+      "x": 28,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "seat_22_12",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 22,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "schreibmaschinentisch",
+      "name": "Tisch mit der Reiseschreibmaschine",
+      "typ": "table",
+      "x": 23,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "seat_24_12",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 24,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "seat_25_12",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 25,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "table_26_12",
+      "name": "Tisch",
+      "typ": "table",
+      "x": 26,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "seat_27_12",
+      "name": "Sitzbank",
+      "typ": "seat",
+      "x": 27,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_15_9",
+      "name": "Lampe",
+      "typ": "lamp",
+      "x": 15,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "klavier_salon",
+      "name": "Klavier im Salonwagen",
+      "typ": "piano",
+      "x": 16,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "counter_18_9",
+      "name": "Anrichte",
+      "typ": "counter",
+      "x": 18,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "counter_19_9",
+      "name": "Anrichte",
+      "typ": "counter",
+      "x": 19,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "cabinet_20_9",
+      "name": "Schrank",
+      "typ": "cabinet",
+      "x": 20,
+      "y": 9,
+      "blockiert": true
+    },
+    {
+      "id": "bar_stool_18_10",
+      "name": "Hocker",
+      "typ": "bar_stool",
+      "x": 18,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "bar_stool_19_10",
+      "name": "Hocker",
+      "typ": "bar_stool",
+      "x": 19,
+      "y": 10,
+      "blockiert": true
+    },
+    {
+      "id": "ofen_salon",
+      "name": "Ofen im Salonwagen",
+      "typ": "fireplace",
+      "x": 14,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_14_12",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 14,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_15_12",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 15,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "stammplatz_tisch",
+      "name": "Lindqvists Stammplatz",
+      "typ": "table",
+      "x": 16,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "armchair_17_12",
+      "name": "Sessel",
+      "typ": "armchair",
+      "x": 17,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "plant_18_12",
+      "name": "Pflanze",
+      "typ": "plant",
+      "x": 18,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_salon",
+      "name": "Sofa im Salonwagen",
+      "typ": "sofa",
+      "x": 19,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "sofa_20_12",
+      "name": "Sofa",
+      "typ": "sofa",
+      "x": 20,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "rug_17_11",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 17,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "rug_18_11",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 18,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "rug_5_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 5,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_6_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 6,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_7_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 7,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_8_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 8,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_9_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 9,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_10_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 10,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_11_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 11,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "rug_12_9",
+      "name": "Läufer",
+      "typ": "rug",
+      "x": 12,
+      "y": 9,
+      "blockiert": false
+    },
+    {
+      "id": "bett_lindqvist",
+      "name": "Lindqvists Bett",
+      "typ": "bed",
+      "x": 5,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "bed_5_12",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 5,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "sink_8_11",
+      "name": "Spüle",
+      "typ": "sink",
+      "x": 8,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "klapptisch_abteil_7",
+      "name": "Klapptisch in Abteil 7",
+      "typ": "table",
+      "x": 8,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "papers_7_11",
+      "name": "Papiere",
+      "typ": "papers",
+      "x": 7,
+      "y": 11,
+      "blockiert": false
+    },
+    {
+      "id": "kleiderschrank_orlowa",
+      "name": "Kleiderschrank der Gräfin",
+      "typ": "wardrobe",
+      "x": 10,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "bed_12_11",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 12,
+      "y": 11,
+      "blockiert": true
+    },
+    {
+      "id": "bed_12_12",
+      "name": "Bett",
+      "typ": "bed",
+      "x": 12,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "candles_10_12",
+      "name": "Kerzenleuchter",
+      "typ": "candles",
+      "x": 10,
+      "y": 12,
+      "blockiert": true
+    },
+    {
+      "id": "lamp_1_9",
+      "name": "Lampe",
+      "typ": "lamp",
+      "x": 1,
+      "y": 9,
+      "blockiert": true
+    }
+  ],
+  "orte": [
+    {
+      "id": "beim_toten",
+      "raum": "cabin7",
+      "x": 6.5,
+      "y": 12.5,
+      "name": "bei Lindqvist"
+    },
+    {
+      "id": "am_bett_7",
+      "raum": "cabin7",
+      "x": 6.5,
+      "y": 11.5,
+      "name": "am Bett in Abteil 7"
+    },
+    {
+      "id": "am_klapptisch_7",
+      "raum": "cabin7",
+      "x": 7.5,
+      "y": 12.5,
+      "name": "am Klapptisch in Abteil 7"
+    },
+    {
+      "id": "am_fenster_7",
+      "raum": "cabin7",
+      "x": 7.5,
+      "y": 12.5,
+      "name": "am Fenster von Abteil 7"
+    },
+    {
+      "id": "am_wandleuchter",
+      "raum": "corridor",
+      "x": 9.5,
+      "y": 9.5,
+      "name": "am zersprungenen Wandleuchter"
+    },
+    {
+      "id": "am_kleiderschrank_8",
+      "raum": "cabin8",
+      "x": 11.5,
+      "y": 11.5,
+      "name": "am Kleiderschrank der Gräfin"
+    },
+    {
+      "id": "am_gelaender",
+      "raum": "platform",
+      "x": 1.5,
+      "y": 11.5,
+      "name": "am Geländer der Plattform"
+    },
+    {
+      "id": "auf_der_plattform",
+      "raum": "platform",
+      "x": 3.5,
+      "y": 12.5,
+      "name": "auf der verschneiten Plattform"
+    },
+    {
+      "id": "am_klavier",
+      "raum": "salon",
+      "x": 16.5,
+      "y": 10.5,
+      "name": "am Klavier"
+    },
+    {
+      "id": "am_stammplatz",
+      "raum": "salon",
+      "x": 16.5,
+      "y": 11.5,
+      "name": "an Lindqvists Stammplatz"
+    },
+    {
+      "id": "am_salonofen",
+      "raum": "salon",
+      "x": 14.5,
+      "y": 10.5,
+      "name": "am Ofen im Salonwagen"
+    },
+    {
+      "id": "an_der_schreibmaschine",
+      "raum": "dining",
+      "x": 23.5,
+      "y": 11.5,
+      "name": "an der Reiseschreibmaschine"
+    },
+    {
+      "id": "an_der_spuele",
+      "raum": "dining",
+      "x": 27.5,
+      "y": 11.5,
+      "name": "an der Spüle der Bordküche"
+    },
+    {
+      "id": "am_klapptisch_brandli",
+      "raum": "sleeper2",
+      "x": 28.5,
+      "y": 3.5,
+      "name": "an Brändlis Klapptisch"
+    },
+    {
+      "id": "am_kleiderschrank_schlafwagen",
+      "raum": "sleeper2",
+      "x": 22.5,
+      "y": 2.5,
+      "name": "am Kleiderschrank im Schlafwagen"
+    },
+    {
+      "id": "am_sortierpult",
+      "raum": "baggage",
+      "x": 13.5,
+      "y": 2.5,
+      "name": "am Sortierpult im Gepäckwagen"
+    },
+    {
+      "id": "am_ueberseekoffer",
+      "raum": "baggage",
+      "x": 13.5,
+      "y": 3.5,
+      "name": "am Überseekoffer"
+    },
+    {
+      "id": "am_schrankkoffer",
+      "raum": "baggage",
+      "x": 9.5,
+      "y": 2.5,
+      "name": "am Schrankkoffer"
+    },
+    {
+      "id": "bei_den_postsaecken",
+      "raum": "post",
+      "x": 2.5,
+      "y": 3.5,
+      "name": "bei den Postsäcken"
+    },
+    {
+      "id": "beim_sessel",
+      "raum": "salon",
+      "x": 15.5,
+      "y": 11.5,
+      "name": "bei den Sesseln im Salonwagen"
+    },
+    {
+      "id": "im_gepaeckwagen",
+      "raum": "baggage",
+      "x": 15.5,
+      "y": 3.5,
+      "name": "mitten im Gepäckwagen"
+    },
+    {
+      "id": "neben_dem_klavier",
+      "raum": "salon",
+      "x": 17.5,
+      "y": 9.5,
+      "name": "neben dem Klavier"
+    },
+    {
+      "id": "am_wagenende",
+      "raum": "sleeper2",
+      "x": 27.5,
+      "y": 2.5,
+      "name": "am Wagenende von Schlafwagen II"
+    },
+    {
+      "id": "neben_der_schreibmaschine",
+      "raum": "dining",
+      "x": 22.5,
+      "y": 11.5,
+      "name": "neben der Reiseschreibmaschine"
+    },
+    {
+      "id": "am_speisetisch",
+      "raum": "dining",
+      "x": 25.5,
+      "y": 10.5,
+      "name": "am großen Speisetisch"
+    },
+    {
+      "id": "bordkueche",
+      "raum": "dining",
+      "x": 27.5,
+      "y": 10.5,
+      "name": "Bordküche"
+    },
+    {
+      "id": "am_kuechenherd",
+      "raum": "dining",
+      "x": 27.5,
+      "y": 9.5,
+      "name": "am Herd der Bordküche"
+    },
+    {
+      "id": "im_speisewagen_mitte",
+      "raum": "dining",
+      "x": 24.5,
+      "y": 10.5,
+      "name": "in der Mitte des Speisewagens"
+    },
+    {
+      "id": "beim_sitzplatz",
+      "raum": "sleeper2",
+      "x": 23.5,
+      "y": 3.5,
+      "name": "bei den Sitzen im Schlafwagen"
+    },
+    {
+      "id": "am_salonende",
+      "raum": "salon",
+      "x": 20.5,
+      "y": 10.5,
+      "name": "am Ende des Salonwagens"
+    },
+    {
+      "id": "am_sofa",
+      "raum": "salon",
+      "x": 19.5,
+      "y": 11.5,
+      "name": "am Sofa im Salonwagen"
+    },
+    {
+      "id": "vor_abteil_7",
+      "raum": "corridor",
+      "x": 7.5,
+      "y": 9.5,
+      "name": "vor der Tür von Abteil 7"
+    },
+    {
+      "id": "vor_abteil_8",
+      "raum": "corridor",
+      "x": 11.5,
+      "y": 9.5,
+      "name": "vor der Tür von Abteil 8"
+    },
+    {
+      "id": "im_gang",
+      "raum": "corridor",
+      "x": 6.5,
+      "y": 9.5,
+      "name": "im Gang des Schlafwagens"
+    },
+    {
+      "id": "im_uebergang",
+      "raum": "gangway",
+      "x": 27.5,
+      "y": 6.5,
+      "name": "im Übergang"
+    },
+    {
+      "id": "im_postwagen",
+      "raum": "post",
+      "x": 4.5,
+      "y": 2.5,
+      "name": "mitten im Postwagen"
+    }
+  ],
+  "lichtquellen": [
+    {
+      "id": "licht_dining",
+      "art": "elektrisch",
+      "name": "Elektrisches Licht im Speisewagen, auch in der Nacht",
+      "raeume": [
+        "dining"
+      ],
+      "an": [
+        [
+          "18:00",
+          "23:59:59"
+        ],
+        [
+          "00:00",
+          "10:00"
+        ]
+      ]
+    }
+  ],
+  "luftzug": [],
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören: Wagen und Abteile, die durch eine Tür verbunden sind, hören einander. Die Hörregeln stehen in wahrnehmung.json.",
+    "nachbarn": [
+      [
+        "baggage",
+        "post"
+      ],
+      [
+        "baggage",
+        "sleeper2"
+      ],
+      [
+        "cabin7",
+        "corridor"
+      ],
+      [
+        "cabin8",
+        "corridor"
+      ],
+      [
+        "corridor",
+        "platform"
+      ],
+      [
+        "corridor",
+        "salon"
+      ],
+      [
+        "dining",
+        "gangway"
+      ],
+      [
+        "dining",
+        "salon"
+      ],
+      [
+        "gangway",
+        "sleeper2"
+      ]
+    ],
+    "geschlossen": [
+      [
+        "baggage",
+        "post"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "luegen": {
+    "countess": [
+      {
+        "id": "luege_countess_briefe",
+        "behauptung": "Ich habe die ganze Nacht in meinem Abteil Briefe geschrieben.",
+        "wahrheit": "Sie hat gegen halb eins im Salonwagen Briefbögen im Ofen verbrannt.",
+        "duWahrheit": "Du hast gegen halb eins im Salonwagen Briefbögen im Ofen verbrannt."
+      },
+      {
+        "id": "luege_countess_wien",
+        "behauptung": "Mit Lindqvist habe ich nie ein Wort gewechselt.",
+        "wahrheit": "Sie hat in Wien auf dem Bahnsteig auf Lindqvist eingeschrien. Er hielt ihre letzten Juwelen als Pfand.",
+        "duWahrheit": "Du hast in Wien auf dem Bahnsteig auf Lindqvist eingeschrien. Er hielt deine letzten Juwelen als Pfand."
+      }
+    ],
+    "singer": [
+      {
+        "id": "luege_singer_klavier",
+        "behauptung": "Ich habe die ganze Nacht Klavier gespielt.",
+        "wahrheit": "Sie hat um Viertel vor eins kurz aufgehört, um bei der Gräfin Kerzen zu holen.",
+        "duWahrheit": "Du hast um Viertel vor eins kurz aufgehört, um bei der Gräfin Kerzen zu holen."
+      },
+      {
+        "id": "luege_singer_name",
+        "behauptung": "Ich heiße Ruby Lafleur, seit ich denken kann.",
+        "wahrheit": "Sie heißt in Wahrheit Ruth Kowalski. Der Pass in der Hutschachtel zeigt es.",
+        "duWahrheit": "Du heißt in Wahrheit Ruth Kowalski. Der Pass in deiner Hutschachtel zeigt es."
+      }
+    ],
+    "watchmaker": [
+      {
+        "id": "luege_watchmaker_koffer",
+        "behauptung": "In meinem Musterkoffer sind nur Uhren.",
+        "wahrheit": "Im doppelten Boden stecken Uhrwerke ohne Zollplombe.",
+        "duWahrheit": "Im doppelten Boden deines Koffers stecken Uhrwerke ohne Zollplombe."
+      },
+      {
+        "id": "luege_watchmaker_uhr",
+        "behauptung": "Ich habe die ganze Nacht an Hubers Taschenuhr gearbeitet.",
+        "wahrheit": "Die Taschenuhr war schon kurz nach Mitternacht fertig. Danach hat Brändli nur noch Uhrwerke poliert.",
+        "duWahrheit": "Die Taschenuhr war schon kurz nach Mitternacht fertig. Danach hast du nur noch Uhrwerke poliert."
+      }
+    ],
+    "secretary": [
+      {
+        "id": "luege_secretary_tippen",
+        "behauptung": "Ich habe die halbe Nacht im Speisewagen getippt.",
+        "wahrheit": "Sie hat das Tippen nach halb eins unterbrochen und in Lindqvists Mappe gelesen.",
+        "duWahrheit": "Du hast das Tippen nach halb eins unterbrochen und in Lindqvists Mappe gelesen."
+      },
+      {
+        "id": "luege_secretary_name",
+        "behauptung": "Ich habe mich ganz normal bei Lindqvist beworben.",
+        "wahrheit": "Sie hat sich unter falschem Namen beworben. Ihr Vater verlor wegen Lindqvist das Geschäft.",
+        "duWahrheit": "Du hast dich unter falschem Namen beworben. Dein Vater verlor wegen Lindqvist das Geschäft."
+      }
+    ],
+    "conductor": [
+      {
+        "id": "luege_conductor_gepaeck",
+        "behauptung": "Ich kontrolliere jedes Gepäckstück im Zug.",
+        "wahrheit": "In Brändlis Koffer hat Huber nie hineingesehen. Dafür bekam er Trinkgeld.",
+        "duWahrheit": "In Brändlis Koffer hast du nie hineingesehen. Dafür bekamst du Trinkgeld."
+      }
+    ],
+    "student": [
+      {
+        "id": "luege_student_karte",
+        "behauptung": "Ich habe meinen Schlafplatz ganz normal bezahlt.",
+        "wahrheit": "Lukas hat nur eine Fahrkarte der dritten Klasse. Den Schlafplatz hat er sich einfach genommen.",
+        "duWahrheit": "Du hast nur eine Fahrkarte der dritten Klasse. Den Schlafplatz hast du dir einfach genommen."
+      }
+    ],
+    "doctor": [],
+    "waiter": [
+      {
+        "id": "luege_waiter_tee",
+        "behauptung": "Ich habe den Nachttee keine Sekunde aus den Augen gelassen.",
+        "wahrheit": "Der Tee stand zehn Minuten allein in der Bordküche.",
+        "duWahrheit": "Der Tee stand zehn Minuten allein in der Bordküche."
+      }
+    ]
+  },
+  "nebendelikte": {
+    "countess": {
+      "id": "nd_briefe",
+      "text": "Hat nachts heimlich Briefbögen im Ofen des Salonwagens verbrannt."
+    },
+    "singer": {
+      "id": "nd_pass",
+      "text": "Reist mit einem Pass auf einen falschen Namen."
+    },
+    "watchmaker": {
+      "id": "nd_schmuggel",
+      "text": "Schmuggelt Uhrwerke im doppelten Boden seines Musterkoffers."
+    },
+    "secretary": {
+      "id": "nd_mappe",
+      "text": "Hat nachts heimlich in Lindqvists Mappe gelesen."
+    },
+    "conductor": {
+      "id": "nd_trinkgeld",
+      "text": "Schaut gegen Trinkgeld bei Brändlis Koffer weg."
+    },
+    "student": {
+      "id": "nd_schwarzfahrt",
+      "text": "Hat sich mit einer Fahrkarte der dritten Klasse in den Schlafwagen gelegt."
+    },
+    "waiter": {
+      "id": "nd_tee",
+      "text": "Hat Lindqvists Nachttee zehn Minuten unbeaufsichtigt stehen lassen."
+    }
+  }
+}

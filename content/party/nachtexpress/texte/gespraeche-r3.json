@@ -1,0 +1,279 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 3, alle acht Rollen.",
+  "eintraege": [
+    {
+      "id": "g_countess_3_1",
+      "rolle": "countess",
+      "runde": 3,
+      "nr": 1,
+      "partner": "secretary",
+      "thema": "Der Bahnsteig in Wien",
+      "ziel": "Ich will prüfen, was die andere Person über Wien erzählt.",
+      "preisgabe": [
+        "luege:luege_countess_wien"
+      ],
+      "text": "Mit Herrn Lindqvist habe ich nie ein Wort gewechselt. Was man über den Bahnsteig in Wien erzählt, ist Klatsch."
+    },
+    {
+      "id": "g_countess_3_2",
+      "rolle": "countess",
+      "runde": 3,
+      "nr": 2,
+      "partner": "singer",
+      "thema": "Kerzen und Klavier",
+      "ziel": "Ich will wissen, ob die andere Person bei ihrer Geschichte bleibt.",
+      "preisgabe": [],
+      "text": "Sie haben um Viertel vor eins Kerzen bei mir geholt. Wo waren Sie danach, als der Zug bebte?"
+    },
+    {
+      "id": "g_countess_3_3",
+      "rolle": "countess",
+      "runde": 3,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Ihr Verdacht",
+      "ziel": "Ich will wissen, wen der Inspektor verdächtigt.",
+      "preisgabe": [],
+      "text": "Sagen Sie mir offen, wen Sie verdächtigen. Eine Gräfin erträgt vieles, nur keine Ungewissheit."
+    },
+    {
+      "id": "g_watchmaker_3_1",
+      "rolle": "watchmaker",
+      "runde": 3,
+      "nr": 1,
+      "partner": "countess",
+      "thema": "Der Streit in Wien",
+      "ziel": "Ich will wissen, was die andere Person über Lindqvist weiß.",
+      "preisgabe": [],
+      "text": "Man sagt, Sie hätten Lindqvist in Wien angeschrien. Das ist doch nur ein Gerücht, oder?"
+    },
+    {
+      "id": "g_watchmaker_3_2",
+      "rolle": "watchmaker",
+      "runde": 3,
+      "nr": 2,
+      "partner": "doctor",
+      "thema": "Eine ruhige Hand",
+      "ziel": "Ich will wissen, ob die andere Person etwas Auffälliges gesehen hat.",
+      "preisgabe": [],
+      "text": "Eine ruhige Hand sieht mehr als ein lautes Wort. Haben Sie etwas gesehen, das Sie mir sagen möchten?"
+    },
+    {
+      "id": "g_watchmaker_3_3",
+      "rolle": "watchmaker",
+      "runde": 3,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Ein Uhrmacher denkt in Zeiten",
+      "ziel": "Ich will wissen, ob die Zeiten des Inspektors stimmen.",
+      "preisgabe": [],
+      "text": "Ein Mord ist eine Frage der Minuten. Haben Sie die Minuten schon sortiert, oder zählen Sie noch?"
+    },
+    {
+      "id": "g_singer_3_1",
+      "rolle": "singer",
+      "runde": 3,
+      "nr": 1,
+      "partner": "waiter",
+      "thema": "Was ist aufgefallen?",
+      "ziel": "Ich will wissen, ob die andere Person etwas Auffälliges bemerkt hat.",
+      "preisgabe": [],
+      "text": "Nachts sieht man mehr, als man denkt. Was ist Ihnen aufgefallen?"
+    },
+    {
+      "id": "g_singer_3_2",
+      "rolle": "singer",
+      "runde": 3,
+      "nr": 2,
+      "partner": "countess",
+      "thema": "Die Gräfin und ich",
+      "ziel": "Ich will wissen, ob die Gräfin bei ihrer Geschichte bleibt.",
+      "preisgabe": [],
+      "text": "Sie haben mir die Tür aufgemacht, die Feder in der Hand. Haben Sie wirklich nur geschrieben?"
+    },
+    {
+      "id": "g_singer_3_3",
+      "rolle": "singer",
+      "runde": 3,
+      "nr": 3,
+      "partner": "secretary",
+      "thema": "Die Maschine und das Licht",
+      "ziel": "Ich will wissen, ob die andere Person bei ihrer Aussage bleibt.",
+      "preisgabe": [],
+      "text": "Beim Ruck ging das Licht aus. Wie lange haben Sie im Dunkeln gesessen?"
+    },
+    {
+      "id": "g_secretary_3_1",
+      "rolle": "secretary",
+      "runde": 3,
+      "nr": 1,
+      "partner": "singer",
+      "thema": "Eine Frage zu oft",
+      "ziel": "Ich will wissen, ob die andere Person mir etwas vorwirft.",
+      "preisgabe": [
+        "luege:luege_secretary_name"
+      ],
+      "text": "Ich habe mich ganz normal bei Lindqvist beworben, wie jede andere auch. Warum fragt man mich so oft?"
+    },
+    {
+      "id": "g_secretary_3_2",
+      "rolle": "secretary",
+      "runde": 3,
+      "nr": 2,
+      "partner": "conductor",
+      "thema": "Eine ehrliche Frage",
+      "ziel": "Ich will wissen, was die andere Person von mir hält.",
+      "preisgabe": [],
+      "text": "Ich bin leise, aber ich sehe alles. Was haben Sie heute Nacht gesehen, das Sie mir nicht sagen?"
+    },
+    {
+      "id": "g_secretary_3_3",
+      "rolle": "secretary",
+      "runde": 3,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Letzte Worte",
+      "ziel": "Ich will wissen, wie nah der Inspektor an der Wahrheit ist.",
+      "preisgabe": [],
+      "text": "Sie sollten die Briefe zählen, nicht die Menschen. Briefe lügen nie."
+    },
+    {
+      "id": "g_conductor_3_1",
+      "rolle": "conductor",
+      "runde": 3,
+      "nr": 1,
+      "partner": "doctor",
+      "thema": "Die Zeit nach dem Ruck",
+      "ziel": "Ich will wissen, ob die andere Person nachts jemanden gesehen hat.",
+      "preisgabe": [],
+      "text": "Nach dem Ruck war im Zug kein Mensch zu sehen. Und doch war jemand unterwegs. Wer?"
+    },
+    {
+      "id": "g_conductor_3_2",
+      "rolle": "conductor",
+      "runde": 3,
+      "nr": 2,
+      "partner": "secretary",
+      "thema": "Papiere und Pflicht",
+      "ziel": "Ich will wissen, ob die andere Person etwas über Lindqvists Papiere weiß.",
+      "preisgabe": [],
+      "text": "Als Schaffner bewache ich Gepäck und Papiere. Wissen Sie etwas, das ich wissen sollte?"
+    },
+    {
+      "id": "g_conductor_3_3",
+      "rolle": "conductor",
+      "runde": 3,
+      "nr": 3,
+      "partner": "watchmaker",
+      "thema": "Ein stilles Wort",
+      "ziel": "Ich will wissen, ob die andere Person ihren Koffer erklären kann.",
+      "preisgabe": [
+        "luege:luege_conductor_gepaeck"
+      ],
+      "text": "Ich kontrolliere jedes Gepäckstück im Zug. Auch das Ihre. Gibt es etwas, das Sie mir sagen wollen?"
+    },
+    {
+      "id": "g_student_3_1",
+      "rolle": "student",
+      "runde": 3,
+      "nr": 1,
+      "partner": "countess",
+      "thema": "Das Reisebuch",
+      "ziel": "Ich will wissen, ob die andere Person in der Nacht etwas bemerkt hat.",
+      "preisgabe": [],
+      "text": "Ich schreibe alles auf, was in diesem Zug passiert. Haben Sie in der Nacht etwas bemerkt, Gräfin?"
+    },
+    {
+      "id": "g_student_3_2",
+      "rolle": "student",
+      "runde": 3,
+      "nr": 2,
+      "partner": "detective",
+      "thema": "Der Student als Zeuge",
+      "ziel": "Ich will wissen, ob der Inspektor meine Notizen braucht.",
+      "preisgabe": [],
+      "text": "Ich habe alles aufgeschrieben, was ich gesehen habe. Wollen Sie mein Reisebuch lesen?"
+    },
+    {
+      "id": "g_student_3_3",
+      "rolle": "student",
+      "runde": 3,
+      "nr": 3,
+      "partner": "waiter",
+      "thema": "Heiße Schokolade",
+      "ziel": "Ich will wissen, ob es noch etwas zu essen gibt.",
+      "preisgabe": [],
+      "text": "Der Morgen kommt, und mir knurrt der Magen. Gibt es noch Brötchen?"
+    },
+    {
+      "id": "g_doctor_3_1",
+      "rolle": "doctor",
+      "runde": 3,
+      "nr": 1,
+      "partner": "watchmaker",
+      "thema": "Ein ruhiger Mann",
+      "ziel": "Ich will wissen, ob die andere Person die Nacht verkraftet.",
+      "preisgabe": [],
+      "text": "Sie wirken ruhig, aber Ihre Hände sprechen eine andere Sprache. Brauchen Sie eine Pause?"
+    },
+    {
+      "id": "g_doctor_3_2",
+      "rolle": "doctor",
+      "runde": 3,
+      "nr": 2,
+      "partner": "student",
+      "thema": "Wolldecken",
+      "ziel": "Ich will wissen, ob jemandem noch eine Decke fehlt.",
+      "preisgabe": [],
+      "text": "Ich habe Wolldecken verteilt, so viele ich hatte. Fehlt noch jemandem eine?"
+    },
+    {
+      "id": "g_doctor_3_3",
+      "rolle": "doctor",
+      "runde": 3,
+      "nr": 3,
+      "partner": "singer",
+      "thema": "Das Lied danach",
+      "ziel": "Ich will wissen, ob die andere Person weiterspielt.",
+      "preisgabe": [],
+      "text": "Spielen Sie, bis die Gendarmerie kommt. Musik hilft den Menschen, wenn Worte nicht mehr reichen."
+    },
+    {
+      "id": "g_waiter_3_1",
+      "rolle": "waiter",
+      "runde": 3,
+      "nr": 1,
+      "partner": "conductor",
+      "thema": "Ein langer Dienst",
+      "ziel": "Ich will wissen, wann die Schneefräse kommt.",
+      "preisgabe": [],
+      "text": "Dreißig Jahre Speisewagen, aber so eine Nacht habe ich noch nie erlebt. Wann kommt die Schneefräse?"
+    },
+    {
+      "id": "g_waiter_3_2",
+      "rolle": "waiter",
+      "runde": 3,
+      "nr": 2,
+      "partner": "watchmaker",
+      "thema": "Der Herr aus Biel",
+      "ziel": "Ich will wissen, ob die andere Person noch etwas bestellen möchte.",
+      "preisgabe": [
+        "luege:luege_waiter_tee"
+      ],
+      "text": "Ich habe den Nachttee keine Sekunde aus den Augen gelassen. Wirklich nicht. Möchten Sie auch einen?"
+    },
+    {
+      "id": "g_waiter_3_3",
+      "rolle": "waiter",
+      "runde": 3,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Die Wahrheit über die Nacht",
+      "ziel": "Ich will wissen, ob ich dem Inspektor etwas verschweigen darf.",
+      "preisgabe": [],
+      "text": "Ich bin nur ein Kellner und stehe im Weg. Wenn Sie mich brauchen, rufen Sie mich."
+    }
+  ]
+}

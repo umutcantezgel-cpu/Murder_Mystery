@@ -1,0 +1,123 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "erzaehler",
+  "hinweis": "Runden: runde.N.start, bonus.rahmen, resuemee.gruppe.N, resuemee.rest.*, resuemee.lage.N.*, anklage.start.",
+  "eintraege": [
+    {
+      "id": "runde.1.start",
+      "text": "Es ist Viertel vor sieben. Draußen ist es noch dunkel. Die erste Runde heißt: Das Alibi-Geflecht. Alle vier Verdächtigen hatten gute Gründe, in der Nacht wach zu sein. Hört jetzt genau zu."
+    },
+    {
+      "id": "runde.2.start",
+      "text": "Es ist halb acht. Der Schnee wird grau im ersten Licht. Die zweite Runde heißt: Die Indizien-Filterung. Manche hier verbergen etwas, das mit dem Mord nichts zu tun hat. Trennt das eine vom anderen."
+    },
+    {
+      "id": "runde.3.start",
+      "text": "Es ist Viertel nach acht. Die letzte Runde heißt: Die finale Gegenüberstellung. Jetzt zählt nur noch, wer in Abteil sieben war und wo die Obligationen stecken. Im Zug ist es ganz still. Jetzt wird es ernst."
+    },
+    {
+      "id": "bonus.rahmen",
+      "text": "Aus der Runde wird dir zugeflüstert …"
+    },
+    {
+      "id": "resuemee.gruppe.1",
+      "text": "Die Runde hat dir etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "resuemee.gruppe.2",
+      "text": "Auch diesmal hat die Runde dir etwas zugeflüstert. Prüfe selbst, ob es stimmt."
+    },
+    {
+      "id": "resuemee.gruppe.3",
+      "text": "Zum Schluss hat die Runde dir noch etwas zugeflüstert. Ob es stimmt, musst du selbst prüfen."
+    },
+    {
+      "id": "resuemee.rest.alle",
+      "text": "Alle vier sind noch verdächtig. Noch ist niemand raus."
+    },
+    {
+      "id": "resuemee.rest.eins",
+      "text": "Die Spuren haben sich gelichtet – jetzt liegt es an dir."
+    },
+    {
+      "id": "resuemee.rest.singer_watchmaker_secretary",
+      "text": "Ruby, Brändli und Greta sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.countess_watchmaker_secretary",
+      "text": "Die Gräfin, Brändli und Greta sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.countess_singer_secretary",
+      "text": "Die Gräfin, Ruby und Greta sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.countess_singer_watchmaker",
+      "text": "Die Gräfin, Ruby und Brändli sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.countess_singer",
+      "text": "Die Gräfin und Ruby sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.countess_watchmaker",
+      "text": "Die Gräfin und Brändli sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.countess_secretary",
+      "text": "Die Gräfin und Greta sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.singer_watchmaker",
+      "text": "Ruby und Brändli sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.singer_secretary",
+      "text": "Ruby und Greta sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.rest.watchmaker_secretary",
+      "text": "Brändli und Greta sind noch verdächtig."
+    },
+    {
+      "id": "resuemee.lage.1.offen",
+      "text": "Noch gibt es keine Spur gegen jemanden. Frag weiter nach."
+    },
+    {
+      "id": "resuemee.lage.1.spur",
+      "text": "Es gibt erste Spuren. Schau sie dir genau an."
+    },
+    {
+      "id": "resuemee.lage.1.klar",
+      "text": "Ein Schlüsselbeweis liegt vor. Behalte ihn gut im Kopf."
+    },
+    {
+      "id": "resuemee.lage.2.offen",
+      "text": "Noch gibt es keine Spur gegen jemanden. Bleib dran."
+    },
+    {
+      "id": "resuemee.lage.2.spur",
+      "text": "Es gibt erste Spuren. Schau genau hin."
+    },
+    {
+      "id": "resuemee.lage.2.klar",
+      "text": "Ein Schlüsselbeweis liegt vor. Jetzt wird es spannend."
+    },
+    {
+      "id": "resuemee.lage.3.offen",
+      "text": "Noch gibt es keine Spur gegen jemanden. Die Nacht ist fast vorbei."
+    },
+    {
+      "id": "resuemee.lage.3.spur",
+      "text": "Es gibt erste Spuren. Die Zeit wird knapp."
+    },
+    {
+      "id": "resuemee.lage.3.klar",
+      "text": "Ein Schlüsselbeweis liegt vor. Jetzt zählt jede Antwort."
+    },
+    {
+      "id": "anklage.start",
+      "text": "Die Nacht ist vorbei, und die Schneefräse ist schon zu hören. Du stehst vor den vier Verdächtigen und musst dich entscheiden. Klag eine Person an und sag laut, warum. Dann zeigt sich, ob du richtig lagst."
+    }
+  ]
+}

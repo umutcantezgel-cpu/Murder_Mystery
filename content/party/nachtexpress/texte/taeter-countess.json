@@ -1,0 +1,55 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung countess.",
+  "eintraege": [
+    {
+      "rolle": "countess",
+      "tarnung": "Du sagst: Du hast die ganze Nacht in Abteil 8 Briefe geschrieben. Um Viertel vor eins hat Ruby angeklopft, und du hast ihr Kerzen gegeben. Beim Ruck hast du die Tür nicht geöffnet. Bleib dabei kühl und hochmütig.",
+      "tatwissen": [
+        {
+          "text": "Um Mitternacht schimpft Lindqvist laut in Abteil 7. Er hält deine Briefe und deine letzten Juwelen als Pfand und will mehr Geld."
+        },
+        {
+          "text": "Gegen halb eins verbrennst du im Salonwagen deine Briefbögen im Ofen. Morel kommt durch den Wagen und sieht es."
+        },
+        {
+          "text": "Beim Ruck gehen alle Lichter aus. Du schleichst im Dunkeln nach Abteil 7, den Seidenschal in der Hand. Dann ist es still im Abteil."
+        },
+        {
+          "text": "Du öffnest das Fenster einen Spalt, damit der Wind deine Spuren verweht."
+        },
+        {
+          "ref": "spur:spur_riegel_countess"
+        },
+        {
+          "text": "Lindqvists Obligationen steckst du ein. Den angesengten Zipfel deines Schals wirfst du später in den Ofen."
+        },
+        {
+          "ref": "spur:spur_ofen_seide"
+        },
+        {
+          "text": "Das Bündel versteckst du im Kleiderschrank von Abteil 8."
+        },
+        {
+          "ref": "spur:spur_schrank_obligationen"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_countess_briefe"
+        },
+        {
+          "ref": "luege:luege_countess_wien"
+        },
+        {
+          "ref": "nebendelikt:nd_briefe"
+        },
+        {
+          "text": "Kommt es heraus, verlierst du deine Freiheit."
+        }
+      ],
+      "ziel": "Unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}

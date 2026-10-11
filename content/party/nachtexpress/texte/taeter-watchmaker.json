@@ -1,0 +1,55 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung watchmaker.",
+  "eintraege": [
+    {
+      "rolle": "watchmaker",
+      "tarnung": "Du sagst: Du hast die ganze Nacht an der Taschenuhr des Schaffners gearbeitet, am Klapptisch im Schlafwagen. Beim Ruck bist du am Tisch geblieben und hast das Uhrwerk festgehalten. Bleib dabei ruhig und höflich.",
+      "tatwissen": [
+        {
+          "text": "Du brauchst dringend Geld. Lindqvist reist mit Inhaberobligationen über ein Vermögen, und du hast ihm einst fremde Pläne verkauft."
+        },
+        {
+          "text": "Kurz nach Mitternacht schleichst du in die Bordküche. Lindqvists Nachttee steht allein auf dem Tablett. Du rührst Schlafpulver hinein, das du gegen deine Schlaflosigkeit bei dir trägst."
+        },
+        {
+          "text": "Beim Ruck gehen alle Lichter aus. Du lässt den Tisch stehen und gehst im Dunkeln durch den Übergang zu Abteil 7. Dort ist es still."
+        },
+        {
+          "text": "Du öffnest das Fenster einen Spalt, damit der Wind deine Spuren verweht."
+        },
+        {
+          "ref": "spur:spur_riegel_watchmaker"
+        },
+        {
+          "text": "Lindqvists Obligationen steckst du ein. Zurück an deinem Tisch merkst du, dass ein Zinsschein im Musterkoffer liegt."
+        },
+        {
+          "ref": "spur:spur_koffer_zins"
+        },
+        {
+          "text": "Das Bündel versteckst du im kalten Herd der Bordküche."
+        },
+        {
+          "ref": "spur:spur_herd_obligationen"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_watchmaker_koffer"
+        },
+        {
+          "ref": "luege:luege_watchmaker_uhr"
+        },
+        {
+          "ref": "nebendelikt:nd_schmuggel"
+        },
+        {
+          "text": "Kommt es heraus, verlierst du Werkstatt und Freiheit."
+        }
+      ],
+      "ziel": "Unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "massstab": "1 Kachel = 1 Meter; x nach Osten, y nach Süden; Rechtecke als Bodenkacheln (x, y, b, l). Die Karte stammt aus content/scenarios/nachtexpress.json.",
+  "raeume": {
+    "post": {
+      "name": "Postwagen",
+      "anzeigename": "Postwagen",
+      "features": [
+        "Sortierfächer an der Wand",
+        "Schreibpult des Postbeamten",
+        "Postsäcke",
+        "Kisten"
+      ],
+      "beschreibung": "Der erste Wagen hinter der Lokomotive. Hier sortiert der Postbeamte die Briefe. Er ist auf Skiern ins Tal aufgebrochen, um Hilfe zu holen."
+    },
+    "baggage": {
+      "name": "Gepäckwagen",
+      "anzeigename": "Gepäckwagen",
+      "features": [
+        "Schrankkoffer",
+        "Überseekoffer ohne Namensschild",
+        "Stapel von Kisten",
+        "Sortierpult"
+      ],
+      "beschreibung": "Ein langer, kalter Wagen mit Koffern bis unter die Decke. Huber hat hier seinen Platz zwischen Kisten und Netzen."
+    },
+    "sleeper2": {
+      "name": "Schlafwagen II",
+      "anzeigename": "Schlafwagen II",
+      "features": [
+        "Doppelbetten an der Nordwand",
+        "Zwei Kleiderschränke",
+        "Klapptisch am Wagenende",
+        "Sitze am Fenster"
+      ],
+      "beschreibung": "Ein Schlafwagen mit Teppich und schweren Vorhängen. Am Wagenende steht Brändlis Klapptisch mit Lupe und Werkzeug."
+    },
+    "gangway": {
+      "name": "Übergang",
+      "anzeigename": "Übergang",
+      "features": [
+        "Faltenbalg zwischen den Wagen",
+        "Eisiger Luftzug"
+      ],
+      "beschreibung": "Der schmale Übergang zwischen Schlafwagen II und Speisewagen. Der Wind pfeift durch die Fugen, und der Boden ist vereist."
+    },
+    "dining": {
+      "name": "Speisewagen",
+      "anzeigename": "Speisewagen",
+      "features": [
+        "Gedeckte Tische",
+        "Bordküche am Ostende",
+        "Reiseschreibmaschine auf dem Tisch am Fenster",
+        "Elektrisches Licht"
+      ],
+      "beschreibung": "Der Speisewagen ist der Treffpunkt des Zuges. Hier brennt das Licht am längsten, und hier tippt Greta ihre Briefe."
+    },
+    "salon": {
+      "name": "Salonwagen",
+      "anzeigename": "Salonwagen",
+      "features": [
+        "Klavier",
+        "Ofen im Salonwagen",
+        "Lindqvists Stammplatz",
+        "Sessel und Sofas",
+        "Anrichte"
+      ],
+      "beschreibung": "Ein behaglicher Wagen mit Sesseln, Sofas und einem Klavier. An einem Tisch sitzt sonst Lindqvist mit seiner Mappe."
+    },
+    "corridor": {
+      "name": "Schlafwagen I – Gang",
+      "anzeigename": "Gang im Schlafwagen",
+      "features": [
+        "Roter Läufer",
+        "Abteiltüren",
+        "Wandleuchter"
+      ],
+      "beschreibung": "Ein enger Gang mit rotem Läufer. Von hier aus gehen die Türen zu Abteil 7 und Abteil 8 ab."
+    },
+    "cabin7": {
+      "name": "Abteil 7",
+      "anzeigename": "Abteil 7",
+      "features": [
+        "Zwei Betten",
+        "Klapptisch mit Teegeschirr",
+        "Fenster mit Sprung",
+        "Waschbecken"
+      ],
+      "beschreibung": "Lindqvists Abteil. Das Fenster hat seit der Nacht einen Sprung, und auf dem Klapptisch steht noch das Teegeschirr."
+    },
+    "cabin8": {
+      "name": "Abteil 8",
+      "anzeigename": "Abteil 8",
+      "features": [
+        "Kleiderschrank",
+        "Zwei Betten",
+        "Kerzenleuchter"
+      ],
+      "beschreibung": "Das Abteil der Gräfin. Es riecht nach Veilchenwasser, und im Kleiderschrank hängen schwere Pelze."
+    },
+    "platform": {
+      "name": "Aussichtsplattform",
+      "anzeigename": "Aussichtsplattform",
+      "features": [
+        "Geländer",
+        "Neuschnee",
+        "Rote Laterne"
+      ],
+      "beschreibung": "Die offene Plattform am Ende des Zuges. Der Schnee liegt hier fußhoch, und der Wind treibt Flocken über das Geländer."
+    }
+  },
+  "tueren": {
+    "8,2": {
+      "id": "postwagen_tuer",
+      "name": "Tür zum Postwagen",
+      "art": "schwere Eisentür mit Griff",
+      "zustand": "zu, nicht abgesperrt",
+      "quietscht": true
+    },
+    "18,2": {
+      "id": "gepaeck_tuer",
+      "name": "Tür zum Schlafwagen II",
+      "art": "Waggontür mit Messinggriff",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    "27,5": {
+      "id": "uebergang_nord",
+      "name": "Tür zum Übergang",
+      "art": "Faltentür",
+      "zustand": "offen",
+      "quietscht": true
+    },
+    "27,8": {
+      "id": "uebergang_sued",
+      "name": "Tür zum Speisewagen",
+      "art": "Faltentür",
+      "zustand": "offen",
+      "quietscht": true
+    },
+    "4,9": {
+      "id": "plattform_tuer",
+      "name": "Tür zur Plattform",
+      "art": "Glastür mit Eisrand",
+      "zustand": "angelehnt",
+      "quietscht": true
+    },
+    "13,9": {
+      "id": "salon_tuer",
+      "name": "Tür zum Salonwagen",
+      "art": "Waggontür mit Messinggriff",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    "7,10": {
+      "id": "abteil7_tuer",
+      "name": "Tür von Abteil 7",
+      "art": "schmale Holztür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    "11,10": {
+      "id": "abteil8_tuer",
+      "name": "Tür von Abteil 8",
+      "art": "schmale Holztür",
+      "zustand": "offen",
+      "quietscht": false
+    },
+    "21,10": {
+      "id": "speisewagen_tuer",
+      "name": "Tür zum Speisewagen",
+      "art": "Waggontür mit Messinggriff",
+      "zustand": "offen",
+      "quietscht": false
+    }
+  },
+  "einrichtung": {
+    "10,11": {
+      "id": "kleiderschrank_orlowa",
+      "name": "Kleiderschrank der Gräfin"
+    },
+    "16,9": {
+      "id": "klavier_salon",
+      "name": "Klavier im Salonwagen"
+    },
+    "14,11": {
+      "id": "ofen_salon",
+      "name": "Ofen im Salonwagen"
+    },
+    "16,12": {
+      "id": "stammplatz_tisch",
+      "name": "Lindqvists Stammplatz"
+    },
+    "19,12": {
+      "id": "sofa_salon",
+      "name": "Sofa im Salonwagen"
+    },
+    "28,2": {
+      "id": "klapptisch_brandli",
+      "name": "Brändlis Klapptisch"
+    },
+    "28,9": {
+      "id": "herd_bordkueche",
+      "name": "Herd der Bordküche"
+    },
+    "28,11": {
+      "id": "spuele_bordkueche",
+      "name": "Spüle der Bordküche"
+    },
+    "23,12": {
+      "id": "schreibmaschinentisch",
+      "name": "Tisch mit der Reiseschreibmaschine"
+    },
+    "8,12": {
+      "id": "klapptisch_abteil_7",
+      "name": "Klapptisch in Abteil 7"
+    },
+    "5,11": {
+      "id": "bett_lindqvist",
+      "name": "Lindqvists Bett"
+    },
+    "22,1": {
+      "id": "kleiderschrank_schlafwagen",
+      "name": "Kleiderschrank im Schlafwagen"
+    },
+    "9,1": {
+      "id": "schrankkoffer_gepaeck",
+      "name": "Schrankkoffer"
+    },
+    "13,4": {
+      "id": "ueberseekoffer_gepaeck",
+      "name": "Überseekoffer ohne Namensschild"
+    },
+    "13,1": {
+      "id": "sortierpult_gepaeck",
+      "name": "Sortierpult im Gepäckwagen"
+    },
+    "5,1": {
+      "id": "schreibpult_post",
+      "name": "Schreibpult des Postbeamten"
+    }
+  },
+  "orte": {
+    "hotspots": {
+      "h_body": {
+        "id": "beim_toten",
+        "name": "bei Lindqvist"
+      },
+      "h_berth": {
+        "id": "am_bett_7",
+        "name": "am Bett in Abteil 7"
+      },
+      "h_ashtray": {
+        "id": "am_klapptisch_7",
+        "name": "am Klapptisch in Abteil 7"
+      },
+      "h_window7": {
+        "id": "am_fenster_7",
+        "name": "am Fenster von Abteil 7"
+      },
+      "h_blood": {
+        "id": "am_wandleuchter",
+        "name": "am zersprungenen Wandleuchter"
+      },
+      "h_hide_cabin": {
+        "id": "am_kleiderschrank_8",
+        "name": "am Kleiderschrank der Gräfin"
+      },
+      "h_rail": {
+        "id": "am_gelaender",
+        "name": "am Geländer der Plattform"
+      },
+      "h_snow": {
+        "id": "auf_der_plattform",
+        "name": "auf der verschneiten Plattform"
+      },
+      "h_piano": {
+        "id": "am_klavier",
+        "name": "am Klavier"
+      },
+      "h_briefcase": {
+        "id": "am_stammplatz",
+        "name": "an Lindqvists Stammplatz"
+      },
+      "h_stove": {
+        "id": "am_salonofen",
+        "name": "am Ofen im Salonwagen"
+      },
+      "h_typewriter": {
+        "id": "an_der_schreibmaschine",
+        "name": "an der Reiseschreibmaschine"
+      },
+      "h_sink": {
+        "id": "an_der_spuele",
+        "name": "an der Spüle der Bordküche"
+      },
+      "h_watchbench": {
+        "id": "am_klapptisch_brandli",
+        "name": "an Brändlis Klapptisch"
+      },
+      "h_hide_sleeper": {
+        "id": "am_kleiderschrank_schlafwagen",
+        "name": "am Kleiderschrank im Schlafwagen"
+      },
+      "h_lab": {
+        "id": "am_sortierpult",
+        "name": "am Sortierpult im Gepäckwagen"
+      },
+      "h_trunk": {
+        "id": "am_ueberseekoffer",
+        "name": "am Überseekoffer"
+      },
+      "h_hide_baggage": {
+        "id": "am_schrankkoffer",
+        "name": "am Schrankkoffer"
+      },
+      "h_mailbag": {
+        "id": "bei_den_postsaecken",
+        "name": "bei den Postsäcken"
+      }
+    },
+    "verdaechtige": {
+      "countess": {
+        "id": "beim_sessel",
+        "name": "bei den Sesseln im Salonwagen"
+      },
+      "conductor": {
+        "id": "im_gepaeckwagen",
+        "name": "mitten im Gepäckwagen"
+      },
+      "singer": {
+        "id": "neben_dem_klavier",
+        "name": "neben dem Klavier"
+      },
+      "watchmaker": {
+        "id": "am_wagenende",
+        "name": "am Wagenende von Schlafwagen II"
+      },
+      "secretary": {
+        "id": "neben_der_schreibmaschine",
+        "name": "neben der Reiseschreibmaschine"
+      }
+    },
+    "weitere": [
+      {
+        "id": "am_speisetisch",
+        "raum": "dining",
+        "x": 25.5,
+        "y": 10.5,
+        "name": "am großen Speisetisch"
+      },
+      {
+        "id": "bordkueche",
+        "raum": "dining",
+        "x": 27.5,
+        "y": 10.5,
+        "name": "Bordküche"
+      },
+      {
+        "id": "am_kuechenherd",
+        "raum": "dining",
+        "x": 27.5,
+        "y": 9.5,
+        "name": "am Herd der Bordküche"
+      },
+      {
+        "id": "im_speisewagen_mitte",
+        "raum": "dining",
+        "x": 24.5,
+        "y": 10.5,
+        "name": "in der Mitte des Speisewagens"
+      },
+      {
+        "id": "beim_sitzplatz",
+        "raum": "sleeper2",
+        "x": 23.5,
+        "y": 3.5,
+        "name": "bei den Sitzen im Schlafwagen"
+      },
+      {
+        "id": "am_salonende",
+        "raum": "salon",
+        "x": 20.5,
+        "y": 10.5,
+        "name": "am Ende des Salonwagens"
+      },
+      {
+        "id": "am_sofa",
+        "raum": "salon",
+        "x": 19.5,
+        "y": 11.5,
+        "name": "am Sofa im Salonwagen"
+      },
+      {
+        "id": "vor_abteil_7",
+        "raum": "corridor",
+        "x": 7.5,
+        "y": 9.5,
+        "name": "vor der Tür von Abteil 7"
+      },
+      {
+        "id": "vor_abteil_8",
+        "raum": "corridor",
+        "x": 11.5,
+        "y": 9.5,
+        "name": "vor der Tür von Abteil 8"
+      },
+      {
+        "id": "im_gang",
+        "raum": "corridor",
+        "x": 6.5,
+        "y": 9.5,
+        "name": "im Gang des Schlafwagens"
+      },
+      {
+        "id": "im_uebergang",
+        "raum": "gangway",
+        "x": 27.5,
+        "y": 6.5,
+        "name": "im Übergang"
+      },
+      {
+        "id": "im_postwagen",
+        "raum": "post",
+        "x": 4.5,
+        "y": 2.5,
+        "name": "mitten im Postwagen"
+      }
+    ]
+  },
+  "lichtquellen": {
+    "raumlicht": {
+      "dining": "Elektrisches Licht im Speisewagen, auch in der Nacht"
+    },
+    "weitere": []
+  },
+  "geraeusch": {
+    "regel": "Nachbarschaft der Räume für das Hören: Wagen und Abteile, die durch eine Tür verbunden sind, hören einander. Die Hörregeln stehen in wahrnehmung.json."
+  }
+}

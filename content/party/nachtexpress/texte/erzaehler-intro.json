@@ -1,0 +1,43 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "erzaehler",
+  "hinweis": "Intro: intro.start, intro.lacher.<id>.<besetzt|npc>, intro.auftrag.<m|w>.",
+  "eintraege": [
+    {
+      "id": "intro.start",
+      "text": "Der Nachtexpress von Wien nach Paris. Kurz vor Mitternacht bleibt er in einer Schneewehe hoch in den Alpen stecken. Der Wind rüttelt an den Wagen, das Licht flackert, und die Heizung röchelt nur noch. Um fünf vor eins gibt es einen Ruck, und alle Lichter gehen aus. Am Morgen findet der Schaffner den Stahlmagnaten Viktor Lindqvist tot in Abteil sieben. Das Fenster hat einen Sprung, und in der Faust hält er einen kleinen Schlüssel. Seine Obligationen sind verschwunden. Niemand kann den Zug verlassen, auch der Täter nicht. Die Schneefräse aus dem Tal kommt erst in ein paar Stunden."
+    },
+    {
+      "id": "intro.lacher.lacher_klavier.besetzt",
+      "text": "Um zehn Uhr abends spielte Ruby so wild Klavier, dass ihr Glockenhut vom Kopf flog. Er landete in einer Teekanne."
+    },
+    {
+      "id": "intro.lacher.lacher_klavier.npc",
+      "text": "Um zehn Uhr abends spielte eine Sängerin so wild Klavier, dass ihr Glockenhut vom Kopf flog. Er landete in einer Teekanne."
+    },
+    {
+      "id": "intro.lacher.lacher_laterne.besetzt",
+      "text": "Um halb zehn abends suchte Huber überall seine Taschenuhr. Dabei hatte er sie sich selbst hinters Ohr gesteckt."
+    },
+    {
+      "id": "intro.lacher.lacher_laterne.npc",
+      "text": "Um halb zehn abends suchte der Schaffner überall seine Taschenuhr. Dabei hatte er sie sich selbst hinters Ohr gesteckt."
+    },
+    {
+      "id": "intro.lacher.lacher_reisebuch.besetzt",
+      "text": "Um halb elf abends verwechselte Lukas im Halbdunkel sein Reisebuch mit einem Brötchen. Er biss herzhaft hinein."
+    },
+    {
+      "id": "intro.lacher.lacher_reisebuch.npc",
+      "text": "Um halb elf abends verwechselte ein junger Reisender im Halbdunkel sein Reisebuch mit einem Brötchen. Er biss herzhaft hinein."
+    },
+    {
+      "id": "intro.auftrag.m",
+      "text": "Du bist der Inspektor an Bord. Der Schaffner bittet dich: „Finde heraus, wer das war. Bevor die Gendarmerie kommt.“"
+    },
+    {
+      "id": "intro.auftrag.w",
+      "text": "Du bist die Inspektorin an Bord. Der Schaffner bittet dich: „Finde heraus, wer das war. Bevor die Gendarmerie kommt.“"
+    }
+  ]
+}

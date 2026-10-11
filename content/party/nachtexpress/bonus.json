@@ -1,0 +1,498 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Bonus-Hinweise je Pfad, Runde und Qualität (E-024, E-025). Alle erscheinen im selben Rahmen ohne Quelle; je Runde haben die Hinweise möglichst dieselbe Satzform. Vor der Auflösung wird weder die Qualität noch die Stimmenzahl gezeigt. Wahr: ein wahrer Baustein, der nie allein ausschließt (W-1). Neutral: wahre, pfadgleiche Sätze ohne neuen Wert. Falsch: ein Gerücht über einen Unschuldigen, widerlegt durch eine im Pfad richtige Entscheidung.",
+  "hinweise": [
+    {
+      "id": "h_watchmaker_1_wahr",
+      "pfad": "watchmaker",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck war Brändli nicht an seinem Klapptisch im Schlafwagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "watchmaker"
+      },
+      "quelle": [
+        "beobachtung:b_lukas_ruck_spaet"
+      ]
+    },
+    {
+      "id": "h_watchmaker_1_neutral",
+      "pfad": "watchmaker",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Um fünf vor eins erschütterte ein Ruck den Zug, und alle Lichter gingen aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_ruck"
+      ]
+    },
+    {
+      "id": "h_watchmaker_1_falsch",
+      "pfad": "watchmaker",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Ruck war Ruby nicht am Klavier im Salonwagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "singer"
+      },
+      "widerlegtDurch": [
+        "e1_2_szabo"
+      ]
+    },
+    {
+      "id": "h_watchmaker_2_wahr",
+      "pfad": "watchmaker",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Brändli schmuggelt Uhrwerke im doppelten Boden seines Musterkoffers.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "watchmaker"
+      },
+      "quelle": [
+        "beobachtung:b_huber_trinkgeld"
+      ]
+    },
+    {
+      "id": "h_watchmaker_2_neutral",
+      "pfad": "watchmaker",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Um zwanzig nach zwölf brachte Morel Lindqvist den Nachttee ins Abteil.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_morel_tee"
+      ]
+    },
+    {
+      "id": "h_watchmaker_2_falsch",
+      "pfad": "watchmaker",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Ruby hat nachts Lindqvists Mappe durchwühlt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "singer"
+      },
+      "widerlegtDurch": [
+        "e2_3_mappe"
+      ]
+    },
+    {
+      "id": "h_watchmaker_3_wahr",
+      "pfad": "watchmaker",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck blieb die Tür von Abteil acht zu, und im Gang war es still.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "countess"
+      },
+      "quelle": [
+        "beobachtung:b_huber_gang_ruhig"
+      ]
+    },
+    {
+      "id": "h_watchmaker_3_neutral",
+      "pfad": "watchmaker",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Um Viertel vor eins klopfte Ruby an der Tür von Abteil acht an, und die Gräfin gab ihr Kerzen.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_ruby_klopft"
+      ]
+    },
+    {
+      "id": "h_watchmaker_3_falsch",
+      "pfad": "watchmaker",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Die Gräfin hat Lindqvists Obligationen in ihrem Kleiderschrank versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "countess"
+      },
+      "widerlegtDurch": [
+        "e3_1_speisewagen"
+      ]
+    },
+    {
+      "id": "h_singer_1_wahr",
+      "pfad": "singer",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck war Ruby nicht am Klavier im Salonwagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "singer"
+      },
+      "quelle": [
+        "beobachtung:b_szabo_ruck_spaet"
+      ]
+    },
+    {
+      "id": "h_singer_1_neutral",
+      "pfad": "singer",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Um fünf vor eins erschütterte ein Ruck den Zug, und alle Lichter gingen aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_ruck"
+      ]
+    },
+    {
+      "id": "h_singer_1_falsch",
+      "pfad": "singer",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Ruck war Brändli nicht an seinem Klapptisch im Schlafwagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "watchmaker"
+      },
+      "widerlegtDurch": [
+        "e1_1_lukas"
+      ]
+    },
+    {
+      "id": "h_singer_2_wahr",
+      "pfad": "singer",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Ruby reist mit einem Pass auf einen falschen Namen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "singer"
+      },
+      "quelle": [
+        "beobachtung:b_szabo_pass"
+      ]
+    },
+    {
+      "id": "h_singer_2_neutral",
+      "pfad": "singer",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Um zwanzig nach zwölf brachte Morel Lindqvist den Nachttee ins Abteil.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_morel_tee"
+      ]
+    },
+    {
+      "id": "h_singer_2_falsch",
+      "pfad": "singer",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Brändli hat nachts Briefe im Ofen des Salonwagens verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "watchmaker"
+      },
+      "widerlegtDurch": [
+        "e2_1_koffer"
+      ]
+    },
+    {
+      "id": "h_singer_3_wahr",
+      "pfad": "singer",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck blieb die Tür von Abteil acht zu, und im Gang war es still.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "countess"
+      },
+      "quelle": [
+        "beobachtung:b_huber_gang_ruhig"
+      ]
+    },
+    {
+      "id": "h_singer_3_neutral",
+      "pfad": "singer",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Um Viertel vor eins klopfte Ruby an der Tür von Abteil acht an, und die Gräfin gab ihr Kerzen.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_ruby_klopft"
+      ]
+    },
+    {
+      "id": "h_singer_3_falsch",
+      "pfad": "singer",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Die Gräfin hat Lindqvists Obligationen in ihrem Kleiderschrank versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "countess"
+      },
+      "widerlegtDurch": [
+        "e3_1_salon"
+      ]
+    },
+    {
+      "id": "h_secretary_1_wahr",
+      "pfad": "secretary",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck war Greta nicht an ihrer Schreibmaschine im Speisewagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "secretary"
+      },
+      "quelle": [
+        "beobachtung:b_morel_ruck_spaet"
+      ]
+    },
+    {
+      "id": "h_secretary_1_neutral",
+      "pfad": "secretary",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Um fünf vor eins erschütterte ein Ruck den Zug, und alle Lichter gingen aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_ruck"
+      ]
+    },
+    {
+      "id": "h_secretary_1_falsch",
+      "pfad": "secretary",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Ruck war Ruby nicht am Klavier im Salonwagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "singer"
+      },
+      "widerlegtDurch": [
+        "e1_2_szabo"
+      ]
+    },
+    {
+      "id": "h_secretary_2_wahr",
+      "pfad": "secretary",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Greta hat nachts in Lindqvists Mappe gelesen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "secretary"
+      },
+      "quelle": [
+        "beobachtung:b_morel_greta"
+      ]
+    },
+    {
+      "id": "h_secretary_2_neutral",
+      "pfad": "secretary",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Um zwanzig nach zwölf brachte Morel Lindqvist den Nachttee ins Abteil.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_morel_tee"
+      ]
+    },
+    {
+      "id": "h_secretary_2_falsch",
+      "pfad": "secretary",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Brändli hat nachts Lindqvists Mappe durchwühlt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "watchmaker"
+      },
+      "widerlegtDurch": [
+        "e2_3_mappe"
+      ]
+    },
+    {
+      "id": "h_secretary_3_wahr",
+      "pfad": "secretary",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck blieb die Tür von Abteil acht zu, und im Gang war es still.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "countess"
+      },
+      "quelle": [
+        "beobachtung:b_huber_gang_ruhig"
+      ]
+    },
+    {
+      "id": "h_secretary_3_neutral",
+      "pfad": "secretary",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Um Viertel vor eins klopfte Ruby an der Tür von Abteil acht an, und die Gräfin gab ihr Kerzen.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_ruby_klopft"
+      ]
+    },
+    {
+      "id": "h_secretary_3_falsch",
+      "pfad": "secretary",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Die Gräfin hat Lindqvists Obligationen in ihrem Kleiderschrank versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "countess"
+      },
+      "widerlegtDurch": [
+        "e3_1_speisewagen"
+      ]
+    },
+    {
+      "id": "h_countess_1_wahr",
+      "pfad": "countess",
+      "runde": 1,
+      "qualitaet": "wahr",
+      "text": "Kurz vor dem Ruck stand die Tür von Abteil acht offen. Im Gang roch es nach Veilchenwasser.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "countess"
+      },
+      "quelle": [
+        "beobachtung:b_huber_gang"
+      ]
+    },
+    {
+      "id": "h_countess_1_neutral",
+      "pfad": "countess",
+      "runde": 1,
+      "qualitaet": "neutral",
+      "text": "Um fünf vor eins erschütterte ein Ruck den Zug, und alle Lichter gingen aus.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "zeitleiste:z_ruck"
+      ]
+    },
+    {
+      "id": "h_countess_1_falsch",
+      "pfad": "countess",
+      "runde": 1,
+      "qualitaet": "falsch",
+      "text": "Beim Ruck war Greta nicht an ihrer Schreibmaschine im Speisewagen.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "secretary"
+      },
+      "widerlegtDurch": [
+        "e1_3_morel"
+      ]
+    },
+    {
+      "id": "h_countess_2_wahr",
+      "pfad": "countess",
+      "runde": 2,
+      "qualitaet": "wahr",
+      "text": "Die Gräfin hat nachts Briefbögen im Ofen des Salonwagens verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "countess"
+      },
+      "quelle": [
+        "beobachtung:b_morel_ofen"
+      ]
+    },
+    {
+      "id": "h_countess_2_neutral",
+      "pfad": "countess",
+      "runde": 2,
+      "qualitaet": "neutral",
+      "text": "Um zwanzig nach zwölf brachte Morel Lindqvist den Nachttee ins Abteil.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_morel_tee"
+      ]
+    },
+    {
+      "id": "h_countess_2_falsch",
+      "pfad": "countess",
+      "runde": 2,
+      "qualitaet": "falsch",
+      "text": "Greta hat nachts Briefbögen im Ofen des Salonwagens verbrannt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "secretary"
+      },
+      "widerlegtDurch": [
+        "e2_1_ofen"
+      ]
+    },
+    {
+      "id": "h_countess_3_wahr",
+      "pfad": "countess",
+      "runde": 3,
+      "qualitaet": "wahr",
+      "text": "Beim Ruck war Brändli nicht an seinem Tisch, sondern im Gepäckwagen bei Huber.",
+      "wirkung": {
+        "art": "entlastet",
+        "person": "watchmaker"
+      },
+      "quelle": [
+        "beobachtung:b_watchmaker_trinkgeld"
+      ]
+    },
+    {
+      "id": "h_countess_3_neutral",
+      "pfad": "countess",
+      "runde": 3,
+      "qualitaet": "neutral",
+      "text": "Um Viertel vor eins klopfte Ruby an der Tür von Abteil acht an, und die Gräfin gab ihr Kerzen.",
+      "wirkung": {
+        "art": "neutral"
+      },
+      "quelle": [
+        "beobachtung:b_ruby_klopft"
+      ]
+    },
+    {
+      "id": "h_countess_3_falsch",
+      "pfad": "countess",
+      "runde": 3,
+      "qualitaet": "falsch",
+      "text": "Ruby hat Lindqvists Obligationen im Klavier versteckt.",
+      "wirkung": {
+        "art": "belastet",
+        "person": "singer"
+      },
+      "widerlegtDurch": [
+        "e3_1_abteil8"
+      ]
+    }
+  ]
+}

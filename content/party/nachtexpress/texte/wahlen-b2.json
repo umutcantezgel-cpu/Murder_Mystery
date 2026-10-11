@@ -1,0 +1,67 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "id": "gw_conductor_1",
+      "a": "Ich erzähle dem Inspektor, dass ich bei Brändlis Koffer weggeschaut habe. Das Trinkgeld verschweige ich nicht länger.",
+      "b": "Das Trinkgeld soll niemand erfahren. Ich schweige."
+    },
+    {
+      "id": "gw_conductor_2",
+      "a": "Ich sage dem Inspektor, dass Brändli mir Trinkgeld gibt. Damit bringe ich einen Stammgast in Schwierigkeiten.",
+      "b": "Brändli ist seit Jahren Stammgast und freigiebig. Ich halte zu ihm und sage nichts."
+    },
+    {
+      "id": "gw_conductor_3",
+      "a": "Ich gebe zu: Ich habe bei einem Koffer nie hineingesehen. Mehr sage ich nicht.",
+      "b": "Ich bin Beamter und kein Laufbursche. Zum Trinkgeld sage ich nichts."
+    },
+    {
+      "id": "gw_student_1",
+      "a": "Ich erzähle dem Inspektor, wo Brändli beim Ruck war. Dann weiß der Inspektor auch, dass ich ihn beobachtet habe.",
+      "b": "Ich sage nichts. Niemand soll merken, dass ich nur eine Fahrkarte der dritten Klasse habe."
+    },
+    {
+      "id": "gw_student_2",
+      "a": "Ich sage dem Inspektor, dass die Ärztin mir eine Decke geliehen hat. Damit bringe ich sie in eine blöde Lage.",
+      "b": "Die Ärztin hat mir eine Wolldecke geliehen. Ich halte zu ihr und sage nichts."
+    },
+    {
+      "id": "gw_student_3",
+      "a": "Ich gebe zu: Meine Fahrkarte gilt nur für die dritte Klasse. Den Schlafplatz habe ich mir genommen.",
+      "b": "Ich schweige. Mein Schlafplatz geht niemanden etwas an."
+    },
+    {
+      "id": "gw_doctor_1",
+      "a": "Ich erzähle dem Inspektor, was ich in Rubys Hutschachtel gesehen habe. Mein Versprechen an Ruby ist damit gebrochen.",
+      "b": "Ich halte mein Versprechen an Ruby. Ich sage nichts."
+    },
+    {
+      "id": "gw_doctor_2",
+      "a": "Ich sage dem Inspektor, wo Ruby beim Ruck war. Damit breche ich mein Schweigen.",
+      "b": "Ich halte meine Ärztinnen-Pflicht und schweige. Ruby soll selbst reden."
+    },
+    {
+      "id": "gw_doctor_3",
+      "a": "Ich sage dem Inspektor, was ich über Ruby weiß. Ich hoffe, es schadet ihr nicht.",
+      "b": "Ruby soll selbst reden, nicht ich. Bis dahin halte ich den Mund."
+    },
+    {
+      "id": "gw_waiter_1",
+      "a": "Ich erzähle dem Inspektor, dass der Nachttee zehn Minuten allein in der Bordküche stand. Das wollte ich nie zugeben.",
+      "b": "Ich schweige. Mein Trinkgeld hängt davon ab, dass ich keinen Gast verpetze."
+    },
+    {
+      "id": "gw_waiter_2",
+      "a": "Ich sage dem Inspektor, was ich über Greta gesehen habe. Damit bringe ich sie in eine schwierige Lage.",
+      "b": "Greta war freundlich zu mir. Ich halte zu ihr und sage nichts."
+    },
+    {
+      "id": "gw_waiter_3",
+      "a": "Ich gebe zu: Der Tee stand nicht die ganze Zeit unter meinen Augen. Mehr sage ich nicht.",
+      "b": "Ich bin nur ein Kellner. Zum Tee sage ich nichts."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "wahl",
+  "hinweis": "Rundenwahl der vier Kernrollen mit Sabotage (Varianten-Regel).",
+  "eintraege": [
+    {
+      "id": "gw_countess_1",
+      "a": "Ich gestehe dem Inspektor, dass ich Briefbögen im Ofen verbrannt habe. Was darin stand, sage ich nicht.",
+      "b": "Ich schweige. Niemand soll erfahren, was in den Briefen stand.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von Petrograd. Davon gibt es viel zu erzählen."
+    },
+    {
+      "id": "gw_countess_2",
+      "a": "Ich verrate dem Inspektor, wie lange Ruby bei mir an der Tür stand. Damit bringe ich Ruby in eine schwierige Lage.",
+      "b": "Ruby hat mir in Wien russische Lieder gespielt und nie gefragt. Ich halte zu ihr und sage nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber von den Wintern in Petrograd. Davon gibt es viel zu erzählen."
+    },
+    {
+      "id": "gw_countess_3",
+      "a": "Ich sage offen: Ich habe nachts Briefbögen im Ofen des Salonwagens verbrannt. Mehr sage ich nicht.",
+      "b": "Ich halte dicht. Was in den Briefen stand, geht niemanden etwas an.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von Paris. Dort hoffe ich, wieder zu Hause zu sein."
+    },
+    {
+      "id": "gw_watchmaker_1",
+      "a": "Ich erzähle dem Inspektor, dass in meinem Musterkoffer mehr steckt als Uhren. Den Rest muss er selbst herausfinden.",
+      "b": "Der Zoll soll nie von dem Koffer erfahren. Dafür sage ich nichts.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von der Uhrmacherei in Biel. Davon gibt es viel zu erzählen."
+    },
+    {
+      "id": "gw_watchmaker_2",
+      "a": "Ich sage dem Inspektor, dass Huber bei meinem Koffer wegschaut. Damit bekommt mein Freund Ärger.",
+      "b": "Huber schaut seit Jahren weg, und ich bin ihm dankbar. Ich halte zu ihm und sage nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber, wie eine Taschenuhr gebaut wird. Das dauert eine Weile."
+    },
+    {
+      "id": "gw_watchmaker_3",
+      "a": "Ich sage dem Inspektor, dass ich Uhrwerke am Zoll vorbeischmuggle. Das Zittern meiner Hände erklärt den Rest.",
+      "b": "Ich schweige. Mein Koffer geht niemanden etwas an.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meinen Sammlerstücken. Davon habe ich eine ganze Wand."
+    },
+    {
+      "id": "gw_singer_1",
+      "a": "Ich erzähle dem Inspektor, dass ich unter falschem Namen reise. Meinen echten Namen sage ich nicht.",
+      "b": "Mein Name bleibt mein Geheimnis. Niemand soll erfahren, wer ich wirklich bin.",
+      "sabotage": "Ich halte mich zurück und singe lieber ein Lied. Davon kenne ich viele."
+    },
+    {
+      "id": "gw_singer_2",
+      "a": "Ich sage dem Inspektor, dass die Ärztin etwas über mich weiß. Damit bringe ich sie in eine blöde Lage.",
+      "b": "Die Ärztin hat mir geholfen und nie nach dem Pass gefragt. Ich halte zu ihr und sage nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber von meinen Auftritten in Amerika. Davon gibt es viel zu erzählen."
+    },
+    {
+      "id": "gw_singer_3",
+      "a": "Ich gebe zu: Mein Pass lautet auf einen anderen Namen. Mehr sage ich nicht.",
+      "b": "Ich schweige. Meinen echten Namen kennt niemand, und das soll so bleiben.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von der großen Bühne in Paris."
+    },
+    {
+      "id": "gw_secretary_1",
+      "a": "Ich gestehe dem Inspektor, dass ich nachts in Lindqvists Mappe gelesen habe. Warum, sage ich nicht.",
+      "b": "Ich schweige. Niemand soll erfahren, warum ich wirklich zu Lindqvist kam.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von meiner Arbeit. Neun Jahre Briefe sind eine lange Geschichte."
+    },
+    {
+      "id": "gw_secretary_2",
+      "a": "Ich sage dem Inspektor, dass der Kellner mehr gesehen hat, als er zugibt. Damit bringe ich ihn in eine schwierige Lage.",
+      "b": "Der Kellner hat mir jede Nacht Tee gebracht und nie gefragt. Ich halte zu ihm und sage nichts.",
+      "sabotage": "Ich erzähle dem Inspektor lieber von meiner Schreibmaschine. Sie hat ein verbogenes e."
+    },
+    {
+      "id": "gw_secretary_3",
+      "a": "Ich sage offen: Ich habe in Lindqvists Mappe gelesen. Mehr sage ich dazu nicht.",
+      "b": "Ich halte dicht. Mein Grund geht niemanden etwas an.",
+      "sabotage": "Ich halte mich zurück und erzähle lieber von Göteborg. Dort bin ich aufgewachsen."
+    }
+  ]
+}

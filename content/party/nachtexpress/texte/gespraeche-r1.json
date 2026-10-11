@@ -1,0 +1,291 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "gespraech",
+  "hinweis": "Pflichtgespräche Runde 1, alle acht Rollen.",
+  "eintraege": [
+    {
+      "id": "g_countess_1_1",
+      "rolle": "countess",
+      "runde": 1,
+      "nr": 1,
+      "partner": "singer",
+      "thema": "Wer war beim Ruck wo?",
+      "ziel": "Ich will wissen, wo die andere Person beim Ruck war.",
+      "preisgabe": [
+        "luege:luege_countess_briefe"
+      ],
+      "text": "Ich habe die ganze Nacht in meinem Abteil Briefe geschrieben. Und wo waren Sie, als das Licht ausging?"
+    },
+    {
+      "id": "g_countess_1_2",
+      "rolle": "countess",
+      "runde": 1,
+      "nr": 2,
+      "partner": "secretary",
+      "thema": "Was hörten Sie in der Nacht?",
+      "ziel": "Ich will wissen, was die andere Person in der Nacht mitbekam.",
+      "preisgabe": [],
+      "text": "Man hat in diesem Zug zu viel Zeit zum Zuhören. Was haben Sie gehört, bevor das Licht ausging?"
+    },
+    {
+      "id": "g_countess_1_3",
+      "rolle": "countess",
+      "runde": 1,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Die Frage an den Inspektor",
+      "ziel": "Ich will wissen, wie lange der Zug noch festsitzt.",
+      "preisgabe": [],
+      "text": "Wie lange dauert es noch, bis die Gendarmerie kommt? Ich friere, und Warten verdirbt mir die Laune."
+    },
+    {
+      "id": "g_watchmaker_1_1",
+      "rolle": "watchmaker",
+      "runde": 1,
+      "nr": 1,
+      "partner": "conductor",
+      "thema": "Eine Frage der Zeit",
+      "ziel": "Ich will wissen, wo die andere Person beim Ruck war.",
+      "preisgabe": [
+        "luege:luege_watchmaker_uhr"
+      ],
+      "text": "Ich habe die ganze Nacht an der Taschenuhr des Schaffners gearbeitet. Feinarbeit bei Kerzenlicht. Wo waren Sie beim Ruck?"
+    },
+    {
+      "id": "g_watchmaker_1_2",
+      "rolle": "watchmaker",
+      "runde": 1,
+      "nr": 2,
+      "partner": "student",
+      "thema": "Wer saß wo?",
+      "ziel": "Ich will wissen, wen die andere Person im Dunkeln bemerkt hat.",
+      "preisgabe": [],
+      "text": "Der Ruck kam mitten in der Nacht. Haben Sie im Dunkeln jemanden bemerkt? Ich frage nur aus Vorsicht."
+    },
+    {
+      "id": "g_watchmaker_1_3",
+      "rolle": "watchmaker",
+      "runde": 1,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Der Zoll",
+      "ziel": "Ich will wissen, ob der Inspektor mein Gepäck prüfen lässt.",
+      "preisgabe": [],
+      "text": "Ich bin Uhrmacher und reise mit Mustern nach Paris. Verdächtigen Sie mich etwa wegen eines Koffers?"
+    },
+    {
+      "id": "g_singer_1_1",
+      "rolle": "singer",
+      "runde": 1,
+      "nr": 1,
+      "partner": "countess",
+      "thema": "Kerzen und Klatsch",
+      "ziel": "Ich will wissen, was die andere Person nach den Kerzen noch gehört hat.",
+      "preisgabe": [
+        "beobachtung:b_ruby_klopft"
+      ],
+      "text": "Um Viertel vor eins habe ich bei Ihnen angeklopft und Kerzen geholt. Haben Sie danach noch etwas gehört?"
+    },
+    {
+      "id": "g_singer_1_2",
+      "rolle": "singer",
+      "runde": 1,
+      "nr": 2,
+      "partner": "doctor",
+      "thema": "Ein Lied im Dunkeln",
+      "ziel": "Ich will wissen, was die andere Person im Dunkeln gehört hat.",
+      "preisgabe": [
+        "luege:luege_singer_klavier"
+      ],
+      "text": "Ich habe die ganze Nacht Klavier gespielt, Honey. Wer schläft schon in so einer Nacht? Und was haben Sie gehört?"
+    },
+    {
+      "id": "g_singer_1_3",
+      "rolle": "singer",
+      "runde": 1,
+      "nr": 3,
+      "partner": "watchmaker",
+      "thema": "Zeit ist Geld",
+      "ziel": "Ich will wissen, wie der Uhrmacher die Nacht erlebt hat.",
+      "preisgabe": [],
+      "text": "Ein Uhrmacher hört jedes Ticken. Was haben Sie beim Ruck gehört?"
+    },
+    {
+      "id": "g_secretary_1_1",
+      "rolle": "secretary",
+      "runde": 1,
+      "nr": 1,
+      "partner": "waiter",
+      "thema": "Die Maschine und der Tee",
+      "ziel": "Ich will wissen, ob die andere Person die Schreibmaschine gehört hat.",
+      "preisgabe": [
+        "luege:luege_secretary_tippen"
+      ],
+      "text": "Ich habe die halbe Nacht getippt, Diktate für Paris. Man hört die Maschine durch den ganzen Zug."
+    },
+    {
+      "id": "g_secretary_1_2",
+      "rolle": "secretary",
+      "runde": 1,
+      "nr": 2,
+      "partner": "countess",
+      "thema": "Der Streit in Wien",
+      "ziel": "Ich will wissen, was die andere Person über Wien erzählt.",
+      "preisgabe": [
+        "beobachtung:b_greta_bahnsteig"
+      ],
+      "text": "In Wien haben Sie auf dem Bahnsteig auf Lindqvist eingeschrien, auf Russisch. Er hat nur gelächelt. Wissen Sie noch, warum?"
+    },
+    {
+      "id": "g_secretary_1_3",
+      "rolle": "secretary",
+      "runde": 1,
+      "nr": 3,
+      "partner": "detective",
+      "thema": "Die Sekretärin und ihr Chef",
+      "ziel": "Ich will wissen, wie der Inspektor mit mir umgeht.",
+      "preisgabe": [],
+      "text": "Neun Jahre habe ich für diesen Mann gearbeitet. Ich lasse mich nicht wie eine Diebin behandeln."
+    },
+    {
+      "id": "g_conductor_1_1",
+      "rolle": "conductor",
+      "runde": 1,
+      "nr": 1,
+      "partner": "watchmaker",
+      "thema": "Der Zug steht still",
+      "ziel": "Ich will wissen, ob die andere Person nachts etwas gehört hat.",
+      "preisgabe": [
+        "beobachtung:b_huber_koffer"
+      ],
+      "text": "Der Musterkoffer des Uhrmachers wiegt mehr als jeder Uhrenkoffer. Ich musste ihn allein in den Zug tragen. Wissen Sie, warum?"
+    },
+    {
+      "id": "g_conductor_1_2",
+      "rolle": "conductor",
+      "runde": 1,
+      "nr": 2,
+      "partner": "waiter",
+      "thema": "Dienst ist Dienst",
+      "ziel": "Ich will wissen, ob die andere Person nachts im Zug umherging.",
+      "preisgabe": [],
+      "text": "Ich habe nach dem Ruck alle Wagen mit der Laterne abgeschritten. Ist Ihnen jemand begegnet?"
+    },
+    {
+      "id": "g_conductor_1_3",
+      "rolle": "conductor",
+      "runde": 1,
+      "nr": 3,
+      "partner": "singer",
+      "thema": "Lärm im Zug",
+      "ziel": "Ich will wissen, wo die andere Person beim Ruck war.",
+      "preisgabe": [],
+      "text": "Beim Ruck gab es Lärm im ganzen Zug. Wo haben Sie ihn erlebt?"
+    },
+    {
+      "id": "g_student_1_1",
+      "rolle": "student",
+      "runde": 1,
+      "nr": 1,
+      "partner": "doctor",
+      "thema": "Wer war wach?",
+      "ziel": "Ich will wissen, wer in der Nacht wach war.",
+      "preisgabe": [
+        "beobachtung:b_lukas_tisch"
+      ],
+      "text": "Ich lag im Schlafwagen und konnte vor Kälte nicht schlafen. Bis nach Mitternacht saß der Uhrmacher am Klapptisch und polierte Uhrwerke."
+    },
+    {
+      "id": "g_student_1_2",
+      "rolle": "student",
+      "runde": 1,
+      "nr": 2,
+      "partner": "conductor",
+      "thema": "Karten, bitte",
+      "ziel": "Ich will wissen, ob jemand nach Fahrkarten fragt.",
+      "preisgabe": [],
+      "text": "Ich habe heute Nacht alles bezahlt, was man von mir verlangt hat. Muss ich noch etwas vorzeigen?"
+    },
+    {
+      "id": "g_student_1_3",
+      "rolle": "student",
+      "runde": 1,
+      "nr": 3,
+      "partner": "secretary",
+      "thema": "Briefe nach Paris",
+      "ziel": "Ich will wissen, was die andere Person in Paris vorhat.",
+      "preisgabe": [],
+      "text": "Ich fahre zu einem Kongress nach Paris. Physik, nichts Aufregendes. Und was führt Sie dorthin?"
+    },
+    {
+      "id": "g_doctor_1_1",
+      "rolle": "doctor",
+      "runde": 1,
+      "nr": 1,
+      "partner": "singer",
+      "thema": "Musik im Dunkeln",
+      "ziel": "Ich will wissen, ob die andere Person die Nacht gut überstanden hat.",
+      "preisgabe": [
+        "beobachtung:b_szabo_klavier"
+      ],
+      "text": "Ich saß bis tief in die Nacht im Salonwagen und habe Ihnen am Klavier zugehört. Wie geht es Ihren Händen?"
+    },
+    {
+      "id": "g_doctor_1_2",
+      "rolle": "doctor",
+      "runde": 1,
+      "nr": 2,
+      "partner": "student",
+      "thema": "Eine ruhige Nacht",
+      "ziel": "Ich will wissen, ob es der anderen Person gut geht.",
+      "preisgabe": [],
+      "text": "Ich bin Ärztin, und in dieser Kälte frieren viele. Wenn Ihnen etwas fehlt, sagen Sie es."
+    },
+    {
+      "id": "g_doctor_1_3",
+      "rolle": "doctor",
+      "runde": 1,
+      "nr": 3,
+      "partner": "countess",
+      "thema": "Veilchenwasser",
+      "ziel": "Ich will wissen, ob die Gräfin Hilfe braucht.",
+      "preisgabe": [],
+      "text": "Ihre Hände zittern, Gräfin, und es ist eiskalt. Möchten Sie etwas Warmes?"
+    },
+    {
+      "id": "g_waiter_1_1",
+      "rolle": "waiter",
+      "runde": 1,
+      "nr": 1,
+      "partner": "secretary",
+      "thema": "Die Maschine und die Tische",
+      "ziel": "Ich will wissen, ob die andere Person noch etwas braucht.",
+      "preisgabe": [
+        "beobachtung:b_morel_tippen"
+      ],
+      "text": "Die Schreibmaschine klapperte bis weit nach Mitternacht durch den Speisewagen. Ich habe dabei die Tische abgeräumt. Darf ich noch Tee bringen?"
+    },
+    {
+      "id": "g_waiter_1_2",
+      "rolle": "waiter",
+      "runde": 1,
+      "nr": 2,
+      "partner": "conductor",
+      "thema": "Alles im Dienst",
+      "ziel": "Ich will wissen, wann der Zug wieder fährt.",
+      "preisgabe": [],
+      "text": "Der Zug steht, und die Gäste sind unruhig. Wann dürfen wir mit Hilfe rechnen?"
+    },
+    {
+      "id": "g_waiter_1_3",
+      "rolle": "waiter",
+      "runde": 1,
+      "nr": 3,
+      "partner": "doctor",
+      "thema": "Ein warmer Schluck",
+      "ziel": "Ich will wissen, ob die andere Person Tee möchte.",
+      "preisgabe": [],
+      "text": "Der Tee ist heiß. Darf ich Ihnen eine Tasse bringen?"
+    }
+  ]
+}

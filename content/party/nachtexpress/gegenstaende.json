@@ -1,0 +1,561 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Gegenstände und Indizien. Lage = wo der Gegenstand während der Ermittlungsrunden ist; sie ist in allen Pfaden gleich (Regel K-1), außer bei den versteckten Obligationen. Jede Spur nennt, in welchen Pfaden sie entsteht (entstehtWenn: immer oder pfade), was sie dort zeigt und was in den anderen Pfaden zu sehen ist (harmlos). Die Obligationen sind nie ein Kartenmarker; ihre vier möglichen Verstecke (Kleiderschrank, Klavier, Herd, Schreibmaschine) gibt es in allen Pfaden als gleiche Untersuchungsziele.",
+  "nebendelikte": [
+    {
+      "id": "nd_briefe",
+      "person": "countess",
+      "text": "Hat nachts heimlich Briefbögen im Ofen des Salonwagens verbrannt.",
+      "duText": "Du hast nachts heimlich Briefbögen im Ofen des Salonwagens verbrannt."
+    },
+    {
+      "id": "nd_pass",
+      "person": "singer",
+      "text": "Reist mit einem Pass auf einen falschen Namen.",
+      "duText": "Du reist mit einem Pass auf einen falschen Namen."
+    },
+    {
+      "id": "nd_schmuggel",
+      "person": "watchmaker",
+      "text": "Schmuggelt Uhrwerke im doppelten Boden seines Musterkoffers.",
+      "duText": "Du schmuggelst Uhrwerke im doppelten Boden deines Musterkoffers."
+    },
+    {
+      "id": "nd_mappe",
+      "person": "secretary",
+      "text": "Hat nachts heimlich in Lindqvists Mappe gelesen.",
+      "duText": "Du hast nachts heimlich in Lindqvists Mappe gelesen."
+    },
+    {
+      "id": "nd_trinkgeld",
+      "person": "conductor",
+      "text": "Schaut gegen Trinkgeld bei Brändlis Koffer weg.",
+      "duText": "Du schaust gegen Trinkgeld bei Brändlis Koffer weg."
+    },
+    {
+      "id": "nd_schwarzfahrt",
+      "person": "student",
+      "text": "Hat sich mit einer Fahrkarte der dritten Klasse in den Schlafwagen gelegt.",
+      "duText": "Du hast dich mit einer Fahrkarte der dritten Klasse in den Schlafwagen gelegt."
+    },
+    {
+      "id": "nd_tee",
+      "person": "waiter",
+      "text": "Hat Lindqvists Nachttee zehn Minuten unbeaufsichtigt stehen lassen.",
+      "duText": "Du hast Lindqvists Nachttee zehn Minuten unbeaufsichtigt stehen lassen."
+    }
+  ],
+  "gegenstaende": [
+    {
+      "id": "fensterriegel",
+      "name": "Fensterriegel von Abteil 7",
+      "beschreibung": "Der Riegel am Fenster von Abteil 7. Seit dem Ruck hat die Scheibe einen Sprung.",
+      "lage": {
+        "ort": "am_fenster_7",
+        "stelle": "am Fenster von Abteil 7"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_riegel_eis",
+          "stelle": "Riegel",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Der Riegel ist vereist, und die Scheibe hat einen Sprung. Das Fenster stand in der Nacht einen Spalt offen.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        },
+        {
+          "id": "spur_riegel_countess",
+          "stelle": "Fensterrahmen",
+          "entstehtWenn": {
+            "pfade": [
+              "countess"
+            ]
+          },
+          "zeigt": "Am Fensterrahmen klebt eine dunkelrote Seidenfaser. An ihr hängt der Rest eines gestickten Krönchens.",
+          "harmlos": "Am Fensterrahmen kleben etwas Schnee und feiner Staub.",
+          "rolle": {
+            "countess": "schluesselbeweis"
+          }
+        },
+        {
+          "id": "spur_riegel_watchmaker",
+          "stelle": "Fensterbrett",
+          "entstehtWenn": {
+            "pfade": [
+              "watchmaker"
+            ]
+          },
+          "zeigt": "Auf dem vereisten Fensterbrett glänzt ein Tropfen feines Uhrenöl.",
+          "harmlos": "Auf dem Fensterbrett liegt Schmelzwasser.",
+          "rolle": {
+            "watchmaker": "schluesselbeweis"
+          }
+        },
+        {
+          "id": "spur_riegel_secretary",
+          "stelle": "Scheibe",
+          "entstehtWenn": {
+            "pfade": [
+              "secretary"
+            ]
+          },
+          "zeigt": "Auf der Scheibe klebt ein violetter Fleck, wie ihn ein altes Farbband hinterlässt.",
+          "harmlos": "Auf der Scheibe haften Eisblumen.",
+          "rolle": {
+            "secretary": "schluesselbeweis"
+          }
+        }
+      ]
+    },
+    {
+      "id": "handschuhe_ruby",
+      "name": "Rubys Perlenhandschuhe",
+      "beschreibung": "Weiße Handschuhe mit kleinen Perlen. Ruby trägt sie zu jedem Auftritt.",
+      "lage": {
+        "traeger": "singer",
+        "stelle": "in Rubys Handtasche"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_handschuh_perle",
+          "stelle": "linker Handschuh",
+          "entstehtWenn": {
+            "pfade": [
+              "singer"
+            ]
+          },
+          "zeigt": "Am linken Handschuh fehlt eine Glasperle. Im Futter steckt ein winziger Glassplitter vom Fenster von Abteil 7.",
+          "harmlos": "Die weißen Handschuhe sind sauber, nur eine Naht ist aufgeplatzt.",
+          "rolle": {
+            "singer": "schluesselbeweis"
+          }
+        }
+      ]
+    },
+    {
+      "id": "musterkoffer",
+      "name": "Brändlis Musterkoffer",
+      "beschreibung": "Brändlis schwerer Musterkoffer aus braunem Leder. Er steht unter dem Klapptisch im Schlafwagen.",
+      "lage": {
+        "einrichtung": "klapptisch_brandli",
+        "ort": "am_klapptisch_brandli",
+        "stelle": "unter dem Klapptisch"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_koffer_boden",
+          "stelle": "doppelter Boden",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im doppelten Boden des Musterkoffers liegen Uhrwerke ohne Zollplombe. Darauf angesprochen gibt Brändli zu: Er schmuggelt sie am Zoll vorbei.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_schmuggel",
+          "widerlegt": [
+            "luege_watchmaker_koffer"
+          ]
+        },
+        {
+          "id": "spur_koffer_zins",
+          "stelle": "Boden",
+          "entstehtWenn": {
+            "pfade": [
+              "watchmaker"
+            ]
+          },
+          "zeigt": "Zwischen den Uhrwerken liegt ein abgerissener Zinsschein. Er trägt Lindqvists Stempel.",
+          "harmlos": "Zwischen den Uhrwerken liegt ein Stück grauer Filz.",
+          "rolle": {
+            "watchmaker": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hutschachtel_ruby",
+      "name": "Rubys Hutschachtel",
+      "beschreibung": "Rubys runde Hutschachtel, außen beklebt mit Zetteln aus vielen Städten. Sie steht auf dem Sofa im Salonwagen.",
+      "lage": {
+        "einrichtung": "sofa_salon",
+        "ort": "am_sofa",
+        "stelle": "auf dem Sofa"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_pass_name",
+          "stelle": "Futter",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Futter der Hutschachtel steckt ein Pass auf den Namen Ruth Kowalski. Darauf angesprochen gibt Ruby zu: Sie reist unter falschem Namen.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_pass",
+          "widerlegt": [
+            "luege_singer_name"
+          ]
+        },
+        {
+          "id": "spur_pass_brief",
+          "stelle": "Pass",
+          "entstehtWenn": {
+            "pfade": [
+              "singer"
+            ]
+          },
+          "zeigt": "Im Pass liegt ein zerknitterter Brief von Lindqvist: „Chicago erfährt, wer Sie sind.“",
+          "harmlos": "Im Pass liegt ein Zettel mit einer Telefonnummer aus Paris.",
+          "rolle": {
+            "singer": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aktenmappe_lindqvist",
+      "name": "Lindqvists Mappe",
+      "beschreibung": "Lindqvists schwarze Ledermappe mit Briefen und Papieren. Sie liegt am Stammplatz im Salonwagen.",
+      "lage": {
+        "einrichtung": "stammplatz_tisch",
+        "ort": "am_stammplatz",
+        "stelle": "auf dem Tisch am Stammplatz"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_mappe_schein",
+          "stelle": "oberstes Blatt",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Obenauf liegt der Einlieferungsschein der Bahnpost für ein Einschreiben nach Paris.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        },
+        {
+          "id": "spur_mappe_durchsucht",
+          "stelle": "Briefe",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Die Briefe in der Mappe sind durchwühlt und neu sortiert. Darauf angesprochen gibt Greta zu: Sie hat nachts darin gelesen.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_mappe",
+          "widerlegt": [
+            "luege_secretary_tippen"
+          ]
+        },
+        {
+          "id": "spur_mappe_tuetchen",
+          "stelle": "zwischen den Briefen",
+          "entstehtWenn": {
+            "pfade": [
+              "secretary"
+            ]
+          },
+          "zeigt": "Zwischen den Briefen steckt ein leeres Papiertütchen. Darauf der Stempel einer Wiener Apotheke.",
+          "harmlos": "Zwischen den Briefen steckt ein Merkzettel mit Terminen in Paris.",
+          "rolle": {
+            "secretary": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ofen_salon",
+      "name": "Ofen im Salonwagen",
+      "beschreibung": "Der Kanonenofen im Salonwagen. Er ist die einzige Wärmequelle des Zuges.",
+      "lage": {
+        "einrichtung": "ofen_salon",
+        "ort": "am_salonofen",
+        "stelle": "vor der Ofenklappe"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_ofen_briefe",
+          "stelle": "Ofenklappe",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Ofen liegen verkohlte Briefbögen mit russischen Buchstaben. Darauf angesprochen gibt die Gräfin zu: Sie hat nachts Briefe verbrannt.",
+          "rolle": {
+            "alle": "nebendelikt"
+          },
+          "nebendelikt": "nd_briefe",
+          "widerlegt": [
+            "luege_countess_briefe"
+          ]
+        },
+        {
+          "id": "spur_ofen_seide",
+          "stelle": "Asche",
+          "entstehtWenn": {
+            "pfade": [
+              "countess"
+            ]
+          },
+          "zeigt": "Zwischen der Asche liegt ein angesengter Zipfel dunkelroter Seide.",
+          "harmlos": "Zwischen der Asche liegt ein halb verbranntes Stück Kohle.",
+          "rolle": {
+            "countess": "zusatzindiz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kleiderschrank_orlowa",
+      "name": "Kleiderschrank der Gräfin",
+      "beschreibung": "Der schwere Kleiderschrank im Abteil der Gräfin.",
+      "lage": {
+        "einrichtung": "kleiderschrank_orlowa",
+        "ort": "am_kleiderschrank_8",
+        "stelle": "im Abteil der Gräfin"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_schrank_obligationen",
+          "stelle": "unter den Pelzen",
+          "entstehtWenn": {
+            "pfade": [
+              "countess"
+            ]
+          },
+          "zeigt": "Unter den Pelzen im Schrank liegt ein dickes Bündel Inhaberobligationen. Es trägt Lindqvists Stempel.",
+          "harmlos": "Im Schrank hängen schwere Pelze. Es riecht nach Mottenpulver.",
+          "rolle": {
+            "countess": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "klavier_salon",
+      "name": "Klavier im Salonwagen",
+      "beschreibung": "Das schwarze Klavier im Salonwagen, ein wenig verstimmt.",
+      "lage": {
+        "einrichtung": "klavier_salon",
+        "ort": "am_klavier",
+        "stelle": "im Salonwagen"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_klavier_obligationen",
+          "stelle": "hinter den Hämmern",
+          "entstehtWenn": {
+            "pfade": [
+              "singer"
+            ]
+          },
+          "zeigt": "Im Klavier, hinter den Hämmern, steckt ein dickes Bündel Inhaberobligationen. Es trägt Lindqvists Stempel.",
+          "harmlos": "Im Klavier liegen eine Stimmgabel und viel Staub.",
+          "rolle": {
+            "singer": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "herd_bordkueche",
+      "name": "Herd der Bordküche",
+      "beschreibung": "Der Herd der Bordküche, seit Stunden kalt.",
+      "lage": {
+        "einrichtung": "herd_bordkueche",
+        "ort": "am_kuechenherd",
+        "stelle": "am Ostende des Speisewagens"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_herd_obligationen",
+          "stelle": "Feuerraum",
+          "entstehtWenn": {
+            "pfade": [
+              "watchmaker"
+            ]
+          },
+          "zeigt": "Im kalten Herd liegt, in Zeitungspapier gewickelt, ein Bündel Inhaberobligationen. Es trägt Lindqvists Stempel.",
+          "harmlos": "Im kalten Herd liegt Asche.",
+          "rolle": {
+            "watchmaker": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "schreibmaschine_greta",
+      "name": "Gretas Reiseschreibmaschine",
+      "beschreibung": "Gretas Reiseschreibmaschine auf dem Tisch am Fenster des Speisewagens.",
+      "lage": {
+        "einrichtung": "schreibmaschinentisch",
+        "ort": "an_der_schreibmaschine",
+        "stelle": "auf dem Tisch am Fenster"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_maschine_obligationen",
+          "stelle": "unter dem Deckel",
+          "entstehtWenn": {
+            "pfade": [
+              "secretary"
+            ]
+          },
+          "zeigt": "Unter dem Deckel der Reiseschreibmaschine liegt flach gefaltet ein Bündel Inhaberobligationen. Es trägt Lindqvists Stempel.",
+          "harmlos": "Unter dem Deckel liegen Farbbänder und Löschpapier.",
+          "rolle": {
+            "secretary": "fundort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "obligationen",
+      "name": "Lindqvists Inhaberobligationen",
+      "beschreibung": "Ein dickes Bündel Inhaberobligationen über ein Vermögen. Seit der Nacht sind sie verschwunden.",
+      "lage": {
+        "versteckt": true
+      },
+      "sichtbar": false,
+      "versteckJePfad": {
+        "countess": {
+          "einrichtung": "kleiderschrank_orlowa",
+          "ort": "am_kleiderschrank_8",
+          "stelle": "unter den Pelzen im Kleiderschrank der Gräfin"
+        },
+        "singer": {
+          "einrichtung": "klavier_salon",
+          "ort": "am_klavier",
+          "stelle": "hinter den Hämmern im Klavier"
+        },
+        "watchmaker": {
+          "einrichtung": "herd_bordkueche",
+          "ort": "am_kuechenherd",
+          "stelle": "im kalten Herd der Bordküche"
+        },
+        "secretary": {
+          "einrichtung": "schreibmaschinentisch",
+          "ort": "an_der_schreibmaschine",
+          "stelle": "unter dem Deckel der Reiseschreibmaschine"
+        }
+      }
+    },
+    {
+      "id": "plattform_schnee",
+      "name": "Verschneite Plattform",
+      "beschreibung": "Die offene Plattform am Ende des Zuges. Der Schnee liegt fußhoch.",
+      "lage": {
+        "ort": "auf_der_plattform",
+        "stelle": "am Ende des Zuges"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_plattform_spuren",
+          "stelle": "Neuschnee",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Neuschnee der Plattform führen Fußspuren hinaus und wieder herein. Der Wind hat sie halb verweht.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ueberseekoffer",
+      "name": "Überseekoffer im Gepäckwagen",
+      "beschreibung": "Ein alter Überseekoffer ohne Namensschild.",
+      "lage": {
+        "einrichtung": "ueberseekoffer_gepaeck",
+        "ort": "am_ueberseekoffer",
+        "stelle": "hinten im Gepäckwagen"
+      },
+      "sichtbar": true,
+      "spuren": [
+        {
+          "id": "spur_ueberseekoffer",
+          "stelle": "Koffer",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Im Überseekoffer liegen alte Zeitungen und ein einzelner Wollhandschuh, steif gefroren.",
+          "rolle": {
+            "alle": "umgebung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "briefblock_orlowa",
+      "name": "Briefblock der Gräfin",
+      "beschreibung": "Der Briefblock der Gräfin, in Leder gebunden.",
+      "lage": {
+        "traeger": "countess",
+        "stelle": "in der Reisetasche der Gräfin"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_briefblock_leer",
+          "stelle": "Briefblock",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Der Briefblock der Gräfin ist leer. Keine einzige Zeile steht darauf.",
+          "rolle": {
+            "alle": "ueberblick"
+          },
+          "belastet": [
+            "countess"
+          ],
+          "widerlegt": [
+            "luege_countess_briefe"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rosenkarte_ruby",
+      "name": "Karte mit Rosen",
+      "beschreibung": "Eine Karte von Lindqvist an Ruby, mit gepressten Rosenblättern.",
+      "lage": {
+        "traeger": "singer",
+        "stelle": "in Rubys Handtasche"
+      },
+      "sichtbar": false,
+      "spuren": [
+        {
+          "id": "spur_rosenkarte",
+          "stelle": "Karte",
+          "entstehtWenn": {
+            "immer": true
+          },
+          "zeigt": "Eine Karte von Lindqvist an Ruby: „Rosen für die Dame aus Chicago.“ Ruby hat sie aufbewahrt.",
+          "rolle": {
+            "alle": "motiv"
+          },
+          "belastet": [
+            "singer"
+          ]
+        }
+      ]
+    }
+  ]
+}

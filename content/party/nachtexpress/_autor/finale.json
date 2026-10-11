@@ -1,0 +1,46 @@
+{
+  "hinweis": "Finale und Rückblende je Pfad. Die Urteile und Täter-Epiloge stammen aus content/scenarios/nachtexpress.json (endings.verdict, endings.culprit); der Rest steht hier im Overlay. {name} ist der Name der angeklagten Rolle.",
+  "rahmen": {
+    "meister": "Du klagst {name} an, und es stimmt. Du hast die Spuren sauber zusammengetragen.",
+    "teilerfolg": "Du klagst {name} an, und es stimmt. Ein gutes Stück Glück war auch dabei.",
+    "justizirrtum": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wird, ist entsetzt und wütend. Der Speisewagen sitzt danach geteilt da, und die Stimmung wird kalt.",
+    "eskalation": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wird, brüllt zurück, und keiner hört mehr zu."
+  },
+  "waffenTexte": {
+    "veronal": "Im Nachttee war Schlafpulver, genug für drei Männer. Lindqvist ist eingeschlafen und nicht mehr aufgewacht."
+  },
+  "pfade": {
+    "countess": {
+      "name": "die Gräfin",
+      "motiv": "blackmail",
+      "waffe": "scarf",
+      "gesteht": "Gräfin Orlowa gesteht: Sie wollte nicht länger zahlen.",
+      "beweis": "Am Fensterrahmen von Abteil sieben klebt eine dunkelrote Seidenfaser mit dem Rest eines Krönchens. Unter den Pelzen im Kleiderschrank der Gräfin liegen Lindqvists Obligationen.",
+      "rueckblende": "Um Mitternacht schimpft Lindqvist laut in Abteil sieben. Die Gräfin hört es durch die Wand. Gegen halb eins verbrennt sie im Salonwagen ihre Briefe. Um Viertel vor eins klopft Ruby an und holt Kerzen. Fünf vor eins kommt der Ruck, und alle Lichter erlöschen. Im Dunkeln schleicht die Gräfin zu Abteil sieben. Hinter der Tür wird es still. Sie öffnet das Fenster einen Spalt, damit der Wind die Spuren verweht. Den angesengten Zipfel ihres Schals wirft sie in den Ofen. Die Obligationen verschwinden im Kleiderschrank von Abteil acht."
+    },
+    "singer": {
+      "name": "Ruby",
+      "motiv": "blackmail",
+      "waffe": "candlestick",
+      "gesteht": "Ruby gesteht: Sie wollte nie wieder zurück nach Chicago.",
+      "beweis": "Im linken Perlenhandschuh steckt ein Glassplitter vom Fenster von Abteil sieben. Hinter den Hämmern des Klaviers liegen Lindqvists Obligationen.",
+      "rueckblende": "Ruby spielt bis tief in die Nacht Klavier. Um Viertel vor eins holt sie bei der Gräfin Kerzen. Fünf vor eins kommt der Ruck, und alle Lichter erlöschen. Im Dunkeln lässt Ruby das Klavier stehen. Sie nimmt den schweren Messingleuchter und geht nach Abteil sieben. Dort ist nur ein dumpfer Schlag zu hören. Mit Handschuhen öffnet sie das Fenster einen Spalt. Den Leuchter stellt sie zurück. Das Bündel mit den Obligationen verschwindet im Klavier, und Ruby spielt weiter."
+    },
+    "watchmaker": {
+      "name": "Brändli",
+      "motiv": "greed",
+      "waffe": "veronal",
+      "gesteht": "Brändli gesteht: Das Schlafpulver stammt aus seiner eigenen Reisetasche.",
+      "beweis": "Auf dem Fensterbrett von Abteil sieben glänzt ein Tropfen Uhrenöl. Im kalten Herd der Bordküche liegen Lindqvists Obligationen.",
+      "rueckblende": "Brändli sitzt am Klapptisch und poliert Uhrwerke. Kurz nach Mitternacht schleicht er in die Bordküche. Dort rührt er Schlafpulver in Lindqvists Nachttee. Fünf vor eins kommt der Ruck, und alle Lichter erlöschen. Im Dunkeln verlässt Brändli seinen Tisch. Er geht durch den Übergang zu Abteil sieben und nimmt Lindqvists Obligationen. Am Fenster bleibt ein Tropfen Uhrenöl zurück. Das Bündel versteckt er im kalten Herd der Bordküche."
+    },
+    "secretary": {
+      "name": "Greta",
+      "motiv": "revenge",
+      "waffe": "veronal",
+      "gesteht": "Greta gesteht: Sie kam unter falschem Namen zu Lindqvist und wartete auf diese Nacht.",
+      "beweis": "Auf der Scheibe von Abteil sieben klebt ein violetter Fleck vom Farbband. Unter dem Deckel der Reiseschreibmaschine liegen Lindqvists Obligationen.",
+      "rueckblende": "Greta tippt bis halb eins Briefe. Dann liest sie heimlich in Lindqvists Mappe. Zwanzig Minuten nach Mitternacht steht sein Nachttee allein in der Bordküche. Greta rührt Schlafpulver hinein. Fünf vor eins kommt der Ruck, und alle Lichter erlöschen. Im Dunkeln lässt sie die Maschine stehen und geht zu Abteil sieben. Am Fenster bleibt ein violetter Fleck zurück. Das leere Tütchen steckt in der Mappe. Das Bündel mit den Obligationen liegt unter dem Deckel ihrer Schreibmaschine."
+    }
+  }
+}

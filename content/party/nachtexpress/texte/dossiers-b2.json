@@ -1,0 +1,146 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "dossier",
+  "hinweis": "Dossiers der Besetzungsplätze 5 bis 8.",
+  "eintraege": [
+    {
+      "rolle": "conductor",
+      "wer": "Du bist Anton Huber, Schlafwagenschaffner seit fünfundzwanzig Jahren. Du trägst eine nachtblaue Uniform, eine Laterne am Arm und den Vierkantschlüssel des Zuges. Du kennst jede Fahrkarte, jedes Trinkgeld und jedes Knarren dieses Zuges.",
+      "weiss": [
+        {
+          "text": "Nach dem Ruck bist du mit der Laterne durch alle Wagen gegangen. Am Morgen hast du Lindqvist tot gefunden."
+        },
+        {
+          "ref": "beobachtung:b_huber_koffer"
+        },
+        {
+          "ref": "beobachtung:b_huber_dunkel"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_huber_streit"
+        },
+        {
+          "ref": "beobachtung:b_huber_trinkgeld"
+        },
+        {
+          "ref": "beobachtung:b_huber_gang"
+        },
+        {
+          "ref": "beobachtung:b_huber_gang_ruhig"
+        },
+        {
+          "ref": "nebendelikt:nd_trinkgeld"
+        },
+        {
+          "ref": "luege:luege_conductor_gepaeck"
+        },
+        {
+          "text": "Du schweigst, weil die Schlafwagengesellschaft nie vom Trinkgeld erfahren darf."
+        }
+      ],
+      "ziel": "Die Schlafwagengesellschaft soll nie vom Trinkgeld erfahren.",
+      "besetzung": "Jede Person kann Huber spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "student",
+      "wer": "Du bist Lukas Hartmann, Physikstudent aus Wien, und reist zu einem Kongress nach Paris. Du bist schlank, trägst eine Schiebermütze und eine dicke Brille. In deinem Reisebuch steht alles, was du unterwegs siehst.",
+      "weiss": [
+        {
+          "text": "In Schlafwagen II war es in der Nacht eiskalt, und du hast kaum geschlafen."
+        },
+        {
+          "ref": "beobachtung:b_lukas_tisch"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_lukas_ruck_frueh"
+        },
+        {
+          "ref": "beobachtung:b_lukas_ruck_spaet"
+        },
+        {
+          "ref": "nebendelikt:nd_schwarzfahrt"
+        },
+        {
+          "ref": "luege:luege_student_karte"
+        },
+        {
+          "text": "Du schweigst, weil niemand merken soll, dass du nur eine Fahrkarte der dritten Klasse hast."
+        }
+      ],
+      "ziel": "Niemand soll merken, dass du nur eine Fahrkarte der dritten Klasse hast.",
+      "besetzung": "Jede Person kann Lukas spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "doctor",
+      "wer": "Du bist Doktor Margit Szabó, Ärztin aus Budapest, und reist zu einem Kongress. Du hast eine kleine schwarze Arzttasche und eine Brille an einer Kette. Du bist ruhig und hörst genau zu.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_szabo_klavier"
+        },
+        {
+          "ref": "beobachtung:b_szabo_hutschachtel"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_szabo_ruck_frueh"
+        },
+        {
+          "ref": "beobachtung:b_szabo_ruck_spaet"
+        },
+        {
+          "ref": "beobachtung:b_szabo_pass"
+        },
+        {
+          "text": "Du schweigst, weil du Ruby versprochen hast, nichts zu verraten."
+        }
+      ],
+      "ziel": "Ruby nicht verraten, solange es dafür keinen Grund gibt.",
+      "besetzung": "Jede Person kann Doktor Szabó spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "rolle": "waiter",
+      "wer": "Du bist Jacques Morel, Kellner im Speisewagen, seit dreißig Jahren. Du trägst eine elfenbeinfarbene Jacke, weiße Handschuhe und ein höfliches Lächeln. Du siehst alles und sagst nur, was man dich fragt.",
+      "weiss": [
+        {
+          "ref": "beobachtung:b_morel_tippen"
+        },
+        {
+          "ref": "beobachtung:b_morel_tee"
+        },
+        {
+          "ref": "beobachtung:b_morel_mappe"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "beobachtung:b_morel_ruck_frueh"
+        },
+        {
+          "ref": "beobachtung:b_morel_ruck_spaet"
+        },
+        {
+          "ref": "beobachtung:b_morel_ofen"
+        },
+        {
+          "ref": "beobachtung:b_morel_greta"
+        },
+        {
+          "ref": "nebendelikt:nd_tee"
+        },
+        {
+          "ref": "luege:luege_waiter_tee"
+        },
+        {
+          "text": "Du schweigst, weil du keinen Gast verpetzen willst."
+        }
+      ],
+      "ziel": "Du willst keinen Gast verpetzen und dein Trinkgeld behalten.",
+      "besetzung": "Jede Person kann Morel spielen, egal welches Geschlecht sie hat."
+    }
+  ]
+}

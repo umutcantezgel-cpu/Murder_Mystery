@@ -1,0 +1,28 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "nachtexpress",
+  "bereich": "erzaehler",
+  "hinweis": "Finale im Pfad countess: finale.countess.<ende> (4) und rueckblende.countess.",
+  "eintraege": [
+    {
+      "id": "finale.countess.ende_meister",
+      "text": "Du klagst die Gräfin an, und es stimmt. Du hast die Spuren sauber zusammengetragen. Gräfin Orlowa gesteht: Sie wollte nicht länger zahlen. Lindqvist besaß Briefe, die jemanden im Zug ruiniert hätten, und ließ sich sein Schweigen teuer bezahlen. Der Täter wollte endlich frei sein. Am Fensterrahmen von Abteil sieben klebt eine dunkelrote Seidenfaser mit dem Rest eines Krönchens. Unter den Pelzen im Kleiderschrank der Gräfin liegen Lindqvists Obligationen. Feine Seidenfasern am Kragen: Die Tatwaffe war ein Seidenschal. Täter, Motiv und Waffe – lückenlos bewiesen. Als die Gendarmerie den Zug betritt, liegt das Geständnis schon unterschrieben im Speisewagen. Gräfin Orlowa lässt sich die Handschellen anlegen wie ein Armband. „Ich habe schon einmal alles verloren“, sagt sie. „Ich weiß, wie das geht.“"
+    },
+    {
+      "id": "finale.countess.ende_teilerfolg",
+      "text": "Du klagst die Gräfin an, und es stimmt. Ein gutes Stück Glück war auch dabei. Gräfin Orlowa gesteht: Sie wollte nicht länger zahlen. Lindqvist besaß Briefe, die jemanden im Zug ruiniert hätten, und ließ sich sein Schweigen teuer bezahlen. Der Täter wollte endlich frei sein. Der richtige Name, aber eine dünne Akte. Ein guter Pariser Anwalt wird daraus ein Kunststück machen. Gräfin Orlowa lässt sich die Handschellen anlegen wie ein Armband. „Ich habe schon einmal alles verloren“, sagt sie. „Ich weiß, wie das geht.“"
+    },
+    {
+      "id": "finale.countess.ende_justizirrtum",
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wird, ist entsetzt und wütend. Der Speisewagen sitzt danach geteilt da, und die Stimmung wird kalt. Ein Unschuldiger wird in Handschellen durch den Schnee geführt. Der wahre Täter steigt in Paris aus und verschwindet im Morgennebel. In Paris verkauft die Gräfin ihren letzten Ring und nimmt den Zug nach Nizza. Ihr Lachen hört man bis über den Bahnsteig."
+    },
+    {
+      "id": "finale.countess.ende_eskalation",
+      "text": "Du zeigst auf die falsche Person. Plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wird, brüllt zurück, und keiner hört mehr zu. Der Nachtexpress rollt weiter nach Paris – und mit ihm ein Mörder. In Paris verkauft die Gräfin ihren letzten Ring und nimmt den Zug nach Nizza. Ihr Lachen hört man bis über den Bahnsteig."
+    },
+    {
+      "id": "rueckblende.countess",
+      "text": "Um Mitternacht schimpft Lindqvist laut in Abteil sieben. Die Gräfin hört es durch die Wand. Gegen halb eins verbrennt sie im Salonwagen ihre Briefe. Um Viertel vor eins klopft Ruby an und holt Kerzen. Fünf vor eins kommt der Ruck, und alle Lichter erlöschen. Im Dunkeln schleicht die Gräfin zu Abteil sieben. Hinter der Tür wird es still. Sie öffnet das Fenster einen Spalt, damit der Wind die Spuren verweht. Den angesengten Zipfel ihres Schals wirft sie in den Ofen. Die Obligationen verschwinden im Kleiderschrank von Abteil acht."
+    }
+  ]
+}

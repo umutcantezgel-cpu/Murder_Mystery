@@ -1,0 +1,589 @@
+{
+  "settingId": "nachtexpress",
+  "hinweis": "Beobachtungen der Zeugen. Jede Beobachtung gehört zur Zeitleiste der Nacht (beleg). Kanal: pflichtgespraech = darf am Tisch erzählt werden (nur pfadneutral, Regel P-1); verborgen = steht im Dossier unter „Was ich verberge“ und erreicht den Inspektor nur über eine Entscheidung oder den Bonus-Hinweis; erzaehler = kommt über den Erzähler. Ein Trenner unterscheidet den Pfad einer Kernperson; jeder hat genau einen Zeugen.",
+  "beobachtungen": [
+    {
+      "id": "b_detektiv_ruck",
+      "wer": "detective",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "erzaehler",
+      "text": "Du weißt: Um fünf vor eins gab es einen Ruck. Ein Schneerutsch traf den Zug, und alle Lichter gingen aus.",
+      "beleg": {
+        "zeitleiste": [
+          "z_ruck"
+        ]
+      }
+    },
+    {
+      "id": "b_lukas_tisch",
+      "wer": "student",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Bis nach Mitternacht sah er Brändli am Klapptisch am Wagenende sitzen. Der Uhrmacher polierte mit der Lupe kleine Uhrwerke.",
+      "duText": "Bis nach Mitternacht hast du Brändli am Klapptisch am Wagenende sitzen sehen. Der Uhrmacher polierte mit der Lupe kleine Uhrwerke.",
+      "beleg": {
+        "zeitleiste": [
+          "z_brandli_tisch"
+        ]
+      }
+    },
+    {
+      "id": "b_lukas_ruck_frueh",
+      "wer": "student",
+      "pfade": [
+        "singer",
+        "secretary"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck saß Brändli noch an seinem Klapptisch. Die Lupe fiel ihm aus dem Auge, aber er blieb sitzen.",
+      "duText": "Beim Ruck hast du Brändli noch an seinem Klapptisch sitzen sehen. Die Lupe fiel ihm aus dem Auge, aber er blieb sitzen.",
+      "beleg": {
+        "alle": [
+          {
+            "sinn": "sehen",
+            "quelle": "watchmaker",
+            "detail": [
+              "erkannt"
+            ],
+            "von": "00:54:30",
+            "bis": "00:55:30"
+          }
+        ]
+      },
+      "entlastet": [
+        "watchmaker"
+      ],
+      "trenner": "watchmaker",
+      "grundVerborgen": "Er will Brändli nicht in Schwierigkeiten bringen. Brändli hat ihm seinen Fensterplatz überlassen."
+    },
+    {
+      "id": "b_lukas_ruck_spaet",
+      "wer": "student",
+      "pfade": [
+        "watchmaker",
+        "countess"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck war Brändlis Platz leer. Er kam erst danach zurück und flüsterte: „Alles gut, schlaf weiter.“",
+      "duText": "Beim Ruck war Brändlis Platz leer, hast du gesehen. Er kam erst danach zurück und flüsterte dir zu: „Alles gut, schlaf weiter.“",
+      "beleg": {
+        "keine": [
+          {
+            "sinn": "sehen",
+            "quelle": "watchmaker",
+            "von": "00:54:30",
+            "bis": "00:55:30"
+          }
+        ]
+      },
+      "belastet": [
+        "watchmaker"
+      ],
+      "trenner": "watchmaker",
+      "grundVerborgen": "Er will Brändli nicht in Schwierigkeiten bringen. Brändli hat ihm seinen Fensterplatz überlassen."
+    },
+    {
+      "id": "b_szabo_klavier",
+      "wer": "doctor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Bis tief in die Nacht saß sie im Salonwagen und hörte Ruby am Klavier zu.",
+      "duText": "Bis tief in die Nacht hast du im Salonwagen gesessen und Ruby am Klavier zugehört.",
+      "beleg": {
+        "zeitleiste": [
+          "z_klavier"
+        ]
+      }
+    },
+    {
+      "id": "b_szabo_hutschachtel",
+      "wer": "doctor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Ruby lässt ihre Hutschachtel nie aus den Augen. Beim Spielen stand sie neben ihr auf dem Sofa.",
+      "duText": "Ruby lässt ihre Hutschachtel nie aus den Augen. Beim Spielen hast du sie neben ihr auf dem Sofa gesehen.",
+      "beleg": {
+        "gegenstand": [
+          "hutschachtel_ruby"
+        ]
+      }
+    },
+    {
+      "id": "b_szabo_ruck_frueh",
+      "wer": "doctor",
+      "pfade": [
+        "watchmaker",
+        "secretary",
+        "countess"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck spielte Ruby noch. Die Noten fielen vom Pult, aber sie spielte im Dunkeln weiter.",
+      "duText": "Beim Ruck hast du Ruby noch spielen hören. Die Noten fielen vom Pult, aber sie spielte im Dunkeln weiter.",
+      "beleg": {
+        "alle": [
+          {
+            "sinn": "hoeren",
+            "quelle": "singer",
+            "detail": [
+              "sprecher"
+            ],
+            "von": "00:54:30",
+            "bis": "00:55:30"
+          }
+        ]
+      },
+      "entlastet": [
+        "singer"
+      ],
+      "trenner": "singer",
+      "grundVerborgen": "Sie will Ruby nicht in einen Mordfall ziehen, von dem sie nur vom Hörensagen weiß."
+    },
+    {
+      "id": "b_szabo_ruck_spaet",
+      "wer": "doctor",
+      "pfade": [
+        "singer"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck war das Klavier still. Ruby kam erst danach zurück und spielte sofort weiter.",
+      "duText": "Beim Ruck war das Klavier still, hast du gehört. Ruby kam erst danach zurück und spielte sofort weiter.",
+      "beleg": {
+        "keine": [
+          {
+            "sinn": "hoeren",
+            "quelle": "singer",
+            "von": "00:54:30",
+            "bis": "00:55:30"
+          }
+        ]
+      },
+      "belastet": [
+        "singer"
+      ],
+      "trenner": "singer",
+      "grundVerborgen": "Sie will Ruby nicht in einen Mordfall ziehen, von dem sie nur vom Hörensagen weiß."
+    },
+    {
+      "id": "b_szabo_pass",
+      "wer": "doctor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Sie sah in Rubys Hutschachtel einen Pass mit einem anderen Namen.",
+      "duText": "Du hast in Rubys Hutschachtel einen Pass mit einem anderen Namen gesehen.",
+      "beleg": {
+        "gegenstand": [
+          "hutschachtel_ruby"
+        ]
+      },
+      "belastet": [
+        "singer"
+      ],
+      "widerlegt": [
+        "luege_singer_name"
+      ],
+      "grundVerborgen": "Sie hat Ruby versprochen zu schweigen."
+    },
+    {
+      "id": "b_morel_tippen",
+      "wer": "waiter",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Die Schreibmaschine klapperte im Speisewagen bis weit nach Mitternacht. Morel räumte dabei die Tische ab.",
+      "duText": "Die Schreibmaschine klapperte im Speisewagen bis weit nach Mitternacht. Du hast dabei die Tische abgeräumt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_tippen"
+        ]
+      }
+    },
+    {
+      "id": "b_morel_tee",
+      "wer": "waiter",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um zwanzig nach zwölf brachte er Lindqvist den Nachttee in Abteil 7.",
+      "duText": "Um zwanzig nach zwölf hast du Lindqvist den Nachttee in Abteil 7 gebracht.",
+      "beleg": {
+        "zeitleiste": [
+          "z_tee"
+        ]
+      }
+    },
+    {
+      "id": "b_morel_mappe",
+      "wer": "waiter",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Als er gegen halb eins durch den Salonwagen kam, lag Lindqvists Mappe offen am Stammplatz.",
+      "duText": "Als du gegen halb eins durch den Salonwagen kamst, lag Lindqvists Mappe offen am Stammplatz.",
+      "beleg": {
+        "gegenstand": [
+          "aktenmappe_lindqvist"
+        ]
+      }
+    },
+    {
+      "id": "b_morel_ruck_frueh",
+      "wer": "waiter",
+      "pfade": [
+        "watchmaker",
+        "singer",
+        "countess"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck tippte Greta weiter. Das Farbband klemmte, und sie fluchte leise.",
+      "duText": "Beim Ruck hast du Greta weitertippen hören. Das Farbband klemmte, und sie fluchte leise.",
+      "beleg": {
+        "alle": [
+          {
+            "sinn": "hoeren",
+            "quelle": "secretary",
+            "detail": [
+              "sprecher"
+            ],
+            "von": "00:54:30",
+            "bis": "00:55:30"
+          }
+        ]
+      },
+      "entlastet": [
+        "secretary"
+      ],
+      "trenner": "secretary",
+      "grundVerborgen": "Greta ist die Einzige, die freundlich zu ihm ist. Er will sie nicht in Schwierigkeiten bringen."
+    },
+    {
+      "id": "b_morel_ruck_spaet",
+      "wer": "waiter",
+      "pfade": [
+        "secretary"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck war Gretas Platz leer. Die Maschine stand still, und ein Blatt steckte halb in der Walze.",
+      "duText": "Beim Ruck war Gretas Platz leer, hast du gesehen. Die Maschine stand still, und ein Blatt steckte halb in der Walze.",
+      "beleg": {
+        "keine": [
+          {
+            "sinn": "hoeren",
+            "quelle": "secretary",
+            "von": "00:54:30",
+            "bis": "00:55:30"
+          }
+        ]
+      },
+      "belastet": [
+        "secretary"
+      ],
+      "trenner": "secretary",
+      "grundVerborgen": "Greta ist die Einzige, die freundlich zu ihm ist. Er will sie nicht in Schwierigkeiten bringen."
+    },
+    {
+      "id": "b_morel_ofen",
+      "wer": "waiter",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Gegen halb eins kam er durch den Salonwagen. Die Gräfin steckte Briefbögen in den Ofen.",
+      "duText": "Gegen halb eins bist du durch den Salonwagen gekommen. Die Gräfin hat Briefbögen in den Ofen gesteckt.",
+      "beleg": {
+        "zeitleiste": [
+          "z_ofen"
+        ]
+      },
+      "belastet": [
+        "countess"
+      ],
+      "widerlegt": [
+        "luege_countess_briefe"
+      ],
+      "grundVerborgen": "Er verpetzt keine Gäste. Das würde ihn sein Trinkgeld kosten."
+    },
+    {
+      "id": "b_morel_greta",
+      "wer": "waiter",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Am Stammplatz im Salonwagen sah er Greta in Lindqvists Mappe blättern.",
+      "duText": "Am Stammplatz im Salonwagen hast du Greta in Lindqvists Mappe blättern sehen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_mappe"
+        ]
+      },
+      "belastet": [
+        "secretary"
+      ],
+      "widerlegt": [
+        "luege_secretary_tippen"
+      ],
+      "grundVerborgen": "Greta ist die Einzige, die freundlich zu ihm ist. Er will sie nicht in Schwierigkeiten bringen."
+    },
+    {
+      "id": "b_huber_koffer",
+      "wer": "conductor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Brändlis Musterkoffer wiegt mehr als jeder Uhrenkoffer. Huber musste ihn allein in den Zug tragen.",
+      "duText": "Brändlis Musterkoffer wiegt mehr als jeder Uhrenkoffer. Du musstest ihn allein in den Zug tragen.",
+      "beleg": {
+        "gegenstand": [
+          "musterkoffer"
+        ]
+      }
+    },
+    {
+      "id": "b_huber_dunkel",
+      "wer": "conductor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Kurz nach dem Ruck huschte im Dunkeln jemand an seinem Dienstabteil vorbei. Er hob die Laterne, und die Gestalt hielt ihm wortlos eine Fahrkarte hin.",
+      "duText": "Kurz nach dem Ruck huschte im Dunkeln jemand an deinem Dienstabteil vorbei. Du hast die Laterne gehoben, und die Gestalt hielt dir wortlos eine Fahrkarte hin.",
+      "beleg": {
+        "zeitleiste": [
+          "z_licht"
+        ]
+      }
+    },
+    {
+      "id": "b_huber_streit",
+      "wer": "conductor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Gegen Mitternacht hörte er Lindqvist hinter der Tür von Abteil 7 laut schimpfen. Eine zweite Stimme hörte er nicht.",
+      "duText": "Gegen Mitternacht hast du Lindqvist hinter der Tür von Abteil 7 laut schimpfen gehört. Eine zweite Stimme hast du nicht gehört.",
+      "beleg": {
+        "zeitleiste": [
+          "z_streit"
+        ]
+      },
+      "grundVerborgen": "Er fürchtet, als Zeuge in die Sache gezogen zu werden."
+    },
+    {
+      "id": "b_huber_trinkgeld",
+      "wer": "conductor",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "verborgen",
+      "text": "Brändli gibt ihm Trinkgeld, damit er nicht in den Musterkoffer schaut.",
+      "duText": "Brändli gibt dir Trinkgeld, damit du nicht in den Musterkoffer schaust.",
+      "beleg": {
+        "gegenstand": [
+          "musterkoffer"
+        ]
+      },
+      "belastet": [
+        "watchmaker"
+      ],
+      "widerlegt": [
+        "luege_watchmaker_koffer",
+        "luege_conductor_gepaeck"
+      ],
+      "grundVerborgen": "Das Trinkgeld darf die Schlafwagengesellschaft nie erfahren."
+    },
+    {
+      "id": "b_huber_gang",
+      "wer": "conductor",
+      "pfade": [
+        "countess"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Kurz vor dem Ruck stand die Tür von Abteil 8 offen. Im Gang roch es nach Veilchenwasser.",
+      "duText": "Kurz vor dem Ruck hast du die Tür von Abteil 8 offen gesehen. Im Gang roch es nach Veilchenwasser.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "countess",
+          "ort": "vor_abteil_8",
+          "von": "00:54:00",
+          "bis": "00:55:00"
+        }
+      },
+      "belastet": [
+        "countess"
+      ],
+      "trenner": "countess",
+      "grundVerborgen": "Er will einer Gräfin nichts Falsches nachsagen."
+    },
+    {
+      "id": "b_huber_gang_ruhig",
+      "wer": "conductor",
+      "pfade": [
+        "watchmaker",
+        "singer",
+        "secretary"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Kurz vor dem Ruck blieb die Tür von Abteil 8 zu. Im Gang war es still.",
+      "duText": "Kurz vor dem Ruck hast du die Tür von Abteil 8 geschlossen gesehen. Im Gang war es still.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "countess",
+          "ort": "beim_sessel",
+          "von": "00:54:00",
+          "bis": "00:55:00"
+        }
+      },
+      "entlastet": [
+        "countess"
+      ],
+      "trenner": "countess",
+      "grundVerborgen": "Er will einer Gräfin nichts Falsches nachsagen."
+    },
+    {
+      "id": "b_greta_bahnsteig",
+      "wer": "secretary",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "In Wien schrie die Gräfin Lindqvist auf dem Bahnsteig an, auf Russisch. Er lächelte nur.",
+      "duText": "In Wien hast du gesehen, wie die Gräfin auf dem Bahnsteig auf Lindqvist einschrie, auf Russisch. Er lächelte nur.",
+      "beleg": {
+        "zeitleiste": [
+          "z_wien"
+        ]
+      },
+      "belastet": [
+        "countess"
+      ],
+      "widerlegt": [
+        "luege_countess_wien"
+      ]
+    },
+    {
+      "id": "b_greta_tisch",
+      "wer": "secretary",
+      "pfade": [
+        "watchmaker",
+        "singer",
+        "countess"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck saß sie an der Schreibmaschine. Das Farbband klemmte, und sie fluchte leise.",
+      "duText": "Beim Ruck hast du an der Schreibmaschine gesessen. Das Farbband klemmte, und du hast leise geflucht.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "secretary",
+          "ort": "an_der_schreibmaschine",
+          "von": "00:54:30",
+          "bis": "00:55:30"
+        }
+      },
+      "grundVerborgen": "Sonst fragt jemand, was sie vorher getan hat."
+    },
+    {
+      "id": "b_ruby_klopft",
+      "wer": "singer",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um Viertel vor eins klopfte sie bei der Gräfin an. Die Gräfin öffnete mit der Feder in der Hand und gab ihr Kerzen.",
+      "duText": "Um Viertel vor eins hast du bei der Gräfin angeklopft. Die Gräfin öffnete mit der Feder in der Hand und gab dir Kerzen.",
+      "beleg": {
+        "zeitleiste": [
+          "z_klopfen"
+        ]
+      }
+    },
+    {
+      "id": "b_countess_ruby",
+      "wer": "countess",
+      "pfade": "alle",
+      "art": "pfadneutral",
+      "kanal": "pflichtgespraech",
+      "text": "Um Viertel vor eins gab sie Ruby an der Tür von Abteil 8 Kerzen. Danach lief Ruby eilig zum Salonwagen zurück.",
+      "duText": "Um Viertel vor eins hast du Ruby an der Tür von Abteil 8 Kerzen gegeben. Danach lief Ruby eilig zum Salonwagen zurück.",
+      "beleg": {
+        "zeitleiste": [
+          "z_klopfen"
+        ]
+      }
+    },
+    {
+      "id": "b_countess_ruhig",
+      "wer": "countess",
+      "pfade": [
+        "watchmaker",
+        "singer",
+        "secretary"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Beim Ruck saß sie in Abteil 8 und hörte das Glas im Gang klirren. Sie öffnete die Tür nicht.",
+      "duText": "Beim Ruck hast du in Abteil 8 gesessen und das Glas im Gang klirren hören. Du hast die Tür nicht geöffnet.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "countess",
+          "ort": "beim_sessel",
+          "von": "00:54:30",
+          "bis": "00:56:00"
+        }
+      },
+      "grundVerborgen": "Sie will nicht über ihre Briefe sprechen."
+    },
+    {
+      "id": "b_watchmaker_tisch",
+      "wer": "watchmaker",
+      "pfade": [
+        "singer",
+        "secretary"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Im Dunkeln blieb er an seinem Tisch und hielt das Uhrwerk fest, bis das Licht anging.",
+      "duText": "Im Dunkeln bleibst du an deinem Tisch und hältst das Uhrwerk fest, bis das Licht angeht.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "watchmaker",
+          "ort": "am_wagenende",
+          "von": "00:54:30",
+          "bis": "01:05:00"
+        }
+      },
+      "grundVerborgen": "Sonst fragt jemand, was in dem Koffer unter dem Tisch steckt."
+    },
+    {
+      "id": "b_watchmaker_trinkgeld",
+      "wer": "watchmaker",
+      "pfade": [
+        "countess"
+      ],
+      "art": "pfadabhaengig",
+      "kanal": "verborgen",
+      "text": "Kurz vor dem Ruck stand er auf und ging im Dunkeln zum Gepäckwagen. Dort gab er Huber Trinkgeld. Erst nach dem Ruck kam er an seinen Tisch zurück.",
+      "duText": "Kurz vor dem Ruck stehst du auf und gehst im Dunkeln zum Gepäckwagen. Dort gibst du Huber Trinkgeld. Erst nach dem Ruck kommst du an deinen Tisch zurück.",
+      "beleg": {
+        "aufenthalt": {
+          "person": "watchmaker",
+          "ort": "im_gepaeckwagen",
+          "von": "00:54:00",
+          "bis": "00:56:00"
+        }
+      },
+      "eigenwissen": true,
+      "entlastet": [
+        "watchmaker"
+      ],
+      "grundVerborgen": "Das Trinkgeld soll niemand erfahren. Lieber sieht er verdächtig aus."
+    }
+  ]
+}

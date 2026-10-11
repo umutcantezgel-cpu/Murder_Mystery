@@ -1,0 +1,70 @@
+{
+  "generiert": "akte_klassik",
+  "settingId": "nachtexpress",
+  "schauplatz": "Der Nachtexpress Wien–Paris steckt im Winter 1931 im Schneetreiben hoch in den Alpen fest. Gespielt wird im Zug, vom Postwagen bis zur Plattform.",
+  "anlass": "Ein Todesfall. Der Stahlmagnat Viktor Lindqvist liegt tot in Abteil 7, und niemand kann den Zug verlassen.",
+  "datum": "eine Dezembernacht im Jahr 1931; draußen Schneetreiben und klirrende Kälte",
+  "essen": "Im Speisewagen gibt es ein kaltes Frühstück: Brot, Käse, Butter und Marmelade. Die Bordküche ist längst ausgekühlt.",
+  "getraenke": [
+    "schwarzer Tee",
+    "Kaffee",
+    "heiße Schokolade",
+    "Wasser",
+    "Zitronenlimonade"
+  ],
+  "empfang": "Im Schneetreiben gibt es weder Funk noch Telegraf. Die Schneefräse aus dem Tal kommt erst am Morgen.",
+  "atmosphaere": [
+    "Der Wind rüttelt an den Waggons.",
+    "Das Licht flackert, und die Heizung röchelt nur noch.",
+    "Zwischen den Wagen schlägt Metall auf Metall, langsam wie ein Herzschlag."
+  ],
+  "brandschutz": "Im Salonwagen heizt ein Kanonenofen. Er ist die einzige Wärmequelle, und Huber achtet auf jede Flamme.",
+  "lacher": [
+    {
+      "id": "lacher_klavier",
+      "zeit": "22:10",
+      "wer": "singer",
+      "ort": "neben_dem_klavier",
+      "was": "Ruby spielt so wild, dass ihr Glockenhut vom Kopf fliegt und in der Teekanne der Ärztin landet.",
+      "traegt": "Falsche Fährte: Ruby ist laut, wild und völlig unbekümmert."
+    },
+    {
+      "id": "lacher_laterne",
+      "zeit": "21:30",
+      "wer": "conductor",
+      "ort": "im_gepaeckwagen",
+      "was": "Huber sucht überall seine Taschenuhr. Dabei hat er sie sich selbst hinters Ohr gesteckt.",
+      "traegt": "Stimmung: Huber ist ein Pedant, dem sonst nichts entgeht."
+    },
+    {
+      "id": "lacher_reisebuch",
+      "zeit": "22:30",
+      "wer": "student",
+      "ort": "beim_sitzplatz",
+      "was": "Lukas verwechselt im Halbdunkel sein Reisebuch mit einem Brötchen. Er beißt herzhaft hinein.",
+      "traegt": "Stimmung: Lukas ist hungrig und ein bisschen zerstreut."
+    }
+  ],
+  "ton": "Winter-Krimi im Zug: Schneetreiben, flackerndes Licht und höfliche Verdächtige. Spannung statt Gewalt. Lindqvist ist tot, aber die Tat bleibt Schatten und Geräusch.",
+  "darstellung": {
+    "palette": {
+      "background": "#070b16",
+      "floor": "#5a2e22",
+      "floorAlt": "#47231a",
+      "wall": "#1b2440",
+      "wallTop": "#2e3d66",
+      "trim": "#a8873a",
+      "accent": "#c8a24a",
+      "light": "#ffd98a",
+      "danger": "#b3263a",
+      "text": "#f1ede4",
+      "fog": "#121a2e"
+    },
+    "wetter": "snow",
+    "blitze": false,
+    "tagLicht": 0.78,
+    "nachtLicht": 0.06,
+    "ratsraum": "dining",
+    "vorlage": "content/scenarios/nachtexpress.json"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "settingId": "nachtexpress",
+  "bereich": "taeter",
+  "hinweis": "Täterfassung singer.",
+  "eintraege": [
+    {
+      "rolle": "singer",
+      "tarnung": "Du sagst: Du hast die ganze Nacht im Salonwagen Klavier gespielt, bei Kerzenschein. Nur um Viertel vor eins warst du kurz bei der Gräfin, um Kerzen zu holen. Beim Ruck hast du im Dunkeln weitergespielt. Bleib dabei locker und fröhlich.",
+      "tatwissen": [
+        {
+          "text": "Lindqvist wusste, wer du wirklich bist. In Salzburg schickte er dir einen Brief: Wenn du nicht zahlst, erfährt Chicago deinen Namen."
+        },
+        {
+          "text": "Beim Ruck gehen alle Lichter aus. Du lässt das Klavier stehen und nimmst den schweren Messingleuchter mit. Im Dunkeln gehst du zu Abteil 7."
+        },
+        {
+          "text": "In Abteil 7 ist nur ein dumpfer Schlag zu hören. Dann ist es still."
+        },
+        {
+          "text": "Mit den Handschuhen öffnest du das Fenster einen Spalt. Dabei bleibt ein Glassplitter im Futter stecken."
+        },
+        {
+          "ref": "spur:spur_handschuh_perle"
+        },
+        {
+          "text": "Lindqvists Obligationen steckst du ein. Den Leuchter stellst du zurück. Der Drohbrief liegt weiter in deinem Pass."
+        },
+        {
+          "ref": "spur:spur_pass_brief"
+        },
+        {
+          "text": "Das Bündel versteckst du im Klavier, hinter den Hämmern."
+        },
+        {
+          "ref": "spur:spur_klavier_obligationen"
+        }
+      ],
+      "verbirgt": [
+        {
+          "ref": "luege:luege_singer_klavier"
+        },
+        {
+          "ref": "luege:luege_singer_name"
+        },
+        {
+          "ref": "nebendelikt:nd_pass"
+        },
+        {
+          "text": "Kommt es heraus, verlierst du deine Freiheit und deinen Namen."
+        }
+      ],
+      "ziel": "Unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen."
+    }
+  ]
+}
