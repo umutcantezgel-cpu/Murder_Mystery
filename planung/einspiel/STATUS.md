@@ -7,12 +7,12 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 
 | Nr. | Inhalt | Stand |
 |---|---|---|
-| M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | CI-Umbau gemergt (6d77119), Supabase aktiv, Kanon-Wächter geschrieben; Tor (Haiku) offen |
-| M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | Kern fertig (540b6f4); Hülle in Arbeit (Sonnet S1) |
-| M2 | Eigene Geräte online (mordakte_netz, Relais) | Netzpaket in Arbeit (Sonnet S2); Server spielt alle Akten (724da08) |
-| M3 | Karten und Erkundung | Kartenkern + Abstecher in Engine und Raum (e138289ff.); Inhalte in Arbeit (Sonnet S4) |
-| M4 | Akte Gewölbe | Konverter/Overlay in Arbeit (Sonnet S3) |
-| M5 | Klassik-Akten Ravensmoor, Nachtexpress, Blue Palm | offen |
+| M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | CI läuft auf dem Branch (Toolchain grün); Gate-Fehler behoben, erste APK steht aus |
+| M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | gemergt (540b6f4, 9fa68e9, 4d638d7); Tests/E2E grün bis auf behobene Befunde |
+| M2 | Eigene Geräte online (mordakte_netz, Relais) | Netzpaket gemergt, live gegen Supabase mit 4/8 Geräten grün; App-Oberfläche in Arbeit |
+| M3 | Karten und Erkundung | Kern, Inhalte (60 Karten) und App-Oberfläche gemergt (ae61d6d); Karten der Klassik-Akten in Arbeit |
+| M4 | Akte Gewölbe | Konverter/Overlay in Arbeit |
+| M5 | Klassik-Akten Ravensmoor, Nachtexpress, Blue Palm | alle drei gemergt und in akten.json (Proben 0 Befunde) |
 | M6 | Fertigstellen, Doku, finale Release | offen |
 
 ## Entscheidungen (Fortsetzung von planung/abschluss/STATUS.md)
@@ -27,3 +27,4 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 
 - 2026-10-11 09:50 UTC: Flutter 3.47.6 geladen, `flutter pub get` und `dart pub get` in allen Paketen grün. Supabase-Projekt seit 06:54 UTC ACTIVE_HEALTHY.
 - 2026-10-11 ~10:40 UTC: Kern aktenneutral (Simulation optional, Prüfprofil, Raum für jede Akte, werkzeug nur aus Karten), Kartenkern mit Tischvorrat/Belohnung/Abstecher, Server lädt alle Akten. Analyse sauber; Testtor durch Haiku steht aus.
+- 2026-10-11 ~11:15 UTC: Kampagne mit Schlosskeller, Ravensmoor, Nachtexpress, Blue Palm; Karten-UI (Sammlung, Deck, Hand, Erkundung, Belohnung); Netzpaket mit Ende-zu-Ende-Verschlüsselung live geprüft.
