@@ -7,11 +7,11 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 
 | Nr. | Inhalt | Stand |
 |---|---|---|
-| M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | in Arbeit |
-| M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | offen |
-| M2 | Eigene Geräte online (mordakte_netz, Relais) | offen |
-| M3 | Karten und Erkundung | offen |
-| M4 | Akte Gewölbe | offen |
+| M0 | Werkbank, CI entsperren, Supabase-Server, Wächter | CI-Umbau gemergt (6d77119), Supabase aktiv, Kanon-Wächter geschrieben; Tor (Haiku) offen |
+| M1 | Kern verallgemeinern ‖ Design-System + Ein-Spiel-Hülle | Kern fertig (540b6f4); Hülle in Arbeit (Sonnet S1) |
+| M2 | Eigene Geräte online (mordakte_netz, Relais) | Netzpaket in Arbeit (Sonnet S2); Server spielt alle Akten (724da08) |
+| M3 | Karten und Erkundung | Kartenkern + Abstecher in Engine und Raum (e138289ff.); Inhalte in Arbeit (Sonnet S4) |
+| M4 | Akte Gewölbe | Konverter/Overlay in Arbeit (Sonnet S3) |
 | M5 | Klassik-Akten Ravensmoor, Nachtexpress, Blue Palm | offen |
 | M6 | Fertigstellen, Doku, finale Release | offen |
 
@@ -26,3 +26,4 @@ Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann de
 ## Prüfjournal
 
 - 2026-10-11 09:50 UTC: Flutter 3.47.6 geladen, `flutter pub get` und `dart pub get` in allen Paketen grün. Supabase-Projekt seit 06:54 UTC ACTIVE_HEALTHY.
+- 2026-10-11 ~10:40 UTC: Kern aktenneutral (Simulation optional, Prüfprofil, Raum für jede Akte, werkzeug nur aus Karten), Kartenkern mit Tischvorrat/Belohnung/Abstecher, Server lädt alle Akten. Analyse sauber; Testtor durch Haiku steht aus.
