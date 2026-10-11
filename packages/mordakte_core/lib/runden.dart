@@ -6,3 +6,4 @@ export 'src/runden/zugschicht.dart';
 export 'src/runden/partie.dart';
 export 'src/runden/bots.dart';
 export 'src/runden/schlosskeller_raum.dart';
+export 'src/runden/abend_raum.dart';

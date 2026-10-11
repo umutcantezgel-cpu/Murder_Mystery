@@ -118,6 +118,18 @@ class Textsammlung {
   }
 
   Map<String, Object?> get index => dateien['texte/index.json']!;
+
+  /// Übernimmt fehlende Oberflächentexte (`ui.*`) aus [basis], der
+  /// unveränderten Schlosskeller-Sammlung. Neue Akten liefern nur, was bei
+  /// ihnen anders heißt (z. B. ohne Geburtstagskind).
+  void ergaenzeUi(Textsammlung basis) {
+    for (final e in basis.bausteine.entries) {
+      if (e.key.startsWith('ui.') && !bausteine.containsKey(e.key)) {
+        bausteine[e.key] = e.value;
+        herkunft[e.key] = 'basis:${basis.herkunft[e.key]}';
+      }
+    }
+  }
 }
 
 /// Ein aufgelöster Dossierpunkt.
@@ -385,10 +397,11 @@ List<String> textLuecken(Kanon kanon, Textsammlung t) {
       if (n != 3) f.add('Rolle $r, Runde $runde: $n statt 3 Pflichtgespräche');
       final w = t.wahlen['gw_${r}_$runde'];
       if (w == null) f.add('Wahltext gw_${r}_$runde fehlt');
-      if (kanon.kernverdaechtige.contains(r) && w?.sabotage == null) f.add('Sabotage-Text gw_${r}_$runde fehlt');
+      // Sabotieren kann nur, wer in einem Pfad Täter ist (Akten mit fester Lösung: eine Rolle).
+      if (kanon.kernverdaechtige.contains(r) && kanon.pfade.contains(r) && w?.sabotage == null) f.add('Sabotage-Text gw_${r}_$runde fehlt');
     }
   }
-  for (final p in kanon.kernverdaechtige) {
+  for (final p in kanon.pfade) {
     if (!t.taeter.containsKey(p)) f.add('Täterfassung $p fehlt');
   }
   for (final g in ['m', 'w']) {

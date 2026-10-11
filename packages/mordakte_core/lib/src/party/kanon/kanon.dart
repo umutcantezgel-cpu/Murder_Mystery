@@ -25,6 +25,18 @@ class Kanon {
     'tatmatrix/basis.json',
   ];
 
+  /// Dateien jeder Akte; die Tatmatrix kommt nur bei Akten mit Simulation dazu.
+  static final grunddateien = [
+    for (final d in dateien)
+      if (!d.startsWith('tatmatrix/')) d,
+  ];
+
+  /// Tatmatrix-Dateien einer Akte mit physischer Simulation (`fall.simulation`
+  /// fehlt oder ist true): Basis plus eine Datei je Pfad.
+  static List<String> simulationsdateien(Map<String, Object?> fall) => fall['simulation'] == false
+      ? const []
+      : ['tatmatrix/basis.json', for (final p in fall['pfade'] as List) 'tatmatrix/$p.json'];
+
   final Map<String, Map<String, Object?>> json;
   final RaumGraph graph;
   final WahrnehmungsRegeln regeln;
@@ -33,10 +45,10 @@ class Kanon {
   Kanon._(this.json, this.graph, this.regeln, this.pfade);
 
   factory Kanon.lade(KanonLeser lies) {
-    final j = <String, Map<String, Object?>>{for (final d in dateien) d: lies(d)};
+    final j = <String, Map<String, Object?>>{for (final d in grunddateien) d: lies(d)};
     final pfade = [for (final p in (j['fall.json']!['pfade'] as List)) p as String];
-    for (final p in pfade) {
-      j['tatmatrix/$p.json'] = lies('tatmatrix/$p.json');
+    for (final d in simulationsdateien(j['fall.json']!)) {
+      j[d] = lies(d);
     }
     return Kanon._(
       j,
@@ -47,6 +59,23 @@ class Kanon {
   }
 
   Map<String, Object?> get fall => json['fall.json']!;
+
+  /// Kennung der Akte (`settingId`).
+  String get settingId => fall['settingId'] as String;
+
+  /// Hat die Akte eine physische Tatnacht-Simulation (Tatmatrix, Rückblende)?
+  /// Nur der Schlosskeller hat sie; neue Akten beweisen ihre Lösbarkeit über
+  /// die Entscheidungsebene (Simulator, Verweise, Textprüfer).
+  bool get hatSimulation => fall['simulation'] != false;
+
+  /// Prüfprofil des Simulators. Fehlende Felder bedeuten Schlosskeller-Werte.
+  Map<String, Object?> get pruefprofil => ((fall['pruefprofil'] as Map?) ?? const {}).cast<String, Object?>();
+
+  /// Zugparameter der Runden (Nachtminuten, Kosten); fehlend: Schlosskeller.
+  Map<String, Object?> get zugJson => ((fall['zug'] as Map?) ?? const {}).cast<String, Object?>();
+
+  /// Akte mit fester Lösung (ein einziger Pfad, z. B. das Gewölbe).
+  bool get festeLoesung => pfade.length == 1;
   Map<String, Object?> get figurenJson => json['figuren.json']!;
   Map<String, Object?> get gegenstaendeJson => json['gegenstaende.json']!;
   Map<String, Object?> get beobachtungenJson => json['beobachtungen.json']!;
@@ -86,7 +115,9 @@ class Kanon {
   List<Map<String, Object?>> get zeitleiste =>
       [for (final z in zeitleisteJson['eintraege'] as List) (z as Map).cast<String, Object?>()];
 
-  Tatmatrix tatmatrix(String pfad) => Tatmatrix.zusammen(
+  Tatmatrix tatmatrix(String pfad) => !hatSimulation
+      ? throw StateError('Akte $settingId hat keine Tatmatrix')
+      : Tatmatrix.zusammen(
         TatmatrixDatei.fromJson(json['tatmatrix/basis.json']!),
         TatmatrixDatei.fromJson(json['tatmatrix/$pfad.json']!),
       );

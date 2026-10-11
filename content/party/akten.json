@@ -1,0 +1,13 @@
+{
+  "hinweis": "Kampagne „Mordakte“: alle Akten eines einzigen Spiels in Spielreihenfolge. Jede Akte ist ein Bündel im Party-Kanonformat unter content/party/<id>/. Eine Akte steht erst hier, wenn ihre Lösbarkeitsprüfung grün ist.",
+  "akten": [
+    {
+      "id": "schlosskeller",
+      "titel": "Spuk im Schlosskeller",
+      "untertitel": "Das Buffet hinter dicken Mauern",
+      "ton": "spuk",
+      "freiAb": 0,
+      "vorlage": "content/scenarios/ravensmoor.json"
+    }
+  ]
+}

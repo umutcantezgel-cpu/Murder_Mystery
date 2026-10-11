@@ -38,6 +38,7 @@ flutter:
   assets:
     - content/scenarios/
     - krimidinner/spuk-im-gewoelbe/10_kanon/
+    - content/party/akten.json
     - content/party/schlosskeller/
     - content/party/schlosskeller/tatmatrix/
     - content/party/schlosskeller/texte/

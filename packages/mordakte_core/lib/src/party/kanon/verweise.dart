@@ -166,7 +166,8 @@ List<String> kanonVerweise(Kanon k) {
   // Beobachtungen
   eindeutig('Beobachtungen', [for (final b in k.beobachtungen) b['id'] as String]);
   final ereignisIds = <String>{};
-  for (final p in ['basis', ...k.pfade]) {
+  final matrixPfade = [for (final p in ['basis', ...k.pfade]) if (k.json.containsKey('tatmatrix/$p.json')) p];
+  for (final p in matrixPfade) {
     for (final e in (k.json['tatmatrix/$p.json']!['ereignisse'] as List? ?? const [])) {
       ereignisIds.add((e as Map)['id'] as String);
     }
@@ -210,8 +211,8 @@ List<String> kanonVerweise(Kanon k) {
     }
   }
 
-  // Tatmatrix
-  for (final p in ['basis', ...k.pfade]) {
+  // Tatmatrix (nur Akten mit Simulation)
+  for (final p in matrixPfade) {
     final j = k.json['tatmatrix/$p.json']!;
     if (p != 'basis' && j['pfad'] != p) f.add('Tatmatrix $p: Feld pfad ist ${j['pfad']}');
     for (final e in (j['plaene'] as Map).entries) {

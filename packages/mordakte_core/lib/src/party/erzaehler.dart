@@ -162,8 +162,8 @@ class Erzaehler {
       for (var n = 0; n <= 3; n++) 'aufloesung.gruppe.$n',
       for (final r in kanon.figuren.map((f) => f['id'] as String))
         if (kern.contains(r)) ...[
-          'aufloesung.$r.taeter',
-          'aufloesung.$r.unschuldig',
+          if (kanon.pfade.contains(r)) 'aufloesung.$r.taeter',
+          if (kanon.pfade.any((p) => p != r)) 'aufloesung.$r.unschuldig',
           for (final p in kanon.pfade)
             if (kanon.eigenesVerhalten(r, p)) 'aufloesung.$r.unschuldig.$p',
         ] else

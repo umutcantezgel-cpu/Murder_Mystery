@@ -21,8 +21,10 @@ Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage
   j['title'] = {'de': fall['titel']};
   j['tagline'] = {'de': fall['untertitel']};
   j['synopsis'] = {'de': setting['schauplatz']};
+  // Darstellung je Akte (`setting.darstellung`); fehlend: Schlosskeller-Gewölbe.
+  final darstellung = ((setting['darstellung'] as Map?) ?? const {}).cast<String, Object?>();
   j['theme'] = {
-    'palette': {
+    'palette': (darstellung['palette'] as Map?)?.cast<String, Object?>() ?? {
       'background': '#070608',
       'floor': '#4f4842',
       'floorAlt': '#454039',
@@ -35,10 +37,10 @@ Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage
       'text': '#f1ede4',
       'fog': '#15120f',
     },
-    'weather': 'none',
-    'lightning': false,
-    'dayAmbient': 0.62,
-    'nightAmbient': 0.06,
+    'weather': darstellung['wetter'] ?? 'none',
+    'lightning': darstellung['blitze'] ?? false,
+    'dayAmbient': darstellung['tagLicht'] ?? 0.62,
+    'nightAmbient': darstellung['nachtLicht'] ?? 0.06,
   };
   j['map'] = {
     'rows': karte.rows,
@@ -50,7 +52,7 @@ Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage
     'spawn': [
       [spawnOrt.x.floor(), spawnOrt.y.floor()],
     ],
-    'councilRoom': 'thekensaal',
+    'councilRoom': darstellung['ratsraum'] ?? 'thekensaal',
   };
   j['hotspots'] = PartyKarte(kanon).hotspotJson();
   j['items'] = <Object>[];
@@ -107,13 +109,15 @@ List<Map<String, Object?>> partyProps(Kanon kanon) {
     };
   }
 
-  final kerzenstaender = (kanon.gegenstaende.firstWhere((x) => x['id'] == 'kerzenstaender')['lage'] as Map)['ort'] as String;
-  final liegt = g.orte[kerzenstaender]!;
+  // Den umgestoßenen Kerzenständer gibt es nur im Schlosskeller.
+  final ks = kanon.gegenstaende.where((x) => x['id'] == 'kerzenstaender').firstOrNull;
+  final ksOrt = ks == null ? null : (ks['lage'] as Map?)?['ort'] as String?;
+  final liegt = ksOrt == null ? null : g.orte[ksOrt];
   final eimer = g.einrichtung['ascheneimer'];
   return [
     for (final p in g.karte.props) {'type': typ(p), 'x': p.x, 'y': p.y},
     if (eimer != null) {'type': 'party_ascheneimer', 'x': eimer.x, 'y': eimer.y},
-    {'type': 'party_kerzenstaender', 'x': liegt.x.floor(), 'y': liegt.y.floor()},
+    if (liegt != null) {'type': 'party_kerzenstaender', 'x': liegt.x.floor(), 'y': liegt.y.floor()},
   ];
 }
 

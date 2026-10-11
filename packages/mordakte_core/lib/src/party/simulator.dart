@@ -87,7 +87,7 @@ class Simulator {
         final v = verlauf(p, f);
         b.punkte[v.punkte] = (b.punkte[v.punkte] ?? 0) + 1;
         b.restGroesse[v.rest.length] = (b.restGroesse[v.rest.length] ?? 0) + 1;
-        if (v.rest.length == 1 && v.punkte < 9) b.kuerzerAlsBest++;
+        if (v.rest.length == 1 && v.punkte < maxPunkte) b.kuerzerAlsBest++;
         for (final a in kanon.kernverdaechtige) {
           b.spiele++;
           final e = enden.ende(v.punkte, a == p);
@@ -101,22 +101,49 @@ class Simulator {
   }
 
   /// Alle Verstöße gegen F-06, F-07 und F-08 (Struktur). Leer heißt grün.
+  /// Prüfprofil der Akte (Kanon `fall.pruefprofil`); fehlende Felder bedeuten
+  /// die Werte des Schlosskellers.
+  ///
+  /// - `restNachRunde2`: genaue Restgröße nach Runde 2 bei bestem Spiel (2);
+  ///   `null` prüft nur die Mindestgröße.
+  /// - `lageNachRunde1`: Faktarten mit genauer Personenzahl nach Runde 1 bei
+  ///   bestem Spiel (`{spaetankunft: 1, alibi: 2}`); `null` schaltet ab.
+  /// - `nebendeliktJeKern`: bestes Spiel deckt jedes Nebendelikt auf (true).
+  /// - `alleinNur`: Faktarten, ohne die niemand allein übrig bleibt
+  ///   (`[schluesselbeweis, fundort]`).
+  /// - `mindestRestVorRunde3`: Restgröße nach Runde 1 und 2 mindestens (2).
+  Map<String, Object?> get profil => kanon.pruefprofil;
+
+  int? get _restNachRunde2 => profil.containsKey('restNachRunde2') ? profil['restNachRunde2'] as int? : 2;
+  Map<String, int>? get _lageNachRunde1 => profil.containsKey('lageNachRunde1')
+      ? (profil['lageNachRunde1'] as Map?)?.map((k, v) => MapEntry(k as String, v as int))
+      : const {'spaetankunft': 1, 'alibi': 2};
+  bool get _nebendeliktJeKern => profil['nebendeliktJeKern'] as bool? ?? true;
+  List<String> get _alleinNur => [for (final t in (profil['alleinNur'] as List?) ?? const ['schluesselbeweis', 'fundort']) t as String];
+  int get _mindestRest => profil['mindestRestVorRunde3'] as int? ?? 2;
+
+  /// Höchste Punktzahl: eine je Entscheidung.
+  int get maxPunkte => _e.length;
+
   List<String> pruefe() {
     final f = <String>[];
     final kern = kanon.kernverdaechtige;
-    final ndTypen = {for (final p in kern) p: false};
+    final ndTypen = {for (final p in kern) p: !_nebendeliktJeKern};
 
     for (final p in kanon.pfade) {
       // Bestes Spiel.
       final best = ermittlung.bestesSpiel(p);
       final vb = verlauf(p, best);
-      if (vb.punkte != 9) f.add('Pfad $p: bestes Spiel hat ${vb.punkte} Punkte');
-      if (vb.restNachRunde[1].length != 2) f.add('Pfad $p: nach Runde 2 mit 6 richtigen ${vb.restNachRunde[1]} statt genau 2');
+      if (vb.punkte != maxPunkte) f.add('Pfad $p: bestes Spiel hat ${vb.punkte} Punkte');
+      final r2 = _restNachRunde2;
+      if (r2 != null && vb.restNachRunde[1].length != r2) f.add('Pfad $p: nach Runde 2 mit 6 richtigen ${vb.restNachRunde[1]} statt genau $r2');
       if (vb.rest.length != 1 || !vb.rest.contains(p)) f.add('Pfad $p: bestes Spiel endet mit ${vb.rest}');
       final st = ermittlung.stand(vb.fakten);
-      for (final q in kern) {
-        if (!st[q]!.contains('nebendelikt')) f.add('Pfad $p: bestes Spiel deckt das Nebendelikt von $q nicht auf');
-        ndTypen[q] = true;
+      if (_nebendeliktJeKern) {
+        for (final q in kern) {
+          if (!st[q]!.contains('nebendelikt')) f.add('Pfad $p: bestes Spiel deckt das Nebendelikt von $q nicht auf');
+          ndTypen[q] = true;
+        }
       }
 
       // Jede richtige Option zeigt etwas, das es gibt, und erweitert den Stand;
@@ -142,11 +169,13 @@ class Simulator {
         vorher.addAll(neu);
         // Nach Runde 1 sieht die Lage in jedem Pfad gleich aus: genau eine
         // Spätankunft und zwei Alibis, also stets zwei Personen ohne Alibi (E-039).
-        if (i == _e.lastIndexWhere((x) => x.runde == 1)) {
+        final lage = _lageNachRunde1;
+        if (lage != null && i == _e.lastIndexWhere((x) => x.runde == 1)) {
           final st = ermittlung.stand(vorher);
-          final spaet = [for (final q in kern) if (st[q]!.contains('spaetankunft')) q];
-          final alibi = [for (final q in kern) if (st[q]!.contains('alibi')) q];
-          if (spaet.length != 1 || alibi.length != 2) f.add('Pfad $p: nach Runde 1 bei bestem Spiel Spätankunft $spaet und Alibi $alibi statt 1 und 2');
+          for (final l in lage.entries) {
+            final wer = [for (final q in kern) if (st[q]!.contains(l.key)) q];
+            if (wer.length != l.value) f.add('Pfad $p: nach Runde 1 bei bestem Spiel ${l.key} bei $wer statt ${l.value} Personen');
+          }
         }
       }
 
@@ -166,19 +195,19 @@ class Simulator {
       for (final folge in folgen()) {
         final v = verlauf(p, folge);
         if (v.punkte == 0 && v.rest.length < 2) f.add('Pfad $p: 0 richtige, aber Restmenge ${v.rest}');
-        if (v.richtigJeRunde[0] == 3 && v.richtigJeRunde[1] == 3 && v.restNachRunde[1].length != 2) {
+        if (r2 != null && v.richtigJeRunde[0] == 3 && v.richtigJeRunde[1] == 3 && v.restNachRunde[1].length != r2) {
           f.add('Pfad $p: Runde 1 und 2 richtig, aber nach Runde 2 ${v.restNachRunde[1]}');
         }
         if (!v.rest.contains(p)) f.add('Pfad $p: Täterperson scheidet aus (${folge.join(',')})');
         // Vor Runde 3 bleiben immer mindestens zwei (Master 7.6), und allein bleibt
         // die Täterperson nur über R-UEBERFUEHRT: Schlüsselbeweis und Fundort (E-039).
         for (var r = 0; r < 2; r++) {
-          if (v.restNachRunde[r].length < 2) f.add('Pfad $p: nach Runde ${r + 1} nur ${v.restNachRunde[r]} (${folge.join(',')})');
+          if (v.restNachRunde[r].length < _mindestRest) f.add('Pfad $p: nach Runde ${r + 1} nur ${v.restNachRunde[r]} (${folge.join(',')})');
         }
         if (v.rest.length == 1) {
           final typen = {for (final id in v.fakten) if (ermittlung.fakten[id]!.personen.contains(p)) ermittlung.fakten[id]!.typ};
-          if (!typen.contains('schluesselbeweis') || !typen.contains('fundort')) {
-            f.add('Pfad $p: allein übrig ohne Schlüsselbeweis und Fundort (${folge.join(',')})');
+          if (!_alleinNur.every(typen.contains)) {
+            f.add('Pfad $p: allein übrig ohne ${_alleinNur.join(' und ')} (${folge.join(',')})');
           }
         }
         // W-1 scharf: Hinweise sind keine Fakten und ändern die Restmenge nie.
@@ -279,7 +308,9 @@ class Simulator {
   /// erreichbar; Sabotage zählt netto −1 (G-1).
   List<String> pruefeSchwellen() {
     final f = <String>[];
-    for (var n = 4; n <= 20; n++) {
+    final b = kanon.besetzungJson;
+    final min = b['minRollen'] as int? ?? 4, max = b['maxRollen'] as int? ?? 20;
+    for (var n = min; n <= max; n++) {
       final erreicht = <Qualitaet>{};
       for (var k = 0; k <= n - 1; k++) {
         for (final sab in [false, true]) {

@@ -8,6 +8,7 @@ import '../party/fall_code.dart';
 import '../party/kanon/kanon.dart';
 import '../party/texte.dart';
 import '../util/rng.dart';
+import 'abend_raum.dart';
 import 'bots.dart';
 import 'partie.dart';
 import 'wuerfel.dart';
@@ -44,18 +45,35 @@ class _Teilnehmer {
 /// Dadurch können auch wenige verbundene Geräte einen kanongültigen Abend mit
 /// mindestens vier Rollen spielen. Kapazität: 20 Gäste plus Geburtstagskind.
 /// Die Methodennamen entsprechen RaumSpiel; der Transportadapter bleibt separat.
-class SchlosskellerRaum {
+///
+/// Der Raum spielt jede Akte (Schlosskeller, Gewölbe, Klassiker): Rollenzahl
+/// und Kennung kommen aus dem Kanon der Akte. Mehr Geräte als Rollen werden
+/// Assistenz-Plätze ohne eigene Rolle (sie sehen die öffentliche Ansicht).
+class SchlosskellerRaum implements AbendRaum {
   SchlosskellerRaum({
     required this.raumCode,
     required Kanon kanon,
     required Texte texte,
     required FallCode fallCode,
     required String salz,
+    this.akte = 'schlosskeller',
+    this.festerGastgeber = false,
   }) : _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
     if (salz.isEmpty) throw const PartyRaumFehler('invalid_setup');
   }
 
+  /// Kennung der Akte (Ordner unter `content/party/`).
+  final String akte;
+
+  /// Gastgebergerät als Autorität (Relais-Modus): Die Leitung wandert nie zu
+  /// einem anderen Gerät, sonst bekäme ein Gast Salz und Täterpfad.
+  final bool festerGastgeber;
+
+  /// Zusätzliche Plätze ohne Rolle über der größten Besetzung.
+  static const assistenzPlaetze = 4;
+
+  @override
   final String raumCode;
   final Kanon _kanon;
   final Texte _texte;
@@ -76,12 +94,21 @@ class SchlosskellerRaum {
   bool _wurfWerkzeug = false;
   bool _wurfMarke = false;
 
+  int get _minRollen => _kanon.besetzungJson['minRollen'] as int;
+  int get _maxRollen => _kanon.besetzungJson['maxRollen'] as int;
+
+  @override
   int get version => _version;
-  int get maxSpieler => 21;
+  @override
+  int get maxSpieler => _maxRollen + 1 + assistenzPlaetze;
+  @override
   bool get vorStart => _partie == null;
+  @override
   bool get beendet => _partie?.phase == PartyPhase.ende;
+  @override
   List<String> get spielerIds => List.unmodifiable(_teilnehmer.keys);
 
+  @override
   bool beitreten(String id, String name) {
     if (id.isEmpty || name.trim().isEmpty || name.runes.length > 40) return false;
     final alt = _teilnehmer[id];
@@ -100,6 +127,7 @@ class SchlosskellerRaum {
     return true;
   }
 
+  @override
   void verlassen(String id) {
     final t = _teilnehmer[id];
     if (t == null) return;
@@ -109,11 +137,12 @@ class SchlosskellerRaum {
       t.online = false;
       t.aufgegeben = true;
     }
-    if (_host == id) _host = _ersteOnlineId(ohne: id);
+    if (_host == id && !festerGastgeber) _host = _ersteOnlineId(ohne: id);
     _botStimmen();
     _version++;
   }
 
+  @override
   void verbunden(String id, bool ja) {
     final t = _teilnehmer[id];
     if (t == null || t.online == ja) return;
@@ -146,6 +175,7 @@ class SchlosskellerRaum {
 
   /// Feste Nachrichten, keine beliebigen Methoden oder Rollenkennungen.
   /// Eine optionale Revision verwirft veraltete Aktionen vor jeder Änderung.
+  @override
   void nachricht(String id, Map<String, Object?> inhalt) {
     final t = _person(id);
     final typ = inhalt['typ'];
@@ -157,7 +187,7 @@ class SchlosskellerRaum {
       'wahl' => {'option', 'gruendlich'},
       'aktionFertig' => {'aktion'},
       'wurf' => <String>{},
-      'wuerfelHilfe' => {'werkzeug', 'marke'},
+      'wuerfelHilfe' => {'marke'},
       'tischruf' => {'ruf'},
       'stimme' => {'kooperativ'},
       'anklage' => {'person'},
@@ -189,10 +219,10 @@ class SchlosskellerRaum {
         } else if (typ == 'wurf' || typ == 'wuerfelHilfe') {
           if (id != _wuerfelPate) throw const PartyRaumFehler('not_dice_player');
           if (typ == 'wuerfelHilfe') {
-            final werkzeug = _bool(inhalt, 'werkzeug', sonst: false);
+            // Werkzeug kommt nur aus einer Quelle in der Welt (K-07), nie aus
+            // einem freien Nachrichtenfeld.
             final marke = _bool(inhalt, 'marke', sonst: false);
-            p.vorschau(werkzeug: werkzeug, marke: marke); // Phase zuerst prüfen.
-            _wurfWerkzeug = werkzeug;
+            p.vorschau(werkzeug: _wurfWerkzeug, marke: marke); // Phase zuerst prüfen.
             _wurfMarke = marke;
           } else {
             p.wuerfeln(werkzeug: _wurfWerkzeug, marke: _wurfMarke);
@@ -245,7 +275,9 @@ class SchlosskellerRaum {
     if (_teilnehmer.values.any((t) => !t.online || !t.bereit)) throw const PartyRaumFehler('not_ready');
     final rollen = inhalt['rollen'];
     final detektiv = inhalt['detektiv'] ?? 'm';
-    if (rollen is! int || rollen < 4 || rollen > 20 || rollen < _teilnehmer.length - 1 || (detektiv != 'm' && detektiv != 'w')) {
+    final gaeste = _teilnehmer.length - 1;
+    if (rollen is! int || rollen < _minRollen || rollen > _maxRollen || rollen < (gaeste < _maxRollen ? gaeste : _maxRollen) ||
+        (detektiv != 'm' && detektiv != 'w')) {
       throw const PartyRaumFehler('invalid');
     }
     final p = RundenPartie(_kanon, quelle: SalzWuerfel(_salz));
@@ -254,7 +286,8 @@ class SchlosskellerRaum {
     Rng(Rng.hashString('rollen:$_salz')).shuffle(zuteilung);
     var index = 0;
     for (final t in _teilnehmer.values) {
-      if (t.id != _host) t.rolle = zuteilung[index++];
+      // Überzählige Geräte bleiben Assistenz ohne Rolle.
+      if (t.id != _host && index < zuteilung.length) t.rolle = zuteilung[index++];
     }
     _detektiv = _host;
     _partie = p;
@@ -321,6 +354,7 @@ class SchlosskellerRaum {
 
   /// Nur erlaubte öffentliche Daten und das Dossier des Empfängers. Insbesondere
   /// keine generische toJson()-Abbildung von Spiel, Kanon, Dossier oder Optionen.
+  @override
   Map<String, Object?> zustandFuer(String id) {
     final ich = _person(id);
     final p = _partie;
@@ -331,7 +365,7 @@ class SchlosskellerRaum {
     final dossier = p == null || rolle == null ? null : _texte.dossier(rolle, p.spiel.pfad, p.spiel.einstellungen.rollen);
     return {
       't': 'abend', 'protokoll': 1, 'version': _version,
-      'spiel': 'schlosskeller', 'raum': raumCode, 'host': _host,
+      'spiel': akte, 'akte': akte, 'raum': raumCode, 'host': _host,
       'phase': p?.phase.name ?? 'lobby', 'runde': p?.runde ?? 0,
       'wuerfelZusage': wuerfelZusage,
       'spieler': [for (final t in _teilnehmer.values) {
@@ -346,6 +380,8 @@ class SchlosskellerRaum {
         'notizbuch': {for (final f in _funde.entries) f.key: [...f.value]},
         'wuerfe': [for (final w in p.wuerfe) w.toJson()],
         'wuerfelPate': _wuerfelPate,
+        // Gewählte Optionen sind am Tisch öffentlich (Karte, Notizbuch).
+        'gewaehlt': Map.of(p.spiel.gewaehlt),
         if (e != null) 'entscheidung': {
           'id': e.id, 'frage': e.frage, 'suche': istSuche(e),
           'optionen': [for (final o in _optionen(e)) {'id': o.id, 'text': o.text, 'ziel': Map.of(o.ziel)}],

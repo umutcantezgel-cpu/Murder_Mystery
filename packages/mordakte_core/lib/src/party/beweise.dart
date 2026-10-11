@@ -16,8 +16,9 @@ class SpurEntstehung {
 /// Pfad; in fremden Pfaden gibt es eine harmlose Fassung.
 class Beweise {
   final Kanon kanon;
-  final Plausibilitaet pruefer;
-  Beweise(this.kanon, this.pruefer);
+  /// Physischer Prüfer; nur bei Akten mit Simulation (Schlosskeller) gesetzt.
+  final Plausibilitaet? pruefer;
+  Beweise(this.kanon, [this.pruefer]);
 
   late final SpurRechner _spuren = SpurRechner(kanon);
 
@@ -70,8 +71,10 @@ class Beweise {
           }
         }
       }
-      final g = greifer(p);
-      if (g.length != 1 || g.first != p) f.add('Pfad $p: Kerzenständer gegriffen von $g, erwartet $p');
+      if (kanon.hatSimulation) {
+        final g = greifer(p);
+        if (g.length != 1 || g.first != p) f.add('Pfad $p: Kerzenständer gegriffen von $g, erwartet $p');
+      }
     }
     return f;
   }
