@@ -41,6 +41,7 @@ flutter:
     - content/party/akten.json
     - content/karten/
     - content/party/zusatz/schlosskeller/
+    - content/party/zusatz/gewoelbe/
     - content/party/zusatz/ravensmoor/
     - content/party/zusatz/nachtexpress/
     - content/party/zusatz/blue_palm/
