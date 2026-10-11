@@ -36,10 +36,13 @@ Details und Entscheidungen: [STATUS.md](STATUS.md), Plan: [PLAN.md](PLAN.md).
 | iPhone, iPad | [`mordakte-ios-unsigned.ipa`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-ios-unsigned.ipa) (mit AltStore/Sideloadly signieren) |
 | Web | [`mordakte-web.zip`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-web.zip), außerdem Vercel aus `main` |
 
-Die Release `mordakte-49.1` wurde heruntergeladen und geprüft:
+Die Release [`mordakte-56.1`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/tag/mordakte-56.1)
+(Stand `949d2a4`, identisch mit `main`) wurde heruntergeladen und geprüft:
 - Die Prüfsummen stimmen.
-- Die APK hat die Internet-Berechtigung, die Relais-Adresse ist eingebaut.
+- Die APK hat die Internet-Berechtigung, die Relais-Adresse ist eingebaut, und sie enthält keine
+  Schlosskeller-Würfeltexte mehr.
 - Die IPA enthält `Payload/Runner.app`.
+- Das Web-Zip enthält `index.html` und `main.dart.js`.
 
 ## Wie geprüft wurde
 
@@ -49,7 +52,7 @@ Die Tests hat ausschließlich Haiku geschrieben und ausgeführt.
   - 9.216 Abende kanongleich;
   - Fairness-Invarianten mit und ohne Karten;
   - Prüfung aller fünf Akten mit 0 Befunden.
-- **App:** 259 Widget-Tests.
+- **App:** 260 Widget-Tests.
 - **Netzpaket:** 48 Tests. Jeder Online-Fix ist durch Mutationsprüfung abgedeckt.
 - **Relais-Matrix lokal** mit 4 und 8 Geräten: Mithörer ohne Klartext, Einspielungen abgewehrt.
   Die Matrix lief außerdem live gegen Supabase.
@@ -57,7 +60,7 @@ Die Tests hat ausschließlich Haiku geschrieben und ausgeführt.
   - Start bei 320 und 390 px;
   - kompletter Solo-Abend;
   - Online mit Gastgeber und zwei Gästen: kein Gast sieht fremde Dossiers;
-  - „Abend abbrechen“.
+  - „Abend abbrechen“ in drei Läufen grün: ohne zusätzlichen Verlaufseintrag, Browser-Zurück fragt nach.
 - **Abschluss-Review:** fünf Prüfer, jeder Befund adversarial gegengeprüft. 19 echte Befunde wurden
   behoben, gegengelesen und getestet. Darunter:
   - Abbrechen und Android-Zurück;
