@@ -105,7 +105,7 @@ fi
 
 if [ "$STUFE" = "e2e" ]; then
   schritt "Automatisierte Durchläufe"
-  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs && npm test)
+  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs && node abbrechen.mjs && npm test)
 fi
 
 schritt "Secret-Scan"

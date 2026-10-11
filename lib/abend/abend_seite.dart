@@ -74,8 +74,15 @@ class _AbendSeiteState extends State<AbendSeite> {
     context.go(Routes.abendBelohnung);
   }
 
-  /// Zurück zur Detektei; [abendVerlassen] fragt vorher nach (Router, `onExit`).
-  void _abbrechen() => context.go(Routes.start);
+  /// Zurück zur Detektei. Leiste und Zurück-Taste fragen selbst vorher nach:
+  /// „Weiterspielen“ löst so gar keine Navigation aus (im Web sonst ein
+  /// zusätzlicher Verlaufseintrag), und [abendVerlassen] fragt nach dem Ja nicht
+  /// ein zweites Mal.
+  Future<void> _abbrechen() async {
+    if (!await _abbruchFragen(context) || !mounted) return;
+    _halter.bestaetigeAbbruch();
+    context.go(Routes.start);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +130,7 @@ class _AbendSeiteState extends State<AbendSeite> {
 /// des Gastgebers (eigene Ausgänge) und die Seite ohne Abend.
 FutureOr<bool> abendVerlassen(BuildContext context, AbendHalter halter) {
   final s = halter.sitzung;
-  if (s == null || s is GastgeberSitzung || halter.abschluss != null) return true;
+  if (s == null || s is GastgeberSitzung || halter.abschluss != null || halter.abbruchBestaetigt) return true;
   return _abbruchFragen(context);
 }
 

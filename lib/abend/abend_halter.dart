@@ -26,10 +26,16 @@ class AbendAbschluss {
 class AbendHalter extends ChangeNotifier {
   PartySitzung? _sitzung;
   AbendAbschluss? _abschluss;
+  bool _abbruchBestaetigt = false;
 
   /// Der laufende Abend, falls einer läuft.
   PartySitzung? get sitzung => _sitzung;
   bool get laeuft => _sitzung != null;
+
+  /// Der Abbruch des laufenden Abends ist schon bestätigt; das Verlassen der
+  /// Abendseite fragt dann nicht noch einmal.
+  bool get abbruchBestaetigt => _abbruchBestaetigt;
+  void bestaetigeAbbruch() => _abbruchBestaetigt = true;
 
   /// Der zuletzt beendete Abend, dessen Belohnung noch nicht abgeholt ist.
   AbendAbschluss? get abschluss => _abschluss;
@@ -52,6 +58,7 @@ class AbendHalter extends ChangeNotifier {
     final alt = _sitzung;
     _sitzung = s;
     _abschluss = null;
+    _abbruchBestaetigt = false;
     if (alt != null && !identical(alt, s)) alt.dispose();
     notifyListeners();
   }
@@ -62,6 +69,7 @@ class AbendHalter extends ChangeNotifier {
   void freigeben(PartySitzung s) {
     if (!identical(_sitzung, s)) return;
     _sitzung = null;
+    _abbruchBestaetigt = false;
     s.dispose();
   }
 }
