@@ -1,0 +1,78 @@
+{
+  "hinweis": "Abstecher der Akte „Spuk im Schlosskeller“: freiwillige Erkundungsorte. Reine Stimmung und Nebenfunde, auf allen Pfaden gleich; kein Satz berührt Beweise, Alibis, Geheimnisse oder Verdächtige. Ein Erfolg oder Teilerfolg bringt die Sammelkarte dieses Fundorts (content/karten/schlosskeller.json), Pech nur ein Missgeschick mit Glück im Unglück.",
+  "akte": "schlosskeller",
+  "abstecher": [
+    {
+      "id": "partyhut_kisten",
+      "ort": "bei_den_kisten",
+      "name": "Zwischen den Kisten",
+      "erfolg": "Zwischen zwei Kisten klemmt ein goldener Partyhut mit Gummiband. Er sitzt schief, aber er sitzt.",
+      "teilerfolg": "Du findest nur die Pappspitze eines Partyhuts. Kurz trägst du sie auf der Nase.",
+      "pech": "Eine leere Kiste poltert dir auf den Fuß. Es klingt laut, tut aber kaum weh.",
+      "abRunde": 1
+    },
+    {
+      "id": "kekse_ostbank",
+      "ort": "ost_bank",
+      "name": "Hinter dem Sitzkissen",
+      "erfolg": "Hinter dem Sitzkissen steckt eine Keksdose mit Tannenbaum. Auf dem Deckel klebt ein Zettel: „Nur für Notfälle.“",
+      "teilerfolg": "Du findest Krümel und einen Dosendeckel mit Tannenbaum. Der Inhalt ist wohl schon weg.",
+      "pech": "Du drückst aufs Kissen, und darin quietscht eine Gummiente. Dein Herz klopft kurz schneller, dann musst du lachen.",
+      "abRunde": 1
+    },
+    {
+      "id": "zapfen_suedbank",
+      "ort": "west_bank_sued",
+      "name": "Unter der Südbank",
+      "erfolg": "Unter der Wandbank liegt ein Tannenzapfen aus dem Schlosspark. Er riecht noch nach Wald.",
+      "teilerfolg": "Du findest ein paar Tannennadeln unter der Bank. Der Zapfen dazu bleibt verschwunden.",
+      "pech": "Du bückst dich und verhedderst dich im Schnürsenkel. Niemand sieht es, und der Schuh ist schnell neu gebunden.",
+      "abRunde": 1
+    },
+    {
+      "id": "rohr_wendeltreppe",
+      "ort": "wendeltreppe_fuss",
+      "name": "Am Fuß der Wendeltreppe",
+      "erfolg": "Das unheimliche Gluckern kommt von einem alten Wasserrohr hinter der Treppe. Du klopfst dreimal, und es ist still.",
+      "teilerfolg": "Aus der Wand gluckert es leise. Es klingt, als würde ein Gespenst Suppe löffeln.",
+      "pech": "Du trittst auf die unterste Stufe, und sie knarzt wie in einem Gruselfilm. Du erschrickst vor dir selbst, mehr passiert nicht.",
+      "abRunde": 2
+    },
+    {
+      "id": "gummiball_saalmitte",
+      "ort": "saalmitte",
+      "name": "Zwischen den Buffettischen",
+      "erfolg": "Zwischen den Buffettischen rollt dir ein kleiner Gummifußball vor die Füße. Mit Filzstift steht darauf: „Glücksbringer.“",
+      "teilerfolg": "Etwas Rundes rollt knapp an dir vorbei und verschwindet unter einem Tisch. Du hörst nur noch ein leises Quietschen.",
+      "pech": "Du stolperst und tanzt kurz einen unfreiwilligen Walzer. Niemand lacht laut, und du bleibst auf den Beinen.",
+      "abRunde": 2
+    },
+    {
+      "id": "servierwagen_vorrat",
+      "ort": "vorrat_mitte",
+      "name": "Hinter den Regalen",
+      "erfolg": "Hinter den Regalen steht ein kleiner Servierwagen mit quietschendem Rad. Ein Zettel klebt darauf: „Bitte nicht schieben.“",
+      "teilerfolg": "Hinter den Regalen quietscht es leise. Du siehst nur ein Rad, der Rest ist hinter den Dosen versteckt.",
+      "pech": "Ein Marmeladenglas kippt vom Regal, aber du fängst es auf. Dein Herz rutscht kurz in die Hose, dann geht es weiter.",
+      "abRunde": 2
+    },
+    {
+      "id": "serviette_tafel",
+      "ort": "ost_tafel_west",
+      "name": "Unter den Papierservietten",
+      "erfolg": "Auf einer Papierserviette hat jemand einen Strichmann mit Detektivhut gemalt. Darunter steht: „Der mit den Seifenblasen ist der Beste.“",
+      "teilerfolg": "Du findest eine zerknüllte Serviette mit einem halben Strichmann. Der Hut ist schon fertig, der Rest fehlt.",
+      "pech": "Du ziehst an der Tischdecke, und ein Stapel Pappteller rutscht herunter. Nichts geht kaputt, und alle Teller waren zum Glück noch sauber.",
+      "abRunde": 3
+    },
+    {
+      "id": "stempelkarte_windfang",
+      "ort": "im_windfang",
+      "name": "Auf der Fußmatte",
+      "erfolg": "Auf der Fußmatte liegt eine Stempelkarte vom Bäcker mit neun von zehn Stempeln. Da fehlt nur noch ein Brötchen.",
+      "teilerfolg": "Auf der Fußmatte klebt ein Aufkleber mit einem lachenden Brötchen. Er hält erstaunlich gut.",
+      "pech": "Die Fußmatte rutscht unter dir weg, und du setzt dich unsanft hin. Es leidet nur dein Stolz.",
+      "abRunde": 3
+    }
+  ]
+}
