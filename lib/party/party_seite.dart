@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import '../app/router.dart';
 import '../game/mordakte_game.dart';
 import '../l10n/lookup.dart';
+import '../stil/stil.dart';
 import 'bildschirme/anklage.dart';
 import 'bildschirme/aufloesung.dart';
 import 'bildschirme/einrichtung.dart';
@@ -78,28 +79,50 @@ class _PartySeiteState extends State<PartySeite> {
           builder: (context, snap) {
             if (snap.hasError) {
               debugPrint('PARTY fehler ${snap.error}\n${snap.stackTrace}');
-              return const _Meldung(fehler: true);
+              return const PartyMeldung(fehler: true);
             }
             final s = snap.data;
-            if (s == null) return const _Meldung(fehler: false);
-            return ListenableBuilder(
-              listenable: s,
-              builder: (context, _) => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 350),
-                child: KeyedSubtree(
-                  key: ValueKey('${s.phase.name}-${s.runde}'),
-                  child: bildschirm(s, menu: PartyKnopf(
-                    text: L.of(context).party_menu,
-                    icon: Icons.apps_rounded,
-                    haupt: false,
-                    onPressed: () => context.go(Routes.hub),
-                  )),
-                ),
+            if (s == null) return const PartyMeldung(fehler: false);
+            return PartyAblauf(
+              sitzung: s,
+              menu: PartyKnopf(
+                text: L.of(context).party_menu,
+                icon: Icons.apps_rounded,
+                haupt: false,
+                onPressed: () => context.go(Routes.start),
               ),
             );
           },
         ),
       );
+}
+
+/// Zeigt je Abschnitt des Abends den passenden Bildschirm und blendet beim
+/// Wechsel über. Gemeinsam für den alten Einstieg `/party` ([PartySeite]) und
+/// den Abend im Spiel (`AbendSeite`). [menu] erscheint nur auf dem Titel.
+class PartyAblauf extends StatelessWidget {
+  const PartyAblauf({super.key, required this.sitzung, this.menu});
+
+  final PartySitzung sitzung;
+  final Widget? menu;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = sitzung;
+    return AkteThema(
+      akte: s.daten.fall,
+      child: ListenableBuilder(
+        listenable: s,
+        builder: (context, _) => AnimatedSwitcher(
+          duration: MBewegung.ruhig(context) ? Duration.zero : const Duration(milliseconds: 350),
+          child: KeyedSubtree(
+            key: ValueKey('${s.phase.name}-${s.runde}'),
+            child: bildschirm(s, menu: menu),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// Bildschirm je Abschnitt des Abends.
@@ -118,8 +141,8 @@ Widget bildschirm(PartySitzung s, {Widget? menu}) => switch (s.phase) {
     };
 
 /// Lade- und Fehleranzeige ohne Textsammlung (die ist dann noch nicht da).
-class _Meldung extends StatelessWidget {
-  const _Meldung({required this.fehler});
+class PartyMeldung extends StatelessWidget {
+  const PartyMeldung({super.key, required this.fehler});
   final bool fehler;
 
   @override

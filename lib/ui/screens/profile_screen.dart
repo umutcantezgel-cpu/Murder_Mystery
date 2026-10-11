@@ -9,10 +9,10 @@ import '../../app/theme.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../meta/progression.dart';
+import '../../stil/stil.dart';
 import '../icons.dart';
 import '../widgets/buttons.dart';
 import '../widgets/meters.dart';
-import '../widgets/noir_backdrop.dart';
 import '../widgets/panels.dart';
 import '../widgets/paper.dart';
 import '../widgets/portrait.dart';
@@ -29,13 +29,12 @@ class ProfileScreen extends StatelessWidget {
     final next = nextRankXp(meta.xp);
     final lo = meta.loadout;
     return Scaffold(
-      body: NoirBackdrop(
-        rain: false,
+      body: MHintergrund(
         child: SafeArea(
           child: Column(
             children: [
               ContentWidth(
-                child: NoirTopBar(title: l.profile_title, onBack: () => context.go(Routes.hub)),
+                child: NoirTopBar(title: l.profile_title, onBack: () => context.go(Routes.start)),
               ),
               Expanded(
                 child: ListView(
@@ -205,7 +204,7 @@ class _Stats extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                   child: Column(
                     children: [
-                      Icon(icon, size: 18, color: Noir.brass),
+                      Icon(icon, size: 18, color: MFarben.von(context).akzent),
                       const SizedBox(height: 4),
                       Text('$value', style: Noir.title(24)),
                       Text(
@@ -252,7 +251,7 @@ class _ClassRow extends StatelessWidget {
             Container(
               width: 38,
               height: 38,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: locked ? Noir.lineSoft : Noir.brass),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: locked ? Noir.lineSoft : MFarben.von(context).akzent),
               child: Icon(
                 locked ? Icons.lock_rounded : GameIcons.cls(cls.id),
                 size: 20,
@@ -270,7 +269,7 @@ class _ClassRow extends StatelessWidget {
                       if (locked)
                         Text(
                           l.common_unlock_at(l.rankName(cls.unlockRank)),
-                          style: Noir.label(11, color: Noir.brass, spacing: 0.3),
+                          style: Noir.label(11, color: MFarben.von(context).akzent, spacing: 0.3),
                         ),
                     ],
                   ),
@@ -311,7 +310,7 @@ class _Unlockable extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 Opacity(opacity: locked ? 0.3 : 1, child: child),
-                if (locked) const Icon(Icons.lock_rounded, color: Noir.brass, size: 18),
+                if (locked) Icon(Icons.lock_rounded, color: MFarben.von(context).akzent, size: 18),
               ],
             ),
           ),

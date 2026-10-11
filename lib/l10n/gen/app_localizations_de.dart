@@ -1873,4 +1873,184 @@ class LDe extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get detektei_neuer_abend => 'Neuer Abend';
+
+  @override
+  String get detektei_beitreten => 'Beitreten';
+
+  @override
+  String get detektei_beitreten_hinweis => 'Beitreten mit Raumcode kommt bald.';
+
+  @override
+  String get detektei_bald => 'bald';
+
+  @override
+  String get detektei_kampagne => 'Kampagne';
+
+  @override
+  String get detektei_kampagne_hinweis => 'Die Akten der Reihe nach';
+
+  @override
+  String detektei_personen(int min, int max) {
+    return '$min bis $max Personen';
+  }
+
+  @override
+  String get detektei_ton_spuk => 'Spuk';
+
+  @override
+  String get detektei_sammlung => 'Sammlung';
+
+  @override
+  String get detektei_sammlung_hinweis => 'Die Karten der Figuren';
+
+  @override
+  String get detektei_profil => 'Profil';
+
+  @override
+  String get detektei_profil_hinweis => 'Rang, Name und Ausrüstung';
+
+  @override
+  String get detektei_akten_fehler => 'Die Akten konnten nicht geladen werden.';
+
+  @override
+  String get detektei_nochmal => 'Nochmal versuchen';
+
+  @override
+  String get detektei_akte_spielen => 'Diese Akte spielen';
+
+  @override
+  String get detektei_akte_druckmappe => 'Druckmappe';
+
+  @override
+  String get detektei_akte_unbekannt => 'Diese Akte gibt es nicht.';
+
+  @override
+  String get detektei_druck_titel => 'Druckmappe';
+
+  @override
+  String get detektei_druck_hinweis =>
+      'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.';
+
+  @override
+  String get detektei_druck_vorbereiten => 'Druckmappe vorbereiten';
+
+  @override
+  String abend_schritt(int n, int gesamt) {
+    return 'Schritt $n von $gesamt';
+  }
+
+  @override
+  String get abend_schritt_akte => 'Akte';
+
+  @override
+  String get abend_schritt_spielweise => 'Spielweise';
+
+  @override
+  String get abend_schritt_einstellungen => 'Einstellungen';
+
+  @override
+  String get abend_schritt_start => 'Start';
+
+  @override
+  String get abend_akte_titel => 'Welche Akte spielt ihr?';
+
+  @override
+  String get abend_akte_hinweis =>
+      'Jede Akte ist ein eigener Fall mit eigenen Figuren.';
+
+  @override
+  String get abend_spielweise_titel => 'Wie spielt ihr?';
+
+  @override
+  String get abend_spielweise_hinweis =>
+      'Wähle zuerst die Spielweise. Sie bestimmt, wie der Abend abläuft.';
+
+  @override
+  String get abend_spielweise_solo => 'Solo mit Bots';
+
+  @override
+  String get abend_spielweise_solo_text =>
+      'Du ermittelst allein. Bots übernehmen die Gäste.';
+
+  @override
+  String get abend_spielweise_reihum => 'Ein Gerät reihum';
+
+  @override
+  String get abend_spielweise_reihum_text =>
+      'Ein Gerät geht am Tisch von Hand zu Hand. Jede Person liest ihre Rolle verdeckt.';
+
+  @override
+  String get abend_spielweise_eigene => 'Jeder am eigenen Gerät';
+
+  @override
+  String get abend_spielweise_eigene_text =>
+      'Jede Person spielt mit ihrem eigenen Handy.';
+
+  @override
+  String get abend_spielweise_eigene_bald =>
+      'Kommt bald: Online-Abende mit Raumcode.';
+
+  @override
+  String get abend_einstellungen_titel => 'Einstellungen für den Abend';
+
+  @override
+  String get abend_laedt => 'Die Akte wird vorbereitet …';
+
+  @override
+  String get abend_fehler => 'Die Akte konnte nicht geladen werden.';
+
+  @override
+  String get abend_nochmal => 'Nochmal versuchen';
+
+  @override
+  String get abend_weiter => 'Weiter';
+
+  @override
+  String get abend_start_titel => 'Bereit?';
+
+  @override
+  String get abend_start_hinweis =>
+      'Mit dem Start beginnt die Rollenverteilung.';
+
+  @override
+  String get abend_start_akte => 'Akte';
+
+  @override
+  String get abend_start_spielweise => 'Spielweise';
+
+  @override
+  String get abend_start_personen => 'Personen';
+
+  @override
+  String get abend_start_dauer => 'Rundendauer';
+
+  @override
+  String get abend_start => 'Abend beginnen';
+
+  @override
+  String get karten_sammlung_titel => 'Sammlung';
+
+  @override
+  String get karten_sammlung_text =>
+      'Hier sammelst du bald die Karten der Figuren, denen du in den Akten begegnest.';
+
+  @override
+  String get karten_seltenheit_zinn => 'Zinn';
+
+  @override
+  String get karten_seltenheit_messing => 'Messing';
+
+  @override
+  String get karten_seltenheit_blutgold => 'Blutgold';
+
+  @override
+  String get karten_rueckseite => 'Kartenrückseite';
+
+  @override
+  String profil_chip_semantik(String name, String rang, int xp) {
+    return 'Profil von $name, $rang, $xp Erfahrungspunkte';
+  }
 }

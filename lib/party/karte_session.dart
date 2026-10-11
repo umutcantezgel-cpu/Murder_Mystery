@@ -371,7 +371,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
     if (rueckblendeModus && b != null) {
       final strom = b.helleRaeume.contains('thekensaal');
       return SzenenLicht(
-        dunkel: strom ? 0.72 : 0.94,
+        dunkel: strom ? 0.66 : 0.85,
         taschenlampe: false,
         helleRaeume: const {},
         punkte: [
@@ -382,7 +382,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, GefuehrteSze
       );
     }
     return SzenenLicht(
-      dunkel: 0.77,
+      dunkel: 0.58,
       punkte: [
         ...kerzen,
         for (final id in sitzung.karte.ermittlungsLichter)

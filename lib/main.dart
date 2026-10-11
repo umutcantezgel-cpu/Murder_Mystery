@@ -42,12 +42,17 @@ Map<String, String> get _query {
   }
 }
 
+/// Einstieg ohne Parameter ist die Detektei (`/`), der Start des einen Spiels.
+///
 /// Entwickler-Einstieg (Web): `?fake=<phase>` öffnet eine Fake-Session in dieser Phase,
-/// `?screen=hub|cases|collection|profile|online` springt direkt zu einem Bildschirm.
+/// `?screen=detektei|neu|akte|sammlung|profile` springt zu einem Bildschirm des Spiels
+/// (`neu` und `akte` mit `&akte=<id>`), `?screen=hub|cases|collection|online` zu den
+/// klassischen Bildschirmen (nicht im Menü).
 /// Zusätzlich: `open=notebook|board|dialog|signals|map`, `life=downed|ghost`,
 /// `name=<Spielername>`, `xp=<Zahl>`. `?autoplay=<scenarioId>` startet ein echtes Solo-Spiel,
 /// in dem die KI den eigenen Detektiv steuert. `?party=<fall>` öffnet den Partymodus.
 /// `?screen=gewoelbe` öffnet den Begleiter „Spuk im Gewölbe“ (optional `&teil=…&n=…`).
+/// Beide gehören nicht mehr zur Navigation des Spiels.
 String _devEntry(AppState app) {
   final q = _query;
   final name = q['name'];
@@ -71,7 +76,11 @@ String _devEntry(AppState app) {
     return phase == Phase.lobby ? Routes.lobby : Routes.game;
   }
   return switch (q['screen']) {
-    'hub' => Routes.hub,
+    'detektei' => Routes.detektei,
+    'neu' => q['akte'] == null ? Routes.abendNeu : Routes.abendNeuMit(q['akte']!),
+    'akte' => Routes.akteVon(q['akte'] ?? 'schlosskeller'),
+    'sammlung' => Routes.sammlung,
+    'hub' => Routes.klassik,
     'cases' => Routes.cases,
     'collection' => Routes.collection,
     'profile' => Routes.profile,

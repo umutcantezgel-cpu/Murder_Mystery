@@ -41,7 +41,7 @@ class AufloesungBildschirm extends StatelessWidget {
       marke: s.ui('ui.aufloesung.ende_marke'),
       titel: ende.name,
       // Der Abend ist zu Ende: zurück ins Hauptmenü, von dort beginnt ein neuer Abend.
-      aktionen: [PartyKnopf(text: s.ui('ui.aufloesung.hauptmenue'), haupt: false, icon: Icons.home_rounded, onPressed: () => context.go(Routes.hub))],
+      aktionen: [PartyKnopf(text: s.ui('ui.aufloesung.hauptmenue'), haupt: false, icon: Icons.home_rounded, onPressed: () => context.go(Routes.start))],
       child: PartyTafel(
         akzent: ende.richtig ? Keller.notlicht : Keller.gefahr,
         padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),

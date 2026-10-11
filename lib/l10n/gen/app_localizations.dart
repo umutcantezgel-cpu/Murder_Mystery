@@ -3278,6 +3278,336 @@ abstract class L {
   /// In de, this message translates to:
   /// **'{days, plural, =0{Keine Serie} =1{Tag in Folge} other{Tage in Folge}}'**
   String hub_streak_label(int days);
+
+  /// No description provided for @detektei_neuer_abend.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Abend'**
+  String get detektei_neuer_abend;
+
+  /// No description provided for @detektei_beitreten.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten'**
+  String get detektei_beitreten;
+
+  /// No description provided for @detektei_beitreten_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten mit Raumcode kommt bald.'**
+  String get detektei_beitreten_hinweis;
+
+  /// No description provided for @detektei_bald.
+  ///
+  /// In de, this message translates to:
+  /// **'bald'**
+  String get detektei_bald;
+
+  /// No description provided for @detektei_kampagne.
+  ///
+  /// In de, this message translates to:
+  /// **'Kampagne'**
+  String get detektei_kampagne;
+
+  /// No description provided for @detektei_kampagne_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Akten der Reihe nach'**
+  String get detektei_kampagne_hinweis;
+
+  /// No description provided for @detektei_personen.
+  ///
+  /// In de, this message translates to:
+  /// **'{min} bis {max} Personen'**
+  String detektei_personen(int min, int max);
+
+  /// No description provided for @detektei_ton_spuk.
+  ///
+  /// In de, this message translates to:
+  /// **'Spuk'**
+  String get detektei_ton_spuk;
+
+  /// No description provided for @detektei_sammlung.
+  ///
+  /// In de, this message translates to:
+  /// **'Sammlung'**
+  String get detektei_sammlung;
+
+  /// No description provided for @detektei_sammlung_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Karten der Figuren'**
+  String get detektei_sammlung_hinweis;
+
+  /// No description provided for @detektei_profil.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil'**
+  String get detektei_profil;
+
+  /// No description provided for @detektei_profil_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Rang, Name und Ausrüstung'**
+  String get detektei_profil_hinweis;
+
+  /// No description provided for @detektei_akten_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Akten konnten nicht geladen werden.'**
+  String get detektei_akten_fehler;
+
+  /// No description provided for @detektei_nochmal.
+  ///
+  /// In de, this message translates to:
+  /// **'Nochmal versuchen'**
+  String get detektei_nochmal;
+
+  /// No description provided for @detektei_akte_spielen.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Akte spielen'**
+  String get detektei_akte_spielen;
+
+  /// No description provided for @detektei_akte_druckmappe.
+  ///
+  /// In de, this message translates to:
+  /// **'Druckmappe'**
+  String get detektei_akte_druckmappe;
+
+  /// No description provided for @detektei_akte_unbekannt.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Akte gibt es nicht.'**
+  String get detektei_akte_unbekannt;
+
+  /// No description provided for @detektei_druck_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Druckmappe'**
+  String get detektei_druck_titel;
+
+  /// No description provided for @detektei_druck_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.'**
+  String get detektei_druck_hinweis;
+
+  /// No description provided for @detektei_druck_vorbereiten.
+  ///
+  /// In de, this message translates to:
+  /// **'Druckmappe vorbereiten'**
+  String get detektei_druck_vorbereiten;
+
+  /// No description provided for @abend_schritt.
+  ///
+  /// In de, this message translates to:
+  /// **'Schritt {n} von {gesamt}'**
+  String abend_schritt(int n, int gesamt);
+
+  /// No description provided for @abend_schritt_akte.
+  ///
+  /// In de, this message translates to:
+  /// **'Akte'**
+  String get abend_schritt_akte;
+
+  /// No description provided for @abend_schritt_spielweise.
+  ///
+  /// In de, this message translates to:
+  /// **'Spielweise'**
+  String get abend_schritt_spielweise;
+
+  /// No description provided for @abend_schritt_einstellungen.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellungen'**
+  String get abend_schritt_einstellungen;
+
+  /// No description provided for @abend_schritt_start.
+  ///
+  /// In de, this message translates to:
+  /// **'Start'**
+  String get abend_schritt_start;
+
+  /// No description provided for @abend_akte_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Welche Akte spielt ihr?'**
+  String get abend_akte_titel;
+
+  /// No description provided for @abend_akte_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Akte ist ein eigener Fall mit eigenen Figuren.'**
+  String get abend_akte_hinweis;
+
+  /// No description provided for @abend_spielweise_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie spielt ihr?'**
+  String get abend_spielweise_titel;
+
+  /// No description provided for @abend_spielweise_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle zuerst die Spielweise. Sie bestimmt, wie der Abend abläuft.'**
+  String get abend_spielweise_hinweis;
+
+  /// No description provided for @abend_spielweise_solo.
+  ///
+  /// In de, this message translates to:
+  /// **'Solo mit Bots'**
+  String get abend_spielweise_solo;
+
+  /// No description provided for @abend_spielweise_solo_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst allein. Bots übernehmen die Gäste.'**
+  String get abend_spielweise_solo_text;
+
+  /// No description provided for @abend_spielweise_reihum.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Gerät reihum'**
+  String get abend_spielweise_reihum;
+
+  /// No description provided for @abend_spielweise_reihum_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Gerät geht am Tisch von Hand zu Hand. Jede Person liest ihre Rolle verdeckt.'**
+  String get abend_spielweise_reihum_text;
+
+  /// No description provided for @abend_spielweise_eigene.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder am eigenen Gerät'**
+  String get abend_spielweise_eigene;
+
+  /// No description provided for @abend_spielweise_eigene_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Person spielt mit ihrem eigenen Handy.'**
+  String get abend_spielweise_eigene_text;
+
+  /// No description provided for @abend_spielweise_eigene_bald.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommt bald: Online-Abende mit Raumcode.'**
+  String get abend_spielweise_eigene_bald;
+
+  /// No description provided for @abend_einstellungen_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellungen für den Abend'**
+  String get abend_einstellungen_titel;
+
+  /// No description provided for @abend_laedt.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Akte wird vorbereitet …'**
+  String get abend_laedt;
+
+  /// No description provided for @abend_fehler.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Akte konnte nicht geladen werden.'**
+  String get abend_fehler;
+
+  /// No description provided for @abend_nochmal.
+  ///
+  /// In de, this message translates to:
+  /// **'Nochmal versuchen'**
+  String get abend_nochmal;
+
+  /// No description provided for @abend_weiter.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get abend_weiter;
+
+  /// No description provided for @abend_start_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Bereit?'**
+  String get abend_start_titel;
+
+  /// No description provided for @abend_start_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit dem Start beginnt die Rollenverteilung.'**
+  String get abend_start_hinweis;
+
+  /// No description provided for @abend_start_akte.
+  ///
+  /// In de, this message translates to:
+  /// **'Akte'**
+  String get abend_start_akte;
+
+  /// No description provided for @abend_start_spielweise.
+  ///
+  /// In de, this message translates to:
+  /// **'Spielweise'**
+  String get abend_start_spielweise;
+
+  /// No description provided for @abend_start_personen.
+  ///
+  /// In de, this message translates to:
+  /// **'Personen'**
+  String get abend_start_personen;
+
+  /// No description provided for @abend_start_dauer.
+  ///
+  /// In de, this message translates to:
+  /// **'Rundendauer'**
+  String get abend_start_dauer;
+
+  /// No description provided for @abend_start.
+  ///
+  /// In de, this message translates to:
+  /// **'Abend beginnen'**
+  String get abend_start;
+
+  /// No description provided for @karten_sammlung_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Sammlung'**
+  String get karten_sammlung_titel;
+
+  /// No description provided for @karten_sammlung_text.
+  ///
+  /// In de, this message translates to:
+  /// **'Hier sammelst du bald die Karten der Figuren, denen du in den Akten begegnest.'**
+  String get karten_sammlung_text;
+
+  /// No description provided for @karten_seltenheit_zinn.
+  ///
+  /// In de, this message translates to:
+  /// **'Zinn'**
+  String get karten_seltenheit_zinn;
+
+  /// No description provided for @karten_seltenheit_messing.
+  ///
+  /// In de, this message translates to:
+  /// **'Messing'**
+  String get karten_seltenheit_messing;
+
+  /// No description provided for @karten_seltenheit_blutgold.
+  ///
+  /// In de, this message translates to:
+  /// **'Blutgold'**
+  String get karten_seltenheit_blutgold;
+
+  /// No description provided for @karten_rueckseite.
+  ///
+  /// In de, this message translates to:
+  /// **'Kartenrückseite'**
+  String get karten_rueckseite;
+
+  /// No description provided for @profil_chip_semantik.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil von {name}, {rang}, {xp} Erfahrungspunkte'**
+  String profil_chip_semantik(String name, String rang, int xp);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
