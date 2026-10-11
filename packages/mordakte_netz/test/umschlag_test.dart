@@ -25,10 +25,10 @@ UmschlagPaar _paar(String seite, Sitzungsschluessel k, {String topic = _topic}) 
 /// Kopie eines Umschlags mit einzelnen geänderten Feldern.
 Map<String, Object?> _kopie(Map<String, Object?> u, {String? ct, String? iv, Object? n, Object? s}) => {
       ...u,
-      if (ct != null) 'ct': ct,
-      if (iv != null) 'iv': iv,
-      if (n != null) 'n': n,
-      if (s != null) 's': s,
+      'ct': ?ct,
+      'iv': ?iv,
+      'n': ?n,
+      's': ?s,
     };
 
 /// Ein Bit im Klartext-Byte [idx] kippen, wieder als Base64.
