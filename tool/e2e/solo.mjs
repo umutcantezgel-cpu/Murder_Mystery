@@ -160,7 +160,11 @@ try {
     await click('ui.allgemein.weiter'); // Anklage → Finale
     await click('ui.allgemein.weiter'); // Finale → Auflösung
     await click('ui.allgemein.weiter'); // Auflösung → Ende
-    await button('ui.aufloesung.hauptmenue').waitFor();
+    // Im Abend führt das Ende über die Belohnung (Karten, Erfahrung, Rang), nicht ins Hauptmenü.
+    stage = `${width} px · Belohnung`;
+    await click('abend_belohnung_ansehen');
+    await page.getByText('BELOHNUNG', { exact: true }).waitFor();
+    await button('abend_belohnung_detektei').waitFor();
     assert.equal(decisions, 9);
     assert(rolls >= 3, 'Würfel wurden umgangen');
     assert.equal(errors.length, 0, 'Konsole oder fremde Netzaufrufe');
