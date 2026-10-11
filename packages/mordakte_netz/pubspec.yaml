@@ -1,0 +1,17 @@
+name: mordakte_netz
+description: Online-Spiel „jeder am eigenen Gerät“ - Phoenix-Relais (Supabase Realtime), Ende-zu-Ende-verschlüsselte Ansichten, Gastgeber und Gast. Reines Dart (VM und Web).
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  mordakte_core:
+    path: ../mordakte_core
+  web_socket_channel: ^3.0.3
+  crypto: ^3.0.7
+  cryptography: ^2.9.0
+
+dev_dependencies:
+  lints: ^6.0.0
