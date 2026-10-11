@@ -62,7 +62,17 @@ try {
       await target.waitFor({ state: 'visible', timeout: 30000 });
       await target.scrollIntoViewIfNeeded();
       assert(await target.isEnabled(), 'Tippfläche ist noch gesperrt');
-      const box = await target.boundingBox();
+      // Flutter ordnet das Layout nach dem Laden noch um (die Detektei rückt beim Start um rund 77 px).
+      // Erst tippen, wenn die Lage drei Messungen lang gleich bleibt; sonst trifft der Zeiger eine alte Stelle.
+      let box = await target.boundingBox();
+      let stabil = 0;
+      const stabilEnde = Date.now() + 10000;
+      while (stabil < 3 && Date.now() < stabilEnde) {
+        await page.waitForTimeout(150);
+        const neu = await target.boundingBox();
+        stabil = neu && box && Math.abs(neu.x - box.x) < 1 && Math.abs(neu.y - box.y) < 1 ? stabil + 1 : 0;
+        box = neu;
+      }
       assert(box && box.width > 0 && box.height > 0, 'Sichtbare Tippfläche fehlt');
       const x = box.x + box.width / 2, y = box.y + box.height / 2;
       assert(x >= 0 && x < width && y >= 0 && y < 844, 'Tippfläche liegt außerhalb des Handys');
