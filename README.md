@@ -1,200 +1,182 @@
 # Mordakte
 
-Kooperative Krimi-Abende im gemalten, isometrischen Look (Flutter + Flame).
-Die App startet im **Schlosskeller**. Über **„Andere Abende & Fälle“** erreicht ihr das
-Krimidinner „Spuk im Gewölbe“ und die klassischen Fälle.
+Ein kooperativer Krimi-Abend im gemalten, isometrischen Look (Flutter und Flame). **Ein Spiel, fünf Akten,
+ein Regelwerk.** Eine Person ermittelt, alle anderen spielen Gäste mit Geheimnissen. Du spielst solo mit Bots,
+reihum an einem Gerät oder online, jeder am eigenen Handy. Jeder Fall ist lösbar. Der Würfel ändert nie einen
+Fakt oder die Punkte.
 
-**Noch in Fertigstellung:** Der lokale Schlosskeller-Abend und die klassischen Fälle sind
-spielbar. Schlosskeller zeigt echte Kartenaktionen und den Kellerwürfel. Gewölbe ist derzeit
-ein Begleiter; Solo-Party und Internet-Party mit privaten Rollenkarten folgen.
-Verbindlicher Stand mit Prüfbelegen: `planung/abschluss/STATUS.md`.
+Die ganze Spielanleitung: **[docs/ANLEITUNG.md](docs/ANLEITUNG.md)**.
 
 ## So spielst du
 
-### Android-APK
+### 1. Herunterladen
 
-[**Mordakte für Android herunterladen**](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases/latest/download/mordakte.apk)
-· [Releases und Prüfsummen](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases)
+Alle Dateien liegen in den [Releases](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases). Die Links zeigen
+immer auf das neueste freigegebene Release.
 
-Der erste Download ist verfügbar und geprüft: [APK zu `ba4f0cb`](https://github.com/umutcantezgel-cpu/werwolf_digital_flutter/releases/tag/apk-38079159341-1).
-Dieser ältere Stand enthält noch nicht die später ergänzten Kartenaktionen und Würfelknöpfe.
-Achtet deshalb auf den **Code-Stand in den Release-Notizen**; neuere main-Commits werden erst
-nach erfolgreicher Gesamtprüfung veröffentlicht. Ladet `mordakte.apk` auf das Handy, öffnet
-die Datei und erlaubt die Installation aus dieser Quelle. Ein
-Release-Build funktioniert auch ohne Keystore-Secrets: Er wird dann ausdrücklich mit einer
-Debug-Signatur zum Testen gebaut. Bei einem Wechsel der Signatur muss die alte App vor der
-Neuinstallation entfernt werden; lokale Fortschritte gehen dabei verloren.
+| Gerät | Datei |
+| --- | --- |
+| Android | [`mordakte.apk`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte.apk) |
+| iPhone, iPad | [`mordakte-ios-unsigned.ipa`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-ios-unsigned.ipa) (unsigniert) |
+| Web | [`mordakte-web.zip`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-web.zip) |
+| Prüfsummen | [`SHA256SUMS.txt`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/SHA256SUMS.txt) |
 
-### Web
+- **Android:** Datei öffnen, Installation aus dieser Quelle erlauben. Die APK ist mit einem **öffentlichen
+  Test-Schlüssel** signiert. Er bleibt über alle Updates gleich. Wer noch die ältere, debug-signierte APK hat,
+  deinstalliert sie **einmal** (lokale Karten gehen dabei verloren).
+- **iOS:** Die IPA ist unsigniert. Mit AltStore oder Sideloadly und einer kostenlosen Apple-ID signieren und
+  installieren. Du musst sie **alle 7 Tage neu signieren**.
+- **Web:** Der Build lässt sich von Vercel oder Netlify aus `main` bauen (`build.sh`). GitHub Pages braucht einen
+  einmaligen Schalter des Besitzers (siehe unten). Eine feste Web-Adresse steht hier nicht.
+  Lokal: `bash build.sh`, dann `python3 -m http.server 8081 --directory build/web`.
 
-Die Web-Fassung wird weiterhin durch Netlify aus `main` gebaut (`netlify.toml` → `bash build.sh`).
-Die öffentliche Netlify-Spieladresse ist in diesem Repository noch nicht hinterlegt; es wird
-keine erfundene Adresse angegeben. Lokal: `bash build.sh`, anschließend
-`python3 -m http.server 8081 --directory build/web` und im Browser `http://127.0.0.1:8081` öffnen.
-Das ist nur der lokale Web-Vorschauserver, **nicht** der Online-Spielserver.
+### 2. Starten
 
-### Party an einem Gerät
+Die App startet in der **Detektei**: **Neuer Abend**, **Beitreten**, die Kampagne aus fünf Akten, die
+**Sammlung** und dein **Profil**. Der Assistent für einen neuen Abend hat vier Schritte: Akte, Spielweise,
+Einstellungen, Start.
 
-**Schlosskeller → Abend vorbereiten**. 4–20 Gäste plus Geburtstagskind, ein Gerät geht reihum.
-Beim Rollenlesen schaut nur die betreffende Person auf den Bildschirm. Danach wird er wieder
-zugedeckt. [Spielanleitung Schlosskeller](docs/partykrimi/ANLEITUNG.md).
+### 3. Die drei Spielweisen
 
-**Andere Abende & Fälle → Spuk im Gewölbe** öffnet derzeit Besetzung, Steckbriefe, verdeckte
-Mappen und Druckmaterial. Das ist noch kein geführter digitaler Abend.
-[Anleitung und aktueller Umfang Gewölbe](docs/gewoelbe/ANLEITUNG.md).
+Du wählst sie vor jedem Abend.
 
-### Solo mit Bots · klassische Fälle
+| Spielweise | So läuft es |
+| --- | --- |
+| **Solo mit Bots** | Du ermittelst allein. Bots spielen die Gäste. Ihre Dossiers bleiben zu. |
+| **Ein Gerät reihum** | Ein Gerät geht am Tisch von Hand zu Hand. Rollen und Wahlen sind verdeckt. |
+| **Jeder am eigenen Gerät** | Der Gastgeber öffnet einen Raum mit **6-stelligem Code und QR-Code**. Die Gäste treten mit **Beitreten** bei. Bots füllen freie Rollen, überzählige Geräte werden Assistenten. Das Gastgeber-Gerät muss im Vordergrund bleiben. |
 
-**Andere Abende & Fälle → Fallakten → Fall wählen**. In der Lobby die KI-Partner einstellen
-und die Ermittlung starten. Die klassischen Fälle laufen vollständig offline; das ist noch
-nicht der geplante Solo-Partyabend. [Anleitung klassische Fälle](docs/klassisch/ANLEITUNG.md).
+Jeder Abend: Rollen lesen, **3 Runden** (Gespräche, drei Ermittlungsentscheidungen mit sichtbarem Weg auf der
+Karte, Kellerwürfel mit angezeigten Chancen, Funde, geheime Gruppenwahl, Resümee), Anklage, Finale, Auflösung.
+Das Ende ist **Meister, Teilerfolg, Justizirrtum oder Eskalation**. Dazu gibt es Karten und Erfahrung.
+Optional kannst du **erkunden** (Abstecher): Das kostet Nachtminuten und kann Karten bringen.
 
-### Online-Raum · klassische Fälle
+### 4. Karten
 
-1. Alle verwenden denselben freigegebenen öffentlichen Spielserver und die gleiche App-Fassung.
-2. **Andere Abende & Fälle → Online spielen → Raum erstellen**.
-3. Freunde tippen **Raum beitreten** und geben den vierstelligen Raumcode ein, jeder am eigenen Handy.
-4. Der Gastgeber wählt den Fall. Alle melden sich bereit, dann beginnt die Ermittlung (1–6 Detektive).
+Jede Figur jeder Akte und fünf Detektivklassen haben **Sammelkarten**. Sie bleiben dauerhaft auf dem Gerät.
+Dein **Deck** hat bis zu 3 Karten. Auf dem Tisch liegen höchstens 3 Karten, je Art eine, mit zusammen höchstens
+4 Ladungen. Karten sind Komfort (Werkzeug +1, Marke, Zeit, Gründlich, Nochmal, Umweg, Abstecher, Erinnerung,
+Aussehen). Sie ändern nie Fakten, Punkte oder Ende. Du bekommst sie am Abendende (eigene Rolle oder Klasse,
+Täterkarte bei richtiger Anklage, legendäre Karte beim Meister-Ende) und bei Funden beim Erkunden.
 
-Die öffentliche Adresse wird als `MORDAKTE_SERVER` in den Build eingebettet. Unter **Erweitert**
-kann dieselbe freigegebene `wss://…/ws`-Adresse eingetragen werden. Ohne Konfiguration erklärt
-die App den fehlenden Server, statt das eigene Handy über `localhost` anzusprechen. **Railway
-ist noch nicht öffentlich abgenommen.** Internet-Rollenkarten für die Partyabende werden
-separat implementiert; der lokale Gerätewechsel ist kein Online-Modus.
+## Die fünf Akten
 
-## Klassischer Spielablauf
+| Akte | Ton | Rollen |
+| --- | --- | --- |
+| **Spuk im Schlosskeller** · Das Buffet hinter dicken Mauern | Spuk | 4 bis 20 |
+| **Spuk im Gewölbe** · Ein Geburtstag auf Burg Schartenfels | Spuk | 4 bis 20 |
+| **Ravensmoor** · Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte. | Noir | 4 bis 8 |
+| **Nachtexpress 1931** · Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann. | Noir | 4 bis 8 |
+| **Blue Palm Motel** · Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7 | Noir | 4 bis 8 |
 
-Jeder Fall hat 3 Kapitel:
-
-1. **Intro** – Kapiteltext.
-2. **Ermittlung** (4 Min) – Hotspots durchsuchen, Verdächtige befragen, Beweise vorlegen,
-   Items aufheben. Gefundene Hinweise sind privat, bis man sie auf die **Beweiswand** teilt.
-   Zwei passende Hinweise lassen sich zu einer Schlussfolgerung kombinieren.
-3. **Beratung** – das Team stimmt über die nächste Spur ab (schaltet Räume/Hotspots frei).
-4. **Nacht** – Licht aus. Der Schatten greift isolierte Detektive an, tötet Zeugen und
-   beschädigt ungeteilte Notizen. Er hinterlässt Spuren, die Merkmale des Täters verraten.
-5. Kapitel 3 endet mit der **Anklage** (Täter, Motiv, Waffe) und einem zusammengesetzten
-   **Ende** (Urteil × Team-Schicksal × Täter-Epilog × Geheimnis).
-
-Weitere Mechaniken: Hinweise entwickeln sich (Labor, Zeit), verpassbare Spuren, 5 Klassen
-(Forensikerin, Profiler, Ex-Cop, Journalistin, Sanitäter) mit Fähigkeiten, Buffs/Debuffs,
-Nerven, Niedergeschlagen → Wiederbeleben → Geist-Modus, Emotes/Schnellchat/Pings.
-Meta: Rang & XP, Freischaltungen, Enden-Sammlung, Fall des Tages mit Streak, Achievements.
-
-Jedes Szenario hat 24 Fall-Varianten (Täter/Motiv/Waffe per Seed): Der erste Durchlauf ist
-die Story-Variante, danach wird jeder Fall neu gewürfelt.
-
-## Szenarien
-
-| Datei | Setting |
-|---|---|
-| `content/scenarios/ravensmoor.json` | Herrenhaus in einer Gewitternacht, 1890er |
-| `content/scenarios/nachtexpress.json` | Nachtzug im Alpen-Schneesturm, 1931 |
-| `content/scenarios/blue_palm.json` | Neon-Motel in Florida, 1986 |
-
-Neue Szenarien sind reine JSON-Dateien – Format in [`content/SCHEMA.md`](content/SCHEMA.md).
-Prüfen und probespielen:
-
-```bash
-cd packages/mordakte_core
-dart run bin/validate.dart              # Format, Karte, Erreichbarkeit, Lösbarkeit
-dart run bin/simulate.dart alle 4 2     # KI-Detektive spielen Fälle komplett durch
-```
-
-## Projektstruktur
-
-```
-packages/mordakte_core/   Reines Dart: Szenario-Modell, Raster/A*, Regeln, Engine, Schatten-KI,
-                          KI-Detektive, Fall-Generator, Enden, Protokoll, RoomRuntime
-server/                   Dart-WebSocket-Server (autoritativ, eine RoomRuntime pro Raum)
-lib/game/                 Flame-Renderer (Iso-Räume, Figuren, Licht, Wetter, Joystick)
-lib/ui/, lib/app/         Screens & Overlays (go_router, Provider)
-lib/meta/                 Fortschritt, Freischaltungen, Sammlung, Fall des Tages
-lib/session/              LocalSession (offline), OnlineSession (WebSocket), FakeSession (Dev)
-content/scenarios/        Vorgefertigte Fälle
-```
-
-Solo läuft komplett offline: Die App startet dieselbe `RoomRuntime` wie der Server im Prozess.
+Die Reihenfolge steht in `content/party/akten.json`. Die Druckfassung des Schlosskellers beschreibt
+[docs/partykrimi/ANLEITUNG.md](docs/partykrimi/ANLEITUNG.md).
 
 ## Entwickeln
 
-Flutter 3.47.6 (Dart 3.13).
+Flutter 3.47.6 (Dart 3.13). Die gepinnte Werkzeugkette lädt `tool/flutter_env.sh` nach `.werkzeug/`.
 
 ```bash
-flutter pub get
-flutter run                                   # Gerät/Emulator
-flutter build apk --release                   # Android
-flutter build ios --release                   # iOS (auf macOS)
-flutter analyze
-(cd packages/mordakte_core && dart test)
+source tool/flutter_env.sh            # Flutter 3.47.6 auf den PATH (lädt es beim ersten Mal)
+flutter pub get && flutter run        # Gerät, Emulator oder Chrome
+bash tool/pruefen.sh schnell          # Pakete, Analyse, Pakettests
+bash tool/pruefen.sh ci               # wie im CI: alles, 4-Client-Matrizen, Web-Build, Browser-Proben
+bash tool/pruefen.sh alles            # alles mit den langsamen Online-Matrizen
+bash tool/pruefen.sh e2e              # alles plus alle 84 Browser-Durchläufe (tool/e2e)
 ```
 
-Web-Vorschau (Entwickler-Einstiege): `?autoplay=ravensmoor&speed=8` (KI spielt einen echten
-Fall im Zeitraffer), `?fake=night` / `?fake=ending` (Testzustände), `?screen=cases`.
-
-## Online-Server
-
-```bash
-cd server && dart pub get && dart run bin/server.dart        # PORT=8080, SCENARIO_DIR=../content/scenarios
+```
+lib/                      App: detektei/ (Start, Akten, Sammlung), abend/ (Assistent, Abend, Online), karten/,
+                          party/ (Abendbildschirme), stil/ (Design), game/ (Flame-Karte), meta/ (Speicher)
+packages/mordakte_core/   Reines Dart: party/ (Kanon, Simulator, Beweise, Texte, Druck), runden/ (RundenPartie,
+                          Raum, Würfel), karten/ (Katalog, Tischvorrat, Belohnung, Abstecher)
+packages/mordakte_netz/   Online-Abende: Phoenix-Relais, Ende-zu-Ende-Umschläge, Gastgeber, Gast
+packages/krimidinner_kanon/  Kanonleser und Konverter für „Spuk im Gewölbe“
+server/                   optionaler Dart-Server (siehe server/README.md)
+content/party/<akte>/     Bündel je Akte; Index content/party/akten.json; Erkundungsorte in zusatz/<akte>/
+content/karten/           Sammelkarten je Akte (plus Detektivklassen in mordakte.json)
+content/scenarios/        klassische Szenarien (Quelle der Konverter, unverändert)
+krimidinner/              Kanon „Spuk im Gewölbe“ (unverändert)
 ```
 
-Die App verbindet sich mit `--dart-define=MORDAKTE_SERVER=wss://<öffentliche-domain>/ws`.
-Es gibt **keinen localhost-Standard**. Bis eine öffentliche Adresse freigegeben ist, bleibt
-die Vorgabe leer und die App zeigt einen Einrichtungshinweis. URL-Zugangsdaten, unverschlüsselte
-Internetverbindungen und Schleifenadressen werden abgewiesen.
-Deployment (Railway): `railway.toml` + `server/Dockerfile`, Build-Kontext ist das Repo-Root –
-im Railway-Dienst muss das Root Directory leer sein. `/health` liefert HTTP 200; genau eine
-Instanz, da Räume im Speicher liegen. Details in [`server/README.md`](server/README.md).
+### Eine neue Akte anlegen
 
-## Automatische Builds und Signatur
+1. **Bündel** unter `content/party/<id>/` im Party-Kanonformat (`fall`, `figuren`, `raeume`, `setting`,
+   `besetzung`, `entscheidungen`, `gruppenwahl`, `bonus`, `gegenstaende`, `texte/` …). Die Schemas stehen in
+   `content/party/schema-akte/` (Hinweise dort in der README).
+2. **Konverter**, wenn die Akte aus einer Quelle entsteht. Beide haben ein Overlay `content/party/<id>/_autor/`
+   und prüfen mit `--pruefen`, ob das Bündel noch dem Konverter entspricht (Drift):
+   - Krimidinner (im Ordner `packages/krimidinner_kanon`): `dart run bin/akte_export.dart --akte <id>`
+   - klassisches Szenario (im Ordner `packages/mordakte_core`): `dart run bin/akte_klassik_<id>.dart`
+3. **Karten** in `content/karten/<id>.json` und **Erkundungsorte** in `content/party/zusatz/<id>/abstecher.json`.
+4. **Prüfen** (im Ordner `packages/mordakte_core`):
+   `dart run bin/akte_pruefen.dart --fall <id>` (Schema, Verweise, Simulator, Beweise, Karte, Texte, Besetzung,
+   vollständiger Abend) und `dart run bin/karten_pruefen.dart`.
+5. **Eintragen** in `content/party/akten.json` und unter `flutter: assets:` in `pubspec.yaml`
+   (`content/party/<id>/`, `…/texte/`, `content/party/zusatz/<id>/`). `tool/pruefen.sh` prüft jede Akte der Liste.
+   Ein eigener Farbstil steht in `lib/stil/thema.dart` (`AkteStil`), sonst gilt Kerzenmessing.
 
-`.github/workflows/release.yml` läuft bei jedem Push auf `main` und auf den Arbeitsbranch
-(außer bei reinen Änderungen unter `planung/`), per Hand (`workflow_dispatch`) und wöchentlich.
-Läufe desselben Branches werden nacheinander abgearbeitet, nie abgebrochen.
+### Der Kanon bleibt unverändert (A-002)
 
-- **`gate`** (Zeitlimit 40 min): `bash tool/pruefen.sh ci`, also Analyse, Paket-/Flutter-Tests, Server, Web-Build ohne CDN,
-  Party-Matrix mit 4 Clients, Browser-Proben und Secret-Scan. Der Web-Build geht als Artefakt `web-build` an die
-  folgenden Jobs.
-- **`e2e_voll`**: alle 84 Party-E2E-Läufe, aufgeteilt auf die vier Pfade (ahmet, fatma, olli, can) als Matrix. Nur bei
-  `workflow_dispatch` mit `voll_e2e` und im Wochenlauf (Montag, 03:17 UTC), nie bei normalen Pushes.
-- **`android`**: Release-APK `mordakte.apk` mit Prüfsumme (Artefakt `apk`).
-- **`ios`** (macOS, darf fehlschlagen): unsignierte `mordakte-ios-unsigned.ipa` (Artefakt `ipa`). Abschaltbar über die
-  Eingabe `ios` bei `workflow_dispatch`.
-- **`web`**: `mordakte-web.zip` (Artefakt `webzip`) und eine Kopie mit Basis `/Murder_Mystery/` für GitHub Pages.
-  **`pages`** veröffentlicht sie, schlägt aber ohne aktiviertes Pages oder ohne Erlaubnis des Branches fehl, ohne den Lauf
-  zu stören.
-- **`release`**: erstellt je Lauf ein neues GitHub-Release mit Tag `mordakte-<Lauf>.<Versuch>` und den festen Dateinamen
-  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `SHA256SUMS.txt`. Tags werden nie verschoben oder
-  neu gesetzt. **latest** erhält das Release nur, wenn der Stand noch die Spitze von `main` oder des Arbeitsbranches ist.
-  Der stabile Download-Link oben zeigt auf das jeweils neueste freigegebene Release.
+`krimidinner/`, `content/party/schlosskeller/` und `content/scenarios/` werden nicht angefasst. Der Test
+`packages/mordakte_core/test/kanon_unveraendert_test.dart` vergleicht jede Datei mit den SHA-256-Summen in
+`tool/kanon_pruefsummen.txt` und meldet auch neue Dateien in diesen Ordnern. Neue Akten brauchen eigene Ordner.
 
-Die Artefakte jedes Laufs (`apk`, `ipa`, `webzip`) sind zusätzlich auf der Seite des Actions-Laufs herunterladbar.
+### Die klassische Echtzeit-Engine
 
-- GitHub Actions benötigt die Erlaubnis, Releases zu veröffentlichen (`contents: write`).
-- Öffentliche Repository-Variablen, alle optional und keine Secrets: **`MORDAKTE_SERVER`** (freigegebene
-  `wss://…/ws`-Adresse), **`MORDAKTE_RELAY_URL`** (`https://<projekt>.supabase.co`) und **`MORDAKTE_RELAY_KEY`**
-  (`sb_publishable_…` oder anon-JWT). Gesetzte Werte gehen über `tool/ci/dart_defines.sh` als `--dart-define` in
-  den APK- und iOS-Build sowie in `build.sh` (Netlify/Vercel); der Web-Build des `gate` (und damit
-  `mordakte-web.zip`) ist ein Prüfbuild ohne diese Werte. `tool/ci/check_server_url.py` weist falsche Formate und
-  geheime Schlüssel (`sb_secret_…`, `service_role`) ab. In Netlify dieselben Variablen setzen.
-- Optionale GitHub-Secrets: **`ANDROID_KEYSTORE_BASE64`**, **`ANDROID_KEYSTORE_PASSWORD`**,
-  **`ANDROID_KEY_PASSWORD`**, **`ANDROID_KEY_ALIAS`**. Werte nur über GitHub Secrets, nie in Chat/Repository.
-- Alle vier vorhanden: Release-Signatur. Alle vier fehlen: der **öffentliche Test-Schlüssel**
-  `tool/ci/signing/mordakte-test.p12` (Passwort öffentlich, nur für Sideload-Tests, nie für einen Store). Er hält das
-  Zertifikat stabil, sodass neue Test-APKs ohne Deinstallieren als Update installierbar sind. Nur ein Teil vorhanden:
-  Build schlägt fehl, kein stiller Fallback. Der Modus steht in den Release-Notizen.
-- Keystore aus Secrets nur im temporären Actions-Verzeichnis mit Dateirechten 0600. Keine Passwörter in
-  Kommandozeilen oder `key.properties`; Gradle liest sie direkt aus der Umgebung.
-- iOS-IPA ist unsigniert: mit AltStore oder Sideloadly auf dem eigenen Gerät signieren und installieren.
+Die frühere Echtzeit-Fassung (Joystick, Schatten, Beweiswand, vierstellige Räume) gehört nicht mehr zum Spiel.
+Code und Tests bleiben als **Entwicklercode** (`packages/mordakte_core/lib/src/engine`, `runtime`, `lib/game`,
+`lib/ui`). Einstiege in der Web-Fassung: `?screen=hub|cases|collection|online`, `?autoplay=<szenario>&speed=8`,
+`?fake=night`. Prüfen: `cd packages/mordakte_core && dart run bin/validate.dart` und
+`dart run bin/simulate.dart alle 4 2`.
 
-Gesamtprüfung: `bash tool/pruefen.sh alles`; wie im CI (schnell, mit Browser-Proben): `bash tool/pruefen.sh ci`;
-mit allen Browserläufen: `bash tool/pruefen.sh e2e`.
-Linux-Testvoraussetzungen: Flutter 3.47.6, Node 22, `pdfinfo`/`pdftotext` (Poppler) und
-Playwrights Chromium-Laufzeitbibliotheken. Die bereits deklarierten Browserpakete werden mit
-`cd tool/e2e && npm ci && npx playwright install chromium` installiert.
+Weitere Einstiege (Web): `?screen=detektei|neu|akte|sammlung|deck|profile|beitreten` (mit `&akte=<id>` oder
+`&raum=<CODE>`) und `?party=<akte>` für den Partymodus mit Skript (`lib/party/skript.dart`).
 
-## Ausblick
+## Builds und Signatur
 
-- Steam-Version mit spielbarem Täter: Der Schatten läuft bereits über eine
-  `KillerController`-Schnittstelle; Desktop-Plattformen per `flutter create --platforms=windows,macos,linux`.
-- Englische Texte: Szenario-Texte sind `{"de": …}`-Objekte, UI über `lib/l10n/app_de.arb`.
+`.github/workflows/release.yml` läuft bei jedem Push auf `main` und den Arbeitsbranch (nicht bei reinen
+Änderungen unter `planung/`), von Hand und wöchentlich. Läufe desselben Branches werden hintereinander abgearbeitet.
+
+- **`gate`**: `bash tool/pruefen.sh ci`, dann geht der Web-Build an die folgenden Jobs.
+- **`e2e_voll`**: alle 84 Browser-Läufe als Matrix über vier Pfade. Nur von Hand (`voll_e2e`) und montags.
+- **`android`**: `mordakte.apk`. **`ios`** (macOS, darf fehlschlagen): `mordakte-ios-unsigned.ipa`.
+- **`web`**: `mordakte-web.zip` und eine Kopie mit Basis `/Murder_Mystery/` für GitHub Pages. **`pages`** veröffentlicht
+  sie und schlägt ohne aktiviertes Pages fehl, ohne den Lauf zu stören.
+- **`release`**: je Lauf ein Release mit Tag `mordakte-<Lauf>.<Versuch>` und den festen Dateinamen
+  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `SHA256SUMS.txt`. Tags werden nie verschoben.
+  **latest** bekommt das Release nur, solange sein Stand die Spitze von `main` oder des Arbeitsbranches ist.
+
+**Android-Signatur.** Sind alle vier Secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`,
+`ANDROID_KEY_PASSWORD` und `ANDROID_KEY_ALIAS` gesetzt, gilt der Release-Schlüssel. Fehlen alle vier, gilt der
+**öffentliche Test-Schlüssel** `tool/ci/signing/mordakte-test.p12` (Passwort öffentlich, nur für Sideload-Tests,
+nie für einen Store). Ist nur ein Teil gesetzt, bricht der Build ab. Ein Wechsel zwischen den Schlüsseln
+verlangt eine Deinstallation. Details: `tool/ci/signing/README.md`. Die IPA ist immer unsigniert.
+
+**Öffentliche Variablen** (optional, keine Secrets): `MORDAKTE_SERVER`, `MORDAKTE_RELAY_URL`, `MORDAKTE_RELAY_KEY`.
+Gesetzte Werte gehen über `tool/ci/dart_defines.sh` als `--dart-define` in APK, IPA und `build.sh`.
+`tool/ci/check_server_url.py` weist falsche Formate und geheime Schlüssel ab.
+
+## Online-Relais
+
+Online-Abende laufen **ohne eigenen Server** über ein **Supabase-Realtime-Projekt** (Free-Plan, Grenzen gelten).
+Standardadresse und öffentlicher Schlüssel stehen in `packages/mordakte_netz/lib/src/relay_standard.dart`; beides
+sind öffentliche Werte. Ein anderes Relais stellst du mit `--dart-define=MORDAKTE_RELAY_URL=…` und
+`MORDAKTE_RELAY_KEY=…` ein.
+
+- Das **Gastgeber-Gerät ist die Autorität**. Das Relais leitet nur Pakete weiter. Es gibt keine Host-Migration.
+- Private Ansichten und Befehle sind **Ende-zu-Ende verschlüsselt** (X25519, HKDF, ChaCha20-Poly1305). Der
+  Raumcode (6 Zeichen) ist an den Gastgeberschlüssel gebunden.
+- Der **Dart-Server** in `server/` bleibt als Option (`MORDAKTE_SERVER`). Die Online-Abende der App nutzen ihn nicht.
+  Nur der klassische Entwickler-Bildschirm `?screen=online` liest die Adresse.
+
+## Einmalig vom Besitzer
+
+- **GitHub Pages** (wenn gewünscht): Settings → Pages → Source: **GitHub Actions**.
+- **Android-Release-Schlüssel** (optional): die vier Secrets oben setzen. Ohne sie gilt der Test-Schlüssel.
+- **Apple-Signatur** (optional, für eine reguläre iOS-Installation): im Workflow ist dafür noch nichts eingerichtet.
+- **Supabase** (kostenloses Projekt) aktiv halten: Es pausiert nach 7 Tagen ohne Nutzung. Dann im
+  Supabase-Dashboard wieder aktivieren.
+- **Claude Code:** Für unbeaufsichtigte Läufe im Menü den Berechtigungsmodus „Auto“ wählen.
+
+Stand und Plan der Zusammenführung: `planung/einspiel/STATUS.md` und `planung/einspiel/PLAN.md`.
