@@ -10,9 +10,10 @@ import '../party/kanon_hilfe.dart';
 final _texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
 final _erm = Ermittlung(kanon);
 
-SchlosskellerRaum _raum({String pfad = 'ahmet'}) => SchlosskellerRaum(
+SchlosskellerRaum _raum({String pfad = 'ahmet', KartenKatalog? katalog}) => SchlosskellerRaum(
   raumCode: 'ABCD', kanon: kanon, texte: _texte,
   fallCode: FallCode.fuerPfad(pfad, kanon.pfade), salz: 'pruefung-raumsalz-unabhaengig-vom-pfad',
+  katalog: katalog,
 );
 
 Map<String, Object?> _map(Object? value) => (value as Map).cast<String, Object?>();
@@ -24,12 +25,12 @@ void _befehl(SchlosskellerRaum r, String id, String typ, [Map<String, Object?> d
 
 Matcher _fehler(String code) => isA<PartyRaumFehler>().having((e) => e.code, 'code', code);
 
-void _start(SchlosskellerRaum r, int clients, int rollen) {
+void _start(SchlosskellerRaum r, int clients, int rollen, {List<String>? vorrat}) {
   for (var i = 0; i < clients; i++) {
     expect(r.beitreten('p$i', 'Person $i'), isTrue);
     _befehl(r, 'p$i', 'bereit', {'wert': true});
   }
-  _befehl(r, 'p0', 'start', {'rollen': rollen});
+  _befehl(r, 'p0', 'start', {'rollen': rollen, if (vorrat != null) 'vorrat': vorrat});
 }
 
 /// Treiber benutzt nur Ansichten und Nachrichten, niemals den internen Zustand.
@@ -106,9 +107,10 @@ void main() {
     expect(() => _befehl(r, 'p0', 'start', {'rollen': 4}), throwsA(_fehler('not_ready')));
     expect(() => _befehl(r, 'p1', 'bereit', {'wert': true, 'spieler': 'p0'}), throwsA(_fehler('invalid')));
     expect(r.zustandFuer('p0'), vorher);
-    for (var i = 2; i <= 20; i++) { expect(r.beitreten('p$i', 'Person $i'), isTrue); }
+    // Kapazität: maxRollen (20) + Leitung + vier Assistenz-Plätze = 25 Geräte.
+    for (var i = 2; i <= 24; i++) { expect(r.beitreten('p$i', 'Person $i'), isTrue); }
     expect(r.beitreten('zu-viel', 'Niemand'), isFalse);
-    expect(r.spielerIds, hasLength(21));
+    expect(r.spielerIds, hasLength(25));
   });
 
   test('4–20 Rollen: jedes Gerät erhält ausschließlich sein eigenes Dossier', () {
@@ -238,21 +240,40 @@ void main() {
   });
 
   test('Würfelhilfe wird vor dem Wurf in der gemeinsamen Chance sichtbar', () {
-    final r = _raum();
-    _start(r, 4, 4);
+    const karte = 'schlosskeller:detektiv:lupe';
+    final katalog = KartenKatalog([
+      KartenDef(
+        id: karte, akte: 'schlosskeller', figur: 'detektiv', seltenheit: Seltenheit.gewoehnlich,
+        art: KartenArt.werkzeug, titel: 'Lupe', text: 'Ein Werkzeug aus der Welt.', quellen: [KartenQuelle('start')],
+      ),
+    ]);
+    final r = _raum(katalog: katalog);
+    _start(r, 4, 4, vorrat: [karte]);
     _bis(r, (s) => s['runde'] == 2 && s['zug'] is Map && _map(s['zug'])['phase'] == 'wurf');
     var s = r.zustandFuer('p0');
     final pate = s['wuerfelPate'] as String;
     final anderer = pate == 'p0' ? 'p1' : 'p0';
+    expect(_liste(s['vorrat']), [{'id': karte, 'art': 'werkzeug', 'rest': 1}]);
     expect(() => _befehl(r, anderer, 'wurf'), throwsA(_fehler('not_dice_player')));
     expect(() => _befehl(r, pate, 'wurf', {'a': 6, 'b': 6}), throwsA(_fehler('invalid')));
-    _befehl(r, pate, 'wuerfelHilfe', {'werkzeug': true, 'marke': true});
+    // Der freie Werkzeug-Schalter ist entfernt: Werkzeug kommt nur aus einer Karte des Tisches.
+    expect(() => _befehl(r, pate, 'wuerfelHilfe', {'werkzeug': true}), throwsA(_fehler('invalid')));
+    expect(() => _befehl(r, pate, 'wuerfelHilfe', {'karte': 'schlosskeller:detektiv:fremd', 'marke': true}),
+        throwsA(_fehler('card_unknown')));
+    expect(_liste(r.zustandFuer('p0')['vorrat']).single['rest'], 1);
+    _befehl(r, pate, 'wuerfelHilfe', {'karte': karte, 'marke': true});
     s = r.zustandFuer('p0');
     final mod = _map(s['zug'])['mod'];
     expect(mod, inInclusiveRange(1, 2));
-    for (var i = 1; i < 4; i++) { expect(_map(r.zustandFuer('p$i')['zug'])['chancen'], _map(s['zug'])['chancen']); }
+    for (var i = 1; i < 4; i++) {
+      final sicht = _map(r.zustandFuer('p$i')['zug']);
+      expect(sicht['chancen'], _map(s['zug'])['chancen']);
+      expect(sicht['mod'], mod);
+    }
+    expect(_liste(s['vorrat']).single['rest'], 1, reason: 'Die Karte wird erst mit dem Wurf verbraucht');
     _befehl(r, pate, 'wurf');
     expect(_map(_map(r.zustandFuer('p0')['zug'])['wurf'])['mod'], mod);
+    expect(_liste(r.zustandFuer('p0')['vorrat']).single['rest'], 0);
   });
 
   test('Veraltete Revision und Animationsrückrufe verändern keinen Zug', () {

@@ -1,5 +1,6 @@
 import base64
 import importlib.util
+import json
 import os
 from pathlib import Path
 import tempfile
@@ -17,6 +18,13 @@ def load(name):
 
 signing = load("prepare_android_signing")
 urls = load("check_server_url")
+
+
+def unsigned_jwt(claims):
+    """JWT ohne gültige Signatur: nur Aufbau und Nutzlast zählen für die Prüfung."""
+    def part(data):
+        return base64.urlsafe_b64encode(json.dumps(data).encode()).rstrip(b"=").decode()
+    return f"{part({'alg': 'none', 'typ': 'JWT'})}.{part(claims)}.c2ln"
 
 
 class ServerUrlTests(unittest.TestCase):
@@ -39,6 +47,53 @@ class ServerUrlTests(unittest.TestCase):
                 self.assertFalse(urls.valid_server_url(value))
 
 
+class RelayTests(unittest.TestCase):
+    PROJEKT = "https://abcdefghijklmnopqrst.supabase.co"
+
+    def test_supabase_projektadresse_wird_akzeptiert(self):
+        self.assertTrue(urls.valid_relay_url(self.PROJEKT))
+
+    def test_relay_url_mit_fremdem_schema_pfad_oder_zugangsdaten_wird_abgelehnt(self):
+        for value in (
+            "", "abcdefghijklmnopqrst.supabase.co",
+            "http://abcdefghijklmnopqrst.supabase.co",
+            self.PROJEKT + "/",
+            self.PROJEKT + "/rest/v1",
+            self.PROJEKT + "?apikey=fixture",
+            self.PROJEKT + "#fragment",
+            "https://abcdefghijklmnopqrst.supabase.co:8443",
+            "https://user@abcdefghijklmnopqrst.supabase.co",
+            "https://a.b.supabase.co",
+            "https://supabase.co",
+            "https://x.supabase.com",
+            "https://x.supabase.co.evil.com",
+        ):
+            with self.subTest(value=value):
+                self.assertFalse(urls.valid_relay_url(value))
+
+    def test_publishable_schluessel_wird_akzeptiert(self):
+        self.assertTrue(urls.valid_relay_key("sb_publishable_AbC123"))
+
+    def test_anon_jwt_wird_akzeptiert(self):
+        self.assertTrue(urls.valid_relay_key(unsigned_jwt({"role": "anon", "iss": "supabase"})))
+
+    def test_geheime_oder_leere_oder_fremde_schluessel_werden_abgelehnt(self):
+        service = unsigned_jwt({"role": "service_role", "iss": "supabase"})
+        for value in (
+            "sb_secret_AbC123", service,
+            "sb_publishable_", "", " sb_publishable_AbC123", "sb_publishable_Ab C123",
+            "hallo welt", "beliebiger text",
+        ):
+            with self.subTest(value=value):
+                self.assertFalse(urls.valid_relay_key(value))
+
+    def test_geheimer_schluessel_wird_als_geheim_erkannt(self):
+        self.assertTrue(urls.is_secret_relay_key("sb_secret_AbC123"))
+        self.assertTrue(urls.is_secret_relay_key(unsigned_jwt({"role": "service_role"})))
+        self.assertFalse(urls.is_secret_relay_key("sb_publishable_AbC123"))
+        self.assertFalse(urls.is_secret_relay_key(unsigned_jwt({"role": "anon"})))
+
+
 class SigningTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -54,13 +109,36 @@ class SigningTests(unittest.TestCase):
             "RUNNER_TEMP": self.temp.name,
         }
 
-    def test_no_secrets_uses_debug_without_creating_file(self):
-        self.assertEqual(signing.prepare_signing({}), "debug")
-        self.assertEqual(signing.prepare_signing({"ANDROID_KEYSTORE_PATH": str(self.path)}), "debug")
+    def test_no_secrets_uses_test_key_without_creating_file(self):
+        self.assertEqual(signing.prepare_signing({}), "test")
+        self.assertEqual(signing.prepare_signing({"ANDROID_KEYSTORE_PATH": str(self.path)}), "test")
         self.assertFalse(self.path.exists())
 
     def test_whitespace_only_secrets_are_missing(self):
-        self.assertEqual(signing.prepare_signing({name: " " for name in signing.SIGNING_FIELDS}), "debug")
+        self.assertEqual(signing.prepare_signing({name: " " for name in signing.SIGNING_FIELDS}), "test")
+
+    def test_missing_test_keystore_fails(self):
+        fehlt = Path(self.temp.name) / "fehlt.p12"
+        with self.assertRaisesRegex(ValueError, "Test-Schlüssel fehlt"):
+            signing.prepare_signing({}, test_keystore=fehlt)
+
+    def test_public_test_key_env_liefert_pfad_passwoerter_und_alias(self):
+        env = signing.public_test_key_env()
+        self.assertEqual(env, {
+            "ANDROID_KEYSTORE_PATH": str(signing.TEST_KEYSTORE),
+            "ANDROID_KEYSTORE_PASSWORD": "mordakte-test",
+            "ANDROID_KEY_PASSWORD": "mordakte-test",
+            "ANDROID_KEY_ALIAS": "mordakte-test",
+        })
+        eigener = Path(self.temp.name) / "eigen.p12"
+        self.assertEqual(signing.public_test_key_env(eigener)["ANDROID_KEYSTORE_PATH"], str(eigener))
+
+    def test_test_keystore_liegt_im_repo_als_pkcs12(self):
+        self.assertTrue(signing.TEST_KEYSTORE.is_file())
+        self.assertEqual(signing.TEST_KEYSTORE.parent.name, "signing")
+        # PKCS#12 ist DER-Sequenz: erstes Byte 0x30.
+        self.assertEqual(signing.TEST_KEYSTORE.read_bytes()[:1], b"\x30")
+        self.assertEqual(signing.prepare_signing({}, test_keystore=signing.TEST_KEYSTORE), "test")
 
     def test_all_secrets_write_private_file(self):
         self.assertEqual(signing.prepare_signing(self.env), "release")
