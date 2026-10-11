@@ -5,6 +5,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
+import '../../abend/einrichtung/klasse_zeile.dart' show klassenNachRang;
 import '../../app/theme.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
@@ -111,7 +112,17 @@ class ProfileScreen extends StatelessWidget {
                           _Stats(meta: meta),
                           const SizedBox(height: 22),
                           SectionLabel(l.profile_classes),
-                          for (final c in detectiveClasses.values) _ClassRow(cls: c, rank: meta.rank),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Text(l.profil_klasse_hinweis, style: Noir.text(12.5, color: Noir.smoke, height: 1.3)),
+                          ),
+                          for (final c in klassenNachRang())
+                            _ClassRow(
+                              cls: c,
+                              rank: meta.rank,
+                              selected: c.id == lo.cls,
+                              onTap: () => meta.loadout = Loadout(cls: c.id, coat: lo.coat, hat: lo.hat),
+                            ),
                           const SizedBox(height: 18),
                           SectionLabel(l.profile_hats),
                           Wrap(
@@ -225,62 +236,102 @@ class _Stats extends StatelessWidget {
   }
 }
 
+/// Eine Klasse im Profil: Tippen wählt sie als Ermittlerklasse des Geräts.
+/// Gesperrte Klassen sind nicht wählbar und nennen den nötigen Rang.
 class _ClassRow extends StatelessWidget {
-  const _ClassRow({required this.cls, required this.rank});
+  const _ClassRow({required this.cls, required this.rank, required this.selected, required this.onTap});
 
   final DetectiveClass cls;
   final int rank;
+  final bool selected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
     final locked = rank < cls.unlockRank;
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Noir.panel,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Noir.lineSoft),
-      ),
-      child: Opacity(
-        opacity: locked ? 0.55 : 1,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: locked ? Noir.lineSoft : MFarben.von(context).akzent),
-              child: Icon(
-                locked ? Icons.lock_rounded : GameIcons.cls(cls.id),
-                size: 20,
-                color: locked ? Noir.smoke : Noir.night,
+    final akzent = MFarben.von(context).akzent;
+    final name = l.className(cls.id);
+    final rahmen = BorderRadius.circular(6);
+    return Semantics(
+      button: true,
+      selected: selected,
+      enabled: !locked,
+      label: locked ? l.abend_klasse_gesperrt(name, l.common_unlock_at(l.rankName(cls.unlockRank))) : name,
+      hint: l.classAbility(cls.id),
+      onTap: locked ? null : onTap,
+      excludeSemantics: true,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          color: selected ? Color.lerp(Noir.panel, akzent, 0.14) : Noir.panel,
+          borderRadius: rahmen,
+          border: Border.all(color: selected ? akzent : Noir.lineSoft, width: selected ? 2 : 1),
+        ),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius: rahmen,
+            onTap: locked ? null : onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Opacity(
+                opacity: locked ? 0.55 : 1,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: locked ? Noir.lineSoft : akzent),
+                      child: Icon(
+                        locked ? Icons.lock_rounded : GameIcons.cls(cls.id),
+                        size: 20,
+                        color: locked ? Noir.smoke : Noir.night,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: Text(name, style: Noir.title(16))),
+                              if (locked)
+                                Text(
+                                  l.common_unlock_at(l.rankName(cls.unlockRank)),
+                                  style: Noir.label(11, color: akzent, spacing: 0.3),
+                                ),
+                            ],
+                          ),
+                          if (selected) ...[
+                            const SizedBox(height: 2),
+                            Row(
+                              children: [
+                                Icon(Icons.check_circle_rounded, size: 14, color: akzent),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    l.profil_klasse_gewaehlt.toUpperCase(),
+                                    style: Noir.label(11, color: akzent, spacing: 0.8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                          const SizedBox(height: 3),
+                          Text(l.classAbility(cls.id), style: Noir.text(12, height: 1.3)),
+                          const SizedBox(height: 2),
+                          Text(l.classPassive(cls.id), style: Noir.text(12, color: Noir.smoke, height: 1.3)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: Text(l.className(cls.id), style: Noir.title(16))),
-                      if (locked)
-                        Text(
-                          l.common_unlock_at(l.rankName(cls.unlockRank)),
-                          style: Noir.label(11, color: MFarben.von(context).akzent, spacing: 0.3),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 3),
-                  Text(l.classAbility(cls.id), style: Noir.text(12, height: 1.3)),
-                  const SizedBox(height: 2),
-                  Text(l.classPassive(cls.id), style: Noir.text(12, color: Noir.smoke, height: 1.3)),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

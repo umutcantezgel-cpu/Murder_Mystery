@@ -21,6 +21,7 @@ import '../abend_halter.dart';
 import '../online/gastgeber_dienst.dart';
 import '../online/online_halter.dart';
 import 'abschnitte.dart';
+import 'klasse_zeile.dart';
 
 /// Spielweise eines Abends. Sie wird im Assistenten vor den Einstellungen gewählt.
 enum Spielweise {
@@ -132,7 +133,9 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
     Future.wait<Object>([PartyDaten.laden(rootBundle, fall: id), ladeAbstecher(id)]).then((r) {
       if (!mounted || _ladeId != id) return;
       final s = PartySitzung(r[0] as PartyDaten);
-      final werte = EinrichtungsWerte(s)..solo = _weise == Spielweise.solo;
+      // Eine Druckfassung gibt es nur für Akten mit Druckmappe.
+      final druckbar = _akten?.where((a) => a.id == id).firstOrNull?.druckbar ?? false;
+      final werte = EinrichtungsWerte(s, druckbar: druckbar)..solo = _weise == Spielweise.solo;
       // Der Fußbereich hängt vom Fall-Code ab: bei jeder Eingabe neu zeichnen.
       werte.addListener(_werteGeaendert);
       setState(() => _geladen = _Geladen(id, s, werte, r[1] as List<AbstecherOrt>));
@@ -253,7 +256,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         ablage: const AblagePrefs(),
         abstecher: g.abstecher,
         katalog: katalog,
-        fallCodeEingabe: g.werte.codeWahl == CodeWahl.eingabe ? g.werte.code.text : null,
+        fallCodeEingabe: g.werte.codeEingabe,
         geburtstagskind: g.werte.geburtstag.text.trim(),
         minuten: g.werte.minuten,
         stimme: g.werte.stimme,
@@ -402,7 +405,9 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                 ),
               ),
               const SizedBox(height: MMass.s12),
-              // Das Deck dieses Geräts liegt am Abend als gemeinsame Hilfe auf dem Tisch.
+              // Die Klasse bestimmt die Karte der Belohnung, das Deck liegt am Abend als gemeinsame Hilfe auf dem Tisch.
+              const KlasseZeile(),
+              const SizedBox(height: MMass.s12),
               DeckZeile(katalog: _katalog, onAendern: () => context.push(Routes.sammlungDeck)),
               if (_weise == Spielweise.eigene) ...[
                 const SizedBox(height: MMass.s12),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../../l10n/lookup.dart';
 import '../../party/party_stil.dart' show FarbPunkt;
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
@@ -20,10 +21,22 @@ const einrichtungMinuten = [20, 30, 45, 60];
 /// Druckspiel, Rundendauer und Erzählerstimme. Der Assistent für neue Abende
 /// und der alte Einrichtungsbildschirm teilen sich diese Werte und die
 /// Abschnitte darunter; [starten] richtet den Abend ein.
+///
+/// Zwei Eigenschaften der Akte schränken die Wahl ein: Eine Druckfassung gibt es
+/// nur für Akten mit Druckmappe ([druckbar]), und eine Akte mit fester Lösung
+/// ([festeLoesung]) kennt keinen Fall-Code.
 class EinrichtungsWerte extends ChangeNotifier {
-  EinrichtungsWerte(this.sitzung) : rollen = 7.clamp(sitzung.minRollen, sitzung.maxRollen).toInt();
+  /// [druckbar]: Die Akte hat eine Druckmappe (`AkteInfo.druckbar`). Ohne Angabe
+  /// gilt sie als druckbar (alter Einrichtungsbildschirm, Druckmappe).
+  EinrichtungsWerte(this.sitzung, {this.druckbar = true}) : rollen = 7.clamp(sitzung.minRollen, sitzung.maxRollen).toInt();
 
   final PartySitzung sitzung;
+
+  /// Gibt es für diese Akte eine Druckfassung? Sonst bleibt es beim Bildschirmspiel.
+  final bool druckbar;
+
+  /// Akte mit fester Lösung (ein einziger Pfad): ein Fall-Code ändert den Täter nicht.
+  bool get festeLoesung => sitzung.daten.kanon.festeLoesung;
 
   int rollen;
   String detektiv = 'w';
@@ -47,11 +60,19 @@ class EinrichtungsWerte extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Startbereit: Zufall gilt immer, eine Eingabe nur, wenn sie ein Fall-Code ist.
-  bool get codeOk => codeWahl == CodeWahl.zufall || FallCode.lesen(code.text) != null;
+  /// Startbereit: Zufall gilt immer (auch bei fester Lösung, dort gibt es keine
+  /// Eingabe), eine Eingabe nur, wenn sie ein Fall-Code ist.
+  bool get codeOk => festeLoesung || codeWahl == CodeWahl.zufall || FallCode.lesen(code.text) != null;
 
   /// Eingegeben, aber kein Fall-Code. Eine leere Eingabe ist noch keine Fehlermeldung.
-  bool get codeFalsch => codeWahl == CodeWahl.eingabe && code.text.trim().isNotEmpty && FallCode.lesen(code.text) == null;
+  bool get codeFalsch =>
+      !festeLoesung && codeWahl == CodeWahl.eingabe && code.text.trim().isNotEmpty && FallCode.lesen(code.text) == null;
+
+  /// Der eingegebene Fall-Code oder `null` für Zufall (immer `null` bei fester Lösung).
+  String? get codeEingabe => !festeLoesung && codeWahl == CodeWahl.eingabe ? code.text : null;
+
+  /// Wird gedruckt? Nur reihum und nur, wenn die Akte eine Druckfassung hat.
+  bool get druck => !_solo && druckbar && spielart == Spielart.druck;
 
   TextEditingController namenFeld(String rolle) => _namen.putIfAbsent(rolle, () => TextEditingController());
 
@@ -75,7 +96,7 @@ class EinrichtungsWerte extends ChangeNotifier {
   }
 
   void setzeSpielart(Spielart wert) {
-    spielart = wert;
+    spielart = druckbar ? wert : Spielart.bildschirm;
     notifyListeners();
   }
 
@@ -103,8 +124,8 @@ class EinrichtungsWerte extends ChangeNotifier {
     s.einrichten(
       rollen: rollen,
       detektiv: detektiv,
-      code: codeWahl == CodeWahl.eingabe ? code.text : null,
-      druck: !_solo && (druckErzwingen || spielart == Spielart.druck),
+      code: codeEingabe,
+      druck: !_solo && (druckErzwingen || druck),
       solo: _solo,
       rundendauerMinuten: minuten,
       namen: namen,
@@ -169,7 +190,9 @@ abstract class _Abschnitt extends StatelessWidget {
 /// Alle Abschnitte in der festen Reihenfolge des Einrichtungsbildschirms. Im
 /// Solo-Spiel entfallen Druckfassung und Rundendauer. Im Online-Abend
 /// ([online]: jeder am eigenen Gerät) entfallen Personenzahl und Spielnamen
-/// (die Lobby legt die Rollen fest) und die Druckfassung.
+/// (die Lobby legt die Rollen fest) und die Druckfassung. Die Druckfassung gibt
+/// es nur für druckbare Akten ([EinrichtungsWerte.druckbar]). Bei einer Akte mit
+/// fester Lösung ersetzt ein Hinweis den Fall-Code.
 class EinrichtungsAbschnitte extends StatelessWidget {
   const EinrichtungsAbschnitte({super.key, required this.werte, this.online = false});
 
@@ -185,8 +208,8 @@ class EinrichtungsAbschnitte extends StatelessWidget {
             if (!online) PersonenAbschnitt(werte: werte),
             GeburtstagAbschnitt(werte: werte),
             DetektivAbschnitt(werte: werte),
-            FallAbschnitt(werte: werte),
-            if (!werte.solo && !online) SpielartAbschnitt(werte: werte),
+            FallAbschnitt(werte: werte, online: online),
+            if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
             if (!werte.solo) DauerAbschnitt(werte: werte),
             StimmeAbschnitt(werte: werte),
           ],
@@ -322,12 +345,20 @@ class DetektivAbschnitt extends _Abschnitt {
       );
 }
 
-/// Fall-Code: Zufall oder eigene Eingabe.
+/// Fall-Code: Zufall oder eigene Eingabe. Bei einer Akte mit fester Lösung
+/// stattdessen der Hinweis [FesteLoesungHinweis] ([online]: Gastgeber im Raum).
 class FallAbschnitt extends _Abschnitt {
-  const FallAbschnitt({super.key, required super.werte});
+  const FallAbschnitt({super.key, required super.werte, this.online = false});
+
+  final bool online;
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
+  Widget baue(BuildContext context, MFarben f, MSchrift t) {
+    if (werte.festeLoesung) return FesteLoesungHinweis(solo: werte.solo, online: online);
+    return _codeTafel(context, f, t);
+  }
+
+  Widget _codeTafel(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
         ueberschrift: s.ui('ui.einrichtung.fall'),
         kinder: [
           SegmentedButton<CodeWahl>(
@@ -360,6 +391,32 @@ class FallAbschnitt extends _Abschnitt {
           Text(s.ui('ui.einrichtung.code_hinweis'), style: t.leise),
         ],
       );
+}
+
+/// Hinweis für Akten mit fester Lösung: Ein Fall-Code ändert dort den Täter nicht,
+/// darum entfällt die Code-Wahl. Der Text hängt von der Spielweise ab.
+class FesteLoesungHinweis extends StatelessWidget {
+  const FesteLoesungHinweis({super.key, this.solo = false, this.online = false});
+
+  final bool solo;
+  final bool online;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    return EinrichtungsTafel(
+      ueberschrift: l.abend_feste_loesung_titel,
+      kinder: [
+        Text(
+          online
+              ? l.abend_feste_loesung_online
+              : (solo ? l.abend_feste_loesung_solo : l.abend_feste_loesung_hinweis),
+          key: const ValueKey('feste-loesung'),
+          style: MSchrift.von(context).text,
+        ),
+      ],
+    );
+  }
 }
 
 /// Bildschirmspiel oder Druckfassung (nur reihum, nicht im Solo-Spiel).

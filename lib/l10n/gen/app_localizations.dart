@@ -3573,6 +3573,60 @@ abstract class L {
   /// **'Abend beginnen'**
   String get abend_start;
 
+  /// No description provided for @abend_klasse_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Ermittlerklasse'**
+  String get abend_klasse_titel;
+
+  /// No description provided for @abend_klasse_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Abend bringt dir immer eine Sammelkarte deiner Klasse.'**
+  String get abend_klasse_hinweis;
+
+  /// No description provided for @abend_klasse_gesperrt.
+  ///
+  /// In de, this message translates to:
+  /// **'{klasse}, gesperrt, {rang}'**
+  String abend_klasse_gesperrt(String klasse, String rang);
+
+  /// No description provided for @abend_feste_loesung_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Feste Lösung'**
+  String get abend_feste_loesung_titel;
+
+  /// No description provided for @abend_feste_loesung_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung.'**
+  String get abend_feste_loesung_hinweis;
+
+  /// No description provided for @abend_feste_loesung_solo.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Akte hat eine feste Lösung. Wer sie schon kennt, wählt besser eine andere Akte.'**
+  String get abend_feste_loesung_solo;
+
+  /// No description provided for @abend_feste_loesung_online.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.'**
+  String get abend_feste_loesung_online;
+
+  /// No description provided for @profil_klasse_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.'**
+  String get profil_klasse_hinweis;
+
+  /// No description provided for @profil_klasse_gewaehlt.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewählt'**
+  String get profil_klasse_gewaehlt;
+
   /// No description provided for @karten_sammlung_titel.
   ///
   /// In de, this message translates to:
