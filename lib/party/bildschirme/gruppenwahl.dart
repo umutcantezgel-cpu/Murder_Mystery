@@ -92,7 +92,7 @@ class _GruppenwahlBildschirmState extends State<GruppenwahlBildschirm> {
   Widget _gruppe(String ueberschrift, List<Widget> zeilen, {String? leer}) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(ueberschrift.toUpperCase(), style: Keller.marke),
+          Text(ueberschrift.toUpperCase(), style: context.schrift.marke),
           const SizedBox(height: 8),
           if (zeilen.isEmpty && leer != null) Text(leer, style: Keller.leise),
           Wrap(spacing: 18, runSpacing: 10, children: zeilen),
@@ -175,7 +175,7 @@ class _WahlKarte extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         onTap: onTippen,
         child: PartyTafel(
-          akzent: gewaehlt ? Keller.kerze : Keller.linieStark,
+          akzent: gewaehlt ? context.farben.akzent : Keller.linieStark,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -183,7 +183,7 @@ class _WahlKarte extends StatelessWidget {
               const SizedBox(width: 12),
               Icon(
                 gewaehlt ? Icons.radio_button_checked : Icons.radio_button_unchecked,
-                color: gewaehlt ? Keller.kerze : Keller.papierGedaempft,
+                color: gewaehlt ? context.farben.akzent : Keller.papierGedaempft,
               ),
             ],
           ),
@@ -211,7 +211,7 @@ class _NamenZeile extends StatelessWidget {
           Icon(
             gewaehlt ? Icons.check : Icons.radio_button_unchecked,
             size: 18,
-            color: gewaehlt ? Keller.kerzeHell : Keller.papierGedaempft,
+            color: gewaehlt ? context.farben.akzentHell : Keller.papierGedaempft,
             semanticLabel: hinweis,
           ),
         ],

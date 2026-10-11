@@ -103,8 +103,34 @@ IconData artSymbol(KartenArt a) => switch (a) {
 /// Siegel der Akte unten auf der Karte (zwei Buchstaben).
 String akteSigel(String akte) => AkteStil.fuer(akte).sigel;
 
-/// Eine Sammelkarte des Katalogs als [SpielKarte]. Das Bildfeld zeigt das
-/// Symbol der Wirkung und, wenn bekannt, die Büste der Figur.
+/// Feste Messing- und Tintenfarben der Detektivklassen (`klasse:<name>`); sie
+/// haben keinen Farbcode einer Figur.
+const _klassenFarben = {
+  'klasse:forensic': Color(0xFF2E5C66),
+  'klasse:profiler': Color(0xFF4A3F73),
+  'klasse:journalist': Color(0xFF8C6A2A),
+  'klasse:excop': Color(0xFF6B3A2C),
+  'klasse:medic': Color(0xFF2F6B52),
+};
+
+/// Grundfarbe des Ölverlaufs einer Karte: der Farbcode der Figur (leicht in
+/// Sättigung und Helligkeit gefasst, damit Namensband und Text lesbar bleiben),
+/// bei Detektivklassen die feste Messing-/Tintenfarbe, sonst der Ton der Akte.
+/// Nie das Grau der Seltenheit: Zinn bleibt dem Rahmen und dem Edelstein.
+Color kartenGrundfarbe(KartenDef def, KartenFigur? figur) {
+  final stil = AkteStil.fuer(def.akte);
+  final klasse = _klassenFarben[def.figur];
+  if (klasse != null) return klasse;
+  var c = figur?.farbe ?? Color.lerp(stil.hintergrund, stil.akzent, 0.5)!;
+  // Fast farblose Codes (Schwarz, Grau, Weiß) bekommen einen Hauch der Akte.
+  if (HSLColor.fromColor(c).saturation < 0.18) c = Color.lerp(c, stil.akzent, 0.3)!;
+  final hsl = HSLColor.fromColor(c);
+  return hsl.withLightness(hsl.lightness.clamp(0.28, 0.5)).withSaturation(hsl.saturation.clamp(0.25, 0.9)).toColor();
+}
+
+/// Eine Sammelkarte des Katalogs als [SpielKarte]. Das Bildfeld zeigt, wenn das
+/// Aussehen der Figur bekannt ist, ihre Büste (mit dem Symbol der Wirkung als
+/// Marke), sonst das große Symbol der Wirkung.
 class KartenKarte extends StatelessWidget {
   const KartenKarte({
     super.key,
@@ -129,13 +155,10 @@ class KartenKarte extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final f = MFarben.von(context);
     final stufe = seltenheitStufe(def.seltenheit);
-    final grund = f.seltenheit(stufe.index);
-    final farbe = figur?.farbe == null ? grund : Color.lerp(grund, figur!.farbe, 0.45)!;
     return SpielKarte(
       name: def.titel,
-      farbe: farbe,
+      farbe: kartenGrundfarbe(def, figur),
       wirkung: def.text,
       seltenheit: stufe,
       seltenheitText: KartenTexte.seltenheit(def.seltenheit),
@@ -150,7 +173,8 @@ class KartenKarte extends StatelessWidget {
   }
 }
 
-/// Bild einer Karte: großes Symbol der Wirkung, unten links die Büste der Figur.
+/// Bild einer Karte: mit [look] die Büste der Figur und das Symbol der Wirkung
+/// als kleine Marke oben links, ohne [look] das große Symbol der Wirkung.
 class KartenMotiv extends StatelessWidget {
   const KartenMotiv({super.key, required this.art, this.look});
 
@@ -160,6 +184,7 @@ class KartenMotiv extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
+    final l = look;
     return SizedBox.square(
       dimension: 100,
       child: Stack(
@@ -168,25 +193,29 @@ class KartenMotiv extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: RadialGradient(
-                  colors: [f.papier.withValues(alpha: 0.2), f.papier.withValues(alpha: 0)],
+                  colors: [f.papier.withValues(alpha: l == null ? 0.2 : 0.28), f.papier.withValues(alpha: 0)],
                 ),
               ),
             ),
           ),
-          Center(child: Icon(artSymbol(art), size: 56, color: f.papier.withValues(alpha: 0.92))),
-          if (look != null)
+          if (l != null) ...[
+            Positioned.fill(child: CustomPaint(painter: PortraitPainter(look: l, background: false, accent: f.akzentHell))),
             Positioned(
-              left: 6,
-              bottom: 6,
-              width: 34,
-              height: 34,
-              child: ClipOval(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(border: Border.all(color: f.papier.withValues(alpha: 0.7))),
-                  child: CustomPaint(painter: PortraitPainter(look: look!, background: false, accent: f.akzentHell)),
+              left: 8,
+              top: 12,
+              width: 26,
+              height: 26,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0x99000000),
+                  border: Border.all(color: f.papier.withValues(alpha: 0.7)),
                 ),
+                child: Icon(artSymbol(art), size: 16, color: f.papier.withValues(alpha: 0.95)),
               ),
             ),
+          ] else
+            Center(child: Icon(artSymbol(art), size: 56, color: f.papier.withValues(alpha: 0.92))),
         ],
       ),
     );

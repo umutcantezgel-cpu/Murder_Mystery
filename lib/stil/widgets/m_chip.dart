@@ -5,7 +5,7 @@ import '../tokens.dart';
 /// Kleine Marke: ein Wort oder eine kurze Angabe in einer Kapsel
 /// (Ton einer Akte, Personenzahl, „bald“).
 class MChip extends StatelessWidget {
-  const MChip(this.text, {super.key, this.icon, this.farbe, this.gefuellt = false});
+  const MChip(this.text, {super.key, this.icon, this.farbe, this.gefuellt = false, this.passend = false});
 
   final String text;
   final IconData? icon;
@@ -16,11 +16,16 @@ class MChip extends StatelessWidget {
   /// Gefüllte Kapsel (Hervorhebung) statt Umriss.
   final bool gefuellt;
 
+  /// Natürliche Größe ohne Kürzen („…“): für eine Umgebung wie `FittedBox`,
+  /// die die ganze Kapsel verkleinert, wenn der Platz nicht reicht.
+  final bool passend;
+
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
     final c = farbe ?? f.akzent;
     final auf = gefuellt ? f.akzentAuf : c;
+    final stil = TextStyle(fontFamily: MRohSchrift.text, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.6, color: auf);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
@@ -32,14 +37,10 @@ class MChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[Icon(icon, size: 14, color: auf), const SizedBox(width: 4)],
-          Flexible(
-            child: Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontFamily: MRohSchrift.text, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.6, color: auf),
-            ),
-          ),
+          if (passend)
+            Text(text, maxLines: 1, softWrap: false, style: stil)
+          else
+            Flexible(child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis, style: stil)),
         ],
       ),
     );

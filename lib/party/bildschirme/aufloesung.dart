@@ -125,7 +125,7 @@ class _Wert extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(titel.toUpperCase(), style: Keller.marke),
+            Text(titel.toUpperCase(), style: context.schrift.marke),
             const SizedBox(height: 4),
             Text(wert, style: Keller.ueberschrift),
           ],

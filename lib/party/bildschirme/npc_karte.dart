@@ -29,7 +29,7 @@ class FundKarte extends StatelessWidget {
               : _PersonKopf(sitzung: sitzung, ziel: ziel, person: person),
           if (funde.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(sitzung.ui('ui.karte.fund').toUpperCase(), style: Keller.marke),
+            Text(sitzung.ui('ui.karte.fund').toUpperCase(), style: context.schrift.marke),
             const SizedBox(height: 8),
             for (final f in funde) Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(f.text, style: Keller.text)),
           ],
@@ -101,7 +101,7 @@ class _OrtKopf extends StatelessWidget {
     final raum = sitzung.kanon.graph.raeume[ziel.raum]!.anzeigename;
     return Row(
       children: [
-        Icon(ziel.art == ZielArt.raum ? Icons.meeting_room : Icons.search, size: 40, color: Keller.kerze),
+        Icon(ziel.art == ZielArt.raum ? Icons.meeting_room : Icons.search, size: 40, color: context.farben.akzent),
         const SizedBox(width: 14),
         Expanded(
           child: Column(

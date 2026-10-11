@@ -72,13 +72,19 @@ class _AbendSeiteState extends State<AbendSeite> {
   @override
   Widget build(BuildContext context) {
     final s = _sitzung;
-    return Scaffold(
-      backgroundColor: MFarben.von(context).grund,
-      body: switch (s) {
-        null => const PartyMeldung(fehler: false),
-        GastgeberSitzung() => GastgeberAblauf(sitzung: s, onEnde: _zurBelohnung),
-        _ => PartyAblauf(sitzung: s, onEnde: _zurBelohnung),
-      },
+    // Der ganze Abend steht im Stil seiner Akte (Akzent, Hintergrundton), auch
+    // Rahmen und Hinweise des Gerüsts; PartyAblauf und GastgeberAblauf färben
+    // ihre Bildschirme zusätzlich selbst.
+    return AkteThema(
+      akte: s?.daten.fall ?? '',
+      child: Scaffold(
+        backgroundColor: MFarben.von(context).grund,
+        body: switch (s) {
+          null => const PartyMeldung(fehler: false),
+          GastgeberSitzung() => GastgeberAblauf(sitzung: s, onEnde: _zurBelohnung),
+          _ => PartyAblauf(sitzung: s, onEnde: _zurBelohnung),
+        },
+      ),
     );
   }
 }

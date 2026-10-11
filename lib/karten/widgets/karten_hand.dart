@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mordakte_core/runden.dart';
 
 import '../../stil/stil.dart';
+import '../katalog_laden.dart' show KartenFigur;
 import 'karten_ansicht.dart';
 
 /// Die Karten des Tisches als kleiner Fächer: je Karte die Ladungen, die noch
@@ -21,6 +22,7 @@ class KartenHand extends StatelessWidget {
     this.onTipp,
     this.kompakt = false,
     this.hinweis,
+    this.figurVon,
   });
 
   final TischVorrat vorrat;
@@ -37,6 +39,10 @@ class KartenHand extends StatelessWidget {
 
   /// Zeile unter dem Fächer (was ein Tipp bewirkt).
   final String? hinweis;
+
+  /// Figur einer Karte (Farbcode und Büste); ohne Angabe oder ohne Treffer
+  /// färbt die Karte nach Detektivklasse oder Akte.
+  final KartenFigur? Function(KartenDef def)? figurVon;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +85,7 @@ class KartenHand extends StatelessWidget {
                     child: _Handkarte(
                       key: ValueKey('hand-${karten[i].id}'),
                       def: karten[i],
+                      figur: figurVon?.call(karten[i]),
                       rest: vorrat.rest(karten[i].id),
                       breite: breite,
                       winkel: (i - mitte) * 0.07,
@@ -105,6 +112,7 @@ class _Handkarte extends StatelessWidget {
   const _Handkarte({
     super.key,
     required this.def,
+    required this.figur,
     required this.rest,
     required this.breite,
     required this.winkel,
@@ -115,6 +123,7 @@ class _Handkarte extends StatelessWidget {
   });
 
   final KartenDef def;
+  final KartenFigur? figur;
   final int rest;
   final double breite;
   final double winkel;
@@ -144,9 +153,16 @@ class _Handkarte extends StatelessWidget {
           const BoxShadow(color: Color(0x88000000), blurRadius: 6, offset: Offset(0, 3)),
         ],
       ),
+      // Nicht spielbare Karten sind nur gedämpft (weniger Sättigung und Deckkraft),
+      // ihre Farbe bleibt erkennbar; eine leere Karte ist am stärksten zurückgenommen.
       child: Opacity(
-        opacity: leer ? 0.45 : (aktiv || gewaehlt ? 1 : 0.78),
-        child: KartenKarte(def: def, breite: breite),
+        opacity: leer ? 0.6 : (aktiv || gewaehlt ? 1 : 0.9),
+        child: aktiv || gewaehlt
+            ? KartenKarte(def: def, figur: figur, breite: breite)
+            : ColorFiltered(
+                colorFilter: _saettigung(leer ? 0.35 : 0.65),
+                child: KartenKarte(def: def, figur: figur, breite: breite),
+              ),
       ),
     );
     return Semantics(
@@ -176,6 +192,18 @@ class _Handkarte extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Farbfilter, der die Sättigung auf [s] (0 = grau, 1 = unverändert) setzt.
+ColorFilter _saettigung(double s) {
+  const r = 0.2126, g = 0.7152, b = 0.0722;
+  final i = 1 - s;
+  return ColorFilter.matrix(<double>[
+    r * i + s, g * i, b * i, 0, 0, //
+    r * i, g * i + s, b * i, 0, 0, //
+    r * i, g * i, b * i + s, 0, 0, //
+    0, 0, 0, 1, 0,
+  ]);
 }
 
 /// Punkte für die Ladungen: gefüllt = noch übrig.

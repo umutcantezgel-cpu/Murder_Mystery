@@ -143,8 +143,8 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
           child: Switch(
             value: an,
             onChanged: _schalte,
-            activeThumbColor: Keller.kerze,
-            activeTrackColor: Keller.kerzeSchwach,
+            activeThumbColor: context.farben.akzent,
+            activeTrackColor: context.farben.akzentSchwach,
             thumbIcon: WidgetStateProperty.resolveWith(
               (z) => Icon(z.contains(WidgetState.selected) ? Icons.volume_up : Icons.volume_off, size: 14, color: Keller.nacht),
             ),
@@ -168,7 +168,7 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
           mainAxisSize: MainAxisSize.min,
           children: [
             if (rueckblick) ...[
-              Text(s.ui('ui.erzaehler.rueckblick').toUpperCase(), style: Keller.marke),
+              Text(s.ui('ui.erzaehler.rueckblick').toUpperCase(), style: context.schrift.marke),
               const SizedBox(height: 8),
             ],
             Text(s.text(k), style: Keller.erzaehler),

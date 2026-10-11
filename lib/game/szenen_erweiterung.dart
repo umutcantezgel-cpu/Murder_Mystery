@@ -101,3 +101,40 @@ class SzenenLicht {
 
   const SzenenLicht({required this.dunkel, this.punkte = const [], this.taschenlampe = true, this.helleRaeume = const {}});
 }
+
+/// Optional: Punkte der Szene, die im Bild bleiben sollen (Ziele der laufenden
+/// Entscheidung, Ziel des Laufs). Mit `GameView.kameraPassend` passt die Kamera
+/// Zoom und Ausschnitt an diese Punkte und an den eigenen Detektiv an.
+abstract interface class SzenenKamera {
+  /// Ziele in Kachelkoordinaten; leer, wenn nichts Besonderes im Bild sein muss.
+  List<Offset> get kameraZiele;
+}
+
+/// Teil des Bildes, den ein Bedienfeld über der Szene verdeckt (Pixel). Die
+/// Kamera legt den Ausschnitt in den freien Rest.
+class SzenenRand {
+  final double oben, unten, links, rechts;
+  const SzenenRand({this.oben = 0, this.unten = 0, this.links = 0, this.rechts = 0});
+
+  static const keiner = SzenenRand();
+
+  @override
+  bool operator ==(Object other) =>
+      other is SzenenRand && other.oben == oben && other.unten == unten && other.links == links && other.rechts == rechts;
+
+  @override
+  int get hashCode => Object.hash(oben, unten, links, rechts);
+}
+
+/// Hintergrund hinter und neben der Karte (Palette der Akte): ein weicher
+/// Verlauf von [mitte] nach [rand] statt reinem Schwarz.
+class SzenenUmgebung {
+  final Color mitte, rand;
+  const SzenenUmgebung({required this.mitte, required this.rand});
+
+  @override
+  bool operator ==(Object other) => other is SzenenUmgebung && other.mitte == mitte && other.rand == rand;
+
+  @override
+  int get hashCode => Object.hash(mitte, rand);
+}

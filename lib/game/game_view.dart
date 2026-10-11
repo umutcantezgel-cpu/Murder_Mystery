@@ -10,6 +10,7 @@ import '../session/game_session.dart';
 import 'input/action_button.dart';
 import 'input/joystick.dart';
 import 'mordakte_game.dart';
+import 'szenen_erweiterung.dart' show SzenenRand, SzenenUmgebung;
 
 /// Die 2.5D-Spielszene (Flame) inkl. Joystick, Aktionsknopf und Tastatur.
 ///
@@ -21,9 +22,26 @@ import 'mordakte_game.dart';
 /// wo der Daumen aufsetzt), Aktionsknopf = unten rechts (88 px, 24 px Rand).
 /// Langes Drücken auf die Karte außerhalb des Joysticks setzt einen Ping.
 class GameView extends StatefulWidget {
-  const GameView({super.key, required this.session, this.steuerung = true});
+  const GameView({
+    super.key,
+    required this.session,
+    this.steuerung = true,
+    this.kameraPassend = false,
+    this.sichtRand = SzenenRand.keiner,
+    this.umgebung,
+  });
 
   final GameSession session;
+
+  /// Zoom und Ausschnitt folgen Detektiv und Zielen (Partykarte); die Sitzung
+  /// braucht dafür [SzenenKamera]. Pinch-Zoom wirkt weiter darauf.
+  final bool kameraPassend;
+
+  /// Vom Bedienfeld verdeckter Teil des Bildes (Pixel); der Ausschnitt liegt im Rest.
+  final SzenenRand sichtRand;
+
+  /// Hintergrund außerhalb der Karte statt reinem Schwarz.
+  final SzenenUmgebung? umgebung;
 
   /// Joystick, Aktionsknopf und Eingabe; `false` für reine Ansichten
   /// (Rückblende im Partymodus).
@@ -55,11 +73,19 @@ class _GameViewState extends State<GameView> {
     _joy.addListener(_onJoy);
   }
 
-  MordakteGame _createGame(GameSession s) => MordakteGame(session: s)..focusNode = _focus;
+  MordakteGame _createGame(GameSession s) => MordakteGame(session: s)
+    ..focusNode = _focus
+    ..kameraPassend = widget.kameraPassend
+    ..sichtRand = widget.sichtRand
+    ..umgebung = widget.umgebung;
 
   @override
   void didUpdateWidget(GameView old) {
     super.didUpdateWidget(old);
+    _game
+      ..kameraPassend = widget.kameraPassend
+      ..sichtRand = widget.sichtRand
+      ..umgebung = widget.umgebung;
     if (!identical(old.session, widget.session)) {
       final prev = _game;
       _game = _createGame(widget.session);

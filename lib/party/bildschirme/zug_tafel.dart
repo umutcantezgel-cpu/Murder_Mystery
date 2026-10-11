@@ -6,6 +6,7 @@ import 'package:mordakte_core/runden.dart';
 import '../../karten/widgets/karten_ansicht.dart';
 import '../../karten/widgets/karten_hand.dart';
 import '../../l10n/lookup.dart';
+import '../karten_figur.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 
@@ -45,7 +46,7 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(s.ui('ui.zug.wuerfel'), style: Keller.titel),
+        Text(s.ui('ui.zug.wuerfel'), style: context.schrift.titel),
         const SizedBox(height: 10),
         Text(s.ui('ui.zug.pate', {'name': s.wuerfelPate}), style: Keller.text),
         const SizedBox(height: 14),
@@ -72,13 +73,14 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
             aktiv: kartenDerArt(s.vorrat, const {KartenArt.werkzeug}),
             gewaehlt: {?_karte},
             hinweis: kartenDerArt(s.vorrat, const {KartenArt.werkzeug}).isEmpty ? null : KartenTexte.handWuerfel,
+            figurVon: s.kartenFigur,
             onTipp: _tippe,
           ),
         ],
         if (darf && !z.istAuftakt && !z.istAbstecher && s.marken > 0) Material(color: Colors.transparent, child: CheckboxListTile(
           contentPadding: EdgeInsets.zero,
           controlAffinity: ListTileControlAffinity.leading,
-          activeColor: Keller.kerze,
+          activeColor: context.farben.akzent,
           value: _marke && markeMoeglich,
           onChanged: markeMoeglich ? (wert) => setState(() => _marke = wert ?? false) : null,
           title: Text(s.ui(markeMoeglich ? 'ui.zug.marke_einsetzen' : 'ui.zug.marke_deckel'), style: Keller.leise),
@@ -165,6 +167,7 @@ class TischrufTafel extends StatelessWidget {
             vorrat: s.vorrat,
             aktiv: kartenDerArt(s.vorrat, const {KartenArt.nochmal, KartenArt.umweg}),
             hinweis: kartenDerArt(s.vorrat, const {KartenArt.nochmal, KartenArt.umweg}).isEmpty ? null : KartenTexte.handTischruf,
+            figurVon: s.kartenFigur,
             onTipp: (k) {
               if (!s.vorrat.verfuegbar(k.id)) return;
               if (k.art == KartenArt.nochmal) s.tischruf(Tischruf.nochmal, karte: k.id);
@@ -189,7 +192,7 @@ class StufenSymbol extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => switch (stufe) {
-    Stufe.erfolg => Icon(Icons.search_rounded, color: Keller.kerzeHell, size: groesse),
+    Stufe.erfolg => Icon(Icons.search_rounded, color: context.farben.akzentHell, size: groesse),
     Stufe.teilerfolg => Icon(Icons.phone_android_rounded, color: Keller.papier, size: groesse),
     Stufe.pech => CustomPaint(size: Size.square(groesse), painter: const _Gespenst()),
   };

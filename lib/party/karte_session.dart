@@ -18,7 +18,7 @@ import 'sitzung.dart';
 /// `Interact` wählt nicht direkt, sondern macht einen Vorschlag; die Sitzung
 /// fragt „Das ist endgültig“. Rückblende (erst nach dem Finale): Zeitraffer
 /// der Tatmatrix mit dem Licht im Stromausfall (B-04).
-class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz, GefuehrteSzene {
+class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz, SzenenKamera, GefuehrteSzene {
   PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25}) {
     final d = sitzung.kanon.figur((sitzung.kanon.figurenJson['detektiv'] as Map)['id'] as String)!;
     final ort = sitzung.kanon.graph.orte[d['ermittlungsOrt'] as String]!;
@@ -82,6 +82,12 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
   bool _abstecherOhneWeg = false;
   late final TileGrid _raster = TileGrid(sitzung.daten.szenario.map);
 
+  /// Ziel des laufenden Wegs in Kachelkoordinaten (für die Kamera).
+  Offset? _aktionsZiel;
+
+  /// Punkte, die im Bild bleiben sollen; wird mit dem Zustand der Sitzung neu gesetzt.
+  List<Offset> _kameraZiele = const [];
+
   final ValueNotifier<double> aktionsFortschritt = ValueNotifier(0);
   final ValueNotifier<bool> aktionsFehler = ValueNotifier(false);
 
@@ -140,6 +146,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
       raster: _raster, startX: _x, startY: _y, facing: _f,
       zielX: zx, zielY: zy, raum: raum, suchen: z.suche, umweg: z.ruf == Tischruf.umweg,
     );
+    _aktionsZiel = Offset(zx, zy);
     _abstecherOhneWeg = z.istAbstecher && _aktion == null;
     aktionsFehler.value = _aktion == null && !z.istAbstecher;
     aktionsFortschritt.value = 0;
@@ -249,6 +256,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
     if (_entsorgt) return;
     _synchronisiereAktion();
     final hotspots = <String, String>{};
+    final ziele = <Offset>[];
     if (!rueckblendeModus) {
       final z = sitzung.karte.zustand(sitzung.spiel);
       for (final h in z.erledigt) {
@@ -256,12 +264,25 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
       }
       if (sitzung.laufendeEntscheidung != null) {
         for (final h in z.offen.keys) { hotspots[h] = HotspotState.open; }
+        if (sitzung.zug == null) {
+          // Die Ziele der laufenden Entscheidung bleiben im Bild.
+          for (final h in z.offen.keys) {
+            if (sitzung.daten.szenario.hotspotById[h] case final d?) ziele.add(Offset(d.x + 0.5, d.y + 0.5));
+          }
+          for (final id in z.ansprechbar.keys) {
+            for (final f in sitzung.karte.figuren) {
+              if (f.id == id) ziele.add(Offset(f.x, f.y));
+            }
+          }
+        }
       }
+      if (sitzung.zug?.phase == RundenZugPhase.aktion && _aktionsZiel != null) ziele.add(_aktionsZiel!);
       final ziel = sitzung.karte.ziele[sitzung.zug?.option];
       if (ziel != null && ziel.person == null && sitzung.zug?.phase != RundenZugPhase.fund) {
         hotspots[ziel.hotspot] = HotspotState.open;
       }
     }
+    _kameraZiele = ziele;
     _case.value = CaseView(
       version: ++_version,
       roomCode: 'PARTY',
@@ -354,6 +375,12 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
     _connected.dispose();
     await _events.close();
   }
+
+  // ---------------------------------------------------------------------------
+  // SzenenKamera: Ziele der Entscheidung und des Wegs bleiben im Bild
+
+  @override
+  List<Offset> get kameraZiele => _kameraZiele;
 
   // ---------------------------------------------------------------------------
   // SzenenGlanz: offene Abstecher funkeln an ihrem Ort

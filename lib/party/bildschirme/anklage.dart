@@ -121,7 +121,7 @@ class _Karte extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: markiert ? Keller.kerze : Colors.transparent, width: 2),
+            border: Border.all(color: markiert ? context.farben.akzent : Colors.transparent, width: 2),
           ),
           child: Padding(
             padding: const EdgeInsets.all(2),
@@ -142,7 +142,7 @@ class _Karte extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (markiert) const Icon(Icons.check_circle, color: Keller.kerze),
+                  if (markiert) Icon(Icons.check_circle, color: context.farben.akzent),
                 ],
               ),
             ),

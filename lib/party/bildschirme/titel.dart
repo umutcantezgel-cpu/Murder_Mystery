@@ -26,17 +26,17 @@ class TitelBildschirm extends StatelessWidget {
           builder: (context, box) => SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: box.maxHeight),
-              child: Center(child: _Lichtschein(child: _kopf(box.maxWidth))),
+              child: Center(child: _Lichtschein(child: _kopf(context, box.maxWidth))),
             ),
           ),
         ),
       );
 
   /// Titel, Untertitel und der Hinweis zum Einrichten.
-  Widget _kopf(double breite) => Column(
+  Widget _kopf(BuildContext context, double breite) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(sitzung.kanon.fall['titel'] as String, style: Keller.titel.copyWith(fontSize: breite < 320 ? 32 : 40), textAlign: TextAlign.center),
+          Text(sitzung.kanon.fall['titel'] as String, style: context.schrift.titel.copyWith(fontSize: breite < 320 ? 32 : 40), textAlign: TextAlign.center),
           const SizedBox(height: 10),
           Text(sitzung.kanon.fall['untertitel'] as String, style: Keller.leise, textAlign: TextAlign.center),
           const SizedBox(height: 32),
@@ -91,7 +91,7 @@ class _LichtscheinState extends State<_Lichtschein> with SingleTickerProviderSta
           final helligkeit = 0.12 + 0.05 * welle;
           return DecoratedBox(
             decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color: Keller.kerze.withValues(alpha: helligkeit), blurRadius: 90, spreadRadius: 30)],
+              boxShadow: [BoxShadow(color: context.farben.akzent.withValues(alpha: helligkeit), blurRadius: 90, spreadRadius: 30)],
             ),
             child: kind,
           );

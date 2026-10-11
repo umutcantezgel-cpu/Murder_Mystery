@@ -60,7 +60,7 @@ class _DruckTafelState extends State<DruckTafel> {
   Widget build(BuildContext context) {
     final dateien = _dateien;
     return PartyTafel(
-      akzent: Keller.kerze,
+      akzent: context.farben.akzent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -73,7 +73,7 @@ class _DruckTafelState extends State<DruckTafel> {
               alignment: Alignment.centerLeft,
               child: _laeuft
                   ? Row(children: [
-                      const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5, color: Keller.kerze)),
+                      SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5, color: context.farben.akzent)),
                       const SizedBox(width: 12),
                       Flexible(child: Text(s.ui('ui.druck.app.laedt'), style: Keller.text)),
                     ])

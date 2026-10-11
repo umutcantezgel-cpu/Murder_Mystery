@@ -96,29 +96,34 @@ class KartenFigur {
 Future<Map<String, KartenFigur>> ladeKartenFiguren(String akte, [AssetBundle? bundle]) async {
   try {
     final text = await (bundle ?? rootBundle).loadString('content/party/$akte/figuren.json');
-    final j = jsonDecode(text) as Map<String, Object?>;
-    final aus = <String, KartenFigur>{};
-    // Auch das Opfer hat Karten (z. B. Herr Schneider); es steht hinter den Rollen.
-    for (final f in [...(j['figuren'] as List? ?? const []), if (j['opfer'] is Map) j['opfer']]) {
-      final m = (f as Map).cast<String, Object?>();
-      final id = m['id'] as String;
-      LookDef? look;
-      try {
-        look = LookDef.fromJson(renderLook(m));
-      } catch (_) {
-        look = null;
-      }
-      Color? farbe;
-      final code = m['colorCode'];
-      if (code is String && RegExp(r'^#[0-9a-fA-F]{6}$').hasMatch(code)) {
-        farbe = Color(int.parse(code.substring(1), radix: 16) | 0xFF000000);
-      }
-      aus[id] = KartenFigur(id, m['name'] as String? ?? id, look: look, titel: (m['roleTitle'] ?? '') as String, farbe: farbe);
-    }
-    return aus;
+    return kartenFigurenAus(jsonDecode(text) as Map<String, Object?>);
   } catch (_) {
     return const {};
   }
+}
+
+/// Figuren aus dem Inhalt von `figuren.json` (Rollen und Opfer), je Kennung.
+/// Gleiche Quelle für Sammlung und Abend, damit Büste und Farbcode übereinstimmen.
+Map<String, KartenFigur> kartenFigurenAus(Map<String, Object?> j) {
+  final aus = <String, KartenFigur>{};
+  // Auch das Opfer hat Karten (z. B. Herr Schneider); es steht hinter den Rollen.
+  for (final f in [...(j['figuren'] as List? ?? const []), if (j['opfer'] is Map) j['opfer']]) {
+    final m = (f as Map).cast<String, Object?>();
+    final id = m['id'] as String;
+    LookDef? look;
+    try {
+      look = LookDef.fromJson(renderLook(m));
+    } catch (_) {
+      look = null;
+    }
+    Color? farbe;
+    final code = m['colorCode'];
+    if (code is String && RegExp(r'^#[0-9a-fA-F]{6}$').hasMatch(code)) {
+      farbe = Color(int.parse(code.substring(1), radix: 16) | 0xFF000000);
+    }
+    aus[id] = KartenFigur(id, m['name'] as String? ?? id, look: look, titel: (m['roleTitle'] ?? '') as String, farbe: farbe);
+  }
+  return aus;
 }
 
 /// Figuren aller Akten des Katalogs (ohne die Detektivklassen `mordakte`),
