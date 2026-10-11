@@ -58,3 +58,6 @@ quellen/
 
 # Arbeitsbäume der Agenten (lokal)
 .claude/worktrees/
+
+# Vercel-Weiche (web/build.sh)
+/web/build/

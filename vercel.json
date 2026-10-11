@@ -1,5 +1,5 @@
 {
-    "buildCommand": "bash build.sh",
+    "buildCommand": "if [ -f build.sh ]; then bash build.sh; elif [ -f ../build.sh ]; then bash ../build.sh && mkdir -p build && rm -rf build/web && cp -r ../build/web build/web; else echo \"build.sh nicht gefunden in $(pwd)\"; ls -la; exit 1; fi",
     "outputDirectory": "build/web",
     "installCommand": "echo 'No npm install needed'",
     "framework": null,
