@@ -1,0 +1,403 @@
+{
+  "hinweis": "Sammelkarten der Akte „Blue Palm Motel“: je Rolle zwei Karten (eine gewöhnliche, eine seltene), die vier Pfad-Personen zusätzlich eine Täterkarte, dazu die legendäre Meisterkarte. Motive und Namen stammen aus Aussehen, Beruf und Alltag der Figuren, nie aus einem Beweisstück oder einem Geheimnis. Die Wirkung kommt allein aus dem geschlossenen Katalog (Komfort, nie Wissen). Abstecher-Karten gehören nur Rollen, die auf keinem Pfad die Täterrolle haben.",
+  "akte": "blue_palm",
+  "karten": [
+    {
+      "id": "blue_palm:viv:textblatt",
+      "akte": "blue_palm",
+      "figur": "viv",
+      "seltenheit": "gewoehnlich",
+      "art": "erinnerung",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Vivs Textblatt",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "textblatt mit sternchen am rand",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:viv:paillettenkleid",
+      "akte": "blue_palm",
+      "figur": "viv",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Vivs Paillettenkleid",
+      "text": "Ein magentafarbenes Paillettenkleid, nur fürs Aussehen.",
+      "motiv": "magentafarbenes paillettenkleid",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:viv:ertappt",
+      "akte": "blue_palm",
+      "figur": "viv",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ertappt: Viv",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:dale:mintanzug",
+      "akte": "blue_palm",
+      "figur": "dale",
+      "seltenheit": "gewoehnlich",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Dales Mintanzug",
+      "text": "Ein mintgrüner Pastellanzug, nur fürs Aussehen.",
+      "motiv": "mintgrüner pastellanzug",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:dale:visitenkarte",
+      "akte": "blue_palm",
+      "figur": "dale",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Dales Visitenkarte",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "visitenkarte mit breitem lächeln",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:dale:ertappt",
+      "akte": "blue_palm",
+      "figur": "dale",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Dale",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:sol:kaffeekanne",
+      "akte": "blue_palm",
+      "figur": "sol",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Sols Kaffeekanne",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "kaffeekanne neben tassenstapel",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:sol:bestellblock",
+      "akte": "blue_palm",
+      "figur": "sol",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Sols Bestellblock",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "bestellblock mit stummeligem bleistift",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:sol:ertappt",
+      "akte": "blue_palm",
+      "figur": "sol",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Sol",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:frank:windjacke",
+      "akte": "blue_palm",
+      "figur": "frank",
+      "seltenheit": "gewoehnlich",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Franks Windjacke",
+      "text": "Eine beige Windjacke, leicht zerknautscht, nur fürs Aussehen.",
+      "motiv": "beige windjacke mit hohem kragen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:frank:viel_zeit",
+      "akte": "blue_palm",
+      "figur": "frank",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Franks viel zu viel Zeit",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "leerer terminkalender mit kaffeefleck",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:frank:ertappt",
+      "akte": "blue_palm",
+      "figur": "frank",
+      "seltenheit": "selten",
+      "art": "werkzeug",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Frank",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:toby:digitaluhr",
+      "akte": "blue_palm",
+      "figur": "toby",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Tobys Digitaluhr",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "digitaluhr mit blinkendem doppelpunkt",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:toby:walkman",
+      "akte": "blue_palm",
+      "figur": "toby",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Tobys Walkman",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "walkman mit kopfhörern",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "kopfhoerer_sonnenliege"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:marcy:nachfrage",
+      "akte": "blue_palm",
+      "figur": "marcy",
+      "seltenheit": "gewoehnlich",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Marcys Nachfrage",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "hand mit erhobenem kuli",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:marcy:eilmeldung",
+      "akte": "blue_palm",
+      "figur": "marcy",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Marcys Eilmeldung",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "papierschiff mit schlagzeile",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "schiffchen_oellache"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:gus:werkzeuggurt",
+      "akte": "blue_palm",
+      "figur": "gus",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Gus’ Werkzeuggürtel",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "werkzeuggürtel mit vielen laschen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:gus:flickzeug",
+      "akte": "blue_palm",
+      "figur": "gus",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Gus’ Flickzeug",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "flickzeug mit pflaster und kleber",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "ananas_beckenrand"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:gus:klebeband",
+      "akte": "blue_palm",
+      "figur": "gus",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Gus’ Klebeband",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "klebeband um ein spielzeugboot",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "boot_skimmer"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:dottie:zimmerrunde",
+      "akte": "blue_palm",
+      "figur": "dottie",
+      "seltenheit": "gewoehnlich",
+      "art": "abstecher",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Dotties Zimmerrunde",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "wäschewagen im neonlicht",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:dottie:sockenkorb",
+      "akte": "blue_palm",
+      "figur": "dottie",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Dotties Sockenkorb",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "korb voller bunter socken",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "sockenkorb_trockner"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:dottie:buegeleisen",
+      "akte": "blue_palm",
+      "figur": "dottie",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Dotties Bügeleisen",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "bügeleisen mit blümchengriff",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "eisen_buegeltisch"
+        }
+      ]
+    },
+    {
+      "id": "blue_palm:lucky:neonschild",
+      "akte": "blue_palm",
+      "figur": "lucky",
+      "seltenheit": "legendaer",
+      "art": "zeit",
+      "ladungen": 2,
+      "wert": 5,
+      "titel": "Luckys rosa Neonschild",
+      "text": "+5 Nachtminuten in dieser Runde.",
+      "motiv": "rosa neonschild mit palme",
+      "quellen": [
+        {
+          "art": "meister"
+        }
+      ]
+    }
+  ]
+}

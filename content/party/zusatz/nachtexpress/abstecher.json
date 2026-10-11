@@ -1,0 +1,60 @@
+{
+  "hinweis": "Abstecher der Akte „Nachtexpress 1931“: freiwillige Erkundungsorte. Reine Stimmung und Nebenfunde, auf allen Pfaden gleich; kein Satz berührt Beweise, Alibis, Geheimnisse oder Verdächtige. Ein Erfolg oder Teilerfolg bringt die Sammelkarte dieses Fundorts (content/karten/nachtexpress.json), Pech nur ein Missgeschick mit Glück im Unglück.",
+  "akte": "nachtexpress",
+  "abstecher": [
+    {
+      "id": "eiszapfen_gelaender",
+      "ort": "am_gelaender",
+      "name": "Am Geländer",
+      "erfolg": "Am Geländer hängt ein langer Eiszapfen. Als du ihn antippst, klingelt er leise wie ein Glöckchen.",
+      "teilerfolg": "Du hörst ein feines Klingeln im Wind. Den Eiszapfen dazu findest du nicht.",
+      "pech": "Ein Eisbrocken rutscht dir in den Kragen. Es ist eiskalt, aber nach einem Schütteln ist alles gut.",
+      "abRunde": 1
+    },
+    {
+      "id": "tuch_spuele",
+      "ort": "an_der_spuele",
+      "name": "An der kalten Spüle",
+      "erfolg": "Neben der Spüle hängt ein Geschirrtuch mit einem aufgestickten Zug. Der Zug hat sogar kleine Wölkchen.",
+      "teilerfolg": "Du findest ein Stück Geschirrtuch mit einem halben Rad darauf. Der Rest ist wohl in der Spüle gelandet.",
+      "pech": "Du drehst den Hahn auf, und es gluckst nur. Das Wasser ist längst eingefroren.",
+      "abRunde": 1
+    },
+    {
+      "id": "roman_schrank",
+      "ort": "am_kleiderschrank_schlafwagen",
+      "name": "Im Schrank des Schlafwagens",
+      "erfolg": "Zwischen zwei Bügeln steckt ein zerlesenes Taschenbuch. Es klappt von selbst auf Seite 87 auf.",
+      "teilerfolg": "Du findest ein Lesezeichen aus einem alten Fahrplan. Das Buch dazu fehlt.",
+      "pech": "Die Schranktür klemmt und knallt dir fast an die Nase. Du sagst dem Schrank deine Meinung, ganz leise.",
+      "abRunde": 2
+    },
+    {
+      "id": "fahrplan_sortierpult",
+      "ort": "am_sortierpult",
+      "name": "Auf dem Sortierpult",
+      "erfolg": "Auf dem Pult liegt ein Stapel Fahrpläne mit Eselsohren. Auf dem obersten hat jemand „Pünktlich“ durchgestrichen.",
+      "teilerfolg": "Du findest ein Pappschild mit der Aufschrift „Bitte warten“. Es ist schon ganz weich vom vielen Warten.",
+      "pech": "Ein Stapel Kisten gerät ins Wanken. Du fängst ihn auf und schnaufst durch.",
+      "abRunde": 2
+    },
+    {
+      "id": "loeffel_uebergang",
+      "ort": "im_uebergang",
+      "name": "Zwischen den Wagen",
+      "erfolg": "Im Übergang liegt ein kleiner Silberlöffel. Er klimpert im Takt der Räder, als wollte er mitsingen.",
+      "teilerfolg": "Etwas klimpert im Takt der Räder. Du siehst es nur kurz blitzen.",
+      "pech": "Der Wind reißt die Tür auf, und es pfeift eiskalt. Du hältst dich fest und bleibst auf den Beinen.",
+      "abRunde": 3
+    },
+    {
+      "id": "kalender_postwagen",
+      "ort": "im_postwagen",
+      "name": "An der Wand des Postwagens",
+      "erfolg": "An der Wand hängt ein Kalender mit einem Bild vom Matterhorn. Jemand hat dem Berg einen Schnurrbart gemalt.",
+      "teilerfolg": "Du findest ein Stück Kalender mit einem halben Berg. Die Spitze fehlt.",
+      "pech": "Eine Wolke Staub steigt aus den Fächern auf. Du niest dreimal und fühlst dich danach wie neu.",
+      "abRunde": 3
+    }
+  ]
+}

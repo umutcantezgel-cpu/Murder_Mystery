@@ -1,0 +1,403 @@
+{
+  "hinweis": "Sammelkarten der Akte „Ravensmoor“: je Rolle zwei Karten (eine gewöhnliche, eine seltene), die vier Pfad-Personen zusätzlich eine Täterkarte, dazu die legendäre Meisterkarte. Motive und Namen stammen aus Aussehen, Beruf und Alltag der Figuren, nie aus einem Beweisstück oder einem Geheimnis. Die Wirkung kommt allein aus dem geschlossenen Katalog (Komfort, nie Wissen). Abstecher-Karten gehören nur Rollen, die auf keinem Pfad die Täterrolle haben.",
+  "akte": "ravensmoor",
+  "karten": [
+    {
+      "id": "ravensmoor:witwe:faecher",
+      "akte": "ravensmoor",
+      "figur": "witwe",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Lady Constances Fächer",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "spitzenfächer mit perlmuttstäben",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:witwe:samtkleid",
+      "akte": "ravensmoor",
+      "figur": "witwe",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Constances Samtkleid",
+      "text": "Ein Abendkleid aus dunklem Samt, nur fürs Aussehen.",
+      "motiv": "abendkleid aus dunklem samt",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:witwe:ertappt",
+      "akte": "ravensmoor",
+      "figur": "witwe",
+      "seltenheit": "selten",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 4,
+      "titel": "Ertappt: Lady Constance",
+      "text": "+4 Nachtminuten in dieser Runde.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:neffe:fliege",
+      "akte": "ravensmoor",
+      "figur": "neffe",
+      "seltenheit": "gewoehnlich",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Julians Fliege",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "rote fliege an heller weste",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:neffe:gehrock",
+      "akte": "ravensmoor",
+      "figur": "neffe",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Julians granatroter Gehrock",
+      "text": "Ein granatroter Gehrock mit heller Weste, nur fürs Aussehen.",
+      "motiv": "granatroter gehrock mit weste",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:neffe:ertappt",
+      "akte": "ravensmoor",
+      "figur": "neffe",
+      "seltenheit": "selten",
+      "art": "umweg",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Julian",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:butler:personalliste",
+      "akte": "ravensmoor",
+      "figur": "butler",
+      "seltenheit": "gewoehnlich",
+      "art": "gruendlich",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Pells Personalliste",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "liste mit sauberen häkchen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:butler:hausbuch",
+      "akte": "ravensmoor",
+      "figur": "butler",
+      "seltenheit": "selten",
+      "art": "erinnerung",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Pells Hausbuch",
+      "text": "Zeigt die Sprechblasen der letzten Runde noch einmal.",
+      "motiv": "hausbuch mit schwarzem einband",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:butler:ertappt",
+      "akte": "ravensmoor",
+      "figur": "butler",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Ertappt: Pell",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:aerztin:arzttasche",
+      "akte": "ravensmoor",
+      "figur": "aerztin",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Doktor Marshs Arzttasche",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "ledertasche mit messingschloss",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:aerztin:hausbesuch",
+      "akte": "ravensmoor",
+      "figur": "aerztin",
+      "seltenheit": "selten",
+      "art": "abstecher",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Doktor Marshs Hausbesuch",
+      "text": "Ein Abstecher kostet keine Nachtminuten.",
+      "motiv": "kutsche mit arzttasche im regen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:aerztin:ertappt",
+      "akte": "ravensmoor",
+      "figur": "aerztin",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Ertappt: Doktor Marsh",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "ertappt mit erhobenen händen",
+      "quellen": [
+        {
+          "art": "taeter"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:gaertner:gartenschere",
+      "akte": "ravensmoor",
+      "figur": "gaertner",
+      "seltenheit": "gewoehnlich",
+      "art": "werkzeug",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Silas’ Gartenschere",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "gartenschere mit roten griffen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:gaertner:schirmmuetze",
+      "akte": "ravensmoor",
+      "figur": "gaertner",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Silas’ Schirmmütze",
+      "text": "Eine Schirmmütze, schief und wetterfest, nur fürs Aussehen.",
+      "motiv": "schirmmütze auf steinernem kopf",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "muetze_statue"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:koechin:sanduhr",
+      "akte": "ravensmoor",
+      "figur": "koechin",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Mrs Hobbs’ Sanduhr",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "sanduhr neben suppenkelle",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:koechin:puddingform",
+      "akte": "ravensmoor",
+      "figur": "koechin",
+      "seltenheit": "selten",
+      "art": "nochmal",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Mrs Hobbs’ Puddingform",
+      "text": "Ein Nochmal nach Pech kostet keine Nachtminuten.",
+      "motiv": "kupferne puddingform",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "puddingform_speiseschrank"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:zofe:flinke_schritte",
+      "akte": "ravensmoor",
+      "figur": "zofe",
+      "seltenheit": "gewoehnlich",
+      "art": "umweg",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Tillys flinke Schritte",
+      "text": "Ein Umweg nach Pech kostet keine Nachtminuten.",
+      "motiv": "huschende schritte über parkett",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:zofe:putzbuerste",
+      "akte": "ravensmoor",
+      "figur": "zofe",
+      "seltenheit": "selten",
+      "art": "gruendlich",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Tillys Putzbürste",
+      "text": "„Gründlich“ ohne Zeitkosten.",
+      "motiv": "putzbürste mit glänzenden borsten",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "buerste_schuhkasten"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:zofe:gloeckchen",
+      "akte": "ravensmoor",
+      "figur": "zofe",
+      "seltenheit": "selten",
+      "art": "marke",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Tillys Glöckchen",
+      "text": "Eine Seifenblasen-Marke in den Bestand.",
+      "motiv": "messingglöckchen auf der anrichte",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "gloeckchen_anrichte"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:anwalt:aktenmappe",
+      "akte": "ravensmoor",
+      "figur": "anwalt",
+      "seltenheit": "gewoehnlich",
+      "art": "zeit",
+      "ladungen": 1,
+      "wert": 3,
+      "titel": "Mr Cranes Aktenmappe",
+      "text": "+3 Nachtminuten in dieser Runde.",
+      "motiv": "aktenmappe mit lederriemen",
+      "quellen": [
+        {
+          "art": "rolle"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:anwalt:zylinder",
+      "akte": "ravensmoor",
+      "figur": "anwalt",
+      "seltenheit": "selten",
+      "art": "kosmetik",
+      "ladungen": 1,
+      "wert": 1,
+      "titel": "Mr Cranes Zylinder",
+      "text": "Ein seidig glänzender Zylinder, nur fürs Aussehen.",
+      "motiv": "zylinder auf dem obersten haken",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "zylinder_garderobe"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:anwalt:kneifer",
+      "akte": "ravensmoor",
+      "figur": "anwalt",
+      "seltenheit": "selten",
+      "art": "werkzeug",
+      "ladungen": 2,
+      "wert": 1,
+      "titel": "Mr Cranes Kneifer",
+      "text": "+1 auf den nächsten Suchwurf.",
+      "motiv": "kneifer mit dünnem goldrand",
+      "quellen": [
+        {
+          "art": "abstecher",
+          "abstecher": "kneifer_lesesessel"
+        }
+      ]
+    },
+    {
+      "id": "ravensmoor:edmund:dank",
+      "akte": "ravensmoor",
+      "figur": "edmund",
+      "seltenheit": "legendaer",
+      "art": "zeit",
+      "ladungen": 2,
+      "wert": 5,
+      "titel": "Lord Edmunds Dank",
+      "text": "+5 Nachtminuten in dieser Runde.",
+      "motiv": "urkunde mit purpurner schleife",
+      "quellen": [
+        {
+          "art": "meister"
+        }
+      ]
+    }
+  ]
+}
