@@ -1,5 +1,9 @@
 {
   "format": "erzaehlung-index/1",
   "hinweis": "Akten mit Gesprächen mit Wahl (M6). Nur hier eingetragene Akten laden content/erzaehlung/<akte>/gespraeche.json; alle anderen spielen wie bisher.",
-  "akten": ["ravensmoor", "schlosskeller"]
+  "akten": [
+    "nachtexpress",
+    "ravensmoor",
+    "schlosskeller"
+  ]
 }

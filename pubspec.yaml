@@ -68,6 +68,7 @@ flutter:
     - content/welt/blue_palm/
     - content/erzaehlung/
     - content/erzaehlung/ravensmoor/
+    - content/erzaehlung/nachtexpress/
     - content/erzaehlung/schlosskeller/
   fonts:
     - family: SpecialElite

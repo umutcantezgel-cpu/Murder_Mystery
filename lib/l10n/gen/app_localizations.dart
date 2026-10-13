@@ -5481,6 +5481,30 @@ abstract class L {
   /// **'Was aus den Zeugen wurde'**
   String get nachspiel_hinweis;
 
+  /// Detektei: Formularkopf der Schnellstart-Akte für neue Spielende
+  ///
+  /// In de, this message translates to:
+  /// **'Dein erster Fall'**
+  String get erster_fall_marke;
+
+  /// Detektei: Text der Schnellstart-Akte
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.'**
+  String get erster_fall_text;
+
+  /// Detektei: Knopf der Schnellstart-Akte
+  ///
+  /// In de, this message translates to:
+  /// **'Sofort ermitteln'**
+  String get erster_fall_los;
+
+  /// Detektei: Hinweis unter dem Schnellstart
+  ///
+  /// In de, this message translates to:
+  /// **'Alles Weitere zeigt dir der Abend unterwegs.'**
+  String get erster_fall_hinweis;
+
   /// Detektei: Knopf für den abgelegten Abend
   ///
   /// In de, this message translates to:

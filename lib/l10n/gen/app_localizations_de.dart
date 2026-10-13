@@ -3163,6 +3163,20 @@ class LDe extends L {
   String get nachspiel_hinweis => 'Was aus den Zeugen wurde';
 
   @override
+  String get erster_fall_marke => 'Dein erster Fall';
+
+  @override
+  String get erster_fall_text =>
+      'Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.';
+
+  @override
+  String get erster_fall_los => 'Sofort ermitteln';
+
+  @override
+  String get erster_fall_hinweis =>
+      'Alles Weitere zeigt dir der Abend unterwegs.';
+
+  @override
   String get abend_fortsetzen => 'Abend fortsetzen';
 
   @override

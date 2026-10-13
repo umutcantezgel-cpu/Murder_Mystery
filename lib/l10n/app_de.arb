@@ -1925,6 +1925,22 @@
   "@nachspiel_hinweis": {
     "description": "Unterzeile des Nachspiels"
   },
+  "erster_fall_marke": "Dein erster Fall",
+  "@erster_fall_marke": {
+    "description": "Detektei: Formularkopf der Schnellstart-Akte für neue Spielende"
+  },
+  "erster_fall_text": "Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.",
+  "@erster_fall_text": {
+    "description": "Detektei: Text der Schnellstart-Akte"
+  },
+  "erster_fall_los": "Sofort ermitteln",
+  "@erster_fall_los": {
+    "description": "Detektei: Knopf der Schnellstart-Akte"
+  },
+  "erster_fall_hinweis": "Alles Weitere zeigt dir der Abend unterwegs.",
+  "@erster_fall_hinweis": {
+    "description": "Detektei: Hinweis unter dem Schnellstart"
+  },
   "abend_fortsetzen": "Abend fortsetzen",
   "@abend_fortsetzen": {
     "description": "Detektei: Knopf für den abgelegten Abend"

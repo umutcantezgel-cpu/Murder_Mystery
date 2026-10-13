@@ -138,6 +138,9 @@ void main() {
   testWidgets('Die Akte öffnet ihre Seite mit „Diese Akte spielen“', (tester) async {
     handy(tester, 390, 1);
     final state = await starte(tester);
+    // Neu am Schreibtisch liegt „Dein erster Fall“ obenauf; die Akten folgen darunter.
+    await tester.ensureVisible(find.text('Spuk im Schlosskeller'));
+    await tester.pump();
     await tester.tap(find.text('Spuk im Schlosskeller'));
     await warten(tester, find.text('Diese Akte spielen'));
     expect(find.text('Diese Akte spielen'), findsOneWidget);

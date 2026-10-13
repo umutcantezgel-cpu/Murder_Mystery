@@ -13,6 +13,7 @@ import '../stil/stil.dart';
 import 'akte_bausteine.dart';
 import 'akten.dart';
 import 'dienstausweis.dart';
+import 'erster_fall.dart';
 import 'name_dialog.dart';
 import 'schreibtisch.dart';
 
@@ -64,6 +65,8 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
         // Online-Abend, in die man zurückkehren kann.
         const AbendRueckkehr(),
         const OnlineRueckkehr(),
+        // Wer noch nie gespielt hat: sofort in den ersten Fall.
+        const ErsterFall(),
         MKnopf(
           text: l.detektei_neuer_abend,
           icon: Icons.nightlight_round,
