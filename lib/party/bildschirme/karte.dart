@@ -136,13 +136,14 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 steuerung: !_session.eingabeGesperrt,
                 kameraPassend: true,
                 // Kopf oben, in der Aktion die Leiste unten; sonst Platz für Joystick und Knopf.
+                // Im Randgespräch ruht der Auftrag: die Szene bekommt den Platz oben.
                 sichtRand: SzenenRand(
-                  oben: rand.top + _kopfHoehe,
+                  oben: rand.top + (s.gespraech != null ? 12 : _kopfHoehe),
                   unten: rand.bottom + (s.gespraech != null ? _gespraechHoehe + 12 : aktion ? _leisteHoehe + 12 : 56),
                 ),
                 umgebung: SzenenUmgebung(mitte: Color.lerp(f.nachtOben, f.schein, 0.1)!, rand: f.grund),
               )),
-              Positioned(
+              if (s.gespraech == null) Positioned(
                 left: 0,
                 right: 0,
                 top: 0,
@@ -172,7 +173,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               if (s.gespraech != null) Positioned(
                 left: 12, right: 12, bottom: 12,
                 child: SafeArea(top: false, child: Center(child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 560, maxHeight: box.maxHeight * 0.6),
+                  constraints: BoxConstraints(maxWidth: 560, maxHeight: box.maxHeight * 0.55),
                   child: _Misst(
                     onSize: (g) {
                       if (mounted && (g.height - _gespraechHoehe).abs() > 0.5) setState(() => _gespraechHoehe = g.height);

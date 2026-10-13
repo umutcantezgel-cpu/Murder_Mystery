@@ -49,7 +49,7 @@ class GespraechsSzene extends StatelessWidget {
       neigung: -0.003,
       samen: id.codeUnits.fold(5, (a, b) => (a * 31 + b) & 0xffff),
       randFarbe: sitzung.figurFarbe(id),
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -57,8 +57,10 @@ class GespraechsSzene extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MFotoabzug(look: sitzung.figurAussehen(id), groesse: 58, neigung: 0.03, akzent: sitzung.figurFarbe(id)),
-              const SizedBox(width: 14),
+              ExcludeSemantics(
+                child: MFotoabzug(look: sitzung.figurAussehen(id), groesse: 46, neigung: 0.03, akzent: sitzung.figurFarbe(id)),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,20 +74,22 @@ class GespraechsSzene extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.25)),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           if (vorher?.detektiv case final satz?) ...[
             // Der eigene Satz als Randnotiz in Füllertinte.
             Text('${l.gespraech_ich}: $satz', style: MPapierSchrift.hand),
             const SizedBox(height: 8),
           ],
+          // Gespräche tippen schneller als der Erzähler; Antippen zeigt alles.
           MSchreibmaschine(
             jetzt.figur,
             key: ValueKey('zeile-$schritt'),
-            stil: MPapierSchrift.erzaehler,
+            stil: MPapierSchrift.erzaehler.copyWith(fontSize: 17, height: 1.45),
+            zeichenProSekunde: 90,
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           if (!lauf.fertig)
             for (final w in lauf.wahlen) ...[
               _HaltungsKnopf(
@@ -128,7 +132,7 @@ class _HaltungsKnopf extends StatelessWidget {
           art: PapierArt.karteikarte,
           kopfLinie: 7,
           linien: false,
-          padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
           onTap: onTap,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,

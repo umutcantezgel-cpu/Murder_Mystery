@@ -18,9 +18,9 @@ import 'hilfe.dart';
 final _de = LDe();
 
 /// Ravensmoor mit vier Rollen: Gärtner, Köchin, Zofe und Anwalt bleiben Zeugen.
-PartySitzung _sitzung({String akte = 'ravensmoor', String pfad = 'butler', int rollen = 4}) {
+PartySitzung _sitzung({String akte = 'ravensmoor', String pfad = 'butler', int rollen = 4, bool solo = false}) {
   final s = PartySitzung(akteDaten(akte), wuerfel: const FesterWuerfel.neutral());
-  s.einrichten(rollen: rollen, detektiv: 'w', code: FallCode.fuerPfad(pfad, s.kanon.pfade).code);
+  s.einrichten(rollen: rollen, detektiv: 'w', solo: solo, code: FallCode.fuerPfad(pfad, s.kanon.pfade).code);
   spieleBis(s, PartyPhase.entscheidungen, runde: 1);
   return s;
 }
@@ -90,6 +90,19 @@ void main() {
     s.erzaehltiefe = Erzaehltiefe.voll;
     s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
     expect(s.randgespraechMoeglich('gaertner'), isFalse, reason: 'Vorschlag offen');
+  });
+
+  test('Solo: Bots spielen die Rollen, alle Zeugen sind ansprechbar, nie Verdächtige', () {
+    final reihum = _sitzung(rollen: 8);
+    expect(reihum.randgespraechMoeglich('zofe'), isFalse, reason: 'ein Mensch spielt die Zofe');
+    final solo = _sitzung(rollen: 8, solo: true);
+    expect(solo.besetzt, contains('zofe'));
+    for (final z in ['gaertner', 'koechin', 'zofe', 'anwalt']) {
+      expect(solo.randgespraechMoeglich(z), isTrue, reason: z);
+    }
+    for (final k in solo.kernverdaechtige) {
+      expect(solo.randgespraechMoeglich(k), isFalse, reason: k);
+    }
   });
 
   for (final akte in ['ravensmoor', 'schlosskeller']) {

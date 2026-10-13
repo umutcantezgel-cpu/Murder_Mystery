@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../klang/klang.dart';
 import '../tokens.dart';
@@ -11,6 +10,8 @@ import '../tokens.dart';
 ///   unsichtbar gesetzt, nichts springt.
 /// - Der Bildschirmleser bekommt sofort den ganzen Text.
 /// - Antippen zeigt sofort alles; bei „Bewegung reduzieren“ steht der Text gleich da.
+/// - Das Tempo hängt an der Zeit, nicht an der Bildrate: Auf langsamen Geräten
+///   erscheinen je Bild mehrere Zeichen.
 class MSchreibmaschine extends StatefulWidget {
   const MSchreibmaschine(
     this.text, {
@@ -31,8 +32,8 @@ class MSchreibmaschine extends StatefulWidget {
   State<MSchreibmaschine> createState() => _MSchreibmaschineState();
 }
 
-class _MSchreibmaschineState extends State<MSchreibmaschine> {
-  Timer? _takt;
+class _MSchreibmaschineState extends State<MSchreibmaschine> with SingleTickerProviderStateMixin {
+  late final Ticker _takt = createTicker(_tick);
   int _sichtbar = 0;
   bool _gestartet = false;
 
@@ -53,38 +54,41 @@ class _MSchreibmaschineState extends State<MSchreibmaschine> {
   void didUpdateWidget(covariant MSchreibmaschine alt) {
     super.didUpdateWidget(alt);
     if (alt.text != widget.text) {
-      _takt?.cancel();
+      _takt.stop();
       _sichtbar = MBewegung.ruhig(context) ? widget.text.length : 0;
       if (_sichtbar < widget.text.length) _starte();
     }
   }
 
-  void _starte() {
-    final schritt = Duration(microseconds: (1e6 / widget.zeichenProSekunde).round());
-    _takt = Timer.periodic(schritt, (t) {
-      if (!mounted) return t.cancel();
-      setState(() => _sichtbar = (_sichtbar + 1).clamp(0, widget.text.length));
-      // Jede zweite Taste klingt; Leerzeichen sind still.
-      if (_sichtbar.isEven && _sichtbar < widget.text.length && widget.text[_sichtbar - 1] != ' ') {
-        Klang.instanz.spiele('tippen', varianten: 3, laut: 0.45, streuung: 0.06);
-      }
-      if (_sichtbar >= widget.text.length) {
-        t.cancel();
-        widget.onFertig?.call();
-      }
-    });
+  void _starte() => _takt.start();
+
+  void _tick(Duration seit) {
+    final laenge = widget.text.length;
+    final soll = (seit.inMicroseconds * widget.zeichenProSekunde / 1e6).floor().clamp(0, laenge);
+    if (soll <= _sichtbar) return;
+    final alt = _sichtbar;
+    setState(() => _sichtbar = soll);
+    // Jede zweite Taste klingt, höchstens ein Anschlag je Bild; Leerzeichen sind still.
+    final taste = soll.isEven ? soll : soll - 1;
+    if (taste > alt && taste > 0 && taste < laenge && widget.text[taste - 1] != ' ') {
+      Klang.instanz.spiele('tippen', varianten: 3, laut: 0.45, streuung: 0.06);
+    }
+    if (soll >= laenge) {
+      _takt.stop();
+      widget.onFertig?.call();
+    }
   }
 
   void _alles() {
     if (_sichtbar >= widget.text.length) return;
-    _takt?.cancel();
+    _takt.stop();
     setState(() => _sichtbar = widget.text.length);
     widget.onFertig?.call();
   }
 
   @override
   void dispose() {
-    _takt?.cancel();
+    _takt.dispose();
     super.dispose();
   }
 

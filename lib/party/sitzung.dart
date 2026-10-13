@@ -664,14 +664,17 @@ class PartySitzung extends ChangeNotifier {
       );
 
   /// Kann der Detektiv jetzt mit [figur] (Kanon-Kennung) ein Randgespräch führen?
-  /// Nur mit unbesetzten Figuren, zwischen zwei Zügen auf der Karte.
+  /// Zwischen zwei Zügen auf der Karte, nie mit Kernverdächtigen. Eine Rolle,
+  /// die ein Mensch spielt, spricht nicht durch die App; im Solo-Spiel spielen
+  /// Bots die Rollen, dort sind alle Zeugen ansprechbar.
   bool randgespraechMoeglich(String figur) =>
       phase == PartyPhase.entscheidungen &&
       _gespraech == null &&
       zug == null &&
       _vorschlag == null &&
       _letzterFund == null &&
-      !besetzt.contains(figur) &&
+      !kernverdaechtige.contains(figur) &&
+      (solo || !besetzt.contains(figur)) &&
       daten.erzaehlung?.offenFuer(figur, _erzaehlUmwelt, gefuehrt: _gefuehrteGespraeche) != null;
 
   /// Beginnt das nächste offene Randgespräch mit [figur].
