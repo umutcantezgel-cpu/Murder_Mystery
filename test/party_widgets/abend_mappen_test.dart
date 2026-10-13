@@ -3,7 +3,9 @@
 // werden die Gestalt (gleich für alle Rollen, E-041), das Fehlen von
 // Wertungsstempeln und schmale Bildschirme mit großer Schrift.
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/party/bildschirme/einrichtung.dart';
 import 'package:mordakte/party/bildschirme/gruppenwahl.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/bildschirme/resuemee.dart';
@@ -73,7 +75,73 @@ void main() {
     await t.pump();
     expect(t.getSemantics(find.text(w.b)), isSemantics(isChecked: true, isInMutuallyExclusiveGroup: true, isButton: true));
     expect(t.getSemantics(find.text(w.a)), isSemantics(isChecked: false, isInMutuallyExclusiveGroup: true, isButton: true));
+    // Der Name bleibt der Wortlaut der Wahl; die gedruckte Kennung „Option A/B“ liest niemand mit.
+    expect(t.getSemantics(find.text(w.a)), isSemantics(label: w.a));
+    expect(t.getSemantics(find.text(w.b)), isSemantics(label: w.b));
     semantik.dispose();
+  });
+
+  testWidgets('Stimmzettel: beide Wahlkreise stehen in derselben Schrift, auch schmal mit großer Schrift', (t) async {
+    final s = neueSitzung(rollen: 5, pfad: 'can');
+    spieleBis(s, PartyPhase.gruppenwahl);
+    for (final rolle in ['ahmet', 'can']) {
+      await _zeige(t, GruppenwahlBildschirm(sitzung: s), breite: 320, schrift: 2);
+      s.zeigeVerdeckt(rolle);
+      await t.pump(const Duration(milliseconds: 500));
+      final w = s.wahl(rolle);
+      expect(t.widget<Text>(find.text(w.a)).style!.fontSize, t.widget<Text>(find.text(w.b)).style!.fontSize, reason: rolle);
+      expect(t.takeException(), isNull, reason: rolle);
+      s.verdecken();
+      await t.pump();
+    }
+  });
+
+  testWidgets('Spielweise: Party und Solo schließen einander aus, der Haken ist für den Bildschirmleser lesbar', (t) async {
+    final semantik = t.ensureSemantics();
+    final s = neueSitzung()..zurEinrichtung();
+    await _zeige(t, EinrichtungBildschirm(sitzung: s));
+    final party = find.text(s.ui('ui.solo.party'));
+    final solo = find.text(s.ui('ui.solo.solo'));
+    expect(t.getSemantics(party), isSemantics(label: s.ui('ui.solo.party'), isChecked: true, isInMutuallyExclusiveGroup: true, hasCheckedState: true));
+    expect(t.getSemantics(solo), isSemantics(label: s.ui('ui.solo.solo'), isChecked: false, isInMutuallyExclusiveGroup: true, hasCheckedState: true));
+    await t.tap(solo);
+    await t.pump();
+    expect(t.getSemantics(solo), isSemantics(isChecked: true, isInMutuallyExclusiveGroup: true));
+    expect(t.getSemantics(party), isSemantics(isChecked: false, isInMutuallyExclusiveGroup: true));
+    semantik.dispose();
+    await t.pumpWidget(const SizedBox());
+    s.dispose();
+  });
+
+  testWidgets('Ganze Wörter: ein geerbter Zeichenabstand zählt beim Verkleinern mit', (t) async {
+    // Die Testschrift setzt jedes Zeichen ein Geviert breit: zehn Zeichen in 20 px sind 200 px,
+    // mit 3 px geerbtem Zeichenabstand 230 px. In 210 px passt das Wort erst kleiner.
+    const wort = 'Abcdefghij';
+    late double g;
+    await t.pumpWidget(MaterialApp(
+      home: DefaultTextStyle(
+        style: const TextStyle(letterSpacing: 3),
+        child: Builder(builder: (context) {
+          g = ganzeWorteGroesse(context, wort, const TextStyle(fontSize: 20), 210);
+          return const SizedBox();
+        }),
+      ),
+    ));
+    expect(g * wort.length + 3 * wort.length, lessThanOrEqualTo(210));
+    expect(g, greaterThan(13));
+    await t.pumpWidget(MaterialApp(
+      home: Center(
+        child: SizedBox(
+          width: 210,
+          child: DefaultTextStyle(style: const TextStyle(letterSpacing: 3), child: MGanzeWorte('$wort $wort', stil: const TextStyle(fontSize: 20))),
+        ),
+      ),
+    ));
+    final p = t.renderObject<RenderParagraph>(find.text('$wort $wort'));
+    final groesse = t.widget<Text>(find.text('$wort $wort')).style!.fontSize!;
+    // Zwei Zeilen: je ein ganzes Wort. Bräche ein Wort mitten durch, wären es drei.
+    expect(p.size.height, inInclusiveRange(1.5 * groesse, 2.5 * groesse));
+    expect(groesse * wort.length + 3 * wort.length, lessThanOrEqualTo(210));
   });
 
   testWidgets('Rundenuhr: die Restzeit steht im Fenster der Taschenuhr, Stempel erst bei null', (t) async {

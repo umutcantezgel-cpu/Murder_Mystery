@@ -247,8 +247,8 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(s.spielerName(rolle), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
-                  if (figur.isNotEmpty) Text(figur, style: MPapierSchrift.leise),
+                  MGanzeWorte(s.spielerName(rolle), stil: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+                  if (figur.isNotEmpty) MGanzeWorte(figur, stil: MPapierSchrift.leise),
                 ],
               );
               // Schmal oder mit großer Schrift steht der Name unter dem Abzug.
@@ -290,7 +290,7 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
               children: [
                 Text(paarung, style: stil.copyWith(fontSize: ganzeWorteGroesse(context, paarung, stil, innen.maxWidth, minimum: 13))),
                 const SizedBox(height: 4),
-                Text(g.thema, style: MPapierSchrift.maschine.copyWith(fontSize: 14)),
+                MGanzeWorte(g.thema, stil: MPapierSchrift.maschine.copyWith(fontSize: 14)),
               ],
             ),
           );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/party_druck.dart';
 
+import '../stil/mappe/abend1_bausteine.dart';
 import '../stil/stil.dart';
 import 'druck_speichern.dart';
 import 'party_stil.dart';
@@ -76,7 +77,7 @@ class _DruckTafelState extends State<DruckTafel> {
             children: [
               const Icon(Icons.print_outlined, color: MRoh.tinte, size: 24),
               const SizedBox(width: 10),
-              Expanded(child: Text(s.ui('ui.druck.app.titel'), style: MPapierSchrift.ueberschrift)),
+              Expanded(child: MGanzeWorte(s.ui('ui.druck.app.titel'), stil: MPapierSchrift.ueberschrift)),
             ],
           ),
           const SizedBox(height: 6),

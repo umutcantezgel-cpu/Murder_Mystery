@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../stil/mappe/abend1_bausteine.dart';
@@ -227,18 +229,42 @@ class _GruppenwahlBildschirmState extends State<GruppenwahlBildschirm> {
                           ),
                           const SizedBox(height: 10),
                           const _Doppellinie(),
-                          _Wahlfeld(
-                            marke: s.ui('ui.rollen.wahl_a'),
-                            text: w.a,
-                            gewaehlt: _kooperativ == true,
-                            onTippen: () => setState(() => _kooperativ = true),
-                          ),
-                          Container(height: 2, color: MRoh.tinte.withValues(alpha: 0.75)),
-                          _Wahlfeld(
-                            marke: s.ui('ui.rollen.wahl_b'),
-                            text: w.b,
-                            gewaehlt: _kooperativ == false,
-                            onTippen: () => setState(() => _kooperativ = false),
+                          LayoutBuilder(
+                            // Beide Wahlkreise in derselben Schrift: Reicht die Breite für ein
+                            // langes Wort nicht, werden beide gleich kleiner (gleiche Gestalt, E-041).
+                            builder: (context, innen) {
+                              final feld = innen.maxWidth - _Wahlfeld.rand;
+                              final eng = schmalFuerSchrift(context, feld);
+                              final textBreite = eng ? feld : feld - _Wahlfeld.kreisPlatz;
+                              final groesse = math.min(
+                                ganzeWorteGroesse(context, w.a, MPapierSchrift.text, textBreite),
+                                ganzeWorteGroesse(context, w.b, MPapierSchrift.text, textBreite),
+                              );
+                              final stil = groesse == MPapierSchrift.text.fontSize ? MPapierSchrift.text : MPapierSchrift.text.copyWith(fontSize: groesse);
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _Wahlfeld(
+                                    marke: s.ui('ui.rollen.wahl_a'),
+                                    text: w.a,
+                                    stil: stil,
+                                    eng: eng,
+                                    gewaehlt: _kooperativ == true,
+                                    onTippen: () => setState(() => _kooperativ = true),
+                                  ),
+                                  Container(height: 2, color: MRoh.tinte.withValues(alpha: 0.75)),
+                                  _Wahlfeld(
+                                    marke: s.ui('ui.rollen.wahl_b'),
+                                    text: w.b,
+                                    stil: stil,
+                                    eng: eng,
+                                    gewaehlt: _kooperativ == false,
+                                    onTippen: () => setState(() => _kooperativ = false),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           const _Doppellinie(),
                         ],
@@ -303,46 +329,65 @@ class _Doppellinie extends StatelessWidget {
 
 /// Ein Feld des Stimmzettels: Kennung (Option A/B), der Wortlaut und rechts
 /// der Wahlkreis. Gewählt trägt der Kreis ein Kreuz in Füllertinte.
+///
+/// Für den Bildschirmleser ist das Feld ein Knopf mit dem Wortlaut als Namen
+/// und dem Zustand „angekreuzt“; die Kennung ist nur gedruckt.
 class _Wahlfeld extends StatelessWidget {
-  const _Wahlfeld({required this.marke, required this.text, required this.gewaehlt, required this.onTippen});
+  const _Wahlfeld({
+    required this.marke,
+    required this.text,
+    required this.stil,
+    required this.eng,
+    required this.gewaehlt,
+    required this.onTippen,
+  });
+
+  /// Innenabstand links und rechts zusammen.
+  static const rand = 6.0;
+
+  /// Platz des Wahlkreises neben dem Wortlaut (Abstand und Kreis).
+  static const kreisPlatz = 54.0;
 
   final String marke;
   final String text;
+
+  /// Schrift des Wortlauts (für beide Felder eines Zettels gleich).
+  final TextStyle stil;
+
+  /// Schmal (gemessen an der Schriftgröße): der Wahlkreis steht neben der
+  /// Kennung, der Wortlaut darunter in voller Breite.
+  final bool eng;
   final bool gewaehlt;
   final VoidCallback onTippen;
 
   @override
-  Widget build(BuildContext context) => MergeSemantics(
-        child: Semantics(
-          button: true,
-          checked: gewaehlt,
-          inMutuallyExclusiveGroup: true,
-          child: InkWell(
-            onTap: onTippen,
-            splashFactory: NoSplash.splashFactory,
-            highlightColor: MRoh.tinteBlau.withValues(alpha: 0.06),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(4, 14, 2, 14),
-                child: LayoutBuilder(
-                  builder: (context, box) {
-                    final kennung = Text(marke, style: MPapierSchrift.zwischentitel.copyWith(fontSize: 13, letterSpacing: 1.1));
-                    final wortlaut = Text(text, style: MPapierSchrift.text);
-                    // Schmal (gemessen an der Schriftgröße) steht der Wahlkreis neben der
-                    // Kennung, der Wortlaut darunter in voller Breite.
-                    if (schmalFuerSchrift(context, box.maxWidth)) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(children: [Expanded(child: kennung), const SizedBox(width: 10), _Wahlkreis(gewaehlt: gewaehlt)]),
-                          const SizedBox(height: 6),
-                          wortlaut,
-                        ],
-                      );
-                    }
-                    return Row(
+  Widget build(BuildContext context) {
+    final kennung = ExcludeSemantics(child: Text(marke, style: MPapierSchrift.zwischentitel.copyWith(fontSize: 13, letterSpacing: 1.1)));
+    final wortlaut = Text(text, style: stil);
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        checked: gewaehlt,
+        inMutuallyExclusiveGroup: true,
+        child: InkWell(
+          onTap: onTippen,
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: MRoh.tinteBlau.withValues(alpha: 0.06),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(4, 14, 2, 14),
+              child: eng
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(children: [Expanded(child: kennung), const SizedBox(width: 10), _Wahlkreis(gewaehlt: gewaehlt)]),
+                        const SizedBox(height: 6),
+                        wortlaut,
+                      ],
+                    )
+                  : Row(
                       children: [
                         Expanded(
                           child: Column(
@@ -354,14 +399,13 @@ class _Wahlfeld extends StatelessWidget {
                         const SizedBox(width: 14),
                         _Wahlkreis(gewaehlt: gewaehlt),
                       ],
-                    );
-                  },
-                ),
-              ),
+                    ),
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// Kreis zum Ankreuzen; das Kreuz wird mit dem Füller gezogen (ruhig: sofort da).

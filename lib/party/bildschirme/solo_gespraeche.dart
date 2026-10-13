@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/runden.dart';
 
+import '../../stil/mappe/abend1_bausteine.dart';
 import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
@@ -62,7 +63,7 @@ class _SoloGespraecheBildschirmState extends State<SoloGespraecheBildschirm> {
                     art: PapierArt.notiz,
                     neigung: -0.006,
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 22),
-                    child: Text(s.ui('ui.solo.fertig'), style: MPapierSchrift.hand.copyWith(fontSize: 22)),
+                    child: MGanzeWorte(s.ui('ui.solo.fertig'), stil: MPapierSchrift.hand.copyWith(fontSize: 22)),
                   ),
               ],
             ),
@@ -119,6 +120,26 @@ class BotSprechblase extends StatelessWidget {
     final g = gespraech;
     final farbe = s.figurFarbe(g.rolle);
     final samen = g.id.codeUnits.fold(0, (a, b) => (a * 31 + b) & 0xffff);
+    final foto = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        MFotoabzug(look: s.figurAussehen(g.rolle), groesse: 64, neigung: samen.isEven ? -0.05 : 0.04, akzent: farbe),
+        const Positioned(top: -9, left: 0, right: 0, child: Center(child: MKlebestreifen(breite: 44, winkel: 0.08))),
+      ],
+    );
+    final namen = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MGanzeWorte(s.figurName(g.rolle), stil: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+        const SizedBox(height: 2),
+        MGanzeWorte(s.ui('ui.rollen.gespraech_mit', {'name': s.personAmTisch(g.partner)}), stil: MPapierSchrift.leise),
+        if (!s.besetzt.contains(g.rolle)) ...[
+          const SizedBox(height: 2),
+          MGanzeWorte(s.ui('ui.solo.npc'), stil: MPapierSchrift.zwischentitel.copyWith(fontSize: 13)),
+        ],
+      ],
+    );
     return MBlatt(
       key: ValueKey(g.id),
       randFarbe: farbe,
@@ -129,33 +150,22 @@ class BotSprechblase extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  MFotoabzug(look: s.figurAussehen(g.rolle), groesse: 64, neigung: samen.isEven ? -0.05 : 0.04, akzent: farbe),
-                  const Positioned(top: -9, left: 0, right: 0, child: Center(child: MKlebestreifen(breite: 44, winkel: 0.08))),
-                ],
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          LayoutBuilder(
+            // Schmal oder mit großer Schrift steht der Abzug über dem Namen.
+            builder: (context, box) => schmalFuerSchrift(context, box.maxWidth)
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
+                    children: [Align(alignment: Alignment.centerLeft, child: foto), const SizedBox(height: 10), namen],
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(s.figurName(g.rolle), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
-                      const SizedBox(height: 2),
-                      Text(s.ui('ui.rollen.gespraech_mit', {'name': s.personAmTisch(g.partner)}), style: MPapierSchrift.leise),
-                      if (!s.besetzt.contains(g.rolle)) Text(s.ui('ui.solo.npc'), style: MPapierSchrift.leise.copyWith(fontStyle: FontStyle.italic)),
+                      foto,
+                      const SizedBox(width: 14),
+                      Expanded(child: Padding(padding: const EdgeInsets.only(top: 2), child: namen)),
                     ],
                   ),
-                ),
-              ),
-            ],
           ),
           const SizedBox(height: 16),
           _Formularfeld(name: s.ui('ui.rollen.gespraech_thema'), wert: g.thema),
@@ -189,7 +199,7 @@ class _Formularfeld extends StatelessWidget {
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: MRoh.tinte.withValues(alpha: 0.35)))),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Text(wert, style: MPapierSchrift.maschine),
+              child: MGanzeWorte(wert, stil: MPapierSchrift.maschine),
             ),
           ),
         ],
@@ -207,7 +217,7 @@ class _Aussage extends StatelessWidget {
         decoration: BoxDecoration(border: Border(left: BorderSide(color: MRoh.tinte.withValues(alpha: 0.28), width: 2))),
         child: Padding(
           padding: const EdgeInsets.only(left: 12),
-          child: Text(text, style: MPapierSchrift.kursiv),
+          child: MGanzeWorte(text, stil: MPapierSchrift.kursiv),
         ),
       );
 }

@@ -65,7 +65,9 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
       ]);
 }
 
-/// Eine Spielweise: Ankreuzfeld mit einem kleinen Sinnbild am Rand.
+/// Eine Spielweise: Ankreuzfeld mit einem kleinen Sinnbild am Rand. Die beiden
+/// Felder schließen einander aus; der Bildschirmleser hört das wie bei einer
+/// Auswahlgruppe.
 class _Spielweise extends StatelessWidget {
   const _Spielweise({required this.symbol, required this.child});
 
@@ -75,7 +77,7 @@ class _Spielweise extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
         children: [
-          Expanded(child: child),
+          Expanded(child: MergeSemantics(child: Semantics(inMutuallyExclusiveGroup: true, child: child))),
           const SizedBox(width: 10),
           ExcludeSemantics(child: Icon(symbol, size: 26, color: MFarben.von(context).papierLeise)),
         ],
