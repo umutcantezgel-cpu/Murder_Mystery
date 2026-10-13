@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../abend/einrichtung/abschnitte.dart';
+import '../../stil/stil.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 
@@ -50,11 +51,35 @@ class _EinrichtungBildschirmState extends State<EinrichtungBildschirm> {
         ),
       );
 
-  /// Party am Gerät oder Solo mit Bots (nur im alten Einstieg; der Assistent fragt vorab).
+  /// Party am Gerät oder Solo mit Bots (nur im alten Einstieg; der Assistent
+  /// fragt vorab): zwei Ankreuzfelder, genau eines trägt den Tintenhaken.
   Widget _formAbschnitt() => EinrichtungsTafel(ueberschrift: s.ui('ui.solo.spielweise'), kinder: [
-        Wrap(spacing: 10, runSpacing: 10, children: [
-          PartyKnopf(text: s.ui('ui.solo.party'), haupt: !_werte.solo, onPressed: () => _werte.solo = false),
-          PartyKnopf(text: s.ui('ui.solo.solo'), haupt: _werte.solo, onPressed: () => _werte.solo = true),
-        ]),
+        _Spielweise(
+          symbol: Icons.groups_2_outlined,
+          child: MHaken(text: s.ui('ui.solo.party'), wert: !_werte.solo, onChanged: (_) => _werte.solo = false),
+        ),
+        _Spielweise(
+          symbol: Icons.person_search_outlined,
+          child: MHaken(text: s.ui('ui.solo.solo'), wert: _werte.solo, onChanged: (_) => _werte.solo = true),
+        ),
       ]);
+}
+
+/// Eine Spielweise: Ankreuzfeld mit einem kleinen Sinnbild am Rand. Die beiden
+/// Felder schließen einander aus; der Bildschirmleser hört das wie bei einer
+/// Auswahlgruppe.
+class _Spielweise extends StatelessWidget {
+  const _Spielweise({required this.symbol, required this.child});
+
+  final IconData symbol;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Expanded(child: MergeSemantics(child: Semantics(inMutuallyExclusiveGroup: true, child: child))),
+          const SizedBox(width: 10),
+          ExcludeSemantics(child: Icon(symbol, size: 26, color: MFarben.von(context).papierLeise)),
+        ],
+      );
 }

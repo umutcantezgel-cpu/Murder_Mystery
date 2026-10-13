@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/party_druck.dart';
 
+import '../stil/mappe/abend1_bausteine.dart';
+import '../stil/stil.dart';
 import 'druck_speichern.dart';
 import 'party_stil.dart';
 import 'sitzung.dart';
@@ -9,6 +11,9 @@ import 'sitzung.dart';
 /// Druckfassung in der App (F5-BAUMEISTER-04, Master 7.6/7.14): erzeugt den
 /// PDF-Satz für Fall-Code und Personenzahl dieser Sitzung und bietet jede
 /// Datei einzeln zum Herunterladen an. Dateinamen tragen nur Nummer und Teil.
+///
+/// Die Tafel ist ein Druckauftrag auf Aktenpapier: Kopf mit Druckersymbol, der
+/// Hinweis mit dem Fall-Code, darunter die Dateien als Aktenetiketten.
 class DruckTafel extends StatefulWidget {
   const DruckTafel({super.key, required this.sitzung});
 
@@ -59,23 +64,41 @@ class _DruckTafelState extends State<DruckTafel> {
   @override
   Widget build(BuildContext context) {
     final dateien = _dateien;
-    return PartyTafel(
-      akzent: context.farben.akzent,
+    return MBlatt(
+      klammer: true,
+      samen: 61,
+      neigung: -0.003,
+      randFarbe: context.farben.akzent,
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(s.ui('ui.druck.app.titel'), style: Keller.ueberschrift),
+          Row(
+            children: [
+              const Icon(Icons.print_outlined, color: MRoh.tinte, size: 24),
+              const SizedBox(width: 10),
+              Expanded(child: MGanzeWorte(s.ui('ui.druck.app.titel'), stil: MPapierSchrift.ueberschrift)),
+            ],
+          ),
           const SizedBox(height: 6),
-          Text(s.ui('ui.druck.app.hinweis', {'code': s.fallCode.code}), style: Keller.leise),
-          const SizedBox(height: 12),
+          Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
+          const SizedBox(height: 10),
+          Text(s.ui('ui.druck.app.hinweis', {'code': s.fallCode.code}), style: MPapierSchrift.text.copyWith(fontSize: 15)),
+          const SizedBox(height: 14),
           if (dateien == null)
             Align(
               alignment: Alignment.centerLeft,
               child: _laeuft
                   ? Row(children: [
-                      SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5, color: context.farben.akzent)),
+                      SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: MBewegung.ruhig(context)
+                            ? const Icon(Icons.hourglass_top_rounded, size: 22, color: MRoh.stempelRot)
+                            : const CircularProgressIndicator(strokeWidth: 2.5, color: MRoh.stempelRot),
+                      ),
                       const SizedBox(width: 12),
-                      Flexible(child: Text(s.ui('ui.druck.app.laedt'), style: Keller.text)),
+                      Flexible(child: Text(s.ui('ui.druck.app.laedt'), style: MPapierSchrift.maschine)),
                     ])
                   : PartyKnopf(text: s.ui('ui.druck.app.erstellen'), haupt: false, icon: Icons.print_rounded, onPressed: _erstellen),
             )
@@ -97,8 +120,8 @@ class _DruckTafelState extends State<DruckTafel> {
               ],
             ),
           if (_ohneBrowser) ...[
-            const SizedBox(height: 8),
-            Text(s.ui('ui.druck.app.nur_browser'), style: Keller.leise),
+            const SizedBox(height: 10),
+            Text(s.ui('ui.druck.app.nur_browser'), style: MPapierSchrift.hand.copyWith(fontSize: 20)),
           ],
         ],
       ),
