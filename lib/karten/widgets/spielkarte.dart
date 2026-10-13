@@ -561,11 +561,17 @@ class _Rueckseite extends StatelessWidget {
             left: w * 0.1,
             right: w * 0.1,
             top: h * 0.665,
+            // Gedruckter Schriftzug der Karte: wächst nicht mit der Systemschrift
+            // (die Karte ist ein Bild), schrumpft aber, falls er nicht passt.
             child: Center(
-              child: Text(
-                text.toUpperCase(),
-                maxLines: 1,
-                style: TextStyle(fontFamily: MRohSchrift.anzeige, fontSize: w * 0.065, letterSpacing: w * 0.02, color: gold.withValues(alpha: 0.92)),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  text.toUpperCase(),
+                  maxLines: 1,
+                  textScaler: TextScaler.noScaling,
+                  style: TextStyle(fontFamily: MRohSchrift.anzeige, fontSize: w * 0.065, letterSpacing: w * 0.02, color: gold.withValues(alpha: 0.92)),
+                ),
               ),
             ),
           ),
