@@ -5348,6 +5348,24 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Bleiben'**
   String get online_verlassen_nein;
+
+  /// No description provided for @abend2_auftrag.
+  ///
+  /// In de, this message translates to:
+  /// **'Ermittlungsauftrag'**
+  String get abend2_auftrag;
+
+  /// No description provided for @abend2_beweisstueck.
+  ///
+  /// In de, this message translates to:
+  /// **'Beweisstück Nr. {nr}'**
+  String abend2_beweisstueck(String nr);
+
+  /// No description provided for @abend2_angeklagt.
+  ///
+  /// In de, this message translates to:
+  /// **'Angeklagt'**
+  String get abend2_angeklagt;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

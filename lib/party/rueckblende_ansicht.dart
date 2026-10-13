@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../game/game_view.dart';
+import '../stil/mappe/abend2_bausteine.dart';
+import '../stil/stil.dart';
 import 'karte_session.dart';
-import 'party_stil.dart';
 import 'sitzung.dart';
 
 /// Rückblende im Finale (F4-ORCH-03, Master 7.13): Zeitraffer der Tatmatrix
@@ -59,44 +60,60 @@ class _RueckblendeAnsichtState extends State<RueckblendeAnsicht> {
     return _zeitraffer(session);
   }
 
-  Widget _zeitraffer(PartyKartenSession session) => ColoredBox(
-    color: const Color(0xFF0B0A0E),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-          child: Row(
-            children: [
-              Expanded(
-                child: ValueListenableBuilder<Uhrzeit?>(
-                  valueListenable: session.zeit,
-                  builder: (context, t, _) => t == null
-                      ? const SizedBox.shrink()
-                      : Text(
-                          widget.sitzung.ui('ui.allgemein.uhrzeit', {'uhrzeit': t.mitSekunden}),
-                          style: Keller.text.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
-                        ),
+  /// Der Zeitraffer ist ein dunkles Bild (auch wenn er auf einer Titelseite
+  /// liegt): Uhr und Wiederholen stehen hell darüber.
+  Widget _zeitraffer(PartyKartenSession session) => MFlaeche.dunkel(
+    child: ColoredBox(
+      color: const Color(0xFF0B0A0E),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ValueListenableBuilder<Uhrzeit?>(
+                    valueListenable: session.zeit,
+                    // Die Uhr liegt im festen Bildkasten: Sie wächst mit der Schrift nur
+                    // begrenzt, damit die Szene sichtbar bleibt.
+                    builder: (context, t, _) => t == null
+                        ? const SizedBox.shrink()
+                        : MediaQuery.withClampedTextScaling(
+                            maxScaleFactor: 1.4,
+                            child: Text(
+                              widget.sitzung.ui('ui.allgemein.uhrzeit', {'uhrzeit': t.mitSekunden}),
+                              style: MRohSchrift.schreibmaschine.copyWith(color: MRoh.blatt, fontFeatures: const [FontFeature.tabularFigures()]),
+                            ),
+                          ),
+                  ),
                 ),
-              ),
-              IconButton.filledTonal(
-                tooltip: widget.sitzung.ui('ui.rueckblende.nochmal'),
-                onPressed: session.neuStarten,
-                icon: const Icon(Icons.replay),
-              ),
-            ],
+                IconButton(
+                  tooltip: widget.sitzung.ui('ui.rueckblende.nochmal'),
+                  onPressed: session.neuStarten,
+                  style: IconButton.styleFrom(
+                    backgroundColor: MRoh.messingMitte,
+                    foregroundColor: const Color(0xFF2A1A06),
+                    side: const BorderSide(color: MRoh.messingDunkel),
+                  ),
+                  icon: const Icon(Icons.replay),
+                ),
+              ],
+            ),
           ),
-        ),
-        // Die Szene malt sonst über ihren Rand in die Kopfzeile mit der Uhr (F6-SPIEL-01).
-        Expanded(child: ClipRect(child: GameView(session: session, steuerung: false))),
-      ],
+          // Die Szene malt sonst über ihren Rand in die Kopfzeile mit der Uhr (F6-SPIEL-01).
+          Expanded(child: ClipRect(child: GameView(session: session, steuerung: false))),
+        ],
+      ),
     ),
   );
 }
 
 /// Rückblende einer Akte ohne Simulation: kein Zeitraffer, sondern der
-/// Erzählertext `rueckblende.<pfad>` als Erinnerung in Sepia, mit Anführungszeichen
-/// und ruhiger Schrift. Erst nach dem Finale verwenden (die Sitzung prüft das).
+/// Erzählertext `rueckblende.<pfad>` als Erinnerung: ein Foto in Sepia mit
+/// gezacktem Rand, eingeklebt, der Text kursiv in Tinte, darunter die
+/// Beschriftung in Füllerschrift. Erst nach dem Finale verwenden (die Sitzung
+/// prüft das).
 class RueckblendeText extends StatelessWidget {
   const RueckblendeText({super.key, required this.sitzung});
 
@@ -117,29 +134,26 @@ class RueckblendeText extends StatelessWidget {
         duration: ruhig ? Duration.zero : const Duration(milliseconds: 900),
         curve: Curves.easeOut,
         builder: (context, t, child) => Opacity(opacity: t, child: child),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0x55D9B98A)),
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF2B2118), Color(0xFF15110E)],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: MErinnerungsfoto(
+            neigung: -0.008,
+            samen: kennung.codeUnits.fold(13, (a, b) => (a * 31 + b) & 0xffff),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Großes Anführungszeichen als Zierde (Symbol statt Text).
+                Icon(Icons.format_quote_rounded, size: 36, color: MRoh.tinte.withValues(alpha: 0.55)),
+                const SizedBox(height: 2),
+                Text(sitzung.text(kennung), style: MPapierSchrift.erzaehler.copyWith(fontStyle: FontStyle.italic, height: 1.7)),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ExcludeSemantics(child: Text(sitzung.ui('ui.finale.rueckblende'), style: MPapierSchrift.hand.copyWith(fontSize: 22))),
+                ),
+              ],
             ),
-            boxShadow: const [BoxShadow(color: Color(0x66000000), blurRadius: 18, offset: Offset(0, 6))],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.format_quote_rounded, size: 36, color: Color(0xFFD9B98A)),
-              const SizedBox(height: 4),
-              Text(
-                sitzung.text(kennung),
-                style: Keller.erzaehler.copyWith(fontStyle: FontStyle.italic, height: 1.75, color: const Color(0xFFF1E3CC)),
-              ),
-            ],
           ),
         ),
       ),

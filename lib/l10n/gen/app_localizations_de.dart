@@ -3093,4 +3093,15 @@ class LDe extends L {
 
   @override
   String get online_verlassen_nein => 'Bleiben';
+
+  @override
+  String get abend2_auftrag => 'Ermittlungsauftrag';
+
+  @override
+  String abend2_beweisstueck(String nr) {
+    return 'Beweisstück Nr. $nr';
+  }
+
+  @override
+  String get abend2_angeklagt => 'Angeklagt';
 }
