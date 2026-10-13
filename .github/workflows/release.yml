@@ -9,7 +9,7 @@ name: Prüfen und Builds
 # Die 84 Party-E2E-Läufe (e2e_voll) laufen nur auf Wunsch (workflow_dispatch) und wöchentlich.
 on:
   push:
-    branches: [main, 'claude/ecstatic-lamport-w4jlzn']
+    branches: [main, 'claude/ecstatic-lamport-w4jlzn', 'claude/beautiful-meitner-fh1mkq']
     paths-ignore: ['planung/**']
   workflow_dispatch:
     inputs:
@@ -395,7 +395,7 @@ jobs:
           # Zwischenzeitlich neuere Pushes bekommen ihr eigenes Release; ältere Läufe überschreiben es nicht.
           latest=false
           case "$GITHUB_REF_NAME" in
-            main|claude/ecstatic-lamport-w4jlzn)
+            main|claude/ecstatic-lamport-w4jlzn|claude/beautiful-meitner-fh1mkq)
               spitze="$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_REF_NAME" --jq .sha 2>/dev/null \
                 || gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$GITHUB_REF_NAME" --jq .object.sha 2>/dev/null \
                 || true)"

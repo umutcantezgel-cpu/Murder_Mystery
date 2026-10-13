@@ -1,11 +1,11 @@
-// FEINKORN · Leistungsmessung im Browser (K0 Messbasis, K-04, K-12): Ladezeit, Bildintervalle
+// Leistungsmessung im Browser: Ladezeit, Bildintervalle
 // (Median, 99. Perzentil), Rechenlast (Anteil der Hauptthread-Arbeit an der Wanduhr) und JS-Speicher
 // einer gebauten Web-Fassung, je Geräteklasse über CPU-Drosselung genähert:
 //   hoch = 1× · mittel = 4× · einfach = 6× (Chrome DevTools Emulation.setCPUThrottlingRate).
 // Je Ansicht zwei Phasen: „ruhig“ (keine Eingabe) und „bewegt“ (Pfeiltaste gehalten).
 // Nur localhost; fremde Netzaufrufe und Konsolenfehler werden gezählt.
 //
-// Aufruf: node tool/feinkorn/messen.mjs <buildOrdner> <ausgabe.json>
+// Aufruf: node tool/e2e/leistung.mjs <buildOrdner> <ausgabe.json>
 //           [--ansichten name=query;name=query] [--klassen hoch,mittel,einfach] [--sekunden 8]
 import { createRequire } from 'node:module';
 import http from 'node:http';
@@ -17,7 +17,7 @@ const { chromium } = createRequire(import.meta.url)('/opt/node22/lib/node_module
 
 const args = process.argv.slice(2);
 if (args.length < 2) {
-  console.error('Aufruf: node tool/feinkorn/messen.mjs <buildOrdner> <ausgabe.json> [--ansichten …] [--klassen …] [--sekunden N]');
+  console.error('Aufruf: node tool/e2e/leistung.mjs <buildOrdner> <ausgabe.json> [--ansichten …] [--klassen …] [--sekunden N]');
   process.exit(2);
 }
 const build = path.resolve(args[0]);
@@ -105,7 +105,7 @@ for (const klasse of klassen) {
     const meldungen = [];
     page.on('console', (m) => {
       if (m.type() === 'error') fehler.push(`${klasse}/${a.name}: ${m.text()}`);
-      else if (m.text().startsWith('FEINKORN')) meldungen.push(m.text());
+      else if (m.text().startsWith('WELT')) meldungen.push(m.text());
     });
     page.on('pageerror', (e) => fehler.push(`${klasse}/${a.name}: ${e.message}`));
     const cdp = await page.context().newCDPSession(page);

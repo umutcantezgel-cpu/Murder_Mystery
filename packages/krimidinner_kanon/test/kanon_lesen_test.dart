@@ -1,5 +1,4 @@
-// Angepasste Kopie von burgstadt_core/test/kanon_test.dart (Stand d814992):
-// Zeilen-Parser, Lesebefunde, DOPPELT und die Auswahl der Kanondateien.
+// Kanonleser: Zeilen-Parser, Lesebefunde, DOPPELT und die Auswahl der Kanondateien.
 import 'package:krimidinner_kanon/krimidinner_kanon.dart';
 import 'package:test/test.dart';
 

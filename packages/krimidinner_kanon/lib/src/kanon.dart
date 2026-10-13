@@ -1,9 +1,7 @@
 /// Kanon „Spuk im Gewölbe“: Datensätze einlesen und abfragen.
 ///
-/// Herkunft: Kopie von `packages/burgstadt_core/lib/src/kanon/kanon.dart` aus
-/// umutcantezgel-cpu/burgstadt-schartenfels, Stand d814992. Geändert: Die Klasse
-/// heißt hier `KrimiKanon` (mordakte_core exportiert schon eine Klasse `Kanon`),
-/// das Overlay (`mitOverlay`, `overlay_diff.dart`) entfällt. Das Einlesen folgt
+/// Die Klasse heißt `KrimiKanon`, weil mordakte_core schon eine Klasse `Kanon`
+/// exportiert; ein Overlay gibt es nicht. Das Einlesen folgt
 /// weiter `krimidinner/spuk-im-gewoelbe/90_werkzeug/kanon.py`.
 library;
 

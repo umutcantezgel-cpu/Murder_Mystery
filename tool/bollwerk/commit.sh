@@ -46,7 +46,7 @@ b02_erfuellt() {
     | grep -qE '(B-02 ERFÜLLT|FREIGABE BOLLWERK) · K=[0-9a-f]{40}'
 }
 ZUSTAND_RE='^planung/bollwerk/(LAUF|PRUEFPUNKT|QUITTUNGEN|FLUG|STATUS|NACHTPROTOKOLL|ENTSCHEIDUNGSLOG|FUER-DEN-NUTZER|REGISTER|MORGENBERICHT|KERNKARTE)\.md$|^planung/bollwerk/(bilder|tor-rest)/'
-VOR_B02_RE='^(planung/bollwerk/|tool/bollwerk/|content/runden/|packages/mordakte_core/lib/src/runden/|packages/mordakte_core/test/runden/|lib/runden/|assets/runden/|test/runden/|docs/bollwerk/)|^packages/pixel_engine/lib/feinkorn_leben\.dart$|^packages/mordakte_core/test/web/kanon_eingebettet\.g\.dart$'
+VOR_B02_RE='^(planung/bollwerk/|tool/bollwerk/|content/runden/|packages/mordakte_core/lib/src/runden/|packages/mordakte_core/test/runden/|lib/runden/|assets/runden/|test/runden/|docs/bollwerk/)|^packages/mordakte_core/test/web/kanon_eingebettet\.g\.dart$'
 GESCHUETZT_RE='^planung/bollwerk/(MASTER-PROMPT\.md|STARTPAKET\.md|anhang/)'
 NUR_ZUSTAND=1
 for p in "${PFADE[@]}"; do

@@ -1,9 +1,5 @@
 /// Mechanische Proben des Kanons, 1:1 aus `90_werkzeug/kanon.py` portiert.
 ///
-/// Herkunft: Kopie von `packages/burgstadt_core/lib/src/kanon/proben.dart` aus
-/// umutcantezgel-cpu/burgstadt-schartenfels, Stand d814992. Geändert ist nur der
-/// Klassenname `KrimiKanon` statt `Kanon`.
-///
 /// Gleiche Logik und gleiche Befundtexte wie Python. `\b` wird wie Pythons Unicode-`\b`
 /// über Buchstaben, Ziffern und `_` nachgebildet. Ein Wert `–` ist hier leer.
 library;

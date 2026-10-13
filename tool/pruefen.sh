@@ -43,7 +43,7 @@ schritt "Analyse"
 flutter analyze
 (cd server && dart analyze)
 
-schritt "Paket-Tests (inkl. Kanon, Partymodus, Runden, FEINKORN und WLAN)"
+schritt "Paket-Tests (inkl. Kanon, Partymodus, Runden und Netz)"
 for d in packages/*/; do
   [ -d "$d/test" ] || continue
   if grep -q 'sdk: flutter' "$d/pubspec.yaml"; then (cd "$d" && flutter test --concurrency=2); else (cd "$d" && dart test --concurrency=4); fi

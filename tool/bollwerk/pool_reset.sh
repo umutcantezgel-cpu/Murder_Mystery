@@ -16,7 +16,7 @@ else
 fi
 if [ -d "$ZIEL" ]; then chmod -R u+w "$ZIEL"; fi
 rm -rf "$ZIEL" && mkdir -p "$ZIEL" && git -C "$BW" archive "$SHA" | tar -x -C "$ZIEL"
-for d in . packages/mordakte_core packages/feinkorn packages/krimidinner_kanon packages/room_host server tool/bollwerk/look_anker; do
+for d in . packages/mordakte_core packages/krimidinner_kanon server tool/bollwerk/look_anker; do
   [ -f "$ZIEL/$d/pubspec.yaml" ] || continue
   if grep -q 'sdk: flutter' "$ZIEL/$d/pubspec.yaml"; then
     (cd "$ZIEL/$d" && flutter pub get --offline >/dev/null)
