@@ -406,7 +406,7 @@ class FigurRig {
           ..lineTo(mitte, sY + kragenTiefe)
           ..close();
         c.drawPath(hemd, Paint()..color = a.hemd);
-        if (a.variante % 4 != 1) {
+        if (a.variante % 4 != 1 && !a.weiblich) {
           final binder = Path()
             ..moveTo(mitte - 0.9, sY + 0.6)
             ..lineTo(mitte + 0.9, sY + 0.6)
@@ -795,18 +795,20 @@ class FigurAussehen {
     required this.hut,
     required this.statur,
     required this.kleid,
-  }) : variante = _hash('${mantel.toARGB32()}|${haut.toARGB32()}|${haar.toARGB32()}|$hut|$statur|$kleid') {
+    bool? weiblich,
+  })  : weiblich = weiblich ?? kleid,
+        variante = fnv32('${mantel.toARGB32()}|${haut.toARGB32()}|${haar.toARGB32()}|$hut|$statur|$kleid|${weiblich ?? kleid}') {
     final v = variante;
     final hell = haar.computeLuminance();
     grau = hell > 0.38 && (haar.r - haar.b).abs() < 0.12;
     frisur = switch (hut) {
       'bun' => Frisur.kurz,
-      _ when kleid => const [Frisur.lang, Frisur.zopf, Frisur.lang, Frisur.locken, Frisur.seitenscheitel][v % 5],
+      _ when kleid || this.weiblich => const [Frisur.lang, Frisur.zopf, Frisur.lang, Frisur.locken, Frisur.seitenscheitel][v % 5],
       _ when grau && v % 3 == 0 => Frisur.glatze,
       _ => const [Frisur.kurz, Frisur.seitenscheitel, Frisur.zurueck, Frisur.locken, Frisur.kurz, Frisur.seitenscheitel][v % 6],
     };
     brille = (v >> 3) % 5 == 0;
-    bart = kleid ? 0 : const [0, 0, 1, 0, 2, 0, 0][(v >> 5) % 7];
+    bart = kleid || this.weiblich ? 0 : const [0, 0, 1, 0, 2, 0, 0][(v >> 5) % 7];
     schal = (v >> 7) % 6 == 0;
     final dunklerMantel = shade(mantel, -0.5);
     hose = kleid ? shade(haut, -0.42) : mix(dunklerMantel, const Color(0xFF1C1A20), 0.55);
@@ -825,7 +827,11 @@ class FigurAussehen {
   final String statur;
   final bool kleid;
 
-  /// Fester Hash des Aussehens (Quelle aller abgeleiteten Merkmale).
+  /// Weibliche Figur: kein Bart, Frisuren wie beim Kleid.
+  final bool weiblich;
+
+  /// Fester Hash des Aussehens (Quelle aller abgeleiteten Merkmale), auf
+  /// allen Plattformen gleich (Web wie nativ).
   final int variante;
 
   late final bool grau;
@@ -842,13 +848,18 @@ class FigurAussehen {
   late final Color augen;
   late final Color schuh;
 
-  static int _hash(String s) {
-    var h = 0x811C9DC5;
-    for (final c in s.codeUnits) {
-      h = ((h ^ c) * 0x01000193) & 0x7fffffff;
-    }
-    return h;
+}
+
+/// FNV-1a über die Codeeinheiten, 31 Bit. Die Multiplikation läuft in
+/// 16-Bit-Hälften, damit sie im Web (Gleitkommazahlen) genau bleibt.
+int fnv32(String s) {
+  var h = 0x811C9DC5;
+  for (final c in s.codeUnits) {
+    h = (h ^ c) & 0xffffffff;
+    final lo = h & 0xffff, hi = h >> 16;
+    h = (lo * 0x01000193 + (((hi * 0x01000193) & 0xffff) << 16)) & 0xffffffff;
   }
+  return h & 0x7fffffff;
 }
 
 /// Ruhige Tätigkeit einer stehenden Figur (NPC-Leben, nur Darstellung).

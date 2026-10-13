@@ -166,5 +166,6 @@ Map<String, String> renderLook(Map<String, Object?> f) {
     'build': look['statur'] as String? ?? 'normal',
     'outfit': look['schnitt'] as String? ?? 'suit',
     if (look['kopftuchFarbe'] != null) 'headColor': look['kopftuchFarbe'] as String,
+    if (f['geschlecht'] is String) 'gender': f['geschlecht'] as String,
   };
 }

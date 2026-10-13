@@ -379,6 +379,10 @@ class LookDef {
   /// leitet der Renderer sie wie bisher aus der Mantelfarbe ab.
   final String? headColor;
 
+  /// Optional `w`, `m` oder `d` (aus dem Kanon); nur für die Darstellung
+  /// (etwa kein Bart). Ohne Angabe entscheidet der Renderer nach der Kleidung.
+  final String? gender;
+
   const LookDef({
     this.coat = '#3a3a44',
     this.skin = '#e0b89a',
@@ -387,6 +391,7 @@ class LookDef {
     this.build = 'normal',
     this.outfit = 'suit',
     this.headColor,
+    this.gender,
   });
 
   static const hats = {'none', 'bowler', 'fedora', 'cap', 'bun', 'top', 'beret', 'cloche', 'kopftuch'};
@@ -403,6 +408,7 @@ class LookDef {
         build: j['build'] as String? ?? 'normal',
         outfit: j['outfit'] as String? ?? 'suit',
         headColor: j['headColor'] as String?,
+        gender: j['gender'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -413,6 +419,7 @@ class LookDef {
         'build': build,
         'outfit': outfit,
         if (headColor != null) 'headColor': headColor,
+        if (gender != null) 'gender': gender,
       };
 }
 

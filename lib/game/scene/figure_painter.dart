@@ -6,7 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import '../iso_math.dart';
 import 'figur_rig.dart';
 
-export 'figur_rig.dart' show Taetigkeit;
+export 'figur_rig.dart' show Taetigkeit, fnv32;
 import 'palette.dart';
 
 /// Aussehen einer Figur (Detektiv oder Verdächtige).
@@ -21,6 +21,10 @@ class FigureLook {
   /// Kleid statt Mantel/Anzug (A-Linie, Ausschnitt statt Hemd und Krawatte).
   final bool dress;
 
+  /// Weibliche Figur (Kanon `geschlecht`, sonst Kleid, Dutt, Cloche, Kopftuch):
+  /// kein Bart, im Bildnis Wimpern und Lippenfarbe.
+  final bool weiblich;
+
   const FigureLook({
     required this.coat,
     required this.skin,
@@ -29,6 +33,7 @@ class FigureLook {
     required this.hat,
     required this.build,
     this.dress = false,
+    this.weiblich = false,
   });
 
   factory FigureLook.fromLook(LookDef l) {
@@ -41,6 +46,7 @@ class FigureLook {
       hat: l.hat,
       build: l.build,
       dress: l.dress,
+      weiblich: l.gender == 'w' || (l.gender == null && (l.dress || const {'bun', 'cloche', 'kopftuch'}.contains(l.hat))),
     );
   }
 
@@ -64,6 +70,18 @@ class FigureLook {
   }
 }
 
+/// Aussehen fürs Rig aus einem [FigureLook] (Karte und Bildnis nutzen dasselbe).
+FigurAussehen aussehenAus(FigureLook l) => FigurAussehen(
+      mantel: l.coat,
+      haut: l.skin,
+      haar: l.hair,
+      hutFarbe: l.hatColor,
+      hut: l.hat,
+      statur: l.build,
+      kleid: l.dress,
+      weiblich: l.weiblich,
+    );
+
 /// Zeichnet Figuren in Bildschirm-Pixeln (Ursprung = Füße).
 class FigurePainter {
   static const _black = Color(0xFF000000);
@@ -85,15 +103,7 @@ class FigurePainter {
   /// Aussehen fürs Rig, je Farbkombination nur einmal abgeleitet.
   final Map<int, FigurAussehen> _aussehen = {};
 
-  FigurAussehen _fuerRig(FigureLook l) => _aussehen[Object.hash(l.coat, l.skin, l.hair, l.hatColor, l.hat, l.build, l.dress)] ??= FigurAussehen(
-        mantel: l.coat,
-        haut: l.skin,
-        haar: l.hair,
-        hutFarbe: l.hatColor,
-        hut: l.hat,
-        statur: l.build,
-        kleid: l.dress,
-      );
+  FigurAussehen _fuerRig(FigureLook l) => _aussehen[Object.hash(l.coat, l.skin, l.hair, l.hatColor, l.hat, l.build, l.dress, l.weiblich)] ??= aussehenAus(l);
 
   /// Stehende oder gehende Figur (Figuren 2.0, [FigurRig]); Ursprung an den Füßen.
   void standing(

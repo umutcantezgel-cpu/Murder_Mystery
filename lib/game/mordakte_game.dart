@@ -1491,25 +1491,17 @@ class MordakteGame extends Game with KeyboardEvents {
     Taetigkeit.verschraenkt,
   ];
 
-  static int _fnv(String s) {
-    var h = 0x811C9DC5;
-    for (final c in s.codeUnits) {
-      h = ((h ^ c) * 0x01000193) & 0x7fffffff;
-    }
-    return h;
-  }
-
   /// Tätigkeit, Einblendung (0..1) und Zeit seit Beginn. Wer gerade befragt
   /// wird oder wem der Detektiv nahe kommt, hält inne und schaut auf.
   (Taetigkeit, double, double) _npcTaetigkeit(String id, double x, double y, double move) {
     if (move > 0.1) return (Taetigkeit.keine, 0, 0);
     final ziel = _fuehrung?.handlungsZiel;
     if (ziel != null && (ziel.dx - x).abs() + (ziel.dy - y).abs() < 1.2) return (Taetigkeit.keine, 0, 0);
-    final s = _fnv(id);
+    final s = fnv32(id);
     final lang = 8.0 + s % 5;
     final t = _time + (s % 17);
     final k = (t / lang).floor();
-    final tat = _taetigkeiten[(_fnv('$id:$k')) % _taetigkeiten.length];
+    final tat = _taetigkeiten[fnv32('$id:$k') % _taetigkeiten.length];
     final tz = t - k * lang;
     final rein = math.min(1.0, math.min(tz, lang - tz) / 0.7);
     var grad = rein * rein * (3 - 2 * rein);
