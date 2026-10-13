@@ -5,7 +5,7 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>de</string>
 	<key>CFBundleDisplayName</key>
 	<string>Mordakte</string>
 	<key>CFBundleExecutable</key>
@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>de</string>
+	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Damit du die Karte deines gelösten Falls in deinen Fotos sichern kannst.</string>
 </dict>
 </plist>

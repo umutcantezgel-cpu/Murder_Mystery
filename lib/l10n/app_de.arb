@@ -1967,6 +1967,26 @@
     }
   },
   "abend_fortsetzen_verwerfen": "Abend verwerfen",
+  "abend_fortsetzen_fehler": "Der Abend lässt sich gerade nicht öffnen. Versuch es gleich noch einmal.",
+  "@abend_fortsetzen_fehler": {
+    "description": "Detektei: Laden des abgelegten Abends gescheitert; der Stand bleibt"
+  },
+  "abend_ersetzen_titel": "Abend ersetzen?",
+  "@abend_ersetzen_titel": {
+    "description": "Assistent: Rückfrage, wenn ein abgelegter Abend durch einen neuen ersetzt würde"
+  },
+  "abend_ersetzen_text": "Ein unterbrochener Abend wartet noch in der Detektei. Ein neuer Abend ersetzt ihn.",
+  "@abend_ersetzen_text": {
+    "description": "Assistent: Text der Rückfrage"
+  },
+  "abend_ersetzen_ja": "Neuen Abend beginnen",
+  "@abend_ersetzen_ja": {
+    "description": "Assistent: den abgelegten Abend ersetzen"
+  },
+  "abend_ersetzen_nein": "Zurück",
+  "@abend_ersetzen_nein": {
+    "description": "Assistent: nicht ersetzen"
+  },
   "@abend_fortsetzen_verwerfen": {
     "description": "Detektei: den abgelegten Abend löschen"
   },
@@ -1974,7 +1994,7 @@
   "@teilen_knopf": {
     "description": "Ende des Abends: Knopf zum Teilen der Teilkarte"
   },
-  "teilen_marke": "Akte geschlossen",
+  "teilen_marke": "Abschlussbericht",
   "@teilen_marke": {
     "description": "Teilkarte: Formularkopf"
   },

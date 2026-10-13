@@ -124,6 +124,8 @@ void main() {
     while (!s.gespraech!.fertig) {
       s.randgespraechWaehlen(s.gespraech!.wahlen.first);
     }
+    expect(s.kannWeiter, isFalse, reason: 'Ein offenes Gespräch endet erst mit „Gespräch beenden“');
+    expect(s.abstecherOffen, isEmpty, reason: 'Keine Erkundung mitten im Gespräch');
     final flags = s.gespraech!.neueFlags.toSet();
     expect(s.erzaehlFlags, isEmpty, reason: 'erst nach dem Ende');
     s.randgespraechBeenden();

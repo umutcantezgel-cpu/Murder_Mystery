@@ -16,6 +16,7 @@ import '../stil/mappe/assistent_formular.dart';
 import '../stil/stil.dart';
 import '../ui/widgets/meters.dart' show RankBadge;
 import 'abend_halter.dart';
+import 'abend_speicher.dart';
 
 /// Belohnung nach dem Abend (Route `/abend/belohnung`): bucht den Abend im
 /// [MetaStore] (genau einmal, Schlüssel ist die Abendkennung) und zeigt ihn wie
@@ -60,6 +61,8 @@ class _BelohnungSeiteState extends State<BelohnungSeite> {
       final katalog = await kartenBereit(_meta);
       final figuren = await ladeAlleKartenFiguren(katalog);
       final b = _meta.verbucheAbend(abendId: a.abendId, ergebnis: a.ergebnis, katalog: katalog, punkte: a.punkte);
+      // Gebucht: Der abgelegte Abend hat seinen Zweck erfüllt.
+      unawaited(AbendSpeicher.loeschen());
       if (!mounted) return;
       setState(() {
         _katalog = katalog;

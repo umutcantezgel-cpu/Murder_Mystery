@@ -60,9 +60,10 @@ class _AbendSeiteState extends State<AbendSeite> {
   @override
   void dispose() {
     final s = _sitzung;
-    // Wer die Seite verlässt, hat den Abend beendet oder abgebrochen; nur ein
-    // Neuladen oder das Schließen der App lässt den Stand liegen.
-    _ablage?.beenden();
+    // Wer die Seite verlässt, hat den Abend abgebrochen oder geht zur
+    // Belohnung; nur ein Neuladen oder das Schließen der App lässt den Stand
+    // sonst liegen. Auf dem Weg zur Belohnung bleibt er, bis sie gebucht ist.
+    _ablage?.beenden(loeschen: _halter.abschluss == null);
     if (s != null) {
       _halter.freigeben(s);
       // Online-Abend: Die Sitzung hat den Raum schon geschlossen (siehe GastgeberSitzung.dispose).

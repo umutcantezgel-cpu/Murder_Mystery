@@ -15,7 +15,8 @@ import 'online/rueckkehr.dart' show RueckkehrBanner;
 /// „Abend fortsetzen“ mit Akte und Runde, darunter „Abend verwerfen“. Ohne
 /// abgelegten Abend bleibt das Feld leer. Fortsetzen baut die Sitzung aus dem
 /// Stand auf, übergibt sie dem [AbendHalter] und öffnet den Abend; lässt sich
-/// der Stand nicht mehr abspielen, ist er verworfen.
+/// der Stand nicht mehr abspielen, ist er verworfen. Scheitert nur das Laden,
+/// bleibt er liegen und ein Hinweis erscheint.
 class AbendRueckkehr extends StatefulWidget {
   const AbendRueckkehr({super.key});
 
@@ -30,28 +31,59 @@ class _AbendRueckkehrState extends State<AbendRueckkehr> {
   @override
   void initState() {
     super.initState();
-    unawaited(AbendSpeicher.lesen().then((s) {
-      if (mounted) setState(() => _stand = s);
-    }));
+    AbendSpeicher.abgelegt.addListener(_neuLesen);
+    _lesen();
+  }
+
+  @override
+  void dispose() {
+    AbendSpeicher.abgelegt.removeListener(_neuLesen);
+    super.dispose();
+  }
+
+  void _lesen() => unawaited(AbendSpeicher.lesen().then((s) {
+        if (mounted) setState(() => _stand = s);
+      }));
+
+  /// Die Ablage hat sich geändert (auch durch andere Karten): neu lesen.
+  void _neuLesen() {
+    if (AbendSpeicher.abgelegt.value == false) {
+      if (_stand != null && mounted) setState(() => _stand = null);
+    } else if (AbendSpeicher.abgelegt.value == true && _stand == null) {
+      _lesen();
+    }
   }
 
   Future<void> _fortsetzen() async {
     if (_laeuft) return;
     final halter = context.read<AbendHalter>();
     final router = GoRouter.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final fehler = L.of(context).abend_fortsetzen_fehler;
     setState(() => _laeuft = true);
-    final s = await AbendSpeicher.fortsetzen(context.read<MetaStore>());
-    if (s == null) {
-      if (mounted) {
+    try {
+      final s = await AbendSpeicher.fortsetzen(context.read<MetaStore>());
+      if (!mounted) {
+        // Die Detektei ist schon weg: nicht ungefragt in einen Abend springen.
+        s?.dispose();
+        return;
+      }
+      if (s == null) {
         setState(() {
           _laeuft = false;
           _stand = null;
         });
+        return;
       }
-      return;
+      halter.uebernehmen(s);
+      router.go(Routes.abend);
+    } catch (e) {
+      debugPrint('ABEND fortsetzen fehler $e');
+      if (mounted) {
+        setState(() => _laeuft = false);
+        messenger.showSnackBar(SnackBar(content: Text(fehler)));
+      }
     }
-    halter.uebernehmen(s);
-    router.go(Routes.abend);
   }
 
   Future<void> _verwerfen() async {

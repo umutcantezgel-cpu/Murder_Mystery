@@ -90,6 +90,10 @@ void main() {
     state = await _oeffnen(tester, MetaStore.memory()..name = 'Bo', ablage: {AbendSpeicher.schluessel: jsonEncode(stand.abendstand)});
     expect(find.text('Dein erster Fall'), findsNothing, reason: 'Erst den abgelegten Abend fortsetzen');
     expect(find.text('Abend fortsetzen'), findsOneWidget);
+    // Wer den abgelegten Abend verwirft, findet den ersten Fall wieder.
+    await tester.tap(find.text('Abend verwerfen'));
+    await _warten(tester, bis: find.text('Dein erster Fall'));
+    expect(find.text('Dein erster Fall'), findsOneWidget);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

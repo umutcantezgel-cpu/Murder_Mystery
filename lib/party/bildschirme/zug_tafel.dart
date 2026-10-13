@@ -222,6 +222,9 @@ class _PunkteMaler extends CustomPainter {
 /// Ergebnis eines Wurfs: zwei gemalte Würfel rollen aufs Brett und zeigen die
 /// Augen, darunter Stufe, Rechnung auf einem Beleg und die Folge. Die Würfel
 /// zeigen nur, was der Zugkern gewürfelt hat.
+/// Würfe, deren Ergebnis schon geklungen hat (nach Identität des Wurfs).
+final _geklungen = Expando<bool>('geklungen');
+
 class WurfErgebnis extends StatelessWidget {
   const WurfErgebnis({super.key, required this.sitzung, required this.wurf});
   final PartySitzung sitzung;
@@ -247,11 +250,16 @@ class WurfErgebnis extends StatelessWidget {
                 tween: Tween(begin: 0, end: 1),
                 duration: Duration(milliseconds: ruhig ? 0 : 650),
                 curve: Curves.easeOutCubic,
-                // Liegen die Würfel, klingt das Ergebnis: hell beim Erfolg, gedämpft beim Teilerfolg.
-                onEnd: () => switch (wurf.stufe) {
-                  Stufe.erfolg => Klang.instanz.spiele('erfolg', laut: 0.8),
-                  Stufe.teilerfolg => Klang.instanz.spiele('erfolg', laut: 0.45, tonhoehe: 0.84),
-                  Stufe.pech => Klang.instanz.spiele('pech', laut: 0.7),
+                // Liegen die Würfel, klingt das Ergebnis: hell beim Erfolg, gedämpft beim
+                // Teilerfolg. Je Wurf nur einmal, auch wenn das Ergebnis erneut erscheint.
+                onEnd: () {
+                  if (_geklungen[wurf] == true) return;
+                  _geklungen[wurf] = true;
+                  switch (wurf.stufe) {
+                    case Stufe.erfolg: Klang.instanz.spiele('erfolg', laut: 0.8);
+                    case Stufe.teilerfolg: Klang.instanz.spiele('erfolg', laut: 0.45, tonhoehe: 0.84);
+                    case Stufe.pech: Klang.instanz.spiele('pech', laut: 0.7);
+                  }
                 },
                 builder: (context, t, _) => _Wurfbild(a: wurf.a, b: wurf.b, t: ruhig ? 1 : t),
               ),

@@ -244,7 +244,8 @@ class EinrichtungsAbschnitte extends StatelessWidget {
               FallAbschnitt(werte: werte, online: online),
               if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
               if (!werte.solo) DauerAbschnitt(werte: werte),
-              if (werte.hatGespraeche) ErzaehltiefeAbschnitt(werte: werte),
+              // Online richtet der Raum den Abend ein; dort gilt die Vorgabe.
+              if (werte.hatGespraeche && !online) ErzaehltiefeAbschnitt(werte: werte),
               StimmeAbschnitt(werte: werte),
             ],
           ),

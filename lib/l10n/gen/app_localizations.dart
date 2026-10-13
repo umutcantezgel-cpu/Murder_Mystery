@@ -5529,6 +5529,36 @@ abstract class L {
   /// **'Abend verwerfen'**
   String get abend_fortsetzen_verwerfen;
 
+  /// Detektei: Laden des abgelegten Abends gescheitert; der Stand bleibt
+  ///
+  /// In de, this message translates to:
+  /// **'Der Abend lässt sich gerade nicht öffnen. Versuch es gleich noch einmal.'**
+  String get abend_fortsetzen_fehler;
+
+  /// Assistent: Rückfrage, wenn ein abgelegter Abend durch einen neuen ersetzt würde
+  ///
+  /// In de, this message translates to:
+  /// **'Abend ersetzen?'**
+  String get abend_ersetzen_titel;
+
+  /// Assistent: Text der Rückfrage
+  ///
+  /// In de, this message translates to:
+  /// **'Ein unterbrochener Abend wartet noch in der Detektei. Ein neuer Abend ersetzt ihn.'**
+  String get abend_ersetzen_text;
+
+  /// Assistent: den abgelegten Abend ersetzen
+  ///
+  /// In de, this message translates to:
+  /// **'Neuen Abend beginnen'**
+  String get abend_ersetzen_ja;
+
+  /// Assistent: nicht ersetzen
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück'**
+  String get abend_ersetzen_nein;
+
   /// Ende des Abends: Knopf zum Teilen der Teilkarte
   ///
   /// In de, this message translates to:
@@ -5538,7 +5568,7 @@ abstract class L {
   /// Teilkarte: Formularkopf
   ///
   /// In de, this message translates to:
-  /// **'Akte geschlossen'**
+  /// **'Abschlussbericht'**
   String get teilen_marke;
 
   /// Teilkarte: Handschrift unten, wenn es keinen Fall-Code gibt

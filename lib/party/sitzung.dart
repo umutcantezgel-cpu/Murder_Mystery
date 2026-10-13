@@ -111,8 +111,9 @@ class PartySitzung extends ChangeNotifier {
   /// Erkundungsorte dieser Akte (auch bereits besuchte).
   List<AbstecherOrt> get abstecherOrte => _partie.abstecherOrte;
 
-  /// Erkundungsorte, die jetzt besucht werden dürfen (ohne laufenden Zug).
-  List<AbstecherOrt> get abstecherOffen => mitWuerfel ? _partie.abstecherOffen : const [];
+  /// Erkundungsorte, die jetzt besucht werden dürfen (ohne laufenden Zug und
+  /// ohne offenes Randgespräch).
+  List<AbstecherOrt> get abstecherOffen => mitWuerfel && _gespraech == null ? _partie.abstecherOffen : const [];
 
   /// Ergebnis je besuchtem Erkundungsort.
   Map<String, Stufe> get abstecherErgebnis => Map.unmodifiable(_partie.abstecherErgebnis);
@@ -124,6 +125,7 @@ class PartySitzung extends ChangeNotifier {
   /// Mit [karte] (Art Abstecher) kostet der Gang keine Nachtminuten.
   void starteAbstecher(String id, {String? karte}) {
     if (!mitWuerfel) throw StateError('Abstecher gibt es nur mit Würfeln.');
+    if (_gespraech != null) throw StateError('Erst das Randgespräch beenden.');
     _partie.starteAbstecher(id, karte: karte);
     _merke('abstecher', {'id': id, 'karte': karte});
     _vorschlag = null;
@@ -447,6 +449,8 @@ class PartySitzung extends ChangeNotifier {
   /// Kann der Abend zum nächsten Abschnitt? Solo-Wissen kommt vor der Wahl;
   /// eine Uhr oder eine verdeckte Bot-Karte kann diese Schranke nicht umgehen.
   bool get kannWeiter {
+    // Ein offenes Randgespräch endet erst mit „Gespräch beenden“.
+    if (_gespraech != null) return false;
     if (solo && phase == PartyPhase.gespraeche && soloGespraeche.any((g) => !_soloGelesen.contains(g.id))) return false;
     return mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
         PartyPhase.titel => true,

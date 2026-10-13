@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
@@ -142,7 +143,8 @@ Future<Uint8List?> widgetAlsPng(BuildContext context, Widget kind, {required Siz
   );
   final pipeline = PipelineOwner()..rootNode = ansicht;
   ansicht.prepareInitialFrame();
-  final bau = BuildOwner(focusManager: FocusManager());
+  final fokus = FocusManager();
+  final bau = BuildOwner(focusManager: fokus);
   final wurzel = RenderObjectToWidgetAdapter<RenderBox>(
     container: grenze,
     child: InheritedTheme.captureAll(
@@ -162,12 +164,23 @@ Future<Uint8List?> widgetAlsPng(BuildContext context, Widget kind, {required Siz
     ..flushLayout()
     ..flushCompositingBits()
     ..flushPaint();
-  final bild = await grenze.toImage(pixelRatio: pixel);
   try {
-    final daten = await bild.toByteData(format: ui.ImageByteFormat.png);
-    return daten?.buffer.asUint8List();
+    final bild = await grenze.toImage(pixelRatio: pixel);
+    try {
+      final daten = await bild.toByteData(format: ui.ImageByteFormat.png);
+      return daten?.buffer.asUint8List();
+    } finally {
+      bild.dispose();
+    }
   } finally {
-    bild.dispose();
+    // Den Baum abseits des Bildschirms wieder abbauen: ohne Kind neu anhängen,
+    // dann räumt finalizeTree die Elemente ab; der FocusManager meldet sich ab.
+    RenderObjectToWidgetAdapter<RenderBox>(container: grenze).attachToRenderTree(bau, wurzel);
+    bau.finalizeTree();
+    fokus.dispose();
+    pipeline
+      ..rootNode = null
+      ..dispose();
   }
 }
 
@@ -175,26 +188,38 @@ Future<Uint8List?> widgetAlsPng(BuildContext context, Widget kind, {required Siz
 @visibleForTesting
 Future<ShareResult> Function(ShareParams) teilenUeber = (p) => SharePlus.instance.share(p);
 
+bool _teiltGerade = false;
+
 /// Teilt den beendeten Abend: Karte als Bild und Text über das Teilen des
-/// Systems. [ursprung] ist der Knopf (iPad: Ort des Teilen-Fensters).
+/// Systems, immer nur einmal zur Zeit (Doppeltipp). Im Browser nur den Text:
+/// Viele Browser können keine Dateien teilen und laden das Bild sonst
+/// stillschweigend herunter. [ursprung] ist der Knopf (iPad: Ort des Fensters).
 Future<void> abendTeilen(BuildContext context, PartySitzung s, {Rect? ursprung}) async {
-  final text = teilText(s);
-  Uint8List? png;
+  if (_teiltGerade) return;
+  _teiltGerade = true;
   try {
-    png = await widgetAlsPng(context, teilKarteFuer(s), groesse: TeilKarte.groesse);
-  } catch (e) {
-    debugPrint('TEILEN bild fehler $e');
-  }
-  try {
+    final text = teilText(s);
+    final name = 'mordakte-${s.daten.fall}.png';
+    Uint8List? png;
+    if (!kIsWeb) {
+      try {
+        png = await widgetAlsPng(context, teilKarteFuer(s), groesse: TeilKarte.groesse);
+      } catch (e) {
+        debugPrint('TEILEN bild fehler $e');
+      }
+    }
     await teilenUeber(
       ShareParams(
         text: text,
         subject: _de.teilen_betreff(s.kanon.fall['titel'] as String),
-        files: png == null ? null : [XFile.fromData(png, mimeType: 'image/png', name: 'mordakte-${s.daten.fall}.png')],
+        files: png == null ? null : [XFile.fromData(png, mimeType: 'image/png', name: name)],
+        fileNameOverrides: png == null ? null : [name],
         sharePositionOrigin: ursprung,
       ),
     );
   } catch (e) {
     debugPrint('TEILEN fehler $e');
+  } finally {
+    _teiltGerade = false;
   }
 }

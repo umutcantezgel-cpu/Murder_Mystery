@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/abend_seite.dart';
+import 'package:mordakte/abend/belohnung_seite.dart';
 import 'package:mordakte/abend/abend_speicher.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
@@ -22,6 +23,8 @@ import 'package:mordakte/stil/stil.dart';
 import 'package:mordakte_core/mordakte_core.dart' show PartyPhase;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../party_widgets/hilfe.dart' show spieleBis;
 
 const _laedt = 'Die Akte wird vorbereitet …';
 
@@ -133,6 +136,60 @@ void main() {
     state = await _oeffnen(tester, Routes.start, ablage: {AbendSpeicher.schluessel: roh});
     await _tippen(tester, 'Abend fortsetzen', bis: find.byType(AbendSeite));
     expect(_halter(tester).sitzung?.phase, PartyPhase.rollen, reason: 'Fortsetzen über die Detektei');
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Auf dem Schlussbild bleibt der Abend liegen, bis die Belohnung gebucht ist', (tester) async {
+    var state = await _oeffnen(tester, Routes.abendNeu);
+    await _soloAbend(tester);
+    final s = _halter(tester).sitzung!;
+    spieleBis(s, PartyPhase.ende);
+    await _warten(tester);
+    final roh = await _ablage(tester);
+    expect(roh, isNotNull, reason: 'Wer die App auf dem Schlussbild schließt (etwa beim Teilen), verliert nichts');
+    expect((jsonDecode(roh!) as Map)['phase'], 'ende');
+
+    // Neustart auf dem Schlussbild: fortsetzen und die Belohnung doch noch abholen.
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+    state = await _oeffnen(tester, Routes.start, ablage: {AbendSpeicher.schluessel: roh});
+    await _tippen(tester, 'Abend fortsetzen', bis: find.byType(AbendSeite));
+    expect(_halter(tester).sitzung?.phase, PartyPhase.ende);
+    await tester.ensureVisible(find.text('Belohnung ansehen'));
+    await _tippen(tester, 'Belohnung ansehen', bis: find.byType(BelohnungSeite));
+    expect(find.byType(BelohnungSeite), findsOneWidget);
+    await _warten(tester, bis: find.text('Zur Detektei'));
+    expect(state.meta.gebuchteAbende, hasLength(1), reason: 'Die Belohnung ist gebucht');
+    expect(await _ablage(tester), isNull, reason: 'Nach der Buchung ist der Stand weg');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Ein neuer Abend fragt, bevor er einen abgelegten ersetzt', (tester) async {
+    var state = await _oeffnen(tester, Routes.abendNeu);
+    await _soloAbend(tester);
+    final roh = (await _ablage(tester))!;
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+
+    state = await _oeffnen(tester, Routes.abendNeu, ablage: {AbendSpeicher.schluessel: roh});
+    await _tippen(tester, 'Weiter');
+    await _tippen(tester, 'Ein Gerät reihum');
+    await _tippen(tester, 'Weiter');
+    await tester.tap(find.text('Weiter'));
+    await _warten(tester, bis: find.text('Bereit?'));
+    await _tippen(tester, 'Abend beginnen', bis: find.byType(MKarteikartenDialog));
+    expect(find.text('Abend ersetzen?'), findsOneWidget);
+    await _tippen(tester, 'Zurück');
+    expect(find.byType(AbendSeite), findsNothing, reason: 'Zurück lässt den abgelegten Abend in Ruhe');
+    expect(await _ablage(tester), roh);
+    await _tippen(tester, 'Abend beginnen', bis: find.byType(MKarteikartenDialog));
+    await _tippen(tester, 'Neuen Abend beginnen', bis: find.byType(AbendSeite));
+    expect(_halter(tester).sitzung?.solo, isFalse, reason: 'Der neue Abend läuft');
+    expect(await _ablage(tester), isNot(roh), reason: 'Der neue Abend hat den alten ersetzt');
+    expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

@@ -37,7 +37,7 @@ Verbindungsabbruch weitergeht. Gäste merken sich auf ihrem Gerät, in welchem R
 
 ## Teilen
 Teilst du dein Ergebnis, öffnet die App das Teilen deines Betriebssystems mit einer Bildkarte und
-einem kurzen Text. Was du wohin teilst, entscheidest du; die App selbst sendet dabei nichts.
+einem kurzen Text. Was du wohin teilst, entscheidest du; die App selbst sendet dabei nichts. Sicherst du die Karte in deinen Fotos, fragt iOS dich vorher um Erlaubnis; die App liest deine Mediathek nicht.
 Die Karte nennt Akte, Ende, Punkte und gegebenenfalls den Fall-Code, nie den Täter.
 
 ## Web-Version

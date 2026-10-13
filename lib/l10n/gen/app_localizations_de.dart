@@ -3193,10 +3193,27 @@ class LDe extends L {
   String get abend_fortsetzen_verwerfen => 'Abend verwerfen';
 
   @override
+  String get abend_fortsetzen_fehler =>
+      'Der Abend lässt sich gerade nicht öffnen. Versuch es gleich noch einmal.';
+
+  @override
+  String get abend_ersetzen_titel => 'Abend ersetzen?';
+
+  @override
+  String get abend_ersetzen_text =>
+      'Ein unterbrochener Abend wartet noch in der Detektei. Ein neuer Abend ersetzt ihn.';
+
+  @override
+  String get abend_ersetzen_ja => 'Neuen Abend beginnen';
+
+  @override
+  String get abend_ersetzen_nein => 'Zurück';
+
+  @override
   String get teilen_knopf => 'Teilen';
 
   @override
-  String get teilen_marke => 'Akte geschlossen';
+  String get teilen_marke => 'Abschlussbericht';
 
   @override
   String get teilen_aufruf => 'Schafft ihr es auch?';

@@ -19,6 +19,7 @@ import '../../party/sitzung.dart';
 import '../../stil/mappe/assistent_formular.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
+import '../abend_speicher.dart';
 import '../online/gastgeber_dienst.dart';
 import '../online/online_halter.dart';
 import 'abschnitte.dart';
@@ -218,6 +219,26 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
     if (_weise == Spielweise.eigene) {
       unawaited(_raumOeffnen());
       return;
+    }
+    unawaited(_abendBeginnen(g));
+  }
+
+  /// Solo und reihum: Liegt noch ein unterbrochener Abend ab, ersetzt der neue
+  /// ihn; das fragt die Karteikarte vorher. Dann wie gehabt einrichten und
+  /// dem Abend übergeben.
+  Future<void> _abendBeginnen(_Geladen g) async {
+    final abgelegt = await AbendSpeicher.lesen() != null;
+    if (!mounted || _uebergeben) return;
+    if (abgelegt) {
+      final l = L.of(context);
+      final ja = await frageKarteikarte(
+        context,
+        titel: l.abend_ersetzen_titel,
+        text: l.abend_ersetzen_text,
+        ja: l.abend_ersetzen_ja,
+        nein: l.abend_ersetzen_nein,
+      );
+      if (!ja || !mounted || _uebergeben) return;
     }
     g.werte.solo = _weise == Spielweise.solo;
     // Das Deck des Geräts ist der Kartenvorrat des Abends (Solo wie reihum);

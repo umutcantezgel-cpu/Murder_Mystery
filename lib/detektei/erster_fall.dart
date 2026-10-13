@@ -33,15 +33,13 @@ class ErsterFall extends StatefulWidget {
 }
 
 class _ErsterFallState extends State<ErsterFall> {
-  bool _abgelegt = true;
   bool _laeuft = false;
 
   @override
   void initState() {
     super.initState();
-    unawaited(AbendSpeicher.lesen().then((s) {
-      if (mounted) setState(() => _abgelegt = s != null);
-    }));
+    // Füllt [AbendSpeicher.abgelegt]; verwirft jemand den Abend, zeigt sich die Akte.
+    unawaited(AbendSpeicher.lesen());
   }
 
   Future<void> _los() async {
@@ -54,6 +52,8 @@ class _ErsterFallState extends State<ErsterFall> {
       final daten = await PartyDaten.laden(rootBundle, fall: ErsterFall.akte);
       final abstecher = await ladeAbstecher(ErsterFall.akte);
       final katalog = await kartenBereit(meta);
+      // Die Detektei ist schon weg (z. B. „Neuer Abend“ getippt): nichts öffnen.
+      if (!mounted) return;
       final s = PartySitzung(daten);
       s.kartenAnlegen(vorrat: TischVorrat.aus(meta.deck, katalog), abstecher: abstecher);
       s.einrichten(rollen: s.minRollen, detektiv: 'w', solo: true, geburtstagskind: (meta.name ?? '').trim());
@@ -66,9 +66,15 @@ class _ErsterFallState extends State<ErsterFall> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ValueListenableBuilder<bool?>(
+        valueListenable: AbendSpeicher.abgelegt,
+        builder: (context, abgelegt, _) => _akte(context, abgelegt),
+      );
+
+  Widget _akte(BuildContext context, bool? abgelegt) {
     final meta = context.watch<MetaStore>();
-    if (_abgelegt || meta.gebuchteAbende.isNotEmpty) return const SizedBox.shrink();
+    // Unbekannt oder ein abgelegter Abend: erst der, dann der erste Fall.
+    if (abgelegt != false || meta.gebuchteAbende.isNotEmpty) return const SizedBox.shrink();
     final l = L.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: MMass.s16),

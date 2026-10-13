@@ -25,4 +25,4 @@ sich der Code, ändern sich diese Antworten mit.
 ## Berechtigungen
 - Android: Internet (Online-Abend) und Vibration (Rückmeldung beim Tippen). Keine Kamera, kein
   Mikrofon, kein Standort, keine Kontakte.
-- iOS: keine Berechtigungsabfragen.
+- iOS: nur beim Sichern einer geteilten Karte in „Fotos“ fragt iOS nach (`NSPhotoLibraryAddUsageDescription`, nur Hinzufügen, kein Lesen der Mediathek); sonst keine Berechtigungsabfragen.
