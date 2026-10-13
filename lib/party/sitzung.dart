@@ -873,6 +873,27 @@ class PartySitzung extends ChangeNotifier {
     _gefuehrteGespraeche.add(g.gespraech.id);
     _gespraech = null;
     _merke('gespraechEnde');
+    randgespraechGefuehrt();
+    notifyListeners();
+  }
+
+  /// Nach jedem beendeten Randgespräch. Der Online-Gastgeber legt hier den
+  /// [erzaehlstand] ab; sein Abend steht im Raum, nicht im Befehlsprotokoll.
+  @protected
+  void randgespraechGefuehrt() {}
+
+  /// Flags und geführte Gespräche dieses Abends (JSON).
+  @protected
+  Map<String, Object?> get erzaehlstand => {
+        'flags': _erzaehlFlags.toList()..sort(),
+        'gefuehrt': _gefuehrteGespraeche.toList()..sort(),
+      };
+
+  /// Übernimmt einen abgelegten [erzaehlstand] (Rückkehr des Online-Gastgebers).
+  @protected
+  void erzaehlstandUebernehmen(Map<String, Object?> stand) {
+    _erzaehlFlags.addAll([for (final f in stand['flags'] as List? ?? const []) f as String]);
+    _gefuehrteGespraeche.addAll([for (final g in stand['gefuehrt'] as List? ?? const []) g as String]);
     notifyListeners();
   }
 

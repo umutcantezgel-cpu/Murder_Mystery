@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
@@ -29,6 +31,7 @@ class GastgeberSitzung extends PartySitzung {
     stimmeAn = dienst.stimme;
     _hoerer = dienst.verb.ansichten.listen((_) => _abgleichen());
     _abgleichen();
+    unawaited(_erzaehlstandLaden());
   }
 
   /// Baut die Sitzung für einen schon gestarteten Raum ([GastgeberDienst.gestartet]).
@@ -50,6 +53,34 @@ class GastgeberSitzung extends PartySitzung {
   String? get letzterFehler => _fehler;
 
   void fehlerQuittieren() => _fehler = null;
+
+  // ------------------------------------------------------- Randgespräche
+
+  /// Die Randgespräche führt nur der Gastgeber; der Raum kennt sie nicht. Damit
+  /// sie eine Rückkehr zum Abend überstehen, liegen Flags und geführte Gespräche
+  /// neben dem Raum in der Ablage, an das Salz dieses Abends gebunden.
+  Future<void> _erzaehlstandLaden() async {
+    try {
+      final roh = await dienst.ablage.lesen(GastgeberDienst.erzaehlSchluessel);
+      if (roh == null || _entsorgt) return;
+      final d = jsonDecode(roh);
+      if (d is Map && d['salz'] == dienst.salz) erzaehlstandUebernehmen(d.cast<String, Object?>());
+    } catch (e) {
+      debugPrint('ONLINE erzaehlstand lesen $e');
+    }
+  }
+
+  @override
+  void randgespraechGefuehrt() {
+    final stand = jsonEncode({'salz': dienst.salz, ...erzaehlstand});
+    unawaited(() async {
+      try {
+        await dienst.ablage.schreiben(GastgeberDienst.erzaehlSchluessel, stand);
+      } catch (e) {
+        debugPrint('ONLINE erzaehlstand schreiben $e');
+      }
+    }());
+  }
 
   void _abgleichen() {
     if (_entsorgt) return;
