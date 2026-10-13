@@ -1,0 +1,10 @@
+{
+  "format": "welt/1",
+  "akte": "gewoelbe",
+  "hinweis": "Burghof und Wehrgang unter freiem Himmel; Raureif und feiner Schnee.",
+  "aussen": [
+    "hof",
+    "wehrgang"
+  ],
+  "wetter": "snow"
+}

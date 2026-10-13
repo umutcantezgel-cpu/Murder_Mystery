@@ -20,7 +20,7 @@ const warte = Number(opt('warten', '2500'));
 await fs.mkdir(ausgabe, { recursive: true });
 
 const akte = opt('akte', 'schlosskeller');
-const party = (phase, extra = '') => `?party=${akte}&pfad=${akte === 'schlosskeller' ? 'ahmet' : ''}&n=6&bis=${phase}${extra}#/party`;
+const party = (phase, extra = '') => `?party=${akte}${akte === 'schlosskeller' ? '&pfad=ahmet' : ''}&n=6&bis=${phase}${extra}#/party`;
 const ansichten = [
   ['01-detektei', ''],
   ['02-akte', `?screen=akte&akte=${akte}`],

@@ -24,13 +24,19 @@ class PartyDaten {
   /// Aus einem synchronen Leser (Tests) und der Szenario-Vorlage. Für Akten
   /// außer dem Schlosskeller ergänzt [basis] fehlende Oberflächentexte aus
   /// dem unveränderten Schlosskeller.
-  factory PartyDaten.aus(KanonLeser lies, Map<String, dynamic> vorlage, {String fall = 'schlosskeller', KanonLeser? basis}) {
+  factory PartyDaten.aus(
+    KanonLeser lies,
+    Map<String, dynamic> vorlage, {
+    String fall = 'schlosskeller',
+    KanonLeser? basis,
+    Map<String, Object?>? welt,
+  }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
     if (basis != null) sammlung.ergaenzeUi(Textsammlung.lade(basis));
     final texte = Texte(kanon, sammlung);
     final karte = PartyKarte(kanon);
-    final szenario = ScenarioDef.fromJson(partySzenarioJson(kanon, vorlage, id: 'party_$fall'));
+    final szenario = ScenarioDef.fromJson(partySzenarioJson(kanon, vorlage, id: 'party_$fall', welt: welt));
     return PartyDaten._(fall, kanon, texte, karte, szenario, partyNpcKennungen(kanon, vorlage));
   }
 
@@ -40,7 +46,14 @@ class PartyDaten {
     final basis = fall == 'schlosskeller' ? null : await _ordner(bundle, 'content/party/schlosskeller', nurTexte: true);
     final vorlagePfad = eigen.vorlage ?? 'content/scenarios/ravensmoor.json';
     final vorlage = jsonDecode(await bundle.loadString(vorlagePfad)) as Map<String, dynamic>;
-    return PartyDaten.aus(eigen.lies, vorlage, fall: fall, basis: basis?.lies);
+    // Darstellungsschicht der Akte (Außenräume, Wetter); ohne Datei wie bisher.
+    Map<String, Object?>? welt;
+    try {
+      welt = jsonDecode(await bundle.loadString('content/welt/$fall/welt.json')) as Map<String, Object?>;
+    } catch (_) {
+      welt = null;
+    }
+    return PartyDaten.aus(eigen.lies, vorlage, fall: fall, basis: basis?.lies, welt: welt);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

@@ -9,7 +9,13 @@ import 'karte.dart';
 /// damit alle Pflichtfelder gefüllt sind; Karte, Thema und Figuren kommen aus
 /// dem Kanon. Spiellogik der Vorlage wird nicht benutzt: Hotspots sind die
 /// Ziele der neun Entscheidungen ([PartyKarte]), Gegenstände sind leer.
-Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage, {String id = 'party_schlosskeller'}) {
+///
+/// [welt] ist die optionale Darstellungsschicht `content/welt/<akte>/welt.json`
+/// (nur Bild, keine Spiellogik): `aussen` nennt Räume unter freiem Himmel
+/// (Fassaden, Wetter), `wetter` ersetzt das Wetter der Akte. Böden kommen aus
+/// `raeume.json` (`boden`).
+Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage, {String id = 'party_schlosskeller', Map<String, Object?>? welt}) {
+  final aussen = {...((welt?['aussen'] as List?) ?? const []).cast<String>()};
   final j = jsonDecode(jsonEncode(vorlage)) as Map<String, dynamic>;
   final g = kanon.graph;
   final karte = g.karte;
@@ -37,7 +43,7 @@ Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage
       'text': '#f1ede4',
       'fog': '#15120f',
     },
-    'weather': darstellung['wetter'] ?? 'none',
+    'weather': welt?['wetter'] ?? darstellung['wetter'] ?? 'none',
     'lightning': darstellung['blitze'] ?? false,
     'dayAmbient': darstellung['tagLicht'] ?? 0.62,
     'nightAmbient': darstellung['nachtLicht'] ?? 0.06,
@@ -46,7 +52,16 @@ Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage
     'rows': karte.rows,
     'rooms': [
       for (final r in g.raeume.values)
-        {'id': r.id, 'name': {'de': r.anzeigename}, 'x': r.x, 'y': r.y, 'w': r.b, 'h': r.l, 'floor': 'stone'},
+        {
+          'id': r.id,
+          'name': {'de': r.anzeigename},
+          'x': r.x,
+          'y': r.y,
+          'w': r.b,
+          'h': r.l,
+          'floor': r.boden.isEmpty ? 'stone' : r.boden,
+          if (aussen.contains(r.id)) 'outdoor': true,
+        },
     ],
     'props': partyProps(kanon),
     'spawn': [

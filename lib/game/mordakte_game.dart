@@ -640,7 +640,8 @@ class MordakteGame extends Game with KeyboardEvents {
   void _updateCamera(double dt) {
     if (size.x <= 0 || size.y <= 0) return;
     final short = math.min(size.x, size.y);
-    final base = (short / (10.5 * Iso.tileW)).clamp(0.42, 2.4);
+    // Näher an den Figuren (Figuren 2.0): rund 7 Kacheln über die kurze Seite.
+    final base = (short / (7.2 * Iso.tileW)).clamp(0.42, 2.6);
     final user = userZoom.clamp(0.6, 1.8);
     final ruhig = _fuehrung?.bewegungReduziert == true;
     final festeKamera = _ext?.kamera;
@@ -702,8 +703,8 @@ class MordakteGame extends Game with KeyboardEvents {
     // Mindestgröße des Ausschnitts, damit ein einzelnes Ziel nicht übergroß wird.
     Rect weiten(Rect r) => Rect.fromCenter(
           center: r.center,
-          width: math.max(r.width, 448.0),
-          height: math.max(r.height, 288.0),
+          width: math.max(r.width, 330.0),
+          height: math.max(r.height, 230.0),
         );
     double zoomFuer(Rect r) {
       final b = weiten(r);
@@ -711,7 +712,7 @@ class MordakteGame extends Game with KeyboardEvents {
     }
 
     final zMin = base * 0.85;
-    final zMax = math.min(base * 1.7, 2.4);
+    final zMax = math.min(base * 1.8, 2.6);
     final ich = punkt(_px, _py);
     final nah = Iso.toScreen(_px, _py);
     final ziele = [...(sitzung as SzenenKamera).kameraZiele]

@@ -56,6 +56,11 @@ flutter:
     - content/party/nachtexpress/texte/
     - content/party/blue_palm/
     - content/party/blue_palm/texte/
+    - content/welt/schlosskeller/
+    - content/welt/gewoelbe/
+    - content/welt/ravensmoor/
+    - content/welt/nachtexpress/
+    - content/welt/blue_palm/
   fonts:
     - family: SpecialElite
       fonts:
