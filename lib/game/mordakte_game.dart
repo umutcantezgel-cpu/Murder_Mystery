@@ -227,8 +227,25 @@ class MordakteGame extends Game with KeyboardEvents {
   bool _hasPos = false;
   double _walk = 0, _moveAmt = 0;
 
+  /// Trägheit der eigenen Figur: Anteil der Sollgeschwindigkeit (0..1) und
+  /// zuletzt gewünschte Richtung auf dem Bildschirm (Anlaufen und Abbremsen).
+  double _tempo = 0;
+  Offset _richtung = Offset.zero;
+
   /// Szenenregie: 0 = freie Kamera, 1 = Zweier-Einstellung auf Detektiv und Handlungsziel.
   double _regie = 0;
+
+  /// Etablierungsschwenk beim ersten Betreten einer Akte (0..1, −1 = aus).
+  double _intro = -1;
+  bool _introOffen = false;
+
+  /// Der Schwenk läuft nach Wanduhr: Auf langsamen Geräten (gekappte
+  /// Bildzeit) dauert er sonst ewig.
+  final Stopwatch _introUhr = Stopwatch();
+
+  /// Kinobalken während des Schwenks (1 = voll, blendet zum Ende aus).
+  double _introBalken = 0;
+  static final Set<String> _introGespielt = {};
 
   // Tippen-zum-Gehen: Wegpunkte (Welt), Ziel einer Handlung und die Zielmarke.
   List<Offset>? _tippWeg;
@@ -533,6 +550,8 @@ class MordakteGame extends Game with KeyboardEvents {
     _tracks.clear();
     _hasPos = false;
     _camInit = false;
+    _introOffen = true;
+    _intro = -1;
     _playerRoom = null;
   }
 
@@ -707,12 +726,21 @@ class MordakteGame extends Game with KeyboardEvents {
         _sentF = _pf;
       }
     }
-    if (canMove && mag > 0.05) {
-      final dir = Iso.screenDirToWorld(input.dx, input.dy);
+    // Anlaufen in ~0,2 s, Abbremsen etwas schneller; die Richtung folgt sofort.
+    final soll = canMove && mag > 0.05 ? mag : 0.0;
+    if (!canMove) {
+      _tempo = 0;
+    } else {
+      _tempo += (soll - _tempo) * (1 - math.exp(-dt * (soll > _tempo ? 11 : 16)));
+      if (_tempo < 0.015 && soll == 0) _tempo = 0;
+    }
+    if (soll > 0) _richtung = input;
+    if (canMove && _tempo > 0 && _richtung.distance > 0.05) {
+      final dir = Iso.screenDirToWorld(_richtung.dx, _richtung.dy);
       final dl = dir.distance;
       if (dl > 1e-6) {
         // Geister sind wie in der Engine (PlayerState.speedMul) 10 % schneller.
-        final speed = Tuning.playerSpeed * (me.life == LifeState.ghost ? 1.1 : _effectMul(me, (m) => m.speed)) * mag;
+        final speed = Tuning.playerSpeed * (me.life == LifeState.ghost ? 1.1 : _effectMul(me, (m) => m.speed)) * _tempo;
         final step = speed * dt;
         final dx = dir.dx / dl * step, dy = dir.dy / dl * step;
         double nx, ny;
@@ -838,6 +866,41 @@ class MordakteGame extends Game with KeyboardEvents {
       final regieCam = paar - (frei.center - Offset(size.x / 2, size.y * _camY)) / _zoom;
       targetCam = Offset.lerp(targetCam, regieCam, _regie)!;
     }
+    // Etablierungsschwenk (M5): Beim ersten Betreten einer Akte zeigt die
+    // Kamera den ganzen Schauplatz samt Kulisse, hält kurz und fährt dann zum
+    // Detektiv. Eigene Eingabe, ruhige Bewegung oder feste Kamera brechen ab.
+    if (_introOffen && _hasPos) {
+      _introOffen = false;
+      if (_ext != null && festeKamera == null && !ruhig && _introGespielt.add(_scenarioId ?? '')) {
+        _intro = 0;
+        _introUhr
+          ..reset()
+          ..start();
+      }
+    }
+    if (_intro >= 0) {
+      if (ruhig || festeKamera != null || stick.distance > 0.05 || _tippWeg != null || _keyboardDir().distance > 0.05) {
+        _intro = -1;
+      } else {
+        const dauer = 3.4;
+        _intro = _introUhr.elapsedMicroseconds / 1e6 / dauer;
+        if (_intro < 1) {
+          final m = _scene!.map;
+          final mitte = Iso.toScreen(m.width / 2, m.height / 2, 0.4);
+          final breite = (m.width + m.height) * Iso.halfW;
+          final weit = math.min(_zoom, (_freierBereich().width / breite * 1.35).clamp(0.3, 2.0));
+          final t = ((_intro * dauer - 0.8) / (dauer - 0.8)).clamp(0.0, 1.0);
+          final e = t * t * (3 - 2 * t);
+          _zoom = weit + (_zoom - weit) * e;
+          _cam = Offset.lerp(mitte, targetCam, e)!;
+          _introBalken = 1 - e;
+          _camInit = true;
+          return;
+        }
+        _intro = -1;
+      }
+    }
+    _introBalken = 0;
     if (!_camInit || ruhig) {
       _cam = targetCam;
       _camInit = true;
@@ -1104,6 +1167,7 @@ class MordakteGame extends Game with KeyboardEvents {
         }
       }
     }
+    _trittWoelkchen(scene);
     for (var i = _teilchen.length - 1; i >= 0; i--) {
       final t = _teilchen[i];
       t.life += dt;
@@ -1111,6 +1175,66 @@ class MordakteGame extends Game with KeyboardEvents {
       t.y += t.vy * dt;
       t.r += t.wachsen * dt;
       if (t.life >= t.max) _teilchen.removeAt(i);
+    }
+  }
+
+  double _letzterTritt = 0;
+
+  /// Bei jedem Schritt ein Wölkchen am Fuß: Schnee, Kies und Staub draußen,
+  /// Pfützenspritzer im Regen, drinnen nur ein Hauch.
+  void _trittWoelkchen(StaticScene scene) {
+    final schritt = (_walk / math.pi).floor();
+    if (schritt == _letzterTritt || _moveAmt < 0.4) {
+      _letzterTritt = schritt.toDouble();
+      return;
+    }
+    _letzterTritt = schritt.toDouble();
+    final raum = _grid?.roomAtPos(_px, _py);
+    final aussen = raum?.outdoor ?? false;
+    final wetter = scene.scenario.theme.weather;
+    final boden = raum?.floor ?? 'stone';
+    final (farbe, menge, groesse) = switch ((aussen, boden, wetter)) {
+      (true, _, 'snow') || (_, 'snow', _) => (const Color(0xFFF2F6FA), 5, 2.4),
+      (true, _, 'rain') => (const Color(0xFFBFD0E0), 4, 1.6),
+      (true, 'grass', _) => (const Color(0xFF9DB07A), 2, 1.3),
+      (true, _, _) => (const Color(0xFFC9BCA4), 4, 2.0),
+      _ => (const Color(0xFFD8CFC0), schritt.isEven ? 2 : 0, 1.5),
+    };
+    if (menge == 0) return;
+    final seite = schritt.isEven ? 1.0 : -1.0;
+    final fuss = Iso.toScreen(_px, _py).translate(seite * 2.5, 1);
+    for (var i = 0; i < menge; i++) {
+      _teilchen.add(_Teilchen(
+        fuss.dx + (_rnd.nextDouble() - 0.5) * 6,
+        fuss.dy + (_rnd.nextDouble() - 0.5) * 2,
+        (_rnd.nextDouble() - 0.5) * 16,
+        -4 - _rnd.nextDouble() * 8,
+        0.45 + _rnd.nextDouble() * 0.35,
+        groesse * (0.6 + _rnd.nextDouble() * 0.6),
+        farbe,
+        wachsen: 3,
+      ));
+    }
+  }
+
+  /// Schwebestaub im Lampenlicht: ruhig kreisende Fünkchen, nur aus der Uhr
+  /// berechnet (kein Zustand).
+  void _lichtStaub(Canvas c, StaticScene scene, Rect cull) {
+    final p = Paint()..blendMode = BlendMode.plus;
+    var n = 0;
+    for (final l in scene.lightProps) {
+      final o = Iso.toScreen(l.x + 0.5, l.y + 0.5, 0.9);
+      if (!cull.contains(o)) continue;
+      if (++n > 12) break;
+      final seed = l.x * 7 + l.y * 13;
+      for (var i = 0; i < 6; i++) {
+        final ph = seed * 0.37 + i * 1.91;
+        final t = _time * (0.18 + i * 0.02);
+        final pos = o.translate(math.sin(t + ph) * 22 + math.sin(t * 2.3 + ph) * 5, math.cos(t * 0.8 + ph * 1.3) * 14 - 6);
+        final a = 0.5 + 0.5 * math.sin(_time * 1.3 + ph * 2);
+        p.color = withAlpha(scene.pal.light, 0.10 + 0.22 * a);
+        c.drawCircle(pos, 0.8 + 0.5 * a, p);
+      }
     }
   }
 
@@ -1305,9 +1429,10 @@ class MordakteGame extends Game with KeyboardEvents {
 
     // 9) Kinobalken der Szenenregie: vom Bildrand bis in den freien Bildteil hinein,
     // damit über und unter den Balken keine Karte durchscheint.
-    if (_regie > 0.01) {
+    final balkenGrad = math.max(_regie, _introBalken);
+    if (balkenGrad > 0.01) {
       final frei = _freierBereich();
-      final r = _regie.clamp(0.0, 1.0);
+      final r = balkenGrad.clamp(0.0, 1.0);
       final h = frei.height * 0.085 * (1 - (1 - r) * (1 - r));
       final balken = Paint()..color = withAlpha(const Color(0xFF050407), 0.94 * r);
       canvas.drawRect(Rect.fromLTRB(0, 0, size.x, frei.top + h), balken);
@@ -1972,6 +2097,7 @@ class MordakteGame extends Game with KeyboardEvents {
   }
 
   void _renderPostLight(Canvas c, StaticScene scene, WorldSnapshot? w, CaseView? cv, Rect cull) {
+    if (_ext?.kleineEffekte == true && _fuehrung?.bewegungReduziert != true) _lichtStaub(c, scene, cull);
     if (_teilchen.isNotEmpty) _zeichneKleineEffekte(c);
     // Augen des Schattens
     final sh = w?.shadow;
