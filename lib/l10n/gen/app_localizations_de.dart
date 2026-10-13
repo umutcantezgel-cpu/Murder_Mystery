@@ -3093,4 +3093,22 @@ class LDe extends L {
 
   @override
   String get online_verlassen_nein => 'Bleiben';
+
+  @override
+  String get detektei_dienstausweis => 'Dienstausweis';
+
+  @override
+  String get detektei_dienstgrad => 'Dienstgrad';
+
+  @override
+  String get detektei_akte_lage => 'Die Lage';
+
+  @override
+  String get detektei_akte_schauplatz => 'Schauplatz';
+
+  @override
+  String get detektei_akte_anlass => 'Anlass';
+
+  @override
+  String get detektei_akte_zeitpunkt => 'Zeitpunkt';
 }
