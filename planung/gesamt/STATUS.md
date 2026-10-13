@@ -7,7 +7,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 |---|---|---|
 | M0 | Aufräumen + Werkbank | erledigt (siehe unten) |
 | M1 | Ermittlungsmappe: Fundament | erledigt (Schriften, Tokens, Papier, Mappe, Stempel, Knopf, Dialog) |
-| M2 | Alle Bildschirme in Mappen | in Arbeit (Rollen, Erzähltext als Muster; fünf Lanes A–E laufen) |
+| M2 | Alle Bildschirme in Mappen | zusammengeführt (Lanes A Detektei, B Assistent, C Abend 1, D Abend 2, E Online; je geprüft und nachgebessert); gemeinsame Restpunkte in `lib/stil` offen |
 | M3 | Figuren 2.0 | erledigt: Rig (`lib/game/scene/figur_rig.dart`) und Bildnis in der Oberfläche (`lib/ui/widgets/portrait.dart`) mit denselben Merkmalen |
 | M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte, NPC-Tätigkeiten, Trägheit, Trittwölkchen, Lichtstaub, schwingende Türen) |
 | M5 | Szenenregie | teilweise (Zweier-Einstellung, Kinobalken, Etablierungsschwenk); Leuchtzeichen statt Steuertext offen (Lane D) |
@@ -27,6 +27,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 - **A-045 · Kostenlos, ohne Werbung, Käufe und Datenerhebung (2026-10-13).** Quelle: Besitzer.
 
 ## Prüfjournal (neueste zuerst)
+- 2026-10-13: M2 zusammengeführt (fünf Lanes, ARB-Schlüssel vereint, `flutter gen-l10n`). Analyse ohne Befund; App 301/301; `krimidinner_kanon` 67, `mordakte_core` 482, `mordakte_klang` 4, `mordakte_netz` 48 grün; Web-Build; `start` grün; Kontaktbogen aller 14 Bildschirme angesehen.
 - 2026-10-13: M7 Ton: `mordakte_klang` 4/4 Tests (kurz, nicht übersteuert, ohne Knacken, nahtlose Schleifen, deterministisch); Spektrogramme aller Klänge angesehen (Knacken in `pech` behoben); App 260/260; Web-Build; Browserproben `start`, `runden` und `solo` (ganzer Abend, 9 Kartenentscheidungen, 11 Würfe) grün, 0 Konsolenfehler, 0 fremde Netzaufrufe.
 - 2026-10-13: M4/M5 Bewegung und Regie: Trägheit der eigenen Figur, Trittwölkchen je Boden und Wetter, Schwebestaub im Lampenlicht, Etablierungsschwenk beim ersten Betreten einer Akte (Wanduhr, Abbruch bei Eingabe). `party_widgets`, `session`, `karten` grün; Kontaktbögen angesehen. Leistung Kopf-Browser (Software-Darstellung) 6–7 B/s, wie die frühere Messbasis 6–8 B/s.
 - 2026-10-13: M3 Bildnis: Porträts als Atelierfotos aus `FigurAussehen` (Frisur, Brille, Bart, Schal, Augen, Hemd, Krawatte), Geschlecht aus dem Kanon (`look.gender`), Merkmals-Hash `fnv32` auf Web und nativ gleich, Kopftuch per Gerade-Ungerade-Füllung. `mordakte_core` 482, App 260 Tests grün; `akte_pruefen` ohne Befund; Porträtbogen und Kontaktbogen `rollen` (Web) angesehen.
