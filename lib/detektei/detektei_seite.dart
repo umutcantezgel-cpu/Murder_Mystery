@@ -80,10 +80,13 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Stack(
+            // Rechts der Tonschalter, links ein gleich breiter Platz: Die Marke bleibt mittig.
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const MordakteWortmarke(),
-                Positioned(top: 0, right: 0, child: MTonSchalter(an: l.ton_an, aus: l.ton_aus)),
+                const SizedBox(width: MMass.tippflaeche),
+                const Expanded(child: MordakteWortmarke()),
+                MTonSchalter(an: l.ton_an, aus: l.ton_aus),
               ],
             ),
             const SizedBox(height: MMass.s24),
