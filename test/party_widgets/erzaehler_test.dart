@@ -5,6 +5,7 @@ import 'package:mordakte/party/erzaehler_ausgabe.dart';
 import 'package:mordakte/party/party_stil.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/party/stimme.dart';
+import 'package:mordakte/stil/stil.dart';
 
 import 'hilfe.dart';
 
@@ -18,7 +19,7 @@ List<String> _intro() => [
     ];
 
 /// Alle Texte im Feld im Stil der Erzählertexte (ohne Kopfzeile).
-Iterable<Text> _erzaehlerTexte(WidgetTester t) => t.widgetList<Text>(find.byType(Text)).where((x) => x.style == Keller.erzaehler);
+Iterable<Text> _erzaehlerTexte(WidgetTester t) => t.widgetList<Text>(find.byType(Text)).where((x) => x.style == MPapierSchrift.erzaehler);
 
 void main() {
   testWidgets('zeigt intro.start und runde.1.start genau einmal, wortgleich', (t) async {
@@ -44,7 +45,7 @@ void main() {
   testWidgets('der Schalter setzt sitzung.stimmeAn auf an', (t) async {
     final s = neueSitzung();
     await t.pumpWidget(_feld(s, ['intro.start']));
-    await t.tap(find.byType(Switch));
+    await t.tap(find.byType(MSchalter));
     await t.pump();
     expect(s.stimmeAn, isTrue);
   });
@@ -52,7 +53,7 @@ void main() {
   testWidgets('der Schalter setzt sitzung.stimmeAn auf aus', (t) async {
     final s = neueSitzung()..stimmeAn = true;
     await t.pumpWidget(_feld(s, ['intro.start']));
-    await t.tap(find.byType(Switch));
+    await t.tap(find.byType(MSchalter));
     await t.pump();
     expect(s.stimmeAn, isFalse);
   });

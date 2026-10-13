@@ -28,6 +28,8 @@ class MBlatt extends StatelessWidget {
     this.randFarbe,
     this.onTap,
     this.hervorgehoben = false,
+    this.kopfLinie,
+    this.linien = true,
   });
 
   final Widget child;
@@ -68,10 +70,16 @@ class MBlatt extends StatelessWidget {
   /// Hervorgehobenes Blatt (gewählt): Akzentrahmen und stärkerer Schatten.
   final bool hervorgehoben;
 
+  /// Lage der roten Kopflinie einer Karteikarte (Vorgabe 38; klein für Listenzeilen).
+  final double? kopfLinie;
+
+  /// Blaue Linien auf Karteikarte und Notiz.
+  final bool linien;
+
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
-    final kopf = art == PapierArt.karteikarte ? 38.0 : 0.0;
+    final kopf = art == PapierArt.karteikarte ? (kopfLinie ?? 38.0) : 0.0;
     var innen = padding;
     if (klammer && innen.top < 28) innen = innen.copyWith(top: 28);
     if (art == PapierArt.notiz && innen.left < 40) innen = innen.copyWith(left: 40);
@@ -119,7 +127,7 @@ class MBlatt extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(art == PapierArt.foto ? 2 : 3),
         child: CustomPaint(
-          painter: PapierMaler(art: art, samen: samen, knick: knick, kopf: kopf),
+          painter: PapierMaler(art: art, samen: samen, knick: knick, kopf: kopf, zeilenAbstand: linien ? 26 : 100000),
           child: Stack(
             children: [
               if (randFarbe != null) Positioned(left: 0, top: 0, bottom: 0, width: 5, child: ColoredBox(color: randFarbe!)),

@@ -11,6 +11,7 @@ export 'mappe/foto.dart';
 export 'mappe/karteikarte.dart';
 export 'mappe/korkwand.dart';
 export 'mappe/material.dart' show PapierArt;
+export 'mappe/schalter.dart';
 export 'mappe/schreibmaschine.dart';
 export 'mappe/zeichen.dart';
 export 'thema.dart';

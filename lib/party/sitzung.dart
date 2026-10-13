@@ -235,6 +235,10 @@ class PartySitzung extends ChangeNotifier {
   String figurTitel(String id) => (figur(id)['roleTitle'] ?? figur(id)['title'] ?? '') as String;
   Color figurFarbe(String id) => Color(int.parse((figur(id)['colorCode'] as String).substring(1), radix: 16) | 0xFF000000);
 
+  /// Aussehen einer Figur für Porträts und Fotoabzüge (aus `look` und Farbcode).
+  LookDef figurAussehen(String id) => _aussehen[id] ??= LookDef.fromJson(renderLook(figur(id)));
+  final Map<String, LookDef> _aussehen = {};
+
   /// Name am Tisch: Spielername, sonst Figurenname.
   String spielerName(String rolle) {
     final n = namen[rolle];

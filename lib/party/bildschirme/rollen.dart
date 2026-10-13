@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../../stil/stil.dart';
 import '../druck_tafel.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
@@ -28,7 +29,7 @@ const _runden = [1, 2, 3];
 /// Wie lange die Meldung „wieder zugedeckt“ über der Liste stehen bleibt.
 const _meldungDauer = Duration(seconds: 4);
 
-TextStyle _unterkopf(BuildContext context) => TextStyle(fontFamily: Keller.schrift, fontSize: 17, height: 1.5, fontWeight: FontWeight.w700, color: context.farben.akzentHell);
+TextStyle _unterkopf(BuildContext context) => MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.4);
 
 class _RollenBildschirmState extends State<RollenBildschirm> {
   /// Rollen, deren Karte schon gesehen wurde.
@@ -120,17 +121,22 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
         ],
       );
 
-  /// Zwischenstufe: Erst wenn die Person das Gerät hat, öffnet der Knopf die Karte.
+  /// Zwischenstufe: ein versiegelter Umschlag. Erst wenn die Person das Gerät
+  /// hat, öffnet der Knopf die Karte.
   Widget _zwischenstufe(String rolle) {
     final name = s.spielerName(rolle);
-    return PartyTafel(
-      padding: const EdgeInsets.all(20),
+    return MBlatt(
+      art: PapierArt.telegramm,
+      padding: const EdgeInsets.fromLTRB(22, 26, 22, 22),
+      neigung: -0.006,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(s.ui('ui.verdeckt.weitergeben', {'name': name}), style: Keller.ueberschrift),
-          const SizedBox(height: 18),
+          Center(child: MSiegel(kuerzel: AkteStil.fuer(s.daten.fall).sigel, farbe: context.farben.gefahr, groesse: 54)),
+          const SizedBox(height: 16),
+          Text(s.ui('ui.verdeckt.weitergeben', {'name': name}), style: MPapierSchrift.ueberschrift, textAlign: TextAlign.center),
+          const SizedBox(height: 20),
           PartyKnopf(text: s.ui('ui.verdeckt.frage', {'name': name}), onPressed: () => _zeigen(rolle)),
           const SizedBox(height: 10),
           PartyKnopf(text: s.ui('ui.allgemein.zurueck'), haupt: false, onPressed: () => setState(() => _vorbereitet = null)),
@@ -150,26 +156,45 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
     final kern = s.kernverdaechtige.contains(rolle);
     final tarnung = d.tarnung;
     final titel = s.figurTitel(rolle);
+    final nr = (s.besetzt.indexOf(rolle) + 1).toString().padLeft(2, '0');
     return PartyRahmen(
       marke: s.ui('ui.rollen.dossier_marke'),
       titel: s.figurName(rolle),
       untertitel: titel.isEmpty ? null : titel,
       aktionen: [PartyKnopf(text: s.ui('ui.verdeckt.schliessen'), onPressed: () => _schliessen(rolle))],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _abschnitt(s.ui('ui.rollen.wer_titel'), [Text(d.wer, style: Keller.text)]),
-          _abschnitt(s.ui('ui.rollen.weiss_titel'), _zeilen(d.weiss)),
-          _abschnitt(s.ui('ui.rollen.verbirgt_titel'), [
-            if (kern) ...[Text(s.ui(taeter ? 'ui.rollen.taeter_satz' : 'ui.rollen.unschuldig_satz'), style: Keller.text), const SizedBox(height: 10)],
-            if (taeter && tarnung != null) ..._taeterZeilen(d, tarnung),
-            ..._zeilen(d.verbirgt),
-          ]),
-          _abschnitt(s.ui('ui.rollen.ziel_titel'), [Text(d.ziel, style: Keller.text)]),
-          _abschnitt(s.ui('ui.rollen.gespraeche_titel'), _gespraeche(d)),
-          _abschnitt(s.ui('ui.rollen.wahl_titel'), _wahlen(d)),
-          _abschnitt(s.ui('ui.rollen.besetzung_titel'), [Text(d.besetzung, style: Keller.leise)]),
-        ],
+      child: MAktenmappe(
+        reiter: 'Nr. $nr',
+        farbe: s.figurFarbe(rolle),
+        blaetter: 3,
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 22),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MFotoabzug(look: s.figurAussehen(rolle), groesse: 76, neigung: -0.04, klammer: true, akzent: s.figurFarbe(rolle)),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: _abschnittInhalt(s.ui('ui.rollen.wer_titel'), [Text(d.wer, style: MPapierSchrift.text)]),
+                  ),
+                ),
+              ],
+            ),
+            _abschnitt(s.ui('ui.rollen.weiss_titel'), _zeilen(d.weiss)),
+            _abschnitt(s.ui('ui.rollen.verbirgt_titel'), [
+              if (kern) ...[Text(s.ui(taeter ? 'ui.rollen.taeter_satz' : 'ui.rollen.unschuldig_satz'), style: MPapierSchrift.kursiv), const SizedBox(height: 10)],
+              if (taeter && tarnung != null) ..._taeterZeilen(d, tarnung),
+              ..._zeilen(d.verbirgt),
+            ]),
+            _abschnitt(s.ui('ui.rollen.ziel_titel'), [Text(d.ziel, style: MPapierSchrift.text)]),
+            _abschnitt(s.ui('ui.rollen.gespraeche_titel'), _gespraeche(d)),
+            _abschnitt(s.ui('ui.rollen.wahl_titel'), _wahlen(d)),
+            _abschnitt(s.ui('ui.rollen.besetzung_titel'), [Text(d.besetzung, style: MPapierSchrift.leise)]),
+          ],
+        ),
       ),
     );
   }
@@ -177,26 +202,29 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
   /// Nur für die Täterin oder den Täter: die Tarngeschichte und das wirkliche
   /// Geschehen, gesetzt wie die übrigen Zeilen des Abschnitts.
   List<Widget> _taeterZeilen(Dossier d, String tarnung) => [
-        Text(s.ui('ui.rollen.taeter_tarnung'), style: Keller.leise),
-        Text(tarnung, style: Keller.text),
+        Text(s.ui('ui.rollen.taeter_tarnung'), style: MPapierSchrift.leise),
+        Text(tarnung, style: MPapierSchrift.text),
         const SizedBox(height: 10),
-        Text(s.ui('ui.rollen.taeter_tatwissen'), style: Keller.leise),
+        Text(s.ui('ui.rollen.taeter_tatwissen'), style: MPapierSchrift.leise),
         ..._zeilen(d.tatwissen),
       ];
 
-  /// Ein Abschnitt des Dossiers: Überschrift, darunter der Inhalt, in einer Tafel.
+  /// Ein Abschnitt des Dossiers: Formularkopf in Schreibmaschine, darunter der Inhalt.
   Widget _abschnitt(String titel, List<Widget> kinder) => Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: PartyTafel(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(titel, style: Keller.ueberschrift),
-              const SizedBox(height: 12),
-              ...kinder,
-            ],
-          ),
-        ),
+        padding: const EdgeInsets.only(top: 22),
+        child: _abschnittInhalt(titel, kinder),
+      );
+
+  Widget _abschnittInhalt(String titel, List<Widget> kinder) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(titel, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, fontSize: 15)),
+          const SizedBox(height: 4),
+          Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
+          const SizedBox(height: 10),
+          ...kinder,
+        ],
       );
 
   /// Zeilen des Dossiers. Eine Lüge zeigt erst die Behauptung, dann die Wahrheit.
@@ -206,15 +234,15 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
 
   Widget _zeile(DossierZeile z) {
     final behauptung = z.behauptung;
-    if (z.art != 'luege' || behauptung == null) return Text(z.text, style: Keller.text);
+    if (z.art != 'luege' || behauptung == null) return Text(z.text, style: MPapierSchrift.text);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(s.ui('ui.rollen.luege_behauptung'), style: Keller.leise),
-        Text(behauptung, style: Keller.text),
+        Text(s.ui('ui.rollen.luege_behauptung'), style: MPapierSchrift.leise),
+        Text(behauptung, style: MPapierSchrift.kursiv),
         const SizedBox(height: 4),
-        Text(s.ui('ui.rollen.luege_wahrheit'), style: Keller.leise),
-        Text(z.text, style: Keller.text),
+        Text(s.ui('ui.rollen.luege_wahrheit'), style: MPapierSchrift.leise),
+        Text(z.text, style: MPapierSchrift.hand.copyWith(fontSize: 20)),
       ],
     );
   }
@@ -222,7 +250,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
   /// Die Pflichtgespräche, je Runde eine Überschrift.
   List<Widget> _gespraeche(Dossier d) => [
         for (final r in _runden) ...[
-          Text(s.ui('ui.allgemein.runde', {'nr': '$r'}), style: context.schrift.marke),
+          Text(s.ui('ui.allgemein.runde', {'nr': '$r'}), style: MPapierSchrift.marke),
           const SizedBox(height: 8),
           for (final (g, partner) in d.gespraeche[r] ?? const <(Gespraech, String)>[])
             Padding(padding: const EdgeInsets.only(bottom: 14), child: _gespraech(g, partner)),
@@ -235,14 +263,14 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
         children: [
           Text(s.ui('ui.rollen.gespraech_mit', {'name': s.personAmTisch(partner)}), style: _unterkopf(context)),
           const SizedBox(height: 4),
-          Text(s.ui('ui.rollen.gespraech_thema'), style: Keller.leise),
-          Text(g.thema, style: Keller.text),
+          Text(s.ui('ui.rollen.gespraech_thema'), style: MPapierSchrift.leise),
+          Text(g.thema, style: MPapierSchrift.text),
           const SizedBox(height: 4),
-          Text(s.ui('ui.rollen.gespraech_ziel'), style: Keller.leise),
-          Text(g.ziel, style: Keller.text),
+          Text(s.ui('ui.rollen.gespraech_ziel'), style: MPapierSchrift.leise),
+          Text(g.ziel, style: MPapierSchrift.text),
           const SizedBox(height: 4),
-          Text(s.ui('ui.rollen.gespraech_eroeffnung'), style: Keller.leise),
-          Text(g.text, style: Keller.text),
+          Text(s.ui('ui.rollen.gespraech_eroeffnung'), style: MPapierSchrift.leise),
+          Text(g.text, style: MPapierSchrift.kursiv),
         ],
       );
 
@@ -257,24 +285,25 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(s.ui('ui.allgemein.runde', {'nr': '$runde'}), style: context.schrift.marke),
+        Text(s.ui('ui.allgemein.runde', {'nr': '$runde'}), style: MPapierSchrift.marke),
         const SizedBox(height: 8),
-        Text(s.ui('ui.rollen.wahl_a'), style: Keller.leise),
-        Text(w.a, style: Keller.text),
+        Text(s.ui('ui.rollen.wahl_a'), style: MPapierSchrift.leise),
+        Text(w.a, style: MPapierSchrift.text),
         const SizedBox(height: 6),
-        Text(s.ui('ui.rollen.wahl_b'), style: Keller.leise),
-        Text(w.b, style: Keller.text),
+        Text(s.ui('ui.rollen.wahl_b'), style: MPapierSchrift.leise),
+        Text(w.b, style: MPapierSchrift.text),
         if (sabotage != null) ...[
           const SizedBox(height: 6),
-          Text(s.ui('ui.rollen.wahl_sabotage'), style: Keller.leise),
-          Text(sabotage, style: Keller.text),
+          Text(s.ui('ui.rollen.wahl_sabotage'), style: MPapierSchrift.leise),
+          Text(sabotage, style: MPapierSchrift.text),
         ],
       ],
     );
   }
 }
 
-/// Eine Zeile der neutralen Liste: Farbe, Spielername und Figur, Häkchen nach dem Sehen.
+/// Eine Karteikarte der neutralen Liste: Fotoabzug der Figur, Spielername und
+/// Figur, ein grüner Haken nach dem Sehen.
 class _RollenZeile extends StatelessWidget {
   const _RollenZeile({required this.sitzung, required this.rolle, required this.gesehen, required this.onTap});
 
@@ -288,25 +317,32 @@ class _RollenZeile extends StatelessWidget {
     // Ohne eingetragenen Spielernamen steht der Figurenname schon oben: dann nur der Titel.
     final name = sitzung.spielerName(rolle) == sitzung.figurName(rolle) ? '' : sitzung.figurName(rolle);
     final figur = [name, sitzung.figurTitel(rolle)].where((t) => t.isNotEmpty).join(' · ');
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: PartyTafel(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    final nr = sitzung.besetzt.indexOf(rolle);
+    return Semantics(
+      button: onTap != null,
+      child: MBlatt(
+        art: PapierArt.karteikarte,
+        kopfLinie: 7,
+        linien: false,
+        onTap: onTap,
+        randFarbe: sitzung.figurFarbe(rolle),
+        neigung: nr.isEven ? -0.003 : 0.003,
+        samen: nr + 3,
+        padding: const EdgeInsets.fromLTRB(12, 10, 14, 10),
         child: Row(
           children: [
-            FarbPunkt(sitzung.figurFarbe(rolle)),
+            MFotoabzug(look: sitzung.figurAussehen(rolle), groesse: 52, neigung: nr.isEven ? -0.05 : 0.04, akzent: sitzung.figurFarbe(rolle)),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(sitzung.spielerName(rolle), style: Keller.text),
-                  Text(figur, style: Keller.leise),
+                  Text(sitzung.spielerName(rolle), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 19)),
+                  if (figur.isNotEmpty) Text(figur, style: MPapierSchrift.leise),
                 ],
               ),
             ),
-            if (gesehen) Icon(Icons.check_circle, color: Keller.notlicht, semanticLabel: sitzung.ui('ui.rollen.gesehen')),
+            if (gesehen) Icon(Icons.check_circle, color: const Color(0xFF2F6B37), semanticLabel: sitzung.ui('ui.rollen.gesehen')),
           ],
         ),
       ),

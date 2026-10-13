@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../stil/stil.dart';
 import 'party_stil.dart';
 import 'sitzung.dart';
 import 'stimme.dart';
@@ -128,7 +129,7 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
     );
   }
 
-  /// Kopfzeile: der Schalter für die Stimme, dazu je nach Gerät Knopf oder Hinweis.
+  /// Kopfzeile: der Messingschalter für die Stimme, dazu je nach Gerät Knopf oder Hinweis.
   Widget _kopf() {
     final an = s.stimmeAn;
     final da = _stimme.verfuegbar;
@@ -137,41 +138,44 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
       spacing: 12,
       runSpacing: 8,
       children: [
-        Text(s.ui('ui.erzaehler.stimme'), style: Keller.leise),
+        Text(s.ui('ui.erzaehler.stimme'), style: context.schrift.leise),
         Tooltip(
           message: s.ui('ui.erzaehler.stimme_tipp'),
-          child: Switch(
-            value: an,
+          child: MSchalter(
+            wert: an,
             onChanged: _schalte,
-            activeThumbColor: context.farben.akzent,
-            activeTrackColor: context.farben.akzentSchwach,
-            thumbIcon: WidgetStateProperty.resolveWith(
-              (z) => Icon(z.contains(WidgetState.selected) ? Icons.volume_up : Icons.volume_off, size: 14, color: Keller.nacht),
-            ),
+            semantik: s.ui('ui.erzaehler.stimme'),
+            symbolAn: Icons.volume_up,
+            symbolAus: Icons.volume_off,
           ),
         ),
         if (an && da) PartyKnopf(text: s.ui('ui.erzaehler.nochmal'), haupt: false, icon: Icons.replay, onPressed: () => unawaited(_vorlesen())),
-        if (an && !da) Text(s.ui('ui.erzaehler.keine_stimme'), style: Keller.leise),
+        if (an && !da) Text(s.ui('ui.erzaehler.keine_stimme'), style: context.schrift.leise),
       ],
     );
   }
 
-  /// Eine Tafel je Baustein. Rückblicke der Lacher tragen oben eine Marke.
+  /// Ein getipptes Berichtsblatt je Baustein, leicht versetzt wie auf dem
+  /// Schreibtisch gestapelt. Rückblicke der Lacher tragen oben eine rote Marke.
   Widget _tafel(int i, String k) {
     final rueckblick = k.startsWith('intro.lacher.');
     return FadeTransition(
-      // Gestaffelt: die ersten vier Tafeln starten nacheinander, alle sind nach 400 ms da.
+      // Gestaffelt: die ersten vier Blätter starten nacheinander, alle sind nach 400 ms da.
       opacity: _einblenden.drive(CurveTween(curve: Interval((i > 4 ? 4 : i) * 0.1, 1, curve: Curves.easeOut))),
-      child: PartyTafel(
+      child: MBlatt(
+        neigung: i.isEven ? -0.004 : 0.005,
+        klammer: i == 0,
+        samen: k.codeUnits.fold(0, (a, b) => (a * 31 + b) & 0xffff),
+        padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
             if (rueckblick) ...[
-              Text(s.ui('ui.erzaehler.rueckblick').toUpperCase(), style: context.schrift.marke),
+              Text(s.ui('ui.erzaehler.rueckblick').toUpperCase(), style: MPapierSchrift.marke),
               const SizedBox(height: 8),
             ],
-            Text(s.text(k), style: Keller.erzaehler),
+            Text(s.text(k), style: MPapierSchrift.erzaehler),
           ],
         ),
       ),
