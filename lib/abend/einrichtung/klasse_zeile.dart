@@ -1,9 +1,13 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show DetectiveClass, detectiveClasses;
 import 'package:provider/provider.dart';
 
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
+import '../../stil/mappe/assistent_formular.dart' show MFormkopf;
+import '../../stil/mappe/material.dart' show MaterialZufall;
 import '../../stil/stil.dart';
 import '../../ui/icons.dart';
 
@@ -19,28 +23,37 @@ List<DetectiveClass> klassenNachRang() {
   return liste;
 }
 
-/// „Deine Ermittlerklasse“: Auswahl der Klasse dieses Geräts als kleine Kapseln.
-/// Die Wahl liegt im [MetaStore] (Ausrüstung), gilt für jeden Abend und
-/// bestimmt die Rolle `klasse:<name>` für die Belohnung. Noch nicht
-/// freigeschaltete Klassen sind gesperrt und nennen den nötigen Rang.
+/// „Deine Ermittlerklasse“: eine Karteikarte mit den Klassen dieses Geräts als
+/// Etiketten; die gewählte ist mit Füllertinte umkringelt. Die Wahl liegt im
+/// [MetaStore] (Ausrüstung), gilt für jeden Abend und bestimmt die Rolle
+/// `klasse:<name>` für die Belohnung. Noch nicht freigeschaltete Klassen sind
+/// gesperrt und nennen den nötigen Rang.
 class KlasseZeile extends StatelessWidget {
   const KlasseZeile({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
     final meta = context.watch<MetaStore>();
     final gewaehlt = meta.loadout.cls;
-    return MTafel(
+    return MBlatt(
+      art: PapierArt.karteikarte,
+      kopfLinie: 7,
+      linien: false,
+      klebestreifen: true,
+      neigung: 0.003,
+      samen: 53,
+      padding: const EdgeInsets.fromLTRB(18, 22, 18, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l.abend_klasse_titel.toUpperCase(), style: t.marke),
+          MFormkopf(l.abend_klasse_titel.toUpperCase()),
+          const SizedBox(height: MMass.s4),
+          Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: MMass.s12),
           Wrap(
-            spacing: MMass.s8,
-            runSpacing: MMass.s8,
+            spacing: MMass.s12,
+            runSpacing: MMass.s12,
             children: [
               for (final c in klassenNachRang())
                 _KlasseKapsel(
@@ -52,7 +65,7 @@ class KlasseZeile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: MMass.s12),
-          Text(l.abend_klasse_hinweis, style: t.leise),
+          Text(l.abend_klasse_hinweis, style: MPapierSchrift.leise),
         ],
       ),
     );
@@ -66,7 +79,8 @@ class KlasseZeile extends StatelessWidget {
   }
 }
 
-/// Eine Klasse zur Wahl: Symbol, Name und bei gesperrten der nötige Rang.
+/// Eine Klasse zur Wahl: ein Etikett mit Symbol und Namen, bei gesperrten der
+/// nötige Rang. Die gewählte Klasse ist mit Füllertinte umkringelt.
 class _KlasseKapsel extends StatelessWidget {
   const _KlasseKapsel({required this.klasse, required this.gewaehlt, required this.gesperrt, required this.onTap});
 
@@ -78,11 +92,9 @@ class _KlasseKapsel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final f = MFarben.von(context);
     final name = l.className(klasse.id);
     final rang = l.common_unlock_at(l.rankName(klasse.unlockRank));
-    final vorn = gewaehlt ? f.akzentAuf : (gesperrt ? f.papierLeise : f.papier);
-    final rahmen = BorderRadius.circular(MMass.r20);
+    final tinte = gesperrt ? MRoh.tinteLeise : MRoh.tinte;
     return Semantics(
       button: true,
       selected: gewaehlt,
@@ -90,44 +102,82 @@ class _KlasseKapsel extends StatelessWidget {
       label: gesperrt ? l.abend_klasse_gesperrt(name, rang) : name,
       excludeSemantics: true,
       onTap: gesperrt ? null : onTap,
-      child: Material(
-        color: gewaehlt ? f.akzent : f.flaeche,
-        shape: RoundedRectangleBorder(
-          borderRadius: rahmen,
-          side: BorderSide(color: gewaehlt ? f.akzent : f.linieStark),
-        ),
-        child: InkWell(
-          borderRadius: rahmen,
-          onTap: gesperrt ? null : onTap,
-          child: ConstrainedBox(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: gesperrt ? null : onTap,
+        child: CustomPaint(
+          foregroundPainter: gewaehlt ? _Umkringelt(samen: klasse.id.codeUnits.fold(7, (a, b) => (a * 31 + b) & 0xffff)) : null,
+          child: Container(
             constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MMass.s12, vertical: MMass.s8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(gesperrt ? Icons.lock_rounded : GameIcons.cls(klasse.id), size: 18, color: vorn),
-                  const SizedBox(width: MMass.s8),
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(fontFamily: MRohSchrift.text, fontSize: 15, fontWeight: FontWeight.w600, color: vorn),
-                        ),
-                        if (gesperrt)
-                          Text(rang, style: TextStyle(fontFamily: MRohSchrift.text, fontSize: 12, color: f.papierLeise)),
-                      ],
-                    ),
+            padding: const EdgeInsets.fromLTRB(MMass.s12, MMass.s8, 14, MMass.s8),
+            decoration: BoxDecoration(
+              color: gewaehlt ? MRoh.tinteBlau.withValues(alpha: 0.06) : Colors.transparent,
+              borderRadius: BorderRadius.circular(3),
+              border: Border.all(color: MRoh.tinte.withValues(alpha: gesperrt ? 0.25 : 0.45), width: 1.2),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(gesperrt ? Icons.lock_rounded : GameIcons.cls(klasse.id), size: 18, color: gesperrt ? MRoh.tinteLeise : MRoh.tinteBlau),
+                const SizedBox(width: MMass.s8),
+                Flexible(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Ein Wort: lieber etwas kleiner als mitten im Wort getrennt.
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(name, maxLines: 1, style: MPapierSchrift.maschine.copyWith(fontSize: 15, color: tinte)),
+                      ),
+                      if (gesperrt) Text(rang, style: MPapierSchrift.leise.copyWith(fontSize: 12)),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
   }
+}
+
+/// Ein schneller Kringel in Füllertinte um das gewählte Etikett: eine etwas
+/// unruhige Ellipse, deren Enden sich überkreuzen.
+class _Umkringelt extends CustomPainter {
+  _Umkringelt({required this.samen});
+
+  final int samen;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final z = MaterialZufall(samen);
+    final m = size.center(Offset.zero);
+    final rx = size.width / 2 + 7;
+    final ry = size.height / 2 + 6;
+    final start = -2.4 + z.zwischen(-0.2, 0.2);
+    final pfad = Path();
+    const schritte = 40;
+    for (var i = 0; i <= schritte; i++) {
+      // Etwas mehr als eine Runde, damit sich Anfang und Ende überkreuzen.
+      final w = start + i / schritte * (math.pi * 2 + 0.5);
+      final wackel = 1 + 0.03 * math.sin(w * 3 + z.zwischen(0, 6));
+      final p = m + Offset(math.cos(w) * rx * wackel, math.sin(w) * ry * wackel + (i / schritte) * 3);
+      i == 0 ? pfad.moveTo(p.dx, p.dy) : pfad.lineTo(p.dx, p.dy);
+    }
+    canvas.drawPath(
+      pfad,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.2
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..color = MRoh.tinteBlau.withValues(alpha: 0.9),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _Umkringelt alt) => alt.samen != samen;
 }

@@ -229,12 +229,12 @@ void main() {
     expect(halter.laeuft, isTrue);
 
     await tester.tap(find.text('Abend abbrechen'));
-    await warten(tester, bis: find.byType(AlertDialog));
+    await warten(tester, bis: find.byType(MKarteikartenDialog));
     expect(find.text('Abend abbrechen?'), findsOneWidget, reason: 'Die Rückfrage');
     expect(find.byType(AbendSeite), findsOneWidget, reason: 'Vor der Antwort bleibt der Abend stehen');
 
     await tippen(tester, 'Weiterspielen');
-    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.byType(MKarteikartenDialog), findsNothing);
     expect(find.byType(AbendSeite), findsOneWidget);
     expect(halter.laeuft, isTrue, reason: 'Weiterspielen lässt den Abend unberührt');
     expect(
@@ -244,8 +244,8 @@ void main() {
     );
 
     await tester.tap(find.text('Abend abbrechen'));
-    await warten(tester, bis: find.byType(AlertDialog));
-    await tester.tap(find.descendant(of: find.byType(AlertDialog), matching: find.text('Abend abbrechen')));
+    await warten(tester, bis: find.byType(MKarteikartenDialog));
+    await tester.tap(find.descendant(of: find.byType(MKarteikartenDialog), matching: find.text('Abend abbrechen')));
     await warten(tester, bis: find.byType(DetekteiSeite));
     expect(find.byType(DetekteiSeite), findsOneWidget, reason: 'Nach Ja geht es in die Detektei');
     expect(find.byType(AbendSeite), findsNothing);
@@ -260,7 +260,7 @@ void main() {
     await bisZumStart(tester, 'Solo mit Bots');
     await tippen(tester, 'Abend beginnen');
     await tester.binding.handlePopRoute();
-    await warten(tester, bis: find.byType(AlertDialog));
+    await warten(tester, bis: find.byType(MKarteikartenDialog));
     expect(find.text('Abend abbrechen?'), findsOneWidget);
     await tippen(tester, 'Weiterspielen');
     expect(find.byType(AbendSeite), findsOneWidget, reason: 'Die App bleibt auf dem Abend');

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../app/router.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
+import '../stil/mappe/material.dart' show ManilaMaler;
 import '../stil/stil.dart';
 import 'katalog_laden.dart';
 import 'widgets/karten_ansicht.dart';
@@ -18,7 +19,8 @@ class _Daten {
   final Map<String, Map<String, KartenFigur>> figuren;
 }
 
-/// Deck-Bau (Route `/sammlung/deck`): drei Plätze, besessene spielbare Karten
+/// Deck-Bau (Route `/sammlung/deck`): ein Kartenkasten mit drei Fächern und
+/// einem Etikett für die Ladungen; besessene spielbare Karten darunter
 /// antippen zum Einsetzen oder Herausnehmen. Je Art liegt höchstens eine Karte
 /// im Deck (eine Karte gleicher Art ersetzt die bisherige), zusammen höchstens
 /// vier Ladungen. Jede Änderung wird sofort im [MetaStore] gespeichert.
@@ -90,13 +92,20 @@ class _DeckSeiteState extends State<DeckSeite> {
           builder: (context, snap) {
             final t = MSchrift.von(context);
             if (snap.hasError) {
-              return MTafel(
+              return MBlatt(
+                art: PapierArt.telegramm,
+                neigung: -0.004,
+                samen: 83,
+                padding: const EdgeInsets.fromLTRB(20, 22, 20, 18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(l.karten_fehler, style: t.text),
-                    const SizedBox(height: MMass.s12),
-                    MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: () => setState(() => _laden = _ladeDaten())),
+                    Text(l.karten_fehler, style: MPapierSchrift.telegramm.copyWith(fontSize: 17)),
+                    const SizedBox(height: MMass.s16),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: () => setState(() => _laden = _ladeDaten())),
+                    ),
                   ],
                 ),
               );
@@ -137,16 +146,19 @@ class _Bau extends StatelessWidget {
         const abstand = MMass.s12;
         final spalten = box.maxWidth >= 640 ? 4 : 3;
         final breite = (box.maxWidth - abstand * (spalten - 1)) / spalten;
+        // Die Fächer im Kasten: Innenrand und Trennwände abgezogen.
+        const fachAbstand = MMass.s8;
+        final fachBreite = (box.maxWidth - 2 * _Kasten.rand - fachAbstand * (TischVorrat.maxKarten - 1)) / TischVorrat.maxKarten;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            _Kasten(
+              ladungen: ladungen,
+              faecher: [
                 for (var i = 0; i < TischVorrat.maxKarten; i++) ...[
-                  if (i > 0) const SizedBox(width: abstand),
+                  if (i > 0) const SizedBox(width: fachAbstand),
                   SizedBox(
-                    width: breite,
+                    width: fachBreite,
                     child: _Platz(
                       nummer: i + 1,
                       def: i < deck.length ? deck[i] : null,
@@ -157,17 +169,24 @@ class _Bau extends StatelessWidget {
                 ],
               ],
             ),
-            const SizedBox(height: MMass.s12),
-            Text(l.karten_deck_ladungen(ladungen, TischVorrat.maxLadungen), style: t.leise),
             if (hinweis != null)
               Padding(
-                padding: const EdgeInsets.only(top: MMass.s8),
-                child: Semantics(
-                  liveRegion: true,
-                  child: Text(hinweis!, style: t.text.copyWith(fontSize: 15, color: f.warnung)),
+                padding: const EdgeInsets.only(top: MMass.s12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(padding: const EdgeInsets.only(top: 2), child: Icon(Icons.error_outline, size: 18, color: f.warnung)),
+                    const SizedBox(width: MMass.s8),
+                    Expanded(
+                      child: Semantics(
+                        liveRegion: true,
+                        child: Text(hinweis!, style: t.text.copyWith(fontSize: 15, color: f.warnung)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            const SizedBox(height: MMass.s24),
+            const SizedBox(height: MMass.s32),
             Text(l.karten_deck_deine.toUpperCase(), style: t.marke),
             const SizedBox(height: MMass.s12),
             if (eigene.isEmpty) Text(l.karten_deck_keine, style: t.leise),
@@ -195,7 +214,104 @@ class _Bau extends StatelessWidget {
   }
 }
 
-/// Ein Platz des Decks: die eingesetzte Karte (Tipp nimmt sie heraus) oder leer.
+/// Der Kartenkasten aus Karton: drei Fächer nebeneinander, vorn ein geklebtes
+/// Etikett mit den Ladungen als Text und als Messingnieten.
+class _Kasten extends StatelessWidget {
+  const _Kasten({required this.faecher, required this.ladungen});
+
+  /// Innenrand des Kastens.
+  static const rand = 14.0;
+
+  final List<Widget> faecher;
+  final int ladungen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(MMass.r6),
+        boxShadow: const [
+          BoxShadow(color: Color(0x99000000), blurRadius: 18, offset: Offset(0, 9)),
+          BoxShadow(color: Color(0x55000000), blurRadius: 2, offset: Offset(0, 1)),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(MMass.r6),
+        child: CustomPaint(
+          painter: const ManilaMaler(samen: 9, farbe: MRoh.manilaDunkel),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(rand, rand, rand, MMass.s12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: faecher),
+                const SizedBox(height: MMass.s12),
+                Center(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: MRoh.karteikarte,
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: MRoh.tinte.withValues(alpha: 0.35)),
+                      boxShadow: const [BoxShadow(color: Color(0x55000000), blurRadius: 3, offset: Offset(0, 1))],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(MMass.s12, 6, MMass.s12, 6),
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 10,
+                        runSpacing: 4,
+                        children: [
+                          Text(l.karten_deck_ladungen(ladungen, TischVorrat.maxLadungen), style: MPapierSchrift.maschine.copyWith(fontSize: 15)),
+                          ExcludeSemantics(child: _Nieten(voll: ladungen, gesamt: TischVorrat.maxLadungen)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Messingnieten für die Ladungen des Decks: gefüllt = belegt.
+class _Nieten extends StatelessWidget {
+  const _Nieten({required this.voll, required this.gesamt});
+
+  final int voll;
+  final int gesamt;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 0; i < gesamt; i++)
+            Container(
+              width: 11,
+              height: 11,
+              margin: const EdgeInsets.symmetric(horizontal: 2),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: i < voll
+                    ? const RadialGradient(
+                        center: Alignment(-0.35, -0.4),
+                        colors: [MRoh.messingHell, MRoh.messingMitte, MRoh.messingDunkel],
+                        stops: [0, 0.55, 1],
+                      )
+                    : null,
+                border: Border.all(color: i < voll ? MRoh.messingDunkel : MRoh.tinte.withValues(alpha: 0.45), width: i < voll ? 1 : 1.4),
+              ),
+            ),
+        ],
+      );
+}
+
+/// Ein Fach des Kastens: die eingesetzte Karte (Tipp nimmt sie heraus) oder ein
+/// leeres Fach mit Etikett.
 class _Platz extends StatelessWidget {
   const _Platz({required this.nummer, required this.def, required this.figuren, required this.onTipp});
 
@@ -207,8 +323,6 @@ class _Platz extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final f = MFarben.von(context);
-    final t = MSchrift.von(context);
     final k = def;
     final platz = l.karten_deck_platz(nummer);
     if (k == null) {
@@ -218,20 +332,40 @@ class _Platz extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: MMass.kartenSeiten,
           child: DecoratedBox(
+            // Vertieftes Fach: dunkler Grund, oben ein Schattenrand.
             decoration: BoxDecoration(
-              color: f.flaeche.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(MMass.r14),
-              border: Border.all(color: f.linieStark),
+              borderRadius: BorderRadius.circular(MMass.r6),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.black.withValues(alpha: 0.32), Colors.black.withValues(alpha: 0.14)],
+              ),
+              border: Border.all(color: MRoh.manilaDunkel.withValues(alpha: 0.9)),
             ),
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add_rounded, color: f.papierLeise, size: 28),
-                  const SizedBox(height: MMass.s4),
-                  Text(l.karten_deck_leer, style: t.leise),
-                  Text(platz, style: t.leise.copyWith(fontSize: 12)),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(MMass.s4),
+                // Das Fach hat die feste Form einer Karte: bei großer Schrift wird das Etikett kleiner.
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: MRoh.karteikarte,
+                      borderRadius: BorderRadius.circular(2),
+                      boxShadow: const [BoxShadow(color: Color(0x55000000), blurRadius: 3, offset: Offset(0, 1))],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: MMass.s8, vertical: 6),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(l.karten_deck_leer, textAlign: TextAlign.center, style: MPapierSchrift.maschine.copyWith(fontSize: 14)),
+                          Text(platz, textAlign: TextAlign.center, style: MPapierSchrift.leise.copyWith(fontSize: 12)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -267,7 +401,6 @@ class _Auswahl extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final f = MFarben.von(context);
-    final t = MSchrift.von(context);
     final text = imDeck ? l.karten_deck_entfernen(def.titel) : l.karten_deck_einsetzen(def.titel);
     return Semantics(
       button: true,
@@ -303,15 +436,24 @@ class _Auswahl extends StatelessWidget {
                   ),
                 ),
               ),
+            // Mehrere Exemplare: ein kleines Papieretikett an der Ecke.
             if (anzahl > 1)
               Positioned(
                 right: 6,
                 top: 6,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(color: f.grund.withValues(alpha: 0.85), borderRadius: BorderRadius.circular(MMass.r20), border: Border.all(color: f.linieStark)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    child: Text(l.karten_anzahl(anzahl), style: t.leise.copyWith(fontSize: 12, fontWeight: FontWeight.w700, color: f.papier)),
+                child: Transform.rotate(
+                  angle: 0.06,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: MRoh.karteikarte,
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: MRoh.tinte.withValues(alpha: 0.35)),
+                      boxShadow: const [BoxShadow(color: Color(0x66000000), blurRadius: 3, offset: Offset(0, 1))],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      child: Text(l.karten_anzahl(anzahl), style: MPapierSchrift.maschine.copyWith(fontSize: 13)),
+                    ),
                   ),
                 ),
               ),

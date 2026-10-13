@@ -12,15 +12,18 @@ import '../karten/widgets/karten_ansicht.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
 import '../meta/progression.dart';
+import '../stil/mappe/assistent_formular.dart';
 import '../stil/stil.dart';
 import '../ui/widgets/meters.dart' show RankBadge;
 import 'abend_halter.dart';
 
 /// Belohnung nach dem Abend (Route `/abend/belohnung`): bucht den Abend im
-/// [MetaStore] (genau einmal, Schlüssel ist die Abendkennung) und zeigt die
-/// erhaltenen Karten (verdeckt hereingleitend, Tipp dreht sie um, „NEU“ für
-/// erstmals besessene), die Erfahrungsleiste und, bei einer Beförderung, den
-/// Rangstempel. Mit „Bewegung reduzieren“ liegen alle Karten offen in einer Liste.
+/// [MetaStore] (genau einmal, Schlüssel ist die Abendkennung) und zeigt ihn wie
+/// auf dem Schreibtisch: oben ein Extrablatt mit dem Ende des Abends, darunter
+/// die erhaltenen Karten (verdeckt hereingleitend und schräg hingelegt, Tipp
+/// dreht sie um, „NEU“ für erstmals besessene) und ein Telegramm mit der
+/// Erfahrung auf einer Messingskala und, bei einer Beförderung, dem Rangstempel.
+/// Mit „Bewegung reduzieren“ liegen alle Karten offen auf Karteikarten.
 class BelohnungSeite extends StatefulWidget {
   const BelohnungSeite({super.key});
 
@@ -84,11 +87,15 @@ class _BelohnungSeiteState extends State<BelohnungSeite> {
         builder: (context) => Scaffold(
           backgroundColor: MFarben.von(context).grund,
           body: MRahmen(
-            marke: l.abend_belohnung_marke,
-            titel: l.abend_belohnung_titel,
-            untertitel: a == null || a.endeName.isEmpty ? null : a.endeName,
             aktionen: [MKnopf(text: l.abend_belohnung_detektei, icon: Icons.home_rounded, onPressed: _zurDetektei)],
-            child: _inhalt(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _Extrablatt(ende: a?.endeName ?? ''),
+                const SizedBox(height: MMass.s32),
+                _inhalt(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -100,13 +107,20 @@ class _BelohnungSeiteState extends State<BelohnungSeite> {
     final t = MSchrift.von(context);
     final b = _belohnung;
     if (_fehler) {
-      return MTafel(
+      return MBlatt(
+        art: PapierArt.telegramm,
+        neigung: -0.004,
+        samen: 83,
+        padding: const EdgeInsets.fromLTRB(20, 22, 20, 18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l.abend_belohnung_fehler, style: t.text),
-            const SizedBox(height: MMass.s12),
-            MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _buchen),
+            Text(l.abend_belohnung_fehler, style: MPapierSchrift.telegramm.copyWith(fontSize: 17)),
+            const SizedBox(height: MMass.s16),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _buchen),
+            ),
           ],
         ),
       );
@@ -148,6 +162,60 @@ class _BelohnungSeiteState extends State<BelohnungSeite> {
   }
 }
 
+/// Extrablatt über dem Abend: eine Zeitungsseite mit Kopfzeile, Schlagzeile und
+/// dem Namen des erreichten Endes darunter.
+class _Extrablatt extends StatelessWidget {
+  const _Extrablatt({required this.ende});
+
+  final String ende;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    return MBlatt(
+      klebestreifen: true,
+      neigung: -0.008,
+      samen: 77,
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l.abend_belohnung_marke.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: MPapierSchrift.maschine.copyWith(fontSize: 13, letterSpacing: 3, color: MRoh.stempelRot),
+          ),
+          const SizedBox(height: MMass.s8),
+          const _Zeitungslinie(),
+          const SizedBox(height: MMass.s12),
+          Text(l.abend_belohnung_titel, textAlign: TextAlign.center, style: MPapierSchrift.aufmacher.copyWith(fontSize: 30, height: 1.15)),
+          if (ende.isNotEmpty) ...[
+            const SizedBox(height: MMass.s12),
+            Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.35)),
+            const SizedBox(height: MMass.s8),
+            Text(ende, textAlign: TextAlign.center, style: MPapierSchrift.kursiv),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Doppellinie unter dem Zeitungskopf: eine kräftige und eine feine Linie.
+class _Zeitungslinie extends StatelessWidget {
+  const _Zeitungslinie();
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(height: 2.4, color: MRoh.tinte.withValues(alpha: 0.85)),
+          const SizedBox(height: 2),
+          Container(height: 0.8, color: MRoh.tinte.withValues(alpha: 0.7)),
+        ],
+      );
+}
+
 /// Karten ohne Bewegung: alle offen, mit Titel, Wirkung und Marke.
 class _KartenListe extends StatelessWidget {
   const _KartenListe({required this.defs, required this.neu, required this.figuren});
@@ -159,40 +227,59 @@ class _KartenListe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
-    final f = MFarben.von(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        for (final d in defs)
+        for (var i = 0; i < defs.length; i++)
           Padding(
-            padding: const EdgeInsets.only(bottom: MMass.s12),
-            child: MTafel(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  KartenKarte(def: d, figur: kartenFigurVon(figuren, d), breite: 96),
-                  const SizedBox(width: MMass.s16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(d.titel, style: t.ueberschrift.copyWith(fontSize: 18)),
-                        const SizedBox(height: MMass.s4),
-                        Text(d.text, style: t.leise),
-                        const SizedBox(height: MMass.s8),
-                        Wrap(
-                          spacing: MMass.s8,
-                          runSpacing: MMass.s8,
-                          children: [
-                            if (neu.contains(d.id)) const NeuMarke() else MChip(l.abend_belohnung_doppelt, farbe: f.papierLeise),
-                            MChip(KartenTexte.seltenheit(d.seltenheit), farbe: f.seltenheit(seltenheitStufe(d.seltenheit).index)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+            padding: const EdgeInsets.only(bottom: MMass.s16),
+            child: MBlatt(
+              art: PapierArt.karteikarte,
+              kopfLinie: 7,
+              linien: false,
+              neigung: i.isEven ? -0.004 : 0.004,
+              samen: 40 + i,
+              padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  final d = defs[i];
+                  // Die Karte liegt leicht schräg auf der Karteikarte.
+                  final karte = Transform.rotate(
+                    angle: i.isEven ? 0.02 : -0.016,
+                    child: KartenKarte(def: d, figur: kartenFigurVon(figuren, d), breite: 96),
+                  );
+                  final text = Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(d.titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
+                      const SizedBox(height: MMass.s4),
+                      Text(d.text, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45)),
+                      const SizedBox(height: MMass.s8),
+                      Wrap(
+                        spacing: MMass.s8,
+                        runSpacing: MMass.s8,
+                        children: [
+                          if (neu.contains(d.id)) const NeuMarke() else MChip(l.abend_belohnung_doppelt, farbe: MRoh.tinteLeise),
+                          MChip(KartenTexte.seltenheit(d.seltenheit), farbe: seltenheitTinte(d.seltenheit)),
+                        ],
+                      ),
+                    ],
+                  );
+                  // Schmal oder mit großer Schrift liegt die Karte über dem Text; daneben
+                  // bliebe dem Titel zu wenig Breite und er bräche mitten im Wort.
+                  final skala = MediaQuery.textScalerOf(context).scale(1);
+                  if (box.maxWidth - 96 - MMass.s16 < 200 * (skala < 1 ? 1 : skala)) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [Align(alignment: Alignment.centerLeft, child: karte), const SizedBox(height: MMass.s12), text],
+                    );
+                  }
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [karte, const SizedBox(width: MMass.s16), Expanded(child: text)],
+                  );
+                },
               ),
             ),
           ),
@@ -288,15 +375,19 @@ class _KartenStapelState extends State<_KartenStapel> with SingleTickerProviderS
           width: breite,
           child: Column(
             children: [
-              KartenKarte(
-                key: ValueKey('belohnung-karte-$i'),
-                def: d,
-                figur: kartenFigurVon(widget.figuren, d),
-                breite: breite,
-                aufgedeckt: vorn,
-                umdrehbar: true,
-                onUmgedreht: (v) => widget.onUmgedreht(i, v),
-                rueckseitenSemantik: l.abend_belohnung_verdeckt(i + 1, widget.defs.length),
+              // Wie auf den Schreibtisch geworfen: jede Karte liegt etwas anders schräg.
+              Transform.rotate(
+                angle: const [-0.035, 0.025, -0.015, 0.03, -0.025][i % 5],
+                child: KartenKarte(
+                  key: ValueKey('belohnung-karte-$i'),
+                  def: d,
+                  figur: kartenFigurVon(widget.figuren, d),
+                  breite: breite,
+                  aufgedeckt: vorn,
+                  umdrehbar: true,
+                  onUmgedreht: (v) => widget.onUmgedreht(i, v),
+                  rueckseitenSemantik: l.abend_belohnung_verdeckt(i + 1, widget.defs.length),
+                ),
               ),
               const SizedBox(height: MMass.s8),
               // Der Platz bleibt auch bei verdeckter Karte reserviert und wächst bei großer Schrift mit.
@@ -320,9 +411,10 @@ class _KartenStapelState extends State<_KartenStapel> with SingleTickerProviderS
   }
 }
 
-/// Erfahrungsleiste: füllt sich von der alten zur neuen Erfahrung. Bei einer
+/// Erfahrung als Telegramm: die getippte Zeile mit den Punkten und eine
+/// Messingskala, die sich von der alten zur neuen Erfahrung füllt. Bei einer
 /// Beförderung läuft sie bis zum Rand, springt auf null und füllt sich im neuen
-/// Rang; dazu stempelt der neue Rang. Ohne Bewegung steht sofort der Endstand.
+/// Rang; dazu schlägt der Rangstempel auf. Ohne Bewegung steht sofort der Endstand.
 class _Erfahrung extends StatefulWidget {
   const _Erfahrung({required this.belohnung});
 
@@ -369,80 +461,79 @@ class _ErfahrungState extends State<_Erfahrung> with SingleTickerProviderStateMi
   Widget build(BuildContext context) {
     final l = L.of(context);
     final f = MFarben.von(context);
-    final t = MSchrift.von(context);
     final b = widget.belohnung;
     final next = nextRankXp(b.xpNachher);
     final rang = l.rankName(b.rangNachher);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(l.abend_belohnung_xp_titel.toUpperCase(), style: t.marke),
-        const SizedBox(height: MMass.s8),
-        Text(l.abend_belohnung_xp(b.xp), style: t.ueberschrift),
-        const SizedBox(height: MMass.s12),
-        Semantics(
-          label: '${l.abend_belohnung_xp(b.xp)}, ${next == null ? l.hub_rank_max : l.hub_rank_progress(b.xpNachher, next)}',
-          excludeSemantics: true,
-          child: AnimatedBuilder(
-            animation: _c,
-            builder: (context, _) => ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: LinearProgressIndicator(
-                key: const ValueKey('belohnung-xp-leiste'),
-                value: _stand(_c.value),
-                minHeight: 10,
-                color: f.akzent,
-                backgroundColor: f.flaecheHoch,
-              ),
-            ),
+    final stand = next == null ? l.hub_rank_max : l.hub_rank_progress(b.xpNachher, next);
+    return MBlatt(
+      art: PapierArt.telegramm,
+      knick: true,
+      neigung: 0.004,
+      samen: 91,
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l.abend_belohnung_xp_titel.toUpperCase(),
+            style: MPapierSchrift.telegramm.copyWith(fontSize: 13, letterSpacing: 2.4, color: MRoh.stempelRot),
           ),
-        ),
-        const SizedBox(height: MMass.s8),
-        Text(next == null ? l.hub_rank_max : l.hub_rank_progress(b.xpNachher, next), style: t.leise),
-        if (b.rangAufstieg) ...[
-          const SizedBox(height: MMass.s20),
-          Center(
+          const SizedBox(height: MMass.s8),
+          // Eine getippte Zeile: bei großer Schrift wird sie kleiner, statt „Erfahrungspunkte“ mitten im Wort zu trennen.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(l.abend_belohnung_xp(b.xp), maxLines: 1, style: MPapierSchrift.telegramm.copyWith(fontSize: 22, height: 1.3)),
+          ),
+          const SizedBox(height: MMass.s16),
+          Semantics(
+            label: '${l.abend_belohnung_xp(b.xp)}, $stand',
+            excludeSemantics: true,
             child: AnimatedBuilder(
               animation: _c,
-              builder: (context, child) {
-                // Der Stempel fällt ein, wenn die Leiste voll war.
-                final v = Curves.easeOutBack.transform(((_c.value - 0.7) / 0.3).clamp(0.0, 1.0));
-                return Opacity(
-                  opacity: v.clamp(0.0, 1.0),
-                  child: Transform.rotate(angle: -0.06, child: Transform.scale(scale: 1.6 - 0.6 * v, child: child)),
-                );
-              },
-              child: Semantics(
-                label: l.abend_belohnung_rang_semantik(rang),
-                excludeSemantics: true,
-                child: DecoratedBox(
-                  key: const ValueKey('belohnung-rang-stempel'),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: f.gefahr, width: 3),
-                    borderRadius: BorderRadius.circular(MMass.r10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MMass.s16, vertical: MMass.s12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        RankBadge(rank: b.rangNachher, size: 40),
-                        const SizedBox(width: MMass.s12),
-                        Flexible(
-                          child: Text(
-                            l.abend_belohnung_rang_stempel(rang).toUpperCase(),
-                            style: t.ueberschrift.copyWith(color: f.gefahr, letterSpacing: 2),
-                          ),
+              // Die Füllung leuchtet im Akzent der Akte, wie Licht hinter Glas.
+              builder: (context, _) => MMessingSkala(key: const ValueKey('belohnung-xp-leiste'), wert: _stand(_c.value), fuellung: f.akzent),
+            ),
+          ),
+          const SizedBox(height: MMass.s8),
+          Text(stand, style: MPapierSchrift.telegramm.copyWith(fontSize: 14, color: MRoh.tinteLeise)),
+          if (b.rangAufstieg) ...[
+            const SizedBox(height: MMass.s20),
+            Center(
+              child: AnimatedBuilder(
+                animation: _c,
+                builder: (context, child) {
+                  // Der Stempel schlägt auf, wenn die Skala voll war.
+                  final v = Curves.easeOutBack.transform(((_c.value - 0.7) / 0.3).clamp(0.0, 1.0));
+                  return Opacity(
+                    opacity: v.clamp(0.0, 1.0),
+                    child: Transform.scale(scale: 1.6 - 0.6 * v, child: child),
+                  );
+                },
+                child: Semantics(
+                  label: l.abend_belohnung_rang_semantik(rang),
+                  excludeSemantics: true,
+                  child: Row(
+                    key: const ValueKey('belohnung-rang-stempel'),
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RankBadge(rank: b.rangNachher, size: 40),
+                      const SizedBox(width: MMass.s12),
+                      // Der Stempel hat eine feste Größe; ist er zu breit, wird er kleiner.
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: MStempel(text: l.abend_belohnung_rang_stempel(rang), groesse: 17, winkel: -0.07),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

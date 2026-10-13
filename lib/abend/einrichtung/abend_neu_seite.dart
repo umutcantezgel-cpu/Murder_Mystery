@@ -7,7 +7,7 @@ import 'package:mordakte_core/runden.dart' show AbstecherOrt, KartenKatalog, Tis
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
-import '../../detektei/akte_bausteine.dart';
+import '../../detektei/akte_bausteine.dart' show akteSigel, akteTonText;
 import '../../detektei/akten.dart';
 import '../../karten/katalog_laden.dart';
 import '../../karten/widgets/deck_zeile.dart';
@@ -16,6 +16,7 @@ import '../../meta/meta_store.dart';
 import '../../netz/ablage_prefs.dart';
 import '../../party/daten.dart';
 import '../../party/sitzung.dart';
+import '../../stil/mappe/assistent_formular.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
 import '../online/gastgeber_dienst.dart';
@@ -279,6 +280,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final nummer = _schritt.index + 1;
+    final namen = [l.abend_schritt_akte, l.abend_schritt_spielweise, l.abend_schritt_einstellungen, l.abend_schritt_start];
     final (titel, untertitel) = switch (_schritt) {
       _Schritt.akte => (l.abend_akte_titel, l.abend_akte_hinweis),
       _Schritt.spielweise => (l.abend_spielweise_titel, l.abend_spielweise_hinweis),
@@ -306,7 +308,12 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
               marke: l.abend_schritt(nummer, _Schritt.values.length),
               titel: titel,
               untertitel: untertitel,
-              kopf: _Schrittanzeige(aktuell: _schritt.index),
+              // Die Schritte als Registerreiter der Fallmappe.
+              kopf: MRegisterSchritte(
+                namen: namen,
+                aktuell: _schritt.index,
+                semantik: '${l.abend_schritt(nummer, namen.length)}: ${namen[_schritt.index]}',
+              ),
               aktionen: [
                 MKnopf(
                   text: _schritt == _Schritt.akte ? l.common_cancel : l.common_back,
@@ -340,28 +347,32 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            for (final a in akten) AkteKarte(akte: a, gewaehlt: a.id == _akteId, onTap: () => _waehleAkte(a.id)),
+            for (var i = 0; i < akten.length; i++)
+              _AkteWahl(akte: akten[i], nr: i + 1, gewaehlt: akten[i].id == _akteId, onTap: () => _waehleAkte(akten[i].id)),
           ],
         );
       case _Schritt.spielweise:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _WeiseOption(
+            _WeiseKarte(
+              nr: 1,
               icon: Icons.smart_toy_outlined,
               titel: l.abend_spielweise_solo,
               text: l.abend_spielweise_solo_text,
               gewaehlt: _weise == Spielweise.solo,
               onTap: () => _waehleWeise(Spielweise.solo),
             ),
-            _WeiseOption(
+            _WeiseKarte(
+              nr: 2,
               icon: Icons.groups_2_outlined,
               titel: l.abend_spielweise_reihum,
               text: l.abend_spielweise_reihum_text,
               gewaehlt: _weise == Spielweise.reihum,
               onTap: () => _waehleWeise(Spielweise.reihum),
             ),
-            _WeiseOption(
+            _WeiseKarte(
+              nr: 3,
               icon: Icons.devices_outlined,
               titel: l.abend_spielweise_eigene,
               text: l.abend_spielweise_eigene_text,
@@ -387,40 +398,46 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         final g = _geladen;
         final akte = _akte;
         if (g == null || akte == null) return _Laedt(text: l.abend_laedt);
+        final nr = (_akten?.indexOf(akte) ?? 0) + 1;
         return ListenableBuilder(
           listenable: g.werte,
           builder: (context, _) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              MTafel(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _Zeile(l.abend_start_akte, akte.titel),
-                    _Zeile(
-                      l.abend_start_spielweise,
-                      switch (_weise) {
-                        Spielweise.solo => l.abend_spielweise_solo,
-                        Spielweise.eigene => l.abend_spielweise_eigene,
-                        _ => l.abend_spielweise_reihum,
-                      },
-                    ),
-                    // Online legt die Lobby die Rollen fest, sobald klar ist, wer mitspielt.
-                    if (_weise != Spielweise.eigene) _Zeile(l.abend_start_personen, '${g.werte.rollen}'),
-                    if (_weise != Spielweise.solo) _Zeile(l.abend_start_dauer, l.common_minutes(g.werte.minuten), letzte: true),
-                  ],
-                ),
+              _Bereit(
+                akte: akte,
+                nr: nr,
+                felder: [
+                  (
+                    l.abend_start_spielweise,
+                    switch (_weise) {
+                      Spielweise.solo => l.abend_spielweise_solo,
+                      Spielweise.eigene => l.abend_spielweise_eigene,
+                      _ => l.abend_spielweise_reihum,
+                    },
+                  ),
+                  // Online legt die Lobby die Rollen fest, sobald klar ist, wer mitspielt.
+                  if (_weise != Spielweise.eigene) (l.abend_start_personen, '${g.werte.rollen}'),
+                  if (_weise != Spielweise.solo) (l.abend_start_dauer, l.common_minutes(g.werte.minuten)),
+                ],
               ),
-              const SizedBox(height: MMass.s12),
+              const SizedBox(height: MMass.s32),
               // Die Klasse bestimmt die Karte der Belohnung, das Deck liegt am Abend als gemeinsame Hilfe auf dem Tisch.
               const KlasseZeile(),
-              const SizedBox(height: MMass.s12),
+              const SizedBox(height: MMass.s24),
               DeckZeile(katalog: _katalog, onAendern: () => context.push(Routes.sammlungDeck)),
               if (_weise == Spielweise.eigene) ...[
-                const SizedBox(height: MMass.s12),
-                MTafel(child: Text(l.online_start_hinweis, style: MSchrift.von(context).leise)),
+                const SizedBox(height: MMass.s24),
+                MBlatt(
+                  art: PapierArt.notiz,
+                  klebestreifen: true,
+                  neigung: 0.005,
+                  samen: 71,
+                  padding: const EdgeInsets.fromLTRB(40, 20, 18, 16),
+                  child: Text(l.online_start_hinweis, style: MPapierSchrift.text.copyWith(fontSize: 15)),
+                ),
                 if (_oeffnenFehler) ...[
-                  const SizedBox(height: MMass.s12),
+                  const SizedBox(height: MMass.s16),
                   _Fehler(text: l.online_oeffnen_fehler, nochmal: _raumOeffnen),
                 ],
               ],
@@ -431,44 +448,101 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   }
 }
 
-/// Vier Balken: erledigte und aktuelle Schritte sind gefüllt.
-class _Schrittanzeige extends StatelessWidget {
-  const _Schrittanzeige({required this.aktuell});
+/// Eine Akte zur Wahl: eine kleine Aktenmappe aus Manila mit Reiter, Siegel der
+/// Akte, Titel und Untertitel. Die gewählte trägt den Stempel „Gewählt“ und
+/// liegt dicker gefüllt da. Für den Bildschirmleser eine Auswahl mit dem Titel
+/// als Beschriftung und dem Untertitel als Hinweis.
+class _AkteWahl extends StatelessWidget {
+  const _AkteWahl({required this.akte, required this.nr, required this.gewaehlt, required this.onTap});
 
-  final int aktuell;
+  final AkteInfo akte;
+  final int nr;
+  final bool gewaehlt;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final f = MFarben.von(context);
-    final namen = [l.abend_schritt_akte, l.abend_schritt_spielweise, l.abend_schritt_einstellungen, l.abend_schritt_start];
-    return Semantics(
-      label: '${l.abend_schritt(aktuell + 1, namen.length)}: ${namen[aktuell]}',
-      excludeSemantics: true,
-      child: Row(
-        children: [
-          for (var i = 0; i < namen.length; i++) ...[
-            if (i > 0) const SizedBox(width: MMass.s8),
-            Expanded(
-              child: AnimatedContainer(
-                duration: MBewegung.normal(context),
-                height: 4,
-                decoration: BoxDecoration(
-                  color: i <= aktuell ? f.akzent : f.flaecheHoch,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-          ],
+    final stil = AkteStil.fuer(akte.id);
+    final min = akte.minRollen, max = akte.maxRollen;
+    final angaben = [
+      if (akte.ton.isNotEmpty) akteTonText(l, akte.ton),
+      if (min != null && max != null) l.detektei_personen(min, max),
+    ].join(' · ');
+    Widget text(bool schmal) => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(akte.titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: schmal ? 17 : 20, height: 1.25)),
+        if (akte.untertitel.isNotEmpty) ...[
+          const SizedBox(height: 2),
+          Text(akte.untertitel, style: MPapierSchrift.kursiv.copyWith(fontSize: 15, height: 1.4, color: MRoh.tinteLeise)),
         ],
+        if (angaben.isNotEmpty) ...[
+          const SizedBox(height: MMass.s8),
+          Text(angaben, style: MPapierSchrift.maschine.copyWith(fontSize: 13, color: MRoh.tinteLeise)),
+        ],
+      ],
+    );
+    final mappe = LayoutBuilder(
+      builder: (context, box) {
+        // Schmal oder mit großer Schrift hängt das Siegel unten an der Mappe, der Text bekommt die ganze Breite.
+        final skala = MediaQuery.textScalerOf(context).scale(1);
+        final schmal = box.maxWidth < 260 * (skala < 1 ? 1 : skala);
+        return MAktenmappe(
+          reiter: 'Nr. ${nr.toString().padLeft(2, '0')}',
+          farbe: stil.akzent,
+          blaetter: gewaehlt ? 3 : 1,
+          neigung: nr.isEven ? 0.004 : -0.003,
+          siegel: schmal ? akteSigel(akte) : null,
+          padding: schmal ? const EdgeInsets.fromLTRB(10, 12, 10, 30) : const EdgeInsets.fromLTRB(14, 12, 14, 14),
+          onTap: onTap,
+          child: schmal
+              ? SizedBox(width: double.infinity, child: text(true))
+              : Row(
+                  children: [
+                    MSiegel(kuerzel: akteSigel(akte), farbe: stil.akzent, groesse: 50),
+                    const SizedBox(width: 14),
+                    Expanded(child: text(false)),
+                  ],
+                ),
+        );
+      },
+    );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: MMass.s20),
+      child: Semantics(
+        button: true,
+        selected: gewaehlt,
+        label: akte.titel,
+        hint: akte.untertitel,
+        onTap: onTap,
+        excludeSemantics: true,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            mappe,
+            // Der Stempel schlägt neben dem Reiter auf die Oberkante der Mappe.
+            if (gewaehlt)
+              Positioned(
+                top: 0,
+                right: MMass.s16,
+                child: IgnorePointer(child: MStempel(text: l.profil_klasse_gewaehlt, groesse: 14, winkel: -0.08, aufschlagen: true)),
+              ),
+          ],
+        ),
       ),
     );
   }
 }
 
-/// Eine Spielweise zur Wahl.
-class _WeiseOption extends StatelessWidget {
-  const _WeiseOption({
+/// Eine Spielweise zur Wahl: eine Karteikarte mit gestempeltem Sinnbild, darunter
+/// Ankreuzkästchen und Aktenzeichen, daneben Titel über der roten Linie und
+/// Beschreibung. Die gewählte ist hervorgehoben, angekreuzt, und oben schlägt
+/// der Stempel „Gewählt“ auf die Kante.
+class _WeiseKarte extends StatelessWidget {
+  const _WeiseKarte({
+    required this.nr,
     required this.icon,
     required this.titel,
     required this.text,
@@ -476,6 +550,7 @@ class _WeiseOption extends StatelessWidget {
     required this.onTap,
   });
 
+  final int nr;
   final IconData icon;
   final String titel;
   final String text;
@@ -484,8 +559,68 @@ class _WeiseOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final f = MFarben.von(context);
-    final t = MSchrift.von(context);
+    final l = L.of(context);
+    final zeichen = Text('Nr. $nr', style: MPapierSchrift.maschine.copyWith(fontSize: 12, color: MRoh.tinteLeise));
+    final karte = MBlatt(
+      art: PapierArt.karteikarte,
+      kopfLinie: 7,
+      linien: false,
+      onTap: onTap,
+      hervorgehoben: gewaehlt,
+      neigung: const [-0.004, 0.003, -0.002][(nr - 1) % 3],
+      samen: 30 + nr,
+      padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+      child: LayoutBuilder(
+        builder: (context, box) {
+          // Kästchen und Aktenzeichen stehen unter dem Sinnbild; der Text bekommt die volle Breite.
+          final kennung = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [MKaestchen(gewaehlt: gewaehlt, groesse: 18, samen: nr * 7919), const SizedBox(width: 6), zeichen],
+          );
+          final inhalt = Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.25)),
+              const SizedBox(height: MMass.s4),
+              Container(height: 1.4, color: MRoh.linieRot),
+              const SizedBox(height: 6),
+              Text(text, style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.45)),
+            ],
+          );
+          // Schmal oder mit großer Schrift: Sinnbild, Kästchen und Aktenzeichen über dem Text.
+          final skala = MediaQuery.textScalerOf(context).scale(1);
+          if (box.maxWidth < 250 * (skala < 1 ? 1 : skala)) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _Sinnbild(icon: icon, gewaehlt: gewaehlt),
+                    const SizedBox(width: MMass.s12),
+                    kennung,
+                  ],
+                ),
+                const SizedBox(height: MMass.s8),
+                inhalt,
+              ],
+            );
+          }
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [_Sinnbild(icon: icon, gewaehlt: gewaehlt), const SizedBox(height: 6), kennung],
+              ),
+              const SizedBox(width: 14),
+              Expanded(child: inhalt),
+            ],
+          );
+        },
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.only(bottom: MMass.s12),
       child: Semantics(
@@ -495,67 +630,125 @@ class _WeiseOption extends StatelessWidget {
         hint: text,
         onTap: onTap,
         excludeSemantics: true,
-        child: MTafel(
-          hervorgehoben: gewaehlt,
-          padding: EdgeInsets.zero,
-          child: Material(
-            type: MaterialType.transparency,
-            child: InkWell(
-              onTap: onTap,
-              child: Padding(
-                padding: const EdgeInsets.all(MMass.s16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(icon, color: gewaehlt ? f.akzent : f.papierLeise, size: 30),
-                    const SizedBox(width: MMass.s16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(titel, style: t.ueberschrift),
-                          const SizedBox(height: MMass.s4),
-                          Text(text, style: t.leise),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: MMass.s8),
-                    Icon(gewaehlt ? Icons.check_circle_rounded : Icons.circle_outlined, color: gewaehlt ? f.akzent : f.papierLeise),
-                  ],
-                ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            karte,
+            // Der Stempel trifft die obere rechte Kante.
+            if (gewaehlt)
+              Positioned(
+                top: -10,
+                right: 10,
+                child: IgnorePointer(child: MStempel(text: l.profil_klasse_gewaehlt, groesse: 14, winkel: -0.09, aufschlagen: true)),
               ),
-            ),
-          ),
+          ],
         ),
       ),
     );
   }
 }
 
-/// Zeile der Zusammenfassung: Marke und Wert.
-class _Zeile extends StatelessWidget {
-  const _Zeile(this.marke, this.wert, {this.letzte = false});
+/// Sinnbild einer Spielweise: das Symbol in Füllertinte in einem doppelten
+/// Stempelring, der gewählte Ring in Stempelrot.
+class _Sinnbild extends StatelessWidget {
+  const _Sinnbild({required this.icon, required this.gewaehlt});
 
-  final String marke;
-  final String wert;
-  final bool letzte;
+  final IconData icon;
+  final bool gewaehlt;
+
+  @override
+  Widget build(BuildContext context) => SizedBox.square(
+        dimension: 58,
+        child: CustomPaint(
+          painter: _RingMaler(gewaehlt ? MRoh.stempelRot : MRoh.tinte.withValues(alpha: 0.5)),
+          child: Center(child: Icon(icon, size: 30, color: gewaehlt ? MRoh.stempelRot : MRoh.tinteBlau)),
+        ),
+      );
+}
+
+class _RingMaler extends CustomPainter {
+  _RingMaler(this.farbe);
+
+  final Color farbe;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final m = size.center(Offset.zero);
+    final r = size.shortestSide / 2;
+    final p = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = farbe;
+    canvas.drawCircle(m, r - 1.5, p..strokeWidth = 2.2);
+    canvas.drawCircle(m, r - 5.5, p..strokeWidth = 0.9);
+  }
+
+  @override
+  bool shouldRepaint(covariant _RingMaler alt) => alt.farbe != farbe;
+}
+
+/// Der Start: die Fallmappe ist gepackt und versiegelt. Reiter mit Aktenzeichen,
+/// Titel der Akte und die Angaben des Abends als Formularfelder; das Siegel der
+/// Akte hält die Mappe zu, bis der Abend beginnt.
+class _Bereit extends StatelessWidget {
+  const _Bereit({required this.akte, required this.nr, required this.felder});
+
+  final AkteInfo akte;
+  final int nr;
+
+  /// Feldname und Wert in Lesereihenfolge.
+  final List<(String, String)> felder;
 
   @override
   Widget build(BuildContext context) {
-    final t = MSchrift.von(context);
-    return Padding(
-      padding: EdgeInsets.only(bottom: letzte ? 0 : MMass.s16),
+    final l = L.of(context);
+    final stil = AkteStil.fuer(akte.id);
+    return LayoutBuilder(
+      builder: (context, box) {
+        // Schmal oder mit großer Schrift: weniger Rand und ein kleinerer Titel, damit
+        // lange Namen wie „Schlosskeller“ nicht mitten im Wort brechen.
+        final skala = MediaQuery.textScalerOf(context).scale(1);
+        final schmal = box.maxWidth < 300 * (skala < 1 ? 1 : skala);
+        return _mappe(l, stil, schmal);
+      },
+    );
+  }
+
+  Widget _mappe(L l, AkteStil stil, bool schmal) => MAktenmappe(
+      reiter: 'Nr. ${nr.toString().padLeft(2, '0')}',
+      farbe: stil.akzent,
+      siegel: akteSigel(akte),
+      blaetter: 3,
+      padding: schmal ? const EdgeInsets.fromLTRB(10, 14, 10, 34) : const EdgeInsets.fromLTRB(18, 16, 18, 34),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(marke.toUpperCase(), style: t.marke),
-          const SizedBox(height: MMass.s4),
-          Text(wert, style: t.ueberschrift),
+          Text(l.abend_start_akte, style: MPapierSchrift.maschine.copyWith(fontSize: 13, color: MRoh.tinteLeise)),
+          const SizedBox(height: 2),
+          Text(akte.titel, style: schmal ? MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.25) : MPapierSchrift.ueberschrift),
+          if (akte.untertitel.isNotEmpty) ...[
+            const SizedBox(height: MMass.s4),
+            Text(akte.untertitel, style: MPapierSchrift.kursiv.copyWith(fontSize: 15, height: 1.4, color: MRoh.tinteLeise)),
+          ],
+          const SizedBox(height: MMass.s12),
+          Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
+          const SizedBox(height: MMass.s12),
+          LayoutBuilder(
+            builder: (context, box) {
+              // Zwei Spalten wie auf einem Formular, schmal untereinander.
+              final skala = MediaQuery.textScalerOf(context).scale(1);
+              final zwei = box.maxWidth >= 240 * (skala < 1 ? 1 : skala);
+              final breite = zwei ? (box.maxWidth - MMass.s16) / 2 : box.maxWidth;
+              return Wrap(
+                spacing: MMass.s16,
+                children: [
+                  for (final (name, wert) in felder) SizedBox(width: breite, child: MFeld(name: name, wert: wert)),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
-  }
 }
 
 /// Ladeanzeige; bei „Bewegung reduzieren“ ohne drehenden Kreis.
@@ -570,7 +763,7 @@ class _Laedt extends StatelessWidget {
         child: Column(
           children: [
             if (!MBewegung.ruhig(context)) ...[
-              const SizedBox(width: 32, height: 32, child: CircularProgressIndicator(strokeWidth: 3)),
+              const SizedBox(width: 32, height: 32, child: CircularProgressIndicator(strokeWidth: 3, color: MRoh.messingMitte)),
               const SizedBox(height: MMass.s16),
             ],
             Text(text, textAlign: TextAlign.center, style: MSchrift.von(context).leise),
@@ -579,7 +772,7 @@ class _Laedt extends StatelessWidget {
       );
 }
 
-/// Fehlermeldung mit „Nochmal versuchen“.
+/// Fehlermeldung als Telegramm mit „Nochmal versuchen“.
 class _Fehler extends StatelessWidget {
   const _Fehler({required this.text, required this.nochmal});
 
@@ -589,13 +782,27 @@ class _Fehler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    return MTafel(
+    return MBlatt(
+      art: PapierArt.telegramm,
+      neigung: -0.004,
+      samen: 83,
+      padding: const EdgeInsets.fromLTRB(20, 22, 20, 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(text, style: MSchrift.von(context).text),
-          const SizedBox(height: MMass.s12),
-          MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: nochmal),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.error_outline, color: MRoh.stempelRot),
+              const SizedBox(width: MMass.s12),
+              Expanded(child: Text(text, style: MPapierSchrift.telegramm.copyWith(fontSize: 17))),
+            ],
+          ),
+          const SizedBox(height: MMass.s16),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: nochmal),
+          ),
         ],
       ),
     );

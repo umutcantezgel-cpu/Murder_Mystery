@@ -87,6 +87,9 @@ KartenSeltenheit seltenheitStufe(Seltenheit s) => switch (s) {
       Seltenheit.legendaer => KartenSeltenheit.blutgold,
     };
 
+/// Tintenfarbe einer Seltenheit auf Papier: das Metall, mit Tinte abgedunkelt.
+Color seltenheitTinte(Seltenheit s) => Color.lerp(MFarben.mordakte.seltenheit(seltenheitStufe(s).index), MRoh.tinte, 0.45)!;
+
 /// Symbol der Wirkung einer Karte.
 IconData artSymbol(KartenArt a) => switch (a) {
       KartenArt.werkzeug => Icons.search_rounded,
@@ -156,19 +159,23 @@ class KartenKarte extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stufe = seltenheitStufe(def.seltenheit);
-    return SpielKarte(
-      name: def.titel,
-      farbe: kartenGrundfarbe(def, figur),
-      wirkung: def.text,
-      seltenheit: stufe,
-      seltenheitText: KartenTexte.seltenheit(def.seltenheit),
-      akte: akteSigel(def.akte),
-      aufgedeckt: aufgedeckt,
-      umdrehbar: umdrehbar,
-      onUmgedreht: onUmgedreht,
-      rueckseitenSemantik: rueckseitenSemantik ?? KartenTexte.rueckseite,
-      breite: breite,
-      bild: KartenMotiv(art: def.art, look: figur?.look),
+    // Die Karte ist ein dunkler Gegenstand mit eigener Schrift, auch wenn sie auf
+    // einem Blatt Papier liegt: darunter gelten die Farben des Schreibtischs.
+    return MFlaeche.dunkel(
+      child: SpielKarte(
+        name: def.titel,
+        farbe: kartenGrundfarbe(def, figur),
+        wirkung: def.text,
+        seltenheit: stufe,
+        seltenheitText: KartenTexte.seltenheit(def.seltenheit),
+        akte: akteSigel(def.akte),
+        aufgedeckt: aufgedeckt,
+        umdrehbar: umdrehbar,
+        onUmgedreht: onUmgedreht,
+        rueckseitenSemantik: rueckseitenSemantik ?? KartenTexte.rueckseite,
+        breite: breite,
+        bild: KartenMotiv(art: def.art, look: figur?.look),
+      ),
     );
   }
 }
@@ -232,7 +239,9 @@ class UnbekannteKarte extends StatelessWidget {
   final String? semantik;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => MFlaeche.dunkel(child: Builder(builder: _baue));
+
+  Widget _baue(BuildContext context) {
     final f = MFarben.von(context);
     return LayoutBuilder(
       builder: (context, box) {
@@ -268,10 +277,20 @@ class UnbekannteKarte extends StatelessWidget {
   }
 }
 
-/// Kleine Marke „NEU“ für eine frisch erhaltene Karte.
+/// Kleine Marke „NEU“ für eine frisch erhaltene Karte: auf dem Schreibtisch ein
+/// Etikett im Akzent, auf Papier ein stempelrotes Etikett mit heller Schrift.
 class NeuMarke extends StatelessWidget {
   const NeuMarke({super.key});
 
   @override
-  Widget build(BuildContext context) => MChip(_de.karten_neu, gefuellt: true, farbe: MFarben.von(context).akzent);
+  Widget build(BuildContext context) {
+    if (!MFlaeche.hellVon(context)) return MChip(_de.karten_neu, gefuellt: true, farbe: MFarben.von(context).akzent);
+    return DecoratedBox(
+      decoration: BoxDecoration(color: MRoh.stempelRot, borderRadius: BorderRadius.circular(2)),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 4, 9, 3),
+        child: Text(_de.karten_neu, style: MRohSchrift.schreibmaschine.copyWith(fontSize: 13, height: 1.2, letterSpacing: 0.5, color: MRoh.blatt)),
+      ),
+    );
+  }
 }
