@@ -1,7 +1,8 @@
 // Bildwerkstatt: zeichnet je Akte die ganze Karte samt Kulisse als PNG
 // (Boden, Kulisse, Wände und Requisiten, ohne Licht). Keine Behauptungen.
 // Aufruf: flutter test tool/bild/kulisse_bogen_test.dart  →  build/bild/kulisse_<akte>.png
-// Mit AKTE=<id> nur eine Akte.
+// Mit AKTE=<id> nur eine Akte, SKALA=<f> für den Maßstab (Vorgabe 0,5),
+// TUER=<winkel> für die Türblätter (Vorgabe 0,32 = Ruhestellung).
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/game/scene/static_scene.dart';
+import 'package:mordakte/game/scene/wall_painter.dart';
 import 'package:mordakte/party/daten.dart';
 
 void main() {
@@ -26,7 +28,8 @@ void main() {
       for (final s in k?.stuecke ?? const []) {
         welt = welt.expandToInclude(s.dst);
       }
-      const skala = 0.5;
+      final skala = double.tryParse(Platform.environment['SKALA'] ?? '') ?? 0.5;
+      final tuer = double.tryParse(Platform.environment['TUER'] ?? '') ?? 0.32;
       final rec = ui.PictureRecorder();
       final c = Canvas(rec);
       c.drawRect(Rect.fromLTWH(0, 0, welt.width * skala, welt.height * skala), Paint()..color = scene.pal.background);
@@ -45,6 +48,8 @@ void main() {
       final ds = [...scene.drawables]..sort((a, b) => a.depth.compareTo(b.depth));
       for (final dr in ds) {
         if (dr.picture != null) c.drawPicture(dr.picture!);
+        final t = dr.door;
+        if (t != null && !t.locked) scene.wallPainter.paintDoorLeaf(c, t, tuer, t.tall ? kDoorTop : 0.6);
       }
       final bild = await rec.endRecording().toImage((welt.width * skala).round(), (welt.height * skala).round());
       final png = await bild.toByteData(format: ui.ImageByteFormat.png);

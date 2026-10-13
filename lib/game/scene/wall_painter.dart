@@ -284,6 +284,41 @@ class WallPainter {
     }
   }
 
+  /// Türblatt einer unverschlossenen Tür, um die Angel gedreht ([winkel] 0 =
+  /// geschlossen, π/2 = ganz offen nach Süden bzw. Osten). Höhe [hoehe].
+  void paintDoorLeaf(Canvas c, DoorInfo d, double winkel, double hoehe) {
+    final ox = d.x.toDouble(), oy = d.y.toDouble();
+    Offset w(double x, double y, double z) => Iso.toScreen(ox + x, oy + y, z);
+    final angel = d.alongX ? const Offset(0.08, 0.5) : const Offset(0.5, 0.08);
+    final dir = d.alongX ? Offset(math.cos(winkel), math.sin(winkel)) : Offset(math.sin(winkel), math.cos(winkel));
+    const laenge = 0.84, dicke = 0.05;
+    final n = Offset(-dir.dy, dir.dx) * (dicke / 2);
+    final a = angel - n, b = angel + n;
+    final ae = a + dir * laenge, be = b + dir * laenge;
+    final holz = mix(pal.wood, pal.trim, 0.08);
+    // Sichtbar ist die Seite, deren Normale zur Kamera (+x +y) zeigt.
+    final vorn = (n.dx + n.dy) > 0;
+    final (f0, f1) = vorn ? (b, be) : (a, ae);
+    final licht = ((vorn ? n : -n).dx * -1 + (vorn ? n : -n).dy) / (dicke / 2) * 0.08;
+    final flaeche = shade(holz, licht.clamp(-0.25, 0.15));
+    List<Offset> quad(Offset p, Offset q) => [w(p.dx, p.dy, 0), w(q.dx, q.dy, 0), w(q.dx, q.dy, hoehe), w(p.dx, p.dy, hoehe)];
+    final schatten = Paint()..color = withAlpha(const Color(0xFF000000), 0.18);
+    c.drawPath(Path()..addPolygon([w(a.dx, a.dy, 0), w(ae.dx, ae.dy, 0), w(be.dx + 0.06, be.dy + 0.06, 0), w(b.dx + 0.06, b.dy + 0.06, 0)], true), schatten);
+    // Stirnkante am freien Ende, große Fläche, Oberkante.
+    c.drawPath(Path()..addPolygon(quad(ae, be), true), Paint()..color = shade(holz, -0.3));
+    c.drawPath(Path()..addPolygon(quad(f0, f1), true), Paint()..color = flaeche);
+    c.drawPath(Path()..addPolygon([w(a.dx, a.dy, hoehe), w(ae.dx, ae.dy, hoehe), w(be.dx, be.dy, hoehe), w(b.dx, b.dy, hoehe)], true), Paint()..color = shade(holz, 0.12));
+    Offset at(double u, double z) {
+      final p = Offset.lerp(f0, f1, u)!;
+      return w(p.dx, p.dy, z);
+    }
+
+    if (hoehe > 0.5) _doorPanels(c, at, hoehe, 0.0, 1.0, flaeche);
+    final knauf = at(0.86, hoehe * 0.48);
+    c.drawCircle(knauf, 1.6, Paint()..color = const Color(0xFFC8A24A));
+    c.drawCircle(knauf.translate(-0.4, -0.4), 0.6, Paint()..color = withAlpha(const Color(0xFFFFFFFF), 0.6));
+  }
+
   void _doorPanels(Canvas c, _FaceAt at, double h, double u0, double u1, Color wood) {
     final p = Paint()
       ..color = withAlpha(shade(wood, -0.45), 0.8)

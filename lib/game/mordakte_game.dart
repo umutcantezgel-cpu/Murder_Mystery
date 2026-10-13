@@ -18,6 +18,7 @@ import 'scene/nebel.dart';
 import 'scene/palette.dart';
 import 'scene/prop_painter.dart';
 import 'scene/static_scene.dart';
+import 'scene/wall_painter.dart' show kDoorTop;
 import 'scene/weather.dart';
 
 /// Ziel des Aktionsknopfs.
@@ -135,6 +136,11 @@ class _Teilchen {
   final double max, wachsen;
   final Color farbe;
   final bool blase;
+}
+
+/// Türblatt mit Feder: Winkel und Winkelgeschwindigkeit.
+class _Tuer {
+  double winkel = 0.32, tempo = 0;
 }
 
 class _Nebel {
@@ -522,6 +528,36 @@ class MordakteGame extends Game with KeyboardEvents {
     _updateNebel(frameDt);
     _updateTarget();
     _updateEffects(dt);
+    _updateTueren(dt);
+  }
+
+  // Schwingende Türen (M4): Unverschlossene Türen stehen einen Spalt offen,
+  // schwingen auf, wenn jemand nahe kommt, und federn danach zurück.
+  final Map<Pt, _Tuer> _tueren = {};
+
+  void _updateTueren(double dt) {
+    final scene = _scene;
+    if (scene == null) return;
+    final ruhig = _fuehrung?.bewegungReduziert == true;
+    final leute = <Offset>[
+      if (_hasPos) Offset(_px, _py),
+      for (final t in _tracks.values) Offset(t.x, t.y),
+    ];
+    for (final d in scene.doors) {
+      final info = d.door!;
+      if (info.locked) continue;
+      final t = _tueren.putIfAbsent(Pt(d.x, d.y), _Tuer.new);
+      final cx = d.x + 0.5, cy = d.y + 0.5;
+      final nah = leute.any((p) => (p.dx - cx).abs() < 1.2 && (p.dy - cy).abs() < 1.2);
+      final ziel = nah ? 1.5 : 0.32;
+      if (ruhig) {
+        t.winkel = ziel;
+        t.tempo = 0;
+        continue;
+      }
+      t.tempo += (40 * (ziel - t.winkel) - 6.5 * t.tempo) * dt;
+      t.winkel += t.tempo * dt;
+    }
   }
 
   void _syncScenario() {
@@ -1961,6 +1997,12 @@ class MordakteGame extends Game with KeyboardEvents {
     final p = d.prop;
     if (p != null && PropPainter.dynamicTypes.contains(p.type)) {
       scene.propPainter.paintDynamic(c, p, _time, east: d.east, night: _phase == Phase.night ? 1 : 0);
+    }
+    final tuer = d.door;
+    if (tuer != null && !tuer.locked) {
+      final hoch = tuer.tall ? kDoorTop : 0.6;
+      final hoehe = hoch + (0.55 - hoch) * d.cut.clamp(0.0, 1.0);
+      scene.wallPainter.paintDoorLeaf(c, tuer, _tueren[Pt(d.x, d.y)]?.winkel ?? 0.32, hoehe);
     }
     final wall = d.wall;
     if (wall != null && wall.hasWindowFace && d.cut < 0.5) {

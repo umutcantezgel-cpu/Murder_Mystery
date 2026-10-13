@@ -9,7 +9,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 | M1 | Ermittlungsmappe: Fundament | erledigt (Schriften, Tokens, Papier, Mappe, Stempel, Knopf, Dialog) |
 | M2 | Alle Bildschirme in Mappen | in Arbeit (Rollen, Erzähltext als Muster; fünf Lanes A–E laufen) |
 | M3 | Figuren 2.0 | erledigt: Rig (`lib/game/scene/figur_rig.dart`) und Bildnis in der Oberfläche (`lib/ui/widgets/portrait.dart`) mit denselben Merkmalen |
-| M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte, NPC-Tätigkeiten, Trägheit, Trittwölkchen, Lichtstaub); schwingende Türen offen |
+| M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte, NPC-Tätigkeiten, Trägheit, Trittwölkchen, Lichtstaub, schwingende Türen) |
 | M5 | Szenenregie | teilweise (Zweier-Einstellung, Kinobalken, Etablierungsschwenk); Leuchtzeichen statt Steuertext offen (Lane D) |
 | M6 | Gespräche mit Wahl | offen |
 | M7 | Ton | offen |
