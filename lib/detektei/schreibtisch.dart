@@ -18,30 +18,38 @@ class GanzeWorte extends StatelessWidget {
 
   static final _trenner = RegExp(r'\s+|(?<=-)');
 
+  /// [style], so weit verkleinert, dass das längste Wort von [text] in [breite]
+  /// passt. Gemessen wird mit dem Stil, den ein [Text] an dieser Stelle wirklich
+  /// hat (einschließlich [DefaultTextStyle], z. B. dessen Laufweite), und mit der
+  /// Schriftgröße des Systems. Für Stellen ohne [LayoutBuilder] (etwa unter
+  /// [IntrinsicHeight]), die ihre Breite selbst kennen.
+  static TextStyle passend(BuildContext context, String text, TextStyle style, double breite) {
+    final wirksam = DefaultTextStyle.of(context).style.merge(style);
+    final groesse = wirksam.fontSize;
+    if (groesse == null || !breite.isFinite || breite <= 0) return style;
+    final scaler = MediaQuery.textScalerOf(context);
+    var breitestes = 0.0;
+    for (final wort in text.split(_trenner)) {
+      if (wort.isEmpty) continue;
+      final tp = TextPainter(text: TextSpan(text: wort, style: wirksam), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
+      if (tp.width > breitestes) breitestes = tp.width;
+      tp.dispose();
+    }
+    // Etwas Luft: Kanten der Glyphen und Rundung beim Satz.
+    if (breitestes <= breite - 1) return style;
+    final faktor = (breite / breitestes * 0.97).clamp(0.4, 1.0);
+    return style.copyWith(fontSize: groesse * faktor, letterSpacing: (wirksam.letterSpacing ?? 0) * faktor);
+  }
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, box) {
-          var faktor = 1.0;
-          final groesse = style.fontSize;
-          if (box.hasBoundedWidth && groesse != null && box.maxWidth > 0) {
-            final scaler = MediaQuery.textScalerOf(context);
-            var breitestes = 0.0;
-            for (final wort in text.split(_trenner)) {
-              if (wort.isEmpty) continue;
-              final tp = TextPainter(text: TextSpan(text: wort, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
-              if (tp.width > breitestes) breitestes = tp.width;
-              tp.dispose();
-            }
-            if (breitestes > box.maxWidth) faktor = (box.maxWidth / breitestes * 0.98).clamp(0.4, 1.0);
-          }
-          return Text(
-            text,
-            textAlign: textAlign,
-            maxLines: maxLines,
-            overflow: maxLines == null ? null : TextOverflow.ellipsis,
-            style: faktor == 1 ? style : style.copyWith(fontSize: groesse! * faktor, letterSpacing: (style.letterSpacing ?? 0) * faktor),
-          );
-        },
+        builder: (context, box) => Text(
+          text,
+          textAlign: textAlign,
+          maxLines: maxLines,
+          overflow: maxLines == null ? null : TextOverflow.ellipsis,
+          style: box.hasBoundedWidth ? passend(context, text, style, box.maxWidth) : style,
+        ),
       );
 }
 

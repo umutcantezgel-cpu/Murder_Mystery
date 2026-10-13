@@ -32,7 +32,7 @@ void main() {
     for (final schrift in [1.0, 2.0]) {
       testWidgets('Profil: $breite px, Schrift $schrift, ohne Überlauf', (tester) async {
         final (state, _) = await oeffnen(tester, breite: breite, schrift: schrift);
-        for (final text in ['Profil', 'Dienstausweis'.toUpperCase(), 'Test', 'Dienstakte', 'Klassen', 'Hüte', 'Mäntel', 'Erfolge']) {
+        for (final text in ['Profil', 'Dienstausweis', 'Test', 'Dienstakte', 'Klassen', 'Hüte', 'Mäntel', 'Erfolge']) {
           expect(find.text(text, skipOffstage: false), findsOneWidget, reason: text);
         }
         expect(find.text('Zurück'), findsOneWidget);

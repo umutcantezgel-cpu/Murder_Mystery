@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../abend/einrichtung/klasse_zeile.dart' show klassenNachRang;
 import '../../app/router.dart';
 import '../../app/theme.dart' show coatColor;
+import '../../detektei/akte_bausteine.dart' show mappenBlaetter;
 import '../../detektei/dienstausweis.dart';
 import '../../detektei/name_dialog.dart';
 import '../../detektei/schreibtisch.dart' show GanzeWorte;
@@ -43,31 +44,41 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Transform.rotate(
-              angle: -0.006,
-              child: Dienstausweis(meta: meta, gross: true, onName: () => showNameDialog(context)),
+            // Ein Ausweis bleibt eine Karte, auch auf breiten Bildschirmen.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Transform.rotate(
+                  angle: -0.006,
+                  child: Dienstausweis(meta: meta, gross: true, onName: () => showNameDialog(context)),
+                ),
+              ),
             ),
             const SizedBox(height: MMass.s32),
             _Dienstakte(meta: meta),
             const SizedBox(height: MMass.s32),
-            MAktenmappe(
-              reiter: l.profile_classes,
-              blaetter: 2,
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(l.profil_klasse_hinweis, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45, color: MRoh.tinteLeise)),
-                  const SizedBox(height: MMass.s16),
-                  for (var i = 0; i < klassen.length; i++)
-                    _ClassRow(
-                      cls: klassen[i],
-                      rank: meta.rank,
-                      selected: klassen[i].id == lo.cls,
-                      nr: i,
-                      onTap: () => meta.loadout = Loadout(cls: klassen[i].id, coat: lo.coat, hat: lo.hat),
-                    ),
-                ],
+            LayoutBuilder(
+              builder: (context, aussen) => MAktenmappe(
+                reiter: l.profile_classes,
+                // Höchstens zwei Blätter: weitere schöben sich auf breiten Mappen über den Reiter.
+                blaetter: mappenBlaetter(aussen.maxWidth),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(l.profil_klasse_hinweis, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45, color: MRoh.tinteLeise)),
+                    const SizedBox(height: MMass.s16),
+                    for (var i = 0; i < klassen.length; i++)
+                      _ClassRow(
+                        cls: klassen[i],
+                        rank: meta.rank,
+                        selected: klassen[i].id == lo.cls,
+                        nr: i,
+                        onTap: () => meta.loadout = Loadout(cls: klassen[i].id, coat: lo.coat, hat: lo.hat),
+                      ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: MMass.s32),
@@ -193,26 +204,51 @@ class _ClassRow extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(12, 14, 14, 12),
               child: Opacity(
                 opacity: locked ? 0.55 : 1,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _Medaille(icon: locked ? Icons.lock_rounded : GameIcons.cls(cls.id), matt: locked),
-                    const SizedBox(width: MMass.s12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final medaille = _Medaille(icon: locked ? Icons.lock_rounded : GameIcons.cls(cls.id), matt: locked);
+                    final kopf = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GanzeWorte(name, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
+                        if (locked)
+                          GanzeWorte(l.common_unlock_at(l.rankName(cls.unlockRank)), style: MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.stempelRot)),
+                      ],
+                    );
+                    final text = [
+                      GanzeWorte(l.classAbility(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
+                      const SizedBox(height: 2),
+                      GanzeWorte(l.classPassive(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                    ];
+                    // Bei großer Schrift auf schmalem Handy wird die Spalte neben der
+                    // Medaille zu eng: Dann steht die Medaille oben und Name und Text
+                    // darunter in voller Breite.
+                    if (_Medaille.schmal(context, box.maxWidth)) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          GanzeWorte(name, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
-                          if (locked)
-                            Text(l.common_unlock_at(l.rankName(cls.unlockRank)), style: MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.stempelRot)),
+                          Align(alignment: Alignment.centerLeft, child: medaille),
+                          const SizedBox(height: MMass.s8),
+                          kopf,
                           const SizedBox(height: MMass.s4),
-                          Text(l.classAbility(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
-                          const SizedBox(height: 2),
-                          Text(l.classPassive(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                          ...text,
                         ],
-                      ),
-                    ),
-                  ],
+                      );
+                    }
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        medaille,
+                        const SizedBox(width: MMass.s12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [kopf, const SizedBox(height: MMass.s4), ...text],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -236,6 +272,10 @@ class _Medaille extends StatelessWidget {
   final IconData icon;
   final bool matt;
   static const groesse = 40.0;
+
+  /// Ist neben der Medaille in [breite] zu wenig Platz für den Text (große Schrift,
+  /// schmales Handy)? Dann steht sie über dem Text.
+  static bool schmal(BuildContext context, double breite) => breite - groesse - MMass.s12 < 120 * MediaQuery.textScalerOf(context).scale(1);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -426,30 +466,28 @@ class _Erfolge extends StatelessWidget {
           MBlattKopf(zeile: l.collection_achievements, unter: l.collection_achievements_count(done.length, achievementIds.length)),
           for (var i = 0; i < achievementIds.length; i++) ...[
             if (i > 0) Container(height: 1, margin: const EdgeInsets.symmetric(vertical: MMass.s8), color: MRoh.tinte.withValues(alpha: 0.12)),
-            Row(
-              children: [
-                _Medaille(
-                  icon: done.contains(achievementIds[i]) ? GameIcons.achievement(achievementIds[i]) : Icons.lock_rounded,
-                  matt: !done.contains(achievementIds[i]),
-                ),
-                const SizedBox(width: MMass.s12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l.achievementName(achievementIds[i]),
-                        style: MPapierSchrift.ueberschrift.copyWith(
-                          fontSize: 17,
-                          height: 1.3,
-                          color: done.contains(achievementIds[i]) ? MRoh.tinte : MRoh.tinteLeise,
-                        ),
-                      ),
-                      Text(l.achievementDesc(achievementIds[i]), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
-                    ],
-                  ),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, box) {
+                final errungen = done.contains(achievementIds[i]);
+                final medaille = _Medaille(icon: errungen ? GameIcons.achievement(achievementIds[i]) : Icons.lock_rounded, matt: !errungen);
+                final text = Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GanzeWorte(
+                      l.achievementName(achievementIds[i]),
+                      style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3, color: errungen ? MRoh.tinte : MRoh.tinteLeise),
+                    ),
+                    GanzeWorte(l.achievementDesc(achievementIds[i]), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                  ],
+                );
+                if (_Medaille.schmal(context, box.maxWidth)) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [Align(alignment: Alignment.centerLeft, child: medaille), const SizedBox(height: MMass.s8), text],
+                  );
+                }
+                return Row(children: [medaille, const SizedBox(width: MMass.s12), Expanded(child: text)]);
+              },
             ),
           ],
         ],

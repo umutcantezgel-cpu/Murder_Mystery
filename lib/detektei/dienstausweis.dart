@@ -43,7 +43,18 @@ class Dienstausweis extends StatelessWidget {
     final leise = MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.tinteLeise);
     Widget nameText = GanzeWorte(name, maxLines: 2, style: MPapierSchrift.ueberschrift.copyWith(fontSize: gross ? 22 : 20, height: 1.2));
     if (onName != null) {
-      nameText = InkWell(onTap: onName, splashFactory: NoSplash.splashFactory, child: nameText);
+      // Ein kleiner Füllerstrich zeigt, dass sich der Name ändern lässt.
+      nameText = InkWell(
+        onTap: onName,
+        splashFactory: NoSplash.splashFactory,
+        child: Row(
+          children: [
+            Flexible(child: nameText),
+            const SizedBox(width: MMass.s8),
+            const Icon(Icons.edit_outlined, size: 18, color: MRoh.tinteBlau),
+          ],
+        ),
+      );
     }
     final felder = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,17 +86,22 @@ class Dienstausweis extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         MFotoabzug(look: detektivAussehen(meta), groesse: foto, neigung: -0.03, akzent: MRoh.messingMitte),
-        // Behördenstempel quer über die Ecke des Fotos.
-        Positioned(
-          right: -foto * 0.22,
-          top: foto * 0.55,
-          child: IgnorePointer(
-            child: Opacity(
-              opacity: 0.8,
-              child: MStempel(text: l.appTitle, farbe: MRoh.tinteBlau, groesse: gross ? 11 : 9, winkel: -0.3),
+        // Behördenstempel quer über die obere Ecke des Fotos (unten links sitzt das
+        // Rangabzeichen); nur auf dem großen Ausweis, denn auf dem kleinen deckte er
+        // in lesbarer Größe das Gesicht zu.
+        if (gross)
+          Positioned(
+            right: -foto * 0.16,
+            top: -foto * 0.08,
+            child: IgnorePointer(
+              child: ExcludeSemantics(
+                child: Opacity(
+                  opacity: 0.78,
+                  child: MStempel(text: l.appTitle, farbe: MRoh.tinteBlau, groesse: 12, winkel: 0.2),
+                ),
+              ),
             ),
           ),
-        ),
         Positioned(left: -8, bottom: -10, child: RankBadge(rank: meta.rank, size: gross ? 46 : 36)),
       ],
     );
@@ -163,7 +179,7 @@ class _Band extends StatelessWidget {
           spacing: MMass.s12,
           runSpacing: 2,
           children: [
-            Text(titel.toUpperCase(), style: stil),
+            Text(titel, style: stil),
             Text(nummer, style: stil.copyWith(fontSize: 12, letterSpacing: 1, color: MRoh.messingHell.withValues(alpha: 0.7))),
           ],
         ),

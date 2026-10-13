@@ -179,44 +179,46 @@ class _Deckblatt extends StatelessWidget {
         AkteMarken(akte: akte),
       ],
     );
-    return MAktenmappe(
-      reiter: l.case_file_no(nr),
-      farbe: stil.akzent,
-      siegel: akteSigel(akte),
-      // Zwei Blätter: ein drittes schöbe sich auf breiten Mappen über den Reiter.
-      blaetter: 2,
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
-      child: LayoutBuilder(
-        builder: (context, box) {
-          final breit = box.maxWidth >= 520;
-          final foto = Stack(
-            clipBehavior: Clip.none,
-            children: [
-              AkteTatortfoto(akte: akte, seitenverhaeltnis: 3 / 2, neigung: -0.014, klammer: true, breite: breit ? box.maxWidth * 0.48 : null),
-              Positioned(right: 4, bottom: -18, child: IgnorePointer(child: stempel)),
-            ],
-          );
-          if (breit) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return LayoutBuilder(
+      builder: (context, aussen) => MAktenmappe(
+        reiter: l.case_file_no(nr),
+        farbe: stil.akzent,
+        siegel: akteSigel(akte),
+        // Höchstens zwei Blätter: weitere schöben sich auf breiten Mappen über den Reiter.
+        blaetter: mappenBlaetter(aussen.maxWidth),
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final breit = box.maxWidth >= 520;
+            final foto = Stack(
+              clipBehavior: Clip.none,
               children: [
-                Padding(padding: const EdgeInsets.only(top: 14), child: foto),
-                const SizedBox(width: MMass.s24),
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [zeichen, const SizedBox(height: MMass.s12), kopf])),
+                AkteTatortfoto(akte: akte, seitenverhaeltnis: 3 / 2, neigung: -0.014, klammer: true, breite: breit ? box.maxWidth * 0.48 : null),
+                Positioned(right: 4, bottom: -18, child: IgnorePointer(child: stempel)),
               ],
             );
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              zeichen,
-              const SizedBox(height: MMass.s20),
-              foto,
-              const SizedBox(height: MMass.s32),
-              kopf,
-            ],
-          );
-        },
+            if (breit) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(padding: const EdgeInsets.only(top: 14), child: foto),
+                  const SizedBox(width: MMass.s24),
+                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [zeichen, const SizedBox(height: MMass.s12), kopf])),
+                ],
+              );
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                zeichen,
+                const SizedBox(height: MMass.s20),
+                foto,
+                const SizedBox(height: MMass.s32),
+                kopf,
+              ],
+            );
+          },
+        ),
       ),
     );
   }

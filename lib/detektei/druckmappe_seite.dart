@@ -11,6 +11,7 @@ import '../party/sitzung.dart';
 import '../stil/stil.dart';
 import 'akte_bausteine.dart';
 import 'akten.dart';
+import 'schreibtisch.dart' show GanzeWorte;
 
 /// Druckmappe einer Akte (Route `/akte/:id/druck`): Personen und Fall-Code
 /// einstellen, dann die PDF-Dateien erzeugen ([DruckTafel]). Es entsteht dabei
@@ -150,33 +151,49 @@ class _Deckel extends StatelessWidget {
     final l = L.of(context);
     final index = akten.indexWhere((a) => a.id == akteId);
     final akte = index < 0 ? null : akten[index];
-    return MAktenmappe(
-      reiter: index < 0 ? l.detektei_akte_druckmappe : l.case_file_no(akteNummer(index)),
-      farbe: AkteStil.fuer(akteId).akzent,
-      siegel: akte == null ? null : akteSigel(akte),
-      blaetter: 3,
-      neigung: -0.003,
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 26),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
+    return LayoutBuilder(
+      builder: (context, aussen) => MAktenmappe(
+        reiter: index < 0 ? l.detektei_akte_druckmappe : l.case_file_no(akteNummer(index)),
+        farbe: AkteStil.fuer(akteId).akzent,
+        siegel: akte == null ? null : akteSigel(akte),
+        // Höchstens zwei Blätter: weitere schöben sich auf breiten Mappen über den Reiter.
+        blaetter: mappenBlaetter(aussen.maxWidth),
+        neigung: -0.003,
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 26),
+        child: LayoutBuilder(
+          builder: (context, box) {
+            // Der Drucker steht neben dem Text, solange daneben noch Platz für ganze Wörter bleibt.
+            final skala = MediaQuery.textScalerOf(context).scale(1);
+            final drucker = box.maxWidth - 42 >= 200 * skala;
+            final text = Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (akte != null) MBlattKopf(zeile: akte.titel),
-                Semantics(header: true, child: Text(l.detektei_druck_titel, style: MPapierSchrift.titel)),
+                if (akte != null) ...[
+                  // Formularkopf wie MBlattKopf, aber ohne Wortbruch bei großer Schrift.
+                  GanzeWorte(akte.titel, style: MPapierSchrift.zwischentitel.copyWith(color: MFarben.von(context).akzent)),
+                  const SizedBox(height: MMass.s4),
+                  Container(height: 1, color: MFarben.von(context).linieStark),
+                  const SizedBox(height: 10),
+                ],
+                Semantics(header: true, child: GanzeWorte(l.detektei_druck_titel, style: MPapierSchrift.titel)),
                 const SizedBox(height: MMass.s12),
-                Text(l.detektei_druck_hinweis, style: MPapierSchrift.text),
+                GanzeWorte(l.detektei_druck_hinweis, style: MPapierSchrift.text),
               ],
-            ),
-          ),
-          const SizedBox(width: MMass.s12),
-          const Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Icon(Icons.print_rounded, size: 30, color: MRoh.tinteLeise),
-          ),
-        ],
+            );
+            if (!drucker) return text;
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: text),
+                const SizedBox(width: MMass.s12),
+                const Padding(
+                  padding: EdgeInsets.only(top: 4),
+                  child: Icon(Icons.print_rounded, size: 30, color: MRoh.tinteLeise),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

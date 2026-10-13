@@ -147,10 +147,13 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
             const SizedBox(height: MMass.s12),
             LayoutBuilder(
               builder: (context, box) {
+                // Nebeneinander teilen sich die Karten die Breite (Abstand 16).
+                final breite = box.maxWidth < 440 ? box.maxWidth : (box.maxWidth - MMass.s16) / 2;
                 final sammlung = _Eintrag(
                   icon: Icons.style_outlined,
                   titel: l.detektei_sammlung,
                   hinweis: l.detektei_sammlung_hinweis,
+                  breite: breite,
                   neigung: -0.006,
                   samen: 31,
                   zusatz: [
@@ -163,6 +166,7 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                   icon: Icons.badge_outlined,
                   titel: l.detektei_profil,
                   hinweis: l.detektei_profil_hinweis,
+                  breite: breite,
                   neigung: 0.007,
                   samen: 47,
                   onTap: () => context.go(Routes.profile),
@@ -228,6 +232,7 @@ class _Eintrag extends StatelessWidget {
     required this.titel,
     required this.hinweis,
     required this.onTap,
+    required this.breite,
     this.zusatz = const [],
     this.neigung = 0,
     this.samen = 7,
@@ -238,15 +243,31 @@ class _Eintrag extends StatelessWidget {
   final String hinweis;
   final VoidCallback onTap;
 
+  /// Breite der Karte. Sie steht unter [IntrinsicHeight] und misst sich deshalb
+  /// nicht selbst (kein [LayoutBuilder]).
+  final double breite;
+
   /// Zusätzliche Zeilen unter dem Hinweis (z. B. Fortschritt der Sammlung).
   final List<String> zusatz;
   final double neigung;
   final int samen;
 
+  static const _rand = EdgeInsets.fromLTRB(16, 12, 16, 18);
+
   @override
   Widget build(BuildContext context) {
-    // Die rote Kopflinie liegt unter dem Titel, auch bei großer Schrift.
-    final kopf = 12 + MediaQuery.textScalerOf(context).scale(20) * 1.3 + 8;
+    // Platz des Titels zwischen Symbol (22 + 8) und Pfeil (20). Das Wort bleibt ganz
+    // (bei großer Schrift auf schmalem Handy etwas kleiner), und die rote Kopflinie
+    // liegt unter der gemessenen Höhe des Titels.
+    final titelBreite = breite - _rand.horizontal - 50;
+    final titelStil = GanzeWorte.passend(context, titel, MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.3), titelBreite);
+    final tp = TextPainter(
+      text: TextSpan(text: titel, style: DefaultTextStyle.of(context).style.merge(titelStil)),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout(maxWidth: titelBreite > 0 ? titelBreite : double.infinity);
+    final kopf = _rand.top + tp.height + 8;
+    tp.dispose();
     return Semantics(
       button: true,
       child: MBlatt(
@@ -255,7 +276,7 @@ class _Eintrag extends StatelessWidget {
         neigung: neigung,
         samen: samen,
         onTap: onTap,
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 18),
+        padding: _rand,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -264,7 +285,7 @@ class _Eintrag extends StatelessWidget {
               children: [
                 Icon(icon, color: MRoh.tinte, size: 22),
                 const SizedBox(width: MMass.s8),
-                Expanded(child: Text(titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.3))),
+                Expanded(child: Text(titel, style: titelStil)),
                 const Icon(Icons.arrow_forward_rounded, color: MRoh.tinteLeise, size: 20),
               ],
             ),

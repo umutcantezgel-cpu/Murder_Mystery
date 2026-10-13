@@ -28,6 +28,11 @@ int akteSamen(String id) => id.codeUnits.fold(11, (a, b) => (a * 31 + b) & 0xfff
 /// Akzent einer Akte als Tinte auf Papier: dunkel genug zum Lesen.
 Color akteTinte(AkteStil stil) => Color.lerp(stil.akzent, MRoh.tinte, 0.62)!;
 
+/// Wie viele Blätter hinter einer Mappe der Breite [breite] hervorlugen: Auf breiten
+/// Mappen hebt die Schräglage jedes weiteren Blatts dessen Kante über den Reiter, darum
+/// dort nur eines (bis `MAktenmappe` die Blätter unter den Reiter legt).
+int mappenBlaetter(double breite) => breite > 520 ? 1 : 2;
+
 /// Das Bild einer Akte: ein nächtliches Tatortfoto in den Farben der Akte
 /// (Gewölbe mit Kerze, Burg im Mond, Herrenhaus im Gewitter, Zug im Schnee,
 /// Motel im Neonregen), mit Korn und Vignette. Füllt den verfügbaren Platz.
@@ -195,7 +200,19 @@ class AkteKarte extends StatelessWidget {
         onTap: onTap,
         child: _MappenInhalt(akte: akte, schief: schief),
       );
-      return Padding(padding: const EdgeInsets.only(bottom: MMass.s24), child: Semantics(button: true, child: mappe));
+      // Der Bildschirmleser hört denselben Namen wie vor der Mappe (Titel, Untertitel,
+      // Ton, Personen), ohne den Reiter „Akte Nr. 0X“ davor.
+      final min = akte.minRollen, max = akte.maxRollen;
+      final name = [
+        akte.titel,
+        if (akte.untertitel.isNotEmpty) akte.untertitel,
+        if (akte.ton.isNotEmpty) akteTonText(l, akte.ton),
+        if (min != null && max != null) l.detektei_personen(min, max),
+      ].join('\n');
+      return Padding(
+        padding: const EdgeInsets.only(bottom: MMass.s24),
+        child: Semantics(button: true, label: name, onTap: onTap, excludeSemantics: true, child: mappe),
+      );
     }
     final mappe = MAktenmappe(
       reiter: reiter,
@@ -296,39 +313,68 @@ class _AuswahlInhalt extends StatelessWidget {
         builder: (context, box) {
           final schmal = box.maxWidth < 260;
           final l = L.of(context);
+          final fotoBreite = schmal ? 52.0 : 66.0;
+          final foto = AkteTatortfoto(akte: akte, breite: fotoBreite, neigung: -0.03);
+          final stempel = IgnorePointer(child: MStempel(text: l.profil_klasse_gewaehlt, groesse: 12, winkel: -0.16, aufschlagen: true));
+          final kreuz = Padding(padding: const EdgeInsets.only(top: 4), child: AnkreuzFeld(an: gewaehlt));
+          final text = Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GanzeWorte(akte.titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+              if (akte.untertitel.isNotEmpty) ...[
+                const SizedBox(height: 2),
+                GanzeWorte(akte.untertitel, style: MPapierSchrift.kursiv.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+              ],
+              const SizedBox(height: MMass.s12),
+              AkteMarken(akte: akte),
+            ],
+          );
+          // Bei großer Schrift bliebe zwischen Foto und Kästchen zu wenig Platz: Dann
+          // liegen Foto, Stempel und Kästchen oben und der Text in voller Breite darunter.
+          final skala = MediaQuery.textScalerOf(context).scale(1);
+          if (box.maxWidth - fotoBreite - 46 < 130 * skala) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    foto,
+                    const SizedBox(width: MMass.s16),
+                    Expanded(
+                      child: gewaehlt
+                          ? Align(alignment: Alignment.centerLeft, child: FittedBox(fit: BoxFit.scaleDown, child: stempel))
+                          : const SizedBox.shrink(),
+                    ),
+                    const SizedBox(width: MMass.s8),
+                    kreuz,
+                  ],
+                ),
+                const SizedBox(height: MMass.s12),
+                text,
+              ],
+            );
+          }
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  AkteTatortfoto(akte: akte, breite: schmal ? 52 : 66, neigung: -0.03),
+                  foto,
                   // Der Stempel der gewählten Akte sitzt auf dem Foto, nicht auf dem Text.
                   if (gewaehlt)
                     Positioned(
-                      left: -6,
-                      bottom: -30,
-                      child: IgnorePointer(child: MStempel(text: l.profil_klasse_gewaehlt, groesse: 12, winkel: -0.16, aufschlagen: true)),
+                      // Links über den Rand des Fotos hinaus, damit er den Untertitel nicht verdeckt.
+                      left: schmal ? -24 : -18,
+                      bottom: -28,
+                      child: stempel,
                     ),
                 ],
               ),
               const SizedBox(width: MMass.s12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GanzeWorte(akte.titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
-                    if (akte.untertitel.isNotEmpty) ...[
-                      const SizedBox(height: 2),
-                      GanzeWorte(akte.untertitel, style: MPapierSchrift.kursiv.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
-                    ],
-                    const SizedBox(height: MMass.s12),
-                    AkteMarken(akte: akte),
-                  ],
-                ),
-              ),
+              Expanded(child: text),
               const SizedBox(width: MMass.s8),
-              Padding(padding: const EdgeInsets.only(top: 4), child: AnkreuzFeld(an: gewaehlt)),
+              kreuz,
             ],
           );
         },
