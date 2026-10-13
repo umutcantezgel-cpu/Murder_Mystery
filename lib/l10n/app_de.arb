@@ -1925,6 +1925,18 @@
   "@nachspiel_hinweis": {
     "description": "Unterzeile des Nachspiels"
   },
+  "ton_titel": "Ton",
+  "@ton_titel": {
+    "description": "Profil: Abschnitt mit Tonschalter und Lautstärkereglern"
+  },
+  "ton_effekte": "Geräusche",
+  "@ton_effekte": {
+    "description": "Profil: Regler für Klänge (Knöpfe, Stempel, Würfel, Schritte)"
+  },
+  "ton_atmosphaere": "Atmosphäre",
+  "@ton_atmosphaere": {
+    "description": "Profil: Regler für Regen, Wind und Zug im Hintergrund"
+  },
   "erzaehltiefe_titel": "Gespräche mit Zeugen",
   "@erzaehltiefe_titel": {
     "description": "Einrichtung: Abschnitt Erzähltiefe"

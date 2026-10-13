@@ -30,6 +30,9 @@ class Klang {
   double effekte = 0.8;
   double atmosphaere = 0.5;
 
+  /// Klänge und Atmosphäre als Paar, für Regler in der Oberfläche.
+  final ValueNotifier<(double, double)> lautstaerke = ValueNotifier((0.8, 0.5));
+
   bool _gestartet = false;
   bool _bereit = false;
   final Map<String, AudioSource> _quellen = {};
@@ -50,6 +53,7 @@ class Klang {
       an.value = p.getBool(_schluesselAn) ?? true;
       effekte = p.getDouble(_schluesselEffekte) ?? effekte;
       atmosphaere = p.getDouble(_schluesselAtmo) ?? atmosphaere;
+      lautstaerke.value = (effekte, atmosphaere);
     } catch (_) {}
     if (kIsWeb) {
       void beiBeruehrung(PointerEvent e) {
@@ -90,6 +94,32 @@ class Klang {
     }
     try {
       (await SharedPreferences.getInstance()).setBool(_schluesselAn, wert);
+    } catch (_) {}
+  }
+
+  /// Lautstärke der Klänge und der Atmosphäre (je 0..1). Die laufende
+  /// Atmosphäre folgt sofort; [speichern] merkt sich die Werte (am Ende des
+  /// Ziehens, nicht bei jedem Schritt).
+  void setzeLautstaerke({double? effekte, double? atmosphaere, bool speichern = false}) {
+    if (effekte != null) this.effekte = effekte.clamp(0.0, 1.0);
+    if (atmosphaere != null) {
+      this.atmosphaere = atmosphaere.clamp(0.0, 1.0);
+      final h = _atmoGriff;
+      if (h != null && _bereit) {
+        try {
+          SoLoud.instance.setVolume(h, this.atmosphaere);
+        } catch (_) {}
+      }
+    }
+    lautstaerke.value = (this.effekte, this.atmosphaere);
+    if (speichern) unawaited(_lautstaerkeSpeichern());
+  }
+
+  Future<void> _lautstaerkeSpeichern() async {
+    try {
+      final p = await SharedPreferences.getInstance();
+      await p.setDouble(_schluesselEffekte, effekte);
+      await p.setDouble(_schluesselAtmo, atmosphaere);
     } catch (_) {}
   }
 

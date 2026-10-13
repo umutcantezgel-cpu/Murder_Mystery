@@ -247,6 +247,12 @@ class WurfErgebnis extends StatelessWidget {
                 tween: Tween(begin: 0, end: 1),
                 duration: Duration(milliseconds: ruhig ? 0 : 650),
                 curve: Curves.easeOutCubic,
+                // Liegen die Würfel, klingt das Ergebnis: hell beim Erfolg, gedämpft beim Teilerfolg.
+                onEnd: () => switch (wurf.stufe) {
+                  Stufe.erfolg => Klang.instanz.spiele('erfolg', laut: 0.8),
+                  Stufe.teilerfolg => Klang.instanz.spiele('erfolg', laut: 0.45, tonhoehe: 0.84),
+                  Stufe.pech => Klang.instanz.spiele('pech', laut: 0.7),
+                },
                 builder: (context, t, _) => _Wurfbild(a: wurf.a, b: wurf.b, t: ruhig ? 1 : t),
               ),
             ),

@@ -3163,6 +3163,15 @@ class LDe extends L {
   String get nachspiel_hinweis => 'Was aus den Zeugen wurde';
 
   @override
+  String get ton_titel => 'Ton';
+
+  @override
+  String get ton_effekte => 'Geräusche';
+
+  @override
+  String get ton_atmosphaere => 'Atmosphäre';
+
+  @override
   String get erzaehltiefe_titel => 'Gespräche mit Zeugen';
 
   @override

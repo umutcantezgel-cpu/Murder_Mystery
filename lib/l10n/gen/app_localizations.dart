@@ -5481,6 +5481,24 @@ abstract class L {
   /// **'Was aus den Zeugen wurde'**
   String get nachspiel_hinweis;
 
+  /// Profil: Abschnitt mit Tonschalter und Lautstärkereglern
+  ///
+  /// In de, this message translates to:
+  /// **'Ton'**
+  String get ton_titel;
+
+  /// Profil: Regler für Klänge (Knöpfe, Stempel, Würfel, Schritte)
+  ///
+  /// In de, this message translates to:
+  /// **'Geräusche'**
+  String get ton_effekte;
+
+  /// Profil: Regler für Regen, Wind und Zug im Hintergrund
+  ///
+  /// In de, this message translates to:
+  /// **'Atmosphäre'**
+  String get ton_atmosphaere;
+
   /// Einrichtung: Abschnitt Erzähltiefe
   ///
   /// In de, this message translates to:

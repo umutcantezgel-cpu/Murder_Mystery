@@ -1,11 +1,12 @@
 // Profil (/profile) als Personalakte: Dienstausweis, Dienstakte, Klassen als Karteikarten,
-// Garderobe und Erfolge; der Name lässt sich auf der Karteikarte ändern. Kein Überlauf
+// Garderobe, Erfolge und Ton; der Name lässt sich auf der Karteikarte ändern. Kein Überlauf
 // bei 320 und 390 px, auch mit doppelter Schrift.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
+import 'package:mordakte/klang/klang.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +33,7 @@ void main() {
     for (final schrift in [1.0, 2.0]) {
       testWidgets('Profil: $breite px, Schrift $schrift, ohne Überlauf', (tester) async {
         final (state, _) = await oeffnen(tester, breite: breite, schrift: schrift);
-        for (final text in ['Profil', 'Dienstausweis', 'Test', 'Dienstakte', 'Klassen', 'Hüte', 'Mäntel', 'Erfolge']) {
+        for (final text in ['Profil', 'Dienstausweis', 'Test', 'Dienstakte', 'Klassen', 'Hüte', 'Mäntel', 'Erfolge', 'Ton', 'Geräusche', 'Atmosphäre']) {
           expect(find.text(text, skipOffstage: false), findsOneWidget, reason: text);
         }
         expect(find.text('Zurück'), findsOneWidget);
@@ -42,6 +43,33 @@ void main() {
       });
     }
   }
+
+  testWidgets('Ton: die Regler stellen Geräusche und Atmosphäre, aus sperrt sie', (tester) async {
+    final (state, _) = await oeffnen(tester);
+    final k = Klang.instanz;
+    final vorher = k.lautstaerke.value;
+    addTearDown(() => k.setzeLautstaerke(effekte: vorher.$1, atmosphaere: vorher.$2));
+    final regler = find.byType(Slider, skipOffstage: false);
+    expect(regler, findsNWidgets(2));
+    await tester.ensureVisible(regler.first);
+    await tester.pump(const Duration(milliseconds: 300));
+    // Ganz nach links: die Geräusche verstummen, die Atmosphäre bleibt.
+    await tester.drag(regler.first, const Offset(-600, 0));
+    await tester.pump();
+    expect(k.lautstaerke.value.$1, 0);
+    expect(k.lautstaerke.value.$2, vorher.$2);
+    await tester.drag(regler.last, const Offset(600, 0));
+    await tester.pump();
+    expect(k.lautstaerke.value.$2, 1);
+    expect(tester.widget<Slider>(regler.first).onChanged, isNotNull);
+    await k.schalten(false);
+    await tester.pump();
+    expect(tester.widget<Slider>(regler.first).onChanged, isNull, reason: 'Ton aus: Regler gesperrt');
+    await k.schalten(true);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
 
   testWidgets('Eine Klasse antippen wählt sie und stempelt sie „Gewählt“', (tester) async {
     final (state, meta) = await oeffnen(tester);

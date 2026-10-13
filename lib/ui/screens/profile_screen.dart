@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -12,9 +13,11 @@ import '../../detektei/akte_bausteine.dart' show mappenBlaetter;
 import '../../detektei/dienstausweis.dart';
 import '../../detektei/name_dialog.dart';
 import '../../detektei/schreibtisch.dart' show GanzeWorte;
+import '../../klang/klang.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../meta/progression.dart';
+import '../../stil/mappe/assistent_formular.dart' show MPapierRegler;
 import '../../stil/stil.dart';
 import '../icons.dart';
 
@@ -25,6 +28,7 @@ import '../icons.dart';
 /// - Die Klassen als Karteikarten in einer Mappe; die gewählte trägt den Stempel „Gewählt“.
 /// - Die Garderobe: Hüte als Fotoabzüge, Mäntel als Stoffmuster.
 /// - Die Erfolge als Urkundenblatt mit Messingmedaillen.
+/// - Der Ton: Kippschalter und Messingregler für Geräusche und Atmosphäre.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -85,10 +89,80 @@ class ProfileScreen extends StatelessWidget {
             _Garderobe(meta: meta),
             const SizedBox(height: MMass.s32),
             _Erfolge(meta: meta),
+            const SizedBox(height: MMass.s32),
+            const _Tonregler(),
             const SizedBox(height: MMass.s16),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Ton auf einer Karteikarte: Kippschalter, darunter je ein Messingregler für
+/// Geräusche und Atmosphäre. Beim Loslassen des Geräuschreglers klingt ein
+/// Knopf in der neuen Lautstärke; gespeichert wird erst dann.
+class _Tonregler extends StatelessWidget {
+  const _Tonregler();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final k = Klang.instanz;
+    return ListenableBuilder(
+      listenable: Listenable.merge([k.an, k.lautstaerke]),
+      builder: (context, _) {
+        final an = k.an.value;
+        final (effekte, atmosphaere) = k.lautstaerke.value;
+        Widget regler(String titel, double wert, ValueChanged<double> setze, VoidCallback fertig) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(titel, style: MPapierSchrift.text.copyWith(color: an ? MRoh.tinte : MRoh.tinteLeise)),
+                Semantics(
+                  label: titel,
+                  child: MPapierRegler(
+                    child: Slider(
+                      value: wert,
+                      onChanged: an ? setze : null,
+                      onChangeEnd: an ? (_) => fertig() : null,
+                      semanticFormatterCallback: (v) => '${(v * 100).round()} %',
+                    ),
+                  ),
+                ),
+              ],
+            );
+        return MBlatt(
+          art: PapierArt.karteikarte,
+          kopfLinie: 7,
+          linien: false,
+          neigung: -0.003,
+          samen: 83,
+          padding: const EdgeInsets.fromLTRB(18, 16, 18, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Expanded(child: Text(l.ton_titel, style: MPapierSchrift.ueberschrift)),
+                  MSchalter(
+                    wert: an,
+                    onChanged: (w) => unawaited(k.schalten(w)),
+                    semantik: an ? l.ton_an : l.ton_aus,
+                    symbolAn: Icons.volume_up_rounded,
+                    symbolAus: Icons.volume_off_rounded,
+                  ),
+                ],
+              ),
+              const SizedBox(height: MMass.s8),
+              regler(l.ton_effekte, effekte, (v) => k.setzeLautstaerke(effekte: v), () {
+                k.setzeLautstaerke(speichern: true);
+                k.spiele('knopf');
+              }),
+              regler(l.ton_atmosphaere, atmosphaere, (v) => k.setzeLautstaerke(atmosphaere: v), () => k.setzeLautstaerke(speichern: true)),
+            ],
+          ),
+        );
+      },
     );
   }
 }
