@@ -15,6 +15,7 @@ import 'gastgeber_sitzung.dart';
 import 'gastgeber_wartet.dart';
 import 'online_fehler.dart';
 import 'online_halter.dart';
+import 'online_teile.dart';
 
 /// Der Abend des Gastgebers: dieselben Bildschirme wie beim Spiel an einem Gerät
 /// ([PartyAblauf]); nur die Rollenphase und die Gruppenwahl zeigen den
@@ -87,7 +88,8 @@ class _GastgeberAblaufState extends State<GastgeberAblauf> {
       );
 }
 
-/// Schmale Leiste über dem Abend: Raumcode, wie viele Gäste verbunden sind, Menü.
+/// Schmale Leiste über dem Abend: ein Lederband mit Messingkante, darauf
+/// Raumcode und wie viele Gäste verbunden sind, rechts das Menü.
 class _Leiste extends StatelessWidget {
   const _Leiste({required this.sitzung});
 
@@ -99,7 +101,15 @@ class _Leiste extends StatelessWidget {
     final f = MFarben.von(context);
     final t = MSchrift.von(context);
     return DecoratedBox(
-      decoration: BoxDecoration(color: f.grund2, border: Border(bottom: BorderSide(color: f.linie))),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color.lerp(MRoh.lederHell, f.grund2, 0.35)!, Color.lerp(MRoh.leder, f.grund, 0.5)!],
+        ),
+        border: Border(bottom: BorderSide(color: MRoh.messingMitte.withValues(alpha: 0.6), width: 1.2)),
+        boxShadow: const [BoxShadow(color: Color(0x66000000), blurRadius: 8, offset: Offset(0, 3))],
+      ),
       child: SafeArea(
         bottom: false,
         child: ListenableBuilder(
@@ -113,7 +123,7 @@ class _Leiste extends StatelessWidget {
               padding: const EdgeInsets.only(left: MMass.s16, right: MMass.s4),
               child: Row(
                 children: [
-                  Icon(getrennt ? Icons.wifi_off_rounded : Icons.groups_2_outlined, size: 20, color: getrennt ? f.warnung : f.akzent),
+                  Icon(getrennt ? Icons.wifi_off_rounded : Icons.groups_2_outlined, size: 20, color: getrennt ? f.warnung : MRoh.messingHell),
                   const SizedBox(width: MMass.s8),
                   Expanded(
                     child: Text(
@@ -121,14 +131,14 @@ class _Leiste extends StatelessWidget {
                       key: const ValueKey('online-leiste'),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: t.leise.copyWith(fontSize: 13, color: getrennt ? f.warnung : null),
+                      style: t.maschine.copyWith(fontSize: 13, color: getrennt ? f.warnung : f.papier),
                     ),
                   ),
                   IconButton(
                     tooltip: l.online_menue,
                     onPressed: () => _menue(context),
                     icon: const Icon(Icons.more_vert_rounded),
-                    color: f.papier,
+                    color: MRoh.messingHell,
                     constraints: const BoxConstraints(minWidth: MMass.tippflaeche, minHeight: MMass.tippflaeche),
                   ),
                 ],
@@ -143,6 +153,7 @@ class _Leiste extends StatelessWidget {
   Future<void> _menue(BuildContext context) async {
     final beenden = await showDialog<bool>(
       context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.6),
       builder: (c) => _Menue(sitzung: sitzung),
     );
     if (beenden != true || !context.mounted) return;
@@ -156,7 +167,7 @@ class _Leiste extends StatelessWidget {
   }
 }
 
-/// Raum, Gäste und „Abend beenden“.
+/// Raum, Gäste und „Abend beenden“ als Karteikarte.
 class _Menue extends StatelessWidget {
   const _Menue({required this.sitzung});
 
@@ -165,36 +176,33 @@ class _Menue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: SingleChildScrollView(
-        child: MTafel(
-          child: ListenableBuilder(
-            listenable: sitzung.dienst,
-            builder: (context, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(l.online_code_titel.toUpperCase(), style: t.marke),
-                const SizedBox(height: MMass.s4),
-                Text(raumCodeAnzeige(sitzung.dienst.raumCode), style: t.titel),
-                const SizedBox(height: MMass.s16),
-                Text(l.online_tisch_titel.toUpperCase(), style: t.marke),
-                const SizedBox(height: MMass.s8),
-                for (final p in sitzung.dienst.spieler) PlatzZeile(spieler: p),
-                const SizedBox(height: MMass.s16),
-                Wrap(
-                  alignment: WrapAlignment.end,
-                  spacing: MMass.s8,
-                  runSpacing: MMass.s8,
-                  children: [
-                    MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
-                    MKnopf(text: l.online_beenden, icon: Icons.stop_circle_outlined, onPressed: () => _bestaetigen(context)),
-                  ],
-                ),
-              ],
-            ),
+    return MKarteikartenDialog(
+      titel: l.online_menue,
+      // Raum und Gäste rollen, die Knöpfe bleiben darunter stehen (auch mit großer Schrift).
+      inhalt: OnlineKartenInhalt(
+        aktionen: [
+          MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
+          MKnopf(text: l.online_beenden, art: MKnopfArt.gefahr, icon: Icons.stop_circle_outlined, onPressed: () => _bestaetigen(context)),
+        ],
+        child: ListenableBuilder(
+          listenable: sitzung.dienst,
+          builder: (context, _) => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
+              const SizedBox(height: MMass.s4),
+              // Der Code bleibt eine Zeile; bei wenig Platz wird er kleiner statt umzubrechen.
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(raumCodeAnzeige(sitzung.dienst.raumCode), style: MPapierSchrift.maschine.copyWith(fontSize: 30, height: 1.2, letterSpacing: 4)),
+              ),
+              const SizedBox(height: MMass.s16),
+              Text(l.online_tisch_titel.toUpperCase(), style: MPapierSchrift.marke),
+              const SizedBox(height: MMass.s8),
+              for (final p in sitzung.dienst.spieler) PlatzZeile(spieler: p),
+            ],
           ),
         ),
       ),
@@ -203,17 +211,14 @@ class _Menue extends StatelessWidget {
 
   Future<void> _bestaetigen(BuildContext context) async {
     final l = L.of(context);
-    final ja = await showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: Text(l.online_beenden_titel),
-        content: Text(l.online_beenden_text),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l.online_beenden_nein)),
-          TextButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l.online_beenden_ja)),
-        ],
-      ),
+    final ja = await onlineRueckfrage(
+      context,
+      titel: l.online_beenden_titel,
+      text: l.online_beenden_text,
+      ja: l.online_beenden_ja,
+      nein: l.online_beenden_nein,
+      gefaehrlich: true,
     );
-    if (ja == true && context.mounted) Navigator.of(context).pop(true);
+    if (ja && context.mounted) Navigator.of(context).pop(true);
   }
 }

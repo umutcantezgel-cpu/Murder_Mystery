@@ -5366,6 +5366,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Angeklagt'**
   String get abend2_angeklagt;
+
+  /// No description provided for @online_bot_stempel.
+  ///
+  /// In de, this message translates to:
+  /// **'Bot'**
+  String get online_bot_stempel;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

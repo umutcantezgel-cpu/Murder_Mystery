@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, RaumCode;
 import 'package:provider/provider.dart';
 
-import '../einrichtung/abschnitte.dart' show einrichtungFeld;
 import '../../app/router.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
@@ -14,6 +13,7 @@ import '../../stil/stil.dart';
 import 'gast_dienst.dart';
 import 'online_fehler.dart';
 import 'online_halter.dart';
+import 'online_teile.dart';
 
 /// Einem Online-Abend beitreten (Route `/beitreten`, auch als Link
 /// `#/beitreten?raum=ABC-DEF` aus dem QR-Code): Raumcode und Name eingeben,
@@ -81,8 +81,11 @@ class _BeitretenSeiteState extends State<BeitretenSeite> {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
     final f = MFarben.von(context);
+    // So groß, dass der ganze Code auch bei 320 px und doppelter Schrift ins Feld passt.
+    final codeStil = MPapierSchrift.maschine.copyWith(fontSize: 22, height: 1.25, letterSpacing: 4);
+    final nameStil = MPapierSchrift.telegramm.copyWith(fontSize: 20, height: 1.3);
+    final fehler = _fehler;
     return Scaffold(
       backgroundColor: f.grund,
       body: MRahmen(
@@ -104,86 +107,82 @@ class _BeitretenSeiteState extends State<BeitretenSeite> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            MTafel(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(l.online_code_feld.toUpperCase(), style: t.marke),
-                  const SizedBox(height: MMass.s8),
-                  Semantics(
-                    label: l.online_code_feld,
-                    child: TextField(
-                      key: const ValueKey('beitreten-code'),
-                      controller: _code,
-                      enabled: !_laeuft,
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      textCapitalization: TextCapitalization.characters,
-                      textInputAction: TextInputAction.next,
-                      inputFormatters: const [_RaumCodeFormat()],
-                      style: t.ueberschrift.copyWith(letterSpacing: 4),
-                      decoration: einrichtungFeld(
-                        context,
-                        l.online_code_platzhalter,
+            // Das Formular als Telegramm: Raumcode und Name werden eingetippt.
+            Padding(
+              padding: const EdgeInsets.only(top: MMass.s12),
+              child: MBlatt(
+                art: PapierArt.telegramm,
+                klebestreifen: true,
+                neigung: -0.005,
+                samen: 21,
+                padding: const EdgeInsets.fromLTRB(22, 26, 22, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Doppelte Kopflinie eines Telegrammformulars.
+                    Container(height: 2.4, color: MRoh.tinte.withValues(alpha: 0.7)),
+                    const SizedBox(height: 2),
+                    Container(height: 0.8, color: MRoh.tinte.withValues(alpha: 0.55)),
+                    const SizedBox(height: MMass.s16),
+                    Text(l.online_code_feld, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
+                    const SizedBox(height: 6),
+                    Semantics(
+                      label: l.online_code_feld,
+                      child: TextField(
+                        key: const ValueKey('beitreten-code'),
+                        controller: _code,
+                        enabled: !_laeuft,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        textCapitalization: TextCapitalization.characters,
+                        textInputAction: TextInputAction.next,
+                        inputFormatters: const [_RaumCodeFormat()],
+                        style: codeStil,
+                        cursorColor: MRoh.tinte,
+                        decoration: _telegrammFeld(l.online_code_platzhalter, codeStil),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: MMass.s16),
-                  Text(l.online_name_feld.toUpperCase(), style: t.marke),
-                  const SizedBox(height: MMass.s8),
-                  Semantics(
-                    label: l.online_name_feld,
-                    child: TextField(
-                      key: const ValueKey('beitreten-name'),
-                      controller: _name,
-                      enabled: !_laeuft,
-                      maxLength: 40,
-                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                      textCapitalization: TextCapitalization.words,
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) => _beitreten(),
-                      style: t.text,
-                      decoration: einrichtungFeld(
-                        context,
-                        l.online_name_platzhalter,
-                      ).copyWith(counterText: ''),
+                    const SizedBox(height: MMass.s24),
+                    Text(l.online_name_feld, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
+                    const SizedBox(height: 6),
+                    Semantics(
+                      label: l.online_name_feld,
+                      child: TextField(
+                        key: const ValueKey('beitreten-name'),
+                        controller: _name,
+                        enabled: !_laeuft,
+                        maxLength: 40,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                        textCapitalization: TextCapitalization.words,
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: (_) => _beitreten(),
+                        style: nameStil,
+                        cursorColor: MRoh.tinte,
+                        decoration: _telegrammFeld(l.online_name_platzhalter, nameStil).copyWith(counterText: ''),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: MMass.s24),
+                    Container(height: 0.8, color: MRoh.tinte.withValues(alpha: 0.55)),
+                    const SizedBox(height: 2),
+                    Container(height: 2.4, color: MRoh.tinte.withValues(alpha: 0.7)),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: MMass.s16),
+            const SizedBox(height: MMass.s24),
             if (_laeuft)
-              Row(
-                children: [
-                  if (!MBewegung.ruhig(context)) ...[
-                    const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2.5),
-                    ),
-                    const SizedBox(width: MMass.s12),
-                  ],
-                  Expanded(
-                    child: Text(
-                      l.online_beitreten_laeuft,
-                      key: const ValueKey('beitreten-laeuft'),
-                      style: t.leise,
-                    ),
-                  ),
-                ],
+              OnlineWarteNotiz(
+                text: l.online_beitreten_laeuft,
+                textKey: const ValueKey('beitreten-laeuft'),
               ),
-            if (_fehler != null)
+            if (fehler != null)
               Semantics(
                 liveRegion: true,
-                child: Row(
+                child: OnlineHinweisKarte(
                   key: const ValueKey('beitreten-fehler'),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.error_outline, color: f.gefahr, size: 20),
-                    const SizedBox(width: MMass.s8),
-                    Expanded(child: Text(_fehler!, style: t.text)),
-                  ],
+                  icon: Icons.error_outline,
+                  text: fehler,
                 ),
               ),
           ],
@@ -191,6 +190,24 @@ class _BeitretenSeiteState extends State<BeitretenSeite> {
       ),
     );
   }
+}
+
+/// Eingabezeile auf dem Telegrammformular: getippte Schrift auf einer
+/// Tintenlinie, der Platzhalter blass in derselben Schrift.
+InputDecoration _telegrammFeld(String platzhalter, TextStyle stil) {
+  UnderlineInputBorder linie(Color farbe, double breite) => UnderlineInputBorder(borderSide: BorderSide(color: farbe, width: breite));
+  return InputDecoration(
+    hintText: platzhalter,
+    hintStyle: stil.copyWith(color: MRoh.tinteLeise.withValues(alpha: 0.55)),
+    isDense: true,
+    filled: true,
+    fillColor: MRoh.tinte.withValues(alpha: 0.04),
+    contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 10),
+    border: linie(MRoh.tinte.withValues(alpha: 0.5), 1.2),
+    enabledBorder: linie(MRoh.tinte.withValues(alpha: 0.5), 1.2),
+    disabledBorder: linie(MRoh.tinte.withValues(alpha: 0.25), 1),
+    focusedBorder: linie(MRoh.tinteBlau, 2),
+  );
 }
 
 /// Raumcode so, wie er angezeigt wird (`ABC-DEF`); alles Ungültige fällt weg.

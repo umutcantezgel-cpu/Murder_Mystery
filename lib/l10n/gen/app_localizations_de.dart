@@ -3104,4 +3104,7 @@ class LDe extends L {
 
   @override
   String get abend2_angeklagt => 'Angeklagt';
+
+  @override
+  String get online_bot_stempel => 'Bot';
 }

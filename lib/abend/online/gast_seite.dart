@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
 import '../../l10n/lookup.dart';
+import '../../stil/mappe/online_bausteine.dart' show mOnlineStempelGruen;
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
 import 'ansicht.dart';
@@ -16,6 +17,7 @@ import 'gast_ansicht.dart';
 import 'gast_dienst.dart';
 import 'online_fehler.dart';
 import 'online_halter.dart';
+import 'online_teile.dart';
 
 /// Der Abend auf dem Gerät eines Gastes (Route `/gast`). Alles, was hier steht,
 /// kommt aus der Ansicht des Gastgebers für dieses Gerät: die Lobby mit der
@@ -108,18 +110,15 @@ class _GastSeiteState extends State<GastSeite> {
     final d = _dienst;
     if (d == null) return;
     final l = L.of(context);
-    final ja = await showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: Text(l.online_verlassen_titel),
-        content: Text(l.online_verlassen_text),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l.online_verlassen_nein)),
-          TextButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l.online_verlassen_ja)),
-        ],
-      ),
+    final ja = await onlineRueckfrage(
+      context,
+      titel: l.online_verlassen_titel,
+      text: l.online_verlassen_text,
+      ja: l.online_verlassen_ja,
+      nein: l.online_verlassen_nein,
+      gefaehrlich: true,
     );
-    if (ja != true || !mounted) return;
+    if (!ja || !mounted) return;
     _aufgeben = true;
     await d.verlassen();
     if (mounted) context.go(Routes.start);
@@ -175,8 +174,8 @@ class _GastSeiteState extends State<GastSeite> {
   }
 }
 
-/// Hinweis zum Zustand der Verbindung: Aufbau, eigene Verbindung weg, Spielleitung
-/// getrennt, Abend beendet.
+/// Hinweis zum Zustand der Verbindung als Telegramm: Aufbau, eigene Verbindung
+/// weg, Spielleitung getrennt, Abend beendet.
 class _StatusBand extends StatelessWidget {
   const _StatusBand({required this.dienst, required this.onDetektei});
 
@@ -186,42 +185,27 @@ class _StatusBand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final f = MFarben.von(context);
-    final t = MSchrift.von(context);
     final (icon, text, farbe) = switch (dienst.status) {
-      VerbindungsStatus.verbinde => (Icons.sync_rounded, l.online_status_verbinde, f.akzent),
-      VerbindungsStatus.verbunden => (Icons.wifi_rounded, '', f.erfolg),
-      VerbindungsStatus.getrennt => (Icons.wifi_off_rounded, l.online_status_getrennt, f.warnung),
-      VerbindungsStatus.pausiert => (Icons.pause_circle_outline_rounded, l.online_status_pausiert, f.warnung),
-      VerbindungsStatus.geschlossen => (Icons.info_outline_rounded, l.online_status_geschlossen, f.gefahr),
+      VerbindungsStatus.verbinde => (Icons.sync_rounded, l.online_status_verbinde, MRoh.tinteBlau),
+      VerbindungsStatus.verbunden => (Icons.wifi_rounded, '', mOnlineStempelGruen),
+      VerbindungsStatus.getrennt => (Icons.wifi_off_rounded, l.online_status_getrennt, onlineWarnTinte),
+      VerbindungsStatus.pausiert => (Icons.pause_circle_outline_rounded, l.online_status_pausiert, onlineWarnTinte),
+      VerbindungsStatus.geschlossen => (Icons.info_outline_rounded, l.online_status_geschlossen, MRoh.stempelRot),
     };
     return Semantics(
       liveRegion: true,
       container: true,
-      child: Container(
-        key: const ValueKey('online-status'),
-        padding: const EdgeInsets.all(MMass.s12),
-        decoration: BoxDecoration(
-          color: farbe.withValues(alpha: 0.14),
-          borderRadius: BorderRadius.circular(MMass.r10),
-          border: Border.all(color: farbe.withValues(alpha: 0.7)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(icon, color: farbe),
-                const SizedBox(width: MMass.s12),
-                Expanded(child: Text(text, style: t.text)),
-              ],
-            ),
-            if (dienst.status == VerbindungsStatus.geschlossen) ...[
-              const SizedBox(height: MMass.s12),
-              Align(alignment: Alignment.centerLeft, child: MKnopf(text: l.online_zur_detektei, art: MKnopfArt.zweit, onPressed: onDetektei)),
-            ],
-          ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: MMass.s4),
+        child: OnlineHinweisKarte(
+          key: const ValueKey('online-status'),
+          art: PapierArt.telegramm,
+          icon: icon,
+          text: text,
+          farbe: farbe,
+          aktion: dienst.status == VerbindungsStatus.geschlossen
+              ? MKnopf(text: l.online_zur_detektei, art: MKnopfArt.zweit, onPressed: onDetektei)
+              : null,
         ),
       ),
     );

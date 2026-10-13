@@ -1027,18 +1027,42 @@
   "party_zug_kurz": "Szene abkürzen",
   "party_zug_blockiert": "Der Weg ist nicht erreichbar. Die Untersuchung bleibt offen.",
   "party_zug_nachtzeit": "{min} Nachtminuten übrig",
-  "@party_zug_nachtzeit": {"placeholders": {"min": {"type": "String"}}},
+  "@party_zug_nachtzeit": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      }
+    }
+  },
   "party_zug_marken": "Marken: {zahl}",
-  "@party_zug_marken": {"placeholders": {"zahl": {"type": "String"}}},
+  "@party_zug_marken": {
+    "placeholders": {
+      "zahl": {
+        "type": "String"
+      }
+    }
+  },
   "party_zug_gruendlich": "Gründlich suchen · +2 auf den Wurf · 2 Nachtminuten mehr",
   "party_zug_wuerfel": "Der Würfel",
   "party_zug_pate": "Gib das Gerät an {name} – jetzt wird gewürfelt!",
-  "@party_zug_pate": {"placeholders": {"name": {"type": "String"}}},
+  "@party_zug_pate": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "party_zug_werfen": "Würfeln",
   "party_zug_marke_einsetzen": "Eine Marke einsetzen · +1",
   "party_zug_marke_deckel": "Der Bonus liegt bereits bei +2. Keine Marke wird verbraucht.",
   "party_zug_chancen": "Vor dem Wurf · Bonus +{mod}",
-  "@party_zug_chancen": {"placeholders": {"mod": {"type": "String"}}},
+  "@party_zug_chancen": {
+    "placeholders": {
+      "mod": {
+        "type": "String"
+      }
+    }
+  },
   "party_zug_garantie": "Pech-Garantie: Dieser Anlauf gelingt mindestens teilweise.",
   "party_zug_garantie_kurz": "Garantie",
   "party_zug_erfolg": "Erfolg",
@@ -1049,7 +1073,25 @@
   "party_zug_pech_folge": "Noch kein Fund. Eine Marke dazu; danach Nochmal oder Umweg.",
   "party_zug_auftakt_folge": "Probewurf ohne Fund oder Zeitkosten. Pech schenkt eine Marke.",
   "party_zug_rechnung": "2W6: {a} + {b} + {mod} = {summe} · Anlauf {anlauf}",
-  "@party_zug_rechnung": {"placeholders": {"a": {"type": "String"}, "b": {"type": "String"}, "mod": {"type": "String"}, "summe": {"type": "String"}, "anlauf": {"type": "String"}}},
+  "@party_zug_rechnung": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      },
+      "mod": {
+        "type": "String"
+      },
+      "summe": {
+        "type": "String"
+      },
+      "anlauf": {
+        "type": "String"
+      }
+    }
+  },
   "party_zug_tischruf": "Tischruf: Wie geht es weiter?",
   "party_zug_pech_szene": "Die Spur verläuft sich kurz. Die Quelle bleibt dieselbe. Glück im Unglück: eine Marke!",
   "party_zug_nochmal": "Nochmal · 3 Nachtminuten",
@@ -1082,7 +1124,16 @@
   "detektei_kampagne": "Kampagne",
   "detektei_kampagne_hinweis": "Die Akten der Reihe nach",
   "detektei_personen": "{min} bis {max} Personen",
-  "@detektei_personen": {"placeholders": {"min": {"type": "int"}, "max": {"type": "int"}}},
+  "@detektei_personen": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "detektei_ton_spuk": "Spuk",
   "detektei_ton_noir": "Noir",
   "detektei_sammlung": "Sammlung",
@@ -1098,7 +1149,16 @@
   "detektei_druck_hinweis": "Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.",
   "detektei_druck_vorbereiten": "Druckmappe vorbereiten",
   "abend_schritt": "Schritt {n} von {gesamt}",
-  "@abend_schritt": {"placeholders": {"n": {"type": "int"}, "gesamt": {"type": "int"}}},
+  "@abend_schritt": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "gesamt": {
+        "type": "int"
+      }
+    }
+  },
   "abend_schritt_akte": "Akte",
   "abend_schritt_spielweise": "Spielweise",
   "abend_schritt_einstellungen": "Einstellungen",
@@ -1134,7 +1194,16 @@
   "abend_klasse_titel": "Deine Ermittlerklasse",
   "abend_klasse_hinweis": "Dein Abend bringt dir immer eine Sammelkarte deiner Klasse.",
   "abend_klasse_gesperrt": "{klasse}, gesperrt, {rang}",
-  "@abend_klasse_gesperrt": {"placeholders": {"klasse": {"type": "String"}, "rang": {"type": "String"}}},
+  "@abend_klasse_gesperrt": {
+    "placeholders": {
+      "klasse": {
+        "type": "String"
+      },
+      "rang": {
+        "type": "String"
+      }
+    }
+  },
   "abend_feste_loesung_titel": "Feste Lösung",
   "abend_feste_loesung_hinweis": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung.",
   "abend_feste_loesung_solo": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, wählt besser eine andere Akte.",
@@ -1148,26 +1217,80 @@
   "karten_seltenheit_blutgold": "Blutgold",
   "karten_rueckseite": "Kartenrückseite",
   "profil_chip_semantik": "Profil von {name}, {rang}, {xp} Erfahrungspunkte",
-  "@profil_chip_semantik": {"placeholders": {"name": {"type": "String"}, "rang": {"type": "String"}, "xp": {"type": "int"}}},
+  "@profil_chip_semantik": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "rang": {
+        "type": "String"
+      },
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "karten_sammlung_fortschritt": "{x} von {y} Karten",
-  "@karten_sammlung_fortschritt": {"placeholders": {"x": {"type": "int"}, "y": {"type": "int"}}},
+  "@karten_sammlung_fortschritt": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "karten_figur_fortschritt": "{x} von {y}",
-  "@karten_figur_fortschritt": {"placeholders": {"x": {"type": "int"}, "y": {"type": "int"}}},
+  "@karten_figur_fortschritt": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "karten_tab_klassen": "Detektivklassen",
   "karten_sammlung_leer": "Für diese Akte gibt es noch keine Karten.",
   "karten_laedt": "Die Karten werden geladen …",
   "karten_fehler": "Die Karten konnten nicht geladen werden.",
   "karten_unbekannt": "Unbekannte Karte",
   "karten_unbekannt_semantik": "{figur}: noch nicht gefunden",
-  "@karten_unbekannt_semantik": {"placeholders": {"figur": {"type": "String"}}},
+  "@karten_unbekannt_semantik": {
+    "placeholders": {
+      "figur": {
+        "type": "String"
+      }
+    }
+  },
   "karten_noch_nicht": "Noch nicht gefunden",
   "karten_neu": "NEU",
   "karten_anzahl": "{n}×",
-  "@karten_anzahl": {"placeholders": {"n": {"type": "int"}}},
+  "@karten_anzahl": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "karten_besitz": "{n, plural, =1{Du besitzt 1 Exemplar.} other{Du besitzt {n} Exemplare.}}",
-  "@karten_besitz": {"placeholders": {"n": {"type": "int"}}},
+  "@karten_besitz": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "karten_ladungen": "{n, plural, =1{1 Ladung} other{{n} Ladungen}}",
-  "@karten_ladungen": {"placeholders": {"n": {"type": "int"}}},
+  "@karten_ladungen": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "karten_seltenheit_gewoehnlich": "Gewöhnlich",
   "karten_seltenheit_selten": "Selten",
   "karten_seltenheit_legendaer": "Legendär",
@@ -1190,28 +1313,73 @@
   "karten_deck_titel": "Dein Deck",
   "karten_deck_text": "Höchstens drei Karten, je Art eine. Am Abend liegen sie als gemeinsame Hilfe auf dem Tisch. Eine Karte gleicher Art ersetzt die bisherige.",
   "karten_deck_platz": "Platz {n}",
-  "@karten_deck_platz": {"placeholders": {"n": {"type": "int"}}},
+  "@karten_deck_platz": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "karten_deck_leer": "Leer",
   "karten_deck_ladungen": "Ladungen {x} von {y}",
-  "@karten_deck_ladungen": {"placeholders": {"x": {"type": "int"}, "y": {"type": "int"}}},
+  "@karten_deck_ladungen": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "karten_deck_voll": "Das Deck ist voll. Nimm zuerst eine Karte heraus.",
   "karten_deck_zuviel": "Zu viele Ladungen für das Deck.",
   "karten_deck_deine": "Deine spielbaren Karten",
   "karten_deck_keine": "Du hast noch keine spielbare Karte. Spiele Abende, um Karten zu finden.",
   "karten_deck_einsetzen": "{titel} ins Deck legen",
-  "@karten_deck_einsetzen": {"placeholders": {"titel": {"type": "String"}}},
+  "@karten_deck_einsetzen": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
   "karten_deck_entfernen": "{titel} aus dem Deck nehmen",
-  "@karten_deck_entfernen": {"placeholders": {"titel": {"type": "String"}}},
+  "@karten_deck_entfernen": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
   "karten_deck_drin": "Im Deck",
   "karten_deck_fertig": "Fertig",
   "karten_deck_abend_titel": "Deck für diesen Abend",
   "karten_deck_abend_leer": "Kein Deck gelegt. Der Abend läuft auch ohne Karten.",
   "karten_deck_aendern": "Deck ändern",
   "karten_detektei_neueste": "Neueste Karte: {titel}",
-  "@karten_detektei_neueste": {"placeholders": {"titel": {"type": "String"}}},
+  "@karten_detektei_neueste": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
   "karten_hand_titel": "Deine Karten",
   "karten_hand_karte": "{titel}, noch {rest} von {max} Ladungen",
-  "@karten_hand_karte": {"placeholders": {"titel": {"type": "String"}, "rest": {"type": "int"}, "max": {"type": "int"}}},
+  "@karten_hand_karte": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      },
+      "rest": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "karten_hand_spielbar": "Jetzt spielbar",
   "karten_hand_gesperrt": "Jetzt nicht spielbar",
   "karten_hand_gewaehlt": "Eingesetzt",
@@ -1224,20 +1392,47 @@
   "karten_hand_karte_hinweis": "Zeit-, Marken- und Erinnerungskarten spielst du zwischen den Zügen.",
   "karten_hand_im_zug": "Diese Karte wirkt im passenden Moment eines Zuges: beim Würfeln, nach Pech oder bei der Wahl.",
   "karten_erkunden": "Erkunden: {name}",
-  "@karten_erkunden": {"placeholders": {"name": {"type": "String"}}},
+  "@karten_erkunden": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "karten_erkunden_marke": "Abstecher",
   "karten_erkunden_text": "Freiwillig: ein kurzer Blick in eine Ecke. Das bringt Stimmung und vielleicht eine Karte, aber nie einen Hinweis zum Fall.",
   "karten_erkunden_kosten": "Kostet {min} Nachtminuten. Bei Pech kommen {pech} dazu.",
-  "@karten_erkunden_kosten": {"placeholders": {"min": {"type": "int"}, "pech": {"type": "int"}}},
+  "@karten_erkunden_kosten": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "pech": {
+        "type": "int"
+      }
+    }
+  },
   "karten_erkunden_los": "Erkunden",
   "karten_erkunden_nein": "Nicht jetzt",
   "karten_erkunden_karte": "Abstecher-Karte einsetzen: {titel} (ohne Nachtminuten)",
-  "@karten_erkunden_karte": {"placeholders": {"titel": {"type": "String"}}},
+  "@karten_erkunden_karte": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
   "karten_erkunden_wuerfel": "Pech zeigt hier nur ein Missgeschick. Einen Tischruf gibt es nicht.",
   "karten_erkunden_fund": "Nebenfund",
   "karten_erkunden_liste": "Freiwillig erkunden",
   "karten_gruendlich_karte": "Gründlich-Karte einsetzen: {titel} (ohne Nachtminuten)",
-  "@karten_gruendlich_karte": {"placeholders": {"titel": {"type": "String"}}},
+  "@karten_gruendlich_karte": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
   "abend_belohnung_marke": "Belohnung",
   "abend_belohnung_titel": "Abend abgeschlossen",
   "abend_belohnung_karten": "Neue Karten",
@@ -1246,23 +1441,62 @@
   "abend_belohnung_keine": "Diesmal gibt es keine Karte.",
   "abend_belohnung_doppelt": "Doppelt",
   "abend_belohnung_verdeckt": "Karte {nr} von {gesamt}, verdeckt. Tippen zum Umdrehen.",
-  "@abend_belohnung_verdeckt": {"placeholders": {"nr": {"type": "int"}, "gesamt": {"type": "int"}}},
+  "@abend_belohnung_verdeckt": {
+    "placeholders": {
+      "nr": {
+        "type": "int"
+      },
+      "gesamt": {
+        "type": "int"
+      }
+    }
+  },
   "abend_belohnung_xp": "+{xp} Erfahrungspunkte",
-  "@abend_belohnung_xp": {"placeholders": {"xp": {"type": "int"}}},
+  "@abend_belohnung_xp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "abend_belohnung_xp_titel": "Erfahrung",
   "abend_belohnung_rang_stempel": "BEFÖRDERT: {rang}",
-  "@abend_belohnung_rang_stempel": {"placeholders": {"rang": {"type": "String"}}},
+  "@abend_belohnung_rang_stempel": {
+    "placeholders": {
+      "rang": {
+        "type": "String"
+      }
+    }
+  },
   "abend_belohnung_rang_semantik": "Neuer Rang: {rang}",
-  "@abend_belohnung_rang_semantik": {"placeholders": {"rang": {"type": "String"}}},
+  "@abend_belohnung_rang_semantik": {
+    "placeholders": {
+      "rang": {
+        "type": "String"
+      }
+    }
+  },
   "abend_belohnung_bereits": "Dieser Abend ist schon verbucht.",
   "abend_belohnung_laedt": "Die Belohnung wird gezählt …",
   "abend_belohnung_fehler": "Die Belohnung konnte nicht verbucht werden.",
   "abend_belohnung_detektei": "Zur Detektei",
   "karten_erkunden_erfolg_folge": "Ein Fund für die Sammlung. Du gewinnst {min} Nachtminuten.",
-  "@karten_erkunden_erfolg_folge": {"placeholders": {"min": {"type": "int"}}},
+  "@karten_erkunden_erfolg_folge": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
   "karten_erkunden_teilerfolg_folge": "Ein kleiner Fund für die Sammlung. Die Nachtzeit bleibt, wie sie ist.",
   "karten_erkunden_pech_folge": "Nur ein Missgeschick. Das kostet {min} Nachtminuten, dafür gibt es eine Marke.",
-  "@karten_erkunden_pech_folge": {"placeholders": {"min": {"type": "int"}}},
+  "@karten_erkunden_pech_folge": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
   "abend_belohnung_ansehen": "Belohnung ansehen",
   "online_einstellungen_hinweis": "Wie viele Rollen es gibt, legst du gleich in der Lobby fest. Freie Rollen übernehmen Bots.",
   "online_raum_oeffnen": "Raum öffnen",
@@ -1276,7 +1510,13 @@
   "online_abend_starten": "Abend starten",
   "online_code_titel": "Raumcode",
   "online_code_semantik": "Raumcode {code}",
-  "@online_code_semantik": {"placeholders": {"code": {"type": "String"}}},
+  "@online_code_semantik": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "online_code_kopieren": "Code kopieren",
   "online_link_kopieren": "Link kopieren",
   "online_kopiert": "Kopiert",
@@ -1294,20 +1534,47 @@
   "online_warten_bereit": "Warten, bis alle bereit sind.",
   "online_rollen_titel": "Rollen",
   "online_rollen_anzahl": "{n} Rollen",
-  "@online_rollen_anzahl": {"placeholders": {"n": {"type": "int"}}},
+  "@online_rollen_anzahl": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "online_rollen_weniger": "Weniger Rollen",
   "online_rollen_mehr": "Mehr Rollen",
   "online_rollen_bots": "{n, plural, =0{Alle Rollen sind mit Gästen besetzt.} =1{Ein Bot übernimmt die freie Rolle.} other{{n} Bots übernehmen die freien Rollen.}}",
-  "@online_rollen_bots": {"placeholders": {"n": {"type": "int"}}},
+  "@online_rollen_bots": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "online_rollen_hinweis": "Mindestens so viele Rollen wie Gäste, höchstens so viele, wie die Akte kennt.",
   "online_schliessen_titel": "Raum schließen?",
   "online_schliessen_text": "Alle, die schon beigetreten sind, werden getrennt.",
   "online_schliessen_ja": "Raum schließen",
   "online_schliessen_nein": "Weiter warten",
   "online_leiste_raum": "Raum {code}",
-  "@online_leiste_raum": {"placeholders": {"code": {"type": "String"}}},
+  "@online_leiste_raum": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "online_leiste_online": "{n} von {gesamt} Gästen online",
-  "@online_leiste_online": {"placeholders": {"n": {"type": "int"}, "gesamt": {"type": "int"}}},
+  "@online_leiste_online": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "gesamt": {
+        "type": "int"
+      }
+    }
+  },
   "online_menue": "Raum und Gäste",
   "online_beenden": "Abend beenden",
   "online_beenden_titel": "Abend für alle beenden?",
@@ -1316,19 +1583,43 @@
   "online_beenden_nein": "Weiterspielen",
   "online_rollen_erklaerung": "Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.",
   "online_rollen_warten": "Warten auf die Gäste: {x} von {y} haben ihre Rolle gelesen",
-  "@online_rollen_warten": {"placeholders": {"x": {"type": "int"}, "y": {"type": "int"}}},
+  "@online_rollen_warten": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "online_rollen_alle": "Alle Gäste haben ihre Rolle gelesen.",
   "online_rollen_ohne_gaeste": "Alle Rollen spielen Bots. Es kann weitergehen.",
   "online_rollen_gelesen": "Gelesen",
   "online_rollen_liest": "Liest noch",
   "online_wahl_hinweis": "Die Gäste wählen auf ihren Geräten. Die Bots stimmen von selbst ab.",
   "online_wahl_fortschritt": "{x} von {y} Gästen haben abgestimmt",
-  "@online_wahl_fortschritt": {"placeholders": {"x": {"type": "int"}, "y": {"type": "int"}}},
+  "@online_wahl_fortschritt": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "online_wahl_nur_bots": "Alle Rollen spielen Bots, sie haben von selbst abgestimmt.",
   "online_wahl_abgegeben_kurz": "Abgestimmt",
   "online_wahl_waehlt": "Wählt noch",
   "online_wuerfelt": "{name} würfelt …",
-  "@online_wuerfelt": {"placeholders": {"name": {"type": "String"}}},
+  "@online_wuerfelt": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "online_fehler_nicht_bereit": "Noch nicht alle sind bereit.",
   "online_fehler_nicht_dran": "Du bist gerade nicht mit Würfeln dran.",
   "online_fehler_phase": "Das geht in diesem Abschnitt gerade nicht.",
@@ -1354,11 +1645,23 @@
   "online_beitreten_los": "Beitreten",
   "online_beitreten_laeuft": "Verbinde …",
   "online_zurueck_in_raum": "Zurück in Raum {code}",
-  "@online_zurueck_in_raum": {"placeholders": {"code": {"type": "String"}}},
+  "@online_zurueck_in_raum": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "online_zurueck_hinweis": "Du hast noch einen Platz in diesem Abend.",
   "online_vergessen": "Vergessen",
   "online_zurueck_zum_abend": "Zurück zum Abend {code}",
-  "@online_zurueck_zum_abend": {"placeholders": {"code": {"type": "String"}}},
+  "@online_zurueck_zum_abend": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "online_zurueck_gastgeber_hinweis": "Du führst diesen Abend. Er ist auf diesem Gerät gespeichert.",
   "online_verwerfen": "Verwerfen",
   "online_rueckkehr_fehler": "Die Rückkehr hat nicht geklappt.",
@@ -1370,7 +1673,13 @@
   "online_leiste_getrennt": "Relais getrennt – Gäste erfahren gerade nichts",
   "online_zur_detektei": "Zur Detektei",
   "online_gast_marke": "Raum {code}",
-  "@online_gast_marke": {"placeholders": {"code": {"type": "String"}}},
+  "@online_gast_marke": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "online_gast_lobby_titel": "Warten auf den Start",
   "online_gast_lobby_hinweis": "Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.",
   "online_bereit_knopf": "Bereit",
@@ -1388,10 +1697,22 @@
   "online_gelesen_warten": "Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.",
   "online_assistenz_text": "Du hast keine eigene Rolle und verfolgst den öffentlichen Verlauf des Abends mit.",
   "online_meine_rolle": "Meine Rolle: {name}",
-  "@online_meine_rolle": {"placeholders": {"name": {"type": "String"}}},
+  "@online_meine_rolle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "online_warten_spielleitung": "Warten auf die Spielleitung …",
   "online_runde": "Runde {n}",
-  "@online_runde": {"placeholders": {"n": {"type": "int"}}},
+  "@online_runde": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "online_erzaehler_titel": "Erzähler",
   "online_phase_rollen": "Die Rollen werden gelesen",
   "online_phase_intro": "Die Nacht beginnt",
@@ -1408,13 +1729,28 @@
   "online_gespraeche_titel": "Deine Gespräche in dieser Runde",
   "online_gespraeche_keine": "In dieser Runde hast du kein Pflichtgespräch.",
   "online_gespraech_mit": "Gespräch mit {name}",
-  "@online_gespraech_mit": {"placeholders": {"name": {"type": "String"}}},
+  "@online_gespraech_mit": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "online_gespraech_thema": "Thema",
   "online_gespraech_ziel": "Dein Ziel",
   "online_gespraech_eroeffnung": "Eröffnung",
   "online_bots_titel": "Was am Tisch zu hören ist",
   "online_bot_spricht": "{sprecher} spricht mit {partner}",
-  "@online_bot_spricht": {"placeholders": {"sprecher": {"type": "String"}, "partner": {"type": "String"}}},
+  "@online_bot_spricht": {
+    "placeholders": {
+      "sprecher": {
+        "type": "String"
+      },
+      "partner": {
+        "type": "String"
+      }
+    }
+  },
   "online_preisgabe": "Verrät",
   "online_frage_titel": "Die Frage",
   "online_gewaehlt_titel": "Gewählt",
@@ -1422,29 +1758,86 @@
   "online_ermittlung_wartet": "Die Spielleitung wählt gerade …",
   "online_ermittlung_fertig": "Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.",
   "online_nachtzeit": "Nachtzeit: {min} Min.",
-  "@online_nachtzeit": {"placeholders": {"min": {"type": "int"}}},
+  "@online_nachtzeit": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
   "online_marken": "Marken: {n}",
-  "@online_marken": {"placeholders": {"n": {"type": "int"}}},
+  "@online_marken": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "online_auftakt": "Der erste Wurf: Die Gruppe sucht nach Spuren.",
   "online_abstecher": "Die Spielleitung erkundet einen Ort.",
   "online_zug_aktion": "Die Spielleitung ist unterwegs …",
   "online_wuerfel_titel": "Würfel",
   "online_wuerfel_du": "Du würfelst für die Gruppe.",
   "online_chancen": "Chancen (Modifikator {mod})",
-  "@online_chancen": {"placeholders": {"mod": {"type": "int"}}},
+  "@online_chancen": {
+    "placeholders": {
+      "mod": {
+        "type": "int"
+      }
+    }
+  },
   "online_stufe_erfolg": "Erfolg",
   "online_stufe_teilerfolg": "Teilerfolg",
   "online_stufe_pech": "Pech",
   "online_marke_einsetzen": "Marke einsetzen",
   "online_werkzeug_einsetzen": "Werkzeug-Karte einsetzen: {titel} (+1)",
-  "@online_werkzeug_einsetzen": {"placeholders": {"titel": {"type": "String"}}},
+  "@online_werkzeug_einsetzen": {
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
   "online_wuerfeln_knopf": "Würfeln",
   "online_wurf_titel": "Wurf",
   "online_wurf_rechnung": "{a} + {b} + {mod} = {summe}",
-  "@online_wurf_rechnung": {"placeholders": {"a": {"type": "int"}, "b": {"type": "int"}, "mod": {"type": "int"}, "summe": {"type": "int"}}},
+  "@online_wurf_rechnung": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      },
+      "mod": {
+        "type": "int"
+      },
+      "summe": {
+        "type": "int"
+      }
+    }
+  },
   "online_wurf_garantie": "Pech-Garantie: Pech zählt als Teilerfolg.",
   "online_wurf_zeile": "{stufe}: {a} + {b} + {mod} = {summe}",
-  "@online_wurf_zeile": {"placeholders": {"stufe": {"type": "String"}, "a": {"type": "int"}, "b": {"type": "int"}, "mod": {"type": "int"}, "summe": {"type": "int"}}},
+  "@online_wurf_zeile": {
+    "placeholders": {
+      "stufe": {
+        "type": "String"
+      },
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      },
+      "mod": {
+        "type": "int"
+      },
+      "summe": {
+        "type": "int"
+      }
+    }
+  },
   "online_wuerfe_titel": "Würfelprotokoll",
   "online_tischruf_wartet": "Pech. Die Spielleitung entscheidet, wie es weitergeht.",
   "online_fund_titel": "Fund",
@@ -1469,6 +1862,13 @@
   "online_verlassen_nein": "Bleiben",
   "abend2_auftrag": "Ermittlungsauftrag",
   "abend2_beweisstueck": "Beweisstück Nr. {nr}",
-  "@abend2_beweisstueck": {"placeholders": {"nr": {"type": "String"}}},
-  "abend2_angeklagt": "Angeklagt"
+  "@abend2_beweisstueck": {
+    "placeholders": {
+      "nr": {
+        "type": "String"
+      }
+    }
+  },
+  "abend2_angeklagt": "Angeklagt",
+  "online_bot_stempel": "Bot"
 }
