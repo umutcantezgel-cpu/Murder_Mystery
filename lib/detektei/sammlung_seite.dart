@@ -10,7 +10,10 @@ import '../karten/widgets/karten_blatt.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
 import '../stil/stil.dart';
+import '../ui/icons.dart';
+import 'akte_bausteine.dart' show akteSamen;
 import 'akten.dart';
+import 'schreibtisch.dart';
 
 /// Kennung der Detektivklassen im Katalog (`content/karten/mordakte.json`).
 const klassenAkte = 'mordakte';
@@ -41,9 +44,11 @@ class _Daten {
   }
 }
 
-/// Sammlung (Route `/sammlung`): die Karten je Akte und die Detektivklassen,
-/// gruppiert nach Figur. Besessene Karten liegen offen, unbekannte verdeckt mit
-/// Silhouette. Ein Tipp öffnet die große Kartenansicht.
+/// Sammlung (Route `/sammlung`): der Karteikasten der Detektei. Reiter je Akte
+/// und für die Detektivklassen, darunter die Karten gruppiert nach Figur, jede
+/// Gruppe mit einer Kopfkarte (Fotoabzug, Name, Fortschritt). Besessene Karten
+/// liegen offen, unbekannte verdeckt mit Silhouette. Ein Tipp öffnet die große
+/// Kartenansicht.
 class SammlungSeite extends StatefulWidget {
   const SammlungSeite({super.key});
 
@@ -84,13 +89,21 @@ class _SammlungSeiteState extends State<SammlungSeite> {
             builder: (context) => Scaffold(
               backgroundColor: MFarben.von(context).grund,
               body: MRahmen(
-                titel: l.karten_sammlung_titel,
-                untertitel: l.karten_sammlung_text,
                 aktionen: [
                   MKnopf(text: l.common_back, art: MKnopfArt.zweit, icon: Icons.arrow_back_rounded, onPressed: () => context.go(Routes.start)),
                   MKnopf(text: l.karten_deck_bearbeiten, icon: Icons.style_rounded, onPressed: () => context.push(Routes.sammlungDeck)),
                 ],
-                child: _inhalt(context, snap, daten, aktiv),
+                // Eigener Kopf wie der des Rahmens, aber ohne Wortbruch bei großer Schrift.
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    GanzeWorte(l.karten_sammlung_titel, style: MSchrift.von(context).titel),
+                    const SizedBox(height: 6),
+                    Text(l.karten_sammlung_text, style: MSchrift.von(context).leise),
+                    const SizedBox(height: MMass.s20),
+                    _inhalt(context, snap, daten, aktiv),
+                  ],
+                ),
               ),
             ),
           ),
@@ -103,13 +116,15 @@ class _SammlungSeiteState extends State<SammlungSeite> {
     final l = L.of(context);
     final t = MSchrift.von(context);
     if (snap.hasError) {
-      return MTafel(
+      return MBlatt(
+        art: PapierArt.notiz,
+        neigung: -0.006,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l.karten_fehler, style: t.text),
+            Text(l.karten_fehler, style: MPapierSchrift.text),
             const SizedBox(height: MMass.s12),
-            MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _nochmal),
+            Align(alignment: Alignment.centerLeft, child: MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _nochmal)),
           ],
         ),
       );
@@ -122,8 +137,9 @@ class _SammlungSeiteState extends State<SammlungSeite> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Wrap(
-          spacing: MMass.s8,
+          spacing: 4,
           runSpacing: MMass.s8,
+          crossAxisAlignment: WrapCrossAlignment.end,
           children: [
             for (final id in reiter)
               _Reiter(
@@ -133,14 +149,24 @@ class _SammlungSeiteState extends State<SammlungSeite> {
               ),
           ],
         ),
-        const SizedBox(height: MMass.s16),
+        // Die Kante des Karteikastens unter den Reitern.
+        Container(
+          height: 5,
+          decoration: BoxDecoration(
+            color: MRoh.blatt,
+            border: Border(top: BorderSide(color: MFarben.von(context).akzent, width: 2)),
+            boxShadow: const [BoxShadow(color: Color(0x66000000), blurRadius: 4, offset: Offset(0, 2))],
+          ),
+        ),
+        const SizedBox(height: MMass.s20),
         _Akte(daten: daten, akte: aktiv, meta: meta),
       ],
     );
   }
 }
 
-/// Ein Reiter: Akte oder Detektivklassen.
+/// Ein Reiter des Karteikastens: Akte oder Detektivklassen. Der gewählte steht
+/// hell und höher, mit einer Kante im Akzent der Akte.
 class _Reiter extends StatelessWidget {
   const _Reiter({required this.text, required this.gewaehlt, required this.onTap});
 
@@ -151,7 +177,6 @@ class _Reiter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
-    final t = MSchrift.von(context);
     return Semantics(
       button: true,
       selected: gewaehlt,
@@ -159,21 +184,22 @@ class _Reiter extends StatelessWidget {
       label: text,
       onTap: onTap,
       excludeSemantics: true,
-      child: Material(
-        color: gewaehlt ? f.akzentSchwach : f.flaeche,
-        shape: StadiumBorder(side: BorderSide(color: gewaehlt ? f.akzent : f.linie)),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MMass.s16, vertical: MMass.s8),
-              child: Center(
-                widthFactor: 1,
-                child: Text(text, style: t.text.copyWith(fontSize: 15, fontWeight: gewaehlt ? FontWeight.w700 : FontWeight.w500, color: gewaehlt ? f.akzentHell : f.papier)),
-              ),
-            ),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: MBewegung.schnell(context),
+          constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
+          padding: EdgeInsets.fromLTRB(14, gewaehlt ? 14 : 10, 14, 8),
+          decoration: BoxDecoration(
+            color: gewaehlt ? MRoh.blatt : Color.lerp(MRoh.manila, MRoh.manilaDunkel, 0.3),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(7)),
+            border: Border(top: BorderSide(color: gewaehlt ? f.akzent : Colors.transparent, width: 3)),
+            boxShadow: const [BoxShadow(color: Color(0x55000000), blurRadius: 3, offset: Offset(0, -1))],
+          ),
+          child: Text(
+            text,
+            style: MRohSchrift.schreibmaschine.copyWith(fontSize: 14, height: 1.3, color: gewaehlt ? MRoh.tinte : const Color(0xFF4A3A28)),
           ),
         ),
       ),
@@ -192,7 +218,6 @@ class _Akte extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final f = MFarben.von(context);
     final t = MSchrift.von(context);
     final karten = daten.katalog.vonAkte(akte);
     final figuren = daten.figuren[akte] ?? const <String, KartenFigur>{};
@@ -210,18 +235,24 @@ class _Akte extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(l.karten_sammlung_fortschritt(besessen, gesamt), style: t.ueberschrift.copyWith(fontSize: 18)),
-        const SizedBox(height: MMass.s8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(3),
-          child: LinearProgressIndicator(
-            value: gesamt == 0 ? 0 : besessen / gesamt,
-            minHeight: 6,
-            color: f.akzent,
-            backgroundColor: f.flaecheHoch,
+        // Bestandskarte: wie viele Karten dieser Akte im Kasten liegen.
+        MBlatt(
+          art: PapierArt.karteikarte,
+          kopfLinie: 6,
+          linien: false,
+          neigung: -0.004,
+          samen: akteSamen(akte),
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(l.karten_sammlung_fortschritt(besessen, gesamt), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+              const SizedBox(height: MMass.s8),
+              TintenBalken(wert: gesamt == 0 ? 0 : besessen / gesamt, hoehe: 10),
+            ],
           ),
         ),
-        const SizedBox(height: MMass.s20),
+        const SizedBox(height: MMass.s24),
         if (karten.isEmpty) Text(l.karten_sammlung_leer, style: t.leise),
         LayoutBuilder(
           builder: (context, box) {
@@ -231,14 +262,15 @@ class _Akte extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                for (final id in reihenfolge)
+                for (var i = 0; i < reihenfolge.length; i++)
                   _Figur(
-                    figurId: id,
-                    figur: figuren[id],
-                    karten: gruppen[id]!,
+                    figurId: reihenfolge[i],
+                    figur: figuren[reihenfolge[i]],
+                    karten: gruppen[reihenfolge[i]]!,
                     meta: meta,
                     kartenBreite: breite,
                     abstand: abstand,
+                    nr: i,
                   ),
               ],
             );
@@ -249,7 +281,8 @@ class _Akte extends StatelessWidget {
   }
 }
 
-/// Eine Figur (oder Klasse) mit ihren Karten.
+/// Eine Figur (oder Klasse) mit ihren Karten: oben eine Kopfkarte mit Fotoabzug
+/// (bei Klassen ein Messingabzeichen), Name und Fortschritt, darunter die Karten.
 class _Figur extends StatelessWidget {
   const _Figur({
     required this.figurId,
@@ -258,6 +291,7 @@ class _Figur extends StatelessWidget {
     required this.meta,
     required this.kartenBreite,
     required this.abstand,
+    required this.nr,
   });
 
   final String figurId;
@@ -266,6 +300,7 @@ class _Figur extends StatelessWidget {
   final MetaStore meta;
   final double kartenBreite;
   final double abstand;
+  final int nr;
 
   String _name(L l) {
     if (figur != null) return figur!.name;
@@ -276,28 +311,54 @@ class _Figur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
     final name = _name(l);
     final besessen = karten.where((k) => meta.besitztKarte(k.id)).length;
+    final look = figur?.look;
+    final klasse = figurId.startsWith('klasse:') ? figurId.substring('klasse:'.length) : null;
+    final gross = MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final zaehler = Text(l.karten_figur_fortschritt(besessen, karten.length), style: MPapierSchrift.hand.copyWith(fontSize: 22));
     return Padding(
-      padding: const EdgeInsets.only(bottom: MMass.s24),
+      padding: const EdgeInsets.only(bottom: MMass.s32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Semantics(
             header: true,
-            child: Row(
-              children: [
-                if (figur?.look != null) ...[
-                  MPortrait(look: figur!.look!, groesse: 36, kreis: true),
-                  const SizedBox(width: MMass.s12),
+            child: MBlatt(
+              art: PapierArt.karteikarte,
+              kopfLinie: 6,
+              linien: false,
+              randFarbe: figur?.farbe,
+              neigung: nr.isEven ? -0.003 : 0.004,
+              samen: akteSamen(figurId),
+              padding: const EdgeInsets.fromLTRB(12, 10, 14, 10),
+              child: Row(
+                children: [
+                  if (look != null) ...[
+                    ExcludeSemantics(child: MFotoabzug(look: look, groesse: 40, neigung: nr.isEven ? -0.05 : 0.04, akzent: figur?.farbe)),
+                    const SizedBox(width: MMass.s12),
+                  ] else if (klasse != null) ...[
+                    _Abzeichen(icon: GameIcons.cls(klasse)),
+                    const SizedBox(width: MMass.s12),
+                  ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GanzeWorte(name, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+                        if ((figur?.titel ?? '').isNotEmpty)
+                          GanzeWorte(figur!.titel, style: MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.tinteLeise)),
+                        // Bei großer Schrift steht der Fortschritt unter dem Namen.
+                        if (gross) zaehler,
+                      ],
+                    ),
+                  ),
+                  if (!gross) ...[const SizedBox(width: MMass.s8), zaehler],
                 ],
-                Expanded(child: Text(name, style: t.ueberschrift.copyWith(fontSize: 18))),
-                Text(l.karten_figur_fortschritt(besessen, karten.length), style: t.leise),
-              ],
+              ),
             ),
           ),
-          const SizedBox(height: MMass.s12),
+          const SizedBox(height: MMass.s16),
           Wrap(
             spacing: abstand,
             runSpacing: abstand,
@@ -313,6 +374,25 @@ class _Figur extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Rundes Messingabzeichen mit dem Symbol einer Detektivklasse.
+class _Abzeichen extends StatelessWidget {
+  const _Abzeichen({required this.icon});
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 44,
+        height: 44,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(center: Alignment(-0.35, -0.4), colors: [MRoh.messingHell, MRoh.messingMitte, MRoh.messingDunkel], stops: [0, 0.55, 1]),
+          boxShadow: [BoxShadow(color: Color(0x66000000), blurRadius: 3, offset: Offset(0, 2))],
+        ),
+        child: Icon(icon, size: 22, color: const Color(0xFF3A2808)),
+      );
 }
 
 /// Eine Karte der Sammlung: offen (besessen) oder verdeckt mit Silhouette.
@@ -333,8 +413,6 @@ class _Kachel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final f = MFarben.von(context);
-    final t = MSchrift.von(context);
     final b = besitz;
     final bekannt = b != null;
     final semantik = bekannt
@@ -355,18 +433,28 @@ class _Kachel extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () => _oeffnen(context),
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             bekannt ? KartenKarte(def: def, figur: figur) : const UnbekannteKarte(),
             if (bekannt && b.neu) const Positioned(top: 6, left: 6, child: NeuMarke()),
             if (bekannt && b.n > 1)
               Positioned(
-                right: 6,
+                right: 4,
                 bottom: 6,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(color: f.grund.withValues(alpha: 0.85), borderRadius: BorderRadius.circular(MMass.r20), border: Border.all(color: f.linieStark)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    child: Text(l.karten_anzahl(b.n), style: t.leise.copyWith(fontSize: 12, fontWeight: FontWeight.w700, color: f.papier)),
+                // Anzahl als kleines Kartonetikett mit Schreibmaschinenziffer.
+                child: Transform.rotate(
+                  angle: -0.06,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: MRoh.karteikarte,
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: MRoh.tinte.withValues(alpha: 0.35)),
+                      boxShadow: const [BoxShadow(color: Color(0x88000000), blurRadius: 4, offset: Offset(0, 2))],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(7, 2, 7, 1),
+                      child: Text(l.karten_anzahl(b.n), style: MPapierSchrift.maschine.copyWith(fontSize: 13, height: 1.3)),
+                    ),
                   ),
                 ),
               ),

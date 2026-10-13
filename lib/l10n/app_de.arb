@@ -1870,5 +1870,11 @@
     }
   },
   "abend2_angeklagt": "Angeklagt",
-  "online_bot_stempel": "Bot"
+  "online_bot_stempel": "Bot",
+  "detektei_dienstausweis": "Dienstausweis",
+  "detektei_dienstgrad": "Dienstgrad",
+  "detektei_akte_lage": "Die Lage",
+  "detektei_akte_schauplatz": "Schauplatz",
+  "detektei_akte_anlass": "Anlass",
+  "detektei_akte_zeitpunkt": "Zeitpunkt"
 }

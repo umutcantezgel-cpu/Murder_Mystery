@@ -9,10 +9,16 @@ import '../party/daten.dart';
 import '../party/druck_tafel.dart';
 import '../party/sitzung.dart';
 import '../stil/stil.dart';
+import 'akte_bausteine.dart';
+import 'akten.dart';
+import 'schreibtisch.dart' show GanzeWorte;
 
 /// Druckmappe einer Akte (Route `/akte/:id/druck`): Personen und Fall-Code
 /// einstellen, dann die PDF-Dateien erzeugen ([DruckTafel]). Es entsteht dabei
 /// kein Abend; die Sitzung dient nur dem Satz der Druckdateien.
+///
+/// Oben liegt die Mappe der Druckfassung (Reiter mit der Aktennummer, Titel der
+/// Akte, Anleitung), darunter die Einstellungen auf dem Schreibtisch.
 class DruckmappeSeite extends StatefulWidget {
   const DruckmappeSeite({super.key, required this.akteId});
 
@@ -27,6 +33,9 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
   EinrichtungsWerte? _werte;
   bool _fehler = false;
   bool _bereit = false;
+
+  /// Titel und Platz der Akte für die Mappe; ohne Kampagne bleibt die Mappe schlicht.
+  late final Future<List<AkteInfo>> _akten = AktenKatalog.laden().catchError((Object _) => const <AkteInfo>[]);
 
   @override
   void initState() {
@@ -65,7 +74,6 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
     final s = _sitzung, w = _werte;
     return AkteThema(
       akte: widget.akteId,
@@ -73,9 +81,6 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
         builder: (context) => Scaffold(
           backgroundColor: MFarben.von(context).grund,
           body: MRahmen(
-            marke: l.detektei_akte_druckmappe,
-            titel: l.detektei_druck_titel,
-            untertitel: l.detektei_druck_hinweis,
             aktionen: [
               MKnopf(
                 text: l.common_back,
@@ -93,30 +98,101 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                   ),
                 ),
             ],
-            child: _fehler
-                ? MTafel(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: MMass.s8),
+                FutureBuilder<List<AkteInfo>>(
+                  future: _akten,
+                  builder: (context, snap) => _Deckel(akteId: widget.akteId, akten: snap.data ?? const []),
+                ),
+                const SizedBox(height: MMass.s32),
+                if (_fehler)
+                  MBlatt(
+                    art: PapierArt.notiz,
+                    neigung: -0.006,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(l.abend_fehler, style: t.text),
+                        Text(l.abend_fehler, style: MPapierSchrift.text),
                         const SizedBox(height: MMass.s12),
-                        MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _laden),
+                        Align(alignment: Alignment.centerLeft, child: MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _laden)),
                       ],
                     ),
                   )
-                : s == null || w == null
-                    ? Text(l.abend_laedt, style: t.leise)
-                    : _bereit
-                        ? DruckTafel(sitzung: s)
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              PersonenAbschnitt(werte: w),
-                              DetektivAbschnitt(werte: w),
-                              FallAbschnitt(werte: w),
-                            ],
-                          ),
+                else if (s == null || w == null)
+                  Text(l.abend_laedt, style: MSchrift.von(context).leise)
+                else if (_bereit)
+                  DruckTafel(sitzung: s)
+                else ...[
+                  PersonenAbschnitt(werte: w),
+                  DetektivAbschnitt(werte: w),
+                  FallAbschnitt(werte: w),
+                ],
+              ],
+            ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Die Mappe der Druckfassung: Reiter „Akte Nr. 0X“, Formularkopf mit dem Titel
+/// der Akte, „Druckmappe“ in Playfair und die Anleitung in Tinte.
+class _Deckel extends StatelessWidget {
+  const _Deckel({required this.akteId, required this.akten});
+
+  final String akteId;
+  final List<AkteInfo> akten;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final index = akten.indexWhere((a) => a.id == akteId);
+    final akte = index < 0 ? null : akten[index];
+    return LayoutBuilder(
+      builder: (context, aussen) => MAktenmappe(
+        reiter: index < 0 ? l.detektei_akte_druckmappe : l.case_file_no(akteNummer(index)),
+        farbe: AkteStil.fuer(akteId).akzent,
+        siegel: akte == null ? null : akteSigel(akte),
+        // Höchstens zwei Blätter: weitere schöben sich auf breiten Mappen über den Reiter.
+        blaetter: mappenBlaetter(aussen.maxWidth),
+        neigung: -0.003,
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 26),
+        child: LayoutBuilder(
+          builder: (context, box) {
+            // Der Drucker steht neben dem Text, solange daneben noch Platz für ganze Wörter bleibt.
+            final skala = MediaQuery.textScalerOf(context).scale(1);
+            final drucker = box.maxWidth - 42 >= 200 * skala;
+            final text = Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (akte != null) ...[
+                  // Formularkopf wie MBlattKopf, aber ohne Wortbruch bei großer Schrift.
+                  GanzeWorte(akte.titel, style: MPapierSchrift.zwischentitel.copyWith(color: MFarben.von(context).akzent)),
+                  const SizedBox(height: MMass.s4),
+                  Container(height: 1, color: MFarben.von(context).linieStark),
+                  const SizedBox(height: 10),
+                ],
+                Semantics(header: true, child: GanzeWorte(l.detektei_druck_titel, style: MPapierSchrift.titel)),
+                const SizedBox(height: MMass.s12),
+                GanzeWorte(l.detektei_druck_hinweis, style: MPapierSchrift.text),
+              ],
+            );
+            if (!drucker) return text;
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: text),
+                const SizedBox(width: MMass.s12),
+                const Padding(
+                  padding: EdgeInsets.only(top: 4),
+                  child: Icon(Icons.print_rounded, size: 30, color: MRoh.tinteLeise),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

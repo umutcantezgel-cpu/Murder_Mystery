@@ -1,25 +1,30 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:provider/provider.dart';
 
-import '../../app/router.dart';
 import '../../abend/einrichtung/klasse_zeile.dart' show klassenNachRang;
-import '../../app/theme.dart';
+import '../../app/router.dart';
+import '../../app/theme.dart' show coatColor;
+import '../../detektei/akte_bausteine.dart' show mappenBlaetter;
+import '../../detektei/dienstausweis.dart';
+import '../../detektei/name_dialog.dart';
+import '../../detektei/schreibtisch.dart' show GanzeWorte;
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../meta/progression.dart';
 import '../../stil/stil.dart';
 import '../icons.dart';
-import '../widgets/buttons.dart';
-import '../widgets/meters.dart';
-import '../widgets/panels.dart';
-import '../widgets/paper.dart';
-import '../widgets/portrait.dart';
-import 'collection_screen.dart';
-import 'hub_screen.dart';
 
+/// Profil (Route `/profile`): die Personalakte des Detektivs.
+///
+/// - Der Dienstausweis (Name antippen ändert ihn).
+/// - Die Dienstakte mit den Zahlen der bisherigen Fälle.
+/// - Die Klassen als Karteikarten in einer Mappe; die gewählte trägt den Stempel „Gewählt“.
+/// - Die Garderobe: Hüte als Fotoabzüge, Mäntel als Stoffmuster.
+/// - Die Erfolge als Urkundenblatt mit Messingmedaillen.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -27,166 +32,70 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final meta = context.watch<MetaStore>();
-    final next = nextRankXp(meta.xp);
     final lo = meta.loadout;
+    final klassen = klassenNachRang();
     return Scaffold(
-      body: MHintergrund(
-        child: SafeArea(
-          child: Column(
-            children: [
-              ContentWidth(
-                child: NoirTopBar(title: l.profile_title, onBack: () => context.go(Routes.start)),
+      backgroundColor: MFarben.von(context).grund,
+      body: MRahmen(
+        titel: l.profile_title,
+        aktionen: [
+          MKnopf(text: l.common_back, art: MKnopfArt.zweit, icon: Icons.arrow_back_rounded, onPressed: () => context.go(Routes.start)),
+        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Ein Ausweis bleibt eine Karte, auch auf breiten Bildschirmen.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Transform.rotate(
+                  angle: -0.006,
+                  child: Dienstausweis(meta: meta, gross: true, onName: () => showNameDialog(context)),
+                ),
               ),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(18, 10, 18, 30),
+            ),
+            const SizedBox(height: MMass.s32),
+            _Dienstakte(meta: meta),
+            const SizedBox(height: MMass.s32),
+            LayoutBuilder(
+              builder: (context, aussen) => MAktenmappe(
+                reiter: l.profile_classes,
+                // Höchstens zwei Blätter: weitere schöben sich auf breiten Mappen über den Reiter.
+                blaetter: mappenBlaetter(aussen.maxWidth),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ContentWidth(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // Dienstausweis
-                          PaperCard(
-                            clip: true,
-                            padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(3),
-                                  color: Noir.ink,
-                                  child: Portrait(
-                                    look: LookDef(
-                                      coat: detectiveCoats[lo.coat.clamp(0, detectiveCoats.length - 1)],
-                                      hat: lo.hat,
-                                    ),
-                                    size: 96,
-                                  ),
-                                ),
-                                const SizedBox(width: 14),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        l.rankName(meta.rank).toUpperCase(),
-                                        style: Noir.label(11, color: Noir.blood, spacing: 2, weight: FontWeight.w700),
-                                      ),
-                                      const SizedBox(height: 2),
-                                      InkWell(
-                                        onTap: () => showNameDialog(context),
-                                        child: Text(
-                                          meta.name ?? l.name_default,
-                                          style: Noir.title(24, color: Noir.ink),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        children: [
-                                          Icon(GameIcons.cls(lo.cls), size: 15, color: Noir.inkSoft),
-                                          const SizedBox(width: 4),
-                                          Text(l.className(lo.cls), style: Noir.text(12.5, color: Noir.inkSoft)),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      XpBar(xp: meta.xp, color: Noir.blood, showLabel: false),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        next == null ? l.hub_rank_max : l.hub_rank_progress(meta.xp, next),
-                                        style: Noir.text(11.5, color: Noir.inkSoft),
-                                      ),
-                                      if (next != null)
-                                        Text(
-                                          l.profile_next_rank(l.rankName(meta.rank + 1)),
-                                          style: Noir.text(11.5, color: Noir.inkSoft),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                                RankBadge(rank: meta.rank, size: 46),
-                              ],
-                            ),
-                          ).animate().fadeIn(duration: 400.ms),
-                          const SizedBox(height: 22),
-                          SectionLabel(l.profile_record),
-                          _Stats(meta: meta),
-                          const SizedBox(height: 22),
-                          SectionLabel(l.profile_classes),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(l.profil_klasse_hinweis, style: Noir.text(12.5, color: Noir.smoke, height: 1.3)),
-                          ),
-                          for (final c in klassenNachRang())
-                            _ClassRow(
-                              cls: c,
-                              rank: meta.rank,
-                              selected: c.id == lo.cls,
-                              onTap: () => meta.loadout = Loadout(cls: c.id, coat: lo.coat, hat: lo.hat),
-                            ),
-                          const SizedBox(height: 18),
-                          SectionLabel(l.profile_hats),
-                          Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              for (final h in detectiveHats)
-                                _Unlockable(
-                                  locked: meta.rank < hatRank(h),
-                                  label: meta.rank < hatRank(h)
-                                      ? l.common_unlock_at(l.rankName(hatRank(h)))
-                                      : l.hatName(h),
-                                  child: Portrait(
-                                    look: LookDef(coat: detectiveCoats[lo.coat.clamp(0, 7)], hat: h),
-                                    size: 58,
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(height: 18),
-                          SectionLabel(l.profile_coats),
-                          Wrap(
-                            spacing: 12,
-                            runSpacing: 12,
-                            children: [
-                              for (var i = 0; i < detectiveCoats.length; i++)
-                                Tooltip(
-                                  message: meta.rank < coatRank(i)
-                                      ? l.common_unlock_at(l.rankName(coatRank(i)))
-                                      : l.coat_name(i + 1),
-                                  child: Container(
-                                    width: 38,
-                                    height: 38,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: coatColor(i).withValues(alpha: meta.rank < coatRank(i) ? 0.35 : 1),
-                                      border: Border.all(color: Noir.lineStrong),
-                                    ),
-                                    child: meta.rank < coatRank(i)
-                                        ? const Icon(Icons.lock_rounded, size: 16, color: Noir.whiteSoft)
-                                        : null,
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(height: 22),
-                          SectionLabel(l.collection_achievements),
-                          AchievementList(meta: meta),
-                        ],
+                    Text(l.profil_klasse_hinweis, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45, color: MRoh.tinteLeise)),
+                    const SizedBox(height: MMass.s16),
+                    for (var i = 0; i < klassen.length; i++)
+                      _ClassRow(
+                        cls: klassen[i],
+                        rank: meta.rank,
+                        selected: klassen[i].id == lo.cls,
+                        nr: i,
+                        onTap: () => meta.loadout = Loadout(cls: klassen[i].id, coat: lo.coat, hat: lo.hat),
                       ),
-                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: MMass.s32),
+            _Garderobe(meta: meta),
+            const SizedBox(height: MMass.s32),
+            _Erfolge(meta: meta),
+            const SizedBox(height: MMass.s16),
+          ],
         ),
       ),
     );
   }
 }
 
-class _Stats extends StatelessWidget {
-  const _Stats({required this.meta});
+/// Die Dienstakte: Fälle, Lösungen, Serien als Formular mit großen Ziffern.
+class _Dienstakte extends StatelessWidget {
+  const _Dienstakte({required this.meta});
 
   final MetaStore meta;
 
@@ -201,58 +110,76 @@ class _Stats extends StatelessWidget {
       (l.stat_combos, meta.stat('combos'), Icons.hub_rounded),
       (l.stat_best_streak, meta.bestStreak, Icons.local_fire_department_rounded),
     ];
-    return LayoutBuilder(
-      builder: (context, box) {
-        final w = (box.maxWidth - 20) / 3;
-        return Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            for (final (label, value, icon) in items)
-              SizedBox(
-                width: w,
-                child: GlassPanel(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                  child: Column(
-                    children: [
-                      Icon(icon, size: 18, color: MFarben.von(context).akzent),
-                      const SizedBox(height: 4),
-                      Text('$value', style: Noir.title(24)),
-                      Text(
-                        label,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Noir.label(10, color: Noir.smoke, spacing: 0.3),
+    return MBlatt(
+      klammer: true,
+      neigung: 0.004,
+      samen: 71,
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          MBlattKopf(zeile: l.profile_record),
+          LayoutBuilder(
+            builder: (context, box) {
+              final skala = MediaQuery.textScalerOf(context).scale(1);
+              final spalten = (box.maxWidth / (115 * skala.clamp(1.0, 3.0))).floor().clamp(1, 3);
+              final breite = box.maxWidth / spalten;
+              return Wrap(
+                children: [
+                  for (var i = 0; i < items.length; i++)
+                    SizedBox(
+                      width: breite,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: i % spalten == 0 ? BorderSide.none : BorderSide(color: MRoh.tinte.withValues(alpha: 0.18)),
+                            top: i < spalten ? BorderSide.none : BorderSide(color: MRoh.tinte.withValues(alpha: 0.18)),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 6, 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(items[i].$3, size: 15, color: MRoh.tinteLeise),
+                                  const SizedBox(width: MMass.s4),
+                                  Expanded(child: GanzeWorte(items[i].$1, style: MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.tinteLeise))),
+                                ],
+                              ),
+                              Text('${items[i].$2}', style: MPapierSchrift.titel.copyWith(fontSize: 30)),
+                            ],
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-          ],
-        );
-      },
+                    ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
 
-/// Eine Klasse im Profil: Tippen wählt sie als Ermittlerklasse des Geräts.
-/// Gesperrte Klassen sind nicht wählbar und nennen den nötigen Rang.
+/// Eine Klasse im Profil als Karteikarte: Tippen wählt sie als Ermittlerklasse des
+/// Geräts. Gesperrte Klassen sind nicht wählbar und nennen den nötigen Rang.
 class _ClassRow extends StatelessWidget {
-  const _ClassRow({required this.cls, required this.rank, required this.selected, required this.onTap});
+  const _ClassRow({required this.cls, required this.rank, required this.selected, required this.nr, required this.onTap});
 
   final DetectiveClass cls;
   final int rank;
   final bool selected;
+  final int nr;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
     final locked = rank < cls.unlockRank;
-    final akzent = MFarben.von(context).akzent;
     final name = l.className(cls.id);
-    final rahmen = BorderRadius.circular(6);
     return Semantics(
       button: true,
       selected: selected,
@@ -261,120 +188,310 @@ class _ClassRow extends StatelessWidget {
       hint: l.classAbility(cls.id),
       onTap: locked ? null : onTap,
       excludeSemantics: true,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        decoration: BoxDecoration(
-          color: selected ? Color.lerp(Noir.panel, akzent, 0.14) : Noir.panel,
-          borderRadius: rahmen,
-          border: Border.all(color: selected ? akzent : Noir.lineSoft, width: selected ? 2 : 1),
-        ),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            borderRadius: rahmen,
-            onTap: locked ? null : onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: MMass.s12),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            MBlatt(
+              art: PapierArt.karteikarte,
+              kopfLinie: 6,
+              linien: false,
+              hervorgehoben: selected,
+              neigung: nr.isEven ? -0.003 : 0.003,
+              samen: nr + 13,
+              onTap: locked ? null : onTap,
+              padding: const EdgeInsets.fromLTRB(12, 14, 14, 12),
               child: Opacity(
                 opacity: locked ? 0.55 : 1,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: locked ? Noir.lineSoft : akzent),
-                      child: Icon(
-                        locked ? Icons.lock_rounded : GameIcons.cls(cls.id),
-                        size: 20,
-                        color: locked ? Noir.smoke : Noir.night,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final medaille = _Medaille(icon: locked ? Icons.lock_rounded : GameIcons.cls(cls.id), matt: locked);
+                    final kopf = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GanzeWorte(name, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
+                        if (locked)
+                          GanzeWorte(l.common_unlock_at(l.rankName(cls.unlockRank)), style: MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.stempelRot)),
+                      ],
+                    );
+                    final text = [
+                      GanzeWorte(l.classAbility(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
+                      const SizedBox(height: 2),
+                      GanzeWorte(l.classPassive(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                    ];
+                    // Bei großer Schrift auf schmalem Handy wird die Spalte neben der
+                    // Medaille zu eng: Dann steht die Medaille oben und Name und Text
+                    // darunter in voller Breite.
+                    if (_Medaille.schmal(context, box.maxWidth)) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(child: Text(name, style: Noir.title(16))),
-                              if (locked)
-                                Text(
-                                  l.common_unlock_at(l.rankName(cls.unlockRank)),
-                                  style: Noir.label(11, color: akzent, spacing: 0.3),
-                                ),
-                            ],
-                          ),
-                          if (selected) ...[
-                            const SizedBox(height: 2),
-                            Row(
-                              children: [
-                                Icon(Icons.check_circle_rounded, size: 14, color: akzent),
-                                const SizedBox(width: 4),
-                                Flexible(
-                                  child: Text(
-                                    l.profil_klasse_gewaehlt.toUpperCase(),
-                                    style: Noir.label(11, color: akzent, spacing: 0.8),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                          const SizedBox(height: 3),
-                          Text(l.classAbility(cls.id), style: Noir.text(12, height: 1.3)),
-                          const SizedBox(height: 2),
-                          Text(l.classPassive(cls.id), style: Noir.text(12, color: Noir.smoke, height: 1.3)),
+                          Align(alignment: Alignment.centerLeft, child: medaille),
+                          const SizedBox(height: MMass.s8),
+                          kopf,
+                          const SizedBox(height: MMass.s4),
+                          ...text,
                         ],
-                      ),
-                    ),
-                  ],
+                      );
+                    }
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        medaille,
+                        const SizedBox(width: MMass.s12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [kopf, const SizedBox(height: MMass.s4), ...text],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
-          ),
+            if (selected)
+              Positioned(
+                top: -8,
+                right: 12,
+                child: IgnorePointer(child: MStempel(text: l.profil_klasse_gewaehlt, groesse: 12, winkel: 0.1, aufschlagen: true)),
+              ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _Unlockable extends StatelessWidget {
-  const _Unlockable({required this.locked, required this.label, required this.child});
+/// Runde Messingmedaille mit Symbol; [matt] für Gesperrtes und noch nicht Errungenes.
+class _Medaille extends StatelessWidget {
+  const _Medaille({required this.icon, this.matt = false});
 
-  final bool locked;
-  final String label;
-  final Widget child;
+  final IconData icon;
+  final bool matt;
+  static const groesse = 40.0;
+
+  /// Ist neben der Medaille in [breite] zu wenig Platz für den Text (große Schrift,
+  /// schmales Handy)? Dann steht sie über dem Text.
+  static bool schmal(BuildContext context, double breite) => breite - groesse - MMass.s12 < 120 * MediaQuery.textScalerOf(context).scale(1);
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: groesse,
+        height: groesse,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: matt
+              ? null
+              : const RadialGradient(center: Alignment(-0.35, -0.4), colors: [MRoh.messingHell, MRoh.messingMitte, MRoh.messingDunkel], stops: [0, 0.55, 1]),
+          border: matt ? Border.all(color: MRoh.tinte.withValues(alpha: 0.45), width: 1.4) : null,
+          boxShadow: matt ? null : const [BoxShadow(color: Color(0x66000000), blurRadius: 3, offset: Offset(0, 2))],
+        ),
+        child: Icon(icon, size: groesse * 0.5, color: matt ? MRoh.tinteLeise : const Color(0xFF3A2808)),
+      );
+}
+
+/// Die Garderobe: Hüte als Fotoabzüge des eigenen Detektivs, Mäntel als
+/// angeheftete Stoffmuster. Gesperrtes ist verblasst und nennt den Rang.
+class _Garderobe extends StatelessWidget {
+  const _Garderobe({required this.meta});
+
+  final MetaStore meta;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    return MBlatt(
+      klebestreifen: true,
+      neigung: -0.004,
+      samen: 83,
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          MBlattKopf(zeile: l.profile_hats),
+          Wrap(
+            spacing: MMass.s12,
+            runSpacing: MMass.s16,
+            children: [
+              for (var i = 0; i < detectiveHats.length; i++)
+                _Hut(
+                  look: detektivAussehen(meta, hut: detectiveHats[i]),
+                  gesperrt: meta.rank < hatRank(detectiveHats[i]),
+                  text: meta.rank < hatRank(detectiveHats[i]) ? l.common_unlock_at(l.rankName(hatRank(detectiveHats[i]))) : l.hatName(detectiveHats[i]),
+                  neigung: i.isEven ? -0.03 : 0.025,
+                ),
+            ],
+          ),
+          const SizedBox(height: MMass.s24),
+          MBlattKopf(zeile: l.profile_coats),
+          Wrap(
+            spacing: MMass.s16,
+            runSpacing: MMass.s16,
+            children: [
+              for (var i = 0; i < detectiveCoats.length; i++)
+                Tooltip(
+                  message: meta.rank < coatRank(i) ? l.common_unlock_at(l.rankName(coatRank(i))) : l.coat_name(i + 1),
+                  child: _Stoffmuster(farbe: coatColor(i), gesperrt: meta.rank < coatRank(i), neigung: i.isEven ? 0.05 : -0.04),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Hut extends StatelessWidget {
+  const _Hut({required this.look, required this.gesperrt, required this.text, required this.neigung});
+
+  final LookDef look;
+  final bool gesperrt;
+  final String text;
+  final double neigung;
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    width: 70,
-    child: Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: Noir.line),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Stack(
+        width: 82,
+        child: Column(
+          children: [
+            Stack(
               alignment: Alignment.center,
               children: [
-                Opacity(opacity: locked ? 0.3 : 1, child: child),
-                if (locked) Icon(Icons.lock_rounded, color: MFarben.von(context).akzent, size: 18),
+                MFotoabzug(look: look, groesse: 58, neigung: neigung, gedaempft: gesperrt, akzent: MRoh.messingMitte),
+                if (gesperrt) const Icon(Icons.lock_rounded, color: MRoh.stempelRot, size: 20),
               ],
             ),
-          ),
+            const SizedBox(height: MMass.s4),
+            GanzeWorte(
+              text,
+              textAlign: TextAlign.center,
+              style: gesperrt
+                  ? MPapierSchrift.maschine.copyWith(fontSize: 12, height: 1.3, color: MRoh.tinteLeise)
+                  : MPapierSchrift.hand.copyWith(fontSize: 17, height: 1.15),
+            ),
+          ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Noir.label(10, color: locked ? Noir.smokeDim : Noir.smoke, spacing: 0.1, weight: FontWeight.w500),
+      );
+}
+
+/// Ein Stoffmuster mit Webstruktur, oben mit einer Reißzwecke angeheftet.
+class _Stoffmuster extends StatelessWidget {
+  const _Stoffmuster({required this.farbe, required this.gesperrt, required this.neigung});
+
+  final Color farbe;
+  final bool gesperrt;
+  final double neigung;
+
+  @override
+  Widget build(BuildContext context) => Transform.rotate(
+        angle: neigung,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            Opacity(
+              opacity: gesperrt ? 0.35 : 1,
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(boxShadow: [BoxShadow(color: Color(0x66000000), blurRadius: 4, offset: Offset(0, 2))]),
+                child: CustomPaint(painter: _GewebeMaler(farbe)),
+              ),
+            ),
+            if (gesperrt) const Icon(Icons.lock_rounded, size: 16, color: MRoh.tinte),
+            const Positioned(top: -5, child: MReissnagel(groesse: 12)),
+          ],
         ),
-      ],
-    ),
-  );
+      );
+}
+
+class _GewebeMaler extends CustomPainter {
+  _GewebeMaler(this.farbe);
+
+  final Color farbe;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = Offset.zero & size;
+    canvas.drawRect(r, Paint()..color = farbe);
+    final hell = Paint()
+      ..strokeWidth = 1
+      ..color = Colors.white.withValues(alpha: 0.12);
+    final dunkel = Paint()
+      ..strokeWidth = 1
+      ..color = Colors.black.withValues(alpha: 0.16);
+    for (var x = 1.5; x < size.width; x += 3) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), hell);
+    }
+    for (var y = 1.5; y < size.height; y += 3) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), dunkel);
+    }
+    // Ausgefranster Rand: kleine Zacken unten.
+    final zacken = Paint()..color = Colors.black.withValues(alpha: 0.18);
+    for (var x = 0.0; x < size.width; x += 4) {
+      canvas.drawRect(Rect.fromLTWH(x, size.height - 2, 2, 2), zacken);
+    }
+    canvas.drawRect(
+      r.deflate(0.5),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..color = Colors.black.withValues(alpha: math.min(0.4, 0.2 + farbe.computeLuminance() * 0.3)),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _GewebeMaler alt) => alt.farbe != farbe;
+}
+
+/// Die Erfolge als Urkundenblatt: errungene mit Messingmedaille, offene matt.
+class _Erfolge extends StatelessWidget {
+  const _Erfolge({required this.meta});
+
+  final MetaStore meta;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final done = meta.achievements;
+    return MBlatt(
+      neigung: 0.003,
+      samen: 97,
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          MBlattKopf(zeile: l.collection_achievements, unter: l.collection_achievements_count(done.length, achievementIds.length)),
+          for (var i = 0; i < achievementIds.length; i++) ...[
+            if (i > 0) Container(height: 1, margin: const EdgeInsets.symmetric(vertical: MMass.s8), color: MRoh.tinte.withValues(alpha: 0.12)),
+            LayoutBuilder(
+              builder: (context, box) {
+                final errungen = done.contains(achievementIds[i]);
+                final medaille = _Medaille(icon: errungen ? GameIcons.achievement(achievementIds[i]) : Icons.lock_rounded, matt: !errungen);
+                final text = Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GanzeWorte(
+                      l.achievementName(achievementIds[i]),
+                      style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3, color: errungen ? MRoh.tinte : MRoh.tinteLeise),
+                    ),
+                    GanzeWorte(l.achievementDesc(achievementIds[i]), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                  ],
+                );
+                if (_Medaille.schmal(context, box.maxWidth)) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [Align(alignment: Alignment.centerLeft, child: medaille), const SizedBox(height: MMass.s8), text],
+                  );
+                }
+                return Row(children: [medaille, const SizedBox(width: MMass.s12), Expanded(child: text)]);
+              },
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 }

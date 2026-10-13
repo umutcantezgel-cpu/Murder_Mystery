@@ -5372,6 +5372,42 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Bot'**
   String get online_bot_stempel;
+
+  /// No description provided for @detektei_dienstausweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Dienstausweis'**
+  String get detektei_dienstausweis;
+
+  /// No description provided for @detektei_dienstgrad.
+  ///
+  /// In de, this message translates to:
+  /// **'Dienstgrad'**
+  String get detektei_dienstgrad;
+
+  /// No description provided for @detektei_akte_lage.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Lage'**
+  String get detektei_akte_lage;
+
+  /// No description provided for @detektei_akte_schauplatz.
+  ///
+  /// In de, this message translates to:
+  /// **'Schauplatz'**
+  String get detektei_akte_schauplatz;
+
+  /// No description provided for @detektei_akte_anlass.
+  ///
+  /// In de, this message translates to:
+  /// **'Anlass'**
+  String get detektei_akte_anlass;
+
+  /// No description provided for @detektei_akte_zeitpunkt.
+  ///
+  /// In de, this message translates to:
+  /// **'Zeitpunkt'**
+  String get detektei_akte_zeitpunkt;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
