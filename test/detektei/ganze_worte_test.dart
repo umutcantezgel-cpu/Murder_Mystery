@@ -9,7 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
-import 'package:mordakte/detektei/akte_bausteine.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/detektei/schreibtisch.dart';
 import 'package:mordakte/meta/meta_store.dart';
@@ -137,8 +136,9 @@ void main() {
   });
 
   testWidgets('Assistent: die Aktenmappen teilen bei 320 px und doppelter Schrift kein Wort', (tester) async {
-    final state = await oeffnen(tester, Routes.abendNeu, bereit: find.byType(AkteKarte));
-    keinWortGeteilt(tester, find.byType(AkteKarte));
+    // Der Assistent zeigt die Akten als eigene Aktenmappen (Lane Assistent).
+    final state = await oeffnen(tester, Routes.abendNeu, bereit: find.byType(MAktenmappe));
+    keinWortGeteilt(tester, find.byType(MAktenmappe));
     await schliessen(tester, state);
   });
 

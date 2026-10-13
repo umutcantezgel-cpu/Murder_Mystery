@@ -50,11 +50,17 @@ class _MStempelState extends State<MStempel> with SingleTickerProviderStateMixin
     if (!widget.aufschlagen || MBewegung.ruhig(context)) {
       _c.value = 1;
     } else if (_c.status == AnimationStatus.dismissed) {
+      // Der Stempel trifft das Papier nach gut der halben Bewegung (ohne Timer).
+      var geklungen = false;
+      void aufschlag() {
+        if (geklungen || _c.value < 0.55) return;
+        geklungen = true;
+        _c.removeListener(aufschlag);
+        Klang.instanz.spiele('stempel', laut: 0.9);
+      }
+
+      _c.addListener(aufschlag);
       _c.forward();
-      // Der Stempel trifft das Papier nach gut der halben Bewegung.
-      Future<void>.delayed(const Duration(milliseconds: 230), () {
-        if (mounted) Klang.instanz.spiele('stempel', laut: 0.9);
-      });
     }
   }
 
