@@ -199,11 +199,13 @@ try {
     // Abend endet. Playwrights goBack() wirkt hier nicht (es bleibt bei einem Schritt im selben Dokument);
     // history.back() ist derselbe Schritt wie der Browser-Zurück-Knopf.
     stage = `${width} px · Browser-Zurück`;
-    const titel = page.getByText(text('abend_abbrechen_titel'), { exact: true });
+    // Die Karteikarte benennt ihre Route mit dem Titel (Semantik-Label für Bildschirmleser), der
+    // Titel steht dann nicht noch einmal als Text im Baum.
+    const titel = page.getByLabel(text('abend_abbrechen_titel'), { exact: true }).or(page.getByText(text('abend_abbrechen_titel'), { exact: true }));
     const verlauf = () => page.evaluate(() => ({ len: history.length, hash: location.hash }));
     const vorZurueck = await verlauf();
     await page.evaluate(() => history.back());
-    await titel.waitFor({ state: 'visible', timeout: 30000 });
+    await titel.first().waitFor({ state: 'visible', timeout: 30000 });
     await page.getByText(text('abend_abbrechen_text'), { exact: true }).waitFor({ state: 'visible', timeout: 30000 });
     await page.getByRole('button', { name: text('abend_abbrechen_nein'), exact: true }).waitFor({ state: 'visible', timeout: 30000 });
     await photo('abbrechen-dialog');
@@ -226,13 +228,13 @@ try {
     stage = `${width} px · Leiste: Abbrechen`;
     const vorLeiste = await verlauf();
     await click('abend_abbrechen');
-    await titel.waitFor({ state: 'visible', timeout: 30000 });
+    await titel.first().waitFor({ state: 'visible', timeout: 30000 });
     await weiterspielen('Leiste', vorLeiste);
 
     // Abbrechen → Ja → Detektei.
     stage = `${width} px · Rückfrage bestätigen`;
     await click('abend_abbrechen');
-    await titel.waitFor({ state: 'visible', timeout: 30000 });
+    await titel.first().waitFor({ state: 'visible', timeout: 30000 });
     await tippeRueckfrage(text('abend_abbrechen_ja'));
 
     // Ergebnis: Detektei sichtbar, Rückfrage weg.
