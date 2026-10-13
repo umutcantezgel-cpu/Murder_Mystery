@@ -27,7 +27,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Man erzählt sich, Sie hätten mit dem Lord noch eine Rechnung offen gehabt.",
+              "text": "Man erzählt sich, Sie reden mit Ihren Rosen mehr als mit den Menschen hier.",
               "druck": 1,
               "vertrauen": -1,
               "ziel": "abwehr"
@@ -87,7 +87,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Die ganze Nacht? Das glaube ich Ihnen nicht.",
+              "text": "Das ist mir zu knapp, Silas. Reden Sie weiter.",
               "druck": 1,
               "ziel": [
                 {
@@ -104,12 +104,12 @@
           ]
         },
         "abwehr": {
-          "text": "Die Schere klappt zu. „Wer erzählt so etwas? Ich habe dem Lord nie ein Haar gekrümmt. Ich habe nur seine Hecken geschnitten.“",
+          "text": "Die Schere klappt zu. „Wer erzählt so etwas? Die Rosen tratschen wenigstens nicht.“ Er brummt etwas in seinen Bart.",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Verzeihen Sie. Ich muss alle fragen, auch die, denen ich glaube.",
+              "text": "Verzeihen Sie. Das war nur Gerede.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
@@ -132,11 +132,11 @@
           ]
         },
         "neutral": {
-          "text": "„Fragen Sie in der Küche“, brummt er. „Dort hört man mehr als im Garten.“ Dann wendet er sich ab und zupft an seinen Handschuhen.",
+          "text": "„Fragen Sie jemand anderen“, brummt er. „Ich bin nur der Gärtner.“ Dann wendet er sich ab und zupft an seinen Handschuhen.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich habe genug gesagt.“ Silas dreht Ihnen den Rücken zu. Für heute Nacht ist das Gespräch vorbei.",
+          "text": "„Ich habe genug gesagt.“ Silas dreht dir den Rücken zu. Für den Moment ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "silas_verstimmt"
@@ -154,7 +154,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Silas winkt Sie heran, kaum dass Sie in der Nähe sind. „Sie sind wiedergekommen. Gut. Mir ist noch etwas eingefallen, über den Garten.“",
+          "text": "Silas winkt dich heran, kaum dass du in der Nähe bist. „Sie sind wiedergekommen. Gut. Mir ist noch etwas eingefallen, über den Garten.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -201,7 +201,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Silas steht wieder an seinem Platz und tut, als sähe er Sie nicht.",
+          "text": "Silas steht wieder an seinem Platz und tut, als sähe er dich nicht.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -219,7 +219,7 @@
           ]
         },
         "versoehnt": {
-          "text": "Er brummt, länger diesmal. „Schon gut. Es ist eine lange Nacht für alle.“ Er nickt Ihnen zu, beinahe freundlich.",
+          "text": "Er brummt, länger diesmal. „Schon gut. Es ist eine lange Nacht für alle.“ Er nickt dir zu, beinahe freundlich.",
           "geste": "nicken",
           "setzt": [
             "silas_versoehnt"
@@ -255,7 +255,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Julian hat mir schon erzählt, was Sie wissen.",
+              "text": "Man sagt, der Braten beim Dinner sei zäh gewesen.",
               "druck": 1,
               "vertrauen": -1,
               "ziel": "abwehr"
@@ -263,12 +263,12 @@
           ]
         },
         "warm": {
-          "text": "Sie gießt Ihnen eine Tasse ein, ohne zu fragen. „Zwanzig Jahre koche ich hier. Ich weiß, wer wann Hunger hat und wer wann lügt.“ Sie lächelt dünn.",
+          "text": "Sie gießt dir eine Tasse ein, ohne zu fragen. „Zwanzig Jahre koche ich hier. Ich weiß, wer wann Hunger hat und wer zum Frühstück zwei Eier will.“ Sie lächelt dünn.",
           "geste": "nicken",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Dann sind Sie die beste Zeugin im Haus.",
+              "text": "Dann ist diese Küche in den besten Händen.",
               "vertrauen": 1,
               "ziel": [
                 {
@@ -284,14 +284,14 @@
             },
             {
               "haltung": "draengen",
-              "text": "Und wer hat heute Abend gelogen?",
+              "text": "Und was haben Sie heute Abend mitbekommen?",
               "druck": 1,
               "ziel": "streit"
             }
           ]
         },
         "streit": {
-          "text": "„Vom Streit beim Dinner habe ich nichts mitbekommen. Ich war nur in der Küche.“ Sie sagt es zu schnell, und sie weiß es.",
+          "text": "„Vom Streit beim Dinner habe ich nichts mitbekommen. Ich war nur in der Küche.“ Sie zieht den Holzlöffel aus dem Band und klopft ihn am Topfrand ab.",
           "preisgabe": [
             "luege:luege_koechin_streit"
           ],
@@ -315,7 +315,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Nur in der Küche? Die Tür zum Speisesaal ist gleich nebenan.",
+              "text": "Das reicht mir nicht, Mrs Hobbs. Ich brauche mehr.",
               "druck": 1,
               "ziel": [
                 {
@@ -332,25 +332,25 @@
           ]
         },
         "abwehr": {
-          "text": "Der Löffel landet klappernd auf dem Tisch. „Der Junge erzählt viel, wenn die Nacht lang ist. Ich habe ihn großgezogen. Lassen Sie ihn in Ruhe.“",
+          "text": "Der Löffel landet klappernd auf dem Tisch. „Zäh? Mein Braten? Wer das sagt, hat keinen Bissen davon probiert.“",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Ich will ihm nichts Böses. Ich will nur verstehen, was passiert ist.",
+              "text": "Verzeihen Sie. Ich wollte Sie nur aus der Reserve locken.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
             {
               "haltung": "draengen",
-              "text": "Dann reden Sie mit mir statt über ihn.",
+              "text": "Dann reden wir über heute Nacht statt über Ihren Braten.",
               "druck": 1,
               "ziel": "verstimmt"
             }
           ]
         },
         "vertraut": {
-          "text": "Sie senkt die Stimme. „Um zehn Uhr trug Pell das Teetablett ins Arbeitszimmer, wie jeden Abend. Das weiß jeder hier. Kommen Sie wieder, wenn der Kessel kocht.“",
+          "text": "Sie senkt die Stimme. „Um zehn Uhr trug Pell das Teetablett ins Arbeitszimmer. Kommen Sie wieder, wenn der Kessel kocht.“",
           "preisgabe": [
             "beobachtung:b_koechin_tee"
           ],
@@ -364,7 +364,7 @@
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„In meiner Küche wird nicht verhört.“ Sie dreht Ihnen den Rücken zu und rührt in einem Topf, der leer ist.",
+          "text": "„In meiner Küche wird nicht verhört.“ Sie dreht dir den Rücken zu und rührt in einem Topf, der leer ist.",
           "geste": "abwehr",
           "setzt": [
             "hobbs_verstimmt"
@@ -382,12 +382,12 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Mrs Hobbs stellt Ihnen ungefragt eine frische Tasse hin. „Setzen Sie sich. Mir ist beim Abwasch etwas aufgefallen.“",
+          "text": "Mrs Hobbs stellt dir ungefragt eine frische Tasse hin. „Setzen Sie sich. Mir ist beim Abwasch etwas eingefallen.“",
           "geste": "nicken",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Danke. Was ist Ihnen aufgefallen?",
+              "text": "Danke. Was ist Ihnen eingefallen?",
               "vertrauen": 1,
               "ziel": "uhr"
             },
@@ -400,7 +400,7 @@
           ]
         },
         "uhr": {
-          "text": "„Julian trug beim Dinner keine Taschenuhr. Dabei hat er sonst immer eine bei sich, seit er ein kleiner Junge war. Ich habe es bemerkt, weil er nach der Zeit fragen musste.“",
+          "text": "„Julian trug beim Dinner keine Taschenuhr. Dabei hat er sonst immer eine bei sich. So etwas fällt mir auf, ich kenne den Jungen.“",
           "preisgabe": [
             "beobachtung:b_koechin_uhr"
           ],
@@ -446,7 +446,7 @@
           ]
         },
         "versoehnt": {
-          "text": "Sie reicht Ihnen ein Tuch. „Abtrocknen können Sie also. Na gut. Vergessen wir das vorhin.“",
+          "text": "Sie reicht dir ein Geschirrtuch. „Abtrocknen können Sie also. Na gut. Vergessen wir das vorhin.“",
           "geste": "nicken",
           "setzt": [
             "hobbs_versoehnt"
@@ -465,7 +465,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Tilly dreht den Schlüsselring an ihrer Schürze und späht zur Treppe. „Sie wollen mich etwas fragen? Ich weiß aber nichts, wirklich nicht.“",
+          "text": "Tilly dreht den Schlüsselring an ihrer Schürze und späht zur Treppe. „Sie wollen mich etwas fragen? Ich bin doch nur die Zofe.“",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -476,13 +476,13 @@
             },
             {
               "haltung": "draengen",
-              "text": "Sie bringen der Lady die Post. Was war heute dabei?",
+              "text": "Sie kümmern sich um die Post der Lady. Erzählen Sie mir davon.",
               "druck": 1,
               "ziel": "post"
             },
             {
               "haltung": "bluffen",
-              "text": "Ich weiß, dass Sie heute Nacht etwas gesehen haben.",
+              "text": "Man erzählt sich, in der Küche bekommen Sie immer das größte Stück Kuchen.",
               "druck": 1,
               "vertrauen": -1,
               "ziel": "abwehr"
@@ -490,7 +490,7 @@
           ]
         },
         "warm": {
-          "text": "Sie atmet aus. „Die Lady ist gut zu mir. Seit ihrer Hochzeit diene ich ihr. Ich kenne jede Treppe in diesem Haus, sogar die, die keiner benutzt.“",
+          "text": "Sie atmet aus. „Die Lady ist gut zu mir. Seit ihrer Hochzeit diene ich ihr. Ich kenne jede Treppe in diesem Haus.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -518,7 +518,7 @@
           ]
         },
         "post": {
-          "text": "„Ich habe die Post der Lady nie angerührt. Ich bringe sie ungelesen.“ Der Schlüsselring klirrt leise in ihren Fingern.",
+          "text": "„Ich habe die Post der Lady nie angerührt. Ich bringe sie ungelesen.“ Sie macht einen kleinen Knicks.",
           "preisgabe": [
             "luege:luege_zofe_post"
           ],
@@ -542,7 +542,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Nie? Nicht ein einziges Mal?",
+              "text": "Schneller, Tilly. Ich habe nicht die ganze Nacht Zeit.",
               "druck": 1,
               "ziel": [
                 {
@@ -559,7 +559,7 @@
           ]
         },
         "flur": {
-          "text": "„Im oberen Flur. Ich hatte die Tür von Lady Constances Zimmer im Blick, die ganze Zeit.“ Sie presst die Lippen zusammen, als hätte sie schon zu viel gesagt.",
+          "text": "„Im oberen Flur. Beim Donnerschlag hatte ich die Tür von Lady Constances Zimmer im Blick.“ Sie sieht dich an, als wartete sie auf ein Lob.",
           "preisgabe": [
             "beobachtung:b_zofe_flur"
           ],
@@ -567,20 +567,20 @@
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Danke, Tilly. Das war mutig.",
+              "text": "Danke, Tilly. Das hilft mir weiter.",
               "vertrauen": 1,
               "ziel": "vertraut"
             },
             {
               "haltung": "draengen",
-              "text": "Und was haben Sie an dieser Tür gesehen?",
+              "text": "Ein Lob? Wir sind hier nicht in der Schule, Tilly.",
               "druck": 2,
               "ziel": "verstimmt"
             }
           ]
         },
         "abwehr": {
-          "text": "Ihre Augen werden groß. „Ich habe gar nichts gesehen! Ich war die ganze Zeit oben, ich schwöre es.“",
+          "text": "Ihre Augen werden groß. „Nicht immer! Nur sonntags, und nur, wenn etwas übrig ist.“ Sie wird rot bis unter das Häubchen.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -591,14 +591,14 @@
             },
             {
               "haltung": "draengen",
-              "text": "Oben wo genau?",
+              "text": "Lassen wir den Kuchen. Wo waren Sie beim Donnerschlag?",
               "druck": 1,
               "ziel": "flur"
             }
           ]
         },
         "vertraut": {
-          "text": "Tilly flüstert: „Die Hintertreppe führt vom Ankleidezimmer der Lady direkt in die Halle, gleich neben die Standuhr. Kaum jemand denkt daran. Fragen Sie mich später noch einmal, ja?“",
+          "text": "Tilly nickt eifrig. „Die Hintertreppe führt vom Ankleidezimmer der Lady direkt in die Halle, gleich neben die Standuhr. Kommen Sie später wieder, ja?“",
           "preisgabe": [
             "beobachtung:b_zofe_hintertreppe"
           ],
@@ -612,7 +612,7 @@
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "Tränen stehen ihr in den Augen. „Ich sage nichts mehr. Gar nichts.“ Sie dreht sich zur Wand.",
+          "text": "Tränen stehen ihr in den Augen. „Sie sind so streng mit mir.“ Sie dreht sich zur Wand.",
           "geste": "abwehr",
           "setzt": [
             "tilly_verstimmt"
@@ -630,7 +630,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Tilly zupft Sie am Ärmel. „Sie haben vorhin nett mit mir geredet. Darum will ich Ihnen noch etwas sagen. Über Pell.“",
+          "text": "Tilly zupft dich am Ärmel. „Sie haben vorhin nett mit mir geredet. Darum will ich Ihnen noch etwas sagen. Über Pell.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -669,7 +669,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Tilly sieht Sie kommen und weicht einen Schritt zurück.",
+          "text": "Tilly sieht dich kommen und weicht einen Schritt zurück.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -706,7 +706,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Mr Crane rückt den Kneifer zurecht und klappt seine Ledermappe zu. „Ich stehe zur Verfügung, soweit es das Mandantengeheimnis erlaubt. Bitte fassen Sie sich kurz.“",
+          "text": "Mr Crane rückt den Kneifer zurecht und klappt seine Ledermappe zu. „Ich stehe zur Verfügung, wie es sich gehört. Bitte fassen Sie sich kurz.“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -723,7 +723,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Ich weiß von den Schulden in dieser Familie.",
+              "text": "Man sagt, Sie behalten Ihren Zylinder sogar beim Dinner auf.",
               "druck": 1,
               "vertrauen": -1,
               "ziel": "abwehr"
@@ -783,7 +783,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Und wer profitiert davon, dass es nie unterschrieben wurde?",
+              "text": "Und wer profitiert davon, dass es nie beurkundet wurde?",
               "druck": 1,
               "ziel": [
                 {
@@ -800,7 +800,7 @@
           ]
         },
         "mandant": {
-          "text": "„Von Julians Geldsorgen weiß ich nichts. Ich vertrete nur Lord Edmund.“ Er sagt es glatt, wie einen Satz, den er geübt hat.",
+          "text": "„Von Julians Geldsorgen weiß ich nichts. Ich vertrete nur Lord Edmund.“ Er rückt den Kneifer zurecht.",
           "preisgabe": [
             "luege:luege_anwalt_mandant"
           ],
@@ -808,38 +808,38 @@
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Ich verstehe. Sie müssen schweigen.",
+              "text": "Ich verstehe. Sie vertreten nur den Lord.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
             {
               "haltung": "draengen",
-              "text": "Ein Anwalt, der nichts weiß? Das glaube ich nicht.",
+              "text": "Ich frage so lange, bis ich zufrieden bin.",
               "druck": 1,
               "ziel": "verstimmt"
             }
           ]
         },
         "abwehr": {
-          "text": "Der Kneifer rutscht ihm fast von der Nase. „Dann wissen Sie mehr als ich, und ich rate Ihnen, vorsichtig damit zu sein.“",
+          "text": "Der Kneifer rutscht ihm fast von der Nase. „Unfug. Ein Gentleman legt bei Tisch den Hut ab. Ich rate Ihnen, Gerüchte sorgfältiger zu prüfen.“",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Verzeihen Sie. Ich habe mich ungeschickt ausgedrückt.",
+              "text": "Verzeihen Sie. Sagen Sie mir lieber, warum Sie heute Nacht hier sind.",
               "vertrauen": 1,
               "ziel": "testament"
             },
             {
               "haltung": "draengen",
-              "text": "Vorsichtig bin ich. Neugierig auch.",
+              "text": "Ich prüfe alles, Mr Crane. Auch Sie.",
               "druck": 1,
               "ziel": "verstimmt"
             }
           ]
         },
         "vertraut": {
-          "text": "Er öffnet die Mappe einen Spalt. „Unter uns: Lord Edmund wollte in dieser Nacht sein Testament ändern. Der Entwurf war fertig, es fehlte nur noch das Siegel. Mehr darf ich nicht sagen. Noch nicht.“",
+          "text": "Er senkt die Stimme. „Unter uns: Lord Edmund wollte in dieser Nacht sein Testament ändern. Der Entwurf war fertig, es fehlte nur noch das Siegel.“ Dann richtet er sich auf, ganz wieder der Anwalt.",
           "preisgabe": [
             "beobachtung:b_anwalt_testament"
           ],
@@ -849,11 +849,11 @@
           ]
         },
         "neutral": {
-          "text": "„Wenn das alles war.“ Mr Crane öffnet seine Mappe wieder und vertieft sich in ein Blatt, das er längst kennt.",
+          "text": "„Wenn das alles war.“ Mr Crane öffnet seine Mappe wieder und blättert darin.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Dieses Gespräch ist beendet.“ Er steht auf, verbeugt sich knapp und lässt Sie stehen.",
+          "text": "„Dieses Gespräch ist beendet.“ Er steht auf, verbeugt sich knapp und lässt dich stehen.",
           "geste": "abwehr",
           "setzt": [
             "crane_verstimmt"
@@ -889,14 +889,14 @@
           ]
         },
         "versoehnt": {
-          "text": "Er klappt die Mappe zu. „Entschuldigung angenommen. Wir sind beide Diener der Wahrheit, auf unsere Weise.“",
+          "text": "Er klappt die Mappe zu. „Entschuldigung angenommen. Wir dienen beide der Wahrheit, auf unsere Weise.“",
           "geste": "nicken",
           "setzt": [
             "crane_versoehnt"
           ]
         },
         "kalt": {
-          "text": "„Unschuldig bin ich ohnehin.“ Er schreibt etwas in seine Mappe. Vermutlich Ihren Namen.",
+          "text": "„Unschuldig bin ich ohnehin.“ Er schreibt etwas in seine Mappe. Vermutlich deinen Namen.",
           "geste": "abwehr"
         }
       }
@@ -910,7 +910,7 @@
         "silas_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Im Frühling pflanzt Silas neue Rosen vor dem Herrenhaus. Eine Sorte trägt einen Namen, den nur er und Sie kennen."
+      "text": "Im Frühling pflanzt Silas neue Rosen vor dem Herrenhaus. Wer ihn nach jener Nacht fragt, bekommt nur ein Brummen: „Geklärt ist geklärt.“"
     },
     {
       "id": "silas_freund",
@@ -918,7 +918,7 @@
       "flags": [
         "silas_freund"
       ],
-      "text": "Silas schickt Ihnen eine getrocknete Rose aus dem Garten von Ravensmoor. Kein Brief, nur die Rose."
+      "text": "Im Frühling schneidet Silas die Rosen von Ravensmoor zurück, wie jedes Jahr. Er arbeitet allein und brummt dabei vor sich hin."
     },
     {
       "id": "silas_vertraut",
@@ -926,7 +926,7 @@
       "flags": [
         "silas_vertraut"
       ],
-      "text": "Silas brummt zum Abschied etwas, das wie ein Dank klingt, und schnippt eine Rosenblüte in Ihre Richtung."
+      "text": "Silas brummt zum Abschied etwas Unverständliches und schnippt eine Rosenblüte in deine Richtung."
     },
     {
       "id": "silas_versoehnt",
@@ -934,7 +934,7 @@
       "flags": [
         "silas_versoehnt"
       ],
-      "text": "Als Sie gehen, hebt Silas die Gartenschere zum Gruß. Mehr Freundlichkeit hat er für niemanden."
+      "text": "Als du gehst, hebt Silas die Gartenschere zum Gruß. Mehr Freundlichkeit hat er für niemanden."
     },
     {
       "id": "silas_verstimmt",
@@ -942,7 +942,7 @@
       "flags": [
         "silas_verstimmt"
       ],
-      "text": "Silas sieht Ihnen nicht nach, als Sie über die Brücke fahren. Er schneidet an der Hecke, bis Sie fort sind."
+      "text": "Silas sieht dir nicht nach, als du über die Brücke fährst. Er klappert mit der Gartenschere, bis du fort bist."
     },
     {
       "id": "hobbs_freund",
@@ -950,7 +950,7 @@
       "flags": [
         "hobbs_freund"
       ],
-      "text": "Mrs Hobbs packt Ihnen für die Heimfahrt einen Korb mit Scones ein. „Für unterwegs“, sagt sie, und für einen Moment lächelt sie richtig."
+      "text": "Mrs Hobbs packt dir wortlos einen Korb mit Scones für die Heimfahrt ein."
     },
     {
       "id": "hobbs_vertraut",
@@ -958,7 +958,7 @@
       "flags": [
         "hobbs_vertraut"
       ],
-      "text": "Mrs Hobbs steht in der Küchentür, als Sie gehen. „Passen Sie auf sich auf“, sagt sie, und meint es."
+      "text": "Mrs Hobbs steht in der Küchentür, als du gehst. „Passen Sie auf sich auf“, sagt sie leise."
     },
     {
       "id": "hobbs_versoehnt",
@@ -966,7 +966,7 @@
       "flags": [
         "hobbs_versoehnt"
       ],
-      "text": "In der Küche steht eine Tasse für Sie bereit, als Sie sich verabschieden. Der Tee ist noch warm."
+      "text": "In der Küche steht eine Tasse für dich bereit, als du dich verabschiedest. Der Tee ist noch warm."
     },
     {
       "id": "hobbs_verstimmt",
@@ -974,7 +974,7 @@
       "flags": [
         "hobbs_verstimmt"
       ],
-      "text": "Die Küchentür bleibt zu, als Sie gehen. Drinnen klappert ein Holzlöffel, lauter als nötig."
+      "text": "Die Küchentür bleibt zu, als du gehst. Drinnen klappert ein Holzlöffel, lauter als nötig."
     },
     {
       "id": "tilly_freund",
@@ -982,7 +982,7 @@
       "flags": [
         "tilly_freund"
       ],
-      "text": "Ein paar Wochen später kommt ein Brief in kindlicher Schrift: Tilly hat eine neue Stelle in London. Sie bedankt sich, dass jemand ihr zugehört hat."
+      "text": "Ein paar Wochen später kommt ein Brief in kindlicher Schrift. In drei Zeilen dankt Tilly dir, dass du in jener Nacht freundlich zu ihr warst. Mehr steht nicht darin."
     },
     {
       "id": "tilly_vertraut",
@@ -990,7 +990,7 @@
       "flags": [
         "tilly_vertraut"
       ],
-      "text": "Tilly drückt Ihnen beim Abschied verstohlen die Hand und huscht dann die Treppe hinauf."
+      "text": "Tilly nickt dir beim Abschied verstohlen zu und huscht dann die Treppe hinauf."
     },
     {
       "id": "tilly_versoehnt",
@@ -998,7 +998,7 @@
       "flags": [
         "tilly_versoehnt"
       ],
-      "text": "Tilly winkt Ihnen vom oberen Fenster nach. Der Schlüsselring blitzt in der Morgensonne."
+      "text": "Als du gehst, steht Tilly in der Halle und knickst. Der Schlüsselring an ihrer Schürze klirrt leise."
     },
     {
       "id": "tilly_verstimmt",
@@ -1006,7 +1006,7 @@
       "flags": [
         "tilly_verstimmt"
       ],
-      "text": "Tilly bleibt in den Zimmern der Lady, bis Sie fort sind. Niemand hört sie gehen."
+      "text": "Tilly bleibt in den Zimmern der Lady, bis du fort bist. Niemand hört sie gehen."
     },
     {
       "id": "crane_vertraut_richtig",
@@ -1015,7 +1015,7 @@
         "crane_vertraut"
       ],
       "ergebnis": "richtig",
-      "text": "Mr Crane schreibt Ihnen einen förmlichen Brief: Er werde Sie der Familie empfehlen, sollte je wieder etwas geschehen. Unterschrift und Siegel, wie es sich gehört."
+      "text": "Mr Crane schreibt dir einen förmlichen Brief: Er werde dich der Familie empfehlen, sollte je wieder etwas geschehen. Unterschrift und Siegel, wie es sich gehört."
     },
     {
       "id": "crane_vertraut",
@@ -1023,7 +1023,7 @@
       "flags": [
         "crane_vertraut"
       ],
-      "text": "Mr Crane nickt Ihnen beim Abschied zu. „Wir sehen uns, fürchte ich, bei der Testamentseröffnung.“"
+      "text": "Mr Crane nickt dir beim Abschied zu. „Wir sehen uns, fürchte ich, bei der Testamentseröffnung.“"
     },
     {
       "id": "crane_versoehnt",
@@ -1031,7 +1031,7 @@
       "flags": [
         "crane_versoehnt"
       ],
-      "text": "Mr Crane reicht Ihnen zum Abschied seine Karte. Auf der Rückseite steht in sauberer Schrift: Mit Dank für Ihre Geduld."
+      "text": "Mr Crane reicht dir zum Abschied seine Karte. Auf der Rückseite steht in sauberer Schrift: „Mit Dank für Ihre Geduld.“"
     },
     {
       "id": "crane_verstimmt",

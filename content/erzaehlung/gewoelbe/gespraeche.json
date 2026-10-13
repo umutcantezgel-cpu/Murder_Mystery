@@ -15,7 +15,7 @@
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Das Buffet ist großartig. Hast du das alles gekocht?",
+              "text": "Das Essen ist großartig. Hast du das alles gekocht?",
               "vertrauen": 1,
               "ziel": "warm"
             },
@@ -27,7 +27,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand sagt, du hättest heute Abend die Rüstung umgestoßen.",
+              "text": "Jemand sagt, du hättest heute die Dips versalzen.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -35,7 +35,7 @@
           ]
         },
         "warm": {
-          "text": "Er strahlt. „Fast alles. Ich koche jeden Tag für eine ganze Kantine, da ist so ein Buffet Urlaub.“ Er rückt eine Schale gerade.",
+          "text": "Er strahlt. „Fast alles. Ich koche jeden Tag für eine ganze Kantine, da sind ein paar Platten Urlaub.“ Er rückt eine Schale gerade.",
           "geste": "nicken",
           "wahlen": [
             {
@@ -63,7 +63,7 @@
           ]
         },
         "alibi": {
-          "text": "„Hier unten im Gewölbe, beim Buffet. Ich wollte nach der Speisekammer sehen, ob die Kühlung noch hält.“",
+          "text": "„An der Festtafel. Vorher war ich kurz an der Eisentür, nach der Torte sehen, und gleich wieder zurück.“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -107,7 +107,7 @@
           ]
         },
         "abwehr": {
-          "text": "„Die Rüstung? Ich? Kunibert und ich sind die besten Freunde.“ Er lacht, aber zu laut.",
+          "text": "„Versalzen? Ich? Salz und ich sind die besten Freunde.“ Er lacht und schüttelt den Kopf.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -118,7 +118,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann erzähl mir lieber, wo du wirklich warst.",
+              "text": "Dann erzähl mir lieber, wo du beim Knall warst.",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -135,11 +135,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht. Ich hatte das Buffet im Kopf.“ Er rückt die nächste Schale gerade.",
+          "text": "„Mehr fällt mir gerade nicht ein. Ich hatte das Essen im Kopf.“ Er rückt die nächste Schale gerade.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich muss nach dem Essen sehen.“ Tomasz dreht sich zum Buffet. Für heute ist das Gespräch vorbei.",
+          "text": "„Ich muss nach dem Essen sehen.“ Tomasz dreht sich zur Tafel. Für heute ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "tomasz_verstimmt"
@@ -157,7 +157,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Tomasz winkt dich zum Buffet. „Ich habe dir einen Teller zurückgestellt, bevor alles weg ist.“",
+          "text": "Tomasz winkt dich an die Tafel. „Ich habe dir einen Teller zurückgestellt, bevor alles weg ist.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -290,12 +290,12 @@
           ]
         },
         "alibi": {
-          "text": "„Hier unten, an der Wand. Ich habe mir die Speisekammer angesehen, aus reiner Neugier.“",
+          "text": "„An der Festtafel. Um drei vor zwölf hab ich den Heizstrahler höher gedreht, mir war kalt. Da saß ich auch, als es dunkel wurde.“",
           "geste": "nachdenken",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Und was hast du dabei herausgefunden?",
+              "text": "Was sagt der Statiker zur Speisekammer?",
               "vertrauen": 1,
               "ziel": [
                 {
@@ -311,7 +311,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Aus reiner Neugier? Genau heute Nacht?",
+              "text": "Ich brauche Fakten, keine Mauern. Was weißt du?",
               "druck": 1,
               "ziel": [
                 {
@@ -345,7 +345,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann sag mir lieber, wo du wirklich warst.",
+              "text": "Dann sag mir lieber, wo du beim Knall warst.",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -362,7 +362,7 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht. Ich habe nur die Mauern angesehen.“ Er klopft wieder an die Wand.",
+          "text": "„Mehr fällt mir gerade nicht ein. Ich habe nur die Mauern angesehen.“ Er klopft wieder an die Wand.",
           "geste": "nachdenken"
         },
         "verstimmt": {
@@ -402,7 +402,7 @@
           ]
         },
         "freund": {
-          "text": "Er zeigt auf einen Stein über der Tür, in den jemand vor Jahrhunderten ein kleines Zeichen geritzt hat. „Ein Steinmetzzeichen. Der Mann hat hier gebaut, lange vor uns. Ich finde, das solltest du an deinem Geburtstag sehen.“",
+          "text": "Er zeigt auf einen Stein in der Wand hinter der Tafel, in den jemand vor Jahrhunderten ein kleines Zeichen geritzt hat. „Ein Steinmetzzeichen. Der Mann hat hier gebaut, lange vor uns. Ich finde, das solltest du an deinem Geburtstag sehen.“",
           "geste": "nicken",
           "setzt": [
             "dino_freund"
@@ -481,7 +481,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Man sagt, du hättest heute im Wald jemanden ausgesperrt.",
+              "text": "Man sagt, du hättest heute im Wald mit den Bäumen geredet.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -517,7 +517,7 @@
           ]
         },
         "alibi": {
-          "text": "„Hier im Gewölbe, am Kamin. Draußen ist es heute zu kalt, selbst für mich.“",
+          "text": "„Hier im Gewölbe, an der Festtafel. Draußen ist es heute zu kalt, selbst für mich.“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -561,7 +561,7 @@
           ]
         },
         "abwehr": {
-          "text": "Er lacht laut. „Ausgesperrt? Im Wald gibt es keine Türen, nur Bäume.“",
+          "text": "Er lacht laut. „Geredet? Die Bäume reden. Ich höre nur zu.“",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -572,14 +572,14 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann sag mir, was du wirklich gemacht hast.",
+              "text": "Dann sag mir, wo du beim Knall warst.",
               "druck": 1,
               "ziel": "verstimmt"
             }
           ]
         },
         "vertraut": {
-          "text": "Henrik wird ernst. „Der Raureif liegt hier seit etwa elf. Jede Spur, die danach gelaufen ist, kann man darin lesen. Wer draußen war, hat sich darin verewigt.“",
+          "text": "Henrik wird ernst. „Ich sag mal so: Der Raureif liegt hier seit etwa elf. Jede Spur, die danach gelaufen ist, kann man darin lesen.“",
           "preisgabe": [
             "beobachtung:b_henrik_reif"
           ],
@@ -589,11 +589,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr kann ich dir nicht sagen. Ich war drinnen, wie alle.“ Er rückt den Hut zurecht.",
+          "text": "„Mehr kann ich dir nicht sagen. Ich war die ganze Zeit hier im Gewölbe.“ Er rückt den Hut zurecht.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich glaube, ich brauche frische Luft.“ Henrik wendet sich ab. Für heute ist das Gespräch vorbei.",
+          "text": "„Im Wald ist es ruhiger als hier.“ Henrik wendet sich ab. Für heute ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "henrik_verstimmt"
@@ -611,7 +611,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Henrik hält eine dicke Kerze ins Licht. „Gut, dass du kommst. Mir ist noch was eingefallen, über Kerzen.“",
+          "text": "Henrik winkt dich zu sich und rückt den Hut zurecht. „Gut, dass du kommst. Mir ist noch was eingefallen, über Kerzen.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -629,7 +629,7 @@
           ]
         },
         "freund": {
-          "text": "„Dicke Kerzen haben in der Tülle minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck darin entsteht nur, solange das Wachs noch flüssig ist.“ Er stellt die Kerze vorsichtig ab.",
+          "text": "„Dicke Kerzen haben in der Tülle minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck darin entsteht nur, solange das Wachs noch flüssig ist.“ Er nickt bedächtig.",
           "preisgabe": [
             "beobachtung:b_henrik_wachs"
           ],
@@ -657,7 +657,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Henrik steht am Kamin und dreht seinen Hut in den Händen.",
+          "text": "Henrik steht etwas abseits und dreht seinen Hut in den Händen.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -682,7 +682,7 @@
           ]
         },
         "kalt": {
-          "text": "„Ich schulde nur dem Wald etwas.“ Er sieht ins Feuer.",
+          "text": "„Ich schulde nur dem Wald etwas.“ Er sieht an dir vorbei.",
           "geste": "abwehr"
         }
       }
@@ -711,7 +711,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand sagt, du hättest heute die Burgführung gestört.",
+              "text": "Jemand sagt, du hättest mal eine Schulklasse im Wald vergessen.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -747,12 +747,12 @@
           ]
         },
         "alibi": {
-          "text": "„Oben an einer Schießscharte zum Hof. Ich wollte den Raureif im Licht sehen.“",
+          "text": "„Hier im Gewölbe, an einer Schießscharte zum Hof. Ich brauchte frische Luft.“",
           "geste": "nachdenken",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Von dort siehst du den ganzen Hof. Was ist dir aufgefallen?",
+              "text": "Von dort siehst du auf den Hof. Was ist dir aufgefallen?",
               "vertrauen": 1,
               "ziel": [
                 {
@@ -791,18 +791,18 @@
           ]
         },
         "abwehr": {
-          "text": "„Gestört? Ich habe nur eine Frage gestellt. Na gut, drei.“ Sie verschränkt grinsend die Arme.",
+          "text": "„Vergessen? Ich zähle jede Schulklasse dreimal. Na gut, viermal.“ Sie verschränkt grinsend die Arme.",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Schon gut, ich musste das fragen.",
+              "text": "Schon gut, ich wollte dich nur necken.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
             {
               "haltung": "draengen",
-              "text": "Dann sag mir lieber, wo du wirklich warst.",
+              "text": "Dann sag mir lieber, wo du beim Knall warst.",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -819,11 +819,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht. Ich habe nur den Hof gesehen.“ Sie zupft wieder an ihrem Halstuch.",
+          "text": "„Mehr fällt mir gerade nicht ein. Ich hatte ja nur den Hof im Blick.“ Sie zupft wieder an ihrem Halstuch.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Weißt du was? Ich gehe lieber wieder nach oben.“ Zofia wendet sich ab. Für heute ist das Gespräch vorbei.",
+          "text": "„Weißt du was? Ich gehe lieber wieder an meine Schießscharte.“ Zofia wendet sich ab. Für heute ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "zofia_verstimmt"
@@ -841,7 +841,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Zofia winkt dich von der Treppe her. „Hey! Komm mal, ich will dir was erzählen, das hat nichts mit dem Fall zu tun.“",
+          "text": "Zofia winkt dich zu sich an die Schießscharte. „Hey! Komm mal, ich will dir was erzählen, das hat nichts mit dem Fall zu tun.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -859,14 +859,14 @@
           ]
         },
         "freund": {
-          "text": "Sie setzt sich auf eine Stufe. „Im Frühjahr führe ich eine Nachtwanderung mit Sternen und Eulen. Ich halte dir einen Platz frei. Geburtstagsgeschenk, nachträglich.“",
+          "text": "Sie lehnt sich an die Mauer. „Im Frühjahr führe ich eine Nachtwanderung mit Sternen und Eulen. Ich halte dir einen Platz frei. Geburtstagsgeschenk, nachträglich.“",
           "geste": "nicken",
           "setzt": [
             "zofia_freund"
           ]
         },
         "kurz": {
-          "text": "„Nur das: Ab acht vor zwölf niemand im Hof, niemand am Tor. Bis zum Schrei.“",
+          "text": "„Nur das: Ab acht vor zwölf ging im Licht des Geleuchts niemand über den Hof, niemand ans Tor. Bis zum Schrei.“",
           "preisgabe": [
             "beobachtung:b_zofia_hof"
           ],
@@ -884,7 +884,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Zofia sitzt auf der Treppe und tut, als zähle sie die Stufen.",
+          "text": "Zofia lehnt an der Schießscharte und tut, als zähle sie die Mauersteine.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -909,7 +909,7 @@
           ]
         },
         "kalt": {
-          "text": "„Doch, sind wir.“ Sie geht die Treppe hinauf.",
+          "text": "„Doch, sind wir.“ Sie dreht sich zur Schießscharte.",
           "geste": "abwehr"
         }
       }
@@ -931,7 +931,7 @@
       "flags": [
         "tomasz_freund"
       ],
-      "text": "Eine Woche später bringt Tomasz dir eine Dose mit Gebäck vorbei. „Damit du an die Burg denkst.“"
+      "text": "Eine Woche später bringt Tomasz dir ein Päckchen mit Gebäck vorbei. „Damit du an die Burg denkst.“"
     },
     {
       "id": "tomasz_vertraut",
@@ -939,7 +939,7 @@
       "flags": [
         "tomasz_vertraut"
       ],
-      "text": "Beim Abschied drückt Tomasz dir noch ein Stück Gebäck in die Hand."
+      "text": "Ein paar Tage später schickt dir Tomasz das Rezept für sein bestes Gebäck. Darunter steht: „Nachbacken erlaubt.“"
     },
     {
       "id": "tomasz_versoehnt",
@@ -947,7 +947,7 @@
       "flags": [
         "tomasz_versoehnt"
       ],
-      "text": "Tomasz winkt dir beim Abschied mit der Schöpfkelle zu. Der Ärger ist vergessen."
+      "text": "Am Montag darauf schickt dir Tomasz ein Foto seiner Schöpfkelle. Darunter steht: „Der Ärger ist vergessen.“"
     },
     {
       "id": "tomasz_verstimmt",
@@ -955,7 +955,7 @@
       "flags": [
         "tomasz_verstimmt"
       ],
-      "text": "Tomasz räumt das Buffet ab, ohne dich noch einmal anzusehen."
+      "text": "Tomasz räumt die Platten ab, ohne dich noch einmal anzusehen."
     },
     {
       "id": "dino_freund_richtig",
@@ -964,7 +964,7 @@
         "dino_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Im Frühjahr schickt Dino dir ein Foto vom Steinmetzzeichen über der Tür. Darunter steht: „Hält seit Jahrhunderten. Wie dein Urteil.“"
+      "text": "Im Frühjahr schickt Dino dir ein Foto vom Steinmetzzeichen im Gewölbe. Darunter steht: „Hält seit Jahrhunderten. Wie dein Urteil.“"
     },
     {
       "id": "dino_freund",
@@ -980,7 +980,7 @@
       "flags": [
         "dino_vertraut"
       ],
-      "text": "Dino klopft beim Abschied zweimal an die Burgmauer, als würde er sich bei ihr bedanken."
+      "text": "Bevor Dino durch das Tor geht, klopft er zweimal an die Burgmauer, als würde er sich bei ihr bedanken."
     },
     {
       "id": "dino_versoehnt",
@@ -988,7 +988,7 @@
       "flags": [
         "dino_versoehnt"
       ],
-      "text": "Dino reicht dir beim Abschied die Hand. „Ohne Groll.“"
+      "text": "Zwei Wochen später kommt eine Karte von Dino. Vorn ist eine gezeichnete Burgmauer, hinten stehen zwei Worte: „Ohne Groll.“"
     },
     {
       "id": "dino_verstimmt",
@@ -1021,7 +1021,7 @@
       "flags": [
         "henrik_vertraut"
       ],
-      "text": "Henrik tippt zum Abschied an seinen Lederhut."
+      "text": "Im Advent schickt dir Henrik eine Karte aus dem Oberharz. Darauf steht nur: „Ich sag mal so: Der Wald grüßt.“"
     },
     {
       "id": "henrik_versoehnt",
@@ -1029,7 +1029,7 @@
       "flags": [
         "henrik_versoehnt"
       ],
-      "text": "Henrik reicht dir am Burgtor die Hand. „Alles gut zwischen uns.“"
+      "text": "Kurz vor Weihnachten schickt dir Henrik eine Postkarte mit zwei Krähen. Darauf steht: „Alles gut zwischen uns.“"
     },
     {
       "id": "henrik_verstimmt",
@@ -1037,7 +1037,7 @@
       "flags": [
         "henrik_verstimmt"
       ],
-      "text": "Henrik geht als Erster durch den Raureif davon und dreht sich nicht um."
+      "text": "Henrik geht ohne ein Wort durch den Raureif davon und dreht sich nicht um."
     },
     {
       "id": "zofia_freund_richtig",
@@ -1062,7 +1062,7 @@
       "flags": [
         "zofia_vertraut"
       ],
-      "text": "Zofia winkt dir vom Burgtor aus mit ihrem Halstuch zu."
+      "text": "Bald darauf schickt dir Zofia eine Karte aus dem Nationalpark: „Wenn du mal wandern willst, ich kenne jeden Weg.“"
     },
     {
       "id": "zofia_versoehnt",
@@ -1070,7 +1070,7 @@
       "flags": [
         "zofia_versoehnt"
       ],
-      "text": "Zofia boxt dich zum Abschied leicht gegen die Schulter. „Vergessen.“"
+      "text": "Noch in derselben Woche schreibt dir Zofia nur ein Wort: „Vergessen.“ Dahinter malt sie ein grinsendes Gesicht."
     },
     {
       "id": "zofia_verstimmt",

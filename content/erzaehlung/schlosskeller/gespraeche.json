@@ -27,7 +27,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand hat gesehen, wie du dich im Dunkeln hinter die Theke geschlichen hast.",
+              "text": "Jemand hat erzählt, du singst unter der Dusche so laut, dass die Nachbarn klopfen.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -35,7 +35,7 @@
           ]
         },
         "warm": {
-          "text": "Er grinst. „Meine Schwester und ich, ja. Kleiner Betrieb, große Töpfe.“ Der Autoschlüssel kreist um seinen Finger.",
+          "text": "Er grinst. „Meine Schwester und ich, ja. Kleiner Betrieb, aber mit Herz.“ Der Autoschlüssel kreist um seinen Finger.",
           "geste": "nicken",
           "wahlen": [
             {
@@ -107,7 +107,7 @@
           ]
         },
         "abwehr": {
-          "text": "Marek lacht kurz, aber es klingt nicht froh. „Hinter die Theke? Ich war froh, dass ich meine eigenen Füße wiedergefunden hab.“",
+          "text": "Marek lacht und schüttelt den Kopf. „Unter der Dusche? Das hat bestimmt meine Schwester erzählt. Die singt noch lauter.“",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -118,7 +118,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann sag mir genau, wo du warst.",
+              "text": "Dann sag mir lieber, wo du beim Knall warst.",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -218,7 +218,7 @@
           ]
         },
         "versoehnt": {
-          "text": "Er seufzt und grinst dann doch. „Schon okay. Ist eine komische Nacht für alle. Nimm dir ein Brot, das hilft.“",
+          "text": "Er seufzt und grinst dann doch. „Schon okay. Ist eine komische Nacht für alle. Nimm dir ein Stück Gebäck, das hilft.“",
           "geste": "nicken",
           "setzt": [
             "marek_versoehnt"
@@ -237,12 +237,12 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Hana stochert mit dem Schürhaken in der Glut und pustet sich eine Strähne aus der Stirn. „Der Kamin zieht endlich. Was gibt's?“",
+          "text": "Hana wischt mit einem alten Lappen Ruß von der Wand neben dem Kamin und pustet sich eine Strähne aus der Stirn. „Der Kamin zieht immer noch nicht. Was gibt's?“",
           "geste": "nachdenken",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Du hast das Feuer gut im Griff. Wo hast du das gelernt?",
+              "text": "Du kennst dich mit Kaminen aus? Wo hast du das gelernt?",
               "vertrauen": 1,
               "ziel": "warm"
             },
@@ -254,7 +254,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand sagt, du warst kurz vor dem Knall an der Theke.",
+              "text": "Jemand sagt, du verläufst dich sogar in deinem eigenen Wald.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -290,7 +290,7 @@
           ]
         },
         "alibi": {
-          "text": "„Hier am Kamin. Ich hab mich um das Feuer gekümmert, sonst nichts.“",
+          "text": "„Hier am Kamin. Ich hab Ruß von der Wand gewischt, sonst nichts.“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -311,7 +311,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Nur am Feuer, die ganze Zeit? Ganz sicher?",
+              "text": "Nur am Kamin, die ganze Zeit? Ganz sicher?",
               "druck": 1,
               "ziel": [
                 {
@@ -334,7 +334,7 @@
           ]
         },
         "abwehr": {
-          "text": "Der Schürhaken klirrt gegen das Gitter. „An der Theke? Ich hab mich doch keinen Schritt vom Feuer weggerührt.“",
+          "text": "Der Schürhaken klirrt gegen das Gitter. „In meinem eigenen Wald? Da kenn ich jeden Baum beim Namen.“",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -362,7 +362,7 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht. Frag die Leute an der Theke.“ Sie wendet sich wieder der Glut zu.",
+          "text": "„Lass mich erst mit dem Ruß fertig werden. Frag inzwischen die Leute an der Theke.“ Sie wendet sich wieder der rußigen Wand zu.",
           "geste": "nachdenken"
         },
         "verstimmt": {
@@ -448,7 +448,7 @@
           ]
         },
         "versoehnt": {
-          "text": "Sie lehnt den Besen an die Wand. „Schon gut. Ist eine lange Nacht. Komm, wärm dir die Hände.“",
+          "text": "Sie lehnt den Besen an die Wand. „Schon gut. Ist eine lange Nacht. Komm, setz dich kurz zu mir.“",
           "geste": "nicken",
           "setzt": [
             "hana_versoehnt"
@@ -467,7 +467,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Serkan hakt etwas auf seinem Klemmbrett ab und leuchtet kurz mit der Taschenlampe in deine Richtung. „Ah, du. Brauchst du nachher eine Fahrt nach Hause?“",
+          "text": "Serkan hakt etwas auf seinem Klemmbrett ab und tippt mit der Taschenlampe an seine Kappe. „Ah, du. Brauchst du nachher eine Fahrt nach Hause?“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -484,7 +484,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Man erzählt sich, du hättest heute Nacht jemanden durchs Tor rausgelassen.",
+              "text": "Man erzählt sich, du hättest dich auf der Herfahrt dreimal verfahren.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -541,7 +541,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Ausgerechnet beim Knall warst du draußen? Wie praktisch.",
+              "text": "Ausgerechnet beim Knall warst du nicht im Saal? Wie praktisch.",
               "druck": 1,
               "ziel": [
                 {
@@ -557,32 +557,32 @@
             },
             {
               "haltung": "vorlegen",
-              "text": "Ich hab heute Nacht etwas gefunden. Leuchte mal drauf, sagt dir das was?",
+              "text": "Ich hab heute Nacht etwas gefunden. Schau mal drauf, sagt dir das was?",
               "vertrauen": 1,
               "ziel": "vertraut"
             }
           ]
         },
         "abwehr": {
-          "text": "Der Lichtkegel zuckt zur Seite. „Rausgelassen? Ich bin Fahrer, kein Türsteher.“",
+          "text": "Serkan klopft mit der Taschenlampe gegen sein Klemmbrett. „Verfahren? Ich bin Fahrer, kein Tourist.“",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Schon gut, ich musste das fragen.",
+              "text": "Schon gut, das war nur ein Spaß.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
             {
               "haltung": "draengen",
-              "text": "Dann sag mir, wo du genau warst.",
+              "text": "Dann sag mir lieber, wo du beim Knall warst.",
               "druck": 1,
               "ziel": "verstimmt"
             }
           ]
         },
         "vertraut": {
-          "text": "Serkan leuchtet zum Tor. „Von kurz vor zwölf bis nach zwölf stand ich am Außentor. Es war abgeschlossen, ich hab sogar dran gerüttelt. Niemand ist hinaus, das kann ich dir versprechen.“",
+          "text": "Serkan zeigt mit der Taschenlampe zum Tor. „Von kurz vor zwölf bis nach zwölf stand ich am Außentor. Es war abgeschlossen, ich hab sogar dran gerüttelt. Niemand ist hinaus, das kann ich dir versprechen.“",
           "preisgabe": [
             "beobachtung:b_serkan_tor"
           ],
@@ -596,7 +596,7 @@
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„So redet man nicht mit seinem Fahrer.“ Serkan knipst die Taschenlampe aus. Für heute ist das Gespräch vorbei.",
+          "text": "„So redet man nicht mit seinem Fahrer.“ Serkan steckt die Taschenlampe weg. Für heute ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "serkan_verstimmt"
@@ -711,7 +711,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand hat erzählt, du warst beim Knall gar nicht an deinem Teekocher.",
+              "text": "Jemand hat erzählt, du hättest heimlich das ganze Gebäck weggenascht.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -791,7 +791,7 @@
           ]
         },
         "abwehr": {
-          "text": "Das Tuch bleibt mitten im Glas stehen. „Nicht an meinem Teekocher? Wo soll ich denn sonst gewesen sein?“",
+          "text": "Das Tuch bleibt mitten im Glas stehen. „Das Gebäck? Ich komm ja nicht mal dazu, selbst einen Tee zu trinken.“",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -939,7 +939,7 @@
       "flags": [
         "marek_vertraut"
       ],
-      "text": "Beim Abschied klopft Marek dir auf die Schulter und drückt dir noch ein Brot in die Hand."
+      "text": "Bevor das Tor aufgeht, klopft Marek dir auf die Schulter und drückt dir noch ein Stück Gebäck in die Hand."
     },
     {
       "id": "marek_versoehnt",
@@ -947,7 +947,7 @@
       "flags": [
         "marek_versoehnt"
       ],
-      "text": "Marek winkt dir zum Abschied mit dem Autoschlüssel zu. Der Streit von vorhin ist vergessen."
+      "text": "Am Morgen lässt Marek den Autoschlüssel um den Finger kreisen und nickt dir zu. Euer kleiner Streit ist vergessen."
     },
     {
       "id": "marek_verstimmt",
@@ -980,7 +980,7 @@
       "flags": [
         "hana_vertraut"
       ],
-      "text": "Hana gibt dir zum Abschied die Hand. Sie ist noch ein bisschen rußig, aber schön warm."
+      "text": "Am Morgen legt Hana dir kurz die Hand auf die Schulter. Sie ist noch ein bisschen rußig, aber schön warm."
     },
     {
       "id": "hana_versoehnt",
@@ -988,7 +988,7 @@
       "flags": [
         "hana_versoehnt"
       ],
-      "text": "Hana winkt dir mit dem Schürhaken zu, halb entschuldigend, halb lachend."
+      "text": "Hana zwinkert dir über den Schürhaken hinweg zu, halb entschuldigend, halb lachend."
     },
     {
       "id": "hana_verstimmt",
@@ -1005,7 +1005,7 @@
         "serkan_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Serkan fährt dich als Erstes nach Hause, Heizung an, Radio leise. Vor deiner Tür sagt er: „Gut gemacht, Geburtstagskind.“"
+      "text": "Serkan fährt dich zuerst nach Hause, Heizung an, Radio leise. Vor deiner Tür sagt er: „Gut gemacht, Geburtstagskind.“"
     },
     {
       "id": "serkan_freund",
@@ -1013,7 +1013,7 @@
       "flags": [
         "serkan_freund"
       ],
-      "text": "Serkan fährt dich als Erstes nach Hause. Vorne sitzen, Heizung an, genau wie versprochen."
+      "text": "Serkan fährt dich zuerst nach Hause. Vorne sitzen, Heizung an, genau wie versprochen."
     },
     {
       "id": "serkan_vertraut",
@@ -1021,7 +1021,7 @@
       "flags": [
         "serkan_vertraut"
       ],
-      "text": "Serkan leuchtet dir mit der Taschenlampe den Weg zum Auto, Stufe für Stufe."
+      "text": "Auf den Stufen zum Parkplatz geht Serkan neben dir her, Stufe für Stufe, und hakt dich auf seiner Liste ab."
     },
     {
       "id": "serkan_versoehnt",
@@ -1054,7 +1054,7 @@
       "flags": [
         "damir_freund"
       ],
-      "text": "Damir schenkt dir zum Abschied ein schmales Teeglas mit Untertasse. „Damit du an mich denkst.“"
+      "text": "Ein paar Tage später bringt Damir dir eine Dose von seinem Schwarztee vorbei. „Damit du an mich denkst.“"
     },
     {
       "id": "damir_vertraut",
@@ -1062,7 +1062,7 @@
       "flags": [
         "damir_vertraut"
       ],
-      "text": "Damir drückt dir zum Abschied noch ein Glas Tee in die Hand, für den Heimweg."
+      "text": "Bevor ihr hinausgeht, schenkt Damir dir noch einen letzten heißen Tee ein. „Damit du warm nach Hause kommst.“"
     },
     {
       "id": "damir_versoehnt",
@@ -1070,7 +1070,7 @@
       "flags": [
         "damir_versoehnt"
       ],
-      "text": "Damir nickt dir zum Abschied zu und poliert dabei schon wieder ein Glas."
+      "text": "Am Morgen nickt Damir dir zu und poliert dabei schon wieder ein Glas."
     },
     {
       "id": "damir_verstimmt",

@@ -1,7 +1,7 @@
 {
   "format": "erzaehlung/1",
   "akte": "blue_palm",
-  "hinweis": "Randgespräche mit unbesetzten Zeugen. Sie geben nur preis, was die Figur in Pflichtgesprächen allen sagt (pfade: alle), und ihre öffentliche Behauptung. Nie Würfel, nie Zeit, nie Wertung (ERZAEHLREGELN.md). Die Gäste siezen den Inspektor wie im Fall.",
+  "hinweis": "Randgespräche mit unbesetzten Zeugen. Sie geben nur preis, was die Figur in Pflichtgesprächen allen sagt (pfade: alle), und ihre öffentliche Behauptung. Nie Würfel, nie Zeit, nie Wertung (ERZAEHLREGELN.md). Erzählung und Epiloge duzen wie der Erzähler des Falls, die Gäste siezen.",
   "gespraeche": [
     {
       "id": "toby_erstes",
@@ -27,7 +27,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand sagt, Sie hätten heute Nacht die Jukebox kaputt gemacht.",
+              "text": "Jemand sagt, auf Ihrem Walkman läuft heimlich Disco.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -64,6 +64,9 @@
         },
         "alibi": {
           "text": "„Hier, an der Rezeption. Ich habe die Rezeption die ganze Nacht nicht verlassen.“ Er tippt auf den Klappenschrank der Vermittlung.",
+          "preisgabe": [
+            "luege:luege_toby_empfang"
+          ],
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -107,7 +110,7 @@
           ]
         },
         "abwehr": {
-          "text": "„Die Jukebox? Die spielt halt gern dreimal dasselbe Lied.“ Er wird rot bis zu den Ohren.",
+          "text": "„Disco? Niemals. Auf dem Ding läuft nur Country.“ Er wird rot bis zu den Ohren.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -118,7 +121,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann erzählen Sie mir lieber, was wirklich los war.",
+              "text": "Dann erzählen Sie mir lieber, was heute Nacht los war.",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -136,7 +139,7 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht. Ich stöpsle nur Gespräche.“ Er setzt die Kopfhörer wieder auf.",
+          "text": "„Mehr fällt mir gerade nicht ein. Ich stöpsle nur Gespräche.“ Er setzt die Kopfhörer wieder auf.",
           "geste": "nachdenken"
         },
         "verstimmt": {
@@ -158,7 +161,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Toby winkt Sie zur Rezeption. „Ich habe im Gästebuch nachgesehen. Vielleicht hilft Ihnen das.“",
+          "text": "Toby winkt dich zur Rezeption. „Ich habe im Gästebuch nachgesehen. Vielleicht hilft Ihnen das.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -186,7 +189,7 @@
           ]
         },
         "kurz": {
-          "text": "„Frank in Zimmer 6, neben Lucky. Dale in Zimmer 3. Mehr steht da nicht.“",
+          "text": "„Frank in Zimmer 6, neben Lucky. Dale in Zimmer 3. Bitte schön.“",
           "preisgabe": [
             "beobachtung:b_toby_zimmerliste"
           ],
@@ -204,7 +207,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Toby sitzt mit Kopfhörern an der Vermittlung und tut, als höre er Sie nicht.",
+          "text": "Toby sitzt mit Kopfhörern an der Vermittlung und tut, als höre er dich nicht.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -241,7 +244,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Marcy klemmt den Kuli hinters Ohr und mustert Sie. „Die Staatspolizei. Endlich jemand, der Fragen stellt, statt sie zu beantworten. Bitte.“",
+          "text": "Marcy klemmt den Kuli hinters Ohr und mustert dich. „Die Staatspolizei. Endlich jemand, der Fragen stellt, statt sie zu beantworten. Bitte.“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -258,7 +261,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand behauptet, Sie hätten Viv heute ausgebuht.",
+              "text": "Jemand behauptet, Sie hätten Ihren Kuli heute schon zweimal verloren.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -266,7 +269,7 @@
           ]
         },
         "warm": {
-          "text": "„Für einen Lokalsender in Tampa. Wegen des Hurrikans sitze ich hier fest, wie alle.“ Sie zuckt mit den Schultern. „Eine Reporterin ohne Sendung ist wie ein Motel ohne Gäste.“",
+          "text": "„Fürs Lokalradio in Tampa. Und jetzt hält mich der Hurrikan hier fest, wie alle.“ Sie zuckt mit den Schultern. „Eine Reporterin ohne Sendung ist wie ein Motel ohne Gäste.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -295,6 +298,9 @@
         },
         "alibi": {
           "text": "„In der Lounge. Ich wollte mir die Show nicht entgehen lassen.“",
+          "preisgabe": [
+            "beobachtung:b_marcy_auftritt"
+          ],
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -315,7 +321,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Die ganze Zeit in der Lounge? Ohne Pause?",
+              "text": "Und was haben Sie dort gesehen? Ich will Einzelheiten.",
               "druck": 1,
               "ziel": [
                 {
@@ -338,7 +344,7 @@
           ]
         },
         "abwehr": {
-          "text": "„Ausgebuht? Ich berichte über Leute, ich buhe sie nicht aus.“ Sie verschränkt die Arme.",
+          "text": "„Verloren? Dieser Kuli verlässt mein Ohr nie.“ Sie verschränkt die Arme.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -356,7 +362,7 @@
           ]
         },
         "vertraut": {
-          "text": "Marcy schlägt ihren Notizblock auf. „Seit neun Uhr saß ich in der Lounge und habe Viv singen sehen. Ich habe mir jede Nummer aufgeschrieben.“",
+          "text": "Marcy schlägt ihren Notizblock auf und tippt auf die erste Seite. „Seit neun Uhr saß ich in der Lounge und habe Viv singen sehen.“",
           "preisgabe": [
             "beobachtung:b_marcy_auftritt"
           ],
@@ -366,7 +372,7 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr gibt es nicht. Hören Sie es nächste Woche im Radio.“ Sie zwinkert und geht.",
+          "text": "„Für heute ist Sendeschluss. Hören Sie es nächste Woche im Radio.“ Sie zwinkert und geht.",
           "geste": "nachdenken"
         },
         "verstimmt": {
@@ -388,7 +394,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Marcy winkt Sie heran, den Notizblock in der Hand. „Ich schreibe an meinem Bericht über den Sturm. Darf ich zur Abwechslung Sie etwas fragen?“",
+          "text": "Marcy winkt dich heran, den Notizblock in der Hand. „Ich schreibe an meinem Bericht über den Sturm. Darf ich zur Abwechslung Sie etwas fragen?“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -413,7 +419,7 @@
           ]
         },
         "kurz": {
-          "text": "„Nur das: Seit neun Uhr war ich in der Lounge und habe Viv singen sehen.“",
+          "text": "„Wie gesagt: Seit neun Uhr war ich in der Lounge und habe Viv singen sehen.“",
           "preisgabe": [
             "beobachtung:b_marcy_auftritt"
           ],
@@ -468,7 +474,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Gus klopft mit dem Hammer auf nasses Holz und lauscht. „Hält. Noch.“ Dann sieht er Sie an. „Polizei, hm? Was wollen Sie von einem Hausmeister?“",
+          "text": "Gus klopft mit dem Hammer auf nasses Holz und lauscht. „Hält. Noch.“ Dann sieht er dich an. „Polizei, hm? Was wollen Sie von einem Hausmeister?“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -485,7 +491,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Man erzählt sich, Sie hätten den Messingflamingo absichtlich verbeult.",
+              "text": "Man erzählt sich, Sie reden mit Ihren Schrauben.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -522,6 +528,9 @@
         },
         "alibi": {
           "text": "„Draußen, an der Poolseite. Bei dem Sturm muss jeder Laden fest sein.“",
+          "preisgabe": [
+            "beobachtung:b_gus_laeden"
+          ],
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -542,7 +551,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Allein im Sturm? Wer kann das bezeugen?",
+              "text": "Das ist mir zu knapp, Gus. Ich brauche Einzelheiten, und zwar schnell.",
               "druck": 1,
               "ziel": [
                 {
@@ -565,18 +574,18 @@
           ]
         },
         "abwehr": {
-          "text": "„Absichtlich? Das Ding wiegt so viel wie ein Alligator.“ Gus schnaubt und klopft weiter.",
+          "text": "„Reden? Ich höre ihnen zu. Das ist ein Unterschied.“ Gus schnaubt und klopft weiter.",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Schon gut, ich musste das fragen.",
+              "text": "Schon gut, Gus. Das war nur Gerede.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
             {
               "haltung": "draengen",
-              "text": "Dann sagen Sie mir lieber, wo Sie wirklich waren.",
+              "text": "Genug von den Schrauben. Was war heute Nacht los?",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -593,11 +602,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht. Ich hatte die Hände voll.“ Er prüft die nächste Schraube.",
+          "text": "„Mehr fällt mir gerade nicht ein. Ich hatte die Hände voll.“ Er prüft die nächste Schraube.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich habe zu tun, der Sturm wartet nicht.“ Gus dreht sich zum Fenster. Für heute ist das Gespräch vorbei.",
+          "text": "„Ich habe zu tun, der Sturm wartet nicht.“ Gus dreht sich wieder zu den Läden. Für heute ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "gus_verstimmt"
@@ -615,7 +624,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Gus winkt Sie mit der Taschenlampe heran. „Sie schon wieder. Kommen Sie, ich zeige Ihnen was.“",
+          "text": "Gus winkt dich mit der Taschenlampe heran. „Sie schon wieder. Kommen Sie, ich zeige Ihnen was.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -633,14 +642,14 @@
           ]
         },
         "freund": {
-          "text": "Er führt Sie zur Glastür der Rezeption und zeigt auf den verbeulten Messingflamingo. „Den richte ich morgen. Wenn Sie wiederkommen, steht er wieder gerade. Versprochen.“",
+          "text": "Er führt dich zur Rezeption und zeigt hinauf zum rosa Neonschild, an dem ein Buchstabe schief hängt. „Den richte ich morgen. Wenn Sie wiederkommen, hängt er wieder gerade. Versprochen.“",
           "geste": "nicken",
           "setzt": [
             "gus_freund"
           ]
         },
         "kurz": {
-          "text": "„Ab Mitternacht war ich mit Sol an der Poolseite. Taschenlampe, Hammer, Läden. Das ist alles.“",
+          "text": "„Ab Mitternacht war ich mit Sol an der Poolseite. Taschenlampe, Hammer, Läden. Und jetzt muss ich weiter.“",
           "preisgabe": [
             "beobachtung:b_gus_laeden"
           ],
@@ -695,7 +704,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Dottie faltet ein Handtuch, summt und hört erst auf, als Sie vor ihr stehen. „Ach, die Polizei. Möchten Sie ein frisches Handtuch, Schätzchen? Bei dem Regen.“",
+          "text": "Dottie faltet ein Handtuch, summt und hört erst auf, als du vor ihr stehst. „Ach, die Polizei. Möchten Sie ein frisches Handtuch, Schätzchen? Bei dem Regen.“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -706,13 +715,13 @@
             },
             {
               "haltung": "draengen",
-              "text": "Was haben Sie heute Abend gesehen?",
+              "text": "Wo waren Sie, als die Lampen flackerten?",
               "druck": 1,
               "ziel": "alibi"
             },
             {
               "haltung": "bluffen",
-              "text": "Jemand behauptet, Sie hätten heute die Handtücher vertauscht.",
+              "text": "Jemand behauptet, Sie hätten heute Ihr Haarnetz vergessen.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -720,7 +729,7 @@
           ]
         },
         "warm": {
-          "text": "„Achtzehn Jahre, Schätzchen. Ich kenne jedes Zimmer und jede Gewohnheit.“ Sie streicht das Handtuch glatt.",
+          "text": "„Achtzehn Jahre, Schätzchen. Ich kenne hier jeden Winkel und jede Macke.“ Sie streicht das Handtuch glatt.",
           "geste": "nicken",
           "wahlen": [
             {
@@ -748,7 +757,10 @@
           ]
         },
         "alibi": {
-          "text": "„Unterwegs, wie immer. Zimmer machen, Handtücher bringen. Ich gehe nie in ein Zimmer, ohne zu klopfen.“",
+          "text": "„Beim Flackern war ich in der Wäsche. Sonst bin ich überall im Haus unterwegs. Aber ich gehe nie in ein Zimmer, ohne zu klopfen.“",
+          "preisgabe": [
+            "luege:luege_dottie_klopfen"
+          ],
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -792,7 +804,7 @@
           ]
         },
         "abwehr": {
-          "text": "„Vertauscht? In achtzehn Jahren nicht ein einziges Mal.“ Sie faltet energischer.",
+          "text": "„Vergessen? In achtzehn Jahren nicht ein einziges Mal.“ Sie zupft am Haarnetz und faltet energischer weiter.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -803,7 +815,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann beweisen Sie es mir.",
+              "text": "Genug vom Haarnetz. Was war heute Nacht los?",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -820,11 +832,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr weiß ich nicht, Schätzchen. Fragen Sie Toby, der sitzt an der Vermittlung.“",
+          "text": "„Mehr fällt mir gerade nicht ein, Schätzchen. Fragen Sie Toby, der sitzt an der Vermittlung.“",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich habe Handtücher zu falten.“ Dottie dreht Ihnen den Rücken zu. Für heute ist das Gespräch vorbei.",
+          "text": "„Ich habe Handtücher zu falten.“ Dottie dreht dir den Rücken zu. Für heute ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "dottie_verstimmt"
@@ -842,7 +854,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Dottie erwartet Sie mit einem Stapel trockener Handtücher. „Hier, Schätzchen. Sie sind ja ganz nass.“",
+          "text": "Dottie erwartet dich mit einem Stapel trockener Handtücher. „Hier, Schätzchen. Sie sind ja ganz nass.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -860,14 +872,14 @@
           ]
         },
         "freund": {
-          "text": "Sie strahlt und legt Ihnen das oberste Handtuch um die Schultern. „Wenn der Sturm vorbei ist, backe ich Kekse. Für Sie lege ich welche zurück.“",
+          "text": "Sie strahlt und legt dir das oberste Handtuch um die Schultern. „Wenn der Sturm vorbei ist, backe ich Kekse. Für Sie lege ich welche zurück.“",
           "geste": "nicken",
           "setzt": [
             "dottie_freund"
           ]
         },
         "kurz": {
-          "text": "„Nur der Teppich in Zimmer 7. Violett und nass seit dem Nachmittag.“",
+          "text": "„Mir geht der Teppich in Zimmer 7 nicht aus dem Kopf. Violett und nass seit dem Nachmittag.“",
           "preisgabe": [
             "beobachtung:b_dottie_teppich"
           ],
@@ -924,7 +936,7 @@
         "toby_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Ein Jahr später kommt eine Kassette aus Nashville. Das erste Lied heißt „Die Nacht im Blue Palm“. Auf der Hülle steht: „Für die Person, die den Fall gelöst hat.“"
+      "text": "Ein Jahr später kommt eine Kassette aus Nashville. Das erste Lied heißt „Die Nacht im Blue Palm“. Auf der Hülle steht: „Für die Person, die zugehört hat.“"
     },
     {
       "id": "toby_freund",
@@ -940,7 +952,7 @@
       "flags": [
         "toby_vertraut"
       ],
-      "text": "Toby winkt Ihnen von der Rezeption zu, als die Brücke wieder offen ist."
+      "text": "Toby winkt dir von der Rezeption zu, als die Brücke wieder offen ist."
     },
     {
       "id": "toby_versoehnt",
@@ -948,7 +960,7 @@
       "flags": [
         "toby_versoehnt"
       ],
-      "text": "Toby hält Ihnen beim Abschied die Glastür auf. „Nichts für ungut.“"
+      "text": "Toby hält dir beim Abschied die Glastür auf. „Nichts für ungut.“"
     },
     {
       "id": "toby_verstimmt",
@@ -956,7 +968,7 @@
       "flags": [
         "toby_verstimmt"
       ],
-      "text": "Toby setzt die Kopfhörer auf, als Sie zum Auto gehen, und sieht nicht auf."
+      "text": "Toby setzt die Kopfhörer auf, als du zum Auto gehst, und sieht nicht auf."
     },
     {
       "id": "marcy_freund_richtig",
@@ -965,7 +977,7 @@
         "marcy_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Zwei Wochen später läuft Marcys Bericht im Radio. Er endet mit Ihnen: „Und dann kam jemand, der im Sturm die Wahrheit fand.“"
+      "text": "Zwei Wochen später läuft Marcys Bericht im Radio. Er endet mit dir: „Und mittendrin war jemand von der Staatspolizei, der Fragen stellte, bis die Brücke wieder offen war.“"
     },
     {
       "id": "marcy_freund",
@@ -973,7 +985,7 @@
       "flags": [
         "marcy_freund"
       ],
-      "text": "Marcy schickt Ihnen eine Kassette mit ihrem Bericht über den Hurrikan. Ihr Name kommt einmal darin vor."
+      "text": "Marcy schickt dir eine Kassette mit ihrem Bericht über den Hurrikan. Dein Name kommt einmal darin vor."
     },
     {
       "id": "marcy_vertraut",
@@ -989,7 +1001,7 @@
       "flags": [
         "marcy_versoehnt"
       ],
-      "text": "Marcy reicht Ihnen ihre Visitenkarte. „Falls Sie mal eine Geschichte haben.“"
+      "text": "Marcy reicht dir ihre Visitenkarte. „Falls Sie mal eine Geschichte haben.“"
     },
     {
       "id": "marcy_verstimmt",
@@ -1006,7 +1018,7 @@
         "gus_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Im Herbst steht der Messingflamingo wieder gerade in der Rezeption. Am Sockel klebt ein Zettel: „Für die Staatspolizei. Hält.“"
+      "text": "Im Herbst hängt am Neonschild der Rezeption jeder Buchstabe wieder gerade. Darunter klebt ein Zettel: „Für die Staatspolizei. Hält.“"
     },
     {
       "id": "gus_freund",
@@ -1014,7 +1026,7 @@
       "flags": [
         "gus_freund"
       ],
-      "text": "Gus schickt ein Foto: der Messingflamingo, frisch poliert, ohne Delle."
+      "text": "Gus schickt dir ein Foto: das Neonschild des Blue Palm, jeder Buchstabe gerade."
     },
     {
       "id": "gus_vertraut",
@@ -1030,7 +1042,7 @@
       "flags": [
         "gus_versoehnt"
       ],
-      "text": "Gus klopft Ihnen beim Abschied auf die Schulter. „Gute Arbeit, trotz allem.“"
+      "text": "Gus klopft dir beim Abschied auf die Schulter. „Lange Nacht. Fahren Sie vorsichtig.“"
     },
     {
       "id": "gus_verstimmt",
@@ -1038,7 +1050,7 @@
       "flags": [
         "gus_verstimmt"
       ],
-      "text": "Gus repariert gerade etwas, als Sie gehen, und dreht sich nicht um."
+      "text": "Gus repariert gerade etwas, als du gehst, und dreht sich nicht um."
     },
     {
       "id": "dottie_freund_richtig",
@@ -1047,7 +1059,7 @@
         "dottie_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Eine Woche später kommt eine Dose Kekse aus Florida. Auf dem Deckel steht: „Für die Person, die im Sturm Ordnung gemacht hat.“"
+      "text": "Eine Woche später kommt eine Dose Kekse aus dem Blue Palm, wie versprochen. Auf dem Deckel steht nur: „Für die lange Nacht im Sturm.“"
     },
     {
       "id": "dottie_freund",
@@ -1055,7 +1067,7 @@
       "flags": [
         "dottie_freund"
       ],
-      "text": "Dottie schickt Ihnen ein Handtuch mit einer eingestickten Palme. „Damit Sie nie wieder nass werden.“"
+      "text": "Dottie schickt dir ein Handtuch mit einer eingestickten Palme. „Damit Sie nie wieder nass werden.“"
     },
     {
       "id": "dottie_vertraut",
@@ -1063,7 +1075,7 @@
       "flags": [
         "dottie_vertraut"
       ],
-      "text": "Dottie winkt Ihnen mit einem Handtuch nach, als Sie über die Brücke fahren."
+      "text": "Dottie winkt dir mit einem Handtuch nach, als du über die Brücke fährst."
     },
     {
       "id": "dottie_versoehnt",
@@ -1071,7 +1083,7 @@
       "flags": [
         "dottie_versoehnt"
       ],
-      "text": "Dottie drückt Ihnen beim Abschied die Hand. „Alles vergeben, Schätzchen.“"
+      "text": "Dottie drückt dir beim Abschied die Hand. „Alles vergeben, Schätzchen.“"
     },
     {
       "id": "dottie_verstimmt",
@@ -1079,7 +1091,7 @@
       "flags": [
         "dottie_verstimmt"
       ],
-      "text": "Dottie faltet weiter Handtücher, als Sie gehen, und sieht nicht auf."
+      "text": "Dottie faltet weiter Handtücher, als du gehst, und sieht nicht auf."
     }
   ]
 }

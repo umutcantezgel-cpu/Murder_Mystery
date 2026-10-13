@@ -1,7 +1,7 @@
 {
   "format": "erzaehlung/1",
   "akte": "nachtexpress",
-  "hinweis": "Randgespräche mit unbesetzten Zeugen. Sie geben nur preis, was die Figur in Pflichtgesprächen allen sagt (pfade: alle), und ihre öffentliche Behauptung. Nie Würfel, nie Zeit, nie Wertung (ERZAEHLREGELN.md). Angeredet wird wie 1931 mit Sie.",
+  "hinweis": "Randgespräche mit unbesetzten Zeugen. Sie geben nur preis, was die Figur in Pflichtgesprächen allen sagt (pfade: alle), und ihre öffentliche Behauptung. Nie Würfel, nie Zeit, nie Wertung (ERZAEHLREGELN.md). Erzähler und Epiloge duzen wie der Erzähler des Falls; Huber duzt wie im Auftrag, die übrigen Zeugen siezen.",
   "gespraeche": [
     {
       "id": "huber_erstes",
@@ -10,7 +10,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Huber hebt die Laterne und mustert Sie unter dem Mützenschirm. „Fünfundzwanzig Jahre auf dieser Strecke, und dann so eine Nacht. Was kann ich für Sie tun?“",
+          "text": "Huber hebt die Laterne und mustert dich unter dem Mützenschirm. „Fünfundzwanzig Jahre auf dieser Strecke, und dann so eine Nacht. Was kann ich für dich tun?“",
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -27,7 +27,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Ein Fahrgast sagt, Sie hätten heute Nacht Ihren Posten verlassen.",
+              "text": "Man erzählt sich, Sie hätten einmal Ihren eigenen Zug verschlafen.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -35,7 +35,7 @@
           ]
         },
         "warm": {
-          "text": "Er seufzt und zieht die Taschenuhr. „Ein Schaffner schläft nicht, wenn der Zug steht. Ich kenne jede Fahrkarte und jedes Knarren in diesen Wagen.“ Er klappt die Uhr wieder zu.",
+          "text": "Er seufzt und stellt die Laterne ab. „Ein Schaffner schläft nicht, wenn der Zug steht. Ich kenne jedes Knarren in diesen Wagen.“ Er hebt die Laterne wieder auf.",
           "geste": "nicken",
           "wahlen": [
             {
@@ -64,6 +64,9 @@
         },
         "alibi": {
           "text": "„Nach dem Ruck bin ich mit der Laterne durch alle Wagen gegangen. Ordnung muss sein. Ich kontrolliere jedes Gepäckstück im Zug.“",
+          "preisgabe": [
+            "luege:luege_conductor_gepaeck"
+          ],
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -100,19 +103,19 @@
             },
             {
               "haltung": "vorlegen",
-              "text": "Sehen Sie sich das an. Ich habe es heute Nacht gefunden.",
+              "text": "Sehen Sie sich das an. Ich habe es vorhin gefunden.",
               "vertrauen": 1,
               "ziel": "vertraut"
             }
           ]
         },
         "abwehr": {
-          "text": "Die Laterne schwankt. „Meinen Posten verlassen? In fünfundzwanzig Jahren nicht ein einziges Mal.“",
+          "text": "Die Laterne schwankt. „Verschlafen? Ich? In fünfundzwanzig Jahren nicht ein einziges Mal.“",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Verzeihen Sie. Ich muss jeden fragen.",
+              "text": "Verzeihen Sie. Da hat mir jemand einen Bären aufgebunden.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
@@ -125,7 +128,7 @@
           ]
         },
         "vertraut": {
-          "text": "Huber senkt die Stimme. „Kurz nach dem Ruck huschte im Dunkeln jemand an meinem Dienstabteil vorbei. Ich hob die Laterne, und die Gestalt hielt mir wortlos eine Fahrkarte hin. Mehr habe ich nicht gesehen.“",
+          "text": "Huber senkt die Stimme. „Kurz nach dem Ruck huschte im Dunkeln jemand an meinem Dienstabteil vorbei. Ich hob die Laterne, und die Gestalt hielt mir wortlos eine Fahrkarte hin.“ Er lässt die Laterne langsam sinken.",
           "preisgabe": [
             "beobachtung:b_huber_dunkel"
           ],
@@ -135,11 +138,11 @@
           ]
         },
         "neutral": {
-          "text": "„Fragen Sie im Speisewagen nach. Dort sitzen die Leute, ich laufe nur.“ Er tippt an die Mütze und geht weiter.",
+          "text": "„Frag im Speisewagen nach. Dort sitzen die Leute beisammen.“ Er tippt an die Mütze und geht weiter.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„So redet man nicht mit einem Beamten der Bahn.“ Huber dreht Ihnen den Rücken zu. Für heute Nacht ist das Gespräch beendet.",
+          "text": "„So redet man nicht mit einem Beamten der Bahn.“ Huber dreht dir den Rücken zu. Fürs Erste ist das Gespräch beendet.",
           "geste": "abwehr",
           "setzt": [
             "huber_verstimmt"
@@ -157,7 +160,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Huber winkt Sie mit der Laterne heran. „Gut, dass Sie kommen. Mir ist noch etwas eingefallen, vom Einsteigen in Wien.“",
+          "text": "Huber winkt dich mit der Laterne heran. „Gut, dass du kommst. Mir ist noch etwas eingefallen, vom Einsteigen gestern Abend.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -185,7 +188,7 @@
           ]
         },
         "kurz": {
-          "text": "„Der Musterkoffer von Herrn Brändli. Schwerer als jeder Uhrenkoffer. Mehr nicht.“",
+          "text": "„Der Musterkoffer von Herrn Brändli. Schwerer als jeder Uhrenkoffer.“ Er tippt an die Mütze.",
           "preisgabe": [
             "beobachtung:b_huber_koffer"
           ],
@@ -203,7 +206,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Huber prüft eine Fahrkarte, die er schon dreimal geprüft hat, und sieht nicht auf.",
+          "text": "Huber blättert in seinem Fahrplan, den er längst auswendig kennt, und sieht nicht auf.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -257,7 +260,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Der Schaffner sagt, Sie hätten die halbe Nacht laut gesungen.",
+              "text": "Man erzählt sich, Sie hätten in Wien im Studentenchor gesungen.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -365,11 +368,11 @@
           ]
         },
         "neutral": {
-          "text": "„Ich weiß wirklich nichts. Fragen Sie den Schaffner, der läuft die ganze Nacht herum.“ Er schlägt sein Buch wieder auf.",
+          "text": "„Da müssen Sie jemand anderen fragen. Der Schaffner kommt mit seiner Laterne überall hin.“ Er schlägt sein Buch wieder auf.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich bin Student, Sie verhören hier den Falschen.“ Lukas vergräbt die Nase in seinem Reisebuch. Für heute ist das Gespräch vorbei.",
+          "text": "„Ich bin Student, Sie verhören hier den Falschen.“ Lukas vergräbt die Nase in seinem Reisebuch. Fürs Erste ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "lukas_verstimmt"
@@ -387,7 +390,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Lukas winkt Sie aufgeregt heran. „Sie sind wieder da! Ich habe etwas gezeichnet, während alle schliefen.“",
+          "text": "Lukas winkt dich aufgeregt heran. „Sie sind wieder da! Ich habe etwas gezeichnet, während wir hier festsitzen.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -398,24 +401,21 @@
             },
             {
               "haltung": "draengen",
-              "text": "Später. Ist Ihnen noch etwas eingefallen?",
+              "text": "Später. Für Zeichnungen ist jetzt keine Zeit.",
               "druck": 1,
               "ziel": "kurz"
             }
           ]
         },
         "freund": {
-          "text": "Er dreht das Reisebuch zu Ihnen. Darauf ein Radio, sauber gezeichnet, mit einer Antenne bis zum Rand der Seite. „Wenn wir in Paris sind, baue ich es. Für Sie, wenn Sie wollen.“",
+          "text": "Er dreht das Reisebuch zu dir. Darauf ein Radio, sauber gezeichnet, mit einer Antenne bis zum Rand der Seite. „Wenn wir in Paris sind, baue ich es. Für Sie, wenn Sie wollen.“",
           "geste": "nicken",
           "setzt": [
             "lukas_freund"
           ]
         },
         "kurz": {
-          "text": "„Nur das mit Herrn Brändli am Klapptisch, bis nach Mitternacht. Mehr weiß ich nicht.“",
-          "preisgabe": [
-            "beobachtung:b_lukas_tisch"
-          ],
+          "text": "Er klappt das Reisebuch zu und schiebt die Brille hoch. „Schon gut. Die Zeichnung läuft ja nicht weg.“",
           "geste": "nachdenken"
         }
       }
@@ -484,7 +484,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Man erzählt sich, Sie seien gar keine Ärztin.",
+              "text": "Man erzählt sich, Sie lesen jeden Roman von hinten nach vorn.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -564,12 +564,12 @@
           ]
         },
         "abwehr": {
-          "text": "Sie lässt die Brille an der Kette sinken und sieht Sie lange an. „Ich bin Ärztin in Budapest. Fragen Sie jeden Kranken der Stadt.“",
+          "text": "Sie lässt die Brille an der Kette sinken und sieht dich lange an. „Von hinten nach vorn? Ich lese jeden Roman Seite für Seite, wie eine Krankenakte.“",
           "geste": "abwehr",
           "wahlen": [
             {
               "haltung": "freundlich",
-              "text": "Verzeihen Sie. Ich musste das fragen.",
+              "text": "Verzeihen Sie. Das war nur Gerede.",
               "vertrauen": 1,
               "ziel": "neutral"
             },
@@ -592,11 +592,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr kann ich Ihnen nicht sagen. Ich habe gelesen.“ Sie schlägt das Buch wieder auf.",
+          "text": "„Fragen Sie lieber die anderen. Mein Roman wartet.“ Sie schlägt das Buch wieder auf.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich glaube, wir sind fertig.“ Doktor Szabó lässt die Brille sinken und wendet sich ihrem Buch zu. Für heute ist das Gespräch vorbei.",
+          "text": "„Ich glaube, wir sind fertig.“ Doktor Szabó lässt die Brille sinken und wendet sich ihrem Buch zu. Fürs Erste ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "szabo_verstimmt"
@@ -614,7 +614,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Doktor Szabó klappt ihr Buch zu, als Sie kommen. „Ich habe noch einmal nachgedacht, über den Abend im Salonwagen.“",
+          "text": "Doktor Szabó klappt ihr Buch zu, als du kommst. „Ich habe noch einmal nachgedacht, über den Abend im Salonwagen.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -660,7 +660,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Doktor Szabó liest und tut, als hätte sie Sie nicht bemerkt.",
+          "text": "Doktor Szabó liest und tut, als hätte sie dich nicht bemerkt.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -714,7 +714,7 @@
             },
             {
               "haltung": "bluffen",
-              "text": "Man sagt, Sie hätten heute Nacht das Silber gezählt und eine Gabel vermisst.",
+              "text": "Man sagt, Ihnen sei einmal eine ganze Torte vom Tablett gerutscht.",
               "vertrauen": -1,
               "druck": 1,
               "ziel": "abwehr"
@@ -722,7 +722,7 @@
           ]
         },
         "warm": {
-          "text": "Ein feines Lächeln. „Dreißig Jahre, und jede Strecke erkennt man am Klang der Schienen. Heute Nacht war es still. Zu still.“",
+          "text": "Ein feines Lächeln. „Dreißig Jahre, und jede Strecke erkennt man am Klang der Schienen. Seit wir im Schnee stecken, schweigen sie.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -743,14 +743,17 @@
             },
             {
               "haltung": "draengen",
-              "text": "Und wo waren Sie, als die Lichter ausgingen?",
+              "text": "Und was haben Sie in der Nacht gemacht?",
               "druck": 1,
               "ziel": "alibi"
             }
           ]
         },
         "alibi": {
-          "text": "„Im Speisewagen. Ich habe die Tische abgeräumt, und die Schreibmaschine klapperte dabei bis weit nach Mitternacht.“",
+          "text": "„Ich war im Speisewagen und habe die Tische abgeräumt. Die Schreibmaschine klapperte dabei bis weit nach Mitternacht.“",
+          "preisgabe": [
+            "beobachtung:b_morel_tippen"
+          ],
           "geste": "nachdenken",
           "wahlen": [
             {
@@ -787,14 +790,14 @@
             },
             {
               "haltung": "vorlegen",
-              "text": "Ich habe heute Nacht etwas gefunden. Kennen Sie das?",
+              "text": "Ich habe vorhin etwas gefunden. Kennen Sie das?",
               "vertrauen": 1,
               "ziel": "vertraut"
             }
           ]
         },
         "abwehr": {
-          "text": "Das Tuch hält inne. „Eine Gabel? In meinem Speisewagen fehlt nie eine Gabel.“",
+          "text": "Das Tuch hält inne. „Eine Torte? Von meinem Tablett ist in dreißig Jahren nichts gerutscht.“",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -805,7 +808,7 @@
             },
             {
               "haltung": "draengen",
-              "text": "Dann haben Sie sicher nichts zu verbergen.",
+              "text": "Das glaube ich erst, wenn ich es sehe.",
               "druck": 1,
               "ziel": "verstimmt"
             }
@@ -823,11 +826,11 @@
           ]
         },
         "neutral": {
-          "text": "„Mehr kann ich nicht sagen. Im Speisewagen gibt es immer etwas zu tun.“ Er verbeugt sich und geht.",
+          "text": "„Verzeihen Sie, der Dienst ruft.“ Er verbeugt sich und geht.",
           "geste": "nachdenken"
         },
         "verstimmt": {
-          "text": "„Ich bin Kellner, kein Angeklagter.“ Morel wendet sich ab und poliert sein Tablett. Für heute ist das Gespräch vorbei.",
+          "text": "„Ich bin Kellner, kein Angeklagter.“ Morel wendet sich ab und poliert sein Tablett. Fürs Erste ist das Gespräch vorbei.",
           "geste": "abwehr",
           "setzt": [
             "morel_verstimmt"
@@ -845,7 +848,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Morel erwartet Sie schon mit einem kleinen Teller. „Ich habe Ihnen ein Stück Gebäck aufgehoben. Und mir ist noch etwas eingefallen.“",
+          "text": "Morel erwartet dich schon mit einem kleinen Teller. „Ich habe Ihnen ein Marmeladenbrot aufgehoben. Und mir ist noch etwas eingefallen.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -873,7 +876,7 @@
           ]
         },
         "kurz": {
-          "text": "„Gegen halb eins lag die Mappe von Herrn Lindqvist offen an seinem Stammplatz. Mehr nicht.“",
+          "text": "„Gegen halb eins lag die Mappe von Herrn Lindqvist offen an seinem Stammplatz.“ Er verbeugt sich knapp.",
           "preisgabe": [
             "beobachtung:b_morel_mappe"
           ],
@@ -891,7 +894,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Morel poliert ein Glas, das längst glänzt, und sieht nicht auf.",
+          "text": "Morel faltet eine Serviette, die längst gefaltet ist, und sieht nicht auf.",
           "geste": "abwehr",
           "wahlen": [
             {
@@ -909,14 +912,14 @@
           ]
         },
         "versoehnt": {
-          "text": "Er stellt das Glas ab und verbeugt sich, diesmal tiefer. „Es ist vergessen.“",
+          "text": "Er legt die Serviette ab und verbeugt sich, diesmal tiefer. „Es ist vergessen.“",
           "geste": "nicken",
           "setzt": [
             "morel_versoehnt"
           ]
         },
         "kalt": {
-          "text": "„Der Speisewagen schließt gleich.“ Er dreht das Schild an der Tür um.",
+          "text": "„Andere Gäste warten.“ Er wendet sich dem nächsten Tisch zu.",
           "geste": "abwehr"
         }
       }
@@ -930,7 +933,7 @@
         "huber_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Ein Jahr später fahren Sie wieder mit dem Nachtexpress. An Ihrer Abteiltür hängt ein Schild in Hubers steiler Schrift: „Reserviert für einen besonderen Fahrgast.“"
+      "text": "Ein Jahr später fährst du wieder mit dem Nachtexpress. Huber locht deine Fahrkarte, sieht dich lange an und sagt nur: „Aufgeklärt ist aufgeklärt.“"
     },
     {
       "id": "huber_freund",
@@ -938,7 +941,7 @@
       "flags": [
         "huber_freund"
       ],
-      "text": "Zu Weihnachten bekommen Sie eine Karte von Huber: ein Zug im Schnee, darunter steht nur: „Pünktlich wie immer.“"
+      "text": "Zu Weihnachten bekommst du eine Karte von Huber: ein Zug im Schnee, darunter steht nur: „Pünktlich wie immer.“"
     },
     {
       "id": "huber_vertraut",
@@ -946,7 +949,7 @@
       "flags": [
         "huber_vertraut"
       ],
-      "text": "Huber tippt beim Aussteigen an die Mütze und hält Ihnen die Laterne über die Stufen."
+      "text": "Huber tippt beim Aussteigen an die Mütze und hält dir die Laterne über die Stufen."
     },
     {
       "id": "huber_versoehnt",
@@ -954,7 +957,7 @@
       "flags": [
         "huber_versoehnt"
       ],
-      "text": "Huber nickt Ihnen am Bahnsteig zu. Der Ärger der Nacht ist vergessen."
+      "text": "Huber nickt dir am Bahnsteig zu. Sein Ärger über dich ist verflogen."
     },
     {
       "id": "huber_verstimmt",
@@ -962,7 +965,7 @@
       "flags": [
         "huber_verstimmt"
       ],
-      "text": "Huber kontrolliert Ihre Fahrkarte beim Aussteigen ein zweites Mal, sehr gründlich."
+      "text": "Huber kontrolliert deine Fahrkarte beim Aussteigen ein zweites Mal, sehr gründlich."
     },
     {
       "id": "lukas_freund_richtig",
@@ -987,7 +990,7 @@
       "flags": [
         "lukas_vertraut"
       ],
-      "text": "Lukas winkt Ihnen beim Aussteigen mit seinem Reisebuch zu."
+      "text": "Lukas winkt dir beim Aussteigen mit seinem Reisebuch zu."
     },
     {
       "id": "lukas_versoehnt",
@@ -995,7 +998,7 @@
       "flags": [
         "lukas_versoehnt"
       ],
-      "text": "Lukas drückt Ihnen beim Aussteigen verlegen die Hand. „Nichts für ungut.“"
+      "text": "Lukas drückt dir beim Aussteigen verlegen die Hand. „Nichts für ungut.“"
     },
     {
       "id": "lukas_verstimmt",
@@ -1020,7 +1023,7 @@
       "flags": [
         "szabo_freund"
       ],
-      "text": "Doktor Szabó schickt Ihnen einen Roman aus Budapest. Zwischen den Seiten liegt eine getrocknete Edelweißblüte."
+      "text": "Doktor Szabó schickt dir einen Roman aus Budapest. Zwischen den Seiten liegt eine getrocknete Edelweißblüte."
     },
     {
       "id": "szabo_vertraut",
@@ -1028,7 +1031,7 @@
       "flags": [
         "szabo_vertraut"
       ],
-      "text": "Doktor Szabó nickt Ihnen beim Aussteigen zu und rückt die Brille an der Kette zurecht."
+      "text": "Doktor Szabó nickt dir beim Aussteigen zu und rückt die Brille an der Kette zurecht."
     },
     {
       "id": "szabo_versoehnt",
@@ -1036,7 +1039,7 @@
       "flags": [
         "szabo_versoehnt"
       ],
-      "text": "Doktor Szabó reicht Ihnen am Bahnsteig die Hand. „Sie haben nur Ihre Arbeit getan.“"
+      "text": "Doktor Szabó reicht dir am Bahnsteig die Hand. „Sie haben nur Ihre Arbeit getan.“"
     },
     {
       "id": "szabo_verstimmt",
@@ -1044,7 +1047,7 @@
       "flags": [
         "szabo_verstimmt"
       ],
-      "text": "Doktor Szabó steigt als Erste aus und sieht sich nicht mehr um."
+      "text": "Doktor Szabó steigt vor allen anderen aus und sieht sich nicht mehr um."
     },
     {
       "id": "morel_freund_richtig",
@@ -1053,7 +1056,7 @@
         "morel_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Ein Jahr später serviert Ihnen Morel im selben Speisewagen ein Frühstück, das auf keiner Karte steht."
+      "text": "Ein Jahr später bedient dich Morel im selben Speisewagen. Über jene Nacht spricht er nicht, aber deinen Kaffee bringt er, bevor du bestellt hast."
     },
     {
       "id": "morel_freund",
@@ -1061,7 +1064,7 @@
       "flags": [
         "morel_freund"
       ],
-      "text": "Morel schickt Ihnen eine gestärkte Serviette mit dem Wappen der Bahn. Darauf steht mit Tinte: „Merci.“"
+      "text": "Morel schickt dir eine gestärkte Serviette mit dem Wappen der Bahn. Darauf steht mit Tinte: „Merci.“"
     },
     {
       "id": "morel_vertraut",
@@ -1069,7 +1072,7 @@
       "flags": [
         "morel_vertraut"
       ],
-      "text": "Morel verbeugt sich zum Abschied etwas tiefer als vor den anderen Gästen."
+      "text": "Morel verbeugt sich zum Abschied vor dir etwas tiefer als vor den anderen Gästen."
     },
     {
       "id": "morel_versoehnt",
@@ -1077,7 +1080,7 @@
       "flags": [
         "morel_versoehnt"
       ],
-      "text": "Morel reicht Ihnen beim Aussteigen ein eingewickeltes Brötchen. „Für die Reise.“"
+      "text": "Morel reicht dir beim Aussteigen ein eingewickeltes Brötchen. „Für die Reise.“"
     },
     {
       "id": "morel_verstimmt",
@@ -1085,7 +1088,7 @@
       "flags": [
         "morel_verstimmt"
       ],
-      "text": "Morel räumt Ihren Platz ab, bevor Sie ganz aufgestanden sind."
+      "text": "Morel räumt deinen Platz ab, bevor du ganz aufgestanden bist."
     }
   ]
 }
