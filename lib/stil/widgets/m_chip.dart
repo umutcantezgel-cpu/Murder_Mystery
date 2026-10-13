@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../tokens.dart';
 
-/// Kleine Marke: ein Wort oder eine kurze Angabe in einer Kapsel
-/// (Ton einer Akte, Personenzahl, „bald“).
+/// Kleine Marke als Aktenetikett: ein Wort oder eine kurze Angabe in einem
+/// gestempelten Rahmen (Ton einer Akte, Personenzahl, „bald“).
 class MChip extends StatelessWidget {
   const MChip(this.text, {super.key, this.icon, this.farbe, this.gefuellt = false, this.passend = false});
 
   final String text;
   final IconData? icon;
 
-  /// Farbe von Linie und Schrift; ohne Angabe der Akzent.
+  /// Farbe von Rahmen und Schrift; ohne Angabe der Akzent.
   final Color? farbe;
 
-  /// Gefüllte Kapsel (Hervorhebung) statt Umriss.
+  /// Gefülltes Etikett (Hervorhebung) statt Rahmen.
   final bool gefuellt;
 
   /// Natürliche Größe ohne Kürzen („…“): für eine Umgebung wie `FittedBox`,
-  /// die die ganze Kapsel verkleinert, wenn der Platz nicht reicht.
+  /// die das ganze Etikett verkleinert, wenn der Platz nicht reicht.
   final bool passend;
 
   @override
@@ -25,13 +25,13 @@ class MChip extends StatelessWidget {
     final f = MFarben.von(context);
     final c = farbe ?? f.akzent;
     final auf = gefuellt ? f.akzentAuf : c;
-    final stil = TextStyle(fontFamily: MRohSchrift.text, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.6, color: auf);
+    final stil = TextStyle(fontFamily: MRohSchrift.maschine, fontSize: 13, height: 1.2, letterSpacing: 0.5, color: auf);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.fromLTRB(8, 4, 9, 3),
       decoration: BoxDecoration(
-        color: gefuellt ? c : c.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(MMass.r20),
-        border: Border.all(color: c.withValues(alpha: gefuellt ? 1 : 0.55)),
+        color: gefuellt ? c : c.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(2),
+        border: Border.all(color: c.withValues(alpha: gefuellt ? 1 : 0.7), width: 1.2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

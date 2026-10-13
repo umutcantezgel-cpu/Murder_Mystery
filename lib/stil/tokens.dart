@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'flaeche.dart';
+import 'schriften.dart';
+
+export 'flaeche.dart';
+export 'schriften.dart';
+
 /// Rohwerte des Mordakte-Stils als Konstanten. Die ThemeExtensions unten und
 /// die Schreibweisen der alten Stile (`Keller`) zeigen auf dieselben Werte,
 /// damit es nur eine Quelle für Farben und Schriften gibt.
@@ -38,16 +44,88 @@ abstract final class MRoh {
 
   /// Dunkler Rückfall für Schatten und Vignette.
   static const schwarz = Color(0xFF07060A);
+
+  // Materialien der Ermittlungsmappe: Papier, Aktendeckel, Tinte, Stempel, Kork, Messing.
+  /// Gealtertes Aktenpapier (hell, warm).
+  static const blatt = Color(0xFFF2EBDD);
+
+  /// Schattenseite des Papiers (Ränder, Knicke).
+  static const blattSchatten = Color(0xFFD9CDB5);
+
+  /// Karteikarte (etwas kühler als Aktenpapier).
+  static const karteikarte = Color(0xFFF7F3EA);
+
+  /// Aktendeckel aus Manilakarton.
+  static const manila = Color(0xFFD9B979);
+  static const manilaDunkel = Color(0xFFB08A4A);
+
+  /// Leiser Text auf Papier.
+  static const tinteLeise = Color(0xFF6B5C4C);
+
+  /// Füllertinte (Unterstreichungen, Randnotizen).
+  static const tinteBlau = Color(0xFF233F7A);
+
+  /// Stempelfarbe.
+  static const stempelRot = Color(0xFFA3242F);
+
+  /// Karteikarten-Linien.
+  static const linieBlau = Color(0x55557BB8);
+  static const linieRot = Color(0x88C2414B);
+
+  /// Korkwand.
+  static const kork = Color(0xFF9C6B3E);
+  static const korkDunkel = Color(0xFF6E4524);
+
+  /// Gebürstetes Messing (Schilder, Knöpfe).
+  static const messingHell = Color(0xFFF3D58C);
+  static const messingMitte = Color(0xFFC99A3E);
+  static const messingDunkel = Color(0xFF7A5414);
+
+  /// Schreibtischleder unter den Mappen.
+  static const leder = Color(0xFF2B1A17);
+  static const lederHell = Color(0xFF3D2620);
 }
 
-/// Rohwerte der Schriften: Schreibmaschine (SpecialElite) für Titel, Inter für Text.
+/// Rohwerte der Schriften der Ermittlungsmappe: Playfair Display für Titel, Lora
+/// für Lesetext, Special Elite für Schreibmaschinenzeilen, Inter für kleine Bedientexte.
+/// Die Schriftnamen stehen in `schriften.dart` ([MSchriftFamilie]).
 abstract final class MRohSchrift {
-  static const anzeige = 'SpecialElite';
-  static const text = 'Inter';
+  /// Titelschrift (Playfair Display).
+  static const anzeige = MSchriftFamilie.titel;
 
-  static const titel = TextStyle(fontFamily: anzeige, fontSize: 30, height: 1.2, color: MRoh.akzentHell, letterSpacing: 0.5);
-  static const ueberschrift = TextStyle(fontFamily: anzeige, fontSize: 21, height: 1.25, color: MRoh.papier);
-  static const fliesstext = TextStyle(fontFamily: text, fontSize: 17, height: 1.5, color: MRoh.papier);
+  /// Lesetext (Lora).
+  static const lesen = MSchriftFamilie.lesen;
+
+  /// Schreibmaschine (Special Elite).
+  static const maschine = MSchriftFamilie.maschine;
+
+  /// Bedientext (Inter).
+  static const text = MSchriftFamilie.ui;
+
+  static const titel = TextStyle(
+    fontFamily: anzeige,
+    fontSize: 30,
+    height: 1.2,
+    fontWeight: FontWeight.w700,
+    fontVariations: [FontVariation('wght', 700)],
+    color: MRoh.akzentHell,
+  );
+  static const ueberschrift = TextStyle(
+    fontFamily: anzeige,
+    fontSize: 22,
+    height: 1.27,
+    fontWeight: FontWeight.w700,
+    fontVariations: [FontVariation('wght', 700)],
+    color: MRoh.papier,
+  );
+  static const fliesstext = TextStyle(
+    fontFamily: lesen,
+    fontSize: 17,
+    height: 1.55,
+    fontWeight: FontWeight.w400,
+    fontVariations: [FontVariation('wght', 400)],
+    color: MRoh.papier,
+  );
   static const leise = TextStyle(fontFamily: text, fontSize: 14, height: 1.45, color: MRoh.papierLeise);
   static const marke = TextStyle(
     fontFamily: text,
@@ -59,7 +137,83 @@ abstract final class MRohSchrift {
   );
 
   /// Erzählertext: groß und ruhig lesbar, auch für Vorlesende.
-  static const erzaehler = TextStyle(fontFamily: text, fontSize: 20, height: 1.6, color: MRoh.papier);
+  static const erzaehler = TextStyle(
+    fontFamily: lesen,
+    fontSize: 20,
+    height: 1.6,
+    fontWeight: FontWeight.w400,
+    fontVariations: [FontVariation('wght', 400)],
+    color: MRoh.papier,
+  );
+
+  /// Schlagzeile, Aktendeckel, Urteil.
+  static const aufmacher = TextStyle(
+    fontFamily: anzeige,
+    fontSize: 40,
+    height: 1.1,
+    fontWeight: FontWeight.w800,
+    fontVariations: [FontVariation('wght', 800)],
+    letterSpacing: -0.3,
+    color: MRoh.papier,
+  );
+
+  /// Abschnitts- und Formularköpfe in Schreibmaschine („Was ich weiß“).
+  static const zwischentitel = TextStyle(fontFamily: maschine, fontSize: 15, height: 1.33, letterSpacing: 0.6, color: MRoh.papier);
+
+  /// Aussagen und Zitate (echte Kursive).
+  static const kursiv = TextStyle(
+    fontFamily: lesen,
+    fontSize: 17,
+    height: 1.55,
+    fontStyle: FontStyle.italic,
+    fontWeight: FontWeight.w400,
+    fontVariations: [FontVariation('wght', 400)],
+    color: MRoh.papier,
+  );
+
+  /// Etiketten, Aktenzeichen, Einträge.
+  static const schreibmaschine = TextStyle(fontFamily: maschine, fontSize: 15, height: 1.45, letterSpacing: 0.2, color: MRoh.papier);
+
+  /// Telegramm und „Klare Schrift“.
+  static const telegramm = TextStyle(fontFamily: MSchriftFamilie.telegramm, fontSize: 15, height: 1.45, letterSpacing: 0.4, color: MRoh.papier);
+
+  /// Randnotiz des Detektivs (Füller).
+  static const handschrift = TextStyle(
+    fontFamily: MSchriftFamilie.hand,
+    fontSize: 21,
+    height: 1.24,
+    fontWeight: FontWeight.w600,
+    fontVariations: [FontVariation('wght', 600)],
+    color: MRoh.tinteBlau,
+  );
+
+  /// Beschriftung der Messingschilder.
+  static const knopf = TextStyle(
+    fontFamily: anzeige,
+    fontSize: 17,
+    height: 1.18,
+    fontWeight: FontWeight.w700,
+    fontVariations: [FontVariation('wght', 700)],
+    letterSpacing: 0.4,
+  );
+}
+
+/// Die Schriftrollen in Tinte für Inhalte auf Papier, als Konstanten. Bildschirme
+/// setzen sie in [MBlatt], [MAktenmappe] und Karteikarten, wo der äußere `context`
+/// noch über dem Papier liegt.
+abstract final class MPapierSchrift {
+  static final titel = MRohSchrift.titel.copyWith(color: MRoh.tinte);
+  static final ueberschrift = MRohSchrift.ueberschrift.copyWith(color: MRoh.tinte);
+  static final text = MRohSchrift.fliesstext.copyWith(color: MRoh.tinte);
+  static final leise = MRohSchrift.leise.copyWith(color: MRoh.tinteLeise);
+  static final marke = MRohSchrift.marke.copyWith(color: MRoh.stempelRot);
+  static final erzaehler = MRohSchrift.erzaehler.copyWith(color: MRoh.tinte);
+  static final aufmacher = MRohSchrift.aufmacher.copyWith(color: MRoh.tinte);
+  static final zwischentitel = MRohSchrift.zwischentitel.copyWith(color: MRoh.tinteLeise);
+  static final kursiv = MRohSchrift.kursiv.copyWith(color: MRoh.tinte);
+  static final maschine = MRohSchrift.schreibmaschine.copyWith(color: MRoh.tinte);
+  static final telegramm = MRohSchrift.telegramm.copyWith(color: MRoh.tinte);
+  static final hand = MRohSchrift.handschrift;
 }
 
 /// Farben des Spiels als ThemeExtension. Eine Akte überschreibt nur Akzent und
@@ -129,8 +283,38 @@ class MFarben extends ThemeExtension<MFarben> {
   /// Farbe des warmen Scheins am oberen Rand.
   final Color schein;
 
-  /// Farben des nächsten [Theme]; ohne Erweiterung der Grundton.
-  static MFarben von(BuildContext context) => Theme.of(context).extension<MFarben>() ?? mordakte;
+  /// Farben des nächsten [Theme]; ohne Erweiterung der Grundton. Auf Papier
+  /// ([MFlaeche] hell) die Tintenfarben ([aufPapier]).
+  static MFarben von(BuildContext context) {
+    final f = Theme.of(context).extension<MFarben>() ?? mordakte;
+    return MFlaeche.hellVon(context) ? f.aufPapier() : f;
+  }
+
+  /// Dieselben Rollen auf hellem Papier: Text wird Tinte, Akzente werden zur
+  /// dunklen Akzenttinte, Flächen werden Papiertöne. So lesen Bildschirme, die
+  /// `papier` als Schriftfarbe nehmen, auf einem Blatt automatisch richtig.
+  MFarben aufPapier() {
+    final tinteAkzent = Color.lerp(akzent, MRoh.tinte, 0.5)!;
+    return copyWith(
+      grund: MRoh.karteikarte,
+      grund2: MRoh.blatt,
+      flaeche: Color.lerp(MRoh.blatt, MRoh.blattSchatten, 0.45),
+      flaecheHoch: Color.lerp(MRoh.blatt, MRoh.blattSchatten, 0.75),
+      linie: MRoh.tinte.withValues(alpha: 0.18),
+      linieStark: MRoh.tinte.withValues(alpha: 0.38),
+      papier: MRoh.tinte,
+      papierLeise: MRoh.tinteLeise,
+      tinte: MRoh.tinte,
+      akzent: tinteAkzent,
+      akzentHell: tinteAkzent,
+      akzentSchwach: akzent.withValues(alpha: 0.22),
+      akzent2: Color.lerp(akzent2, MRoh.tinte, 0.45),
+      gefahr: MRoh.stempelRot,
+      erfolg: const Color(0xFF2F6B37),
+      warnung: const Color(0xFF9A5B12),
+      geist: const Color(0xFF2F6F76),
+    );
+  }
 
   /// Farbe einer Seltenheit (zinn, messing, blutgold).
   Color seltenheit(int stufe) => switch (stufe) {
@@ -223,7 +407,9 @@ class MFarben extends ThemeExtension<MFarben> {
   }
 }
 
-/// Schriften des Spiels als ThemeExtension: Schreibmaschine für Titel, Inter für Text.
+/// Schriften des Spiels als ThemeExtension: Playfair Display für Titel, Lora für
+/// Lesetext, Special Elite für Schreibmaschine, Caveat für Handschrift, Inter für
+/// kleine Bedientexte. Auf Papier ([MFlaeche] hell) in Tintenfarben.
 @immutable
 class MSchrift extends ThemeExtension<MSchrift> {
   const MSchrift({
@@ -233,11 +419,18 @@ class MSchrift extends ThemeExtension<MSchrift> {
     this.leise = MRohSchrift.leise,
     this.marke = MRohSchrift.marke,
     this.erzaehler = MRohSchrift.erzaehler,
+    this.aufmacher = MRohSchrift.aufmacher,
+    this.zwischentitel = MRohSchrift.zwischentitel,
+    this.kursiv = MRohSchrift.kursiv,
+    this.maschine = MRohSchrift.schreibmaschine,
+    this.telegramm = MRohSchrift.telegramm,
+    this.hand = MRohSchrift.handschrift,
+    this.knopf = MRohSchrift.knopf,
   });
 
   static const standard = MSchrift();
 
-  /// Schriften mit den Akzentfarben von [f] (eine Akte färbt Titel und Marke um).
+  /// Schriften mit den Farben von [f] (eine Akte färbt Titel und Marke um).
   factory MSchrift.fuer(MFarben f) => MSchrift(
         titel: MRohSchrift.titel.copyWith(color: f.akzentHell),
         ueberschrift: MRohSchrift.ueberschrift.copyWith(color: f.papier),
@@ -245,15 +438,22 @@ class MSchrift extends ThemeExtension<MSchrift> {
         leise: MRohSchrift.leise.copyWith(color: f.papierLeise),
         marke: MRohSchrift.marke.copyWith(color: f.akzent),
         erzaehler: MRohSchrift.erzaehler.copyWith(color: f.papier),
+        aufmacher: MRohSchrift.aufmacher.copyWith(color: f.papier),
+        zwischentitel: MRohSchrift.zwischentitel.copyWith(color: f.papier),
+        kursiv: MRohSchrift.kursiv.copyWith(color: f.papier),
+        maschine: MRohSchrift.schreibmaschine.copyWith(color: f.papier),
+        telegramm: MRohSchrift.telegramm.copyWith(color: f.papier),
+        hand: MRohSchrift.handschrift.copyWith(color: f.papier == MRoh.tinte ? MRoh.tinteBlau : MRoh.akzentHell),
+        knopf: MRohSchrift.knopf,
       );
 
-  /// Titel: Schreibmaschine 30.
+  /// Titel: Playfair Display 30, fett.
   final TextStyle titel;
 
-  /// Überschrift: Schreibmaschine 21.
+  /// Überschrift: Playfair Display 22, fett.
   final TextStyle ueberschrift;
 
-  /// Fließtext: Inter 17, Zeilenhöhe 1,5.
+  /// Fließtext: Lora 17.
   final TextStyle text;
 
   /// Leiser Text: Inter 14.
@@ -262,10 +462,35 @@ class MSchrift extends ThemeExtension<MSchrift> {
   /// Marke (Kapitälchen-Zeile): Inter 12 halbfett, Zeichenabstand 1,2.
   final TextStyle marke;
 
-  /// Erzählertext: Inter 20, Zeilenhöhe 1,6.
+  /// Erzählertext: Lora 20, Zeilenhöhe 1,6.
   final TextStyle erzaehler;
 
-  static MSchrift von(BuildContext context) => Theme.of(context).extension<MSchrift>() ?? standard;
+  /// Schlagzeile, Aktendeckel, Urteil: Playfair Display 40.
+  final TextStyle aufmacher;
+
+  /// Abschnitts- und Formularköpfe: Special Elite 15.
+  final TextStyle zwischentitel;
+
+  /// Aussagen und Zitate: Lora kursiv 17.
+  final TextStyle kursiv;
+
+  /// Etiketten, Aktenzeichen: Special Elite 15.
+  final TextStyle maschine;
+
+  /// Telegramm: Courier Prime 15.
+  final TextStyle telegramm;
+
+  /// Randnotiz des Detektivs: Caveat 21.
+  final TextStyle hand;
+
+  /// Beschriftung der Messingschilder: Playfair Display 17.
+  final TextStyle knopf;
+
+  /// Schriften des nächsten [Theme]; auf Papier in Tintenfarben.
+  static MSchrift von(BuildContext context) {
+    if (MFlaeche.hellVon(context)) return MSchrift.fuer(MFarben.von(context));
+    return Theme.of(context).extension<MSchrift>() ?? standard;
+  }
 
   @override
   MSchrift copyWith({
@@ -275,6 +500,13 @@ class MSchrift extends ThemeExtension<MSchrift> {
     TextStyle? leise,
     TextStyle? marke,
     TextStyle? erzaehler,
+    TextStyle? aufmacher,
+    TextStyle? zwischentitel,
+    TextStyle? kursiv,
+    TextStyle? maschine,
+    TextStyle? telegramm,
+    TextStyle? hand,
+    TextStyle? knopf,
   }) =>
       MSchrift(
         titel: titel ?? this.titel,
@@ -283,18 +515,33 @@ class MSchrift extends ThemeExtension<MSchrift> {
         leise: leise ?? this.leise,
         marke: marke ?? this.marke,
         erzaehler: erzaehler ?? this.erzaehler,
+        aufmacher: aufmacher ?? this.aufmacher,
+        zwischentitel: zwischentitel ?? this.zwischentitel,
+        kursiv: kursiv ?? this.kursiv,
+        maschine: maschine ?? this.maschine,
+        telegramm: telegramm ?? this.telegramm,
+        hand: hand ?? this.hand,
+        knopf: knopf ?? this.knopf,
       );
 
   @override
   MSchrift lerp(ThemeExtension<MSchrift>? other, double t) {
     if (other is! MSchrift) return this;
+    TextStyle l(TextStyle a, TextStyle b) => TextStyle.lerp(a, b, t)!;
     return MSchrift(
-      titel: TextStyle.lerp(titel, other.titel, t)!,
-      ueberschrift: TextStyle.lerp(ueberschrift, other.ueberschrift, t)!,
-      text: TextStyle.lerp(text, other.text, t)!,
-      leise: TextStyle.lerp(leise, other.leise, t)!,
-      marke: TextStyle.lerp(marke, other.marke, t)!,
-      erzaehler: TextStyle.lerp(erzaehler, other.erzaehler, t)!,
+      titel: l(titel, other.titel),
+      ueberschrift: l(ueberschrift, other.ueberschrift),
+      text: l(text, other.text),
+      leise: l(leise, other.leise),
+      marke: l(marke, other.marke),
+      erzaehler: l(erzaehler, other.erzaehler),
+      aufmacher: l(aufmacher, other.aufmacher),
+      zwischentitel: l(zwischentitel, other.zwischentitel),
+      kursiv: l(kursiv, other.kursiv),
+      maschine: l(maschine, other.maschine),
+      telegramm: l(telegramm, other.telegramm),
+      hand: l(hand, other.hand),
+      knopf: l(knopf, other.knopf),
     );
   }
 }

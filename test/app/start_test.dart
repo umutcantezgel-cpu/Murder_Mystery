@@ -18,8 +18,15 @@ void main() {
       ..addFont(rootBundle.load('assets/fonts/Inter-Regular.ttf'))
       ..addFont(rootBundle.load('assets/fonts/Inter-SemiBold.ttf'))
       ..addFont(rootBundle.load('assets/fonts/Inter-Bold.ttf'));
-    await elite.load();
-    await inter.load();
+    final playfair = FontLoader('Playfair')..addFont(rootBundle.load('assets/fonts/PlayfairDisplay-Variabel.ttf'));
+    final lora = FontLoader('Lora')
+      ..addFont(rootBundle.load('assets/fonts/Lora-Variabel.ttf'))
+      ..addFont(rootBundle.load('assets/fonts/Lora-Kursiv-Variabel.ttf'));
+    final courier = FontLoader('CourierPrime')..addFont(rootBundle.load('assets/fonts/CourierPrime-Regular.ttf'));
+    final caveat = FontLoader('Caveat')..addFont(rootBundle.load('assets/fonts/Caveat-Variabel.ttf'));
+    for (final l in [elite, inter, playfair, lora, courier, caveat]) {
+      await l.load();
+    }
   });
   setUp(() => SharedPreferences.setMockInitialValues({}));
 

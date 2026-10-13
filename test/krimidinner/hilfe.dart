@@ -55,7 +55,7 @@ Widget hubApp() {
 
 bool _schriften = false;
 
-/// Lädt die echten Schriften der App (Inter, SpecialElite), damit Textbreiten
+/// Lädt die echten Schriften der App (alle Familien der Ermittlungsmappe), damit Textbreiten
 /// wie auf dem Gerät gemessen werden und nicht mit der Testschrift.
 Future<void> schriftenLaden() async {
   if (_schriften) return;
@@ -67,8 +67,15 @@ Future<void> schriftenLaden() async {
     ..addFont(datei('Inter-SemiBold.ttf'))
     ..addFont(datei('Inter-Bold.ttf'));
   final elite = FontLoader('SpecialElite')..addFont(datei('SpecialElite-Regular.ttf'));
-  await inter.load();
-  await elite.load();
+  final playfair = FontLoader('Playfair')..addFont(datei('PlayfairDisplay-Variabel.ttf'));
+  final lora = FontLoader('Lora')
+    ..addFont(datei('Lora-Variabel.ttf'))
+    ..addFont(datei('Lora-Kursiv-Variabel.ttf'));
+  final courier = FontLoader('CourierPrime')..addFont(datei('CourierPrime-Regular.ttf'));
+  final caveat = FontLoader('Caveat')..addFont(datei('Caveat-Variabel.ttf'));
+  for (final l in [inter, elite, playfair, lora, courier, caveat]) {
+    await l.load();
+  }
 }
 
 /// Bildschirmgröße in logischen Pixeln setzen (wird nach dem Test zurückgesetzt).

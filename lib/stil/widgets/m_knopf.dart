@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../mappe/material.dart';
 import '../tokens.dart';
 
-/// Art eines Knopfs: der warme Hauptknopf, ein Rahmenknopf oder ein leiser Textknopf.
-enum MKnopfArt { haupt, zweit, leise }
+/// Art eines Knopfs:
+/// - [haupt]: Messingschild mit eingravierter Schrift.
+/// - [zweit]: Aktenetikett (auf dem Schreibtisch hell, auf Papier mit Tintenrahmen).
+/// - [leise]: unterstrichene Tintenzeile.
+/// - [gefahr]: rotes Stempelschild.
+enum MKnopfArt { haupt, zweit, leise, gefahr }
 
 /// Knopf des Spiels, mindestens 48 × 48 Pixel. Ohne [onPressed] ist er gesperrt.
 /// Das Material meldet ihn dem Bildschirmleser als Knopf mit seinem Text; mit
@@ -37,10 +42,12 @@ class MKnopf extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
-    final form = RoundedRectangleBorder(borderRadius: BorderRadius.circular(MMass.r10));
+    final aufPapier = MFlaeche.hellVon(context);
+    final form = RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
     const mindest = Size(MMass.tippflaeche, MMass.tippflaeche);
-    final polster = EdgeInsets.symmetric(horizontal: 20, vertical: gross ? 20 : 14);
-    TextStyle schrift(FontWeight gewicht) => TextStyle(fontFamily: MRohSchrift.text, fontSize: gross ? 18 : 16, fontWeight: gewicht);
+    final polster = EdgeInsets.symmetric(horizontal: 22, vertical: gross ? 19 : 13);
+    final schild = MRohSchrift.knopf.copyWith(fontSize: gross ? 19 : 17);
+    final etikett = MRohSchrift.schreibmaschine.copyWith(fontSize: gross ? 17 : 15, letterSpacing: 0.6);
     final inhalt = icon == null
         ? Text(text, textAlign: TextAlign.center)
         : Row(
@@ -49,30 +56,50 @@ class MKnopf extends StatelessWidget {
             children: [Icon(icon, size: 20), const SizedBox(width: MMass.s8), Flexible(child: Text(text, textAlign: TextAlign.center))],
           );
     final Widget knopf = switch (art) {
-      MKnopfArt.haupt => FilledButton(
+      MKnopfArt.haupt || MKnopfArt.gefahr => FilledButton(
           onPressed: onPressed,
-          style: FilledButton.styleFrom(
-            backgroundColor: f.akzent,
-            foregroundColor: f.akzentAuf,
-            disabledBackgroundColor: f.flaecheHoch,
-            disabledForegroundColor: f.papierLeise,
-            minimumSize: mindest,
-            padding: polster,
-            textStyle: schrift(FontWeight.w700),
-            shape: form,
+          style: ButtonStyle(
+            minimumSize: const WidgetStatePropertyAll(mindest),
+            padding: WidgetStatePropertyAll(polster),
+            shape: WidgetStatePropertyAll(form),
+            textStyle: WidgetStatePropertyAll(schild),
+            backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+            overlayColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.08)),
+            elevation: const WidgetStatePropertyAll(0),
+            foregroundColor: WidgetStateProperty.resolveWith(
+              (z) => z.contains(WidgetState.disabled)
+                  ? (art == MKnopfArt.gefahr ? const Color(0x99F2EBDD) : const Color(0x995A4220))
+                  : (art == MKnopfArt.gefahr ? MRoh.blatt : const Color(0xFF2A1A06)),
+            ),
+            backgroundBuilder: (context, zustaende, kind) => _Schild(
+              gefahr: art == MKnopfArt.gefahr,
+              gedrueckt: zustaende.contains(WidgetState.pressed),
+              gesperrt: zustaende.contains(WidgetState.disabled),
+              child: kind,
+            ),
           ),
           child: inhalt,
         ),
       MKnopfArt.zweit => OutlinedButton(
           onPressed: onPressed,
-          style: OutlinedButton.styleFrom(
-            foregroundColor: f.papier,
-            disabledForegroundColor: f.papierLeise,
-            side: BorderSide(color: onPressed == null ? f.linie : f.linieStark),
-            minimumSize: mindest,
-            padding: polster,
-            textStyle: schrift(FontWeight.w600),
-            shape: form,
+          style: ButtonStyle(
+            minimumSize: const WidgetStatePropertyAll(mindest),
+            padding: WidgetStatePropertyAll(polster),
+            shape: WidgetStatePropertyAll(form),
+            textStyle: WidgetStatePropertyAll(etikett),
+            overlayColor: WidgetStatePropertyAll(f.akzentSchwach),
+            foregroundColor: WidgetStateProperty.resolveWith(
+              (z) => z.contains(WidgetState.disabled) ? MRoh.tinteLeise.withValues(alpha: 0.7) : MRoh.tinte,
+            ),
+            side: WidgetStateProperty.resolveWith(
+              (z) => BorderSide(color: MRoh.tinte.withValues(alpha: z.contains(WidgetState.disabled) ? 0.2 : (aufPapier ? 0.55 : 0.0))),
+            ),
+            backgroundBuilder: (context, zustaende, kind) => _Etikett(
+              aufPapier: aufPapier,
+              gesperrt: zustaende.contains(WidgetState.disabled),
+              gedrueckt: zustaende.contains(WidgetState.pressed),
+              child: kind,
+            ),
           ),
           child: inhalt,
         ),
@@ -83,7 +110,7 @@ class MKnopf extends StatelessWidget {
             disabledForegroundColor: f.papierLeise,
             minimumSize: mindest,
             padding: polster,
-            textStyle: schrift(FontWeight.w600),
+            textStyle: etikett.copyWith(decoration: TextDecoration.underline, decorationThickness: 1.2),
             shape: form,
           ),
           child: inhalt,
@@ -98,6 +125,111 @@ class MKnopf extends StatelessWidget {
       onTap: onPressed,
       excludeSemantics: true,
       child: breitKnopf,
+    );
+  }
+}
+
+/// Messingschild (oder rotes Stempelschild) mit Schrauben in den Ecken.
+class _Schild extends StatelessWidget {
+  const _Schild({required this.gefahr, required this.gedrueckt, required this.gesperrt, this.child});
+
+  final bool gefahr;
+  final bool gedrueckt;
+  final bool gesperrt;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    final verlauf = gefahr
+        ? LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: gedrueckt ? const [Color(0xFF7E1B24), Color(0xFF9A2530)] : const [Color(0xFFC0384A), MRoh.stempelRot, Color(0xFF7E1B24)],
+          )
+        : messingVerlauf(gedrueckt: gedrueckt);
+    Widget schild = DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: verlauf,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: gefahr ? const Color(0xFF5E1219) : MRoh.messingDunkel, width: 1.2),
+        boxShadow: gedrueckt
+            ? const [BoxShadow(color: Color(0x66000000), blurRadius: 2, offset: Offset(0, 1))]
+            : const [
+                BoxShadow(color: Color(0x88000000), blurRadius: 8, offset: Offset(0, 4)),
+                BoxShadow(color: Color(0x33FFE7A8), blurRadius: 0, spreadRadius: -1, offset: Offset(0, -1)),
+              ],
+      ),
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: [
+          if (!gefahr) const Positioned.fill(child: CustomPaint(painter: BuerstungMaler())),
+          const Positioned(left: 5, top: 5, child: _Schraube()),
+          const Positioned(right: 5, top: 5, child: _Schraube()),
+          const Positioned(left: 5, bottom: 5, child: _Schraube()),
+          const Positioned(right: 5, bottom: 5, child: _Schraube()),
+          ?child,
+        ],
+      ),
+    );
+    if (gesperrt) schild = Opacity(opacity: 0.45, child: ColorFiltered(colorFilter: const ColorFilter.matrix(_grau), child: schild));
+    return AnimatedScale(scale: gedrueckt ? 0.97 : 1, duration: const Duration(milliseconds: 90), child: schild);
+  }
+}
+
+const _grau = <double>[
+  0.5, 0.4, 0.1, 0, 0, //
+  0.4, 0.5, 0.1, 0, 0,
+  0.3, 0.4, 0.3, 0, 0,
+  0, 0, 0, 1, 0,
+];
+
+class _Schraube extends StatelessWidget {
+  const _Schraube();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 4,
+        height: 4,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(center: Alignment(-0.4, -0.4), colors: [Color(0xFFFFF0C4), Color(0xFF6E4A10)]),
+        ),
+      );
+}
+
+/// Aktenetikett: helles Kartonetikett auf dem Schreibtisch, auf Papier ein
+/// Tintenrahmen mit leichtem Ton.
+class _Etikett extends StatelessWidget {
+  const _Etikett({required this.aufPapier, required this.gesperrt, required this.gedrueckt, this.child});
+
+  final bool aufPapier;
+  final bool gesperrt;
+  final bool gedrueckt;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (aufPapier) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: gedrueckt ? MRoh.tinte.withValues(alpha: 0.10) : MRoh.tinte.withValues(alpha: gesperrt ? 0.02 : 0.05),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: child,
+      );
+    }
+    return Opacity(
+      opacity: gesperrt ? 0.5 : 1,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: gedrueckt ? null : const [BoxShadow(color: Color(0x88000000), blurRadius: 6, offset: Offset(0, 3))],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: CustomPaint(painter: const PapierMaler(art: PapierArt.karteikarte, flecken: false, zeilenAbstand: 400, kopf: 4), child: child),
+        ),
+      ),
     );
   }
 }

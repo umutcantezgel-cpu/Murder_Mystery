@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../ui/widgets/noir_backdrop.dart' show GrainPainter;
+import '../mappe/material.dart';
 import '../tokens.dart';
 
-/// Hintergrund des Spiels: Nachtverlauf in Tinten-Violett, warmer Kerzenschein
-/// am oberen Rand, feine Körnung und eine weiche Vignette. Nichts darin
-/// bewegt sich, auch nicht ohne „Bewegung reduzieren“.
+/// Hintergrund des Spiels: der Schreibtisch der Detektei bei Nacht.
+///
+/// Dunkles Leder mit Körnung im Tinten-Violett der Akte, warmer Schein der
+/// Schreibtischlampe von oben, eine weiche Vignette. Nichts darin bewegt sich.
 class MHintergrund extends StatelessWidget {
   const MHintergrund({super.key, required this.child, this.koernung = true});
 
   final Widget child;
 
-  /// Körnung ein; sie wird nur einmal gezeichnet und gecacht.
+  /// Lederkörnung ein; sie wird nur einmal gezeichnet und gecacht.
   final bool koernung;
 
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
+    final unten = Color.lerp(MRoh.leder, f.grund, 0.55)!;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -25,29 +27,19 @@ class MHintergrund extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [f.nachtOben, f.grund, f.grund],
-              stops: const [0, 0.6, 1],
+              colors: [Color.lerp(f.nachtOben, MRoh.leder, 0.35)!, unten, Color.lerp(unten, MRoh.schwarz, 0.4)!],
+              stops: const [0, 0.55, 1],
             ),
           ),
         ),
-        // Warmer Kerzenschein oben.
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(0, -1.2),
-              radius: 1.05,
-              colors: [f.schein.withValues(alpha: 0.17), f.schein.withValues(alpha: 0)],
-            ),
-          ),
-        ),
-        if (koernung) const RepaintBoundary(child: CustomPaint(painter: GrainPainter(opacity: 0.035, density: 0.0018))),
+        if (koernung) RepaintBoundary(child: CustomPaint(painter: LederMaler(schein: f.schein))),
         // Weiche Vignette.
         DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
               radius: 1.1,
-              colors: [MRoh.schwarz.withValues(alpha: 0), MRoh.schwarz.withValues(alpha: 0.55)],
-              stops: const [0.6, 1],
+              colors: [MRoh.schwarz.withValues(alpha: 0), MRoh.schwarz.withValues(alpha: 0.6)],
+              stops: const [0.55, 1],
             ),
           ),
         ),

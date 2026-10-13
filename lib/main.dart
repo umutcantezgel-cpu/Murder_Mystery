@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
@@ -15,6 +16,7 @@ import 'ui/haptics.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Haptics.install();
+  _schriftLizenzen();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
   final meta = await MetaStore.load();
@@ -39,6 +41,22 @@ Future<void> main() async {
   final speed = double.tryParse(_query['speed'] ?? '') ?? 1;
   if (autoplay != null && await app.startAutoplay(autoplay, speed: speed)) initial = Routes.game;
   runApp(MordakteApp(app: app, initialLocation: initial));
+}
+
+/// Die OFL-Lizenzen der neuen Schriften erscheinen in der Lizenzübersicht der App.
+void _schriftLizenzen() {
+  const schriften = {
+    'Playfair Display': 'OFL-PlayfairDisplay.txt',
+    'Lora': 'OFL-Lora.txt',
+    'Courier Prime': 'OFL-CourierPrime.txt',
+    'Caveat': 'OFL-Caveat.txt',
+  };
+  LicenseRegistry.addLicense(() async* {
+    for (final e in schriften.entries) {
+      final text = await rootBundle.loadString('assets/fonts/lizenzen/${e.value}');
+      yield LicenseEntryWithLineBreaks([e.key], text);
+    }
+  });
 }
 
 Map<String, String> get _query {
