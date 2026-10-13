@@ -327,7 +327,9 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
   final l = c.l;
   final rolle = mitFiguren ? s.rolle : null;
   final figur = rolle == null ? '' : c.figurName(rolle);
-  final bild = rolle ?? (mitFiguren && s.istGastgeber ? c.detektivId : null);
+  // Die Spielleitung spielt immer den Detektiv: ihr Abzug zeigt ihn schon in der
+  // Lobby, wie auf dem Gerät des Gastgebers.
+  final bild = rolle ?? (s.istGastgeber ? c.detektivId : null);
   final Widget? zustand = s.istGastgeber
       ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
       : !s.online
@@ -338,7 +340,9 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
                   ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise)
                   : null;
   return OnlinePlatzKarte(
-    name: [s.name, if (s.id == c.ichId) '(${l.common_you})'].join(' · '),
+    name: s.name,
+    // Der eigene Platz trägt „(Du)“ als Randnotiz in Füllertinte.
+    notiz: s.id == c.ichId ? '(${l.common_you})' : null,
     unter: figur != s.name ? figur : null,
     look: c.aussehen(bild),
     farbe: rolle == null ? null : c.figurFarbe(rolle),
@@ -385,7 +389,8 @@ class _MeineRolleState extends State<_MeineRolle> {
             neigung: _offen ? 0 : -0.004,
             child: Row(
               children: [
-                _foto(c, rolle, groesse: 40, neigung: -0.05),
+                // Der Abzug ist Zierde: Der Knopf heißt nur „Meine Rolle: …“.
+                ExcludeSemantics(child: _foto(c, rolle, groesse: 40, neigung: -0.05)),
                 const SizedBox(width: MMass.s12),
                 Expanded(child: Text(c.l.online_meine_rolle(c.figurName(rolle)), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20))),
                 const SizedBox(width: MMass.s8),
@@ -742,9 +747,10 @@ Widget _ermittlung(GastKontext c) {
       child: Wrap(
         spacing: MMass.s8,
         runSpacing: MMass.s8,
+        // Wird es eng, schrumpft das Etikett, statt die Zahl abzuschneiden.
         children: [
-          MChip(l.online_nachtzeit(restMin), icon: Icons.nightlight_round),
-          MChip(l.online_marken(marken), icon: Icons.sell_outlined),
+          for (final (text, icon) in [(l.online_nachtzeit(restMin), Icons.nightlight_round), (l.online_marken(marken), Icons.sell_outlined)])
+            FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: MChip(text, icon: icon, passend: true)),
         ],
       ),
     ),
@@ -1178,6 +1184,14 @@ Widget _aufloesung(GastKontext c) {
       // Bei fester Lösung führt kein Code zu einem anderen Abend (wie auf der Abschlusstafel).
       if (c.daten?.kanon.festeLoesung != true)
         wert(l.online_aufloesung_code, jText(a['fallCode']), stil: MPapierSchrift.maschine.copyWith(fontSize: 22, letterSpacing: 3)),
+      // Erst nach dem Finale: Die Akte wird zugestempelt, bei jedem Ausgang mit demselben Stempel.
+      Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.only(top: MMass.s4, right: MMass.s4),
+          child: MStempel(text: l.ending_case_closed, groesse: 15, winkel: -0.14, aufschlagen: true),
+        ),
+      ),
     ],
   );
 }

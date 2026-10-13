@@ -190,7 +190,6 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     );
   }
 
-
   Widget _inhalt(BuildContext context, GastgeberDienst d) {
     final l = L.of(context);
     if (_verbindungsFehler) {

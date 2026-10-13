@@ -201,7 +201,8 @@ class _MOnlineTaschenuhrState extends State<MOnlineTaschenuhr> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (MBewegung.ruhig(context)) {
+    // Still bei „Bewegung reduzieren“ und solange die Seite verdeckt ist (TickerMode aus).
+    if (MBewegung.ruhig(context) || !TickerMode.valuesOf(context).enabled) {
       _takt?.cancel();
       _takt = null;
     } else {

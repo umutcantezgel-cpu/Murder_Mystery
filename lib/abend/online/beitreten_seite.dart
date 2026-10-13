@@ -82,7 +82,8 @@ class _BeitretenSeiteState extends State<BeitretenSeite> {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final f = MFarben.von(context);
-    final codeStil = MPapierSchrift.maschine.copyWith(fontSize: 30, height: 1.2, letterSpacing: 6);
+    // So groß, dass der ganze Code auch bei 320 px und doppelter Schrift ins Feld passt.
+    final codeStil = MPapierSchrift.maschine.copyWith(fontSize: 22, height: 1.25, letterSpacing: 4);
     final nameStil = MPapierSchrift.telegramm.copyWith(fontSize: 20, height: 1.3);
     final fehler = _fehler;
     return Scaffold(

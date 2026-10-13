@@ -78,9 +78,13 @@ class OnlineRegisterKopf extends StatelessWidget {
 /// die Figur, rechts der Zustand als Stempel oder Etikett. Die Farbe der Figur
 /// läuft als Registerstreifen am linken Rand.
 class OnlinePlatzKarte extends StatelessWidget {
-  const OnlinePlatzKarte({super.key, required this.name, this.unter, this.look, this.farbe, this.zustand, this.nr = 0});
+  const OnlinePlatzKarte({super.key, required this.name, this.notiz, this.unter, this.look, this.farbe, this.zustand, this.nr = 0});
 
   final String name;
+
+  /// Randnotiz hinter dem Namen in Füllertinte (z. B. „(Du)“); der Text bleibt
+  /// „Name · Notiz“ wie zuvor.
+  final String? notiz;
   final String? unter;
   final LookDef? look;
   final Color? farbe;
@@ -95,6 +99,8 @@ class OnlinePlatzKarte extends StatelessWidget {
         ? MFotoabzug(look: look!, groesse: 52, neigung: nr.isEven ? -0.05 : 0.04, akzent: farbe)
         : MOnlineSilhouette(groesse: 52, neigung: nr.isEven ? -0.05 : 0.04, samen: nr + 1);
     final unterzeile = unter;
+    final rand = notiz;
+    final namensStil = MPapierSchrift.ueberschrift.copyWith(fontSize: 20);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: MBlatt(
@@ -111,7 +117,21 @@ class OnlinePlatzKarte extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(name, maxLines: 4, overflow: TextOverflow.ellipsis, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+              if (rand == null)
+                Text(name, maxLines: 4, overflow: TextOverflow.ellipsis, style: namensStil)
+              else
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: name),
+                      const TextSpan(text: ' · '),
+                      TextSpan(text: rand, style: MPapierSchrift.hand.copyWith(fontSize: 22, height: 1)),
+                    ],
+                  ),
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                  style: namensStil,
+                ),
               if (unterzeile != null && unterzeile.isNotEmpty) Text(unterzeile, style: MPapierSchrift.leise),
             ],
           ),
@@ -295,15 +315,41 @@ Future<bool> onlineRueckfrage(
     barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (context) => MKarteikartenDialog(
       titel: titel,
-      inhalt: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: math.max(72, MediaQuery.sizeOf(context).height * 0.22)),
-        child: SingleChildScrollView(child: Text(text, style: MPapierSchrift.text)),
+      inhalt: OnlineKartenInhalt(
+        aktionen: [
+          MKnopf(text: nein, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
+          MKnopf(text: ja, art: gefaehrlich ? MKnopfArt.gefahr : MKnopfArt.haupt, onPressed: () => Navigator.of(context).pop(true)),
+        ],
+        child: Text(text, style: MPapierSchrift.text),
       ),
-      aktionen: [
-        MKnopf(text: nein, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
-        MKnopf(text: ja, art: gefaehrlich ? MKnopfArt.gefahr : MKnopfArt.haupt, onPressed: () => Navigator.of(context).pop(true)),
-      ],
     ),
   );
   return antwort ?? false;
+}
+
+/// Inhalt einer Karteikarte im Dialog ([MKarteikartenDialog.inhalt]), der nie
+/// überläuft: Oben rollt [child], darunter stehen die Knöpfe fest, angeordnet
+/// wie die Aktionen der Karteikarte. Wie hoch die Knöpfe mit großer Schrift
+/// werden, misst das Layout selbst; der Text bekommt den Rest des Fensters.
+class OnlineKartenInhalt extends StatelessWidget {
+  const OnlineKartenInhalt({super.key, required this.child, required this.aktionen});
+
+  final Widget child;
+  final List<Widget> aktionen;
+
+  @override
+  Widget build(BuildContext context) => ConstrainedBox(
+        // Fensterhöhe ohne den Rand des Dialogs (48), die Ränder der Karte (26),
+        // den Titel (30) und die Abstände darunter (26), mit etwas Luft.
+        constraints: BoxConstraints(maxHeight: math.max(120, MediaQuery.sizeOf(context).height - 140)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Flexible(child: SingleChildScrollView(child: child)),
+            const SizedBox(height: 18),
+            Wrap(alignment: WrapAlignment.end, spacing: 10, runSpacing: 8, children: aktionen),
+          ],
+        ),
+      );
 }

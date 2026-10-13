@@ -178,31 +178,34 @@ class _Menue extends StatelessWidget {
     final l = L.of(context);
     return MKarteikartenDialog(
       titel: l.online_menue,
-      inhalt: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.35),
-        child: SingleChildScrollView(
-          child: ListenableBuilder(
-            listenable: sitzung.dienst,
-            builder: (context, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
-                const SizedBox(height: MMass.s4),
-                Text(raumCodeAnzeige(sitzung.dienst.raumCode), style: MPapierSchrift.maschine.copyWith(fontSize: 30, height: 1.2, letterSpacing: 4)),
-                const SizedBox(height: MMass.s16),
-                Text(l.online_tisch_titel.toUpperCase(), style: MPapierSchrift.marke),
-                const SizedBox(height: MMass.s8),
-                for (final p in sitzung.dienst.spieler) PlatzZeile(spieler: p),
-              ],
-            ),
+      // Raum und Gäste rollen, die Knöpfe bleiben darunter stehen (auch mit großer Schrift).
+      inhalt: OnlineKartenInhalt(
+        aktionen: [
+          MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
+          MKnopf(text: l.online_beenden, art: MKnopfArt.gefahr, icon: Icons.stop_circle_outlined, onPressed: () => _bestaetigen(context)),
+        ],
+        child: ListenableBuilder(
+          listenable: sitzung.dienst,
+          builder: (context, _) => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
+              const SizedBox(height: MMass.s4),
+              // Der Code bleibt eine Zeile; bei wenig Platz wird er kleiner statt umzubrechen.
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(raumCodeAnzeige(sitzung.dienst.raumCode), style: MPapierSchrift.maschine.copyWith(fontSize: 30, height: 1.2, letterSpacing: 4)),
+              ),
+              const SizedBox(height: MMass.s16),
+              Text(l.online_tisch_titel.toUpperCase(), style: MPapierSchrift.marke),
+              const SizedBox(height: MMass.s8),
+              for (final p in sitzung.dienst.spieler) PlatzZeile(spieler: p),
+            ],
           ),
         ),
       ),
-      aktionen: [
-        MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
-        MKnopf(text: l.online_beenden, art: MKnopfArt.gefahr, icon: Icons.stop_circle_outlined, onPressed: () => _bestaetigen(context)),
-      ],
     );
   }
 

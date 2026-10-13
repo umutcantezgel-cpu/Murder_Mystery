@@ -83,6 +83,23 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
+  testWidgets('Gastansicht: Detektiv schon in der Lobby, eigener Platz mit Randnotiz, Akte erst nach dem Finale zugestempelt', (tester) async {
+    // Lobby: Die Spielleitung spielt den Detektiv; ihr Platz zeigt seinen Abzug, die Gäste
+    // (Rollen noch unbekannt) Schattenrisse.
+    await zeigeImThema(tester, (c) => gastSeite(c, ansichten['lobby']!));
+    expect(find.byType(MFotoabzug), findsOneWidget, reason: 'Nur der Detektiv hat vor dem Start ein Bild');
+    expect(find.byType(MOnlineSilhouette), findsNWidgets(2));
+    expect(find.text('Ben · (${l.common_you})'), findsOneWidget, reason: 'Der eigene Platz bleibt „Name · (Du)“');
+
+    int geschlossen() => tester.widgetList<MStempel>(find.byType(MStempel)).where((s) => s.text == l.ending_case_closed).length;
+    for (final e in ansichten.entries) {
+      await zeigeImThema(tester, (c) => gastSeite(c, e.value), groesse: const Size(390, 6000));
+      final nachFinale = e.key == 'aufloesung' || e.key == 'ende';
+      expect(geschlossen(), nachFinale ? 1 : 0, reason: '${e.key}: Der Stempel „${l.ending_case_closed}“ kommt erst mit der Auflösung');
+    }
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('Dossier: Täter und Unschuldige mit gleichen Köpfen, Stempeln und Mappen in gleicher Folge', (tester) async {
     final koepfe = [l.online_dossier_wer, l.online_dossier_ziel, l.online_dossier_weiss, l.online_dossier_verbirgt, l.online_dossier_besetzung];
     final (:taeter, :unschuldig) = dossierAnsichten();
