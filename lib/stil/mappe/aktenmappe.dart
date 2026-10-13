@@ -84,12 +84,9 @@ class MAktenmappe extends StatelessWidget {
       ),
     );
 
-    Widget mappe = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (reiter != null)
-          Padding(
+    final reiterBild = reiter == null
+        ? null
+        : Padding(
             padding: const EdgeInsets.only(left: 16),
             child: CustomPaint(
               painter: _ReiterMaler(Color.lerp(MRoh.manila, Colors.white, 0.08)!),
@@ -98,19 +95,30 @@ class MAktenmappe extends StatelessWidget {
                 child: Text(reiter!, style: s.maschine.copyWith(fontSize: 13, color: MRoh.tinte, letterSpacing: 1.2)),
               ),
             ),
-          ),
+          );
+
+    Widget mappe = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ?reiterBild,
         Stack(
           clipBehavior: Clip.none,
           children: [
             // Blätter, die hinter dem Deckel hervorlugen.
             for (var i = blaetter.clamp(0, 3); i > 0; i--)
               Positioned(
-                top: -3.0 * i,
+                // Unter einem Reiter lugen die Blätter oben nur knapp hervor
+                // (sein unterer Rand deckt das), sonst etwas mehr.
+                top: (reiter != null ? -1.0 : -3.0) * i,
                 right: -4.0 * i + 2,
                 left: 10.0 * i,
                 bottom: 6,
+                // Um die linke obere Ecke gedreht: Auch auf breiten Mappen hebt
+                // sich kein Blatt über den Reiter.
                 child: Transform.rotate(
                   angle: 0.008 * i,
+                  alignment: Alignment.topLeft,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Color.lerp(MRoh.blatt, MRoh.blattSchatten, 0.2 * i),

@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show LookDef, renderLook;
 
@@ -315,41 +313,14 @@ Future<bool> onlineRueckfrage(
     barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (context) => MKarteikartenDialog(
       titel: titel,
-      inhalt: OnlineKartenInhalt(
-        aktionen: [
-          MKnopf(text: nein, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
-          MKnopf(text: ja, art: gefaehrlich ? MKnopfArt.gefahr : MKnopfArt.haupt, onPressed: () => Navigator.of(context).pop(true)),
-        ],
-        child: Text(text, style: MPapierSchrift.text),
-      ),
+      // Der Text rollt in der Karteikarte, die Knöpfe stehen fest darunter.
+      text: text,
+      aktionen: [
+        MKnopf(text: nein, art: MKnopfArt.zweit, onPressed: () => Navigator.of(context).pop(false)),
+        MKnopf(text: ja, art: gefaehrlich ? MKnopfArt.gefahr : MKnopfArt.haupt, onPressed: () => Navigator.of(context).pop(true)),
+      ],
     ),
   );
   return antwort ?? false;
 }
 
-/// Inhalt einer Karteikarte im Dialog ([MKarteikartenDialog.inhalt]), der nie
-/// überläuft: Oben rollt [child], darunter stehen die Knöpfe fest, angeordnet
-/// wie die Aktionen der Karteikarte. Wie hoch die Knöpfe mit großer Schrift
-/// werden, misst das Layout selbst; der Text bekommt den Rest des Fensters.
-class OnlineKartenInhalt extends StatelessWidget {
-  const OnlineKartenInhalt({super.key, required this.child, required this.aktionen});
-
-  final Widget child;
-  final List<Widget> aktionen;
-
-  @override
-  Widget build(BuildContext context) => ConstrainedBox(
-        // Fensterhöhe ohne den Rand des Dialogs (48), die Ränder der Karte (26),
-        // den Titel (30) und die Abstände darunter (26), mit etwas Luft.
-        constraints: BoxConstraints(maxHeight: math.max(120, MediaQuery.sizeOf(context).height - 140)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Flexible(child: SingleChildScrollView(child: child)),
-            const SizedBox(height: 18),
-            Wrap(alignment: WrapAlignment.end, spacing: 10, runSpacing: 8, children: aktionen),
-          ],
-        ),
-      );
-}

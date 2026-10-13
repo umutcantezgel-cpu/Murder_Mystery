@@ -17,6 +17,7 @@ export 'mappe/zeichen.dart';
 export 'thema.dart';
 export 'tokens.dart';
 export 'widgets/m_chip.dart';
+export 'widgets/m_ganze_worte.dart';
 export 'widgets/m_hintergrund.dart';
 export 'widgets/m_knopf.dart';
 export 'widgets/m_papier.dart';

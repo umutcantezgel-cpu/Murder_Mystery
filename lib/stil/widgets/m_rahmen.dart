@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tokens.dart';
+import 'm_ganze_worte.dart';
 import 'm_hintergrund.dart';
 import 'roll_flaeche.dart';
 
@@ -41,7 +42,7 @@ class MRahmen extends StatelessWidget {
       children: [
         if (marke != null) Text(marke!.toUpperCase(), style: s.marke),
         if (marke != null) const SizedBox(height: 6),
-        if (titel != null) Text(titel!, style: s.titel),
+        if (titel != null) MGanzeWorte(titel!, stil: s.titel, minimum: 20),
         if (untertitel != null) ...[const SizedBox(height: 6), Text(untertitel!, style: s.leise)],
         if (titel != null || untertitel != null) const SizedBox(height: MMass.s20),
         if (kopf != null) ...[kopf!, const SizedBox(height: MMass.s16)],

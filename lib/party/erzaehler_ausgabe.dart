@@ -157,6 +157,8 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
 
   /// Ein getipptes Berichtsblatt je Baustein, leicht versetzt wie auf dem
   /// Schreibtisch gestapelt. Rückblicke der Lacher tragen oben eine rote Marke.
+  bool get _schmal => MediaQuery.sizeOf(context).width < 380 && MediaQuery.textScalerOf(context).scale(1) > 1.3;
+
   Widget _tafel(int i, String k) {
     final rueckblick = k.startsWith('intro.lacher.');
     return FadeTransition(
@@ -166,7 +168,9 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
         neigung: i.isEven ? -0.004 : 0.005,
         klammer: i == 0,
         samen: k.codeUnits.fold(0, (a, b) => (a * 31 + b) & 0xffff),
-        padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
+        // Schmale Geräte mit großer Schrift: engere Ränder, und lange Wörter
+        // brechen nie mitten durch (die Schrift wird dann etwas kleiner).
+        padding: _schmal ? const EdgeInsets.fromLTRB(14, 18, 14, 18) : const EdgeInsets.fromLTRB(22, 20, 22, 22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
@@ -175,7 +179,7 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
               Text(s.ui('ui.erzaehler.rueckblick').toUpperCase(), style: MPapierSchrift.marke),
               const SizedBox(height: 8),
             ],
-            Text(s.text(k), style: MPapierSchrift.erzaehler),
+            MGanzeWorte(s.text(k), stil: MPapierSchrift.erzaehler, minimum: 14),
           ],
         ),
       ),

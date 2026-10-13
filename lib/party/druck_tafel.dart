@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/party_druck.dart';
 
-import '../stil/mappe/abend1_bausteine.dart';
 import '../stil/stil.dart';
 import 'druck_speichern.dart';
 import 'party_stil.dart';

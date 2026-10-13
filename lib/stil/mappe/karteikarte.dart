@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../klang/klang.dart';
 import '../tokens.dart';
+import '../widgets/m_ganze_worte.dart';
 import '../widgets/m_knopf.dart';
 import 'blatt.dart';
 import 'material.dart';
@@ -33,40 +34,64 @@ class MKarteikartenDialog extends StatelessWidget {
       label: titel,
       child: Dialog(
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        shape: const RoundedRectangleBorder(),
         elevation: 0,
         insetPadding: EdgeInsets.symmetric(horizontal: breite < 400 ? 14 : 40, vertical: 24),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),
-          child: MBlatt(
-            art: PapierArt.karteikarte,
-            stempel: stempel,
-            neigung: -0.006,
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
-            child: Builder(
-              builder: (context) {
-                final s = MSchrift.von(context);
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(titel, style: s.ueberschrift.copyWith(fontSize: 20), maxLines: 2, overflow: TextOverflow.ellipsis),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    if (text != null) Text(text!, style: s.text),
-                    if (inhalt != null) ...[const SizedBox(height: 12), inhalt!],
-                    if (aktionen.isNotEmpty) ...[
-                      const SizedBox(height: 18),
-                      Wrap(alignment: WrapAlignment.end, spacing: 10, runSpacing: 8, children: aktionen),
-                    ],
-                  ],
-                );
-              },
-            ),
+          child: LayoutBuilder(
+            builder: (context, box) {
+              // Der Titel wächst mit der Schrift; die rote Kopflinie der
+              // Karteikarte liegt unter seiner gemessenen Höhe.
+              final innen = box.maxWidth - 40;
+              final grund = MPapierSchrift.ueberschrift.copyWith(fontSize: 20);
+              final titelStil = grund.copyWith(fontSize: ganzeWorteGroesse(context, titel, grund, innen, minimum: 15));
+              final tp = TextPainter(
+                text: TextSpan(text: titel, style: titelStil),
+                textDirection: Directionality.of(context),
+                textScaler: MediaQuery.textScalerOf(context),
+              )..layout(maxWidth: innen);
+              final titelHoehe = tp.height;
+              tp.dispose();
+              return MBlatt(
+                art: PapierArt.karteikarte,
+                stempel: stempel,
+                neigung: -0.006,
+                kopfLinie: 10 + titelHoehe + 6,
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
+                child: Builder(
+                  builder: (context) {
+                    final s = MSchrift.von(context);
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(titel, style: titelStil),
+                        const SizedBox(height: 14),
+                        Flexible(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                if (text != null) Text(text!, style: s.text),
+                                if (inhalt != null) ...[const SizedBox(height: 12), inhalt!],
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (aktionen.isNotEmpty) ...[
+                          const SizedBox(height: 18),
+                          Wrap(alignment: WrapAlignment.end, spacing: 10, runSpacing: 8, children: aktionen),
+                        ],
+                      ],
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),

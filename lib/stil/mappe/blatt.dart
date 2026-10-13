@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tokens.dart';
+import '../widgets/m_ganze_worte.dart';
 import 'material.dart';
 import 'zeichen.dart';
 
@@ -184,7 +185,7 @@ class MBlattKopf extends StatelessWidget {
           Container(height: 1, color: f.linieStark),
           const SizedBox(height: 10),
         ],
-        if (titel != null) Text(titel!, style: s.ueberschrift),
+        if (titel != null) MGanzeWorte(titel!, stil: s.ueberschrift, minimum: 15),
         if (unter != null) ...[const SizedBox(height: 4), Text(unter!, style: s.leise)],
         if (titel != null || unter != null) const SizedBox(height: 12),
       ],
@@ -212,7 +213,7 @@ class MFeld extends StatelessWidget {
         children: [
           Text(name, style: s.maschine.copyWith(fontSize: 13, color: f.papierLeise)),
           const SizedBox(height: 2),
-          Text(wert, style: kursiv ? s.kursiv : s.text),
+          MGanzeWorte(wert, stil: kursiv ? s.kursiv : s.text),
         ],
       ),
     );

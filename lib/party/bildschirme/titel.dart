@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../stil/mappe/abend1_bausteine.dart';
 import '../../stil/stil.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
