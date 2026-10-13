@@ -34,8 +34,12 @@ class FigurRig {
     bool suchen = false,
     bool befragen = false,
     double handlungsZeit = 0,
+    Taetigkeit taetigkeit = Taetigkeit.keine,
+    double taetigkeitsGrad = 0,
+    double taetigkeitsZeit = 0,
   }) {
-    final p = _Pose(a, sx, sy, walk, moveAmt, ruhe, suchen, befragen, handlungsZeit);
+    final p = _Pose(a, sx, sy, walk, moveAmt, ruhe, suchen, befragen, handlungsZeit,
+        taetigkeit: taetigkeit, grad: taetigkeitsGrad, tz: taetigkeitsZeit);
 
     c.save();
     c.translate(p.gewicht, -p.wippen);
@@ -59,6 +63,11 @@ class FigurRig {
       _arm(c, p, 1, hinten: false);
     }
     _kopf(c, p);
+    // Beim Schluck liegt die Tasse vor dem Gesicht: den Arm noch einmal darüber.
+    if (p.schluck > 0.35 && p.grad > 0.4) {
+      final gestenSeite = p.profil ? p.nahSeite : (p.seite >= 0 ? 1.0 : -1.0);
+      _arm(c, p, gestenSeite, hinten: false);
+    }
     c.restore();
   }
 
@@ -155,14 +164,24 @@ class FigurRig {
       handOffen = p.befragen;
     }
     final lo = p.oberarm, lu = p.unterarm;
-    final ell = schulter + _armRichtung(p, oben, seite) * lo;
-    final hand = ell + _armRichtung(p, oben + ellbogen, seite) * lu;
+    var ell = schulter + _armRichtung(p, oben, seite) * lo;
+    var hand = ell + _armRichtung(p, oben + ellbogen, seite) * lu;
+    var unterarmRichtung = _armRichtung(p, oben + ellbogen, seite);
+    // Tätigkeiten im Stand: die Hand fährt zu einem Ziel vor dem Körper, der
+    // Ellbogen folgt (zwei Glieder, Ellbogen nach außen bzw. hinten).
+    final ziel = p.grad > 0.001 ? _taetigkeitsHand(p, seite, gestenSeite) : null;
+    if (ziel != null) {
+      hand = Offset.lerp(hand, ziel, p.grad)!;
+      ell = _ellbogen(schulter, hand, lo, lu, p, seite);
+      final d = hand - ell;
+      unterarmRichtung = d.distance < 1e-6 ? unterarmRichtung : d / d.distance;
+    }
     final aermel = hinten ? shade(a.mantel, -0.3) : shade(a.mantel, -0.08);
     final w = 4.4 * p.wm;
     _glied(c, schulter, ell, w, w * 0.9, aermel, shade(aermel, -0.32));
     _glied(c, ell, hand, w * 0.88, w * 0.74, aermel, shade(aermel, -0.32));
     // Manschette und Hand.
-    final handPunkt = hand + _armRichtung(p, oben + ellbogen, seite) * 1.6;
+    final handPunkt = hand + unterarmRichtung * 1.6;
     final haut = hinten ? shade(a.haut, -0.24) : shade(a.haut, -0.06);
     final hautPaint = Paint()..color = haut;
     final kontur = Paint()
@@ -181,6 +200,93 @@ class FigurRig {
       c.drawOval(r, kontur);
     }
     if (p.suchen && seite == gestenSeite && !hinten) _lupe(c, handPunkt, p);
+    if (ziel != null && p.grad > 0.4) _requisit(c, p, seite, gestenSeite, handPunkt, hand - unterarmRichtung * 1.4);
+  }
+
+  /// Handziel einer Tätigkeit (Rumpfkoordinaten) oder `null` für diesen Arm.
+  Offset? _taetigkeitsHand(_Pose p, double seite, double gestenSeite) {
+    final brust = p.schulterY + 11.0;
+    final vor = p.vorX * 5.0;
+    final halte = -gestenSeite;
+    switch (p.taetigkeit) {
+      case Taetigkeit.keine || Taetigkeit.umsehen:
+        return null;
+      case Taetigkeit.uhr:
+        // Handgelenk vor die Brust, der Blick geht hinunter.
+        return seite == halte ? Offset(seite * 1.6 + vor, brust) : null;
+      case Taetigkeit.notiz:
+        if (seite == halte) return Offset(seite * 2.4 + vor, brust + 1.2);
+        final kritzeln = Offset(math.sin(p.tz * 9) * 0.6, math.sin(p.tz * 13) * 0.35);
+        return Offset(seite * 0.4 + vor * 1.1, brust + 0.6) + kritzeln;
+      case Taetigkeit.tasse:
+        if (seite == halte) return Offset(seite * 2.6 + vor, brust + 2.6);
+        final s = p.schluck;
+        return Offset.lerp(Offset(seite * 1.4 + vor, brust + 1.6), Offset(seite * 0.6 + p.vorX * 3.2, p.kopfY + 5.4), s);
+      case Taetigkeit.verschraenkt:
+        // Unterarme kreuzen vor der Brust; im Profil liegen beide Hände vorn.
+        return p.profil
+            ? Offset(vor * 0.7, brust - 1.0 + (seite == halte ? 0.8 : 0))
+            : Offset(-seite * p.schulterBreite * 0.6, brust - 1.4 + (seite > 0 ? 0.9 : 0));
+    }
+  }
+
+  /// Ellbogen über zwei Glieder: nach außen (frontal) bzw. nach hinten (Profil).
+  Offset _ellbogen(Offset s, Offset h, double lo, double lu, _Pose p, double seite) {
+    var d = h - s;
+    var dist = d.distance;
+    final maxL = lo + lu - 0.05;
+    if (dist > maxL) {
+      d = d / dist * maxL;
+      dist = maxL;
+    }
+    if (dist < 0.5) return s.translate(0, lo);
+    final aa = (lo * lo - lu * lu + dist * dist) / (2 * dist);
+    final hh = math.sqrt(math.max(0.0, lo * lo - aa * aa));
+    final mitte = s + d / dist * aa;
+    var senk = Offset(-d.dy / dist, d.dx / dist);
+    final aussen = p.profil ? -p.vorX : seite;
+    if (senk.dx * aussen < 0) senk = -senk;
+    return mitte + senk * hh;
+  }
+
+  /// Kleine Dinge in der Hand: Taschenuhr, Notizbuch und Bleistift, Tasse.
+  void _requisit(Canvas c, _Pose p, double seite, double gestenSeite, Offset hand, Offset gelenk) {
+    final halte = -gestenSeite;
+    final kontur = Paint()
+      ..color = withAlpha(_tinte, 0.6)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.5;
+    switch (p.taetigkeit) {
+      case Taetigkeit.uhr when seite == halte:
+        c.drawCircle(gelenk, 1.25, Paint()..color = const Color(0xFFD9B45A));
+        c.drawCircle(gelenk, 0.7, Paint()..color = const Color(0xFFF4EEE0));
+        c.drawCircle(gelenk, 1.25, kontur);
+      case Taetigkeit.notiz when seite == halte:
+        final r = Rect.fromCenter(center: hand.translate(-seite * 1.2, -1.6), width: 4.6, height: 3.4);
+        c.drawRect(r, Paint()..color = const Color(0xFFF2EBDD));
+        c.drawLine(r.topLeft.translate(0.6, 1.1), r.topRight.translate(-0.6, 1.1), Paint()
+          ..color = withAlpha(const Color(0xFF233F7A), 0.55)
+          ..strokeWidth = 0.35);
+        c.drawLine(r.topLeft.translate(0.6, 2.1), r.topRight.translate(-1.4, 2.1), Paint()
+          ..color = withAlpha(const Color(0xFF233F7A), 0.55)
+          ..strokeWidth = 0.35);
+        c.drawRect(r, kontur);
+      case Taetigkeit.notiz:
+        c.drawLine(hand, hand.translate(-seite * 1.6, -2.4), Paint()
+          ..color = const Color(0xFFC8A040)
+          ..strokeWidth = 0.9
+          ..strokeCap = StrokeCap.round);
+      case Taetigkeit.tasse when seite == halte:
+        c.drawOval(Rect.fromCenter(center: hand.translate(0, -0.6), width: 5.4, height: 1.8), Paint()..color = const Color(0xFFEDE8DE));
+        c.drawOval(Rect.fromCenter(center: hand.translate(0, -0.6), width: 5.4, height: 1.8), kontur);
+      case Taetigkeit.tasse:
+        final t = Rect.fromCenter(center: hand.translate(0, -1.8), width: 3.0, height: 2.6);
+        c.drawRRect(RRect.fromRectAndCorners(t, bottomLeft: const Radius.circular(1.1), bottomRight: const Radius.circular(1.1)), Paint()..color = const Color(0xFFF4F0E8));
+        c.drawArc(Rect.fromCenter(center: t.centerRight.translate(0.4, 0), width: 1.6, height: 1.6), -1.4, 2.8, false, kontur);
+        c.drawRRect(RRect.fromRectAndCorners(t, bottomLeft: const Radius.circular(1.1), bottomRight: const Radius.circular(1.1)), kontur);
+      default:
+        break;
+    }
   }
 
   Offset _armRichtung(_Pose p, double w, double seite) {
@@ -359,7 +465,7 @@ class FigurRig {
   void _kopf(Canvas c, _Pose p) {
     final a = p.a;
     final r = 6.8;
-    final kopf = Offset(p.seite * 0.9 + p.kopfDrehung * 1.2, p.kopfY + p.nicken);
+    final kopf = Offset(p.seite * 0.9 + p.kopfDrehung * 1.2, p.kopfY + p.nicken + p.blickRunter * 0.7);
     // Hals.
     c.drawRRect(
       RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(kopf.dx * 0.6, p.schulterY - 2.2), width: 4.6, height: 5.4), const Radius.circular(1.6)),
@@ -417,9 +523,14 @@ class FigurRig {
       } else {
         c.drawOval(Rect.fromCenter(center: Offset(ex, augenY), width: 2.5, height: 1.9), Paint()..color = const Color(0xFFF4EEE6));
         final blick = p.seite * 0.45 + p.kopfDrehung * 0.4;
-        c.drawCircle(Offset(ex + blick, augenY + 0.1), 0.85, Paint()..color = a.augen);
-        c.drawCircle(Offset(ex + blick - 0.3, augenY - 0.3), 0.3, Paint()..color = const Color(0xCCFFFFFF));
-        c.drawLine(Offset(ex - 1.3, augenY - 0.9), Offset(ex + 1.3, augenY - 0.9), Paint()
+        final runter = p.blickRunter * 0.45;
+        c.drawCircle(Offset(ex + blick, augenY + 0.1 + runter), 0.85, Paint()..color = a.augen);
+        c.drawCircle(Offset(ex + blick - 0.3, augenY - 0.3 + runter), 0.3, Paint()..color = const Color(0xCCFFFFFF));
+        // Lid: beim Hinunterschauen gesenkt.
+        if (runter > 0.05) {
+          c.drawRect(Rect.fromLTRB(ex - 1.3, augenY - 1.0, ex + 1.3, augenY - 1.0 + runter * 1.6), Paint()..color = shade(a.haut, -0.08));
+        }
+        c.drawLine(Offset(ex - 1.3, augenY - 0.9 + runter * 1.6), Offset(ex + 1.3, augenY - 0.9 + runter * 1.6), Paint()
           ..color = withAlpha(_tinte, 0.55)
           ..strokeWidth = 0.6);
       }
@@ -740,13 +851,18 @@ class FigurAussehen {
   }
 }
 
+/// Ruhige Tätigkeit einer stehenden Figur (NPC-Leben, nur Darstellung).
+enum Taetigkeit { keine, uhr, notiz, tasse, verschraenkt, umsehen }
+
 /// Frisuren des Rigs (aus dem Aussehen abgeleitet).
 enum Frisur { kurz, seitenscheitel, zurueck, locken, lang, zopf, glatze }
 
 /// Abgeleitete Pose eines Bildes: Drehung, Proportionen, Gang, Ruhe.
 class _Pose {
-  _Pose(this.a, double sx, double sy, this.walk, double moveAmt, this.ruhe, this.suchen, this.befragen, this.handlungsZeit)
-      : move = moveAmt.clamp(0.0, 1.0) {
+  _Pose(this.a, double sx, double sy, this.walk, double moveAmt, this.ruhe, this.suchen, this.befragen, this.handlungsZeit,
+      {this.taetigkeit = Taetigkeit.keine, double grad = 0, this.tz = 0})
+      : move = moveAmt.clamp(0.0, 1.0),
+        grad = (suchen || befragen || moveAmt > 0.3) ? 0.0 : grad.clamp(0.0, 1.0) {
     // Gierwinkel: 0 = zum Betrachter, ±π/2 = seitlich, π = abgewandt.
     final l = math.sqrt(sx * sx + sy * sy);
     final dx = l < 1e-6 ? 0.0 : sx / l, dy = l < 1e-6 ? 1.0 : sy / l;
@@ -772,7 +888,18 @@ class _Pose {
     final atem = ruhe == 0 ? 0.0 : math.sin(ruhe * 1.3);
     atmen = 0.5 + 0.5 * atem;
     gewicht = ruhe == 0 ? 0.0 : math.sin(ruhe * 0.35) * 0.7;
-    kopfDrehung = ruhe == 0 ? 0.0 : math.sin(ruhe * 0.21 + 1.3) * 0.5;
+    final drehung = ruhe == 0 ? 0.0 : math.sin(ruhe * 0.21 + 1.3) * 0.5;
+    kopfDrehung = taetigkeit == Taetigkeit.umsehen ? drehung + (math.sin(tz * 0.85) * 0.95 - drehung) * this.grad : drehung;
+    // Ein Schluck alle fünf Sekunden (1,6 s lang), weich ein und aus.
+    final sp = (tz % 5.0) / 1.6;
+    final roh = sp < 1 ? math.sin(sp * math.pi) : 0.0;
+    schluck = taetigkeit == Taetigkeit.tasse ? roh * roh * (3 - 2 * roh) : 0.0;
+    blickRunter = switch (taetigkeit) {
+          Taetigkeit.uhr || Taetigkeit.notiz => 1.0,
+          Taetigkeit.tasse => 0.35 * (1 - schluck),
+          _ => 0.0,
+        } *
+        this.grad;
     nicken = befragen ? math.sin(handlungsZeit * 2.6) * 0.5 : 0.0;
     wippen = math.sin(walk).abs() * 1.8 * move;
     // Blinzeln: kurz alle paar Sekunden, je Figur versetzt.
@@ -787,6 +914,15 @@ class _Pose {
   final bool suchen;
   final bool befragen;
   final double handlungsZeit;
+  final Taetigkeit taetigkeit;
+
+  /// Wie weit die Tätigkeit eingeblendet ist (0..1); 0 beim Gehen und in Gesten.
+  final double grad;
+
+  /// Zeit seit Beginn der Tätigkeit (Sekunden).
+  final double tz;
+
+  late final double schluck, blickRunter;
 
   late final double seite, front, seiteAbs, frontAbs;
   late final bool profil;

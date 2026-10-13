@@ -1,5 +1,5 @@
 // Bildwerkstatt: zeichnet einen Bogen mit Figuren (Rig) in acht Blickrichtungen, im Gang
-// und in den Gesten als PNG. Keine Behauptungen; nur zum Ansehen.
+// und in den Gesten sowie bei Tätigkeiten im Stand als PNG. Keine Behauptungen; nur zum Ansehen.
 // Aufruf: flutter test tool/bild/figuren_bogen_test.dart  →  build/bild/figuren.png
 import 'dart:convert';
 import 'dart:io';
@@ -18,7 +18,7 @@ void main() {
     final looks = [for (final f in figuren.take(nah ? 3 : 10)) FigureLook.fromLook(LookDef.fromJson(renderLook(f.cast<String, Object?>())))];
     final skala = nah ? 7.0 : 3.0;
     const spalte = 64.0, zeile = 84.0;
-    final spalten = nah ? 6 : 15;
+    final spalten = nah ? 6 : 20;
     final breite = spalte * spalten * skala, hoehe = zeile * looks.length * skala + 40;
     final rec = ui.PictureRecorder();
     final c = Canvas(rec);
@@ -40,8 +40,12 @@ void main() {
           fig.standing(c, fuss, looks[r], facing: -math.pi / 4, walk: 1.2, moveAmt: 1);
         } else if (k == 13) {
           fig.standing(c, fuss, looks[r], facing: math.pi / 2, suchen: true, handlungsZeit: 0.4);
-        } else {
+        } else if (k == 14) {
           fig.standing(c, fuss, looks[r], facing: math.pi / 4 * 3, befragen: true, handlungsZeit: 0.4);
+        } else {
+          // Tätigkeiten im Stand (NPC-Leben), abwechselnd frontal und seitlich.
+          final tat = const [Taetigkeit.uhr, Taetigkeit.notiz, Taetigkeit.tasse, Taetigkeit.verschraenkt, Taetigkeit.tasse][k - 15];
+          fig.standing(c, fuss, looks[r], facing: r.isEven ? math.pi / 4 : 0, ruhe: 1.0 + r, taetigkeit: tat, taetigkeitsGrad: 1, taetigkeitsZeit: k == 19 ? 0.8 : 3);
         }
         c.restore();
       }

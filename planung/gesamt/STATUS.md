@@ -9,7 +9,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 | M1 | Ermittlungsmappe: Fundament | erledigt (Schriften, Tokens, Papier, Mappe, Stempel, Knopf, Dialog) |
 | M2 | Alle Bildschirme in Mappen | in Arbeit (Rollen, Erzähltext als Muster; fünf Lanes A–E laufen) |
 | M3 | Figuren 2.0 | Rig erledigt (`lib/game/scene/figur_rig.dart`); Porträts in der Oberfläche offen |
-| M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte); NPC-Leben, Teilchen offen |
+| M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte, NPC-Tätigkeiten); Teilchen, Türen offen |
 | M5 | Szenenregie | teilweise (Zweier-Einstellung, Kinobalken); Etablierungsschwenk, Leuchtzeichen offen |
 | M6 | Gespräche mit Wahl | offen |
 | M7 | Ton | offen |
@@ -26,6 +26,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 - **A-045 · Kostenlos, ohne Werbung, Käufe und Datenerhebung (2026-10-13).** Quelle: Besitzer.
 
 ## Prüfjournal (neueste zuerst)
+- 2026-10-13: M4 NPC-Leben: Tätigkeiten im Stand (Uhr, Notizbuch, Teetasse, verschränkte Arme, Umsehen), nur aus Kennung und Uhr, Pause beim Befragen und in Detektivnähe. Analyse ohne Befund; `party_widgets` und `session` grün; Figurenbogen angesehen.
 - 2026-10-13: M4 Kulisse (`lib/game/scene/kulisse.dart`, `theme.backdrop` aus `content/welt/<akte>/welt.json`). `mordakte_core` 482 Tests grün; App-Tests `party_widgets`, `karten`, `session`, `abend` 208/208 grün; `akte_pruefen` für alle fünf Akten ohne Befund; Kulissenbogen (`tool/bild/kulisse_bogen_test.dart`) und Kontaktbögen der Karte je Akte angesehen. Backzeit der Szene 190–480 ms (Testumgebung).
 - 2026-10-13: M5 Zweier-Einstellung und Tippen-zum-Gehen. Analyse ohne Befund; `test/party_widgets`, `test/karten`, `test/session` 194/194 grün; Web-Build und Kontaktbogen `karte` angesehen.
 - 2026-10-13: `tool/pruefen.sh schnell` nach M0 grün (Analyse ohne Befund, alle Pakettests, Altlast-Wächter grün).

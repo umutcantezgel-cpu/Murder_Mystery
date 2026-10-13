@@ -1477,6 +1477,49 @@ class MordakteGame extends Game with KeyboardEvents {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // NPC-Leben (M4): ruhige Tätigkeiten im Stand, nur Darstellung. Sie hängen nur
+  // von der Kennung der Figur und der Uhr ab, nie vom Täterpfad oder Spielstand.
+
+  static const _taetigkeiten = [
+    Taetigkeit.keine,
+    Taetigkeit.uhr,
+    Taetigkeit.umsehen,
+    Taetigkeit.notiz,
+    Taetigkeit.keine,
+    Taetigkeit.tasse,
+    Taetigkeit.verschraenkt,
+  ];
+
+  static int _fnv(String s) {
+    var h = 0x811C9DC5;
+    for (final c in s.codeUnits) {
+      h = ((h ^ c) * 0x01000193) & 0x7fffffff;
+    }
+    return h;
+  }
+
+  /// Tätigkeit, Einblendung (0..1) und Zeit seit Beginn. Wer gerade befragt
+  /// wird oder wem der Detektiv nahe kommt, hält inne und schaut auf.
+  (Taetigkeit, double, double) _npcTaetigkeit(String id, double x, double y, double move) {
+    if (move > 0.1) return (Taetigkeit.keine, 0, 0);
+    final ziel = _fuehrung?.handlungsZiel;
+    if (ziel != null && (ziel.dx - x).abs() + (ziel.dy - y).abs() < 1.2) return (Taetigkeit.keine, 0, 0);
+    final s = _fnv(id);
+    final lang = 8.0 + s % 5;
+    final t = _time + (s % 17);
+    final k = (t / lang).floor();
+    final tat = _taetigkeiten[(_fnv('$id:$k')) % _taetigkeiten.length];
+    final tz = t - k * lang;
+    final rein = math.min(1.0, math.min(tz, lang - tz) / 0.7);
+    var grad = rein * rein * (3 - 2 * rein);
+    if (_hasPos) {
+      final d = math.sqrt((x - _px) * (x - _px) + (y - _py) * (y - _py));
+      grad *= ((d - 1.6) / 0.8).clamp(0.0, 1.0);
+    }
+    return (tat, grad, tz);
+  }
+
   /// Sichtbarkeit je Raum (0 schwarz … 1 sichtbar) mit radialem Aufblenden.
   final Map<String, _Nebel> _nebel = {};
   Set<String>? _sichtbar;
@@ -1722,7 +1765,14 @@ class MordakteGame extends Game with KeyboardEvents {
       if (_nebelSicht(tr.x, tr.y) < 0.02) continue;
       final look = sus != null ? FigureLook.fromLook(sus.look) : FigureLook.fromLook(const LookDef());
       final ruhe = _ext?.ruheAnimation == true && tr.move < 0.3 ? _time * (1.1 + (n.id.hashCode % 7) * 0.08) + n.id.hashCode % 13 : 0.0;
-      items.add((tr.x + tr.y, 2, () => _fig.standing(c, o, look, facing: tr.facing, walk: tr.walk, moveAmt: tr.move, ruhe: ruhe)));
+      final (tat, grad, tz) = ruhe == 0 ? (Taetigkeit.keine, 0.0, 0.0) : _npcTaetigkeit(n.id, tr.x, tr.y, tr.move);
+      final blick = tat == Taetigkeit.umsehen ? tr.facing + math.sin(tz * 0.6) * 0.7 * grad : tr.facing;
+      items.add((
+        tr.x + tr.y,
+        2,
+        () => _fig.standing(c, o, look,
+            facing: blick, walk: tr.walk, moveAmt: tr.move, ruhe: ruhe, taetigkeit: tat, taetigkeitsGrad: grad, taetigkeitsZeit: tz),
+      ));
     }
     // Detektive
     for (final d in w?.detectives ?? const <DetectiveView>[]) {

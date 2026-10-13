@@ -5,6 +5,8 @@ import 'package:mordakte_core/mordakte_core.dart';
 
 import '../iso_math.dart';
 import 'figur_rig.dart';
+
+export 'figur_rig.dart' show Taetigkeit;
 import 'palette.dart';
 
 /// Aussehen einer Figur (Detektiv oder Verdächtige).
@@ -107,6 +109,9 @@ class FigurePainter {
     bool suchen = false,
     bool befragen = false,
     double handlungsZeit = 0,
+    Taetigkeit taetigkeit = Taetigkeit.keine,
+    double taetigkeitsGrad = 0,
+    double taetigkeitsZeit = 0,
   }) {
     final (wm, _) = buildScale(look.build);
     final sd = Iso.facingToScreen(facing);
@@ -128,6 +133,9 @@ class FigurePainter {
       suchen: suchen,
       befragen: befragen,
       handlungsZeit: handlungsZeit,
+      taetigkeit: taetigkeit,
+      taetigkeitsGrad: taetigkeitsGrad,
+      taetigkeitsZeit: taetigkeitsZeit,
     );
     c.restore();
   }
