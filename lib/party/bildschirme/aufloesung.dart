@@ -9,6 +9,7 @@ import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import '../teilen.dart';
 
 final _de = LDe();
 
@@ -16,7 +17,8 @@ final _de = LDe();
 /// In der Auflösung steht je Baustein der Erzählertext, bei den Rollen mit Name
 /// am Tisch und Fotoabzug auf einer Karteikarte. Im Ende liegt die geschlossene
 /// Akte: Punkte mit Urteilsstempel, wer es war (mit Foto), der Fall-Code und
-/// ein handschriftlicher Dank; darunter der Weg ins Hauptmenü.
+/// ein handschriftlicher Dank; darunter Teilen (ohne Täter) und der Weg ins
+/// Hauptmenü.
 class AufloesungBildschirm extends StatelessWidget {
   const AufloesungBildschirm({super.key, required this.sitzung, this.onEnde});
 
@@ -118,6 +120,18 @@ class AufloesungBildschirm extends StatelessWidget {
       // Der Abend ist zu Ende: in der Detektei beginnt ein neuer Abend; im Abend
       // der Weg über die Belohnung (Karten, Erfahrung, Rang).
       aktionen: [
+        // Teilen: eine Karte ohne Täter, mit Fall-Code zum Nachspielen.
+        Builder(
+          builder: (knopf) => MKnopf(
+            text: _de.teilen_knopf,
+            art: MKnopfArt.zweit,
+            icon: Icons.ios_share_rounded,
+            onPressed: () {
+              final box = knopf.findRenderObject() as RenderBox?;
+              abendTeilen(context, s, ursprung: box == null ? null : box.localToGlobal(Offset.zero) & box.size);
+            },
+          ),
+        ),
         if (onEnde == null)
           MKnopf(text: s.ui('ui.aufloesung.hauptmenue'), art: MKnopfArt.zweit, icon: Icons.home_rounded, onPressed: () => context.go(Routes.start))
         else

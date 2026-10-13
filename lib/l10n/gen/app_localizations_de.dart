@@ -3179,6 +3179,41 @@ class LDe extends L {
   String get abend_fortsetzen_verwerfen => 'Abend verwerfen';
 
   @override
+  String get teilen_knopf => 'Teilen';
+
+  @override
+  String get teilen_marke => 'Akte geschlossen';
+
+  @override
+  String get teilen_aufruf => 'Schafft ihr es auch?';
+
+  @override
+  String get teilen_code_aufruf => 'Spielt denselben Fall:';
+
+  @override
+  String get teilen_fuss => 'Kostenlos, ohne Werbung, ohne Anmeldung';
+
+  @override
+  String teilen_betreff(String akte) {
+    return 'Mordakte: $akte';
+  }
+
+  @override
+  String teilen_text(String akte, String ende, String punkte) {
+    return 'Fall geschlossen: „$akte“. $ende, $punkte Punkten. Schafft ihr es auch? Mordakte, kostenlos und ohne Werbung.';
+  }
+
+  @override
+  String teilen_text_code(
+    String akte,
+    String ende,
+    String punkte,
+    String code,
+  ) {
+    return 'Fall geschlossen: „$akte“. $ende, $punkte Punkten. Spielt denselben Fall mit dem Code $code. Schafft ihr es auch? Mordakte, kostenlos und ohne Werbung.';
+  }
+
+  @override
   String get ton_titel => 'Ton';
 
   @override

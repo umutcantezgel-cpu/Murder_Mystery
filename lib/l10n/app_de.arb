@@ -1954,6 +1954,41 @@
   "@abend_fortsetzen_verwerfen": {
     "description": "Detektei: den abgelegten Abend löschen"
   },
+  "teilen_knopf": "Teilen",
+  "@teilen_knopf": {
+    "description": "Ende des Abends: Knopf zum Teilen der Teilkarte"
+  },
+  "teilen_marke": "Akte geschlossen",
+  "@teilen_marke": {
+    "description": "Teilkarte: Formularkopf"
+  },
+  "teilen_aufruf": "Schafft ihr es auch?",
+  "@teilen_aufruf": {
+    "description": "Teilkarte: Handschrift unten, wenn es keinen Fall-Code gibt"
+  },
+  "teilen_code_aufruf": "Spielt denselben Fall:",
+  "@teilen_code_aufruf": {
+    "description": "Teilkarte: Handschrift über dem Fall-Code"
+  },
+  "teilen_fuss": "Kostenlos, ohne Werbung, ohne Anmeldung",
+  "@teilen_fuss": {
+    "description": "Teilkarte: Fußzeile"
+  },
+  "teilen_betreff": "Mordakte: {akte}",
+  "@teilen_betreff": {
+    "description": "Betreff beim Teilen (E-Mail)",
+    "placeholders": {"akte": {"type": "String"}}
+  },
+  "teilen_text": "Fall geschlossen: „{akte}“. {ende}, {punkte} Punkten. Schafft ihr es auch? Mordakte, kostenlos und ohne Werbung.",
+  "@teilen_text": {
+    "description": "Text beim Teilen ohne Fall-Code; nennt nie den Täter",
+    "placeholders": {"akte": {"type": "String"}, "ende": {"type": "String"}, "punkte": {"type": "String"}}
+  },
+  "teilen_text_code": "Fall geschlossen: „{akte}“. {ende}, {punkte} Punkten. Spielt denselben Fall mit dem Code {code}. Schafft ihr es auch? Mordakte, kostenlos und ohne Werbung.",
+  "@teilen_text_code": {
+    "description": "Text beim Teilen mit Fall-Code; nennt nie den Täter",
+    "placeholders": {"akte": {"type": "String"}, "ende": {"type": "String"}, "punkte": {"type": "String"}, "code": {"type": "String"}}
+  },
   "ton_titel": "Ton",
   "@ton_titel": {
     "description": "Profil: Abschnitt mit Tonschalter und Lautstärkereglern"

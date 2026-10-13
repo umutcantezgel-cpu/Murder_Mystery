@@ -5505,6 +5505,54 @@ abstract class L {
   /// **'Abend verwerfen'**
   String get abend_fortsetzen_verwerfen;
 
+  /// Ende des Abends: Knopf zum Teilen der Teilkarte
+  ///
+  /// In de, this message translates to:
+  /// **'Teilen'**
+  String get teilen_knopf;
+
+  /// Teilkarte: Formularkopf
+  ///
+  /// In de, this message translates to:
+  /// **'Akte geschlossen'**
+  String get teilen_marke;
+
+  /// Teilkarte: Handschrift unten, wenn es keinen Fall-Code gibt
+  ///
+  /// In de, this message translates to:
+  /// **'Schafft ihr es auch?'**
+  String get teilen_aufruf;
+
+  /// Teilkarte: Handschrift über dem Fall-Code
+  ///
+  /// In de, this message translates to:
+  /// **'Spielt denselben Fall:'**
+  String get teilen_code_aufruf;
+
+  /// Teilkarte: Fußzeile
+  ///
+  /// In de, this message translates to:
+  /// **'Kostenlos, ohne Werbung, ohne Anmeldung'**
+  String get teilen_fuss;
+
+  /// Betreff beim Teilen (E-Mail)
+  ///
+  /// In de, this message translates to:
+  /// **'Mordakte: {akte}'**
+  String teilen_betreff(String akte);
+
+  /// Text beim Teilen ohne Fall-Code; nennt nie den Täter
+  ///
+  /// In de, this message translates to:
+  /// **'Fall geschlossen: „{akte}“. {ende}, {punkte} Punkten. Schafft ihr es auch? Mordakte, kostenlos und ohne Werbung.'**
+  String teilen_text(String akte, String ende, String punkte);
+
+  /// Text beim Teilen mit Fall-Code; nennt nie den Täter
+  ///
+  /// In de, this message translates to:
+  /// **'Fall geschlossen: „{akte}“. {ende}, {punkte} Punkten. Spielt denselben Fall mit dem Code {code}. Schafft ihr es auch? Mordakte, kostenlos und ohne Werbung.'**
+  String teilen_text_code(String akte, String ende, String punkte, String code);
+
   /// Profil: Abschnitt mit Tonschalter und Lautstärkereglern
   ///
   /// In de, this message translates to:

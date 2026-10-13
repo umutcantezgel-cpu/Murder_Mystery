@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte/party/daten.dart';
@@ -108,3 +109,23 @@ Widget rahmen(Widget kind) => MaterialApp(
       theme: ThemeData.dark(),
       home: Scaffold(body: kind),
     );
+
+/// Lädt die echten Schriften der App (statt der Testschrift Ahem), damit Breiten
+/// und Bilder wie auf dem Gerät ausfallen. Einmal je Testdatei in `setUpAll`.
+Future<void> echteSchriften() async {
+  final schriften = {
+    'SpecialElite': ['SpecialElite-Regular.ttf'],
+    'Inter': ['Inter-Regular.ttf', 'Inter-SemiBold.ttf', 'Inter-Bold.ttf'],
+    'Playfair': ['PlayfairDisplay-Variabel.ttf'],
+    'Lora': ['Lora-Variabel.ttf', 'Lora-Kursiv-Variabel.ttf'],
+    'CourierPrime': ['CourierPrime-Regular.ttf'],
+    'Caveat': ['Caveat-Variabel.ttf'],
+  };
+  for (final e in schriften.entries) {
+    final l = FontLoader(e.key);
+    for (final d in e.value) {
+      l.addFont(rootBundle.load('assets/fonts/$d'));
+    }
+    await l.load();
+  }
+}
