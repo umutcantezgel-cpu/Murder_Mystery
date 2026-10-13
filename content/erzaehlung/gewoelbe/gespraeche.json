@@ -1,0 +1,1084 @@
+{
+  "format": "erzaehlung/1",
+  "akte": "gewoelbe",
+  "hinweis": "Randgespräche mit unbesetzten Zeugen. Sie geben nur preis, was die Figur in Pflichtgesprächen allen sagt, nie ihr Rollengeheimnis. Nie Würfel, nie Zeit, nie Wertung (ERZAEHLREGELN.md). Angeredet wird wie im ganzen Fall mit du.",
+  "gespraeche": [
+    {
+      "id": "tomasz_erstes",
+      "figur": "tomasz",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Tomasz wischt sich die Hände an der Kochschürze ab und zählt leise rückwärts. Dann bemerkt er dich. „Oh, das Geburtstagskind. Alles gut? Hast du schon was gegessen?“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Das Buffet ist großartig. Hast du das alles gekocht?",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wo warst du, als die Burg dunkel wurde?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Jemand sagt, du hättest heute Abend die Rüstung umgestoßen.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "Er strahlt. „Fast alles. Ich koche jeden Tag für eine ganze Kantine, da ist so ein Buffet Urlaub.“ Er rückt eine Schale gerade.",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann bist du heute der wichtigste Mann im Gewölbe.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du, als es knallte?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Hier unten im Gewölbe, beim Buffet. Ich wollte nach der Speisekammer sehen, ob die Kühlung noch hält.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Auf dem Weg zur Speisekammer siehst du doch einiges. Ist dir was aufgefallen?",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Was genau hast du dort gesehen? Ich brauche die Uhrzeit.",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich habe heute Nacht etwas gefunden. Sagt dir das was?",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "„Die Rüstung? Ich? Kunibert und ich sind die besten Freunde.“ Er lacht, aber zu laut.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut, das war nur ein Scherz.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann erzähl mir lieber, wo du wirklich warst.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Tomasz senkt die Stimme. „Um zehn vor zwölf sah ich Kerzenlicht unter der Eisentür. Als ich öffnete, zischte der Burgwart hinter dem Regal: ‚Psst! Ich bin nicht hier. Geh wieder.‘ Also habe ich die Tür wieder zugemacht.“",
+          "preisgabe": [
+            "beobachtung:b_tomasz_eisentuer"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "tomasz_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Mehr weiß ich nicht. Ich hatte das Buffet im Kopf.“ Er rückt die nächste Schale gerade.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Ich muss nach dem Essen sehen.“ Tomasz dreht sich zum Buffet. Für heute ist das Gespräch vorbei.",
+          "geste": "abwehr",
+          "setzt": [
+            "tomasz_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "tomasz_nachtrag",
+      "figur": "tomasz",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "tomasz_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Tomasz winkt dich zum Buffet. „Ich habe dir einen Teller zurückgestellt, bevor alles weg ist.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Danke, Tomasz. Das ist lieb.",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Später. Ist dir noch was eingefallen?",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "Er reicht dir einen Teller mit dem besten Gebäck. „Iss erst mal. Wer ermittelt, braucht Kraft.“ Er zwinkert. „Und an deinem Geburtstag sowieso.“",
+          "geste": "nicken",
+          "setzt": [
+            "tomasz_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Nur das mit der Eisentür. Zehn vor zwölf, Kerzenlicht, und der Burgwart wollte nicht gesehen werden.“",
+          "preisgabe": [
+            "beobachtung:b_tomasz_eisentuer"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "tomasz_versoehnung",
+      "figur": "tomasz",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "tomasz_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Tomasz poliert eine Schöpfkelle, die längst glänzt, und sieht nicht auf.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Tut mir leid wegen vorhin, Tomasz. Das war nicht fair.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wir sind noch nicht fertig.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Er legt die Kelle weg und grinst schief. „Schon gut. Ist eine komische Nacht für alle.“",
+          "geste": "nicken",
+          "setzt": [
+            "tomasz_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Doch, sind wir.“ Die Kelle klappert in die Schüssel.",
+          "geste": "abwehr"
+        }
+      }
+    },
+    {
+      "id": "dino_erstes",
+      "figur": "dino",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Dino klopft mit dem Fingerknöchel an die Gewölbewand und lauscht. „Massiv. Wunderbar.“ Dann sieht er dich an. „Entschuldige. Mauern. Was kann ich für dich tun?“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Du kennst dich mit alten Mauern aus, oder?",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wo warst du, als die Burg dunkel wurde?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Jemand behauptet, du hättest heute eine Wand ausgemessen, die es gar nicht gibt.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "„Ich bin Statiker, Altbausanierung.“ Er zieht den Zollstock aus der Weste. „So eine Burg ist für mich wie ein Buch.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann kannst du mir sicher helfen.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du, als es knallte?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Hier unten, an der Wand. Ich habe mir die Speisekammer angesehen, aus reiner Neugier.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Und was hast du dabei herausgefunden?",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Aus reiner Neugier? Genau heute Nacht?",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich habe etwas gefunden. Du verstehst was von Bauten, sieh es dir an.",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "„Eine Wand, die es nicht gibt?“ Er rückt die Brille zurecht. „Dann hätte ich sie wenigstens gern gesehen.“",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut, das war ein Scherz.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann sag mir lieber, wo du wirklich warst.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Dino klappt den Zollstock zusammen. „Die Speisekammer hat zwei Türen und kein Fenster, nur einen handbreiten Lüftungsschacht, durch den kein Mensch passt. Und den Balken an der Eichentür kann man nur von innen lösen.“",
+          "preisgabe": [
+            "beobachtung:b_dino_speisekammer"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "dino_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Mehr weiß ich nicht. Ich habe nur die Mauern angesehen.“ Er klopft wieder an die Wand.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Ich glaube, ich sehe mir lieber die Wand an.“ Dino dreht sich weg. Für heute ist das Gespräch vorbei.",
+          "geste": "abwehr",
+          "setzt": [
+            "dino_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "dino_nachtrag",
+      "figur": "dino",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "dino_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Dino winkt dich mit dem Zollstock heran. „Komm mal. Ich muss dir was zeigen, das hat mit dem Fall nichts zu tun.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Zeig her, Dino.",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wenn es nichts mit dem Fall zu tun hat, später.",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "Er zeigt auf einen Stein über der Tür, in den jemand vor Jahrhunderten ein kleines Zeichen geritzt hat. „Ein Steinmetzzeichen. Der Mann hat hier gebaut, lange vor uns. Ich finde, das solltest du an deinem Geburtstag sehen.“",
+          "geste": "nicken",
+          "setzt": [
+            "dino_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Dann nur das Wichtige: zwei Türen, kein Fenster, und der Balken geht nur von innen auf.“",
+          "preisgabe": [
+            "beobachtung:b_dino_speisekammer"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "dino_versoehnung",
+      "figur": "dino",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "dino_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Dino misst eine Wand aus, die er schon zweimal gemessen hat.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Tut mir leid, Dino. Ich war vorhin zu grob.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Ich brauche noch eine Antwort von dir.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Er lässt den Zollstock sinken und nickt. „Schon gut. Unter Druck bricht jeder mal.“",
+          "geste": "nicken",
+          "setzt": [
+            "dino_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Und ich brauche Ruhe.“ Der Zollstock klappt auf.",
+          "geste": "abwehr"
+        }
+      }
+    },
+    {
+      "id": "henrik_erstes",
+      "figur": "henrik",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Henrik rückt seinen Lederhut zurecht und lächelt. „Na, Geburtstagskind? Ganz schöne Nacht für einen Ausflug in den Harz.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schöne Feder an deinem Hut.",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wo warst du, als die Burg dunkel wurde?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Man sagt, du hättest heute im Wald jemanden ausgesperrt.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "„Eichelhäher. Den finde ich jeden Herbst wieder.“ Er streicht über die blau gebänderte Feder. „Ich bin Förster, im Oberharz. Draußen kenne ich mich aus.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann siehst du draußen Dinge, die wir übersehen.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du, als es knallte?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Hier im Gewölbe, am Kamin. Draußen ist es heute zu kalt, selbst für mich.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Ein Förster liest Spuren. Was liest du heute Nacht?",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Was weißt du, das uns hilft? Genau, bitte.",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich habe etwas gefunden. Sieh es dir an, du kennst dich mit Spuren aus.",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "Er lacht laut. „Ausgesperrt? Im Wald gibt es keine Türen, nur Bäume.“",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut, das war nur ein Scherz.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann sag mir, was du wirklich gemacht hast.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Henrik wird ernst. „Der Raureif liegt hier seit etwa elf. Jede Spur, die danach gelaufen ist, kann man darin lesen. Wer draußen war, hat sich darin verewigt.“",
+          "preisgabe": [
+            "beobachtung:b_henrik_reif"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "henrik_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Mehr kann ich dir nicht sagen. Ich war drinnen, wie alle.“ Er rückt den Hut zurecht.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Ich glaube, ich brauche frische Luft.“ Henrik wendet sich ab. Für heute ist das Gespräch vorbei.",
+          "geste": "abwehr",
+          "setzt": [
+            "henrik_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "henrik_nachtrag",
+      "figur": "henrik",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "henrik_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Henrik hält eine dicke Kerze ins Licht. „Gut, dass du kommst. Mir ist noch was eingefallen, über Kerzen.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Erzähl, ich höre zu.",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Kurz bitte, die Nacht läuft.",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "„Dicke Kerzen haben in der Tülle minutenlang flüssiges Wachs. Auf kaltem Stein erstarrt ein Spritzer in Sekunden. Ein Abdruck darin entsteht nur, solange das Wachs noch flüssig ist.“ Er stellt die Kerze vorsichtig ab.",
+          "preisgabe": [
+            "beobachtung:b_henrik_wachs"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "henrik_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Wachs auf kaltem Stein wird in Sekunden fest. Einen Abdruck gibt es nur, solange es flüssig ist.“",
+          "preisgabe": [
+            "beobachtung:b_henrik_wachs"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "henrik_versoehnung",
+      "figur": "henrik",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "henrik_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Henrik steht am Kamin und dreht seinen Hut in den Händen.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Ich war vorhin unfreundlich, Henrik. Entschuldige.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Du schuldest mir noch eine Antwort.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Er setzt den Hut wieder auf und nickt. „Schon gut. Im Wald streiten sich auch die Krähen, und am Morgen ist es vergessen.“",
+          "geste": "nicken",
+          "setzt": [
+            "henrik_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Ich schulde nur dem Wald etwas.“ Er sieht ins Feuer.",
+          "geste": "abwehr"
+        }
+      }
+    },
+    {
+      "id": "zofia_erstes",
+      "figur": "zofia",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Zofia grinst und zupft an ihrem Halstuch mit den kleinen Füchsen. „Na, Geburtstagskind? Ermitteln statt Torte. Was willst du wissen?“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schönes Halstuch. Bist du Rangerin?",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wo warst du, als die Burg dunkel wurde?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Jemand sagt, du hättest heute die Burgführung gestört.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "„Nationalpark Harz. Wanderungen, Schulklassen, und wer sich verläuft, den finde ich.“ Sie lacht. „Meistens.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann bist du genau die Richtige für mich.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du, als es knallte?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Oben an einer Schießscharte zum Hof. Ich wollte den Raureif im Licht sehen.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Von dort siehst du den ganzen Hof. Was ist dir aufgefallen?",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Allein an der Schießscharte? Wie lange?",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich habe etwas gefunden. Du hast ein Auge für so was, sieh es dir an.",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "„Gestört? Ich habe nur eine Frage gestellt. Na gut, drei.“ Sie verschränkt grinsend die Arme.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut, ich musste das fragen.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann sag mir lieber, wo du wirklich warst.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Zofia wird ernst. „Ab acht vor zwölf stand ich an der Schießscharte zum Hof. Bis zum Schrei ging im Licht des Geleuchts niemand über den Hof und niemand ans Tor. Darauf kannst du dich verlassen.“",
+          "preisgabe": [
+            "beobachtung:b_zofia_hof"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "zofia_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Mehr weiß ich nicht. Ich habe nur den Hof gesehen.“ Sie zupft wieder an ihrem Halstuch.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Weißt du was? Ich gehe lieber wieder nach oben.“ Zofia wendet sich ab. Für heute ist das Gespräch vorbei.",
+          "geste": "abwehr",
+          "setzt": [
+            "zofia_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "zofia_nachtrag",
+      "figur": "zofia",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "zofia_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Zofia winkt dich von der Treppe her. „Hey! Komm mal, ich will dir was erzählen, das hat nichts mit dem Fall zu tun.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Erzähl, Zofia.",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Später. Hast du noch was zum Fall?",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "Sie setzt sich auf eine Stufe. „Im Frühjahr führe ich eine Nachtwanderung mit Sternen und Eulen. Ich halte dir einen Platz frei. Geburtstagsgeschenk, nachträglich.“",
+          "geste": "nicken",
+          "setzt": [
+            "zofia_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Nur das: Ab acht vor zwölf niemand im Hof, niemand am Tor. Bis zum Schrei.“",
+          "preisgabe": [
+            "beobachtung:b_zofia_hof"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "zofia_versoehnung",
+      "figur": "zofia",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "zofia_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Zofia sitzt auf der Treppe und tut, als zähle sie die Stufen.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Tut mir leid, Zofia. Ich war vorhin zu streng.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wir sind noch nicht fertig.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Sie grinst wieder. „Schon gut. Ein Fuchs, der gejagt wird, beißt auch mal.“",
+          "geste": "nicken",
+          "setzt": [
+            "zofia_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Doch, sind wir.“ Sie geht die Treppe hinauf.",
+          "geste": "abwehr"
+        }
+      }
+    }
+  ],
+  "epiloge": [
+    {
+      "id": "tomasz_freund_richtig",
+      "figur": "tomasz",
+      "flags": [
+        "tomasz_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Zu deinem nächsten Geburtstag steht ein Buffet von Tomasz vor deiner Tür. Auf dem Zettel steht: „Für die beste Ermittlung auf Burg Schartenfels.“"
+    },
+    {
+      "id": "tomasz_freund",
+      "figur": "tomasz",
+      "flags": [
+        "tomasz_freund"
+      ],
+      "text": "Eine Woche später bringt Tomasz dir eine Dose mit Gebäck vorbei. „Damit du an die Burg denkst.“"
+    },
+    {
+      "id": "tomasz_vertraut",
+      "figur": "tomasz",
+      "flags": [
+        "tomasz_vertraut"
+      ],
+      "text": "Beim Abschied drückt Tomasz dir noch ein Stück Gebäck in die Hand."
+    },
+    {
+      "id": "tomasz_versoehnt",
+      "figur": "tomasz",
+      "flags": [
+        "tomasz_versoehnt"
+      ],
+      "text": "Tomasz winkt dir beim Abschied mit der Schöpfkelle zu. Der Ärger ist vergessen."
+    },
+    {
+      "id": "tomasz_verstimmt",
+      "figur": "tomasz",
+      "flags": [
+        "tomasz_verstimmt"
+      ],
+      "text": "Tomasz räumt das Buffet ab, ohne dich noch einmal anzusehen."
+    },
+    {
+      "id": "dino_freund_richtig",
+      "figur": "dino",
+      "flags": [
+        "dino_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Im Frühjahr schickt Dino dir ein Foto vom Steinmetzzeichen über der Tür. Darunter steht: „Hält seit Jahrhunderten. Wie dein Urteil.“"
+    },
+    {
+      "id": "dino_freund",
+      "figur": "dino",
+      "flags": [
+        "dino_freund"
+      ],
+      "text": "Dino schenkt dir einen alten Zollstock. „Damit du weißt, wie man misst, bevor man urteilt.“"
+    },
+    {
+      "id": "dino_vertraut",
+      "figur": "dino",
+      "flags": [
+        "dino_vertraut"
+      ],
+      "text": "Dino klopft beim Abschied zweimal an die Burgmauer, als würde er sich bei ihr bedanken."
+    },
+    {
+      "id": "dino_versoehnt",
+      "figur": "dino",
+      "flags": [
+        "dino_versoehnt"
+      ],
+      "text": "Dino reicht dir beim Abschied die Hand. „Ohne Groll.“"
+    },
+    {
+      "id": "dino_verstimmt",
+      "figur": "dino",
+      "flags": [
+        "dino_verstimmt"
+      ],
+      "text": "Dino geht als Erster hinaus, den Blick fest auf die Mauern gerichtet."
+    },
+    {
+      "id": "henrik_freund_richtig",
+      "figur": "henrik",
+      "flags": [
+        "henrik_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Im Frühjahr führt Henrik dich durch sein Revier. An einem alten Baum zeigt er dir eine Feder: „Für die beste Spürnase, die ich kenne.“"
+    },
+    {
+      "id": "henrik_freund",
+      "figur": "henrik",
+      "flags": [
+        "henrik_freund"
+      ],
+      "text": "Henrik schickt dir eine Eichelhäherfeder im Umschlag. Darauf steht nur: „Fürs nächste Abenteuer.“"
+    },
+    {
+      "id": "henrik_vertraut",
+      "figur": "henrik",
+      "flags": [
+        "henrik_vertraut"
+      ],
+      "text": "Henrik tippt zum Abschied an seinen Lederhut."
+    },
+    {
+      "id": "henrik_versoehnt",
+      "figur": "henrik",
+      "flags": [
+        "henrik_versoehnt"
+      ],
+      "text": "Henrik reicht dir am Burgtor die Hand. „Alles gut zwischen uns.“"
+    },
+    {
+      "id": "henrik_verstimmt",
+      "figur": "henrik",
+      "flags": [
+        "henrik_verstimmt"
+      ],
+      "text": "Henrik geht als Erster durch den Raureif davon und dreht sich nicht um."
+    },
+    {
+      "id": "zofia_freund_richtig",
+      "figur": "zofia",
+      "flags": [
+        "zofia_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Im Frühjahr gehst du mit Zofia auf Nachtwanderung. Am Ende zeigt sie dir eine Eule und flüstert: „Die sieht alles. Fast so gut wie du.“"
+    },
+    {
+      "id": "zofia_freund",
+      "figur": "zofia",
+      "flags": [
+        "zofia_freund"
+      ],
+      "text": "Zofia schickt dir ein Halstuch mit kleinen Füchsen. „Für die nächste kalte Nacht.“"
+    },
+    {
+      "id": "zofia_vertraut",
+      "figur": "zofia",
+      "flags": [
+        "zofia_vertraut"
+      ],
+      "text": "Zofia winkt dir vom Burgtor aus mit ihrem Halstuch zu."
+    },
+    {
+      "id": "zofia_versoehnt",
+      "figur": "zofia",
+      "flags": [
+        "zofia_versoehnt"
+      ],
+      "text": "Zofia boxt dich zum Abschied leicht gegen die Schulter. „Vergessen.“"
+    },
+    {
+      "id": "zofia_verstimmt",
+      "figur": "zofia",
+      "flags": [
+        "zofia_verstimmt"
+      ],
+      "text": "Zofia ist schon den Weg hinunter, als du aus dem Tor kommst."
+    }
+  ]
+}

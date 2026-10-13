@@ -105,7 +105,7 @@ void main() {
     }
   });
 
-  for (final akte in ['ravensmoor', 'schlosskeller', 'nachtexpress']) {
+  for (final akte in ['schlosskeller', 'gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm']) {
     test('$akte: Zeugen, Gespräche und Flags sind in allen Pfaden gleich (R1)', () {
       final pfade = akteDaten(akte).kanon.pfade;
       final erster = _gespraechsVerlauf(akte, pfade.first);

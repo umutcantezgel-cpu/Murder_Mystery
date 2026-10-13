@@ -68,6 +68,8 @@ flutter:
     - content/welt/blue_palm/
     - content/erzaehlung/
     - content/erzaehlung/ravensmoor/
+    - content/erzaehlung/blue_palm/
+    - content/erzaehlung/gewoelbe/
     - content/erzaehlung/nachtexpress/
     - content/erzaehlung/schlosskeller/
   fonts:
