@@ -11,6 +11,7 @@ import '../party/party_seite.dart';
 import '../party/sitzung.dart';
 import '../stil/stil.dart';
 import 'abend_halter.dart';
+import 'abend_speicher.dart';
 import 'online/gastgeber_ablauf.dart';
 import 'online/gastgeber_sitzung.dart';
 import 'online/online_halter.dart';
@@ -21,7 +22,9 @@ import 'online/online_halter.dart';
 /// Rollen. Am Ende führt die Abschlusstafel zur Belohnung (`/abend/belohnung`),
 /// von dort geht es in die Detektei zurück. Solo und reihum lässt sich der Abend
 /// in jeder Phase abbrechen („Abend abbrechen“, Zurück-Taste); gefragt wird beim
-/// Verlassen der Route ([abendVerlassen]).
+/// Verlassen der Route ([abendVerlassen]). Solo und reihum liegt der Abend nach
+/// jedem Schritt auf dem Gerät ([AbendAblage]); nach dem Neuladen setzt ihn die
+/// Detektei fort („Abend fortsetzen“).
 class AbendSeite extends StatefulWidget {
   const AbendSeite({super.key});
 
@@ -33,6 +36,9 @@ class _AbendSeiteState extends State<AbendSeite> {
   late final AbendHalter _halter = context.read<AbendHalter>();
   late final PartySitzung? _sitzung = _halter.sitzung;
 
+  /// Legt Solo- und Reihum-Abende nach jedem Schritt ab.
+  AbendAblage? _ablage;
+
   /// Online-Verbindung des Geräts (fehlt in Umgebungen ohne Online-Spiel).
   OnlineHalter? _online;
 
@@ -40,17 +46,23 @@ class _AbendSeiteState extends State<AbendSeite> {
   void initState() {
     super.initState();
     _online = context.read<OnlineHalter?>();
-    // Ohne Abend (z. B. nach dem Neuladen der Seite) zurück in die Detektei.
-    if (_sitzung == null) {
+    final s = _sitzung;
+    if (s == null) {
+      // Ohne Abend zurück in die Detektei; einen abgelegten setzt sie fort.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) context.go(Routes.start);
       });
+    } else if (s is! GastgeberSitzung) {
+      _ablage = AbendAblage(s);
     }
   }
 
   @override
   void dispose() {
     final s = _sitzung;
+    // Wer die Seite verlässt, hat den Abend beendet oder abgebrochen; nur ein
+    // Neuladen oder das Schließen der App lässt den Stand liegen.
+    _ablage?.beenden();
     if (s != null) {
       _halter.freigeben(s);
       // Online-Abend: Die Sitzung hat den Raum schon geschlossen (siehe GastgeberSitzung.dispose).
@@ -80,6 +92,8 @@ class _AbendSeiteState extends State<AbendSeite> {
   /// ein zweites Mal.
   Future<void> _abbrechen() async {
     if (!await _abbruchFragen(context) || !mounted) return;
+    // Gleich löschen: Die Detektei liest die Ablage, bevor diese Seite abgebaut ist.
+    _ablage?.beenden();
     _halter.bestaetigeAbbruch();
     context.go(Routes.start);
   }
@@ -128,10 +142,13 @@ class _AbendSeiteState extends State<AbendSeite> {
 /// abbrechen“, der Zurück-Taste und der Browser-Zurück-Taste. Ohne Rückfrage
 /// bleiben der Weg zur Belohnung (der Abschluss ist dann gemerkt), Online-Abende
 /// des Gastgebers (eigene Ausgänge) und die Seite ohne Abend.
-FutureOr<bool> abendVerlassen(BuildContext context, AbendHalter halter) {
+FutureOr<bool> abendVerlassen(BuildContext context, AbendHalter halter) async {
   final s = halter.sitzung;
   if (s == null || s is GastgeberSitzung || halter.abschluss != null || halter.abbruchBestaetigt) return true;
-  return _abbruchFragen(context);
+  final ja = await _abbruchFragen(context);
+  // Abgebrochen: den abgelegten Abend sofort löschen (siehe _abbrechen).
+  if (ja) unawaited(AbendSpeicher.loeschen());
+  return ja;
 }
 
 /// Die Rückfrage als Karteikarte: „Weiterspielen“ als Etikett, „Abend abbrechen“

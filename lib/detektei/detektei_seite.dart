@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/runden.dart' show KartenKatalog;
 import 'package:provider/provider.dart';
 
+import '../abend/abend_rueckkehr.dart';
 import '../abend/online/rueckkehr.dart';
 import '../app/router.dart';
 import '../karten/katalog_laden.dart';
@@ -59,7 +60,9 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
     final knoepfe = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Ein Platz in einem Online-Abend, in den man zurückkehren kann.
+        // Ein abgelegter Abend (Solo oder reihum) und ein Platz in einem
+        // Online-Abend, in die man zurückkehren kann.
+        const AbendRueckkehr(),
         const OnlineRueckkehr(),
         MKnopf(
           text: l.detektei_neuer_abend,

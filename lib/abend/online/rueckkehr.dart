@@ -111,7 +111,7 @@ class _OnlineRueckkehrState extends State<OnlineRueckkehr> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (gast != null)
-          _Banner(
+          RueckkehrBanner(
             key: const ValueKey('rueckkehr-gast'),
             knopf: l.online_zurueck_in_raum(raumCodeAnzeige(gast.code)),
             hinweis: l.online_zurueck_hinweis,
@@ -120,7 +120,7 @@ class _OnlineRueckkehrState extends State<OnlineRueckkehr> {
             onVerwerfen: _laeuft ? null : _gastVergessen,
           ),
         if (host != null)
-          _Banner(
+          RueckkehrBanner(
             key: const ValueKey('rueckkehr-gastgeber'),
             knopf: l.online_zurueck_zum_abend(raumCodeAnzeige(host)),
             hinweis: l.online_zurueck_gastgeber_hinweis,
@@ -136,9 +136,10 @@ class _OnlineRueckkehrState extends State<OnlineRueckkehr> {
 }
 
 /// Rückkehr als Karteikarte mit Büroklammer: das Messingschild „Zurück …“,
-/// darunter der Hinweis in Tinte und „Vergessen“ als leise Zeile.
-class _Banner extends StatelessWidget {
-  const _Banner({super.key, required this.knopf, required this.hinweis, required this.verwerfen, required this.onZurueck, required this.onVerwerfen, this.neigung = -0.004});
+/// darunter der Hinweis in Tinte und „Vergessen“ als leise Zeile. Auch für
+/// „Abend fortsetzen“ ([AbendRueckkehr]).
+class RueckkehrBanner extends StatelessWidget {
+  const RueckkehrBanner({super.key, required this.knopf, required this.hinweis, required this.verwerfen, required this.onZurueck, required this.onVerwerfen, this.neigung = -0.004});
 
   final String knopf;
   final String hinweis;

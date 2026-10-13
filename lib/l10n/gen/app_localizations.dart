@@ -5481,6 +5481,30 @@ abstract class L {
   /// **'Was aus den Zeugen wurde'**
   String get nachspiel_hinweis;
 
+  /// Detektei: Knopf für den abgelegten Abend
+  ///
+  /// In de, this message translates to:
+  /// **'Abend fortsetzen'**
+  String get abend_fortsetzen;
+
+  /// Detektei: Hinweis unter „Abend fortsetzen“ vor der ersten Runde
+  ///
+  /// In de, this message translates to:
+  /// **'{akte}. Es geht genau dort weiter, wo der Abend stand.'**
+  String abend_fortsetzen_hinweis(String akte);
+
+  /// Detektei: Hinweis unter „Abend fortsetzen“ mit Runde
+  ///
+  /// In de, this message translates to:
+  /// **'{akte}, Runde {runde}. Es geht genau dort weiter, wo der Abend stand.'**
+  String abend_fortsetzen_runde(String akte, int runde);
+
+  /// Detektei: den abgelegten Abend löschen
+  ///
+  /// In de, this message translates to:
+  /// **'Abend verwerfen'**
+  String get abend_fortsetzen_verwerfen;
+
   /// Profil: Abschnitt mit Tonschalter und Lautstärkereglern
   ///
   /// In de, this message translates to:

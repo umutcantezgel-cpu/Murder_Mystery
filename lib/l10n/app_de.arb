@@ -1925,6 +1925,35 @@
   "@nachspiel_hinweis": {
     "description": "Unterzeile des Nachspiels"
   },
+  "abend_fortsetzen": "Abend fortsetzen",
+  "@abend_fortsetzen": {
+    "description": "Detektei: Knopf für den abgelegten Abend"
+  },
+  "abend_fortsetzen_hinweis": "{akte}. Es geht genau dort weiter, wo der Abend stand.",
+  "@abend_fortsetzen_hinweis": {
+    "description": "Detektei: Hinweis unter „Abend fortsetzen“ vor der ersten Runde",
+    "placeholders": {
+      "akte": {
+        "type": "String"
+      }
+    }
+  },
+  "abend_fortsetzen_runde": "{akte}, Runde {runde}. Es geht genau dort weiter, wo der Abend stand.",
+  "@abend_fortsetzen_runde": {
+    "description": "Detektei: Hinweis unter „Abend fortsetzen“ mit Runde",
+    "placeholders": {
+      "akte": {
+        "type": "String"
+      },
+      "runde": {
+        "type": "int"
+      }
+    }
+  },
+  "abend_fortsetzen_verwerfen": "Abend verwerfen",
+  "@abend_fortsetzen_verwerfen": {
+    "description": "Detektei: den abgelegten Abend löschen"
+  },
   "ton_titel": "Ton",
   "@ton_titel": {
     "description": "Profil: Abschnitt mit Tonschalter und Lautstärkereglern"

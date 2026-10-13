@@ -3163,6 +3163,22 @@ class LDe extends L {
   String get nachspiel_hinweis => 'Was aus den Zeugen wurde';
 
   @override
+  String get abend_fortsetzen => 'Abend fortsetzen';
+
+  @override
+  String abend_fortsetzen_hinweis(String akte) {
+    return '$akte. Es geht genau dort weiter, wo der Abend stand.';
+  }
+
+  @override
+  String abend_fortsetzen_runde(String akte, int runde) {
+    return '$akte, Runde $runde. Es geht genau dort weiter, wo der Abend stand.';
+  }
+
+  @override
+  String get abend_fortsetzen_verwerfen => 'Abend verwerfen';
+
+  @override
   String get ton_titel => 'Ton';
 
   @override

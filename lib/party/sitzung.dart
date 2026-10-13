@@ -45,6 +45,9 @@ class PartySitzung extends ChangeNotifier {
       if (partie.phase.index > PartyPhase.einrichtung.index) _code = partie.spiel.einstellungen.code;
     } else {
       _partie = RundenPartie(daten.kanon, quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: vorrat, abstecher: abstecher);
+      if (vorrat != null || abstecher.isNotEmpty) {
+        _merke('karten', {'vorrat': [for (final k in vorrat?.karten ?? const <KartenDef>[]) k.id], 'abstecher': [for (final a in abstecher) a.id]});
+      }
     }
   }
 
@@ -85,6 +88,7 @@ class PartySitzung extends ChangeNotifier {
       throw StateError('Karten lassen sich nur vor der Einrichtung des Abends festlegen.');
     }
     _partie = RundenPartie(daten.kanon, quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: vorrat, abstecher: abstecher);
+    _merke('karten', {'vorrat': [for (final k in vorrat?.karten ?? const <KartenDef>[]) k.id], 'abstecher': [for (final a in abstecher) a.id]});
     notifyListeners();
   }
 
@@ -98,6 +102,7 @@ class PartySitzung extends ChangeNotifier {
   /// in der Ermittlung, einmal je Runde bzw. Ladung; nichts berührt Wahl oder Wertung.
   KartenDef karteSpielen(String id) {
     final k = _partie.karteSpielen(id);
+    _merke('karte', {'id': id});
     _melde();
     notifyListeners();
     return k;
@@ -120,6 +125,7 @@ class PartySitzung extends ChangeNotifier {
   void starteAbstecher(String id, {String? karte}) {
     if (!mitWuerfel) throw StateError('Abstecher gibt es nur mit Würfeln.');
     _partie.starteAbstecher(id, karte: karte);
+    _merke('abstecher', {'id': id, 'karte': karte});
     _vorschlag = null;
     _zugGeaendert();
   }
@@ -261,7 +267,13 @@ class PartySitzung extends ChangeNotifier {
   String geburtstagskind = '';
 
   /// Erzähler-Stimme an (lokal, abschaltbar).
-  bool stimmeAn = false;
+  bool get stimmeAn => _stimmeAn;
+  set stimmeAn(bool wert) {
+    _stimmeAn = wert;
+    _merke('stimmeAn', {'wert': wert});
+  }
+
+  bool _stimmeAn = false;
 
   /// Rundendauer; im Entwickler-Einstieg auch in Sekunden.
   Duration rundendauer = const Duration(minutes: 30);
@@ -277,7 +289,9 @@ class PartySitzung extends ChangeNotifier {
 
   /// Titel → Einrichtung.
   void zurEinrichtung() {
-    if (phase == PartyPhase.titel) _weiter();
+    if (phase != PartyPhase.titel) return;
+    _weiter();
+    _merke('titel');
   }
 
   /// Einrichtung abschließen. [code] leer oder ungültig heißt: Zufall.
@@ -292,7 +306,7 @@ class PartySitzung extends ChangeNotifier {
     String geburtstagskind = '',
   }) {
     if (solo && druck) throw ArgumentError('Solo ist kein Druckspiel');
-    zurEinrichtung();
+    if (phase == PartyPhase.titel) _weiter();
     final c = (code == null ? null : FallCode.lesen(code)) ?? zufallsCode();
     final einstellung = Einstellungen(rollen: rollen, detektiv: detektiv, code: c, druck: druck, rundendauerMinuten: rundendauerMinuten);
     if (druck) {
@@ -312,6 +326,16 @@ class PartySitzung extends ChangeNotifier {
       ..addAll({for (final r in besetzt) if (namen[r] != null) r: namen[r]!});
     this.geburtstagskind = geburtstagskind;
     rundendauer = Duration(minutes: rundendauerMinuten);
+    _merke('einrichten', {
+      'rollen': rollen,
+      'detektiv': detektiv,
+      'code': c.code,
+      'druck': druck,
+      'solo': solo,
+      'minuten': rundendauerMinuten,
+      'namen': {...this.namen},
+      'geburtstagskind': geburtstagskind,
+    });
     _melde();
     notifyListeners();
   }
@@ -332,12 +356,14 @@ class PartySitzung extends ChangeNotifier {
     if (solo && !nachFinale) throw StateError('Bot-Dossiers bleiben verdeckt');
     if (!besetzt.contains(rolle)) throw ArgumentError('$rolle ist nicht besetzt');
     _verdeckt = rolle;
+    _merke('zeigen', {'rolle': rolle});
     notifyListeners();
   }
 
   /// Ansicht schließen; der Bildschirm ist danach wieder neutral.
   void verdecken() {
     _verdeckt = null;
+    _merke('verdecken');
     notifyListeners();
   }
 
@@ -409,7 +435,10 @@ class PartySitzung extends ChangeNotifier {
     if (!solo || phase != PartyPhase.gespraeche || !soloGespraeche.any((g) => g.id == id)) {
       throw StateError('kein aktuelles Solo-Gespräch');
     }
-    if (_soloGelesen.add(id)) notifyListeners();
+    if (_soloGelesen.add(id)) {
+      _merke('gelesen', {'id': id});
+      notifyListeners();
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -434,6 +463,7 @@ class PartySitzung extends ChangeNotifier {
   void weiter() {
     if (phase == PartyPhase.einrichtung) throw StateError('Einrichtung über einrichten() abschließen');
     _weiter();
+    _merke('weiter');
   }
 
   void _weiter() {
@@ -489,6 +519,7 @@ class PartySitzung extends ChangeNotifier {
     final z = karte.zielFuer(spiel, kennung);
     if (z == null) return false;
     _vorschlag = z;
+    _merke('an', {'kennung': kennung});
     notifyListeners();
     return true;
   }
@@ -500,11 +531,13 @@ class PartySitzung extends ChangeNotifier {
       throw ArgumentError('$optionId gehört nicht zur laufenden Entscheidung');
     }
     _vorschlag = z;
+    _merke('vor', {'option': optionId});
     notifyListeners();
   }
 
   void verwerfen() {
     _vorschlag = null;
+    _merke('verwerfen');
     notifyListeners();
   }
 
@@ -520,12 +553,14 @@ class PartySitzung extends ChangeNotifier {
       _letzterFund = (entscheidung: z.entscheidung, ziel: z, funde: funde);
     }
     _vorschlag = null;
+    _merke('bestaetigen', {'gruendlich': gruendlich, 'karte': karte});
     _zugGeaendert();
   }
 
   /// Rückruf der sichtbaren Kartenaktion, nie ein Timer des Bildschirms.
   bool aktionFertig(int nummer) {
     if (!mitWuerfel || !_partie.aktionFertig(nummer)) return false;
+    _merke('aktion', {'nummer': nummer});
     _zugGeaendert();
     return true;
   }
@@ -537,12 +572,14 @@ class PartySitzung extends ChangeNotifier {
   /// Wirft. [karte] (Art Werkzeug) ist die Quelle des +1 und wird mit dem Wurf verbraucht.
   void wuerfeln({bool marke = false, String? karte}) {
     _partie.wuerfeln(marke: marke, karte: karte);
+    _merke('wurf', {'marke': marke, 'karte': karte});
     _zugGeaendert();
   }
 
   /// Tischruf nach Pech; [karte] (Nochmal bzw. Umweg passend zum Ruf) macht ihn kostenfrei.
   void tischruf(Tischruf ruf, {String? karte}) {
     _partie.tischruf(ruf, karte: karte);
+    _merke('ruf', {'ruf': ruf.name, 'karte': karte});
     _zugGeaendert();
   }
 
@@ -577,6 +614,7 @@ class PartySitzung extends ChangeNotifier {
   void fundGelesen() {
     if (mitWuerfel) _partie.fundGelesen();
     _letzterFund = null;
+    _merke('fund');
     notifyListeners();
   }
 
@@ -596,6 +634,7 @@ class PartySitzung extends ChangeNotifier {
     _stimmen[rolle] = kooperativ;
     _verdeckt = null;
     if (offeneWaehler.isEmpty) _auswerten();
+    _merke('stimme', {'rolle': rolle, 'kooperativ': kooperativ});
     notifyListeners();
   }
 
@@ -620,6 +659,7 @@ class PartySitzung extends ChangeNotifier {
     } else {
       spiel.anklagen(person);
     }
+    _merke('anklage', {'person': person});
     _melde();
     notifyListeners();
   }
@@ -639,12 +679,136 @@ class PartySitzung extends ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
+  // Abendstand (M8): jeder Schritt als Befehl, damit ein Abend nach dem Neuladen
+  // weitergeht. Würfel und Bots hängen am Salz; dieselben Befehle mit demselben
+  // Salz ergeben denselben Abend.
+
+  final List<Map<String, Object?>> _befehle = [];
+
+  void _merke(String befehl, [Map<String, Object?> werte = const {}]) => _befehle.add({'b': befehl, ...werte});
+
+  /// Der Abend zum Ablegen (JSON): Akte, Salz und alle Befehle seit dem Anlegen.
+  Map<String, Object?> get abendstand => {
+        'format': 'abendstand/1',
+        'fall': daten.fall,
+        'salz': _salz,
+        'titel': kanon.fall['titel'],
+        'phase': phase.name,
+        'runde': runde,
+        'befehle': [for (final b in _befehle) {...b}],
+      };
+
+  /// Baut einen abgelegten Abend wieder auf: neue Sitzung mit demselben Salz,
+  /// alle Befehle der Reihe nach. Das Deck kommt aus [katalog], die
+  /// Erkundungsorte aus [abstecher] (beides wie beim Anlegen). Eine offene
+  /// verdeckte Ansicht wird geschlossen: Das Gerät liegt danach vielleicht in
+  /// anderen Händen. Wirft [FormatException], wenn der Stand nicht passt.
+  static PartySitzung fortsetzen(
+    PartyDaten daten,
+    Map<String, Object?> stand, {
+    KartenKatalog? katalog,
+    List<AbstecherOrt> abstecher = const [],
+  }) {
+    if (stand['format'] != 'abendstand/1' || stand['fall'] != daten.fall || stand['salz'] is! String) {
+      throw const FormatException('Abendstand passt nicht zur Akte');
+    }
+    final s = PartySitzung(daten, salz: stand['salz'] as String);
+    try {
+      for (final b in stand['befehle'] as List) {
+        s._spiele((b as Map).cast<String, Object?>(), katalog: katalog, abstecher: abstecher);
+      }
+    } catch (e) {
+      s.dispose();
+      throw FormatException('Abendstand nicht abspielbar: $e');
+    }
+    if (s.verdeckt != null) s.verdecken();
+    return s;
+  }
+
+  void _spiele(Map<String, Object?> b, {KartenKatalog? katalog, List<AbstecherOrt> abstecher = const []}) {
+    String? text(String k) => b[k] as String?;
+    switch (b['b']) {
+      case 'karten':
+        final vorrat = [for (final id in b['vorrat'] as List) id as String];
+        final orte = [for (final id in b['abstecher'] as List) id as String];
+        kartenAnlegen(
+          vorrat: katalog == null || vorrat.isEmpty ? null : TischVorrat.aus(vorrat, katalog),
+          abstecher: [for (final id in orte) abstecher.firstWhere((a) => a.id == id)],
+        );
+      case 'karte':
+        karteSpielen(text('id')!);
+      case 'abstecher':
+        starteAbstecher(text('id')!, karte: text('karte'));
+      case 'stimmeAn':
+        stimmeAn = b['wert'] == true;
+      case 'titel':
+        zurEinrichtung();
+      case 'einrichten':
+        einrichten(
+          rollen: b['rollen'] as int,
+          detektiv: text('detektiv')!,
+          code: text('code'),
+          druck: b['druck'] == true,
+          solo: b['solo'] == true,
+          rundendauerMinuten: b['minuten'] as int? ?? 30,
+          namen: ((b['namen'] as Map?) ?? const {}).cast<String, String>(),
+          geburtstagskind: text('geburtstagskind') ?? '',
+        );
+      case 'zeigen':
+        zeigeVerdeckt(text('rolle')!);
+      case 'verdecken':
+        verdecken();
+      case 'gelesen':
+        soloGespraechGelesen(text('id')!);
+      case 'weiter':
+        weiter();
+      case 'an':
+        if (!schlageVorAn(text('kennung')!)) throw StateError('Vorschlag an ${b['kennung']} nicht möglich');
+      case 'vor':
+        schlageVor(text('option')!);
+      case 'verwerfen':
+        verwerfen();
+      case 'bestaetigen':
+        bestaetigen(gruendlich: b['gruendlich'] == true, karte: text('karte'));
+      case 'aktion':
+        if (!aktionFertig(b['nummer'] as int)) throw StateError('Aktion ${b['nummer']} nicht möglich');
+      case 'wurf':
+        wuerfeln(marke: b['marke'] == true, karte: text('karte'));
+      case 'ruf':
+        tischruf(Tischruf.values.byName(text('ruf')!), karte: text('karte'));
+      case 'fund':
+        fundGelesen();
+      case 'stimme':
+        stimme(text('rolle')!, kooperativ: b['kooperativ'] == true);
+      case 'anklage':
+        anklagen(text('person')!);
+      case 'tiefe':
+        erzaehltiefe = Erzaehltiefe.values.byName(text('wert')!);
+      case 'gespraech':
+        if (!randgespraechBeginnen(text('figur')!)) throw StateError('Gespräch mit ${b['figur']} nicht möglich');
+      case 'wahl':
+        final g = _gespraech ?? (throw StateError('kein Gespräch'));
+        randgespraechWaehlen(g.wahlen[b['nr'] as int]);
+      case 'gespraechEnde':
+        randgespraechBeenden();
+      default:
+        throw FormatException('unbekannter Befehl ${b['b']}');
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   // Gespräche mit Wahl (M6): Randgespräche mit unbesetzten Zeugen auf der Karte.
   // Sie kosten keine Zeit, würfeln nicht und schreiben nie in die Wertung; ihre
   // Flags gelten nur für diesen Abend und färben das Nachspiel (R1–R12).
 
   /// Erzähltiefe des Abends; `aus` heißt: wie bisher, ohne Randgespräche.
-  Erzaehltiefe erzaehltiefe = Erzaehltiefe.voll;
+  Erzaehltiefe get erzaehltiefe => _erzaehltiefe;
+  set erzaehltiefe(Erzaehltiefe wert) {
+    _erzaehltiefe = wert;
+    _merke('tiefe', {'wert': wert.name});
+  }
+
+  Erzaehltiefe _erzaehltiefe = Erzaehltiefe.voll;
 
   final Set<String> _erzaehlFlags = {};
   final Set<String> _gefuehrteGespraeche = {};
@@ -682,6 +846,7 @@ class PartySitzung extends ChangeNotifier {
     if (!randgespraechMoeglich(figur)) return false;
     final g = daten.erzaehlung!.offenFuer(figur, _erzaehlUmwelt, gefuehrt: _gefuehrteGespraeche)!;
     _gespraech = GespraechsLauf(g, _erzaehlUmwelt);
+    _merke('gespraech', {'figur': figur});
     notifyListeners();
     return true;
   }
@@ -690,7 +855,9 @@ class PartySitzung extends ChangeNotifier {
   void randgespraechWaehlen(Wahl w) {
     final g = _gespraech;
     if (g == null || !g.wahlen.contains(w)) return;
+    final nr = g.wahlen.indexOf(w);
     g.waehle(w);
+    _merke('wahl', {'nr': nr});
     notifyListeners();
   }
 
@@ -701,6 +868,7 @@ class PartySitzung extends ChangeNotifier {
     _erzaehlFlags.addAll(g.neueFlags);
     _gefuehrteGespraeche.add(g.gespraech.id);
     _gespraech = null;
+    _merke('gespraechEnde');
     notifyListeners();
   }
 

@@ -1,0 +1,184 @@
+// M8 Abendstand: Ein Abend läuft nach dem Neuladen genau dort weiter, wo er war.
+// Nach jedem Schritt geht der Stand durch JSON und wird neu abgespielt; was die
+// Bildschirme zeigen, muss gleich sein, und ab dort spielen Original und
+// Fortsetzung mit gleichen Schritten dasselbe Ende (Würfel hängen am Salz).
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/party/daten.dart';
+import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart';
+
+import 'hilfe.dart';
+
+List<AbstecherOrt> _abstecher(String akte) {
+  final f = File('content/party/zusatz/$akte/abstecher.json');
+  return f.existsSync() ? AbstecherOrt.liste(jsonDecode(f.readAsStringSync()) as Map<String, Object?>) : const [];
+}
+
+KartenKatalog get _katalog {
+  final dateien = Directory('content/karten').listSync().whereType<File>()
+      .where((f) => f.path.endsWith('.json') && !f.path.endsWith('.schema.json'))
+      .toList()
+    ..sort((a, b) => a.path.compareTo(b.path));
+  return KartenKatalog.ausDateien([for (final f in dateien) jsonDecode(f.readAsStringSync()) as Map<String, Object?>]);
+}
+
+/// Was die Bildschirme vom Abend zeigen, als vergleichbarer Text.
+String _bild(PartySitzung s) => [
+      s.phase,
+      s.runde,
+      s.restMinuten,
+      s.reserveMinuten,
+      s.marken,
+      [for (final w in s.wuerfe) '${w.a}${w.b}${w.stufe.name}'],
+      {for (final e in s.funde.entries) e.key: e.value.length},
+      s.laufendeEntscheidung?.id,
+      s.vorschlag?.option,
+      s.zug?.id,
+      s.zug?.phase,
+      s.zug?.aktion,
+      s.letzterFund?.entscheidung,
+      s.offeneWaehler,
+      s.erzaehlFlags.toList()..sort(),
+      s.gespraech?.knoten.id,
+      s.erzaehler,
+      s.besetzt,
+      if (s.eingerichtet) s.fallCode.code,
+      s.angeklagt,
+      s.spiel.punkte,
+      s.erzaehltiefe,
+      s.stimmeAn,
+      s.namen,
+      [for (final k in s.vorrat.karten) k.id],
+      s.abstecherErgebnis,
+      if (s.nachFinale) s.ende.id,
+    ].toString();
+
+/// Ein Schritt am Tisch, abwechslungsreich nach [i]: mal die erste, mal die
+/// letzte Option, Randgespräche, Erkundungen, gründlich, Umweg und Nochmal.
+/// `false` am Ende des Abends.
+bool _schritt(PartySitzung s, int i) {
+  switch (s.phase) {
+    case PartyPhase.ende:
+      return false;
+    case PartyPhase.titel:
+      s.zurEinrichtung();
+    case PartyPhase.gespraeche:
+      final offen = s.soloGespraeche.where((g) => !s.soloNotizen.any((n) => n.id == g.id)).toList();
+      offen.isEmpty ? s.weiter() : s.soloGespraechGelesen(offen.first.id);
+    case PartyPhase.entscheidungen:
+      final g = s.gespraech;
+      final z = s.zug;
+      if (g != null) {
+        g.fertig ? s.randgespraechBeenden() : s.randgespraechWaehlen(g.wahlen[i % g.wahlen.length]);
+      } else if (z != null) {
+        switch (z.phase) {
+          case RundenZugPhase.aktion: s.aktionFertig(z.aktion);
+          case RundenZugPhase.wurf: s.wuerfeln(marke: i % 4 == 0 && s.marken > 0);
+          case RundenZugPhase.tischruf: s.tischruf(i.isEven ? Tischruf.umweg : Tischruf.nochmal);
+          case RundenZugPhase.fund: s.fundGelesen();
+        }
+      } else if (s.letzterFund != null) {
+        s.fundGelesen();
+      } else if (s.vorschlag != null) {
+        i % 3 == 0 ? s.verwerfen() : s.bestaetigen(gruendlich: i % 5 == 0 && istSuche(s.laufendeEntscheidung!));
+      } else if (s.laufendeEntscheidung case final e?) {
+        final zeuge = s.karte.figuren.where((f) => s.randgespraechMoeglich(f.id)).firstOrNull;
+        if (i % 6 == 0 && zeuge != null) {
+          s.randgespraechBeginnen(zeuge.id);
+        } else if (i % 9 == 0 && s.abstecherOffen.isNotEmpty) {
+          s.starteAbstecher(s.abstecherOffen.first.id);
+        } else {
+          s.schlageVor((i.isEven ? e.optionen.first : e.optionen.last).id);
+        }
+      } else {
+        s.weiter();
+      }
+    case PartyPhase.gruppenwahl:
+      if (s.offeneWaehler.isEmpty) {
+        s.weiter();
+      } else {
+        final r = s.offeneWaehler.first;
+        s.verdeckt == r ? s.stimme(r, kooperativ: i % 3 != 0) : s.zeigeVerdeckt(r);
+      }
+    case PartyPhase.anklage:
+      s.angeklagt == null ? s.anklagen(s.kernverdaechtige[i % s.kernverdaechtige.length]) : s.weiter();
+    default:
+      s.weiter();
+  }
+  return true;
+}
+
+PartySitzung _fortgesetzt(PartySitzung s, List<AbstecherOrt> abstecher) =>
+    PartySitzung.fortsetzen(s.daten, jsonDecode(jsonEncode(s.abendstand)) as Map<String, Object?>, katalog: _katalog, abstecher: abstecher);
+
+/// Spielt den Abend Schritt für Schritt; nach jedem Schritt muss die Fortsetzung
+/// gleich aussehen, und an jedem siebten spielen beide bis zum Ende dasselbe.
+void _pruefeAbend(PartySitzung s, List<AbstecherOrt> abstecher) {
+  var i = 0;
+  var fortsetzungen = 0;
+  while (true) {
+    final r = _fortgesetzt(s, abstecher);
+    // Eine offene verdeckte Ansicht schließt die Fortsetzung; sonst gleich.
+    if (s.verdeckt == null) expect(_bild(r), _bild(s), reason: 'Schritt $i');
+    if (i % 7 == 0 && s.verdeckt == null) {
+      var j = i, k = i;
+      while (_schritt(r, j++)) {}
+      final kopie = _fortgesetzt(s, abstecher);
+      while (_schritt(kopie, k++)) {}
+      expect(_bild(r), _bild(kopie), reason: 'Ende ab Schritt $i');
+      kopie.dispose();
+      fortsetzungen++;
+    }
+    r.dispose();
+    if (!_schritt(s, i++)) break;
+    expect(i, lessThan(600), reason: 'Abend endet');
+  }
+  expect(s.phase, PartyPhase.ende);
+  expect(fortsetzungen, greaterThan(5));
+}
+
+void main() {
+  test('Ravensmoor reihum: Namen, Randgespräche, Gruppenwahl, Anklage', () {
+    final s = PartySitzung(akteDaten('ravensmoor'), salz: 'ab12cd34ef56ab78');
+    s.einrichten(rollen: 4, detektiv: 'm', code: FallCode.fuerPfad('witwe', s.kanon.pfade).code, namen: {'witwe': 'Ada', 'butler': 'Bo'});
+    s.stimmeAn = true;
+    s.erzaehltiefe = Erzaehltiefe.voll;
+    _pruefeAbend(s, const []);
+    expect(s.erzaehlFlags, isNotEmpty, reason: 'Gespräche geführt');
+    s.dispose();
+  });
+
+  test('Schlosskeller solo mit Deck und Erkundungen; Zufallscode bleibt gleich', () {
+    final abstecher = _abstecher('schlosskeller');
+    final s = PartySitzung(partyDaten, salz: '0011223344556677');
+    s.kartenAnlegen(vorrat: TischVorrat.aus(['schlosskeller:tim:stirnlampe'], _katalog), abstecher: abstecher);
+    s.einrichten(rollen: 5, detektiv: 'w', solo: true);
+    final code = s.fallCode.code;
+    expect(_fortgesetzt(s, abstecher).fallCode.code, code);
+    _pruefeAbend(s, abstecher);
+    expect(s.abstecherErgebnis, isNotEmpty, reason: 'Erkundung gespielt');
+    s.dispose();
+  });
+
+  test('Ein Stand einer anderen Akte oder mit kaputtem Befehl wird abgelehnt', () {
+    final s = PartySitzung(partyDaten, salz: 'feedfacecafebeef')..einrichten(rollen: 4, detektiv: 'w');
+    final stand = jsonDecode(jsonEncode(s.abendstand)) as Map<String, Object?>;
+    expect(() => PartySitzung.fortsetzen(akteDaten('ravensmoor'), stand), throwsFormatException);
+    final kaputt = {...stand, 'befehle': [...stand['befehle'] as List, {'b': 'vor', 'option': 'gibt_es_nicht'}]};
+    expect(() => PartySitzung.fortsetzen(partyDaten, kaputt), throwsFormatException);
+    final fremd = {...stand, 'befehle': [{'b': 'zaubern'}]};
+    expect(() => PartySitzung.fortsetzen(partyDaten, fremd), throwsFormatException);
+    s.dispose();
+  });
+
+  test('Die Daten der Fortsetzung kommen aus derselben Akte', () {
+    final PartyDaten d = akteDaten('ravensmoor');
+    final s = PartySitzung(d, salz: '1234123412341234')..einrichten(rollen: 6, detektiv: 'w');
+    expect(PartySitzung.fortsetzen(d, s.abendstand).daten, same(d));
+    s.dispose();
+  });
+}
