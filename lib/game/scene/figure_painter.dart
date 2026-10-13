@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../iso_math.dart';
+import 'figur_rig.dart';
 import 'palette.dart';
 
 /// Aussehen einer Figur (Detektiv oder Verdächtige).
@@ -75,9 +76,64 @@ class FigurePainter {
       };
 
   /// Höhe des Kopfes über den Füßen in Pixeln (für Sprechblasen/Ringe).
-  static double headTop(String build) => 54 * buildScale(build).$2;
+  static double headTop(String build) => FigurRig.hoehe * buildScale(build).$2;
 
+  static const _rig = FigurRig();
+
+  /// Aussehen fürs Rig, je Farbkombination nur einmal abgeleitet.
+  final Map<int, FigurAussehen> _aussehen = {};
+
+  FigurAussehen _fuerRig(FigureLook l) => _aussehen[Object.hash(l.coat, l.skin, l.hair, l.hatColor, l.hat, l.build, l.dress)] ??= FigurAussehen(
+        mantel: l.coat,
+        haut: l.skin,
+        haar: l.hair,
+        hutFarbe: l.hatColor,
+        hut: l.hat,
+        statur: l.build,
+        kleid: l.dress,
+      );
+
+  /// Stehende oder gehende Figur (Figuren 2.0, [FigurRig]); Ursprung an den Füßen.
   void standing(
+    Canvas c,
+    Offset feet,
+    FigureLook look, {
+    required double facing,
+    double walk = 0,
+    double moveAmt = 0,
+    bool ghost = false,
+    bool shadow = true,
+    double ruhe = 0,
+    bool suchen = false,
+    bool befragen = false,
+    double handlungsZeit = 0,
+  }) {
+    final (wm, _) = buildScale(look.build);
+    final sd = Iso.facingToScreen(facing);
+    if (shadow && !ghost) {
+      final r = Rect.fromCenter(center: feet.translate(1.5, 0.5), width: 26 * wm, height: 10);
+      c.drawOval(r, Paint()..shader = Gradient.radial(r.center, 13 * wm, [withAlpha(_black, 0.5), withAlpha(_black, 0)], const [0.35, 1]));
+    }
+    c.save();
+    c.translate(feet.dx, feet.dy);
+    _rig.zeichne(
+      c,
+      _fuerRig(look),
+      sx: sd.dx,
+      sy: sd.dy,
+      walk: walk,
+      moveAmt: moveAmt,
+      ghost: ghost,
+      ruhe: ruhe,
+      suchen: suchen,
+      befragen: befragen,
+      handlungsZeit: handlungsZeit,
+    );
+    c.restore();
+  }
+
+  /// Die frühere Papierpuppe (Figuren 1.0), nur noch als Rückfall und für Vergleiche.
+  void standingAlt(
     Canvas c,
     Offset feet,
     FigureLook look, {
