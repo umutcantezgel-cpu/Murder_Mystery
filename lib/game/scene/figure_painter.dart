@@ -459,7 +459,10 @@ class FigurePainter {
     }
     final gx = side ? h.dx + dir * 1.8 : h.dx;
     final gesicht = Path()..addOval(Rect.fromCenter(center: Offset(gx, h.dy + 0.9), width: side ? r * 1.25 : r * 1.55, height: r * 1.7));
-    final form = Path.combine(PathOperation.difference, aussen, gesicht);
+    final form = Path()
+      ..fillType = PathFillType.evenOdd
+      ..addPath(aussen, Offset.zero)
+      ..addPath(gesicht, Offset.zero);
     c.drawPath(form, tuch);
     c.drawPath(
       gesicht,

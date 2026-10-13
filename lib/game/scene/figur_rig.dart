@@ -627,15 +627,7 @@ class FigurRig {
     final paint = Paint()
       ..shader = Gradient.linear(k.translate(-r, -r), k.translate(r, r * 0.4), [shade(a.haar, 0.22), a.haar, shade(a.haar, -0.25)], const [0, 0.5, 1]);
     if (p.front < -0.15) {
-      // Hinterkopf ganz behaart (außer Glatze).
-      if (a.frisur == Frisur.glatze) {
-        c.drawArc(Rect.fromCircle(center: k.translate(0, 1.2), radius: r * 0.98), 0.2, math.pi - 0.4, false, Paint()
-          ..color = a.haar
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.2);
-        return;
-      }
-      c.drawOval(Rect.fromCenter(center: k.translate(0, -0.6), width: r * 1.98, height: r * 2.0), paint);
+      _hinterkopf(c, k, r, p, paint);
       return;
     }
     final s = p.seite;
@@ -681,6 +673,84 @@ class FigurRig {
           ..color = withAlpha(shade(a.haar, 0.5), 0.5)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 0.9);
+    }
+  }
+
+  /// Hinterkopf: Ohren, Haar mit Nackenlinie, Wirbel und Strähnen; langes Haar
+  /// fällt über den Rücken, der Zopf hängt hinunter.
+  void _hinterkopf(Canvas c, Offset k, double r, _Pose p, Paint haar) {
+    final a = p.a;
+    final s = p.seite;
+    // Ohren: von hinten beide, schräg von hinten das nahe.
+    final ohr = Paint()..color = shade(a.haut, -0.2);
+    for (final seite in [-1.0, 1.0]) {
+      if (p.seiteAbs > 0.45 && seite != p.nahSeite) continue;
+      c.drawOval(Rect.fromCenter(center: Offset(k.dx + seite * r * 0.94 - s * 0.8, k.dy + 0.9), width: 2.2, height: 3.2), ohr);
+    }
+    final dunkel = Paint()
+      ..color = withAlpha(shade(a.haar, -0.4), 0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.45
+      ..strokeCap = StrokeCap.round;
+    if (a.frisur == Frisur.glatze) {
+      // Haarkranz um den Hinterkopf, Glanz auf dem Scheitel.
+      c.drawArc(Rect.fromCircle(center: k.translate(0, 0.8), radius: r * 0.96), 0.15, math.pi - 0.3, false, Paint()
+        ..color = a.haar
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.6);
+      c.drawOval(Rect.fromCenter(center: k.translate(-1.6, -r * 0.55), width: 4.2, height: 2.0), Paint()..color = withAlpha(const Color(0xFFFFFFFF), 0.22));
+      return;
+    }
+    final lang = a.frisur == Frisur.lang;
+    final nacken = switch (a.frisur) {
+      Frisur.lang => k.dy + r * 1.9,
+      Frisur.locken => k.dy + r * 0.92,
+      Frisur.zopf => k.dy + r * 0.86,
+      _ => k.dy + r * 0.8,
+    };
+    final nach = lang ? -math.sin(p.walk * 2 + 1.1) * 1.2 * p.move : 0.0;
+    final breit = lang ? r * 1.08 : r * 1.0;
+    final form = Path()
+      ..moveTo(k.dx - r * 1.0, k.dy + 0.4)
+      ..quadraticBezierTo(k.dx - r * 1.1, k.dy - r * 1.18, k.dx, k.dy - r * 1.16)
+      ..quadraticBezierTo(k.dx + r * 1.1, k.dy - r * 1.18, k.dx + r * 1.0, k.dy + 0.4)
+      ..lineTo(k.dx + breit + nach, nacken - (lang ? 1.2 : 1.6))
+      ..quadraticBezierTo(k.dx + nach, nacken + (lang ? 1.6 : 1.4), k.dx - breit + nach, nacken - (lang ? 1.2 : 1.6))
+      ..close();
+    c.drawPath(form, haar);
+    if (a.frisur == Frisur.locken) {
+      for (var i = 0; i < 9; i++) {
+        final w = math.pi * (0.95 + i * 0.14);
+        c.drawCircle(k + Offset(math.cos(w) * r * 0.9, math.sin(w) * r * 0.9 + 0.4), 2.4, haar);
+      }
+      for (var i = 0; i < 5; i++) {
+        c.drawCircle(Offset(k.dx - r * 0.6 + i * r * 0.3, nacken - 1.2), 2.0, haar);
+      }
+    }
+    // Wirbel am Scheitel, Strähnen zum Nacken.
+    final wirbel = k.translate(s * r * 0.15 + r * 0.12, -r * 0.5);
+    for (var i = 0; i < 6; i++) {
+      final w = -0.6 + i * 0.36;
+      final ende = Offset(wirbel.dx + math.sin(w) * r * 0.85, wirbel.dy + (nacken - wirbel.dy) * 0.62 + nach * (i / 6));
+      c.drawPath(
+        Path()
+          ..moveTo(wirbel.dx, wirbel.dy)
+          ..quadraticBezierTo(wirbel.dx + math.sin(w) * r * 0.5 + 1.2, wirbel.dy + r * 0.25, ende.dx, ende.dy),
+        dunkel,
+      );
+    }
+    c.drawArc(Rect.fromCircle(center: k.translate(-1.2, -0.4), radius: r * 0.88), math.pi * 1.15, math.pi * 0.35, false, Paint()
+      ..color = withAlpha(shade(a.haar, 0.5), 0.45)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.9);
+    if (a.frisur == Frisur.zopf && a.hut != 'bun') {
+      // Geflochtener Zopf den Rücken hinunter.
+      final schwung = -math.sin(p.walk * 2 + 1.1) * 1.6 * p.move;
+      for (var i = 0; i < 5; i++) {
+        final o = Offset(k.dx + s * 0.6 + schwung * (i / 4), nacken + 0.6 + i * 2.6);
+        c.drawOval(Rect.fromCenter(center: o, width: 3.4 - i * 0.25, height: 3.0), haar);
+        c.drawArc(Rect.fromCenter(center: o, width: 3.4 - i * 0.25, height: 3.0), 3.6, 1.6, false, dunkel);
+      }
     }
   }
 
@@ -771,11 +841,34 @@ class FigurRig {
       ..close();
     if (p.front < -0.1) {
       c.drawPath(aussen, tuch);
+      // Von hinten: Falten und der Knoten im Nacken.
+      final falte = Paint()
+        ..color = shade(col, -0.32)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.6
+        ..strokeCap = StrokeCap.round;
+      for (final x in [-0.45, 0.0, 0.45]) {
+        c.drawPath(
+          Path()
+            ..moveTo(h.dx + x * r * 0.6, h.dy - r * 0.9)
+            ..quadraticBezierTo(h.dx + x * r * 1.1, h.dy + r * 0.4, h.dx + x * r * 1.3, h.dy + r + 3.6),
+          falte,
+        );
+      }
+      c.drawOval(Rect.fromCenter(center: Offset(h.dx, h.dy + r * 0.75), width: 4.2, height: 3.0), Paint()..color = shade(col, -0.12));
+      c.drawOval(Rect.fromCenter(center: Offset(h.dx, h.dy + r * 0.75), width: 4.2, height: 3.0), falte);
       return;
     }
     final gx = h.dx + p.seite * 2.0;
     final gesicht = Path()..addOval(Rect.fromCenter(center: Offset(gx, h.dy + 1.0), width: r * (1.25 + 0.35 * p.front.clamp(0.0, 1.0)), height: r * 1.72));
-    c.drawPath(Path.combine(PathOperation.difference, aussen, gesicht), tuch);
+    // Gerade-Ungerade statt Pfaddifferenz: im Web zuverlässig.
+    c.drawPath(
+      Path()
+        ..fillType = PathFillType.evenOdd
+        ..addPath(aussen, Offset.zero)
+        ..addPath(gesicht, Offset.zero),
+      tuch,
+    );
     c.drawPath(gesicht, Paint()
       ..color = shade(col, -0.3)
       ..style = PaintingStyle.stroke
