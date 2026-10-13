@@ -143,9 +143,9 @@ class RueckblendeText extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                ExcludeSemantics(
-                  child: Text('„', style: MPapierSchrift.aufmacher.copyWith(height: 0.9, color: MRoh.tinte.withValues(alpha: 0.55))),
-                ),
+                // Großes Anführungszeichen als Zierde (Symbol statt Text).
+                Icon(Icons.format_quote_rounded, size: 36, color: MRoh.tinte.withValues(alpha: 0.55)),
+                const SizedBox(height: 2),
                 Text(sitzung.text(kennung), style: MPapierSchrift.erzaehler.copyWith(fontStyle: FontStyle.italic, height: 1.7)),
                 const SizedBox(height: 12),
                 Align(

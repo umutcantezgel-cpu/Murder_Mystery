@@ -60,7 +60,7 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(s.ui('ui.zug.wuerfel'), style: t.titel),
+          MGanzwortText(s.ui('ui.zug.wuerfel'), style: t.titel),
           const SizedBox(height: 8),
           Text(s.ui('ui.zug.pate', {'name': s.wuerfelPate}), style: t.text),
           const SizedBox(height: 18),
@@ -249,7 +249,7 @@ class WurfErgebnis extends StatelessWidget {
             children: [
               StufenSymbol(wurf.stufe, groesse: 30),
               const SizedBox(width: 10),
-              Flexible(child: Text(s.ui('ui.zug.${wurf.stufe.name}'), style: t.ueberschrift, textAlign: TextAlign.center)),
+              Flexible(child: MGanzwortText(s.ui('ui.zug.${wurf.stufe.name}'), style: t.ueberschrift, textAlign: TextAlign.center)),
             ],
           ),
           const SizedBox(height: 12),
@@ -353,7 +353,7 @@ class TischrufTafel extends StatelessWidget {
         samen: 29,
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(s.ui('ui.zug.tischruf'), style: MPapierSchrift.ueberschrift),
+          MGanzwortText(s.ui('ui.zug.tischruf'), style: MPapierSchrift.ueberschrift),
           const SizedBox(height: 8),
           Text(s.ui('ui.zug.pech_szene'), style: MPapierSchrift.text),
           if (s.hatKarten) ...[

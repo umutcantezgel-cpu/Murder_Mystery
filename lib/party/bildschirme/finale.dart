@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../l10n/gen/app_localizations_de.dart';
+import '../../stil/mappe/abend2_bausteine.dart';
 import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
@@ -92,7 +93,8 @@ class _Titelseite extends StatelessWidget {
           const SizedBox(height: 3),
           const _Doppellinie(umgekehrt: true),
           const SizedBox(height: 18),
-          Text(
+          // Die Schlagzeile bricht nur zwischen Wörtern; ein langes Wort wird kleiner gesetzt.
+          MGanzwortText(
             ende.name,
             textAlign: TextAlign.center,
             style: MPapierSchrift.aufmacher.copyWith(fontSize: schmal ? 30 : 40),

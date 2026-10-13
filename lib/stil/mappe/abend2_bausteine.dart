@@ -363,7 +363,8 @@ class MKarteiFenster extends StatelessWidget {
             linien: false,
             neigung: neigung,
             samen: titel.codeUnits.fold(3, (a, b) => (a * 31 + b) & 0xffff),
-            padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
+            // Auf schmalen Geräten etwas weniger Rand: mehr Zeilenbreite bei großer Schrift.
+            padding: EdgeInsets.fromLTRB(breite < 400 ? 16 : 20, 18, breite < 400 ? 16 : 20, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -372,7 +373,7 @@ class MKarteiFenster extends StatelessWidget {
                   Text(marke!, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
                   const SizedBox(height: 4),
                 ],
-                Text(titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 22)),
+                MGanzwortText(titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 22)),
                 const SizedBox(height: 8),
                 Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
                 const SizedBox(height: 12),
@@ -515,6 +516,44 @@ class _SepiaMaler extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _SepiaMaler alt) => alt.samen != samen;
+}
+
+/// Überschrift, die nie mitten im Wort bricht: Passt ihr längstes Wort nicht
+/// in die Breite (schmale Geräte, große Schrift), wird die Schrift so weit
+/// kleiner, dass es passt, höchstens bis [minFaktor]. Umbrochen wird nur
+/// zwischen Wörtern. Sonst ein gewöhnlicher [Text] mit [style].
+class MGanzwortText extends StatelessWidget {
+  const MGanzwortText(this.text, {super.key, required this.style, this.textAlign, this.minFaktor = 0.55});
+
+  final String text;
+  final TextStyle style;
+  final TextAlign? textAlign;
+
+  /// Kleinster Anteil der Schriftgröße, auf den verkleinert wird.
+  final double minFaktor;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, box) {
+          final stil = DefaultTextStyle.of(context).style.merge(style);
+          final groesse = stil.fontSize ?? 14;
+          var faktor = 1.0;
+          if (box.hasBoundedWidth && box.maxWidth > 0) {
+            final scaler = MediaQuery.textScalerOf(context);
+            final richtung = Directionality.of(context);
+            var breitestes = 0.0;
+            for (final wort in text.split(RegExp(r'\s+'))) {
+              if (wort.isEmpty) continue;
+              final tp = TextPainter(text: TextSpan(text: wort, style: stil), textDirection: richtung, textScaler: scaler, maxLines: 1)..layout();
+              breitestes = math.max(breitestes, tp.width);
+              tp.dispose();
+            }
+            // Ein Hauch Luft, damit Rundungen beim Umbruch das Wort nicht doch teilen.
+            if (breitestes > box.maxWidth) faktor = math.max(minFaktor, box.maxWidth / breitestes * 0.97);
+          }
+          return Text(text, textAlign: textAlign, style: faktor == 1 ? style : style.copyWith(fontSize: groesse * faktor));
+        },
+      );
 }
 
 /// Bild und Text nebeneinander (Fotoabzug und Name, Symbol und Ort); wird es

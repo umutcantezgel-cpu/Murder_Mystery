@@ -155,7 +155,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                             if (mounted && (g.height - _kopfHoehe).abs() > 0.5) setState(() => _kopfHoehe = g.height);
                           },
                           child: SingleChildScrollView(child: Padding(
-                            padding: const EdgeInsets.all(12),
+                            // Oben Platz für die Büroklammer, die über die Karte ragt.
+                            padding: const EdgeInsets.fromLTRB(12, 18, 12, 12),
                             child: _kopf(fund != null ? s.spiel.ermittlung.entscheidung(fund.entscheidung) : aktiveFrage),
                           )),
                         ),
@@ -236,7 +237,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
       samen: 77,
       padding: const EdgeInsets.fromLTRB(40, 12, 16, 12),
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Text(
+        MGanzwortText(
           zug.istAuftakt ? s.ui('ui.zug.auftakt') : zug.istAbstecher ? s.abstecherLaufend!.name : s.karte.ziele[zug.option]!.name,
           style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20),
         ),
@@ -295,7 +296,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 const SizedBox(height: 2),
                 Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
                 const SizedBox(height: 8),
-                Text(e.frage, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.25)),
+                MGanzwortText(e.frage, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.25)),
                 // Eine Zeile Stand: Uhrzeit, bei den Würfeln auch Nachtminuten und Marken.
                 const SizedBox(height: 6),
                 Wrap(
@@ -438,7 +439,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               child: MKnopf(
                 text: KartenTexte.erkunden(a.name),
                 art: MKnopfArt.zweit,
-                icon: Icons.explore_rounded,
+                // Bei großer Schrift ohne Kompass: Der Ortsname braucht die Breite.
+                icon: MediaQuery.textScalerOf(context).scale(10) > 15 ? null : Icons.explore_rounded,
                 onPressed: () {
                   vorher?.call();
                   setState(() => _abstecher = a);
@@ -482,7 +484,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           const SizedBox(height: 4),
           Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: 10),
-          Text(o.text, style: MPapierSchrift.ueberschrift),
+          MGanzwortText(o.text, style: MPapierSchrift.ueberschrift),
           const SizedBox(height: 10),
           Text(s.ui('ui.karte.endgueltig'), style: MPapierSchrift.text),
           if (s.mitWuerfel) ...[
@@ -548,7 +550,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(s.ui('ui.karte.fertig'), style: MPapierSchrift.ueberschrift),
+            MGanzwortText(s.ui('ui.karte.fertig'), style: MPapierSchrift.ueberschrift),
             const SizedBox(height: 16),
             ..._erkunden(),
             const SizedBox(height: 6),
@@ -564,6 +566,9 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
         barrierColor: Colors.black.withValues(alpha: 0.6),
         builder: (c) {
           final optionen = s.optionen(e.id);
+          // Bei großer Schrift entfällt die Nummernspalte: Die Etiketten bekommen
+          // die ganze Breite, und die Nummer bricht nicht vom Punkt.
+          final nummern = MediaQuery.textScalerOf(c).scale(10) <= 15;
           return MKarteiFenster(
             marke: s.ui('ui.karte.liste_titel'),
             titel: e.frage,
@@ -576,12 +581,13 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        ExcludeSemantics(
-                          child: SizedBox(
-                            width: 26,
-                            child: Text('${i + 1}.', style: MPapierSchrift.maschine.copyWith(color: MRoh.stempelRot)),
+                        if (nummern)
+                          ExcludeSemantics(
+                            child: SizedBox(
+                              width: 26,
+                              child: Text('${i + 1}.', style: MPapierSchrift.maschine.copyWith(color: MRoh.stempelRot)),
+                            ),
                           ),
-                        ),
                         Expanded(
                           child: MKnopf(
                             text: optionen[i].text,
@@ -617,7 +623,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             children: [
               if (s.funde.isEmpty && s.soloNotizen.isEmpty) Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
               if (s.soloNotizen.isNotEmpty) ...[
-                Text(s.ui('ui.solo.notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
+                MGanzwortText(s.ui('ui.solo.notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
                 const SizedBox(height: 10),
                 for (final g in s.soloNotizen) Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -631,7 +637,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               ],
               if (s.mitWuerfel) ...[
                 const SizedBox(height: 12),
-                Text(s.ui('ui.zug.protokoll'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
+                MGanzwortText(s.ui('ui.zug.protokoll'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
                 const SizedBox(height: 4),
                 if (s.wuerfe.isEmpty) Text(s.ui('ui.zug.kein_wurf'), style: MPapierSchrift.leise),
                 for (final w in s.wuerfe) Text(

@@ -94,17 +94,23 @@ class _AnklageBildschirmState extends State<AnklageBildschirm> {
         },
       );
 
-  /// Bestätigung „Das ist endgültig“ als Karteikarte. Erst „Ja“ schließt die Anklage.
+  /// Bestätigung „Das ist endgültig“ als Karteikarte. Erst „Ja“ schließt die
+  /// Anklage; Wegtippen gilt als „Noch nicht“. Der Titel mit dem Namen bricht
+  /// um und bleibt auch bei großer Schrift ganz lesbar.
   Future<void> _fragen(String person) async {
-    final ja = await frageKarteikarte(
-      context,
-      titel: s.ui('ui.anklage.bestaetigen', {'name': s.figurName(person)}),
-      text: s.ui('ui.anklage.endgueltig'),
-      ja: s.ui('ui.anklage.ja'),
-      nein: s.ui('ui.anklage.nein'),
-      gefaehrlich: true,
+    final ja = await showDialog<bool>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.6),
+      builder: (c) => MKarteiFenster(
+        titel: s.ui('ui.anklage.bestaetigen', {'name': s.figurName(person)}),
+        inhalt: Text(s.ui('ui.anklage.endgueltig'), style: MPapierSchrift.text),
+        aktionen: [
+          MKnopf(text: s.ui('ui.anklage.nein'), art: MKnopfArt.zweit, onPressed: () => Navigator.of(c).pop(false)),
+          MKnopf(text: s.ui('ui.anklage.ja'), art: MKnopfArt.gefahr, onPressed: () => Navigator.of(c).pop(true)),
+        ],
+      ),
     );
-    if (ja && mounted) s.anklagen(person);
+    if ((ja ?? false) && mounted) s.anklagen(person);
   }
 }
 
@@ -148,7 +154,7 @@ class _Karte extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Der Name steht oben auf der Karte: Der Knopf heißt wie die Person.
-                Text(sitzung.figurName(person), textAlign: TextAlign.center, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.2)),
+                MGanzwortText(sitzung.figurName(person), textAlign: TextAlign.center, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20, height: 1.2)),
                 if (titel.isNotEmpty) Text(titel, textAlign: TextAlign.center, style: MPapierSchrift.leise),
                 const SizedBox(height: 6),
                 // Foto, Nummerntafel und Kringel sind Zierde.

@@ -48,9 +48,69 @@ class AufloesungBildschirm extends StatelessWidget {
   Widget _ende(BuildContext context) {
     final ende = s.ende;
     final taeter = s.pfad;
+    final mappe = MAktenmappe(
+      reiter: s.kanon.fall['titel'] as String,
+      farbe: ende.richtig ? const Color(0xFF2F6B37) : MRoh.stempelRot,
+      siegel: AkteStil.fuer(s.daten.fall).sigel,
+      blaetter: 3,
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Punkte und Urteilsstempel nebeneinander; wird es zu eng, rutscht der Stempel darunter.
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 12,
+            children: [
+              _Wert(titel: s.ui('ui.aufloesung.punkte_titel'), wert: s.ui('ui.aufloesung.punkte', {'punkte': '${s.spiel.punkte}'})),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 0, 4, 14),
+                child: RepaintBoundary(
+                  child: MStempel(
+                    text: ende.richtig ? _de.verdict_stamp_solid : _de.verdict_stamp_wrong,
+                    farbe: ende.richtig ? const Color(0xFF2F6B37) : MRoh.stempelRot,
+                    groesse: 20,
+                    winkel: -0.14,
+                    aufschlagen: true,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          _Feldname(s.ui('ui.aufloesung.taeter_titel')),
+          const SizedBox(height: 8),
+          MBildZeile(
+            bild: ExcludeSemantics(
+              child: MFotoabzug(
+                look: s.figurAussehen(taeter),
+                groesse: 76,
+                neigung: -0.04,
+                klammer: true,
+                akzent: s.figurFarbe(taeter),
+              ),
+            ),
+            text: MGanzwortText(s.figurName(taeter), style: MPapierSchrift.ueberschrift),
+          ),
+          const SizedBox(height: 20),
+          // Eine Akte mit fester Lösung kennt keinen Fall-Code; der Code ließe sich nirgends eingeben.
+          if (!s.daten.kanon.festeLoesung) ...[
+            _Feldname(s.ui('ui.aufloesung.code_titel')),
+            const SizedBox(height: 4),
+            Text(s.fallCode.code, style: MPapierSchrift.maschine.copyWith(fontSize: 22, letterSpacing: 2.4)),
+            const SizedBox(height: 4),
+            Text(s.ui('ui.aufloesung.code_hinweis'), style: MPapierSchrift.leise),
+            const SizedBox(height: 20),
+          ],
+          const _Trennlinie(),
+          const SizedBox(height: 12),
+          Text(s.ui('ui.aufloesung.dank'), style: MPapierSchrift.hand.copyWith(fontSize: 22)),
+        ],
+      ),
+    );
     return PartyRahmen(
       marke: s.ui('ui.aufloesung.ende_marke'),
-      titel: ende.name,
       // Der Abend ist zu Ende: in der Detektei beginnt ein neuer Abend; im Abend
       // der Weg über die Belohnung (Karten, Erfahrung, Rang).
       aktionen: [
@@ -59,69 +119,15 @@ class AufloesungBildschirm extends StatelessWidget {
         else
           MKnopf(text: _de.abend_belohnung_ansehen, icon: Icons.style_rounded, onPressed: onEnde),
       ],
-      child: Padding(
-        padding: const EdgeInsets.only(top: 6, bottom: 14),
-        child: MAktenmappe(
-          reiter: s.kanon.fall['titel'] as String,
-          farbe: ende.richtig ? const Color(0xFF2F6B37) : MRoh.stempelRot,
-          siegel: AkteStil.fuer(s.daten.fall).sigel,
-          blaetter: 3,
-          padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Punkte und Urteilsstempel nebeneinander; wird es zu eng, rutscht der Stempel darunter.
-              Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 12,
-                children: [
-                  _Wert(titel: s.ui('ui.aufloesung.punkte_titel'), wert: s.ui('ui.aufloesung.punkte', {'punkte': '${s.spiel.punkte}'})),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 14),
-                    child: RepaintBoundary(
-                      child: MStempel(
-                        text: ende.richtig ? _de.verdict_stamp_solid : _de.verdict_stamp_wrong,
-                        farbe: ende.richtig ? const Color(0xFF2F6B37) : MRoh.stempelRot,
-                        groesse: 20,
-                        winkel: -0.14,
-                        aufschlagen: true,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              _Feldname(s.ui('ui.aufloesung.taeter_titel')),
-              const SizedBox(height: 8),
-              MBildZeile(
-                bild: ExcludeSemantics(
-                  child: MFotoabzug(
-                    look: s.figurAussehen(taeter),
-                    groesse: 76,
-                    neigung: -0.04,
-                    klammer: true,
-                    akzent: s.figurFarbe(taeter),
-                  ),
-                ),
-                text: Text(s.figurName(taeter), style: MPapierSchrift.ueberschrift),
-              ),
-              const SizedBox(height: 20),
-              // Eine Akte mit fester Lösung kennt keinen Fall-Code; der Code ließe sich nirgends eingeben.
-              if (!s.daten.kanon.festeLoesung) ...[
-                _Feldname(s.ui('ui.aufloesung.code_titel')),
-                const SizedBox(height: 4),
-                Text(s.fallCode.code, style: MPapierSchrift.maschine.copyWith(fontSize: 22, letterSpacing: 2.4)),
-                const SizedBox(height: 4),
-                Text(s.ui('ui.aufloesung.code_hinweis'), style: MPapierSchrift.leise),
-                const SizedBox(height: 20),
-              ],
-              const _Trennlinie(),
-              const SizedBox(height: 12),
-              Text(s.ui('ui.aufloesung.dank'), style: MPapierSchrift.hand.copyWith(fontSize: 22)),
-            ],
-          ),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Der Name des Endes als Seitentitel (wie im Rahmen), aber ohne Bruch im Wort.
+          MGanzwortText(ende.name, style: context.schrift.titel),
+          const SizedBox(height: MMass.s20),
+          Padding(padding: const EdgeInsets.only(top: 6, bottom: 14), child: mappe),
+        ],
       ),
     );
   }
@@ -167,7 +173,7 @@ class _Rolle extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(spieler, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
+                  MGanzwortText(spieler, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 20)),
                   if (figur != spieler) Text(sitzung.ui('ui.aufloesung.figur', {'name': figur}), style: MPapierSchrift.leise),
                 ],
               ),
@@ -204,7 +210,7 @@ class _Wert extends StatelessWidget {
           children: [
             _Feldname(titel),
             const SizedBox(height: 4),
-            Text(wert, style: MPapierSchrift.titel),
+            MGanzwortText(wert, style: MPapierSchrift.titel),
           ],
         ),
       );

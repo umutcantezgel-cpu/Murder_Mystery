@@ -91,7 +91,7 @@ class _PersonKopf extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(sitzung.figurName(person), style: MPapierSchrift.ueberschrift),
+              MGanzwortText(sitzung.figurName(person), style: MPapierSchrift.ueberschrift),
               if (titel.isNotEmpty) Text(titel, style: MPapierSchrift.leise),
               if (ziel.art == ZielArt.gegenstand) ...[
                 const SizedBox(height: 8),
@@ -163,7 +163,7 @@ class OrtZeile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(name, style: MPapierSchrift.ueberschrift),
+            MGanzwortText(name, style: MPapierSchrift.ueberschrift),
             if (unter != null) Text(unter!, style: MPapierSchrift.leise),
           ],
         ),

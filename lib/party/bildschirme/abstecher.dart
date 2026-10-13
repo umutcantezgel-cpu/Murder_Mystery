@@ -55,7 +55,7 @@ class _AbstecherBestaetigungState extends State<AbstecherBestaetigung> {
           const SizedBox(height: 4),
           Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: 10),
-          Text(widget.ort.name, style: MPapierSchrift.ueberschrift),
+          MGanzwortText(widget.ort.name, style: MPapierSchrift.ueberschrift),
           const SizedBox(height: 10),
           Text(KartenTexte.erkundenText, style: MPapierSchrift.text),
           const SizedBox(height: 8),
