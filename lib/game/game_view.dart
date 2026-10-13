@@ -63,6 +63,11 @@ class _GameViewState extends State<GameView> {
   double? _pinchStartDist;
   double _pinchStartZoom = 1;
 
+  // Tippen erkennen: kurzer Druck ohne nennenswerte Bewegung (auch in der Joystick-Zone).
+  final Map<int, DateTime> _downZeit = {};
+  final Map<int, double> _weiteste = {};
+  Offset? _joyStart;
+
   static const double _buttonSize = 88;
   static const double _buttonMargin = 24;
 
@@ -110,8 +115,11 @@ class _GameViewState extends State<GameView> {
   void _onDown(PointerDownEvent e, Size size) {
     if (!_focus.hasFocus) _focus.requestFocus();
     final p = e.localPosition;
+    _downZeit[e.pointer] = DateTime.now();
+    _weiteste[e.pointer] = 0;
     if (!_joy.active && _inJoystickZone(p, size)) {
       _joy.start(e.pointer, p);
+      _joyStart = p;
       return;
     }
     _touches[e.pointer] = p;
@@ -136,9 +144,14 @@ class _GameViewState extends State<GameView> {
 
   void _onMove(PointerMoveEvent e) {
     if (e.pointer == _joy.pointer) {
-      _joy.move(e.localPosition);
+      final s = _joyStart;
+      if (s != null) _weiteste[e.pointer] = math.max(_weiteste[e.pointer] ?? 0, (e.localPosition - s).distance);
+      // Der Joystick greift erst, wenn der Finger wirklich zieht; ein Tipp bleibt ein Tipp.
+      if ((_weiteste[e.pointer] ?? 0) > 12) _joy.move(e.localPosition);
       return;
     }
+    final start0 = _touchStart[e.pointer];
+    if (start0 != null) _weiteste[e.pointer] = math.max(_weiteste[e.pointer] ?? 0, (e.localPosition - start0).distance);
     if (!_touches.containsKey(e.pointer)) return;
     _touches[e.pointer] = e.localPosition;
     final start = _touchStart[e.pointer];
@@ -151,10 +164,25 @@ class _GameViewState extends State<GameView> {
     }
   }
 
-  void _onUp(int pointer) {
+  /// War der Druck [pointer] ein kurzer Tipp ohne Ziehen?
+  bool _warTipp(int pointer) {
+    final t = _downZeit.remove(pointer);
+    final weit = _weiteste.remove(pointer) ?? 0;
+    return t != null && weit <= 12 && DateTime.now().difference(t) < const Duration(milliseconds: 380) && _touches.length <= 1;
+  }
+
+  void _onUp(int pointer, [Offset? wo]) {
+    final tipp = _warTipp(pointer);
     if (pointer == _joy.pointer) {
       _joy.end();
+      final start = _joyStart;
+      _joyStart = null;
+      if (tipp && start != null) _game.tippen(wo ?? start);
       return;
+    }
+    if (tipp && wo != null && _pinchStartDist == null) {
+      _longPress?.cancel();
+      _game.tippen(wo);
     }
     _touches.remove(pointer);
     _touchStart.remove(pointer);
@@ -191,8 +219,12 @@ class _GameViewState extends State<GameView> {
               behavior: HitTestBehavior.opaque,
               onPointerDown: (e) => _onDown(e, size),
               onPointerMove: _onMove,
-              onPointerUp: (e) => _onUp(e.pointer),
-              onPointerCancel: (e) => _onUp(e.pointer),
+              onPointerUp: (e) => _onUp(e.pointer, e.localPosition),
+              onPointerCancel: (e) {
+                _downZeit.remove(e.pointer);
+                _weiteste.remove(e.pointer);
+                _onUp(e.pointer);
+              },
               onPointerSignal: _onSignal,
               child: CustomPaint(
                 painter: JoystickPainter(_joy, rest, _game.palette.accent),

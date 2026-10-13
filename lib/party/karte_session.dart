@@ -111,6 +111,13 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
   @override
   double get posenFortschritt => _aktion?.posenFortschritt ?? 0;
 
+  @override
+  Offset? get handlungsZiel {
+    final a = _aktion;
+    if (a == null || a.geht) return null;
+    return Offset(a.zielX, a.zielY);
+  }
+
   void _synchronisiereAktion() {
     final z = sitzung.zug;
     if (rueckblendeModus || z == null || z.phase != RundenZugPhase.aktion) {

@@ -226,6 +226,15 @@ class MordakteGame extends Game with KeyboardEvents {
   double _px = 0, _py = 0, _pf = math.pi / 4;
   bool _hasPos = false;
   double _walk = 0, _moveAmt = 0;
+
+  /// Szenenregie: 0 = freie Kamera, 1 = Zweier-Einstellung auf Detektiv und Handlungsziel.
+  double _regie = 0;
+
+  // Tippen-zum-Gehen: Wegpunkte (Welt), Ziel einer Handlung und die Zielmarke.
+  List<Offset>? _tippWeg;
+  String? _tippAktion;
+  Offset? _tippMarke;
+  double _tippMarkeT = 0;
   double _lastSendT = -1;
   double _sentX = double.nan, _sentY = double.nan, _sentF = double.nan;
   double _farTimer = 0;
@@ -265,6 +274,140 @@ class MordakteGame extends Game with KeyboardEvents {
       session.send(Interact(t.id));
     }
     _actionPulse = 1;
+  }
+
+  /// Tippen auf die Szene: auf eine Person oder einen Ort → hingehen und die
+  /// Handlung vorschlagen; auf den Boden → dorthin gehen. `false`, wenn nichts
+  /// erreichbar ist (oder die Eingabe gesperrt ist).
+  bool tippen(Offset local) {
+    final grid = _grid;
+    if (_scene == null || grid == null || !_hasPos || _fuehrung?.eingabeGesperrt == true) return false;
+    final ziel = _tippZiel(local);
+    final w = ziel?.$2 ?? screenToWorld(local);
+    final weg = _wegZu(grid, w, nah: ziel != null);
+    if (weg == null) return false;
+    _tippWeg = weg;
+    _tippAktion = ziel?.$1;
+    _tippMarke = ziel?.$2 ?? w;
+    _tippMarkeT = 0;
+    // Steht man schon da, gilt die Handlung sofort.
+    if (weg.isEmpty && ziel != null) _tippAnkunft();
+    return true;
+  }
+
+  /// Person oder Ort unter dem Finger (Bildschirmabstand), mit Weltposition.
+  (String, Offset)? _tippZiel(Offset local) {
+    final cv = session.caseView.value;
+    final s = session.scenario;
+    if (cv == null || s == null) return null;
+    Offset bild(double x, double y, [double z = 0]) => (Iso.toScreen(x, y, z) - _cam) * _zoom + Offset(size.x / 2, size.y * _camY);
+    (String, Offset)? best;
+    var bestD = double.infinity;
+    final ext = _ext;
+    for (final n in _world?.npcs ?? const <NpcView>[]) {
+      if (!n.alive || (ext != null && ext.npcAktion(n.id) == null)) continue;
+      final tr = _tracks['n:${n.id}'];
+      final nx = tr?.x ?? n.x, ny = tr?.y ?? n.y;
+      if (_nebelSicht(nx, ny) < 0.5) continue;
+      final fuss = bild(nx, ny);
+      final kopf = fuss.translate(0, -58 * _zoom);
+      // Abstand zur Strecke Fuß–Kopf.
+      final t = ((local.dy - kopf.dy) / (fuss.dy - kopf.dy)).clamp(0.0, 1.0);
+      final p = Offset.lerp(kopf, fuss, t)!;
+      final d = (local - p).distance;
+      if (d < 26 * _zoom + 10 && d < bestD) {
+        bestD = d;
+        best = (n.id, Offset(nx, ny));
+      }
+    }
+    for (final e in cv.hotspots.entries) {
+      final h = s.hotspotById[e.key];
+      if (h == null || e.value == HotspotState.searched) continue;
+      if (_nebelSicht(h.x + 0.5, h.y + 0.5) < 0.5) continue;
+      final d = (local - bild(h.x + 0.5, h.y + 0.5, 0.5)).distance;
+      if (d < 30 * _zoom + 10 && d + 6 < bestD) {
+        bestD = d + 6;
+        best = (h.id, Offset(h.x + 0.5, h.y + 0.5));
+      }
+    }
+    return best;
+  }
+
+  /// Weg (Wegpunkte in Weltkoordinaten) zum Punkt [w]; mit [nah] endet er in
+  /// Reichweite des Ziels statt darauf. Gerade Strecken werden zusammengefasst.
+  List<Offset>? _wegZu(TileGrid grid, Offset w, {required bool nah}) {
+    if (nah && dist(_px, _py, w.dx, w.dy) <= Tuning.interactRange * 0.9) return const [];
+    final start = Pt(_px.floor(), _py.floor());
+    Pt? ziel;
+    if (!nah && grid.canStand(w.dx, w.dy, Tuning.playerRadius)) {
+      ziel = Pt(w.dx.floor(), w.dy.floor());
+    } else {
+      // Nächste begehbare Kachel in Reichweite des Ziels.
+      var bestD = double.infinity;
+      for (var dy = -2; dy <= 2; dy++) {
+        for (var dx = -2; dx <= 2; dx++) {
+          final p = Pt(w.dx.floor() + dx, w.dy.floor() + dy);
+          if (!grid.canStand(p.x + 0.5, p.y + 0.5, Tuning.playerRadius)) continue;
+          final d = dist(p.x + 0.5, p.y + 0.5, w.dx, w.dy);
+          if (nah && d > Tuning.interactRange * 0.85) continue;
+          final kosten = d + dist(p.x + 0.5, p.y + 0.5, _px, _py) * 0.05;
+          if (kosten < bestD) {
+            bestD = kosten;
+            ziel = p;
+          }
+        }
+      }
+    }
+    if (ziel == null) return null;
+    final kacheln = grid.findPath(start, ziel);
+    if (kacheln == null) return null;
+    final punkte = [
+      for (final k in kacheln) Offset(k.x + 0.5, k.y + 0.5),
+      if (!nah && kacheln.isNotEmpty) w,
+    ];
+    // Abkürzen, wo die Sicht frei ist (keine Treppenstufen im Gang).
+    final glatt = <Offset>[];
+    var von = Offset(_px, _py);
+    var i = 0;
+    while (i < punkte.length) {
+      var j = punkte.length - 1;
+      while (j > i && !grid.lineOfSight(von.dx, von.dy, punkte[j].dx, punkte[j].dy)) {
+        j--;
+      }
+      glatt.add(punkte[j]);
+      von = punkte[j];
+      i = j + 1;
+    }
+    return glatt;
+  }
+
+  /// Eingabe aus dem Tippweg (Bildschirmrichtung) oder null.
+  Offset _tippEingabe() {
+    final weg = _tippWeg;
+    if (weg == null) return Offset.zero;
+    while (weg.isNotEmpty && dist(_px, _py, weg.first.dx, weg.first.dy) < 0.16) {
+      weg.removeAt(0);
+    }
+    if (weg.isEmpty) {
+      _tippAnkunft();
+      return Offset.zero;
+    }
+    final z = weg.first;
+    final d = Iso.worldDirToScreen(z.dx - _px, z.dy - _py);
+    final l = d.distance;
+    if (l < 1e-6) return Offset.zero;
+    // Auf den letzten Metern langsamer (Ankommen statt Aufprallen).
+    final rest = weg.length == 1 ? dist(_px, _py, z.dx, z.dy) : 9.0;
+    return d / l * (0.45 + 0.55 * (rest / 0.8).clamp(0.0, 1.0));
+  }
+
+  void _tippAnkunft() {
+    final aktion = _tippAktion;
+    _tippWeg = null;
+    _tippAktion = null;
+    if (aktion == null) return;
+    _updateTarget();
+    if (target.value?.id == aktion) triggerAction();
   }
 
   /// Bildschirmpunkt (lokal im Widget) → Welt-Kachelkoordinaten.
@@ -338,6 +481,7 @@ class MordakteGame extends Game with KeyboardEvents {
 
   @override
   void update(double dt) {
+    if (_tippMarke != null) _tippMarkeT += dt;
     // Nur gegen Hänger begrenzen (wie die Engine mit 250 ms). Die eigene Figur
     // läuft in Teilschritten ≤ 50 ms, damit sie auch bei < 20 fps volle
     // Geschwindigkeit hat und die Wandkollision pro Schritt greift.
@@ -494,6 +638,8 @@ class MordakteGame extends Game with KeyboardEvents {
     // Geführte Partyaktionen besitzen ihre Pose. Joystick, Vorhersage und
     // _sendPose dürfen den A*-Lauf weder überschreiben noch zurückmelden.
     if (_fuehrung?.eingabeGesperrt == true && me != null) {
+      _tippWeg = null;
+      _tippAktion = null;
       _walk += dist(_px, _py, me.x, me.y) * 7.5;
       _px = _sentX = me.x;
       _py = _sentY = me.y;
@@ -528,6 +674,13 @@ class MordakteGame extends Game with KeyboardEvents {
     }
     var input = stick;
     if (input.distance < 0.05) input = _keyboardDir();
+    if (input.distance >= 0.05) {
+      // Eigene Steuerung bricht einen Tippweg ab.
+      _tippWeg = null;
+      _tippAktion = null;
+    } else {
+      input = _tippEingabe();
+    }
     final mag = math.min(1.0, input.distance);
     final canMove = me != null && _canMovePhase && me.life != LifeState.downed && !me.hidden;
     var moved = 0.0;
@@ -654,6 +807,15 @@ class MordakteGame extends Game with KeyboardEvents {
     } else {
       _zoomBasis += (passend.zoom - _zoomBasis) * k;
     }
+    // Szenenregie: Beim Befragen oder Untersuchen fährt die Kamera langsam auf
+    // Detektiv und Ziel heran (Zweier-Einstellung), Kinobalken blenden ein.
+    final ziel = festeKamera == null && _hasPos ? _fuehrung?.handlungsZiel : null;
+    final zielRegie = ziel == null ? 0.0 : 1.0;
+    _regie = ruhig || !_camInit ? zielRegie : _regie + (zielRegie - _regie) * (1 - math.exp(-dt * 2.4));
+    if (_regie > 0.001) {
+      final regieZoom = math.min(base * 1.75, 2.6);
+      _zoomBasis += (regieZoom - _zoomBasis) * _regie * (ruhig ? 1 : (1 - math.exp(-dt * 3)));
+    }
     _zoom = _zoomBasis * user;
     Offset targetCam;
     if (festeKamera != null) {
@@ -668,6 +830,13 @@ class MordakteGame extends Game with KeyboardEvents {
       final m = _scene!.map;
       final sp = m.spawn.isNotEmpty ? m.spawn.first : Pt(m.width ~/ 2, m.height ~/ 2);
       targetCam = Iso.toScreen(sp.x + 0.5, sp.y + 0.5, 0.6);
+    }
+    if (ziel != null && _regie > 0.001) {
+      // Mitte zwischen Detektiv und Ziel, im freien Bildteil, etwas über Kopfhöhe.
+      final paar = (Iso.toScreen(_px, _py, 0.9) + Iso.toScreen(ziel.dx, ziel.dy, 0.9)) / 2;
+      final frei = _freierBereich();
+      final regieCam = paar - (frei.center - Offset(size.x / 2, size.y * _camY)) / _zoom;
+      targetCam = Offset.lerp(targetCam, regieCam, _regie)!;
     }
     if (!_camInit || ruhig) {
       _cam = targetCam;
@@ -1130,6 +1299,17 @@ class MordakteGame extends Game with KeyboardEvents {
     if (_flash > 0.01) {
       canvas.drawRect(vr, Paint()..color = withAlpha(const Color(0xFFE6EEFF), 0.22 * _flash));
     }
+
+    // 9) Kinobalken der Szenenregie: vom Bildrand bis in den freien Bildteil hinein,
+    // damit über und unter den Balken keine Karte durchscheint.
+    if (_regie > 0.01) {
+      final frei = _freierBereich();
+      final r = _regie.clamp(0.0, 1.0);
+      final h = frei.height * 0.085 * (1 - (1 - r) * (1 - r));
+      final balken = Paint()..color = withAlpha(const Color(0xFF050407), 0.94 * r);
+      canvas.drawRect(Rect.fromLTRB(0, 0, size.x, frei.top + h), balken);
+      canvas.drawRect(Rect.fromLTRB(0, frei.bottom - h, size.x, size.y), balken);
+    }
   }
 
   /// Silhouette der Karte (Kacheln samt Wandhöhe) in Welt-Bildkoordinaten, zeilenweise.
@@ -1377,6 +1557,32 @@ class MordakteGame extends Game with KeyboardEvents {
   void _renderGround(Canvas c, StaticScene scene, CaseView? cv, Rect cull) {
     final s = scene.scenario;
     final w = _world;
+    // Zielmarke des Tippwegs: zwei Ringe, die sich zusammenziehen und verblassen.
+    final marke = _tippMarke;
+    if (marke != null) {
+      final t = (_tippMarkeT / 0.9).clamp(0.0, 1.0);
+      if (t >= 1 && _tippWeg == null) {
+        _tippMarke = null;
+      } else {
+        final o = Iso.toScreen(marke.dx, marke.dy);
+        c.save();
+        c.translate(o.dx, o.dy);
+        Iso.applyGround(c);
+        final a = _tippWeg == null ? 1 - t : 0.75;
+        for (final k in [0.0, 0.5]) {
+          final p = ((_tippMarkeT * 1.4 + k) % 1.0);
+          c.drawCircle(
+            Offset.zero,
+            0.42 - 0.22 * p,
+            Paint()
+              ..color = withAlpha(_pal.accent, a * (0.25 + 0.6 * p))
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 0.035,
+          );
+        }
+        c.restore();
+      }
+    }
     // Opfer
     final vh = s.hotspotById[s.victim.hotspot];
     if (vh != null) {

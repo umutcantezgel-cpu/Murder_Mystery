@@ -6,11 +6,11 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 | M | Inhalt | Stand |
 |---|---|---|
 | M0 | Aufräumen + Werkbank | erledigt (siehe unten) |
-| M1 | Ermittlungsmappe: Fundament | in Arbeit |
-| M2 | Alle Bildschirme in Mappen | offen |
-| M3 | Figuren 2.0 | offen |
-| M4 | Welt ausbauen | offen |
-| M5 | Szenenregie | offen |
+| M1 | Ermittlungsmappe: Fundament | erledigt (Schriften, Tokens, Papier, Mappe, Stempel, Knopf, Dialog) |
+| M2 | Alle Bildschirme in Mappen | in Arbeit (Rollen, Erzähltext als Muster; fünf Lanes A–E laufen) |
+| M3 | Figuren 2.0 | Rig erledigt (`lib/game/scene/figur_rig.dart`); Porträts in der Oberfläche offen |
+| M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen); Kulisse, NPC-Leben, Teilchen offen |
+| M5 | Szenenregie | teilweise (Zweier-Einstellung, Kinobalken); Etablierungsschwenk, Leuchtzeichen offen |
 | M6 | Gespräche mit Wahl | offen |
 | M7 | Ton | offen |
 | M8 | Fortsetzen, Teilen, Store | offen |
@@ -26,4 +26,5 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 - **A-045 · Kostenlos, ohne Werbung, Käufe und Datenerhebung (2026-10-13).** Quelle: Besitzer.
 
 ## Prüfjournal (neueste zuerst)
+- 2026-10-13: M5 Zweier-Einstellung und Tippen-zum-Gehen. Analyse ohne Befund; `test/party_widgets`, `test/karten`, `test/session` 194/194 grün; Web-Build und Kontaktbogen `karte` angesehen.
 - 2026-10-13: `tool/pruefen.sh schnell` nach M0 grün (Analyse ohne Befund, alle Pakettests, Altlast-Wächter grün).

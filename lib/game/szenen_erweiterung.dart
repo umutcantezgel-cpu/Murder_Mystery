@@ -52,6 +52,11 @@ abstract interface class GefuehrteSzene {
   SzenenPose? get figurenPose;
   double get posenFortschritt;
 
+  /// Ziel der laufenden Handlung (befragte Person oder untersuchter Ort) in
+  /// Kachelkoordinaten. Die Kamera stellt dann Detektiv und Ziel als
+  /// Zweier-Einstellung ins Bild (Szenenregie). `null`: keine Handlung.
+  Offset? get handlungsZiel;
+
   /// Nur der tatsächlich laufende Renderer treibt Wege und Posen voran.
   /// Hintergrund-Timer dürfen keine Kartenaktion als gesehen quittieren.
   void szenenSchritt(double sekunden);
