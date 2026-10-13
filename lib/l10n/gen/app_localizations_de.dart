@@ -3125,4 +3125,10 @@ class LDe extends L {
 
   @override
   String get detektei_akte_zeitpunkt => 'Zeitpunkt';
+
+  @override
+  String get ton_an => 'Ton an';
+
+  @override
+  String get ton_aus => 'Ton aus';
 }

@@ -80,7 +80,12 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const MordakteWortmarke(),
+            Stack(
+              children: [
+                const MordakteWortmarke(),
+                Positioned(top: 0, right: 0, child: MTonSchalter(an: l.ton_an, aus: l.ton_aus)),
+              ],
+            ),
             const SizedBox(height: MMass.s24),
             LayoutBuilder(
               builder: (context, box) {

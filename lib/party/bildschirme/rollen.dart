@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../../klang/klang.dart';
 import '../../stil/stil.dart';
 import '../druck_tafel.dart';
 import '../party_stil.dart';
@@ -55,6 +56,7 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
 
   /// Die Karte zeigen; ab jetzt sieht nur diese Person das Dossier.
   void _zeigen(String rolle) {
+    Klang.instanz.spiele('siegel');
     setState(() => _vorbereitet = null);
     s.zeigeVerdeckt(rolle);
   }

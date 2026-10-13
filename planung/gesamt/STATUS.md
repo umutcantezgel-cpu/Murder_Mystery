@@ -12,7 +12,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 | M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte, NPC-Tätigkeiten, Trägheit, Trittwölkchen, Lichtstaub, schwingende Türen) |
 | M5 | Szenenregie | teilweise (Zweier-Einstellung, Kinobalken, Etablierungsschwenk); Leuchtzeichen statt Steuertext offen (Lane D) |
 | M6 | Gespräche mit Wahl | offen |
-| M7 | Ton | teilweise: Klangpaket `packages/mordakte_klang` (26 Klänge, 5 Atmosphären, per Code), Tondienst `lib/klang` (flutter_soloud), Knöpfe, Stempel, Schreibmaschine, Karteikarte, Schritte, Türen, Donner, Atmosphäre je Akte; Einstellungen in der Oberfläche und Würfel/Siegel nach dem M2-Zusammenführen |
+| M7 | Ton | teilweise: Klangpaket `packages/mordakte_klang` (26 Klänge, 5 Atmosphären, per Code), Tondienst `lib/klang` (flutter_soloud), Knöpfe, Stempel, Schreibmaschine, Karteikarte, Schritte, Türen, Donner, Atmosphäre je Akte; Tonschalter auf dem Schreibtisch (`MTonSchalter`), Würfel- und Siegelklang; Lautstärke-Regler offen |
 | M8 | Fortsetzen, Teilen, Store | offen |
 
 ## Entscheidungen

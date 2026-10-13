@@ -25,3 +25,4 @@ export 'widgets/m_portrait.dart';
 export 'widgets/m_rahmen.dart';
 export 'widgets/m_tafel.dart';
 export 'widgets/roll_flaeche.dart';
+export 'widgets/m_ton_schalter.dart';

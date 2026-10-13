@@ -5,6 +5,7 @@ import 'package:mordakte_core/runden.dart';
 
 import '../../karten/widgets/karten_ansicht.dart';
 import '../../karten/widgets/karten_hand.dart';
+import '../../klang/klang.dart';
 import '../../l10n/lookup.dart';
 import '../../stil/mappe/abend2_bausteine.dart';
 import '../../stil/stil.dart';
@@ -92,7 +93,14 @@ class _WuerfelTafelState extends State<WuerfelTafel> {
           Text(z.istAbstecher ? KartenTexte.erkundenWuerfel : s.ui(z.istAuftakt ? 'ui.zug.auftakt_folge' : 'ui.zug.pech_folge'), style: t.leise),
           const SizedBox(height: 16),
           if (darf)
-            MKnopf(text: s.ui('ui.zug.werfen'), gross: true, onPressed: () => s.wuerfeln(marke: _marke && markeMoeglich, karte: _karte))
+            MKnopf(
+              text: s.ui('ui.zug.werfen'),
+              gross: true,
+              onPressed: () {
+                Klang.instanz.spiele('wuerfel');
+                s.wuerfeln(marke: _marke && markeMoeglich, karte: _karte);
+              },
+            )
           else
             Text(L.of(context).online_wuerfelt(s.wuerfelPate), key: const ValueKey('wuerfelt-gerade'), style: t.ueberschrift),
         ],

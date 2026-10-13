@@ -5408,6 +5408,18 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Zeitpunkt'**
   String get detektei_akte_zeitpunkt;
+
+  /// Tonschalter: Zustand an (Bildschirmleser, Tooltip)
+  ///
+  /// In de, this message translates to:
+  /// **'Ton an'**
+  String get ton_an;
+
+  /// Tonschalter: Zustand aus (Bildschirmleser, Tooltip)
+  ///
+  /// In de, this message translates to:
+  /// **'Ton aus'**
+  String get ton_aus;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
