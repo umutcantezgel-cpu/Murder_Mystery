@@ -54,7 +54,7 @@ class _PartySeiteState extends State<PartySeite> {
         if (dev.skript != null) {
           PartySkript(s, dev).starten();
         } else if (dev.bis != null) {
-          PartySkript.vorspielen(s, dev, dev.bis!);
+          PartySkript.vorspielenMitGespraech(s, dev, dev.bis!);
           debugPrint('PARTY foto=${dev.bis!.name}');
         } else if (dev.rollen != null) {
           s.einrichten(rollen: dev.rollen!, detektiv: dev.detektiv, code: dev.fallCode(d.kanon));

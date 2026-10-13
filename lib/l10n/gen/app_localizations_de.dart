@@ -3131,4 +3131,50 @@ class LDe extends L {
 
   @override
   String get ton_aus => 'Ton aus';
+
+  @override
+  String get gespraech_ansprechen => 'Ansprechen';
+
+  @override
+  String get gespraech_marke => 'Vernehmung am Rande';
+
+  @override
+  String get gespraech_beenden => 'Gespräch beenden';
+
+  @override
+  String get gespraech_ich => 'Ich';
+
+  @override
+  String get gespraech_haltung_freundlich => 'Freundlich';
+
+  @override
+  String get gespraech_haltung_draengen => 'Drängen';
+
+  @override
+  String get gespraech_haltung_bluffen => 'Bluffen';
+
+  @override
+  String get gespraech_haltung_vorlegen => 'Vorlegen';
+
+  @override
+  String get nachspiel_titel => 'Nachspiel';
+
+  @override
+  String get nachspiel_hinweis => 'Was aus den Zeugen wurde';
+
+  @override
+  String get erzaehltiefe_titel => 'Gespräche mit Zeugen';
+
+  @override
+  String get erzaehltiefe_aus => 'Keine';
+
+  @override
+  String get erzaehltiefe_kurz => 'Kurz';
+
+  @override
+  String get erzaehltiefe_voll => 'Ausführlich';
+
+  @override
+  String get erzaehltiefe_hinweis =>
+      'Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.';
 }

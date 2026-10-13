@@ -79,6 +79,16 @@ class SzenenGlanzPunkt {
 
 enum SzenenPose { gehen, suchen, befragen }
 
+/// Optional: Geste der befragten Figur in einem Gespräch mit Wahl. Die Figur
+/// unterbricht ihre Tätigkeit und spielt die aktuelle Zeile: Arme verschränkt
+/// bei Abwehr, der Blick wandert beim Nachdenken.
+abstract interface class SzenenGespraech {
+  /// Renderer-Kennung der Figur und Geste der aktuellen Zeile, sonst `null`.
+  ({String npc, SzenenGeste geste})? get gespraechsGeste;
+}
+
+enum SzenenGeste { zuhoeren, abwehr, nachdenken }
+
 /// Ein Lichtpunkt der Szene in Kachelkoordinaten.
 class SzenenLichtpunkt {
   final double x, y, z;

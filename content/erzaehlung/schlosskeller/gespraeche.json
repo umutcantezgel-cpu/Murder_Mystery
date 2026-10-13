@@ -1,0 +1,1084 @@
+{
+  "format": "erzaehlung/1",
+  "akte": "schlosskeller",
+  "hinweis": "Randgespräche mit unbesetzten Zeugen. Sie geben nur preis, was die Figur in Pflichtgesprächen allen sagt (pfade: alle). Nie Würfel, nie Zeit, nie Wertung (ERZAEHLREGELN.md). Angeredet wird wie im ganzen Fall mit du.",
+  "gespraeche": [
+    {
+      "id": "marek_erstes",
+      "figur": "murat",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Marek zählt die Warmhaltebehälter durch, schon zum dritten Mal. „Alles noch warm, keine Sorge. Hast du Hunger, oder willst du was anderes von mir?“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Das Essen ist richtig gut. Hast du das alles selbst gekocht?",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wo warst du, als das Licht ausging?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Jemand hat gesehen, wie du dich im Dunkeln hinter die Theke geschlichen hast.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "Er grinst. „Meine Schwester und ich, ja. Kleiner Betrieb, große Töpfe.“ Der Autoschlüssel kreist um seinen Finger.",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann sag deiner Schwester, das Gebäck ist schon fast weg.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du beim Knall?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Im Durchgang, bei den Getränkekisten. Ich wollte eine Kiste Saft holen. Und dann war es plötzlich stockdunkel.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Im Dunkeln im Durchgang? Da hast du doch bestimmt was mitbekommen.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Saft holen, genau in dem Moment? Das klingt ziemlich praktisch.",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich zeig dir, was ich heute Nacht gefunden habe. Hilft dir das beim Erinnern?",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "Marek lacht kurz, aber es klingt nicht froh. „Hinter die Theke? Ich war froh, dass ich meine eigenen Füße wiedergefunden hab.“",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut, das war nur ein Versuch. Ich muss alle fragen.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann sag mir genau, wo du warst.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Marek senkt die Stimme. „Im Dunkeln ist ein leuchtendes Gespenstergesicht an mir vorbeigerannt. Durch den Durchgang, Richtung Kaminsaal. Fast hätte ich die Saftkiste fallen lassen.“",
+          "preisgabe": [
+            "beobachtung:b_marek_gesicht"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "marek_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Frag die anderen. Ich hatte die Hände voller Kisten.“ Er wendet sich wieder seinen Warmhaltebehältern zu.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Weißt du was? Iss was und lass mich arbeiten.“ Marek dreht dir den Rücken zu. Für heute ist er fertig mit Fragen.",
+          "geste": "abwehr",
+          "setzt": [
+            "marek_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "marek_nachtrag",
+      "figur": "murat",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "marek_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Marek winkt dich zum Buffet. „Hey, Geburtstagskind. Ich hab dir was zurückgelegt, bevor die anderen alles wegfuttern.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Das ist lieb von dir. Was ist es denn?",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Später. Ist dir noch was zu dem Gesicht eingefallen?",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "Er stellt dir einen kleinen Teller mit Gebäck hin. „Für nachher, wenn alles vorbei ist. Und wenn du Hilfe brauchst: Kisten schleppen kann ich.“",
+          "geste": "nicken",
+          "setzt": [
+            "marek_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Nur das, was ich dir schon gesagt hab. Leuchtend, schnell, Richtung Kaminsaal.“ Er zuckt mit den Schultern.",
+          "preisgabe": [
+            "beobachtung:b_marek_gesicht"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "marek_versoehnung",
+      "figur": "murat",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "marek_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Marek poliert einen Deckel, der längst glänzt, und schaut nicht auf.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Tut mir leid wegen vorhin. Das war nicht fair von mir.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Du schuldest mir noch eine Antwort.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Er seufzt und grinst dann doch. „Schon okay. Ist eine komische Nacht für alle. Nimm dir ein Brot, das hilft.“",
+          "geste": "nicken",
+          "setzt": [
+            "marek_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Ich schulde hier keinem was, außer dem Buffet.“ Der Deckel klappert auf den Behälter.",
+          "geste": "abwehr"
+        }
+      }
+    },
+    {
+      "id": "hana_erstes",
+      "figur": "meryem",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Hana stochert mit dem Schürhaken in der Glut und pustet sich eine Strähne aus der Stirn. „Der Kamin zieht endlich. Was gibt's?“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Du hast das Feuer gut im Griff. Wo hast du das gelernt?",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Was hast du beim Knall mitbekommen?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Jemand sagt, du warst kurz vor dem Knall an der Theke.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "„Ich bin Försterin. Holz kenne ich, Kaminzüge eher nicht.“ Sie lacht ein bisschen. „Aber ich lerne schnell.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann ist der Kamin bei dir in guten Händen.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du, als es dunkel wurde?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Hier am Kamin. Ich hab mich um das Feuer gekümmert, sonst nichts.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Vom Kamin aus hat man den ganzen Saal im Blick. Ist dir was aufgefallen?",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Nur am Feuer, die ganze Zeit? Ganz sicher?",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich hab heute Nacht etwas gefunden. Schau mal, sagt dir das was?",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "Der Schürhaken klirrt gegen das Gitter. „An der Theke? Ich hab mich doch keinen Schritt vom Feuer weggerührt.“",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut. Ich frage alle, auch die, die ich mag.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann erklär mir, warum du so nervös bist.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Hana wird ernst. „Kurz nach dem Scheppern roch ich frisch erloschenes Kerzenwachs. Der Geruch kam mit dem Luftzug aus Richtung Theke. So was riecht man, wenn man mit Feuer zu tun hat.“",
+          "preisgabe": [
+            "beobachtung:b_hana_wachs"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "hana_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Mehr weiß ich nicht. Frag die Leute an der Theke.“ Sie wendet sich wieder der Glut zu.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Ich hab genug gesagt.“ Hana dreht sich zum Kamin. Für heute redet sie nicht mehr mit dir.",
+          "geste": "abwehr",
+          "setzt": [
+            "hana_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "hana_nachtrag",
+      "figur": "meryem",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "hana_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Hana winkt dich mit dem Schürhaken heran. „Gut, dass du kommst. Mir ist noch was eingefallen, hier am Kamin.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Ich hör dir zu. Lass dir Zeit.",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Schnell, die Nacht ist kurz.",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "„Kurz nach zwölf hat Ahmet etwas Raschelndes in den Ascheneimer neben dem Kamin geworfen. Ich hab mir erst nichts dabei gedacht.“",
+          "preisgabe": [
+            "beobachtung:b_hana_umschlag"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "hana_freund"
+          ]
+        },
+        "kurz": {
+          "text": "Sie zögert. „Kurz nach zwölf hat Ahmet was in den Ascheneimer geworfen. Es hat geraschelt. Mehr weiß ich nicht.“",
+          "preisgabe": [
+            "beobachtung:b_hana_umschlag"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "hana_versoehnung",
+      "figur": "meryem",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "hana_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Hana fegt vor dem Kamin und tut so, als hätte sie dich nicht gesehen.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Ich war vorhin zu hart zu dir. Entschuldige.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wir sind noch nicht fertig, Hana.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Sie lehnt den Besen an die Wand. „Schon gut. Ist eine lange Nacht. Komm, wärm dir die Hände.“",
+          "geste": "nicken",
+          "setzt": [
+            "hana_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Doch, sind wir.“ Sie fegt weiter, noch ein bisschen gründlicher.",
+          "geste": "abwehr"
+        }
+      }
+    },
+    {
+      "id": "serkan_erstes",
+      "figur": "serkan",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Serkan hakt etwas auf seinem Klemmbrett ab und leuchtet kurz mit der Taschenlampe in deine Richtung. „Ah, du. Brauchst du nachher eine Fahrt nach Hause?“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Später gern. Du kümmerst dich heute echt um alle.",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wo warst du, als das Licht ausging?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Man erzählt sich, du hättest heute Nacht jemanden durchs Tor rausgelassen.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "„Gewohnheit. Ich bin Rettungssanitäter. Ich will einfach, dass alle heil nach Hause kommen.“ Er tippt auf die Liste. „Jeder steht hier drauf.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann bin ich froh, dass du da bist.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und wo warst du beim Knall?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "„Im Windfang, beim Außentor. Ich wollte Decken aus dem Auto holen, für die Heimfahrt.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Von dort hast du sicher gesehen, wer kam und wer ging.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Ausgerechnet beim Knall warst du draußen? Wie praktisch.",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich hab heute Nacht etwas gefunden. Leuchte mal drauf, sagt dir das was?",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "Der Lichtkegel zuckt zur Seite. „Rausgelassen? Ich bin Fahrer, kein Türsteher.“",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Schon gut, ich musste das fragen.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann sag mir, wo du genau warst.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Serkan leuchtet zum Tor. „Von kurz vor zwölf bis nach zwölf stand ich am Außentor. Es war abgeschlossen, ich hab sogar dran gerüttelt. Niemand ist hinaus, das kann ich dir versprechen.“",
+          "preisgabe": [
+            "beobachtung:b_serkan_tor"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "serkan_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Frag drinnen nach. Ich hab mit meiner Liste genug zu tun.“ Er hakt die nächste Zeile ab.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„So redet man nicht mit seinem Fahrer.“ Serkan knipst die Taschenlampe aus. Für heute ist das Gespräch vorbei.",
+          "geste": "abwehr",
+          "setzt": [
+            "serkan_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "serkan_nachtrag",
+      "figur": "serkan",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "serkan_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Serkan winkt mit der Taschenlampe. „Du schon wieder. Gut. Ich hab dich auf die Liste gesetzt.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Auf welche Liste denn?",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Keine Zeit für Listen. Ist dir noch was eingefallen?",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "Er grinst und dreht das Klemmbrett um. Ganz oben steht dein Name, doppelt unterstrichen. „Erste Fahrt, vorne sitzen, Heizung an. Das Geburtstagskind wartet nicht.“",
+          "geste": "nicken",
+          "setzt": [
+            "serkan_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Nein. Das Tor war zu, niemand ist raus. Mehr hab ich nicht.“",
+          "preisgabe": [
+            "beobachtung:b_serkan_tor"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "serkan_versoehnung",
+      "figur": "serkan",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "serkan_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Serkan studiert sein Klemmbrett, als stünde dort etwas sehr Spannendes.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Vorhin war ich unfair. Tut mir leid, Serkan.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Wir sind noch nicht fertig.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Er schnaubt, dann lacht er. „Schon gut. Ich hätte auch schlechte Laune, wenn ich an meinem Geburtstag ermitteln müsste.“",
+          "geste": "nicken",
+          "setzt": [
+            "serkan_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Doch, sind wir.“ Er hakt eine Zeile ab, sehr gründlich.",
+          "geste": "abwehr"
+        }
+      }
+    },
+    {
+      "id": "damir_erstes",
+      "figur": "enes",
+      "abRunde": 1,
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Damir poliert ein schmales Teeglas mit einem weißen Tuch. „Tee? Du siehst aus, als bräuchtest du einen. Schwarz, mit viel Zucker.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Sehr gern. Du machst den besten Tee des Abends.",
+              "vertrauen": 1,
+              "ziel": "warm"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Später. Was hast du kurz vor dem Knall gesehen?",
+              "druck": 1,
+              "ziel": "alibi"
+            },
+            {
+              "haltung": "bluffen",
+              "text": "Jemand hat erzählt, du warst beim Knall gar nicht an deinem Teekocher.",
+              "vertrauen": -1,
+              "druck": 1,
+              "ziel": "abwehr"
+            }
+          ]
+        },
+        "warm": {
+          "text": "Er schenkt dir ein und schiebt das Glas auf der Untertasse herüber. „Ich bin Erzieher. Bei mir kriegt jeder Tee, ob er will oder nicht.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Dann trink ich ihn gern. Danke, Damir.",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 2
+                  }
+                },
+                {
+                  "knoten": "alibi"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Und was hast du kurz vor dem Knall gesehen?",
+              "druck": 1,
+              "ziel": "alibi"
+            }
+          ]
+        },
+        "alibi": {
+          "text": "Damir stellt die Kanne ab. „An der Theke war viel los. Alle wollten noch schnell was, bevor es Torte gibt.“",
+          "geste": "nachdenken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Du hattest von hier den besten Blick. Wer stand denn da?",
+              "vertrauen": 1,
+              "ziel": [
+                {
+                  "knoten": "vertraut",
+                  "wenn": {
+                    "vertrauenAb": 1
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "draengen",
+              "text": "Viel los sagt mir gar nichts. Wer genau?",
+              "druck": 1,
+              "ziel": [
+                {
+                  "knoten": "verstimmt",
+                  "wenn": {
+                    "druckAb": 2
+                  }
+                },
+                {
+                  "knoten": "neutral"
+                }
+              ]
+            },
+            {
+              "haltung": "vorlegen",
+              "text": "Ich hab heute Nacht etwas gefunden. Schau mal, kennst du das?",
+              "vertrauen": 1,
+              "ziel": "vertraut"
+            }
+          ]
+        },
+        "abwehr": {
+          "text": "Das Tuch bleibt mitten im Glas stehen. „Nicht an meinem Teekocher? Wo soll ich denn sonst gewesen sein?“",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Entschuldige. Das war nur ein Bluff.",
+              "vertrauen": 1,
+              "ziel": "neutral"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Dann beweis es mir.",
+              "druck": 1,
+              "ziel": "verstimmt"
+            }
+          ]
+        },
+        "vertraut": {
+          "text": "Damir beugt sich über die Theke und spricht leise. „Um 23:57 standen Ahmet, Fatma und Olli hier an der Theke. Herr Schneider stand am Ostende. Can war nicht zu sehen. Ich hab gerade nachgeschenkt, da sieht man alle.“",
+          "preisgabe": [
+            "beobachtung:b_damir_an_der_theke"
+          ],
+          "geste": "nicken",
+          "setzt": [
+            "damir_vertraut"
+          ]
+        },
+        "neutral": {
+          "text": "„Frag die, die an der Theke standen. Ich hab nur Tee eingeschenkt.“ Er poliert das nächste Glas.",
+          "geste": "nachdenken"
+        },
+        "verstimmt": {
+          "text": "„Dein Tee wird kalt, und ich hab zu tun.“ Damir wendet sich ab. Für heute ist das Gespräch vorbei.",
+          "geste": "abwehr",
+          "setzt": [
+            "damir_verstimmt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "damir_nachtrag",
+      "figur": "enes",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "damir_vertraut"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Damir hält schon ein frisches Glas bereit, als du kommst. „Ich hab dir einen neuen eingeschenkt. Der von vorhin war bestimmt kalt.“",
+          "geste": "nicken",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Du denkst echt an alles.",
+              "vertrauen": 1,
+              "ziel": "freund"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Danke, aber ist dir noch was eingefallen?",
+              "druck": 1,
+              "ziel": "kurz"
+            }
+          ]
+        },
+        "freund": {
+          "text": "Er lächelt. „Wenn diese Nacht vorbei ist, trinken wir alle zusammen Tee. Und das Geburtstagskind kriegt das erste Glas.“",
+          "geste": "nicken",
+          "setzt": [
+            "damir_freund"
+          ]
+        },
+        "kurz": {
+          "text": "„Nur das, was ich gesagt hab. Ahmet, Fatma und Olli an der Theke, Can war nicht zu sehen.“",
+          "preisgabe": [
+            "beobachtung:b_damir_an_der_theke"
+          ],
+          "geste": "nachdenken"
+        }
+      }
+    },
+    {
+      "id": "damir_versoehnung",
+      "figur": "enes",
+      "abRunde": 2,
+      "brauchtFlags": [
+        "damir_verstimmt"
+      ],
+      "start": "a",
+      "knoten": {
+        "a": {
+          "text": "Damir poliert ein Glas, das längst sauber ist, und schaut nicht auf.",
+          "geste": "abwehr",
+          "wahlen": [
+            {
+              "haltung": "freundlich",
+              "text": "Es tut mir leid wegen vorhin. Ich war zu grob.",
+              "vertrauen": 2,
+              "ziel": "versoehnt"
+            },
+            {
+              "haltung": "draengen",
+              "text": "Ich brauche noch eine Antwort von dir.",
+              "druck": 1,
+              "ziel": "kalt"
+            }
+          ]
+        },
+        "versoehnt": {
+          "text": "Er stellt dir wortlos ein Glas Tee hin. Dann nickt er. „Schon gut. Trink, bevor er kalt wird.“",
+          "geste": "nicken",
+          "setzt": [
+            "damir_versoehnt"
+          ]
+        },
+        "kalt": {
+          "text": "„Und ich brauche Ruhe.“ Das Tuch quietscht über das Glas.",
+          "geste": "abwehr"
+        }
+      }
+    }
+  ],
+  "epiloge": [
+    {
+      "id": "marek_freund_richtig",
+      "figur": "murat",
+      "flags": [
+        "marek_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Zu deinem nächsten Geburtstag liefert Marek das Buffet. Auf dem Zettel am Gebäck steht: „Für die beste Ermittlung des Jahres.“"
+    },
+    {
+      "id": "marek_freund",
+      "figur": "murat",
+      "flags": [
+        "marek_freund"
+      ],
+      "text": "Eine Woche später steht eine Kiste Gebäck vor deiner Tür. Auf dem Zettel steht nur: „Für nachher. Marek.“"
+    },
+    {
+      "id": "marek_vertraut",
+      "figur": "murat",
+      "flags": [
+        "marek_vertraut"
+      ],
+      "text": "Beim Abschied klopft Marek dir auf die Schulter und drückt dir noch ein Brot in die Hand."
+    },
+    {
+      "id": "marek_versoehnt",
+      "figur": "murat",
+      "flags": [
+        "marek_versoehnt"
+      ],
+      "text": "Marek winkt dir zum Abschied mit dem Autoschlüssel zu. Der Streit von vorhin ist vergessen."
+    },
+    {
+      "id": "marek_verstimmt",
+      "figur": "murat",
+      "flags": [
+        "marek_verstimmt"
+      ],
+      "text": "Marek packt seine Warmhaltebehälter ein, ohne dich noch einmal anzusehen."
+    },
+    {
+      "id": "hana_freund_richtig",
+      "figur": "meryem",
+      "flags": [
+        "hana_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Im Frühling führt Hana dich durch ihren Wald. An jeder zweiten Lichtung erzählt sie, wie du den Fall gelöst hast."
+    },
+    {
+      "id": "hana_freund",
+      "figur": "meryem",
+      "flags": [
+        "hana_freund"
+      ],
+      "text": "Hana schickt dir ein Stück Holz aus ihrem Wald, glatt geschliffen. Darauf steht dein Name."
+    },
+    {
+      "id": "hana_vertraut",
+      "figur": "meryem",
+      "flags": [
+        "hana_vertraut"
+      ],
+      "text": "Hana gibt dir zum Abschied die Hand. Sie ist noch ein bisschen rußig, aber schön warm."
+    },
+    {
+      "id": "hana_versoehnt",
+      "figur": "meryem",
+      "flags": [
+        "hana_versoehnt"
+      ],
+      "text": "Hana winkt dir mit dem Schürhaken zu, halb entschuldigend, halb lachend."
+    },
+    {
+      "id": "hana_verstimmt",
+      "figur": "meryem",
+      "flags": [
+        "hana_verstimmt"
+      ],
+      "text": "Hana fegt vor dem Kamin zusammen und geht, ohne sich zu verabschieden."
+    },
+    {
+      "id": "serkan_freund_richtig",
+      "figur": "serkan",
+      "flags": [
+        "serkan_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Serkan fährt dich als Erstes nach Hause, Heizung an, Radio leise. Vor deiner Tür sagt er: „Gut gemacht, Geburtstagskind.“"
+    },
+    {
+      "id": "serkan_freund",
+      "figur": "serkan",
+      "flags": [
+        "serkan_freund"
+      ],
+      "text": "Serkan fährt dich als Erstes nach Hause. Vorne sitzen, Heizung an, genau wie versprochen."
+    },
+    {
+      "id": "serkan_vertraut",
+      "figur": "serkan",
+      "flags": [
+        "serkan_vertraut"
+      ],
+      "text": "Serkan leuchtet dir mit der Taschenlampe den Weg zum Auto, Stufe für Stufe."
+    },
+    {
+      "id": "serkan_versoehnt",
+      "figur": "serkan",
+      "flags": [
+        "serkan_versoehnt"
+      ],
+      "text": "Serkan hält dir die Autotür auf und grinst. „Alles wieder gut?“"
+    },
+    {
+      "id": "serkan_verstimmt",
+      "figur": "serkan",
+      "flags": [
+        "serkan_verstimmt"
+      ],
+      "text": "Serkan fährt dich nach Hause, aber er sagt die ganze Fahrt über kein Wort."
+    },
+    {
+      "id": "damir_freund_richtig",
+      "figur": "enes",
+      "flags": [
+        "damir_freund"
+      ],
+      "ergebnis": "richtig",
+      "text": "Eine Woche später lädt Damir alle zum Tee ein. Das erste Glas bekommt das Geburtstagskind, genau wie versprochen."
+    },
+    {
+      "id": "damir_freund",
+      "figur": "enes",
+      "flags": [
+        "damir_freund"
+      ],
+      "text": "Damir schenkt dir zum Abschied ein schmales Teeglas mit Untertasse. „Damit du an mich denkst.“"
+    },
+    {
+      "id": "damir_vertraut",
+      "figur": "enes",
+      "flags": [
+        "damir_vertraut"
+      ],
+      "text": "Damir drückt dir zum Abschied noch ein Glas Tee in die Hand, für den Heimweg."
+    },
+    {
+      "id": "damir_versoehnt",
+      "figur": "enes",
+      "flags": [
+        "damir_versoehnt"
+      ],
+      "text": "Damir nickt dir zum Abschied zu und poliert dabei schon wieder ein Glas."
+    },
+    {
+      "id": "damir_verstimmt",
+      "figur": "enes",
+      "flags": [
+        "damir_verstimmt"
+      ],
+      "text": "Damir räumt die Teegläser weg, bevor du dir noch eins nehmen kannst."
+    }
+  ]
+}

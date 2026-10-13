@@ -18,7 +18,11 @@ class PartyDaten {
   /// Kanon-Person je Renderer-Kennung.
   final Map<String, String> kanonKennung;
 
-  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung)
+  /// Gespräche mit Wahl und Nachspiel (`content/erzaehlung/<fall>/`); `null`
+  /// bei Akten ohne Gespräche.
+  final Erzaehlung? erzaehlung;
+
+  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung)
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
 
   /// Aus einem synchronen Leser (Tests) und der Szenario-Vorlage. Für Akten
@@ -30,6 +34,7 @@ class PartyDaten {
     String fall = 'schlosskeller',
     KanonLeser? basis,
     Map<String, Object?>? welt,
+    Map<String, Object?>? erzaehlung,
   }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
@@ -37,7 +42,15 @@ class PartyDaten {
     final texte = Texte(kanon, sammlung);
     final karte = PartyKarte(kanon);
     final szenario = ScenarioDef.fromJson(partySzenarioJson(kanon, vorlage, id: 'party_$fall', welt: welt));
-    return PartyDaten._(fall, kanon, texte, karte, szenario, partyNpcKennungen(kanon, vorlage));
+    return PartyDaten._(
+      fall,
+      kanon,
+      texte,
+      karte,
+      szenario,
+      partyNpcKennungen(kanon, vorlage),
+      erzaehlung == null ? null : Erzaehlung.ausJson(erzaehlung),
+    );
   }
 
   /// Lädt alle Dateien einer Akte aus den Assets (`content/party/<fall>/`).
@@ -53,7 +66,13 @@ class PartyDaten {
     } catch (_) {
       welt = null;
     }
-    return PartyDaten.aus(eigen.lies, vorlage, fall: fall, basis: basis?.lies, welt: welt);
+    // Gespräche mit Wahl (M6) nur für Akten aus dem Verzeichnis; alle anderen
+    // spielen wie bisher.
+    final verzeichnis = jsonDecode(await bundle.loadString('content/erzaehlung/index.json')) as Map<String, Object?>;
+    final erzaehlung = (verzeichnis['akten'] as List).contains(fall)
+        ? jsonDecode(await bundle.loadString('content/erzaehlung/$fall/gespraeche.json')) as Map<String, Object?>
+        : null;
+    return PartyDaten.aus(eigen.lies, vorlage, fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

@@ -1884,5 +1884,65 @@
   "ton_aus": "Ton aus",
   "@ton_aus": {
     "description": "Tonschalter: Zustand aus (Bildschirmleser, Tooltip)"
+  },
+  "gespraech_ansprechen": "Ansprechen",
+  "@gespraech_ansprechen": {
+    "description": "Karte: Aktion an einem Zeugen für ein Randgespräch"
+  },
+  "gespraech_marke": "Vernehmung am Rande",
+  "@gespraech_marke": {
+    "description": "Kopf des Gesprächsprotokolls"
+  },
+  "gespraech_beenden": "Gespräch beenden",
+  "@gespraech_beenden": {
+    "description": "Knopf am Ende eines Randgesprächs"
+  },
+  "gespraech_ich": "Ich",
+  "@gespraech_ich": {
+    "description": "Kennzeichnung der eigenen Sätze im Protokoll (passt zu du und Sie)"
+  },
+  "gespraech_haltung_freundlich": "Freundlich",
+  "@gespraech_haltung_freundlich": {
+    "description": "Gesprächshaltung"
+  },
+  "gespraech_haltung_draengen": "Drängen",
+  "@gespraech_haltung_draengen": {
+    "description": "Gesprächshaltung"
+  },
+  "gespraech_haltung_bluffen": "Bluffen",
+  "@gespraech_haltung_bluffen": {
+    "description": "Gesprächshaltung"
+  },
+  "gespraech_haltung_vorlegen": "Vorlegen",
+  "@gespraech_haltung_vorlegen": {
+    "description": "Gesprächshaltung: einen Fund vorlegen"
+  },
+  "nachspiel_titel": "Nachspiel",
+  "@nachspiel_titel": {
+    "description": "Überschrift der Epiloge nach der Auflösung"
+  },
+  "nachspiel_hinweis": "Was aus den Zeugen wurde",
+  "@nachspiel_hinweis": {
+    "description": "Unterzeile des Nachspiels"
+  },
+  "erzaehltiefe_titel": "Gespräche mit Zeugen",
+  "@erzaehltiefe_titel": {
+    "description": "Einrichtung: Abschnitt Erzähltiefe"
+  },
+  "erzaehltiefe_aus": "Keine",
+  "@erzaehltiefe_aus": {
+    "description": "Erzähltiefe: keine Randgespräche"
+  },
+  "erzaehltiefe_kurz": "Kurz",
+  "@erzaehltiefe_kurz": {
+    "description": "Erzähltiefe: eine Wahl je Gespräch"
+  },
+  "erzaehltiefe_voll": "Ausführlich",
+  "@erzaehltiefe_voll": {
+    "description": "Erzähltiefe: ganze Gespräche und Folgen"
+  },
+  "erzaehltiefe_hinweis": "Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.",
+  "@erzaehltiefe_hinweis": {
+    "description": "Einrichtung: Hinweis unter der Erzähltiefe"
   }
 }

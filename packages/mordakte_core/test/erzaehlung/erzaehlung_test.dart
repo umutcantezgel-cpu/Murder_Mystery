@@ -85,6 +85,12 @@ void main() {
     expect(_akten, contains('ravensmoor'));
   });
 
+  test('Das Verzeichnis nennt genau die Akten mit Gesprächen', () {
+    final index = leseJson('$repoWurzel/content/erzaehlung/index.json');
+    expect(index['format'], 'erzaehlung-index/1');
+    expect([for (final a in index['akten'] as List) a as String]..sort(), _akten);
+  });
+
   for (final akte in _akten) {
     group(akte, () {
       final e = _lade(akte);

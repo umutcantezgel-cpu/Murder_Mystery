@@ -7,6 +7,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
 import '../game/szenen_erweiterung.dart';
+import '../l10n/gen/app_localizations_de.dart';
 import '../session/game_session.dart';
 import 'karten_aktion.dart';
 import 'sitzung.dart';
@@ -18,7 +19,9 @@ import 'sitzung.dart';
 /// `Interact` wählt nicht direkt, sondern macht einen Vorschlag; die Sitzung
 /// fragt „Das ist endgültig“. Rückblende (erst nach dem Finale): Zeitraffer
 /// der Tatmatrix mit dem Licht im Stromausfall (B-04).
-class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz, SzenenKamera, GefuehrteSzene {
+final _de = LDe();
+
+class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz, SzenenKamera, GefuehrteSzene, SzenenGespraech {
   PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25}) {
     final d = sitzung.kanon.figur((sitzung.kanon.figurenJson['detektiv'] as Map)['id'] as String)!;
     final ort = sitzung.kanon.graph.orte[d['ermittlungsOrt'] as String]!;
@@ -99,10 +102,34 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
 
   @override
   bool get eingabeGesperrt => rueckblendeModus || sitzung.phase != PartyPhase.entscheidungen ||
-      sitzung.zug != null || sitzung.vorschlag != null || sitzung.letzterFund != null;
+      sitzung.zug != null || sitzung.vorschlag != null || sitzung.letzterFund != null || sitzung.gespraech != null;
+
+  /// Position der Figur im laufenden Randgespräch (Kachelkoordinaten).
+  Offset? get _gespraechsOrt {
+    final g = sitzung.gespraech;
+    if (g == null) return null;
+    for (final f in sitzung.karte.figuren) {
+      if (f.id == g.gespraech.figur) return Offset(f.x, f.y);
+    }
+    return null;
+  }
+
+  @override
+  ({String npc, SzenenGeste geste})? get gespraechsGeste {
+    final g = sitzung.gespraech;
+    final npc = g == null ? null : sitzung.daten.npcKennung[g.gespraech.figur];
+    if (g == null || npc == null) return null;
+    final geste = switch (g.verlauf.last.geste) {
+      'abwehr' => SzenenGeste.abwehr,
+      'nachdenken' => SzenenGeste.nachdenken,
+      _ => SzenenGeste.zuhoeren,
+    };
+    return (npc: npc, geste: geste);
+  }
 
   @override
   SzenenPose? get figurenPose {
+    if (sitzung.gespraech != null) return SzenenPose.befragen;
     final a = _aktion;
     if (a == null) return null;
     return a.geht ? SzenenPose.gehen : a.suchen ? SzenenPose.suchen : SzenenPose.befragen;
@@ -113,6 +140,8 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
 
   @override
   Offset? get handlungsZiel {
+    final ort = _gespraechsOrt;
+    if (ort != null) return ort;
     final a = _aktion;
     if (a == null || a.geht) return null;
     return Offset(a.zielX, a.zielY);
@@ -227,7 +256,10 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
       npcs = [
         for (final f in sitzung.karte.figuren) NpcView(
           id: sitzung.daten.npcKennung[f.id]!, x: f.x, y: f.y, alive: true,
-          talkingTo: figurenPose == SzenenPose.befragen && sitzung.karte.ziele[sitzung.zug?.option]?.person == f.id ? 'me' : null,
+          talkingTo: figurenPose == SzenenPose.befragen &&
+                  (sitzung.karte.ziele[sitzung.zug?.option]?.person == f.id || sitzung.gespraech?.gespraech.figur == f.id)
+              ? 'me'
+              : null,
         ),
       ];
     }
@@ -364,7 +396,12 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
   @override
   void send(Command command) {
     if (eingabeGesperrt || command is! Interact) return;
-    sitzung.schlageVorAn(sitzung.daten.kanonKennung[command.target] ?? command.target);
+    final kennung = sitzung.daten.kanonKennung[command.target] ?? command.target;
+    if (sitzung.laufendeEntscheidung != null && _zustand.ansprechbar[kennung] != null) {
+      sitzung.schlageVorAn(kennung);
+    } else if (!sitzung.randgespraechBeginnen(kennung)) {
+      sitzung.schlageVorAn(kennung);
+    }
   }
 
   @override
@@ -409,9 +446,15 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
 
   @override
   String? npcAktion(String npcId) {
-    if (eingabeGesperrt || sitzung.laufendeEntscheidung == null) return null;
-    final art = _zustand.ansprechbar[sitzung.daten.kanonKennung[npcId]];
-    return art == null ? null : sitzung.ui('ui.karte.aktion.${art.name}');
+    if (eingabeGesperrt) return null;
+    final kanon = sitzung.daten.kanonKennung[npcId];
+    if (sitzung.laufendeEntscheidung != null) {
+      final art = _zustand.ansprechbar[kanon];
+      if (art != null) return sitzung.ui('ui.karte.aktion.${art.name}');
+    }
+    // Unbesetzte Zeugen lassen sich am Rande ansprechen (Gespräche mit Wahl).
+    if (kanon != null && sitzung.randgespraechMoeglich(kanon)) return _de.gespraech_ansprechen;
+    return null;
   }
 
   @override

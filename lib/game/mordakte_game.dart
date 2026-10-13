@@ -1798,6 +1798,8 @@ class MordakteGame extends Game with KeyboardEvents {
   /// wird oder wem der Detektiv nahe kommt, hält inne und schaut auf.
   (Taetigkeit, double, double) _npcTaetigkeit(String id, double x, double y, double move) {
     if (move > 0.1) return (Taetigkeit.keine, 0, 0);
+    final gespraech = session is SzenenGespraech ? (session as SzenenGespraech).gespraechsGeste : null;
+    if (gespraech != null && gespraech.npc == id) return _gespraechsTaetigkeit(id, gespraech.geste);
     final ziel = _fuehrung?.handlungsZiel;
     if (ziel != null && (ziel.dx - x).abs() + (ziel.dy - y).abs() < 1.2) return (Taetigkeit.keine, 0, 0);
     final s = fnv32(id);
@@ -1813,6 +1815,23 @@ class MordakteGame extends Game with KeyboardEvents {
       grad *= ((d - 1.6) / 0.8).clamp(0.0, 1.0);
     }
     return (tat, grad, tz);
+  }
+
+  /// Seit wann (Spielzeit) eine Figur ihre aktuelle Gesprächsgeste zeigt.
+  final Map<String, (SzenenGeste, double)> _gesteSeit = {};
+
+  /// Geste der aktuellen Gesprächszeile, ab ihrem Wechsel sanft eingeblendet.
+  (Taetigkeit, double, double) _gespraechsTaetigkeit(String id, SzenenGeste geste) {
+    final alt = _gesteSeit[id];
+    if (alt == null || alt.$1 != geste) _gesteSeit[id] = (geste, _time);
+    final tz = _time - _gesteSeit[id]!.$2;
+    final tat = switch (geste) {
+      SzenenGeste.abwehr => Taetigkeit.verschraenkt,
+      SzenenGeste.nachdenken => Taetigkeit.umsehen,
+      SzenenGeste.zuhoeren => Taetigkeit.keine,
+    };
+    final rein = math.min(1.0, tz / 0.45);
+    return (tat, rein * rein * (3 - 2 * rein), tz);
   }
 
   /// Sichtbarkeit je Raum (0 schwarz … 1 sichtbar) mit radialem Aufblenden.

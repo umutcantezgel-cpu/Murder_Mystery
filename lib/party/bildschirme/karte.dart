@@ -14,6 +14,7 @@ import '../karte_session.dart';
 import '../karten_figur.dart';
 import '../sitzung.dart';
 import 'abstecher.dart';
+import 'gespraech_szene.dart';
 import 'npc_karte.dart';
 import 'solo_gespraeche.dart';
 import 'zug_tafel.dart';
@@ -48,6 +49,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   /// Ausschnitt in den freien Rest dazwischen.
   double _kopfHoehe = 170;
   double _leisteHoehe = 150;
+  /// Gemessene Höhe des Gesprächsprotokolls (Randgespräch), für die Kamera.
+  double _gespraechHoehe = 0;
 
   /// Eingesetzte Gründlich-Karte der Entscheidung, die gerade bestätigt wird.
   String? _gruendlichKarte;
@@ -135,7 +138,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 // Kopf oben, in der Aktion die Leiste unten; sonst Platz für Joystick und Knopf.
                 sichtRand: SzenenRand(
                   oben: rand.top + _kopfHoehe,
-                  unten: rand.bottom + (aktion ? _leisteHoehe + 12 : 56),
+                  unten: rand.bottom + (s.gespraech != null ? _gespraechHoehe + 12 : aktion ? _leisteHoehe + 12 : 56),
                 ),
                 umgebung: SzenenUmgebung(mitte: Color.lerp(f.nachtOben, f.schein, 0.1)!, rand: f.grund),
               )),
@@ -164,6 +167,22 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                     ),
                   ),
                 ),
+              ),
+              // Randgespräch mit einem Zeugen: Protokoll unten, darüber die Szene.
+              if (s.gespraech != null) Positioned(
+                left: 12, right: 12, bottom: 12,
+                child: SafeArea(top: false, child: Center(child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 560, maxHeight: box.maxHeight * 0.6),
+                  child: _Misst(
+                    onSize: (g) {
+                      if (mounted && (g.height - _gespraechHoehe).abs() > 0.5) setState(() => _gespraechHoehe = g.height);
+                    },
+                    child: SingleChildScrollView(child: Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: GespraechsSzene(sitzung: s),
+                    )),
+                  ),
+                ))),
               ),
               if (vorschlag != null) _abgedeckt(_bestaetigung(vorschlag)),
               if (_abstecher != null && zug == null && vorschlag == null && fund == null) _abgedeckt(AbstecherBestaetigung(

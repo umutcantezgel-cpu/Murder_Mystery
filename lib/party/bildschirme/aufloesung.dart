@@ -41,6 +41,10 @@ class AufloesungBildschirm extends StatelessWidget {
               if (_rolle(k) case final r?) _Rolle(sitzung: s, rolle: r),
               ErzaehlerFeld(sitzung: s, kennungen: [k]),
             ],
+            if (s.nachspiel case final n when n.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              _Nachspiel(sitzung: s, saetze: n),
+            ],
           ],
         ),
       );
@@ -183,6 +187,43 @@ class _Rolle extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Nachspiel der Randgespräche (M6): ein Notizblatt, je Zeuge ein Satz in
+/// Füllertinte neben seinem Fotoabzug.
+class _Nachspiel extends StatelessWidget {
+  const _Nachspiel({required this.sitzung, required this.saetze});
+
+  final PartySitzung sitzung;
+  final List<Epilog> saetze;
+
+  @override
+  Widget build(BuildContext context) => MBlatt(
+        art: PapierArt.notiz,
+        neigung: 0.004,
+        reissnagel: true,
+        samen: 91,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            MBlattKopf(zeile: _de.nachspiel_titel, unter: _de.nachspiel_hinweis),
+            for (final e in saetze) ...[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (e.figur case final f?) ...[
+                    MFotoabzug(look: sitzung.figurAussehen(f), groesse: 44, neigung: -0.04, akzent: sitzung.figurFarbe(f)),
+                    const SizedBox(width: 12),
+                  ],
+                  Expanded(child: Text(e.text, style: MPapierSchrift.hand)),
+                ],
+              ),
+              const SizedBox(height: 12),
+            ],
+          ],
+        ),
+      );
 }
 
 /// Feldname der Akte in Schreibmaschine.

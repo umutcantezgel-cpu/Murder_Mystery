@@ -5420,6 +5420,96 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Ton aus'**
   String get ton_aus;
+
+  /// Karte: Aktion an einem Zeugen für ein Randgespräch
+  ///
+  /// In de, this message translates to:
+  /// **'Ansprechen'**
+  String get gespraech_ansprechen;
+
+  /// Kopf des Gesprächsprotokolls
+  ///
+  /// In de, this message translates to:
+  /// **'Vernehmung am Rande'**
+  String get gespraech_marke;
+
+  /// Knopf am Ende eines Randgesprächs
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräch beenden'**
+  String get gespraech_beenden;
+
+  /// Kennzeichnung der eigenen Sätze im Protokoll (passt zu du und Sie)
+  ///
+  /// In de, this message translates to:
+  /// **'Ich'**
+  String get gespraech_ich;
+
+  /// Gesprächshaltung
+  ///
+  /// In de, this message translates to:
+  /// **'Freundlich'**
+  String get gespraech_haltung_freundlich;
+
+  /// Gesprächshaltung
+  ///
+  /// In de, this message translates to:
+  /// **'Drängen'**
+  String get gespraech_haltung_draengen;
+
+  /// Gesprächshaltung
+  ///
+  /// In de, this message translates to:
+  /// **'Bluffen'**
+  String get gespraech_haltung_bluffen;
+
+  /// Gesprächshaltung: einen Fund vorlegen
+  ///
+  /// In de, this message translates to:
+  /// **'Vorlegen'**
+  String get gespraech_haltung_vorlegen;
+
+  /// Überschrift der Epiloge nach der Auflösung
+  ///
+  /// In de, this message translates to:
+  /// **'Nachspiel'**
+  String get nachspiel_titel;
+
+  /// Unterzeile des Nachspiels
+  ///
+  /// In de, this message translates to:
+  /// **'Was aus den Zeugen wurde'**
+  String get nachspiel_hinweis;
+
+  /// Einrichtung: Abschnitt Erzähltiefe
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräche mit Zeugen'**
+  String get erzaehltiefe_titel;
+
+  /// Erzähltiefe: keine Randgespräche
+  ///
+  /// In de, this message translates to:
+  /// **'Keine'**
+  String get erzaehltiefe_aus;
+
+  /// Erzähltiefe: eine Wahl je Gespräch
+  ///
+  /// In de, this message translates to:
+  /// **'Kurz'**
+  String get erzaehltiefe_kurz;
+
+  /// Erzähltiefe: ganze Gespräche und Folgen
+  ///
+  /// In de, this message translates to:
+  /// **'Ausführlich'**
+  String get erzaehltiefe_voll;
+
+  /// Einrichtung: Hinweis unter der Erzähltiefe
+  ///
+  /// In de, this message translates to:
+  /// **'Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.'**
+  String get erzaehltiefe_hinweis;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

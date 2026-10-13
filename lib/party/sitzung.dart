@@ -304,6 +304,9 @@ class PartySitzung extends ChangeNotifier {
     }
     _code = c;
     _solo = solo;
+    _erzaehlFlags.clear();
+    _gefuehrteGespraeche.clear();
+    _gespraech = null;
     this.namen
       ..clear()
       ..addAll({for (final r in besetzt) if (namen[r] != null) r: namen[r]!});
@@ -633,6 +636,75 @@ class PartySitzung extends ChangeNotifier {
   String get pfad {
     _nurNachFinale();
     return spiel.pfad;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Gespräche mit Wahl (M6): Randgespräche mit unbesetzten Zeugen auf der Karte.
+  // Sie kosten keine Zeit, würfeln nicht und schreiben nie in die Wertung; ihre
+  // Flags gelten nur für diesen Abend und färben das Nachspiel (R1–R12).
+
+  /// Erzähltiefe des Abends; `aus` heißt: wie bisher, ohne Randgespräche.
+  Erzaehltiefe erzaehltiefe = Erzaehltiefe.voll;
+
+  final Set<String> _erzaehlFlags = {};
+  final Set<String> _gefuehrteGespraeche = {};
+  GespraechsLauf? _gespraech;
+
+  /// Laufendes Randgespräch oder `null`.
+  GespraechsLauf? get gespraech => _gespraech;
+
+  /// Flags aus den geführten Gesprächen dieses Abends.
+  Set<String> get erzaehlFlags => Set.unmodifiable(_erzaehlFlags);
+
+  ErzaehlUmwelt get _erzaehlUmwelt => ErzaehlUmwelt(
+        runde: runde.clamp(1, 3),
+        flags: _erzaehlFlags,
+        hatFund: _funde.values.any((f) => f.isNotEmpty),
+        tiefe: erzaehltiefe,
+      );
+
+  /// Kann der Detektiv jetzt mit [figur] (Kanon-Kennung) ein Randgespräch führen?
+  /// Nur mit unbesetzten Figuren, zwischen zwei Zügen auf der Karte.
+  bool randgespraechMoeglich(String figur) =>
+      phase == PartyPhase.entscheidungen &&
+      _gespraech == null &&
+      zug == null &&
+      _vorschlag == null &&
+      _letzterFund == null &&
+      !besetzt.contains(figur) &&
+      daten.erzaehlung?.offenFuer(figur, _erzaehlUmwelt, gefuehrt: _gefuehrteGespraeche) != null;
+
+  /// Beginnt das nächste offene Randgespräch mit [figur].
+  bool randgespraechBeginnen(String figur) {
+    if (!randgespraechMoeglich(figur)) return false;
+    final g = daten.erzaehlung!.offenFuer(figur, _erzaehlUmwelt, gefuehrt: _gefuehrteGespraeche)!;
+    _gespraech = GespraechsLauf(g, _erzaehlUmwelt);
+    notifyListeners();
+    return true;
+  }
+
+  /// Antwortet im laufenden Randgespräch.
+  void randgespraechWaehlen(Wahl w) {
+    final g = _gespraech;
+    if (g == null || !g.wahlen.contains(w)) return;
+    g.waehle(w);
+    notifyListeners();
+  }
+
+  /// Beendet das Randgespräch; seine Flags gelten ab jetzt für den Abend.
+  void randgespraechBeenden() {
+    final g = _gespraech;
+    if (g == null) return;
+    _erzaehlFlags.addAll(g.neueFlags);
+    _gefuehrteGespraeche.add(g.gespraech.id);
+    _gespraech = null;
+    notifyListeners();
+  }
+
+  /// Nachspiel nach dem Finale: je Zeuge höchstens ein Satz (R10).
+  List<Epilog> get nachspiel {
+    _nurNachFinale();
+    return daten.erzaehlung?.nachspiel(_erzaehlFlags, richtig: spiel.ende.richtig) ?? const [];
   }
 
   /// Ende des Abends (erst nach dem Finale).

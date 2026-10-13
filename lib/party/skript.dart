@@ -20,6 +20,9 @@ import 'sitzung.dart';
 /// - `fotopause`: Wartezeit an einer Fotostelle in Millisekunden (Vorgabe 1200)
 /// - `bis=<phase>` (ohne Skript): bis zu diesem Abschnitt vorspielen (beste Wahl, alle A, richtige Anklage)
 /// - `at=x,y`: Detektiv auf der Karte an diese Stelle setzen; `zoom`: Zoom der Karte
+/// - `gespraech=<figur>[,<schritte>]` (mit `bis`): in Runde 1 ein Randgespräch mit
+///   dieser Figur beginnen und je Schritt die erste Wahl nehmen; liegt `bis`
+///   hinter den Entscheidungen, wird es zu Ende geführt (Nachspiel)
 class PartyDev {
   final String fall;
   final String? code;
@@ -35,6 +38,8 @@ class PartyDev {
   final PartyPhase? bis;
   final (double, double)? at;
   final double? zoom;
+  final String? gespraech;
+  final int gespraechSchritte;
 
   const PartyDev({
     this.fall = 'schlosskeller',
@@ -51,6 +56,8 @@ class PartyDev {
     this.bis,
     this.at,
     this.zoom,
+    this.gespraech,
+    this.gespraechSchritte = 0,
   });
 
   /// Aus den URL-Parametern; `null` ohne `party=`.
@@ -75,6 +82,8 @@ class PartyDev {
         _ => null,
       },
       zoom: double.tryParse(q['zoom'] ?? ''),
+      gespraech: q['gespraech']?.split(',').first,
+      gespraechSchritte: int.tryParse(q['gespraech']?.split(',').elementAtOrNull(1) ?? '') ?? 0,
     );
   }
 
@@ -206,6 +215,33 @@ class PartySkript {
         await _foto('${s.phase.name}${s.runde > 0 ? '_r${s.runde}' : ''}');
         s.weiter();
     }
+  }
+
+  /// Wie [vorspielen], mit dem Randgespräch aus `gespraech=`: Es beginnt in den
+  /// Entscheidungen der ersten Runde; liegt [ziel] dahinter, wird es beendet.
+  static void vorspielenMitGespraech(PartySitzung s, PartyDev dev, PartyPhase ziel) {
+    final figur = dev.gespraech;
+    if (figur == null || ziel.index < PartyPhase.entscheidungen.index) return vorspielen(s, dev, ziel);
+    vorspielen(s, dev, PartyPhase.entscheidungen);
+    // Ein laufender Auftakt-Zug sperrt die Karte: erst zu Ende spielen.
+    for (var i = 0; s.zug != null && i < 12; i++) {
+      final z = s.zug!;
+      switch (z.phase) {
+        case RundenZugPhase.aktion: s.aktionFertig(z.aktion);
+        case RundenZugPhase.wurf: s.wuerfeln();
+        case RundenZugPhase.tischruf: s.tischruf(Tischruf.umweg);
+        case RundenZugPhase.fund: s.fundGelesen();
+      }
+    }
+    if (s.letzterFund != null) s.fundGelesen();
+    if (s.randgespraechBeginnen(figur)) {
+      final weiter = ziel != PartyPhase.entscheidungen;
+      for (var i = 0; (weiter || i < dev.gespraechSchritte) && !s.gespraech!.fertig; i++) {
+        s.randgespraechWaehlen(s.gespraech!.wahlen.first);
+      }
+      if (weiter) s.randgespraechBeenden();
+    }
+    if (ziel != PartyPhase.entscheidungen) vorspielen(s, dev, ziel);
   }
 
   /// Ohne Pausen bis zu [ziel] vorspielen (Sichtprüfung, Fotos einzelner Abschnitte).

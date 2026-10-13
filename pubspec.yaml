@@ -65,6 +65,9 @@ flutter:
     - content/welt/ravensmoor/
     - content/welt/nachtexpress/
     - content/welt/blue_palm/
+    - content/erzaehlung/
+    - content/erzaehlung/ravensmoor/
+    - content/erzaehlung/schlosskeller/
   fonts:
     - family: SpecialElite
       fonts:

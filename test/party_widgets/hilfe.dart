@@ -17,6 +17,22 @@ PartyDaten get partyDaten => _daten ??= PartyDaten.aus(
       jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
     );
 
+final _akten = <String, PartyDaten>{};
+
+/// Einmal geladene Daten einer anderen Akte (fehlende Oberflächentexte aus dem
+/// Schlosskeller, Gespräche mit Wahl aus `content/erzaehlung`, wenn vorhanden).
+PartyDaten akteDaten(String fall) => _akten[fall] ??= () {
+      Map<String, Object?> lies(String ordner, String p) => jsonDecode(File('$ordner/$p').readAsStringSync()) as Map<String, Object?>;
+      final erzaehlung = File('content/erzaehlung/$fall/gespraeche.json');
+      return PartyDaten.aus(
+        (p) => lies('content/party/$fall', p),
+        jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
+        fall: fall,
+        basis: (p) => lies('content/party/schlosskeller', p),
+        erzaehlung: erzaehlung.existsSync() ? jsonDecode(erzaehlung.readAsStringSync()) as Map<String, Object?> : null,
+      );
+    }();
+
 /// Neue Sitzung, auf Wunsch schon eingerichtet ([rollen] Personen, Pfad [pfad]).
 PartySitzung neueSitzung({int? rollen, String pfad = 'ahmet', String detektiv = 'w', bool solo = false,
     String? salz, WuerfelQuelle wuerfel = const FesterWuerfel.neutral()}) {

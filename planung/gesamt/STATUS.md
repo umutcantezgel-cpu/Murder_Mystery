@@ -11,11 +11,12 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 | M3 | Figuren 2.0 | erledigt: Rig (`lib/game/scene/figur_rig.dart`) und Bildnis in der Oberfläche (`lib/ui/widgets/portrait.dart`) mit denselben Merkmalen |
 | M4 | Welt ausbauen | teilweise (Böden, Außenräume, Wetter, nähere Kamera, Tippen-zum-Gehen, Kulisse je Akte, NPC-Tätigkeiten, Trägheit, Trittwölkchen, Lichtstaub, schwingende Türen) |
 | M5 | Szenenregie | teilweise (Zweier-Einstellung, Kinobalken, Etablierungsschwenk); Leuchtzeichen statt Steuertext offen (Lane D) |
-| M6 | Gespräche mit Wahl | offen |
+| M6 | Gespräche mit Wahl | erledigt für Ravensmoor und Schlosskeller: Kern `erzaehlung/` (Haltungen, Flags, Ereignisketten, Epiloge, Prüfer R1–R12), „Ansprechen“ an unbesetzten Zeugen auf der Karte, Vernehmungsprotokoll mit Gesten der Figur, Nachspiel in der Auflösung, Erzähltiefe in der Einrichtung (Vorgabe ausführlich); Gewölbe, Nachtexpress und Blue Palm folgen mit 1.1 |
 | M7 | Ton | teilweise: Klangpaket `packages/mordakte_klang` (26 Klänge, 5 Atmosphären, per Code), Tondienst `lib/klang` (flutter_soloud), Knöpfe, Stempel, Schreibmaschine, Karteikarte, Schritte, Türen, Donner, Atmosphäre je Akte; Tonschalter auf dem Schreibtisch (`MTonSchalter`), Würfel- und Siegelklang; Lautstärke-Regler offen |
 | M8 | Fortsetzen, Teilen, Store | offen |
 
 ## Entscheidungen
+- **A-047 · Gespräche mit Wahl (2026-10-13):** Nur unbesetzte Zeugen lassen sich ansprechen, nie Kernverdächtige. Gespräche geben nur preis, was die Figur in Pflichtgesprächen allen sagt (in allen Pfaden), kosten keine Nachtminuten, würfeln nicht und zählen nicht in die Wertung. Ihre Flags färben nur das Nachspiel. Welche Akten Gespräche haben, steht in `content/erzaehlung/index.json`. Angeredet wird wie im Fall (Ravensmoor Sie, Schlosskeller du); im Protokoll stehen die eigenen Sätze unter „Ich“. Quelle: Umsetzung nach ERZAEHLREGELN.md.
 - **A-046 · Ton (2026-10-13):** `flutter_soloud` 5.1.3 (freigegeben in A-042). Klänge werden per Code erzeugt und als WAV gebacken (`dart run packages/mordakte_klang/bin/backen.dart` → `assets/klang/`, 2,2 MB). Der Ton startet nativ beim App-Start, im Web nach der ersten Berührung, nie unter `flutter test`. Web lädt `init_soloud.js` lokal (keine fremden Netzaufrufe). Quelle: Umsetzung.
 - **A-041 · Feinkorn und Burgstadt entfernt (2026-10-13):**
   - `packages/feinkorn`, `packages/room_host`, `lib/game/dev/feinkorn_k0_main.dart`, `tool/feinkorn/bestand.dart` und `planung/feinkorn` sind gelöscht.
@@ -27,6 +28,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 - **A-045 · Kostenlos, ohne Werbung, Käufe und Datenerhebung (2026-10-13).** Quelle: Besitzer.
 
 ## Prüfjournal (neueste zuerst)
+- 2026-10-13: M6 Gespräche mit Wahl (Ravensmoor, Schlosskeller): Prüfer ohne Befund für beide Akten (Graph, Preisgaben nur öffentlich, Fünf-Wort-Regel, Flags, Ton); Gespräche, Flags und „Ansprechen“ in allen Pfaden beider Akten gleich; Gespräche ändern weder Minuten noch Würfe noch Punkte. Analyse ohne Befund; App 308/308, `mordakte_core` 498 grün.
 - 2026-10-13: M2 zusammengeführt (fünf Lanes, ARB-Schlüssel vereint, `flutter gen-l10n`). Analyse ohne Befund; App 301/301; `krimidinner_kanon` 67, `mordakte_core` 482, `mordakte_klang` 4, `mordakte_netz` 48 grün; Web-Build; `start` grün; Kontaktbogen aller 14 Bildschirme angesehen.
 - 2026-10-13: M7 Ton: `mordakte_klang` 4/4 Tests (kurz, nicht übersteuert, ohne Knacken, nahtlose Schleifen, deterministisch); Spektrogramme aller Klänge angesehen (Knacken in `pech` behoben); App 260/260; Web-Build; Browserproben `start`, `runden` und `solo` (ganzer Abend, 9 Kartenentscheidungen, 11 Würfe) grün, 0 Konsolenfehler, 0 fremde Netzaufrufe.
 - 2026-10-13: M4/M5 Bewegung und Regie: Trägheit der eigenen Figur, Trittwölkchen je Boden und Wetter, Schwebestaub im Lampenlicht, Etablierungsschwenk beim ersten Betreten einer Akte (Wanduhr, Abbruch bei Eingabe). `party_widgets`, `session`, `karten` grün; Kontaktbögen angesehen. Leistung Kopf-Browser (Software-Darstellung) 6–7 B/s, wie die frühere Messbasis 6–8 B/s.

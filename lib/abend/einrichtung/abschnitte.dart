@@ -18,7 +18,7 @@ const einrichtungMinuten = [20, 30, 45, 60];
 
 /// Alle Eingaben der Einrichtung eines Abends: Personen und Spielernamen,
 /// Geburtstagskind, Detektiv oder Detektivin, Fall-Code, Bildschirm- oder
-/// Druckspiel, Rundendauer und Erzählerstimme. Der Assistent für neue Abende
+/// Druckspiel, Rundendauer, Erzählerstimme und Erzähltiefe. Der Assistent für neue Abende
 /// und der alte Einrichtungsbildschirm teilen sich diese Werte und die
 /// Abschnitte darunter; [starten] richtet den Abend ein.
 ///
@@ -44,6 +44,9 @@ class EinrichtungsWerte extends ChangeNotifier {
   Spielart spielart = Spielart.bildschirm;
   int minuten = 30;
   bool stimme = false;
+
+  /// Gespräche mit Zeugen (M6); nur bei Akten, die welche haben.
+  Erzaehltiefe erzaehltiefe = Erzaehltiefe.voll;
   bool _solo = false;
   final geburtstag = TextEditingController();
   final code = TextEditingController();
@@ -110,7 +113,15 @@ class EinrichtungsWerte extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Richtet den Abend ein und setzt danach die Erzählerstimme.
+  void setzeErzaehltiefe(Erzaehltiefe wert) {
+    erzaehltiefe = wert;
+    notifyListeners();
+  }
+
+  /// Hat die Akte Gespräche mit Zeugen?
+  bool get hatGespraeche => sitzung.daten.erzaehlung != null;
+
+  /// Richtet den Abend ein und setzt danach Erzählerstimme und Erzähltiefe.
   /// [druckErzwingen] stellt eine Druckfassung ein (Druckmappe einer Akte).
   void starten({bool druckErzwingen = false}) {
     final s = sitzung;
@@ -132,6 +143,7 @@ class EinrichtungsWerte extends ChangeNotifier {
       geburtstagskind: geburtstag.text.trim(),
     );
     s.stimmeAn = stimme;
+    s.erzaehltiefe = erzaehltiefe;
   }
 
   @override
@@ -232,6 +244,7 @@ class EinrichtungsAbschnitte extends StatelessWidget {
               FallAbschnitt(werte: werte, online: online),
               if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
               if (!werte.solo) DauerAbschnitt(werte: werte),
+              if (werte.hatGespraeche) ErzaehltiefeAbschnitt(werte: werte),
               StimmeAbschnitt(werte: werte),
             ],
           ),
@@ -548,6 +561,33 @@ class DauerAbschnitt extends _Abschnitt {
           ),
         ],
       );
+}
+
+/// Gespräche mit Zeugen: keine, kurz (eine Wahl) oder ausführlich (ganze
+/// Gespräche mit Folgen). Nur bei Akten mit Gesprächen.
+class ErzaehltiefeAbschnitt extends _Abschnitt {
+  const ErzaehltiefeAbschnitt({super.key, required super.werte});
+
+  @override
+  Widget baue(BuildContext context) {
+    final l = L.of(context);
+    return EinrichtungsTafel(
+      ueberschrift: l.erzaehltiefe_titel,
+      kinder: [
+        MAnkreuzWahl<Erzaehltiefe>(
+          optionen: [
+            (Erzaehltiefe.aus, l.erzaehltiefe_aus),
+            (Erzaehltiefe.kurz, l.erzaehltiefe_kurz),
+            (Erzaehltiefe.voll, l.erzaehltiefe_voll),
+          ],
+          gewaehlt: werte.erzaehltiefe,
+          onWahl: werte.setzeErzaehltiefe,
+        ),
+        const SizedBox(height: MMass.s8),
+        Text(l.erzaehltiefe_hinweis, style: MPapierSchrift.leise),
+      ],
+    );
+  }
 }
 
 /// Erzählerstimme an oder aus: Formularzeile mit Messing-Kippschalter. Ein Tipp
