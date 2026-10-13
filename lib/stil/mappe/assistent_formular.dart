@@ -51,28 +51,86 @@ class MAnkreuzFeld extends StatelessWidget {
       label: text,
       onTap: onTap,
       excludeSemantics: true,
-      child: InkWell(
-        onTap: onTap,
-        splashFactory: NoSplash.splashFactory,
-        highlightColor: MRoh.tinte.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(3),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
-          child: Padding(
-            padding: const EdgeInsets.only(right: MMass.s4),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MKaestchen(gewaehlt: gewaehlt, samen: text.codeUnits.fold(3, (a, b) => (a * 31 + b) & 0xffff)),
-                const SizedBox(width: 10),
-                Flexible(child: Text(text, style: schrift.copyWith(fontSize: 16))),
-              ],
+      // Eigene durchsichtige Fläche: der Druckschatten liegt auf dem Papier, nicht unter ihm.
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: onTap,
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: (papier ? MRoh.tinte : MRoh.papier).withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(3),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
+            child: Padding(
+              padding: const EdgeInsets.only(right: MMass.s4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MKaestchen(gewaehlt: gewaehlt, samen: text.codeUnits.fold(3, (a, b) => (a * 31 + b) & 0xffff)),
+                  const SizedBox(width: 10),
+                  Flexible(child: Text(text, style: schrift)),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+/// Formularkopf auf Papier in roter Schreibmaschine (z. B. „PERSONEN AM TISCH“).
+///
+/// Der Text erscheint unverändert (Versalien setzt der Aufrufer). Lange Wörter
+/// brechen nicht mitten im Wort (siehe [MWortfest]).
+class MFormkopf extends StatelessWidget {
+  const MFormkopf(this.text, {super.key, this.textAlign = TextAlign.start});
+
+  final String text;
+  final TextAlign textAlign;
+
+  static final _stil = MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1);
+
+  @override
+  Widget build(BuildContext context) => MWortfest(text, style: _stil, textAlign: textAlign);
+}
+
+/// Ein Text, der nie mitten im Wort bricht: Mehrere Wörter umbrechen wie
+/// gewohnt; ist ein einzelnes Wort breiter als die Zeile (schmaler Bildschirm,
+/// große Schrift, lange deutsche Wörter wie „Grundschullehrerin“), wird der
+/// ganze Text so weit kleiner gesetzt, dass dieses Wort passt.
+class MWortfest extends StatelessWidget {
+  const MWortfest(this.text, {super.key, required this.style, this.textAlign = TextAlign.start});
+
+  final String text;
+  final TextStyle style;
+  final TextAlign textAlign;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, box) {
+      var stil = style;
+      final groesse = style.fontSize;
+      if (groesse != null && box.maxWidth.isFinite && box.maxWidth > 0) {
+        final scaler = MediaQuery.textScalerOf(context);
+        final richtung = Directionality.of(context);
+        var breitestes = 0.0;
+        for (final wort in text.split(RegExp(r'\s+'))) {
+          if (wort.isEmpty) continue;
+          final tp = TextPainter(text: TextSpan(text: wort, style: style), textDirection: richtung, textScaler: scaler, maxLines: 1)..layout();
+          breitestes = math.max(breitestes, tp.width);
+          tp.dispose();
+        }
+        if (breitestes > box.maxWidth) {
+          // Etwas Luft, damit Rundungen der Schriftbreite das Wort nicht doch umbrechen.
+          final faktor = box.maxWidth / breitestes * 0.97;
+          final abstand = style.letterSpacing;
+          stil = style.copyWith(fontSize: groesse * faktor, letterSpacing: abstand == null ? null : abstand * faktor);
+        }
+      }
+      return Text(text, textAlign: textAlign, style: stil);
+    },
+  );
 }
 
 /// Ein gedrucktes Kästchen; [gewaehlt] trägt ein Kreuz in Füllertinte.

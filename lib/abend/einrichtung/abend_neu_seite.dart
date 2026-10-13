@@ -276,7 +276,6 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
@@ -638,7 +637,7 @@ class _WeiseKarte extends StatelessWidget {
             // Der Stempel trifft die obere rechte Kante.
             if (gewaehlt)
               Positioned(
-                top: -18,
+                top: -10,
                 right: 10,
                 child: IgnorePointer(child: MStempel(text: l.profil_klasse_gewaehlt, groesse: 14, winkel: -0.09, aufschlagen: true)),
               ),
@@ -703,18 +702,29 @@ class _Bereit extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final stil = AkteStil.fuer(akte.id);
-    return MAktenmappe(
+    return LayoutBuilder(
+      builder: (context, box) {
+        // Schmal oder mit großer Schrift: weniger Rand und ein kleinerer Titel, damit
+        // lange Namen wie „Schlosskeller“ nicht mitten im Wort brechen.
+        final skala = MediaQuery.textScalerOf(context).scale(1);
+        final schmal = box.maxWidth < 300 * (skala < 1 ? 1 : skala);
+        return _mappe(l, stil, schmal);
+      },
+    );
+  }
+
+  Widget _mappe(L l, AkteStil stil, bool schmal) => MAktenmappe(
       reiter: 'Nr. ${nr.toString().padLeft(2, '0')}',
       farbe: stil.akzent,
       siegel: akteSigel(akte),
       blaetter: 3,
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 34),
+      padding: schmal ? const EdgeInsets.fromLTRB(10, 14, 10, 34) : const EdgeInsets.fromLTRB(18, 16, 18, 34),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(l.abend_start_akte, style: MPapierSchrift.maschine.copyWith(fontSize: 13, color: MRoh.tinteLeise)),
           const SizedBox(height: 2),
-          Text(akte.titel, style: MPapierSchrift.ueberschrift),
+          Text(akte.titel, style: schmal ? MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.25) : MPapierSchrift.ueberschrift),
           if (akte.untertitel.isNotEmpty) ...[
             const SizedBox(height: MMass.s4),
             Text(akte.untertitel, style: MPapierSchrift.kursiv.copyWith(fontSize: 15, height: 1.4, color: MRoh.tinteLeise)),
@@ -739,7 +749,6 @@ class _Bereit extends StatelessWidget {
         ],
       ),
     );
-  }
 }
 
 /// Ladeanzeige; bei „Bewegung reduzieren“ ohne drehenden Kreis.

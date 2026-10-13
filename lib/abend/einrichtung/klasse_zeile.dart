@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
+import '../../stil/mappe/assistent_formular.dart' show MFormkopf;
 import '../../stil/mappe/material.dart' show MaterialZufall;
 import '../../stil/stil.dart';
 import '../../ui/icons.dart';
@@ -46,7 +47,7 @@ class KlasseZeile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l.abend_klasse_titel.toUpperCase(), style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1)),
+          MFormkopf(l.abend_klasse_titel.toUpperCase()),
           const SizedBox(height: MMass.s4),
           Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: MMass.s12),

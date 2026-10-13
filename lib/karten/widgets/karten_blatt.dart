@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mordakte_core/runden.dart';
 
 import '../../l10n/lookup.dart';
+import '../../stil/mappe/assistent_formular.dart' show MFormkopf;
 import '../../stil/stil.dart';
 import '../katalog_laden.dart';
 import 'karten_ansicht.dart';
@@ -75,11 +76,7 @@ class KartenBlatt extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (figurName != null) ...[
-                    Text(
-                      figurName!.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1),
-                    ),
+                    MFormkopf(figurName!.toUpperCase(), textAlign: TextAlign.center),
                     const SizedBox(height: MMass.s4),
                   ],
                   Text(titel, textAlign: TextAlign.center, style: MPapierSchrift.ueberschrift),
@@ -118,11 +115,7 @@ class KartenBlatt extends StatelessWidget {
                     const SizedBox(height: MMass.s12),
                     Text(l.karten_besitz(anzahl), textAlign: TextAlign.center, style: MPapierSchrift.hand.copyWith(fontSize: 20)),
                   ] else ...[
-                    Text(
-                      l.karten_quelle_titel.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1),
-                    ),
+                    MFormkopf(l.karten_quelle_titel.toUpperCase(), textAlign: TextAlign.center),
                     const SizedBox(height: MMass.s4),
                     for (final q in def.quellen)
                       if (KartenTexte.quelle(q).isNotEmpty)

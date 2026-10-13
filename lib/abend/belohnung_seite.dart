@@ -240,31 +240,46 @@ class _KartenListe extends StatelessWidget {
               neigung: i.isEven ? -0.004 : 0.004,
               samen: 40 + i,
               padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  KartenKarte(def: defs[i], figur: kartenFigurVon(figuren, defs[i]), breite: 96),
-                  const SizedBox(width: MMass.s16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(defs[i].titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
-                        const SizedBox(height: MMass.s4),
-                        Text(defs[i].text, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45)),
-                        const SizedBox(height: MMass.s8),
-                        Wrap(
-                          spacing: MMass.s8,
-                          runSpacing: MMass.s8,
-                          children: [
-                            if (neu.contains(defs[i].id)) const NeuMarke() else MChip(l.abend_belohnung_doppelt, farbe: MRoh.tinteLeise),
-                            MChip(KartenTexte.seltenheit(defs[i].seltenheit), farbe: seltenheitTinte(defs[i].seltenheit)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  final d = defs[i];
+                  // Die Karte liegt leicht schräg auf der Karteikarte.
+                  final karte = Transform.rotate(
+                    angle: i.isEven ? 0.02 : -0.016,
+                    child: KartenKarte(def: d, figur: kartenFigurVon(figuren, d), breite: 96),
+                  );
+                  final text = Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(d.titel, style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
+                      const SizedBox(height: MMass.s4),
+                      Text(d.text, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45)),
+                      const SizedBox(height: MMass.s8),
+                      Wrap(
+                        spacing: MMass.s8,
+                        runSpacing: MMass.s8,
+                        children: [
+                          if (neu.contains(d.id)) const NeuMarke() else MChip(l.abend_belohnung_doppelt, farbe: MRoh.tinteLeise),
+                          MChip(KartenTexte.seltenheit(d.seltenheit), farbe: seltenheitTinte(d.seltenheit)),
+                        ],
+                      ),
+                    ],
+                  );
+                  // Schmal oder mit großer Schrift liegt die Karte über dem Text; daneben
+                  // bliebe dem Titel zu wenig Breite und er bräche mitten im Wort.
+                  final skala = MediaQuery.textScalerOf(context).scale(1);
+                  if (box.maxWidth - 96 - MMass.s16 < 200 * (skala < 1 ? 1 : skala)) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [Align(alignment: Alignment.centerLeft, child: karte), const SizedBox(height: MMass.s12), text],
+                    );
+                  }
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [karte, const SizedBox(width: MMass.s16), Expanded(child: text)],
+                  );
+                },
               ),
             ),
           ),
@@ -464,7 +479,12 @@ class _ErfahrungState extends State<_Erfahrung> with SingleTickerProviderStateMi
             style: MPapierSchrift.telegramm.copyWith(fontSize: 13, letterSpacing: 2.4, color: MRoh.stempelRot),
           ),
           const SizedBox(height: MMass.s8),
-          Text(l.abend_belohnung_xp(b.xp), style: MPapierSchrift.telegramm.copyWith(fontSize: 22, height: 1.3)),
+          // Eine getippte Zeile: bei großer Schrift wird sie kleiner, statt „Erfahrungspunkte“ mitten im Wort zu trennen.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(l.abend_belohnung_xp(b.xp), maxLines: 1, style: MPapierSchrift.telegramm.copyWith(fontSize: 22, height: 1.3)),
+          ),
           const SizedBox(height: MMass.s16),
           Semantics(
             label: '${l.abend_belohnung_xp(b.xp)}, $stand',

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
+import '../../stil/mappe/assistent_formular.dart' show MFormkopf;
 import '../../stil/stil.dart';
 import 'karten_ansicht.dart';
 
@@ -34,10 +35,7 @@ class DeckZeile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            l.karten_deck_abend_titel.toUpperCase(),
-            style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1),
-          ),
+          MFormkopf(l.karten_deck_abend_titel.toUpperCase()),
           const SizedBox(height: MMass.s4),
           Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: MMass.s12),

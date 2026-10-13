@@ -145,7 +145,6 @@ class EinrichtungsWerte extends ChangeNotifier {
   }
 }
 
-
 /// Ein Abschnitt des Formulars: Formularkopf in roter Schreibmaschine über einer
 /// Tintenlinie, darunter die Felder.
 ///
@@ -164,7 +163,7 @@ class EinrichtungsTafel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(ueberschrift.toUpperCase(), style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1)),
+        MFormkopf(ueberschrift.toUpperCase()),
         const SizedBox(height: MMass.s4),
         Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
         const SizedBox(height: MMass.s12),
@@ -304,7 +303,7 @@ class PersonenAbschnitt extends _Abschnitt {
             final untereinander = box.maxWidth < 400 * (skala < 1 ? 1 : skala);
             // Sehr schmal mit großer Schrift: der Titel der Figur steht unter Bild und Name.
             final eng = box.maxWidth < 200 * (skala < 1 ? 1 : skala);
-            final titel = Text(s.figurTitel(rolle), style: MPapierSchrift.leise);
+            final titel = MWortfest(s.figurTitel(rolle), style: MPapierSchrift.leise);
             final feld = _Formularzeile(
               feldKey: ValueKey('name-$rolle'),
               controller: werte.namenFeld(rolle),
@@ -570,28 +569,32 @@ class StimmeAbschnitt extends _Abschnitt {
           hint: hinweis,
           onTap: umschalten,
           excludeSemantics: true,
-          child: InkWell(
-            onTap: umschalten,
-            splashFactory: NoSplash.splashFactory,
-            highlightColor: MRoh.tinte.withValues(alpha: 0.06),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: MMass.s4),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(titel, style: MPapierSchrift.text.copyWith(fontSize: 16)),
-                        const SizedBox(height: 2),
-                        Text(hinweis, style: MPapierSchrift.leise),
-                      ],
+          // Eigene durchsichtige Fläche: der Druckschatten liegt auf dem Papier, nicht unter ihm.
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: umschalten,
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: MRoh.tinte.withValues(alpha: 0.06),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: MMass.s4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(titel, style: MPapierSchrift.text),
+                          const SizedBox(height: 2),
+                          Text(hinweis, style: MPapierSchrift.leise),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: MMass.s12),
-                  MSchalter(wert: werte.stimme, onChanged: werte.setzeStimme, symbolAn: Icons.volume_up, symbolAus: Icons.volume_off),
-                ],
+                    const SizedBox(width: MMass.s12),
+                    MSchalter(wert: werte.stimme, onChanged: werte.setzeStimme, symbolAn: Icons.volume_up, symbolAus: Icons.volume_off),
+                  ],
+                ),
               ),
             ),
           ),
