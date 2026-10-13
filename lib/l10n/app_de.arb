@@ -1466,5 +1466,9 @@
   "online_verlassen_titel": "Abend verlassen?",
   "online_verlassen_text": "Du verlierst deinen Platz und deine Rolle in diesem Abend.",
   "online_verlassen_ja": "Verlassen",
-  "online_verlassen_nein": "Bleiben"
+  "online_verlassen_nein": "Bleiben",
+  "abend2_auftrag": "Ermittlungsauftrag",
+  "abend2_beweisstueck": "Beweisstück Nr. {nr}",
+  "@abend2_beweisstueck": {"placeholders": {"nr": {"type": "String"}}},
+  "abend2_angeklagt": "Angeklagt"
 }
