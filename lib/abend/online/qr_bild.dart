@@ -1,8 +1,11 @@
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 
-/// QR-Code als Zeichnung: schwarze Module auf weißem Grund mit Ruhezone (ein
-/// QR-Code braucht hellen Rand und Kontrast, auch im dunklen Spiel). Die Module
+import '../../stil/stil.dart';
+
+/// QR-Code als Zeichnung: Module in tiefschwarzer Drucktinte auf weißem Grund
+/// mit Ruhezone, wie auf eine Platzkarte gedruckt (ein QR-Code braucht hellen
+/// Rand und Kontrast, auch im dunklen Spiel). Die Module
 /// kommen aus dem Paket `barcode` ([Barcode.qrCode]); gemalt wird mit
 /// [CustomPainter], ohne Bild und ohne Netz.
 class QrBild extends StatefulWidget {
@@ -76,12 +79,12 @@ class _QrMaler extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final flaeche = Offset.zero & size;
-    canvas.drawRRect(RRect.fromRectAndRadius(flaeche, const Radius.circular(8)), Paint()..color = Colors.white);
+    canvas.drawRRect(RRect.fromRectAndRadius(flaeche, const Radius.circular(2)), Paint()..color = Colors.white);
     final rand = size.width * 0.07;
     final inner = size.width - 2 * rand;
     // Ohne Kantenglättung und auf ganze Pixel gerundet: keine hellen Nähte zwischen Modulen.
     final tinte = Paint()
-      ..color = Colors.black
+      ..color = Color.lerp(MRoh.tinte, Colors.black, 0.6)!
       ..isAntiAlias = false;
     for (final m in module) {
       final l = (rand + m.left * inner).floorToDouble();

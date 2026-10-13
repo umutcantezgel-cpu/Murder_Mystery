@@ -5348,6 +5348,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Bleiben'**
   String get online_verlassen_nein;
+
+  /// No description provided for @online_bot_stempel.
+  ///
+  /// In de, this message translates to:
+  /// **'Bot'**
+  String get online_bot_stempel;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

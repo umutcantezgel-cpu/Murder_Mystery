@@ -127,6 +127,7 @@ class _OnlineRueckkehrState extends State<OnlineRueckkehr> {
             verwerfen: l.online_verwerfen,
             onZurueck: _laeuft ? null : _gastgeberZurueck,
             onVerwerfen: _laeuft ? null : _gastgeberVerwerfen,
+            neigung: 0.004,
           ),
         const SizedBox(height: MMass.s12),
       ],
@@ -134,35 +135,42 @@ class _OnlineRueckkehrState extends State<OnlineRueckkehr> {
   }
 }
 
+/// Rückkehr als Karteikarte mit Büroklammer: das Messingschild „Zurück …“,
+/// darunter der Hinweis in Tinte und „Vergessen“ als leise Zeile.
 class _Banner extends StatelessWidget {
-  const _Banner({super.key, required this.knopf, required this.hinweis, required this.verwerfen, required this.onZurueck, required this.onVerwerfen});
+  const _Banner({super.key, required this.knopf, required this.hinweis, required this.verwerfen, required this.onZurueck, required this.onVerwerfen, this.neigung = -0.004});
 
   final String knopf;
   final String hinweis;
   final String verwerfen;
   final VoidCallback? onZurueck;
   final VoidCallback? onVerwerfen;
+  final double neigung;
 
   @override
-  Widget build(BuildContext context) {
-    final t = MSchrift.von(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: MMass.s8),
-      child: MTafel(
-        hervorgehoben: true,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MKnopf(text: knopf, icon: Icons.replay_rounded, breit: true, onPressed: onZurueck),
-            const SizedBox(height: MMass.s8),
-            Text(hinweis, style: t.leise.copyWith(fontSize: 13)),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: MKnopf(text: verwerfen, art: MKnopfArt.leise, onPressed: onVerwerfen),
-            ),
-          ],
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: MMass.s16, bottom: MMass.s8),
+        child: MBlatt(
+          art: PapierArt.karteikarte,
+          kopfLinie: 7,
+          linien: false,
+          klammer: true,
+          neigung: neigung,
+          samen: knopf.codeUnits.fold(13, (a, b) => (a * 31 + b) & 0xffff),
+          padding: const EdgeInsets.fromLTRB(16, 30, 16, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MKnopf(text: knopf, icon: Icons.replay_rounded, breit: true, onPressed: onZurueck),
+              const SizedBox(height: MMass.s12),
+              Text(hinweis, style: MPapierSchrift.leise.copyWith(fontSize: 13)),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: MKnopf(text: verwerfen, art: MKnopfArt.leise, onPressed: onVerwerfen),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

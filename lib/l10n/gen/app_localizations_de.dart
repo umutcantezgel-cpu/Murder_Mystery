@@ -3093,4 +3093,7 @@ class LDe extends L {
 
   @override
   String get online_verlassen_nein => 'Bleiben';
+
+  @override
+  String get online_bot_stempel => 'Bot';
 }

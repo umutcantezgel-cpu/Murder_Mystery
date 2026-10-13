@@ -1466,5 +1466,6 @@
   "online_verlassen_titel": "Abend verlassen?",
   "online_verlassen_text": "Du verlierst deinen Platz und deine Rolle in diesem Abend.",
   "online_verlassen_ja": "Verlassen",
-  "online_verlassen_nein": "Bleiben"
+  "online_verlassen_nein": "Bleiben",
+  "online_bot_stempel": "Bot"
 }

@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordakte_core/mordakte_core.dart' show LookDef;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ import '../../karten/widgets/deck_zeile.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../netz/relay_einstellung.dart';
+import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
 import '../einrichtung/abschnitte.dart' show FesteLoesungHinweis;
@@ -21,6 +23,7 @@ import 'gastgeber_dienst.dart';
 import 'gastgeber_sitzung.dart';
 import 'online_fehler.dart';
 import 'online_halter.dart';
+import 'online_teile.dart';
 import 'qr_bild.dart';
 
 /// Die Lobby des Gastgebers (Route `/abend/lobby`): zeigt den Raumcode groß und
@@ -143,18 +146,15 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
 
   Future<void> _abbrechen() async {
     final l = L.of(context);
-    final ja = await showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: Text(l.online_schliessen_titel),
-        content: Text(l.online_schliessen_text),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l.online_schliessen_nein)),
-          TextButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l.online_schliessen_ja)),
-        ],
-      ),
+    final ja = await onlineRueckfrage(
+      context,
+      titel: l.online_schliessen_titel,
+      text: l.online_schliessen_text,
+      ja: l.online_schliessen_ja,
+      nein: l.online_schliessen_nein,
+      gefaehrlich: true,
     );
-    if (ja != true || !mounted) return;
+    if (!ja || !mounted) return;
     await _d.schliessen(endgueltig: !_d.gestartet);
     _halter.vergissDienst(_d);
     if (mounted) context.go(Routes.start);
@@ -190,33 +190,20 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     );
   }
 
+
   Widget _inhalt(BuildContext context, GastgeberDienst d) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
     if (_verbindungsFehler) {
-      return MTafel(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(l.online_lobby_fehler, style: t.text),
-            const SizedBox(height: MMass.s12),
-            MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _verbinde),
-          ],
-        ),
+      return OnlineHinweisKarte(
+        icon: Icons.cloud_off_rounded,
+        text: l.online_lobby_fehler,
+        aktion: MKnopf(text: l.abend_nochmal, art: MKnopfArt.zweit, onPressed: _verbinde),
       );
     }
     if (_verbindet || !d.offen) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: MMass.s32),
-        child: Column(
-          children: [
-            if (!MBewegung.ruhig(context)) ...[
-              const SizedBox(width: 32, height: 32, child: CircularProgressIndicator(strokeWidth: 3)),
-              const SizedBox(height: MMass.s16),
-            ],
-            Text(l.online_lobby_verbinde, textAlign: TextAlign.center, style: t.leise),
-          ],
-        ),
+        padding: const EdgeInsets.symmetric(vertical: MMass.s24),
+        child: OnlineWarteNotiz(text: l.online_lobby_verbinde),
       );
     }
     final code = d.raumCode;
@@ -228,8 +215,8 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
           const _GetrenntHinweis(),
           const SizedBox(height: MMass.s16),
         ],
-        _CodeTafel(code: code, link: link),
-        const SizedBox(height: MMass.s16),
+        _CodeTafel(code: code, link: link, sigel: AkteStil.fuer(d.akteId).sigel),
+        const SizedBox(height: MMass.s32),
         _TischTafel(dienst: d, alleBereit: _alleBereit),
         const SizedBox(height: MMass.s16),
         _RollenTafel(
@@ -239,7 +226,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
           gaeste: d.gaeste.length,
           onAendern: (n) => setState(() => _rollen = n),
         ),
-        const SizedBox(height: MMass.s16),
+        const SizedBox(height: MMass.s24),
         // Eine Akte mit fester Lösung kennt keinen Fall-Code; eine Druckfassung gibt es online nie.
         if (d.daten.kanon.festeLoesung) const FesteLoesungHinweis(online: true),
         const KlasseZeile(),
@@ -255,42 +242,31 @@ class _GetrenntHinweis extends StatelessWidget {
   const _GetrenntHinweis();
 
   @override
-  Widget build(BuildContext context) {
-    final l = L.of(context);
-    final t = MSchrift.von(context);
-    final farbe = MFarben.von(context).warnung;
-    return Semantics(
-      liveRegion: true,
-      container: true,
-      child: Container(
-        key: const ValueKey('online-getrennt'),
-        padding: const EdgeInsets.all(MMass.s12),
-        decoration: BoxDecoration(
-          color: farbe.withValues(alpha: 0.14),
-          borderRadius: BorderRadius.circular(MMass.r10),
-          border: Border.all(color: farbe.withValues(alpha: 0.7)),
+  Widget build(BuildContext context) => Semantics(
+        liveRegion: true,
+        container: true,
+        child: OnlineHinweisKarte(
+          key: const ValueKey('online-getrennt'),
+          art: PapierArt.telegramm,
+          icon: Icons.wifi_off_rounded,
+          text: L.of(context).online_lobby_getrennt,
+          farbe: onlineWarnTinte,
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(Icons.wifi_off_rounded, color: farbe),
-            const SizedBox(width: MMass.s12),
-            Expanded(child: Text(l.online_lobby_getrennt, style: t.text)),
-          ],
-        ),
-      ),
-    );
-  }
+      );
 }
 
-/// Der Raumcode groß, daneben der QR-Code und Knöpfe zum Kopieren.
+/// Der Raumcode als getipptes Telegramm, daneben (oder darunter) die
+/// Platzkarte mit dem gedruckten QR-Code und dem Siegel der Akte.
 class _CodeTafel extends StatelessWidget {
-  const _CodeTafel({required this.code, required this.link});
+  const _CodeTafel({required this.code, required this.link, required this.sigel});
 
   final String code;
 
   /// Beitrittsadresse (Web) oder `null` (dann enthält der QR-Code nur den Code).
   final String? link;
+
+  /// Kürzel der Akte für das Siegel der Platzkarte.
+  final String sigel;
 
   void _kopieren(BuildContext context, String text) {
     final l = L.of(context);
@@ -301,50 +277,96 @@ class _CodeTafel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
-    final f = MFarben.von(context);
     final anzeige = raumCodeAnzeige(code);
-    return MTafel(
-      hervorgehoben: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(l.online_code_titel.toUpperCase(), style: t.marke, textAlign: TextAlign.center),
-          const SizedBox(height: MMass.s8),
-          Semantics(
-            label: l.online_code_semantik(anzeige),
-            excludeSemantics: true,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                anzeige,
-                key: const ValueKey('raumcode'),
-                style: t.titel.copyWith(fontSize: 52, letterSpacing: 6, color: f.akzentHell),
+    final adresse = link;
+    final telegramm = Padding(
+      padding: const EdgeInsets.only(top: MMass.s12),
+      child: MBlatt(
+        art: PapierArt.telegramm,
+        klebestreifen: true,
+        neigung: -0.006,
+        samen: 17,
+        padding: const EdgeInsets.fromLTRB(22, 26, 22, 22),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l.online_code_titel, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
+            const SizedBox(height: 4),
+            Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
+            const SizedBox(height: MMass.s16),
+            Semantics(
+              label: l.online_code_semantik(anzeige),
+              excludeSemantics: true,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  anzeige,
+                  key: const ValueKey('raumcode'),
+                  style: MPapierSchrift.maschine.copyWith(fontSize: 40, height: 1.15, letterSpacing: 6),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: MMass.s16),
-          Center(child: QrBild(daten: link ?? code, semantik: l.online_qr_semantik)),
-          const SizedBox(height: MMass.s12),
-          Text(l.online_qr_hinweis, textAlign: TextAlign.center, style: t.leise),
-          const SizedBox(height: MMass.s12),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: MMass.s8,
-            runSpacing: MMass.s8,
-            children: [
-              MKnopf(text: l.online_code_kopieren, art: MKnopfArt.zweit, icon: Icons.copy_rounded, onPressed: () => _kopieren(context, anzeige)),
-              if (link != null)
-                MKnopf(text: l.online_link_kopieren, art: MKnopfArt.zweit, icon: Icons.link_rounded, onPressed: () => _kopieren(context, link!)),
-            ],
-          ),
+            const SizedBox(height: MMass.s16),
+            Wrap(
+              spacing: MMass.s8,
+              runSpacing: MMass.s8,
+              children: [
+                MKnopf(text: l.online_code_kopieren, art: MKnopfArt.zweit, icon: Icons.copy_rounded, onPressed: () => _kopieren(context, anzeige)),
+                if (adresse != null)
+                  MKnopf(text: l.online_link_kopieren, art: MKnopfArt.zweit, icon: Icons.link_rounded, onPressed: () => _kopieren(context, adresse)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+    final karte = MOnlineTicket(
+      neigung: 0.01,
+      samen: 9,
+      abschnitt: Row(
+        children: [
+          MSiegel(kuerzel: sigel, groesse: 34),
+          const SizedBox(width: MMass.s12),
+          Expanded(child: Text('Nr. $anzeige', style: MPapierSchrift.maschine.copyWith(letterSpacing: 1.5))),
         ],
       ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          QrBild(daten: adresse ?? code, semantik: l.online_qr_semantik, groesse: 200),
+          const SizedBox(height: MMass.s12),
+          Text(l.online_qr_hinweis, textAlign: TextAlign.center, style: MPapierSchrift.leise),
+        ],
+      ),
+    );
+    return LayoutBuilder(
+      builder: (context, b) {
+        if (b.maxWidth >= 600) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(flex: 3, child: telegramm),
+              const SizedBox(width: MMass.s24),
+              Expanded(flex: 2, child: karte),
+            ],
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            telegramm,
+            const SizedBox(height: MMass.s24),
+            Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 300), child: karte)),
+          ],
+        );
+      },
     );
   }
 }
 
-/// Wer am Tisch sitzt, mit Bereit-Zustand.
+/// Das Gästeregister: wer am Tisch sitzt, je Platz eine Karteikarte mit
+/// Schattenriss (die Rollen verteilt erst der Start) und dem Bereit-Stempel.
 class _TischTafel extends StatelessWidget {
   const _TischTafel({required this.dienst, required this.alleBereit});
 
@@ -354,63 +376,54 @@ class _TischTafel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
     final spieler = dienst.spieler;
     final gaeste = dienst.gaeste;
-    return MTafel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('${l.online_tisch_titel} (${spieler.length})'.toUpperCase(), style: t.marke),
-          const SizedBox(height: MMass.s12),
-          for (final s in spieler) _Zeile(spieler: s),
-          if (gaeste.isEmpty) ...[
-            const SizedBox(height: MMass.s4),
-            Text(l.online_tisch_leer, style: t.leise),
-          ] else ...[
-            const SizedBox(height: MMass.s8),
-            Text(alleBereit ? l.online_alle_bereit : l.online_warten_bereit, style: t.leise),
-          ],
-        ],
-      ),
+    // Die Spielleitung spielt den Detektiv: ihr Abzug zeigt ihn.
+    final detektiv = onlineAussehen(dienst.daten, onlineDetektivId(dienst.daten));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        OnlineRegisterKopf('${l.online_tisch_titel} (${spieler.length})'),
+        for (var i = 0; i < spieler.length; i++) _Zeile(spieler: spieler[i], nr: i, detektiv: detektiv),
+        const SizedBox(height: MMass.s4),
+        if (gaeste.isEmpty)
+          OnlineWarteNotiz(text: l.online_tisch_leer)
+        else if (alleBereit)
+          OnlineWarteNotiz(text: l.online_alle_bereit, uhr: false, stempel: l.online_bereit)
+        else
+          OnlineWarteNotiz(text: l.online_warten_bereit),
+      ],
     );
   }
 }
 
 class _Zeile extends StatelessWidget {
-  const _Zeile({required this.spieler});
+  const _Zeile({required this.spieler, required this.nr, required this.detektiv});
 
   final SpielerInfo spieler;
+  final int nr;
+  final LookDef? detektiv;
 
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
-    final f = MFarben.von(context);
-    final Widget marke;
+    final Widget zustand;
     if (spieler.istGastgeber) {
-      marke = MChip(l.online_spielleitung, icon: Icons.star_rounded);
+      zustand = MChip(l.online_spielleitung, icon: Icons.star_rounded);
     } else if (!spieler.online) {
-      marke = MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: f.warnung);
+      zustand = MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte);
     } else if (spieler.bereit) {
-      marke = MChip(l.online_bereit, icon: Icons.check_circle_rounded, farbe: f.erfolg);
+      zustand = onlineStempel(l.online_bereit);
     } else {
-      marke = MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: f.papierLeise);
+      zustand = MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise);
     }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: MMass.s8),
-      child: Row(
-        children: [
-          Expanded(child: Text(spieler.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.text)),
-          const SizedBox(width: MMass.s8),
-          Flexible(child: marke),
-        ],
-      ),
-    );
+    return OnlinePlatzKarte(name: spieler.name, look: spieler.istGastgeber ? detektiv : null, zustand: zustand, nr: nr);
   }
 }
 
-/// Zahl der Rollen: mindestens so viele wie Gäste, höchstens die Besetzung der Akte.
+/// Zahl der Rollen als Besetzungsblatt: mindestens so viele wie Gäste,
+/// höchstens die Besetzung der Akte. Freie Rollen übernehmen Bots; je Bot liegt
+/// ein gestempelter Schattenriss auf dem Blatt.
 class _RollenTafel extends StatelessWidget {
   const _RollenTafel({required this.anzahl, required this.min, required this.max, required this.gaeste, required this.onAendern});
 
@@ -423,23 +436,29 @@ class _RollenTafel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final t = MSchrift.von(context);
-    final f = MFarben.von(context);
     final bots = (anzahl - gaeste).clamp(0, anzahl).toInt();
-    return MTafel(
+    final gesperrt = MRoh.tinte.withValues(alpha: 0.28);
+    return MBlatt(
+      neigung: 0.004,
+      samen: 29,
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(l.online_rollen_titel.toUpperCase(), style: t.marke),
+          Text(l.online_rollen_titel, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
+          const SizedBox(height: 4),
+          Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: MMass.s12),
-          Text(l.online_rollen_anzahl(anzahl), textAlign: TextAlign.center, style: t.ueberschrift),
+          Semantics(container: true, child: Text(l.online_rollen_anzahl(anzahl), textAlign: TextAlign.center, style: MPapierSchrift.titel)),
           Row(
             children: [
               IconButton(
                 tooltip: l.online_rollen_weniger,
                 onPressed: anzahl > min ? () => onAendern(anzahl - 1) : null,
                 icon: const Icon(Icons.remove_circle_outline),
-                color: f.papier,
+                color: MRoh.tinte,
+                disabledColor: gesperrt,
               ),
               Expanded(
                 child: min >= max
@@ -449,8 +468,9 @@ class _RollenTafel extends StatelessWidget {
                         min: min.toDouble(),
                         max: max.toDouble(),
                         divisions: max - min,
-                        activeColor: f.akzent,
-                        inactiveColor: f.flaecheHoch,
+                        activeColor: MRoh.stempelRot,
+                        inactiveColor: MRoh.tinte.withValues(alpha: 0.18),
+                        thumbColor: MRoh.messingMitte,
                         semanticFormatterCallback: (v) => l.online_rollen_anzahl(v.round()),
                         onChanged: (v) => onAendern(v.round()),
                       ),
@@ -459,14 +479,19 @@ class _RollenTafel extends StatelessWidget {
                 tooltip: l.online_rollen_mehr,
                 onPressed: anzahl < max ? () => onAendern(anzahl + 1) : null,
                 icon: const Icon(Icons.add_circle_outline),
-                color: f.papier,
+                color: MRoh.tinte,
+                disabledColor: gesperrt,
               ),
             ],
           ),
           const SizedBox(height: MMass.s4),
-          Text(l.online_rollen_bots(bots), style: t.text),
-          const SizedBox(height: MMass.s4),
-          Text(l.online_rollen_hinweis, style: t.leise),
+          Text(l.online_rollen_bots(bots), style: MPapierSchrift.text),
+          if (bots > 0) ...[
+            const SizedBox(height: MMass.s16),
+            OnlineBotReihe(bots: [for (var i = 0; i < bots; i++) (look: null, name: null, farbe: null)], stempel: l.online_bot_stempel),
+          ],
+          const SizedBox(height: MMass.s16),
+          Text(l.online_rollen_hinweis, style: MPapierSchrift.leise),
         ],
       ),
     );
