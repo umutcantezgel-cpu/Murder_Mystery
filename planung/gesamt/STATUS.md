@@ -30,6 +30,7 @@ Branch `claude/beautiful-meitner-fh1mkq` · Plan: `planung/gesamt/PLAN.md` (Best
 - **A-045 · Kostenlos, ohne Werbung, Käufe und Datenerhebung (2026-10-13).** Quelle: Besitzer.
 
 ## Prüfjournal (neueste zuerst)
+- 2026-10-13: Browserproben nach M6–M8: `start` und `runden` grün (je 2/2 Handygrößen), `solo` grün (2/2 vollständige Handy-Abende, 9 echte Kartenentscheidungen, 9 bzw. 12 sichtbare Würfe), jeweils 0 Konsolenfehler und 0 fremde Netzaufrufe. Gespräche mit Wahl in allen fünf Akten, `mordakte_core` Erzähltests 34/34.
 - 2026-10-13: M8 Abend fortsetzen: Rundlauf-Test über ganze Abende (Ravensmoor reihum mit Gesprächen, Schlosskeller solo mit Deck und Erkundung): nach jedem Schritt Stand durch JSON, Fortsetzung zeigt dasselbe, ab jedem siebten Schritt gleiches Ende. App-Tests Neuladen → Detektei → „Abend fortsetzen“, Verwerfen, Abbruch, kaputter Stand. M7 Mischpult im Profil. Analyse ohne Befund; App 317/317.
 - 2026-10-13: M6 Gespräche mit Wahl (Ravensmoor, Schlosskeller): Prüfer ohne Befund für beide Akten (Graph, Preisgaben nur öffentlich, Fünf-Wort-Regel, Flags, Ton); Gespräche, Flags und „Ansprechen“ in allen Pfaden beider Akten gleich; Gespräche ändern weder Minuten noch Würfe noch Punkte. Analyse ohne Befund; App 308/308, `mordakte_core` 498 grün.
 - 2026-10-13: M2 zusammengeführt (fünf Lanes, ARB-Schlüssel vereint, `flutter gen-l10n`). Analyse ohne Befund; App 301/301; `krimidinner_kanon` 67, `mordakte_core` 482, `mordakte_klang` 4, `mordakte_netz` 48 grün; Web-Build; `start` grün; Kontaktbogen aller 14 Bildschirme angesehen.

@@ -187,10 +187,18 @@ class _Karte extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  sitzung.solo ? sitzung.ui('ui.solo.gast') : sitzung.ui('ui.anklage.gespielt', {'name': sitzung.spielerName(person)}),
-                  textAlign: TextAlign.center,
-                  style: MPapierSchrift.maschine.copyWith(fontSize: 13, color: MRoh.tinteLeise),
+                // Ohne eingetragenen Namen hieße es „gespielt von“ der Figur selbst:
+                // dann bleibt die Zeile leer, die Karten bleiben gleich hoch.
+                Visibility(
+                  visible: sitzung.solo || sitzung.spielerName(person) != sitzung.figurName(person),
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  child: Text(
+                    sitzung.solo ? sitzung.ui('ui.solo.gast') : sitzung.ui('ui.anklage.gespielt', {'name': sitzung.spielerName(person)}),
+                    textAlign: TextAlign.center,
+                    style: MPapierSchrift.maschine.copyWith(fontSize: 13, color: MRoh.tinteLeise),
+                  ),
                 ),
               ],
             ),

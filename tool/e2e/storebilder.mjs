@@ -29,7 +29,8 @@ const ansichten = [
   ['3-karte', abend('ravensmoor', 'entscheidungen')],
   ['4-gespraech', abend('ravensmoor', 'entscheidungen', '&gespraech=zofe,1')],
   ['5-anklage', abend('nachtexpress', 'anklage')],
-  ['6-ende', abend('blue_palm', 'ende')],
+  // Kein Ende und keine Auflösung: Sie zeigen den Täter.
+  ['6-rollen', abend('schlosskeller', 'rollen')],
 ];
 
 const server = await starteServer(path.join(repo, 'build/web'));
