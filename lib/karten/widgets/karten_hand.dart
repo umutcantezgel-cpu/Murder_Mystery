@@ -185,7 +185,7 @@ class _Handkarte extends StatelessWidget {
             const SizedBox(height: 6),
             Transform.translate(
               offset: Offset(0, senkung),
-              child: _Ladungen(rest: rest, gesamt: def.ladungen, farbe: f.akzentHell, leise: f.linieStark),
+              child: _Ladungen(rest: rest, gesamt: def.ladungen, leise: f.linieStark),
             ),
           ],
         ),
@@ -206,13 +206,13 @@ ColorFilter _saettigung(double s) {
   ]);
 }
 
-/// Punkte für die Ladungen: gefüllt = noch übrig.
+/// Nieten für die Ladungen: eine Messingniete je Ladung, die noch übrig ist,
+/// ein leerer Ring je verbrauchte.
 class _Ladungen extends StatelessWidget {
-  const _Ladungen({required this.rest, required this.gesamt, required this.farbe, required this.leise});
+  const _Ladungen({required this.rest, required this.gesamt, required this.leise});
 
   final int rest;
   final int gesamt;
-  final Color farbe;
   final Color leise;
 
   @override
@@ -221,13 +221,20 @@ class _Ladungen extends StatelessWidget {
         children: [
           for (var i = 0; i < gesamt; i++)
             Container(
-              width: 9,
-              height: 9,
+              width: 10,
+              height: 10,
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: i < rest ? farbe : Colors.transparent,
-                border: Border.all(color: i < rest ? farbe : leise, width: 1.5),
+                gradient: i < rest
+                    ? const RadialGradient(
+                        center: Alignment(-0.35, -0.4),
+                        colors: [MRoh.messingHell, MRoh.messingMitte, MRoh.messingDunkel],
+                        stops: [0, 0.55, 1],
+                      )
+                    : null,
+                border: Border.all(color: i < rest ? MRoh.messingDunkel : leise, width: i < rest ? 1 : 1.5),
+                boxShadow: i < rest ? const [BoxShadow(color: Color(0x66000000), blurRadius: 2, offset: Offset(0, 1))] : null,
               ),
             ),
         ],

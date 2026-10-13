@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte/party/bildschirme/einrichtung.dart';
-import 'package:mordakte/party/party_stil.dart';
+import 'package:mordakte/stil/stil.dart' show MFotoabzug;
 import 'package:mordakte/party/sitzung.dart';
 
 import 'hilfe.dart';
@@ -39,8 +39,8 @@ Future<void> _schreibe(WidgetTester t, Finder f, String text) async {
   await t.pump();
 }
 
-/// Die Zeilen der besetzten Rollen (je Zeile ein Farbpunkt).
-Finder _zeilen() => find.byType(FarbPunkt);
+/// Die Zeilen der besetzten Rollen (je Zeile ein Fotoabzug der Figur).
+Finder _zeilen() => find.byType(MFotoabzug);
 
 void main() {
   testWidgets('Vorgabe 7 zeigt 7 besetzte Rollen', (t) async {

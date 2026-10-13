@@ -134,23 +134,22 @@ FutureOr<bool> abendVerlassen(BuildContext context, AbendHalter halter) {
   return _abbruchFragen(context);
 }
 
-Future<bool> _abbruchFragen(BuildContext context) async {
+/// Die Rückfrage als Karteikarte: „Weiterspielen“ als Etikett, „Abend abbrechen“
+/// als rotes Stempelschild. Wegtippen gilt als Weiterspielen.
+Future<bool> _abbruchFragen(BuildContext context) {
   final l = L.of(context);
-  final ja = await showDialog<bool>(
-    context: context,
-    builder: (c) => AlertDialog(
-      title: Text(l.abend_abbrechen_titel),
-      content: Text(l.abend_abbrechen_text),
-      actions: [
-        TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l.abend_abbrechen_nein)),
-        TextButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l.abend_abbrechen_ja)),
-      ],
-    ),
+  return frageKarteikarte(
+    context,
+    titel: l.abend_abbrechen_titel,
+    text: l.abend_abbrechen_text,
+    ja: l.abend_abbrechen_ja,
+    nein: l.abend_abbrechen_nein,
+    gefaehrlich: true,
   );
-  return ja == true;
 }
 
-/// Schmale Leiste über dem Abend (Solo und reihum) mit dem Ausgang „Abend abbrechen“.
+/// Schmale Leiste über dem Abend (Solo und reihum) mit dem Ausgang „Abend abbrechen“:
+/// die Lederkante des Schreibtischs mit einer Messinglinie.
 class _AbbrechenLeiste extends StatelessWidget {
   const _AbbrechenLeiste({required this.onPressed});
 
@@ -160,7 +159,15 @@ class _AbbrechenLeiste extends StatelessWidget {
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
     return DecoratedBox(
-      decoration: BoxDecoration(color: f.grund2, border: Border(bottom: BorderSide(color: f.linie))),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color.lerp(MRoh.leder, f.grund, 0.35)!, f.grund2],
+        ),
+        border: Border(bottom: BorderSide(color: MRoh.messingMitte.withValues(alpha: 0.35))),
+        boxShadow: const [BoxShadow(color: Color(0x66000000), blurRadius: 6, offset: Offset(0, 2))],
+      ),
       child: SafeArea(
         bottom: false,
         child: Align(

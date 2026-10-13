@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../../l10n/lookup.dart';
-import '../../party/party_stil.dart' show FarbPunkt;
 import '../../party/sitzung.dart';
+import '../../stil/mappe/assistent_formular.dart';
 import '../../stil/stil.dart';
 
 /// Fall-Code: Zufall (Vorgabe) oder eigene Eingabe.
@@ -145,7 +145,13 @@ class EinrichtungsWerte extends ChangeNotifier {
   }
 }
 
-/// Ein Abschnitt in einer Tafel: Überschrift in Kapitälchen, darunter die Felder.
+
+/// Ein Abschnitt des Formulars: Formularkopf in roter Schreibmaschine über einer
+/// Tintenlinie, darunter die Felder.
+///
+/// Liegt die Tafel schon auf Papier (im Formular [EinrichtungsAbschnitte]), ist
+/// sie ein Abschnitt dieses Blatts; allein liegt sie als eigenes Blatt auf dem
+/// Schreibtisch. Ihr Inhalt steht in jedem Fall auf Papier und trägt Tinte.
 class EinrichtungsTafel extends StatelessWidget {
   const EinrichtungsTafel({super.key, required this.ueberschrift, required this.kinder});
 
@@ -153,23 +159,37 @@ class EinrichtungsTafel extends StatelessWidget {
   final List<Widget> kinder;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: MMass.s16),
-        child: MTafel(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(ueberschrift.toUpperCase(), style: MSchrift.von(context).marke),
-              const SizedBox(height: MMass.s12),
-              ...kinder,
-            ],
-          ),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final abschnitt = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(ueberschrift.toUpperCase(), style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot, letterSpacing: 1.1)),
+        const SizedBox(height: MMass.s4),
+        Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
+        const SizedBox(height: MMass.s12),
+        ...kinder,
+      ],
+    );
+    if (MFlaeche.hellVon(context)) {
+      return Padding(padding: const EdgeInsets.only(bottom: MMass.s24), child: abschnitt);
+    }
+    final samen = ueberschrift.codeUnits.fold(5, (a, b) => (a * 31 + b) & 0xffff);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: MMass.s16),
+      child: MBlatt(
+        samen: samen,
+        neigung: samen.isEven ? -0.003 : 0.003,
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+        child: abschnitt,
+      ),
+    );
+  }
 }
 
 /// Basis der Abschnitte: hört auf die [werte] und baut bei jeder Änderung neu.
+/// Der Inhalt liegt immer auf Papier ([EinrichtungsTafel]), darum stehen hier
+/// nur Tintenstile ([MPapierSchrift]).
 abstract class _Abschnitt extends StatelessWidget {
   const _Abschnitt({super.key, required this.werte});
 
@@ -177,22 +197,19 @@ abstract class _Abschnitt extends StatelessWidget {
 
   PartySitzung get s => werte.sitzung;
 
-  Widget baue(BuildContext context, MFarben f, MSchrift t);
+  Widget baue(BuildContext context);
 
   @override
-  Widget build(BuildContext context) {
-    final f = MFarben.von(context);
-    final t = MSchrift.von(context);
-    return ListenableBuilder(listenable: werte, builder: (context, _) => baue(context, f, t));
-  }
+  Widget build(BuildContext context) => ListenableBuilder(listenable: werte, builder: (context, _) => baue(context));
 }
 
-/// Alle Abschnitte in der festen Reihenfolge des Einrichtungsbildschirms. Im
-/// Solo-Spiel entfallen Druckfassung und Rundendauer. Im Online-Abend
-/// ([online]: jeder am eigenen Gerät) entfallen Personenzahl und Spielnamen
-/// (die Lobby legt die Rollen fest) und die Druckfassung. Die Druckfassung gibt
-/// es nur für druckbare Akten ([EinrichtungsWerte.druckbar]). Bei einer Akte mit
-/// fester Lösung ersetzt ein Hinweis den Fall-Code.
+/// Alle Abschnitte in der festen Reihenfolge des Einrichtungsbildschirms, als ein
+/// Formularblatt mit Büroklammer. Im Solo-Spiel entfallen Druckfassung und
+/// Rundendauer. Im Online-Abend ([online]: jeder am eigenen Gerät) entfallen
+/// Personenzahl und Spielnamen (die Lobby legt die Rollen fest) und die
+/// Druckfassung. Die Druckfassung gibt es nur für druckbare Akten
+/// ([EinrichtungsWerte.druckbar]). Bei einer Akte mit fester Lösung ersetzt ein
+/// Hinweis den Fall-Code.
 class EinrichtungsAbschnitte extends StatelessWidget {
   const EinrichtungsAbschnitte({super.key, required this.werte, this.online = false});
 
@@ -202,115 +219,132 @@ class EinrichtungsAbschnitte extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
         listenable: werte,
-        builder: (context, _) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (!online) PersonenAbschnitt(werte: werte),
-            GeburtstagAbschnitt(werte: werte),
-            DetektivAbschnitt(werte: werte),
-            FallAbschnitt(werte: werte, online: online),
-            if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
-            if (!werte.solo) DauerAbschnitt(werte: werte),
-            StimmeAbschnitt(werte: werte),
-          ],
+        builder: (context, _) => MBlatt(
+          klammer: true,
+          samen: 41,
+          neigung: -0.002,
+          padding: const EdgeInsets.fromLTRB(20, 30, 20, 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (!online) PersonenAbschnitt(werte: werte),
+              GeburtstagAbschnitt(werte: werte),
+              DetektivAbschnitt(werte: werte),
+              FallAbschnitt(werte: werte, online: online),
+              if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
+              if (!werte.solo) DauerAbschnitt(werte: werte),
+              StimmeAbschnitt(werte: werte),
+            ],
+          ),
         ),
       );
 }
 
-/// Anzahl der Personen per Regler und die besetzten Rollen mit Namensfeldern.
+/// Anzahl der Personen per Regler und die besetzten Rollen mit Fotoabzug und
+/// Namensfeld.
 class PersonenAbschnitt extends _Abschnitt {
   const PersonenAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) {
+  Widget baue(BuildContext context) {
     final solo = werte.solo;
     final n = werte.rollen;
+    final rollen = s.rollenBei(n);
     return EinrichtungsTafel(
       ueberschrift: s.ui(solo ? 'ui.solo.rollen' : 'ui.einrichtung.personen'),
       kinder: [
         Text(
           s.ui(solo ? 'ui.solo.rollen_anzahl' : 'ui.einrichtung.anzahl', {'anzahl': '$n'}),
-          style: t.ueberschrift,
+          style: MPapierSchrift.ueberschrift,
           textAlign: TextAlign.center,
         ),
+        const SizedBox(height: MMass.s4),
         Row(
           children: [
-            IconButton(
+            _Stellknopf(
               tooltip: s.ui('ui.einrichtung.weniger'),
+              icon: Icons.remove_circle_outline,
               onPressed: n > s.minRollen ? () => werte.setzeRollen(n - 1) : null,
-              icon: const Icon(Icons.remove_circle_outline),
-              color: f.papier,
             ),
             Expanded(
-              child: Slider(
-                value: n.toDouble(),
-                min: s.minRollen.toDouble(),
-                max: s.maxRollen.toDouble(),
-                divisions: s.maxRollen - s.minRollen,
-                activeColor: f.akzent,
-                inactiveColor: f.flaecheHoch,
-                onChanged: (v) => werte.setzeRollen(v.round()),
+              child: MPapierRegler(
+                child: Slider(
+                  value: n.toDouble(),
+                  min: s.minRollen.toDouble(),
+                  max: s.maxRollen.toDouble(),
+                  divisions: s.maxRollen - s.minRollen,
+                  onChanged: (v) => werte.setzeRollen(v.round()),
+                ),
               ),
             ),
-            IconButton(
+            _Stellknopf(
               tooltip: s.ui('ui.einrichtung.mehr'),
+              icon: Icons.add_circle_outline,
               onPressed: n < s.maxRollen ? () => werte.setzeRollen(n + 1) : null,
-              icon: const Icon(Icons.add_circle_outline),
-              color: f.papier,
             ),
           ],
         ),
         const SizedBox(height: MMass.s8),
-        Text(s.ui(solo ? 'ui.solo.rollen_hinweis' : 'ui.einrichtung.namen_hinweis'), style: t.leise),
-        const SizedBox(height: MMass.s12),
-        for (final r in s.rollenBei(n)) _rollenZeile(context, r, t),
+        Text(s.ui(solo ? 'ui.solo.rollen_hinweis' : 'ui.einrichtung.namen_hinweis'), style: MPapierSchrift.leise),
+        const SizedBox(height: MMass.s16),
+        for (var i = 0; i < rollen.length; i++) _rollenZeile(rollen[i], i),
       ],
     );
   }
 
-  /// Eine besetzte Rolle: Farbpunkt, Figur und Feld für den Spielernamen. Auf
+  /// Eine besetzte Rolle: Fotoabzug, Figur und Feld für den Spielernamen. Auf
   /// schmalen Bildschirmen und bei großer Schrift steht das Feld unter Figur und
   /// Titel; sonst bliebe dem Titel kaum Platz und Wörter bräche es mitten durch.
-  Widget _rollenZeile(BuildContext context, String rolle, MSchrift t) => Padding(
+  Widget _rollenZeile(String rolle, int nr) => Padding(
         key: ValueKey('rolle-$rolle'),
-        padding: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(bottom: MMass.s12),
         child: LayoutBuilder(
           builder: (context, box) {
             final skala = MediaQuery.textScalerOf(context).scale(1);
             final untereinander = box.maxWidth < 400 * (skala < 1 ? 1 : skala);
-            final feld = TextField(
-              key: ValueKey('name-$rolle'),
+            // Sehr schmal mit großer Schrift: der Titel der Figur steht unter Bild und Name.
+            final eng = box.maxWidth < 200 * (skala < 1 ? 1 : skala);
+            final titel = Text(s.figurTitel(rolle), style: MPapierSchrift.leise);
+            final feld = _Formularzeile(
+              feldKey: ValueKey('name-$rolle'),
               controller: werte.namenFeld(rolle),
-              textCapitalization: TextCapitalization.words,
-              style: t.text,
-              decoration: einrichtungFeld(context, s.ui('ui.einrichtung.name_feld')),
+              platzhalter: s.ui('ui.einrichtung.name_feld'),
             );
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   children: [
-                    FarbPunkt(s.figurFarbe(rolle), groesse: 16),
-                    const SizedBox(width: MMass.s12),
+                    // Der Name steht daneben; das Bild bleibt für den Bildschirmleser stumm.
+                    ExcludeSemantics(
+                      child: MFotoabzug(
+                        look: s.figurAussehen(rolle),
+                        groesse: _foto,
+                        neigung: nr.isEven ? -0.05 : 0.04,
+                        akzent: s.figurFarbe(rolle),
+                      ),
+                    ),
+                    const SizedBox(width: MMass.s16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(s.figurName(rolle), style: t.text),
-                          Text(s.figurTitel(rolle), style: t.leise),
+                          Text(s.figurName(rolle), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17, height: 1.3)),
+                          if (!eng) titel,
                         ],
                       ),
                     ),
                     if (!werte.solo && !untereinander) ...[
                       const SizedBox(width: MMass.s12),
-                      SizedBox(width: 150, child: feld),
+                      SizedBox(width: 160, child: feld),
                     ],
                   ],
                 ),
+                if (eng) Padding(padding: const EdgeInsets.only(top: MMass.s4), child: titel),
                 if (!werte.solo && untereinander)
                   Padding(
-                    // Unter dem Text der Figur: Breite des Farbpunkts plus Abstand.
-                    padding: const EdgeInsets.only(left: 16 + MMass.s12, top: MMass.s8),
+                    // Unter dem Text der Figur: Breite des Fotoabzugs (Bild und Rand) plus Abstand.
+                    padding: EdgeInsets.only(left: eng ? 0 : _foto + 16 + MMass.s16, top: MMass.s4),
                     child: feld,
                   ),
               ],
@@ -320,21 +354,74 @@ class PersonenAbschnitt extends _Abschnitt {
       );
 }
 
+/// Kantenlänge der Fotoabzüge in der Besetzung.
+const _foto = 44.0;
+
+/// Kleiner Stellknopf (eine Person weniger oder mehr) in Tinte.
+class _Stellknopf extends StatelessWidget {
+  const _Stellknopf({required this.tooltip, required this.icon, required this.onPressed});
+
+  final String tooltip;
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+        tooltip: tooltip,
+        onPressed: onPressed,
+        icon: Icon(icon),
+        iconSize: 28,
+        color: MRoh.tinte,
+        disabledColor: MRoh.tinte.withValues(alpha: 0.25),
+        highlightColor: MRoh.tinte.withValues(alpha: 0.08),
+      );
+}
+
+/// Eingabezeile des Formulars: Schreibmaschine auf einer Tintenlinie.
+class _Formularzeile extends StatelessWidget {
+  const _Formularzeile({
+    required this.feldKey,
+    required this.controller,
+    required this.platzhalter,
+    this.code = false,
+    this.onChanged,
+  });
+
+  final Key? feldKey;
+  final TextEditingController controller;
+  final String platzhalter;
+
+  /// Fall-Code: groß, gesperrt gesetzt, nur Großbuchstaben.
+  final bool code;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) => TextField(
+        key: feldKey,
+        controller: controller,
+        textCapitalization: code ? TextCapitalization.characters : TextCapitalization.words,
+        inputFormatters: code ? [const Grossbuchstaben(), LengthLimitingTextInputFormatter(FallCode.laenge)] : null,
+        onChanged: onChanged,
+        cursorColor: MRoh.tinteBlau,
+        style: code ? MPapierSchrift.maschine.copyWith(fontSize: 22, letterSpacing: 4) : MPapierSchrift.maschine.copyWith(fontSize: 17),
+        decoration: einrichtungFeld(context, platzhalter),
+      );
+}
+
 /// Name des Geburtstagskinds (Detektiv); im Solo-Spiel der Name des Detektivs.
 class GeburtstagAbschnitt extends _Abschnitt {
   const GeburtstagAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) {
+  Widget baue(BuildContext context) {
     final solo = werte.solo;
     return EinrichtungsTafel(
       ueberschrift: s.ui(solo ? 'ui.solo.name' : 'ui.einrichtung.geburtstag'),
       kinder: [
-        TextField(
+        _Formularzeile(
+          feldKey: null,
           controller: werte.geburtstag,
-          textCapitalization: TextCapitalization.words,
-          style: t.text,
-          decoration: einrichtungFeld(context, s.ui(solo ? 'ui.solo.name_feld' : 'ui.einrichtung.geburtstag_feld')),
+          platzhalter: s.ui(solo ? 'ui.solo.name_feld' : 'ui.einrichtung.geburtstag_feld'),
         ),
       ],
     );
@@ -346,18 +433,13 @@ class DetektivAbschnitt extends _Abschnitt {
   const DetektivAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
+  Widget baue(BuildContext context) => EinrichtungsTafel(
         ueberschrift: s.ui('ui.einrichtung.detektiv'),
         kinder: [
-          SegmentedButton<String>(
-            style: einrichtungAuswahlStil(f),
-            showSelectedIcon: false,
-            segments: [
-              ButtonSegment(value: 'm', label: Text(s.ui('ui.einrichtung.detektiv_m'))),
-              ButtonSegment(value: 'w', label: Text(s.ui('ui.einrichtung.detektiv_w'))),
-            ],
-            selected: {werte.detektiv},
-            onSelectionChanged: (w) => werte.setzeDetektiv(w.first),
+          MAnkreuzWahl<String>(
+            optionen: [('m', s.ui('ui.einrichtung.detektiv_m')), ('w', s.ui('ui.einrichtung.detektiv_w'))],
+            gewaehlt: werte.detektiv,
+            onWahl: werte.setzeDetektiv,
           ),
         ],
       );
@@ -371,44 +453,35 @@ class FallAbschnitt extends _Abschnitt {
   final bool online;
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) {
+  Widget baue(BuildContext context) {
     if (werte.festeLoesung) return FesteLoesungHinweis(solo: werte.solo, online: online);
-    return _codeTafel(context, f, t);
-  }
-
-  Widget _codeTafel(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
-        ueberschrift: s.ui('ui.einrichtung.fall'),
-        kinder: [
-          SegmentedButton<CodeWahl>(
-            style: einrichtungAuswahlStil(f),
-            showSelectedIcon: false,
-            segments: [
-              ButtonSegment(value: CodeWahl.zufall, label: Text(s.ui('ui.einrichtung.code_zufall'))),
-              ButtonSegment(value: CodeWahl.eingabe, label: Text(s.ui('ui.einrichtung.code_eingabe'))),
-            ],
-            selected: {werte.codeWahl},
-            onSelectionChanged: (w) => werte.setzeCodeWahl(w.first),
+    return EinrichtungsTafel(
+      ueberschrift: s.ui('ui.einrichtung.fall'),
+      kinder: [
+        MAnkreuzWahl<CodeWahl>(
+          optionen: [(CodeWahl.zufall, s.ui('ui.einrichtung.code_zufall')), (CodeWahl.eingabe, s.ui('ui.einrichtung.code_eingabe'))],
+          gewaehlt: werte.codeWahl,
+          onWahl: werte.setzeCodeWahl,
+        ),
+        if (werte.codeWahl == CodeWahl.eingabe) ...[
+          const SizedBox(height: MMass.s8),
+          _Formularzeile(
+            feldKey: const ValueKey('code'),
+            controller: werte.code,
+            platzhalter: s.ui('ui.einrichtung.code_feld'),
+            code: true,
+            onChanged: (_) => werte.melde(),
           ),
-          if (werte.codeWahl == CodeWahl.eingabe) ...[
-            const SizedBox(height: MMass.s12),
-            TextField(
-              key: const ValueKey('code'),
-              controller: werte.code,
-              textCapitalization: TextCapitalization.characters,
-              inputFormatters: [const Grossbuchstaben(), LengthLimitingTextInputFormatter(FallCode.laenge)],
-              onChanged: (_) => werte.melde(),
-              style: t.ueberschrift,
-              decoration: einrichtungFeld(context, s.ui('ui.einrichtung.code_feld')),
-            ),
-            if (werte.codeFalsch) ...[
-              const SizedBox(height: 10),
-              EinrichtungsFehler(s.ui('ui.einrichtung.code_fehler')),
-            ],
+          if (werte.codeFalsch) ...[
+            const SizedBox(height: 10),
+            EinrichtungsFehler(s.ui('ui.einrichtung.code_fehler')),
           ],
-          const SizedBox(height: MMass.s12),
-          Text(s.ui('ui.einrichtung.code_hinweis'), style: t.leise),
         ],
-      );
+        const SizedBox(height: MMass.s12),
+        Text(s.ui('ui.einrichtung.code_hinweis'), style: MPapierSchrift.leise),
+      ],
+    );
+  }
 }
 
 /// Hinweis für Akten mit fester Lösung: Ein Fall-Code ändert dort den Täter nicht,
@@ -430,7 +503,7 @@ class FesteLoesungHinweis extends StatelessWidget {
               ? l.abend_feste_loesung_online
               : (solo ? l.abend_feste_loesung_solo : l.abend_feste_loesung_hinweis),
           key: const ValueKey('feste-loesung'),
-          style: MSchrift.von(context).text,
+          style: MPapierSchrift.text,
         ),
       ],
     );
@@ -442,22 +515,20 @@ class SpielartAbschnitt extends _Abschnitt {
   const SpielartAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
+  Widget baue(BuildContext context) => EinrichtungsTafel(
         ueberschrift: s.ui('ui.einrichtung.spiel'),
         kinder: [
-          SegmentedButton<Spielart>(
-            style: einrichtungAuswahlStil(f),
-            showSelectedIcon: false,
-            segments: [
-              ButtonSegment(value: Spielart.bildschirm, label: Text(s.ui('ui.einrichtung.spiel_bildschirm'))),
-              ButtonSegment(value: Spielart.druck, label: Text(s.ui('ui.einrichtung.spiel_druck'))),
+          MAnkreuzWahl<Spielart>(
+            optionen: [
+              (Spielart.bildschirm, s.ui('ui.einrichtung.spiel_bildschirm')),
+              (Spielart.druck, s.ui('ui.einrichtung.spiel_druck')),
             ],
-            selected: {werte.spielart},
-            onSelectionChanged: (w) => werte.setzeSpielart(w.first),
+            gewaehlt: werte.spielart,
+            onWahl: werte.setzeSpielart,
           ),
           if (werte.spielart == Spielart.druck) ...[
-            const SizedBox(height: MMass.s12),
-            Text(s.ui('ui.einrichtung.druck_hinweis'), style: t.leise),
+            const SizedBox(height: MMass.s8),
+            Text(s.ui('ui.einrichtung.druck_hinweis'), style: MPapierSchrift.leise),
           ],
         ],
       );
@@ -468,52 +539,73 @@ class DauerAbschnitt extends _Abschnitt {
   const DauerAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
+  Widget baue(BuildContext context) => EinrichtungsTafel(
         ueberschrift: s.ui('ui.einrichtung.dauer'),
         kinder: [
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              for (final m in einrichtungMinuten)
-                MKnopf(
-                  text: s.ui('ui.einrichtung.minuten', {'minuten': '$m'}),
-                  art: m == werte.minuten ? MKnopfArt.haupt : MKnopfArt.zweit,
-                  onPressed: () => werte.setzeMinuten(m),
-                ),
-            ],
+          MAnkreuzWahl<int>(
+            optionen: [for (final m in einrichtungMinuten) (m, s.ui('ui.einrichtung.minuten', {'minuten': '$m'}))],
+            gewaehlt: werte.minuten,
+            onWahl: werte.setzeMinuten,
           ),
         ],
       );
 }
 
-/// Erzählerstimme an oder aus.
+/// Erzählerstimme an oder aus: Formularzeile mit Messing-Kippschalter. Ein Tipp
+/// auf die ganze Zeile schaltet um.
 class StimmeAbschnitt extends _Abschnitt {
   const StimmeAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context, MFarben f, MSchrift t) => EinrichtungsTafel(
-        ueberschrift: s.ui('ui.einrichtung.stimme'),
-        kinder: [
-          // Eigene Material-Fläche ohne Farbe: Der Schalter malt auf sie, nicht auf die Tafel.
-          Material(
-            type: MaterialType.transparency,
-            child: SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              activeThumbColor: f.akzent,
-              activeTrackColor: f.akzentSchwach,
-              title: Text(s.ui('ui.einrichtung.stimme_schalter'), style: t.text),
-              subtitle: Text(s.ui('ui.einrichtung.stimme_hinweis'), style: t.leise),
-              value: werte.stimme,
-              onChanged: werte.setzeStimme,
+  Widget baue(BuildContext context) {
+    final titel = s.ui('ui.einrichtung.stimme_schalter');
+    final hinweis = s.ui('ui.einrichtung.stimme_hinweis');
+    void umschalten() => werte.setzeStimme(!werte.stimme);
+    return EinrichtungsTafel(
+      ueberschrift: s.ui('ui.einrichtung.stimme'),
+      kinder: [
+        Semantics(
+          toggled: werte.stimme,
+          label: titel,
+          hint: hinweis,
+          onTap: umschalten,
+          excludeSemantics: true,
+          child: InkWell(
+            onTap: umschalten,
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: MRoh.tinte.withValues(alpha: 0.06),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: MMass.s4),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(titel, style: MPapierSchrift.text.copyWith(fontSize: 16)),
+                        const SizedBox(height: 2),
+                        Text(hinweis, style: MPapierSchrift.leise),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: MMass.s12),
+                  MSchalter(wert: werte.stimme, onChanged: werte.setzeStimme, symbolAn: Icons.volume_up, symbolAus: Icons.volume_off),
+                ],
+              ),
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
-/// Eingabefeld im Spielstil; der Platzhalter kommt aus den Bausteinen.
+/// Eingabefeld im Spielstil; der Platzhalter kommt aus den Bausteinen. Auf
+/// Papier ([MFlaeche] hell) eine Formularzeile mit Tintenlinie, auf dem
+/// Schreibtisch ein dunkles Feld mit Rahmen.
 InputDecoration einrichtungFeld(BuildContext context, String platzhalter) {
+  if (MFlaeche.hellVon(context)) return mPapierFeld(platzhalter);
   final f = MFarben.von(context);
   OutlineInputBorder rahmen(Color farbe) => OutlineInputBorder(borderRadius: BorderRadius.circular(MMass.r10), borderSide: BorderSide(color: farbe));
   return InputDecoration(
@@ -529,17 +621,6 @@ InputDecoration einrichtungFeld(BuildContext context, String platzhalter) {
   );
 }
 
-/// Auswahl im Spielstil: die gewählte Seite leuchtet warm.
-ButtonStyle einrichtungAuswahlStil(MFarben f) => SegmentedButton.styleFrom(
-      backgroundColor: f.flaeche,
-      foregroundColor: f.papier,
-      selectedBackgroundColor: f.akzent,
-      selectedForegroundColor: f.akzentAuf,
-      side: BorderSide(color: f.linieStark),
-      minimumSize: const Size(MMass.tippflaeche, MMass.tippflaeche),
-      textStyle: const TextStyle(fontFamily: MRohSchrift.text, fontSize: 15, fontWeight: FontWeight.w600),
-    );
-
 /// Fall-Codes stehen in Großbuchstaben, die Eingabe wird beim Tippen groß.
 class Grossbuchstaben extends TextInputFormatter {
   const Grossbuchstaben();
@@ -551,7 +632,8 @@ class Grossbuchstaben extends TextInputFormatter {
   }
 }
 
-/// Fehlerzeile unter einem Feld: Warnzeichen und ein Baustein.
+/// Fehlerzeile unter einem Feld: Warnzeichen und ein Baustein. Auf Papier in
+/// Stempelrot und Tinte.
 class EinrichtungsFehler extends StatelessWidget {
   const EinrichtungsFehler(this.text, {super.key});
 
