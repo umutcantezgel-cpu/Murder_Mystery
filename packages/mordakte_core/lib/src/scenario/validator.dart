@@ -26,6 +26,7 @@ ValidationReport validateScenario(ScenarioDef s) {
     if (v == null || !RegExp(r'^#[0-9a-fA-F]{6}$').hasMatch(v)) err('theme.palette.$k fehlt/ungültig');
   }
   if (!ThemeDef.weathers.contains(s.theme.weather)) err('theme.weather ungültig: ${s.theme.weather}');
+  if (!ThemeDef.backdrops.contains(s.theme.backdrop)) err('theme.backdrop ungültig: ${s.theme.backdrop}');
 
   // --- Karte
   final m = s.map;

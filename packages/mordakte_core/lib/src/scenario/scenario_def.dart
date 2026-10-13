@@ -103,6 +103,10 @@ class ThemeDef {
   final String weather;
   final bool lightning;
 
+  /// Kulisse rund um die Karte (nur Darstellung): `none`, `keller`, `burg`,
+  /// `garten`, `gleis` oder `motel`.
+  final String backdrop;
+
   /// Helligkeit bei Tag (0..1) und Restlicht in der Nacht (0..1).
   final double dayAmbient;
   final double nightAmbient;
@@ -113,11 +117,13 @@ class ThemeDef {
   ];
 
   static const weathers = {'rain', 'snow', 'neon', 'dust', 'none'};
+  static const backdrops = {'none', 'keller', 'burg', 'garten', 'gleis', 'motel'};
 
   ThemeDef({
     required this.palette,
     required this.weather,
     required this.lightning,
+    this.backdrop = 'none',
     required this.dayAmbient,
     required this.nightAmbient,
   });
@@ -128,6 +134,7 @@ class ThemeDef {
         },
         weather: j['weather'] as String? ?? 'none',
         lightning: j['lightning'] as bool? ?? false,
+        backdrop: j['backdrop'] as String? ?? 'none',
         dayAmbient: (j['dayAmbient'] as num? ?? 0.85).toDouble(),
         nightAmbient: (j['nightAmbient'] as num? ?? 0.1).toDouble(),
       );

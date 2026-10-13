@@ -1238,8 +1238,11 @@ class MordakteGame extends Game with KeyboardEvents {
     );
     final cull = view.inflate(48);
 
-    // 1) Böden
+    // 0) Kulisse jenseits der Karte (Gelände, Bäume, Gleise …)
     final floorPaint = Paint()..filterQuality = FilterQuality.medium;
+    scene.kulisse?.zeichne(canvas, cull, floorPaint);
+
+    // 1) Böden
     for (final f in scene.floors) {
       if (!f.dst.overlaps(cull)) continue;
       final img = f.image;
@@ -1273,7 +1276,7 @@ class MordakteGame extends Game with KeyboardEvents {
 
     // 5b) Außerhalb der Karte: Palette der Akte statt Schwarz
     final umg = umgebung;
-    if (umg != null) _renderUmgebung(canvas, scene, umg);
+    if (umg != null) _renderUmgebung(canvas, scene, umg, cull);
 
     // 6) Wetter (Bildschirm)
     _weather?.render(canvas, viewSize, t);
@@ -1348,7 +1351,7 @@ class MordakteGame extends Game with KeyboardEvents {
 
   /// Verlauf außerhalb der Karte: Die Silhouette wird aus einer Ebene mit dem
   /// Verlauf ausgestanzt, innen bleibt die Szene unverändert.
-  void _renderUmgebung(Canvas canvas, StaticScene scene, SzenenUmgebung u) {
+  void _renderUmgebung(Canvas canvas, StaticScene scene, SzenenUmgebung u, Rect cull) {
     final vr = Rect.fromLTWH(0, 0, size.x, size.y);
     canvas.saveLayer(vr, Paint());
     canvas.drawRect(
@@ -1371,6 +1374,8 @@ class MordakteGame extends Game with KeyboardEvents {
         ..blendMode = BlendMode.dstOut
         ..color = const Color(0xFF000000),
     );
+    // Die Kulisse bleibt sichtbar und läuft weich in den Verlauf aus.
+    scene.kulisse?.zeichne(canvas, cull, Paint()..blendMode = BlendMode.dstOut);
     canvas.restore();
     canvas.restore();
   }
@@ -1917,6 +1922,9 @@ class MordakteGame extends Game with KeyboardEvents {
       final seed = p.x * 3 + p.y * 7;
       final fl = 1 - l.flicker * 0.25 * (0.5 + 0.5 * math.sin(t * 9 + seed) * math.sin(t * 5.3 + seed * 2));
       out.add(GlowLight(p.x + 0.5, p.y + 0.5, l.z, l.radius * fl, l.color, fl));
+    }
+    for (final g in scene.kulisse?.lichter ?? const <GlowLight>[]) {
+      if (cull.inflate(200).contains(Iso.toScreen(g.x, g.y))) out.add(g);
     }
     return out;
   }

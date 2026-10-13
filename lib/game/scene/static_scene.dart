@@ -5,6 +5,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 
 import '../iso_math.dart';
 import 'floor_painter.dart';
+import 'kulisse.dart';
 import 'palette.dart';
 import 'prop_painter.dart';
 import 'wall_painter.dart';
@@ -97,6 +98,9 @@ class StaticScene {
   Set<Pt> _openDoors = {};
   late final Rect worldBounds;
 
+  /// Umgebung jenseits der Karte (nur Darstellung); `null` ohne Kulisse.
+  Kulisse? kulisse;
+
   StaticScene._(this.scenario, this.pal, this.wallPainter, this.propPainter);
 
   static const decorTypes = {'rug', 'bloodstain', 'papers', 'puddle'};
@@ -134,6 +138,7 @@ class StaticScene {
       (w + h) * Iso.halfH + 64,
     );
     _buildFloors(resolution);
+    kulisse = Kulisse.baue(scenario, pal, propPainter);
     // Wände. Hohe Wände, die einen Raum zusätzlich nach Süden/Osten begrenzen,
     // bekommen eine niedrige Variante (Cutaway, solange der Spieler dort ist).
     bool tallAt(int x, int y) => _isWall(x, y) && (_floorLike(x, y + 1) || _floorLike(x + 1, y) || _floorLike(x + 1, y + 1));
@@ -368,6 +373,7 @@ class StaticScene {
   }
 
   void dispose() {
+    kulisse?.dispose();
     for (final f in floors) {
       f.image?.dispose();
       f.picture?.dispose();

@@ -1,6 +1,7 @@
 // Kontaktbogen: Bildschirmfotos aller wichtigen Bildschirme für die Bildprüfung des Designs.
 // Keine Behauptungen, nur Fotos. Der Abend wird über `?party=<akte>&bis=<phase>` vorgespielt.
 // Aufruf: node tool/e2e/kontaktbogen.mjs [--breiten 390,320] [--nur detektei,akte,…] [--ausgabe <ordner>]
+//         [--akte <id>] [--warten <ms>] [--zusatz '&at=3,4&zoom=0.8'] (Zusatz hängt an die Abend-Adressen)
 // Voraussetzung: build/web (flutter build web --release --no-web-resources-cdn).
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -20,7 +21,8 @@ const warte = Number(opt('warten', '2500'));
 await fs.mkdir(ausgabe, { recursive: true });
 
 const akte = opt('akte', 'schlosskeller');
-const party = (phase, extra = '') => `?party=${akte}${akte === 'schlosskeller' ? '&pfad=ahmet' : ''}&n=6&bis=${phase}${extra}#/party`;
+const zusatz = opt('zusatz', '');
+const party = (phase, extra = '') => `?party=${akte}${akte === 'schlosskeller' ? '&pfad=ahmet' : ''}&n=6&bis=${phase}${extra}${zusatz}#/party`;
 const ansichten = [
   ['01-detektei', ''],
   ['02-akte', `?screen=akte&akte=${akte}`],
@@ -53,7 +55,7 @@ try {
       await page.goto(base + route, { waitUntil: 'load' });
       await page.locator('flt-glass-pane, flutter-view').first().waitFor({ state: 'attached', timeout: 30000 });
       await page.waitForTimeout(warte);
-      const datei = path.join(ausgabe, `${breite}-${name}.png`);
+      const datei = path.join(ausgabe, `${breite}-${name}${akte === 'schlosskeller' ? '' : '-' + akte}.png`);
       await page.screenshot({ path: datei });
       console.log(`Foto ${datei}`);
       await page.close();

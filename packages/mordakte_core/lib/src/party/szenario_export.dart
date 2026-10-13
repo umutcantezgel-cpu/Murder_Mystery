@@ -12,7 +12,8 @@ import 'karte.dart';
 ///
 /// [welt] ist die optionale Darstellungsschicht `content/welt/<akte>/welt.json`
 /// (nur Bild, keine Spiellogik): `aussen` nennt Räume unter freiem Himmel
-/// (Fassaden, Wetter), `wetter` ersetzt das Wetter der Akte. Böden kommen aus
+/// (Fassaden, Wetter), `wetter` ersetzt das Wetter der Akte, `kulisse` wählt
+/// die Umgebung jenseits der Karte (`ThemeDef.backdrops`). Böden kommen aus
 /// `raeume.json` (`boden`).
 Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage, {String id = 'party_schlosskeller', Map<String, Object?>? welt}) {
   final aussen = {...((welt?['aussen'] as List?) ?? const []).cast<String>()};
@@ -45,6 +46,7 @@ Map<String, dynamic> partySzenarioJson(Kanon kanon, Map<String, dynamic> vorlage
     },
     'weather': welt?['wetter'] ?? darstellung['wetter'] ?? 'none',
     'lightning': darstellung['blitze'] ?? false,
+    'backdrop': welt?['kulisse'] ?? 'none',
     'dayAmbient': darstellung['tagLicht'] ?? 0.62,
     'nightAmbient': darstellung['nachtLicht'] ?? 0.06,
   };

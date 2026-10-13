@@ -4,5 +4,6 @@
   "hinweis": "Der Garten liegt im Gewitter.",
   "aussen": [
     "garden"
-  ]
+  ],
+  "kulisse": "garten"
 }
