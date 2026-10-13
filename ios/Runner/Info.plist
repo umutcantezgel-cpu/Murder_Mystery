@@ -66,7 +66,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Für das WLAN-Spiel: Mitspielende im selben Netz treten deiner Partie bei.</string>
 </dict>
 </plist>
