@@ -14,12 +14,15 @@ dependencies:
   flutter_animate: ^4.5.2
   flutter_localizations:
     sdk: flutter
+  flutter_soloud: 5.1.3
   go_router: ^18.0.2
   intl: ^0.20.3
   krimidinner_kanon:
     path: packages/krimidinner_kanon
   mordakte_core:
     path: packages/mordakte_core
+  mordakte_klang:
+    path: packages/mordakte_klang
   mordakte_netz:
     path: packages/mordakte_netz
   provider: ^6.1.5+1
@@ -36,6 +39,7 @@ flutter:
   generate: true
   assets:
     - assets/fonts/lizenzen/
+    - assets/klang/
     - content/scenarios/
     - krimidinner/spuk-im-gewoelbe/10_kanon/
     - content/party/akten.json

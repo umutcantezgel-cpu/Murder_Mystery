@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -8,6 +9,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'app/app.dart';
 import 'app/app_state.dart';
 import 'app/router.dart';
+import 'klang/klang.dart';
 import 'karten/katalog_laden.dart';
 import 'meta/meta_store.dart';
 import 'session/scenario_repository.dart';
@@ -17,7 +19,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Haptics.install();
   _schriftLizenzen();
+  // Ton: nativ sofort, im Web nach der ersten Berührung; nie in Tests.
+  unawaited(Klang.instanz.starten());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+  // Telefone hochkant (alle Bildschirme sind dafür gestaltet), Tablets frei.
+  if (!kIsWeb) {
+    final ansicht = WidgetsBinding.instance.platformDispatcher.views.first;
+    final kurz = ansicht.physicalSize.shortestSide / ansicht.devicePixelRatio;
+    if (kurz < 600) unawaited(SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]));
+  }
 
   final meta = await MetaStore.load();
   try {

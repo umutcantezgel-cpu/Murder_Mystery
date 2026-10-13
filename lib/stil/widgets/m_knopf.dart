@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../klang/klang.dart';
 import '../mappe/material.dart';
 import '../tokens.dart';
 
@@ -39,10 +40,30 @@ class MKnopf extends StatelessWidget {
   /// Eigene Beschriftung für den Bildschirmleser (sonst [text]).
   final String? semantik;
 
+  /// Mit Klang: Messingschild klickt, Etikett raschelt, Tintenlink bleibt still.
+  VoidCallback? get _gedrueckt {
+    final aktion = onPressed;
+    if (aktion == null) return null;
+    return () {
+      switch (art) {
+        case MKnopfArt.haupt:
+          Klang.instanz.spiele('knopf');
+        case MKnopfArt.gefahr:
+          Klang.instanz.spiele('stempel', laut: 0.6);
+        case MKnopfArt.zweit:
+          Klang.instanz.spiele('blatt', laut: 0.5);
+        case MKnopfArt.leise:
+          break;
+      }
+      aktion();
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final f = MFarben.von(context);
     final aufPapier = MFlaeche.hellVon(context);
+    final onPressed = _gedrueckt;
     final form = RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
     const mindest = Size(MMass.tippflaeche, MMass.tippflaeche);
     final polster = EdgeInsets.symmetric(horizontal: 22, vertical: gross ? 19 : 13);

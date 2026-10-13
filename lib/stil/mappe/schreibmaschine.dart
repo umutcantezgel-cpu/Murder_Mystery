@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../klang/klang.dart';
 import '../tokens.dart';
 
 /// Text, der wie auf der Schreibmaschine Zeichen für Zeichen erscheint.
@@ -63,6 +64,10 @@ class _MSchreibmaschineState extends State<MSchreibmaschine> {
     _takt = Timer.periodic(schritt, (t) {
       if (!mounted) return t.cancel();
       setState(() => _sichtbar = (_sichtbar + 1).clamp(0, widget.text.length));
+      // Jede zweite Taste klingt; Leerzeichen sind still.
+      if (_sichtbar.isEven && _sichtbar < widget.text.length && widget.text[_sichtbar - 1] != ' ') {
+        Klang.instanz.spiele('tippen', varianten: 3, laut: 0.45, streuung: 0.06);
+      }
       if (_sichtbar >= widget.text.length) {
         t.cancel();
         widget.onFertig?.call();

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' show FocusNode, KeyEventResult;
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../klang/klang.dart';
 import '../session/game_session.dart';
 import 'iso_math.dart';
 import 'scene/figure_painter.dart';
@@ -141,6 +142,7 @@ class _Teilchen {
 /// Türblatt mit Feder: Winkel und Winkelgeschwindigkeit.
 class _Tuer {
   double winkel = 0.32, tempo = 0;
+  bool offen = false, neu = true;
 }
 
 class _Nebel {
@@ -529,6 +531,12 @@ class MordakteGame extends Game with KeyboardEvents {
     _updateTarget();
     _updateEffects(dt);
     _updateTueren(dt);
+    _updateHinlenken(frameDt);
+    _schrittKlang();
+    if (_donnerIn >= 0) {
+      _donnerIn -= frameDt;
+      if (_donnerIn < 0) Klang.instanz.spiele('donner', laut: 0.75, streuung: 0.1);
+    }
   }
 
   // Schwingende Türen (M4): Unverschlossene Türen stehen einen Spalt offen,
@@ -550,6 +558,11 @@ class MordakteGame extends Game with KeyboardEvents {
       final cx = d.x + 0.5, cy = d.y + 0.5;
       final nah = leute.any((p) => (p.dx - cx).abs() < 1.2 && (p.dy - cy).abs() < 1.2);
       final ziel = nah ? 1.5 : 0.32;
+      if (nah && !t.offen && !t.neu && _hasPos && dist(_px, _py, cx, cy) < 7) {
+        Klang.instanz.spiele('tuer', laut: 0.45 * (1 - dist(_px, _py, cx, cy) / 8), streuung: 0.12);
+      }
+      t.offen = nah;
+      t.neu = false;
       if (ruhig) {
         t.winkel = ziel;
         t.tempo = 0;
@@ -589,6 +602,126 @@ class MordakteGame extends Game with KeyboardEvents {
     _introOffen = true;
     _intro = -1;
     _playerRoom = null;
+    if (_angemeldet) Klang.instanz.atmosphaereSpielen(_atmosphaere);
+  }
+
+  // --- Hinlenken bei Untätigkeit (M5) ---
+  double _untaetig = 0;
+  Offset? _leuchtZiel;
+
+  /// Nach zehn Sekunden ohne Eingabe zeigt eine Lichtsäule das nächste Ziel,
+  /// die Kamera schaut kurz hin und kehrt zurück. Jede Eingabe setzt zurück.
+  void _updateHinlenken(double dt) {
+    final sitzung = session;
+    final gefuehrt = _fuehrung?.eingabeGesperrt == true;
+    final eingabe = stick.distance > 0.05 || _keyboardDir().distance > 0.05 || _tippWeg != null;
+    if (eingabe || gefuehrt || !_hasPos || _moveAmt > 0.05 || sitzung is! SzenenKamera || _intro >= 0) {
+      _untaetig = 0;
+      _leuchtZiel = null;
+      return;
+    }
+    _untaetig += dt;
+    if (_untaetig < 10) return;
+    if (_leuchtZiel == null) {
+      final ziele = (sitzung as SzenenKamera).kameraZiele;
+      if (ziele.isEmpty) return;
+      _leuchtZiel = ziele.reduce((a, b) => dist(a.dx, a.dy, _px, _py) <= dist(b.dx, b.dy, _px, _py) ? a : b);
+    }
+  }
+
+  /// Lichtsäule über dem Ziel: weicher Strahl und ein Ring am Boden.
+  void _zeichneLeuchtzeichen(Canvas c) {
+    final z = _leuchtZiel;
+    if (z == null) return;
+    final t = _untaetig - 10;
+    final ein = (t / 0.6).clamp(0.0, 1.0);
+    final puls = 0.6 + 0.4 * math.sin(_time * 3);
+    final fuss = Iso.toScreen(z.dx, z.dy);
+    final hoehe = 150.0;
+    final strahl = Rect.fromLTRB(fuss.dx - 9, fuss.dy - hoehe, fuss.dx + 9, fuss.dy);
+    c.drawRect(
+      strahl,
+      Paint()
+        ..blendMode = BlendMode.plus
+        ..shader = Gradient.linear(
+          strahl.bottomCenter,
+          strahl.topCenter,
+          [withAlpha(_pal.light, 0.42 * ein * puls), withAlpha(_pal.light, 0)],
+        ),
+    );
+    c.save();
+    c.translate(fuss.dx, fuss.dy);
+    Iso.applyGround(c);
+    final r = 0.35 + ((_time * 0.8) % 1) * 0.7;
+    c.drawCircle(
+      Offset.zero,
+      r,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.05
+        ..color = withAlpha(_pal.light, 0.6 * ein * (1 - (r - 0.35) / 0.7)),
+    );
+    c.restore();
+  }
+
+  // --- Ton (M7) ---
+  bool _angemeldet = false;
+  double _donnerIn = -1;
+  int _letzterSchrittKlang = 0;
+
+  /// Atmosphäre der Akte nach Kulisse, sonst nach Wetter.
+  String? get _atmosphaere {
+    final t = _scene?.scenario.theme;
+    if (t == null) return null;
+    return switch (t.backdrop) {
+      'keller' => 'atmo_keller',
+      'burg' => 'atmo_wind',
+      'garten' => 'atmo_regen',
+      'gleis' => 'atmo_zug',
+      'motel' => 'atmo_neon',
+      _ => switch (t.weather) {
+          'rain' => 'atmo_regen',
+          'snow' => 'atmo_wind',
+          'neon' => 'atmo_neon',
+          _ => null,
+        },
+    };
+  }
+
+  @override
+  void onAttach() {
+    super.onAttach();
+    _angemeldet = true;
+    Klang.instanz.atmosphaereSpielen(_atmosphaere);
+  }
+
+  @override
+  void onDetach() {
+    _angemeldet = false;
+    Klang.instanz.atmosphaereSpielen(null);
+    super.onDetach();
+  }
+
+  /// Schrittklang der eigenen Figur je Boden (leiser auf Teppich).
+  void _schrittKlang() {
+    final schritt = (_walk / math.pi).floor();
+    if (schritt == _letzterSchrittKlang) return;
+    _letzterSchrittKlang = schritt;
+    if (_moveAmt < 0.4 || !_hasPos) return;
+    final raum = _grid?.roomAtPos(_px, _py);
+    final aussen = raum?.outdoor ?? false;
+    final boden = raum?.floor ?? 'stone';
+    final wetter = _scene?.scenario.theme.weather;
+    final (name, laut) = switch (boden) {
+      'snow' => ('schritt_schnee', 0.35),
+      _ when aussen && wetter == 'snow' => ('schritt_schnee', 0.35),
+      'grass' => ('schritt_schnee', 0.22),
+      'gravel' || 'asphalt' => ('schritt_kies', 0.3),
+      'parquet' || 'planks' => ('schritt_holz', 0.32),
+      'carpet' => ('schritt_holz', 0.14),
+      _ => ('schritt_stein', 0.3),
+    };
+    Klang.instanz.spiele(name, varianten: 2, laut: laut, streuung: 0.07);
   }
 
   WorldSnapshot? get _world => session.world.value;
@@ -894,6 +1027,13 @@ class MordakteGame extends Game with KeyboardEvents {
       final m = _scene!.map;
       final sp = m.spawn.isNotEmpty ? m.spawn.first : Pt(m.width ~/ 2, m.height ~/ 2);
       targetCam = Iso.toScreen(sp.x + 0.5, sp.y + 0.5, 0.6);
+    }
+    final leucht = _leuchtZiel;
+    if (leucht != null && !ruhig) {
+      // Blick zum Ziel: hin in 1,2 s, kurz halten, zurück (Glocke über 4 s).
+      final t = ((_untaetig - 10) / 4).clamp(0.0, 1.0);
+      final glocke = math.sin(math.pi * t);
+      targetCam = Offset.lerp(targetCam, Iso.toScreen(leucht.dx, leucht.dy, 0.6), 0.55 * glocke)!;
     }
     if (ziel != null && _regie > 0.001) {
       // Mitte zwischen Detektiv und Ziel, im freien Bildteil, etwas über Kopfhöhe.
@@ -1335,6 +1475,8 @@ class MordakteGame extends Game with KeyboardEvents {
       _nextFlash -= dt;
       if (_nextFlash <= 0) {
         _flashT = 0;
+        // Der Donner folgt dem Blitz mit Abstand.
+        _donnerIn = 0.5 + _rnd.nextDouble() * 1.2;
         _nextFlash = 6 + _rnd.nextDouble() * 9;
       }
     }
@@ -2140,6 +2282,7 @@ class MordakteGame extends Game with KeyboardEvents {
 
   void _renderPostLight(Canvas c, StaticScene scene, WorldSnapshot? w, CaseView? cv, Rect cull) {
     if (_ext?.kleineEffekte == true && _fuehrung?.bewegungReduziert != true) _lichtStaub(c, scene, cull);
+    _zeichneLeuchtzeichen(c);
     if (_teilchen.isNotEmpty) _zeichneKleineEffekte(c);
     // Augen des Schattens
     final sh = w?.shadow;

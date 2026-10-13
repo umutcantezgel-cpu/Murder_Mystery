@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../klang/klang.dart';
 import '../tokens.dart';
 import '../widgets/m_knopf.dart';
 import 'blatt.dart';
@@ -83,6 +84,7 @@ Future<bool> frageKarteikarte(
   required String nein,
   bool gefaehrlich = false,
 }) async {
+  Klang.instanz.spiele('blatt', laut: 0.7);
   final antwort = await showDialog<bool>(
     context: context,
     barrierColor: Colors.black.withValues(alpha: 0.6),

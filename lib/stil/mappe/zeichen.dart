@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../klang/klang.dart';
 import '../tokens.dart';
 import 'material.dart';
 
@@ -50,6 +51,10 @@ class _MStempelState extends State<MStempel> with SingleTickerProviderStateMixin
       _c.value = 1;
     } else if (_c.status == AnimationStatus.dismissed) {
       _c.forward();
+      // Der Stempel trifft das Papier nach gut der halben Bewegung.
+      Future<void>.delayed(const Duration(milliseconds: 230), () {
+        if (mounted) Klang.instanz.spiele('stempel', laut: 0.9);
+      });
     }
   }
 
