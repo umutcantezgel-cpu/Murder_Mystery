@@ -102,7 +102,8 @@ Map<String, String> _verboten(Kanon kanon) {
 }
 
 /// Texte, die am Tisch stehen (Fundstelle → Text): Erzählerbausteine außer finale.*, rueckblende.* und aufloesung.*,
-/// Vorstellung (dossier.wer), Thema und Text aller Gespräche, Frage und Optionen aus den Entscheidungen.
+/// Vorstellung (dossier.wer), Thema, Text und Stichpunkte aller Gespräche, Thema, Fragen und Stichpunkte aller
+/// Befragungen (A-051), Frage und Optionen aus den Entscheidungen.
 Map<String, String> _tisch(Kanon kanon, Textsammlung t) {
   final tisch = <String, String>{};
   for (final e in t.bausteine.entries) {
@@ -118,6 +119,18 @@ Map<String, String> _tisch(Kanon kanon, Textsammlung t) {
   for (final g in t.gespraeche) {
     tisch['Gespräch ${g.id}, Thema'] = g.thema;
     tisch['Gespräch ${g.id}, Text'] = g.text;
+    for (var i = 0; i < g.stichpunkte.length; i++) {
+      tisch['Gespräch ${g.id}, Stichpunkt ${i + 1}'] = g.stichpunkte[i];
+    }
+  }
+  for (final b in t.befragungen.values) {
+    tisch['Befragung ${b.id}, Thema'] = b.thema;
+    for (var i = 0; i < b.fragen.length; i++) {
+      tisch['Befragung ${b.id}, Frage ${i + 1}'] = b.fragen[i];
+    }
+    for (var i = 0; i < b.stichpunkte.length; i++) {
+      tisch['Befragung ${b.id}, Stichpunkt ${i + 1}'] = b.stichpunkte[i];
+    }
   }
   for (final e in kanon.entscheidungenJson['entscheidungen'] as List) {
     final m = e as Map;
@@ -174,14 +187,17 @@ Map<String, String?> _rahmen(Textsammlung t) => {
       for (final k in ['bonus.rahmen', 'resuemee.gruppe.1', 'resuemee.gruppe.2', 'resuemee.gruppe.3']) k: t.bausteine[k],
     };
 
-/// Schritt 17: Jede Beobachtung in einer Preisgabe gilt in allen Pfaden.
+/// Schritt 17: Jede Beobachtung in einer Preisgabe gilt in allen Pfaden, am Tisch wie in Befragungen.
 List<String> _preisgabeFehler(Kanon kanon, Textsammlung t) {
   final beob = {for (final b in kanon.beobachtungen) b['id'] as String: b};
   return [
-    for (final g in t.gespraeche)
-      for (final p in g.preisgabe)
+    for (final (id, preisgabe) in [
+      for (final g in t.gespraeche) (g.id, g.preisgabe),
+      for (final b in t.befragungen.values) (b.id, b.preisgabe),
+    ])
+      for (final p in preisgabe)
         if (p.startsWith('beobachtung:') && beob[p.substring('beobachtung:'.length)]?['pfade'] != 'alle')
-          '${g.id}: $p gilt nicht in allen Pfaden',
+          '$id: $p gilt nicht in allen Pfaden',
   ];
 }
 
@@ -247,6 +263,32 @@ void main() {
   test('Rot-Probe (c): „Nur Olli bleibt.“ im Resümee wird gemeldet', () {
     final f = _namenFehler(kanon, 'Nur Olli bleibt.');
     expect(f.any((x) => x.contains('Olli')), isTrue, reason: f.join('\n'));
+  });
+
+  test('Die neuen Felder stehen am Tisch: Stichpunkte und Befragungen werden geprüft (A-051)', () {
+    final tisch = _tisch(kanon, _textsammlung);
+    expect(tisch.keys.where((k) => k.contains(', Stichpunkt ')), isNotEmpty);
+    expect(tisch.keys.where((k) => k.startsWith('Befragung ') && k.contains(', Frage ')), hasLength(greaterThanOrEqualTo(120)));
+  });
+
+  test('Rot-Probe: Täterwissen in einer Befragungsfrage wird gemeldet', () {
+    final v = _verboten(kanon);
+    final folge = v.keys.first;
+    final tisch = {..._tisch(kanon, _textsammlung), 'Befragung bf_ahmet_1, Frage 1': '$folge?'};
+    expect(_tischFehler(tisch, v).where((x) => x.startsWith('Befragung bf_ahmet_1, Frage 1')), isNotEmpty);
+  });
+
+  test('Rot-Probe: eine Befragung mit Beobachtung nur für einen Pfad wird gemeldet', () {
+    final t = _sammlungMit({
+      'texte/befragungen-r1.json': _geaendert(
+        'texte/befragungen-r1.json',
+        (alt) => [
+          for (final e in alt)
+            if (e['id'] == 'bf_enes_1') {...e, 'preisgabe': [...(e['preisgabe'] as List), 'beobachtung:b_damir_ahmet_weg']} else e,
+        ],
+      ),
+    });
+    expect(_preisgabeFehler(kanon, t), ['bf_enes_1: beobachtung:b_damir_ahmet_weg gilt nicht in allen Pfaden']);
   });
 
   test('Rot-Probe: eine Preisgabe mit Beobachtung nur für einen Pfad wird gemeldet', () {

@@ -135,6 +135,18 @@
       "bereich": "gespraech"
     },
     {
+      "datei": "befragungen-r1.json",
+      "bereich": "befragung"
+    },
+    {
+      "datei": "befragungen-r2.json",
+      "bereich": "befragung"
+    },
+    {
+      "datei": "befragungen-r3.json",
+      "bereich": "befragung"
+    },
+    {
       "datei": "wahlen-kern.json",
       "bereich": "wahl"
     },

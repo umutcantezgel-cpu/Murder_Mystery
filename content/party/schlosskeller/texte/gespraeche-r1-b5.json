@@ -1,147 +1,67 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 17 bis 20.",
+  "hinweis": "Tischgespräche Runde 1, Besetzungsplätze 17 bis 20 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_enes_1_1",
       "rolle": "enes",
       "runde": 1,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Die Theke um drei vor zwölf",
-      "ziel": "Ich will hören, wie Ahmet seinen Platz beim Knall erklärt.",
-      "preisgabe": [
-        "beobachtung:b_damir_an_der_theke"
-      ],
-      "text": "Sag mal, Ahmet, wo warst du beim Knall? Ich hab dich um drei vor zwölf an der Theke gesehen."
-    },
-    {
-      "id": "g_enes_1_2",
-      "rolle": "enes",
-      "runde": 1,
-      "nr": 2,
       "partner": "serkan",
       "thema": "Wer hielt sich an der Theke auf?",
-      "ziel": "Ich will wissen, ob jemand an der Theke etwas Auffälliges gesehen hat.",
+      "ziel": "Ich will wissen, ob jemand an der Theke etwas bemerkt hat.",
       "preisgabe": [],
-      "text": "Hast du beim Knall jemanden gesehen? Erzähl mal, was dir aufgefallen ist."
-    },
-    {
-      "id": "g_enes_1_3",
-      "rolle": "enes",
-      "runde": 1,
-      "nr": 3,
-      "partner": "baran",
-      "thema": "Richtung des Knalls",
-      "ziel": "Ich will wissen, ob jemand aus Richtung der Theke etwas gehört hat.",
-      "preisgabe": [],
-      "text": "Was hast du beim Knall gehört? Aus welcher Richtung kam es, deiner Meinung nach?"
+      "stichpunkte": [
+        "Ich koch heute für alle Tee.",
+        "Hast du beim Knall jemanden gesehen?"
+      ]
     },
     {
       "id": "g_selin_1_1",
       "rolle": "selin",
       "runde": 1,
       "nr": 1,
-      "partner": "tim",
-      "thema": "Hast du im Dunkeln was gesehen?",
-      "ziel": "Ich will wissen, ob mein Gegenüber im Dunkeln dasselbe gesehen hat wie ich.",
-      "preisgabe": [
-        "beobachtung:b_selin_gesicht"
-      ],
-      "text": "Mir ist im Dunkeln ein leuchtendes Gesicht aufgefallen. Es huschte quer durch den Kaminsaal zur Bogentür. Hast du dabei auch was bemerkt?"
-    },
-    {
-      "id": "g_selin_1_2",
-      "rolle": "selin",
-      "runde": 1,
-      "nr": 2,
-      "partner": "can",
+      "partner": "ahmet",
       "thema": "Wo warst du, als das Licht ausging?",
-      "ziel": "Ich will wissen, wo mein Gegenüber war, als das Licht ausging.",
+      "ziel": "Ich will wissen, wo andere waren, als das Licht ausging.",
       "preisgabe": [],
-      "text": "Can, wo warst du, als das Licht ausging? Hast du im Dunkeln irgendwas bemerkt?"
-    },
-    {
-      "id": "g_selin_1_3",
-      "rolle": "selin",
-      "runde": 1,
-      "nr": 3,
-      "partner": "murat",
-      "thema": "Wer war im Dunkeln unterwegs?",
-      "ziel": "Ich will wissen, ob im Dunkeln jemand im Durchgang war.",
-      "preisgabe": [],
-      "text": "Wo warst du im Dunkeln? Erzähl mal, was du gesehen hast."
+      "stichpunkte": [
+        "Laute Geräusche erschrecken mich.",
+        "Wo warst du, als das Licht ausging?"
+      ]
     },
     {
       "id": "g_hakan_1_1",
       "rolle": "hakan",
       "runde": 1,
       "nr": 1,
-      "partner": "aylin",
+      "partner": "kaan",
       "thema": "Herr Schneider und das Geld",
-      "ziel": "Ich will das Gespräch über Herrn Schneiders Geld bremsen, bevor es hitzig wird.",
+      "ziel": "Ich will das Gespräch über Herrn Schneiders Geld bremsen.",
       "preisgabe": [
         "beobachtung:b_pawel_schneider"
       ],
-      "text": "Wo warst du, als es knallte? Lass uns Herrn Schneider beim Geld in Ruhe lassen. Er muss jeden Schaden der Stiftung melden, darum ist er so streng."
-    },
-    {
-      "id": "g_hakan_1_2",
-      "rolle": "hakan",
-      "runde": 1,
-      "nr": 2,
-      "partner": "kaan",
-      "thema": "Wie war das beim Knall?",
-      "ziel": "Ich will wissen, wo mein Gegenüber beim Knall war, und die Stimmung ruhig halten.",
-      "preisgabe": [],
-      "text": "Lass uns kurz ruhig über den Knall reden. Wo warst du denn?"
-    },
-    {
-      "id": "g_hakan_1_3",
-      "rolle": "hakan",
-      "runde": 1,
-      "nr": 3,
-      "partner": "serkan",
-      "thema": "Kurz vor dem Knall",
-      "ziel": "Ich will wissen, ob am Außentor in der Zeit jemand vorbeigekommen ist.",
-      "preisgabe": [],
-      "text": "Wo warst du kurz vor dem Knall? Hast du etwas bemerkt?"
+      "stichpunkte": [
+        "Lass Herrn Schneider beim Geld in Ruhe.",
+        "Er muss jeden Schaden der Stiftung melden."
+      ]
     },
     {
       "id": "g_tugba_1_1",
       "rolle": "tugba",
       "runde": 1,
       "nr": 1,
-      "partner": "detective",
-      "thema": "Wer fehlt für die Torte?",
-      "ziel": "Ich will wissen, wo die fehlenden Leute angeblich gerade sind, damit die Torte um halb eins kommt.",
+      "partner": "johanna",
+      "thema": "Wer fehlt auf meiner Liste?",
+      "ziel": "Ich will wissen, wo die fehlenden Leute angeblich sind.",
       "preisgabe": [
         "beobachtung:b_tugba_notiz"
       ],
-      "text": "Hör mal, um drei vor zwölf stand in meinem Notizbuch, wer für die Torte fehlt. Außerdem steht drin, wo die Leute angeblich gerade sind. Wo bist du gerade?"
-    },
-    {
-      "id": "g_tugba_1_2",
-      "rolle": "tugba",
-      "runde": 1,
-      "nr": 2,
-      "partner": "olli",
-      "thema": "Wo steckst du gerade?",
-      "ziel": "Ich will wissen, wo Olli gerade ist, für meine Liste.",
-      "preisgabe": [],
-      "text": "Olli, wo steckst du gerade? Ich brauch dich für die Torte."
-    },
-    {
-      "id": "g_tugba_1_3",
-      "rolle": "tugba",
-      "runde": 1,
-      "nr": 3,
-      "partner": "johanna",
-      "thema": "Die Torte",
-      "ziel": "Ich will wissen, ob mein Gegenüber die Torte um halb eins hinbekommt.",
-      "preisgabe": [],
-      "text": "Die Torte muss pünktlich kommen. Und du, wo warst du beim Knall?"
+      "stichpunkte": [
+        "Ich hab notiert, wer gerade fehlt.",
+        "Wo warst du beim Knall?"
+      ]
     }
   ]
 }

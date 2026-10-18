@@ -1,0 +1,330 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "befragung",
+  "hinweis": "Befragungen des Detektivs, Runde 3 (A-051): Thema, Fragen und eigene Würze je Rolle. Die Antwort entsteht nur aus der Preisgabe.",
+  "eintraege": [
+    {
+      "id": "bf_ahmet_3",
+      "rolle": "ahmet",
+      "runde": 3,
+      "thema": "Deine Geschichte, ganz genau",
+      "fragen": [
+        "Bleibst du bei deiner Geschichte?",
+        "Was war in dem Umschlag?"
+      ],
+      "stichpunkte": [
+        "Ich will nur, dass alle heil heimkommen."
+      ],
+      "preisgabe": [
+        "luege:luege_ahmet_servietten",
+        "luege:luege_ahmet_miete"
+      ]
+    },
+    {
+      "id": "bf_fatma_3",
+      "rolle": "fatma",
+      "runde": 3,
+      "thema": "Deine Version vor allen",
+      "fragen": [
+        "Was sagst du zu den Aussagen über dich?",
+        "Willst du deine Geschichte ändern?"
+      ],
+      "stichpunkte": [
+        "Ich bleibe bei meiner Version."
+      ],
+      "preisgabe": [
+        "luege:luege_fatma_buffet",
+        "luege:luege_fatma_tasche"
+      ]
+    },
+    {
+      "id": "bf_olli_3",
+      "rolle": "olli",
+      "runde": 3,
+      "thema": "Olli und Herr Schneider",
+      "fragen": [
+        "Bleibst du dabei, dass du gesessen hast?",
+        "Wolltest du heute mit Herrn Schneider reden?"
+      ],
+      "stichpunkte": [
+        "Ich regle meine Sachen gern selbst."
+      ],
+      "preisgabe": [
+        "luege:luege_olli_tafel"
+      ]
+    },
+    {
+      "id": "bf_can_3",
+      "rolle": "can",
+      "runde": 3,
+      "thema": "Toilette und Maske",
+      "fragen": [
+        "Bleibst du bei der Toilette im Turm?",
+        "Hast du eine Maske dabei?"
+      ],
+      "stichpunkte": [
+        "Ich hab mit dem Knall nichts zu tun."
+      ],
+      "preisgabe": [
+        "luege:luege_can_toilette",
+        "luege:luege_can_maske"
+      ]
+    },
+    {
+      "id": "bf_leyla_3",
+      "rolle": "leyla",
+      "runde": 3,
+      "thema": "Zu Ahmet stehen",
+      "fragen": [
+        "Schützt du jemanden?",
+        "Bleibst du bei dem, was du gesehen hast?"
+      ],
+      "stichpunkte": [
+        "Ich will, dass Ahmet selbst redet."
+      ],
+      "preisgabe": [
+        "beobachtung:b_lejla_ahmet_theke"
+      ]
+    },
+    {
+      "id": "bf_emine_3",
+      "rolle": "emine",
+      "runde": 3,
+      "thema": "Was Emine sicher weiß",
+      "fragen": [
+        "Bleibst du bei deinem Platz am Buffettisch?",
+        "Schützt du deine Freundin?"
+      ],
+      "stichpunkte": [
+        "Ich sage nur, was ich sicher weiß."
+      ],
+      "preisgabe": [
+        "beobachtung:b_emine_versteck"
+      ]
+    },
+    {
+      "id": "bf_tim_3",
+      "rolle": "tim",
+      "runde": 3,
+      "thema": "Tim und der Strom",
+      "fragen": [
+        "Bleibst du bei dem, was du gesehen hast?",
+        "Hat jemand am Strom herumgespielt?"
+      ],
+      "stichpunkte": [
+        "Ich hab nur helfen wollen, ehrlich."
+      ],
+      "preisgabe": [
+        "beobachtung:b_tim_gesicht"
+      ]
+    },
+    {
+      "id": "bf_johanna_3",
+      "rolle": "johanna",
+      "runde": 3,
+      "thema": "Ehrlich zu dir",
+      "fragen": [
+        "Verschweigst du mir etwas?",
+        "Was ist auf deinen Fotos zu sehen?"
+      ],
+      "stichpunkte": [
+        "Ich will dich nicht belügen."
+      ],
+      "preisgabe": []
+    },
+    {
+      "id": "bf_murat_3",
+      "rolle": "murat",
+      "runde": 3,
+      "thema": "Das Gesicht im Durchgang",
+      "fragen": [
+        "Bleibst du bei dem Gesicht im Durchgang?",
+        "Wer könnte das gewesen sein?"
+      ],
+      "stichpunkte": [
+        "Ich sag nur, was ich gesehen hab."
+      ],
+      "preisgabe": [
+        "beobachtung:b_marek_gesicht"
+      ]
+    },
+    {
+      "id": "bf_zeynep_3",
+      "rolle": "zeynep",
+      "runde": 3,
+      "thema": "Zeynep und ihr Bruder",
+      "fragen": [
+        "Schützt du deinen Bruder?",
+        "Bleibst du bei dem leuchtenden Gesicht?"
+      ],
+      "stichpunkte": [
+        "Ich steh zu meiner Familie."
+      ],
+      "preisgabe": [
+        "beobachtung:b_zeynep_gesicht"
+      ]
+    },
+    {
+      "id": "bf_baran_3",
+      "rolle": "baran",
+      "runde": 3,
+      "thema": "Baran und die Geräusche",
+      "fragen": [
+        "Bist du dir bei den Rufen sicher?",
+        "Wer stand da in deiner Nähe?"
+      ],
+      "stichpunkte": [
+        "Ton ist mein Fach, ich irre mich selten."
+      ],
+      "preisgabe": [
+        "beobachtung:b_baran_rufe"
+      ]
+    },
+    {
+      "id": "bf_meryem_3",
+      "rolle": "meryem",
+      "runde": 3,
+      "thema": "Was Hana gesehen und gerochen hat",
+      "fragen": [
+        "Bleibst du bei dem, was du gesehen hast?",
+        "Was hast du gerochen?"
+      ],
+      "stichpunkte": [
+        "Ich will mich bei Herrn Schneider entschuldigen."
+      ],
+      "preisgabe": [
+        "beobachtung:b_hana_umschlag",
+        "beobachtung:b_hana_wachs"
+      ]
+    },
+    {
+      "id": "bf_serkan_3",
+      "rolle": "serkan",
+      "runde": 3,
+      "thema": "Serkan am Tor",
+      "fragen": [
+        "Bist du dir beim Tor ganz sicher?",
+        "Was hast du mit deiner Taschenlampe gesehen?"
+      ],
+      "stichpunkte": [
+        "Als Sanitäter bleib ich ruhig."
+      ],
+      "preisgabe": [
+        "beobachtung:b_serkan_tor"
+      ]
+    },
+    {
+      "id": "bf_aylin_3",
+      "rolle": "aylin",
+      "runde": 3,
+      "thema": "Aylins Beleg",
+      "fragen": [
+        "Zeigst du mir deinen Beleg?",
+        "Was sagt der Beleg über das Geld?"
+      ],
+      "stichpunkte": [
+        "Ich will niemanden vor allen bloßstellen."
+      ],
+      "preisgabe": [
+        "beobachtung:b_aylin_quittung"
+      ]
+    },
+    {
+      "id": "bf_kaan_3",
+      "rolle": "kaan",
+      "runde": 3,
+      "thema": "Wojtek und Olli",
+      "fragen": [
+        "Bleibst du bei dem, was Olli gesagt hat?",
+        "Wohin ist die Person im Dunkeln gegangen?"
+      ],
+      "stichpunkte": [
+        "Ich hab nichts zu verstecken."
+      ],
+      "preisgabe": [
+        "beobachtung:b_wojtek_olli_satz",
+        "beobachtung:b_wojtek_vorbei"
+      ]
+    },
+    {
+      "id": "bf_dilara_3",
+      "rolle": "dilara",
+      "runde": 3,
+      "thema": "Azras Platz am Buffet",
+      "fragen": [
+        "Bleibst du bei deinem Platz am Buffettisch?",
+        "Was weißt du noch über den Abend?"
+      ],
+      "stichpunkte": [
+        "Ich will keinen Ärger für meine Freunde."
+      ],
+      "preisgabe": [
+        "beobachtung:b_azra_versteck"
+      ]
+    },
+    {
+      "id": "bf_enes_3",
+      "rolle": "enes",
+      "runde": 3,
+      "thema": "Damir und die Theke",
+      "fragen": [
+        "Bleibst du dabei, wer an der Theke stand?",
+        "Wer war beim Scheppern neben dir?"
+      ],
+      "stichpunkte": [
+        "Ich will, dass der Abend ruhig bleibt."
+      ],
+      "preisgabe": [
+        "beobachtung:b_damir_an_der_theke"
+      ]
+    },
+    {
+      "id": "bf_selin_3",
+      "rolle": "selin",
+      "runde": 3,
+      "thema": "Sibel ganz genau",
+      "fragen": [
+        "Bist du dir beim leuchtenden Gesicht sicher?",
+        "Wohin genau ist es gehuscht?"
+      ],
+      "stichpunkte": [
+        "Ich hab genau hingesehen, trotz Angst."
+      ],
+      "preisgabe": [
+        "beobachtung:b_selin_gesicht"
+      ]
+    },
+    {
+      "id": "bf_hakan_3",
+      "rolle": "hakan",
+      "runde": 3,
+      "thema": "Pawel will fair bleiben",
+      "fragen": [
+        "Wen willst du heute schützen?",
+        "Was würde Herr Schneider jetzt sagen?"
+      ],
+      "stichpunkte": [
+        "Fair bleiben, auch wenn es eng wird."
+      ],
+      "preisgabe": [
+        "beobachtung:b_pawel_schneider"
+      ]
+    },
+    {
+      "id": "bf_tugba_3",
+      "rolle": "tugba",
+      "runde": 3,
+      "thema": "Tugbas Liste im Vergleich",
+      "fragen": [
+        "Passt deine Liste zu dem, was alle sagen?",
+        "Wer hat dir etwas Falsches erzählt?"
+      ],
+      "stichpunkte": [
+        "Mein Notizbuch lügt nicht."
+      ],
+      "preisgabe": [
+        "beobachtung:b_tugba_notiz"
+      ]
+    }
+  ]
+}

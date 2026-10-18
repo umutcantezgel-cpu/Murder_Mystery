@@ -35,19 +35,41 @@ void main() {
     }
   });
 
-  test('Partner: besetzt bleibt, sonst erster besetzter Ersatz, sonst Detektiv, nie der Sprecher', () {
+  test('Partner: besetzt bleibt, sonst erster besetzter Ersatz, sonst Detektiv, nie der Sprecher (Modell legacy, Gewölbe)', () {
+    final g = Besetzung(ladeKanon('gewoelbe'));
+    expect(g.modell, GespraechsModell.legacy);
     for (var n = 4; n <= 20; n++) {
-      for (final wunsch in b.reihenfolge) {
-        for (final sprecher in b.besetzt(n)) {
-          final p = b.partner(wunsch, n, sprecher: sprecher);
+      for (final wunsch in g.reihenfolge) {
+        for (final sprecher in g.besetzt(n)) {
+          final p = g.partner(wunsch, n, sprecher: sprecher);
           expect(p, isNot(sprecher));
-          expect(b.istBesetzt(p, n), isTrue, reason: '$wunsch bei $n Rollen → $p');
-          if (b.istBesetzt(wunsch, n) && wunsch != sprecher) expect(p, wunsch);
+          expect(g.istBesetzt(p, n), isTrue, reason: '$wunsch bei $n Rollen → $p');
+          if (g.istBesetzt(wunsch, n) && wunsch != sprecher) expect(p, wunsch);
         }
       }
     }
-    expect(b.partner('tugba', 4), Besetzung.detektiv);
-    expect(b.partner('tugba', 11), 'baran');
+    // Ohne Ersatz springt der Detektiv ein; ein besetzter Wunsch bleibt.
+    expect(g.partner('adnan', 4, sprecher: 'adnan'), Besetzung.detektiv);
+    expect(g.partner(Besetzung.detektiv, 4, sprecher: 'adnan'), Besetzung.detektiv);
+    expect(g.partner('adnan', 4, sprecher: 'rojda'), 'adnan');
+  });
+
+  test('Partner im Modell befragung: besetzt bleibt, sonst erster besetzter Ersatz, sonst eine Rolle, nie der Detektiv', () {
+    expect(b.modell, GespraechsModell.befragung);
+    for (var n = 4; n <= 20; n++) {
+      for (final wunsch in [...b.reihenfolge, Besetzung.detektiv]) {
+        for (final sprecher in b.besetzt(n)) {
+          final p = b.partner(wunsch, n, sprecher: sprecher);
+          expect(p, isNot(sprecher));
+          expect(p, isNot(Besetzung.detektiv), reason: '$wunsch bei $n Rollen');
+          expect(b.besetzt(n), contains(p), reason: '$wunsch bei $n Rollen → $p');
+          if (b.besetzt(n).contains(wunsch) && wunsch != sprecher) expect(p, wunsch);
+        }
+      }
+    }
+    expect(b.partner('tugba', 4, sprecher: 'can'), 'ahmet');
+    expect(b.partner('tugba', 11, sprecher: 'can'), 'baran');
+    expect(b.partner('ahmet', 4, sprecher: 'ahmet'), 'fatma');
   });
 
   test('Begründungsketten brauchen kein Wissen, das bei kleiner Besetzung fehlt', () {
