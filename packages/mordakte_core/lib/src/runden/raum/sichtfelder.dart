@@ -9,6 +9,8 @@ const raumOeffentlicheSchluessel = <String>{
   'wuerfelZusage', 'spieler', 'kannWeiter', 'rollen', 'restMinuten', 'marken',
   'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher',
   'abstecherErgebnis', 'entscheidung', 'zug', 'botGespraeche', 'verdaechtige', 'privat',
+  // Modell befragung (A-051, `raum/befragung_modul.dart`): nur Paarungen und Themen, nie eine Antwort.
+  'befragungen', 'tisch',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen.

@@ -26,6 +26,9 @@ abstract class RaumKontext {
   /// Rolle eines Geräts (null für Detektiv, Erzähler und Assistenz).
   String? rolleVon(String id);
 
+  /// Spielt ein Mensch [rolle] (ein Gerät, das nicht aufgegeben hat)? Sonst spricht die App sie.
+  bool menschSpielt(String rolle);
+
   /// Rechte: werfen `PartyRaumFehler` mit festem Code.
   void nurHost(String id);
   void nurDetektiv(String id);

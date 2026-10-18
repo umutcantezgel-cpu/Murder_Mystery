@@ -14,6 +14,7 @@ import '../util/rng.dart';
 import 'abend_raum.dart';
 import 'bots.dart';
 import 'partie.dart';
+import 'raum/befragung_modul.dart';
 import 'raum/raum_modul.dart';
 import 'raum/sichtfelder.dart';
 import 'wuerfel.dart';
@@ -67,7 +68,11 @@ class SchlosskellerRaum implements AbendRaum {
     KartenKatalog? katalog,
     List<AbstecherOrt> abstecher = const [],
     List<RaumModul> module = const [],
-  }) : _module = List.unmodifiable(module), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
+  }) : _module = List.unmodifiable([
+         // Das Gesprächsmodell der Akte bringt sein Modul selbst mit (A-051); Altakten bleiben ohne.
+         if (texte.besetzung.befragungsmodell) BefragungModul(),
+         ...module,
+       ]), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
     if (salz.isEmpty) throw const PartyRaumFehler('invalid_setup');
   }
@@ -490,7 +495,9 @@ class SchlosskellerRaum implements AbendRaum {
             },
           },
         },
-        if (p.phase == PartyPhase.gespraeche) 'botGespraeche': [
+        // Altakten (Modell legacy): öffentliche Sprechblasen der Bots. Im Modell befragung
+        // antworten App-Rollen nur dem Detektiv und erst nach seiner Frage (BefragungModul).
+        if (p.phase == PartyPhase.gespraeche && !_texte.besetzung.befragungsmodell) 'botGespraeche': [
           for (final g in botGespraeche(_texte, rollen: p.spiel.einstellungen.rollen, runde: p.runde, mitNpc: true))
             if (!_teilnehmer.values.any((t) => !t.aufgegeben && t.rolle == g.rolle)) {
               'id': g.id, 'rolle': g.rolle, 'partner': g.partner, 'thema': g.thema, 'text': g.text,
@@ -512,7 +519,10 @@ class SchlosskellerRaum implements AbendRaum {
           },
           if (p!.phase == PartyPhase.gespraeche) 'gespraeche': [
             for (final (g, partner) in dossier.gespraeche[p.runde] ?? <(Gespraech, String)>[])
-              {'partner': partner, 'thema': g.thema, 'ziel': g.ziel, 'text': g.text},
+              if (_texte.besetzung.befragungsmodell)
+                {'partner': partner, 'thema': g.thema, 'ziel': g.ziel, 'stichpunkte': [...g.stichpunkte]}
+              else
+                {'partner': partner, 'thema': g.thema, 'ziel': g.ziel, 'text': g.text},
           ],
           if (p.phase == PartyPhase.gruppenwahl) ...{
             'hatGestimmt': _stimmen.containsKey(rolle),
@@ -569,6 +579,8 @@ class _Kontext extends RaumKontext {
   bool istOnline(String id) => _r._teilnehmer[id]?.online ?? false;
   @override
   String? rolleVon(String id) => _r._teilnehmer[id]?.rolle;
+  @override
+  bool menschSpielt(String rolle) => _r._teilnehmer.values.any((t) => !t.aufgegeben && t.rolle == rolle);
   @override
   void nurHost(String id) => _r._nurHost(id);
   @override

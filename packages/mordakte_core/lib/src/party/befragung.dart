@@ -77,6 +77,119 @@ List<String> befragungsAntwort(Texte texte, BefragungText b) => List.unmodifiabl
       for (final q in b.preisgabe) oeffentlicheAussage(texte, b.rolle, q),
     ]);
 
+/// Spickzettel einer befragten Rolle, die ein Mensch spielt (A-051): was sie dem
+/// Detektiv sagt. [sagen] sind die eigenen Beobachtungen in der Du-Form, [behaupten]
+/// die Behauptungen eigener Lügen (nie ihre Wahrheit), [eigene] die Würze der
+/// Befragung ohne neue Tatsache. Pfadfrei wie [befragungsAntwort]: Nicht
+/// Öffentliches wirft [StateError].
+class BefragungsZettel {
+  final List<String> sagen, behaupten, eigene;
+  const BefragungsZettel({required this.sagen, required this.behaupten, required this.eigene});
+
+  /// Alle Zeilen ohne Behauptungen: erst die Beobachtungen, dann die eigene Würze.
+  List<String> get stichpunkte => [...sagen, ...eigene];
+}
+
+BefragungsZettel befragungsZettel(Texte texte, BefragungText b) {
+  final sagen = <String>[], behaupten = <String>[];
+  for (final q in b.preisgabe) {
+    // Dieselbe Prüfung wie die Antwort der App: nur Öffentliches.
+    oeffentlicheAussage(texte, b.rolle, q);
+    final id = q.substring(q.indexOf(':') + 1);
+    if (q.startsWith('luege:')) {
+      behaupten.add(texte.luege(id)!['behauptung'] as String);
+    } else {
+      final x = texte.beobachtung(id)!;
+      sagen.add((x['duText'] ?? x['text']) as String);
+    }
+  }
+  return BefragungsZettel(sagen: List.unmodifiable(sagen), behaupten: List.unmodifiable(behaupten), eigene: List.unmodifiable(b.stichpunkte));
+}
+
+/// Ein Tischgespräch einer Runde, wie alle es sehen dürfen: wer mit wem worüber.
+typedef TischPaarung = ({String id, String rolle, String partner, String thema});
+
+/// Die Tischgespräche besetzter Rollen in [runde] bei [n] Rollen mit dem Partner
+/// aus dem Gesprächsplan, in Besetzungsreihenfolge. Nur Paarung und Thema, nie
+/// Stichpunkte, Ziel oder Preisgabe.
+List<TischPaarung> tischPaarungen(Texte t, {required int n, required int runde}) {
+  final besetzt = t.besetzung.besetzt(n);
+  final plan = t.gespraechsplan(n);
+  int platz(String r) => besetzt.indexOf(r);
+  final liste = [
+    for (final g in t.sammlung.gespraeche)
+      if (g.runde == runde && besetzt.contains(g.rolle)) g,
+  ]..sort((a, b) => platz(a.rolle) != platz(b.rolle) ? platz(a.rolle) - platz(b.rolle) : a.nr - b.nr);
+  return List.unmodifiable([
+    for (final g in liste) (id: g.id, rolle: g.rolle, partner: plan[g.id] ?? g.partner, thema: g.thema),
+  ]);
+}
+
+/// Verlauf der Befragungen eines Abends (A-051): welche Frage der Detektiv je
+/// Befragung zuerst gestellt hat und welche erledigt sind. Prüft nur die Regeln
+/// des [Befragungsplan]s; Antworten liefern [befragungsAntwort] (Rollen, die die
+/// App spricht) und [befragungsZettel] (Rollen, die ein Mensch spielt).
+/// Kennungen sind die der Befragungstexte (`bf_<rolle>_<runde>`).
+///
+/// Eine feste Befragung ist Pflicht. Eine freie wird mit der ersten Frage
+/// gewählt, solange die Runde freie Wahlen übrig hat. Eine Runde ist fertig,
+/// wenn alle festen erledigt, alle freien Wahlen getroffen und alle gewählten
+/// erledigt sind. Welche Frage gestellt wird, ändert keine Antwort.
+class BefragungsVerlauf {
+  BefragungsVerlauf(this.plan, this.rollen);
+
+  final Befragungsplan plan;
+  final int rollen;
+  final Map<String, int> _frage = {};
+  final Set<String> _erledigt = {};
+
+  BefragungsRunde runde(int r) => plan.fuer(rollen, r);
+
+  /// Feste Befragungen der Runde [r] in Besetzungsreihenfolge.
+  List<String> pflicht(int r) => [for (final x in runde(r).pflicht) BefragungText.kennung(x, r)];
+
+  /// Frei wählbare Befragungen der Runde [r] in Besetzungsreihenfolge.
+  List<String> frei(int r) => [for (final x in runde(r).frei) BefragungText.kennung(x, r)];
+
+  /// Text der Befragung [id] (fester oder freier Teil des Plans).
+  BefragungText text(String id) => plan.texte.sammlung.befragungen[id] ?? (throw ArgumentError('unbekannte Befragung $id'));
+
+  /// Zuerst gestellte Frage (Index in [BefragungText.fragen]) oder null.
+  int? frage(String id) => _frage[id];
+  bool gefragt(String id) => _frage.containsKey(id);
+  bool erledigt(String id) => _erledigt.contains(id);
+
+  /// Freie Wahlen, die in Runde [r] noch offen sind.
+  int freiOffen(int r) => runde(r).freiWahlen - frei(r).where(_frage.containsKey).length;
+
+  /// Darf der Detektiv in Runde [r] die Befragung [id] führen?
+  bool waehlbar(int r, String id) => pflicht(r).contains(id) || (frei(r).contains(id) && (_frage.containsKey(id) || freiOffen(r) > 0));
+
+  /// Der Detektiv stellt in Runde [r] die Frage [frage] der Befragung [id]. Nur
+  /// die erste Frage zählt. Mit [sofort] antwortet die App (keine Spielerin
+  /// spielt die Rolle), die Befragung ist damit erledigt.
+  void befragen(int r, String id, int frage, {bool sofort = false}) {
+    if (!waehlbar(r, id)) throw ArgumentError('Befragung $id ist in Runde $r nicht wählbar');
+    if (frage < 0 || frage >= text(id).fragen.length) throw ArgumentError('Befragung $id hat keine Frage $frage');
+    _frage.putIfAbsent(id, () => frage);
+    if (sofort) _erledigt.add(id);
+  }
+
+  /// Eine gestellte Befragung ist am Tisch beantwortet.
+  void erledigen(int r, String id) {
+    if (!(pflicht(r).contains(id) || frei(r).contains(id))) throw ArgumentError('Befragung $id gehört nicht zu Runde $r');
+    if (!_frage.containsKey(id)) throw StateError('Befragung $id ist noch nicht gestellt');
+    _erledigt.add(id);
+  }
+
+  /// Ist Runde [r] durch? Erst dann darf der Abend weiter.
+  bool fertig(int r) =>
+      pflicht(r).every(_erledigt.contains) && freiOffen(r) <= 0 && frei(r).where(_frage.containsKey).every(_erledigt.contains);
+
+  /// Alle gestellten Befragungen in der Reihenfolge der ersten Frage.
+  List<String> get gestellt => List.unmodifiable(_frage.keys);
+}
+
 /// Planer der Befragungen (A-051, Modell befragung): Je Runde führt der Detektiv
 /// 3 bis höchstens 5 Befragungen, feste und frei gewählte.
 ///

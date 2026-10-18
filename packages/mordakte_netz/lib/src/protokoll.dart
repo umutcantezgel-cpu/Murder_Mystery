@@ -12,8 +12,10 @@
 /// ```
 library;
 
-/// Protokollversion, im `klopf`, `turm` und `hallo` geprüft.
-const protokollVersion = 1;
+/// Protokollversion, im `klopf`, `turm` und `hallo` geprüft. Version 2 (A-051):
+/// Befragungen im Schlosskeller (`befragen`, `erledigt`, Ansichten `befragungen`
+/// und `tisch`); ein Gerät mit Version 1 kennt sie nicht und wird abgewiesen.
+const protokollVersion = 2;
 
 /// Presence-Schlüssel des Gastgebers auf allen seinen Themen.
 const hostPresenceKey = 'h';

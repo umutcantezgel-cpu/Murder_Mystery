@@ -7,6 +7,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:test/test.dart';
 
 import '../party/kanon_hilfe.dart' show leseJson, repoWurzel;
+import '../runden/befragung_treiber.dart';
 
 const _lang = Timeout(Duration(minutes: 2));
 
@@ -75,6 +76,9 @@ void _schritt(SchlosskellerRaum r, Ermittlung erm, Map<String, Object?> s, Strin
       }
     case 'entscheidungen' when s['entscheidung'] != null:
       tu('p0', 'wahl', {'option': erm.entscheidung((s['entscheidung'] as Map)['id'] as String).richtig[pfad]!});
+    case 'gespraeche':
+      befragungenErledigen(s, (typ, d) => tu('p0', typ, d));
+      tu('p0', 'weiter');
     case 'gruppenwahl':
       for (final t in _liste(s['spieler'])) { final privat = r.zustandFuer(t['id'] as String)['privat'] as Map; if (privat['rolle'] != null && privat['hatGestimmt'] == false) tu(t['id'] as String, 'stimme', {'kooperativ': true}); }
       tu('p0', 'weiter');

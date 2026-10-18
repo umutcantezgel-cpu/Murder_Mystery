@@ -213,6 +213,10 @@
     {
       "datei": "ui-druck-karten.json",
       "bereich": "ui"
+    },
+    {
+      "datei": "ui-befragung.json",
+      "bereich": "ui"
     }
   ]
 }

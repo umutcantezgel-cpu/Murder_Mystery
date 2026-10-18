@@ -65,6 +65,8 @@ void detektivbogen(pw.Document doc, DruckKontext k) {
         for (var r = 1; r <= 3; r++) ...[
           if (r > 1) pw.NewPage(),
           _titel(k, k.ui('ui.druck.bogen.runde', {'nr': '$r'})),
+          // Modell befragung: Wen du befragst und was du fragen kannst, nie eine Antwort.
+          if (k.satz.befragungen.isNotEmpty) ..._block(k, k.ui('ui.druck.bogen.befragungen'), _befragungen(k, r, 'ui.druck.bogen.befragungen_frei')),
           for (final b in k.satz.detektivbogen.where((b) => b.runde == r))
             ..._entscheidung(k, b),
         ],
@@ -150,14 +152,21 @@ List<pw.Widget> _runde(DruckKontext k, Spielleitungsheft heft, int r) => [
   ..._block(k, k.ui('ui.druck.spielleitung.schritt.start'), [
     for (final b in heft.rundenStart[r]!) _vorlesen(k, k.text(b)),
   ]),
-  ..._block(k, k.ui('ui.druck.spielleitung.schritt.gespraeche'), [
-    _absatz(
-      k,
-      k.ui('ui.druck.spielleitung.gespraeche', {
-        'minuten': '${k.satz.rundendauerMinuten}',
-      }),
-    ),
-  ]),
+  if (k.satz.befragungen.isEmpty)
+    ..._block(k, k.ui('ui.druck.spielleitung.schritt.gespraeche'), [
+      _absatz(
+        k,
+        k.ui('ui.druck.spielleitung.gespraeche', {
+          'minuten': '${k.satz.rundendauerMinuten}',
+        }),
+      ),
+    ])
+  else
+    // Modell befragung (A-051): ein Tischgespräch je Rolle, dazu die Befragungen des Detektivs mit ihren Fragen.
+    ..._block(k, k.ui('ui.druck.spielleitung.schritt.befragungen'), [
+      _absatz(k, k.ui('ui.druck.spielleitung.befragungen', {'minuten': '${k.satz.rundendauerMinuten}'})),
+      ..._befragungen(k, r, 'ui.druck.spielleitung.befragungen_frei'),
+    ]),
   ..._block(k, k.ui('ui.druck.spielleitung.schritt.entscheidung'), [
     _absatz(k, k.ui('ui.druck.spielleitung.entscheidung')),
   ]),
@@ -343,6 +352,27 @@ pw.Widget _lage(DruckKontext k, Map<String, String> lage) => pw.Padding(
     ],
   ),
 );
+
+/// Die Befragungen der Runde [r]: feste mit Thema und Fragen, dann wie viele
+/// freie Wahlen es gibt und unter wem ([frei] ist der Bausteinstamm der Zeile).
+/// Keine Antwort: Die steht nur im Rollenheft der befragten Rolle.
+List<pw.Widget> _befragungen(DruckKontext k, int r, String frei) {
+  final br = k.satz.befragungen[r]!;
+  pw.Widget eintrag(String rolle) => _fach([
+        pw.Text(k.ui('ui.druck.befragung.zeile', {'name': k.figurName(rolle), 'thema': br.text(rolle).thema}), style: k.stil.ueberschrift(10.5)),
+        pw.Padding(
+          padding: const pw.EdgeInsets.only(left: 10, top: 1, bottom: 5),
+          child: pw.Text([for (final f in br.text(rolle).fragen) '– $f'].join('\n'), style: k.stil.text(10)),
+        ),
+      ]);
+  return [
+    for (final rolle in br.pflicht) eintrag(rolle),
+    if (br.freiWahlen > 0) ...[
+      _absatz(k, k.ui('${frei}_${br.freiWahlen}')),
+      for (final rolle in br.frei) eintrag(rolle),
+    ],
+  ];
+}
 
 // Detektivbogen
 

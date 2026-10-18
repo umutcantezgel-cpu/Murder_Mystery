@@ -6,6 +6,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:test/test.dart';
 
 import '../party/kanon_hilfe.dart';
+import 'befragung_treiber.dart';
 
 final _texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
 final _erm = Ermittlung(kanon);
@@ -62,6 +63,9 @@ void _schritt(SchlosskellerRaum r, {String pfad = 'ahmet', bool bestesSpiel = tr
       } else {
         _befehl(r, 'p0', 'weiter');
       }
+    case 'gespraeche':
+      befragungenErledigen(s, (typ, daten) => _befehl(r, 'p0', typ, daten));
+      _befehl(r, 'p0', 'weiter');
     case 'gruppenwahl':
       for (final t in _liste(s['spieler'])) {
         final id = t['id'] as String;
@@ -142,13 +146,21 @@ void main() {
     }
   });
 
-  test('Bot-Gespräche enthalten nur öffentliche Preisgaben und ersetzen keine getrennten Gäste', () {
-    final r = _raum();
+  test('Altakte (Modell legacy): Bot-Gespräche enthalten nur öffentliche Preisgaben und ersetzen keine getrennten Gäste', () {
+    final gk = ladeKanon('gewoelbe');
+    final gt = Texte(gk, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/gewoelbe/$p')));
+    final r = SchlosskellerRaum(raumCode: 'ABCD', kanon: gk, texte: gt, akte: 'gewoelbe',
+        fallCode: FallCode.fuerPfad(gk.pfade.first, gk.pfade), salz: 'pruefung-raumsalz-unabhaengig-vom-pfad');
     _start(r, 2, 4);
     final gastRolle = _map(r.zustandFuer('p1')['privat'])['rolle'];
-    _bis(r, (s) => s['phase'] == 'gespraeche');
+    for (var i = 0; i < 40 && r.zustandFuer('p0')['phase'] != 'gespraeche'; i++) {
+      if (r.zustandFuer('p0')['phase'] == 'rollen') _befehl(r, 'p1', 'rollenGelesen');
+      _befehl(r, 'p0', 'weiter');
+    }
+    expect(r.zustandFuer('p0')['phase'], 'gespraeche');
+    expect(r.zustandFuer('p0').containsKey('befragungen'), isFalse, reason: 'Altakten haben kein Befragungsmodul');
     final vorher = _liste(r.zustandFuer('p0')['botGespraeche']);
-    final alle = botGespraeche(_texte, rollen: 4, runde: 1, mitNpc: true);
+    final alle = botGespraeche(gt, rollen: 4, runde: 1, mitNpc: true);
     expect(vorher.map((g) => g['id']), alle.where((g) => g.rolle != gastRolle).map((g) => g.id));
     expect(vorher.every((g) => g['rolle'] != gastRolle), isTrue);
     for (final g in vorher) {

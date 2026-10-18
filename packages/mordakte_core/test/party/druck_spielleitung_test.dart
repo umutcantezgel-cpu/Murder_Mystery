@@ -2,6 +2,8 @@
 // Geprüft wird das fertige PDF (pdfinfo, pdftotext): Format, Wortlaut aus den Bausteinen, Codes, Fragen.
 import 'dart:math' as math;
 
+import 'package:mordakte_core/mordakte_core.dart' show befragungsZettel;
+import 'package:mordakte_core/runden.dart' show botAntwort;
 import 'package:mordakte_core/src/party/druck/satz.dart';
 import 'package:mordakte_core/src/party/druck/spielleitung.dart';
 import 'package:test/test.dart';
@@ -179,6 +181,38 @@ void main() {
       expect(bogen, contains(_anfang(k.ui('ui.druck.bogen.lage'))));
     },
   );
+
+  test('Modell befragung: Heft und Bogen nennen je Runde die Befragungen mit ihren Fragen, nie eine Antwort', () {
+    for (var r = 1; r <= 3; r++) {
+      final br = k.satz.befragungen[r]!;
+      final rollen = [...br.pflicht, if (br.freiWahlen > 0) ...br.frei];
+      for (final rolle in rollen) {
+        final t = br.text(rolle);
+        final zeile = flach(k.ui('ui.druck.befragung.zeile', {'name': k.figurName(rolle), 'thema': t.thema}));
+        expect(heft, contains(zeile), reason: 'Heft Runde $r: $rolle');
+        expect(bogen, contains(zeile), reason: 'Bogen Runde $r: $rolle');
+        for (final f in t.fragen) {
+          expect(heft, contains(flach(f)), reason: 'Heft Runde $r: $f');
+          expect(bogen, contains(flach(f)), reason: 'Bogen Runde $r: $f');
+        }
+      }
+      if (br.freiWahlen > 0) {
+        expect(heft, contains(flach(k.ui('ui.druck.spielleitung.befragungen_frei_${br.freiWahlen}'))));
+        expect(bogen, contains(flach(k.ui('ui.druck.bogen.befragungen_frei_${br.freiWahlen}'))));
+      }
+      // Antworten stehen nur im Rollenheft der befragten Rolle.
+      for (final rolle in [...br.pflicht, ...br.frei]) {
+        final z = befragungsZettel(k.texte, br.text(rolle));
+        for (final a in [...z.sagen, ...z.behaupten, ...z.eigene, ...botAntwort(k.texte, br.text(rolle))]) {
+          expect(heft, isNot(contains(flach(a))), reason: 'Heft Runde $r: Antwort von $rolle');
+          expect(bogen, isNot(contains(flach(a))), reason: 'Bogen Runde $r: Antwort von $rolle');
+        }
+      }
+    }
+    // Marken stehen in Großbuchstaben.
+    expect(heft, contains(flach(k.ui('ui.druck.spielleitung.schritt.befragungen')).toUpperCase()));
+    expect(heft, isNot(contains(flach(k.ui('ui.druck.spielleitung.schritt.gespraeche')).toUpperCase())));
+  });
 
   test(
     'Personenzahl 4 und 20: beide Teile A4 ohne Überlauf, mit Personenzahl und Anhang',
