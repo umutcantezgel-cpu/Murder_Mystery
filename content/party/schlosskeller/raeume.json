@@ -43,7 +43,7 @@
       "boden": "stone",
       "features": [
         "Regale",
-        "Geburtstagstorte",
+        "Mitternachtstorte",
         "Notlaterne am Haken"
       ],
       "beschreibung": "Kleiner, kühler Raum ohne Fenster hinter der Buffettheke. Einziger Zugang ist die Tür neben der Anrichte."
@@ -102,7 +102,7 @@
         "Wendeltreppe zum WC",
         "Hoftür (verschlossen)"
       ],
-      "beschreibung": "Schmaler Gang im Fuß des Schlossturms. Hier stehen die alte Ritterrüstung und die Schauvitrine. Die Wendeltreppe führt hinauf zu den Toiletten; der Rest des Turms ist mit einem Vorhängeschloss abgesperrt."
+      "beschreibung": "Schmaler Gang im Fuß des Schlossturms. Hier stehen die alte Ritterrüstung und die Schauvitrine, neben der Hoftür hängt der Schlüsselkasten der Stiftung. Die Wendeltreppe führt hinauf zu den Toiletten; der Rest des Turms ist mit einem Vorhängeschloss abgesperrt."
     },
     {
       "id": "ost_saal",
@@ -438,7 +438,7 @@
     },
     {
       "id": "regal_torte",
-      "name": "Regal mit der Geburtstagstorte",
+      "name": "Regal mit der Mitternachtstorte",
       "typ": "bookshelf",
       "x": 13,
       "y": 2,
@@ -1002,7 +1002,7 @@
       "raum": "ost_saal",
       "x": 24.5,
       "y": 16.5,
-      "name": "auf dem Ehrenplatz des Geburtstagskinds"
+      "name": "auf dem Ehrenplatz der blinden Kuh"
     },
     {
       "id": "im_windfang",

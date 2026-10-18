@@ -1,11 +1,15 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "erzaehler",
-  "hinweis": "Intro: intro.start, intro.lacher.<id>.<besetzt|npc>, intro.auftrag.<m|w>.",
+  "hinweis": "Intro: intro.start, intro.ausfall, intro.lacher.<id>.<besetzt|npc>, intro.auftrag.<m|w>.",
   "eintraege": [
     {
       "id": "intro.start",
-      "text": "Ein altes Schloss, etwas abgelegen vor der Stadt. Heute Abend wird hier Geburtstag gefeiert, und zwar im großen Gewölbekeller unter dem Schlossturm. Der Wind pfeift durch die Lichtschächte, und schwere Holztüren quietschen im Luftzug. Gruselig, aber gemütlich. Das Buffet ist eröffnet: warmes Essen, Brot, Dips und Gebäck. Kurz vor Mitternacht knallt es, dann ist es dunkel. Nur ein paar Kerzen und das grüne Notausgangsschild leuchten. Herr Schneider liegt bewusstlos im Vorratsraum gleich hinter der Tür. Der Schlüsselbund ist weg, und das Außentor ist zu. Hinter den dicken Mauern gibt es keinen Handyempfang, und ihr sitzt bis zum Morgen fest."
+      "text": "Ein altes Schloss, etwas abgelegen vor der Stadt. Die Clique feiert ihr Wiedersehen im großen Gewölbekeller unter dem Schlossturm. Der Wind pfeift durch die Lichtschächte, und schwere Holztüren quietschen im Luftzug. Gruselig, aber gemütlich. Das Buffet ist eröffnet: warmes Essen, Brot, Dips und Gebäck. Um Mitternacht gibt es Torte, und dazu ein Spiel: „Blinde Kuh“."
+    },
+    {
+      "id": "intro.ausfall",
+      "text": "Kurz vor Mitternacht knallt es, dann ist es dunkel. Nur ein paar Kerzen und das grüne Notausgangsschild leuchten. Herr Schneider liegt bewusstlos im Vorratsraum gleich hinter der Tür. Der Schlüsselbund ist weg, und das Außentor ist zu. Hinter den dicken Mauern gibt es keinen Handyempfang, und ihr sitzt bis zum Morgen fest."
     },
     {
       "id": "intro.lacher.lacher_ruestung.besetzt",
@@ -17,11 +21,11 @@
     },
     {
       "id": "intro.lacher.lacher_verlaufen.besetzt",
-      "text": "Um Viertel nach acht abends suchte Olli die Toilette. Er nahm die falsche Tür hinter der Theke und stand im dunklen Vorratsraum vor der Geburtstagstorte. „Ich wollte nur aufs Klo!“"
+      "text": "Um Viertel nach acht abends suchte Olli die Toilette. Er nahm die falsche Tür hinter der Theke und stand im dunklen Vorratsraum vor der Mitternachtstorte. „Ich wollte nur aufs Klo!“"
     },
     {
       "id": "intro.lacher.lacher_verlaufen.npc",
-      "text": "Um Viertel nach acht abends suchte ein Gast die Toilette. Der Gast nahm die falsche Tür hinter der Theke und stand im dunklen Vorratsraum vor der Geburtstagstorte. „Ich wollte nur aufs Klo!“"
+      "text": "Um Viertel nach acht abends suchte ein Gast die Toilette. Der Gast nahm die falsche Tür hinter der Theke und stand im dunklen Vorratsraum vor der Mitternachtstorte. „Ich wollte nur aufs Klo!“"
     },
     {
       "id": "intro.lacher.lacher_kamin.besetzt",
@@ -33,11 +37,11 @@
     },
     {
       "id": "intro.auftrag.m",
-      "text": "Eigentlich ist heute dein Geburtstag, und jetzt bist du auch noch der Detektiv. Herr Schneider bittet dich: „Finde raus, wer das war. Bis zum Morgen.“"
+      "text": "Eben warst du noch die blinde Kuh, und jetzt bist du auch noch der Detektiv. Herr Schneider bittet dich: „Finde raus, wer das war. Bis zum Morgen.“"
     },
     {
       "id": "intro.auftrag.w",
-      "text": "Eigentlich ist heute dein Geburtstag, und jetzt bist du auch noch die Detektivin. Herr Schneider bittet dich: „Finde raus, wer das war. Bis zum Morgen.“"
+      "text": "Eben warst du noch die blinde Kuh, und jetzt bist du auch noch die Detektivin. Herr Schneider bittet dich: „Finde raus, wer das war. Bis zum Morgen.“"
     }
   ]
 }

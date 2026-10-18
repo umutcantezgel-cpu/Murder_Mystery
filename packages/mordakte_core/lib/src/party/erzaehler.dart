@@ -19,10 +19,15 @@ class Erzaehler {
     final lacher = [for (final l in (kanon.json['setting.json']!['lacher'] as List? ?? const [])) (l as Map).cast<String, Object?>()];
     return [
       'intro.start',
+      for (final t in introTeile) 'intro.$t',
       for (final l in lacher) 'intro.lacher.${l['id']}.${s.besetzung.istBesetzt(l['wer'] as String, s.einstellungen.rollen) ? 'besetzt' : 'npc'}',
       'intro.auftrag.${s.einstellungen.detektiv}',
     ];
   }
+
+  /// Weitere Intro-Bausteine direkt nach `intro.start` (`setting.introTeile`), etwa
+  /// der Stromausfall im Schlosskeller (K1). Ohne Liste bleibt es bei `intro.start`.
+  List<String> get introTeile => [for (final t in (kanon.json['setting.json']!['introTeile'] as List? ?? const [])) t as String];
 
   /// Rundenstart; dazu das Wissen unbesetzter Gäste, das eine Runde braucht ([npcWissen]).
   List<String> rundenStart(int runde, {required bool Function(String figur) besetzt}) => [
@@ -144,6 +149,7 @@ class Erzaehler {
     final enden = [for (final e in ((kanon.fall['enden'] as Map)['matrix'] as List)) (e as Map)['id'] as String];
     return [
       'intro.start',
+      for (final t in introTeile) 'intro.$t',
       for (final l in lacher) ...['intro.lacher.$l.besetzt', 'intro.lacher.$l.npc'],
       'intro.auftrag.m',
       'intro.auftrag.w',

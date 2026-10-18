@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
-  "schauplatz": "Ein altes, etwas abgelegenes Schloss vor der Stadt. Gefeiert wird im großen Gewölbekeller unter dem Schlossturm.",
-  "anlass": "Geburtstag. Ahmet hat den Keller über einen Gefallen organisiert: Er gestaltet umsonst das Programm des Adventsmarkts der Schlossstiftung.",
+  "schauplatz": "Ein altes, etwas abgelegenes Schloss vor der Stadt. Gefeiert wird im großen Gewölbekeller unter dem Schlossturm. Darüber liegen das Erdgeschoss und der ummauerte Schlosshof.",
+  "anlass": "Ein Wiedersehen der Clique. Ahmet hat den Keller über einen Gefallen organisiert: Er gestaltet umsonst das Programm des Adventsmarkts der Schlossstiftung. Um Mitternacht gibt es Torte und Tugbas Spiel „Blinde Kuh“.",
   "datum": "ein Samstag im November; draußen kalt und windig",
   "essen": "Offenes Buffet auf langen Holztischen: warmes Essen aus Warmhaltebehältern, frisches Brot, Dips und Gebäck.",
   "getraenke": [
@@ -11,7 +11,7 @@
     "Wasser",
     "Säfte"
   ],
-  "empfang": "Hinter den dicken Mauern gibt es keinen Handyempfang. Empfang gibt es erst draußen auf den Stufen zum Parkplatz.",
+  "empfang": "Hinter den dicken Mauern gibt es keinen Handyempfang, auch nicht im Schlosshof, im Erdgeschoss oder oben im Turm. Empfang gibt es erst draußen vor dem Außentor auf den Stufen zum Parkplatz. Ein Telefon gibt es im Schloss nicht.",
   "atmosphaere": [
     "Der Wind pfeift durch die Lichtschächte.",
     "Schwere Holztüren quietschen im Luftzug.",
@@ -32,7 +32,7 @@
       "zeit": "20:15",
       "wer": "olli",
       "ort": "vorrat_mitte",
-      "was": "Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Geburtstagstorte. „Ich wollte nur aufs Klo!“",
+      "was": "Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Mitternachtstorte. „Ich wollte nur aufs Klo!“",
       "traegt": "Falsche Fährte: Olli kennt den Vorratsraum."
     },
     {
@@ -44,5 +44,8 @@
       "traegt": "Spur: Seit 23:30 zieht Luft vom Buffetsaal in den Kaminsaal; Gerüche wandern mit."
     }
   ],
-  "ton": "Grusel mit Humor: quietschende Türen, Zugluft, flackerndes Licht, verpatzte Streiche. Herr Schneider überlebt immer; der Schlag ist nur Schatten und Geräusch."
+  "ton": "Grusel mit Humor: quietschende Türen, Zugluft, flackerndes Licht, verpatzte Streiche. Herr Schneider überlebt immer; der Schlag ist nur Schatten und Geräusch.",
+  "introTeile": [
+    "ausfall"
+  ]
 }

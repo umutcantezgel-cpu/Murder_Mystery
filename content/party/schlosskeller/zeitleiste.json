@@ -88,7 +88,7 @@
       "wer": [
         "olli"
       ],
-      "text": "Lacher: Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Geburtstagstorte. „Ich wollte nur aufs Klo!“",
+      "text": "Lacher: Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Mitternachtstorte. „Ich wollte nur aufs Klo!“",
       "pfade": "alle",
       "quelle": "B-17"
     },
@@ -243,7 +243,7 @@
         "can",
         "zeynep"
       ],
-      "text": "Can schleicht über den Durchgang hinter die Theke in den Vorratsraum, macht dort das Licht aus und wartet mit der Leuchtmaske auf das Geburtstagskind. Zeynep steht am Bogen zum Durchgang Schmiere.",
+      "text": "Can schleicht über den Durchgang hinter die Theke in den Vorratsraum, macht dort das Licht aus und wartet mit der Leuchtmaske auf die blinde Kuh. Zeynep steht am Bogen zum Durchgang Schmiere.",
       "pfade": "alle",
       "quelle": "B-05"
     },
@@ -256,7 +256,7 @@
         "detective",
         "baran"
       ],
-      "text": "Tugba ruft alle in den Ost-Saal, die Handys kommen in den Handykorb. Das Geburtstagskind bekommt eine Augenbinde und Barans Kopfhörer mit lauter Musik. Um zwölf soll es zur Torte in den Vorratsraum geführt werden.",
+      "text": "Tugba ruft alle zu ihrem Mitternachtsspiel „Blinde Kuh“ in den Ost-Saal, die Handys kommen in den Handykorb. Der Detektiv bekommt als blinde Kuh eine Augenbinde und Barans Kopfhörer mit lauter Musik. Um zwölf soll die blinde Kuh zur Torte in den Vorratsraum geführt werden.",
       "pfade": "alle",
       "quelle": "B-05"
     },
@@ -429,6 +429,16 @@
       "pfade": "alle"
     },
     {
+      "id": "z_ersatzschluessel",
+      "zeit": "00:15",
+      "ort": "wendeltreppe_fuss",
+      "wer": [
+        "schneider"
+      ],
+      "text": "Herrn Schneider fällt der Ersatzschlüssel der Stiftung ein. Er holt ihn aus dem Schlüsselkasten im Turmgang und schließt damit die Hoftür, den Turm und die Seitentür vom Schlosshof ins Erdgeschoss auf. Das Außentor und das Einfahrtstor des Hofs öffnet der Ersatzschlüssel nicht. Hof und Garten sind hoch ummauert, die Fenster im Erdgeschoss vergittert. Die Gruppe sitzt weiter bis zum Morgen fest.",
+      "pfade": "alle"
+    },
+    {
       "id": "z_auftrag",
       "zeit": "00:20",
       "ort": "hinter_rechtem_buffet",
@@ -436,7 +446,7 @@
         "schneider",
         "detective"
       ],
-      "text": "Herr Schneider bittet das Geburtstagskind: „Finde raus, wer das war. Bis zum Morgen.“",
+      "text": "Herr Schneider bittet den Detektiv: „Finde raus, wer das war. Bis zum Morgen.“",
       "pfade": "alle"
     },
     {
@@ -486,7 +496,7 @@
       "wer": [
         "schneider"
       ],
-      "text": "Herrn Schneiders Kollegin kommt mit dem Ersatzschlüssel und schließt das Außentor auf.",
+      "text": "Herrn Schneiders Kollegin kommt mit ihrem Torschlüssel und schließt das Außentor auf.",
       "pfade": "alle"
     }
   ]

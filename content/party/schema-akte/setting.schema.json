@@ -140,6 +140,14 @@
     "ton": {
       "$ref": "#/$defs/text"
     },
+    "introTeile": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
     "darstellung": {
       "type": "object",
       "additionalProperties": false,

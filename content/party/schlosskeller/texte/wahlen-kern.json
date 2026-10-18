@@ -37,7 +37,7 @@
       "id": "gw_fatma_3",
       "a": "Ich sage dem Detektiv, dass ich die Münzschatulle mitgenommen habe. Am Montag sollte sie zurück.",
       "b": "Ich schweige. Die Schatulle soll zurück, ohne dass es alle erfahren.",
-      "sabotage": "Ich erzähle lieber von der Geburtstagsfeier. Darüber rede ich viel lieber."
+      "sabotage": "Ich erzähle lieber vom Wiedersehen der Clique. Darüber rede ich viel lieber."
     },
     {
       "id": "gw_olli_1",
@@ -59,7 +59,7 @@
     },
     {
       "id": "gw_can_1",
-      "a": "Ich erzähle dem Detektiv, dass ich mich mit einer Leuchtmaske im Vorratsraum versteckt habe. Ich wollte das Geburtstagskind erschrecken.",
+      "a": "Ich erzähle dem Detektiv, dass ich mich mit einer Leuchtmaske im Vorratsraum versteckt habe. Ich wollte die blinde Kuh erschrecken.",
       "b": "Der Streich soll nicht herauskommen. Dafür sage ich nichts.",
       "sabotage": "Ich halte mich zurück und erzähle lieber von der Musik heute Abend."
     },
@@ -71,7 +71,7 @@
     },
     {
       "id": "gw_can_3",
-      "a": "Ich gebe es zu: Ich habe mich mit der Leuchtmaske versteckt. Das Geburtstagskind wollte ich erschrecken.",
+      "a": "Ich gebe es zu: Ich habe mich mit der Leuchtmaske versteckt. Die blinde Kuh wollte ich erschrecken.",
       "b": "Ich schweige weiter. Der Streich soll nicht herauskommen.",
       "sabotage": "Ich mache lieber Witze über die Ritterrüstung im Turmgang. Das lockert die Stimmung."
     }
