@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flame/game.dart' show Vector2;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/party/karte_session.dart';
@@ -13,6 +15,24 @@ PartyKartenSession karte(PartySitzung s) {
   final k = PartyKartenSession(s);
   addTearDown(k.dispose);
   return k;
+}
+
+const _akten = ['schlosskeller', 'gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm'];
+
+/// Eingerichteter Abend einer Akte mit höchstens [rollen] Rollen.
+PartySitzung _sitzung(String akte, {int rollen = 7, String? pfad, WuerfelQuelle wuerfel = const FesterWuerfel.neutral()}) {
+  final s = PartySitzung(akteDaten(akte), wuerfel: wuerfel);
+  final n = math.min(rollen, s.kanon.besetzungJson['maxRollen'] as int);
+  s.einrichten(rollen: n, detektiv: 'w', code: FallCode.fuerPfad(pfad ?? s.kanon.pfade.first, s.kanon.pfade).code);
+  return s;
+}
+
+/// Der Detektiv bleibt nicht auf einer anderen Person stehen.
+void keinePersonAmStand(PartySitzung s, PartyKartenSession k, String wo) {
+  final (x, y) = k.kartenAktion!.weg.last;
+  for (final f in s.karte.figuren) {
+    expect(dist(x, y, f.x, f.y), greaterThanOrEqualTo(0.6), reason: '$wo: Standplatz ($x, $y) liegt auf ${f.id}');
+  }
 }
 
 /// Echte, pro Frame aufgerufene Aktion. Kein aktionFertig und kein Teleport.
@@ -38,35 +58,42 @@ List<Object> laufen(PartySitzung s, PartyKartenSession k) {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('jedes Kanon-Ziel hat einen sichtbaren, kollisionsfreien Weg und eine Pose', () {
-    for (final ziel in partyDaten.karte.ziele.values) {
-      final s = neueSitzung(rollen: 7);
-      final e = s.karte.ermittlung.entscheidung(ziel.entscheidung);
-      spieleBis(s, PartyPhase.entscheidungen, runde: e.runde);
-      while (s.laufendeEntscheidung!.id != e.id) {
-        s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
+  for (final akte in _akten) {
+    test('$akte: jedes Kanon-Ziel hat einen sichtbaren, kollisionsfreien Weg, eine Pose und keinen Stand auf einer Person', () {
+      final daten = akteDaten(akte);
+      var geprueft = 0;
+      for (final ziel in daten.karte.ziele.values) {
+        final s = _sitzung(akte);
+        final e = s.karte.ermittlung.entscheidung(ziel.entscheidung);
+        spieleBis(s, PartyPhase.entscheidungen, runde: e.runde);
+        while (s.laufendeEntscheidung!.id != e.id) {
+          s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
+          s.bestaetigen();
+          spieleZug(s);
+        }
+        final k = karte(s);
+        final wuerfeVorher = s.wuerfe.length;
+        s.schlageVor(ziel.option);
         s.bestaetigen();
-        spieleZug(s);
-      }
-      final k = karte(s);
-      final wuerfeVorher = s.wuerfe.length;
-      s.schlageVor(ziel.option);
-      s.bestaetigen();
-      expect(s.letzterFund, isNull);
-      expect(s.laufendeEntscheidung, isNull);
-      expect(s.kannWeiter, isFalse);
-      expect(() => s.weiter(), throwsStateError);
-      laufen(s, k);
-      if (istSuche(e)) {
-        expect(s.zug!.phase, RundenZugPhase.wurf);
         expect(s.letzterFund, isNull);
-      } else {
-        expect(s.zug!.phase, RundenZugPhase.fund);
-        expect(s.letzterFund, isNotNull);
-        expect(s.wuerfe, hasLength(wuerfeVorher), reason: 'Befragungen würfeln nie');
+        expect(s.laufendeEntscheidung, isNull);
+        expect(s.kannWeiter, isFalse);
+        expect(() => s.weiter(), throwsStateError);
+        keinePersonAmStand(s, k, '$akte, ${ziel.option}');
+        laufen(s, k);
+        if (istSuche(e)) {
+          expect(s.zug!.phase, RundenZugPhase.wurf);
+          expect(s.letzterFund, isNull);
+        } else {
+          expect(s.zug!.phase, RundenZugPhase.fund);
+          expect(s.letzterFund, isNotNull);
+          expect(s.wuerfe, hasLength(wuerfeVorher), reason: 'Befragungen würfeln nie');
+        }
+        geprueft++;
       }
-    }
-  });
+      expect(geprueft, daten.karte.ziele.length);
+    });
+  }
 
   test('Pech, Umweg und Nochmal behalten Quelle und Wissen bis zum garantierten dritten Wurf', () {
     final s = neueSitzung(rollen: 4, wuerfel: const FesterWuerfel.pech());
@@ -156,22 +183,29 @@ void main() {
     expect(s.wuerfe, hasLength(1));
   });
 
-  test('Weg, Pose, Dauer und Chancen sind bei gleichem Würfelstrom in allen Pfaden gleich', () {
-    List<Object>? referenz;
-    for (final pfad in partyDaten.kanon.pfade) {
-      final s = neueSitzung(rollen: 20, pfad: pfad, wuerfel: const FesterWuerfel.pech());
-      spieleBis(s, PartyPhase.entscheidungen, runde: 2);
-      final k = karte(s);
-      s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
-      s.bestaetigen();
-      final spur = laufen(s, k)..add(s.wuerfelVorschau().prozent);
-      s.wuerfeln();
-      s.tischruf(Tischruf.umweg);
-      spur.addAll(laufen(s, k));
-      referenz ??= spur;
-      expect(spur, referenz, reason: pfad);
-    }
-  });
+  for (final akte in _akten) {
+    test('$akte: Weg, Pose, Dauer und Chancen sind bei gleichem Würfelstrom in allen Pfaden gleich', () {
+      List<Object>? referenz;
+      for (final pfad in akteDaten(akte).kanon.pfade) {
+        final s = _sitzung(akte, rollen: 20, pfad: pfad, wuerfel: const FesterWuerfel.pech());
+        spieleBis(s, PartyPhase.entscheidungen, runde: 2);
+        final k = karte(s);
+        s.schlageVor(s.laufendeEntscheidung!.optionen.first.id);
+        s.bestaetigen();
+        final spur = laufen(s, k);
+        // Eine Suche würfelt; nach dem Pech folgt der Umweg mit eigenem Weg.
+        if (s.zug?.phase == RundenZugPhase.wurf) {
+          spur.add(s.wuerfelVorschau().prozent);
+          s.wuerfeln();
+          expect(s.zug?.phase, RundenZugPhase.tischruf, reason: '$akte, $pfad: Pech');
+          s.tischruf(Tischruf.umweg);
+          spur.addAll(laufen(s, k));
+        }
+        referenz ??= spur;
+        expect(spur, referenz, reason: pfad);
+      }
+    });
+  }
 
   test('Druckspiel bleibt ohne Würfel und ohne neue Zugschritte spielbar', () {
     final s = neueSitzung()..einrichten(rollen: 4, detektiv: 'w', druck: true);

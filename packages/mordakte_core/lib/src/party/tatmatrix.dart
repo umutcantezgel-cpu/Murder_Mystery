@@ -200,10 +200,15 @@ class Abschnitt {
 
   bool get istWeg => tempo != null;
 
-  (double, double) posAm(Uhrzeit t) {
+  (double, double) posAm(Uhrzeit t) => posAmBruch(t.sekunden.toDouble());
+
+  /// Wie [posAm], aber zu einer Zeit mit Sekundenbruchteil ([sekunden] seit
+  /// 12:00 Uhr). Die Rückblende zeichnet damit jedes Bild genau auf der Linie;
+  /// für ganze Sekunden ist das Ergebnis dasselbe wie bei [posAm].
+  (double, double) posAmBruch(double sekunden) {
     if (!istWeg || linie.length == 1) return linie.first;
     final dauer = bis.minus(von);
-    final f = dauer <= 0 ? 1.0 : (t.minus(von) / dauer).clamp(0.0, 1.0);
+    final f = dauer <= 0 ? 1.0 : ((sekunden - von.sekunden) / dauer).clamp(0.0, 1.0);
     var rest = f * laenge;
     for (var i = 1; i < linie.length; i++) {
       final a = linie[i - 1], b = linie[i];
@@ -368,10 +373,13 @@ class Ablauf {
     return null;
   }
 
-  PersonZustand? zustand(String person, Uhrzeit t) {
+  /// Zustand zur Uhrzeit [t]; mit [bruch] (0 bis unter 1) liegt die Position
+  /// um diesen Sekundenbruchteil später auf dem Weg. Abschnitte beginnen und
+  /// enden auf ganzen Sekunden, der Abschnitt bleibt also derselbe.
+  PersonZustand? zustand(String person, Uhrzeit t, {double bruch = 0}) {
     final a = abschnittAm(person, t);
     if (a == null) return null;
-    final p = a.posAm(t);
+    final p = bruch == 0 ? a.posAm(t) : a.posAmBruch(t.sekunden + bruch);
     return PersonZustand(
       person: person,
       x: p.$1,

@@ -103,7 +103,9 @@ class StaticScene {
 
   StaticScene._(this.scenario, this.pal, this.wallPainter, this.propPainter);
 
-  static const decorTypes = {'rug', 'bloodstain', 'papers', 'puddle'};
+  /// Begehbares Dekor, flach im Boden gezeichnet. Der Ascheneimer gehört dazu:
+  /// Er ist ein Suchort, aber kein Hindernis, und soll auch nicht so aussehen.
+  static const decorTypes = {'rug', 'bloodstain', 'papers', 'puddle', 'party_ascheneimer'};
 
   factory StaticScene.build(ScenarioDef s, {double resolution = 1.6}) {
     final pal = ScenePalette.fromTheme(s.theme);

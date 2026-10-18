@@ -316,11 +316,15 @@ class Rueckblende {
 
   Set<String> get hervorgehoben => {pfad, (kanon.figurenJson['opfer'] as Map)['id'] as String};
 
-  RueckblendeBild bild(Uhrzeit t) {
+  /// Bild zur Uhrzeit [t]. Mit [bruch] (Sekundenbruchteil, 0 bis unter 1)
+  /// stehen die Personen genau dort, wo sie zwischen zwei Sekunden auf ihrem
+  /// Weg sind (flüssiger Zeitraffer). Ob ein Licht brennt und wer den Bund
+  /// trägt, entscheidet die ganze Sekunde.
+  RueckblendeBild bild(Uhrzeit t, {double bruch = 0}) {
     final g = kanon.graph;
     final personen = <String, PersonZustand>{
       for (final p in ablauf.personen)
-        p: ?ablauf.zustand(p, t),
+        p: ?ablauf.zustand(p, t, bruch: bruch),
     };
     final lichter = <RueckblendeLicht>[];
     final hell = <String>{};

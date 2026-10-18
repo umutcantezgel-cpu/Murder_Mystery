@@ -67,6 +67,11 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
   /// Echte Zeit seit dem Start der Rückblende: Unter Last fallen Ticks aus,
   /// der Zeitraffer folgt trotzdem der Uhr.
   final Stopwatch _uhr = Stopwatch();
+
+  /// Ersatz für die Wanduhr der Rückblende (Sekunden seit dem Start), damit
+  /// Tests Bild für Bild prüfen können.
+  @visibleForTesting
+  double Function()? testUhr;
   final _world = ValueNotifier<WorldSnapshot?>(null);
   final _case = ValueNotifier<CaseView?>(null);
   final _events = StreamController<GameEvent>.broadcast();
@@ -181,6 +186,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
     _aktion = raum == null ? null : KartenAktion.planen(
       raster: _raster, startX: _x, startY: _y, facing: _f,
       zielX: zx, zielY: zy, raum: raum, suchen: z.suche, umweg: z.ruf == Tischruf.umweg,
+      personen: [for (final f in sitzung.karte.figuren) (f.x, f.y)],
     );
     _aktionsZiel = Offset(zx, zy);
     _abstecherOhneWeg = z.istAbstecher && _aktion == null;
@@ -192,6 +198,12 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
   @override
   void szenenSchritt(double sekunden) {
     if (_entsorgt) return;
+    // Rückblende: jedes Frame ein Bild, damit die Figuren auf ihren Linien
+    // bleiben (der 100-ms-Takt allein ist bei Zeitraffer 25 zu grob).
+    if (_rb != null) {
+      _tick();
+      return;
+    }
     _synchronisiereAktion();
     final a = _aktion;
     final nr = _aktionsNummer;
@@ -239,15 +251,24 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
     _t += 100;
     final rb = _rb;
     List<NpcView> npcs;
+    final gehend = <String>{};
     if (rb != null) {
       final dauer = rb.schritte.last.minus(rb.schritte.first).toDouble();
       if (!_uhr.isRunning) _uhr.start();
-      _rbSekunden = math.min(dauer, _uhr.elapsedMilliseconds / 1000 * zeitraffer);
+      final echt = testUhr?.call() ?? _uhr.elapsedMicroseconds / 1e6;
+      _rbSekunden = math.min(dauer, echt * zeitraffer);
       if (_rbSekunden >= dauer) fertig.value = true;
-      final t = rb.schritte.first.plus(_rbSekunden.floor());
+      // Die Uhr zeigt ganze Sekunden; die Figuren stehen auf dem Bruchteil.
+      final ganz = _rbSekunden.floor();
+      final t = rb.schritte.first.plus(ganz);
       if (zeit.value != t) zeit.value = t;
       sitzung.rueckblendeZeit = t;
-      final b = _bild = rb.bild(t);
+      final b = _bild = rb.bild(t, bruch: _rbSekunden - ganz);
+      for (final e in b.personen.entries) {
+        if (e.value.bewegtSich) {
+          if (sitzung.daten.npcKennung[e.key] case final id?) gehend.add(id);
+        }
+      }
       npcs = [
         for (final e in b.personen.entries)
           if (sitzung.daten.npcKennung[e.key] case final id?) NpcView(id: id, x: e.value.x, y: e.value.y, alive: true),
@@ -263,7 +284,7 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
         ),
       ];
     }
-    npcs = _nebeneinander(npcs);
+    npcs = _nebeneinander(npcs, gehend: gehend);
     _world.value = WorldSnapshot(
       t: _t,
       phase: Phase.investigation,
@@ -513,8 +534,10 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
 
   /// Figuren auf demselben Fleck rücken nebeneinander, damit keine eine andere
   /// verdeckt (in der Rückblende stehen manchmal zwei auf einem Platz). Eine
-  /// hervorgehobene Figur bleibt stehen; die anderen weichen zur Seite.
-  List<NpcView> _nebeneinander(List<NpcView> npcs) {
+  /// hervorgehobene Figur bleibt stehen; die anderen weichen zur Seite, aber
+  /// nur auf freien Boden. Wer gerade geht ([gehend]), bleibt auf seiner Linie,
+  /// sonst springt er beim Vorbeigehen.
+  List<NpcView> _nebeneinander(List<NpcView> npcs, {Set<String> gehend = const {}}) {
     const versatz = [(0.42, 0.0), (0.0, 0.42), (-0.42, 0.0), (0.0, -0.42), (0.3, 0.3), (-0.3, -0.3)];
     final gruppen = <(int, int), List<int>>{};
     for (var i = 0; i < npcs.length; i++) {
@@ -523,10 +546,19 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
     final aus = [...npcs];
     for (final g in gruppen.values.where((g) => g.length > 1)) {
       g.sort((a, b) => (hervorhebung(npcs[b].id) ?? 0).compareTo(hervorhebung(npcs[a].id) ?? 0));
+      final vergeben = <int>{};
       for (var k = 1; k < g.length; k++) {
         final n = npcs[g[k]];
-        final (dx, dy) = versatz[(k - 1) % versatz.length];
-        aus[g[k]] = NpcView(id: n.id, x: n.x + dx, y: n.y + dy, alive: n.alive, talkingTo: n.talkingTo);
+        if (gehend.contains(n.id)) continue;
+        // Der übliche Platz zuerst, dann der nächste freie, der noch frei ist.
+        for (var v = 0; v < versatz.length; v++) {
+          final i = (k - 1 + v) % versatz.length;
+          final (dx, dy) = versatz[i];
+          if (vergeben.contains(i) || !_raster.canStand(n.x + dx, n.y + dy, Tuning.playerRadius)) continue;
+          vergeben.add(i);
+          aus[g[k]] = NpcView(id: n.id, x: n.x + dx, y: n.y + dy, alive: n.alive, talkingTo: n.talkingTo);
+          break;
+        }
       }
     }
     return aus;
@@ -541,6 +573,9 @@ class PartyKartenSession implements GameSession, SzenenErweiterung, SzenenGlanz,
 
   @override
   bool get ruheAnimation => !bewegungReduziert;
+
+  @override
+  bool get exakteFiguren => _rb != null;
 
   @override
   bool get kleineEffekte => !rueckblendeModus && !bewegungReduziert;

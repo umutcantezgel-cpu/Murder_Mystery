@@ -72,7 +72,15 @@ class _Track {
     if (samples.length > 12) samples.removeAt(0);
   }
 
-  void step(double rt, double dt, {bool useReportedFacing = true}) {
+  /// Genau diese Stelle, ohne Puffer (exakte Figuren der Szene).
+  void setze(double t, double x, double y, double f) {
+    samples
+      ..clear()
+      ..add(_Sample(t, x, y, f));
+  }
+
+  /// [teleport]: Sprünge über drei Kacheln setzen die Figur ohne Laufanimation um.
+  void step(double rt, double dt, {bool useReportedFacing = true, bool teleport = true}) {
     if (samples.isEmpty) return;
     double nx, ny, nf;
     if (rt <= samples.first.t) {
@@ -103,7 +111,7 @@ class _Track {
     }
     final dx = nx - x, dy = ny - y;
     final d = math.sqrt(dx * dx + dy * dy);
-    if (d > 3) {
+    if (teleport && d > 3) {
       // Teleport
       x = nx;
       y = ny;
@@ -260,6 +268,16 @@ class MordakteGame extends Game with KeyboardEvents {
   String? _tippAktion;
   Offset? _tippMarke;
   double _tippMarkeT = 0;
+
+  /// Ziel des Tippwegs und ob er in Reichweite davor endet (zum Neuplanen).
+  Offset? _tippZielPunkt;
+  bool _tippNah = false;
+
+  /// Hängenbleiben auf dem Tippweg: Stelle und Zeit seit dem letzten
+  /// Fortschritt; ein zweites Hängen nach dem Neuplanen bricht ab.
+  Offset _haengAb = Offset.zero;
+  double _haengT = 0;
+  bool _neuGeplant = false;
   double _lastSendT = -1;
   double _sentX = double.nan, _sentY = double.nan, _sentF = double.nan;
   double _farTimer = 0;
@@ -307,6 +325,7 @@ class MordakteGame extends Game with KeyboardEvents {
   bool tippen(Offset local) {
     final grid = _grid;
     if (_scene == null || grid == null || !_hasPos || _fuehrung?.eingabeGesperrt == true) return false;
+    _freistellen(grid);
     final ziel = _tippZiel(local);
     final w = ziel?.$2 ?? screenToWorld(local);
     final weg = _wegZu(grid, w, nah: ziel != null);
@@ -315,6 +334,11 @@ class MordakteGame extends Game with KeyboardEvents {
     _tippAktion = ziel?.$1;
     _tippMarke = ziel?.$2 ?? w;
     _tippMarkeT = 0;
+    _tippZielPunkt = w;
+    _tippNah = ziel != null;
+    _haengAb = Offset(_px, _py);
+    _haengT = 0;
+    _neuGeplant = false;
     // Steht man schon da, gilt die Handlung sofort.
     if (weg.isEmpty && ziel != null) _tippAnkunft();
     return true;
@@ -325,7 +349,7 @@ class MordakteGame extends Game with KeyboardEvents {
     final cv = session.caseView.value;
     final s = session.scenario;
     if (cv == null || s == null) return null;
-    Offset bild(double x, double y, [double z = 0]) => (Iso.toScreen(x, y, z) - _cam) * _zoom + Offset(size.x / 2, size.y * _camY);
+    final bild = worldToScreen;
     (String, Offset)? best;
     var bestD = double.infinity;
     final ext = _ext;
@@ -359,50 +383,73 @@ class MordakteGame extends Game with KeyboardEvents {
   }
 
   /// Weg (Wegpunkte in Weltkoordinaten) zum Punkt [w]; mit [nah] endet er in
-  /// Reichweite des Ziels statt darauf. Gerade Strecken werden zusammengefasst.
+  /// Reichweite des Ziels statt darauf. Gerade Strecken werden zusammengefasst,
+  /// aber nur, wo der ganze Körper frei durchkommt ([TileGrid.freieBahn]).
   List<Offset>? _wegZu(TileGrid grid, Offset w, {required bool nah}) {
     if (nah && dist(_px, _py, w.dx, w.dy) <= Tuning.interactRange * 0.9) return const [];
     final start = Pt(_px.floor(), _py.floor());
-    Pt? ziel;
-    if (!nah && grid.canStand(w.dx, w.dy, Tuning.playerRadius)) {
-      ziel = Pt(w.dx.floor(), w.dy.floor());
+    // Andere Figuren: nicht auf ihnen stehen bleiben und möglichst um sie herum.
+    final leute = [
+      for (final e in _tracks.entries)
+        if (e.key != 'shadow') Offset(e.value.x, e.value.y),
+    ];
+    // Auf freien Boden getippt: genau dorthin. Sonst auf die beste erreichbare
+    // Kachel daneben (die nächste liegt manchmal hinter einer verschlossenen Tür).
+    final genau = !nah && grid.canStand(w.dx, w.dy, Tuning.playerRadius);
+    final kandidaten = <(Pt, double)>[];
+    if (genau) {
+      kandidaten.add((Pt(w.dx.floor(), w.dy.floor()), 0));
     } else {
-      // Nächste begehbare Kachel in Reichweite des Ziels.
-      var bestD = double.infinity;
       for (var dy = -2; dy <= 2; dy++) {
         for (var dx = -2; dx <= 2; dx++) {
           final p = Pt(w.dx.floor() + dx, w.dy.floor() + dy);
-          if (!grid.canStand(p.x + 0.5, p.y + 0.5, Tuning.playerRadius)) continue;
-          final d = dist(p.x + 0.5, p.y + 0.5, w.dx, w.dy);
+          final mx = p.x + 0.5, my = p.y + 0.5;
+          if (!grid.canStand(mx, my, Tuning.playerRadius)) continue;
+          final d = dist(mx, my, w.dx, w.dy);
           if (nah && d > Tuning.interactRange * 0.85) continue;
-          final kosten = d + dist(p.x + 0.5, p.y + 0.5, _px, _py) * 0.05;
-          if (kosten < bestD) {
-            bestD = kosten;
-            ziel = p;
-          }
+          // Ungern auf einer Person stehen bleiben.
+          final belegt = leute.any((l) => dist(mx, my, l.dx, l.dy) < 0.6);
+          kandidaten.add((p, d + dist(mx, my, _px, _py) * 0.05 + (belegt ? 4 : 0)));
         }
       }
+      kandidaten.sort((a, b) => a.$2.compareTo(b.$2));
     }
-    if (ziel == null) return null;
-    final kacheln = grid.findPath(start, ziel);
-    if (kacheln == null) return null;
+    final personen = {for (final l in leute) Pt(l.dx.floor(), l.dy.floor())};
+    Pt? ziel;
+    List<Pt>? kacheln;
+    for (final (p, _) in kandidaten) {
+      kacheln = grid.findPath(start, p, extraBlockiert: personen);
+      if (kacheln != null) {
+        ziel = p;
+        break;
+      }
+    }
+    if (ziel == null || kacheln == null) return null;
     final punkte = [
+      // Erst die eigene Kachelmitte: Von dort ist jeder A*-Schritt frei.
+      Offset(start.x + 0.5, start.y + 0.5),
       for (final k in kacheln) Offset(k.x + 0.5, k.y + 0.5),
-      if (!nah && kacheln.isNotEmpty) w,
+      if (genau && dist(w.dx, w.dy, ziel.x + 0.5, ziel.y + 0.5) > 1e-6) w,
     ];
-    // Abkürzen, wo die Sicht frei ist (keine Treppenstufen im Gang).
+    // Abkürzen, wo der Körper frei durchkommt und an niemandem vorbeistreift
+    // (keine Treppenstufen im Gang). Nachbarpunkte sind immer frei.
+    bool frei(Offset a, Offset b) =>
+        grid.freieBahn(a.dx, a.dy, b.dx, b.dy, Tuning.playerRadius) &&
+        leute.every((l) => distToSegment(l.dx, l.dy, a.dx, a.dy, b.dx, b.dy) >= 0.5);
     final glatt = <Offset>[];
     var von = Offset(_px, _py);
     var i = 0;
     while (i < punkte.length) {
       var j = punkte.length - 1;
-      while (j > i && !grid.lineOfSight(von.dx, von.dy, punkte[j].dx, punkte[j].dy)) {
+      while (j > i && !frei(von, punkte[j])) {
         j--;
       }
       glatt.add(punkte[j]);
       von = punkte[j];
       i = j + 1;
     }
+    // Schon an der Stelle: kein Schritt auf der Stelle.
+    if (glatt.length == 1 && dist(_px, _py, glatt.first.dx, glatt.first.dy) < 1e-3) glatt.clear();
     return glatt;
   }
 
@@ -410,7 +457,10 @@ class MordakteGame extends Game with KeyboardEvents {
   Offset _tippEingabe() {
     final weg = _tippWeg;
     if (weg == null) return Offset.zero;
-    while (weg.isNotEmpty && dist(_px, _py, weg.first.dx, weg.first.dy) < 0.16) {
+    while (weg.isNotEmpty && dist(_px, _py, weg.first.dx, weg.first.dy) < 1e-3) {
+      // Rundungsrest: genau auf den Wegpunkt, er liegt auf der freien Bahn.
+      _px = weg.first.dx;
+      _py = weg.first.dy;
       weg.removeAt(0);
     }
     if (weg.isEmpty) {
@@ -426,10 +476,97 @@ class MordakteGame extends Game with KeyboardEvents {
     return d / l * (0.45 + 0.55 * (rest / 0.8).clamp(0.0, 1.0));
   }
 
+  /// Ein Schritt der Länge [schritt] auf dem Tippweg, genau auf der geglätteten
+  /// Linie: Wegpunkte werden erreicht, nicht geschnitten. Die Strecken sind
+  /// beim Planen geprüft; steht die Figur trotzdem nicht frei (eine Tür ist
+  /// inzwischen zu), bleibt sie stehen und plant gleich neu.
+  (double, double) _folgeWeg(TileGrid grid, List<Offset> weg, double schritt) {
+    var x = _px, y = _py, rest = schritt;
+    while (rest > 1e-9 && weg.isNotEmpty) {
+      final z = weg.first;
+      final d = dist(x, y, z.dx, z.dy);
+      final s = math.min(d, rest);
+      final nx = s >= d ? z.dx : x + (z.dx - x) * s / d, ny = s >= d ? z.dy : y + (z.dy - y) * s / d;
+      if (!grid.canStand(nx, ny, Tuning.playerRadius)) break;
+      x = nx;
+      y = ny;
+      rest -= s;
+      if (s >= d) weg.removeAt(0);
+    }
+    if (weg.isEmpty) _tempo = 0;
+    return (x, y);
+  }
+
+  /// Ein Schritt der frei gesteuerten Figur um ([dx], [dy]) mit Kollision.
+  /// An einer Kante gleitet sie nur, wenn die gesperrte Komponente klein ist
+  /// (unter 30 %); sonst geht sie bis an die Kante heran und bleibt stehen.
+  (double, double) _gehe(TileGrid grid, double dx, double dy) {
+    const r = Tuning.playerRadius;
+    final len = math.sqrt(dx * dx + dy * dy);
+    if (len < 1e-9) return (_px, _py);
+    if (grid.freieBahn(_px, _py, _px + dx, _py + dy, r)) return (_px + dx, _py + dy);
+    if (dy.abs() / len < 0.3 && grid.freieBahn(_px, _py, _px + dx, _py, r)) return (_px + dx, _py);
+    if (dx.abs() / len < 0.3 && grid.freieBahn(_px, _py, _px, _py + dy, r)) return (_px, _py + dy);
+    for (var k = 0.5; k > 0.05; k /= 2) {
+      if (grid.freieBahn(_px, _py, _px + dx * k, _py + dy * k, r)) return (_px + dx * k, _py + dy * k);
+    }
+    return (_px, _py);
+  }
+
+  /// Steht die eigene Figur nicht frei (Entwicklerposition, Korrektur in eine
+  /// Wand), rückt sie auf die Mitte der nächsten begehbaren Kachel. Sie läuft
+  /// nie ohne Kollision weiter.
+  void _freistellen(TileGrid grid) {
+    if (grid.canStand(_px, _py, Tuning.playerRadius)) return;
+    final p = grid.nearestWalkable(_px.floor(), _py.floor());
+    if (p == null) return;
+    _px = p.x + 0.5;
+    _py = p.y + 0.5;
+  }
+
+  /// Hängt die Figur auf dem Tippweg fest (weniger als 0,01 Kacheln in 0,3 s),
+  /// plant sie einmal vom aktuellen Feld neu; beim zweiten Mal bricht sie ab.
+  void _pruefeHaengen(TileGrid grid, double dt, {required bool aktiv}) {
+    if (!aktiv || _tippWeg == null || dist(_px, _py, _haengAb.dx, _haengAb.dy) >= 0.01) {
+      _haengAb = Offset(_px, _py);
+      _haengT = 0;
+      return;
+    }
+    _haengT += dt;
+    if (_haengT < 0.3) return;
+    _haengT = 0;
+    final ziel = _tippZielPunkt;
+    final neu = _neuGeplant || ziel == null ? null : _wegZu(grid, ziel, nah: _tippNah);
+    if (neu == null) {
+      _tippWeg = null;
+      _tippAktion = null;
+      _tempo = 0;
+    } else {
+      _tippWeg = neu;
+      _neuGeplant = true;
+    }
+  }
+
+  /// Joystick und Tasten rasten auf die acht Weltrichtungen (Achsen und
+  /// Diagonalen der Karte): So läuft die Figur genau einen Gang entlang,
+  /// statt schräg an der Wand zu schaben.
+  static Offset _rasten(Offset d) {
+    if (d.distance < 1e-9) return Offset.zero;
+    return _weltRichtungen[(math.atan2(d.dy, d.dx) / (math.pi / 4)).round() % 8];
+  }
+
+  static const double _diag = 0.7071067811865476;
+  static const _weltRichtungen = [
+    Offset(1, 0), Offset(_diag, _diag), Offset(0, 1), Offset(-_diag, _diag),
+    Offset(-1, 0), Offset(-_diag, -_diag), Offset(0, -1), Offset(_diag, -_diag),
+  ];
+
   void _tippAnkunft() {
     final aktion = _tippAktion;
     _tippWeg = null;
     _tippAktion = null;
+    // Angekommen: stehen, nicht über das Ziel hinausrutschen.
+    _tempo = 0;
     if (aktion == null) return;
     _updateTarget();
     if (target.value?.id == aktion) triggerAction();
@@ -439,6 +576,29 @@ class MordakteGame extends Game with KeyboardEvents {
   Offset screenToWorld(Offset local) {
     final ws = (local - Offset(size.x / 2, size.y * _camY)) / _zoom + _cam;
     return Iso.toWorld(ws.dx, ws.dy);
+  }
+
+  /// Welt-Kachelkoordinaten (Höhe [z]) → Bildschirmpunkt lokal im Widget.
+  Offset worldToScreen(double x, double y, [double z = 0]) =>
+      (Iso.toScreen(x, y, z) - _cam) * _zoom + Offset(size.x / 2, size.y * _camY);
+
+  /// Eigene Position in Kachelkoordinaten (Tests).
+  @visibleForTesting
+  Offset get eigenePosition => Offset(_px, _py);
+
+  /// Restliche Wegpunkte des Tippwegs; `null` ohne Tippweg (Tests).
+  @visibleForTesting
+  List<Offset>? get tippWeg => _tippWeg == null ? null : List.unmodifiable(_tippWeg!);
+
+  /// Musste der laufende oder letzte Tippweg nach einem Hängen neu geplant werden? (Tests)
+  @visibleForTesting
+  bool get tippNeuGeplant => _neuGeplant;
+
+  /// Gezeichnete Stelle einer fremden Figur, `null` ohne Spur (Tests).
+  @visibleForTesting
+  Offset? figurPosition(String npcId) {
+    final t = _tracks['n:$npcId'];
+    return t == null ? null : Offset(t.x, t.y);
   }
 
   /// Langes Drücken → Ping. Gibt `false` zurück, wenn keine Pings übrig sind.
@@ -744,10 +904,16 @@ class MordakteGame extends Game with KeyboardEvents {
       present.add(key);
       (_tracks[key] ??= _Track()).add(_time, d.x, d.y, d.facing);
     }
+    final exakt = _ext?.exakteFiguren == true;
     for (final n in w.npcs) {
       final key = 'n:${n.id}';
       present.add(key);
-      (_tracks[key] ??= _Track()).add(_time, n.x, n.y, 0);
+      final tr = _tracks[key] ??= _Track();
+      if (exakt) {
+        tr.setze(_time, n.x, n.y, 0);
+      } else {
+        tr.add(_time, n.x, n.y, 0);
+      }
     }
     final sh = w.shadow;
     if (sh != null) {
@@ -904,27 +1070,25 @@ class MordakteGame extends Game with KeyboardEvents {
       if (_tempo < 0.015 && soll == 0) _tempo = 0;
     }
     if (soll > 0) _richtung = input;
+    final weg = _tippWeg != null && _tippWeg!.isNotEmpty ? _tippWeg : null;
     if (canMove && _tempo > 0 && _richtung.distance > 0.05) {
-      final dir = Iso.screenDirToWorld(_richtung.dx, _richtung.dy);
+      // Statt der früheren Notluke ohne Kollision: zuerst auf freien Boden.
+      _freistellen(grid);
+      // Der Tippweg gibt die Richtung genau vor; Joystick und Tasten rasten.
+      final dir = weg != null ? Offset(weg.first.dx - _px, weg.first.dy - _py) : _rasten(Iso.screenDirToWorld(_richtung.dx, _richtung.dy));
       final dl = dir.distance;
       if (dl > 1e-6) {
         // Geister sind wie in der Engine (PlayerState.speedMul) 10 % schneller.
         final speed = Tuning.playerSpeed * (me.life == LifeState.ghost ? 1.1 : _effectMul(me, (m) => m.speed)) * _tempo;
         final step = speed * dt;
-        final dx = dir.dx / dl * step, dy = dir.dy / dl * step;
-        double nx, ny;
-        if (grid.canStand(_px, _py, Tuning.playerRadius)) {
-          (nx, ny) = grid.slide(_px, _py, dx, dy, Tuning.playerRadius);
-        } else {
-          nx = _px + dx;
-          ny = _py + dy;
-        }
+        final (nx, ny) = weg != null ? _folgeWeg(grid, weg, step) : _gehe(grid, dir.dx / dl * step, dir.dy / dl * step);
         moved = dist(nx, ny, _px, _py);
         _px = nx;
         _py = ny;
         _pf = _lerpAngle(_pf, math.atan2(dir.dy, dir.dx), math.min(1.0, dt * 16));
       }
     }
+    _pruefeHaengen(grid, dt, aktiv: canMove && weg != null);
     final r = grid.roomAtPos(_px, _py);
     if (r != null && !_isDoorTile(_px, _py)) _playerRoom = r.id;
     _walk += moved * 7.5;
@@ -973,10 +1137,12 @@ class MordakteGame extends Game with KeyboardEvents {
   }
 
   void _updateTracks(double dt) {
+    final exakt = _ext?.exakteFiguren == true;
     final rt = _time - 0.12;
     for (final e in _tracks.entries) {
       final isNpc = e.key.startsWith('n:');
-      e.value.step(rt, dt, useReportedFacing: !isNpc && e.key != 'shadow');
+      final genau = exakt && isNpc;
+      e.value.step(genau ? _time : rt, dt, useReportedFacing: !isNpc && e.key != 'shadow', teleport: !genau);
       if (isNpc && e.value.move < 0.3) {
         // NPCs schauen Spieler in der Nähe an, sonst in die Kamera.
         final t = e.value;

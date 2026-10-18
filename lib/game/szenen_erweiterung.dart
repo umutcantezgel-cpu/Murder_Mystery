@@ -42,6 +42,11 @@ abstract interface class SzenenErweiterung {
   /// Fester Kamerapunkt in Kachelkoordinaten (Rückblende); dann wird die
   /// eigene Figur nicht gezeichnet. `null` heißt: Kamera folgt der Figur.
   Offset? get kamera;
+
+  /// Die Szene meldet die Figuren jedes Frame genau auf ihren Wegen
+  /// (Rückblende). Der Renderer übernimmt die Stellen dann direkt: kein
+  /// 120-ms-Puffer, keine Sehnen zwischen Proben, kein Teleport-Sprung.
+  bool get exakteFiguren;
 }
 
 /// Optionale, vom Spielablauf geführte Figur. Klassische Sessions implementieren

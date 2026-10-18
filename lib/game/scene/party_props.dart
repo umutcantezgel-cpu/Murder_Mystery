@@ -28,7 +28,6 @@ class PartyProps {
   static double? topZ(String type) => switch (type) {
         'party_tafel' || 'party_buffet' => 0.45,
         'party_theke' || 'party_anrichte' || 'party_teekocher' || 'party_kaffee' => 0.61,
-        'party_ascheneimer' => 0.35,
         'party_kerzenstaender' => 0.1,
         _ => null,
       };
@@ -58,11 +57,6 @@ class PartyProps {
         _kaffeemaschine(pen);
       case 'party_kamin':
         _kaminKalt(pen);
-      case 'party_ascheneimer':
-        pen.oval(0.5, 0.5, 0.0, 0.2, pen.fill(withAlpha(const Color(0xFF000000), 0.35)));
-        pen.cylinder(0.5, 0.5, 0.17, 0.0, 0.32, const Color(0xFF55575C), rTop: 0.19);
-        pen.oval(0.5, 0.5, 0.33, 0.15, pen.fill(const Color(0xFF8C8A86)));
-        pen.c.drawLine(pen.p(0.33, 0.5, 0.36), pen.p(0.67, 0.5, 0.36), pen.stroke(const Color(0xFF3A3B3F), 1.2));
       case 'party_wendeltreppe':
         _wendeltreppe(pen);
       case 'party_ruestung':
