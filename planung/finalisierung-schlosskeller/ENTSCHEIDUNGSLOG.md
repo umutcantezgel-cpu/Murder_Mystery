@@ -1237,3 +1237,8 @@ Behzads Zusatzindizien werden ersetzt, wo sie nicht nur im eigenen Pfad entstehe
 - **Entscheidung:** Der Tag liegt annotiert im lokalen Repo, auf dem letzten Commit von main. Der Befehl, mit dem der Nutzer ihn pusht, steht unter FÜR DEN NUTZER und im Abschlussbericht. Der Tag aus dem ersten Versuch zeigte auf `d5f580e`. Er war nie auf origin und wird lokal auf den Commit mit diesem Eintrag gesetzt; ein veröffentlichter Tag wird also nicht überschrieben.
 - **Prüfung statt Matrix:** Nach dem Merge von origin/main sind grün: `tool/pruefen.sh schnell` (Analyse, 416 Kern-Tests, Secret-Scan), `flutter test` 166/166, Server-Smoke 63/63. Die letzte volle Matrix (84/84) lief auf `081e258`. E-041 änderte danach nur die Täteransicht, belegt im Widget-Test.
 
+
+## E-043 · Kanon geöffnet für den langen Abend (A-050)
+- **Anlass:** Spieltest des Besitzers (2026-10-18) und seine Entscheidung „Kanon aufmachen“. Der Schlosskeller bekommt eine neutrale Feier ohne Geburtstag, Stichpunkte statt Gesprächsprosa, Befragungen des Detektivs, eine Story-Brücke für Hof, Garten und Turm und Steckbriefe.
+- **Entscheidung:** Die Schlosskeller-Dateien dürfen geändert werden. Fest bleiben die Beweis-Teilmenge (`entscheidungen.json`, `bonus.json`, `gruppenwahl.json`, `tatmatrix/{ahmet,fatma,olli,can}.json`, `wahrnehmung.json`, Raster von `raeume.json`), alle Kennungen, `beobachtung.pfade`, `spuren.entstehtWenn`, die nichttextuellen Teile der Tatmatrix und `fall.pfade/kernverdaechtige/zug`. Geänderte Einträge in `quellabgleich.json` tragen den Status `angepasst` mit Grund E-043.
+- **Folge:** `tool/kanon_fest.txt` hält die festen Dateien, `tool/kanon_neu.sh` baselined den Rest. Der Determinismus-Golden wird nicht neu erzeugt.

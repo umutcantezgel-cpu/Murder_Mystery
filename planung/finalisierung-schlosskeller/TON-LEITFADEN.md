@@ -15,6 +15,7 @@ Verbindlich für alle Autoren, Prüfer und Bausteine. Vorbild für Bewährtes is
 - Der Erzähler improvisiert nie. Was er sagt, steht wortgleich als Baustein im Kanon.
 - Vor dem Finale weiß er nur, was der Detektiv weiß. Er verrät nie den Täter, deutet ihn nicht an und lügt nie.
 - Falsche Fährten kommen nur als Gerücht aus der Gruppe, nie mit seiner eigenen Stimme als Tatsache. Alle Bonus-Hinweise, wahre wie falsche, kommen im selben Rahmen („Aus der Runde wird dir zugeflüstert …“) und ohne Namen der Quelle. Der Erzähler sagt nie, ob ein Hinweis stimmt (E-024).
+- **Nachtrag A-052 (2026-10-18):** Gibt es am Tisch einen Erzähler als eigene Person, kennt sie alle Gesprächsstichpunkte aller Rollen und den gezogenen Bonus-Hinweis, nie seine Qualität und nie den Täter. Ihre Vorlesetexte bleiben wortgleich und ohne Pfadwissen.
 
 ## 3. Anrede
 - Die ganze Runde heißt „ihr“, das Geburtstagskind als Detektiv „du“. Dossiers sprechen die einzelne Spielerin oder den einzelnen Spieler mit „du“ an. Gesprächseröffnungen und Wahltexte sind Sätze, die die Rolle selbst sagt oder denkt, also in der Ich-Form; ihr Gegenüber reden sie mit „du“ an (E-028).

@@ -46,6 +46,14 @@ Gespräche mit Wahl bringen Mehrfachauswahl-Dialoge, Ereignisketten und Epiloge 
   - Es gelten die Tonregeln des Kanons: kein Blut, keine Wunden, kein Alkohol, kein Rauchen.
   - Der Text-Wächter bleibt streng; die App enthält keine Dialogtexte im Code.
 
+## Langer Abend (A-058)
+
+- **R13 · Gleiche Gestalt für alle.** Jede Rolle hat in jedem Pfad Nebenaufträge, Routinen und Begegnungen derselben Form. Die Täterrolle fällt nie auf.
+- **R14 · Die App spricht nicht für Menschen.** Eine Rolle, die ein Mensch spielt, spricht nie durch die App. Begegnungen zwischen Menschen sind nur Impulskarten.
+- **R15 · Keine Fallgegenstände als Ziel.** Kein Kanon-Gegenstand, keine Suchstelle, kein Indizort, kein Lacher und kein Sperrort ist Ziel eines Auftrags, einer Routine oder eines Gerüchts. Neue Zonen tragen keine Fallhinweise.
+- **R16 · Der Tisch entscheidet.** Gruppenszenen entscheidet die Mehrheit, bei Gleichstand die Reihenfolge in der Datei. Kein Zufall. Folgen sind nur erzählend (Flags, Posen, Licht, Klang, Auftragsetappen), nie Nachtminuten, Würfel, Bonus, Gruppenwahl oder Fakten.
+- **R17 · Kartenformat.** Was Spieler auf dem Handy lesen, ist eine Karte mit höchstens drei Stichpunkten zu je höchstens acht Wörtern und höchstens einer einzeiligen Wahl. Prosa gibt es nur in Vorlesetexten des Erzählers.
+
 ## Prüfungen
 
 - **Prüfer:** erreichbare Knoten, keine Sackgassen, keine verwaisten Flags, Grenzen der Gestalt (R3) und Tonregeln.
