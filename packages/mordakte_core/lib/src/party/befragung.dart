@@ -90,8 +90,9 @@ List<String> befragungsAntwort(Texte texte, BefragungText b) => List.unmodifiabl
 ///    Verteilung, die möglichst vielen Runden ab r einen freien Platz lässt,
 ///    bei Gleichstand den früheren Runden. Vorgezogen wird der früheste Bedarf,
 ///    bei Gleichstand nach Besetzungsplatz.
-/// 3. **Auffüllen auf 3:** mit noch nicht befragten besetzten Kernverdächtigen,
-///    dann in Besetzungsreihenfolge.
+/// 3. **Auffüllen auf 3:** Reichen feste und freie Befragungen zusammen nicht für
+///    drei, kommen noch nicht befragte besetzte Kernverdächtige dazu, dann Rollen
+///    in Besetzungsreihenfolge.
 /// Danach wählt der Detektiv bis zu zwei weitere aus den übrigen besetzten
 /// Rollen, solange die Höchstzahl reicht. Wer befragt wird, sagt alle eigenen
 /// Kettenglieder, die ab dieser Runde gebraucht werden (I-B3).
