@@ -84,6 +84,43 @@ class SzenenGlanzPunkt {
 
 enum SzenenPose { gehen, suchen, befragen }
 
+/// Optional (M1.5, noch ohne Nutzer): Die Szene übernimmt das Tippen zum
+/// Gehen, etwa ein Gast, dessen Weg der Gastgeber plant. Ohne sie plant der
+/// Renderer den Weg selbst wie bisher.
+abstract interface class SzenenLaufziel {
+  /// Lauf zum Punkt [ziel] (Kachelkoordinaten), auf Wunsch zu der Person oder
+  /// dem Ort [zielId]. `false`, wenn kein Weg dorthin führt.
+  bool laufeZu(Offset ziel, {String? zielId});
+}
+
+/// Optional (M1.5, noch ohne Nutzer): Aussehen und Namensschild der Figuren
+/// kommen aus der Szene statt aus dem Szenario. Ohne sie gilt die Vorgabe.
+abstract interface class SzenenFiguren {
+  /// Aussehen der Figur [id]; `null` heißt: Vorgabe des Szenarios.
+  LookDef? aussehenVon(String id);
+
+  /// Text des Namensschilds der Figur [id]; `null` heißt: Vorgabe.
+  String? schild(String id);
+}
+
+/// Optional (M1.5, noch ohne Nutzer): Wirkung der Detektivklasse auf die
+/// Szene, nur Darstellung und Tempo, nie Fakten, Punkte oder Würfel. Ohne sie
+/// bleibt alles wie bisher: Standardglanz, Grundtempo, keine Türhinweise und
+/// keine Gerüchte.
+abstract interface class SzenenKlasse {
+  /// Radius, in dem Glanzpunkte und Spuren funkeln (Kacheln).
+  double get glanzRadius;
+
+  /// Faktor auf das Lauftempo des eigenen Detektivs (1 = Grundtempo).
+  double get tempoFaktor;
+
+  /// Türen und Durchgänge werden hervorgehoben.
+  bool get tuerenZeigen;
+
+  /// Gerücht über der Figur [npcId]; `null` heißt: keines.
+  String? geruechtFuer(String npcId);
+}
+
 /// Optional: Geste der befragten Figur in einem Gespräch mit Wahl. Die Figur
 /// unterbricht ihre Tätigkeit und spielt die aktuelle Zeile: Arme verschränkt
 /// bei Abwehr, der Blick wandert beim Nachdenken.
