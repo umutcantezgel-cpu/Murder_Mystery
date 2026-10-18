@@ -1,6 +1,6 @@
+import '../party/befragung.dart';
 import '../party/besetzung.dart';
 import '../party/entscheidungen.dart';
-import '../party/kanon/kanon.dart';
 import '../party/texte.dart';
 import '../util/rng.dart';
 
@@ -58,25 +58,7 @@ List<BotGespraech> botGespraeche(Texte texte, {required int rollen, required int
   for (final g in gespraeche) {
     final zeilen = <({String quelle, String text})>[];
     for (final quelle in g.preisgabe) {
-      final teile = quelle.split(':');
-      if (teile.length != 2) throw StateError('ungültige Bot-Quelle');
-      final String text;
-      switch (teile.first) {
-        case 'beobachtung':
-          final b = texte.beobachtung(teile.last);
-          if (b == null || b['wer'] != g.rolle || b['kanal'] != 'pflichtgespraech' ||
-              !texte.kanon.pfade.every((p) => Kanon.giltIn(b['pfade'], p))) {
-            throw StateError('nicht öffentliche Bot-Beobachtung');
-          }
-          text = b['text'] as String;
-        case 'luege':
-          final l = texte.luege(teile.last);
-          if (l == null || l['person'] != g.rolle) throw StateError('fremde Bot-Behauptung');
-          text = l['behauptung'] as String;
-        default:
-          throw StateError('nicht öffentliche Bot-Quelle');
-      }
-      zeilen.add((quelle: quelle, text: text));
+      zeilen.add((quelle: quelle, text: oeffentlicheAussage(texte, g.rolle, quelle)));
     }
     ergebnis.add(BotGespraech._(g, besetzt.contains(g.rolle) ? (plan[g.id] ?? g.partner) : Besetzung.detektiv, zeilen));
   }
@@ -87,3 +69,10 @@ List<BotGespraech> botGespraeche(Texte texte, {required int rollen, required int
   });
   return List.unmodifiable(ergebnis);
 }
+
+/// Antwort einer App-gesprochenen Rolle auf eine Befragung des Detektivs
+/// (A-051): die Preisgaben der Befragung, aufgelöst wie in [botGespraeche] –
+/// Beobachtungen in der dritten Person, Lügen nur als Behauptung. Die Antwort
+/// wird nie geschrieben, sondern immer aus den Preisgaben erzeugt; welche Frage
+/// der Detektiv stellt, ändert nichts daran. Nicht Öffentliches wirft [StateError].
+List<String> botAntwort(Texte texte, BefragungText befragung) => befragungsAntwort(texte, befragung);

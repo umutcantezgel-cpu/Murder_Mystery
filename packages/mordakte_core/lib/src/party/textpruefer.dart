@@ -323,6 +323,19 @@ List<TextQuelle> textQuellen(Kanon kanon, Textsammlung t) {
     add('$o.thema', g.thema);
     add('$o.ziel', g.ziel);
     add('$o.text', g.text);
+    for (var i = 0; i < g.stichpunkte.length; i++) {
+      add('$o.stichpunkte[$i]', g.stichpunkte[i]);
+    }
+  }
+  for (final b in t.befragungen.values) {
+    final o = '${t.herkunft[b.id]}#${b.id}';
+    add('$o.thema', b.thema);
+    for (var i = 0; i < b.fragen.length; i++) {
+      add('$o.fragen[$i]', b.fragen[i]);
+    }
+    for (var i = 0; i < b.stichpunkte.length; i++) {
+      add('$o.stichpunkte[$i]', b.stichpunkte[i]);
+    }
   }
   for (final e in t.wahlen.entries) {
     final o = '${t.herkunft[e.key]}#${e.key}';

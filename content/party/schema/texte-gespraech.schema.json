@@ -79,8 +79,7 @@
           "partner",
           "thema",
           "ziel",
-          "preisgabe",
-          "text"
+          "preisgabe"
         ],
         "additionalProperties": false,
         "properties": {
@@ -117,8 +116,28 @@
           },
           "text": {
             "$ref": "#/$defs/text"
+          },
+          "stichpunkte": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "$ref": "#/$defs/text"
+            }
           }
-        }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "text"
+            ]
+          },
+          {
+            "required": [
+              "stichpunkte"
+            ]
+          }
+        ]
       }
     }
   }
