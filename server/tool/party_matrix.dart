@@ -198,11 +198,8 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
           // Ein zufälliger fünfstelliger Code kann zufällig in einem Hash/Bezeichner
           // vorkommen. Statt fehleranfälliger Teilwortsuche das gesamte Schema sperren.
           // Öffentlich am Tisch: gewählte Optionen, Tischvorrat der Karten und Erkundungsorte.
-          const allowed = {'t', 'protokoll', 'version', 'spiel', 'akte', 'raum', 'host', 'phase', 'runde',
-            'wuerfelZusage', 'spieler', 'kannWeiter', 'rollen', 'restMinuten', 'marken',
-            'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher',
-            'abstecherErgebnis', 'entscheidung', 'zug', 'botGespraeche', 'verdaechtige', 'privat'};
-          _require(view.keys.every(allowed.contains), 'Nicht freigegebenes Feld vor dem Finale übertragen.');
+          // Die Liste steht einmal im Kern (raumOeffentlicheSchluessel, A-009).
+          _require(view.keys.every(raumOeffentlicheSchluessel.contains), 'Nicht freigegebenes Feld vor dem Finale übertragen.');
         }
         if (private['rolle'] case final String role) {
           final dossier = _map(private['dossier']);

@@ -1,0 +1,203 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Indizkarten, Hinweis-Umschläge und Auflösungsheft im Druck (F5-BAUMEISTER-03).",
+  "eintraege": [
+    {
+      "id": "ui.druck.karte.aussen",
+      "text": "Indizkarte. Erst umdrehen, wenn das Geburtstagskind diesen Code gewählt hat."
+    },
+    {
+      "id": "ui.druck.karte.unbesetzt",
+      "text": "Diese Person spielt heute niemand. Die Karte sagt, was sie weiß."
+    },
+    {
+      "id": "ui.druck.karte.fund",
+      "text": "Was du findest"
+    },
+    {
+      "id": "ui.druck.karte.bogen",
+      "text": "Für den Ermittlungsbogen:"
+    },
+    {
+      "id": "ui.druck.karte.keine_kreuze",
+      "text": "Nichts anzukreuzen"
+    },
+    {
+      "id": "ui.druck.umschlag.aussen",
+      "text": "Hinweis-Umschlag. Erst öffnen, wenn die Spielleitung diesen Code nennt."
+    },
+    {
+      "id": "ui.druck.umschlag.vorlesen",
+      "text": "Vorlesen"
+    },
+    {
+      "id": "ui.druck.aufloesung.marke",
+      "text": "Auflösungsheft"
+    },
+    {
+      "id": "ui.druck.aufloesung.siegel",
+      "text": "Versiegelt – erst nach der Anklage öffnen"
+    },
+    {
+      "id": "ui.druck.aufloesung.fall_code",
+      "text": "Fall-Code"
+    },
+    {
+      "id": "ui.druck.aufloesung.deckhinweis",
+      "text": "Dieses Heft verrät die ganze Lösung. Die Spielleitung öffnet es erst, wenn die Anklage steht."
+    },
+    {
+      "id": "ui.druck.aufloesung.taeter",
+      "text": "Wer es war"
+    },
+    {
+      "id": "ui.druck.aufloesung.punkte",
+      "text": "Punkte"
+    },
+    {
+      "id": "ui.druck.aufloesung.punkte_hinweis",
+      "text": "Jede richtige Entscheidung bringt einen Punkt. Setzt in jedes Feld einen Haken, bei dem die Wahl richtig war."
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.entscheidung",
+      "text": "Entscheidung"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.frage",
+      "text": "Frage"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.karte",
+      "text": "Richtige Karte"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.feld",
+      "text": "Richtig gewählt"
+    },
+    {
+      "id": "ui.druck.aufloesung.entscheidung",
+      "text": "Runde {runde}, Entscheidung {nr}"
+    },
+    {
+      "id": "ui.druck.aufloesung.summe",
+      "text": "Richtige Entscheidungen insgesamt"
+    },
+    {
+      "id": "ui.druck.aufloesung.endentabelle",
+      "text": "Endentabelle"
+    },
+    {
+      "id": "ui.druck.aufloesung.endentabelle_hinweis",
+      "text": "Punkte und Anklage bestimmen zusammen das Ende. Der Abschnitt dazu steht weiter hinten im Heft."
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.anklage",
+      "text": "Anklage"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.punkte",
+      "text": "Punkte"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.ende",
+      "text": "Ende"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.abschnitt",
+      "text": "Abschnitt"
+    },
+    {
+      "id": "ui.druck.aufloesung.anklage.richtig",
+      "text": "Anklage richtig"
+    },
+    {
+      "id": "ui.druck.aufloesung.anklage.falsch",
+      "text": "Anklage falsch"
+    },
+    {
+      "id": "ui.druck.aufloesung.punkte_von_bis",
+      "text": "{von} bis {bis} Punkte"
+    },
+    {
+      "id": "ui.druck.aufloesung.abschnitt",
+      "text": "Abschnitt {nr}"
+    },
+    {
+      "id": "ui.druck.aufloesung.rueckblende",
+      "text": "Rückblende"
+    },
+    {
+      "id": "ui.druck.aufloesung.alle",
+      "text": "Auflösung für alle"
+    },
+    {
+      "id": "ui.druck.aufloesung.zusammenhalt",
+      "text": "Runden mit Zusammenhalt"
+    },
+    {
+      "id": "ui.druck.aufloesung.zusammenhalt_hinweis",
+      "text": "Diese Umschläge zählen als Zusammenhalt. Wurde einer davon geöffnet, hat die Gruppe in dieser Runde zusammengehalten."
+    },
+    {
+      "id": "ui.druck.aufloesung.runde",
+      "text": "Runde {nr}"
+    },
+    {
+      "id": "ui.druck.aufloesung.umschlag",
+      "text": "Umschlag {code}"
+    },
+    {
+      "id": "ui.druck.aufloesung.gruppe",
+      "text": "Zusammenhalt in {nr} von 3 Runden"
+    },
+    {
+      "id": "ui.druck.aufloesung.rollen",
+      "text": "Die Rollen am Tisch"
+    },
+    {
+      "id": "ui.druck.aufloesung.codes",
+      "text": "Codeliste"
+    },
+    {
+      "id": "ui.druck.aufloesung.codes_hinweis",
+      "text": "Jeder Code aus Indizkarten, Hinweis-Umschlägen und Fassungen mit seiner Bedeutung. Sortiert nach Code."
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.code",
+      "text": "Code"
+    },
+    {
+      "id": "ui.druck.aufloesung.spalte.bedeutung",
+      "text": "Bedeutung"
+    },
+    {
+      "id": "ui.druck.aufloesung.code.indizkarte",
+      "text": "Indizkarte, Runde {runde}, Entscheidung {nr}: {text}"
+    },
+    {
+      "id": "ui.druck.aufloesung.code.umschlag",
+      "text": "Hinweis-Umschlag, Runde {runde}: {qualitaet}"
+    },
+    {
+      "id": "ui.druck.aufloesung.code.fassung",
+      "text": "Fassung von {name}"
+    },
+    {
+      "id": "ui.druck.aufloesung.code.taeterfassung",
+      "text": "Täterfassung von {name}"
+    },
+    {
+      "id": "ui.druck.aufloesung.qualitaet.wahr",
+      "text": "wahr"
+    },
+    {
+      "id": "ui.druck.aufloesung.qualitaet.neutral",
+      "text": "neutral"
+    },
+    {
+      "id": "ui.druck.aufloesung.qualitaet.falsch",
+      "text": "falsch"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import 'package:test/test.dart';
 
 const _ordner = [
   'content/party/schlosskeller',
+  'content/party/basis-ui',
   'krimidinner',
   'content/scenarios',
 ];

@@ -10,14 +10,14 @@ import '../party/kanon_hilfe.dart' show leseJson, repoWurzel;
 
 const _lang = Timeout(Duration(minutes: 2));
 
-/// Akte wie der Prüfer geladen: `roh` nur mit eigenen Texten, `texte` mit ui-Texten aus dem Schlosskeller.
+/// Akte wie der Prüfer geladen: `roh` nur mit eigenen Texten, `texte` mit ui-Texten aus der eingefrorenen Basis.
 class _Akte {
   _Akte(this.id) {
     Map<String, Object?> lies(String f) => leseJson('$repoWurzel/content/party/$id/$f');
     kanon = Kanon.lade(lies);
     roh = Textsammlung.lade(lies);
     final sammlung = Textsammlung.lade(lies);
-    if (id != 'schlosskeller') sammlung.ergaenzeUi(Textsammlung.lade((f) => leseJson('$repoWurzel/content/party/schlosskeller/$f')));
+    if (id != 'schlosskeller') sammlung.ergaenzeUi(Textsammlung.lade((f) => leseJson('$repoWurzel/content/party/basis-ui/$f')));
     texte = Texte(kanon, sammlung);
   }
   final String id;

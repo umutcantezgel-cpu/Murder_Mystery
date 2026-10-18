@@ -19,6 +19,7 @@ class AkteInfo {
     this.freiAb = 0,
     this.minRollen,
     this.maxRollen,
+    this.faehigkeiten = const {},
   });
 
   /// Kennung, zugleich Ordner unter `content/party/`.
@@ -36,8 +37,15 @@ class AkteInfo {
   final int? minRollen;
   final int? maxRollen;
 
-  /// Gibt es zu dieser Akte eine Druckmappe? (Bisher nur der Schlosskeller.)
-  bool get druckbar => id == 'schlosskeller';
+  /// Freigeschaltete Zusätze der Akte (`faehigkeiten` in `akten.json`), etwa
+  /// `druckspiel`, `steckbriefe`, `erzaehler`, `diashow`, `langfassung`, `klassen`.
+  final Set<String> faehigkeiten;
+
+  /// Hat die Akte den Zusatz [faehigkeit]?
+  bool hat(String faehigkeit) => faehigkeiten.contains(faehigkeit);
+
+  /// Gibt es zu dieser Akte eine Druckmappe?
+  bool get druckbar => hat('druckspiel');
 
   /// Zwei Buchstaben für das Siegel, falls der Stil kein Kürzel kennt.
   String get kuerzel {
@@ -76,6 +84,7 @@ abstract final class AktenKatalog {
         freiAb: (m['freiAb'] as num?)?.toInt() ?? 0,
         minRollen: min,
         maxRollen: max,
+        faehigkeiten: {for (final f in (m['faehigkeiten'] as List? ?? const [])) f as String},
       ));
     }
     return liste;

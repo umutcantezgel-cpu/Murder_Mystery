@@ -103,7 +103,8 @@ Map<String, RuntimeFactory> loadAktenFactories(String partyDir) {
       for (final f in kartenDir.listSync().whereType<File>())
         if (f.path.endsWith('.json') && !f.path.endsWith('.schema.json')) json(f.path),
   ]);
-  final basis = Textsammlung.lade((p) => json('$partyDir/$p'));
+  // Fehlende ui-Texte der übrigen Akten kommen aus der eingefrorenen Basis (A-061).
+  final basis = Textsammlung.lade((p) => json('$root/basis-ui/$p'));
   final zufall = Random.secure();
   return {
     for (final id in ids)

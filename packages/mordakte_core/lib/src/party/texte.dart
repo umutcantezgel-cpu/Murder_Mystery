@@ -120,7 +120,7 @@ class Textsammlung {
   Map<String, Object?> get index => dateien['texte/index.json']!;
 
   /// Übernimmt fehlende Oberflächentexte (`ui.*`) aus [basis], der
-  /// unveränderten Schlosskeller-Sammlung. Neue Akten liefern nur, was bei
+  /// eingefrorenen Basis `content/party/basis-ui` (A-061). Neue Akten liefern nur, was bei
   /// ihnen anders heißt (z. B. ohne Geburtstagskind).
   void ergaenzeUi(Textsammlung basis) {
     for (final e in basis.bausteine.entries) {

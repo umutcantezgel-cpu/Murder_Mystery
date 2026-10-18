@@ -1,0 +1,111 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Verdeckte Rollenvergabe und Dossier (F4-BAUMEISTER-02).",
+  "eintraege": [
+    {
+      "id": "ui.rollen.marke",
+      "text": "Verdeckte Rollenvergabe"
+    },
+    {
+      "id": "ui.rollen.titel",
+      "text": "Eure Rollen"
+    },
+    {
+      "id": "ui.rollen.erklaerung",
+      "text": "Gebt das Gerät reihum weiter. Nur die Person, die dran ist, schaut auf ihre Karte."
+    },
+    {
+      "id": "ui.rollen.gesehen",
+      "text": "Karte gesehen"
+    },
+    {
+      "id": "ui.rollen.weiter",
+      "text": "Alle kennen ihre Rolle"
+    },
+    {
+      "id": "ui.rollen.dossier_marke",
+      "text": "Dein Dossier"
+    },
+    {
+      "id": "ui.rollen.wer_titel",
+      "text": "Wer ich bin"
+    },
+    {
+      "id": "ui.rollen.weiss_titel",
+      "text": "Was ich weiß"
+    },
+    {
+      "id": "ui.rollen.verbirgt_titel",
+      "text": "Was ich verberge"
+    },
+    {
+      "id": "ui.rollen.ziel_titel",
+      "text": "Mein Ziel heute Nacht"
+    },
+    {
+      "id": "ui.rollen.gespraeche_titel",
+      "text": "Meine Pflichtgespräche"
+    },
+    {
+      "id": "ui.rollen.wahl_titel",
+      "text": "Meine Rundenwahl"
+    },
+    {
+      "id": "ui.rollen.besetzung_titel",
+      "text": "Hinweis zur Besetzung"
+    },
+    {
+      "id": "ui.rollen.taeter_satz",
+      "text": "Du warst es. Vor dem Morgen darf das niemand erfahren."
+    },
+    {
+      "id": "ui.rollen.unschuldig_satz",
+      "text": "Du warst es nicht. Trotzdem hast du heute Nacht etwas zu verbergen."
+    },
+    {
+      "id": "ui.rollen.taeter_tarnung",
+      "text": "Das erzählst du den anderen"
+    },
+    {
+      "id": "ui.rollen.taeter_tatwissen",
+      "text": "So war es wirklich"
+    },
+    {
+      "id": "ui.rollen.luege_behauptung",
+      "text": "Du behauptest:"
+    },
+    {
+      "id": "ui.rollen.luege_wahrheit",
+      "text": "In Wahrheit:"
+    },
+    {
+      "id": "ui.rollen.gespraech_mit",
+      "text": "Gespräch mit: {name}"
+    },
+    {
+      "id": "ui.rollen.gespraech_thema",
+      "text": "Thema"
+    },
+    {
+      "id": "ui.rollen.gespraech_ziel",
+      "text": "Dein Ziel"
+    },
+    {
+      "id": "ui.rollen.gespraech_eroeffnung",
+      "text": "So fängst du an"
+    },
+    {
+      "id": "ui.rollen.wahl_a",
+      "text": "Option A"
+    },
+    {
+      "id": "ui.rollen.wahl_b",
+      "text": "Option B"
+    },
+    {
+      "id": "ui.rollen.wahl_sabotage",
+      "text": "Deine heimliche Wahl statt B. Für die anderen klingt sie harmlos."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "hinweis": "Eingefrorene Oberflächentexte für alle Akten außer dem Schlosskeller (A-061, K1.0): Stand vor dem Öffnen des Schlosskeller-Kanons. Akten ergänzen fehlende ui-Texte von hier, nie aus dem Schlosskeller.",
+  "dateien": [
+    {
+      "datei": "ui.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-titel.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-einrichtung.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-rollen.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-runde.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-gruppenwahl.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-erzaehler.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-finale.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-npc.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-druck-spielleitung.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-druck-rollen.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-druck-karten.json",
+      "bereich": "ui"
+    }
+  ]
+}

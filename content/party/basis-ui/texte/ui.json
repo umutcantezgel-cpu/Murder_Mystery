@@ -1,0 +1,179 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Texte der Oberfläche: Allgemeines, verdeckte Ansicht und Karte (F4-ORCH).",
+  "eintraege": [
+    {
+      "id": "ui.allgemein.weiter",
+      "text": "Weiter"
+    },
+    {
+      "id": "ui.allgemein.zurueck",
+      "text": "Zurück"
+    },
+    {
+      "id": "ui.allgemein.detektiv",
+      "text": "Geburtstagskind"
+    },
+    {
+      "id": "ui.allgemein.laden",
+      "text": "Der Keller wird vorbereitet …"
+    },
+    {
+      "id": "ui.allgemein.fehler",
+      "text": "Der Fall ließ sich nicht laden. Bitte die Seite neu öffnen."
+    },
+    {
+      "id": "ui.allgemein.runde",
+      "text": "Runde {nr} von 3"
+    },
+    {
+      "id": "ui.allgemein.uhrzeit",
+      "text": "Im Keller ist es {uhrzeit} Uhr."
+    },
+    {
+      "id": "ui.verdeckt.frage",
+      "text": "Ich bin {name}, zeig her"
+    },
+    {
+      "id": "ui.verdeckt.weitergeben",
+      "text": "Gib das Gerät an {name}. Nur {name} schaut hin."
+    },
+    {
+      "id": "ui.verdeckt.schliessen",
+      "text": "Fertig, Bildschirm zudecken"
+    },
+    {
+      "id": "ui.verdeckt.neutral",
+      "text": "Der Bildschirm ist wieder zugedeckt."
+    },
+    {
+      "id": "ui.karte.marke",
+      "text": "Ermittlung auf der Karte"
+    },
+    {
+      "id": "ui.karte.entscheidung",
+      "text": "Entscheidung {nr} von 9"
+    },
+    {
+      "id": "ui.karte.hinweis",
+      "text": "Geh mit dem Geburtstagskind zu einer der leuchtenden Stellen oder zu einer der Personen, die du ansprechen kannst. Steuern: Joystick, Pfeiltasten oder WASD. Handeln: Knopf unten rechts oder Leertaste."
+    },
+    {
+      "id": "ui.karte.aktion.person",
+      "text": "Befragen"
+    },
+    {
+      "id": "ui.karte.aktion.gegenstand",
+      "text": "Untersuchen"
+    },
+    {
+      "id": "ui.karte.aktion.raum",
+      "text": "Absuchen"
+    },
+    {
+      "id": "ui.karte.endgueltig",
+      "text": "Das ist endgültig. Danach gibt es in dieser Entscheidung keinen zweiten Versuch."
+    },
+    {
+      "id": "ui.karte.ja",
+      "text": "Ja, so machen wir es"
+    },
+    {
+      "id": "ui.karte.nein",
+      "text": "Noch nicht"
+    },
+    {
+      "id": "ui.karte.liste",
+      "text": "Aus einer Liste wählen"
+    },
+    {
+      "id": "ui.karte.liste_titel",
+      "text": "Wähle eine Möglichkeit"
+    },
+    {
+      "id": "ui.karte.fund",
+      "text": "Was du findest"
+    },
+    {
+      "id": "ui.karte.gelesen",
+      "text": "Verstanden"
+    },
+    {
+      "id": "ui.karte.fertig",
+      "text": "Alle drei Entscheidungen dieser Runde sind getroffen."
+    },
+    {
+      "id": "ui.karte.zur_gruppenwahl",
+      "text": "Weiter zur Gruppenwahl"
+    },
+    {
+      "id": "ui.karte.notizbuch",
+      "text": "Notizbuch"
+    },
+    {
+      "id": "ui.karte.notizbuch_leer",
+      "text": "Noch nichts gefunden."
+    },
+    {
+      "id": "ui.rueckblende.nochmal",
+      "text": "Rückblende noch einmal"
+    },
+    {
+      "id": "ui.druck.datei.spielleitung",
+      "text": "Spielleitungsheft"
+    },
+    {
+      "id": "ui.druck.datei.detektivbogen",
+      "text": "Detektivbogen"
+    },
+    {
+      "id": "ui.druck.datei.rollenhefte",
+      "text": "Rollenhefte"
+    },
+    {
+      "id": "ui.druck.datei.fassungen",
+      "text": "Fassungen der Kernrollen"
+    },
+    {
+      "id": "ui.druck.datei.stimmkarten",
+      "text": "Stimmkarten"
+    },
+    {
+      "id": "ui.druck.datei.indizkarten",
+      "text": "Indizkarten"
+    },
+    {
+      "id": "ui.druck.datei.umschlaege",
+      "text": "Hinweis-Umschläge"
+    },
+    {
+      "id": "ui.druck.datei.aufloesung",
+      "text": "Auflösungsheft"
+    },
+    {
+      "id": "ui.druck.app.titel",
+      "text": "Druckfassung"
+    },
+    {
+      "id": "ui.druck.app.hinweis",
+      "text": "Für ein Druckspiel oder als Ersatz zum Bildschirm. Fall-Code {code}. Druck alles einseitig aus, ohne es durchzulesen. Das Auflösungsheft bleibt versiegelt."
+    },
+    {
+      "id": "ui.druck.app.erstellen",
+      "text": "Druckfassung erstellen"
+    },
+    {
+      "id": "ui.druck.app.laedt",
+      "text": "Die Druckfassung wird erstellt. Das dauert einen Moment."
+    },
+    {
+      "id": "ui.druck.app.nur_browser",
+      "text": "Herunterladen geht nur in der Browser-Fassung."
+    },
+    {
+      "id": "ui.aufloesung.hauptmenue",
+      "text": "Zurück ins Hauptmenü"
+    }
+  ]
+}

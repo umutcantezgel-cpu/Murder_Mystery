@@ -1,5 +1,5 @@
 {
-  "hinweis": "Kampagne „Mordakte“: alle Akten eines einzigen Spiels in Spielreihenfolge. Jede Akte ist ein Bündel im Party-Kanonformat unter content/party/<id>/. Eine Akte steht erst hier, wenn ihre Lösbarkeitsprüfung grün ist.",
+  "hinweis": "Kampagne „Mordakte“: alle Akten eines einzigen Spiels in Spielreihenfolge. Jede Akte ist ein Bündel im Party-Kanonformat unter content/party/<id>/. Eine Akte steht erst hier, wenn ihre Lösbarkeitsprüfung grün ist. „faehigkeiten“ schaltet Zusätze je Akte frei (druckspiel, steckbriefe, erzaehler, diashow, langfassung, klassen); ohne Eintrag gilt der Grundabend.",
   "akten": [
     {
       "id": "schlosskeller",
@@ -7,7 +7,11 @@
       "untertitel": "Das Buffet hinter dicken Mauern",
       "ton": "spuk",
       "freiAb": 0,
-      "vorlage": "content/scenarios/ravensmoor.json"
+      "vorlage": "content/scenarios/ravensmoor.json",
+      "faehigkeiten": [
+        "druckspiel"
+      ],
+      "inhalt": "2fda604415cf803a"
     },
     {
       "id": "gewoelbe",
@@ -15,7 +19,8 @@
       "untertitel": "Ein Geburtstag auf Burg Schartenfels",
       "ton": "spuk",
       "freiAb": 0,
-      "vorlage": "content/scenarios/ravensmoor.json"
+      "vorlage": "content/scenarios/ravensmoor.json",
+      "inhalt": "c0e075f55d3948a2"
     },
     {
       "id": "ravensmoor",
@@ -23,7 +28,8 @@
       "untertitel": "Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte.",
       "ton": "noir",
       "freiAb": 0,
-      "vorlage": "content/scenarios/ravensmoor.json"
+      "vorlage": "content/scenarios/ravensmoor.json",
+      "inhalt": "ec2fc21da996c66f"
     },
     {
       "id": "nachtexpress",
@@ -31,7 +37,8 @@
       "untertitel": "Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann.",
       "ton": "noir",
       "freiAb": 0,
-      "vorlage": "content/scenarios/nachtexpress.json"
+      "vorlage": "content/scenarios/nachtexpress.json",
+      "inhalt": "6607b1e767abd9d5"
     },
     {
       "id": "blue_palm",
@@ -39,7 +46,8 @@
       "untertitel": "Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7",
       "ton": "noir",
       "freiAb": 0,
-      "vorlage": "content/scenarios/blue_palm.json"
+      "vorlage": "content/scenarios/blue_palm.json",
+      "inhalt": "ac959d31f7ebb964"
     }
   ]
 }

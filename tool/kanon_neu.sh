@@ -2,7 +2,7 @@
 # A-050: Prüfsummen des Schlosskellers neu baselinen, ohne die Beweis-Teilmenge anzufassen.
 #   bash tool/kanon_neu.sh            schreibt tool/kanon_pruefsummen.txt neu
 #   bash tool/kanon_neu.sh --pruefen  ändert nichts, Exit 1 bei Abweichung
-# tool/kanon_fest.txt (Beweis-Teilmenge, krimidinner, scenarios) wird nie geschrieben.
+# tool/kanon_fest.txt (Beweis-Teilmenge, basis-ui, krimidinner, scenarios) wird nie geschrieben.
 # Weicht eine feste Datei ab, bricht das Skript in beiden Modi ab.
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."

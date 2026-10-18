@@ -1,0 +1,95 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Anklage, Finale, Auflösung und Ende (F4-BAUMEISTER-06).",
+  "eintraege": [
+    {
+      "id": "ui.anklage.marke",
+      "text": "Die Anklage"
+    },
+    {
+      "id": "ui.anklage.titel",
+      "text": "Wen klagst du an?"
+    },
+    {
+      "id": "ui.anklage.hinweis",
+      "text": "Tippe eine Person an. Dann drückst du unten auf Anklagen."
+    },
+    {
+      "id": "ui.anklage.angeklagt",
+      "text": "Du hast {name} angeklagt. Jetzt zeigt sich, ob du richtig lagst."
+    },
+    {
+      "id": "ui.anklage.gespielt",
+      "text": "gespielt von {name}"
+    },
+    {
+      "id": "ui.anklage.anklagen",
+      "text": "Anklagen"
+    },
+    {
+      "id": "ui.anklage.bestaetigen",
+      "text": "Du klagst {name} an."
+    },
+    {
+      "id": "ui.anklage.endgueltig",
+      "text": "Das ist endgültig. Eine Anklage lässt sich nicht zurücknehmen."
+    },
+    {
+      "id": "ui.anklage.ja",
+      "text": "Ja, ich klage an"
+    },
+    {
+      "id": "ui.anklage.nein",
+      "text": "Noch nicht"
+    },
+    {
+      "id": "ui.finale.marke",
+      "text": "Das Finale"
+    },
+    {
+      "id": "ui.finale.rueckblende",
+      "text": "Die Rückblende"
+    },
+    {
+      "id": "ui.aufloesung.marke",
+      "text": "Die Auflösung"
+    },
+    {
+      "id": "ui.aufloesung.titel",
+      "text": "Was wirklich geschah"
+    },
+    {
+      "id": "ui.aufloesung.figur",
+      "text": "Figur: {name}"
+    },
+    {
+      "id": "ui.aufloesung.ende_marke",
+      "text": "Das Ende"
+    },
+    {
+      "id": "ui.aufloesung.punkte_titel",
+      "text": "Punkte"
+    },
+    {
+      "id": "ui.aufloesung.punkte",
+      "text": "{punkte} von 9"
+    },
+    {
+      "id": "ui.aufloesung.taeter_titel",
+      "text": "Wer es war"
+    },
+    {
+      "id": "ui.aufloesung.code_titel",
+      "text": "Fall-Code"
+    },
+    {
+      "id": "ui.aufloesung.code_hinweis",
+      "text": "Mit diesem Code startet derselbe Fall noch einmal genauso."
+    },
+    {
+      "id": "ui.aufloesung.dank",
+      "text": "Danke, dass ihr zusammen gegruselt und gelacht habt."
+    }
+  ]
+}

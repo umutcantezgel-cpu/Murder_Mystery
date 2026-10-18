@@ -509,11 +509,8 @@ Future<void> _lauf({
 
     // Privatheit: alle empfangenen Ansichten jedes Gastes.
     _stage = 'Privatheitsprüfung';
-    const erlaubt = {
-      't', 'protokoll', 'version', 'spiel', 'akte', 'raum', 'host', 'phase', 'runde', 'wuerfelZusage', 'spieler', 'kannWeiter', 'rollen',
-      'restMinuten', 'marken', 'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher', 'abstecherErgebnis',
-      'entscheidung', 'zug', 'botGespraeche', 'verdaechtige', 'privat',
-    };
+    // Die Liste steht einmal im Kern (raumOeffentlicheSchluessel, A-009).
+    const erlaubt = raumOeffentlicheSchluessel;
     const geheim = {'pfad', 'fallCode', 'salz', 'seed', 'richtig', 'qualitaeten', 'aufloesung'};
     final dossiersAlle = <String, Map<String, Object?>>{
       for (final r in Besetzung(kanon).besetzt(rollen)) r: _dossierJson(texte, r, pfad, rollen),

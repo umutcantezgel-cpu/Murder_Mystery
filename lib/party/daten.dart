@@ -27,7 +27,7 @@ class PartyDaten {
 
   /// Aus einem synchronen Leser (Tests) und der Szenario-Vorlage. Für Akten
   /// außer dem Schlosskeller ergänzt [basis] fehlende Oberflächentexte aus
-  /// dem unveränderten Schlosskeller.
+  /// der eingefrorenen Basis `content/party/basis-ui` (A-061).
   factory PartyDaten.aus(
     KanonLeser lies,
     Map<String, dynamic> vorlage, {
@@ -56,7 +56,8 @@ class PartyDaten {
   /// Lädt alle Dateien einer Akte aus den Assets (`content/party/<fall>/`).
   static Future<PartyDaten> laden(AssetBundle bundle, {String fall = 'schlosskeller'}) async {
     final eigen = await _ordner(bundle, 'content/party/$fall');
-    final basis = fall == 'schlosskeller' ? null : await _ordner(bundle, 'content/party/schlosskeller', nurTexte: true);
+    // Andere Akten ergänzen ui-Texte aus der eingefrorenen Basis (A-061), nie aus dem Schlosskeller.
+    final basis = fall == 'schlosskeller' ? null : await _ordner(bundle, 'content/party/basis-ui', nurTexte: true);
     final vorlagePfad = eigen.vorlage ?? 'content/scenarios/ravensmoor.json';
     final vorlage = jsonDecode(await bundle.loadString(vorlagePfad)) as Map<String, dynamic>;
     // Darstellungsschicht der Akte (Außenräume, Wetter); ohne Datei wie bisher.

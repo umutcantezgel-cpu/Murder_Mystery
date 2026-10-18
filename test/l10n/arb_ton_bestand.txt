@@ -1,0 +1,2 @@
+# Altbefunde der ARB-Tonprüfung (test/l10n/arb_ton_test.dart): ein Schlüssel je Zeile.
+# Stand M0 (2026-10-18): keine. Neue Schlüssel kommen hier nie hinein.

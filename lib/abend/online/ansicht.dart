@@ -54,7 +54,8 @@ String? _inhalt;
 
 /// Inhaltskennung dieses Spielstands: Gastgeber und Gast müssen dieselbe haben,
 /// sonst weist der Gastgeber den Beitritt ab (verschiedene Fassungen der App).
-/// Sie folgt aus dem Verzeichnis der Akten (`content/party/akten.json`).
+/// Sie folgt aus dem Verzeichnis der Akten (`content/party/akten.json`), das je Akte
+/// eine Prüfsumme über alle ihre Inhalte trägt (`inhalt`, `tool/inhalt_kennung.py`).
 Future<String> inhaltsKennung([AssetBundle? bundle]) async {
   final k = _inhalt;
   if (k != null && bundle == null) return k;

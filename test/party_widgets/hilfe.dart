@@ -29,7 +29,7 @@ PartyDaten akteDaten(String fall) => _akten[fall] ??= () {
         (p) => lies('content/party/$fall', p),
         jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
         fall: fall,
-        basis: (p) => lies('content/party/schlosskeller', p),
+        basis: (p) => lies('content/party/basis-ui', p),
         erzaehlung: erzaehlung.existsSync() ? jsonDecode(erzaehlung.readAsStringSync()) as Map<String, Object?> : null,
       );
     }();

@@ -1,0 +1,127 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Einrichtung des Abends (F4-BAUMEISTER-01, Master 7.6): Personen und Namen, Geburtstagskind, Detektiv, Fall-Code, Spielart, Rundendauer und Erzählerstimme.",
+  "eintraege": [
+    {
+      "id": "ui.einrichtung.marke",
+      "text": "Vorbereitung"
+    },
+    {
+      "id": "ui.einrichtung.titel",
+      "text": "Der Abend wird eingerichtet"
+    },
+    {
+      "id": "ui.einrichtung.hinweis",
+      "text": "Jemand außer dem Geburtstagskind richtet ein. Das Geburtstagskind schaut bitte weg."
+    },
+    {
+      "id": "ui.einrichtung.personen",
+      "text": "Personen am Tisch"
+    },
+    {
+      "id": "ui.einrichtung.anzahl",
+      "text": "{anzahl} Personen sitzen am Tisch"
+    },
+    {
+      "id": "ui.einrichtung.weniger",
+      "text": "Eine Person weniger"
+    },
+    {
+      "id": "ui.einrichtung.mehr",
+      "text": "Eine Person mehr"
+    },
+    {
+      "id": "ui.einrichtung.namen_hinweis",
+      "text": "Ohne Spielernamen heißt jede Person wie ihre Figur."
+    },
+    {
+      "id": "ui.einrichtung.name_feld",
+      "text": "Name (optional)"
+    },
+    {
+      "id": "ui.einrichtung.geburtstag",
+      "text": "Das Geburtstagskind"
+    },
+    {
+      "id": "ui.einrichtung.geburtstag_feld",
+      "text": "Name (optional)"
+    },
+    {
+      "id": "ui.einrichtung.detektiv",
+      "text": "Wer ermittelt?"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_m",
+      "text": "Detektiv"
+    },
+    {
+      "id": "ui.einrichtung.detektiv_w",
+      "text": "Detektivin"
+    },
+    {
+      "id": "ui.einrichtung.fall",
+      "text": "Der Fall"
+    },
+    {
+      "id": "ui.einrichtung.code_zufall",
+      "text": "Zufall"
+    },
+    {
+      "id": "ui.einrichtung.code_eingabe",
+      "text": "Code eingeben"
+    },
+    {
+      "id": "ui.einrichtung.code_feld",
+      "text": "Fall-Code aus fünf Zeichen"
+    },
+    {
+      "id": "ui.einrichtung.code_fehler",
+      "text": "Zu diesem Code gibt es keinen Fall. Prüfe die fünf Zeichen."
+    },
+    {
+      "id": "ui.einrichtung.code_hinweis",
+      "text": "Mit demselben Code lässt sich derselbe Fall wieder spielen."
+    },
+    {
+      "id": "ui.einrichtung.spiel",
+      "text": "Wie spielt ihr?"
+    },
+    {
+      "id": "ui.einrichtung.spiel_bildschirm",
+      "text": "Am Bildschirm"
+    },
+    {
+      "id": "ui.einrichtung.spiel_druck",
+      "text": "Zum Drucken"
+    },
+    {
+      "id": "ui.einrichtung.druck_hinweis",
+      "text": "Die Druckfassung kommt als PDF. Der Bildschirm führt trotzdem durch den Abend."
+    },
+    {
+      "id": "ui.einrichtung.dauer",
+      "text": "Wie lange dauert eine Runde?"
+    },
+    {
+      "id": "ui.einrichtung.minuten",
+      "text": "{minuten} Minuten"
+    },
+    {
+      "id": "ui.einrichtung.stimme",
+      "text": "Erzählerstimme"
+    },
+    {
+      "id": "ui.einrichtung.stimme_schalter",
+      "text": "Stimme einschalten"
+    },
+    {
+      "id": "ui.einrichtung.stimme_hinweis",
+      "text": "Die Stimme liest nur die festen Texte vor und lässt sich jederzeit abschalten."
+    },
+    {
+      "id": "ui.einrichtung.start",
+      "text": "Abend starten"
+    }
+  ]
+}

@@ -98,8 +98,8 @@ void _pruefeAlles(String fall, Befunde b) {
   final roh = Textsammlung.lade(leseAkte);
   final sammlung = Textsammlung.lade(leseAkte);
   if (fall != 'schlosskeller') {
-    // Wie die App: fehlende Oberflächentexte aus dem Schlosskeller.
-    sammlung.ergaenzeUi(Textsammlung.lade((p) => _lies('$wurzel/content/party/schlosskeller/$p')));
+    // Wie die App: fehlende Oberflächentexte aus der eingefrorenen Basis (A-061).
+    sammlung.ergaenzeUi(Textsammlung.lade((p) => _lies('$wurzel/content/party/basis-ui/$p')));
   }
 
   _schema(b, kanon, roh, schemaOrdner);

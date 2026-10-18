@@ -14,6 +14,8 @@ import '../util/rng.dart';
 import 'abend_raum.dart';
 import 'bots.dart';
 import 'partie.dart';
+import 'raum/raum_modul.dart';
+import 'raum/sichtfelder.dart';
 import 'wuerfel.dart';
 import 'zugschicht.dart';
 
@@ -64,7 +66,8 @@ class SchlosskellerRaum implements AbendRaum {
     this.festerGastgeber = false,
     KartenKatalog? katalog,
     List<AbstecherOrt> abstecher = const [],
-  }) : _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
+    List<RaumModul> module = const [],
+  }) : _module = List.unmodifiable(module), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
     if (salz.isEmpty) throw const PartyRaumFehler('invalid_setup');
   }
@@ -78,6 +81,10 @@ class SchlosskellerRaum implements AbendRaum {
 
   final KartenKatalog _katalog;
   final List<AbstecherOrt> _abstecher;
+
+  /// Erweiterungen mit eigenen Nachrichten und Ansichtsteilen (siehe [RaumModul]).
+  final List<RaumModul> _module;
+  late final RaumKontext _kontext = _Kontext(this);
 
   /// Zusätzliche Plätze ohne Rolle über der größten Besetzung.
   static const assistenzPlaetze = 4;
@@ -198,6 +205,21 @@ class SchlosskellerRaum implements AbendRaum {
     if (_host != id) throw const PartyRaumFehler('not_host');
   }
 
+  /// Nur das Gerät, das den Detektiv führt.
+  void _nurDetektiv(String id) {
+    if (_detektiv == null || _detektiv != id) throw const PartyRaumFehler('not_detective');
+  }
+
+  /// Wer den Abend führen darf (Weiter, Uhr, Bilder). Heute die Spielleitung.
+  void _darfLeiten(String id) => _nurHost(id);
+
+  RaumModul? _modulFuer(String typ) {
+    for (final m in _module) {
+      if (m.nachrichten.containsKey(typ)) return m;
+    }
+    return null;
+  }
+
   /// Feste Nachrichten, keine beliebigen Methoden oder Rollenkennungen.
   /// Eine optionale Revision verwirft veraltete Aktionen vor jeder Änderung.
   @override
@@ -218,7 +240,7 @@ class SchlosskellerRaum implements AbendRaum {
       'karte' => {'id'},
       'stimme' => {'kooperativ'},
       'anklage' => {'person'},
-      _ => throw const PartyRaumFehler('invalid'),
+      _ => _modulFuer(typ)?.nachrichten[typ] ?? (throw const PartyRaumFehler('invalid')),
     };
     if (inhalt.keys.any((k) => k != 'typ' && k != 'revision' && !erlaubt.contains(k))) {
       throw const PartyRaumFehler('invalid');
@@ -233,6 +255,12 @@ class SchlosskellerRaum implements AbendRaum {
       } else if (typ == 'start') {
         _nurHost(id);
         _start(inhalt);
+        for (final m in _module) {
+          m.beimStart(_kontext);
+        }
+      } else if (_modulFuer(typ) case final m?) {
+        if (vorStart && !m.vorStart(typ)) throw const PartyRaumFehler('not_started');
+        m.nachricht(_kontext, id, typ, inhalt);
       } else {
         final p = _partie ?? (throw const PartyRaumFehler('not_started'));
         if (typ == 'rollenGelesen') {
@@ -279,6 +307,9 @@ class SchlosskellerRaum implements AbendRaum {
               if (p.phase == PartyPhase.gruppenwahl) {
                 _stimmen.clear();
                 _botStimmen();
+              }
+              for (final m in _module) {
+                m.phaseGewechselt(_kontext);
               }
             case 'wahl':
               p.waehle(_string(inhalt, 'option'),
@@ -362,6 +393,7 @@ class SchlosskellerRaum implements AbendRaum {
   bool get _kannWeiter {
     final p = _partie;
     if (p == null || !p.kannWeiter) return false;
+    if (!_module.every((m) => m.darfWeiter(_kontext))) return false;
     return p.phase != PartyPhase.rollen || !_teilnehmer.values.any((t) => !t.aufgegeben && t.rolle != null && !t.gelesen);
   }
 
@@ -417,7 +449,7 @@ class SchlosskellerRaum implements AbendRaum {
     final e = p?.naechsteEntscheidung;
     final rolle = ich.rolle;
     final dossier = p == null || rolle == null ? null : _texte.dossier(rolle, p.spiel.pfad, p.spiel.einstellungen.rollen);
-    return {
+    final ansicht = <String, Object?>{
       't': 'abend', 'protokoll': 1, 'version': _version,
       'spiel': akte, 'akte': akte, 'raum': raumCode, 'host': _host,
       'phase': p?.phase.name ?? 'lobby', 'runde': p?.runde ?? 0,
@@ -467,7 +499,7 @@ class SchlosskellerRaum implements AbendRaum {
         ],
         if (p.phase == PartyPhase.anklage) 'verdaechtige': [..._kanon.kernverdaechtige],
       },
-      'privat': {
+      'privat': <String, Object?>{
         'spieler': id, 'detektiv': id == _detektiv,
         if (dossier != null) ...{
           'rolle': rolle, 'gelesen': ich.gelesen,
@@ -497,5 +529,50 @@ class SchlosskellerRaum implements AbendRaum {
         'abstecherFunde': [...p.abstecherFunde]..sort(),
       },
     };
+    final privat = ansicht['privat']! as Map<String, Object?>;
+    for (final m in _module) {
+      for (final e in m.oeffentlich(_kontext, id).entries) {
+        if (ansicht.containsKey(e.key)) throw StateError('Modul überschreibt Ansichtsschlüssel ${e.key}');
+        ansicht[e.key] = e.value;
+      }
+      for (final e in m.privat(_kontext, id).entries) {
+        if (privat.containsKey(e.key)) throw StateError('Modul überschreibt privaten Schlüssel ${e.key}');
+        privat[e.key] = e.value;
+      }
+    }
+    assert(
+      ansicht.keys.every((k) => raumOeffentlicheSchluessel.contains(k) || (nachFinale && raumSchluesselNachFinale.contains(k))),
+      'Nicht freigegebener Ansichtsschlüssel: ${ansicht.keys.where((k) => !raumOeffentlicheSchluessel.contains(k)).join(', ')}',
+    );
+    return ansicht;
   }
+}
+
+/// Lesender Blick der Module auf den Raum.
+class _Kontext extends RaumKontext {
+  _Kontext(this._r);
+  final SchlosskellerRaum _r;
+
+  @override
+  String? get host => _r._host;
+  @override
+  String? get detektiv => _r._detektiv;
+  @override
+  RundenPartie? get partie => _r._partie;
+  @override
+  Kanon get kanon => _r._kanon;
+  @override
+  Texte get texte => _r._texte;
+  @override
+  Iterable<String> get spielerIds => _r._teilnehmer.keys;
+  @override
+  bool istOnline(String id) => _r._teilnehmer[id]?.online ?? false;
+  @override
+  String? rolleVon(String id) => _r._teilnehmer[id]?.rolle;
+  @override
+  void nurHost(String id) => _r._nurHost(id);
+  @override
+  void nurDetektiv(String id) => _r._nurDetektiv(id);
+  @override
+  void darfLeiten(String id) => _r._darfLeiten(id);
 }
