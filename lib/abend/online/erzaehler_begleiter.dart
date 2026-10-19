@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Befragungsplan, PartyPhase, erzaehlerPaket;
-import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, Sitz;
+import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, RundenZugPhase, Sitz, istSuche;
 import 'package:mordakte_netz/mordakte_netz.dart' show RelayHost, RelayParameter;
 
 import '../../l10n/gen/app_localizations_de.dart';
@@ -25,9 +25,15 @@ final _de = LDe();
 /// Die Ansicht des Erzählers hat die Form eines Erzähler-Sitzes im
 /// Online-Abend (`SchlosskellerRaum`), damit sein Handy die gewohnte Gastseite
 /// zeigt: die Erzähltexte des Schritts, sein pfadfreies Erzählerpaket (A-052),
-/// wen der Detektiv befragt, und „Weiter“, sobald der Abschnitt fertig ist.
-/// Nie Dossier, Tarnung, Spickzettel, Pfad oder Salz: Die Ansicht entsteht nur
-/// aus öffentlichen Angaben, den Erzähltexten und dem Paket.
+/// wen der Detektiv befragt, die Ermittlung, wie sie am Tisch offen liegt
+/// (Frage, Optionen, Zug, Nachtzeit, Marken, Funde, Würfe, Verdächtige), und
+/// „Weiter“, sobald der Abschnitt fertig ist. Nie Dossier, Tarnung,
+/// Spickzettel, Pfad oder Salz: Die Ansicht entsteht nur aus öffentlichen
+/// Angaben, den Erzähltexten und dem Paket.
+///
+/// Den Erzähler-Sitz hält das erste Gerät, das beitritt; danach nimmt der Raum
+/// kein anderes Gerät mehr an, auch nicht, wenn dieses geht. Nur es selbst
+/// kommt zurück. Das Gerät am Tisch nennt den Namen, mit dem es beitrat.
 class BegleiterRaum implements AbendRaum {
   BegleiterRaum(this.raumCode, this.sitzung, {this.beiAenderung});
 
@@ -44,6 +50,7 @@ class BegleiterRaum implements AbendRaum {
   String? _erzaehler;
   String _name = '';
   bool _online = false;
+  bool _weg = false;
   bool _zu = false;
   int _version = 0;
   late final Befragungsplan _plan = Befragungsplan(sitzung.daten.texte);
@@ -57,6 +64,10 @@ class BegleiterRaum implements AbendRaum {
 
   /// Ist der Erzähler beigetreten und gerade verbunden?
   bool get erzaehlerOnline => !_zu && _erzaehler != null && _online;
+
+  /// Hat der Erzähler den Abend verlassen (oder war er zu lange getrennt)? Sein
+  /// Sitz bleibt; zurück kommt nur sein Gerät.
+  bool get erzaehlerWeg => _erzaehler != null && _weg;
 
   /// Schließt den Raum: kein Beitritt, keine Nachricht mehr.
   void schliessen() {
@@ -96,16 +107,18 @@ class BegleiterRaum implements AbendRaum {
       return false;
     }
     _online = true;
+    _weg = false;
     _geaendert();
     return true;
   }
 
+  /// Der Erzähler geht oder war zu lange getrennt. Der Sitz bleibt bei seinem
+  /// Gerät: Ein anderes, das den Code am Tisch gesehen hat, liest nie mit.
   @override
   void verlassen(String id) {
     if (id != _erzaehler) return;
-    _erzaehler = null;
-    _name = '';
     _online = false;
+    _weg = true;
     _geaendert();
   }
 
@@ -186,6 +199,7 @@ class BegleiterRaum implements AbendRaum {
         for (final b in s.befragungen)
           if (b.pflicht || b.frage != null) {'rolle': b.rolle, 'thema': b.thema, 'erledigt': b.erledigt},
       ],
+      ..._ermittlung(s),
       'privat': {
         'spieler': id,
         'vorleser': true,
@@ -195,6 +209,38 @@ class BegleiterRaum implements AbendRaum {
         ],
         if (s.befragungsmodell && runde >= 1) 'erzaehlerPaket': _paket(s.einstellungen.rollen, runde.clamp(1, Befragungsplan.runden)),
       },
+    };
+  }
+
+  /// Die Ermittlung, wie sie am Tisch offen liegt, mit den Schlüsseln des
+  /// Online-Raums: Ohne sie hielte das Handy die Runde für abgeschlossen.
+  /// Gewürfelt wird am Gerät; die Chancen stehen ohne Marke und Karte, wie das
+  /// Würfelbrett sie zuerst zeigt.
+  Map<String, Object?> _ermittlung(PartySitzung s) {
+    final zug = s.zug;
+    final e = s.laufendeEntscheidung;
+    final pate = s.wuerfelRolle;
+    return {
+      'restMinuten': s.restMinuten,
+      'marken': s.marken,
+      'notizbuch': {for (final f in s.funde.entries) f.key: [for (final a in f.value) a.text]},
+      'wuerfe': [for (final w in s.wuerfe) w.toJson()],
+      if (pate != null) 'wuerfelPate': 'rolle:$pate',
+      if (e != null) 'entscheidung': {
+        'id': e.id, 'frage': e.frage, 'suche': istSuche(e),
+        'optionen': [for (final o in s.optionen(e.id)) {'id': o.id, 'text': o.text}],
+      },
+      if (zug != null) 'zug': {
+        'id': zug.id, 'option': zug.option, 'suche': zug.suche,
+        'phase': zug.phase.name, 'aktion': zug.aktion, 'ruf': zug.ruf?.name,
+        'wurf': zug.wurf?.toJson(), 'funde': [for (final f in zug.funde) f.text],
+        if (zug.istAbstecher) ...{'abstecher': zug.abstecher, 'nebenfund': zug.nebenfund},
+        if (zug.phase == RundenZugPhase.wurf) ...{
+          'mod': s.wuerfelVorschau().mod,
+          'chancen': {for (final v in s.wuerfelVorschau().prozent.entries) v.key.name: v.value},
+        },
+      },
+      if (s.phase == PartyPhase.anklage) 'verdaechtige': [...s.kernverdaechtige],
     };
   }
 
@@ -263,9 +309,15 @@ class ErzaehlerBegleiter extends ChangeNotifier implements ErzaehlerBegleitung {
   @override
   bool get liest => _raum?.erzaehlerOnline ?? false;
 
+  @override
+  String get name => _raum?.erzaehlerName ?? '';
+
   /// Öffnet den Raum (einmal; ein zweiter Aufruf wartet auf denselben Lauf).
-  Future<void> oeffnen() {
-    if (_host != null || _entsorgt) return Future.value();
+  /// Ist der Erzähler gegangen, hält sein Gerät den Sitz im alten Raum: Dann
+  /// schließt er, und wer jetzt am Handy lesen soll, bekommt einen neuen Code.
+  Future<void> oeffnen() async {
+    if (_raum?.erzaehlerWeg ?? false) await schliessen();
+    if (_host != null || _entsorgt) return;
     return _laeuft ??= _oeffnen().whenComplete(() {
       _laeuft = null;
       if (!_entsorgt) notifyListeners();
@@ -341,7 +393,7 @@ class ErzaehlerBegleiter extends ChangeNotifier implements ErzaehlerBegleitung {
 
   @override
   Future<void> zeigen(BuildContext context) {
-    if (!offen && !oeffnet) unawaited(oeffnen());
+    if ((!offen && !oeffnet) || (_raum?.erzaehlerWeg ?? false)) unawaited(oeffnen());
     return showDialog<void>(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.6),

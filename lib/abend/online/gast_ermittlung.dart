@@ -8,9 +8,10 @@ import 'package:provider/provider.dart';
 import '../../game/game_view.dart';
 import '../../karten/widgets/karten_ansicht.dart' show KartenTexte;
 import '../../meta/meta_store.dart';
-import '../../party/bildschirme/befragung.dart' show BefragungsListe;
+import '../../party/bildschirme/befragung.dart' show BefragungsKarte, BefragungsListe;
 import '../../party/bildschirme/detektiv_karte.dart' show DetektivKarteEintrag;
 import '../../party/klasse_wirkung.dart';
+import '../../party/stand/befragung_stand.dart' show BefragungKarte;
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
@@ -93,7 +94,6 @@ class _GastErmittlungState extends State<GastErmittlung> {
   String? _gruendlichKarte;
   String? _abstecher;
   String? _abstecherKarte;
-  String? _rufKarte;
   bool _laeuft = false;
 
   GastKontext get c => widget.kontext;
@@ -365,18 +365,25 @@ class _GastErmittlungState extends State<GastErmittlung> {
       case 'wurf':
         return [GastWuerfel(kontext: c, zug: z)];
       case 'tischruf':
+        // Wie am Tisch (TischrufTafel): Eine Karte löst ihren eigenen Ruf aus
+        // und macht ihn kostenfrei; die Knöpfe darunter rufen ohne Karte.
         final karten = _karten({KartenArt.nochmal, KartenArt.umweg});
         return [
           if (wurf != null) _wurf(wurf),
           _blatt(s.ui('ui.zug.tischruf'), [
             Text(s.ui('ui.zug.pech_szene'), style: MPapierSchrift.text),
-            for (final k in karten)
-              MHaken(
-                wert: _rufKarte == k['id'],
-                text: l.detektiv_gast_karte_ruf(_titel(k)),
-                onChanged: (v) => setState(() => _rufKarte = v ? jText(k['id']) : null),
-              ),
             const SizedBox(height: MMass.s12),
+            for (final k in karten)
+              Padding(
+                padding: const EdgeInsets.only(bottom: MMass.s8),
+                child: MKnopf(
+                  key: ValueKey('ruf-karte-${k['id']}'),
+                  text: l.detektiv_gast_karte_ruf(_titel(k)),
+                  art: MKnopfArt.zweit,
+                  breit: true,
+                  onPressed: offen ? () => _senden({'typ': 'tischruf', 'ruf': k['art'], 'karte': k['id']}) : null,
+                ),
+              ),
             Wrap(
               spacing: MMass.s8,
               runSpacing: MMass.s8,
@@ -384,13 +391,13 @@ class _GastErmittlungState extends State<GastErmittlung> {
                 MKnopf(
                   key: const ValueKey('ruf-nochmal'),
                   text: s.ui('ui.zug.nochmal'),
-                  onPressed: offen ? () => _ruf('nochmal', karten) : null,
+                  onPressed: offen ? () => _senden({'typ': 'tischruf', 'ruf': 'nochmal'}) : null,
                 ),
                 MKnopf(
                   key: const ValueKey('ruf-umweg'),
                   text: s.ui('ui.zug.umweg_knopf'),
                   art: MKnopfArt.zweit,
-                  onPressed: offen ? () => _ruf('umweg', karten) : null,
+                  onPressed: offen ? () => _senden({'typ': 'tischruf', 'ruf': 'umweg'}) : null,
                 ),
               ],
             ),
@@ -415,13 +422,6 @@ class _GastErmittlungState extends State<GastErmittlung> {
         ];
     }
     return const [];
-  }
-
-  /// Tischruf; eine passende Karte macht ihn kostenfrei (nur wenn sie zum Ruf passt).
-  void _ruf(String ruf, List<Map<String, Object?>> karten) {
-    final k = karten.where((k) => k['id'] == _rufKarte && k['art'] == ruf).firstOrNull;
-    _rufKarte = null;
-    unawaited(_senden({'typ': 'tischruf', 'ruf': ruf, 'karte': ?k?['id']}));
   }
 
   List<Widget> _fertig(bool offen) {
@@ -507,8 +507,10 @@ class _GastAnklageState extends State<GastAnklage> {
   }
 }
 
-/// Das Notizbuch des Gast-Detektivs: Funde der Runden (öffentlich) und was der
-/// Erzähler über ungespielte Gäste sprach (privat, E-044).
+/// Das Notizbuch des Gast-Detektivs: die Antworten der App aus seinen
+/// Befragungen (wie das Notizbuch am Tisch, A-051), Funde der Runden
+/// (öffentlich) und was der Erzähler über ungespielte Gäste sprach (privat,
+/// E-044). Eine Befragung, die oben noch als Karte steht, kommt nicht doppelt.
 class _Notizbuch extends StatelessWidget {
   const _Notizbuch({required this.kontext});
 
@@ -516,10 +518,18 @@ class _Notizbuch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = GastLeseSitzung.fuer(kontext);
+    // Das Notizbuch aus der Ablage (nach dem Neuladen) kommt nach dem ersten Bild.
+    return s == null ? _inhalt(null) : ListenableBuilder(listenable: s, builder: (_, _) => _inhalt(s));
+  }
+
+  Widget _inhalt(GastLeseSitzung? s) {
     final c = kontext;
     final funde = jMap(c.v['notizbuch']);
     final npc = jTexte(c.privat['erzaehlerNotizen']);
-    if (funde.isEmpty && npc.isEmpty) return const SizedBox.shrink();
+    final oben = {for (final k in s?.befragungen ?? const <BefragungKarte>[]) k.id};
+    final antworten = [for (final k in s?.befragungsNotizen ?? const <BefragungKarte>[]) if (!oben.contains(k.id)) k];
+    if (funde.isEmpty && npc.isEmpty && antworten.isEmpty) return const SizedBox.shrink();
     String frage(String id) {
       try {
         return c.daten?.karte.ermittlung.entscheidung(id).frage ?? '';
@@ -529,6 +539,12 @@ class _Notizbuch extends StatelessWidget {
     }
 
     return _blatt(c.l.detektiv_gast_notizen, [
+      if (s != null && antworten.isNotEmpty) ...[
+        MGanzeWorte(s.ui('ui.befragung.notizen'), stil: MPapierSchrift.ueberschrift.copyWith(fontSize: 17), minimum: 12),
+        const SizedBox(height: MMass.s8),
+        for (final (i, k) in antworten.indexed)
+          Padding(padding: const EdgeInsets.only(bottom: MMass.s12), child: BefragungsKarte(sitzung: s, karte: k, nr: i)),
+      ],
       for (final e in funde.entries) ...[
         if (frage(e.key).isNotEmpty) Text(frage(e.key), style: MPapierSchrift.leise),
         for (final f in jTexte(e.value)) _punkt(f),

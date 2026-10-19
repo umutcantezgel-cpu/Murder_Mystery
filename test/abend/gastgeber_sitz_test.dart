@@ -8,15 +8,22 @@
 // Host = Detektiv ohne Erzähler, Host = Detektiv + Gast = Erzähler.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/online/gast_ansicht.dart';
+import 'package:mordakte/abend/online/gastgeber_ablauf.dart';
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
+import 'package:mordakte/abend/online/online_halter.dart';
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/skript.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
+import 'package:provider/provider.dart';
 
 import '../party_widgets/hilfe.dart' show akteDaten;
 import 'online_hilfe.dart';
+
+final de = LDe();
 
 /// Schlosskeller mit Randgesprächen.
 PartyDaten get _daten => akteDaten('schlosskeller');
@@ -154,5 +161,91 @@ void main() {
       belohnung: null,
     );
     expect([detektiv.sitz, detektiv.dossier, detektiv.vorleser], [Sitz.detektiv, null, false]);
+  });
+
+  testWidgets('Host = Detektiv + Gast = Erzähler: Ist der Abschnitt fertig, sagt der Fuß jedes Bildschirms, dass Dora weiterführt', (tester) async {
+    final raum = _raum(erzaehler: 'g3');
+    final s = GastgeberSitzung(SitzDienst(raum));
+    final verb = s.dienst.verb as SitzVerbindung;
+    Future<void> zeigen() async {
+      verb.aktualisiere();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+    }
+
+    await zeigeImThema(
+      tester,
+      (c) => Scaffold(body: GastgeberAblauf(sitzung: s)),
+      huelle: (app) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider<OnlineHalter>.value(value: OnlineHalter()),
+          ChangeNotifierProvider<AbendHalter>.value(value: AbendHalter()),
+        ],
+        child: app,
+      ),
+    );
+    final hinweis = find.byKey(const ValueKey('fuss-hinweis'));
+    // Rollen: Solange jemand liest, ruht „Weiter“ ohne Hinweis; danach führt Dora weiter.
+    expect(hinweis, findsNothing);
+    for (final g in ['g1', 'g2']) {
+      raum.nachricht(g, {'typ': 'rollenGelesen'});
+    }
+    await zeigen();
+    expect([s.abschnittFertig, s.leitet, s.kannWeiter], [true, false, false]);
+    expect(find.descendant(of: hinweis, matching: find.text(de.vorleser_fuehrt('Dora'))), findsOneWidget);
+    // Gruppenwahl, nachdem alle gewählt haben.
+    _bis(raum, 'gruppenwahl', detektiv: 'gastgeber', leiter: 'g3');
+    await zeigen();
+    expect(hinweis, findsNothing, reason: 'Noch wählt jemand');
+    for (final g in ['g1', 'g2']) {
+      raum.nachricht(g, {'typ': 'stimme', 'kooperativ': true});
+    }
+    await zeigen();
+    expect(s.alleGestimmt, isTrue);
+    expect(find.text(de.vorleser_fuehrt('Dora')), findsOneWidget);
+    // Ist Dora getrennt, steht dort die Frist; ist sie zurück, führt sie wieder weiter.
+    raum.verbunden('g3', false);
+    await zeigen();
+    expect(find.text(de.vorleser_frist('Dora')), findsOneWidget);
+    expect(find.text(de.vorleser_fuehrt('Dora')), findsNothing);
+    raum.verbunden('g3', true);
+    await zeigen();
+    expect(find.text(de.vorleser_fuehrt('Dora')), findsOneWidget);
+    // Anklage: Anna klagt an, Dora führt weiter.
+    _bis(raum, 'anklage', detektiv: 'gastgeber', leiter: 'g3');
+    raum.nachricht('gastgeber', {'typ': 'anklage', 'person': 'ahmet'});
+    await zeigen();
+    expect(find.text(de.vorleser_fuehrt('Dora')), findsOneWidget);
+    // Finale: Alle lesen, aber weiter führt Dora.
+    _bis(raum, 'finale', detektiv: 'gastgeber', leiter: 'g3');
+    await zeigen();
+    expect([s.istVorleser, s.leitet], [true, false]);
+    expect(find.text(de.vorleser_fuehrt('Dora')), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+    s.dispose();
+  });
+
+  testWidgets('Leitet der Gastgeber selbst, bleibt der Fuß ohne Hinweis', (tester) async {
+    final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
+    final s = GastgeberSitzung(SitzDienst(raum));
+    for (final g in ['g2', 'g3']) {
+      raum.nachricht(g, {'typ': 'rollenGelesen'});
+    }
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await zeigeImThema(
+      tester,
+      (c) => Scaffold(body: GastgeberAblauf(sitzung: s)),
+      huelle: (app) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider<OnlineHalter>.value(value: OnlineHalter()),
+          ChangeNotifierProvider<AbendHalter>.value(value: AbendHalter()),
+        ],
+        child: app,
+      ),
+    );
+    expect([s.abschnittFertig, s.leitet, s.kannWeiter], [true, true, true]);
+    expect(find.byKey(const ValueKey('fuss-hinweis')), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+    s.dispose();
   });
 }

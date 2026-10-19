@@ -4027,4 +4027,8 @@ class LDe extends L {
   String begleiter_handy_hinweis(String name) {
     return 'Der Text steht auf dem Handy von $name.';
   }
+
+  @override
+  String get online_lobby_gastgeber_platz =>
+      'Du brauchst selbst einen Platz. Tippe dazu auf deine Karte.';
 }

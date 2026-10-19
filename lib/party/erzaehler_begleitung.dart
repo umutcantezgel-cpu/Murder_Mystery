@@ -11,6 +11,10 @@ abstract class ErzaehlerBegleitung implements Listenable {
   /// Dann zeigt das Reihum-Gerät statt der Texte „… liest vor“.
   bool get liest;
 
+  /// Name, mit dem der Erzähler am Handy beigetreten ist (leer vor dem
+  /// Beitritt). Das Gerät nennt ihn statt des Namens aus der Einrichtung.
+  String get name;
+
   /// Zeigt Code und QR-Code zum Beitreten; öffnet den Raum beim ersten Mal.
   Future<void> zeigen(BuildContext context);
 

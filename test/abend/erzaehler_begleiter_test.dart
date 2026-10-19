@@ -16,11 +16,11 @@ import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/erzaehler_begleitung.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
-import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum;
+import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, RundenZugPhase, Tischruf;
 import 'package:mordakte_netz/io.dart' show PhoenixAttrappe;
-import 'package:mordakte_netz/mordakte_netz.dart' show LokaleVerbindung, RelayGast, RelayParameter, SpeicherAblage;
+import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, LokaleVerbindung, RelayGast, RelayParameter, SpeicherAblage;
 
-import '../party_widgets/hilfe.dart' show partyDaten, spieleBis;
+import '../party_widgets/hilfe.dart' show partyDaten, spieleBis, spieleZug;
 import 'online_hilfe.dart';
 
 final l = LDe();
@@ -60,6 +60,9 @@ List<String> _geheim(PartySitzung s) => [
 class _Schein extends ChangeNotifier implements ErzaehlerBegleitung {
   bool _liest = false;
   int gezeigt = 0;
+
+  @override
+  String name = '';
 
   @override
   bool get liest => _liest;
@@ -129,12 +132,17 @@ void main() {
     for (final k in ['salz', 'pfad', 'dossier', 'tarnung', 'spickzettel', 'aufloesung']) {
       expect(roh.contains('"$k"'), isFalse, reason: k);
     }
-    // Getrennt und gegangen.
+    // Getrennt und gegangen: Der Sitz bleibt beim Gerät des Erzählers. Ein
+    // anderes Gerät, das den Code am Tisch gesehen hat, kommt nie hinein.
     raum.verbunden('e1', false);
-    expect(raum.erzaehlerOnline, isFalse);
+    expect([raum.erzaehlerOnline, raum.erzaehlerWeg], [false, false]);
     raum.verbunden('e1', true);
     raum.verlassen('e1');
-    expect([raum.erzaehlerOnline, raum.vorStart], [false, true]);
+    expect([raum.erzaehlerOnline, raum.vorStart, raum.erzaehlerWeg], [false, false, true]);
+    expect(raum.beitreten('e3', 'Cleo'), isFalse, reason: 'Der Sitz wird nicht für Fremde frei');
+    expect(raum.beitreten('e3', 'Mia'), isFalse);
+    expect(raum.beitreten('e1', 'Mia'), isTrue, reason: 'Sein Gerät kommt zurück');
+    expect([raum.erzaehlerOnline, raum.erzaehlerWeg, raum.erzaehlerName], [true, false, 'Mia']);
     raum.schliessen();
     expect([raum.beendet, raum.beitreten('e3', 'Mia')], [true, false]);
   });
@@ -237,6 +245,17 @@ void main() {
     await gast.verlassen();
     await warteBis(() => !b.liest);
     expect(s.istVorleser, isTrue);
+    // Sein Sitz wird nicht frei: Ein anderes Gerät, das den Code gesehen hat, kommt nicht hinein.
+    expect(b.raum!.erzaehlerWeg, isTrue);
+    await expectLater(
+      RelayGast.beitreten(code: code, name: 'Cleo', ablage: SpeicherAblage(), relay: relay, app: 'mordakte', inhalt: await inhaltsKennung()),
+      throwsA(isA<AbendFehler>()),
+    );
+    expect([b.liest, b.raum!.erzaehlerName], [false, 'Mia']);
+    // Wer jetzt am Handy lesen soll, bekommt einen neuen Code.
+    await b.oeffnen();
+    expect([b.offen, b.raum!.erzaehlerWeg, b.raum!.erzaehler], [true, false, null]);
+    expect(b.code, isNot(code));
     // Am Ende schließt der Raum von selbst.
     spieleBis(s, PartyPhase.ende);
     await warteBis(() => !b.offen);
@@ -305,5 +324,97 @@ void main() {
     final raum = BegleiterRaum('ABCDEF', s);
     final v = LokaleVerbindung(raum, id: BegleiterRaum.tisch, name: 'Ada');
     expect(v.letzteAnsicht?['phase'], 'rollen');
+  });
+
+  testWidgets('Das Gerät nennt, wer am Handy beigetreten ist, nicht den Namen aus der Einrichtung', (tester) async {
+    final s = _sitzung()..weiter();
+    final schein = _Schein()..name = 'Cleo';
+    s.begleitung = schein;
+    schein.liest = true;
+    await zeigeImThema(tester, (c) => Scaffold(body: ListenableBuilder(listenable: s, builder: (_, _) => IntroBildschirm(sitzung: s))));
+    expect(s.vorleserName, 'Cleo');
+    expect(find.text(l.vorleser_liest('Cleo')), findsOneWidget);
+    expect(find.text(l.begleiter_handy_hinweis('Cleo')), findsOneWidget);
+    expect(find.text(l.vorleser_liest('Mia')), findsNothing, reason: 'Sonst merkt der Tisch nicht, dass Cleo liest');
+    // Ohne Namen vom Handy bleibt der Name aus der Einrichtung.
+    schein.name = '';
+    expect(s.vorleserName, 'Mia');
+    s.begleitung = null;
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Handy in den Entscheidungen: Auftakt mit Würfel, Frage, Optionen, Nachtzeit und Funde wie am Tisch, nie „abgeschlossen“', (tester) async {
+    final s = _sitzung();
+    spieleBis(s, PartyPhase.gespraeche);
+    _befragungenFuehren(s);
+    s.weiter();
+    expect([s.phase, s.zug?.istAuftakt], [PartyPhase.entscheidungen, true]);
+    final raum = BegleiterRaum('ABCDEF', s);
+    raum.beitreten('e1', 'Mia');
+    final mia = LiveGast(raum, spielerId: 'e1');
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia), groesse: const Size(390, 2400));
+    // Der Auftakt läuft am Gerät: Das Handy zeigt den Zug und wer würfelt, würfelt aber nie selbst.
+    var wurf = false;
+    for (var i = 0; i < 12 && s.zug != null; i++) {
+      final z = s.zug!;
+      final v = raum.zustandFuer('e1');
+      expect(_map(v['zug'])['phase'], z.phase.name);
+      mia.geaendert();
+      await tester.pump();
+      expect(find.text(l.online_ermittlung_fertig), findsNothing, reason: z.phase.name);
+      switch (z.phase) {
+        case RundenZugPhase.aktion:
+          s.aktionFertig(z.aktion);
+        case RundenZugPhase.wurf:
+          wurf = true;
+          expect(v['wuerfelPate'], 'rolle:${s.wuerfelRolle}');
+          expect(_map(_map(v['zug'])['chancen']).values.cast<int>().fold(0, (a, b) => a + b), 100);
+          expect(find.text(l.online_wuerfelt(s.wuerfelPate)), findsOneWidget);
+          expect(find.text(l.online_wuerfeln_knopf), findsNothing, reason: 'Gewürfelt wird am Gerät');
+          s.wuerfeln();
+        case RundenZugPhase.tischruf:
+          s.tischruf(Tischruf.umweg);
+        case RundenZugPhase.fund:
+          s.fundGelesen();
+      }
+    }
+    expect(wurf, isTrue, reason: 'Der Auftakt würfelt');
+    // Die erste offene Frage: Frage, Optionen, Nachtzeit und Marken wie am Tisch.
+    final e = s.laufendeEntscheidung!;
+    expect(s.kannWeiter, isFalse);
+    var v = raum.zustandFuer('e1');
+    expect(_map(v['entscheidung'])['frage'], e.frage);
+    expect([for (final o in _map(v['entscheidung'])['optionen'] as List) _map(o)['text']], [for (final o in s.optionen(e.id)) o.text]);
+    expect([v['restMinuten'], v['marken'], v['kannWeiter']], [s.restMinuten, s.marken, false]);
+    mia.geaendert();
+    await tester.pump();
+    expect(find.text(e.frage), findsWidgets);
+    expect(find.text(l.online_ermittlung_fertig), findsNothing);
+    expect(find.text(l.online_ermittlung_wartet), findsOneWidget);
+    expect(find.text(l.online_nachtzeit(s.restMinuten)), findsOneWidget);
+    // Der Detektiv wählt am Gerät: Funde und Würfe stehen danach im Notizbuch des Handys.
+    s.schlageVor(e.richtig[s.spiel.pfad]!);
+    s.bestaetigen();
+    spieleZug(s);
+    v = raum.zustandFuer('e1');
+    expect(_map(v['notizbuch']), {for (final f in s.funde.entries) f.key: [for (final a in f.value) a.text]});
+    expect(_map(v['notizbuch']).keys, contains(e.id));
+    expect((v['wuerfe'] as List).length, s.wuerfe.length);
+    // Nie ein Geheimnis, nie Salz oder Pfad.
+    final roh = jsonEncode(v);
+    for (final t in _geheim(s)) {
+      expect(roh.contains(jsonEncode(t).substring(1, jsonEncode(t).length - 1)), isFalse, reason: 'Das Handy sieht nie „$t“');
+    }
+    expect(roh.contains('00aa11bb22cc33dd'), isFalse);
+    for (final k in ['salz', 'pfad', 'dossier', 'tarnung', 'spickzettel', 'aufloesung', 'ziel']) {
+      expect(roh.contains('"$k"'), isFalse, reason: k);
+    }
+    // Anklage: die Verdächtigen wie am Tisch.
+    spieleBis(s, PartyPhase.anklage);
+    expect(raum.zustandFuer('e1')['verdaechtige'], s.kernverdaechtige);
+    mia.geaendert();
+    await tester.pump();
+    expect(find.text(l.online_verdaechtige_titel.toUpperCase()), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 }

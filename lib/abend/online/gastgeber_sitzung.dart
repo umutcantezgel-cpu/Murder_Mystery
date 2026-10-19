@@ -242,17 +242,7 @@ class GastgeberSitzung extends PartySitzung {
       if (roh == null || _entsorgt) return;
       final d = jsonDecode(roh);
       if (d is! Map || d['salz'] != dienst.salz) return;
-      final texte = daten.texte;
-      final geladen = <String, BefragungKarte>{};
-      for (final n in jMaps(d['notizen'])) {
-        final b = texte.sammlung.befragungen[jText(n['id'])];
-        final frage = n['frage'];
-        if (b == null || frage is! int || frage < 0 || frage >= b.fragen.length) continue;
-        geladen[b.id] = BefragungKarte(
-          id: b.id, rolle: b.rolle, thema: b.thema, fragen: b.fragen, pflicht: n['pflicht'] == true,
-          mensch: false, frage: frage, erledigt: true, waehlbar: false, antwortKarten: befragungsKarten(texte, b),
-        );
-      }
+      final geladen = notizenAusAblage(daten.texte, d['notizen']);
       if (geladen.isEmpty) return;
       final jetzt = Map.of(_notizen);
       _notizen
@@ -271,12 +261,7 @@ class GastgeberSitzung extends PartySitzung {
   bool _notizenBereit = false;
 
   void _notizenSichern() {
-    final stand = jsonEncode({
-      'salz': dienst.salz,
-      'notizen': [
-        for (final k in _notizen.values) {'id': k.id, 'frage': k.frage, 'pflicht': k.pflicht},
-      ],
-    });
+    final stand = jsonEncode({'salz': dienst.salz, 'notizen': notizenFuerAblage(_notizen.values)});
     unawaited(() async {
       try {
         await dienst.ablage.schreiben(GastgeberDienst.notizSchluessel, stand);

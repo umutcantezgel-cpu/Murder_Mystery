@@ -170,7 +170,11 @@ class PartySitzung extends ChangeNotifier {
   }
 
   /// Würfelpate wechselt mit jedem Wurf; Rollen haben keinen Einfluss auf die Augen.
-  String get wuerfelPate => solo ? personAmTisch(Besetzung.detektiv) : spielerName(besetzt[wuerfe.length % besetzt.length]);
+  String get wuerfelPate => solo ? personAmTisch(Besetzung.detektiv) : spielerName(wuerfelRolle!);
+
+  /// Rolle der Person, die als Nächste würfelt (reihum der Reihe nach); im Solo
+  /// würfelt der Detektiv (`null`).
+  String? get wuerfelRolle => solo ? null : besetzt[wuerfe.length % besetzt.length];
 
   /// Schreibt bei jedem Schritt eine Zeile `PARTY …` in die Konsole
   /// (Entwickler-Einstieg und E2E-Läufe).
@@ -222,8 +226,14 @@ class PartySitzung extends ChangeNotifier {
   /// nur, dass gerade vorgelesen wird (`ErzaehlerFeld`).
   bool get istVorleser => nachFinale || !(_begleitung?.liest ?? false);
 
-  /// Name dessen, der gerade vorliest, wenn es nicht dieses Gerät ist; sonst leer.
-  String get vorleserName => istVorleser ? '' : erzaehlerName;
+  /// Name dessen, der gerade vorliest, wenn es nicht dieses Gerät ist; sonst
+  /// leer. Liest der Erzähler am Handy, der Name, mit dem er beigetreten ist:
+  /// So sieht der Tisch, wer wirklich liest ([ErzaehlerBegleitung.name]).
+  String get vorleserName {
+    if (istVorleser) return '';
+    final amHandy = _begleitung?.name.trim() ?? '';
+    return amHandy.isNotEmpty ? amHandy : erzaehlerName;
+  }
 
   ErzaehlerBegleitung? _begleitung;
 

@@ -63,14 +63,43 @@ class PartyRahmen extends StatelessWidget {
   final bool scroll;
 
   @override
-  Widget build(BuildContext context) => MRahmen(
-        marke: marke,
-        titel: titel,
-        untertitel: untertitel,
-        aktionen: aktionen,
-        scroll: scroll,
-        child: child,
-      );
+  Widget build(BuildContext context) {
+    final hinweis = aktionen.isEmpty ? null : PartyFussHinweis.von(context);
+    return MRahmen(
+      marke: marke,
+      titel: titel,
+      untertitel: untertitel,
+      aktionen: [
+        // Eine eigene Zeile vor den Knöpfen: Sie erklärt, warum „Weiter“ hier ruht.
+        if (hinweis != null)
+          Container(
+            key: const ValueKey('fuss-hinweis'),
+            constraints: const BoxConstraints(minHeight: MMass.tippflaeche),
+            alignment: Alignment.centerLeft,
+            child: Text(hinweis, style: context.schrift.leise),
+          ),
+        ...aktionen,
+      ],
+      scroll: scroll,
+      child: child,
+    );
+  }
+}
+
+/// Ein Satz im Fuß jedes [PartyRahmen] vor den Knöpfen. Online sagt er etwa
+/// „Dora führt weiter.“, wenn der Abschnitt fertig ist, aber ein anderes Gerät
+/// den Abend weiterführt (Langer Abend M3). Ohne diesen Baustein darüber
+/// bleibt der Fuß, wie er ist.
+class PartyFussHinweis extends InheritedWidget {
+  const PartyFussHinweis({super.key, required this.text, required super.child});
+
+  /// Der Satz, sonst `null`.
+  final String? text;
+
+  static String? von(BuildContext context) => context.dependOnInheritedWidgetOfExactType<PartyFussHinweis>()?.text;
+
+  @override
+  bool updateShouldNotify(PartyFussHinweis alt) => alt.text != text;
 }
 
 /// Knopf im Kellerstil. [haupt] ist der warme Hauptknopf, sonst ein ruhiger

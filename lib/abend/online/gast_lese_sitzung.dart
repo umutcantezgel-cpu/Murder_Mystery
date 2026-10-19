@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:mordakte_core/runden.dart' show Sitz;
 
+import '../../netz/ablage_prefs.dart';
 import '../../party/sitzung.dart';
 import '../../party/stand/befragung_stand.dart';
 import 'ansicht.dart';
@@ -40,9 +43,17 @@ class GastLeseSitzung extends PartySitzung {
   Map<String, Object?> get _privat => jMap(_ansicht['privat']);
 
   /// Neue Ansicht: Namen am Tisch (Rolle → Gast, Detektiv → Gerät auf dem Sitz).
+  /// Die Sitzung hört dem Dienst zu, damit sie jede Antwort der App sieht,
+  /// auch wenn zwei Ansichten vor dem nächsten Bild kommen ([befragungsNotizen]).
   void aktualisieren(GastDienst dienst, GastBefehl befehl) {
+    if (!identical(_dienst, dienst)) {
+      _dienst?.removeListener(_notizenMerken);
+      dienst.addListener(_notizenMerken);
+      unawaited(_notizenLaden(dienst));
+    }
     _dienst = dienst;
     _befehl = befehl;
+    _notizenMerken();
     final spieler = spielerAusAnsicht(_ansicht);
     namen
       ..clear()
@@ -99,6 +110,61 @@ class GastLeseSitzung extends PartySitzung {
           else
             k,
       ];
+
+  /// Antworten der App aus den Befragungen dieses Abends, wie beim Gastgeber
+  /// (`GastgeberSitzung.befragungsNotizen`): Nach den Gesprächen trägt die
+  /// Ansicht sie nicht mehr, das Notizbuch des Gast-Detektivs behält sie.
+  /// Damit es ein Neuladen übersteht, liegen Kennung, Frage und Art jeder
+  /// beantworteten Befragung in der Ablage des Gastes, an Raum und Platz
+  /// gebunden ([notizenFuerAblage]). Geschrieben wird erst nach dem Laden.
+  final Map<String, BefragungKarte> _notizen = {};
+  bool _notizenBereit = false;
+
+  void _notizenMerken() {
+    final vorher = _notizen.length;
+    for (final k in befragungsKartenAus(_privat)) {
+      if (k.antwort != null) _notizen[k.id] = k;
+    }
+    if (_notizen.length != vorher && _notizenBereit) _notizenSichern();
+  }
+
+  Future<void> _notizenLaden(GastDienst dienst) async {
+    try {
+      final roh = await dienst.ablage.lesen(AblagePrefs.gastBefragungen);
+      if (roh == null) return;
+      final d = jsonDecode(roh);
+      if (d is! Map || d['raum'] != dienst.raumCode || d['spieler'] != dienst.spielerId) return;
+      final geladen = notizenAusAblage(daten.texte, d['notizen']);
+      if (geladen.isEmpty) return;
+      final jetzt = Map.of(_notizen);
+      _notizen
+        ..clear()
+        ..addAll(geladen)
+        ..addAll(jetzt);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('GAST notizen lesen $e');
+    } finally {
+      _notizenBereit = true;
+      if (_notizen.isNotEmpty) _notizenSichern();
+    }
+  }
+
+  void _notizenSichern() {
+    final d = _dienst;
+    if (d == null) return;
+    final stand = jsonEncode({'raum': d.raumCode, 'spieler': d.spielerId, 'notizen': notizenFuerAblage(_notizen.values)});
+    unawaited(() async {
+      try {
+        await d.ablage.schreiben(AblagePrefs.gastBefragungen, stand);
+      } catch (e) {
+        debugPrint('GAST notizen schreiben $e');
+      }
+    }());
+  }
+
+  @override
+  List<BefragungKarte> get befragungsNotizen => List.unmodifiable(_notizen.values);
 
   @override
   int get befragungenFrei {

@@ -8,14 +8,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mordakte/abend/online/gast_ansicht.dart' show DossierAnsicht, GastWuerfel;
+import 'package:mordakte/abend/online/gast_ansicht.dart' show DossierAnsicht, GastKontext, GastWuerfel, baueGastSeite;
 import 'package:mordakte/abend/online/gast_ermittlung.dart';
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/party/bildschirme/befragung.dart' show BefragungsListe;
 import 'package:mordakte/party/bildschirme/detektiv_karte.dart' show DetektivKarteEintrag;
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
+import 'package:mordakte/stil/stil.dart' show MHaken;
 import 'package:mordakte_core/runden.dart';
 
 import 'online_hilfe.dart';
+
+final l = LDe();
 
 Map<String, Object?> _map(Object? wert) => (wert as Map).cast<String, Object?>();
 List<Map<String, Object?>> _liste(Object? wert) => [for (final v in wert as List) _map(v)];
@@ -192,6 +196,87 @@ void main() {
       }
       expect(tester.takeException(), isNull, reason: phase);
     }
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Notizbuch: Die Antworten der App-Rollen bleiben nach den Gesprächen auf dem Gerät des Gast-Detektivs', (tester) async {
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(raum, 'gespraeche', detektiv: 'g1', leiter: 'gastgeber');
+    final ben = LiveGast(raum, spielerId: 'g1');
+    await zeigeImThema(tester, (c) => gastSeiteLive(ben), groesse: const Size(390, 4000), ruhig: true);
+    // Eine Rolle, die die App spricht: Die Antwort steht nach der Frage auf ihrer Karte, nur einmal.
+    final app = _liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['mensch'] != true);
+    await ben.befehl({'typ': 'befragen', 'id': app['id'], 'frage': 0});
+    await tester.pump();
+    final karte = _liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['id'] == app['id']);
+    final antwort = [for (final z in karte['antwort'] as List) ...(z as List).cast<String>()];
+    expect(antwort, isNotEmpty);
+    for (final a in antwort) {
+      expect(find.text(a), findsOneWidget, reason: 'In den Gesprächen steht „$a“ auf der Karte, nicht doppelt im Notizbuch');
+    }
+    // Der Erzähler führt weiter: Die Ansicht der Entscheidungen trägt keine Befragungen mehr.
+    spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: true);
+    ben.geaendert();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(_map(raum.zustandFuer('g1')['privat']).containsKey('befragungen'), isFalse);
+    expect(find.text(l.detektiv_gast_notizen.toUpperCase()), findsOneWidget);
+    for (final a in antwort) {
+      expect(find.text(a), findsOneWidget, reason: 'Bens Notizbuch behält „$a“');
+    }
+    // In den Gesprächen der nächsten Runde steht sie weiter im Notizbuch.
+    spieleBisSitz(raum, 'gespraeche', detektiv: 'g1', leiter: 'gastgeber');
+    ben.geaendert();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(raum.zustandFuer('g1')['runde'], 2);
+    for (final a in antwort) {
+      expect(find.text(a), findsOneWidget, reason: 'Runde 2: „$a“ aus Runde 1');
+    }
+    // Nach dem Neuladen (dasselbe Gerät, dieselbe Ablage) kommt das Notizbuch aus der Ablage zurück.
+    await tester.pumpWidget(const SizedBox.shrink());
+    final neu = LiveGast(raum, spielerId: 'g1', ablage: ben.ablage);
+    await zeigeImThema(tester, (c) => gastSeiteLive(neu), groesse: const Size(390, 4000), ruhig: true);
+    await tester.pump(const Duration(milliseconds: 100));
+    for (final a in antwort) {
+      expect(find.text(a), findsOneWidget, reason: 'Nach dem Neuladen: „$a“');
+    }
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Tischruf: Eine Karte löst ihren eigenen Ruf aus; die Rufe ohne Karte kosten, nie still mit verworfener Karte', (tester) async {
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: true);
+    final e = _map(raum.zustandFuer('g1')['entscheidung']);
+    // Pech beim Wurf, im Vorrat eine Nochmal- und eine Umweg-Karte.
+    final ansicht = {
+      ...raum.zustandFuer('g1'),
+      'zug': {
+        'id': e['id'], 'option': _liste(e['optionen']).first['id'], 'suche': true, 'phase': 'tischruf', 'aktion': 1,
+        'wurf': {'a': 1, 'b': 1, 'mod': 0, 'stufe': 'pech'}, 'funde': const <String>[],
+      },
+      'vorrat': [
+        {'id': 'k-nochmal', 'art': KartenArt.nochmal.name, 'rest': 1},
+        {'id': 'k-umweg', 'art': KartenArt.umweg.name, 'rest': 1},
+      ],
+    };
+    final gesendet = <Map<String, Object?>>[];
+    await zeigeImThema(
+      tester,
+      (c) {
+        final inhalt = baueGastSeite(GastKontext(context: c, dienst: TestGast(ansicht), befehl: (m) async => gesendet.add(m), belohnung: null));
+        return Scaffold(body: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: inhalt.kinder)));
+      },
+      groesse: const Size(390, 3000),
+      ruhig: true,
+    );
+    expect(find.byType(MHaken), findsNothing, reason: 'Keine Karte zum Anhaken, die ein anderer Ruf verwirft');
+    await _tippe(tester, find.byKey(const ValueKey('ruf-karte-k-nochmal')));
+    await _tippe(tester, find.byKey(const ValueKey('ruf-karte-k-umweg')));
+    await _tippe(tester, find.byKey(const ValueKey('ruf-umweg')));
+    expect(gesendet, [
+      {'typ': 'tischruf', 'ruf': 'nochmal', 'karte': 'k-nochmal'},
+      {'typ': 'tischruf', 'ruf': 'umweg', 'karte': 'k-umweg'},
+      {'typ': 'tischruf', 'ruf': 'umweg'},
+    ]);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

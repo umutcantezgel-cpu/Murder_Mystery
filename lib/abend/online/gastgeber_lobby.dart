@@ -246,6 +246,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     final stand = _stand(d);
     final vorschlag = stand.vorschlagAus(gaesteVorschlag(context, d.akteId));
     final ich = stand.ich;
+    final sitzeFehlen = stand.sitzHinweis(l);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -260,8 +261,8 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
           befehl: _befehl,
           fuss: d.gaeste.isEmpty
               ? OnlineWarteNotiz(text: l.online_tisch_leer)
-              : !stand.sitzeKlar
-                  ? OnlineWarteNotiz(key: const ValueKey('lobby-sitze'), text: l.online_lobby_detektiv_fehlt, uhr: false)
+              : sitzeFehlen != null
+                  ? OnlineWarteNotiz(key: const ValueKey('lobby-sitze'), text: sitzeFehlen, uhr: false)
                   : _alleBereit
                       ? OnlineWarteNotiz(text: l.online_alle_bereit, uhr: false, stempel: l.online_bereit)
                       : OnlineWarteNotiz(text: l.online_warten_bereit),

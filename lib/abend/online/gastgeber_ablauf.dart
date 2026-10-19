@@ -10,6 +10,7 @@ import '../../l10n/lookup.dart';
 import '../../netz/relay_einstellung.dart';
 import '../../party/bildschirme/detektiv_karte.dart';
 import '../../party/party_seite.dart';
+import '../../party/party_stil.dart' show PartyFussHinweis;
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
 import '../rollen_uebersicht.dart';
@@ -71,6 +72,17 @@ class _GastgeberAblaufState extends State<GastgeberAblauf> {
         _ => erzaehlerErsatz(s),
       };
 
+  /// Ist der Abschnitt fertig, führt aber ein anderes Gerät weiter (ein
+  /// Gast-Erzähler), sagt der Fuß jedes Bildschirms, wer: Sonst ruht „Weiter“
+  /// ohne Grund. Ist der Erzähler getrennt, steht dort die Frist. Die Karte
+  /// der Ermittlung sagt es selbst (`KartenBildschirm`).
+  String? _fuehrtWeiter(L l) {
+    if (s.leitet || !s.abschnittFertig) return null;
+    final name = s.vorleserName.trim();
+    final wer = name.isEmpty ? l.vorleser_erzaehler : name;
+    return s.uebernahmeFrist ? l.vorleser_frist(wer) : l.vorleser_fuehrt(wer);
+  }
+
   @override
   Widget build(BuildContext context) => AkteThema(
         akte: s.daten.fall,
@@ -84,7 +96,11 @@ class _GastgeberAblaufState extends State<GastgeberAblauf> {
                   child: MediaQuery.removePadding(
                     context: context,
                     removeTop: true,
-                    child: PartyAblauf(sitzung: s, onEnde: widget.onEnde, ersatz: _ersatz),
+                    child: ListenableBuilder(
+                      listenable: s,
+                      builder: (context, ablauf) => PartyFussHinweis(text: _fuehrtWeiter(L.of(context)), child: ablauf!),
+                      child: PartyAblauf(sitzung: s, onEnde: widget.onEnde, ersatz: _ersatz),
+                    ),
                   ),
                 ),
               ],

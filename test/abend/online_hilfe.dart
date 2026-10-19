@@ -42,6 +42,9 @@ class TestGast implements GastDienst {
   String get raumCode => 'ABCDEF';
 
   @override
+  final Ablage ablage = SpeicherAblage();
+
+  @override
   KartenKatalog? get katalog => null;
 
   @override
@@ -339,9 +342,15 @@ class SitzDienst implements GastgeberDienst {
 /// Gastgerät an einem echten Raum: Die Ansicht kommt bei jedem Lesen frisch aus
 /// dem Raum, Befehle gehen als [spielerId] hinein und melden die Änderung.
 class LiveGast extends ChangeNotifier implements GastDienst {
-  LiveGast(this.raum, {required this.spielerId, PartyDaten? daten}) : daten = daten ?? akteDaten('schlosskeller');
+  LiveGast(this.raum, {required this.spielerId, PartyDaten? daten, Ablage? ablage})
+      : daten = daten ?? akteDaten('schlosskeller'),
+        ablage = ablage ?? SpeicherAblage();
 
   final AbendRaum raum;
+
+  /// Ablage des Geräts; ein zweites [LiveGast] mit derselben Ablage ist dasselbe Gerät nach dem Neuladen.
+  @override
+  final Ablage ablage;
 
   @override
   final String spielerId;

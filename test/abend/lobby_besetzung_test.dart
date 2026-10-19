@@ -16,7 +16,7 @@ import 'package:mordakte/stil/stil.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:provider/provider.dart';
 
-import '../party_widgets/hilfe.dart' show partyDaten;
+import '../party_widgets/hilfe.dart' show akteDaten, partyDaten;
 import 'online_hilfe.dart';
 
 final l = LDe();
@@ -174,6 +174,61 @@ void main() {
         expect(tester.takeException(), isNull, reason: '$id bei $groesse');
       }
     }
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Gibt der Gastgeber den Detektiv ab, liest er vor; fehlt ihm ein Platz, sagt der Hinweis das', (tester) async {
+    final raum = lobbyRaum();
+    final d = TestLobbyDienst(raum);
+    await zeigeImThema(tester, (c) => const GastgeberLobbySeite(), huelle: _anbieter(d));
+    await tester.pump();
+    // Anna gibt Ben den Detektiv-Sitz: Sie rückt auf den freien Erzähler-Sitz, die Sitze stehen.
+    await _tippe(tester, find.byKey(const ValueKey('lobby-platz-g1')));
+    await _tippe(tester, find.text(l.abend_platz_detektiv).last);
+    await tester.pump();
+    expect([raum.detektivGeraet, raum.sitzVon('gastgeber')], ['g1', Sitz.erzaehler]);
+    expect(LobbyStand.aus(raum.zustandFuer('gastgeber'), partyDaten, 'gastgeber').sitzeKlar, isTrue);
+    expect(find.byKey(const ValueKey('lobby-sitze')), findsNothing);
+    // Dora liest vor, Anna nimmt sich den Detektiv zurück und gibt ihn Cleo: Jetzt fehlt nur Annas eigener Platz.
+    await d.verb.befehl({'typ': 'sitz', 'spieler': 'g3', 'sitz': 'erzaehler'});
+    await d.verb.befehl({'typ': 'sitz', 'spieler': 'gastgeber', 'sitz': 'detektiv'});
+    await tester.pump();
+    await _tippe(tester, find.byKey(const ValueKey('lobby-platz-g2')));
+    await _tippe(tester, find.text(l.abend_platz_detektiv).last);
+    await tester.pump();
+    expect([raum.detektivGeraet, raum.erzaehlerGeraet, raum.sitzVon('gastgeber')], ['g2', 'g3', null]);
+    expect(find.text(l.online_lobby_gastgeber_platz), findsOneWidget);
+    expect(find.text(l.online_lobby_detektiv_fehlt), findsNothing, reason: 'Der Detektiv steht doch');
+    final start = find.widgetWithText(FilledButton, l.online_abend_starten);
+    expect(tester.widget<FilledButton>(start).onPressed, isNull);
+    // Ein Tipp auf die eigene Karte: Anna liest vor, Dora spielt wieder eine Figur.
+    await _tippe(tester, find.byKey(const ValueKey('lobby-platz-gastgeber')));
+    await _tippe(tester, find.text(l.abend_platz_erzaehler).last);
+    await tester.pump();
+    expect([raum.detektivGeraet, raum.erzaehlerGeraet], ['g2', 'gastgeber']);
+    expect(find.byKey(const ValueKey('lobby-sitze')), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Akte ohne Erzähler-Sitz: Der Gastgeber ermittelt, Gäste bekommen nur eine Figur', (tester) async {
+    final daten = akteDaten('gewoelbe');
+    expect(daten.mitErzaehlerSitz, isFalse);
+    final raum = lobbyRaum(daten: daten);
+    final d = TestLobbyDienst(raum, daten: daten);
+    await zeigeImThema(tester, (c) => const GastgeberLobbySeite(), huelle: _anbieter(d));
+    await tester.pump();
+    await _tippe(tester, find.byKey(const ValueKey('lobby-platz-g1')));
+    expect(find.text(l.online_lobby_wahl_titel('Ben')), findsOneWidget, reason: 'Die Figur wählt Anna weiter');
+    expect(find.text(l.online_lobby_platz.toUpperCase()), findsNothing, reason: 'Kein Sitz, der Anna ohne Platz ließe');
+    expect(find.text(l.abend_platz_detektiv), findsNothing);
+    await _tippe(tester, find.text(l.common_close));
+    // Annas eigene Karte bietet nichts an: Sie bleibt auf dem Detektiv-Sitz.
+    await _tippe(tester, find.byKey(const ValueKey('lobby-platz-gastgeber')));
+    expect(find.text(l.online_lobby_wahl_titel('Anna')), findsNothing);
+    expect([raum.detektivGeraet, raum.sitzVon('gastgeber')], ['gastgeber', Sitz.detektiv]);
+    final stand = LobbyStand.aus(raum.zustandFuer('gastgeber'), daten, 'gastgeber');
+    expect(stand.sitzWahl(stand.spieler.firstWhere((s) => s.id == 'g1')), [null]);
+    expect(stand.sitzWahl(stand.gastgeber!), [Sitz.detektiv]);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

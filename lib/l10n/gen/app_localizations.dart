@@ -6968,6 +6968,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Der Text steht auf dem Handy von {name}.'**
   String begleiter_handy_hinweis(String name);
+
+  /// Lobby: Der Detektiv steht, aber der Gastgeber hat keinen Sitz (Detektiv oder Erzähler)
+  ///
+  /// In de, this message translates to:
+  /// **'Du brauchst selbst einen Platz. Tippe dazu auf deine Karte.'**
+  String get online_lobby_gastgeber_platz;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

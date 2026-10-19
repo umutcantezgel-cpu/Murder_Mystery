@@ -147,8 +147,10 @@ Diese Ansicht ist ein Schutz gegen Mitlesen, keine technische Sperre. Alle ander
      lesen alle mit.
    - Bequemer ist **„Am eigenen Handy lesen“** am Pult (mit Internet): Das Gerät zeigt Code und QR-Code, der
      Erzähler tritt wie ein Gast bei (Detektei → **Beitreten**). Sein Handy zeigt die Texte und sein
-     Erzählerpaket, und er tippt dort auf **Weiter**. Das Gerät am Tisch zeigt nur noch „… liest vor“. Ist sein
-     Handy weg oder tippt ihr auf **„Wieder am Pult lesen“**, liegt der Text wieder im Pult.
+     Erzählerpaket, und er tippt dort auf **Weiter**. Das Gerät am Tisch zeigt nur noch „… liest vor“, mit dem
+     Namen, mit dem das Handy beitrat. Den Platz hält dieses eine Handy: Ein anderes kommt mit dem Code nicht
+     mehr hinein. Ist sein Handy weg oder tippt ihr auf **„Wieder am Pult lesen“**, liegt der Text wieder im
+     Pult; **„Am eigenen Handy lesen“** zeigt dann einen neuen Code.
 3. **Gruppenwahl.** Jede Person wählt geheim zwischen zwei Handlungen. Die Liste zeigt nur, *wer* schon
    gewählt hat. Eine Stimmenzahl steht nie auf dem Bildschirm.
 4. **Würfeln.** Das Gerät geht an den angezeigten **Würfelpaten**. Er wechselt nach jedem Wurf.
@@ -184,14 +186,16 @@ Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschn
    - die Liste **Am Tisch** mit dem Zustand jedes Gastes (*Bereit*, *Nicht bereit*, *Getrennt*). Tippe auf einen
      Platz, um ihm den **Detektiv-** oder **Erzähler-Platz** zu geben oder ihm eine **Figur** zuzuteilen (sonst
      lost der Start). Gäste können sich eine Figur wünschen; der Wunsch steht unter ihrem Namen. Ohne Detektiv
-     startet kein Abend.
+     startet kein Abend, und du brauchst selbst einen Platz. Gibst du einem Gast den Detektiv-Platz, liest du vor,
+     solange der Erzähler-Platz frei ist. In Akten ohne Erzähler-Platz ermittelst immer du.
    - die **Rollen**: Mit **Weniger Rollen** und **Mehr Rollen** legst du die Zahl fest. Sie ist mindestens so
      groß wie die Zahl der Gäste und höchstens so groß wie die Zahl, die die Akte kennt. **Bots übernehmen
      die freien Rollen.**
 5. Sind alle Gäste online und bereit, steht dort **„Alle sind bereit.“** Tippe auf **Abend starten**.
 6. Als Detektiv führst du den Abend wie ein Solo-Abend. Als Erzähler zeigt dein Gerät das **Erzählerpult**:
    den Text zum Vorlesen, wen der Detektiv befragt, dein Erzählerpaket und in der Ermittlung eine
-   **Zuschauerkarte**. Du tippst auf **Weiter**, sobald der Abschnitt fertig ist. In der Rollenphase und bei der Gruppenwahl zeigt dir das Gerät, wer
+   **Zuschauerkarte**. Du tippst auf **Weiter**, sobald der Abschnitt fertig ist. Führt ein Gast als Erzähler
+   weiter, steht das neben **Weiter**. In der Rollenphase und bei der Gruppenwahl zeigt dir das Gerät, wer
    schon gelesen oder gewählt hat. Oben steht eine schmale Leiste mit dem Raumcode und der Zahl der Gäste.
    Das Menü dort zeigt den Tisch und bietet **Abend beenden** (für alle).
 

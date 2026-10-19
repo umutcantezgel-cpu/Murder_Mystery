@@ -6,7 +6,7 @@ library;
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:mordakte_core/mordakte_core.dart' show Rng;
+import 'package:mordakte_core/mordakte_core.dart' show Rng, Texte, befragungsKarten;
 import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../party/stand/befragung_stand.dart';
@@ -99,6 +99,24 @@ List<BefragungKarte> befragungsKartenAus(Map<String, Object?> privat) {
       ),
   ];
 }
+
+/// Das Notizbuch der Befragungen in der Ablage eines Online-Geräts (Gastgeber
+/// und Gast-Detektiv): je beantworteter Befragung nur Kennung, Frage und Art.
+List<Map<String, Object?>> notizenFuerAblage(Iterable<BefragungKarte> notizen) => [
+      for (final k in notizen) {'id': k.id, 'frage': k.frage, 'pflicht': k.pflicht},
+    ];
+
+/// Liest [notizenFuerAblage] zurück. Die Antwort entsteht wieder aus den
+/// Preisgaben der Akte ([befragungsKarten]), wie im Raum; Unbekanntes fällt weg.
+Map<String, BefragungKarte> notizenAusAblage(Texte texte, Object? roh) => {
+      for (final n in jMaps(roh))
+        if (texte.sammlung.befragungen[jText(n['id'])] case final b?)
+          if (n['frage'] case final int frage when frage >= 0 && frage < b.fragen.length)
+            b.id: BefragungKarte(
+              id: b.id, rolle: b.rolle, thema: b.thema, fragen: b.fragen, pflicht: n['pflicht'] == true,
+              mensch: false, frage: frage, erledigt: true, waehlbar: false, antwortKarten: befragungsKarten(texte, b),
+            ),
+    };
 
 String? _inhalt;
 

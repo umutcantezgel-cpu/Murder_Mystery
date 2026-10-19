@@ -2968,5 +2968,9 @@
         "type": "String"
       }
     }
+  },
+  "online_lobby_gastgeber_platz": "Du brauchst selbst einen Platz. Tippe dazu auf deine Karte.",
+  "@online_lobby_gastgeber_platz": {
+    "description": "Lobby: Der Detektiv steht, aber der Gastgeber hat keinen Sitz (Detektiv oder Erzähler)"
   }
 }

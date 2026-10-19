@@ -91,6 +91,29 @@ class LobbyStand {
   /// Ist die Lobby startklar? Es braucht einen Detektiv, und der Gastgeber sitzt.
   bool get sitzeKlar => detektiv != null && gastgeber?.sitz != null;
 
+  /// Was dem Start fehlt, als Hinweis unter dem Register: erst der Detektiv,
+  /// dann ein Platz für den Gastgeber selbst; `null`, wenn die Sitze stehen.
+  String? sitzHinweis(L l) => detektiv == null
+      ? l.online_lobby_detektiv_fehlt
+      : gastgeber?.sitz == null
+          ? l.online_lobby_gastgeber_platz
+          : null;
+
+  /// Die Plätze, die der Gastgeber [s] geben kann: Detektiv, Erzähler (nur in
+  /// Akten mit Erzähler-Sitz) und eine Figur spielen (nie der Gastgeber, er
+  /// hält Salz und Pfad). Ohne Erzähler-Sitz ermittelt immer der Gastgeber,
+  /// denn er braucht selbst einen Platz: Gäste spielen dort eine Figur.
+  List<Sitz?> sitzWahl(SpielerInfo s) => [
+        if (s.istGastgeber || erzaehlerMoeglich) Sitz.detektiv,
+        if (erzaehlerMoeglich) Sitz.erzaehler,
+        if (!s.istGastgeber) null,
+      ];
+
+  /// Gibt der Gastgeber den Detektiv-Sitz an [an] ab, liest er selbst vor,
+  /// solange der Erzähler-Sitz frei ist: So hat er gleich wieder einen Platz.
+  bool gastgeberRuecktNach(SpielerInfo an) =>
+      !an.istGastgeber && erzaehlerMoeglich && gastgeber?.sitz == Sitz.detektiv && erzaehler == null;
+
   /// Gerät, dem [figur] zugeteilt ist, sonst `null`.
   SpielerInfo? inhaberVon(String figur) => spieler.where((s) => s.figur == figur).firstOrNull;
 
@@ -178,9 +201,11 @@ class LobbyPlatz extends StatelessWidget {
   final int nr;
   final LobbyBefehl befehl;
 
-  /// Darf dieses Gerät hier etwas ändern? Sitze nur der Gastgeber, Figuren
-  /// zusätzlich Detektiv und Erzähler, und nur für Plätze ohne Sitz.
-  bool get _antippbar => stand.ichVergebeSitze || (stand.ichTeileZu && spieler.sitz == null);
+  /// Darf dieses Gerät hier etwas ändern? Sitze nur der Gastgeber (wenn es für
+  /// diesen Platz eine andere Wahl gibt), Figuren zusätzlich Detektiv und
+  /// Erzähler, und nur für Plätze ohne Sitz.
+  bool get _antippbar =>
+      (stand.ichVergebeSitze && stand.sitzWahl(spieler).any((w) => w != spieler.sitz)) || (stand.ichTeileZu && spieler.sitz == null);
 
   @override
   Widget build(BuildContext context) {
@@ -230,26 +255,35 @@ Future<void> zeigeLobbyWahl(BuildContext context, {required LobbyStand stand, re
         unawaited(befehl(nachricht));
       }
 
+      final wahl = stand.sitzWahl(spieler);
       return MKarteikartenDialog(
         titel: l.online_lobby_wahl_titel(spieler.name),
         inhalt: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (stand.ichVergebeSitze) ...[
+            if (stand.ichVergebeSitze && wahl.any((w) => w != spieler.sitz)) ...[
               Text(l.online_lobby_platz.toUpperCase(), style: MPapierSchrift.marke),
               const SizedBox(height: MMass.s4),
               MAnkreuzWahl<Sitz?>(
                 optionen: [
-                  (Sitz.detektiv, l.abend_platz_detektiv),
-                  if (stand.erzaehlerMoeglich) (Sitz.erzaehler, l.abend_platz_erzaehler),
-                  // Der Gastgeber hält Salz und Pfad; eine Figur spielt er nie.
-                  if (!spieler.istGastgeber) (null, l.online_lobby_figur_spielen),
+                  for (final w in wahl)
+                    (w, switch (w) {
+                      Sitz.detektiv => l.abend_platz_detektiv,
+                      Sitz.erzaehler => l.abend_platz_erzaehler,
+                      _ => l.online_lobby_figur_spielen,
+                    }),
                 ],
                 gewaehlt: spieler.sitz,
                 onWahl: (sitz) {
                   if (sitz == spieler.sitz) return;
-                  senden({'typ': 'sitz', 'spieler': spieler.id, 'sitz': sitz?.name});
+                  final gastgeber = stand.gastgeber;
+                  final nachruecken = sitz == Sitz.detektiv && gastgeber != null && stand.gastgeberRuecktNach(spieler);
+                  Navigator.of(c).pop();
+                  unawaited(() async {
+                    await befehl({'typ': 'sitz', 'spieler': spieler.id, 'sitz': sitz?.name});
+                    if (nachruecken) await befehl({'typ': 'sitz', 'spieler': gastgeber.id, 'sitz': Sitz.erzaehler.name});
+                  }());
                 },
               ),
               const SizedBox(height: MMass.s16),
