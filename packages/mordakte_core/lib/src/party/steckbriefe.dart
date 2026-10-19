@@ -59,9 +59,10 @@ final _ziffer = RegExp(r'\p{N}', unicode: true);
 /// - Kartenformat R17: zwei bis drei Auftritts-Stichpunkte, jeder wie der Kostümtipp
 ///   höchstens [steckbriefWorte] Wörter; der Satz höchstens [steckbriefSatzWorte].
 /// - Ohne Fallbezug: keine Ziffern (Uhrzeiten), kein Geburtstag (A-061), kein Name
-///   einer Figur, kein Wort aus den geheimen Feldern als Fünf-Wort-Folge.
+///   einer Figur, keine Fünf-Wort-Folge aus den geheimen Feldern ([geheimeFelder])
+///   oder aus [geschuetzt] (Ort → Text, meist [steckbriefGeschuetzt]).
 /// - [ton]: dieselben Tonregeln wie alle Spielertexte (Sätze, Verbote, Fachwörter).
-List<String> pruefeSteckbriefe(Steckbriefe s, Kanon kanon, {Textpruefer? ton}) {
+List<String> pruefeSteckbriefe(Steckbriefe s, Kanon kanon, {Textpruefer? ton, Map<String, String> geschuetzt = const {}}) {
   final f = <String>[for (final d in s.doppelt) 'Steckbrief $d: doppelt'];
   final figuren = [for (final x in kanon.figuren) x['id'] as String];
   final soll = {...figuren, Besetzung.detektiv};
@@ -77,7 +78,7 @@ List<String> pruefeSteckbriefe(Steckbriefe s, Kanon kanon, {Textpruefer? ton}) {
       if (x['vollerName'] is String) x['vollerName'] as String,
     ((kanon.figurenJson['opfer'] as Map)['name'] as String).split(' ').last,
   };
-  final geheim = _geheimeFolgen(kanon);
+  final geheim = {..._folgen(geschuetzt), ..._folgen(geheimeFelder(kanon))};
   for (final e in s.je.values) {
     final wo = 'Steckbrief ${e.figur}';
     if (e.auftritt.length < 2 || e.auftritt.length > 3) f.add('$wo: ${e.auftritt.length} Auftritts-Stichpunkte statt 2 bis 3 (R17)');
@@ -152,8 +153,73 @@ Map<String, String> geheimeFelder(Kanon kanon) {
   return q;
 }
 
-/// Fünf-Wort-Folge → Feld, aus dem sie stammt ([geheimeFelder]).
-Map<String, String> _geheimeFolgen(Kanon kanon) => {
-      for (final e in geheimeFelder(kanon).entries)
-        for (final folge in fuenfWortFolgen(e.value)) folge: e.key,
-    };
+/// Texte der Akte, die wie die geheimen Felder ([geheimeFelder]) nie auf einen
+/// Steckbrief gehören (A-059), je mit Ort: was jede Rolle weiß, verbirgt und
+/// will (Dossier), die Täterfassungen, Finale und Auflösung. Verweise gelten in
+/// jedem Pfad, in dem es sie gibt.
+Map<String, String> steckbriefGeschuetzt(Texte texte) {
+  final q = <String, String>{};
+  void add(String wo, String? t) {
+    if (t != null && t.trim().isNotEmpty) q[wo] = t;
+  }
+
+  void punkte(String wo, List<TextPunkt> l) {
+    for (final (i, p) in l.indexed) {
+      final ref = p.ref;
+      if (ref == null) {
+        add('$wo[$i]', p.text);
+      } else if (texte.bekannt(ref)) {
+        for (final pfad in texte.kanon.pfade) {
+          final z = texte.aufloesen(ref, pfad);
+          add('$wo[$i] $ref ($pfad)', z?.text);
+          add('$wo[$i] $ref (Behauptung)', z?.behauptung);
+        }
+      }
+    }
+  }
+
+  for (final d in texte.sammlung.dossiers.values) {
+    add('Dossier ${d.rolle}.ziel', d.ziel);
+    punkte('Dossier ${d.rolle}.weiss', d.weiss);
+    punkte('Dossier ${d.rolle}.verbirgt', d.verbirgt);
+  }
+  for (final t in texte.sammlung.taeter.values) {
+    add('Täterfassung ${t.rolle}.tarnung', t.tarnung);
+    add('Täterfassung ${t.rolle}.ziel', t.ziel);
+    punkte('Täterfassung ${t.rolle}.tatwissen', t.tatwissen);
+    punkte('Täterfassung ${t.rolle}.verbirgt', t.verbirgt);
+  }
+  // Täterfassungen, Finale und Auflösung: jeder Text der Dateien, auch was oben schon steht.
+  for (final d in texte.sammlung.dateien.entries) {
+    if (!RegExp(r'texte/(taeter-|erzaehler-finale|erzaehler-aufloesung)').hasMatch(d.key)) continue;
+    for (final (i, t) in _strings(d.value).indexed) {
+      add('${d.key} #$i', t);
+    }
+  }
+  return q;
+}
+
+Iterable<String> _strings(Object? o) sync* {
+  if (o is String) yield o;
+  if (o is Map) {
+    for (final v in o.values) {
+      yield* _strings(v);
+    }
+  }
+  if (o is List) {
+    for (final v in o) {
+      yield* _strings(v);
+    }
+  }
+}
+
+/// Fünf-Wort-Folge → Ort, aus dem sie stammt (der erste gilt).
+Map<String, String> _folgen(Map<String, String> texte) {
+  final q = <String, String>{};
+  for (final e in texte.entries) {
+    for (final folge in fuenfWortFolgen(e.value)) {
+      q.putIfAbsent(folge, () => e.key);
+    }
+  }
+  return q;
+}

@@ -1,6 +1,7 @@
 // K3, A-059, M5: Steckbriefe und Charakterübersicht für die Wochen vor dem Abend.
 // Geprüft wird das fertige PDF (pdfinfo, pdftotext): A4 und kein Überlauf, je Figur genau
-// eine Seite, nichts aus den geheimen Feldern und kein Pfadwissen (Fünf-Wort-Folgen), gleich
+// eine Seite, nichts aus den geheimen Feldern, aus Dossiers, Täterfassungen, Finale und Auflösung
+// und kein Pfadwissen (Fünf-Wort-Folgen), gleich
 // über Fall-Codes und Pfade, die Übersicht bei n Personen zeigt genau besetzt(n) alphabetisch.
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/party_druck.dart';
@@ -50,12 +51,13 @@ Map<String, String> _pfadwissen() {
   return q;
 }
 
-/// Was nie auf einem Steckbrief steht: die geheimen Felder als Fünf-Wort-Folgen, dazu das Pfadwissen.
-/// Ausgenommen sind Folgen, die auch in den erlaubten Quellen stehen ([erlaubt]): Die pfadfreie
-/// Vorstellung `wer` beschreibt dasselbe Aussehen und dieselbe Freundschaft, nie die Tatnacht.
+/// Was nie auf einem Steckbrief steht: die geheimen Felder, Dossiers, Täterfassungen, Finale und
+/// Auflösung ([steckbriefGeschuetzt]) als Fünf-Wort-Folgen, dazu das Pfadwissen. Ausgenommen sind
+/// Folgen, die auch in den erlaubten Quellen stehen ([erlaubt]): Die pfadfreie Vorstellung `wer`
+/// beschreibt dasselbe Aussehen und dieselbe Freundschaft, nie die Tatnacht.
 Map<String, String> _verboten(Set<String> erlaubt) => {
       for (final e in {
-        for (final e in geheimeFelder(kanon).entries)
+        for (final e in {...steckbriefGeschuetzt(druckTexte), ...geheimeFelder(kanon)}.entries)
           for (final f in fuenfWortFolgen(e.value)) f: e.key,
         ..._pfadwissen(),
       }.entries)
@@ -83,7 +85,8 @@ void main() {
   });
 
   test('die Steckbriefe der Akte sind vollständig und ohne Befund (pruefeSteckbriefe)', () {
-    final b = pruefeSteckbriefe(k.steckbriefe, kanon, ton: Textpruefer(leseJson('$repoWurzel/content/party/textregeln.json')));
+    final b = pruefeSteckbriefe(k.steckbriefe, kanon,
+        ton: Textpruefer(leseJson('$repoWurzel/content/party/textregeln.json')), geschuetzt: steckbriefGeschuetzt(druckTexte));
     expect(b, isEmpty, reason: b.join('\n'));
     expect(k.steckbriefe.je.keys.toSet(), {for (final f in kanon.figuren) f['id'] as String, Besetzung.detektiv});
   });
@@ -106,6 +109,56 @@ void main() {
     expect(b.where((x) => x.contains('can.auftritt[0]: nennt Emine')), isNotEmpty);
     expect(b.where((x) => x.contains('leyla.kostuem') && x.contains('Wörter')), isNotEmpty);
     expect(b, contains('Steckbrief ${Besetzung.detektiv} fehlt'));
+  });
+
+  test('Rot-Proben: Tatwissen, Tarnung, Dossier und Auflösung als Fünf-Wort-Folge fallen auf', () {
+    final schutz = steckbriefGeschuetzt(druckTexte);
+    // Die Quellen kennt der Prüfer: je Rolle Dossier, je Pfad Täterfassung, Finale und Auflösung.
+    for (final f in kanon.figuren) {
+      expect(schutz.keys.where((w) => w.startsWith('Dossier ${f['id']}.verbirgt')), isNotEmpty, reason: '${f['id']}');
+    }
+    for (final p in kanon.pfade) {
+      expect(schutz.keys, containsAll(['Täterfassung $p.tarnung', 'Täterfassung $p.ziel']));
+      expect(schutz.keys.where((w) => w.startsWith('Täterfassung $p.tatwissen')), isNotEmpty, reason: p);
+      expect(schutz.keys.where((w) => w.startsWith('texte/erzaehler-finale-$p.json')), isNotEmpty, reason: p);
+    }
+    expect(schutz.keys.where((w) => w.startsWith('texte/erzaehler-aufloesung.json')), isNotEmpty);
+
+    final j = leseJson('$repoWurzel/content/party/schlosskeller/steckbriefe.json');
+    Map<String, Object?> mit(String figur, String feld, Object wert) => {
+          ...j,
+          'eintraege': [
+            for (final e in j['eintraege'] as List)
+              if ((e as Map)['figur'] == figur) {...e, feld: wert} else e,
+          ],
+        };
+    final proben = [
+      // Tatwissen und Tarnung der Täterfassung von Ahmet, bei Ahmet und bei einer anderen Figur.
+      (mit('ahmet', 'auftritt', ['Greif in Panik nach dem Kerzenständer', 'Lächle viel']), 'ahmet.auftritt[0]', 'Täterfassung ahmet.tatwissen'),
+      (mit('ahmet', 'satz', 'Dann ist da nur ein dumpfer Schlag.'), 'ahmet.satz', 'Täterfassung ahmet.tatwissen'),
+      (mit('olli', 'auftritt', ['Bleib dabei ruhig und freundlich', 'Lächle viel']), 'olli.auftritt[0]', 'Täterfassung ahmet.tarnung'),
+    ];
+    for (final (json, wo, quelle) in proben) {
+      final ohne = pruefeSteckbriefe(_steckbriefe(json), kanon);
+      expect(ohne.where((x) => x.contains(wo) && x.contains('stammt aus')), isEmpty, reason: '$wo: die Figurenfelder allein kennen das nicht');
+      final b = pruefeSteckbriefe(_steckbriefe(json), kanon, geschuetzt: schutz);
+      expect(b.where((x) => x.startsWith('Steckbrief $wo:') && x.contains(quelle)), isNotEmpty, reason: '$wo:\n${b.join('\n')}');
+    }
+    // Was eine Rolle verbirgt und was die Auflösung erzählt, ebenso: je fünf Wörter von dort, die
+    // in keinem Figurenfeld stehen.
+    final geheim = {for (final t in geheimeFelder(kanon).values) ...fuenfWortFolgen(t)};
+    String folgeAus(String ort) => [
+          for (final e in schutz.entries)
+            if (e.key.startsWith(ort))
+              for (final f in fuenfWortFolgen(e.value))
+                if (!geheim.contains(f) && !RegExp(r'\p{N}', unicode: true).hasMatch(f)) f,
+        ].first;
+    for (final (feld, ort) in [('satz', 'Dossier fatma.verbirgt'), ('kostuem', 'texte/erzaehler-aufloesung.json')]) {
+      final json = mit('fatma', feld, folgeAus(ort));
+      expect(pruefeSteckbriefe(_steckbriefe(json), kanon).where((x) => x.contains('stammt aus')), isEmpty, reason: ort);
+      final b = pruefeSteckbriefe(_steckbriefe(json), kanon, geschuetzt: schutz);
+      expect(b.where((x) => x.startsWith('Steckbrief fatma.$feld:') && x.contains('stammt aus')), isNotEmpty, reason: '$ort:\n${b.join('\n')}');
+    }
   });
 
   test('alle Steckbriefe: A4, je Figur genau eine Seite, kein Überlauf, Übersicht vorneweg', () async {

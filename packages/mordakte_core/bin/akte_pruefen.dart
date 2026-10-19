@@ -14,7 +14,8 @@
 //   Figuren     Herkunftsmatrix, Farbabstand im selben Startraum
 //   Partie      vollständiger Abend mit bestem Spiel je Rollenzahl (RundenPartie, Salz- und Pech-Würfel)
 //   Gerüchte    nur mit content/welt/<akte>/geruechte.json (in welt.json genannt): Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
-//   Steckbriefe nur mit steckbriefe.json (Zusatz steckbriefe in akten.json): Schema und pruefeSteckbriefe (K3: R17, ohne Fallbezug, Ton)
+//   Steckbriefe nur mit steckbriefe.json (Zusatz steckbriefe in akten.json): Schema und pruefeSteckbriefe (K3: R17, ohne Fallbezug,
+//     nichts aus Dossiers, Täterfassungen, Finale und Auflösung, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -132,7 +133,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _figuren(b, kanon);
   _partien(b, kanon, erm, texte, fall);
   _geruechte(b, kanon, roh, wurzel, fall);
-  _steckbriefe(b, kanon, ordner, wurzel, fall);
+  _steckbriefe(b, kanon, texte, ordner, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -397,8 +398,9 @@ void _geruechte(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, St
 
 /// Steckbriefe und Charakterübersicht (K3, A-059), nur wenn die Akte den Zusatz
 /// `steckbriefe` hat: Datei und Eintrag in `akten.json` gehören zusammen, dann
-/// pruefeSteckbriefe mit den Tonregeln. Das Schema prüft [_schema].
-void _steckbriefe(Befunde b, Kanon kanon, String ordner, String wurzel, String fall) {
+/// pruefeSteckbriefe mit den Tonregeln. Geschützt sind zusätzlich Dossiers,
+/// Täterfassungen, Finale und Auflösung (steckbriefGeschuetzt). Das Schema prüft [_schema].
+void _steckbriefe(Befunde b, Kanon kanon, Texte texte, String ordner, String wurzel, String fall) {
   final datei = File('$ordner/steckbriefe.json');
   final akte = [
     for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
@@ -412,7 +414,7 @@ void _steckbriefe(Befunde b, Kanon kanon, String ordner, String wurzel, String f
   final j = _lies(datei.path);
   if (j['settingId'] != kanon.settingId) b.add('Steckbriefe', ['steckbriefe.json: settingId ${j['settingId']} statt ${kanon.settingId}']);
   final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
-  b.add('Steckbriefe', pruefeSteckbriefe(Steckbriefe.ausJson(j), kanon, ton: ton));
+  b.add('Steckbriefe', pruefeSteckbriefe(Steckbriefe.ausJson(j), kanon, ton: ton, geschuetzt: steckbriefGeschuetzt(texte)));
 }
 
 // ---------------------------------------------------------------- Besetzung
