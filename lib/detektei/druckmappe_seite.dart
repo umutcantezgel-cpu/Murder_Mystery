@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../abend/einrichtung/abschnitte.dart';
 import '../app/router.dart';
 import '../l10n/lookup.dart';
+import '../meta/meta_store.dart';
 import '../party/daten.dart';
 import '../party/druck_tafel.dart';
 import '../party/sitzung.dart';
@@ -51,7 +53,8 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
       final s = PartySitzung(daten);
       setState(() {
         _sitzung = s;
-        _werte = EinrichtungsWerte(s);
+        // Die Gästeliste (Steckbrief-Seite, M5) gibt Personenzahl und Namen für die Hefte je Person.
+        _werte = EinrichtungsWerte(s, gaeste: context.read<MetaStore>().gaesteliste(widget.akteId));
       });
     } catch (e, st) {
       debugPrint('DRUCKMAPPE laden fehler $e\n$st');

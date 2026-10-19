@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../../l10n/lookup.dart';
+import '../../meta/gaesteliste.dart';
 import '../../party/sitzung.dart';
 import '../../stil/mappe/assistent_formular.dart';
 import '../../stil/stil.dart';
@@ -28,7 +29,10 @@ const einrichtungMinuten = [20, 30, 45, 60];
 class EinrichtungsWerte extends ChangeNotifier {
   /// [druckbar]: Die Akte hat eine Druckmappe (`AkteInfo.druckbar`). Ohne Angabe
   /// gilt sie als druckbar (alter Einrichtungsbildschirm, Druckmappe).
-  EinrichtungsWerte(this.sitzung, {this.druckbar = true}) : rollen = 7.clamp(sitzung.minRollen, sitzung.maxRollen).toInt();
+  /// [gaeste]: Gästeliste der Akte (M5) für Personenzahl und Namen.
+  EinrichtungsWerte(this.sitzung, {this.druckbar = true, GaesteListe gaeste = const GaesteListe()})
+      : rollen = (gaeste.personen ?? 7).clamp(sitzung.minRollen, sitzung.maxRollen).toInt(),
+        _gaeste = gaeste.namenJeFigur;
 
   final PartySitzung sitzung;
 
@@ -54,6 +58,10 @@ class EinrichtungsWerte extends ChangeNotifier {
   /// Spielernamen je Rolle. Die Felder bleiben erhalten, wenn sich die Anzahl ändert.
   final Map<String, TextEditingController> _namen = {};
 
+  /// Haken der Gästeliste (M5): Figur → Name. Erscheint eine Rolle zum ersten
+  /// Mal in [PersonenAbschnitt], steht ihr Gast schon im Namensfeld.
+  final Map<String, String> _gaeste;
+
   /// Solo mit Bots (kein Druckspiel, keine Spielernamen).
   bool get solo => _solo;
 
@@ -77,7 +85,7 @@ class EinrichtungsWerte extends ChangeNotifier {
   /// Wird gedruckt? Nur reihum und nur, wenn die Akte eine Druckfassung hat.
   bool get druck => !_solo && druckbar && spielart == Spielart.druck;
 
-  TextEditingController namenFeld(String rolle) => _namen.putIfAbsent(rolle, () => TextEditingController());
+  TextEditingController namenFeld(String rolle) => _namen.putIfAbsent(rolle, () => TextEditingController(text: _gaeste[rolle]));
 
   /// Anzahl der Personen; die Grenzen kommen aus der Besetzung.
   void setzeRollen(int n) {

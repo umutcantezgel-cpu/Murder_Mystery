@@ -13,6 +13,7 @@ import '../detektei/akte_seite.dart';
 import '../detektei/detektei_seite.dart';
 import '../detektei/druckmappe_seite.dart';
 import '../detektei/sammlung_seite.dart';
+import '../detektei/steckbrief_seite.dart';
 import '../krimidinner/gewoelbe_seite.dart';
 import '../karten/deck_seite.dart';
 import '../party/party_seite.dart';
@@ -51,6 +52,10 @@ abstract final class Routes {
   static String akteVon(String id) => '/akte/$id';
   static const druckmappe = '/akte/:id/druck';
   static String druckmappeVon(String id) => '/akte/$id/druck';
+
+  /// Steckbriefe und Charakterübersicht einer Akte (M5), ohne Einrichtung und Fall-Code.
+  static const steckbriefe = '/akte/:id/steckbriefe';
+  static String steckbriefeVon(String id) => '/akte/$id/steckbriefe';
 
   /// Assistent für einen neuen Abend; `?akte=<id>` wählt die Akte vor.
   static const abendNeu = '/abend/neu';
@@ -154,6 +159,13 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
       pageBuilder: (c, s) {
         final id = s.pathParameters['id'] ?? '';
         return _fade(c, s, _zurueckNach(Routes.akteVon(id), DruckmappeSeite(akteId: id)));
+      },
+    ),
+    GoRoute(
+      path: Routes.steckbriefe,
+      pageBuilder: (c, s) {
+        final id = s.pathParameters['id'] ?? '';
+        return _fade(c, s, _zurueckNach(Routes.akteVon(id), SteckbriefSeite(akteId: id)));
       },
     ),
     GoRoute(
