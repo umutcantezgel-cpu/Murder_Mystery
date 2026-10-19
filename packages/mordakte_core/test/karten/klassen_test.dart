@@ -13,6 +13,7 @@ const _dateien = [
   'packages/mordakte_core/lib/src/karten/klassen.dart',
   'packages/mordakte_core/lib/src/karten/geruechte.dart',
   'packages/mordakte_core/lib/src/karten/sperrwoerter.dart',
+  'lib/party/klasse_wirkung.dart',
 ];
 
 /// Importe, die eine Klassenfähigkeit nie braucht: Partie, Zugschicht, Würfel
@@ -98,10 +99,11 @@ void main() {
       }
     });
 
-    test('nur der Schlosskeller hat Gerüchte', () {
+    test('nur der Schlosskeller hat Gerüchte, und welt.json nennt sie', () {
       for (final d in Directory('$repoWurzel/content/welt').listSync().whereType<Directory>()) {
         final akte = d.uri.pathSegments.where((s) => s.isNotEmpty).last;
         expect(File('${d.path}/geruechte.json').existsSync(), akte == 'schlosskeller', reason: akte);
+        expect(leseJson('${d.path}/welt.json')['geruechte'], akte == 'schlosskeller' ? 'geruechte.json' : isNull, reason: akte);
       }
     });
 

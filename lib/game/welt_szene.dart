@@ -14,12 +14,13 @@ import 'szenen_erweiterung.dart';
 ///
 /// Sie speist den Renderer: den Detektiv und alle Personen an ihren
 /// Ermittlungsorten, die Hotspots und Kameraziele der laufenden Entscheidung,
-/// das Licht der Ermittlung, die Sicht nach Räumen und den Glanz offener
-/// Abstecher. Phase, Runde, Wahl und Zug liest sie nur aus der
+/// das Licht der Ermittlung, die Sicht nach Räumen, den Glanz offener
+/// Abstecher und die Wirkung der Detektivklasse ([klasse]). Phase, Runde,
+/// Wahl und Zug liest sie nur aus der
 /// [KartenQuelle]. Geführte Wege, Vorschläge, Gespräche und die Rückblende
 /// gehören den Unterklassen (am Tisch: `PartyKartenSession`).
-abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz, SzenenKamera {
-  WeltSzene(this.daten, this.quelle) {
+abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz, SzenenKamera, SzenenKlasse {
+  WeltSzene(this.daten, this.quelle, {this.klasse}) {
     final kanon = daten.kanon;
     final d = kanon.figur((kanon.figurenJson['detektiv'] as Map)['id'] as String)!;
     final ort = kanon.graph.orte[d['ermittlungsOrt'] as String]!;
@@ -36,6 +37,10 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
 
   /// Woher die Karte Phase, Runde, Wahl, Zug und Abstecher kennt.
   final KartenQuelle quelle;
+
+  /// Wirkung der Detektivklasse dieses Geräts (A-055); `null` ohne Klasse
+  /// oder in Akten ohne die Fähigkeit `klassen`: dann bleibt alles wie bisher.
+  final SzenenKlasse? klasse;
 
   late final LookDef _aussehen;
   late final Set<(String, String)> _offeneTueren;
@@ -311,6 +316,29 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
         if (orte[a.ort] case final o?) SzenenGlanzPunkt(a.id, o.x, o.y),
     ];
   }
+
+  // ---------------------------------------------------------------------------
+  // SzenenKlasse: nur in der Ermittlung, sonst die neutralen Werte
+
+  SzenenKlasse? get _klasse => zeigtErmittlung && !_entsorgt ? klasse : null;
+
+  @override
+  double get glanzRadius => _klasse?.glanzRadius ?? 0;
+
+  @override
+  double get tempoFaktor => _klasse?.tempoFaktor ?? 1;
+
+  @override
+  bool get tuerenZeigen => _klasse?.tuerenZeigen ?? false;
+
+  @override
+  String? geruechtFuer(String npcId) => _klasse?.geruechtFuer(npcId);
+
+  @override
+  bool gespraechsMarker(String npcId) => _klasse?.gespraechsMarker(npcId) ?? false;
+
+  @override
+  bool get stimmungZeigen => _klasse?.stimmungZeigen ?? false;
 
   // ---------------------------------------------------------------------------
   // SzenenErweiterung: Licht, Sicht und Vorgaben der Darstellung

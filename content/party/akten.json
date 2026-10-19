@@ -9,9 +9,10 @@
       "freiAb": 0,
       "vorlage": "content/scenarios/ravensmoor.json",
       "faehigkeiten": [
-        "druckspiel"
+        "druckspiel",
+        "klassen"
       ],
-      "inhalt": "c3961b4bbc2c59ef"
+      "inhalt": "f411594b78670adc"
     },
     {
       "id": "gewoelbe",

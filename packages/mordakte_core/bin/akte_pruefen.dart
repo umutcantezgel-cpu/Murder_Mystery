@@ -12,7 +12,7 @@
 //   Besetzung   je Rollenzahl: drei Gespräche je Runde, Partner, Namen, Last, Quellen der Ketten
 //   Figuren     Herkunftsmatrix, Farbabstand im selben Startraum
 //   Partie      vollständiger Abend mit bestem Spiel je Rollenzahl (RundenPartie, Salz- und Pech-Würfel)
-//   Gerüchte    nur mit content/welt/<akte>/geruechte.json: Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
+//   Gerüchte    nur mit content/welt/<akte>/geruechte.json (in welt.json genannt): Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -359,7 +359,13 @@ void _texte(Befunde b, Kanon kanon, Textsammlung sammlung, Texte texte, String w
 /// dann pruefeGeruechte. Geschützt sind zusätzlich Täterfassungen, Finale und
 /// Auflösung.
 void _geruechte(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, String fall) {
-  final datei = File('$wurzel/content/welt/$fall/geruechte.json');
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final genannt = welt.existsSync() ? _lies(welt.path)['geruechte'] : null;
+  final datei = File('$wurzel/content/welt/$fall/${genannt is String ? genannt : 'geruechte.json'}');
+  // Die App lädt nur, was welt.json nennt: Datei und Eintrag gehören zusammen.
+  if (datei.existsSync() != (genannt is String)) {
+    b.add('Gerüchte', [genannt is String ? 'welt.json nennt $genannt, die Datei fehlt' : 'geruechte.json fehlt in welt.json (Feld geruechte)']);
+  }
   if (!datei.existsSync()) return;
   final j = _lies(datei.path);
   final schema = SchemaPruefer(_lies('$wurzel/content/welt/geruechte.schema.json')).pruefe(j);

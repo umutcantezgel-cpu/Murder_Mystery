@@ -5,13 +5,14 @@ import 'package:mordakte_core/mordakte_core.dart';
 /// Sichtbarer A*-Lauf zu einer frei erreichbaren Nachbarkachel der Quelle,
 /// anschließend eine Handlungspose. Kein Fall-Code, Würfel oder Fundtext hier.
 class KartenAktion {
-  KartenAktion._(this.weg, this.zielX, this.zielY, this.suchen, this.x, this.y, this.facing) {
+  KartenAktion._(this.weg, this.zielX, this.zielY, this.suchen, this.x, this.y, this.facing, {double tempo = 1}) {
     var sx = x, sy = y;
     for (final p in weg) {
       _laenge += dist(sx, sy, p.$1, p.$2);
       (sx, sy) = p;
     }
-    _laufDauer = _laenge < 0.001 ? 0 : (_laenge / 4).clamp(1.8, 8.5);
+    // Ein schnellerer Schritt (Laufschritt, A-055) kürzt nur den sichtbaren Lauf.
+    _laufDauer = _laenge < 0.001 ? 0 : (_laenge / 4).clamp(1.8, 8.5) / tempo;
     _posenDauer = math.max(1.5, 4 - _laufDauer);
   }
 
@@ -20,6 +21,10 @@ class KartenAktion {
   /// [personen] sind die Standorte der anderen Figuren (in allen Pfaden
   /// gleich, nie die Rückblende). Der Detektiv stellt sich nicht auf sie, und
   /// der Weg geht um sie herum, solange es einen freien Platz gibt.
+  ///
+  /// [tempo] ist der Tempofaktor der Detektivklasse: nur Darstellung. Weg und
+  /// Ziel bleiben gleich, die Dauer hängt nur von Weg und Tempo ab und ist so
+  /// in allen Pfaden gleich.
   static KartenAktion? planen({
     required TileGrid raster,
     required double startX,
@@ -31,6 +36,7 @@ class KartenAktion {
     required bool suchen,
     bool umweg = false,
     List<(double, double)> personen = const [],
+    double tempo = 1,
   }) {
     if (!raster.canStand(startX, startY, Tuning.playerRadius)) return null;
     final start = Pt(startX.floor(), startY.floor());
@@ -94,7 +100,8 @@ class KartenAktion {
       (start.x + 0.5, start.y + 0.5),
       for (final p in auswahl.first.pfad) (p.x + 0.5, p.y + 0.5),
     ];
-    return KartenAktion._(List.unmodifiable(_glaetten(raster, startX, startY, punkte, personen)), zielX, zielY, suchen, startX, startY, facing);
+    return KartenAktion._(List.unmodifiable(_glaetten(raster, startX, startY, punkte, personen)), zielX, zielY, suchen, startX, startY, facing,
+        tempo: tempo > 0 && tempo.isFinite ? tempo : 1);
   }
 
   /// Abstand, unter dem eine Kachelmitte als „auf einer Person“ gilt.

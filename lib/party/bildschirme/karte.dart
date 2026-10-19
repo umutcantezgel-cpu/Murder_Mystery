@@ -12,6 +12,7 @@ import '../../stil/mappe/abend2_bausteine.dart';
 import '../../stil/stil.dart';
 import '../karte_session.dart';
 import '../karten_figur.dart';
+import '../klasse_wirkung.dart';
 import '../sitzung.dart';
 import 'abstecher.dart';
 import 'gespraech_szene.dart';
@@ -63,7 +64,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   @override
   void initState() {
     super.initState();
-    _session = PartyKartenSession(s);
+    _session = PartyKartenSession(s, klasse: KlasseWirkung.diesesGeraets(context, s));
     _raster = TileGrid(s.daten.szenario.map);
     s.detektivSetzen.addListener(_setzeDetektiv);
     s.detektivAn.addListener(_detektivAn);
