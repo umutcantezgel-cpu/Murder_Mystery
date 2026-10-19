@@ -192,6 +192,18 @@ void main() {
     }
   });
 
+  // Offen (Prüfung M2): Antwort und Spickzettel geben Beobachtung und Behauptung wortgleich aus dem Kanon wieder, bis
+  // 19 Wörter. R17 verlangt auf dem Handy Stichpunkte zu höchstens acht Wörtern. Ob Kurzfassungen den Wortlaut
+  // ersetzen und welche Einzelheiten dabei wegfallen, entscheidet der Besitzer.
+  test('R17: Antwort- und Spickzettelzeilen haben höchstens acht Wörter', () {
+    final lang = <String>[
+      for (final b in _texte.sammlung.befragungen.values)
+        for (final z in {...botAntwort(_texte, b), ...befragungsZettel(_texte, b).sagen, ...befragungsZettel(_texte, b).behaupten})
+          if (stichpunktWoerter(z) > 8) '${b.id}: ${stichpunktWoerter(z)} Wörter: $z',
+    ];
+    expect(lang, isEmpty, reason: lang.join('\n'));
+  }, skip: 'offen: Kurzfassungen der Preisgaben für Befragungen, Entscheidung des Besitzers');
+
   test('Tischgespräche: eines je Rolle und Runde, Stichpunkte statt Prosa, ohne Kettenglied', () {
     final glieder = tischKettenglieder(kanon);
     for (final g in _texte.sammlung.gespraeche) {

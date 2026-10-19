@@ -14,8 +14,9 @@ final _erm = Ermittlung(kanon);
 final _erz = Erzaehler(kanon);
 
 /// Ein Abend mit bestem Spiel: Fehlt einer Entscheidung ein Glied ihrer Kette, steht es in der Liste.
-/// Mit [befragen] false lässt der Detektiv auch die festen Befragungen aus (Rot-Probe).
-List<String> _abend(int n, String pfad, {bool befragen = true}) {
+/// Mit [befragen] false lässt der Detektiv auch die festen Befragungen aus (Rot-Probe). Mit [zielAlsKarte]
+/// false zählt das Wissen einer unbesetzten Zielfigur nur, wenn ein echter Weg es bringt (Befragung, Erzähler, Fund).
+List<String> _abend(int n, String pfad, {bool befragen = true, bool zielAlsKarte = true}) {
   final f = <String>[];
   final besetzung = _texte.besetzung;
   final bekannt = <String>{
@@ -46,7 +47,7 @@ List<String> _abend(int n, String pfad, {bool befragen = true}) {
         // NPC-Karte: das Pflichtgespräch-Wissen einer unbesetzten Figur, die Ziel einer Option bis hierher ist.
         if (k.startsWith('beobachtung:')) {
           final b = _texte.beobachtung(k.substring('beobachtung:'.length))!;
-          if (!besetzung.istBesetzt(b['wer'] as String, n) && ziele.contains(b['wer'])) continue;
+          if (zielAlsKarte && !besetzung.istBesetzt(b['wer'] as String, n) && ziele.contains(b['wer'])) continue;
         }
         f.add('$n Rollen, $pfad, ${e.id}: $k fehlt');
       }
@@ -82,6 +83,19 @@ void main() {
       }
     });
   }
+
+  // Offen (Prüfung M2): Die Fundkarte einer Zielfigur zeigt nur die Fakten der Option, nicht das Pflichtgespräch-Wissen
+  // der Figur, und der Erzähler lässt Zielfiguren aus (E-035). Im Modell legacy brachten das die NPC-Sprechblasen
+  // (`botGespraeche(mitNpc: true)`), im Modell befragung trägt sie keine Kettenglieder mehr. Welcher Weg es künftig
+  // bringt (Erzähler mit Namen, App-Befragung der Figur, Personenkarte vor der Wahl), entscheidet der Besitzer.
+  test('Ohne die Annahme „NPC-Karte“ erreicht jedes Kettenglied den Detektiv', () {
+    for (var n = 4; n <= 20; n++) {
+      for (final pfad in kanon.pfade) {
+        final f = _abend(n, pfad, zielAlsKarte: false);
+        expect(f, isEmpty, reason: f.join('\n'));
+      }
+    }
+  }, skip: 'offen: Zustellweg für das Wissen unbesetzter Zielfiguren im Modell befragung, Entscheidung des Besitzers');
 
   test('Rot-Probe: ohne die festen Befragungen fehlen Kettenglieder', () {
     final f = _abend(20, 'fatma', befragen: false);
