@@ -355,6 +355,8 @@ class ErzaehlerBegleiter extends ChangeNotifier implements ErzaehlerBegleitung {
         akte: sitzung.daten.fall,
         inhalt: inhalt,
         log: log,
+        // Der Transport stempelt mit derselben Abendzeit, mit der das Gerät die Uhr zeigt (M4).
+        abendzeit: () => sitzung.abendzeit(),
       );
       host.lokaleVerbindung(BegleiterRaum.tisch, sitzung.detektivName);
       await host.starten();

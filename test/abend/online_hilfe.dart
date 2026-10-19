@@ -26,6 +26,12 @@ List<Map<String, Object?>> _liste(Object? wert) => [for (final v in wert as List
 class TestGast implements GastDienst {
   TestGast(this.ansicht, {this.spielerId = 'g1', this.status = VerbindungsStatus.verbunden}) : daten = partyDaten;
 
+  /// Abendzeit des Gastgebers (Rundenuhr, M4); Tests stellen sie selbst.
+  int Function() abendzeit = LokaleVerbindung.wanduhr;
+
+  @override
+  int get gastgeberZeit => abendzeit();
+
   @override
   final Map<String, Object?> ansicht;
 
@@ -361,6 +367,13 @@ class LiveGast extends ChangeNotifier implements GastDienst {
   /// Alle Befehle in der Reihenfolge, in der sie kamen, und was der Raum sagte (`null`: angenommen).
   final List<(Map<String, Object?>, String?)> befehle = [];
 
+  /// Abendzeit des Gastgebers: Damit stempelt der Transport jeden Befehl (M4), und
+  /// damit rechnet das Gerät die Restzeit der Uhr. Tests stellen sie selbst.
+  int Function() abendzeit = LokaleVerbindung.wanduhr;
+
+  @override
+  int get gastgeberZeit => abendzeit();
+
   @override
   Map<String, Object?> get ansicht => raum.zustandFuer(spielerId);
 
@@ -380,7 +393,7 @@ class LiveGast extends ChangeNotifier implements GastDienst {
   Future<String?> befehl(Map<String, Object?> c) async {
     String? fehler;
     try {
-      raum.nachricht(spielerId, c);
+      raum.nachricht(spielerId, mitAbendzeit(c, abendzeit()));
     } on PartyRaumFehler catch (e) {
       fehler = e.code;
     }
@@ -609,6 +622,10 @@ class TestVerbindung implements LokaleVerbindung {
   /// Alle Befehle in der Reihenfolge, in der sie kamen.
   final List<Map<String, Object?>> befehle = [];
 
+  /// Abendzeit, mit der die Verbindung jeden Befehl stempelt (M4).
+  @override
+  int Function() abendzeit = LokaleVerbindung.wanduhr;
+
   @override
   String? get spielerId => 'gastgeber';
 
@@ -622,7 +639,7 @@ class TestVerbindung implements LokaleVerbindung {
   Future<void> befehl(Map<String, Object?> c) async {
     befehle.add(c);
     try {
-      raum.nachricht('gastgeber', c);
+      raum.nachricht('gastgeber', mitAbendzeit(c, abendzeit()));
     } on PartyRaumFehler catch (e) {
       throw AbendFehler(e.code);
     } finally {

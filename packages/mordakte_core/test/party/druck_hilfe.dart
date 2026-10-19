@@ -21,9 +21,11 @@ DruckStil get druckStil => _stil ??= DruckStil(
       schreibmaschine: File('$repoWurzel/assets/fonts/SpecialElite-Regular.ttf').readAsBytesSync(),
     );
 
-/// Kontext für Pfad [pfad], [n] Personen und Detektiv [detektiv].
-DruckKontext druckKontext({String pfad = 'ahmet', int n = 12, String detektiv = 'w', int? dauer}) => DruckKontext(
-    kanon, druckTexte, DruckSatz.aus(kanon, druckTexte, FallCode.fuerPfad(pfad, kanon.pfade), rollen: n, detektiv: detektiv, rundendauerMinuten: dauer), druckStil);
+/// Kontext für Pfad [pfad], [n] Personen und Detektiv [detektiv]; mit [diashow]
+/// tragen die Intro-Bausteine im Erzählerheft deren Bildnummern (M4).
+DruckKontext druckKontext({String pfad = 'ahmet', int n = 12, String detektiv = 'w', int? dauer, Diashow? diashow}) => DruckKontext(
+    kanon, druckTexte, DruckSatz.aus(kanon, druckTexte, FallCode.fuerPfad(pfad, kanon.pfade), rollen: n, detektiv: detektiv, rundendauerMinuten: dauer), druckStil,
+    diashow: diashow);
 
 /// Seitenzahl, Format und Text einer PDF-Datei.
 typedef PdfBefund = ({int seiten, bool a4, String text, List<String> seitenText});

@@ -9,16 +9,18 @@ import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/party/skript.dart';
 import 'package:mordakte/stil/mappe/zeichen.dart' show MStempel;
 import 'package:mordakte/stil/widgets/m_knopf.dart' show MKnopf;
-import 'package:mordakte_core/runden.dart' show FesterWuerfel, botAntwort;
+import 'package:mordakte_core/runden.dart' show FesterWuerfel, UhrAktion, botAntwort;
 
 import 'hilfe.dart';
 
-/// Runde 1 mit einer Uhr von fünf Sekunden auf dem Bildschirm.
+/// Runde 1 mit einer Uhr von fünf Sekunden auf dem Bildschirm. Die Uhr ist die
+/// der Sitzung ([PartySitzung.uhr], M4); ihre Abendzeit folgt der Testuhr.
 Future<PartySitzung> _uhrBild(WidgetTester t) async {
   final s = neueSitzung(rollen: 7);
   spieleBis(s, PartyPhase.gespraeche);
   s.rundendauer = const Duration(seconds: 5);
-  await t.pumpWidget(rahmen(RundeBildschirm(sitzung: s)));
+  testAbendzeit(t, s);
+  await t.pumpWidget(rahmen(ListenableBuilder(listenable: s, builder: (_, _) => RundeBildschirm(sitzung: s))));
   return s;
 }
 
@@ -77,13 +79,49 @@ void main() {
     await _tippe(t, s.ui('ui.runde.pause'));
     await t.pump(const Duration(seconds: 3));
     expect(find.text('00:03'), findsOneWidget);
+    expect(find.byKey(const ValueKey('rundenuhr-angehalten')), findsOneWidget);
+    expect(s.uhr.pausiert, isTrue);
   });
 
-  testWidgets('Zurücksetzen stellt die Rundendauer wieder her', (t) async {
+  testWidgets('Nach der Pause läuft die Uhr genau von dort weiter', (t) async {
+    final s = await _uhrBild(t);
+    await _tippe(t, s.ui('ui.runde.start'));
+    await t.pump(const Duration(seconds: 1));
+    await _tippe(t, s.ui('ui.runde.pause'));
+    await t.pump(const Duration(seconds: 10));
+    expect(find.byTooltip(s.ui('ui.runde.start')), findsNothing, reason: 'Nach der Pause heißt der Knopf Weiter');
+    await _tippe(t, s.ui('ui.runde.weiterlaufen'));
+    await t.pump(const Duration(seconds: 2));
+    expect(find.text('00:02'), findsOneWidget);
+    expect(find.byKey(const ValueKey('rundenuhr-angehalten')), findsNothing);
+  });
+
+  testWidgets('Plus gibt fünf Minuten dazu, auch wenn die Zeit schon um ist', (t) async {
     final s = await _uhrBild(t);
     await _tippe(t, s.ui('ui.runde.start'));
     await t.pump(const Duration(seconds: 2));
-    await _tippe(t, s.ui('ui.runde.zuruecksetzen'));
+    await _tippe(t, s.ui('ui.runde.plus'));
+    await t.pump();
+    expect(find.text('05:03'), findsOneWidget);
+    expect(s.uhr.dauer, const Duration(minutes: 5, seconds: 5).inMilliseconds);
+    await t.pump(const Duration(minutes: 6));
+    expect(find.text(s.ui('ui.runde.zeit_um')), findsOneWidget);
+    await _tippe(t, s.ui('ui.runde.plus'));
+    await t.pump(const Duration(seconds: 1));
+    expect(find.text('04:59'), findsOneWidget, reason: 'Die Zugabe zählt ab jetzt');
+    expect(find.text(s.ui('ui.runde.zeit_um')), findsNothing);
+  });
+
+  testWidgets('Der Bildschirm zeigt die Uhr der Sitzung; jede Runde beginnt mit gestellter Uhr', (t) async {
+    final s = await _uhrBild(t);
+    // Gestellt von außen (am Tisch: dasselbe Gerät, online der Raum): Der Bildschirm zeigt sie.
+    expect(s.uhrAktion(UhrAktion.start, minuten: 2), isTrue);
+    await t.pump(const Duration(seconds: 30));
+    expect(find.text('01:30'), findsOneWidget);
+    expect(s.uhrAktion(UhrAktion.weiter), isFalse, reason: 'Weiter ohne Pause passt nicht');
+    spieleBis(s, PartyPhase.gespraeche, runde: 2);
+    expect(s.uhr.gestartet, isFalse);
+    expect(s.uhr.dauer, const Duration(seconds: 5).inMilliseconds);
     await t.pump();
     expect(find.text('00:05'), findsOneWidget);
   });
