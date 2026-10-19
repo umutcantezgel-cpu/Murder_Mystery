@@ -2,11 +2,14 @@
 // Begleiter hält der Vorleser das Gerät: oben das Bild, darunter nur der Text
 // dazu; „Nächstes Bild“ schaltet beide weiter. Akten ohne diashow.json zeigen
 // die Einleitung wie bisher. (Mit Erzähler-Begleiter: erzaehler_begleiter_test.)
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/diashow_ansicht.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/stimme.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart' show FesterWuerfel;
 
@@ -30,6 +33,34 @@ Future<void> _zeige(WidgetTester t, PartySitzung s, {Size groesse = const Size(3
 Finder _text(PartySitzung s, String k) {
   final text = s.text(k);
   return find.textContaining(text.substring(0, text.length < 30 ? text.length : 30));
+}
+
+/// Eine Stimme, die jeden Text erst beendet, wenn der Test es sagt ([fertig]).
+class _Stimme extends Stimme {
+  final gesprochen = <String>[];
+  final _laeuft = <Completer<bool>>[];
+
+  @override
+  bool get verfuegbar => true;
+
+  @override
+  Future<bool> sprich(String text) {
+    gesprochen.add(text);
+    final c = Completer<bool>();
+    _laeuft.add(c);
+    return c.future;
+  }
+
+  @override
+  void stopp() {
+    for (final c in _laeuft) {
+      if (!c.isCompleted) c.complete(false);
+    }
+    _laeuft.clear();
+  }
+
+  /// Der laufende Text ist zu Ende gelesen.
+  void fertig() => _laeuft.removeAt(0).complete(true);
 }
 
 Future<void> _naechstes(WidgetTester t) async {
@@ -61,6 +92,31 @@ void main() {
     await t.pump();
     expect(s.phase, isNot(PartyPhase.intro));
     expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Mit Stimme: Ist ein Text gelesen, schalten Bild und Text zusammen weiter; von Hand liest sie ab dem neuen Bild', (t) async {
+    final stimme = _Stimme();
+    Stimme.testStimme = () => stimme;
+    addTearDown(() => Stimme.testStimme = null);
+    final s = neueSitzung(rollen: 4, solo: true, daten: diashowDaten);
+    spieleBis(s, PartyPhase.intro);
+    s.stimmeAn = true;
+    final texte = [for (final k in s.erzaehler) s.text(k)];
+    await _zeige(t, s);
+    await t.pump();
+    expect(stimme.gesprochen, [texte[0]]);
+    // Die Stimme ist mit dem ersten Text fertig: Sie meldet den nächsten Baustein, das Bild folgt.
+    stimme.fertig();
+    await t.pump(const Duration(milliseconds: 700));
+    expect(s.dia, 1);
+    expect(_text(s, s.erzaehler[1]), findsOneWidget);
+    expect(stimme.gesprochen, [texte[0], texte[1]], reason: 'Kein zweiter Anlauf für denselben Text');
+    // Von Hand weitergeschaltet: Die Stimme bricht ab und liest ab dem neuen Bild.
+    await _naechstes(t);
+    expect(s.dia, 2);
+    expect(stimme.gesprochen.last, texte[2]);
+    expect(stimme.gesprochen.where((x) => x == texte[2]), hasLength(1));
     await t.pumpWidget(const SizedBox.shrink());
   });
 

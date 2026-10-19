@@ -13,6 +13,7 @@ import 'package:mordakte/abend/online/ansicht.dart' show inhaltsKennung;
 import 'package:mordakte/abend/online/erzaehler_begleiter.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
+import 'package:mordakte/party/bildschirme/runde.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/erzaehler_begleitung.dart';
 import 'package:mordakte/party/sitzung.dart';
@@ -21,7 +22,7 @@ import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, 
 import 'package:mordakte_netz/io.dart' show PhoenixAttrappe;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, LokaleVerbindung, RelayGast, RelayParameter, SpeicherAblage;
 
-import '../party_widgets/hilfe.dart' show diashowDaten, partyDaten, spieleBis, spieleZug;
+import '../party_widgets/hilfe.dart' show diashowDaten, partyDaten, spieleBis, spieleZug, testAbendzeit;
 import 'online_hilfe.dart';
 
 final l = LDe();
@@ -227,6 +228,35 @@ void main() {
     await geraet();
     expect(find.text(l.party_intro_bild('3', '6').toUpperCase()), findsOneWidget);
     s.begleitung = null;
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Handy stellt die Uhr (M4): Start über den Raum; Handy und Gerät zeigen dieselbe Restzeit', (tester) async {
+    final s = _sitzung();
+    testAbendzeit(tester, s);
+    spieleBis(s, PartyPhase.gespraeche);
+    final raum = ProtokollRaum(BegleiterRaum('ABCDEF', s));
+    raum.beitreten(BegleiterRaum.tisch, 'Ada');
+    raum.beitreten('e1', 'Mia');
+    // Der Transport des Geräts stempelt mit dessen Abendzeit; das Handy kennt sie über den Versatz.
+    final mia = LiveGast(raum, spielerId: 'e1')..abendzeit = s.abendzeit;
+    String rest() {
+      final sek = (s.uhr.rest(s.abendzeit()) / 1000).ceil();
+      return '${(sek ~/ 60).toString().padLeft(2, '0')}:${(sek % 60).toString().padLeft(2, '0')}';
+    }
+
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia));
+    expect(find.byKey(const ValueKey('gast-rundenuhr')), findsOneWidget);
+    await tester.ensureVisible(find.byTooltip(l.online_uhr_start));
+    await tester.tap(find.byTooltip(l.online_uhr_start));
+    await tester.pump();
+    expect(mia.befehle.last.$2, isNull);
+    expect(s.uhr.laeuft, isTrue);
+    await tester.pump(const Duration(seconds: 61));
+    expect(find.text(rest()), findsOneWidget);
+    await zeigeImThema(tester, (c) => RundeBildschirm(sitzung: s));
+    expect(find.text(rest()), findsOneWidget, reason: 'Das Gerät zeigt dieselbe Uhr');
+    expect(await mia.befehl({'typ': 'uhr', 'aktion': 'weiter'}), 'invalid_phase', reason: 'Weiter ohne Pause passt nicht');
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
