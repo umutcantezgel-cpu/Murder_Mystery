@@ -22,7 +22,7 @@
       "name": "Erdgeschoss mit Schlosshof und Garten",
       "stockwerk": 0,
       "zugang": [
-        "nach_ersatzschluessel"
+        "vorspiel_nach_ersatzschluessel"
       ],
       "aussen": [
         "eg_garten",
@@ -189,7 +189,7 @@
             ]
           ],
           "art": "schwere Turmtür",
-          "zustand": "verschlossen bis Viertel nach zwölf",
+          "zustand": "ab zehn vor sieben verschlossen bis Viertel nach zwölf",
           "quietscht": true
         },
         {
@@ -2030,7 +2030,7 @@
     {
       "id": "p_hoftuer",
       "art": "tuer",
-      "offen": "nach_ersatzschluessel",
+      "offen": "vorspiel_nach_ersatzschluessel",
       "weg": 1,
       "a": {
         "ebene": "keller",

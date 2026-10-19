@@ -34,7 +34,8 @@
         "immer",
         "nach_ersatzschluessel",
         "nie_in_runden",
-        "vorspiel_morgen"
+        "vorspiel_morgen",
+        "vorspiel_nach_ersatzschluessel"
       ]
     },
     "zeitfenster": {

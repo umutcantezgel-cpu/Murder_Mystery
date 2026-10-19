@@ -44,11 +44,16 @@ const raumHoechstSumme = 75;
 ///   und am Morgen ab sieben; in den Runden nie.
 /// - [nieInRunden]: nur im langen Abend und erst am Morgen ab sieben
 ///   (Torschlüssel der Kollegin); im Vorspiel und in den Runden zu.
+/// - [vorspielNachErsatzschluessel]: nur im langen Abend, im Vorspiel vor der
+///   Sperre und wieder ab dem Ersatzschlüssel bis in den Morgen; dazwischen
+///   zu. So die Hoftür im Kanon: Um 18:30 läuft die Lieferung durch Hof und
+///   Hoftür, um 18:50 schließt Herr Schneider ab, um 00:15 öffnet er wieder.
 enum Oeffnung {
   immer('immer'),
   nachErsatzschluessel('nach_ersatzschluessel'),
   vorspielMorgen('vorspiel_morgen'),
-  nieInRunden('nie_in_runden');
+  nieInRunden('nie_in_runden'),
+  vorspielNachErsatzschluessel('vorspiel_nach_ersatzschluessel');
 
   const Oeffnung(this.kennung);
 
@@ -278,6 +283,7 @@ class WeltEbenen {
       Oeffnung.nachErsatzschluessel => lage.lang && lage.uhr >= zeiten.ersatzschluessel,
       Oeffnung.vorspielMorgen => lage.lang && (vorspiel || morgen),
       Oeffnung.nieInRunden => lage.lang && morgen,
+      Oeffnung.vorspielNachErsatzschluessel => lage.lang && (vorspiel || lage.uhr >= zeiten.ersatzschluessel),
     };
   }
 
@@ -420,8 +426,8 @@ List<WeltLage> probeLagen(WeltZeiten z) => [
 /// - Erreichbarkeit: Mit allem offen ist jede begehbare Kachel jeder Ebene
 ///   vom Keller aus erreichbar. In keiner [probeLagen] ist eine Ebene
 ///   erreichbar, deren Zugang zu ist: Die Außenwelt bleibt in den Runden
-///   unerreichbar, das Erdgeschoss im kurzen Abend und vor dem
-///   Ersatzschlüssel.
+///   unerreichbar, das Erdgeschoss im kurzen Abend und von der Sperre bis
+///   zum Ersatzschlüssel.
 /// - Ein Kanon-Ort mit Zusatzweg (Toilette oben im Turm) passt zu einer
 ///   Treppe: Treppenlauf plus Weg auf der oberen Ebene zu einem Ort weicht
 ///   höchstens drei Meter vom Zusatzweg ab.
