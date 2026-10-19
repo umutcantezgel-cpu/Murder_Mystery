@@ -61,13 +61,15 @@ class _Teilnehmer {
 ///
 /// Rechte: `start` und `sitz` nur der Gastgeber; Ermittlung (`wahl`,
 /// `abstecher`, `tischruf`, `fundGelesen`, `karte`, `anklage`, Befragungen) nur
-/// der Detektiv-Sitz; „Weiter“ der Erzähler, ohne Erzähler der Detektiv, und
-/// der Gastgeber, solange kein Erzähler da ist ([_darfLeiten]).
+/// der Detektiv-Sitz, hat er aufgegeben, der Gastgeber ([ermittler]); „Weiter“
+/// nur, wer gerade leitet: der Erzähler, sonst der Detektiv, sonst der
+/// Gastgeber ([vorleser], [_darfLeiten]).
 ///
-/// Vorleser-Sitz: Erzähltext geht vor dem Finale nur an ein Gerät, den
-/// Erzähler, sonst den Detektiv ([vorleser]), und zwar im privaten Teil. Alle
-/// sehen öffentlich nur `erzaehlerLiest` und `bausteinZahl`. Ab dem Finale
-/// sehen alle die Texte (Auflösung).
+/// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
+/// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
+/// privaten Teil. Alle sehen öffentlich nur `erzaehlerLiest` und
+/// `bausteinZahl`. Ab dem Finale sehen alle die Texte (Auflösung). Altakten
+/// zeigen den Erzähltext wie vor M3 allen öffentlich.
 /// Die Methodennamen entsprechen RaumSpiel; der Transportadapter bleibt separat.
 ///
 /// Der Raum spielt jede Akte (Schlosskeller, Gewölbe, Klassiker): Rollenzahl
@@ -200,15 +202,34 @@ class SchlosskellerRaum implements AbendRaum {
     return _teilnehmer[id]!.rolle != null ? Sitz.rolle : Sitz.assistenz;
   }
 
-  /// Vorleser-Sitz: Wer die Erzähltexte bekommt. Der Erzähler, solange er den
-  /// Abend nicht aufgegeben hat, sonst der Detektiv, und hat auch er aufgegeben,
-  /// der Gastgeber (Server ohne festen Gastgeber). Vor dem Start niemand.
+  /// Gilt der Vorleser-Sitz in dieser Akte? Nur in Akten mit Erzähler, heute
+  /// denen im Modell befragung (Schlosskeller, wie das Erzählerpaket). Die
+  /// übrigen Akten zeigen den Erzähltext allen öffentlich wie vor M3
+  /// (Besitzerentscheidung 1: Mechanik per Akte, andere Akten unverändert).
+  bool get vorleserSitz => _texte.besetzung.befragungsmodell;
+
+  /// Wer den Abend gerade leitet („Weiter“) und vorliest: der Erzähler, solange
+  /// er verbunden ist, sonst der Detektiv-Sitz, solange er verbunden ist, sonst
+  /// der Gastgeber. Leitung und Vorleser folgen derselben Kette: Fällt der
+  /// Erzähler aus, liest, wer übernimmt, und kein Text geht an ein getrenntes
+  /// Gerät; zurück liest der Erzähler das laufende Fenster selbst. Die Frist,
+  /// bevor die Oberfläche übernimmt, liegt außen. Vor dem Start niemand.
   String? get vorleser {
     if (vorStart) return null;
     for (final id in [_erzaehler, _detektiv]) {
-      if (id != null && _teilnehmer[id]?.aufgegeben == false) return id;
+      if (id != null && (_teilnehmer[id]?.online ?? false)) return id;
     }
     return _host;
+  }
+
+  /// Wer ermittelt (Rechte, Befragungskarten, Notizen): der Detektiv-Sitz; hat
+  /// er den Abend aufgegeben, der Gastgeber, bis er zurückkommt. Sonst stünde
+  /// der Abend ohne festen Gastgeber still, denn der Sitz wandert nicht mit der
+  /// Leitung. Vor dem Start der Detektiv-Sitz des Plans.
+  String? get ermittler {
+    if (vorStart) return _sitze.detektiv;
+    final d = _detektiv;
+    return d != null && _teilnehmer[d]?.aufgegeben == false ? d : _host;
   }
 
   /// Beginn des Erzählerfensters in `spiel.bausteine` (nur Gastgebergerät):
@@ -297,26 +318,23 @@ class SchlosskellerRaum implements AbendRaum {
     if (_host != id) throw const PartyRaumFehler('not_host');
   }
 
-  /// Nur das Gerät auf dem Detektiv-Sitz (ab dem Start).
+  /// Nur wer ermittelt ([ermittler], ab dem Start).
   void _nurDetektiv(String id) {
-    if (_detektiv == null || _detektiv != id) throw const PartyRaumFehler('not_detective');
+    if (vorStart || id != ermittler) throw const PartyRaumFehler('not_detective');
   }
 
   /// Wer den Abend führen darf (Weiter, später Uhr und Bilder).
   /// - Lobby: der Gastgeber, der Detektiv- und der Erzähler-Sitz (Rollenzahl, Zuteilung).
-  /// - Abend: der Erzähler; ohne Erzähler der Detektiv. Der Gastgeber, solange
-  ///   kein Erzähler da ist: Ist der Erzähler offline, übernimmt er (die Frist
-  ///   von zwei Minuten liegt außen, wie bei Gästen).
+  /// - Abend: nur, wer gerade leitet ([vorleser]): der Erzähler; ist er offline
+  ///   oder fehlt er, der Detektiv; erst danach der Gastgeber, auch wenn er
+  ///   ohne festen Gastgeber eine Rolle spielt (die Frist von zwei Minuten liegt
+  ///   außen, wie bei Gästen).
   void _darfLeiten(String id) {
     if (vorStart) {
       if (id == _host || id == _sitze.detektiv || id == _sitze.erzaehler) return;
       throw const PartyRaumFehler('not_host');
     }
-    final e = _erzaehler;
-    if (e != null && id == e) return;
-    final erzaehlerDa = e != null && (_teilnehmer[e]?.online ?? false);
-    if (!erzaehlerDa && (id == _host || (e == null && id == _detektiv))) return;
-    throw const PartyRaumFehler('not_host');
+    if (id != vorleser) throw const PartyRaumFehler('not_host');
   }
 
   RaumModul? _modulFuer(String typ) {
@@ -610,10 +628,12 @@ class SchlosskellerRaum implements AbendRaum {
       if (p != null) ...{
         'rollen': p.spiel.einstellungen.rollen,
         'restMinuten': p.restMinuten, 'marken': p.marken,
-        'erzaehlerLiest': fenster.isNotEmpty,
-        'bausteinZahl': fenster.length,
-        // Ab dem Finale dürfen alle die Auflösungstexte sehen.
-        if (nachFinale) 'erzaehler': fenster,
+        if (vorleserSitz) ...{
+          'erzaehlerLiest': fenster.isNotEmpty,
+          'bausteinZahl': fenster.length,
+        },
+        // Ab dem Finale dürfen alle die Auflösungstexte sehen; Altakten zeigen sie immer allen.
+        if (nachFinale || !vorleserSitz) 'erzaehler': fenster,
         'notizbuch': {for (final f in _funde.entries) f.key: [...f.value]},
         'wuerfe': [for (final w in p.wuerfe) w.toJson()],
         'wuerfelPate': _wuerfelPate,
@@ -653,11 +673,11 @@ class SchlosskellerRaum implements AbendRaum {
         if (p.phase == PartyPhase.anklage) 'verdaechtige': [..._kanon.kernverdaechtige],
       },
       'privat': <String, Object?>{
-        'spieler': id, 'detektiv': id == detektivGeraet,
-        if (p != null && id == vorleser) ...{'vorleser': true, 'erzaehler': fenster},
+        'spieler': id, 'detektiv': id == ermittler,
+        if (p != null && vorleserSitz && id == vorleser) ...{'vorleser': true, 'erzaehler': fenster},
         if (p != null && befragungsmodell) ...{
           if (id == _erzaehler) 'erzaehlerPaket': _erzaehlerPaket(p.spiel.einstellungen.rollen, p.runde.clamp(1, Befragungsplan.runden)),
-          if (id == _detektiv) 'erzaehlerNotizen': _npcNotizen(p),
+          if (id == ermittler) 'erzaehlerNotizen': _npcNotizen(p),
         },
         if (dossier != null) ...{
           'rolle': rolle, 'gelesen': ich.gelesen,
@@ -701,9 +721,13 @@ class SchlosskellerRaum implements AbendRaum {
         privat[e.key] = e.value;
       }
     }
+    bool freigegeben(String k) =>
+        raumOeffentlicheSchluessel.contains(k) ||
+        (nachFinale && raumSchluesselNachFinale.contains(k)) ||
+        (!vorleserSitz && raumSchluesselOhneVorleser.contains(k));
     assert(
-      ansicht.keys.every((k) => raumOeffentlicheSchluessel.contains(k) || (nachFinale && raumSchluesselNachFinale.contains(k))),
-      'Nicht freigegebener Ansichtsschlüssel: ${ansicht.keys.where((k) => !raumOeffentlicheSchluessel.contains(k)).join(', ')}',
+      ansicht.keys.every(freigegeben),
+      'Nicht freigegebener Ansichtsschlüssel: ${ansicht.keys.where((k) => !freigegeben(k)).join(', ')}',
     );
     return ansicht;
   }
@@ -717,7 +741,7 @@ class _Kontext extends RaumKontext {
   @override
   String? get host => _r._host;
   @override
-  String? get detektiv => _r.detektivGeraet;
+  String? get detektiv => _r.ermittler;
   @override
   String? get erzaehler => _r.erzaehlerGeraet;
   @override

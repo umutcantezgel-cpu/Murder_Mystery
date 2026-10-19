@@ -19,6 +19,10 @@ const raumOeffentlicheSchluessel = <String>{
 /// Erzähltext für alle (vor dem Finale nur beim Vorleser-Sitz).
 const raumSchluesselNachFinale = <String>{'aufloesung', 'erzaehler'};
 
+/// Akten ohne Vorleser-Sitz (`SchlosskellerRaum.vorleserSitz`, die Altakten):
+/// Der Erzähltext steht wie vor M3 für alle öffentlich, auch vor dem Finale.
+const raumSchluesselOhneVorleser = <String>{'erzaehler'};
+
 /// Einträge in `spieler` (je Gerät, öffentlich): Sitz, Figur der Lobby und
 /// Wunsch sind am Tisch bekannt, nie ein Dossier.
 const raumSpielerFelder = <String>{'id', 'name', 'online', 'bereit', 'sitz', 'rolle', 'figur', 'wunsch'};

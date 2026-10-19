@@ -86,32 +86,45 @@ class BefragungModul extends RaumModul {
     };
   }
 
+  /// Der Detektiv bekommt seine Karten, eine Rolle ihren Spickzettel. Vertritt
+  /// der Gastgeber einen aufgegebenen Detektiv ([RaumKontext.detektiv]) und
+  /// spielt selbst eine Rolle, bekommt er beides (getrennte Schlüssel).
   @override
   Map<String, Object?> privat(RaumKontext k, String id) {
     if (!_gespraeche(k)) return const {};
+    return {
+      if (id == k.detektiv) ..._detektivKarten(k),
+      ..._spickzettel(k, id),
+    };
+  }
+
+  Map<String, Object?> _detektivKarten(RaumKontext k) {
     final v = _verlauf!;
     final r = k.runde;
-    if (id == k.detektiv) {
-      final pflicht = v.pflicht(r);
-      return {
-        'befragungen': [
-          for (final b in [...pflicht, ...v.frei(r)])
-            {
-              'id': b,
-              'rolle': v.text(b).rolle,
-              'thema': v.text(b).thema,
-              'fragen': [...v.text(b).fragen],
-              'pflicht': pflicht.contains(b),
-              'mensch': k.menschSpielt(v.text(b).rolle),
-              'frage': v.frage(b),
-              'erledigt': _erledigt(k, b),
-              // Die Antwort der App kommt erst nach der Frage, und nur für Rollen ohne Menschen.
-              if (v.gefragt(b) && !k.menschSpielt(v.text(b).rolle)) 'antwort': befragungsKarten(k.texte, v.text(b)),
-            },
-        ],
-        'befragungenFrei': v.freiOffen(r),
-      };
-    }
+    final pflicht = v.pflicht(r);
+    return {
+      'befragungen': [
+        for (final b in [...pflicht, ...v.frei(r)])
+          {
+            'id': b,
+            'rolle': v.text(b).rolle,
+            'thema': v.text(b).thema,
+            'fragen': [...v.text(b).fragen],
+            'pflicht': pflicht.contains(b),
+            'mensch': k.menschSpielt(v.text(b).rolle),
+            'frage': v.frage(b),
+            'erledigt': _erledigt(k, b),
+            // Die Antwort der App kommt erst nach der Frage, und nur für Rollen ohne Menschen.
+            if (v.gefragt(b) && !k.menschSpielt(v.text(b).rolle)) 'antwort': befragungsKarten(k.texte, v.text(b)),
+          },
+      ],
+      'befragungenFrei': v.freiOffen(r),
+    };
+  }
+
+  Map<String, Object?> _spickzettel(RaumKontext k, String id) {
+    final v = _verlauf!;
+    final r = k.runde;
     final rolle = k.rolleVon(id);
     if (rolle == null) return const {};
     final b = BefragungText.kennung(rolle, r);

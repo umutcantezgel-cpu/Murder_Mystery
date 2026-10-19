@@ -8,7 +8,8 @@ abstract class RaumKontext {
   /// Gerät der Spielleitung (Autorität).
   String? get host;
 
-  /// Gerät auf dem Detektiv-Sitz (Gastgeber oder Gast, siehe `runden/sitze.dart`).
+  /// Gerät, das ermittelt: der Detektiv-Sitz (Gastgeber oder Gast, siehe
+  /// `runden/sitze.dart`); hat er den Abend aufgegeben, der Gastgeber.
   String? get detektiv;
 
   /// Gerät auf dem Erzähler-Sitz; `null` ohne Erzähler.

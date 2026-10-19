@@ -2,7 +2,8 @@
 /// drei Sitz-Konstellationen (Host = Erzähler + Gast = Detektiv, Host = Detektiv
 /// ohne Erzähler, Host = Detektiv + Gast = Erzähler).
 /// Vollständiger Abend, eigene Rollenansichten, Sitze, Vorleser-Sitz, Rechte,
-/// Reconnect, Würfelprüfung.
+/// Reconnect, Würfelprüfung. Dazu je Akte ein Host-Wechsel nach dem Start: Der
+/// Gastgeber auf dem Detektiv-Sitz geht, der neue führt den Abend zu Ende.
 /// Lokal: dart run tool/party_matrix.dart [--clients=4]
 /// Öffentlich: `dart run tool/party_matrix.dart --url=wss://<freigegebener-host>/ws`
 library;
@@ -391,6 +392,110 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
   }
 }
 
+/// Server ohne festen Gastgeber, Akte [akte]: Der Gastgeber (Detektiv-Sitz) geht in
+/// der ersten Entscheidung. Der neue Gastgeber vertritt ihn als Ermittler und Leiter
+/// und führt den Abend zu Ende (vor M3 lief das über die Leitung allein).
+Future<void> _hostwechsel(Uri url, String akte) async {
+  final all = <Client>[];
+  try {
+    _stage = 'Host-Wechsel $akte: Anmeldung';
+    for (var i = 0; i < 4; i++) {
+      final c = await Client.connect(url.toString(), 'Wechselprobe-$i').timeout(const Duration(seconds: 10));
+      all.add(c);
+      await c.hello();
+    }
+    final alt = all.first, neu = all[1];
+    alt.send({'t': Msg.create, 'abend': akte});
+    final room = await alt.expect(Msg.room);
+    _require(room['abend'] == akte, 'Falsche Akte beim Erstellen ($akte).');
+    for (final c in all.skip(1)) {
+      c.send({'t': Msg.join, 'code': room['code']});
+      await c.expect(Msg.room, where: (s) => s['code'] == room['code']);
+    }
+    for (final c in all) {
+      await c.expect(Msg.abend, where: (s) => _list(s['spieler']).length == all.length);
+      c.send({'t': Msg.abendCmd, 'c': {'typ': 'bereit', 'wert': true}});
+    }
+    await alt.expect(Msg.abend, where: (s) => _list(s['spieler']).every((t) => t['bereit'] == true));
+    await _command(alt, alt, 'start', {'rollen': 4});
+    var leiter = alt;
+    var online = List.of(all);
+    var steps = 0;
+    while (leiter.latest(Msg.abend)['phase'] != 'ende') {
+      _require(++steps < 400, 'Host-Wechsel $akte: Der Abend erreicht das Ende nicht.');
+      final s = leiter.latest(Msg.abend);
+      if (leiter == alt && s['phase'] == 'entscheidungen') {
+        _stage = 'Host-Wechsel $akte: Gastgeber geht';
+        alt.send({'t': Msg.leave});
+        final v = await neu.expect(Msg.abend, where: (m) => m['host'] == neu.playerId);
+        _require(_map(v['privat'])['detektiv'] == true, 'Host-Wechsel $akte: Der neue Gastgeber vertritt den Detektiv nicht.');
+        leiter = neu;
+        online = all.skip(1).toList();
+        continue;
+      }
+      switch (s['phase']) {
+        case 'rollen':
+          for (final c in online) {
+            if (_map((await _sicht(c, s['version'] as int))['privat'])['gelesen'] == false) await _command(leiter, c, 'rollenGelesen');
+          }
+          await _command(leiter, leiter, 'weiter');
+        case 'entscheidungen':
+          if (s['zug'] case final Map z) {
+            switch (z['phase']) {
+              case 'aktion':
+                await _command(leiter, leiter, 'aktionFertig', {'aktion': z['aktion']});
+              case 'wurf':
+                await _command(leiter, online.firstWhere((c) => c.playerId == s['wuerfelPate']), 'wurf');
+              case 'tischruf':
+                await _command(leiter, leiter, 'tischruf', {'ruf': 'umweg'});
+              case 'fund':
+                await _command(leiter, leiter, 'fundGelesen');
+              default: throw StateError('Unbekannter Zugabschnitt.');
+            }
+          } else if (s['entscheidung'] case final Map e) {
+            await _command(leiter, leiter, 'wahl', {'option': _list(e['optionen']).first['id']});
+          } else {
+            await _command(leiter, leiter, 'weiter');
+          }
+        case 'gespraeche':
+          // Modell befragung: Der Vertreter bekommt die Befragungskarten des Detektivs.
+          final privat = _map(s['privat']);
+          if (privat['befragungen'] is List) {
+            var frei = privat['befragungenFrei'] as int;
+            for (final k in _list(privat['befragungen'])) {
+              if (k['erledigt'] == true) continue;
+              if (k['frage'] == null) {
+                if (k['pflicht'] != true) {
+                  if (frei <= 0) continue;
+                  frei--;
+                }
+                await _command(leiter, leiter, 'befragen', {'id': k['id'], 'frage': 0});
+              }
+              if (k['mensch'] == true) await _command(leiter, leiter, 'erledigt', {'id': k['id']});
+            }
+          }
+          await _command(leiter, leiter, 'weiter');
+        case 'gruppenwahl':
+          for (final c in online) {
+            if (_map((await _sicht(c, s['version'] as int))['privat'])['hatGestimmt'] == false) await _command(leiter, c, 'stimme', {'kooperativ': true});
+          }
+          await _command(leiter, leiter, 'weiter');
+        case 'anklage':
+          await _command(leiter, leiter, 'anklage', {'person': (s['verdaechtige'] as List).first});
+          await _command(leiter, leiter, 'weiter');
+        default:
+          await _command(leiter, leiter, 'weiter');
+      }
+    }
+    _require(leiter == neu, 'Host-Wechsel $akte: Der Gastgeber ging nicht.');
+    print('PARTY-ONLINE OK · Host-Wechsel nach dem Start · $akte · der neue Gastgeber ermittelt und führt den Abend zu Ende');
+  } finally {
+    for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
+    await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+  }
+}
+
 Future<void> main(List<String> args) async {
   RoomManager? rooms;
   HttpServer? server;
@@ -413,7 +518,8 @@ Future<void> main(List<String> args) async {
     if (remote == null) {
       rooms = RoomManager(
         runtimeFactory: coreRuntimeFactory(scenarios),
-        abendFactories: {'schlosskeller': loadSchlosskellerFactory(partyDir)},
+        // Alle Akten wie der Produktionsserver; der Schlosskeller wie bisher ohne Zusatzorte.
+        abendFactories: {...loadAktenFactories(partyDir), 'schlosskeller': loadSchlosskellerFactory(partyDir)},
         log: (message) { if (message.contains('Fehler')) runtimeErrors++; },
       );
       server = await serveMordakte(rooms, port: 0, trustProxy: false);
@@ -431,9 +537,14 @@ Future<void> main(List<String> args) async {
     for (final n in counts) {
       for (final k in _konstellationen) { await _batch(url, n, texte, k); }
     }
+    // Host-Wechsel nach dem Start in jeder Akte (M3: der Detektiv-Sitz wandert nicht mit).
+    final akten = [
+      for (final a in (jsonDecode(File('${Directory(partyDir).parent.path}/akten.json').readAsStringSync())['akten'] as List)) (a as Map)['id'] as String,
+    ];
+    for (final akte in akten) { await _hostwechsel(url, akte); }
     _require(runtimeErrors == 0, 'Server meldete unerwartete Runtime-Fehler.');
-    print('PARTY-ONLINE-MATRIX GRÜN · ${counts.length}/${counts.length} Laststufen × ${_konstellationen.length} Sitz-Konstellationen; '
-        'App-Bedienung und öffentliche Bereitstellung separat abnehmen.');
+    print('PARTY-ONLINE-MATRIX GRÜN · ${counts.length}/${counts.length} Laststufen × ${_konstellationen.length} Sitz-Konstellationen, '
+        'Host-Wechsel in ${akten.length} Akten; App-Bedienung und öffentliche Bereitstellung separat abnehmen.');
   } catch (error) {
     // Keine Rohpakete, Tokens, privaten Rollenkarten oder Konfigurationswerte.
     final detail = error is StateError ? error.message : '${error.runtimeType} bei $_stage';
