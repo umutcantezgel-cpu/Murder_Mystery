@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show DetectiveClass, detectiveClasses;
+import 'package:mordakte_core/runden.dart' show KartenKatalog;
 import 'package:provider/provider.dart';
 
 import '../../l10n/lookup.dart';
@@ -28,8 +29,18 @@ List<DetectiveClass> klassenNachRang() {
 /// [MetaStore] (Ausrüstung), gilt für jeden Abend und bestimmt die Rolle
 /// `klasse:<name>` für die Belohnung. Noch nicht freigeschaltete Klassen sind
 /// gesperrt und nennen den nötigen Rang.
+///
+/// Darunter steht, was die gewählte Klasse auf der Karte tut, wenn die Akte
+/// Klassen kennt ([karte], `AkteInfo.hat('klassen')`), mit dem Satz „Ändert nie
+/// Fakten, Punkte oder Würfel“ (A-055), und ihre drei Karten aus dem [katalog].
 class KlasseZeile extends StatelessWidget {
-  const KlasseZeile({super.key});
+  const KlasseZeile({super.key, this.karte = false, this.katalog});
+
+  /// Wirkt die Klasse in dieser Akte auf der Karte?
+  final bool karte;
+
+  /// Katalog der Sammelkarten (Klassenkarten der Akte `mordakte`); `null`, solange er lädt.
+  final KartenKatalog? katalog;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +75,28 @@ class KlasseZeile extends StatelessWidget {
                 ),
             ],
           ),
+          if (karte) ...[
+            const SizedBox(height: MMass.s16),
+            Text(l.abend_klasse_karte_titel.toUpperCase(), style: MPapierSchrift.marke),
+            const SizedBox(height: MMass.s4),
+            Text('${l.klasseFaehigkeitName(gewaehlt)}: ${l.klasseFaehigkeit(gewaehlt)}', style: MPapierSchrift.text.copyWith(fontSize: 15)),
+            Text(l.abend_klasse_fair, style: MPapierSchrift.leise),
+          ],
+          if (katalog?.vonFigur('mordakte', 'klasse:$gewaehlt') case final karten? when karten.isNotEmpty) ...[
+            const SizedBox(height: MMass.s16),
+            Text(l.abend_klasse_karten_titel.toUpperCase(), style: MPapierSchrift.marke),
+            const SizedBox(height: MMass.s4),
+            for (final k in karten)
+              Padding(
+                padding: const EdgeInsets.only(bottom: MMass.s4),
+                child: Text.rich(
+                  TextSpan(children: [
+                    TextSpan(text: k.titel, style: MPapierSchrift.maschine.copyWith(fontSize: 14)),
+                    TextSpan(text: ' · ${k.text}', style: MPapierSchrift.leise),
+                  ]),
+                ),
+              ),
+          ],
           const SizedBox(height: MMass.s12),
           Text(l.abend_klasse_hinweis, style: MPapierSchrift.leise),
         ],

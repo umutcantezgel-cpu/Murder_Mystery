@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../app/router.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
+import '../party/bildschirme/detektiv_karte.dart';
 import '../party/party_seite.dart';
 import '../party/sitzung.dart';
 import '../stil/stil.dart';
@@ -122,7 +123,7 @@ class _AbendSeiteState extends State<AbendSeite> {
             GastgeberSitzung() => GastgeberAblauf(sitzung: s, onEnde: _zurBelohnung),
             _ => Column(
                 children: [
-                  _AbbrechenLeiste(onPressed: _abbrechen),
+                  _AbbrechenLeiste(onPressed: _abbrechen, onDetektivKarte: () => zeigeDetektivKarte(context, s)),
                   Expanded(
                     child: MediaQuery.removePadding(
                       context: context,
@@ -166,12 +167,15 @@ Future<bool> _abbruchFragen(BuildContext context) {
   );
 }
 
-/// Schmale Leiste über dem Abend (Solo und reihum) mit dem Ausgang „Abend abbrechen“:
-/// die Lederkante des Schreibtischs mit einer Messinglinie.
+/// Schmale Leiste über dem Abend (Solo und reihum) mit dem Ausgang „Abend abbrechen“
+/// und der Detektivkarte: die Lederkante des Schreibtischs mit einer Messinglinie.
 class _AbbrechenLeiste extends StatelessWidget {
-  const _AbbrechenLeiste({required this.onPressed});
+  const _AbbrechenLeiste({required this.onPressed, required this.onDetektivKarte});
 
   final VoidCallback onPressed;
+
+  /// Öffnet die Karte des Detektivs (Auftrag, Regeln, Klasse, Befragungen).
+  final VoidCallback onDetektivKarte;
 
   @override
   Widget build(BuildContext context) {
@@ -188,16 +192,29 @@ class _AbbrechenLeiste extends StatelessWidget {
       ),
       child: SafeArea(
         bottom: false,
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MMass.s4),
-            child: MKnopf(
-              text: L.of(context).abend_abbrechen,
-              art: MKnopfArt.leise,
-              icon: Icons.close_rounded,
-              onPressed: onPressed,
-            ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MMass.s4),
+          // Je Knopf höchstens die halbe Breite: Mit großer Schrift brechen die Texte um, statt überzulaufen.
+          child: Row(
+            children: [
+              Flexible(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: MKnopf(text: L.of(context).detektiv_karte_oeffnen, art: MKnopfArt.leise, icon: Icons.badge_outlined, onPressed: onDetektivKarte),
+                ),
+              ),
+              Flexible(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: MKnopf(
+                    text: L.of(context).abend_abbrechen,
+                    art: MKnopfArt.leise,
+                    icon: Icons.close_rounded,
+                    onPressed: onPressed,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

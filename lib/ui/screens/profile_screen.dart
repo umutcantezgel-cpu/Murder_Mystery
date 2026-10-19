@@ -259,7 +259,8 @@ class _ClassRow extends StatelessWidget {
       selected: selected,
       enabled: !locked,
       label: locked ? l.abend_klasse_gesperrt(name, l.common_unlock_at(l.rankName(cls.unlockRank))) : name,
-      hint: l.classAbility(cls.id),
+      // Was die Klasse am Abend auf der Karte tut; die alten class_*-Texte gelten nur der klassischen Engine.
+      hint: '${l.klasseFaehigkeitName(cls.id)}: ${l.klasseFaehigkeit(cls.id)}',
       onTap: locked ? null : onTap,
       excludeSemantics: true,
       child: Padding(
@@ -290,9 +291,9 @@ class _ClassRow extends StatelessWidget {
                       ],
                     );
                     final text = [
-                      GanzeWorte(l.classAbility(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
+                      GanzeWorte('${l.klasseFaehigkeitName(cls.id)}: ${l.klasseFaehigkeit(cls.id)}', style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
                       const SizedBox(height: 2),
-                      GanzeWorte(l.classPassive(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                      GanzeWorte(l.abend_klasse_fair, style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
                     ];
                     // Bei großer Schrift auf schmalem Handy wird die Spalte neben der
                     // Medaille zu eng: Dann steht die Medaille oben und Name und Text

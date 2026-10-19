@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../app/router.dart';
 import '../../l10n/lookup.dart';
 import '../../netz/relay_einstellung.dart';
+import '../../party/bildschirme/detektiv_karte.dart';
 import '../../party/party_seite.dart';
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
@@ -189,6 +190,12 @@ class _Menue extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Der Gastgeber ermittelt (bis es Sitze gibt): seine Detektivkarte, im rollenden Teil.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: MKnopf(text: l.detektiv_karte_oeffnen, art: MKnopfArt.zweit, icon: Icons.badge_outlined, onPressed: () => zeigeDetektivKarte(context, sitzung)),
+            ),
+            const SizedBox(height: MMass.s16),
             Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
             const SizedBox(height: MMass.s4),
             // Der Code bleibt eine Zeile; bei wenig Platz wird er kleiner statt umzubrechen.

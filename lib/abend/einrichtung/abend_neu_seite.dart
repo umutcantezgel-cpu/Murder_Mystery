@@ -443,8 +443,9 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                 ],
               ),
               const SizedBox(height: MMass.s32),
-              // Die Klasse bestimmt die Karte der Belohnung, das Deck liegt am Abend als gemeinsame Hilfe auf dem Tisch.
-              const KlasseZeile(),
+              // Die Klasse wirkt auf der Karte (Akten mit Klassen) und bestimmt die Karte der
+              // Belohnung; das Deck liegt am Abend als gemeinsame Hilfe auf dem Tisch.
+              KlasseZeile(karte: akte.hat('klassen'), katalog: _katalog),
               const SizedBox(height: MMass.s24),
               DeckZeile(katalog: _katalog, onAendern: () => context.push(Routes.sammlungDeck)),
               if (_weise == Spielweise.eigene) ...[

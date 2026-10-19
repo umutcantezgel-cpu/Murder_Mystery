@@ -2062,6 +2062,86 @@ class LDe extends L {
   }
 
   @override
+  String get abend_klasse_forensic_faehigkeit_name => 'Spurenblick';
+
+  @override
+  String get abend_klasse_forensic_faehigkeit =>
+      'Suchstellen und Erkundungsorte leuchten schon von weitem.';
+
+  @override
+  String get abend_klasse_profiler_faehigkeit_name => 'Menschenkenner';
+
+  @override
+  String get abend_klasse_profiler_faehigkeit =>
+      'Du siehst Gesprächspartner und ihre Stimmung sofort.';
+
+  @override
+  String get abend_klasse_excop_faehigkeit_name => 'Ortskundig';
+
+  @override
+  String get abend_klasse_excop_faehigkeit =>
+      'Türen, verschlossene Türen und Treppen sind umrandet.';
+
+  @override
+  String get abend_klasse_journalist_faehigkeit_name => 'Gerüchte';
+
+  @override
+  String get abend_klasse_journalist_faehigkeit =>
+      'Im Vorbeigehen schnappst du Gerüchte auf.';
+
+  @override
+  String get abend_klasse_medic_faehigkeit_name => 'Laufschritt';
+
+  @override
+  String get abend_klasse_medic_faehigkeit =>
+      'Du läufst auf der Karte schneller.';
+
+  @override
+  String get abend_klasse_fair => 'Ändert nie Fakten, Punkte oder Würfel.';
+
+  @override
+  String get abend_klasse_karte_titel => 'Auf der Karte';
+
+  @override
+  String get abend_klasse_karten_titel => 'Deine drei Klassenkarten';
+
+  @override
+  String get detektiv_karte_titel => 'Deine Detektivkarte';
+
+  @override
+  String get detektiv_karte_oeffnen => 'Detektivkarte';
+
+  @override
+  String get detektiv_karte_hinweis =>
+      'Wer ermittelt, liest hier Auftrag und Regeln.';
+
+  @override
+  String get detektiv_karte_wer => 'Wer du bist';
+
+  @override
+  String get detektiv_karte_auftrag => 'Dein Auftrag';
+
+  @override
+  String get detektiv_karte_regeln => 'Deine Regeln';
+
+  @override
+  String get detektiv_karte_klasse => 'Deine Klasse';
+
+  @override
+  String get detektiv_karte_befragungen => 'So laufen Befragungen';
+
+  @override
+  String get detektiv_karte_befragung_1 =>
+      'Am Tisch reden die Gäste miteinander.';
+
+  @override
+  String get detektiv_karte_befragung_2 => 'Du fragst nach und hörst genau zu.';
+
+  @override
+  String get detektiv_karte_befragung_3 =>
+      'Schreib auf, was nicht zusammenpasst.';
+
+  @override
   String get abend_feste_loesung_titel => 'Feste Lösung';
 
   @override

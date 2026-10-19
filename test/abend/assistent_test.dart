@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/abend_seite.dart';
 import 'package:mordakte/abend/einrichtung/abschnitte.dart';
+import 'package:mordakte/abend/einrichtung/klasse_zeile.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
@@ -80,6 +81,9 @@ MKnopf knopf(WidgetTester tester, String text) =>
   final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
   return (phase: s.phase, solo: s.solo);
 }
+
+/// [f] innerhalb der Karteikarte „Deine Ermittlerklasse“.
+Finder _inKlasse(Finder f) => find.descendant(of: find.byType(KlasseZeile), matching: f);
 
 /// Akte (vorgewählt), Spielweise, Einstellungen (Standard) und Start.
 Future<void> bisZumStart(WidgetTester tester, String weise) async {
@@ -179,6 +183,40 @@ void main() {
     state.dispose();
   });
 
+  testWidgets('Im Start erklärt die Klasse ihre Wirkung auf der Karte und ihre drei Karten (M6)', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    // Vorgewählt ist die Forensikerin: Spurenblick im Schlosskeller.
+    final wirkung = find.text('Spurenblick: Suchstellen und Erkundungsorte leuchten schon von weitem.');
+    await tester.ensureVisible(wirkung);
+    expect(wirkung, findsOneWidget);
+    expect(find.text('Ändert nie Fakten, Punkte oder Würfel.'), findsOneWidget);
+    for (final titel in ['Forensik-Köfferchen', 'Der zweite Abdruck', 'Die große Lupe']) {
+      expect(_inKlasse(find.textContaining(titel, findRichText: true)), findsOneWidget, reason: titel);
+    }
+    await tester.ensureVisible(find.text('Profiler'));
+    await tippen(tester, 'Profiler');
+    expect(find.text('Menschenkenner: Du siehst Gesprächspartner und ihre Stimmung sofort.'), findsOneWidget, reason: 'Die Erklärung folgt der Wahl');
+    expect(_inKlasse(find.textContaining('Der Gedankenpalast', findRichText: true)), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Gewölbe kennt keine Klassen auf der Karte: nur Karten und Belohnung', (tester) async {
+    final state = await oeffnen(tester);
+    await tippen(tester, 'Spuk im Gewölbe');
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tester.ensureVisible(find.text('Profiler'));
+    expect(find.textContaining('Spurenblick'), findsNothing);
+    expect(find.text('Ändert nie Fakten, Punkte oder Würfel.'), findsNothing);
+    expect(_inKlasse(find.textContaining('Forensik-Köfferchen', findRichText: true)), findsOneWidget);
+    expect(find.text('Dein Abend bringt dir immer eine Sammelkarte deiner Klasse.'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
   testWidgets('/abend ohne laufenden Abend führt in die Detektei', (tester) async {
     final state = await oeffnen(tester, ort: Routes.abend);
     expect(find.byType(DetekteiSeite), findsOneWidget);
@@ -250,6 +288,28 @@ void main() {
     expect(find.byType(DetekteiSeite), findsOneWidget, reason: 'Nach Ja geht es in die Detektei');
     expect(find.byType(AbendSeite), findsNothing);
     expect(halter.laeuft, isFalse, reason: 'Der Abend ist freigegeben und lässt sich nicht fortsetzen');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Solo-Abend: die Leiste öffnet die Detektivkarte, auch bei 320 px und doppelter Schrift (M6)', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tippen(tester, 'Abend beginnen');
+    tester.view.physicalSize = const Size(320, 844);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await warten(tester);
+    expect(tester.takeException(), isNull, reason: 'Die Leiste läuft nicht über');
+    // Der Knopf der Leiste (der Eintrag der Rollenphase heißt „Deine Detektivkarte“).
+    await tester.tap(find.text('Detektivkarte'));
+    await warten(tester, bis: find.byType(MKarteikartenDialog));
+    expect(find.text('Deine Detektivkarte'), findsWidgets);
+    expect(find.text('So laufen Befragungen', skipOffstage: false), findsOneWidget);
+    await tippen(tester, 'Schließen');
+    expect(find.byType(MKarteikartenDialog), findsNothing);
+    expect(find.byType(AbendSeite), findsOneWidget, reason: 'Der Abend läuft weiter');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();

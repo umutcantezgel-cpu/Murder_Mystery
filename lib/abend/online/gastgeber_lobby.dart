@@ -228,7 +228,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
         const SizedBox(height: MMass.s24),
         // Eine Akte mit fester Lösung kennt keinen Fall-Code; eine Druckfassung gibt es online nie.
         if (d.daten.kanon.festeLoesung) const FesteLoesungHinweis(online: true),
-        const KlasseZeile(),
+        KlasseZeile(karte: d.daten.hat('klassen'), katalog: d.katalog),
         const SizedBox(height: MMass.s16),
         DeckZeile(katalog: d.katalog, onAendern: () => context.push(Routes.sammlungDeck)),
       ],

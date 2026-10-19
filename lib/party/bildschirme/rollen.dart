@@ -8,6 +8,7 @@ import '../../stil/stil.dart';
 import '../druck_tafel.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'detektiv_karte.dart';
 
 /// Verdeckte Rollenvergabe und Dossier (F4-BAUMEISTER-02, Master 7.6 Schritt 3, 7.11).
 ///
@@ -96,6 +97,9 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(s.ui(s.solo ? 'ui.solo.rollen_start' : 'ui.rollen.erklaerung'), style: Keller.text),
+          const SizedBox(height: 16),
+          // Die Karte des Detektivs (M6): Einweisung, Regeln, Klasse, Befragungen.
+          DetektivKarteEintrag(sitzung: s),
           const SizedBox(height: 16),
           if (s.einstellungen.druck) ...[
             DruckTafel(sitzung: s),
