@@ -5,6 +5,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { befragungenFuehren } from './befragung.mjs';
 import { starteBrowser } from './browser.mjs';
 
 const repo = path.resolve(import.meta.dirname, '../..');
@@ -97,13 +98,8 @@ try {
     let fotoHand = false;
     let fotoErkundung = false;
     for (let round = 1; round <= 3; round++) {
-      stage = `${prefix} · Runde ${round} · Gespräche`;
-      await button(page, 'ui.solo.gehoert').waitFor();
-      let count = 0;
-      while (await button(page, 'ui.solo.gehoert').count()) {
-        assert(++count <= 70, 'Sprechblasen erreichen ihr Ende nicht');
-        await click('ui.solo.gehoert');
-      }
+      stage = `${prefix} · Runde ${round} · Befragungen`;
+      await befragungenFuehren(page, { tippe: target => tap(target), fertig: async () => (await button(page, 'ui.runde.weiter').count()) > 0 });
       await click('ui.runde.weiter');
       if (round === 1) {
         await click('ui.zug.werfen');

@@ -1020,5 +1020,6 @@ class PartySitzung extends ChangeNotifier {
 /// Ein Abendstand aus der Fassung vor dem Modell befragung (A-051): Er lässt sich
 /// nicht mehr abspielen und wird mit einem Hinweis verworfen.
 class AbendstandVeraltet extends FormatException {
-  const AbendstandVeraltet() : super('Abendstand aus einer älteren Fassung der Akte');
+  // Technische Meldung (nur Protokoll); den Hinweis zeigt die Detektei aus dem ARB.
+  const AbendstandVeraltet() : super('abendstand_veraltet');
 }
