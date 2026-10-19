@@ -16,6 +16,7 @@ import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/abend/online/online_halter.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/daten.dart';
+import 'package:mordakte/party/runden_uhr.dart';
 import 'package:mordakte/party/skript.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
@@ -128,6 +129,41 @@ void main() {
     final host = s.dienst.ansicht;
     expect([host['erzaehlerLiest'], _map(host['privat']).containsKey('erzaehler')], [true, false]);
     expect(_map(raum.zustandFuer('g3')['privat'])['erzaehler'], [for (final k in s.erzaehler) texte.baustein(k)]);
+  });
+
+  testWidgets('Rundenuhr in der Erzähler-Frist: Es stellt sie, wer laut Raum leitet, nie „Die Uhr stellt Anna“ am eigenen Gerät', (tester) async {
+    // Host = Detektiv + Gast = Erzähler: Dora stellt die Uhr. Fällt sie aus, leitet laut Raum
+    // der Detektiv-Sitz (Anna); „Weiter“ und Vorlesen warten die Frist ab, die Uhr nicht.
+    final raum = _raum(erzaehler: 'g3');
+    _bis(raum, 'gespraeche', detektiv: 'gastgeber', leiter: 'g3');
+    final s = GastgeberSitzung(SitzDienst(raum));
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await zeigeImThema(tester, (c) => SitzungsUhr(sitzung: s));
+    expect([s.uhrSteuerbar, s.uhrStellerName], [false, 'Dora']);
+    expect(find.text(s.ui('ui.runde.stellt', {'name': 'Dora'})), findsOneWidget);
+    expect(find.byTooltip(s.ui('ui.runde.start')), findsNothing);
+    raum.verbunden('g3', false);
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect([s.uebernahmeFrist, s.leitet, raum.vorleser], [true, false, 'gastgeber'], reason: 'Die Frist läuft');
+    expect(s.uhrSteuerbar, isTrue, reason: 'Der Raum lässt Anna die Uhr stellen; die Gäste sehen „Die Uhr stellt Anna“');
+    expect(find.text(s.ui('ui.runde.stellt', {'name': 'Anna'})), findsNothing);
+    expect(find.text(s.ui('ui.runde.stellt', {'name': 'Dora'})), findsNothing);
+    await tester.tap(find.byTooltip(s.ui('ui.runde.start')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(s.letzterFehler, isNull);
+    expect(RundenUhr.ausJson(raum.zustandFuer('g1')['uhr'])!.start, isNotNull, reason: 'Der Raum nimmt den Start an');
+    // Zurück stellt wieder Dora die Uhr.
+    raum.verbunden('g3', true);
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect([s.uebernahmeFrist, s.uhrSteuerbar], [false, false]);
+    expect(find.text(s.ui('ui.runde.stellt', {'name': 'Dora'})), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+    s.dispose();
   });
 
   test('Übernimmt der Gastgeber den Detektiv-Sitz vom Erzähler-Sitz aus, liest und leitet er ohne Frist weiter', () async {

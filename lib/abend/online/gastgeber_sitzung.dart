@@ -408,6 +408,13 @@ class GastgeberSitzung extends PartySitzung {
   @override
   int Function() get abendzeit => dienst.verb.abendzeit;
 
+  /// Die Uhr folgt der Kette des Raums ([SchlosskellerRaum.vorleser], Recht
+  /// `darfLeiten`) ohne die Frist: Fehlt der Erzähler, stellt sie sofort, wer
+  /// laut Raum leitet. So sehen es auch die Gäste; der Gastgeber sieht während
+  /// der Frist nie seinen eigenen Namen ohne Knöpfe.
+  @override
+  bool get uhrSteuerbar => dienst.raum.vorleser == _ich;
+
   @override
   String get uhrStellerName => dienst.nameVon(dienst.raum.vorleser);
 
