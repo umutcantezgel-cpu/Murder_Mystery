@@ -104,7 +104,7 @@ class ThemeDef {
   final bool lightning;
 
   /// Kulisse rund um die Karte (nur Darstellung): `none`, `keller`, `burg`,
-  /// `garten`, `gleis` oder `motel`.
+  /// `garten`, `gleis`, `motel` oder `schloss` (Ebenen des langen Abends).
   final String backdrop;
 
   /// Helligkeit bei Tag (0..1) und Restlicht in der Nacht (0..1).
@@ -117,7 +117,7 @@ class ThemeDef {
   ];
 
   static const weathers = {'rain', 'snow', 'neon', 'dust', 'none'};
-  static const backdrops = {'none', 'keller', 'burg', 'garten', 'gleis', 'motel'};
+  static const backdrops = {'none', 'keller', 'burg', 'garten', 'gleis', 'motel', 'schloss'};
 
   ThemeDef({
     required this.palette,

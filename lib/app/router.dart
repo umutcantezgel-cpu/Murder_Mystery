@@ -16,6 +16,7 @@ import '../detektei/sammlung_seite.dart';
 import '../detektei/steckbrief_seite.dart';
 import '../krimidinner/gewoelbe_seite.dart';
 import '../karten/deck_seite.dart';
+import '../party/ebenen_vorschau.dart';
 import '../party/party_seite.dart';
 import '../party/skript.dart';
 import '../stil/tokens.dart';
@@ -90,6 +91,7 @@ abstract final class Routes {
   static const lobby = '/lobby';
   static const game = '/game';
   static const party = '/party';
+  static const ebenen = '/ebenen';
   static const gewoelbe = '/gewoelbe';
 }
 
@@ -196,6 +198,7 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
     GoRoute(path: Routes.lobby, pageBuilder: (c, s) => _fade(c, s, const LobbyScreen())),
     GoRoute(path: Routes.game, pageBuilder: (c, s) => _fade(c, s, const GameScreen())),
     GoRoute(path: Routes.party, pageBuilder: (c, s) => _fade(c, s, PartySeite(dev: PartyDev.ausUrl(_query)))),
+    GoRoute(path: Routes.ebenen, pageBuilder: (c, s) => _fade(c, s, EbenenVorschauSeite.ausUrl(_query))),
     GoRoute(path: Routes.gewoelbe, pageBuilder: (c, s) => _fade(c, s, GewoelbeSeite.ausUrl(_query))),
   ],
 );

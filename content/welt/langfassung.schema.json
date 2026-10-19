@@ -1,0 +1,694 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Welt-Ebenen des langen Abends",
+  "description": "content/welt/<akte>/langfassung.json: Ebenen über und vor dem Kanon-Keller (A-056, M7a). Jede Ebene außer dem Keller ist ein Raumgraph im Format von raeume.json mit eigenem Raster; der Keller verweist nur auf den Kanon. Portale verbinden Kacheln zweier Ebenen und öffnen nach Bedingung. Nur Darstellung und freies Gehen: keine Spur, kein Kettenglied, kein Sperrort.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kachel": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "punkt": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "oeffnung": {
+      "enum": [
+        "immer",
+        "nach_ersatzschluessel",
+        "nie_in_runden",
+        "vorspiel_morgen"
+      ]
+    },
+    "zeitfenster": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{1,2}:[0-9]{2}(:[0-9]{2})?$"
+      }
+    },
+    "raum": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "anzeigename",
+        "rechteck",
+        "boden",
+        "features",
+        "beschreibung"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "anzeigename": {
+          "$ref": "#/$defs/text"
+        },
+        "rechteck": {
+          "type": "object",
+          "required": [
+            "x",
+            "y",
+            "b",
+            "l"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "b": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "l": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "boden": {
+          "enum": [
+            "parquet",
+            "planks",
+            "carpet",
+            "checker",
+            "tiles",
+            "stone",
+            "metal",
+            "linoleum",
+            "grass",
+            "gravel",
+            "asphalt",
+            "snow"
+          ]
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "beschreibung": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "tuer": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "von",
+        "nach",
+        "kacheln",
+        "art",
+        "zustand",
+        "quietscht"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "von": {
+          "$ref": "#/$defs/id"
+        },
+        "nach": {
+          "$ref": "#/$defs/id"
+        },
+        "kacheln": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/kachel"
+          }
+        },
+        "art": {
+          "$ref": "#/$defs/text"
+        },
+        "zustand": {
+          "$ref": "#/$defs/text"
+        },
+        "quietscht": {
+          "type": "boolean"
+        },
+        "offen": {
+          "$ref": "#/$defs/oeffnung"
+        }
+      }
+    },
+    "ding": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "typ",
+        "x",
+        "y",
+        "blockiert",
+        "darstellung"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "typ": {
+          "$ref": "#/$defs/id"
+        },
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blockiert": {
+          "type": "boolean"
+        },
+        "darstellung": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "ort": {
+      "type": "object",
+      "required": [
+        "id",
+        "raum",
+        "x",
+        "y",
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "raum": {
+          "$ref": "#/$defs/id"
+        },
+        "x": {
+          "type": "number",
+          "minimum": 0
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "lichtquelle": {
+      "type": "object",
+      "required": [
+        "id",
+        "art",
+        "name",
+        "an"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "art": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "raeume": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "ort": {
+          "$ref": "#/$defs/id"
+        },
+        "farbe": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "radius": {
+          "type": "number",
+          "minimum": 0
+        },
+        "flackern": {
+          "type": "number",
+          "minimum": 0
+        },
+        "an": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/zeitfenster"
+          }
+        }
+      }
+    },
+    "stimmung": {
+      "type": "object",
+      "required": [
+        "kulisse",
+        "wetter",
+        "dunkel"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kulisse": {
+          "enum": [
+            "none",
+            "keller",
+            "burg",
+            "garten",
+            "gleis",
+            "motel",
+            "schloss"
+          ]
+        },
+        "wetter": {
+          "enum": [
+            "none",
+            "rain",
+            "snow",
+            "neon",
+            "dust"
+          ]
+        },
+        "dunkel": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "palette": {
+          "type": "object",
+          "required": [
+            "background",
+            "floor",
+            "floorAlt",
+            "wall",
+            "wallTop",
+            "trim",
+            "accent",
+            "light",
+            "danger",
+            "text",
+            "fog"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "background": {
+              "$ref": "#/$defs/farbe"
+            },
+            "floor": {
+              "$ref": "#/$defs/farbe"
+            },
+            "floorAlt": {
+              "$ref": "#/$defs/farbe"
+            },
+            "wall": {
+              "$ref": "#/$defs/farbe"
+            },
+            "wallTop": {
+              "$ref": "#/$defs/farbe"
+            },
+            "trim": {
+              "$ref": "#/$defs/farbe"
+            },
+            "accent": {
+              "$ref": "#/$defs/farbe"
+            },
+            "light": {
+              "$ref": "#/$defs/farbe"
+            },
+            "danger": {
+              "$ref": "#/$defs/farbe"
+            },
+            "text": {
+              "$ref": "#/$defs/farbe"
+            },
+            "fog": {
+              "$ref": "#/$defs/farbe"
+            }
+          }
+        }
+      }
+    },
+    "farbe": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "zugang": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/oeffnung"
+      }
+    },
+    "kellerEbene": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "stockwerk",
+        "quelle",
+        "zugang"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "keller"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "stockwerk": {
+          "type": "integer"
+        },
+        "quelle": {
+          "const": "kanon"
+        },
+        "zugang": {
+          "$ref": "#/$defs/zugang"
+        }
+      }
+    },
+    "ebene": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "stockwerk",
+        "zugang",
+        "aussen",
+        "stimmung",
+        "raster",
+        "rooms",
+        "tueren",
+        "einrichtung",
+        "orte"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "stockwerk": {
+          "type": "integer"
+        },
+        "zugang": {
+          "$ref": "#/$defs/zugang"
+        },
+        "aussen": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "stimmung": {
+          "$ref": "#/$defs/stimmung"
+        },
+        "raster": {
+          "type": "object",
+          "required": [
+            "breite",
+            "hoehe"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "breite": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 70
+            },
+            "hoehe": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 60
+            }
+          }
+        },
+        "rooms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/raum"
+          }
+        },
+        "tueren": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tuer"
+          }
+        },
+        "einrichtung": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ding"
+          }
+        },
+        "orte": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ort"
+          }
+        },
+        "lichtquellen": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/lichtquelle"
+          }
+        },
+        "geraeusch": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nachbarn": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "$ref": "#/$defs/id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "portalSeite": {
+      "type": "object",
+      "required": [
+        "ebene",
+        "kacheln",
+        "ankunft",
+        "aktion"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ebene": {
+          "$ref": "#/$defs/id"
+        },
+        "kacheln": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/kachel"
+          }
+        },
+        "ankunft": {
+          "$ref": "#/$defs/punkt"
+        },
+        "aktion": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "portal": {
+      "type": "object",
+      "required": [
+        "id",
+        "art",
+        "offen",
+        "weg",
+        "a",
+        "b"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "art": {
+          "enum": [
+            "treppe",
+            "tuer",
+            "tor"
+          ]
+        },
+        "offen": {
+          "$ref": "#/$defs/oeffnung"
+        },
+        "weg": {
+          "type": "number",
+          "minimum": 0
+        },
+        "a": {
+          "$ref": "#/$defs/portalSeite"
+        },
+        "b": {
+          "$ref": "#/$defs/portalSeite"
+        }
+      }
+    },
+    "ausblick": {
+      "type": "object",
+      "required": [
+        "id",
+        "ebene",
+        "ort",
+        "zeigt",
+        "mitte",
+        "zoom"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "ebene": {
+          "$ref": "#/$defs/id"
+        },
+        "ort": {
+          "$ref": "#/$defs/id"
+        },
+        "zeigt": {
+          "$ref": "#/$defs/id"
+        },
+        "mitte": {
+          "$ref": "#/$defs/punkt"
+        },
+        "zoom": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 2
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "format",
+    "akte",
+    "zeiten",
+    "ebenen",
+    "portale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "langfassung/1"
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "zeiten": {
+      "type": "object",
+      "required": [
+        "sperre",
+        "ersatzschluessel",
+        "morgen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sperre": {
+          "$ref": "#/$defs/id"
+        },
+        "ersatzschluessel": {
+          "$ref": "#/$defs/id"
+        },
+        "morgen": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "ebenen": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/kellerEbene"
+          },
+          {
+            "$ref": "#/$defs/ebene"
+          }
+        ]
+      }
+    },
+    "portale": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/portal"
+      }
+    },
+    "ausblicke": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ausblick"
+      }
+    }
+  }
+}

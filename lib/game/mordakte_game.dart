@@ -218,6 +218,30 @@ class MordakteGame extends Game with KeyboardEvents {
   // --- Szene ---
   StaticScene? _scene;
   String? _scenarioId;
+
+  /// Gebackene Szenen anderer Ebenen ([SzenenEbenen], M7a): Der Weg die
+  /// Treppe hinauf und zurück backt nicht neu. Höchstens [_szenenHalten]
+  /// neben der gezeigten, die am längsten nicht gezeigte geht zuerst.
+  final Map<String, StaticScene> _szenen = {};
+  static const _szenenHalten = 2;
+
+  /// Dauer der Überblendung nach einem Ebenenwechsel (Sekunden).
+  static const ebenenBlende = 0.3;
+
+  /// Restzeit der Überblendung (0 ohne Wechsel).
+  double _blende = 0;
+
+  /// Restzeit der Überblendung nach einem Ebenenwechsel (Tests).
+  @visibleForTesting
+  double get blende => _blende;
+
+  /// Szenario-Kennungen, deren Szenen gerade gebacken bereitliegen (Tests).
+  @visibleForTesting
+  Set<String> get szenenImSpeicher => {..._szenen.keys, ?_scenarioId};
+
+  /// Wie oft eine Szene neu gebacken wurde (Tests).
+  @visibleForTesting
+  int szenenGebacken = 0;
   bool _buildFailed = false;
   TileGrid? _grid;
   ScenePalette _pal = ScenePalette.fallback;
@@ -569,9 +593,15 @@ class MordakteGame extends Game with KeyboardEvents {
     // Angekommen: stehen, nicht über das Ziel hinausrutschen.
     _tempo = 0;
     if (aktion == null) return;
+    // Bei gleich weiten Zielen gilt das angetippte (Wendeltreppe neben der Hoftür, M7a).
+    _bevorzugtesZiel = aktion;
     _updateTarget();
+    _bevorzugtesZiel = null;
     if (target.value?.id == aktion) triggerAction();
   }
+
+  /// Ziel, das bei Gleichstand gewinnt (gerade angetippt).
+  String? _bevorzugtesZiel;
 
   /// Bildschirmpunkt (lokal im Widget) → Welt-Kachelkoordinaten.
   Offset screenToWorld(Offset local) {
@@ -618,6 +648,10 @@ class MordakteGame extends Game with KeyboardEvents {
   void dispose() {
     _scene?.dispose();
     _scene = null;
+    for (final sz in _szenen.values) {
+      sz.dispose();
+    }
+    _szenen.clear();
     _text.dispose();
     target.dispose();
     channelProgress.dispose();
@@ -677,6 +711,7 @@ class MordakteGame extends Game with KeyboardEvents {
     _time += frameDt;
     _syncScenario();
     if (_scene == null) return;
+    if (_blende > 0) _blende = math.max(0, _blende - frameDt);
     _fuehrung?.szenenSchritt(frameDt);
     _ingestWorld();
     _syncCase();
@@ -738,10 +773,25 @@ class MordakteGame extends Game with KeyboardEvents {
     final s = session.scenario;
     if (s == null) return;
     if (s.id == _scenarioId && (_scene != null || _buildFailed)) return;
-    _scene?.dispose();
+    final ebenen = session is SzenenEbenen ? (session as SzenenEbenen).ebenenSzenarien : const <String>{};
+    final alt = _scene, altId = _scenarioId;
+    // Ebenenwechsel: die alte Szene bleibt gebacken, die neue kommt aus dem Speicher.
+    final wechsel = alt != null && altId != null && ebenen.contains(altId) && ebenen.contains(s.id);
+    if (wechsel) {
+      _szenen[altId] = alt;
+      while (_szenen.length > _szenenHalten) {
+        _szenen.remove(_szenen.keys.firstWhere((k) => k != s.id))!.dispose();
+      }
+    } else {
+      alt?.dispose();
+    }
+    _scene = null;
     _buildFailed = false;
     try {
-      _scene = StaticScene.build(s);
+      final gespeichert = _szenen.remove(s.id);
+      if (gespeichert == null) szenenGebacken++;
+      // Türen wie frisch gebacken: Den Stand der Ebene setzt gleich _syncCase.
+      _scene = (gespeichert?..setOpenDoors(const {})) ?? StaticScene.build(s);
     } catch (e, st) {
       debugPrint('Mordakte: Szene konnte nicht gebaut werden: $e\n$st');
       _scene = null;
@@ -764,6 +814,13 @@ class MordakteGame extends Game with KeyboardEvents {
     _introOffen = true;
     _intro = -1;
     _playerRoom = null;
+    _nebel.clear();
+    _blende = 0;
+    if (wechsel) {
+      // Kein Kameraflug über die neue Ebene: Sie blendet am Ankunftspunkt auf.
+      _introGespielt.add(s.id);
+      _blende = ebenenBlende;
+    }
     if (_angemeldet) Klang.instanz.atmosphaereSpielen(_atmosphaere);
   }
 
@@ -837,7 +894,7 @@ class MordakteGame extends Game with KeyboardEvents {
     if (t == null) return null;
     return switch (t.backdrop) {
       'keller' => 'atmo_keller',
-      'burg' => 'atmo_wind',
+      'burg' || 'schloss' => 'atmo_wind',
       'garten' => 'atmo_regen',
       'gleis' => 'atmo_zug',
       'motel' => 'atmo_neon',
@@ -1362,6 +1419,7 @@ class MordakteGame extends Game with KeyboardEvents {
     var bestD = double.infinity;
     void consider(ActionTarget t, double d, [double bias = 0]) {
       if (d > range) return;
+      if (t.id == _bevorzugtesZiel) bias -= 0.02;
       if (d + bias < bestD) {
         bestD = d + bias;
         best = t;
@@ -1738,8 +1796,8 @@ class MordakteGame extends Game with KeyboardEvents {
       _renderPhasenLicht(canvas, view, scene, phase, s, cull, t);
     }
 
-    // 4b) Nebel des Krieges (Partymodus)
-    _renderNebel(canvas, scene);
+    // 4b) Nebel des Krieges (Partymodus), nur im Sichtbereich
+    _renderNebel(canvas, scene, cull);
 
     // 4c) Detektivklasse (A-055): Leuchten im Umkreis, Türen und Treppen
     if (_klasse case final k? when _hasPos) {
@@ -1791,6 +1849,12 @@ class MordakteGame extends Game with KeyboardEvents {
       final balken = Paint()..color = withAlpha(const Color(0xFF050407), 0.94 * r);
       canvas.drawRect(Rect.fromLTRB(0, 0, size.x, frei.top + h), balken);
       canvas.drawRect(Rect.fromLTRB(0, frei.bottom - h, size.x, size.y), balken);
+    }
+
+    // 10) Ebenenwechsel (M7a): aus dem Dunkel der Akte aufblenden.
+    if (_blende > 0) {
+      final a = (_blende / ebenenBlende).clamp(0.0, 1.0);
+      canvas.drawRect(vr, Paint()..color = withAlpha(_pal.background, a * a * (3 - 2 * a)));
     }
   }
 
@@ -2019,6 +2083,10 @@ class MordakteGame extends Game with KeyboardEvents {
 
   /// Sichtbarkeit je Raum (0 schwarz … 1 sichtbar) mit radialem Aufblenden.
   final Map<String, _Nebel> _nebel = {};
+
+  /// Nebelräume, die außerhalb des Sichtbereichs nicht gezeichnet wurden (Tests).
+  @visibleForTesting
+  int nebelVerworfen = 0;
   Set<String>? _sichtbar;
 
   void _updateNebel(double dt) {
@@ -2060,7 +2128,10 @@ class MordakteGame extends Game with KeyboardEvents {
 
   /// Weicher Schleier statt schwarzer Fläche: unbekannte Räume liegen zu
   /// höchstens 62 % im Dunst, bekannte zu 38 % ([nebelDeckkraft]).
-  void _renderNebel(Canvas c, StaticScene scene) {
+  ///
+  /// Nur Räume, deren Umriss den Sichtbereich [cull] berührt (große Ebenen
+  /// des langen Abends, M7a): Der weiche Rand kostet je Raum einen Weichzeichner.
+  void _renderNebel(Canvas c, StaticScene scene, Rect cull) {
     if (_sichtbar == null) return;
     const wand = 1.6;
     final schleier = nebelSchleier(_pal);
@@ -2073,6 +2144,11 @@ class MordakteGame extends Game with KeyboardEvents {
       final x0 = r.x.toDouble(), y0 = r.y.toDouble(), x1 = (r.x + r.w).toDouble(), y1 = (r.y + r.h).toDouble();
       final a = Iso.toScreen(x0, y0), b = Iso.toScreen(x1, y0), d = Iso.toScreen(x1, y1), e = Iso.toScreen(x0, y1);
       final ah = Iso.toScreen(x0, y0, wand), bh = Iso.toScreen(x1, y0, wand), eh = Iso.toScreen(x0, y1, wand);
+      final umriss = Rect.fromLTRB(e.dx, math.min(ah.dy, bh.dy), b.dx, d.dy);
+      if (!umriss.overlaps(cull)) {
+        nebelVerworfen++;
+        continue;
+      }
       final path = Path()
         ..moveTo(ah.dx, ah.dy)
         ..lineTo(bh.dx, bh.dy)

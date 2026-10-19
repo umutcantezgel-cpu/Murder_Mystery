@@ -2,6 +2,7 @@
 // Keine Behauptungen, nur Fotos. Der Abend wird über `?party=<akte>&bis=<phase>` vorgespielt.
 // Aufruf: node tool/e2e/kontaktbogen.mjs [--breiten 390,320] [--nur detektei,akte,…] [--ausgabe <ordner>]
 //         [--akte <id>] [--warten <ms>] [--zusatz '&at=3,4&zoom=0.8'] (Zusatz hängt an die Abend-Adressen)
+// Welt-Ebenen (M7a): 20-23 zeigen die Ebenen-Vorschau `?ebene=<id>` (nur Schlosskeller).
 // Voraussetzung: build/web (flutter build web --release --no-web-resources-cdn).
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -38,6 +39,15 @@ const ansichten = [
   ['16-anklage', party('anklage')],
   ['17-finale', party('finale')],
   ['18-aufloesung', party('aufloesung')],
+  // Welt-Ebenen des langen Abends (M7a), Ebenen-Vorschau mit allem offen
+  ...(akte === 'schlosskeller'
+    ? [
+      ['20-ebene-erdgeschoss', '?ebene=erdgeschoss&at=25.5,10.5&zoom=0.7#/ebenen'],
+      ['21-ebene-turm', '?ebene=turm&at=8.5,8.5&zoom=1.0#/ebenen'],
+      ['22-ebene-aussen', '?ebene=aussen&at=21.5,9.5&zoom=0.7#/ebenen'],
+      ['23-ebene-keller', '?ebene=keller&at=2.5,2.5&zoom=1.0#/ebenen'],
+    ]
+    : []),
 ];
 
 const server = await starteServer(path.join(repo, 'build/web'));

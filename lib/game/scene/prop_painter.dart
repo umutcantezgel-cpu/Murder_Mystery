@@ -72,6 +72,8 @@ class PropPainter {
         return PropLight(0.9, mix(custom ?? const Color(0xFFE8F0FF), _white, 0.5), 2.2, flicker: 0.1);
       case 'neon_sign':
         return PropLight(0.85, custom ?? pal.accent, 2.6, flicker: 0.25);
+      case 'party_laterne':
+        return PropLight(1.85, mix(pal.light, const Color(0xFFFFE2A8), 0.3), 3.0, flicker: 0.06);
       default:
         return p.spec.light ? PropLight(p.spec.height * 0.7, pal.light, 2.0) : null;
     }

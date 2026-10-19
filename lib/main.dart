@@ -101,6 +101,8 @@ String _devEntry(AppState app) {
   // Partymodus: `?party=schlosskeller` (Parameter siehe lib/party/skript.dart),
   // `&semantik=1` schaltet die Bedienhilfen ein (Klicks in E2E-Läufen).
   if (q['semantik'] == '1') WidgetsBinding.instance.ensureSemantics();
+  // Welt-Ebenen des langen Abends (M7a): `?ebene=turm` (Parameter siehe lib/party/ebenen_vorschau.dart).
+  if (q['ebene'] != null) return Routes.ebenen;
   if (q['party'] != null) return Routes.party;
 
   final fake = q['fake'];

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte/party/daten.dart';
+import 'package:mordakte/party/ebenen_vorschau.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/party/skript.dart';
 
@@ -18,6 +19,27 @@ PartyDaten get partyDaten => _daten ??= PartyDaten.aus(
       (p) => jsonDecode(File('content/party/schlosskeller/$p').readAsStringSync()) as Map<String, Object?>,
       jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
     );
+
+WeltEbenen? _welt;
+Map<String, ScenarioDef>? _ebenenSzenarien;
+
+/// Einmal geladene Welt-Ebenen des Schlosskellers (Langfassung, M7a).
+WeltEbenen get weltEbenen => _welt ??= WeltEbenen.ausJson(
+      jsonDecode(File('content/welt/schlosskeller/langfassung.json').readAsStringSync()) as Map<String, Object?>,
+      partyDaten.kanon,
+    );
+
+/// Renderer-Szenarien je Ebene, mit welt.json wie in der App.
+Map<String, ScenarioDef> get ebenenSzenarien => _ebenenSzenarien ??= partyEbenenSzenarien(
+      partyDaten.kanon,
+      jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
+      weltEbenen,
+      welt: jsonDecode(File('content/welt/schlosskeller/welt.json').readAsStringSync()) as Map<String, Object?>,
+    );
+
+/// Neue Ebenen-Vorschau auf [ebene] (Vorgabe: Morgen im langen Abend, alles offen).
+EbenenVorschau ebenenVorschau({String ebene = kellerEbene, WeltLage? lage, (double, double)? at}) =>
+    EbenenVorschau(weltEbenen, ebenenSzenarien, ebene: ebene, lage: lage, at: at);
 
 final _akten = <String, PartyDaten>{};
 

@@ -2,7 +2,8 @@
 // Vom Startplatz des Detektivs aus wird jeder Ort, jeder Hotspot und jede Figur
 // angetippt. Danach Frame für Frame: Jede geglättete Strecke besteht
 // freieBahn, die eigene Figur steht in jedem Frame frei, und sie kommt ohne
-// Hängen und ohne Neuplanen in höchstens 15 Sekunden an.
+// Hängen und ohne Neuplanen in höchstens 15 Sekunden an. Dasselbe auf jeder
+// Welt-Ebene des langen Abends (M7a) in der Ebenen-Vorschau.
 import 'dart:math' as math;
 
 import 'package:flame/game.dart' show Vector2;
@@ -35,8 +36,62 @@ void _aufraeumen(PartySitzung s) {
   if (s.gespraech != null) s.randgespraechBeenden();
 }
 
+/// Läuft vom Startplatz zu jedem Ziel und prüft Strecke, Frames und Ankunft.
+/// [zurueck] setzt den Detektiv an den Start. Liefert gelaufene Strecken.
+int _laufeAlle(MordakteGame game, TileGrid raster, List<(String, Offset)> ziele, void Function(Offset) zurueck, String wo0) {
+  final start = game.eigenePosition;
+  var strecken = 0;
+  for (final (name, ziel) in ziele) {
+    final wo = '$wo0, $name';
+    zurueck(start);
+    game.update(1 / 60);
+    expect(game.eigenePosition, start, reason: '$wo: zurück am Start');
+    expect(game.tippen(game.worldToScreen(ziel.dx, ziel.dy)), isTrue, reason: '$wo: erreichbar');
+    final weg = game.tippWeg ?? const <Offset>[];
+    var von = game.eigenePosition;
+    for (final p in weg) {
+      expect(raster.freieBahn(von.dx, von.dy, p.dx, p.dy), isTrue, reason: '$wo: Strecke $von → $p streift Wand oder Möbel');
+      von = p;
+      strecken++;
+    }
+    final ende = weg.isEmpty ? game.eigenePosition : weg.last;
+    var n = 0;
+    while (game.tippWeg != null && n < _maxFrames) {
+      game.update(1 / 60);
+      n++;
+      final p = game.eigenePosition;
+      expect(raster.canStand(p.dx, p.dy, Tuning.playerRadius), isTrue, reason: '$wo: Frame $n bei $p in Wand oder Möbel');
+    }
+    expect(game.tippWeg, isNull, reason: '$wo: nach 15 s nicht angekommen');
+    expect(game.tippNeuGeplant, isFalse, reason: '$wo: hing fest und musste neu planen');
+    final p = game.eigenePosition;
+    expect(dist(p.dx, p.dy, ende.dx, ende.dy), lessThan(0.02), reason: '$wo: abgebrochen bei (${p.dx}, ${p.dy}) statt (${ende.dx}, ${ende.dy}) nach $n Frames');
+  }
+  return strecken;
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  for (final ebene in weltEbenen.ebenen.keys) {
+    test('Ebene $ebene (langer Abend, alles offen): jeder Tippweg ist frei, steht in jedem Frame und kommt ohne Hängen an', () {
+      final v = ebenenVorschau(ebene: ebene)..portaleBenutzen = false;
+      addTearDown(v.dispose);
+      final game = MordakteGame(session: v)..onGameResize(Vector2(390, 844));
+      addTearDown(game.dispose);
+      game.update(1 / 60);
+      final raster = weltEbenen.raster(ebene, v.lage);
+      final start = game.eigenePosition;
+      expect(raster.canStand(start.dx, start.dy, Tuning.playerRadius), isTrue, reason: 'Startplatz');
+      final ziele = <(String, Offset)>[
+        for (final o in weltEbenen.ebenen[ebene]!.graph.orte.values) ('Ort ${o.id}', Offset(o.x, o.y)),
+        for (final (p, s) in weltEbenen.portaleAuf(ebene)) ('Portal ${p.id}', Offset(s.kacheln.first.x + 0.5, s.kacheln.first.y + 0.5)),
+      ];
+      final strecken = _laufeAlle(game, raster, ziele, (p) => v.setzeDetektiv(p.dx, p.dy), ebene);
+      expect(v.ebene, ebene, reason: 'kein Wechsel ohne Portale');
+      expect(strecken, greaterThan(ziele.length), reason: 'es wurden Wege gelaufen');
+    });
+  }
 
   for (final akte in _akten) {
     test('$akte: jeder Tippweg ist frei, steht in jedem Frame und kommt ohne Hängen an', () {
