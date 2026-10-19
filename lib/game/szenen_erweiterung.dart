@@ -168,6 +168,15 @@ class SzenenLicht {
   const SzenenLicht({required this.dunkel, this.punkte = const [], this.taschenlampe = true, this.helleRaeume = const {}});
 }
 
+/// Szene mit mehreren Ebenen (langer Abend, M7a): Ihre Szenarien sind die
+/// Ebenen einer Welt. Der Renderer behält deren gebackene Szenen, blendet beim
+/// Wechsel 0,3 s aus dem Dunkel auf und setzt die Kamera ohne Schwenk auf den
+/// Ankunftspunkt.
+abstract interface class SzenenEbenen {
+  /// Szenario-Kennungen aller Ebenen.
+  Set<String> get ebenenSzenarien;
+}
+
 /// Optional: Punkte der Szene, die im Bild bleiben sollen (Ziele der laufenden
 /// Entscheidung, Ziel des Laufs). Mit `GameView.kameraPassend` passt die Kamera
 /// Zoom und Ausschnitt an diese Punkte und an den eigenen Detektiv an.
