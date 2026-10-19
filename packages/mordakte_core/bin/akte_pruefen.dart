@@ -12,6 +12,7 @@
 //   Besetzung   je Rollenzahl: drei Gespräche je Runde, Partner, Namen, Last, Quellen der Ketten
 //   Figuren     Herkunftsmatrix, Farbabstand im selben Startraum
 //   Partie      vollständiger Abend mit bestem Spiel je Rollenzahl (RundenPartie, Salz- und Pech-Würfel)
+//   Gerüchte    nur mit content/welt/<akte>/geruechte.json: Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -126,6 +127,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _besetzung(b, kanon, erm, karte, texte);
   _figuren(b, kanon);
   _partien(b, kanon, erm, texte, fall);
+  _geruechte(b, kanon, roh, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -349,6 +351,27 @@ void _texte(Befunde b, Kanon kanon, Textsammlung sammlung, Texte texte, String w
   for (final t in sammlung.taeter.keys) {
     if (!kanon.pfade.contains(t)) b.add('Texte', ['Täterfassung $t: keine Pfadperson']);
   }
+}
+
+// ---------------------------------------------------------------- Gerüchte
+
+/// Gerüchte der Klassenfähigkeit (A-055), nur wenn die Akte welche hat: Schema,
+/// dann pruefeGeruechte. Geschützt sind zusätzlich Täterfassungen, Finale und
+/// Auflösung.
+void _geruechte(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, String fall) {
+  final datei = File('$wurzel/content/welt/$fall/geruechte.json');
+  if (!datei.existsSync()) return;
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/geruechte.schema.json')).pruefe(j);
+  b.add('Gerüchte', [for (final f in schema) 'geruechte.json: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Gerüchte', ['geruechte.json: akte ${j['akte']} statt $fall']);
+  final geschuetzt = [
+    for (final d in sammlung.dateien.entries)
+      if (RegExp(r'texte/(taeter-|erzaehler-finale|erzaehler-aufloesung)').hasMatch(d.key)) ..._alleTexte(d.value),
+  ];
+  final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
+  b.add('Gerüchte', pruefeGeruechte(Geruechte.ausJson(j), kanon, ton: ton, geschuetzt: geschuetzt));
 }
 
 // ---------------------------------------------------------------- Besetzung

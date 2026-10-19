@@ -1,0 +1,432 @@
+{
+  "format": "geruechte/1",
+  "akte": "schlosskeller",
+  "hinweis": "Gerüchte für die Klassenfähigkeit Gerüchte (A-055): je Figur und Runde ein bis zwei Zeilen, die die Journalistin beim Vorbeigehen hört. Reine Stimmung, auf allen Pfaden gleich, ohne Namen, Fallgegenstände, Suchstellen, Indizorte, Lacher und Sperrorte (R15). Kartenformat R17: höchstens acht Wörter je Zeile. Eine Figur, die ein Mensch spielt, sagt nichts (R14).",
+  "geruechte": [
+    {
+      "figur": "ahmet",
+      "runde": 1,
+      "zeilen": [
+        "Der Adventsmarkt hier soll riesig werden."
+      ]
+    },
+    {
+      "figur": "ahmet",
+      "runde": 2,
+      "zeilen": [
+        "Die Stiftung sucht noch Helfer für Dezember."
+      ]
+    },
+    {
+      "figur": "ahmet",
+      "runde": 3,
+      "zeilen": [
+        "Nächstes Jahr feiern wir wieder hier, wetten?"
+      ]
+    },
+    {
+      "figur": "fatma",
+      "runde": 1,
+      "zeilen": [
+        "Die Wandteppiche oben sind angeblich handgewebt."
+      ]
+    },
+    {
+      "figur": "fatma",
+      "runde": 2,
+      "zeilen": [
+        "Im Erdgeschoss soll es alte Fresken geben.",
+        "Die Fenster hier würde ich gern zeichnen."
+      ]
+    },
+    {
+      "figur": "fatma",
+      "runde": 3,
+      "zeilen": [
+        "Der Hof sieht nachts fast silbern aus."
+      ]
+    },
+    {
+      "figur": "olli",
+      "runde": 1,
+      "zeilen": [
+        "Das Außentor klemmt bei Frost immer."
+      ]
+    },
+    {
+      "figur": "olli",
+      "runde": 2,
+      "zeilen": [
+        "Die Holzbänke hat angeblich ein Schreiner geschnitzt."
+      ]
+    },
+    {
+      "figur": "olli",
+      "runde": 3,
+      "zeilen": [
+        "Morgen schleppen wir alles wieder zum Auto."
+      ]
+    },
+    {
+      "figur": "can",
+      "runde": 1,
+      "zeilen": [
+        "Hier soll ein Schlossgeist Socken klauen."
+      ]
+    },
+    {
+      "figur": "can",
+      "runde": 2,
+      "zeilen": [
+        "Der Geist mag angeblich keine Witze.",
+        "Wer zuletzt lacht, muss abspülen."
+      ]
+    },
+    {
+      "figur": "can",
+      "runde": 3,
+      "zeilen": [
+        "Ich wette, der Geist tanzt heimlich."
+      ]
+    },
+    {
+      "figur": "leyla",
+      "runde": 1,
+      "zeilen": [
+        "Im Turm soll früher ein Uhrmacher gewohnt haben."
+      ]
+    },
+    {
+      "figur": "leyla",
+      "runde": 2,
+      "zeilen": [
+        "Kräutertee hilft gegen kalte Füße, sagt man."
+      ]
+    },
+    {
+      "figur": "leyla",
+      "runde": 3,
+      "zeilen": [
+        "Morgen früh soll die Straße glatt sein."
+      ]
+    },
+    {
+      "figur": "emine",
+      "runde": 1,
+      "zeilen": [
+        "Meine Klasse hat das Schloss mal besucht."
+      ]
+    },
+    {
+      "figur": "emine",
+      "runde": 2,
+      "zeilen": [
+        "Die Kinder glauben fest an den Schlossgeist.",
+        "Der Geist soll Rätsel lieben."
+      ]
+    },
+    {
+      "figur": "emine",
+      "runde": 3,
+      "zeilen": [
+        "Am Montag erzähle ich alles meiner Klasse."
+      ]
+    },
+    {
+      "figur": "tim",
+      "runde": 1,
+      "zeilen": [
+        "Die alte Turmuhr läuft angeblich noch."
+      ]
+    },
+    {
+      "figur": "tim",
+      "runde": 2,
+      "zeilen": [
+        "Im Hof steht ein uralter Brunnen, sagt man."
+      ]
+    },
+    {
+      "figur": "tim",
+      "runde": 3,
+      "zeilen": [
+        "So eine Wetterfahne baue ich mir nach."
+      ]
+    },
+    {
+      "figur": "johanna",
+      "runde": 1,
+      "zeilen": [
+        "Vom Wehrgang aus sieht man die ganze Stadt."
+      ]
+    },
+    {
+      "figur": "johanna",
+      "runde": 2,
+      "zeilen": [
+        "Bei Vollmond soll der Hof silbern schimmern."
+      ]
+    },
+    {
+      "figur": "johanna",
+      "runde": 3,
+      "zeilen": [
+        "Die schönsten Bilder entstehen immer zum Schluss."
+      ]
+    },
+    {
+      "figur": "murat",
+      "runde": 1,
+      "zeilen": [
+        "Die Suppe reicht angeblich für drei Feiern."
+      ]
+    },
+    {
+      "figur": "murat",
+      "runde": 2,
+      "zeilen": [
+        "Hier wurde früher für Hochzeiten gekocht.",
+        "Das Brot kommt aus einer Bäckerei im Dorf."
+      ]
+    },
+    {
+      "figur": "murat",
+      "runde": 3,
+      "zeilen": [
+        "Reste nehmen alle gern mit, wie immer."
+      ]
+    },
+    {
+      "figur": "zeynep",
+      "runde": 1,
+      "zeilen": [
+        "Mein Team spielt morgen trotz Wind."
+      ]
+    },
+    {
+      "figur": "zeynep",
+      "runde": 2,
+      "zeilen": [
+        "Der Schlosshof wäre ein tolles Spielfeld."
+      ]
+    },
+    {
+      "figur": "zeynep",
+      "runde": 3,
+      "zeilen": [
+        "Wer früh aufsteht, bekommt den besten Platz."
+      ]
+    },
+    {
+      "figur": "baran",
+      "runde": 1,
+      "zeilen": [
+        "Im Gewölbe klingt jedes Lied doppelt so laut."
+      ]
+    },
+    {
+      "figur": "baran",
+      "runde": 2,
+      "zeilen": [
+        "Angeblich spielte hier mal eine Blaskapelle."
+      ]
+    },
+    {
+      "figur": "baran",
+      "runde": 3,
+      "zeilen": [
+        "Das letzte Lied wünscht sich immer jemand."
+      ]
+    },
+    {
+      "figur": "meryem",
+      "runde": 1,
+      "zeilen": [
+        "Die Mauern hier sind über einen Meter dick."
+      ]
+    },
+    {
+      "figur": "meryem",
+      "runde": 2,
+      "zeilen": [
+        "Im Winter friert angeblich der Brunnen zu."
+      ]
+    },
+    {
+      "figur": "meryem",
+      "runde": 3,
+      "zeilen": [
+        "Ich freue mich schon auf mein warmes Bett."
+      ]
+    },
+    {
+      "figur": "serkan",
+      "runde": 1,
+      "zeilen": [
+        "Der Parkplatz liegt weit hinter dem Außentor."
+      ]
+    },
+    {
+      "figur": "serkan",
+      "runde": 2,
+      "zeilen": [
+        "Wer zuerst fährt, nimmt die Nachbarn mit.",
+        "Draußen auf den Stufen gibt es Empfang."
+      ]
+    },
+    {
+      "figur": "serkan",
+      "runde": 3,
+      "zeilen": [
+        "Bei dem Wind fahre ich lieber langsam."
+      ]
+    },
+    {
+      "figur": "aylin",
+      "runde": 1,
+      "zeilen": [
+        "Die Stiftung führt angeblich sehr genaue Listen."
+      ]
+    },
+    {
+      "figur": "aylin",
+      "runde": 2,
+      "zeilen": [
+        "Der Adventsmarkt braucht noch viele Stände."
+      ]
+    },
+    {
+      "figur": "aylin",
+      "runde": 3,
+      "zeilen": [
+        "Ich zähle lieber Sterne als Zahlen."
+      ]
+    },
+    {
+      "figur": "kaan",
+      "runde": 1,
+      "zeilen": [
+        "Die Gewölbe sind älter als das Schloss."
+      ]
+    },
+    {
+      "figur": "kaan",
+      "runde": 2,
+      "zeilen": [
+        "Der Turm wurde zweimal neu aufgebaut, sagt man."
+      ]
+    },
+    {
+      "figur": "kaan",
+      "runde": 3,
+      "zeilen": [
+        "Morgen zeichne ich die Zinnen ab."
+      ]
+    },
+    {
+      "figur": "dilara",
+      "runde": 1,
+      "zeilen": [
+        "Auf dem Dachboden soll ein Spinnrad stehen."
+      ]
+    },
+    {
+      "figur": "dilara",
+      "runde": 2,
+      "zeilen": [
+        "Vom Adventsmarkt bringe ich immer Trödel mit."
+      ]
+    },
+    {
+      "figur": "dilara",
+      "runde": 3,
+      "zeilen": [
+        "Alte Truhen erzählen die besten Geschichten."
+      ]
+    },
+    {
+      "figur": "enes",
+      "runde": 1,
+      "zeilen": [
+        "Der Tee hier wächst angeblich im Garten."
+      ]
+    },
+    {
+      "figur": "enes",
+      "runde": 2,
+      "zeilen": [
+        "Ein guter Tee braucht Geduld und Ruhe."
+      ]
+    },
+    {
+      "figur": "enes",
+      "runde": 3,
+      "zeilen": [
+        "Morgen gibt es frischen Tee zum Abschied."
+      ]
+    },
+    {
+      "figur": "selin",
+      "runde": 1,
+      "zeilen": [
+        "Im Turm sollen nachts Eulen wohnen."
+      ]
+    },
+    {
+      "figur": "selin",
+      "runde": 2,
+      "zeilen": [
+        "Ich bleibe lieber nah bei den anderen."
+      ]
+    },
+    {
+      "figur": "selin",
+      "runde": 3,
+      "zeilen": [
+        "Der Rückweg im Wind macht mir Angst."
+      ]
+    },
+    {
+      "figur": "hakan",
+      "runde": 1,
+      "zeilen": [
+        "Die Stiftung will das Schloss bald öffnen."
+      ]
+    },
+    {
+      "figur": "hakan",
+      "runde": 2,
+      "zeilen": [
+        "Ein Schloss verbindet Leute, sagt mein Opa."
+      ]
+    },
+    {
+      "figur": "hakan",
+      "runde": 3,
+      "zeilen": [
+        "Morgen sieht alles wieder freundlicher aus."
+      ]
+    },
+    {
+      "figur": "tugba",
+      "runde": 1,
+      "zeilen": [
+        "Nächstes Mal plane ich ein Gespensterquiz."
+      ]
+    },
+    {
+      "figur": "tugba",
+      "runde": 2,
+      "zeilen": [
+        "Im Hof könnte man im Sommer tanzen."
+      ]
+    },
+    {
+      "figur": "tugba",
+      "runde": 3,
+      "zeilen": [
+        "Ein Wiedersehen wie dieses gibt es selten."
+      ]
+    }
+  ]
+}
