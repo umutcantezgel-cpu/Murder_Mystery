@@ -215,6 +215,38 @@ void main() {
     }
   });
 
+  test('Wer nach der Frage aufgibt, hält die Runde nicht auf: Die App antwortet, „Weiter“ geht', () {
+    for (final rollen in [4, 7]) {
+      final r = _bisGespraeche(5, rollen);
+      final menschen = {
+        for (var g = 1; g < 5; g++)
+          if (_map(r.zustandFuer('p$g')['privat'])['rolle'] case final String rolle) BefragungText.kennung(rolle, 1): 'p$g',
+      };
+      // Eine gestellte Befragung an einen Menschen bleibt offen; alle anderen sind erledigt.
+      final karten = _karten(r).where((k) => menschen.containsKey(k['id'])).toList();
+      final id = (karten.where((k) => k['pflicht'] == true).firstOrNull ?? karten.first)['id'] as String;
+      _befehl(r, 'p0', 'befragen', {'id': id, 'frage': 0});
+      befragungenErledigen(r.zustandFuer('p0'), (typ, d) {
+        if (d['id'] != id) _befehl(r, 'p0', typ, d);
+      });
+      expect(r.zustandFuer('p0')['kannWeiter'], isFalse, reason: '$rollen Rollen: Der Mensch hat noch nicht geantwortet');
+      r.verlassen(menschen[id]!);
+      final k = _karten(r).firstWhere((k) => k['id'] == id);
+      expect(k['mensch'], isFalse);
+      expect(k['erledigt'], isTrue, reason: 'Ohne Menschen antwortet die App auf die gestellte Frage');
+      expect(k['antwort'], botAntwort(_texte, _texte.sammlung.befragungen[id]!));
+      expect(_liste(r.zustandFuer('p0')['befragungen']).firstWhere((b) => b['rolle'] == k['rolle'])['erledigt'], isTrue);
+      expect(r.zustandFuer('p0')['kannWeiter'], isTrue, reason: '$rollen Rollen');
+      // Kommt das Gerät zurück, spielt wieder ein Mensch: Er antwortet am Tisch.
+      expect(r.beitreten(menschen[id]!, 'Zurück'), isTrue);
+      expect(_karten(r).firstWhere((k) => k['id'] == id)['erledigt'], isFalse);
+      expect(r.zustandFuer('p0')['kannWeiter'], isFalse);
+      _befehl(r, 'p0', 'erledigt', {'id': id});
+      _befehl(r, 'p0', 'weiter');
+      expect(r.zustandFuer('p0')['phase'], 'entscheidungen');
+    }
+  });
+
   test('Tischpaarungen der Runde sind öffentlich und nennen nie den Detektiv', () {
     final r = _bisGespraeche(1, 12, runde: 2);
     final tisch = _liste(r.zustandFuer('p0')['tisch']);

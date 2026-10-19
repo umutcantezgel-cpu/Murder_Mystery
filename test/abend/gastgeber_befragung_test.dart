@@ -191,6 +191,40 @@ void main() {
     }
   });
 
+  testWidgets('Gastgeber: Verlässt ein befragter Gast den Abend vor „Beantwortet“, antwortet die App, Weiter geht', (t) async {
+    t.view.physicalSize = const Size(390, 2400);
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.resetPhysicalSize);
+    addTearDown(t.view.resetDevicePixelRatio);
+    final (:raum, :verb, :s, :rollen) = _abend();
+    final mensch = s.befragungen.firstWhere((k) => k.mensch && k.pflicht, orElse: () => s.befragungen.firstWhere((k) => k.mensch && k.waehlbar));
+    s.befragen(mensch.id, 0);
+    await t.pump();
+    raum.verlassen(rollen[mensch.rolle]!);
+    verb.aktualisiere();
+    await t.pump();
+    final k = s.befragungen.firstWhere((x) => x.id == mensch.id);
+    expect(k.mensch, isFalse);
+    expect(k.erledigt, isTrue, reason: 'Ohne Menschen hat die App die gestellte Frage beantwortet');
+    expect(k.antwort, befragungsAntwort(texte, texte.sammlung.befragungen[mensch.id]!));
+    await t.pumpWidget(rahmen(ListenableBuilder(listenable: s, builder: (_, _) => RundeBildschirm(sitzung: s))));
+    final karte = find.byKey(ValueKey(k.id));
+    await t.ensureVisible(karte);
+    expect(find.descendant(of: karte, matching: find.text(s.ui('ui.befragung.beantwortet'))), findsNothing);
+    for (final a in k.antwort!) {
+      expect(find.descendant(of: karte, matching: find.text(a)), findsOneWidget, reason: a);
+    }
+    PartySkript.befragungenErledigen(s);
+    await t.pump();
+    expect(s.letzterFehler, isNull);
+    expect(s.kannWeiter, isTrue);
+    s.weiter();
+    await t.pump();
+    expect(s.phase, PartyPhase.entscheidungen);
+    expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('Gastgeberbildschirm: Karten ohne Antworten von Menschen, „Beantwortet“, kein Spickzettel', (t) async {
     t.view.physicalSize = const Size(390, 844);
     t.view.devicePixelRatio = 1;

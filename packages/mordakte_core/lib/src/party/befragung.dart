@@ -157,7 +157,12 @@ class BefragungsVerlauf {
   /// Zuerst gestellte Frage (Index in [BefragungText.fragen]) oder null.
   int? frage(String id) => _frage[id];
   bool gefragt(String id) => _frage.containsKey(id);
-  bool erledigt(String id) => _erledigt.contains(id);
+
+  /// Ist [id] beantwortet, am Tisch oder von der App? [appSpricht] nennt die
+  /// Rollen, die gerade kein Mensch spielt: Deren gestellte Befragung hat die App
+  /// beantwortet, auch wenn die Person erst nach der Frage aufgegeben hat.
+  bool erledigt(String id, {bool Function(String rolle)? appSpricht}) =>
+      _erledigt.contains(id) || (appSpricht != null && _frage.containsKey(id) && appSpricht(text(id).rolle));
 
   /// Freie Wahlen, die in Runde [r] noch offen sind.
   int freiOffen(int r) => runde(r).freiWahlen - frei(r).where(_frage.containsKey).length;
@@ -182,9 +187,11 @@ class BefragungsVerlauf {
     _erledigt.add(id);
   }
 
-  /// Ist Runde [r] durch? Erst dann darf der Abend weiter.
-  bool fertig(int r) =>
-      pflicht(r).every(_erledigt.contains) && freiOffen(r) <= 0 && frei(r).where(_frage.containsKey).every(_erledigt.contains);
+  /// Ist Runde [r] durch? Erst dann darf der Abend weiter. [appSpricht] wie bei [erledigt].
+  bool fertig(int r, {bool Function(String rolle)? appSpricht}) {
+    bool beantwortet(String id) => erledigt(id, appSpricht: appSpricht);
+    return pflicht(r).every(beantwortet) && freiOffen(r) <= 0 && frei(r).where(_frage.containsKey).every(beantwortet);
+  }
 
   /// Alle gestellten Befragungen in der Reihenfolge der ersten Frage.
   List<String> get gestellt => List.unmodifiable(_frage.keys);

@@ -13,6 +13,10 @@ import 'raum_modul.dart';
 ///   Antwort; spielt ein Mensch die Rolle, antwortet er am Tisch.
 /// - `erledigt {id}`: Die gestellte Befragung ist am Tisch beantwortet.
 ///
+/// Gibt eine Person nach der Frage auf, spricht ab da die App ihre Rolle: Die
+/// gestellte Befragung gilt als beantwortet, der Detektiv bekommt die Antwort.
+/// Kommt das Gerät zurück, antwortet wieder der Mensch am Tisch.
+///
 /// „Weiter“ geht erst, wenn die Runde durch ist ([BefragungsVerlauf.fertig]).
 /// Öffentlich sind nur Paarungen und Themen (`tisch`, `befragungen`), nie eine
 /// Antwort oder ein Stichpunkt. Privat bekommt der Detektiv seine Karten
@@ -34,6 +38,12 @@ class BefragungModul extends RaumModul {
 
   bool _gespraeche(RaumKontext k) => k.phase == PartyPhase.gespraeche && _verlauf != null;
 
+  /// Rollen, die gerade kein Mensch spielt: Für sie spricht die App.
+  bool Function(String rolle) _appSpricht(RaumKontext k) => (rolle) => !k.menschSpielt(rolle);
+
+  /// Beantwortet am Tisch oder von der App, weil kein Mensch die Rolle (mehr) spielt.
+  bool _erledigt(RaumKontext k, String b) => _verlauf!.erledigt(b, appSpricht: _appSpricht(k));
+
   @override
   void nachricht(RaumKontext k, String id, String typ, Map<String, Object?> inhalt) {
     k.nurDetektiv(id);
@@ -54,7 +64,7 @@ class BefragungModul extends RaumModul {
   }
 
   @override
-  bool darfWeiter(RaumKontext k) => !_gespraeche(k) || _verlauf!.fertig(k.runde);
+  bool darfWeiter(RaumKontext k) => !_gespraeche(k) || _verlauf!.fertig(k.runde, appSpricht: _appSpricht(k));
 
   @override
   Map<String, Object?> oeffentlich(RaumKontext k, String id) {
@@ -65,7 +75,7 @@ class BefragungModul extends RaumModul {
       // Wen der Detektiv befragt: die festen und die schon gewählten freien Befragungen.
       'befragungen': [
         for (final b in [...v.pflicht(r), ...v.frei(r).where(v.gefragt)])
-          {'rolle': v.text(b).rolle, 'thema': v.text(b).thema, 'erledigt': v.erledigt(b)},
+          {'rolle': v.text(b).rolle, 'thema': v.text(b).thema, 'erledigt': _erledigt(k, b)},
       ],
       'tisch': [
         for (final t in tischPaarungen(k.texte, n: v.rollen, runde: r)) {'rolle': t.rolle, 'partner': t.partner, 'thema': t.thema},
@@ -91,7 +101,7 @@ class BefragungModul extends RaumModul {
               'pflicht': pflicht.contains(b),
               'mensch': k.menschSpielt(v.text(b).rolle),
               'frage': v.frage(b),
-              'erledigt': v.erledigt(b),
+              'erledigt': _erledigt(k, b),
               // Die Antwort der App kommt erst nach der Frage, und nur für Rollen ohne Menschen.
               if (v.gefragt(b) && !k.menschSpielt(v.text(b).rolle)) 'antwort': befragungsAntwort(k.texte, v.text(b)),
             },
@@ -118,7 +128,7 @@ class BefragungModul extends RaumModul {
         // Eine freie Befragung entfällt, wenn alle freien Wahlen schon getroffen sind.
         'entfaellt': !v.waehlbar(r, b),
         'frage': v.frage(b),
-        'erledigt': v.erledigt(b),
+        'erledigt': _erledigt(k, b),
       },
       'angesprochen': [
         for (final g in k.texte.sammlung.gespraeche)
