@@ -70,6 +70,15 @@ const _konstellationen = <_Konstellation>[
   (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler'),
 ];
 
+/// Ansicht von [c], die [wo] erfüllt: schon empfangen (auch wenn `_command` sie
+/// verbraucht hat), sonst die nächste.
+Future<Map<String, dynamic>> _ansicht(Client c, bool Function(Map<String, dynamic>) wo) async {
+  for (final m in c.inbox.reversed) {
+    if (m['t'] == Msg.abend && wo(m)) return m;
+  }
+  return c.expect(Msg.abend, where: wo, timeout: const Duration(seconds: 10));
+}
+
 /// Ansicht von [c] mit mindestens der Version [version] (die letzte, sonst die nächste).
 Future<Map<String, dynamic>> _sicht(Client c, int version) async {
   final letzte = c.latest(Msg.abend);
@@ -186,6 +195,8 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     var forgedDiceChecked = false;
     var befragt = 0;
     var steps = 0;
+    // Rundenuhr und Diashow (M4): je einmal geprüft.
+    var uhrGeprueft = false, diaGeprueft = false;
     while (host.latest(Msg.abend)['phase'] != 'ende') {
       _require(++steps < 400, 'Partyabend erreicht das Ende nicht.');
       final s = host.latest(Msg.abend);
@@ -220,6 +231,36 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
           } else {
             await _command(host, leiterC, 'weiter');
           }
+        case 'intro' when s['dia'] is int && !diaGeprueft:
+          // Diashow (M4): Den Zähler sehen alle; schalten darf nur, wer leitet.
+          _stage = 'Diashow';
+          final andere = rollenC.first;
+          andere.send({'t': Msg.abendCmd, 'c': {'typ': 'dia', 'nr': 1}});
+          await andere.expect(Msg.error, where: (m) => m['key'] == 'not_host');
+          await _command(host, leiterC, 'dia', {'nr': 1});
+          for (final c in active) {
+            await _ansicht(c, (m) => m['phase'] == 'intro' && m['dia'] == 1);
+          }
+          diaGeprueft = true;
+          await _command(host, leiterC, 'weiter');
+        case 'gespraeche' when s['uhr'] is Map && !uhrGeprueft:
+          // Rundenuhr (M4): Der Server stempelt die Zeit; was das Gerät mitschickt, gilt nicht.
+          _stage = 'Rundenuhr';
+          final andere = rollenC.first;
+          andere.send({'t': Msg.abendCmd, 'c': {'typ': 'uhr', 'aktion': 'start'}});
+          await andere.expect(Msg.error, where: (m) => m['key'] == 'not_host');
+          final vorher = DateTime.now().millisecondsSinceEpoch;
+          await _command(host, leiterC, 'uhr', {'aktion': 'start', 'zeit': 1});
+          final nachher = DateTime.now().millisecondsSinceEpoch;
+          final uhren = <String>{};
+          for (final c in active) {
+            final v = await _ansicht(c, (m) => m['phase'] == 'gespraeche' && RundenUhr.ausJson(m['uhr'])?.laeuft == true);
+            final start = RundenUhr.ausJson(v['uhr'])!.start!;
+            _require(start >= vorher && start <= nachher, 'Die Uhr trägt nicht die Zeit des Servers.');
+            uhren.add(jsonEncode(v['uhr']));
+          }
+          _require(uhren.length == 1, 'Die Uhr ist nicht für alle gleich.');
+          uhrGeprueft = true;
         case 'gespraeche':
           // Modell befragung (A-051): Der Detektiv-Sitz erledigt seine Befragungen.
           final privat = _map((await _sicht(detektivC, s['version'] as int))['privat']);
@@ -257,6 +298,8 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
       await c.expect(Msg.abend, where: (s) => s['phase'] == 'ende' && s['version'] == last['version']);
     }
     _require(forgedDiceChecked, 'Manipulationsprüfung wurde nicht erreicht.');
+    _require(uhrGeprueft, 'Die Rundenuhr wurde nicht geprüft.');
+    _require(diaGeprueft, 'Die Diashow wurde nicht geprüft.');
     final solution = _map(last['aufloesung']);
     final pfad = solution['pfad'] as String;
     final salz = solution['salz'] as String;
@@ -385,7 +428,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
       _require(rollen > 7 || notizen > 0, 'Der Detektiv bekam kein npc-Wissen als Notiz.');
     }
     await _health(url);
-    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend, eigene Karten, Sitze, Vorleser, Rechte, Reconnect, Würfel, Isolation, Health');
+    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, Reconnect, Würfel, Isolation, Health');
   } finally {
     for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
     await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));

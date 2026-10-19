@@ -5,7 +5,7 @@ library;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler;
+import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, mitAbendzeit;
 
 import 'verbindung.dart';
 
@@ -14,7 +14,13 @@ class LokaleVerbindung implements AbendVerbindung {
   /// besteht schon, z. B. nach Wiederherstellung). [beiAenderung] wird nach
   /// jedem erfolgreichen Befehl gerufen, damit andere Plätze (Relais-Gäste)
   /// ihre Ansichten neu bekommen.
-  LokaleVerbindung(this.raum, {required String id, String name = '', this.beiAenderung, bool beitreten = true}) : _id = id {
+  ///
+  /// Jeder Befehl trägt die Abendzeit dieses Geräts ([abendzeit], Vorgabe die
+  /// Wanduhr in Millisekunden; `runden_uhr.dart`): Der Transport stempelt sie,
+  /// nie der Absender.
+  LokaleVerbindung(this.raum, {required String id, String name = '', this.beiAenderung, bool beitreten = true, int Function()? abendzeit})
+      : _id = id,
+        abendzeit = abendzeit ?? wanduhr {
     if (beitreten && !raum.beitreten(id, name)) throw const AbendFehler('voll');
     _status.add(VerbindungsStatus.verbunden);
     aktualisiere();
@@ -22,6 +28,12 @@ class LokaleVerbindung implements AbendVerbindung {
 
   final AbendRaum raum;
   final void Function()? beiAenderung;
+
+  /// Uhr des Abends (Millisekunden), mit der jeder Befehl gestempelt wird.
+  final int Function() abendzeit;
+
+  /// Wanduhr des Geräts in Millisekunden: die Abendzeit, wenn nichts anderes gilt.
+  static int wanduhr() => DateTime.now().millisecondsSinceEpoch;
   final String _id;
   final LetzterWert<Map<String, Object?>> _ansichten = LetzterWert<Map<String, Object?>>();
   final LetzterWert<VerbindungsStatus> _status = LetzterWert<VerbindungsStatus>();
@@ -65,7 +77,7 @@ class LokaleVerbindung implements AbendVerbindung {
   Future<void> befehl(Map<String, Object?> c) async {
     if (_zu) throw const AbendFehler('geschlossen');
     try {
-      raum.nachricht(_id, c);
+      raum.nachricht(_id, mitAbendzeit(c, abendzeit()));
     } on PartyRaumFehler catch (e) {
       throw AbendFehler(e.code);
     } on AbendFehler {

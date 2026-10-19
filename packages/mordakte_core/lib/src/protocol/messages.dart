@@ -17,7 +17,7 @@
 ///   {"t":"w","wt":12345, …WorldSnapshot.toJson() ohne "t"…}  (Laufzeit unter "wt", siehe server/lib/wire.dart)
 ///   {"t":"c", …CaseView.toJson()…}
 ///   {"t":"ev","list":[…GameEvent.toJson()…]}
-///   {"t":"pong","n":42}
+///   {"t":"pong","n":42,"ht":1700000000000}  (ht: Uhr des Servers in ms, für die gemeinsame Rundenuhr)
 library;
 
 const protocolVersion = 1;

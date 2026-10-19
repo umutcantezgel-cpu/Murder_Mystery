@@ -10,6 +10,7 @@ import '../../party/erzaehler_ausgabe.dart';
 import '../../party/karte_session.dart';
 import '../../party/klasse_wirkung.dart';
 import '../../party/party_stil.dart';
+import '../../party/runden_uhr.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_erzaehler.dart';
@@ -90,6 +91,9 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
                 const SizedBox(height: MMass.s16),
                 ...switch (s.phase) {
                   PartyPhase.gespraeche => [
+                      // Die gemeinsame Rundenuhr (M4): Wer leitet, stellt sie hier.
+                      SitzungsUhr(sitzung: s, groesse: 240),
+                      const SizedBox(height: MMass.s16),
                       _status(s.abschnittFertig ? l.erzaehler_detektiv_fertig : l.erzaehler_befragt),
                       if (befragungen.isNotEmpty)
                         BefragungsStand(befragungen: befragungen, person: s.personAmTisch, erledigtText: l.party_befragung_erledigt),

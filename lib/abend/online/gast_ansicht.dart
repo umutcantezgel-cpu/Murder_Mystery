@@ -12,10 +12,12 @@ import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_befragung.dart';
+import 'gast_diashow.dart';
 import 'gast_dienst.dart';
 import 'gast_erzaehler.dart';
 import 'gast_ermittlung.dart';
 import 'gast_lobby.dart';
+import 'gast_uhr.dart';
 import 'online_teile.dart';
 
 /// Schickt eine Raumnachricht; Ablehnungen zeigt die Seite selbst als Meldung.
@@ -201,6 +203,9 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return gastLobby(c, marke);
     case 'rollen':
       return _rollen(c);
+    // Diashow zur Einleitung (M4): Bild für alle, Text nur beim Vorleser (gast_diashow.dart).
+    case 'intro' when gastMitDiashow(c):
+      return _abschnitt(c, rundenMarke, l.online_phase_intro, [GastDiashow(kontext: c)], mitErzaehlertext: false);
     case 'intro':
       return _abschnitt(c, rundenMarke, l.online_phase_intro, []);
     // Der Gast auf dem Detektiv-Sitz ermittelt selbst (M3, gast_ermittlung.dart).
@@ -485,7 +490,10 @@ class _MeineRolleState extends State<_MeineRolle> {
 /// Vorleser-Sitz (M3): Liest ein anderes Gerät vor, steht statt des Texts die
 /// [VorleserKarte]. Der Erzähler-Sitz bekommt dazu sein Erzählerpaket
 /// ([gastErzaehlerTeile]); wer leitet, hat „Weiter“ ([gastWeiter]).
-GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch, {List<Widget> aktionen = const []}) {
+///
+/// [mitErzaehlertext] `false`: Der spezifische Teil zeigt den Erzähltext selbst (Diashow).
+GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch,
+    {List<Widget> aktionen = const [], bool mitErzaehlertext = true}) {
   final l = c.l;
   final liestAnderswo = c.erzaehlerTexte.isEmpty && c.v['erzaehlerLiest'] == true;
   return GastSeiteninhalt(
@@ -497,7 +505,9 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
             ? l.online_erzaehler_hinweis
             : (c.rolle == null && c.sitz == Sitz.assistenz ? l.online_assistenz_text : null),
     kinder: [
-      _erzaehler(c),
+      // Die gemeinsame Rundenuhr steht oben, solange sie läuft (M4, gast_uhr.dart).
+      ?gastRundenUhr(c),
+      if (mitErzaehlertext) _erzaehler(c),
       if (liestAnderswo)
         Padding(
           padding: const EdgeInsets.only(bottom: MMass.s16),

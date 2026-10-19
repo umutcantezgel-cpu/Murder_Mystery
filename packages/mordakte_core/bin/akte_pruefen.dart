@@ -18,6 +18,8 @@
 //     nichts aus Dossiers, Täterfassungen, Finale und Auflösung, Ton)
 //   Langfassung nur mit content/welt/<akte>/langfassung.json (in welt.json genannt): Schema und pruefeEbenen (Raster, Portale,
 //     Erreichbarkeit, Außentor in den Runden zu, Hoftür erst mit dem Ersatzschlüssel, keine Kanon-Kennung, Ton)
+//   Diashow     nur mit content/welt/<akte>/diashow.json (Zusatz diashow in akten.json): Schema und pruefeDiashow (M4: ein Bild je
+//     Abschnitt des Intros, 20–60 Wörter je Baustein, nur bekannte Orte und Figuren, keine Fallhinweise, kein Text)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -137,6 +139,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _geruechte(b, kanon, roh, wurzel, fall);
   _steckbriefe(b, kanon, texte, ordner, wurzel, fall);
   _langfassung(b, kanon, wurzel, fall);
+  _diashow(b, kanon, sammlung, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -441,6 +444,30 @@ void _steckbriefe(Befunde b, Kanon kanon, Texte texte, String ordner, String wur
   if (j['settingId'] != kanon.settingId) b.add('Steckbriefe', ['steckbriefe.json: settingId ${j['settingId']} statt ${kanon.settingId}']);
   final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
   b.add('Steckbriefe', pruefeSteckbriefe(Steckbriefe.ausJson(j), kanon, ton: ton, geschuetzt: steckbriefGeschuetzt(texte)));
+}
+
+// ---------------------------------------------------------------- Diashow
+
+/// Diashow zur Einleitung (M4), nur wenn die Akte den Zusatz `diashow` hat:
+/// Datei und Eintrag in `akten.json` gehören zusammen, dann Schema und
+/// pruefeDiashow gegen die Erzähltexte der Akte.
+void _diashow(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, String fall) {
+  final datei = File('$wurzel/content/welt/$fall/diashow.json');
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  final faehig = ((akte?['faehigkeiten'] as List?) ?? const []).contains('diashow');
+  if (datei.existsSync() != faehig) {
+    b.add('Diashow', [faehig ? 'akten.json nennt diashow, content/welt/$fall/diashow.json fehlt' : 'diashow.json ohne Zusatz diashow in akten.json']);
+  }
+  if (!datei.existsSync()) return;
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/diashow.schema.json')).pruefe(j);
+  b.add('Diashow', [for (final f in schema) 'diashow.json: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Diashow', ['diashow.json: akte ${j['akte']} statt $fall']);
+  b.add('Diashow', pruefeDiashow(Diashow.ausJson(j), kanon, (k) => sammlung.bausteine[k]));
 }
 
 // ---------------------------------------------------------------- Besetzung

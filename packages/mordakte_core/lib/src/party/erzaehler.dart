@@ -30,6 +30,20 @@ class Erzaehler {
   /// der Stromausfall im Schlosskeller (K1). Ohne Liste bleibt es bei `intro.start`.
   List<String> get introTeile => [for (final t in (kanon.json['setting.json']!['introTeile'] as List? ?? const [])) t as String];
 
+  /// Die Abschnitte des Intros in der Reihenfolge von [intro], je mit allen
+  /// Fassungen, aus denen [intro] eine wählt: Lacher besetzt oder `npc`,
+  /// Auftrag `m` oder `w`. Grundlage der Diashow (`diashow.dart`): ein Bild je
+  /// Abschnitt, gleich welche Fassung der Abend liest.
+  List<({String basis, List<String> fassungen})> get introAbschnitte {
+    final lacher = [for (final l in (kanon.json['setting.json']!['lacher'] as List? ?? const [])) (l as Map)['id'] as String];
+    return [
+      (basis: 'intro.start', fassungen: const ['intro.start']),
+      for (final t in introTeile) (basis: 'intro.$t', fassungen: ['intro.$t']),
+      for (final id in lacher) (basis: 'intro.lacher.$id', fassungen: ['intro.lacher.$id.besetzt', 'intro.lacher.$id.npc']),
+      (basis: 'intro.auftrag', fassungen: const ['intro.auftrag.m', 'intro.auftrag.w']),
+    ];
+  }
+
   /// Rundenstart; dazu das Wissen unbesetzter Gäste, das eine Runde braucht ([npcWissen]).
   List<String> rundenStart(int runde, {required bool Function(String figur) besetzt}) => [
         'runde.$runde.start',

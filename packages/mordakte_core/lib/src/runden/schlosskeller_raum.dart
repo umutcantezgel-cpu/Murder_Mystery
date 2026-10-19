@@ -17,9 +17,12 @@ import 'abend_raum.dart';
 import 'bots.dart';
 import 'partie.dart';
 import 'raum/befragung_modul.dart';
+import 'raum/dia_modul.dart';
 import 'raum/raum_modul.dart';
 import 'raum/sichtfelder.dart';
 import 'raum/sitze_modul.dart';
+import 'raum/uhr_modul.dart';
+import 'runden_uhr.dart' show RundenUhr, abendZeitFeld;
 import 'sitze.dart';
 import 'wuerfel.dart';
 import 'zugschicht.dart';
@@ -66,6 +69,11 @@ class _Teilnehmer {
 /// Gastgeber ([vorleser], [_darfLeiten]). Fällt der Detektiv-Sitz während des
 /// Abends aus, vergibt ihn der Gastgeber neu (`detektivNeu`, [_detektivNeu]).
 ///
+/// Rundenuhr und Diashow (M4): Die Gesprächszeit läuft für alle gleich
+/// ([UhrModul], Dauer [rundenMinuten]); in Akten mit Diashow ([diaAnzahl])
+/// zeigen alle Geräte in der Einleitung dasselbe Bild ([DiaModul]). Die
+/// Abendzeit kommt nur vom Transport (Feld [abendZeitFeld] jeder Nachricht).
+///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
 /// privaten Teil. Alle sehen öffentlich nur `erzaehlerLiest` und
@@ -88,12 +96,17 @@ class SchlosskellerRaum implements AbendRaum {
     this.gastgeberSitz = Sitz.detektiv,
     KartenKatalog? katalog,
     List<AbstecherOrt> abstecher = const [],
+    this.rundenMinuten = 30,
+    this.diaAnzahl = 0,
     List<RaumModul> module = const [],
   }) : _module = List.unmodifiable([
          // Die Lobby (Sitze, Rollenzahl, Figurenwahl) gehört zu jedem Raum; [_sitze] liest ihren Plan.
          SitzeModul(),
          // Das Gesprächsmodell der Akte bringt sein Modul selbst mit (A-051); Altakten bleiben ohne.
          if (texte.besetzung.befragungsmodell) BefragungModul(),
+         // Die Gesprächszeit läuft für alle gleich (M4); die Diashow nur in Akten, die eine haben.
+         UhrModul(minuten: rundenMinuten.clamp(1, RundenUhr.hoechstStart)),
+         if (diaAnzahl > 0) DiaModul(anzahl: diaAnzahl),
          ...module,
        ]), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
@@ -102,6 +115,14 @@ class SchlosskellerRaum implements AbendRaum {
 
   /// Kennung der Akte (Ordner unter `content/party/`).
   final String akte;
+
+  /// Rundendauer der Einrichtung in Minuten: So lange läuft die Uhr der
+  /// Gespräche nach `uhr start` ([UhrModul]).
+  final int rundenMinuten;
+
+  /// Zahl der Bilder der Diashow zur Einleitung (`party/diashow.dart`); 0 heißt:
+  /// keine Diashow, die Einleitung bleibt wie bisher.
+  final int diaAnzahl;
 
   /// Gastgebergerät als Autorität (Relais-Modus): Die Leitung wandert nie zu
   /// einem anderen Gerät, sonst bekäme ein Gast Salz und Täterpfad.
@@ -347,6 +368,8 @@ class SchlosskellerRaum implements AbendRaum {
 
   /// Feste Nachrichten, keine beliebigen Methoden oder Rollenkennungen.
   /// Eine optionale Revision verwirft veraltete Aktionen vor jeder Änderung.
+  /// Die Abendzeit ([abendZeitFeld]) setzt der Transport in jede Nachricht;
+  /// nur die Uhr liest sie.
   @override
   void nachricht(String id, Map<String, Object?> inhalt) {
     final t = _person(id);
@@ -368,9 +391,11 @@ class SchlosskellerRaum implements AbendRaum {
       'detektivNeu' => {'spieler'},
       _ => _modulFuer(typ)?.nachrichten[typ] ?? (throw const PartyRaumFehler('invalid')),
     };
-    if (inhalt.keys.any((k) => k != 'typ' && k != 'revision' && !erlaubt.contains(k))) {
+    if (inhalt.keys.any((k) => k != 'typ' && k != 'revision' && k != abendZeitFeld && !erlaubt.contains(k))) {
       throw const PartyRaumFehler('invalid');
     }
+    final zeit = inhalt[abendZeitFeld];
+    if (zeit != null && (zeit is! int || zeit < 0)) throw const PartyRaumFehler('invalid');
     if (inhalt.containsKey('revision') && inhalt['revision'] != _version) {
       throw const PartyRaumFehler('stale');
     }

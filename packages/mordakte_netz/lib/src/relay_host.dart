@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, ProtokollRaum;
+import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, ProtokollRaum, mitAbendzeit;
 
 import 'ablage.dart';
 import 'krypto.dart';
@@ -105,7 +105,8 @@ class RelayHost {
     this.maxProSekunde = 30,
     this.maxSitze = 64,
     this.log,
-  }) {
+    int Function()? abendzeit,
+  }) : abendzeit = abendzeit ?? LokaleVerbindung.wanduhr {
     if (raum.raumCode != schluessel.raumCode) {
       throw ArgumentError('Der Raumcode ${raum.raumCode} gehört nicht zum Gastgeberschlüssel.');
     }
@@ -124,6 +125,7 @@ class RelayHost {
     Duration offlineFrist = offlineFristStandard,
     Duration umschlagFrist = umschlagFristStandard,
     void Function(String)? log,
+    int Function()? abendzeit,
   }) async {
     final schluessel = await Schluesselpaar.erzeugen();
     final raum = fabrik(schluessel.raumCode, meta);
@@ -138,6 +140,7 @@ class RelayHost {
       offlineFrist: offlineFrist,
       umschlagFrist: umschlagFrist,
       log: log,
+      abendzeit: abendzeit,
     );
   }
 
@@ -156,6 +159,7 @@ class RelayHost {
     Duration offlineFrist = offlineFristStandard,
     Duration umschlagFrist = umschlagFristStandard,
     void Function(String)? log,
+    int Function()? abendzeit,
   }) async {
     final roh = await ablage.lesen(ablageSchluessel);
     if (roh == null) return null;
@@ -184,12 +188,13 @@ class RelayHost {
         offlineFrist: offlineFrist,
         umschlagFrist: umschlagFrist,
         log: log,
+        abendzeit: abendzeit,
       );
       final hostId = d['hostId'];
       if (hostId is String && raum.spielerIds.contains(hostId)) {
         host._hostId = hostId;
         host._hostName = d['hostName'] as String? ?? '';
-        host._lokal = LokaleVerbindung(raum, id: hostId, name: host._hostName ?? '', beitreten: false, beiAenderung: host._geaendert);
+        host._lokal = LokaleVerbindung(raum, id: hostId, name: host._hostName ?? '', beitreten: false, beiAenderung: host._geaendert, abendzeit: host.abendzeit);
       }
       final gaeste = d['gaeste'];
       if (gaeste is Map) {
@@ -233,6 +238,14 @@ class RelayHost {
   final int maxSitze;
   final void Function(String)? log;
   final RelayHostStatistik statistik = RelayHostStatistik();
+
+  /// Uhr des Abends in Millisekunden (Vorgabe: die Wanduhr dieses Geräts). Jeder
+  /// Befehl, auch der des eigenen Platzes, trägt sie im Feld `zeit`; ein Gast
+  /// kann sie nicht setzen. Im `pong` geht sie als `ht` hinaus, damit Gäste die
+  /// Restzeit der gemeinsamen Rundenuhr selbst rechnen (`runden_uhr.dart`).
+  /// Nach einem Neustart läuft dieselbe Uhr weiter, das Protokoll trägt die
+  /// Zeiten der Befehle.
+  final int Function() abendzeit;
 
   String get raumCode => raum.raumCode;
 
@@ -305,7 +318,7 @@ class RelayHost {
     }
     _hostId = id;
     _hostName = name;
-    final v = LokaleVerbindung(raum, id: id, name: name, beiAenderung: _geaendert);
+    final v = LokaleVerbindung(raum, id: id, name: name, beiAenderung: _geaendert, abendzeit: abendzeit);
     _lokal = v;
     _turmGeplant();
     _speichern();
@@ -649,7 +662,7 @@ class RelayHost {
         return _befehl(s, m);
       case 'sync' || 'ping':
         final v = m['v'];
-        if (t == 'ping') await _senden(s, {'t': 'pong', 'v': raum.version});
+        if (t == 'ping') await _senden(s, {'t': 'pong', 'v': raum.version, 'ht': abendzeit()});
         if (v is int && v != s.gesendeteVersion) _markiere(s, sofort: true);
       case 'tschuess':
         raum.verlassen(s.pid);
@@ -727,7 +740,8 @@ class RelayHost {
     }
     String? fehler;
     try {
-      raum.nachricht(s.pid, Map<String, Object?>.from(c));
+      // Die Abendzeit stempelt der Gastgeber beim Annehmen; was der Gast mitschickt, gilt nie.
+      raum.nachricht(s.pid, mitAbendzeit(Map<String, Object?>.from(c), abendzeit()));
     } on PartyRaumFehler catch (e) {
       fehler = e.code;
     } catch (_) {

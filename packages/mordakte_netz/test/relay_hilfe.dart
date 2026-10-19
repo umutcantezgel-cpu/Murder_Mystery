@@ -107,7 +107,9 @@ class Abend {
 
   /// [offlineFrist], [umschlagFrist] und [maxSpieler] setzen Fristen und Platzgrenze
   /// für einzelne Tests; ohne Angabe gelten die Standardwerte des Pakets.
-  static Future<Abend> starten({Duration? offlineFrist, Duration? umschlagFrist, int? maxSpieler}) async {
+  ///
+  /// [abendzeit] ersetzt die Uhr des Gastgebers (gemeinsame Rundenuhr, M4).
+  static Future<Abend> starten({Duration? offlineFrist, Duration? umschlagFrist, int? maxSpieler, int Function()? abendzeit}) async {
     final attrappe = await PhoenixAttrappe.starten();
     final relay = RelayParameter(url: attrappe.url, schluessel: attrappe.schluessel);
     final dir = _partyDir();
@@ -124,6 +126,8 @@ class Abend {
           fallCode: FallCode.lesen(meta['fallCode'] as String)!,
           salz: meta['salz'] as String,
           festerGastgeber: true,
+          // Diashow wie im Schlosskeller: sechs Bilder in der Einleitung.
+          diaAnzahl: 6,
         );
         return maxSpieler == null ? raum : BegrenzterRaum(raum, maxSpieler);
       },
@@ -134,6 +138,7 @@ class Abend {
       ablage: SpeicherAblage(),
       offlineFrist: offlineFrist ?? offlineFristStandard,
       umschlagFrist: umschlagFrist ?? umschlagFristStandard,
+      abendzeit: abendzeit,
     );
     final a = Abend._(attrappe, relay, kanon, texte, host);
     a.hostPlatz = host.lokaleVerbindung('host', 'Gastgeber');

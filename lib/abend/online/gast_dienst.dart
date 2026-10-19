@@ -62,6 +62,11 @@ class GastDienst extends ChangeNotifier {
   /// Die letzte Ansicht des Gastgebers für dieses Gerät.
   Map<String, Object?> get ansicht => _ansicht ?? const {};
 
+  /// Abendzeit des Gastgebers jetzt (ms), aus der eigenen Uhr und dem Versatz
+  /// aus dem `pong`: Damit rechnet das Gerät die Restzeit der gemeinsamen
+  /// Rundenuhr selbst (M4).
+  int get gastgeberZeit => verb.gastgeberZeit;
+
   VerbindungsStatus get status => _status;
 
   /// Die Akte (Figuren, Enden), sobald geladen; die Ansicht zeigt sich auch ohne sie.

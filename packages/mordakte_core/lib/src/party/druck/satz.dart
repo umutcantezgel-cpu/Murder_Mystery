@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:pdf/widgets.dart' as pw;
 
+import '../diashow.dart';
 import '../kanon/kanon.dart';
 import '../texte.dart';
 import 'aufloesung.dart';
@@ -15,12 +16,16 @@ import 'spielleitung.dart';
 /// [text] und [ui] (Bausteine `ui.druck.*` in `texte/ui-druck-*.json`) oder aus
 /// den Daten des [satz]; kein Druckteil erzeugt Text (F-11).
 class DruckKontext {
-  DruckKontext(this.kanon, this.texte, this.satz, this.stil);
+  DruckKontext(this.kanon, this.texte, this.satz, this.stil, {this.diashow});
 
   final Kanon kanon;
   final Texte texte;
   final DruckSatz satz;
   final DruckStil stil;
+
+  /// Diashow zur Einleitung (`content/welt/<akte>/diashow.json`, M4): Ihre
+  /// Bildnummern stehen im Erzählerheft als Stichwort. Ohne: ein Dia je Baustein.
+  final Diashow? diashow;
 
   String get fallTitel => kanon.fall['titel'] as String;
 

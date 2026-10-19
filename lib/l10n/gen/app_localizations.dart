@@ -7220,6 +7220,66 @@ abstract class L {
   /// In de, this message translates to:
   /// **'{name} ermittelt jetzt.'**
   String online_detektiv_neu(String name);
+
+  /// Rundenuhr: Knopf, gibt fünf Minuten dazu
+  ///
+  /// In de, this message translates to:
+  /// **'Fünf Minuten dazu'**
+  String get party_runde_plus;
+
+  /// Rundenuhr: Knopf nach einer Pause
+  ///
+  /// In de, this message translates to:
+  /// **'Uhr weiterlaufen lassen'**
+  String get party_runde_weiterlaufen;
+
+  /// Rundenuhr: Marke, wenn die Uhr steht
+  ///
+  /// In de, this message translates to:
+  /// **'Angehalten'**
+  String get party_runde_angehalten;
+
+  /// Rundenuhr: wer sie stellt, auf Geräten ohne Knöpfe
+  ///
+  /// In de, this message translates to:
+  /// **'Die Uhr stellt {name}.'**
+  String party_runde_stellt(String name);
+
+  /// Diashow der Einleitung: zum nächsten Bild
+  ///
+  /// In de, this message translates to:
+  /// **'Nächstes Bild'**
+  String get party_intro_naechstes;
+
+  /// Diashow der Einleitung: Zähler und Beschriftung für den Bildschirmleser
+  ///
+  /// In de, this message translates to:
+  /// **'Bild {nr} von {anzahl}'**
+  String party_intro_bild(String nr, String anzahl);
+
+  /// Gast: Überschrift der gemeinsamen Rundenuhr
+  ///
+  /// In de, this message translates to:
+  /// **'Zeit für diese Runde'**
+  String get online_uhr_titel;
+
+  /// Gast, der leitet: Knopf der Rundenuhr
+  ///
+  /// In de, this message translates to:
+  /// **'Uhr starten'**
+  String get online_uhr_start;
+
+  /// Gast, der leitet: Knopf der Rundenuhr
+  ///
+  /// In de, this message translates to:
+  /// **'Uhr anhalten'**
+  String get online_uhr_pause;
+
+  /// Gast: Stempel, wenn die Rundenzeit um ist
+  ///
+  /// In de, this message translates to:
+  /// **'Die Zeit ist um.'**
+  String get online_uhr_um;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

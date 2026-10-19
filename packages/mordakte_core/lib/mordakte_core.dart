@@ -45,6 +45,7 @@ export 'src/party/simulator.dart';
 export 'src/party/texte.dart';
 export 'src/party/befragung.dart';
 export 'src/party/erzaehler_paket.dart';
+export 'src/party/diashow.dart';
 export 'src/party/steckbriefe.dart';
 export 'src/party/textpruefer.dart';
 export 'src/erzaehlung/erzaehlung.dart';

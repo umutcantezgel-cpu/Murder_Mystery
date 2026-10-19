@@ -198,6 +198,41 @@ class RelayGast implements AbendVerbindung {
   /// Der zuletzt gehörte Turm des Gastgebers.
   RelayTurmInfo? get turm => _turmInfo;
 
+  // ------------------------------------------------------------- Abendzeit
+
+  /// Versatz der Abendzeit des Gastgebers zur eigenen Wanduhr (ms): Gastgeber
+  /// minus Gast, aus dem `pong` (Feld `ht`) mit der kürzesten Laufzeit; `null`,
+  /// solange kein `pong` mit Zeit kam.
+  int? get versatz => _versatz;
+  int? _versatz;
+
+  /// Laufzeit (ping bis pong, ms) der Probe, aus der [versatz] stammt.
+  int? _versatzLaufzeit;
+
+  /// Wanduhr beim letzten `ping` (ms).
+  int? _pingAb;
+
+  /// Die Abendzeit des Gastgebers jetzt, geschätzt aus der eigenen Wanduhr und
+  /// dem [versatz] (ohne Probe die eigene Wanduhr). Damit rechnet ein Gast die
+  /// Restzeit der gemeinsamen Rundenuhr selbst, ohne dass ein Takt durchs Netz geht.
+  int get gastgeberZeit => DateTime.now().millisecondsSinceEpoch + (_versatz ?? 0);
+
+  /// Übernimmt die Uhr `ht` aus einem `pong`: Der Gastgeber las sie etwa in der
+  /// Mitte zwischen `ping` und `pong`. Eine Probe ersetzt die bisherige, wenn
+  /// ihre Laufzeit nicht deutlich länger ist (so folgt der Versatz einer
+  /// gestellten Uhr, ohne bei einer langsamen Antwort zu springen).
+  void _zeitAbgleich(Object? ht) {
+    final ab = _pingAb;
+    if (ht is! int || ab == null) return;
+    final jetzt = DateTime.now().millisecondsSinceEpoch;
+    final laufzeit = jetzt - ab;
+    if (laufzeit < 0 || laufzeit > pongFrist.inMilliseconds) return;
+    final bisher = _versatzLaufzeit;
+    if (bisher != null && laufzeit > bisher * 2 + 100) return;
+    _versatz = ht + laufzeit ~/ 2 - jetzt;
+    _versatzLaufzeit = laufzeit;
+  }
+
   /// Zähler des Sockets (Ereignisse/s messen).
   PhoenixZaehler get zaehler => _socket.zaehler;
 
@@ -444,6 +479,7 @@ class RelayGast implements AbendVerbindung {
       _pruefeLobby();
     }
     final gesendet = DateTime.now();
+    _pingAb = gesendet.millisecondsSinceEpoch;
     unawaited(paar.senden(sitz, {'t': 'ping', 'v': max(_version, 0)}));
     // Der Gastgeber antwortet sofort mit Pong; bleibt es aus, ist er (neu) gestartet oder weg.
     Timer(pongFrist, () {
@@ -494,6 +530,8 @@ class RelayGast implements AbendVerbindung {
         _kontakt();
         _statusNeu();
         _pruefeLobby();
+        // Gleich die Uhr des Gastgebers abgleichen, nicht erst mit dem nächsten Takt.
+        _ping();
       } else {
         verworfen++;
       }
@@ -521,7 +559,7 @@ class RelayGast implements AbendVerbindung {
       case 'zu':
         unawaited(_schliesse(m['grund'] is String ? m['grund'] as String : 'geschlossen'));
       case 'pong':
-        break;
+        _zeitAbgleich(m['ht']);
       case 'nein':
         log?.call('Abgelehnt: ${m['key']}');
     }

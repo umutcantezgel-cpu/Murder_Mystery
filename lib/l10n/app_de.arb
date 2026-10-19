@@ -3216,5 +3216,58 @@
         "type": "String"
       }
     }
+  },
+  "party_runde_plus": "Fünf Minuten dazu",
+  "@party_runde_plus": {
+    "description": "Rundenuhr: Knopf, gibt fünf Minuten dazu"
+  },
+  "party_runde_weiterlaufen": "Uhr weiterlaufen lassen",
+  "@party_runde_weiterlaufen": {
+    "description": "Rundenuhr: Knopf nach einer Pause"
+  },
+  "party_runde_angehalten": "Angehalten",
+  "@party_runde_angehalten": {
+    "description": "Rundenuhr: Marke, wenn die Uhr steht"
+  },
+  "party_runde_stellt": "Die Uhr stellt {name}.",
+  "@party_runde_stellt": {
+    "description": "Rundenuhr: wer sie stellt, auf Geräten ohne Knöpfe",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "party_intro_naechstes": "Nächstes Bild",
+  "@party_intro_naechstes": {
+    "description": "Diashow der Einleitung: zum nächsten Bild"
+  },
+  "party_intro_bild": "Bild {nr} von {anzahl}",
+  "@party_intro_bild": {
+    "description": "Diashow der Einleitung: Zähler und Beschriftung für den Bildschirmleser",
+    "placeholders": {
+      "nr": {
+        "type": "String"
+      },
+      "anzahl": {
+        "type": "String"
+      }
+    }
+  },
+  "online_uhr_titel": "Zeit für diese Runde",
+  "@online_uhr_titel": {
+    "description": "Gast: Überschrift der gemeinsamen Rundenuhr"
+  },
+  "online_uhr_start": "Uhr starten",
+  "@online_uhr_start": {
+    "description": "Gast, der leitet: Knopf der Rundenuhr"
+  },
+  "online_uhr_pause": "Uhr anhalten",
+  "@online_uhr_pause": {
+    "description": "Gast, der leitet: Knopf der Rundenuhr"
+  },
+  "online_uhr_um": "Die Zeit ist um.",
+  "@online_uhr_um": {
+    "description": "Gast: Stempel, wenn die Rundenzeit um ist"
   }
 }

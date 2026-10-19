@@ -57,7 +57,7 @@ class _DruckTafelState extends State<DruckTafel> {
     );
     final e = s.einstellungen;
     final satz = DruckSatz.aus(s.kanon, s.daten.texte, s.fallCode, rollen: e.rollen, detektiv: e.detektiv, rundendauerMinuten: e.rundendauerMinuten);
-    return DruckKontext(s.kanon, s.daten.texte, satz, stil);
+    return DruckKontext(s.kanon, s.daten.texte, satz, stil, diashow: s.daten.diashow);
   }
 
   /// Ein Knopf, der die Datei aus [bauen] erst beim Tipp setzt.

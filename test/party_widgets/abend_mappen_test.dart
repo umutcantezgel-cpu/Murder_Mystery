@@ -151,6 +151,7 @@ void main() {
     final s = neueSitzung(rollen: 7);
     spieleBis(s, PartyPhase.gespraeche);
     s.rundendauer = const Duration(seconds: 2);
+    testAbendzeit(t, s);
     await _zeige(t, RundeBildschirm(sitzung: s));
     expect(find.descendant(of: find.byType(MTaschenuhr), matching: find.text('00:02')), findsOneWidget);
     expect(find.byType(MStempelZeile), findsNothing);
@@ -165,6 +166,7 @@ void main() {
     final s = neueSitzung(rollen: 7);
     spieleBis(s, PartyPhase.gespraeche);
     s.rundendauer = const Duration(seconds: 2);
+    testAbendzeit(t, s);
     await _zeige(t, RundeBildschirm(sitzung: s), ruhig: true);
     await t.ensureVisible(find.byTooltip(s.ui('ui.runde.start')));
     await t.tap(find.byTooltip(s.ui('ui.runde.start')));

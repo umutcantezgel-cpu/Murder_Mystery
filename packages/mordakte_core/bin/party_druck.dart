@@ -76,7 +76,10 @@ Future<void> main(List<String> args) async {
   final aus = Directory(wert('aus') ?? '$wurzel/build/druck/${fall == 'schlosskeller' ? '' : '$fall-'}${code.code}-n$rollen');
   final dauer = wert('dauer');
   final satz = DruckSatz.aus(kanon, texte, code, rollen: rollen, detektiv: detektiv, rundendauerMinuten: dauer == null ? null : int.parse(dauer));
-  final k = DruckKontext(kanon, texte, satz, stil);
+  // Dia-Nummern im Erzählerheft aus der Diashow der Akte (M4), sonst ein Dia je Baustein.
+  final dia = File('$wurzel/content/welt/$fall/diashow.json');
+  final diashow = dia.existsSync() ? Diashow.ausJson(jsonDecode(dia.readAsStringSync()) as Map<String, Object?>) : null;
+  final k = DruckKontext(kanon, texte, satz, stil, diashow: diashow);
   schreibe(aus, args.contains('--alles') ? [await druckAlles(k)] : await druckDateien(k));
   stdout.writeln('Druckspiel ${code.code} für $rollen Rollen und den Detektiv in ${aus.path}');
 }

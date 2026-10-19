@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Diashow zur Einleitung einer Akte",
+  "description": "content/welt/<akte>/diashow.json (Langer Abend M4): je Abschnitt des Intros ein Bild aus der Spielgrafik, das die App in der Engine rendert. Reine Regie ohne Text: Baustein, Kamera, Figuren (wer liegt), Stimmung. Eine Bildunterschrift gibt es nicht; der Erzähler liest den Baustein vor.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "baustein": {
+      "type": "string",
+      "pattern": "^intro\\.[a-z0-9_.]+$"
+    },
+    "kamera": {
+      "type": "object",
+      "required": [
+        "zoom",
+        "fahrt"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ort": {
+          "$ref": "#/$defs/id"
+        },
+        "raum": {
+          "$ref": "#/$defs/id"
+        },
+        "zoom": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 2
+        },
+        "fahrt": {
+          "enum": [
+            "ruhig",
+            "heran",
+            "zurueck",
+            "schwenk"
+          ]
+        }
+      }
+    },
+    "dia": {
+      "type": "object",
+      "required": [
+        "baustein",
+        "kamera",
+        "figuren",
+        "stimmung"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "baustein": {
+          "$ref": "#/$defs/baustein"
+        },
+        "kamera": {
+          "$ref": "#/$defs/kamera"
+        },
+        "figuren": {
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "liegt": {
+          "type": "array",
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "stimmung": {
+          "enum": [
+            "feier",
+            "stromausfall",
+            "rueckblick"
+          ]
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "format",
+    "akte",
+    "dias"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "diashow/1"
+    },
+    "hinweis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "dias": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/dia"
+      }
+    }
+  }
+}

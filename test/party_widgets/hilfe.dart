@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart' show WidgetTester;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte/party/daten.dart';
@@ -40,6 +41,19 @@ Map<String, ScenarioDef> get ebenenSzenarien => _ebenenSzenarien ??= partyEbenen
 /// Neue Ebenen-Vorschau auf [ebene] (Vorgabe: Morgen im langen Abend, alles offen).
 EbenenVorschau ebenenVorschau({String ebene = kellerEbene, WeltLage? lage, (double, double)? at}) =>
     EbenenVorschau(weltEbenen, ebenenSzenarien, ebene: ebene, lage: lage, at: at);
+PartyDaten? _mitDiashow;
+
+/// Der Schlosskeller mit seiner Diashow zur Einleitung
+/// (`content/welt/schlosskeller/diashow.json`, M4); [partyDaten] hat keine.
+PartyDaten get diashowDaten => _mitDiashow ??= PartyDaten.aus(
+      (p) => jsonDecode(File('content/party/schlosskeller/$p').readAsStringSync()) as Map<String, Object?>,
+      jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
+      diashow: jsonDecode(File('content/welt/schlosskeller/diashow.json').readAsStringSync()) as Map<String, Object?>,
+    );
+
+/// Die Abendzeit der Sitzung folgt der Uhr des Tests: `pump(dauer)` rückt sie
+/// vor (Rundenuhr, M4). Ohne sie stünde die Wanduhr still, während der Test pumpt.
+void testAbendzeit(WidgetTester t, PartySitzung s) => s.abendzeit = () => t.binding.clock.now().millisecondsSinceEpoch;
 
 final _akten = <String, PartyDaten>{};
 
@@ -59,9 +73,10 @@ PartyDaten akteDaten(String fall) => _akten[fall] ??= () {
 
 /// Neue Sitzung, auf Wunsch schon eingerichtet ([rollen] Personen, Pfad [pfad]).
 PartySitzung neueSitzung({int? rollen, String pfad = 'ahmet', String detektiv = 'w', bool solo = false,
-    String? salz, WuerfelQuelle wuerfel = const FesterWuerfel.neutral()}) {
-  final s = PartySitzung(partyDaten, wuerfel: wuerfel, salz: salz);
-  if (rollen != null) s.einrichten(rollen: rollen, detektiv: detektiv, solo: solo, code: FallCode.fuerPfad(pfad, partyDaten.kanon.pfade).code);
+    String? salz, WuerfelQuelle wuerfel = const FesterWuerfel.neutral(), PartyDaten? daten}) {
+  final d = daten ?? partyDaten;
+  final s = PartySitzung(d, wuerfel: wuerfel, salz: salz);
+  if (rollen != null) s.einrichten(rollen: rollen, detektiv: detektiv, solo: solo, code: FallCode.fuerPfad(pfad, d.kanon.pfade).code);
   return s;
 }
 

@@ -153,7 +153,9 @@ List<pw.Widget> _vorbereitung(DruckKontext k) => [
 ];
 
 /// Jede Runde und die Anklage beginnen auf einer neuen Seite, damit keine Überschrift am Seitenende hängt.
-/// Die Intro-Bausteine tragen ihre Dia-Nummer als Stichwort: ein Dia je Baustein (A-054).
+/// Die Intro-Bausteine tragen ihre Dia-Nummer als Stichwort: die Nummer ihres Bildes
+/// in der Diashow der Akte (M4; ein Baustein ohne Bild ohne Stichwort), ohne Diashow
+/// ein Dia je Baustein (A-054).
 List<pw.Widget> _ablauf(DruckKontext k, Spielleitungsheft heft, {required bool druckspiel}) => [
   _titel(k, k.ui('ui.druck.spielleitung.ablauf')),
   _absatz(k, k.ui('ui.druck.spielleitung.ablauf.einleitung')),
@@ -165,11 +167,19 @@ List<pw.Widget> _ablauf(DruckKontext k, Spielleitungsheft heft, {required bool d
   else
     _absatz(k, k.ui('ui.druck.erzaehler.app_rest')),
   ..._block(k, k.ui('ui.druck.spielleitung.intro'), [
-    for (var i = 0; i < heft.intro.length; i++) _vorlesen(k, k.text(heft.intro[i]), dia: i + 1),
+    for (var i = 0; i < heft.intro.length; i++) _vorlesen(k, k.text(heft.intro[i]), dia: _dia(k, heft.intro[i], i)),
   ]),
   for (var r = 1; r <= 3; r++) ...[pw.NewPage(), ..._runde(k, heft, r, druckspiel: druckspiel)],
   if (druckspiel) ...[pw.NewPage(), ..._anklage(k, heft)],
 ];
+
+/// Dia-Nummer (ab 1) des Intro-Bausteins [kennung] an Stelle [i].
+int? _dia(DruckKontext k, String kennung, int i) {
+  final d = k.diashow;
+  if (d == null) return i + 1;
+  final nr = d.nrFuer(kennung);
+  return nr == null ? null : nr + 1;
+}
 
 List<pw.Widget> _runde(DruckKontext k, Spielleitungsheft heft, int r, {required bool druckspiel}) => [
   _titel(k, k.ui('ui.druck.spielleitung.runde', {'nr': '$r'})),

@@ -149,7 +149,8 @@ class Connection implements ClientLink {
         _hello(msg);
         return;
       case Msg.ping:
-        send(encodeMsg({'t': Msg.pong, 'n': msg['n']}));
+        // `ht`: Uhr des Servers, damit Geräte die Restzeit der Rundenuhr selbst rechnen.
+        send(encodeMsg({'t': Msg.pong, 'n': msg['n'], 'ht': DateTime.now().millisecondsSinceEpoch}));
         return;
     }
     final p = player;

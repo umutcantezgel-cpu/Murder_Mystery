@@ -127,6 +127,9 @@ class GastgeberDienst extends ChangeNotifier {
         gastgeberSitz: _sitzAus(meta),
         katalog: katalog,
         abstecher: abstecher,
+        // Rundenuhr und Diashow (M4): Dauer der Einrichtung, Bilder der Akte.
+        rundenMinuten: jZahl(meta['minuten'], 30),
+        diaAnzahl: daten.diashow?.dias.length ?? 0,
       );
 
   /// Erzeugt Schlüssel, Raumcode und Raum neu. Das Relais ist noch nicht

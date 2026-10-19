@@ -4,13 +4,14 @@
 // Antworten der Befragungen und die Dia-Nummern; der Bogen zeigt nur die Fragen.
 import 'dart:math' as math;
 
-import 'package:mordakte_core/mordakte_core.dart' show befragungsZettel;
+import 'package:mordakte_core/mordakte_core.dart' show Diashow, befragungsZettel;
 import 'package:mordakte_core/runden.dart' show botAntwort;
 import 'package:mordakte_core/src/party/druck/satz.dart';
 import 'package:mordakte_core/src/party/druck/spielleitung.dart';
 import 'package:test/test.dart';
 
 import 'druck_hilfe.dart';
+import 'kanon_hilfe.dart' show leseJson, repoWurzel;
 
 /// Die ersten 60 Zeichen eines Bausteins, flach wie der Text aus dem PDF.
 String _anfang(String s) {
@@ -267,6 +268,24 @@ void main() {
     expect(heft, isNot(contains(k.ui('ui.druck.erzaehler.dia', {'nr': '${intro.length + 1}'}))));
     expect(heft, contains(flach(k.ui('ui.druck.erzaehler.nur_du'))));
     expect(bogen, isNot(contains(k.ui('ui.druck.erzaehler.dia', {'nr': '1'}))));
+  });
+
+  test('Erzählerheft mit Diashow (M4): die Dia-Nummern kommen aus diashow.json, ein Abschnitt ohne Bild trägt keine', () async {
+    final roh = leseJson('$repoWurzel/content/welt/schlosskeller/diashow.json');
+    final dia = RegExp(RegExp.escape(k.ui('ui.druck.erzaehler.dia', {'nr': '#'})).replaceFirst('#', r'(\d+)'));
+    List<String> nummern(String text) => [for (final m in dia.allMatches(text)) m.group(1)!];
+    final voll = Diashow.ausJson(roh);
+    expect(voll.dias, hasLength(6));
+    final mit = flach((await _heft(druckKontext(diashow: voll))).text);
+    expect(nummern(mit), ['1', '2', '3', '4', '5', '6']);
+    // Ohne das Bild zum ersten Lacher: fünf Bilder, die Abschnitte danach rücken auf, der Lacher hat kein Stichwort.
+    final kurz = Diashow.ausJson({
+      ...roh,
+      'dias': [for (final d in roh['dias'] as List) if ((d as Map)['baustein'] != 'intro.lacher.lacher_ruestung') d],
+    });
+    expect(kurz.dias, hasLength(5));
+    final ohne = flach((await _heft(druckKontext(diashow: kurz))).text);
+    expect(nummern(ohne), ['1', '2', '3', '4', '5']);
   });
 
   test('Erzählerheft ohne Druckspiel (Abend am Bildschirm): Vorlesen, Tisch und Befragungen, kein Code, keine Auszählung, keine Anklage', () async {

@@ -13,9 +13,15 @@ import 'package:mordakte_core/runden.dart';
 import 'runtime.dart';
 
 class SchlosskellerRuntime implements AbendRuntime {
-  SchlosskellerRuntime(this.inner);
+  SchlosskellerRuntime(this.inner, {int Function()? abendzeit}) : abendzeit = abendzeit ?? _wanduhr;
   final SchlosskellerRaum inner;
   final Map<String, int> _gesendet = {};
+
+  /// Uhr des Abends (ms): Der Server stempelt jeden Befehl beim Annehmen damit
+  /// (Feld `zeit`, gemeinsame Rundenuhr); was ein Gerät mitschickt, gilt nie.
+  final int Function() abendzeit;
+
+  static int _wanduhr() => DateTime.now().millisecondsSinceEpoch;
 
   /// Kennung der Akte (der Raum spielt jede Akte des Spiels).
   @override
@@ -50,7 +56,7 @@ class SchlosskellerRuntime implements AbendRuntime {
   @override
   String? applyAbendCommand(String playerId, Map<String, Object?> command) {
     try {
-      inner.nachricht(playerId, command);
+      inner.nachricht(playerId, mitAbendzeit(command, abendzeit()));
       return null;
     } on PartyRaumFehler catch (error) {
       return error.code;
@@ -79,8 +85,11 @@ RuntimeFactory loadSchlosskellerFactory(String dir) {
   final kanon = Kanon.lade(lesen);
   final texte = Texte(kanon, Textsammlung.lade(lesen));
   final zufall = Random.secure();
+  // Diashow zur Einleitung (M4) liegt neben dem Kanon unter content/welt/.
+  final dia = File('${Directory(dir).parent.parent.path}/welt/schlosskeller/diashow.json');
+  final dias = dia.existsSync() ? Diashow.ausJson((jsonDecode(dia.readAsStringSync()) as Map).cast<String, Object?>()).dias.length : 0;
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
-    raumCode: roomCode, kanon: kanon, texte: texte,
+    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias,
     // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
     gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
@@ -119,8 +128,11 @@ Map<String, RuntimeFactory> loadAktenFactories(String partyDir) {
         final texte = Texte(kanon, sammlung);
         final ab = File('$root/zusatz/$id/abstecher.json');
         final abstecher = ab.existsSync() ? AbstecherOrt.liste(json(ab.path)) : const <AbstecherOrt>[];
+        // Diashow zur Einleitung (M4): Der Raum braucht nur die Zahl der Bilder.
+        final dia = File('${Directory(root).parent.path}/welt/$id/diashow.json');
+        final dias = dia.existsSync() ? Diashow.ausJson(json(dia.path)).dias.length : 0;
         return (String roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
-              raumCode: roomCode, kanon: kanon, texte: texte, akte: id, katalog: katalog, abstecher: abstecher,
+              raumCode: roomCode, kanon: kanon, texte: texte, akte: id, katalog: katalog, abstecher: abstecher, diaAnzahl: dias,
               gastgeberSitz: Sitz.detektiv,
               fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
               salz: [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join(),

@@ -8,7 +8,7 @@
 ///   Nachrichten ausschließlich als Umschlag (siehe umschlag.dart)
 ///   Gast -> Gastgeber  hallo{name,proto,app,r,inhalt}  befehl{q,c}  sync{v}  ping{v}  tschuess{}
 ///   Gastgeber -> Gast  willkommen{spieler,raum,epoch,r}  abend{…zustandFuer…}
-///                      ok{q}  fehler{q,key}  nein{key}  zu{grund[,r]}  pong{v}
+///                      ok{q}  fehler{q,key}  nein{key}  zu{grund[,r]}  pong{v,ht}
 /// ```
 library;
 
@@ -16,9 +16,12 @@ library;
 /// Befragungen im Schlosskeller (`befragen`, `erledigt`, Ansichten `befragungen`
 /// und `tisch`). Version 3 (Langer Abend M3): Sitze und Lobby (`sitz`,
 /// `besetzung`, `zuteilen`, `wunsch`), Vorleser-Sitz (Erzähltext nur im `privat`
-/// eines Geräts, öffentlich `erzaehlerLiest` und `bausteinZahl`). Ein Gerät mit
-/// älterer Version kennt das nicht und wird abgewiesen.
-const protokollVersion = 3;
+/// eines Geräts, öffentlich `erzaehlerLiest` und `bausteinZahl`). Version 4
+/// (Langer Abend M4): gemeinsame Rundenuhr (`uhr`, die Abendzeit `zeit` setzt
+/// der Gastgeber in jeden Befehl, `pong` trägt seine Uhr als `ht`) und Diashow
+/// der Einleitung (`dia`). Ein Gerät mit älterer Version kennt das nicht und
+/// wird abgewiesen.
+const protokollVersion = 4;
 
 /// Presence-Schlüssel des Gastgebers auf allen seinen Themen.
 const hostPresenceKey = 'h';

@@ -4182,4 +4182,38 @@ class LDe extends L {
   String online_detektiv_neu(String name) {
     return '$name ermittelt jetzt.';
   }
+
+  @override
+  String get party_runde_plus => 'Fünf Minuten dazu';
+
+  @override
+  String get party_runde_weiterlaufen => 'Uhr weiterlaufen lassen';
+
+  @override
+  String get party_runde_angehalten => 'Angehalten';
+
+  @override
+  String party_runde_stellt(String name) {
+    return 'Die Uhr stellt $name.';
+  }
+
+  @override
+  String get party_intro_naechstes => 'Nächstes Bild';
+
+  @override
+  String party_intro_bild(String nr, String anzahl) {
+    return 'Bild $nr von $anzahl';
+  }
+
+  @override
+  String get online_uhr_titel => 'Zeit für diese Runde';
+
+  @override
+  String get online_uhr_start => 'Uhr starten';
+
+  @override
+  String get online_uhr_pause => 'Uhr anhalten';
+
+  @override
+  String get online_uhr_um => 'Die Zeit ist um.';
 }
