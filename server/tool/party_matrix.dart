@@ -436,22 +436,24 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
   }
 }
 
-/// Ausfall des Gast-Detektivs (Nachschliff M3): Host = Erzähler, Gast = Detektiv mit
-/// Klasse. Solange der Detektiv da ist, lehnt der Raum `detektivNeu` ab, und nur der
-/// Gastgeber darf es senden. Ist der Detektiv getrennt, gibt der Gastgeber den Sitz
-/// einem Gast mit Figur: Beide tauschen die Plätze, die Klasse bleibt beim Sitz. Der
-/// alte Detektiv kommt zurück und spielt die Figur seines Nachfolgers; der neue
-/// ermittelt den Abend zu Ende. Alle Ansichten bleiben in der Sichtfeld-Liste.
+/// Ausfall des Gast-Detektivs (Nachschliff M3, A-062): Host = Erzähler, Gast = Detektiv
+/// mit Klasse; 21 weitere Gäste spielen alle zwanzig Figuren, einer sitzt ohne Figur am
+/// Tisch (Assistenz). Solange der Detektiv da ist, lehnt der Raum `detektivNeu` ab, und
+/// nur der Gastgeber darf es senden. Ist der Detektiv getrennt, nimmt der Raum keine
+/// Figur an, auch nicht die Täterrolle; den Sitz übernimmt der Platz ohne Figur. Beide
+/// tauschen die Plätze, die Klasse bleibt beim Sitz, kein Dossier wechselt den Platz.
+/// Der alte Detektiv kommt zurück und sitzt ohne Figur am Tisch; der neue ermittelt den
+/// Abend zu Ende. Alle Ansichten bleiben in der Sichtfeld-Liste.
 Future<void> _detektivAusfall(Uri url) async {
   final all = <Client>[];
   try {
     _stage = 'Detektiv-Ausfall: Anmeldung';
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 23; i++) {
       final c = await Client.connect(url.toString(), 'Ausfallprobe-$i').timeout(const Duration(seconds: 10));
       all.add(c);
       await c.hello();
     }
-    final host = all[0], alt = all[1], neu = all[2];
+    final host = all[0], alt = all[1];
     host.send({'t': Msg.create, 'abend': 'schlosskeller'});
     final room = await host.expect(Msg.room);
     final code = room['code'] as String;
@@ -469,37 +471,60 @@ Future<void> _detektivAusfall(Uri url) async {
       c.send({'t': Msg.abendCmd, 'c': {'typ': 'bereit', 'wert': true}});
     }
     await host.expect(Msg.abend, where: (s) => _list(s['spieler']).every((t) => t['bereit'] == true));
-    await _command(host, host, 'start', {'rollen': 4});
+    final start = await _command(host, host, 'start', {'rollen': 20});
+    final sitzeVorher = {for (final t in _list(start['spieler'])) t['id']: t['sitz']};
+    final ohne = all.where((c) => sitzeVorher[c.playerId] == 'assistenz').toList();
+    final rollen = all.where((c) => sitzeVorher[c.playerId] == 'rolle').toList();
+    _require(ohne.length == 1 && rollen.length == 20, 'Detektiv-Ausfall: kein Platz ohne Figur neben zwanzig Figuren.');
+    final neu = ohne.single;
 
     _stage = 'Detektiv-Ausfall: Rechte';
     host.send({'t': Msg.abendCmd, 'c': {'typ': 'detektivNeu', 'spieler': neu.playerId}});
     await host.expect(Msg.error, where: (s) => s['key'] == 'invalid');
     neu.send({'t': Msg.abendCmd, 'c': {'typ': 'detektivNeu', 'spieler': neu.playerId}});
     await neu.expect(Msg.error, where: (s) => s['key'] == 'not_host');
-    final figur = _map((await neu.expect(Msg.abend, where: (s) => _map(s['privat'])['rolle'] is String))['privat'])['rolle'] as String;
+    final version = start['version'] as int;
+    final dossiers = <String, String>{};
+    String? taeter;
+    for (final c in rollen) {
+      final p = _map((await _sicht(c, version))['privat']);
+      _require(p['rolle'] is String && p['dossier'] is Map, 'Detektiv-Ausfall: Figur ohne Dossier.');
+      dossiers[c.playerId!] = jsonEncode(p['dossier']);
+      if (_map(p['dossier']).containsKey('tatwissen')) taeter = c.playerId;
+    }
+    _require(taeter != null, 'Detektiv-Ausfall: Die Täterrolle sitzt an keinem Gerät.');
 
     _stage = 'Detektiv-Ausfall: Detektiv getrennt';
     await alt.close();
     await alt.closed.future.timeout(const Duration(seconds: 5));
     await host.expect(Msg.abend, where: (s) => _list(s['spieler']).any((t) => t['id'] == alt.playerId && t['online'] == false));
+    // Keine Figur übernimmt den Sitz, die Täterrolle zuerst.
+    for (final c in [rollen.firstWhere((c) => c.playerId == taeter), ...rollen.where((c) => c.playerId != taeter).take(2)]) {
+      host.send({'t': Msg.abendCmd, 'c': {'typ': 'detektivNeu', 'spieler': c.playerId}});
+      await host.expect(Msg.error, where: (s) => s['key'] == 'invalid');
+    }
     await _command(host, host, 'detektivNeu', {'spieler': neu.playerId});
     final sicht = _map((await neu.expect(Msg.abend, where: (s) => _map(s['privat'])['detektiv'] == true))['privat']);
-    _require(sicht['klasse'] == 'forensic' && !sicht.containsKey('dossier') && !sicht.containsKey('rolle'), 'Der neue Detektiv hat noch seine Figur oder keine Klasse.');
+    _require(sicht['klasse'] == 'forensic' && !sicht.containsKey('dossier') && !sicht.containsKey('rolle'), 'Der neue Detektiv hat eine Figur oder keine Klasse.');
     final sitze = {for (final t in _list(host.latest(Msg.abend)['spieler'])) t['id']: t['sitz']};
-    _require(sitze[neu.playerId] == 'detektiv' && sitze[alt.playerId] == 'rolle', 'Die Sitze wurden nicht getauscht.');
+    _require(sitze[neu.playerId] == 'detektiv' && sitze[alt.playerId] == 'assistenz', 'Die Sitze wurden nicht getauscht.');
 
     _stage = 'Detektiv-Ausfall: Rückkehr';
     final zurueck = await Client.connect(url.toString(), alt.name).timeout(const Duration(seconds: 10));
     all.add(zurueck);
     await zurueck.hello(token: alt.token);
     _require(zurueck.playerId == alt.playerId, 'Rückkehr wechselte die Spieler-ID.');
-    final privat = _map((await zurueck.expect(Msg.abend, where: (s) => _map(s['privat'])['rolle'] == figur))['privat']);
-    _require(privat['detektiv'] == false && privat['dossier'] is Map && !privat.containsKey('klasse'), 'Der alte Detektiv spielt nicht die Figur seines Nachfolgers.');
+    final privat = _map((await zurueck.expect(Msg.abend, where: (s) => _map(s['privat'])['detektiv'] == false))['privat']);
+    _require(!privat.containsKey('rolle') && !privat.containsKey('dossier') && !privat.containsKey('klasse'), 'Der alte Detektiv sitzt nicht ohne Figur am Tisch.');
     zurueck.send({'t': Msg.abendCmd, 'c': {'typ': 'fundGelesen'}});
     await zurueck.expect(Msg.error, where: (s) => s['key'] == 'not_detective');
+    final nachher = host.latest(Msg.abend)['version'] as int;
+    for (final c in rollen) {
+      final p = _map((await _sicht(c, nachher))['privat']);
+      _require(jsonEncode(p['dossier']) == dossiers[c.playerId], 'Detektiv-Ausfall: Ein Dossier hat den Platz gewechselt.');
+    }
 
     // Der neue Detektiv ermittelt, der Erzähler (Gastgeber) führt weiter.
-    final rollen = [zurueck, all[3], all[4]];
     var steps = 0;
     while (host.latest(Msg.abend)['phase'] != 'ende') {
       _require(++steps < 400, 'Detektiv-Ausfall: Der Abend erreicht das Ende nicht.');
@@ -517,7 +542,7 @@ Future<void> _detektivAusfall(Uri url) async {
               case 'aktion':
                 await _command(host, neu, 'aktionFertig', {'aktion': z['aktion']});
               case 'wurf':
-                await _command(host, [neu, ...rollen].firstWhere((c) => c.playerId == s['wuerfelPate']), 'wurf');
+                await _command(host, [neu, zurueck, ...rollen].firstWhere((c) => c.playerId == s['wuerfelPate']), 'wurf');
               case 'tischruf':
                 await _command(host, neu, 'tischruf', {'ruf': 'umweg'});
               case 'fund':
@@ -563,7 +588,8 @@ Future<void> _detektivAusfall(Uri url) async {
         _require(_list(view['spieler']).every((t) => raumSpielerFelder.containsAll(t.keys)), 'Detektiv-Ausfall: nicht freigegebenes Spielerfeld.');
       }
     }
-    print('PARTY-ONLINE OK · Ausfall des Gast-Detektivs · nur der Gastgeber vergibt den Sitz neu, Plätze getauscht, Klasse beim Sitz, Abend zu Ende');
+    print('PARTY-ONLINE OK · Ausfall des Gast-Detektivs · ${all.length - 1} Geräte, 20 Figuren · nur der Gastgeber vergibt den Sitz neu, keine Figur übernimmt, '
+        'der Platz ohne Figur ermittelt, Plätze getauscht, Klasse beim Sitz, Dossiers am Platz, Abend zu Ende');
   } finally {
     for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
     await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));

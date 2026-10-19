@@ -1076,11 +1076,13 @@ Future<void> _appNeustart(_Platz p, List<RelayGast> gaeste, List<SpeicherAblage>
   await _bis(() => _list(host.latest['spieler']).firstWhere((s) => s['id'] == idVorher)['online'] == true ? true : null, 'Gast wieder online');
 }
 
-/// Ausfall des Gast-Detektivs über das Relais (Nachschliff M3): Host = Erzähler,
-/// Gast1 = Detektiv mit Klasse. Ist Gast1 getrennt, gibt der Gastgeber den Sitz an
-/// Gast2 (`detektivNeu`); beide tauschen die Plätze, die Klasse bleibt beim Sitz.
-/// Nach einem Absturz des Gastgebers spielt das Protokoll denselben Sitzplan ein;
-/// Gast1 kommt mit seinem Schlüssel zurück und spielt die Figur von Gast2.
+/// Ausfall des Gast-Detektivs über das Relais (Nachschliff M3, A-062): Host =
+/// Erzähler, Gast1 = Detektiv mit Klasse, Gast2 und Gast3 spielen Figuren. Ist Gast1
+/// getrennt, nimmt der Raum Gast2 nicht an (eine Figur übernimmt nie); der Gastgeber
+/// übernimmt den Sitz selbst (`detektivNeu`), Gast1 bekommt den Erzähler-Sitz, die
+/// Klasse bleibt beim Sitz. Nach einem Absturz des Gastgebers spielt das Protokoll
+/// denselben Sitzplan ein; Gast1 kommt mit seinem Schlüssel zurück, liest als
+/// Erzähler vor und führt weiter. Kein Dossier wechselt den Platz.
 Future<void> _detektivAusfall({required RelayParameter relay, required Kanon kanon, required Texte texte}) async {
   _stage = 'Detektiv-Ausfall: Gastgeber';
   final zufall = Random.secure();
@@ -1130,22 +1132,29 @@ Future<void> _detektivAusfall({required RelayParameter relay, required Kanon kan
       await _bereit(hostPlatz, p);
     }
     await _befehl(hostPlatz, hostPlatz, 'start', {'rollen': 4});
-    await _bis(() => _map(neu.latest['privat'])['rolle'] is String ? true : null, 'Rolle für Gast2');
-    final figur = _map(neu.latest['privat'])['rolle'] as String;
+    final figuren = plaetze.skip(1).toList();
+    for (final p in figuren) {
+      await _bis(() => _map(p.latest['privat'])['dossier'] is Map ? true : null, 'Rolle für ${p.name}');
+    }
+    final dossiers = {for (final p in figuren) p.pid: jsonEncode(_map(p.latest['privat'])['dossier'])};
 
     _stage = 'Detektiv-Ausfall: Rechte';
-    await _erwarteFehler(hostPlatz, {'typ': 'detektivNeu', 'spieler': neu.pid}, 'invalid');
+    await _erwarteFehler(hostPlatz, {'typ': 'detektivNeu', 'spieler': hostPlatz.pid}, 'invalid');
     await _erwarteFehler(neu, {'typ': 'detektivNeu', 'spieler': neu.pid}, 'not_host');
 
     _stage = 'Detektiv-Ausfall: Gast1 getrennt';
     await (alt.verb as RelayGast).trennen();
     await _bis(() => _list(hostPlatz.latest['spieler']).firstWhere((s) => s['id'] == alt.pid)['online'] == false ? true : null, 'Detektiv als offline erkannt',
         timeout: const Duration(seconds: 40));
-    await _befehl(hostPlatz, hostPlatz, 'detektivNeu', {'spieler': neu.pid});
-    await _bis(() => _map(neu.latest['privat'])['detektiv'] == true ? true : null, 'Gast2 ermittelt');
-    final privat2 = _map(neu.latest['privat']);
-    _require(privat2['klasse'] == 'journalist' && !privat2.containsKey('dossier'), 'Gast2 hat noch seine Figur oder keine Klasse.');
+    for (final p in figuren) {
+      await _erwarteFehler(hostPlatz, {'typ': 'detektivNeu', 'spieler': p.pid}, 'invalid');
+    }
+    await _befehl(hostPlatz, hostPlatz, 'detektivNeu', {'spieler': hostPlatz.pid});
+    final privatHost = _map(hostPlatz.latest['privat']);
+    _require(privatHost['detektiv'] == true && privatHost['klasse'] == 'journalist', 'Der Gastgeber ermittelt nicht oder ohne die Klasse des Sitzes.');
     final sitze = jsonEncode([for (final t in _list(hostPlatz.latest['spieler'])) [t['id'], t['sitz']]]);
+    _require(sitze == jsonEncode([[hostPlatz.pid, 'detektiv'], [alt.pid, 'erzaehler'], [neu.pid, 'rolle'], [plaetze[2].pid, 'rolle']]),
+        'Die Sitze wurden nicht getauscht.');
 
     _stage = 'Detektiv-Ausfall: Neustart des Gastgebers';
     await host.schliessen(endgueltig: false, gaesteBenachrichtigen: false);
@@ -1168,24 +1177,34 @@ Future<void> _detektivAusfall({required RelayParameter relay, required Kanon kan
     gaeste[0] = zurueck;
     alt.ersetze(zurueck);
     _require(zurueck.spielerId == alt.pid, 'Rückkehr: andere Spieler-ID.');
-    await _bis(() => _map(alt.latest['privat'])['rolle'] == figur ? true : null, 'Gast1 spielt die Figur von Gast2');
+    await _bis(() => _list(alt.latest['spieler']).firstWhere((s) => s['id'] == alt.pid)['sitz'] == 'erzaehler' ? true : null, 'Gast1 sitzt auf dem Erzähler-Sitz');
     final privat1 = _map(alt.latest['privat']);
-    _require(privat1['detektiv'] == false && privat1['dossier'] is Map && !privat1.containsKey('klasse'), 'Gast1 sitzt nicht auf dem Platz von Gast2.');
+    _require(privat1['detektiv'] == false && !privat1.containsKey('rolle') && !privat1.containsKey('dossier') && !privat1.containsKey('klasse'),
+        'Gast1 sitzt nicht ohne Figur auf dem Erzähler-Sitz.');
     await _erwarteFehler(alt, {'typ': 'fundGelesen'}, 'not_detective');
-    for (final p in [alt, plaetze[2]]) {
+    for (final p in figuren) {
       if (_map(p.latest['privat'])['gelesen'] == false) await _befehl(hostPlatz, p, 'rollenGelesen');
     }
-    await _befehl(hostPlatz, hostPlatz, 'weiter');
+    // Gast1 ist verbunden und leitet als Erzähler, nicht mehr der Gastgeber.
+    await _erwarteFehler(hostPlatz, {'typ': 'weiter'}, 'not_host');
+    await _befehl(hostPlatz, alt, 'weiter');
     _require(hostPlatz.latest['phase'] == 'intro', 'Nach dem Wechsel geht der Abend nicht weiter.');
+    await _bis(() => (_map(alt.latest['privat'])['erzaehler'] as List?)?.isNotEmpty == true ? true : null, 'Gast1 liest die Einleitung vor');
     await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
     for (final p in plaetze) {
       for (final v in p.inbox) {
         _require(v.keys.every(raumOeffentlicheSchluessel.contains), 'Detektiv-Ausfall: nicht freigegebenes Feld bei ${p.name}.');
         final privat = _map(v['privat']);
-        _require(!privat.containsKey('erzaehler') && !privat.containsKey('erzaehlerPaket'), 'Detektiv-Ausfall: Erzähltext an ${p.name}.');
+        if (p == alt) {
+          _require(!privat.containsKey('rolle') && !privat.containsKey('dossier'), 'Detektiv-Ausfall: Dossier an ${p.name}.');
+        } else {
+          _require(!privat.containsKey('erzaehler') && !privat.containsKey('erzaehlerPaket'), 'Detektiv-Ausfall: Erzähltext an ${p.name}.');
+          if (privat['dossier'] != null) _require(jsonEncode(privat['dossier']) == dossiers[p.pid], 'Detektiv-Ausfall: Ein Dossier hat den Platz gewechselt.');
+        }
       }
     }
-    print('RELAIS-ONLINE OK · Ausfall des Gast-Detektivs · Sitz neu vergeben, Plätze getauscht, Klasse beim Sitz, Neustart und Rückkehr mit demselben Sitzplan');
+    print('RELAIS-ONLINE OK · Ausfall des Gast-Detektivs · keine Figur übernimmt, der Gastgeber ermittelt selbst, Klasse beim Sitz, '
+        'Neustart mit demselben Sitzplan, Rückkehr als Erzähler, Dossiers am Platz');
   } finally {
     for (final g in gaeste) {
       try {

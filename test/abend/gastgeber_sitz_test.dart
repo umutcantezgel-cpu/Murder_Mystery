@@ -300,7 +300,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
     }
 
-    testWidgets('Ein Band sagt, dass Ben fehlt; der Gastgeber gibt den Sitz an Cleo, beide tauschen', (tester) async {
+    testWidgets('Ein Band sagt, dass Ben fehlt; wer eine Figur spielt, steht nicht zur Wahl, und der Raum lehnt Cleo ab', (tester) async {
       final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
       final s = GastgeberSitzung(SitzDienst(raum));
       final cleo = raum.rolleVon('g2');
@@ -312,16 +312,43 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(s.detektivWeg, isTrue);
       expect(find.text(de.online_detektiv_weg('Ben')), findsOneWidget);
+      expect([for (final p in s.detektivKandidaten) p.id], ['gastgeber'], reason: 'Cleo und Dora spielen Figuren');
       await tippe(tester, find.byKey(const ValueKey('detektiv-weitergeben')));
       expect(find.text(de.online_detektiv_wer), findsOneWidget);
-      expect(find.byKey(const ValueKey('detektiv-an-g1')), findsNothing, reason: 'Nicht an den, der fehlt');
-      for (final id in ['gastgeber', 'g2', 'g3']) {
-        expect(find.byKey(ValueKey('detektiv-an-$id')), findsOneWidget, reason: id);
+      expect(find.text(de.online_detektiv_wer_figuren), findsOneWidget);
+      for (final id in ['g1', 'g2', 'g3']) {
+        expect(find.byKey(ValueKey('detektiv-an-$id')), findsNothing, reason: id);
       }
-      await tippe(tester, find.byKey(const ValueKey('detektiv-an-g2')));
-      expect([raum.detektivGeraet, raum.rolleVon('g1'), raum.rolleVon('g2')], ['g2', cleo, null]);
-      expect(find.text(de.online_detektiv_neu('Cleo')), findsOneWidget);
-      expect(find.byKey(const ValueKey('detektiv-weg')), findsNothing, reason: 'Cleo ist da');
+      expect(find.byKey(const ValueKey('detektiv-an-gastgeber')), findsOneWidget);
+      // Auch ohne die Karteikarte nimmt der Raum Cleo nicht: Ihre Figur und ihr Dossier bleiben bei ihr.
+      final befehle = (s.dienst.verb as SitzVerbindung).befehle;
+      s.detektivNeu('g2');
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(befehle.last, {'typ': 'detektivNeu', 'spieler': 'g2'});
+      expect(() => raum.nachricht('gastgeber', {'typ': 'detektivNeu', 'spieler': 'g2'}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'invalid')));
+      expect([raum.detektivGeraet, raum.rolleVon('g1'), raum.rolleVon('g2'), raum.sitzVon('g2')], ['g1', null, cleo, Sitz.rolle]);
+      expect(_map(raum.zustandFuer('g2')['privat']).containsKey('dossier'), isTrue);
+      await tester.pumpWidget(const SizedBox.shrink());
+      s.dispose();
+    });
+
+    testWidgets('Ein Platz ohne Figur übernimmt: Greta ermittelt, Ben sitzt danach ohne Figur am Tisch', (tester) async {
+      final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber', ohneFigur: true);
+      final s = GastgeberSitzung(SitzDienst(raum));
+      final rollen = {for (final p in s.dienst.spieler) p.id: raum.rolleVon(p.id)};
+      expect([raum.sitzVon('g22'), rollen.values.whereType<String>().length], [Sitz.assistenz, 20]);
+      raum.verbunden('g1', false);
+      (s.dienst.verb as SitzVerbindung).aktualisiere();
+      await zeige(tester, s);
+      expect([for (final p in s.detektivKandidaten) p.id], ['gastgeber', 'g22']);
+      await tippe(tester, find.byKey(const ValueKey('detektiv-weitergeben')));
+      expect(find.byKey(const ValueKey('detektiv-an-g2')), findsNothing, reason: 'Cleo spielt eine Figur');
+      await tippe(tester, find.byKey(const ValueKey('detektiv-an-g22')));
+      expect([raum.detektivGeraet, raum.sitzVon('g1'), raum.sitzVon('g22')], ['g22', Sitz.assistenz, Sitz.detektiv]);
+      expect({for (final id in rollen.keys) id: raum.rolleVon(id)}, rollen, reason: 'Keine Figur wechselt das Gerät');
+      expect(find.text(de.online_detektiv_neu('Greta')), findsOneWidget);
+      expect(find.byKey(const ValueKey('detektiv-weg')), findsNothing, reason: 'Greta ist da');
       expect([s.istDetektiv, s.sitz], [false, Sitz.erzaehler]);
       await tester.pumpWidget(const SizedBox.shrink());
       s.dispose();
@@ -343,10 +370,10 @@ void main() {
       s.dispose();
     });
 
-    testWidgets('Am Gast-Gerät: Cleo erfährt, dass sie jetzt ermittelt, und öffnet ihre Detektivkarte', (tester) async {
-      final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
-      final cleo = LiveGast(raum, spielerId: 'g2');
-      final halter = OnlineHalter()..uebernehmeGast(cleo);
+    testWidgets('Am Gast-Gerät: Greta erfährt, dass sie jetzt ermittelt, und öffnet ihre Detektivkarte', (tester) async {
+      final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber', ohneFigur: true);
+      final greta = LiveGast(raum, spielerId: 'g22');
+      final halter = OnlineHalter()..uebernehmeGast(greta);
       await zeigeImThema(
         tester,
         (c) => const GastSeite(),
@@ -359,22 +386,23 @@ void main() {
           child: app,
         ),
       );
-      expect(find.byKey(const ValueKey('gast-detektivkarte')), findsNothing, reason: 'Cleo spielt eine Figur');
+      expect(find.byKey(const ValueKey('gast-detektivkarte')), findsNothing, reason: 'Greta schaut zu');
       raum.verbunden('g1', false);
-      raum.nachricht('gastgeber', {'typ': 'detektivNeu', 'spieler': 'g2'});
-      cleo.geaendert();
+      raum.nachricht('gastgeber', {'typ': 'detektivNeu', 'spieler': 'g22'});
+      greta.geaendert();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
       expect(find.byKey(const ValueKey('platz-neu')), findsOneWidget);
       expect(find.text(de.online_platz_neu_detektiv), findsOneWidget);
       // In der Rollenphase steht die Detektivkarte im Inhalt, danach im Fuß der Seite.
-      // Ben ist zurück und liest Cleos Figur.
+      // Ben ist zurück und schaut ohne Figur zu.
       raum.verbunden('g1', true);
-      for (final g in ['g1', 'g3']) {
-        raum.nachricht(g, {'typ': 'rollenGelesen'});
+      expect([raum.sitzVon('g1'), raum.rolleVon('g1')], [Sitz.assistenz, null]);
+      for (var i = 2; i < 22; i++) {
+        raum.nachricht('g$i', {'typ': 'rollenGelesen'});
       }
       raum.nachricht('gastgeber', {'typ': 'weiter'});
-      cleo.geaendert();
+      greta.geaendert();
       await tester.pump();
       await tippe(tester, find.byKey(const ValueKey('gast-detektivkarte')));
       expect(find.text(de.detektiv_karte_titel), findsWidgets);

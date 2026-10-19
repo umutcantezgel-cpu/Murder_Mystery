@@ -67,7 +67,8 @@ class _Teilnehmer {
 /// der Detektiv-Sitz, hat er aufgegeben, der Gastgeber ([ermittler]); „Weiter“
 /// nur, wer gerade leitet: der Erzähler, sonst der Detektiv, sonst der
 /// Gastgeber ([vorleser], [_darfLeiten]). Fällt der Detektiv-Sitz während des
-/// Abends aus, vergibt ihn der Gastgeber neu (`detektivNeu`, [_detektivNeu]).
+/// Abends aus, vergibt ihn der Gastgeber neu (`detektivNeu`, [_detektivNeu]):
+/// an sich selbst oder einen Platz ohne Figur, nie an eine Figur.
 ///
 /// Rundenuhr und Diashow (M4): Die Gesprächszeit läuft für alle gleich
 /// ([UhrModul], Dauer [rundenMinuten]); in Akten mit Diashow ([diaAnzahl])
@@ -549,13 +550,15 @@ class SchlosskellerRaum implements AbendRaum {
   }
 
   /// Fällt der Detektiv-Sitz während des Abends aus (getrennt oder
-  /// aufgegeben), vergibt ihn der Gastgeber neu: an sich selbst oder an einen
-  /// anderen verbundenen Platz ([ziel]). Die beiden tauschen ihre Plätze; der
-  /// bisherige Detektiv bekommt den Platz von [ziel] (Figur samt „gelesen“, den
-  /// Erzähler-Sitz oder einen Platz ohne Figur) und sitzt dort, wenn er
-  /// zurückkommt. So bleibt der Sitzplan eine Permutation, und das Protokoll
-  /// spielt ihn gleich wieder ein. Die Klasse bleibt beim Sitz (der Abend hat
-  /// mit ihr begonnen; sie ändert ohnehin nur die Darstellung).
+  /// aufgegeben), vergibt ihn der Gastgeber neu ([ziel]): an sich selbst oder
+  /// an einen verbundenen Platz ohne Figur (Assistenz). Wer eine Figur spielt,
+  /// übernimmt nie (Besitzerentscheidung A-062): So ermittelt nie eine
+  /// Täterrolle, und kein Dossier wechselt den Platz. Die beiden tauschen ihre
+  /// Plätze; der bisherige Detektiv bekommt den Platz von [ziel] (den
+  /// Erzähler-Sitz des Gastgebers oder den Platz ohne Figur) und sitzt dort,
+  /// wenn er zurückkommt. So bleibt der Sitzplan eine Permutation, und das
+  /// Protokoll spielt ihn gleich wieder ein. Die Klasse bleibt beim Sitz (der
+  /// Abend hat mit ihr begonnen; sie ändert ohnehin nur die Darstellung).
   void _detektivNeu(String ziel) {
     final alt = _detektiv;
     final weg = alt == null ? null : _teilnehmer[alt];
@@ -563,16 +566,9 @@ class SchlosskellerRaum implements AbendRaum {
     if (alt == null || weg == null || (weg.online && !weg.aufgegeben) || neu == null || !neu.online || neu.aufgegeben || ziel == alt) {
       throw const PartyRaumFehler('invalid');
     }
-    if (ziel == _erzaehler) {
-      _erzaehler = alt;
-    } else {
-      weg
-        ..rolle = neu.rolle
-        ..gelesen = neu.gelesen;
-      neu
-        ..rolle = null
-        ..gelesen = false;
-    }
+    // Ein Gastgeber nach einem Wechsel (ohne festen Gastgeber) kann eine Figur spielen.
+    if (neu.rolle != null || (ziel != _host && sitzVon(ziel) != Sitz.assistenz)) throw const PartyRaumFehler('invalid');
+    if (ziel == _erzaehler) _erzaehler = alt;
     _detektiv = ziel;
   }
 

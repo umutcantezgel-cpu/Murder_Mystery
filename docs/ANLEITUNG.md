@@ -207,9 +207,10 @@ Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschn
    Das Menü dort zeigt den Tisch und bietet **Abend beenden** (für alle).
 7. **Fällt der Gast-Detektiv aus**, steht unter der Leiste, dass er getrennt ist. Kommt er nicht zurück, tippe auf
    **Detektiv-Sitz weitergeben** und wähle, wer weiter ermittelt: du selbst (**Ich ermittle selbst**) oder ein
-   verbundener Gast. Die beiden tauschen die Plätze: Kommt der alte Detektiv zurück, spielt er die Figur seines
-   Nachfolgers (oder liest vor, wenn du selbst übernommen hast). Die Klasse bleibt beim Sitz. Wessen Platz
-   wechselt, liest es als Meldung auf dem eigenen Gerät.
+   verbundener Gast ohne Figur (bei mehr Gästen als Rollen). Wer eine Figur spielt, behält sie und übernimmt nie
+   den Sitz. Die beiden tauschen die Plätze: Kommt der alte Detektiv zurück, liest er vor, wenn du selbst
+   übernommen hast, sonst schaut er ohne Figur zu. Die Klasse bleibt beim Sitz. Wessen Platz wechselt, liest es
+   als Meldung auf dem eigenen Gerät.
 
 **Als Gast**
 
@@ -429,7 +430,7 @@ Der Abend setzt sich fort. Lass den Bildschirm des Gastgebers während des Abend
   dann geht es weiter. Mit **Verwerfen** löschst du ihn.
 - Ist ein Gast länger als zwei Minuten weg, stimmt ein Bot für seine Rolle. Er kann trotzdem zurückkehren.
 - Ist der Gast auf dem Detektiv-Platz weg, vertritt ihn nach zwei Minuten der Gastgeber. Mit **Detektiv-Sitz
-  weitergeben** geht es sofort weiter, auch mit einem anderen Gast (Abschnitt 5.3).
+  weitergeben** geht es sofort weiter, mit dem Gastgeber oder einem Gast ohne Figur (Abschnitt 5.3).
 - Mit **Abend verlassen** (Gast) gibst du deinen Platz und deine Rolle auf.
 
 **„Keine Antwort vom Gastgeber. Versuche es noch einmal.“** Die Verbindung hakt kurz. Tippe noch einmal.

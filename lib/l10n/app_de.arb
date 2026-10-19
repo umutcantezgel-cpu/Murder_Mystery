@@ -3269,5 +3269,9 @@
   "online_uhr_um": "Die Zeit ist um.",
   "@online_uhr_um": {
     "description": "Gast: Stempel, wenn die Rundenzeit um ist"
+  },
+  "online_detektiv_wer_figuren": "Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.",
+  "@online_detektiv_wer_figuren": {
+    "description": "Gastgeber: Den Detektiv-Sitz übernimmt nur der Gastgeber oder ein Gerät ohne Figur (A-062)"
   }
 }

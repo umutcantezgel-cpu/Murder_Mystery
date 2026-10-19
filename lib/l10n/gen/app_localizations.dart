@@ -7280,6 +7280,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Die Zeit ist um.'**
   String get online_uhr_um;
+
+  /// Gastgeber: Den Detektiv-Sitz übernimmt nur der Gastgeber oder ein Gerät ohne Figur (A-062)
+  ///
+  /// In de, this message translates to:
+  /// **'Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.'**
+  String get online_detektiv_wer_figuren;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

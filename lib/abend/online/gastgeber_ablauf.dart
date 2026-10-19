@@ -302,8 +302,9 @@ class DetektivWegBand extends StatelessWidget {
 }
 
 /// Karteikarte „Wer ermittelt weiter?“: der Gastgeber selbst und jeder
-/// verbundene Gast. Wer übernimmt, tauscht den Platz mit dem getrennten
-/// Detektiv (`detektivNeu`); eine Meldung sagt, wer jetzt ermittelt.
+/// verbundene Platz ohne Figur ([GastgeberSitzung.detektivKandidaten]); wer
+/// eine Figur spielt, behält sie (A-062). Wer übernimmt, tauscht den Platz mit
+/// dem getrennten Detektiv (`detektivNeu`); eine Meldung sagt, wer jetzt ermittelt.
 Future<void> zeigeDetektivWahl(BuildContext context, GastgeberSitzung sitzung) async {
   final l = L.of(context);
   final weg = sitzung.dienst.nameVon(sitzung.detektivGeraet);
@@ -317,17 +318,15 @@ Future<void> zeigeDetektivWahl(BuildContext context, GastgeberSitzung sitzung) a
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(l.online_detektiv_wer_hinweis(weg), style: MPapierSchrift.leise),
+          const SizedBox(height: MMass.s8),
+          Text(l.online_detektiv_wer_figuren, style: MPapierSchrift.leise),
           const SizedBox(height: MMass.s12),
           for (final p in sitzung.detektivKandidaten)
             Padding(
               padding: const EdgeInsets.only(bottom: MMass.s8),
               child: MKnopf(
                 key: ValueKey('detektiv-an-${p.id}'),
-                text: p.istGastgeber
-                    ? l.online_detektiv_ich
-                    : p.rolle == null
-                        ? p.name
-                        : '${p.name} · ${sitzung.figurName(p.rolle!)}',
+                text: p.istGastgeber ? l.online_detektiv_ich : p.name,
                 art: MKnopfArt.zweit,
                 breit: true,
                 onPressed: () => Navigator.of(c).pop(p),

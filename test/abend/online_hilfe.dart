@@ -184,7 +184,17 @@ void schritt(SchlosskellerRaum raum, Ermittlung erm, String pfad, {void Function
 /// [detektiv] und [erzaehler] sind Geräte (der Gastgeber sitzt auf einem davon).
 /// Der Detektiv-Sitz eines Gastes trägt die Klasse [klasse]. Mit [diaAnzahl]
 /// zeigt die Einleitung eine Diashow mit so vielen Bildern (M4).
-SchlosskellerRaum sitzRaum({String detektiv = 'gastgeber', String? erzaehler, String? klasse = 'profiler', PartyDaten? daten, int diaAnzahl = 0}) {
+///
+/// Mit [ohneFigur] sitzen 23 Geräte am Tisch und spielen alle zwanzig Rollen;
+/// das letzte Gerät, Greta (`g22`), bleibt ohne Figur (Assistenz).
+SchlosskellerRaum sitzRaum({
+  String detektiv = 'gastgeber',
+  String? erzaehler,
+  String? klasse = 'profiler',
+  PartyDaten? daten,
+  int diaAnzahl = 0,
+  bool ohneFigur = false,
+}) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
     raumCode: 'ABCDEF',
@@ -196,15 +206,19 @@ SchlosskellerRaum sitzRaum({String detektiv = 'gastgeber', String? erzaehler, St
     gastgeberSitz: erzaehler == 'gastgeber' ? Sitz.erzaehler : Sitz.detektiv,
     diaAnzahl: diaAnzahl,
   );
-  for (final (id, name) in [('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora')]) {
+  final plaetze = [
+    ('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora'),
+    if (ohneFigur) ...[for (var i = 4; i < 22; i++) ('g$i', 'Gast $i'), ('g22', 'Greta')],
+  ];
+  for (final (id, name) in plaetze) {
     raum.beitreten(id, name);
   }
   if (erzaehler != null && erzaehler != 'gastgeber') raum.nachricht('gastgeber', {'typ': 'sitz', 'spieler': erzaehler, 'sitz': 'erzaehler'});
   if (detektiv != 'gastgeber') raum.nachricht('gastgeber', {'typ': 'sitz', 'spieler': detektiv, 'sitz': 'detektiv', 'klasse': ?klasse});
-  for (final id in ['g1', 'g2', 'g3', 'gastgeber']) {
+  for (final (id, _) in [...plaetze.skip(1), plaetze.first]) {
     raum.nachricht(id, {'typ': 'bereit', 'wert': true});
   }
-  raum.nachricht('gastgeber', {'typ': 'start', 'rollen': 4, 'detektiv': 'w', 'vorrat': const <String>[]});
+  raum.nachricht('gastgeber', {'typ': 'start', 'rollen': ohneFigur ? 20 : 4, 'detektiv': 'w', 'vorrat': const <String>[]});
   return raum;
 }
 

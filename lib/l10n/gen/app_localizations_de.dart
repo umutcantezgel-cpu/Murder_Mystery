@@ -4216,4 +4216,8 @@ class LDe extends L {
 
   @override
   String get online_uhr_um => 'Die Zeit ist um.';
+
+  @override
+  String get online_detektiv_wer_figuren =>
+      'Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.';
 }

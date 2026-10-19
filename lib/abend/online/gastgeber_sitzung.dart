@@ -107,15 +107,18 @@ class GastgeberSitzung extends PartySitzung {
     return !dienst.spieler.any((s) => s.id == d && s.online);
   }
 
-  /// Wer den Detektiv-Sitz übernehmen kann: der Gastgeber und jeder verbundene Gast.
+  /// Wer den Detektiv-Sitz übernehmen kann (Besitzerentscheidung A-062): der
+  /// Gastgeber selbst und jeder verbundene Platz ohne Figur (Assistenz). Wer
+  /// eine Figur spielt, steht nicht zur Wahl, und der Raum nimmt ihn auch nicht
+  /// an: So ermittelt nie eine Täterrolle, und kein Dossier wechselt den Platz.
   List<SpielerInfo> get detektivKandidaten => [
         for (final s in dienst.spieler)
-          if (s.online && s.id != detektivGeraet) s,
+          if (s.online && s.id != detektivGeraet && s.rolle == null && (s.istGastgeber || s.sitz == Sitz.assistenz)) s,
       ];
 
-  /// Gibt den Detektiv-Sitz an [spieler] (Gastgeber oder Gast); beide tauschen
-  /// die Plätze (Raumnachricht `detektivNeu`). Kommt der bisherige Detektiv
-  /// zurück, sitzt er auf dem Platz seines Nachfolgers.
+  /// Gibt den Detektiv-Sitz an [spieler] (Gastgeber oder Platz ohne Figur);
+  /// beide tauschen die Plätze (Raumnachricht `detektivNeu`). Kommt der
+  /// bisherige Detektiv zurück, sitzt er auf dem Platz seines Nachfolgers.
   void detektivNeu(String spieler) => _senden([
         {'typ': 'detektivNeu', 'spieler': spieler},
       ]);
