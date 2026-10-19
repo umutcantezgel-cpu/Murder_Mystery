@@ -2097,13 +2097,17 @@ class LDe extends L {
       'Du läufst auf der Karte schneller.';
 
   @override
-  String get abend_klasse_fair => 'Ändert nie Fakten, Punkte oder Würfel.';
+  String get abend_klasse_fair =>
+      'Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.';
 
   @override
   String get abend_klasse_karte_titel => 'Auf der Karte';
 
   @override
-  String get abend_klasse_karten_titel => 'Deine drei Klassenkarten';
+  String get abend_klasse_karten_titel => 'Sammelkarten dieser Klasse';
+
+  @override
+  String get abend_klasse_karte_besessen => 'in deiner Sammlung';
 
   @override
   String get detektiv_karte_titel => 'Deine Detektivkarte';

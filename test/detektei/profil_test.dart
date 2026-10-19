@@ -100,7 +100,7 @@ void main() {
     ]) {
       expect(find.text(text, skipOffstage: false), findsOneWidget, reason: text);
     }
-    expect(find.text('Ändert nie Fakten, Punkte oder Würfel.', skipOffstage: false), findsNWidgets(5));
+    expect(find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.', skipOffstage: false), findsNWidgets(5));
     for (final alt in ['Vier statt drei Herzen.', 'Erkennt Lügen im Verhör.', 'Wiederbelebt doppelt so schnell.']) {
       expect(find.text(alt, skipOffstage: false), findsNothing, reason: 'Text der klassischen Engine: $alt');
     }

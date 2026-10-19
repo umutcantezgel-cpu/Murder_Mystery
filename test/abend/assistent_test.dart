@@ -190,7 +190,7 @@ void main() {
     final wirkung = find.text('Spurenblick: Suchstellen und Erkundungsorte leuchten schon von weitem.');
     await tester.ensureVisible(wirkung);
     expect(wirkung, findsOneWidget);
-    expect(find.text('Ändert nie Fakten, Punkte oder Würfel.'), findsOneWidget);
+    expect(find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'), findsOneWidget);
     for (final titel in ['Forensik-Köfferchen', 'Der zweite Abdruck', 'Die große Lupe']) {
       expect(_inKlasse(find.textContaining(titel, findRichText: true)), findsOneWidget, reason: titel);
     }
@@ -203,13 +203,29 @@ void main() {
     state.dispose();
   });
 
+  testWidgets('Der faire Satz gilt der Fähigkeit; die Karten der Klasse sind Sammelkarten, besessene markiert (M6)', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    final fair = find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.');
+    await tester.ensureVisible(fair);
+    expect(fair, findsOneWidget, reason: 'Der Satz nennt die Fähigkeit auf der Karte, nicht die Sammelkarten');
+    expect(_inKlasse(find.text('SAMMELKARTEN DIESER KLASSE')), findsOneWidget);
+    expect(find.text('DEINE DREI KLASSENKARTEN'), findsNothing, reason: 'Nicht jede Karte der Klasse ist schon deine');
+    // Das Köfferchen gehört zum Startset; Abdruck und Lupe bringt erst ein Abend.
+    expect(_inKlasse(find.textContaining('in deiner Sammlung', findRichText: true)), findsOneWidget);
+    expect(_inKlasse(find.textContaining(RegExp('Forensik-Köfferchen.*in deiner Sammlung'), findRichText: true)), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
   testWidgets('Gewölbe kennt keine Klassen auf der Karte: nur Karten und Belohnung', (tester) async {
     final state = await oeffnen(tester);
     await tippen(tester, 'Spuk im Gewölbe');
     await bisZumStart(tester, 'Solo mit Bots');
     await tester.ensureVisible(find.text('Profiler'));
     expect(find.textContaining('Spurenblick'), findsNothing);
-    expect(find.text('Ändert nie Fakten, Punkte oder Würfel.'), findsNothing);
+    expect(find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'), findsNothing);
     expect(_inKlasse(find.textContaining('Forensik-Köfferchen', findRichText: true)), findsOneWidget);
     expect(find.text('Dein Abend bringt dir immer eine Sammelkarte deiner Klasse.'), findsOneWidget);
     expect(tester.takeException(), isNull);

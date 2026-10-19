@@ -31,8 +31,11 @@ List<DetectiveClass> klassenNachRang() {
 /// gesperrt und nennen den nötigen Rang.
 ///
 /// Darunter steht, was die gewählte Klasse auf der Karte tut, wenn die Akte
-/// Klassen kennt ([karte], `AkteInfo.hat('klassen')`), mit dem Satz „Ändert nie
-/// Fakten, Punkte oder Würfel“ (A-055), und ihre drei Karten aus dem [katalog].
+/// Klassen kennt ([karte], `AkteInfo.hat('klassen')`), mit dem Satz „Diese
+/// Fähigkeit ändert nie Fakten, Punkte oder Würfel“ (A-055). Getrennt davon
+/// folgen die Sammelkarten der Klasse aus dem [katalog]: Sie wirken erst, wenn
+/// jemand sie ausspielt, und nicht jede ist schon in der Sammlung dieses
+/// Geräts; die besessenen sind markiert.
 class KlasseZeile extends StatelessWidget {
   const KlasseZeile({super.key, this.karte = false, this.katalog});
 
@@ -93,6 +96,8 @@ class KlasseZeile extends StatelessWidget {
                   TextSpan(children: [
                     TextSpan(text: k.titel, style: MPapierSchrift.maschine.copyWith(fontSize: 14)),
                     TextSpan(text: ' · ${k.text}', style: MPapierSchrift.leise),
+                    if (meta.besitztKarte(k.id))
+                      TextSpan(text: ' · ${l.abend_klasse_karte_besessen}', style: MPapierSchrift.leise.copyWith(color: MRoh.tinteBlau)),
                   ]),
                 ),
               ),

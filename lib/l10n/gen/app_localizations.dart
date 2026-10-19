@@ -3684,7 +3684,7 @@ abstract class L {
   /// No description provided for @abend_klasse_fair.
   ///
   /// In de, this message translates to:
-  /// **'Ändert nie Fakten, Punkte oder Würfel.'**
+  /// **'Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'**
   String get abend_klasse_fair;
 
   /// No description provided for @abend_klasse_karte_titel.
@@ -3696,8 +3696,14 @@ abstract class L {
   /// No description provided for @abend_klasse_karten_titel.
   ///
   /// In de, this message translates to:
-  /// **'Deine drei Klassenkarten'**
+  /// **'Sammelkarten dieser Klasse'**
   String get abend_klasse_karten_titel;
+
+  /// No description provided for @abend_klasse_karte_besessen.
+  ///
+  /// In de, this message translates to:
+  /// **'in deiner Sammlung'**
+  String get abend_klasse_karte_besessen;
 
   /// No description provided for @detektiv_karte_titel.
   ///
