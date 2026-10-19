@@ -220,6 +220,8 @@ void main() {
   // mit höchstens drei Stichpunkten zu höchstens acht Wörtern; der Kanon-Wortlaut bleibt in Beobachtung und Lüge.
   test('R17: Jede Preisgabe ist eine Karte mit höchstens drei Stichpunkten zu höchstens acht Wörtern', () {
     final lang = <String>[];
+    // Der Spickzettel setzt „Behaupte:“ vor jede Behauptung (Druck: ui.druck.rollen.behaupte, App: ARB).
+    final vorsatz = _texte.sammlung.bausteine['ui.druck.rollen.behaupte']!;
     for (final b in _texte.sammlung.befragungen.values) {
       for (final q in b.preisgabe) {
         final k = _texte.sammlung.kurzfassungen[q]!;
@@ -234,7 +236,13 @@ void main() {
       for (final x in {...botAntwort(_texte, b), ...z.sagen, ...z.behaupten}) {
         if (stichpunktWoerter(x) > 8) lang.add('${b.id}: ${stichpunktWoerter(x)} Wörter: $x');
       }
+      // Gezählt wird die Zeile, wie der Spickzettel sie zeigt: mit dem Vorsatz vor jeder Behauptung.
+      for (final x in z.behaupten) {
+        final zeile = vorsatz.replaceAll('{text}', x);
+        if (stichpunktWoerter(zeile) > 8) lang.add('${b.id}, Spickzettel: ${stichpunktWoerter(zeile)} Wörter: $zeile');
+      }
     }
+    expect(vorsatz, contains('{text}'));
     expect(lang, isEmpty, reason: lang.join('\n'));
     // Keine Antwortzeile ist mehr der Kanon-Wortlaut einer Beobachtung mit mehr als acht Wörtern.
     final langfassungen = {
@@ -244,6 +252,33 @@ void main() {
     for (final b in _texte.sammlung.befragungen.values) {
       expect(botAntwort(_texte, b).where(langfassungen.contains), isEmpty, reason: b.id);
     }
+  });
+
+  // Prüfung M2z: Der Spickzettel zeigte alle Zeilen in einem Block, bei Hana sieben (zwei Beobachtungen und die
+  // Würze). R17 gilt je Karte; deshalb trägt der Zettel seine Zeilen als Karten, die jede Ansicht getrennt zeigt.
+  test('R17 auf dem Spickzettel: je Preisgabe eine Karte, zuletzt die Würze, keine mit mehr als drei Zeilen', () {
+    var mehrAlsDrei = 0;
+    for (final b in _texte.sammlung.befragungen.values) {
+      final z = befragungsZettel(_texte, b);
+      final k = _texte.sammlung.kurzfassungen;
+      expect([for (final x in z.karten) [x.zeilen, x.behaupten]], [
+        for (final q in b.preisgabe)
+          if (q.startsWith('beobachtung:')) [k[q]!.zettel, false],
+        for (final q in b.preisgabe)
+          if (q.startsWith('luege:')) [k[q]!.antwort, true],
+        if (b.stichpunkte.isNotEmpty) [b.stichpunkte, false],
+      ], reason: b.id);
+      for (final x in z.karten) {
+        expect(x.zeilen.length, inInclusiveRange(1, 3), reason: b.id);
+        expect(() => x.zeilen.clear(), throwsUnsupportedError);
+      }
+      // Dieselben Zeilen wie die flachen Listen, in derselben Reihenfolge.
+      expect([for (final x in z.karten) ...x.zeilen], [...z.sagen, ...z.behaupten, ...z.eigene], reason: b.id);
+      if (z.karten.fold(0, (n, x) => n + x.zeilen.length) > 3) mehrAlsDrei++;
+    }
+    expect(mehrAlsDrei, greaterThan(0), reason: 'Ohne Karten stünden mehr als drei Zeilen in einem Block');
+    final hana = befragungsZettel(_texte, _texte.sammlung.befragungen['bf_meryem_1']!);
+    expect([for (final x in hana.karten) x.zeilen.length], [3, 3, 1]);
   });
 
   test('Kurzfassungen: genau eine je Preisgabe einer Befragung, Lügen ohne Du-Fassung', () {
@@ -280,6 +315,8 @@ void main() {
                 {...e, 'du': ['Eins.', 'Zwei.', 'Drei.', 'Vier.']}
               else if (e['quelle'] == 'luege:luege_can_maske')
                 {...e, 'du': ['Du hast eine Maske.']}
+              else if (e['quelle'] == 'luege:luege_olli_tafel')
+                {...e, 'antwort': ['Ich saß durchgehend am langen Tisch im Ost-Saal.']}
               else
                 e,
             {'quelle': 'beobachtung:b_tim_kurzschluss', 'antwort': ['Etwas Verborgenes.']},
@@ -289,6 +326,10 @@ void main() {
     expect(f, contains('Kurzfassung beobachtung:b_emine_versteck, antwort: Stichpunkt mit 9 Wörtern statt höchstens 8 (R17): Eins zwei drei vier fünf sechs sieben acht neun.'));
     expect(f, contains('Kurzfassung beobachtung:b_tim_gesicht, du: 4 Stichpunkte statt 1 bis 3 (R17)'));
     expect(f, contains('Kurzfassung luege:luege_can_maske: eine Lüge hat nur die Behauptung, kein du'));
+    // Acht Wörter genügen der Kurzfassung, aber nicht dem Spickzettel mit „Behaupte:“ davor.
+    expect(f, contains('Kurzfassung luege:luege_olli_tafel: Spickzettel-Zeile mit 9 Wörtern statt höchstens 8 (R17): '
+        'Behaupte: Ich saß durchgehend am langen Tisch im Ost-Saal.'));
+    expect(f.where((x) => x.startsWith('Kurzfassung luege:luege_olli_tafel, antwort')), isEmpty);
     expect(f.where((x) => x.startsWith('Kurzfassung beobachtung:b_tim_kurzschluss: ')), isNotEmpty);
   });
 

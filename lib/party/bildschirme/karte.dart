@@ -642,7 +642,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty) Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
+              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty && s.erzaehlerNotizen.isEmpty)
+                Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
               // Modell befragung (A-051): die Antworten, die die App auf die Fragen des Detektivs gab.
               if (s.befragungsNotizen.isNotEmpty) ...[
                 MGanzwortText(s.ui('ui.befragung.notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
@@ -650,6 +651,16 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 for (final (i, k) in s.befragungsNotizen.indexed) Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: BefragungsKarte(sitzung: s, karte: k, nr: i),
+                ),
+              ],
+              // E-044: was der Erzähler zum Rundenstart für unbesetzte Gäste sprach, wortgleich.
+              if (s.erzaehlerNotizen.isNotEmpty) ...[
+                MGanzwortText(s.ui('ui.befragung.erzaehler_notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
+                const SizedBox(height: 10),
+                for (final k in s.erzaehlerNotizen) Padding(
+                  key: ValueKey('erzaehlt-$k'),
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text(s.text(k), style: MPapierSchrift.kursiv),
                 ),
               ],
               if (s.soloNotizen.isNotEmpty) ...[

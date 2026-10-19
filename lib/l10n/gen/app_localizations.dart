@@ -5799,6 +5799,12 @@ abstract class L {
   /// **'Antworten aus deinen Befragungen'**
   String get party_befragung_notizen;
 
+  /// Notizbuch: Wissen unbesetzter Gäste, das der Erzähler zum Rundenstart sprach (E-044)
+  ///
+  /// In de, this message translates to:
+  /// **'Vom Erzähler gehört'**
+  String get party_befragung_erzaehler_notizen;
+
   /// Verdeckter Zettel je Person für die laufende Runde
   ///
   /// In de, this message translates to:

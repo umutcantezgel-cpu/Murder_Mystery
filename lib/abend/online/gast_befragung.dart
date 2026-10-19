@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../party/bildschirme/spickzettel.dart' show spickPunkt;
+import '../../party/bildschirme/spickzettel.dart' show spickKarten, spickPunkt;
 import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_ansicht.dart' show GastKontext;
@@ -114,7 +114,11 @@ class GastBefragung extends StatelessWidget {
             : b['entfaellt'] == true
                 ? l.party_befragung_entfaellt
                 : l.party_befragung_vielleicht;
-    final sagen = [...jTexte(b['stichpunkte']), for (final x in jTexte(b['behaupte'])) l.party_befragung_behaupte(x)];
+    // Je Karte ein Block (R17, E-044): Beobachtungen, Behauptungen mit „Behaupte:“, zuletzt die Würze.
+    final karten = [
+      for (final k in jMaps(b['karten']))
+        [for (final x in jTexte(k['zeilen'])) k['behaupte'] == true ? l.party_befragung_behaupte(x) : x],
+    ];
     return _blatt(l.party_befragung_dich, [
       Text(stand, style: frage != null ? MPapierSchrift.hand.copyWith(fontSize: 22) : MPapierSchrift.kursiv),
       const SizedBox(height: MMass.s8),
@@ -125,8 +129,8 @@ class GastBefragung extends StatelessWidget {
       const SizedBox(height: 4),
       Text(l.party_befragung_sagen, style: MPapierSchrift.leise),
       const SizedBox(height: 4),
-      if (sagen.isEmpty) Text(l.party_befragung_nichts, style: MPapierSchrift.kursiv),
-      for (final x in sagen) spickPunkt(x),
+      if (karten.isEmpty) Text(l.party_befragung_nichts, style: MPapierSchrift.kursiv),
+      ...spickKarten(karten),
     ], samen: 87, stempel: b['erledigt'] == true ? l.party_befragung_erledigt : null);
   }
 

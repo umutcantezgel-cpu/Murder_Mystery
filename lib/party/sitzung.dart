@@ -498,6 +498,16 @@ class PartySitzung extends ChangeNotifier {
   /// Antworten, die die App bisher gegeben hat (Notizbuch des Solo-Detektivs).
   List<BefragungKarte> get befragungsNotizen => List.unmodifiable(_befragung?.aufgedeckt ?? const <BefragungKarte>[]);
 
+  /// Modell befragung (E-044): Das Wissen unbesetzter Gäste spricht der Erzähler
+  /// nur zum Rundenstart; das Erzählerfenster trägt es danach nicht mehr. Damit
+  /// der Detektiv es bei den Entscheidungen nachlesen kann, wie eine Antwort aus
+  /// einer Befragung, bleibt es im Notizbuch: die npc-Bausteine dieses Abends in
+  /// der Reihenfolge, in der der Erzähler sie sprach. Sie hängen nur an Runde und
+  /// Besetzung (S-1) und entstehen beim Fortsetzen und online mit der Partie neu.
+  List<String> get erzaehlerNotizen => !befragungsmodell ? const [] : List.unmodifiable({
+        for (final k in spiel.bausteine) if (k.startsWith('npc.')) k,
+      });
+
   /// Die Tischgespräche der Runde [r]: nur Paarung und Thema.
   List<TischPaarung> tisch(int r) => tischPaarungen(daten.texte, n: einstellungen.rollen, runde: r);
 

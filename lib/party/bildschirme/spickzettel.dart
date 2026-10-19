@@ -88,7 +88,7 @@ class SpickzettelInhalt extends StatelessWidget {
                 : fest == false
                     ? s.ui('ui.befragung.vielleicht')
                     : null;
-    final sagen = [...z.sagen, for (final x in z.behaupten) s.ui('ui.befragung.behaupte', {'text': x}), ...z.eigene];
+    final karten = z.kartenZeilen((x) => s.ui('ui.befragung.behaupte', {'text': x}));
     return [
       if (stand != null) ...[
         Text(stand, style: frage != null ? MPapierSchrift.hand.copyWith(fontSize: 22) : MPapierSchrift.kursiv),
@@ -101,8 +101,8 @@ class SpickzettelInhalt extends StatelessWidget {
       for (final f in b.fragen) spickPunkt(f),
       const SizedBox(height: 4),
       Text(s.ui('ui.befragung.sagen'), style: MPapierSchrift.leise),
-      if (sagen.isEmpty) Text(s.ui('ui.befragung.nichts'), style: MPapierSchrift.kursiv),
-      for (final x in sagen) spickPunkt(x),
+      if (karten.isEmpty) Text(s.ui('ui.befragung.nichts'), style: MPapierSchrift.kursiv),
+      ...spickKarten(karten),
     ];
   }
 
@@ -119,6 +119,35 @@ class SpickzettelInhalt extends StatelessWidget {
             ...kinder,
           ],
         ),
+      );
+}
+
+/// Mehrere Karten untereinander (R17, E-044): je Karte ihre Stichpunkte,
+/// zwischen zwei Karten ein feiner Strich. So steht nie mehr als eine Karte in
+/// einem Block, auch wenn eine Befragung zwei Preisgaben und Würze hat.
+List<Widget> spickKarten(List<List<String>> karten) => [
+      for (final (i, k) in karten.indexed) SpickKarte(zeilen: k, trenner: i > 0),
+    ];
+
+/// Eine Karte des Spickzettels: höchstens drei Stichpunkte, darüber auf Wunsch ein Trennstrich.
+class SpickKarte extends StatelessWidget {
+  const SpickKarte({super.key, required this.zeilen, this.trenner = false});
+
+  final List<String> zeilen;
+  final bool trenner;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (trenner)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 2, bottom: 8),
+              child: Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.18)),
+            ),
+          for (final z in zeilen) spickPunkt(z),
+        ],
       );
 }
 

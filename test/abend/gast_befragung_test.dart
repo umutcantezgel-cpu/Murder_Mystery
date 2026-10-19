@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/online/gast_befragung.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
+import 'package:mordakte/party/bildschirme/spickzettel.dart' show SpickKarte;
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../party_widgets/hilfe.dart' show partyDaten;
@@ -59,8 +60,8 @@ void main() {
           final b = texte.sammlung.befragungen[BefragungText.kennung(eigene, r)]!;
           final z = befragungsZettel(texte, b);
           final zettel = _map(privat['befragung']);
-          expect(zettel['stichpunkte'], z.stichpunkte, reason: '$wann: $gast');
-          expect(zettel['behaupte'], z.behaupten, reason: '$wann: $gast');
+          // Als Karten (R17, E-044): je Preisgabe eine, Behauptungen markiert, zuletzt die Würze.
+          expect(zettel['karten'], [for (final k in z.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}], reason: '$wann: $gast');
           expect(zettel['fragen'], b.fragen, reason: '$wann: $gast');
           // Öffentlich nur, wen der Detektiv befragt und wer am Tisch mit wem worüber spricht.
           for (final e in (v['befragungen'] as List).map(_map)) {
@@ -103,6 +104,14 @@ void main() {
     }
     for (final p in z.behaupten) {
       expect(find.text(l.party_befragung_behaupte(p)), findsOneWidget, reason: p);
+    }
+    // Je Karte ein Block (R17): so viele Karten wie im Zettel, jede mit ihren Zeilen.
+    final bloecke = find.byType(SpickKarte);
+    expect(bloecke, findsNWidgets(z.karten.length));
+    for (final (i, k) in z.kartenZeilen(l.party_befragung_behaupte).indexed) {
+      for (final zeile in k) {
+        expect(find.descendant(of: bloecke.at(i), matching: find.text(zeile)), findsOneWidget, reason: zeile);
+      }
     }
     // Fragt der Detektiv, steht die eigene Befragung über dem Tischgespräch.
     final oben = tester.getTopLeft(find.text(l.party_befragung_dich.toUpperCase())).dy;

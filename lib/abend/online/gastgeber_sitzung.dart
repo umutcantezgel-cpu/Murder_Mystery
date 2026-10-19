@@ -103,7 +103,7 @@ class GastgeberSitzung extends PartySitzung {
   /// Rückkehr zum Abend übersteht, liegen Kennung, Frage und Art jeder
   /// beantworteten Befragung neben dem Raum in der Ablage, an das Salz dieses
   /// Abends gebunden. Die Antwort entsteht beim Laden wieder aus den
-  /// Preisgaben, wie im Raum ([befragungsAntwort]). Geschrieben wird erst nach
+  /// Preisgaben, wie im Raum ([befragungsKarten]). Geschrieben wird erst nach
   /// dem Laden, damit die Notizen der Runden davor nicht verloren gehen.
   Future<void> _notizenLaden() async {
     try {
@@ -119,7 +119,7 @@ class GastgeberSitzung extends PartySitzung {
         if (b == null || frage is! int || frage < 0 || frage >= b.fragen.length) continue;
         geladen[b.id] = BefragungKarte(
           id: b.id, rolle: b.rolle, thema: b.thema, fragen: b.fragen, pflicht: n['pflicht'] == true,
-          mensch: false, frage: frage, erledigt: true, waehlbar: false, antwort: befragungsAntwort(texte, b),
+          mensch: false, frage: frage, erledigt: true, waehlbar: false, antwortKarten: befragungsKarten(texte, b),
         );
       }
       if (geladen.isEmpty) return;
@@ -175,7 +175,8 @@ class GastgeberSitzung extends PartySitzung {
           frage: k['frage'] is int ? k['frage'] as int : null,
           erledigt: k['erledigt'] == true,
           waehlbar: k['pflicht'] == true || k['frage'] is int || offen > 0,
-          antwort: k['antwort'] is List ? jTexte(k['antwort']) : null,
+          // Die Antwort kommt als Karten (R17, E-044): je Preisgabe eine Liste von Stichpunkten.
+          antwortKarten: k['antwort'] is List ? [for (final x in jListe(k['antwort'])) jTexte(x)] : null,
         ),
     ];
   }

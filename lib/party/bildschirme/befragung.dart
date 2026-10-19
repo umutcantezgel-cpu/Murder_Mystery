@@ -277,12 +277,13 @@ class BefragungsKarte extends StatelessWidget {
                         ),
                       )
                     : _gestellt(k.fragen[i], i == k.frage),
-              if (k.antwort case final antwort?) ...[
+              if (k.antwortKarten case final karten?) ...[
                 const SizedBox(height: 8),
                 Text(s.ui('ui.befragung.antwort'), style: MPapierSchrift.leise),
                 const SizedBox(height: 4),
-                if (antwort.isEmpty) Text(s.ui('ui.befragung.nichts'), style: MPapierSchrift.kursiv),
-                for (final a in antwort) _Aussage(a),
+                if (karten.isEmpty) Text(s.ui('ui.befragung.nichts'), style: MPapierSchrift.kursiv),
+                // Je Preisgabe ein Zitat (R17, E-044): So gehören Sätze wie „an ihm vorbei“ sichtbar zu ihrer Karte.
+                for (final z in karten) AussageKarte(z),
               ],
             ],
             if (aktionen.isNotEmpty) ...[
@@ -311,18 +312,31 @@ class BefragungsKarte extends StatelessWidget {
       );
 }
 
-/// Eine Antwort zu Protokoll: Kursive, links eine Tintenlinie wie ein Zitat.
-class _Aussage extends StatelessWidget {
-  const _Aussage(this.text);
+/// Eine Karte der Antwort zu Protokoll: ihre Stichpunkte kursiv, links eine
+/// gemeinsame Tintenlinie wie ein Zitat. Jede Karte ist ein eigenes Zitat.
+class AussageKarte extends StatelessWidget {
+  const AussageKarte(this.zeilen, {super.key});
 
-  final String text;
+  final List<String> zeilen;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.only(bottom: 10),
         child: DecoratedBox(
           decoration: BoxDecoration(border: Border(left: BorderSide(color: MRoh.tinte.withValues(alpha: 0.28), width: 2))),
-          child: Padding(padding: const EdgeInsets.only(left: 12), child: Text(text, style: MPapierSchrift.kursiv)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (final (i, z) in zeilen.indexed) Padding(
+                  padding: EdgeInsets.only(top: i == 0 ? 0 : 3),
+                  child: Text(z, style: MPapierSchrift.kursiv),
+                ),
+              ],
+            ),
+          ),
         ),
       );
 }

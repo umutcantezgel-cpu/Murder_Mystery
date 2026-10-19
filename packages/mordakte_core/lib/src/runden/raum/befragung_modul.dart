@@ -21,6 +21,9 @@ import 'raum_modul.dart';
 /// Öffentlich sind nur Paarungen und Themen (`tisch`, `befragungen`), nie eine
 /// Antwort oder ein Stichpunkt. Privat bekommt der Detektiv seine Karten
 /// (Fragen, Stand, Antwort der App-Rollen), die befragte Rolle ihren Spickzettel.
+/// Antwort und Spickzettel kommen als Karten zu höchstens drei Zeilen (R17,
+/// E-044), damit jedes Gerät sie getrennt zeigt: `antwort` je Preisgabe eine
+/// Liste, `karten` je Karte `{zeilen, behaupte}`.
 class BefragungModul extends RaumModul {
   BefragungsVerlauf? _verlauf;
 
@@ -103,7 +106,7 @@ class BefragungModul extends RaumModul {
               'frage': v.frage(b),
               'erledigt': _erledigt(k, b),
               // Die Antwort der App kommt erst nach der Frage, und nur für Rollen ohne Menschen.
-              if (v.gefragt(b) && !k.menschSpielt(v.text(b).rolle)) 'antwort': befragungsAntwort(k.texte, v.text(b)),
+              if (v.gefragt(b) && !k.menschSpielt(v.text(b).rolle)) 'antwort': befragungsKarten(k.texte, v.text(b)),
             },
         ],
         'befragungenFrei': v.freiOffen(r),
@@ -122,8 +125,9 @@ class BefragungModul extends RaumModul {
         'id': b,
         'thema': text.thema,
         'fragen': [...text.fragen],
-        'stichpunkte': zettel.stichpunkte,
-        'behaupte': [...zettel.behaupten],
+        'karten': [
+          for (final z in zettel.karten) {'zeilen': z.zeilen, 'behaupte': z.behaupten},
+        ],
         'pflicht': v.pflicht(r).contains(b),
         // Eine freie Befragung entfällt, wenn alle freien Wahlen schon getroffen sind.
         'entfaellt': !v.waehlbar(r, b),

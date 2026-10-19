@@ -228,7 +228,7 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
           if (private['befragung'] case final Map b) {
             _require(b['id'] == BefragungText.kennung(role, view['runde'] as int), 'Fremde Befragung an einen Gast.');
             final soll = befragungsZettel(texte, texte.sammlung.befragungen[b['id']]!);
-            _require(jsonEncode(b['stichpunkte']) == jsonEncode(soll.stichpunkte) && jsonEncode(b['behaupte']) == jsonEncode(soll.behaupten),
+            _require(jsonEncode(b['karten']) == jsonEncode([for (final k in soll.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}]),
                 'Falscher Spickzettel an einen Gast.');
             spickzettel++;
           }

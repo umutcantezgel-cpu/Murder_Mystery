@@ -86,6 +86,7 @@ final rundenTexte = <String, String>{
   'ui.befragung.fertig': _de.party_befragung_fertig,
   'ui.befragung.offen': _de.party_befragung_offen,
   'ui.befragung.notizen': _de.party_befragung_notizen,
+  'ui.befragung.erzaehler_notizen': _de.party_befragung_erzaehler_notizen,
   'ui.befragung.spickzettel': _de.party_befragung_spickzettel,
   'ui.befragung.spickzettel_hinweis': _de.party_befragung_spickzettel_hinweis,
   'ui.befragung.tisch_eigen': _de.party_befragung_tisch_eigen,

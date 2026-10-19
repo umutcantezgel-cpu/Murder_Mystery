@@ -93,6 +93,11 @@ List<String> befragungsAntwort(Texte texte, BefragungText b) => List.unmodifiabl
       for (final k in befragungsKarten(texte, b)) ...k,
     ]);
 
+/// Eine Karte des Spickzettels (R17, E-044): ein bis drei Zeilen. Mit
+/// [behaupten] ist es die Behauptung einer eigenen Lüge; die Ansicht setzt
+/// „Behaupte:“ vor jede Zeile.
+typedef ZettelKarte = ({List<String> zeilen, bool behaupten});
+
 /// Spickzettel einer befragten Rolle, die ein Mensch spielt (A-051): was sie dem
 /// Detektiv sagt, als Stichpunkte der Kurzfassungen (E-044). [sagen] sind die
 /// eigenen Beobachtungen in der Du-Form, [behaupten] die Behauptungen eigener
@@ -100,24 +105,42 @@ List<String> befragungsAntwort(Texte texte, BefragungText b) => List.unmodifiabl
 /// Tatsache. Pfadfrei wie [befragungsAntwort]: Nicht Öffentliches wirft [StateError].
 class BefragungsZettel {
   final List<String> sagen, behaupten, eigene;
-  const BefragungsZettel({required this.sagen, required this.behaupten, required this.eigene});
+
+  /// Dieselben Zeilen als Karten (R17): je Preisgabe eine, erst die
+  /// Beobachtungen, dann die Behauptungen, zuletzt die eigene Würze. So zeigen
+  /// Spickzettel, Gast-Blatt und Rollenheft nie mehr als drei Zeilen in einem Block.
+  final List<ZettelKarte> karten;
+
+  const BefragungsZettel._({required this.sagen, required this.behaupten, required this.eigene, required this.karten});
 
   /// Alle Zeilen ohne Behauptungen: erst die Beobachtungen, dann die eigene Würze.
   List<String> get stichpunkte => [...sagen, ...eigene];
+
+  /// Die [karten] als Zeilenblöcke, wie eine Ansicht sie zeigt: Behauptungen mit
+  /// dem Vorsatz aus [behaupte] (App: ARB, Druck: `ui.druck.rollen.behaupte`).
+  List<List<String>> kartenZeilen(String Function(String text) behaupte) => [
+        for (final k in karten) [for (final z in k.zeilen) k.behaupten ? behaupte(z) : z],
+      ];
 }
 
 BefragungsZettel befragungsZettel(Texte texte, BefragungText b) {
-  final sagen = <String>[], behaupten = <String>[];
+  final sagen = <ZettelKarte>[], behaupten = <ZettelKarte>[];
   for (final q in b.preisgabe) {
     // Dieselbe Prüfung wie die Antwort der App: nur Öffentliches, als Kanon-Kurzfassung.
     final k = oeffentlicheKurzfassung(texte, b.rolle, q);
     if (q.startsWith('luege:')) {
-      behaupten.addAll(k.antwort);
+      behaupten.add((zeilen: List.unmodifiable(k.antwort), behaupten: true));
     } else {
-      sagen.addAll(k.zettel);
+      sagen.add((zeilen: List.unmodifiable(k.zettel), behaupten: false));
     }
   }
-  return BefragungsZettel(sagen: List.unmodifiable(sagen), behaupten: List.unmodifiable(behaupten), eigene: List.unmodifiable(b.stichpunkte));
+  final eigene = List<String>.unmodifiable(b.stichpunkte);
+  return BefragungsZettel._(
+    sagen: List.unmodifiable([for (final k in sagen) ...k.zeilen]),
+    behaupten: List.unmodifiable([for (final k in behaupten) ...k.zeilen]),
+    eigene: eigene,
+    karten: List.unmodifiable([...sagen, ...behaupten, if (eigene.isNotEmpty) (zeilen: eigene, behaupten: false)]),
+  );
 }
 
 /// Ein Tischgespräch einer Runde, wie alle es sehen dürfen: wer mit wem worüber.

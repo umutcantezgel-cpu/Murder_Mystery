@@ -197,6 +197,12 @@ void main() {
     expect(zweite.befragungen, isEmpty);
     await _warten();
     expect([for (final k in zweite.befragungsNotizen) [k.id, k.frage, k.pflicht, k.antwort]], notizen);
+    // E-044: Was der Erzähler zum Rundenstart für unbesetzte Gäste sprach, trägt die Ansicht nur im
+    // laufenden Fenster. Das Notizbuch liest es aus der Partie des Raums, die die Rückkehr neu einspielt.
+    expect(jListe(zweite.dienst.ansicht['erzaehler']).where((b) => '$b'.contains(texte.baustein('npc.emine.1'))), isEmpty);
+    expect(zweite.erzaehlerNotizen, [for (final k in raum.partieFuerGastgeber!.spiel.bausteine) if (k.startsWith('npc.')) k]);
+    expect(zweite.erzaehlerNotizen, containsAll(['npc.emine.1', 'npc.dilara.1', 'npc.enes.1']));
+    expect(zweite.erzaehlerNotizen, s.erzaehlerNotizen);
     for (final k in zweite.befragungsNotizen) {
       expect(k.antwort, befragungsAntwort(texte, texte.sammlung.befragungen[k.id]!), reason: k.id);
       expect([k.mensch, k.erledigt], [false, true], reason: k.id);

@@ -559,7 +559,7 @@ Future<void> _lauf({
           final runde = view['runde'] as int;
           _require(b['id'] == BefragungText.kennung(eigeneRolle, runde), 'Fremde Befragung an ${p.name}.');
           final soll = befragungsZettel(texte, texte.sammlung.befragungen[b['id']]!);
-          _require(jsonEncode(b['stichpunkte']) == jsonEncode(soll.stichpunkte) && jsonEncode(b['behaupte']) == jsonEncode(soll.behaupten),
+          _require(jsonEncode(b['karten']) == jsonEncode([for (final k in soll.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}]),
               'Falscher Spickzettel an ${p.name}.');
           spickzettel++;
         }

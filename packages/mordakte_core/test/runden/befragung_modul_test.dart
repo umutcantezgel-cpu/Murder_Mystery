@@ -151,7 +151,8 @@ void main() {
           expect(k.containsKey('antwort'), isFalse, reason: 'Ein Mensch antwortet am Tisch: ${k['id']}');
           expect(k['erledigt'], isFalse);
         } else {
-          expect(k['antwort'], botAntwort(_texte, text), reason: '${k['id']}');
+          // Die Antwort kommt als Karten (E-044, R17): je Preisgabe ihre Kurzfassung.
+          expect(k['antwort'], befragungsKarten(_texte, text), reason: '${k['id']}');
           expect(k['erledigt'], isTrue);
         }
       }
@@ -181,8 +182,9 @@ void main() {
         final eigen = _map(privat['befragung']);
         final soll = befragungsZettel(_texte, br.text(rolle));
         expect(eigen['id'], BefragungText.kennung(rolle, 1));
-        expect(eigen['stichpunkte'], soll.stichpunkte);
-        expect(eigen['behaupte'], soll.behaupten);
+        // Der Spickzettel kommt als Karten (R17): je Preisgabe eine, Behauptungen markiert, zuletzt die Würze.
+        expect(eigen['karten'], [for (final k in soll.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}]);
+        expect([for (final k in _liste(eigen['karten'])) ...(k['zeilen'] as List)], [...soll.sagen, ...soll.behaupten, ...soll.eigene]);
         expect(eigen['fragen'], br.text(rolle).fragen);
         // Kein fremder Spickzettel im eigenen privaten Teil.
         final privatJson = jsonEncode(privat);
@@ -211,7 +213,7 @@ void main() {
     expect(k['mensch'], isFalse);
     if (k['pflicht'] == true || (_map(r.zustandFuer('p0')['privat'])['befragungenFrei'] as int) > 0) {
       _befehl(r, 'p0', 'befragen', {'id': id, 'frage': 0});
-      expect(_karten(r).firstWhere((k) => k['id'] == id)['antwort'], botAntwort(_texte, plan.fuer(4, 1).text(rolle1)));
+      expect(_karten(r).firstWhere((k) => k['id'] == id)['antwort'], befragungsKarten(_texte, plan.fuer(4, 1).text(rolle1)));
     }
   });
 
@@ -234,7 +236,7 @@ void main() {
       final k = _karten(r).firstWhere((k) => k['id'] == id);
       expect(k['mensch'], isFalse);
       expect(k['erledigt'], isTrue, reason: 'Ohne Menschen antwortet die App auf die gestellte Frage');
-      expect(k['antwort'], botAntwort(_texte, _texte.sammlung.befragungen[id]!));
+      expect(k['antwort'], befragungsKarten(_texte, _texte.sammlung.befragungen[id]!));
       expect(_liste(r.zustandFuer('p0')['befragungen']).firstWhere((b) => b['rolle'] == k['rolle'])['erledigt'], isTrue);
       expect(r.zustandFuer('p0')['kannWeiter'], isTrue, reason: '$rollen Rollen');
       // Kommt das Gerät zurück, spielt wieder ein Mensch: Er antwortet am Tisch.

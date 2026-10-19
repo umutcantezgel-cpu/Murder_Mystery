@@ -1,5 +1,4 @@
 import 'package:mordakte_core/mordakte_core.dart';
-import 'package:mordakte_core/runden.dart';
 
 /// Eine Befragungskarte, wie der Detektiv sie sieht (A-051): wen er befragt,
 /// worüber und mit welchen Fragen. Die Antwort steht nur bei Rollen, die die App
@@ -16,7 +15,7 @@ class BefragungKarte {
     required this.frage,
     required this.erledigt,
     required this.waehlbar,
-    this.antwort,
+    this.antwortKarten,
   });
 
   final String id, rolle, thema;
@@ -36,8 +35,12 @@ class BefragungKarte {
   /// wenn alle freien Wahlen getroffen sind.
   final bool waehlbar;
 
-  /// Antwort der App in Stichpunkten (nur ohne Menschen, nur nach der Frage).
-  final List<String>? antwort;
+  /// Antwort der App als Karten (nur ohne Menschen, nur nach der Frage): je
+  /// Preisgabe ihre Kurzfassung mit höchstens drei Stichpunkten (R17, E-044).
+  final List<List<String>>? antwortKarten;
+
+  /// Dieselbe Antwort als Stichpunkte hintereinander.
+  List<String>? get antwort => antwortKarten == null ? null : [for (final k in antwortKarten!) ...k];
 
   bool get gefragt => frage != null;
 }
@@ -73,7 +76,7 @@ class BefragungStand {
       frage: verlauf.frage(id),
       erledigt: verlauf.erledigt(id),
       waehlbar: verlauf.waehlbar(runde, id),
-      antwort: !mensch && verlauf.gefragt(id) ? botAntwort(texte, b) : null,
+      antwortKarten: !mensch && verlauf.gefragt(id) ? befragungsKarten(texte, b) : null,
     );
   }
 

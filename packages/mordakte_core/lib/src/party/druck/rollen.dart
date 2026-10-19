@@ -244,10 +244,10 @@ pw.Widget _tischRunde(DruckKontext k, Dossier d, int r, {bool kopf = false}) {
 }
 
 /// Was die Rolle in ihrer Befragung sagt: Beobachtungen, Behauptungen, eigene Würze.
+/// Je Karte ein Block (R17, E-044), getrennt durch eine Leerzeile wie in der App.
 String _antwort(DruckKontext k, BefragungText b) {
-  final z = befragungsZettel(k.texte, b);
-  final zeilen = [...z.sagen, for (final x in z.behaupten) k.ui('ui.druck.rollen.behaupte', {'text': x}), ...z.eigene];
-  return zeilen.isEmpty ? k.ui('ui.druck.rollen.nichts') : _punkte(zeilen);
+  final karten = befragungsZettel(k.texte, b).kartenZeilen((x) => k.ui('ui.druck.rollen.behaupte', {'text': x}));
+  return karten.isEmpty ? k.ui('ui.druck.rollen.nichts') : [for (final z in karten) _punkte(z)].join('\n\n');
 }
 
 /// Stichpunkte untereinander, je mit Gedankenstrich.

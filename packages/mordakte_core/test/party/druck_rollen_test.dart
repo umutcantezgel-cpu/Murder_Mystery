@@ -265,6 +265,21 @@ void main() {
     }
   });
 
+  // Prüfung M2z: Hanas „Das sagst du“ stand als ein Block mit sieben Stichpunkten im Heft. R17 gilt je Karte,
+  // deshalb steht jede Karte (je Preisgabe eine, zuletzt die Würze) in einem eigenen Block.
+  test('R17 im Rollenheft: Was du in der Befragung sagst, steht je Karte in einem eigenen Block', () async {
+    final k = druckKontext(pfad: 'fatma', n: 12);
+    expect(k.satz.besetzt, contains('meryem'));
+    final b = await _teil(rollenhefte, k);
+    final z = befragungsZettel(k.texte, k.texte.sammlung.befragungen['bf_meryem_1']!);
+    expect([for (final x in z.karten) x.zeilen.length], [3, 3, 1]);
+    for (var i = 1; i < z.karten.length; i++) {
+      final vorher = z.karten[i - 1].zeilen.last, danach = z.karten[i].zeilen.first;
+      final getrennt = RegExp('${RegExp.escape(vorher)} *\\n\\s*\\n\\s*– ${RegExp.escape(danach)}');
+      expect(getrennt.hasMatch(b.text), isTrue, reason: 'Leerzeile zwischen „$vorher“ und „$danach“');
+    }
+  });
+
   test('Täterziel steht nur in der versiegelten Fassung, nie im Rollenheft (E-033)', () async {
     final k = druckKontext(pfad: 'fatma', n: 7);
     final taeterZiel = k.texte.dossier('fatma', 'fatma', 7).ziel;

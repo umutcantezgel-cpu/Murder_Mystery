@@ -513,6 +513,13 @@ List<String> textVerweise(Kanon kanon, Textsammlung t) {
       if (b['kanal'] != 'pflichtgespraech' || b['pfade'] != 'alle') f.add('$wo: nicht öffentlich (Kanal ${b['kanal']}, Pfade ${b['pfade']})');
     } else if (k.quelle.startsWith('luege:')) {
       if (k.du != null) f.add('$wo: eine Lüge hat nur die Behauptung, kein du');
+      // Der Spickzettel zeigt die Behauptung mit Vorsatz („Behaupte: …“); auch so bleibt die Zeile bei acht Wörtern.
+      if (t.bausteine['ui.druck.rollen.behaupte'] case final vorsatz?) {
+        for (final x in k.antwort) {
+          final zeile = vorsatz.replaceAll('{text}', x);
+          if (stichpunktWoerter(zeile) > 8) f.add('$wo: Spickzettel-Zeile mit ${stichpunktWoerter(zeile)} Wörtern statt höchstens 8 (R17): $zeile');
+        }
+      }
     } else {
       f.add('$wo: nur Beobachtungen und Lügen');
     }

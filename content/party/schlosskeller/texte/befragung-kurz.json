@@ -1,12 +1,12 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "kurzfassung",
-  "hinweis": "Kurzfassungen der Befragungs-Preisgaben (E-044, Kartenformat R17): je Beobachtung oder Lüge eine Karte mit ein bis drei Stichpunkten zu höchstens acht Wörtern. antwort: was die App dem Detektiv zeigt, bei Beobachtungen in der dritten Person, bei Lügen nur die Behauptung in der Ich-Form. du: der Spickzettel der befragten Rolle; ohne du gilt antwort, bei Lügen mit „Behaupte:“ davor. Jeder Hinweisinhalt der Langfassung bleibt erhalten (Uhrzeit, Personen, Ort, Richtung). Die Langfassung bleibt in beobachtungen.json und figuren.json.",
+  "hinweis": "Kurzfassungen der Befragungs-Preisgaben (E-044, Kartenformat R17): je Beobachtung oder Lüge eine Karte mit ein bis drei Stichpunkten zu höchstens acht Wörtern. antwort: was die App dem Detektiv zeigt, bei Beobachtungen in der dritten Person, bei Lügen nur die Behauptung in der Ich-Form. du: der Spickzettel der befragten Rolle; ohne du gilt antwort, bei Lügen mit „Behaupte:“ davor; auch mit diesem Vorsatz hat die Zeile höchstens acht Wörter, die Behauptung also höchstens sieben. Jeder Hinweisinhalt der Langfassung bleibt erhalten (Uhrzeit, Personen, Ort, Richtung). Die Langfassung bleibt in beobachtungen.json und figuren.json.",
   "eintraege": [
     {
       "quelle": "luege:luege_ahmet_servietten",
       "antwort": [
-        "Ich hab hinter der Theke nur Servietten gesucht."
+        "Hinter der Theke suchte ich nur Servietten."
       ]
     },
     {
@@ -18,7 +18,7 @@
     {
       "quelle": "luege:luege_fatma_buffet",
       "antwort": [
-        "Ich stand durchgehend beim Gebäck am linken Buffet."
+        "Ich stand durchgehend am linken Buffet."
       ]
     },
     {
@@ -36,7 +36,7 @@
     {
       "quelle": "luege:luege_can_toilette",
       "antwort": [
-        "Ich war durchgehend auf der Toilette im Turm."
+        "Ich war durchgehend im Turm auf Toilette."
       ]
     },
     {

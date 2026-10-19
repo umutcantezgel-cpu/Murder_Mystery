@@ -2158,6 +2158,10 @@
   "@party_befragung_notizen": {
     "description": "Notizbuch: Antworten der Befragungen"
   },
+  "party_befragung_erzaehler_notizen": "Vom Erzähler gehört",
+  "@party_befragung_erzaehler_notizen": {
+    "description": "Notizbuch: Wissen unbesetzter Gäste, das der Erzähler zum Rundenstart sprach (E-044)"
+  },
   "party_befragung_spickzettel": "Mein Spickzettel",
   "@party_befragung_spickzettel": {
     "description": "Verdeckter Zettel je Person für die laufende Runde"

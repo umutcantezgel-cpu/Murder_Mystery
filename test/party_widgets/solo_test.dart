@@ -332,4 +332,83 @@ void main() {
     await t.pumpWidget(const SizedBox());
     s.dispose();
   });
+
+  // Prüfung M2z (R17, E-044): Wojteks Antwort hat zwei Karten. Hintereinander las sich „an ihm vorbei“ als Schneider
+  // oder Olli; jede Karte ist deshalb ein eigenes Zitat, das Notizbuch zeigt sie genauso.
+  testWidgets('Antwort der App: je Preisgabe ein eigenes Zitat mit höchstens drei Stichpunkten', (t) async {
+    final s = neueSitzung(rollen: 20, solo: true);
+    spieleBis(s, PartyPhase.gespraeche);
+    final texte = partyDaten.texte;
+    final b = texte.sammlung.befragungen['bf_kaan_1']!;
+    final k = BefragungKarte(
+      id: b.id, rolle: b.rolle, thema: b.thema, fragen: b.fragen, pflicht: true, mensch: false,
+      frage: 0, erledigt: true, waehlbar: false, antwortKarten: befragungsKarten(texte, b),
+    );
+    expect(k.antwortKarten, hasLength(2));
+    expect(k.antwort, botAntwort(texte, b));
+    await zeigen(t, SingleChildScrollView(child: BefragungsKarte(sitzung: s, karte: k)), 390, 1);
+    final zitate = find.byType(AussageKarte);
+    expect(zitate, findsNWidgets(2));
+    for (final (i, karte) in k.antwortKarten!.indexed) {
+      expect(karte.length, inInclusiveRange(1, 3));
+      for (final z in karte) {
+        expect(find.descendant(of: zitate.at(i), matching: find.text(z)), findsOneWidget, reason: z);
+      }
+    }
+    // Was die App im Solo antwortet, kommt als dieselben Karten.
+    PartySkript.befragungenErledigen(s);
+    for (final n in s.befragungsNotizen) {
+      expect(n.antwortKarten, befragungsKarten(texte, texte.sammlung.befragungen[n.id]!), reason: n.id);
+    }
+    expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox());
+    s.dispose();
+  });
+
+  // E-044: Das Wissen unbesetzter Gäste spricht der Erzähler nur zum Rundenstart. Bei vier Rollen trägt
+  // npc.emine.1 die Ketten von e1_2 und (Pfad Fatma) e3_1; mit sechs Rollen steht dasselbe als Antwort
+  // von Emine im Notizbuch. Nachlesen darf nicht an der Rollenzahl hängen.
+  testWidgets('Notizbuch behält, was der Erzähler für unbesetzte Gäste sprach (E-044)', (t) async {
+    final s = neueSitzung(rollen: 4, pfad: 'fatma', solo: true);
+    spieleBis(s, PartyPhase.entscheidungen, runde: 3);
+    expect(s.laufendeEntscheidung?.id, 'e3_1');
+    expect(s.erzaehler.where((k) => k.startsWith('npc.')), isEmpty, reason: 'Das Erzählerfenster trägt das Wissen nicht mehr');
+    final gesprochen = [for (final k in s.spiel.bausteine) if (k.startsWith('npc.')) k];
+    expect(gesprochen, containsAll(['npc.emine.1', 'npc.dilara.1', 'npc.enes.1']));
+    await zeigen(t, KartenBildschirm(sitzung: s), 390, 1);
+    await tippen(t, s.ui('ui.karte.notizbuch'));
+    expect(find.text(s.ui('ui.befragung.erzaehler_notizen')), findsOneWidget);
+    for (final k in gesprochen) {
+      expect(find.text(s.text(k)), findsOneWidget, reason: k);
+    }
+    expect(s.erzaehlerNotizen, gesprochen.toSet().toList());
+    expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox());
+    s.dispose();
+
+    // Schon bei den Entscheidungen der ersten Runde: e1_1 bis e1_3 brauchen Damir, Emine und Azra.
+    final r1 = neueSitzung(rollen: 4, pfad: 'fatma', solo: true);
+    spieleBis(r1, PartyPhase.entscheidungen, runde: 1);
+    expect(r1.erzaehlerNotizen, ['npc.emine.1', 'npc.dilara.1', 'npc.enes.1']);
+    r1.dispose();
+    // Pfadfrei: Was der Erzähler sprach, hängt nur an Runde und Besetzung (S-1).
+    for (final pfad in partyDaten.kanon.pfade) {
+      final p = neueSitzung(rollen: 4, pfad: pfad, solo: true);
+      spieleBis(p, PartyPhase.entscheidungen, runde: 3);
+      expect(p.erzaehlerNotizen, s.erzaehlerNotizen, reason: pfad);
+      p.dispose();
+    }
+    // Mit sechs Rollen spielt jemand Emine; ihr Wissen kommt dann aus ihrer Befragung.
+    final sechs = neueSitzung(rollen: 6, pfad: 'fatma', solo: true);
+    spieleBis(sechs, PartyPhase.entscheidungen, runde: 1);
+    expect(sechs.erzaehlerNotizen, ['npc.dilara.1', 'npc.enes.1']);
+    sechs.dispose();
+    // Altakte (Modell legacy): Das Notizbuch bleibt wie bisher.
+    final d = akteDaten('gewoelbe');
+    final alt = PartySitzung(d, wuerfel: const FesterWuerfel.neutral())
+      ..einrichten(rollen: 4, detektiv: 'w', solo: true, code: FallCode.fuerPfad(d.kanon.pfade.first, d.kanon.pfade).code);
+    spieleBis(alt, PartyPhase.entscheidungen);
+    expect(alt.erzaehlerNotizen, isEmpty);
+    alt.dispose();
+  });
 }

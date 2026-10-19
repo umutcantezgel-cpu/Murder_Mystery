@@ -3352,6 +3352,9 @@ class LDe extends L {
   String get party_befragung_notizen => 'Antworten aus deinen Befragungen';
 
   @override
+  String get party_befragung_erzaehler_notizen => 'Vom Erzähler gehört';
+
+  @override
   String get party_befragung_spickzettel => 'Mein Spickzettel';
 
   @override

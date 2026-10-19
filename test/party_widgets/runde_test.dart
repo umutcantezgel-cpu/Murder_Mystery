@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte/party/bildschirme/runde.dart';
+import 'package:mordakte/party/bildschirme/spickzettel.dart';
 import 'package:mordakte/party/party_stil.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/party/skript.dart';
@@ -204,6 +205,32 @@ void main() {
     await t.ensureVisible(find.text(s.ui('ui.runde.weiter')));
     await t.tap(find.text(s.ui('ui.runde.weiter')));
     expect(s.phase, PartyPhase.entscheidungen);
+  });
+
+  // Prüfung M2z (R17, E-044): Hanas Befragung hat zwei Preisgaben und Würze, sieben Zeilen in einem Block. Der Zettel
+  // zeigt jede Karte getrennt; keine Zeile hat mehr als acht Wörter, auch Behauptungen mit „Behaupte:“ davor.
+  testWidgets('Spickzettel: je Preisgabe eine Karte, zuletzt die Würze, jede Zeile höchstens acht Wörter', (t) async {
+    final s = neueSitzung(rollen: 20, pfad: 'fatma');
+    spieleBis(s, PartyPhase.gespraeche);
+    final mehrere = <String>[];
+    for (final rolle in s.besetzt) {
+      s.zeigeVerdeckt(rolle);
+      await t.pumpWidget(rahmen(SingleChildScrollView(child: SpickzettelInhalt(sitzung: s, rolle: rolle, runde: 1))));
+      final z = s.spickzettel(rolle, 1);
+      final karten = find.byType(SpickKarte);
+      expect(karten, findsNWidgets(z.karten.length), reason: rolle);
+      for (final (i, k) in z.kartenZeilen((x) => s.ui('ui.befragung.behaupte', {'text': x})).indexed) {
+        expect(k.length, inInclusiveRange(1, 3), reason: rolle);
+        for (final zeile in k) {
+          expect(find.descendant(of: karten.at(i), matching: find.text(zeile)), findsOneWidget, reason: '$rolle: $zeile');
+          expect(stichpunktWoerter(zeile), lessThanOrEqualTo(8), reason: '$rolle: $zeile');
+        }
+      }
+      if (z.karten.length > 1) mehrere.add(rolle);
+      s.verdecken();
+    }
+    expect(mehrere, containsAll(['meryem', 'kaan', 'fatma']));
+    expect(t.takeException(), isNull);
   });
 
   testWidgets('Mein Spickzettel: verdeckt je Person, nur die laufende Runde', (t) async {
