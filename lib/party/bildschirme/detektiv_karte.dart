@@ -11,11 +11,13 @@ import '../sitzung.dart';
 /// Wie die übrigen Partybildschirme deutsch, auch ohne Lokalisierung im Baum.
 final _de = LDe();
 
-/// Die Karte des Detektivs (M6): wer du bist und dein Auftrag
-/// (`detektiv.<m|w>.wer/.auftrag`), deine Regeln (`detektiv.regeln.*`), was
-/// deine Klasse auf der Karte tut und wie Befragungen laufen. Die Texte der
-/// Einweisung kommen aus dem Kanon der Akte, die übrigen aus der ARB; nichts
-/// davon ist geheim oder pfadabhängig.
+/// Die Karte des Detektivs (M6): dein Auftrag, deine Regeln, was deine Klasse
+/// auf der Karte tut und wie Befragungen laufen. Jeder Abschnitt ist eine
+/// Karte nach R17 (höchstens drei Stichpunkte zu je höchstens acht Wörtern)
+/// aus der ARB; Runden und Entscheidungen zählt sie aus der Ermittlung der
+/// Akte. Die Prosa des Kanons (`detektiv.<m|w>.wer/.auftrag`,
+/// `detektiv.regeln.*`) bleibt dem Druck. Nichts davon ist geheim oder
+/// pfadabhängig.
 ///
 /// Sie liegt in der Rollenphase als eigener Eintrag aus ([DetektivKarteEintrag])
 /// und ist im Abendmenü erreichbar ([zeigeDetektivKarte]). Online gehört sie
@@ -29,24 +31,25 @@ class DetektivKarte extends StatelessWidget {
   /// Ausrüstung aus dem [MetaStore], falls es ihn gibt.
   final String? klasse;
 
-  /// Die Regeln des Detektivbogens, in der Reihenfolge des Drucks.
-  static const regeln = ['entscheidungen', 'hinweise', 'punkte', 'anklage'];
-
   @override
   Widget build(BuildContext context) {
     final l = _de;
     final s = sitzung;
-    final g = s.eingerichtet ? s.einstellungen.detektiv : 'w';
+    final entscheidungen = s.karte.ermittlung.entscheidungen;
     final id = klasse ?? context.read<MetaStore?>()?.loadout.cls;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        _abschnitt(l.detektiv_karte_wer, [Text(s.text('detektiv.$g.wer'), style: MPapierSchrift.text)]),
-        _abschnitt(l.detektiv_karte_auftrag, [Text(s.text('detektiv.$g.auftrag'), style: MPapierSchrift.text)]),
+        _abschnitt(l.detektiv_karte_auftrag, [
+          _punkt(l.detektiv_karte_auftrag_1),
+          _punkt(l.detektiv_karte_auftrag_2({for (final e in entscheidungen) e.runde}.length, entscheidungen.length)),
+          _punkt(l.detektiv_karte_auftrag_3),
+        ]),
         _abschnitt(l.detektiv_karte_regeln, [
-          for (final r in regeln)
-            if (s.hatText('detektiv.regeln.$r')) _punkt(s.text('detektiv.regeln.$r')),
+          _punkt(l.detektiv_karte_regel_1),
+          _punkt(l.detektiv_karte_regel_2),
+          _punkt(l.detektiv_karte_regel_3),
         ]),
         _abschnitt(l.detektiv_karte_klasse, [
           if (id != null) Text(l.className(id), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
@@ -54,7 +57,7 @@ class DetektivKarte extends StatelessWidget {
             Text('${l.klasseFaehigkeitName(id)}: ${l.klasseFaehigkeit(id)}', style: MPapierSchrift.text),
             Text(l.abend_klasse_fair, style: MPapierSchrift.leise),
           ],
-          Text(l.abend_klasse_hinweis, style: MPapierSchrift.leise),
+          Text(l.detektiv_karte_belohnung, style: MPapierSchrift.leise),
         ]),
         _abschnitt(l.detektiv_karte_befragungen, [
           _punkt(l.detektiv_karte_befragung_1),

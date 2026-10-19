@@ -1220,10 +1220,26 @@
   "detektiv_karte_titel": "Deine Detektivkarte",
   "detektiv_karte_oeffnen": "Detektivkarte",
   "detektiv_karte_hinweis": "Wer ermittelt, liest hier Auftrag und Regeln.",
-  "detektiv_karte_wer": "Wer du bist",
   "detektiv_karte_auftrag": "Dein Auftrag",
+  "detektiv_karte_auftrag_1": "Finde heraus, wer es war.",
+  "detektiv_karte_auftrag_2": "{runden} Runden, {entscheidungen} Entscheidungen, dann die Anklage.",
+  "@detektiv_karte_auftrag_2": {
+    "placeholders": {
+      "runden": {
+        "type": "int"
+      },
+      "entscheidungen": {
+        "type": "int"
+      }
+    }
+  },
+  "detektiv_karte_auftrag_3": "Anklage und Punkte bestimmen zusammen das Ende.",
   "detektiv_karte_regeln": "Deine Regeln",
+  "detektiv_karte_regel_1": "Je Entscheidung wählst du genau eine Möglichkeit.",
+  "detektiv_karte_regel_2": "Gute Entscheidungen geben Punkte, sichtbar erst am Ende.",
+  "detektiv_karte_regel_3": "Was dir zugeflüstert wird, prüfst du selbst.",
   "detektiv_karte_klasse": "Deine Klasse",
+  "detektiv_karte_belohnung": "Jeder Abend bringt eine Sammelkarte deiner Klasse.",
   "detektiv_karte_befragungen": "So laufen Befragungen",
   "detektiv_karte_befragung_1": "Am Tisch reden die Gäste miteinander.",
   "detektiv_karte_befragung_2": "Du fragst nach und hörst genau zu.",

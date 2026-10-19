@@ -3717,17 +3717,29 @@ abstract class L {
   /// **'Wer ermittelt, liest hier Auftrag und Regeln.'**
   String get detektiv_karte_hinweis;
 
-  /// No description provided for @detektiv_karte_wer.
-  ///
-  /// In de, this message translates to:
-  /// **'Wer du bist'**
-  String get detektiv_karte_wer;
-
   /// No description provided for @detektiv_karte_auftrag.
   ///
   /// In de, this message translates to:
   /// **'Dein Auftrag'**
   String get detektiv_karte_auftrag;
+
+  /// No description provided for @detektiv_karte_auftrag_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Finde heraus, wer es war.'**
+  String get detektiv_karte_auftrag_1;
+
+  /// No description provided for @detektiv_karte_auftrag_2.
+  ///
+  /// In de, this message translates to:
+  /// **'{runden} Runden, {entscheidungen} Entscheidungen, dann die Anklage.'**
+  String detektiv_karte_auftrag_2(int runden, int entscheidungen);
+
+  /// No description provided for @detektiv_karte_auftrag_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Anklage und Punkte bestimmen zusammen das Ende.'**
+  String get detektiv_karte_auftrag_3;
 
   /// No description provided for @detektiv_karte_regeln.
   ///
@@ -3735,11 +3747,35 @@ abstract class L {
   /// **'Deine Regeln'**
   String get detektiv_karte_regeln;
 
+  /// No description provided for @detektiv_karte_regel_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Je Entscheidung wählst du genau eine Möglichkeit.'**
+  String get detektiv_karte_regel_1;
+
+  /// No description provided for @detektiv_karte_regel_2.
+  ///
+  /// In de, this message translates to:
+  /// **'Gute Entscheidungen geben Punkte, sichtbar erst am Ende.'**
+  String get detektiv_karte_regel_2;
+
+  /// No description provided for @detektiv_karte_regel_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Was dir zugeflüstert wird, prüfst du selbst.'**
+  String get detektiv_karte_regel_3;
+
   /// No description provided for @detektiv_karte_klasse.
   ///
   /// In de, this message translates to:
   /// **'Deine Klasse'**
   String get detektiv_karte_klasse;
+
+  /// No description provided for @detektiv_karte_belohnung.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder Abend bringt eine Sammelkarte deiner Klasse.'**
+  String get detektiv_karte_belohnung;
 
   /// No description provided for @detektiv_karte_befragungen.
   ///

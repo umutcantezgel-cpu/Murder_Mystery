@@ -2116,16 +2116,41 @@ class LDe extends L {
       'Wer ermittelt, liest hier Auftrag und Regeln.';
 
   @override
-  String get detektiv_karte_wer => 'Wer du bist';
+  String get detektiv_karte_auftrag => 'Dein Auftrag';
 
   @override
-  String get detektiv_karte_auftrag => 'Dein Auftrag';
+  String get detektiv_karte_auftrag_1 => 'Finde heraus, wer es war.';
+
+  @override
+  String detektiv_karte_auftrag_2(int runden, int entscheidungen) {
+    return '$runden Runden, $entscheidungen Entscheidungen, dann die Anklage.';
+  }
+
+  @override
+  String get detektiv_karte_auftrag_3 =>
+      'Anklage und Punkte bestimmen zusammen das Ende.';
 
   @override
   String get detektiv_karte_regeln => 'Deine Regeln';
 
   @override
+  String get detektiv_karte_regel_1 =>
+      'Je Entscheidung wählst du genau eine Möglichkeit.';
+
+  @override
+  String get detektiv_karte_regel_2 =>
+      'Gute Entscheidungen geben Punkte, sichtbar erst am Ende.';
+
+  @override
+  String get detektiv_karte_regel_3 =>
+      'Was dir zugeflüstert wird, prüfst du selbst.';
+
+  @override
   String get detektiv_karte_klasse => 'Deine Klasse';
+
+  @override
+  String get detektiv_karte_belohnung =>
+      'Jeder Abend bringt eine Sammelkarte deiner Klasse.';
 
   @override
   String get detektiv_karte_befragungen => 'So laufen Befragungen';
