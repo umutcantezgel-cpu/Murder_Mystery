@@ -25,9 +25,15 @@ class GastBefragung extends StatelessWidget {
     final befragung = privat['befragung'] is Map ? jMap(privat['befragung']) : null;
     final befragungen = jMaps(c.v['befragungen']);
     final tisch = jMaps(c.v['tisch']);
+    // Fragt der Detektiv gerade, steht die eigene Befragung ganz oben: Jetzt antwortest du.
+    final jetzt = befragung != null && befragung['frage'] is int && befragung['erledigt'] != true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (c.dossier != null && jetzt) ...[
+          const SizedBox(height: MMass.s8),
+          _befragung(befragung),
+        ],
         if (c.dossier != null) ...[
           const SizedBox(height: MMass.s8),
           OnlineRegisterKopf(l.party_befragung_tisch_eigen.toUpperCase()),
@@ -37,7 +43,7 @@ class GastBefragung extends StatelessWidget {
             if (angesprochen.isEmpty) Text(l.party_befragung_niemand, style: MPapierSchrift.leise),
             for (final a in angesprochen) _zeile(c.personAmTisch(jText(a['sprecher'])), jText(a['thema'])),
           ], samen: 81),
-          if (befragung != null) _befragung(befragung),
+          if (befragung != null && !jetzt) _befragung(befragung),
         ],
         if (befragungen.isNotEmpty)
           _blatt(l.party_befragung_oeffentlich, [

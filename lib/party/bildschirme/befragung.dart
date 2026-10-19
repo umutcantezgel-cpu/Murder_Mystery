@@ -76,27 +76,53 @@ class BefragungBildschirm extends StatelessWidget {
 }
 
 /// Die Befragungskarten der Runde: erst die festen, dann – solange die Runde
-/// freie Wahlen hat – die frei wählbaren mit dem Stand der Wahl. [onFrage]
-/// stellt eine Frage; [aktionen] baut zusätzliche Knöpfe je Karte (am Tisch:
+/// freie Wahlen hat – die frei gewählten. Wer noch zur Wahl steht, steht als
+/// schmale Zeile da (Name und Thema); ein Tipp klappt die Fragen auf. Sind alle
+/// freien Wahlen getroffen, fallen die übrigen weg: Am Ende stehen drei bis fünf
+/// Karten da. [onFrage] stellt eine Frage; ohne sie (Druckspiel) sind die Karten
+/// nur zum Lesen. [aktionen] baut zusätzliche Knöpfe je Karte (am Tisch:
 /// „Antwort zeigen“, „Beantwortet“).
-class BefragungsListe extends StatelessWidget {
-  const BefragungsListe({super.key, required this.sitzung, required this.onFrage, this.aktionen});
+class BefragungsListe extends StatefulWidget {
+  const BefragungsListe({super.key, required this.sitzung, this.onFrage, this.aktionen});
 
   final PartySitzung sitzung;
-  final void Function(String id, int frage) onFrage;
+  final void Function(String id, int frage)? onFrage;
   final List<Widget> Function(BefragungKarte karte)? aktionen;
 
   @override
+  State<BefragungsListe> createState() => _BefragungsListeState();
+}
+
+class _BefragungsListeState extends State<BefragungsListe> {
+  /// Freie Befragung, deren Fragen gerade aufgeklappt sind (noch ohne Frage).
+  String? _auf;
+
+  @override
   Widget build(BuildContext context) {
-    final s = sitzung;
+    final s = widget.sitzung;
     final karten = s.befragungen;
     final pflicht = [for (final k in karten) if (k.pflicht) k];
     final frei = [for (final k in karten) if (!k.pflicht) k];
+    final gewaehlt = [for (final k in frei) if (k.gefragt) k];
     final offen = s.befragungenFrei;
-    final wahlen = offen + frei.where((k) => k.gefragt).length;
+    final wahlen = offen + gewaehlt.length;
+    // Zur Wahl steht nur, wer noch wählbar ist, solange freie Wahlen offen sind.
+    final zurWahl = offen > 0 ? [for (final k in frei) if (!k.gefragt && k.waehlbar) k] : const <BefragungKarte>[];
+    final onFrage = widget.onFrage;
     Widget karte(BefragungKarte k, int nr) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: BefragungsKarte(sitzung: s, karte: k, nr: nr, onFrage: (f) => onFrage(k.id, f), aktionen: aktionen?.call(k) ?? const []),
+          child: BefragungsKarte(
+            sitzung: s,
+            karte: k,
+            nr: nr,
+            onFrage: onFrage == null
+                ? null
+                : (f) {
+                    if (_auf == k.id) _auf = null;
+                    onFrage(k.id, f);
+                  },
+            aktionen: widget.aktionen?.call(k) ?? const [],
+          ),
         );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -112,9 +138,66 @@ class BefragungsListe extends StatelessWidget {
             style: Keller.text,
           ),
           const SizedBox(height: 12),
-          for (var i = 0; i < frei.length; i++) karte(frei[i], pflicht.length + i),
+          for (var i = 0; i < gewaehlt.length; i++) karte(gewaehlt[i], pflicht.length + i),
+          for (var i = 0; i < zurWahl.length; i++)
+            zurWahl[i].id == _auf
+                ? karte(zurWahl[i], pflicht.length + gewaehlt.length + i)
+                : _WahlZeile(sitzung: s, karte: zurWahl[i], nr: i, onTap: () => setState(() => _auf = zurWahl[i].id)),
         ],
       ],
+    );
+  }
+}
+
+/// Eine freie Befragung, die noch zur Wahl steht: schmale Karteikarte mit
+/// Fotoabzug, Name und Thema. Ein Tipp klappt sie zur vollen Karte auf.
+class _WahlZeile extends StatelessWidget {
+  const _WahlZeile({required this.sitzung, required this.karte, required this.nr, required this.onTap});
+
+  final PartySitzung sitzung;
+  final BefragungKarte karte;
+  final int nr;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = sitzung;
+    final k = karte;
+    return Padding(
+      key: ValueKey('wahl-${k.id}'),
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Semantics(
+        container: true,
+        button: true,
+        identifier: 'befragung-waehlen-${k.id}',
+        child: MBlatt(
+          art: PapierArt.karteikarte,
+          kopfLinie: 7,
+          linien: false,
+          randFarbe: s.figurFarbe(k.rolle),
+          neigung: nr.isEven ? 0.003 : -0.003,
+          samen: 90 + nr,
+          padding: const EdgeInsets.fromLTRB(12, 10, 14, 10),
+          onTap: onTap,
+          child: Row(
+            children: [
+              MFotoabzug(look: s.figurAussehen(k.rolle), groesse: 40, neigung: nr.isEven ? 0.04 : -0.05, akzent: s.figurFarbe(k.rolle)),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MGanzeWorte(s.spielerName(k.rolle), stil: MPapierSchrift.ueberschrift.copyWith(fontSize: 18)),
+                    MGanzeWorte(k.thema, stil: MPapierSchrift.maschine.copyWith(fontSize: 14)),
+                  ],
+                ),
+              ),
+              const Icon(Icons.expand_more_rounded, size: 22, color: MRoh.tinteLeise),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -186,7 +269,9 @@ class BefragungsKarte extends StatelessWidget {
                 offen
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 6),
+                        // Eigener Knoten, damit die Kennung nicht in der Karte aufgeht (Browserproben).
                         child: Semantics(
+                          container: true,
                           identifier: 'befragung-frage-${k.id}-$i',
                           child: MKnopf(text: k.fragen[i], art: MKnopfArt.zweit, breit: true, onPressed: () => onFrage!(i)),
                         ),

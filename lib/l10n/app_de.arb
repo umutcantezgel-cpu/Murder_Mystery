@@ -2069,6 +2069,10 @@
   "@party_befragung_hinweis_tisch": {
     "description": "Am Tisch: Hinweis über den Befragungskarten des Detektivs"
   },
+  "party_befragung_hinweis_druck": "Deine Befragungen stehen auch auf deinem Bogen. Stelle am Tisch eine der Fragen.",
+  "@party_befragung_hinweis_druck": {
+    "description": "Druckspiel: Hinweis über den Befragungskarten des Detektivs (nur zum Lesen)"
+  },
   "party_befragung_pflicht": "Pflicht",
   "@party_befragung_pflicht": {
     "description": "Marke einer festen Befragung"

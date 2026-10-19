@@ -225,7 +225,8 @@ class PartySkript {
   /// feste und so viele freie, wie die Runde erlaubt, je mit der ersten Frage.
   /// Reihum ist die Person danach beantwortet. Ohne Befragungen geschieht nichts.
   static void befragungenErledigen(PartySitzung s) {
-    if (s.phase != PartyPhase.gespraeche) return;
+    // Im Druckspiel stehen die Befragungen auf dem Bogen; die App führt sie nicht.
+    if (s.phase != PartyPhase.gespraeche || s.befragungAufPapier) return;
     var frei = s.befragungenFrei;
     for (final k in s.befragungen) {
       if (k.erledigt) continue;

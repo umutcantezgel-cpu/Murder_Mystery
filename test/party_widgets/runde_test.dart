@@ -7,6 +7,7 @@ import 'package:mordakte/party/party_stil.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/party/skript.dart';
 import 'package:mordakte/stil/mappe/zeichen.dart' show MStempel;
+import 'package:mordakte/stil/widgets/m_knopf.dart' show MKnopf;
 import 'package:mordakte_core/runden.dart' show FesterWuerfel, botAntwort;
 
 import 'hilfe.dart';
@@ -137,7 +138,7 @@ void main() {
     final karten = s.befragungen;
     expect(karten, isNotEmpty);
     for (final k in karten) {
-      expect(find.byKey(ValueKey(k.id)), findsOneWidget, reason: k.id);
+      expect(find.byKey(ValueKey(k.pflicht ? k.id : 'wahl-${k.id}')), findsOneWidget, reason: k.id);
       final b = partyDaten.texte.sammlung.befragungen[k.id]!;
       final z = befragungsZettel(partyDaten.texte, b);
       for (final a in [...z.sagen, ...z.behaupten, ...z.eigene, ...botAntwort(partyDaten.texte, b)]) {
@@ -228,6 +229,69 @@ void main() {
     await t.pump();
     expect(s.verdeckt, isNull);
     expect(find.text(eigen.stichpunkte.first), findsNothing);
+  });
+
+  testWidgets('Reihum: eine freie Befragung wird erst aufgeklappt; sind die Wahlen getroffen, entfallen die übrigen', (t) async {
+    t.view.physicalSize = const Size(390, 844);
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.resetPhysicalSize);
+    addTearDown(t.view.resetDevicePixelRatio);
+    final s = neueSitzung(rollen: 12);
+    spieleBis(s, PartyPhase.gespraeche);
+    await t.pumpWidget(rahmen(ListenableBuilder(listenable: s, builder: (_, _) => RundeBildschirm(sitzung: s))));
+    final frei = [for (final k in s.befragungen) if (!k.pflicht) k];
+    final wahlen = s.befragungenFrei;
+    expect(wahlen, inInclusiveRange(1, 2));
+    expect(frei.length, greaterThan(wahlen));
+    for (final k in frei.take(wahlen)) {
+      final zeile = find.byKey(ValueKey('wahl-${k.id}'));
+      await t.ensureVisible(zeile);
+      expect(find.descendant(of: zeile, matching: find.text(k.thema)), findsOneWidget);
+      expect(find.descendant(of: zeile, matching: find.text(k.fragen.first)), findsNothing, reason: 'Fragen erst nach dem Aufklappen');
+      await t.tap(zeile);
+      await t.pump();
+      final frage = find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.text(k.fragen.first));
+      await t.ensureVisible(frage);
+      await t.tap(frage);
+      await t.pump();
+      // Die Frage geht verdeckt an die Person; zurück am Tisch steht die Karte als gewählt da.
+      expect(find.text(s.ui('ui.befragung.geraet', {'name': s.spielerName(k.rolle)})), findsOneWidget);
+      await t.tap(find.text(s.ui('ui.allgemein.zurueck')));
+      await t.pump();
+      expect(s.befragungVon(k.rolle)!.gefragt, isTrue);
+      expect(s.befragungVon(k.rolle)!.erledigt, isFalse, reason: 'Ohne Antwort ist sie noch offen');
+    }
+    expect(s.befragungenFrei, 0);
+    for (final k in frei.skip(wahlen)) {
+      expect(find.byKey(ValueKey('wahl-${k.id}')), findsNothing, reason: k.id);
+      expect(find.byKey(ValueKey(k.id)), findsNothing, reason: k.id);
+    }
+    expect(find.text(s.ui('ui.befragung.frei_fertig')), findsOneWidget);
+    // Wer nicht gewählt ist, liest auf dem eigenen Zettel, dass die Befragung entfällt.
+    final ohne = frei.skip(wahlen).first.rolle;
+    s.zeigeVerdeckt(ohne);
+    await t.pump();
+    expect(find.text(s.ui('ui.befragung.entfaellt')), findsOneWidget);
+    await t.ensureVisible(find.text(s.ui('ui.verdeckt.schliessen')));
+    await t.tap(find.text(s.ui('ui.verdeckt.schliessen')));
+    await t.pump();
+    expect(s.kannWeiter, isFalse, reason: 'Die gewählten Befragungen sind noch nicht beantwortet');
+  });
+
+  testWidgets('Druckspiel: die Befragungen stehen nur zum Lesen da, Weiter wartet nicht', (t) async {
+    final s = neueSitzung()..einrichten(rollen: 7, detektiv: 'w', druck: true);
+    spieleBis(s, PartyPhase.gespraeche);
+    await t.pumpWidget(rahmen(RundeBildschirm(sitzung: s)));
+    expect(s.befragungAufPapier, isTrue);
+    expect(s.kannWeiter, isTrue);
+    expect(find.text(s.ui('ui.befragung.hinweis_druck')), findsOneWidget);
+    final k = s.befragungen.firstWhere((k) => k.pflicht);
+    expect(find.byKey(ValueKey(k.id)), findsOneWidget);
+    expect(find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.text(k.fragen.first)), findsOneWidget);
+    expect(find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.byType(MKnopf)), findsNothing, reason: 'Keine Frage zum Antippen');
+    expect(() => s.befragen(k.id, 0), throwsStateError);
+    await t.tap(find.text(s.ui('ui.runde.weiter')));
+    expect(s.phase, PartyPhase.entscheidungen);
   });
 
   testWidgets('Altakte (Modell legacy): der Vernehmungsplan aller Pflichtgespräche ohne Eröffnungssatz', (t) async {

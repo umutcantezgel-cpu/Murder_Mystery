@@ -190,8 +190,16 @@ void main() {
           for (final k in karten)
             for (final a in botAntwort(partyDaten.texte, partyDaten.texte.sammlung.befragungen[k.id]!)) a,
         };
+        // Feste Befragungen als volle Karten, freie als schmale Zeilen zur Wahl.
+        final plan = Befragungsplan(partyDaten.texte).fuer(20, 1);
         for (final k in karten) {
-          expect(find.byKey(ValueKey(k.id)), findsOneWidget, reason: k.id);
+          expect(find.byKey(ValueKey(k.pflicht ? k.id : 'wahl-${k.id}')), findsOneWidget, reason: k.id);
+        }
+        expect(find.byType(BefragungsKarte), findsNWidgets(plan.pflicht.length));
+        for (final k in karten.where((k) => !k.pflicht)) {
+          final zeile = find.byKey(ValueKey('wahl-${k.id}'));
+          expect(find.descendant(of: zeile, matching: find.text(k.thema)), findsOneWidget, reason: k.id);
+          expect(find.descendant(of: zeile, matching: find.text(k.fragen.first)), findsNothing, reason: 'Zur Wahl nur Name und Thema: ${k.id}');
         }
         for (final a in antworten) {
           expect(find.text(a), findsNothing, reason: 'Vor der Frage keine Antwort: $a');
@@ -207,6 +215,13 @@ void main() {
           }
         }
         Future<void> frage(BefragungKarte k) async {
+          if (!k.pflicht) {
+            // Ein Tipp klappt die freie Befragung auf.
+            final zeile = find.byKey(ValueKey('wahl-${k.id}'));
+            await t.ensureVisible(zeile);
+            await t.tap(zeile);
+            await t.pump();
+          }
           final f = find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.text(k.fragen.first));
           await t.ensureVisible(f);
           await t.tap(f);
@@ -219,14 +234,19 @@ void main() {
           expect(antwort, isNotEmpty);
           expect(find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.text(antwort.first)), findsOneWidget, reason: k.id);
         }
-        for (final k in karten.where((k) => !k.pflicht).take(s.befragungenFrei)) {
+        expect(plan.freiWahlen, inInclusiveRange(1, 2));
+        for (final k in karten.where((k) => !k.pflicht).take(plan.freiWahlen)) {
           await frage(k);
         }
         expect(s.befragungenFertig, isTrue);
         await t.pump();
         expect(find.text(s.ui('ui.befragung.fertig')), findsOneWidget);
         expect(find.text(s.ui('ui.runde.weiter')), findsOneWidget);
-        expect(s.befragungsNotizen, hasLength(karten.where((k) => k.pflicht).length + 1));
+        expect(s.befragungsNotizen, hasLength(plan.gesamt));
+        // Am Ende stehen drei bis fünf Karten da, keine Zeile mehr zur Wahl.
+        expect(find.byType(BefragungsKarte), findsNWidgets(plan.gesamt));
+        expect(plan.gesamt, inInclusiveRange(3, 5));
+        expect(find.byWidgetPredicate((w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('wahl-')), findsNothing);
         await t.pumpWidget(const SizedBox());
         spieleBis(s, PartyPhase.gruppenwahl);
         expect(s.alleGestimmt, isTrue);
@@ -240,6 +260,25 @@ void main() {
       });
     }
   }
+
+  testWidgets('Browserproben finden Karten, Fragen und freie Wahlen über Semantik-Kennungen', (t) async {
+    final semantik = t.ensureSemantics();
+    final s = neueSitzung(rollen: 7, solo: true);
+    spieleBis(s, PartyPhase.gespraeche);
+    await zeigen(t, bildschirm(s), 390, 1);
+    final pflicht = s.befragungen.firstWhere((k) => k.pflicht);
+    final frei = s.befragungen.firstWhere((k) => !k.pflicht);
+    await t.ensureVisible(find.byKey(ValueKey(pflicht.id)));
+    expect(find.bySemanticsIdentifier('befragung-${pflicht.id}'), findsOneWidget);
+    for (var i = 0; i < pflicht.fragen.length; i++) {
+      expect(find.bySemanticsIdentifier('befragung-frage-${pflicht.id}-$i'), findsOneWidget, reason: '$i');
+    }
+    await t.ensureVisible(find.byKey(ValueKey('wahl-${frei.id}')));
+    expect(find.bySemanticsIdentifier('befragung-waehlen-${frei.id}'), findsOneWidget);
+    await t.pumpWidget(const SizedBox());
+    semantik.dispose();
+    s.dispose();
+  });
 
   testWidgets('Altakte (Modell legacy): Solo-Sprechblasen wie bisher, dann die Karte', (t) async {
     final d = akteDaten('gewoelbe');

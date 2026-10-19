@@ -3281,6 +3281,10 @@ class LDe extends L {
       'Tippe die Frage an, die du am Tisch stellst. Die Antwort kennt nur die befragte Person.';
 
   @override
+  String get party_befragung_hinweis_druck =>
+      'Deine Befragungen stehen auch auf deinem Bogen. Stelle am Tisch eine der Fragen.';
+
+  @override
   String get party_befragung_pflicht => 'Pflicht';
 
   @override

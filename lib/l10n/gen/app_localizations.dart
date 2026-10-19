@@ -5673,6 +5673,12 @@ abstract class L {
   /// **'Tippe die Frage an, die du am Tisch stellst. Die Antwort kennt nur die befragte Person.'**
   String get party_befragung_hinweis_tisch;
 
+  /// Druckspiel: Hinweis über den Befragungskarten des Detektivs (nur zum Lesen)
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Befragungen stehen auch auf deinem Bogen. Stelle am Tisch eine der Fragen.'**
+  String get party_befragung_hinweis_druck;
+
   /// Marke einer festen Befragung
   ///
   /// In de, this message translates to:

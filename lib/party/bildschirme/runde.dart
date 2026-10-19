@@ -135,9 +135,10 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
 
   /// Befragungen des Detektivs, Paarungen am Tisch und reihum die Spickzettel.
   List<Widget> _befragungsmodell() => [
-        _kopfblatt(s.ui('ui.befragung.titel'), s.ui('ui.befragung.hinweis_tisch')),
+        _kopfblatt(s.ui('ui.befragung.titel'), s.ui(s.befragungAufPapier ? 'ui.befragung.hinweis_druck' : 'ui.befragung.hinweis_tisch')),
         const SizedBox(height: 14),
-        BefragungsListe(sitzung: s, onFrage: _frage, aktionen: _aktionen),
+        // Im Druckspiel stehen die Befragungen auf dem Bogen; hier nur zum Lesen.
+        BefragungsListe(sitzung: s, onFrage: s.befragungAufPapier ? null : _frage, aktionen: _aktionen),
         if (!s.befragungenFertig) ...[
           const SizedBox(height: 4),
           Text(s.ui('ui.befragung.offen'), style: Keller.text),
@@ -193,6 +194,7 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
               }),
             ),
           Semantics(
+            container: true,
             identifier: 'befragung-beantwortet-${k.id}',
             child: MKnopf(text: s.ui('ui.befragung.beantwortet'), onPressed: () => s.befragungErledigt(k.id)),
           ),

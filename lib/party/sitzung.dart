@@ -321,8 +321,9 @@ class PartySitzung extends ChangeNotifier {
     }
     _code = c;
     _solo = solo;
-    // Modell befragung (A-051): Der Detektiv führt eigene Befragungen; im Druckspiel stehen sie auf dem Bogen.
-    _befragung = befragungsmodell && !druck ? BefragungStand(daten.texte, rollen: rollen, mensch: !solo) : null;
+    // Modell befragung (A-051): Der Detektiv führt eigene Befragungen. Im Druckspiel stehen sie auf
+    // seinem Bogen; die App zeigt sie dann nur ([befragungAufPapier]).
+    _befragung = befragungsmodell ? BefragungStand(daten.texte, rollen: rollen, mensch: !solo) : null;
     _erzaehlFlags.clear();
     _gefuehrteGespraeche.clear();
     _gespraech = null;
@@ -458,17 +459,21 @@ class PartySitzung extends ChangeNotifier {
 
   BefragungStand? _befragung;
 
-  /// Befragungskarten der laufenden Runde (leer ohne Modell befragung, im Druckspiel und außerhalb der Runden).
+  /// Befragungskarten der laufenden Runde (leer ohne Modell befragung und außerhalb der Runden).
   List<BefragungKarte> get befragungen => _befragung == null || runde < 1 ? const [] : _befragung!.karten(runde);
 
   /// Freie Wahlen, die in dieser Runde noch offen sind.
   int get befragungenFrei => _befragung == null || runde < 1 ? 0 : _befragung!.freiOffen(runde);
 
+  /// Druckspiel im Modell befragung: Die Befragungen stehen auf dem Bogen des
+  /// Detektivs. Die App zeigt sie nur zum Lesen, und „Weiter“ wartet nicht.
+  bool get befragungAufPapier => _befragung != null && einstellungen.druck;
+
   /// Sind alle Befragungen der Runde geführt? Erst dann geht es aus den Gesprächen weiter.
-  bool get befragungenFertig => _befragung == null || runde < 1 || _befragung!.fertig(runde);
+  bool get befragungenFertig => _befragung == null || runde < 1 || befragungAufPapier || _befragung!.fertig(runde);
 
   void _nurBefragung() {
-    if (_befragung == null || phase != PartyPhase.gespraeche) throw StateError('keine Befragung in diesem Abschnitt');
+    if (_befragung == null || befragungAufPapier || phase != PartyPhase.gespraeche) throw StateError('keine Befragung in diesem Abschnitt');
   }
 
   /// Der Detektiv stellt die Frage [frage] der Befragung [id]. Eine freie
@@ -504,7 +509,7 @@ class PartySitzung extends ChangeNotifier {
     return null;
   }
 
-  /// Ist die Befragung von [rolle] in Runde [r] fest? Null ohne Befragungen an diesem Gerät (Druckspiel, online).
+  /// Ist die Befragung von [rolle] in Runde [r] fest? Null ohne Befragungen an diesem Gerät (online, Altakte).
   bool? befragungFest(String rolle, int r) => _befragung?.verlauf.runde(r).pflicht.contains(rolle);
 
   /// Spickzettel der Befragung von [rolle] in Runde [r] (nur verdeckt): was sie dem Detektiv sagt.
