@@ -161,6 +161,14 @@ void main() {
     schein.liest = false;
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.byKey(const ValueKey('erzaehlerpult-zu')), findsOneWidget);
+    // Am Gerät lässt sich das Handy ablösen („Wieder am Pult lesen“).
+    schein.liest = true;
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.ensureVisible(find.byKey(const ValueKey('begleiter-pult')));
+    await tester.tap(find.byKey(const ValueKey('begleiter-pult')));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect([schein.liest, s.istVorleser], [false, true]);
+    expect(find.byKey(const ValueKey('erzaehlerpult-zu')), findsOneWidget);
     s.begleitung = null;
     await tester.pumpWidget(const SizedBox.shrink());
   });

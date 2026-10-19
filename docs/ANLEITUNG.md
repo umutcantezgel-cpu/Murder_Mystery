@@ -145,10 +145,10 @@ Diese Ansicht ist ein Schutz gegen Mitlesen, keine technische Sperre. Alle ander
    - Mit Erzähler am Tisch liegen die Erzähltexte im **Erzählerpult** zugedeckt. Das Gerät geht an den Erzähler.
      Er tippt auf **„Ich bin …, zeig her“**, liest vor und deckt mit **„Gelesen, zudecken“** wieder zu. Ab dem Finale
      lesen alle mit.
-   - Bequemer ist **„Am eigenen Handy lesen“** am Pult: Das Gerät zeigt Code und QR-Code, der Erzähler tritt
-     wie ein Gast bei (Detektei → **Beitreten**). Sein Handy zeigt die Texte und sein Erzählerpaket, und er
-     tippt dort auf **Weiter**. Das Gerät am Tisch zeigt nur noch „… liest vor“. Ist sein Handy weg, liegt der
-     Text wieder im Pult. Dafür braucht es Internet.
+   - Bequemer ist **„Am eigenen Handy lesen“** am Pult (mit Internet): Das Gerät zeigt Code und QR-Code, der
+     Erzähler tritt wie ein Gast bei (Detektei → **Beitreten**). Sein Handy zeigt die Texte und sein
+     Erzählerpaket, und er tippt dort auf **Weiter**. Das Gerät am Tisch zeigt nur noch „… liest vor“. Ist sein
+     Handy weg oder tippt ihr auf **„Wieder am Pult lesen“**, liegt der Text wieder im Pult.
 3. **Gruppenwahl.** Jede Person wählt geheim zwischen zwei Handlungen. Die Liste zeigt nur, *wer* schon
    gewählt hat. Eine Stimmenzahl steht nie auf dem Bildschirm.
 4. **Würfeln.** Das Gerät geht an den angezeigten **Würfelpaten**. Er wechselt nach jedem Wurf.

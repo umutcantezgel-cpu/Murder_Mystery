@@ -164,16 +164,38 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
     if (!s.istVorleser) {
       if (kennungen.isEmpty) return const SizedBox.shrink();
       final wer = s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim();
-      return VorleserKarte(
+      final begleitung = s.begleitung;
+      final amHandy = begleitung?.liest ?? false;
+      final karte = VorleserKarte(
         name: s.vorleserName,
         texte: kennungen.length,
         // Ist der Erzähler getrennt, übernimmt dieses Gerät nach einer Frist
         // (online); reihum liest er mit dem Erzähler-Begleiter am Handy.
         hinweis: s.uebernahmeFrist
             ? _de.vorleser_frist(wer)
-            : (s.begleitung?.liest ?? false)
+            : amHandy
                 ? _de.begleiter_handy_hinweis(wer)
                 : null,
+      );
+      if (begleitung == null || !amHandy) return karte;
+      // Reihum lässt sich das Handy jederzeit ablösen: wieder das Pult.
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          karte,
+          const SizedBox(height: MMass.s8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: MKnopf(
+              key: const ValueKey('begleiter-pult'),
+              text: _de.begleiter_beenden,
+              art: MKnopfArt.zweit,
+              icon: Icons.menu_book_rounded,
+              onPressed: begleitung.schliessen,
+            ),
+          ),
+        ],
       );
     }
     if (s.erzaehlerAmPult && !s.pultOffen) {
