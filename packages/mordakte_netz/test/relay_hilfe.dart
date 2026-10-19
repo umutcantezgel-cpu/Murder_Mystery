@@ -203,14 +203,15 @@ class Abend {
     return g;
   }
 
-  /// Alle bereit, Start mit [rollen] Rollen; danach hat jeder Gast seine Rolle.
+  /// Alle bereit, Start mit [rollen] Rollen; danach hat jeder Gast ohne Sitz seine Rolle.
   Future<void> startet() async {
     for (final g in gaeste) {
       await g.befehl({'typ': 'bereit', 'wert': true});
     }
     await hostPlatz.befehl({'typ': 'bereit', 'wert': true});
     await hostPlatz.befehl({'typ': 'start', 'rollen': rollen});
-    await warteBis(() => gaeste.every((g) => aktuell(g) && privat(g.letzteAnsicht!)['rolle'] != null));
+    // Ein Gast auf dem Detektiv- oder Erzähler-Sitz spielt keine Figur.
+    await warteBis(() => gaeste.every((g) => aktuell(g) && (privat(g.letzteAnsicht!)['rolle'] != null || spieler(g.letzteAnsicht!, g.spielerId!)['sitz'] != 'rolle')));
   }
 
   Future<void> schliessen() async {

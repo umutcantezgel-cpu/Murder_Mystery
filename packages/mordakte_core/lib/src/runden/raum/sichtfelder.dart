@@ -7,11 +7,18 @@
 const raumOeffentlicheSchluessel = <String>{
   't', 'protokoll', 'version', 'spiel', 'akte', 'raum', 'host', 'phase', 'runde',
   'wuerfelZusage', 'spieler', 'kannWeiter', 'rollen', 'restMinuten', 'marken',
-  'erzaehler', 'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher',
+  'notizbuch', 'wuerfe', 'wuerfelPate', 'gewaehlt', 'vorrat', 'abstecher',
   'abstecherErgebnis', 'entscheidung', 'zug', 'botGespraeche', 'verdaechtige', 'privat',
   // Modell befragung (A-051, `raum/befragung_modul.dart`): nur Paarungen und Themen, nie eine Antwort.
   'befragungen', 'tisch',
+  // Vorleser-Sitz (M3): Erzähltext steht im `privat` genau eines Geräts; alle sehen nur, dass vorgelesen wird.
+  'erzaehlerLiest', 'bausteinZahl',
 };
 
-/// Schlüssel, die erst ab dem Finale dazukommen dürfen.
-const raumSchluesselNachFinale = <String>{'aufloesung'};
+/// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der
+/// Erzähltext für alle (vor dem Finale nur beim Vorleser-Sitz).
+const raumSchluesselNachFinale = <String>{'aufloesung', 'erzaehler'};
+
+/// Einträge in `spieler` (je Gerät, öffentlich): Sitz, Figur der Lobby und
+/// Wunsch sind am Tisch bekannt, nie ein Dossier.
+const raumSpielerFelder = <String>{'id', 'name', 'online', 'bereit', 'sitz', 'rolle', 'figur', 'wunsch'};

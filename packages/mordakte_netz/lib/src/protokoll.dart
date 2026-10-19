@@ -14,8 +14,11 @@ library;
 
 /// Protokollversion, im `klopf`, `turm` und `hallo` geprüft. Version 2 (A-051):
 /// Befragungen im Schlosskeller (`befragen`, `erledigt`, Ansichten `befragungen`
-/// und `tisch`); ein Gerät mit Version 1 kennt sie nicht und wird abgewiesen.
-const protokollVersion = 2;
+/// und `tisch`). Version 3 (Langer Abend M3): Sitze und Lobby (`sitz`,
+/// `besetzung`, `zuteilen`, `wunsch`), Vorleser-Sitz (Erzähltext nur im `privat`
+/// eines Geräts, öffentlich `erzaehlerLiest` und `bausteinZahl`). Ein Gerät mit
+/// älterer Version kennt das nicht und wird abgewiesen.
+const protokollVersion = 3;
 
 /// Presence-Schlüssel des Gastgebers auf allen seinen Themen.
 const hostPresenceKey = 'h';

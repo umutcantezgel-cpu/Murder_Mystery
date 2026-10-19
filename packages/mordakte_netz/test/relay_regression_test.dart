@@ -269,6 +269,15 @@ void main() {
       expect(a.host.raum.spielerIds, isNot(contains(spielerIdVon(ergebnis.cid))));
     });
 
+    test('ein Gerät mit Version 2 (ohne Sitze und Vorleser-Sitz) wird abgewiesen', () async {
+      expect(protokollVersion, 3);
+      final a = await Abend.starten();
+      addTearDown(a.schliessen);
+      final ergebnis = await rohesHallo(a, {'t': 'hallo', 'name': 'Alt', 'proto': 2, 'app': 'roh', 'r': 'r-v2', 'inhalt': 'test'});
+      expect(ergebnis.antwort, {'t': 'zu', 'grund': 'proto', 'r': 'r-v2'});
+      expect(a.host.raum.spielerIds, isNot(contains(spielerIdVon(ergebnis.cid))));
+    });
+
     test('ein gefälschter Klopf eines Dritten nach einem gültigen Klopf wirft den echten Gast nicht hinaus', () async {
       final a = await Abend.starten();
       addTearDown(a.schliessen);

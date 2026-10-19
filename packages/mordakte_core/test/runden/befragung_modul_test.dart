@@ -261,14 +261,16 @@ void main() {
 
   test('E-044: Zum Rundenstart erzählt der Raum das Wissen unbesetzter Zielfiguren, in jedem Pfad gleich', () {
     List<String> texte(Object? v) => [for (final x in v as List) x as String];
-    List<String> erzaehlt(String pfad, int runde) => texte(_bisGespraeche(2, 4, runde: runde, pfad: pfad).zustandFuer('p0')['erzaehler']);
+    // Vorleser-Sitz (M3): Ohne Erzähler liest der Detektiv (p0), privat.
+    List<String> erzaehlt(String pfad, int runde) =>
+        texte(_map(_bisGespraeche(2, 4, runde: runde, pfad: pfad).zustandFuer('p0')['privat'])['erzaehler']);
     final r1 = erzaehlt('ahmet', 1);
     expect(r1, [for (final k in ['runde.1.start', 'npc.emine.1', 'npc.dilara.1', 'npc.enes.1']) _texte.baustein(k)]);
     expect(erzaehlt('can', 1), r1);
     expect(erzaehlt('fatma', 3), containsAll([_texte.baustein('npc.zeynep.3'), _texte.baustein('npc.aylin.3')]));
     expect(erzaehlt('olli', 3), erzaehlt('fatma', 3));
     // Bei 20 Rollen spielt jemand jede Zielfigur.
-    final voll = texte(_bisGespraeche(1, 20).zustandFuer('p0')['erzaehler']);
+    final voll = texte(_map(_bisGespraeche(1, 20).zustandFuer('p0')['privat'])['erzaehler']);
     expect(voll, [_texte.baustein('runde.1.start')]);
   });
 }

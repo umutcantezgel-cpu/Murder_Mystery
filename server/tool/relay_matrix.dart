@@ -25,6 +25,14 @@
 /// aus der Ablage (neue Epoche), Nachrichtenverlust und -verzögerung (nur lokal).
 ///
 /// Gäste: Das Gastgebergerät spielt zusätzlich auf seinem lokalen Platz.
+///
+/// Sitze (M3): Jede Laststufe läuft in drei Konstellationen (Host = Erzähler +
+/// Gast = Detektiv, Host = Detektiv ohne Erzähler, Host = Detektiv + Gast =
+/// Erzähler). Der Sitz des Gastgebers kommt wie in der App aus der Meta `sitz`
+/// (auch nach der Wiederherstellung). Geprüft wird zusätzlich: Erzähltext nur
+/// beim Vorleser, Erzählerpaket nur beim Erzähler und nie mit verbirgt,
+/// Tatwissen oder Tarnung, npc-Notizen beim Detektiv, Klasse beim Detektiv und
+/// beim Gastgeber, Rechte je Sitz.
 library;
 
 import 'dart:async';
@@ -245,6 +253,15 @@ class _Hochstapler {
   }
 }
 
+/// Sitze eines Laufs: Gastgeber und Gast1 (der erste Gast).
+typedef _Konstellation = ({String name, String hostSitz, String? gastSitz});
+
+const _konstellationen = <_Konstellation>[
+  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv'),
+  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null),
+  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler'),
+];
+
 class _Ergebnis {
   int sendungenSpitze = 0;
   int zugestelltSpitze = 0;
@@ -257,16 +274,17 @@ Future<void> _lauf({
   required PhoenixAttrappe? attrappe,
   required Kanon kanon,
   required Texte texte,
+  required _Konstellation k,
 }) async {
   final minRollen = kanon.besetzungJson['minRollen'] as int;
   final maxRollen = kanon.besetzungJson['maxRollen'] as int;
-  final rollen = n.clamp(minRollen, maxRollen);
+  final rollen = (n - (k.gastSitz == null ? 0 : 1)).clamp(minRollen, maxRollen);
   final zufall = Random.secure();
   final salz = [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join();
   final fallCode = FallCode.zufall(Rng(zufall.nextInt(1 << 32)));
 
-  _stage = 'Gastgeber ($n Gäste)';
-  _meldung('Lauf mit $n Gästen beginnt');
+  _stage = 'Gastgeber ($n Gäste, ${k.name})';
+  _meldung('Lauf mit $n Gästen beginnt (${k.name})');
   final hostAblage = SpeicherAblage();
   AbendRaum fabrik(String code, Map<String, Object?> meta) => SchlosskellerRaum(
         raumCode: code,
@@ -275,10 +293,12 @@ Future<void> _lauf({
         fallCode: FallCode.lesen(meta['fallCode'] as String)!,
         salz: meta['salz'] as String,
         festerGastgeber: true,
+        // Wie die App (GastgeberDienst): Der Sitz des Gastgebers steht in der Meta.
+        gastgeberSitz: Sitz.lesen(meta['sitz']) ?? Sitz.detektiv,
       );
   var host = await RelayHost.neu(
     fabrik: fabrik,
-    meta: {'salz': salz, 'fallCode': fallCode.code},
+    meta: {'salz': salz, 'fallCode': fallCode.code, 'sitz': k.hostSitz},
     relay: relay,
     akte: 'schlosskeller',
     inhalt: 'matrix',
@@ -352,6 +372,22 @@ Future<void> _lauf({
     }
     _require(gaeste.map((g) => g.cid).toSet().length == n, 'Kennungen nicht eindeutig.');
 
+    // Sitze in der Lobby (M3): Der Gastgeber sitzt nach der Meta; Gast1 bekommt den anderen Sitz.
+    // Die Klasse reist mit dem Detektiv-Sitz, ein Gast-Detektiv setzt sie selbst.
+    _stage = 'Sitze (${k.name})';
+    final gast1 = plaetze[0];
+    final detektivPlatz = k.gastSitz == 'detektiv' ? gast1 : hostPlatz;
+    final erzaehlerPlatz = k.hostSitz == 'erzaehler' ? hostPlatz : (k.gastSitz == 'erzaehler' ? gast1 : null);
+    final leitPlatz = erzaehlerPlatz ?? detektivPlatz;
+    final vorleserPlatz = erzaehlerPlatz ?? detektivPlatz;
+    final klasse = k.gastSitz == 'detektiv' ? 'journalist' : 'excop';
+    _require(_list(hostPlatz.latest['spieler']).firstWhere((t) => t['id'] == hostPlatz.pid)['sitz'] == k.hostSitz,
+        'Gastgeber sitzt nicht auf dem Sitz aus der Meta.');
+    await _erwarteFehler(gast1, {'typ': 'sitz', 'spieler': gast1.pid, 'sitz': 'erzaehler'}, 'not_host');
+    if (k.gastSitz != null) await _befehl(hostPlatz, hostPlatz, 'sitz', {'spieler': gast1.pid, 'sitz': k.gastSitz});
+    await _befehl(hostPlatz, detektivPlatz, 'sitz', {'spieler': detektivPlatz.pid, 'sitz': 'detektiv', 'klasse': klasse});
+    final rollenPlaetze = [for (final p in plaetze) if (p != detektivPlatz && p != erzaehlerPlatz) p];
+
     // Abend: alle bereit, Start.
     _stage = 'Bereit und Start';
     _meldung('Gäste beigetreten');
@@ -364,22 +400,30 @@ Future<void> _lauf({
     await _befehl(hostPlatz, hostPlatz, 'start', {'rollen': rollen});
     _require(hostPlatz.latest['phase'] == 'rollen', 'Start führte nicht zu den Rollen.');
     for (final p in plaetze) {
-      await _bis(() => p.latest['phase'] == 'rollen' && _map(p.latest['privat'])['rolle'] != null ? true : null, 'Rolle für ${p.name}');
+      await _bis(() => p.latest['phase'] == 'rollen' && (_map(p.latest['privat'])['rolle'] != null || !rollenPlaetze.contains(p)) ? true : null,
+          'Rolle für ${p.name}');
     }
-    final rollenIds = plaetze.map((p) => _map(p.latest['privat'])['rolle'] as String).toList();
-    _require(rollenIds.toSet().length == n, 'Rollen nicht eindeutig verteilt.');
+    final rollenIds = {for (final p in rollenPlaetze) p: _map(p.latest['privat'])['rolle'] as String};
+    _require(rollenIds.values.toSet().length == rollenPlaetze.length, 'Rollen nicht eindeutig verteilt.');
     // Gäste sehen die Spielerliste mit Rollen anderer Spieler? Nur die Rollen-IDs, nie Dossiers.
     for (final p in plaetze) {
       final privat = _map(p.latest['privat']);
-      _require(privat['spieler'] == p.pid && privat['dossier'] is Map, 'Gast ohne eigenes Dossier.');
+      _require(privat['spieler'] == p.pid && (privat['dossier'] is Map) == rollenPlaetze.contains(p), 'Gast ohne eigenes Dossier oder Sitz mit Dossier.');
+      _require(privat['detektiv'] == (p == detektivPlatz), 'Detektiv-Merkmal am falschen Gerät.');
     }
 
-    // Fälschungsversuche über das Relais: feste Fehlerschlüssel.
+    // Fälschungsversuche über das Relais: feste Fehlerschlüssel, Rechte je Sitz.
     _stage = 'Fälschungsversuche';
-    await _erwarteFehler(plaetze[0], {'typ': 'rollenGelesen', 'spieler': hostPlatz.pid}, 'invalid');
-    await _erwarteFehler(plaetze[0], {'typ': 'weiter'}, 'not_host');
-    await _erwarteFehler(plaetze[0], {'typ': 'start', 'rollen': 4}, 'not_host');
-    await _erwarteFehler(plaetze[0], {'typ': 'gibmirdassalz'}, 'invalid');
+    final rolle = rollenPlaetze.first;
+    await _erwarteFehler(rolle, {'typ': 'rollenGelesen', 'spieler': hostPlatz.pid}, 'invalid');
+    await _erwarteFehler(rolle, {'typ': 'weiter'}, 'not_host');
+    await _erwarteFehler(rolle, {'typ': 'start', 'rollen': 4}, 'not_host');
+    await _erwarteFehler(rolle, {'typ': 'gibmirdassalz'}, 'invalid');
+    await _erwarteFehler(rolle, {'typ': 'anklage', 'person': 'ahmet'}, 'not_detective');
+    if (erzaehlerPlatz != null) {
+      await _erwarteFehler(erzaehlerPlatz, {'typ': 'fundGelesen'}, 'not_detective');
+      await _erwarteFehler(detektivPlatz, {'typ': 'weiter'}, 'not_host');
+    }
 
     // Verlust im Relais: Befehle laufen trotzdem genau einmal.
     var gastBefehle = 0;
@@ -390,7 +434,7 @@ Future<void> _lauf({
       attrappe.stoerung.verzoegerungMax = const Duration(milliseconds: 40);
     }
     await _imFenster('Verlust', () async {
-      for (final p in plaetze) {
+      for (final p in rollenPlaetze) {
         _stage = 'rollenGelesen ${p.name}';
         await _befehl(hostPlatz, p, 'rollenGelesen');
         gastBefehle++;
@@ -404,7 +448,7 @@ Future<void> _lauf({
     });
     final nachher = host.statistik.befehleAusgefuehrt + host.statistik.befehleAbgelehnt;
     _require(nachher - vorher == gastBefehle, 'Befehle wurden nicht genau einmal ausgeführt ($vorher -> $nachher, erwartet +$gastBefehle).');
-    await _befehl(hostPlatz, hostPlatz, 'weiter');
+    await _befehl(hostPlatz, leitPlatz, 'weiter');
 
     var befragungenGesehen = 0;
     var gefaelschterWurf = false;
@@ -427,9 +471,10 @@ Future<void> _lauf({
           if (s['zug'] case final Map z) {
             switch (z['phase']) {
               case 'aktion':
-                await _befehl(hostPlatz, hostPlatz, 'aktionFertig', {'aktion': z['aktion']});
+                await _befehl(hostPlatz, detektivPlatz, 'aktionFertig', {'aktion': z['aktion']});
               case 'wurf':
                 final pate = [hostPlatz, ...plaetze].firstWhere((p) => p.pid == s['wuerfelPate']);
+                _require(pate != erzaehlerPlatz, 'Der Erzähler ist Würfelpate.');
                 if (!gefaelschterWurf) {
                   await _erwarteFehler(pate, {'typ': 'wurf', 'a': 6, 'b': 6}, 'invalid');
                   gefaelschterWurf = true;
@@ -437,24 +482,24 @@ Future<void> _lauf({
                 if (z['id'] != 'auftakt') await _befehl(hostPlatz, pate, 'wuerfelHilfe', {'marke': false});
                 await _befehl(hostPlatz, pate, 'wurf');
               case 'tischruf':
-                await _befehl(hostPlatz, hostPlatz, 'tischruf', {'ruf': n.isEven ? 'nochmal' : 'umweg'});
+                await _befehl(hostPlatz, detektivPlatz, 'tischruf', {'ruf': n.isEven ? 'nochmal' : 'umweg'});
               case 'fund':
-                await _befehl(hostPlatz, hostPlatz, 'fundGelesen');
+                await _befehl(hostPlatz, detektivPlatz, 'fundGelesen');
               default:
                 throw StateError('Unbekannter Zugabschnitt.');
             }
           } else if (s['entscheidung'] case final Map e) {
-            await _befehl(hostPlatz, hostPlatz, 'wahl', {'option': _list(e['optionen']).first['id']});
+            await _befehl(hostPlatz, detektivPlatz, 'wahl', {'option': _list(e['optionen']).first['id']});
           } else {
-            await _befehl(hostPlatz, hostPlatz, 'weiter');
+            await _befehl(hostPlatz, leitPlatz, 'weiter');
           }
         case 'gespraeche':
-          // Modell befragung (A-051): Der Gastgeber ist der Detektiv und erledigt seine Befragungen.
+          // Modell befragung (A-051): Der Detektiv-Sitz erledigt seine Befragungen.
           // Erst sehen alle Gäste ihre Spickzettel, dann fragt der Detektiv; vor „Weiter“ sehen sie den Stand.
           await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
-          befragungenGesehen += await _befragungen(hostPlatz, s);
+          befragungenGesehen += await _befragungen(hostPlatz, detektivPlatz);
           await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'gruppenwahl':
           if (!neuverbindungB) {
             neuverbindungB = true;
@@ -466,29 +511,29 @@ Future<void> _lauf({
               await _befehl(hostPlatz, p, 'stimme', {'kooperativ': n.isEven});
             }
           }
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'intro':
           if (!hostNetz) {
             hostNetz = true;
             await _imFenster('Netzabbruch Gastgeber', () => _hostNetzabbruch(host, hostPlatz, plaetze));
           }
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'resuemee':
           if (!hostNeustart) {
             hostNeustart = true;
-            host = await _imFenster('Neustart Gastgeber', () => _hostNeustart(host, hostPlatz, plaetze, hostAblage, fabrik, relay));
+            host = await _imFenster('Neustart Gastgeber', () => _hostNeustart(host, hostPlatz, plaetze, hostAblage, fabrik, relay, rolle: rolle));
           }
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'anklage':
-          await _befehl(hostPlatz, hostPlatz, 'anklage', {'person': (s['verdaechtige'] as List).first});
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, detektivPlatz, 'anklage', {'person': (s['verdaechtige'] as List).first});
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'rollen':
-          for (final p in plaetze) {
+          for (final p in rollenPlaetze) {
             if (_map(p.latest['privat'])['gelesen'] != true) await _befehl(hostPlatz, p, 'rollenGelesen');
           }
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
         default:
-          await _befehl(hostPlatz, hostPlatz, 'weiter');
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
       }
     }
     _require(gefaelschterWurf, 'Manipulationsprüfung des Würfels wurde nicht erreicht.');
@@ -527,17 +572,78 @@ Future<void> _lauf({
     var spickzettel = 0;
     var ansichtenGesamt = 0;
     var verglichen = 0;
+    var notizen = 0;
+    var auflosungFuerAlle = 0;
     final hostOhnePrivat = <Object?, String>{
       for (final v in hostPlatz.inbox) v['version']: jsonEncode(Map<String, Object?>.of(v)..remove('privat')),
     };
+    // Vorleser-Sitz (M3): Was der Vorleser vor dem Finale bekam, sieht kein anderes Gerät.
+    final vorgelesen = <String>{
+      for (final v in vorleserPlatz.inbox)
+        if (!['lobby', 'finale', 'aufloesung', 'ende'].contains(v['phase'])) ...(_map(v['privat'])['erzaehler'] as List).cast<String>(),
+    };
+    _require(vorgelesen.isNotEmpty, 'Der Vorleser bekam keinen Erzähltext.');
+    final npcTexte = {for (final e in texte.sammlung.bausteine.entries) if (e.key.startsWith('npc.')) e.value};
+    // Nie beim Erzähler oder Detektiv: verbirgt, Tatwissen und Tarnung irgendeiner Rolle.
+    final rollenGeheim = <String>{
+      for (final d in dossiersAlle.values) ...[
+        for (final t in (d['verbirgt'] as List?) ?? const []) t as String,
+        for (final t in (d['tatwissen'] as List?) ?? const []) t as String,
+        if (d['tarnung'] case final String t) t,
+      ],
+    };
+    for (final p in [hostPlatz, ...plaetze]) {
+      final istDetektiv = p == detektivPlatz, istErzaehler = p == erzaehlerPlatz;
+      for (final view in p.inbox) {
+        final privat = _map(view['privat']);
+        final lobby = view['phase'] == 'lobby';
+        final nachFinale = ['finale', 'aufloesung', 'ende'].contains(view['phase']);
+        if (!nachFinale) {
+          _require(!view.containsKey('erzaehler'), 'Öffentlicher Erzähltext vor dem Finale (${p.name}).');
+          if (p == vorleserPlatz && !lobby) {
+            final eigene = privat['erzaehler'] as List;
+            _require(eigene.length == view['bausteinZahl'] && view['erzaehlerLiest'] == eigene.isNotEmpty, 'Vorleser ohne seinen Erzähltext.');
+          } else {
+            _require(!privat.containsKey('erzaehler') && !privat.containsKey('vorleser'), 'Erzähltext an ${p.name}, der nicht vorliest.');
+            final ohneNotiz = jsonEncode({...view, 'privat': Map.of(privat)..remove('erzaehlerNotizen')});
+            _require(vorgelesen.every((t) => !ohneNotiz.contains(jsonEncode(t))), 'Erzähltext vor dem Finale bei ${p.name}.');
+          }
+          _require(_list(view['spieler']).every((t) => raumSpielerFelder.containsAll(t.keys)), 'Nicht freigegebenes Spielerfeld.');
+        } else if (view['phase'] != 'ende') {
+          // Ab dem Finale sehen alle die Auflösungstexte (öffentlich, für alle gleich).
+          _require(view['erzaehler'] is List, 'Nach dem Finale fehlt der öffentliche Erzähltext.');
+          auflosungFuerAlle++;
+        }
+        if (!lobby) {
+          _require(privat.containsKey('erzaehlerPaket') == istErzaehler, 'Erzählerpaket am falschen Sitz (${p.name}).');
+          _require(privat.containsKey('erzaehlerNotizen') == istDetektiv, 'npc-Notizen am falschen Sitz (${p.name}).');
+          _require(privat['klasse'] == (istDetektiv || p == hostPlatz ? klasse : null), 'Klasse am falschen Gerät (${p.name}).');
+          _require(privat['detektiv'] == istDetektiv, 'Detektiv-Merkmal am falschen Gerät (${p.name}).');
+        }
+        if (privat['erzaehlerNotizen'] case final List n) {
+          _require(npcTexte.containsAll(n), 'Notiz des Detektivs ist kein npc-Wissen.');
+          notizen += n.length;
+        }
+        if ((istDetektiv || istErzaehler) && !nachFinale) {
+          _require(_keys(view).toSet().intersection({'dossier', 'verbirgt', 'tatwissen', 'tarnung'}).isEmpty, 'Rollenwissen an ${p.name} (Sitz).');
+          final nur = jsonEncode(privat);
+          _require(rollenGeheim.every((t) => !nur.contains(jsonEncode(t).substring(1, jsonEncode(t).length - 1))),
+              'verbirgt, Tatwissen oder Tarnung im privaten Teil von ${p.name} (Sitz).');
+        }
+      }
+    }
+    _require(auflosungFuerAlle > 0, 'Keine Ansicht nach dem Finale geprüft.');
+    _require(rollen > 7 || notizen > 0, 'Der Detektiv bekam kein npc-Wissen als Notiz.');
     for (final p in plaetze) {
-      final eigeneRolle = rollenIds[plaetze.indexOf(p)];
-      final eigenes = dossiersAlle[eigeneRolle]!;
+      final eigeneRolle = rollenIds[p];
+      final eigenes = eigeneRolle == null ? const <String, Object?>{} : dossiersAlle[eigeneRolle]!;
       final eigeneTexte = _texte(eigenes);
-      final fremdeTexte = <String>{
-        for (final e in dossiersAlle.entries)
-          if (e.key != eigeneRolle) ..._texte(e.value),
-      }..removeAll(eigeneTexte);
+      final fremdeTexte = eigeneRolle == null
+          ? rollenGeheim
+          : (<String>{
+              for (final e in dossiersAlle.entries)
+                if (e.key != eigeneRolle) ..._texte(e.value),
+            }..removeAll(eigeneTexte));
       for (final view in p.inbox) {
         ansichtenGesamt++;
         final privat = _map(view['privat']);
@@ -553,11 +659,15 @@ Future<void> _lauf({
         }
         _require(_keys(view).where((k) => k == 'dossier').length <= 1, 'Mehr als ein Dossier in einer Ansicht.');
         // Modell befragung: kein Gast sieht eine Antwort der App oder fremde Befragungskarten,
-        // der eigene Spickzettel ist genau der der eigenen Rolle in dieser Runde.
-        _require(!_keys(view).contains('antwort') && !privat.containsKey('befragungen'), 'Befragungsantwort oder Detektivkarten an ${p.name}.');
+        // der eigene Spickzettel ist genau der der eigenen Rolle in dieser Runde. Ausnahmen:
+        // der Detektiv-Sitz (seine Karten) und das Erzählerpaket (pfadfreie Antworten, A-052).
+        if (p != detektivPlatz) {
+          final ohnePaket = {...view, 'privat': Map.of(privat)..remove('erzaehlerPaket')};
+          _require(!_keys(ohnePaket).contains('antwort') && !privat.containsKey('befragungen'), 'Befragungsantwort oder Detektivkarten an ${p.name}.');
+        }
         if (privat['befragung'] case final Map b) {
           final runde = view['runde'] as int;
-          _require(b['id'] == BefragungText.kennung(eigeneRolle, runde), 'Fremde Befragung an ${p.name}.');
+          _require(eigeneRolle != null && b['id'] == BefragungText.kennung(eigeneRolle, runde), 'Fremde Befragung an ${p.name}.');
           final soll = befragungsZettel(texte, texte.sammlung.befragungen[b['id']]!);
           _require(jsonEncode(b['karten']) == jsonEncode([for (final k in soll.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}]),
               'Falscher Spickzettel an ${p.name}.');
@@ -589,12 +699,12 @@ Future<void> _lauf({
     final hostText = [for (final v in hostPlatz.inbox) jsonEncode(v)].join('\n');
     _require(!hostPlatz.inbox.any((v) => _map(v['privat'])['dossier'] != null), 'Gastgeber (Detektiv) bekam ein Dossier.');
     _require(hostText.isNotEmpty, 'Gastgeber ohne Ansichten.');
-    _require(geprueft >= n, 'Zu wenige Dossiers geprüft.');
+    _require(geprueft >= rollenPlaetze.length, 'Zu wenige Dossiers geprüft.');
     if (texte.besetzung.befragungsmodell) {
-      _require(spickzettel >= n, 'Zu wenige Spickzettel geprüft ($spickzettel).');
+      _require(spickzettel >= rollenPlaetze.length, 'Zu wenige Spickzettel geprüft ($spickzettel).');
       _require(befragungenGesehen >= 9, 'Der Detektiv hat kaum Befragungen geführt ($befragungenGesehen).');
-      // Antworten der App bekommt nur der Gastgeber, und nur nach der Frage.
-      _require(!hostPlatz.inbox.any((v) => _list(_map(v['privat'])['befragungen'] ?? const []).any((k) => k['frage'] == null && k.containsKey('antwort'))),
+      // Antworten der App bekommt nur der Detektiv-Sitz, und nur nach der Frage.
+      _require(!detektivPlatz.inbox.any((v) => _list(_map(v['privat'])['befragungen'] ?? const []).any((k) => k['frage'] == null && k.containsKey('antwort'))),
           'Antwort vor der Frage an den Detektiv.');
     }
     final ablageText = hostAblage.daten[RelayHost.ablageSchluessel]!;
@@ -620,7 +730,7 @@ Future<void> _lauf({
       _require(z.startsWith('L klopf ') || z.startsWith('L turm '), 'Unerwartetes Lobby-Ereignis.');
     }
     // Positivprobe: Die berechtigten Gäste können diese Texte sehr wohl lesen.
-    final gastText = [for (final v in plaetze.first.inbox) jsonEncode(v)].join('\n');
+    final gastText = [for (final v in rollenPlaetze.first.inbox) jsonEncode(v)].join('\n');
     _require(lesbar.any(gastText.contains), 'Positivprobe: Gast sieht seinen eigenen Dossiertext nicht.');
 
     // Der legitime Verkehr muss die Free-Plan-Grenze einhalten; gemessen vor dem
@@ -684,7 +794,7 @@ Future<void> _lauf({
     _require(host.statistik.groessteAnsichtZeichen < 200 * 1024, 'Ansicht nahe an der Nutzlastgrenze.');
 
     final st = host.statistik;
-    print('RELAIS-ONLINE OK · $n Gäste + Gastgeber · $rollen Rollen · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
+    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
         'Mithörer ${lauscher.sitzUmschlaege} Umschläge ohne Klartext, $gesendet Einspielungen abgewehrt · '
         'Befehle ${st.befehleAusgefuehrt} (davon ${st.befehleWiederholt} Wiederholungen erkannt) · '
         'Gastgeber-Spitze ${ergebnis.sendungenSpitze}/s, gezählte Frames Spitze ${ergebnis.zugestelltSpitze}/s'
@@ -739,10 +849,11 @@ Set<String> _texte(Map<String, Object?> dossier) {
   return out;
 }
 
-/// Modell befragung (A-051): Der Detektiv stellt je feste und bis zur Grenze freie Befragung
-/// die erste Frage und erledigt, was ein Mensch am Tisch beantwortet. Ergibt die Zahl der Befragungen.
-Future<int> _befragungen(_Platz host, Map<String, Object?> s) async {
-  final privat = _map(s['privat']);
+/// Modell befragung (A-051): Der Detektiv-Sitz ([detektiv], Gastgeber oder Gast) stellt je feste
+/// und bis zur Grenze freie Befragung die erste Frage und erledigt, was ein Mensch am Tisch
+/// beantwortet. Ergibt die Zahl der Befragungen.
+Future<int> _befragungen(_Platz host, _Platz detektiv) async {
+  final privat = _map(detektiv.latest['privat']);
   if (privat['befragungen'] is! List) return 0;
   var frei = privat['befragungenFrei'] as int;
   var zahl = 0;
@@ -753,10 +864,10 @@ Future<int> _befragungen(_Platz host, Map<String, Object?> s) async {
         if (frei <= 0) continue;
         frei--;
       }
-      await _befehl(host, host, 'befragen', {'id': k['id'], 'frage': 0});
+      await _befehl(host, detektiv, 'befragen', {'id': k['id'], 'frage': 0});
       zahl++;
     }
-    if (k['mensch'] == true) await _befehl(host, host, 'erledigt', {'id': k['id']});
+    if (k['mensch'] == true) await _befehl(host, detektiv, 'erledigt', {'id': k['id']});
   }
   return zahl;
 }
@@ -820,8 +931,10 @@ Future<RelayHost> _hostNeustart(
   List<_Platz> plaetze,
   SpeicherAblage ablage,
   RaumFabrik fabrik,
-  RelayParameter relay,
-) async {
+  RelayParameter relay, {
+  required _Platz rolle,
+}) async {
+  final sitzVorher = jsonEncode([for (final t in _list(hostPlatz.latest['spieler'])) [t['id'], t['sitz']]]);
   _stage = 'Neustart des Gastgebers';
   final dossiers = [for (final p in plaetze) jsonEncode(_map(p.latest['privat'])['dossier'])];
   final ids = [for (final p in plaetze) p.pid];
@@ -845,7 +958,9 @@ Future<RelayHost> _hostNeustart(
     _require(plaetze[i].pid == ids[i], 'Spieler-ID änderte sich beim Neustart des Gastgebers.');
     _require(jsonEncode(_map(plaetze[i].latest['privat'])['dossier']) == dossiers[i], 'Dossier änderte sich beim Neustart des Gastgebers.');
   }
-  await _erwarteFehler(plaetze[0], {'typ': 'weiter'}, 'not_host');
+  // Die Sitze kommen aus Meta und Protokoll zurück (Erzähler, Detektiv, Rollen).
+  _require(jsonEncode([for (final t in _list(hostPlatz.latest['spieler'])) [t['id'], t['sitz']]]) == sitzVorher, 'Sitze änderten sich beim Neustart des Gastgebers.');
+  await _erwarteFehler(rolle, {'typ': 'weiter'}, 'not_host');
   return neu;
 }
 
@@ -944,15 +1059,21 @@ Future<void> main(List<String> args) async {
       relay = RelayParameter(url: url ?? relayUrl, schluessel: key ?? relaySchluessel);
       print('RELAIS-MATRIX · live ${Uri.parse(relay.url).host}');
     }
+    var laeufe = 0;
     for (final n in zahlen) {
-      attrappe?.zaehlerZuruecksetzen();
-      _fenster.clear();
-      final t = Stopwatch()..start();
-      await _lauf(n: n, relay: relay, attrappe: attrappe, kanon: kanon, texte: texte)
-          .timeout(const Duration(minutes: 8), onTimeout: () => throw StateError('Zeitüberschreitung des ganzen Laufs'));
-      print('  ($n Gäste: ${t.elapsed.inSeconds} s)');
+      for (final k in _konstellationen) {
+        // Ein Gast mit Sitz braucht daneben mindestens einen Gast mit Figur.
+        if (k.gastSitz != null && n < 2) continue;
+        attrappe?.zaehlerZuruecksetzen();
+        _fenster.clear();
+        final t = Stopwatch()..start();
+        await _lauf(n: n, relay: relay, attrappe: attrappe, kanon: kanon, texte: texte, k: k)
+            .timeout(const Duration(minutes: 8), onTimeout: () => throw StateError('Zeitüberschreitung des ganzen Laufs'));
+        laeufe++;
+        print('  ($n Gäste, ${k.name}: ${t.elapsed.inSeconds} s)');
+      }
     }
-    print('RELAIS-MATRIX GRÜN · ${zahlen.length}/${zahlen.length} Laststufen (${zahlen.join(', ')} Gäste)');
+    print('RELAIS-MATRIX GRÜN · ${zahlen.length}/${zahlen.length} Laststufen (${zahlen.join(', ')} Gäste) · $laeufe Läufe mit Sitz-Konstellationen');
   } catch (error) {
     // Keine Rohpakete, Schlüssel, Dossiers oder Zugangsdaten ausgeben.
     final detail = error is StateError ? error.message : '${error.runtimeType}: $error';

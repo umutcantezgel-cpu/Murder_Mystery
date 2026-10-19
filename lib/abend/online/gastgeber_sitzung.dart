@@ -86,14 +86,15 @@ class GastgeberSitzung extends PartySitzung {
 
   void _abgleichen() {
     if (_entsorgt) return;
-    final n = jListe(dienst.ansicht['erzaehler']).length;
     // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
     final vorher = _notizen.length;
     for (final k in befragungen) {
       if (k.antwort != null) _notizen[k.id] = k;
     }
     if (_notizen.length != vorher && _notizenBereit) _notizenSichern();
-    raumGeaendert(erzaehlerAb: spiel.bausteine.length - n);
+    // Vorleser-Sitz: Der öffentliche Teil trägt keinen Erzähltext mehr; das
+    // Fenster kommt aus dem Raum (nur auf dem Gastgebergerät).
+    raumGeaendert(erzaehlerAb: dienst.raum.erzaehlerAb);
   }
 
   // ------------------------------------------------------ Notizbuch

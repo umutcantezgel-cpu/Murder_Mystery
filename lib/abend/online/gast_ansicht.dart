@@ -65,6 +65,13 @@ class GastKontext {
   Map<String, Object?>? get dossier => privat['dossier'] is Map ? jMap(privat['dossier']) : null;
   String? get rolle => privat['rolle'] is String ? privat['rolle'] as String : null;
 
+  /// Liest dieses Gerät vor (Vorleser-Sitz: Erzähler, sonst Detektiv)?
+  bool get vorleser => privat['vorleser'] == true;
+
+  /// Erzähltext für dieses Gerät: vor dem Finale nur beim Vorleser (privat),
+  /// ab dem Finale für alle (öffentlich).
+  List<String> get erzaehlerTexte => privat['erzaehler'] is List ? jTexte(privat['erzaehler']) : jTexte(v['erzaehler']);
+
   /// Nummer dieses Platzes am Tisch, zweistellig (Reiter der Mappe).
   String get platzNr {
     final i = spieler.indexWhere((s) => s.id == ichId);
@@ -263,10 +270,10 @@ Widget _foto(GastKontext c, String? id, {double groesse = 52, double neigung = -
   return MFotoabzug(look: look, groesse: groesse, neigung: neigung, klammer: klammer, akzent: c.figurFarbe(id));
 }
 
-/// Erzählertext der Spielleitung (fertige Texte aus der Ansicht) als getippte
-/// Berichtsblätter, leicht versetzt gestapelt.
+/// Erzählertext (fertige Texte aus der Ansicht) als getippte Berichtsblätter,
+/// leicht versetzt gestapelt. Vor dem Finale hat ihn nur der Vorleser-Sitz.
 Widget _erzaehler(GastKontext c) {
-  final bloecke = jTexte(c.v['erzaehler']);
+  final bloecke = c.erzaehlerTexte;
   if (bloecke.isEmpty) return const SizedBox.shrink();
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -432,7 +439,7 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
     kinder: [
       _erzaehler(c),
       ...spezifisch,
-      if (spezifisch.isEmpty && jTexte(c.v['erzaehler']).isEmpty) _notiz(l.online_warten_spielleitung),
+      if (spezifisch.isEmpty && c.erzaehlerTexte.isEmpty) _notiz(l.online_warten_spielleitung),
       _meineRolle(c),
       _tisch(c),
     ],

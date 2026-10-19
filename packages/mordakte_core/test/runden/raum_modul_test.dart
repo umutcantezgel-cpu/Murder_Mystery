@@ -70,13 +70,14 @@ void main() {
       expect(() => _befehl(r, 'p0', 'weiter'), throwsA(_fehler('not_started')));
     });
 
-    test('Gast darf weder starten noch weiterschalten (not_host)', () {
+    test('Gast darf weder starten noch weiterschalten (not_host) noch ermitteln (not_detective)', () {
       final r = _raum();
       _beitreten(r, 4);
       expect(() => _befehl(r, 'p1', 'start', {'rollen': 4}), throwsA(_fehler('not_host')));
       _befehl(r, 'p0', 'start', {'rollen': 4});
       expect(() => _befehl(r, 'p1', 'weiter'), throwsA(_fehler('not_host')));
-      expect(() => _befehl(r, 'p1', 'anklage', {'person': 'ahmet'}), throwsA(_fehler('not_host')));
+      // M3: Die Anklage gehört dem Detektiv-Sitz, nicht mehr der Leitung.
+      expect(() => _befehl(r, 'p1', 'anklage', {'person': 'ahmet'}), throwsA(_fehler('not_detective')));
     });
   });
 

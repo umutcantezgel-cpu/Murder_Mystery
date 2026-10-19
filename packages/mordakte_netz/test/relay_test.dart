@@ -58,6 +58,52 @@ void main() {
     expect(privat(a.hostPlatz.letzteAnsicht!)['detektiv'], isTrue, reason: 'der Gastgeber führt den Abend');
   });
 
+  test('ein Gast auf dem Detektiv-Sitz führt den Detektiv; der Gastgeber liest als Erzähler vor', () async {
+    for (var i = 0; i < 3; i++) {
+      await a.gast(i);
+    }
+    final detektiv = a.gaeste[0];
+    await a.hostPlatz.befehl({'typ': 'sitz', 'spieler': 'host', 'sitz': 'erzaehler'});
+    await a.hostPlatz.befehl({'typ': 'sitz', 'spieler': detektiv.spielerId, 'sitz': 'detektiv'});
+    // Die Klasse reist mit dem Sitz: Der Gast-Detektiv setzt sie selbst.
+    await detektiv.befehl({'typ': 'sitz', 'spieler': detektiv.spielerId, 'sitz': 'detektiv', 'klasse': 'forensic'});
+    await a.startet();
+    await warteBis(() => a.gaeste.every(a.aktuell));
+    final p = privat(detektiv.letzteAnsicht!);
+    expect([p['detektiv'], p['klasse'], p['dossier'], p['rolle']], [true, 'forensic', null, null], reason: 'der Gast führt den Detektiv');
+    expect(privat(a.hostPlatz.letzteAnsicht!)['detektiv'], isFalse);
+    expect(privat(a.hostPlatz.letzteAnsicht!)['klasse'], 'forensic', reason: 'die Klasse sieht auch der Gastgeber');
+    for (final g in a.gaeste.skip(1)) {
+      expect(privat(g.letzteAnsicht!)['detektiv'], isFalse);
+      expect(privat(g.letzteAnsicht!).containsKey('klasse'), isFalse);
+      expect(privat(g.letzteAnsicht!)['rolle'], isNotNull);
+    }
+    expect(spieler(a.hostPlatz.letzteAnsicht!, detektiv.spielerId!)['sitz'], 'detektiv');
+    expect(spieler(a.hostPlatz.letzteAnsicht!, 'host')['sitz'], 'erzaehler');
+    // Rechte über das Relais: Der Gast-Detektiv geht nicht weiter, solange der Erzähler da ist; eine Rolle ermittelt nicht.
+    await expectLater(detektiv.befehl({'typ': 'weiter'}), throwsA(isA<AbendFehler>().having((e) => e.key, 'key', 'not_host')));
+    await expectLater(a.gaeste[1].befehl({'typ': 'anklage', 'person': 'ahmet'}),
+        throwsA(isA<AbendFehler>().having((e) => e.key, 'key', 'not_detective')));
+    for (final g in a.gaeste) {
+      await g.befehl({'typ': 'rollenGelesen'}).catchError((Object _) {});
+    }
+    await a.hostPlatz.befehl({'typ': 'weiter'});
+    await warteBis(() => a.gaeste.every(a.aktuell));
+    // Vorleser-Sitz: Den Erzähltext hat nur der Gastgeber (Erzähler); die Gäste wissen, dass vorgelesen wird.
+    final host = a.hostPlatz.letzteAnsicht!;
+    expect(host['phase'], 'intro');
+    final texte = (privat(host)['erzaehler'] as List).cast<String>();
+    expect(texte, isNotEmpty);
+    for (final g in a.gaeste) {
+      final v = g.letzteAnsicht!;
+      expect([v['erzaehlerLiest'], v['bausteinZahl'], v.containsKey('erzaehler'), privat(v).containsKey('erzaehler')],
+          [true, texte.length, false, false]);
+      for (final t in texte) {
+        expect(jsonEncode(v).contains(roh(t)), isFalse, reason: 'Erzähltext bei ${g.spielerId}');
+      }
+    }
+  });
+
   test('ein Mithörer im Relais sieht nie Dossier-Klartext', () async {
     for (var i = 0; i < 3; i++) {
       await a.gast(i);
