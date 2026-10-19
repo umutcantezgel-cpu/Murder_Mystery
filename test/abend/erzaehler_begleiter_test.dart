@@ -13,6 +13,7 @@ import 'package:mordakte/abend/online/ansicht.dart' show inhaltsKennung;
 import 'package:mordakte/abend/online/erzaehler_begleiter.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
+import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/erzaehler_begleitung.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
@@ -20,7 +21,7 @@ import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, 
 import 'package:mordakte_netz/io.dart' show PhoenixAttrappe;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, LokaleVerbindung, RelayGast, RelayParameter, SpeicherAblage;
 
-import '../party_widgets/hilfe.dart' show partyDaten, spieleBis, spieleZug;
+import '../party_widgets/hilfe.dart' show diashowDaten, partyDaten, spieleBis, spieleZug;
 import 'online_hilfe.dart';
 
 final l = LDe();
@@ -28,11 +29,12 @@ final l = LDe();
 Map<String, Object?> _map(Object? wert) => (wert as Map).cast<String, Object?>();
 
 /// Reihum, vier Rollen, Pfad ahmet, Erzählerin Mia; die Rollen haben Namen.
-PartySitzung _sitzung() => PartySitzung(partyDaten, salz: '00aa11bb22cc33dd')
+/// Mit [daten] etwa der Schlosskeller mit Diashow (M4).
+PartySitzung _sitzung({PartyDaten? daten}) => PartySitzung(daten ?? partyDaten, salz: '00aa11bb22cc33dd')
   ..einrichten(
     rollen: 4,
     detektiv: 'w',
-    code: FallCode.fuerPfad('ahmet', partyDaten.kanon.pfade).code,
+    code: FallCode.fuerPfad('ahmet', (daten ?? partyDaten).kanon.pfade).code,
     erzaehlerName: 'Mia',
     detektivName: 'Ada',
     namen: const {'ahmet': 'Ben', 'clara': 'Cleo'},
@@ -177,6 +179,53 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     expect([schein.liest, s.istVorleser], [false, true]);
     expect(find.byKey(const ValueKey('erzaehlerpult-zu')), findsOneWidget);
+    s.begleitung = null;
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Ein Gerät + Erzähler-Begleiter + Diashow (M4): Das Gerät zeigt das Bild groß mit „Nächstes Bild“, das Handy liest den Text dazu', (tester) async {
+    final s = _sitzung(daten: diashowDaten)..weiter();
+    expect(s.phase, PartyPhase.intro);
+    final schein = _Schein()..liest = true;
+    s.begleitung = schein;
+    final raum = ProtokollRaum(BegleiterRaum('ABCDEF', s));
+    raum.beitreten(BegleiterRaum.tisch, 'Ada');
+    raum.beitreten('e1', 'Mia');
+    final mia = LiveGast(raum, spielerId: 'e1', daten: diashowDaten);
+    final texte = [for (final k in s.erzaehler) if (s.hatText(k)) s.text(k)];
+    expect(texte, hasLength(6));
+    Future<void> geraet() => zeigeImThema(tester, (c) => Scaffold(body: ListenableBuilder(listenable: s, builder: (_, _) => IntroBildschirm(sitzung: s))));
+
+    // Das Gerät am Tisch: das Bild groß, kein Text, nur wer vorliest.
+    await geraet();
+    expect(find.byKey(const ValueKey('intro-diashow')), findsOneWidget);
+    expect(find.byKey(const ValueKey('vorleser-karte')), findsOneWidget);
+    for (final x in texte) {
+      expect(find.textContaining(x.substring(0, 30)), findsNothing);
+    }
+    expect(find.text(l.party_intro_bild('1', '6').toUpperCase()), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const ValueKey('dia-naechstes')));
+    await tester.tap(find.byKey(const ValueKey('dia-naechstes')));
+    await tester.pump(const Duration(milliseconds: 700));
+    expect(s.dia, 1);
+    expect(find.text(l.party_intro_bild('2', '6').toUpperCase()), findsOneWidget);
+
+    // Das Handy: dasselbe Bild mit dem Text dazu; der Erzähler schaltet selbst weiter.
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia));
+    expect(find.byKey(const ValueKey('gast-dia-text-1')), findsOneWidget);
+    expect(find.textContaining(texte[1].substring(0, 30)), findsOneWidget);
+    expect(find.textContaining(texte[0].substring(0, 30)), findsNothing);
+    await tester.ensureVisible(find.byKey(const ValueKey('gast-dia-naechstes')));
+    await tester.tap(find.byKey(const ValueKey('gast-dia-naechstes')));
+    await tester.pump(const Duration(milliseconds: 700));
+    expect(mia.befehle.last.$1, {'typ': 'dia', 'nr': 2});
+    expect(mia.befehle.last.$2, isNull);
+    expect(s.dia, 2);
+    expect(find.byKey(const ValueKey('gast-dia-text-2')), findsOneWidget);
+
+    // Zurück am Gerät: Es zeigt das Bild, das der Erzähler gewählt hat.
+    await geraet();
+    expect(find.text(l.party_intro_bild('3', '6').toUpperCase()), findsOneWidget);
     s.begleitung = null;
     await tester.pumpWidget(const SizedBox.shrink());
   });

@@ -182,8 +182,9 @@ void schritt(SchlosskellerRaum raum, Ermittlung erm, String pfad, {void Function
 /// Ein gestarteter Raum mit Anna (Gastgeberin), Ben (`g1`), Cleo (`g2`) und
 /// Dora (`g3`), vier Rollen, Pfad ahmet; die Sitze vergibt die Lobby (M3):
 /// [detektiv] und [erzaehler] sind Geräte (der Gastgeber sitzt auf einem davon).
-/// Der Detektiv-Sitz eines Gastes trägt die Klasse [klasse].
-SchlosskellerRaum sitzRaum({String detektiv = 'gastgeber', String? erzaehler, String? klasse = 'profiler', PartyDaten? daten}) {
+/// Der Detektiv-Sitz eines Gastes trägt die Klasse [klasse]. Mit [diaAnzahl]
+/// zeigt die Einleitung eine Diashow mit so vielen Bildern (M4).
+SchlosskellerRaum sitzRaum({String detektiv = 'gastgeber', String? erzaehler, String? klasse = 'profiler', PartyDaten? daten, int diaAnzahl = 0}) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
     raumCode: 'ABCDEF',
@@ -193,6 +194,7 @@ SchlosskellerRaum sitzRaum({String detektiv = 'gastgeber', String? erzaehler, St
     salz: 'salz-test',
     festerGastgeber: true,
     gastgeberSitz: erzaehler == 'gastgeber' ? Sitz.erzaehler : Sitz.detektiv,
+    diaAnzahl: diaAnzahl,
   );
   for (final (id, name) in [('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora')]) {
     raum.beitreten(id, name);
