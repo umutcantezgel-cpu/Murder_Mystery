@@ -4728,7 +4728,7 @@ abstract class L {
   /// No description provided for @online_rollen_erklaerung.
   ///
   /// In de, this message translates to:
-  /// **'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.'**
+  /// **'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du hast keine Rolle zu lesen.'**
   String get online_rollen_erklaerung;
 
   /// No description provided for @online_rollen_warten.
@@ -5040,7 +5040,7 @@ abstract class L {
   /// No description provided for @online_gast_lobby_hinweis.
   ///
   /// In de, this message translates to:
-  /// **'Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.'**
+  /// **'Tippe auf „Bereit“. Sind alle bereit, startet der Gastgeber den Abend.'**
   String get online_gast_lobby_hinweis;
 
   /// No description provided for @online_bereit_knopf.
@@ -6260,6 +6260,144 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Du führst den Abend als Detektiv.'**
   String get abend_platz_hinweis_allein;
+
+  /// Lobby: Sitz eines Geräts
+  ///
+  /// In de, this message translates to:
+  /// **'Platz'**
+  String get online_lobby_platz;
+
+  /// Lobby: Figur eines Geräts
+  ///
+  /// In de, this message translates to:
+  /// **'Figur'**
+  String get online_lobby_figur;
+
+  /// Lobby: Gerät ohne Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Figur spielen'**
+  String get online_lobby_figur_spielen;
+
+  /// Lobby: Figur lost der Start
+  ///
+  /// In de, this message translates to:
+  /// **'Zufall'**
+  String get online_lobby_zufall;
+
+  /// Lobby: gewünschte Figur bzw. wer sie sich wünscht
+  ///
+  /// In de, this message translates to:
+  /// **'Wunsch: {name}'**
+  String online_lobby_wunsch(String name);
+
+  /// Lobby: Figur ist schon zugeteilt
+  ///
+  /// In de, this message translates to:
+  /// **'hat {name}'**
+  String online_lobby_vergeben(String name);
+
+  /// Lobby: Gerät, das den Raum hält
+  ///
+  /// In de, this message translates to:
+  /// **'Gastgeber'**
+  String get online_lobby_gastgeber;
+
+  /// Lobby: Karte zum Zuteilen
+  ///
+  /// In de, this message translates to:
+  /// **'Platz und Figur: {name}'**
+  String online_lobby_wahl_titel(String name);
+
+  /// Lobby: Bildschirmleser-Hinweis eines Platzes
+  ///
+  /// In de, this message translates to:
+  /// **'Platz und Figur wählen'**
+  String get online_lobby_wahl_hinweis;
+
+  /// Lobby: ohne Detektiv startet der Abend nicht
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle zuerst, wer ermittelt. Tippe dazu auf einen Platz.'**
+  String get online_lobby_detektiv_fehlt;
+
+  /// Lobby: Zuteilung aus der Gästeliste übernehmen
+  ///
+  /// In de, this message translates to:
+  /// **'Figuren aus der Gästeliste'**
+  String get online_lobby_gaesteliste;
+
+  /// Gast-Lobby: eigener Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Platz'**
+  String get online_gast_platz_titel;
+
+  /// Gast-Lobby: zugeteilte Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Figur'**
+  String get online_gast_figur_titel;
+
+  /// Gast-Lobby: Detektiv-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst heute und spielst keine Figur.'**
+  String get online_gast_detektiv_text;
+
+  /// Gast-Lobby: Erzähler-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest vor und führst durch den Abend.'**
+  String get online_gast_erzaehler_text;
+
+  /// Gast-Lobby: noch keine Figur zugeteilt
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Figur lost der Start.'**
+  String get online_gast_zufall_text;
+
+  /// Gast-Lobby: Wunschfigur
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Wunsch'**
+  String get online_gast_wunsch_titel;
+
+  /// Gast-Lobby: der Wunsch ist nur ein Hinweis
+  ///
+  /// In de, this message translates to:
+  /// **'Wer zuteilt, sieht deinen Wunsch.'**
+  String get online_gast_wunsch_hinweis;
+
+  /// Gast-Lobby: kein Wunsch
+  ///
+  /// In de, this message translates to:
+  /// **'Egal'**
+  String get online_gast_kein_wunsch;
+
+  /// Gast-Lobby: Detektiv oder Erzähler teilt zu
+  ///
+  /// In de, this message translates to:
+  /// **'Figuren verteilen'**
+  String get online_gast_verteilen_titel;
+
+  /// Raum lehnt den Start ab: Sitze unvollständig
+  ///
+  /// In de, this message translates to:
+  /// **'Es fehlt noch der Detektiv.'**
+  String get online_fehler_sitze;
+
+  /// Raum lehnt ab: nur der Detektiv-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Das darf nur der Detektiv.'**
+  String get online_fehler_nur_detektiv;
+
+  /// Raum lehnt ab: nur wer leitet
+  ///
+  /// In de, this message translates to:
+  /// **'Das darf nur, wer den Abend leitet.'**
+  String get online_fehler_nicht_leitung;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

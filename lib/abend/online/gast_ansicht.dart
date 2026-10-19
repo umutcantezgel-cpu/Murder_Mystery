@@ -12,6 +12,7 @@ import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_befragung.dart';
 import 'gast_dienst.dart';
+import 'gast_lobby.dart';
 import 'online_teile.dart';
 
 /// Schickt eine Raumnachricht; Ablehnungen zeigt die Seite selbst als Meldung.
@@ -163,7 +164,7 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
   final rundenMarke = c.runde > 0 ? l.online_runde(c.runde) : marke;
   switch (phase) {
     case 'lobby':
-      return _lobby(c, marke);
+      return gastLobby(c, marke);
     case 'rollen':
       return _rollen(c);
     case 'intro':
@@ -339,17 +340,18 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
   // Der Detektiv-Sitz spielt den Detektiv: sein Abzug zeigt ihn schon in der
   // Lobby, wie auf dem Gerät des Gastgebers.
   final bild = rolle ?? (s.sitz == Sitz.detektiv ? c.detektivId : null);
-  final Widget? zustand = s.istGastgeber
-      ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
-      : !s.online
-          ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
-          : c.phase == 'lobby'
-              ? (s.bereit ? onlineStempel(l.online_bereit) : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
-              : s.sitz == Sitz.erzaehler
-                  ? MChip(l.online_erzaehler_titel, icon: Icons.menu_book_rounded, farbe: MRoh.tinteLeise)
-                  : s.rolle == null && s.sitz != Sitz.detektiv
-                      ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise)
-                      : null;
+  // Sitze (M3): Detektiv und Erzähler tragen ihr Etikett, der Gastgeber nur, wenn er keinen Sitz hat.
+  final Widget? zustand = !s.online
+      ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
+      : c.phase == 'lobby'
+          ? (s.bereit ? onlineStempel(l.online_bereit) : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
+          : switch (s.sitz) {
+              Sitz.erzaehler => MChip(l.abend_platz_erzaehler, icon: Icons.menu_book_rounded, farbe: MRoh.tinteLeise),
+              Sitz.detektiv => MChip(l.abend_platz_detektiv, icon: Icons.search_rounded, farbe: MRoh.tinteLeise),
+              _ when s.istGastgeber => MChip(l.online_spielleitung, icon: Icons.star_rounded),
+              Sitz.assistenz => MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise),
+              _ => s.rolle == null ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise) : null,
+            };
   return OnlinePlatzKarte(
     name: s.name,
     // Der eigene Platz trägt „(Du)“ als Randnotiz in Füllertinte.
@@ -456,28 +458,6 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
 List<Widget> _belohnungOhneSpielleitung(GastKontext c) => [
       if (c.belohnung != null && !c.verbunden) MKnopf(text: c.l.abend_belohnung_ansehen, icon: Icons.style_rounded, onPressed: c.belohnung),
     ];
-
-// -------------------------------------------------------------------- Lobby
-
-GastSeiteninhalt _lobby(GastKontext c, String marke) {
-  final l = c.l;
-  final ich = c.ich;
-  final bereit = ich?.bereit ?? false;
-  return GastSeiteninhalt(
-    marke: marke,
-    titel: l.online_gast_lobby_titel,
-    untertitel: l.online_gast_lobby_hinweis,
-    kinder: [_tisch(c, mitFiguren: false)],
-    aktionen: [
-      MKnopf(
-        text: bereit ? l.online_bereit_zurueck : l.online_bereit_knopf,
-        art: bereit ? MKnopfArt.zweit : MKnopfArt.haupt,
-        icon: bereit ? Icons.undo_rounded : Icons.check_rounded,
-        onPressed: c.verbunden ? () => c.befehl({'typ': 'bereit', 'wert': !bereit}) : null,
-      ),
-    ],
-  );
-}
 
 // ------------------------------------------------------------------- Rollen
 

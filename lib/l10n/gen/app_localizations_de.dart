@@ -2738,7 +2738,7 @@ class LDe extends L {
 
   @override
   String get online_rollen_erklaerung =>
-      'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.';
+      'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du hast keine Rolle zu lesen.';
 
   @override
   String online_rollen_warten(int x, int y) {
@@ -2926,7 +2926,7 @@ class LDe extends L {
 
   @override
   String get online_gast_lobby_hinweis =>
-      'Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.';
+      'Tippe auf „Bereit“. Sind alle bereit, startet der Gastgeber den Abend.';
 
   @override
   String get online_bereit_knopf => 'Bereit';
@@ -3631,4 +3631,83 @@ class LDe extends L {
 
   @override
   String get abend_platz_hinweis_allein => 'Du führst den Abend als Detektiv.';
+
+  @override
+  String get online_lobby_platz => 'Platz';
+
+  @override
+  String get online_lobby_figur => 'Figur';
+
+  @override
+  String get online_lobby_figur_spielen => 'Figur spielen';
+
+  @override
+  String get online_lobby_zufall => 'Zufall';
+
+  @override
+  String online_lobby_wunsch(String name) {
+    return 'Wunsch: $name';
+  }
+
+  @override
+  String online_lobby_vergeben(String name) {
+    return 'hat $name';
+  }
+
+  @override
+  String get online_lobby_gastgeber => 'Gastgeber';
+
+  @override
+  String online_lobby_wahl_titel(String name) {
+    return 'Platz und Figur: $name';
+  }
+
+  @override
+  String get online_lobby_wahl_hinweis => 'Platz und Figur wählen';
+
+  @override
+  String get online_lobby_detektiv_fehlt =>
+      'Wähle zuerst, wer ermittelt. Tippe dazu auf einen Platz.';
+
+  @override
+  String get online_lobby_gaesteliste => 'Figuren aus der Gästeliste';
+
+  @override
+  String get online_gast_platz_titel => 'Dein Platz';
+
+  @override
+  String get online_gast_figur_titel => 'Deine Figur';
+
+  @override
+  String get online_gast_detektiv_text =>
+      'Du ermittelst heute und spielst keine Figur.';
+
+  @override
+  String get online_gast_erzaehler_text =>
+      'Du liest vor und führst durch den Abend.';
+
+  @override
+  String get online_gast_zufall_text => 'Deine Figur lost der Start.';
+
+  @override
+  String get online_gast_wunsch_titel => 'Dein Wunsch';
+
+  @override
+  String get online_gast_wunsch_hinweis => 'Wer zuteilt, sieht deinen Wunsch.';
+
+  @override
+  String get online_gast_kein_wunsch => 'Egal';
+
+  @override
+  String get online_gast_verteilen_titel => 'Figuren verteilen';
+
+  @override
+  String get online_fehler_sitze => 'Es fehlt noch der Detektiv.';
+
+  @override
+  String get online_fehler_nur_detektiv => 'Das darf nur der Detektiv.';
+
+  @override
+  String get online_fehler_nicht_leitung =>
+      'Das darf nur, wer den Abend leitet.';
 }

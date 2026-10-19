@@ -1574,7 +1574,7 @@
   "online_qr_hinweis": "Scannen oder in der Detektei auf „Beitreten“ tippen und den Code eingeben.",
   "online_tisch_titel": "Am Tisch",
   "online_tisch_leer": "Noch ist niemand beigetreten.",
-  "online_spielleitung": "Spielleitung",
+  "online_spielleitung": "Gastgeber",
   "online_bereit": "Bereit",
   "online_nicht_bereit": "Nicht bereit",
   "online_getrennt": "Getrennt",
@@ -1631,7 +1631,7 @@
   "online_beenden_text": "Alle Gäste werden getrennt. Der Abend lässt sich danach nicht fortsetzen.",
   "online_beenden_ja": "Abend beenden",
   "online_beenden_nein": "Weiterspielen",
-  "online_rollen_erklaerung": "Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.",
+  "online_rollen_erklaerung": "Jede Person liest ihre Rolle auf dem eigenen Gerät. Du hast keine Rolle zu lesen.",
   "online_rollen_warten": "Warten auf die Gäste: {x} von {y} haben ihre Rolle gelesen",
   "@online_rollen_warten": {
     "placeholders": {
@@ -1731,7 +1731,7 @@
     }
   },
   "online_gast_lobby_titel": "Warten auf den Start",
-  "online_gast_lobby_hinweis": "Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.",
+  "online_gast_lobby_hinweis": "Tippe auf „Bereit“. Sind alle bereit, startet der Gastgeber den Abend.",
   "online_bereit_knopf": "Bereit",
   "online_bereit_zurueck": "Doch nicht bereit",
   "online_rolle_marke": "Deine Rolle",
@@ -2433,5 +2433,112 @@
   "abend_platz_hinweis_allein": "Du führst den Abend als Detektiv.",
   "@abend_platz_hinweis_allein": {
     "description": "Einrichtung online: Akte ohne Erzähler-Sitz"
+  },
+  "online_lobby_platz": "Platz",
+  "@online_lobby_platz": {
+    "description": "Lobby: Sitz eines Geräts"
+  },
+  "online_lobby_figur": "Figur",
+  "@online_lobby_figur": {
+    "description": "Lobby: Figur eines Geräts"
+  },
+  "online_lobby_figur_spielen": "Figur spielen",
+  "@online_lobby_figur_spielen": {
+    "description": "Lobby: Gerät ohne Sitz"
+  },
+  "online_lobby_zufall": "Zufall",
+  "@online_lobby_zufall": {
+    "description": "Lobby: Figur lost der Start"
+  },
+  "online_lobby_wunsch": "Wunsch: {name}",
+  "@online_lobby_wunsch": {
+    "description": "Lobby: gewünschte Figur bzw. wer sie sich wünscht",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "online_lobby_vergeben": "hat {name}",
+  "@online_lobby_vergeben": {
+    "description": "Lobby: Figur ist schon zugeteilt",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "online_lobby_gastgeber": "Gastgeber",
+  "@online_lobby_gastgeber": {
+    "description": "Lobby: Gerät, das den Raum hält"
+  },
+  "online_lobby_wahl_titel": "Platz und Figur: {name}",
+  "@online_lobby_wahl_titel": {
+    "description": "Lobby: Karte zum Zuteilen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "online_lobby_wahl_hinweis": "Platz und Figur wählen",
+  "@online_lobby_wahl_hinweis": {
+    "description": "Lobby: Bildschirmleser-Hinweis eines Platzes"
+  },
+  "online_lobby_detektiv_fehlt": "Wähle zuerst, wer ermittelt. Tippe dazu auf einen Platz.",
+  "@online_lobby_detektiv_fehlt": {
+    "description": "Lobby: ohne Detektiv startet der Abend nicht"
+  },
+  "online_lobby_gaesteliste": "Figuren aus der Gästeliste",
+  "@online_lobby_gaesteliste": {
+    "description": "Lobby: Zuteilung aus der Gästeliste übernehmen"
+  },
+  "online_gast_platz_titel": "Dein Platz",
+  "@online_gast_platz_titel": {
+    "description": "Gast-Lobby: eigener Sitz"
+  },
+  "online_gast_figur_titel": "Deine Figur",
+  "@online_gast_figur_titel": {
+    "description": "Gast-Lobby: zugeteilte Figur"
+  },
+  "online_gast_detektiv_text": "Du ermittelst heute und spielst keine Figur.",
+  "@online_gast_detektiv_text": {
+    "description": "Gast-Lobby: Detektiv-Sitz"
+  },
+  "online_gast_erzaehler_text": "Du liest vor und führst durch den Abend.",
+  "@online_gast_erzaehler_text": {
+    "description": "Gast-Lobby: Erzähler-Sitz"
+  },
+  "online_gast_zufall_text": "Deine Figur lost der Start.",
+  "@online_gast_zufall_text": {
+    "description": "Gast-Lobby: noch keine Figur zugeteilt"
+  },
+  "online_gast_wunsch_titel": "Dein Wunsch",
+  "@online_gast_wunsch_titel": {
+    "description": "Gast-Lobby: Wunschfigur"
+  },
+  "online_gast_wunsch_hinweis": "Wer zuteilt, sieht deinen Wunsch.",
+  "@online_gast_wunsch_hinweis": {
+    "description": "Gast-Lobby: der Wunsch ist nur ein Hinweis"
+  },
+  "online_gast_kein_wunsch": "Egal",
+  "@online_gast_kein_wunsch": {
+    "description": "Gast-Lobby: kein Wunsch"
+  },
+  "online_gast_verteilen_titel": "Figuren verteilen",
+  "@online_gast_verteilen_titel": {
+    "description": "Gast-Lobby: Detektiv oder Erzähler teilt zu"
+  },
+  "online_fehler_sitze": "Es fehlt noch der Detektiv.",
+  "@online_fehler_sitze": {
+    "description": "Raum lehnt den Start ab: Sitze unvollständig"
+  },
+  "online_fehler_nur_detektiv": "Das darf nur der Detektiv.",
+  "@online_fehler_nur_detektiv": {
+    "description": "Raum lehnt ab: nur der Detektiv-Sitz"
+  },
+  "online_fehler_nicht_leitung": "Das darf nur, wer den Abend leitet.",
+  "@online_fehler_nicht_leitung": {
+    "description": "Raum lehnt ab: nur wer leitet"
   }
 }

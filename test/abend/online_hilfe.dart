@@ -13,7 +13,7 @@ import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
-import 'package:mordakte_netz/mordakte_netz.dart' show LokaleVerbindung, VerbindungsStatus;
+import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, LokaleVerbindung, VerbindungsStatus;
 
 import '../party_widgets/hilfe.dart' show partyDaten;
 
@@ -257,22 +257,56 @@ Widget gastSeite(BuildContext context, Map<String, Object?> ansicht, {String spi
   );
 }
 
-/// Gastgebergerät für die Lobby: Raum offen und verbunden, die Plätze [spieler];
-/// kein Relais, kein Start.
-class TestLobbyDienst implements GastgeberDienst {
-  TestLobbyDienst(this.spieler, {this.verbunden = true});
+/// Ein Raum in der Lobby: Anna (Gastgeberin, auf [gastgeberSitz]), Ben (`g1`,
+/// bereit), Cleo (`g2`, langer Name, noch nicht bereit) und Dora (`g3`, getrennt).
+SchlosskellerRaum lobbyRaum({Sitz gastgeberSitz = Sitz.detektiv, PartyDaten? daten}) {
+  final d = daten ?? partyDaten;
+  final raum = SchlosskellerRaum(
+    raumCode: 'ABCDEF',
+    kanon: d.kanon,
+    texte: d.texte,
+    fallCode: FallCode.fuerPfad(d.kanon.pfade.first, d.kanon.pfade),
+    salz: 'salz-test',
+    festerGastgeber: true,
+    gastgeberSitz: gastgeberSitz,
+  );
+  for (final (id, name) in [('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleopatra Konstantinopoulou-Wagenknecht'), ('g3', 'Dora')]) {
+    raum.beitreten(id, name);
+  }
+  raum.nachricht('gastgeber', {'typ': 'bereit', 'wert': true});
+  raum.nachricht('g1', {'typ': 'bereit', 'wert': true});
+  raum.verbunden('g3', false);
+  return raum;
+}
+
+/// Gastgebergerät für die Lobby: Raum offen und verbunden, ein echter Raum in
+/// der Lobby ([lobbyRaum]); jeder Befehl geht in den Raum und meldet die
+/// Änderung. Kein Relais, kein Start.
+class TestLobbyDienst extends ChangeNotifier implements GastgeberDienst {
+  TestLobbyDienst(this.raum, {this.verbunden = true, PartyDaten? daten}) : daten = daten ?? partyDaten {
+    verb = TestVerbindung(raum, nachher: notifyListeners);
+  }
 
   @override
-  final List<SpielerInfo> spieler;
+  final SchlosskellerRaum raum;
+
+  @override
+  late final TestVerbindung verb;
 
   @override
   final bool verbunden;
 
   @override
-  PartyDaten get daten => partyDaten;
+  final PartyDaten daten;
 
   @override
-  String get akteId => 'schlosskeller';
+  Map<String, Object?> get ansicht => raum.zustandFuer('gastgeber');
+
+  @override
+  List<SpielerInfo> get spieler => spielerAusAnsicht(ansicht);
+
+  @override
+  String get akteId => daten.fall;
 
   @override
   String get raumCode => 'ABCDEF';
@@ -281,19 +315,19 @@ class TestLobbyDienst implements GastgeberDienst {
   bool get offen => true;
 
   @override
-  bool get gestartet => false;
+  bool get gestartet => !raum.vorStart;
 
   @override
   bool get geschlossen => false;
 
   @override
-  int get minRollen => 4;
+  int get minRollen => daten.texte.besetzung.minRollen;
 
   @override
-  int get maxRollen => 8;
+  int get maxRollen => daten.texte.besetzung.maxRollen;
 
   @override
-  Sitz get sitz => Sitz.detektiv;
+  Sitz get sitz => raum.sitzVon('gastgeber') ?? Sitz.detektiv;
 
   @override
   List<SpielerInfo> get gaeste => [for (final s in spieler) if (!s.istGastgeber) s];
@@ -308,29 +342,22 @@ class TestLobbyDienst implements GastgeberDienst {
   Future<void> schliessen({bool endgueltig = true}) async {}
 
   @override
-  void addListener(VoidCallback listener) {}
-
-  @override
-  void removeListener(VoidCallback listener) {}
-
-  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-/// Plätze der Lobby: Anna leitet (auf dem Detektiv-Sitz), Ben ist bereit, Cleo (langer Name) noch nicht, Dora ist getrennt.
-const lobbyPlaetze = [
-  SpielerInfo(id: 'gastgeber', name: 'Anna', online: true, bereit: true, istGastgeber: true, sitz: Sitz.detektiv),
-  SpielerInfo(id: 'g1', name: 'Ben', online: true, bereit: true),
-  SpielerInfo(id: 'g2', name: 'Cleopatra Konstantinopoulou-Wagenknecht', online: true, bereit: false),
-  SpielerInfo(id: 'g3', name: 'Dora', online: false, bereit: false),
-];
-
-/// Lokale Verbindung des Gastgebers, die jeden Befehl in den Raum gibt.
+/// Lokale Verbindung des Gastgebers, die jeden Befehl in den Raum gibt und
+/// danach [nachher] ruft (z. B. die Änderung melden). Ablehnungen des Raums
+/// kommen wie beim Relais als [AbendFehler].
 class TestVerbindung implements LokaleVerbindung {
-  TestVerbindung(this.raum);
+  TestVerbindung(this.raum, {this.nachher});
 
   @override
   final SchlosskellerRaum raum;
+
+  final VoidCallback? nachher;
+
+  /// Alle Befehle in der Reihenfolge, in der sie kamen.
+  final List<Map<String, Object?>> befehle = [];
 
   @override
   String? get spielerId => 'gastgeber';
@@ -342,7 +369,16 @@ class TestVerbindung implements LokaleVerbindung {
   Map<String, Object?>? get letzteAnsicht => raum.zustandFuer('gastgeber');
 
   @override
-  Future<void> befehl(Map<String, Object?> c) async => raum.nachricht('gastgeber', c);
+  Future<void> befehl(Map<String, Object?> c) async {
+    befehle.add(c);
+    try {
+      raum.nachricht('gastgeber', c);
+    } on PartyRaumFehler catch (e) {
+      throw AbendFehler(e.code);
+    } finally {
+      nachher?.call();
+    }
+  }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
