@@ -1,6 +1,7 @@
 // Klassenfähigkeiten auf der Karte (A-055, M6): feste Werte je Klasse,
 // Architektur-Wächter (keine Partie, keine Zugschicht, keine Würfel, keine
-// zustandsändernden Aufrufe) und die Gerüchte des Schlosskellers.
+// zustandsändernden Aufrufe oder Setter, an der Sitzung nur eine Positivliste
+// von Lesezugriffen) und die Gerüchte des Schlosskellers.
 import 'dart:io';
 
 import 'package:mordakte_core/mordakte_core.dart';
@@ -9,22 +10,83 @@ import 'package:test/test.dart';
 
 import '../party/kanon_hilfe.dart';
 
-/// Dateien der Klassenfähigkeiten in Kern und App.
+/// Dateien der Klassenfähigkeiten in Kern und App, dazu die Ebene, die sie zeichnet.
 const _dateien = [
   'packages/mordakte_core/lib/src/karten/klassen.dart',
   'packages/mordakte_core/lib/src/karten/geruechte.dart',
   'packages/mordakte_core/lib/src/karten/sperrwoerter.dart',
   'lib/party/klasse_wirkung.dart',
+  'lib/game/scene/klassen_ebene.dart',
 ];
+
+/// Was die Klassenwirkung an der laufenden `PartySitzung` lesen darf, je Datei
+/// (Positivliste; die Kartenquelle reicht ihre Lesezugriffe an die Wirkung
+/// durch). Jeder andere Zugriff fällt auf, auch ein Setter, eine Kaskade oder
+/// die Sitzung als Ganzes außerhalb von [_sitzungAn].
+const _sitzungLesen = {
+  'lib/party/klasse_wirkung.dart': {'daten', 'daten.hat', 'randgespraechMoeglich', 'solo', 'besetzt.contains'},
+  'lib/party/karten_quelle.dart': {'phase', 'runde', 'laufendeEntscheidung', 'spiel.gewaehlt', 'zug', 'abstecherOffen'},
+};
+
+/// Wem diese Dateien die Sitzung als Ganzes geben dürfen: einander.
+const _sitzungAn = {'SitzungsKartenQuelle', 'fuer', 'amTisch'};
+
+/// Name eines Parameters oder Felds vom Typ `PartySitzung`.
+final _sitzungsName = RegExp(r'\bPartySitzung\??\s+(\w+)');
+
+/// Zuweisung, auch zusammengesetzt (`=`, `+=`, `??=`), oder `++`/`--` direkt danach.
+final _zuweisung = RegExp(r'^\s*((?:[-+*/%~|&^]|\?\?|<<|>>>?)?=(?![=>])|\+\+|--)');
+
+/// Zuweisung an ein Feld eines anderen Objekts (`a.b = …`, `a.b.c += …`): ein
+/// Setter. Eigene Felder (`this.x = 3` als Vorgabe im Konstruktor) zählen nicht.
+final _setzer = RegExp(r'(?<![\w.])(?!this\.)\w+(?:\.\w+)+\s*(?:[-+*/%~|&^]|\?\?|<<|>>>?)?=(?![=>])');
+
+/// Zugriffe auf eine `PartySitzung` in [zeilen] (Kommentare und Importe
+/// ausgenommen), die nicht auf der Positivliste [erlaubt] stehen.
+List<String> _sitzungsZugriffe(String pfad, List<String> zeilen, Set<String> erlaubt) {
+  final code = [for (final z in zeilen) RegExp(r'^\s*(//|import\s|export\s)').hasMatch(z) ? '' : z];
+  final namen = {
+    for (final z in code)
+      for (final m in _sitzungsName.allMatches(z)) m.group(1)!,
+  };
+  final befunde = <String>[];
+  for (final (i, z) in code.indexed) {
+    for (final n in namen) {
+      for (final m in RegExp('(?<!\\w)${RegExp.escape(n)}((?:\\.\\w+)*)(?!\\w)').allMatches(z)) {
+        final vor = z.substring(0, m.start);
+        final nach = z.substring(m.end);
+        final kette = m.group(1)!.isEmpty ? '' : m.group(1)!.substring(1);
+        final String? fund;
+        if (kette.isEmpty) {
+          final an = RegExp(r'(\w+)\(\s*$').firstMatch(vor)?.group(1);
+          final erlaubtGanz = RegExp(r'PartySitzung\??\s+$').hasMatch(vor) ||
+              vor.endsWith('this.') ||
+              (_sitzungAn.contains(an) && RegExp(r'^\s*[,)]').hasMatch(nach));
+          fund = erlaubtGanz ? null : 'die Sitzung als Ganzes: ${z.trim()}';
+        } else if (!erlaubt.contains(kette)) {
+          fund = 'nicht auf der Positivliste: $n.$kette';
+        } else if (_zuweisung.hasMatch(nach)) {
+          fund = 'Setter: $n.$kette';
+        } else {
+          fund = null;
+        }
+        if (fund != null) befunde.add('$pfad:${i + 1}: $fund');
+      }
+    }
+  }
+  return befunde;
+}
 
 /// Importe, die eine Klassenfähigkeit nie braucht: Partie, Zugschicht, Würfel
 /// und die Bibliothek, die sie bündelt.
 final _verbotenerImport = RegExp(r'''^\s*import\s+['"][^'"]*(runden/partie|zugschicht|wuerfel|package:mordakte_core/runden\.dart)''');
 
-/// Aufrufe, die den Abend verändern (Sitzung, Partie, Raum).
+/// Aufrufe, die den Abend verändern (Sitzung, Spiel, Partie, Raum).
 final _zustandsAufruf = RegExp(
   r'\.(wuerfeln|aktionFertig|tischruf|fundGelesen|schlageVor|schlageVorAn|bestaetigen|weiter|einrichten|anklagen|stimme|'
-  r'karteSpielen|starteAbstecher|randgespraechBeginnen|randgespraechWaehlen|randgespraechBeenden|zeigeVerdeckt|verdecken|nachricht|senden|send|move)\(',
+  r'karteSpielen|starteAbstecher|randgespraechBeginnen|randgespraechWaehlen|randgespraechBeenden|zeigeVerdeckt|verdecken|nachricht|senden|send|move|'
+  r'waehle|abstimmen|kartenAnlegen|verwerfen|zurEinrichtung|soloGespraechGelesen|raumGeaendert|vorschlagLoeschen|randgespraechGefuehrt|'
+  r'erzaehlstandUebernehmen)\(',
 );
 
 Geruechte _schlosskeller() => Geruechte.ausJson(leseJson('$repoWurzel/content/welt/schlosskeller/geruechte.json'));
@@ -56,7 +118,7 @@ void main() {
       }
     });
 
-    test('Architektur: keine Partie, keine Zugschicht, keine Würfel, keine zustandsändernden Aufrufe', () {
+    test('Architektur: keine Partie, keine Zugschicht, keine Würfel, keine zustandsändernden Aufrufe oder Setter, die Sitzung nur lesend', () {
       final befunde = <String>[];
       for (final pfad in _dateien) {
         final datei = File('$repoWurzel/$pfad');
@@ -67,7 +129,15 @@ void main() {
           if (z.trimLeft().startsWith('//')) continue;
           if (_verbotenerImport.hasMatch(z)) befunde.add('$pfad:${i + 1}: Import $z');
           if (_zustandsAufruf.firstMatch(z) case final m?) befunde.add('$pfad:${i + 1}: Aufruf ${m.group(0)}');
+          if (_setzer.firstMatch(z) case final m?) befunde.add('$pfad:${i + 1}: Setter ${m.group(0)}');
         }
+      }
+      for (final MapEntry(key: pfad, value: erlaubt) in _sitzungLesen.entries) {
+        final datei = File('$repoWurzel/$pfad');
+        expect(datei.existsSync(), isTrue, reason: '$pfad fehlt');
+        // Ohne Namen vom Typ PartySitzung prüfte die Positivliste nichts.
+        expect(_sitzungsName.hasMatch(datei.readAsStringSync()), isTrue, reason: pfad);
+        befunde.addAll(_sitzungsZugriffe(pfad, datei.readAsLinesSync(), erlaubt));
       }
       expect(befunde, isEmpty);
     });
@@ -77,6 +147,50 @@ void main() {
       expect(_verbotenerImport.hasMatch("import 'package:mordakte_core/runden.dart' show KlassenParameter;"), isTrue);
       expect(_zustandsAufruf.hasMatch('sitzung.wuerfeln();'), isTrue);
       expect(_zustandsAufruf.hasMatch('quelle.runde'), isFalse);
+    });
+
+    test('Gegenprobe: der Wächter erkennt Aufrufe über die Sitzung, Setter und Kaskaden', () {
+      for (final z in [
+        's.spiel.waehle(e, o);',
+        's.spiel.abstimmen(kooperativ: 1, taeterSabotiert: false);',
+        's.kartenAnlegen();',
+        's.verwerfen();',
+        's.zurEinrichtung();',
+        's.soloGespraechGelesen(id);',
+      ]) {
+        expect(_zustandsAufruf.hasMatch(z), isTrue, reason: z);
+      }
+      for (final z in ['s.stimmeAn = true;', 'quelle.sitzung.erzaehltiefe = e;', 'a.b.c += 1;', 's.spiel.x ??= y;']) {
+        expect(_setzer.hasMatch(z), isTrue, reason: z);
+      }
+      for (final z in ['final x = a.b;', 'a.b == c', 'a.b >= c', '_geruecht[f.id] = neu;', 'Paint()..color = farbe', 'double get r => p.r;', '{this.r = 3}']) {
+        expect(_setzer.hasMatch(z), isFalse, reason: z);
+      }
+      // Positivliste der Klassenwirkung: Lesen ja, alles andere nein.
+      List<String> zugriffe(String zeile) =>
+          _sitzungsZugriffe('probe', ['static KlasseWirkung? fuer(PartySitzung s, String? klasse) {', zeile], _sitzungLesen['lib/party/klasse_wirkung.dart']!);
+      for (final z in [
+        's.spiel.waehle(e, o);',
+        's.besetzt.add(figur);',
+        's.solo = true;',
+        's..stimmeAn = true;',
+        'tuWas(s);',
+        'final x = s;',
+        'final g = s.spiel.gewaehlt;',
+      ]) {
+        expect(zugriffe(z), isNotEmpty, reason: z);
+      }
+      for (final z in [
+        'daten: s.daten,',
+        "if (!s.daten.hat('klassen')) return null;",
+        'appSprichtFuer: (figur) => s.solo || !s.besetzt.contains(figur),',
+        'randgespraech: s.randgespraechMoeglich,',
+        'quelle: SitzungsKartenQuelle(s),',
+        'return KlasseWirkung.amTisch(s, f);',
+        'fuer(s, klasse)',
+      ]) {
+        expect(zugriffe(z), isEmpty, reason: z);
+      }
     });
   });
 
