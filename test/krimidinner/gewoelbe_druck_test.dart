@@ -66,7 +66,7 @@ void main() {
     await bilder(tester);
     expect(geteilt.single.fileNameOverrides, ['gewoelbe-steckbriefe-5.html']);
     expect(geteilt.single.files!.single.mimeType, 'text/html');
-    expect(find.text('Gespeichert: gewoelbe-steckbriefe-5.html'), findsOneWidget);
+    expect(find.text('Datei erstellt: gewoelbe-steckbriefe-5.html'), findsOneWidget);
     expect(find.text(nurBrowser), findsNothing);
 
     await tester.ensureVisible(find.text('Mappe für Merle Hartwig'));
@@ -90,8 +90,23 @@ void main() {
     await tester.tap(find.text('Als Datei speichern'));
     await bilder(tester);
     expect(browser.angeboten, [('gewoelbe-steckbriefe-5.html', DateiWeg.herunterladen)]);
-    expect(find.text('Gespeichert: gewoelbe-steckbriefe-5.html'), findsOneWidget);
+    expect(find.text('Datei erstellt: gewoelbe-steckbriefe-5.html'), findsOneWidget);
     expect(find.text(nurBrowser), findsNothing);
+  });
+
+  testWidgets('Schließt jemand das Teilen-Fenster, meldet die Tafel kein „Gespeichert“', (tester) async {
+    final vorher = dateiTeilenUeber;
+    dateiTeilenUeber = (p) async => const ShareResult('', ShareResultStatus.dismissed);
+    addTearDown(() => dateiTeilenUeber = vorher);
+    groesse(tester, const Size(800, 3000));
+    await tester.pumpWidget(gewoelbeApp(teil: GewoelbeTeil.druck, n: 5));
+    await bilder(tester);
+
+    await tester.tap(find.text('Als Datei speichern'));
+    await bilder(tester);
+    expect(find.textContaining('Gespeichert'), findsNothing);
+    expect(find.text('Datei erstellt: gewoelbe-steckbriefe-5.html'), findsOneWidget);
+    expect(find.text(nurBrowser), findsNothing, reason: 'Ein Abbruch ist kein Fehler');
   });
 
   testWidgets('Scheitert das Teilen, zeigt Speichern den Hinweis, Mappen bleiben verdeckt', (tester) async {

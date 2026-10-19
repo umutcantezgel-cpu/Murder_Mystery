@@ -136,7 +136,9 @@ abstract final class GewoelbeTexte {
   static String mappeFuer(String name) => 'Mappe für $name';
   static const nurBrowser =
       'Speichern geht nur im Browser. Öffne die App im Browser und drucke von dort.';
-  static String gespeichert(String datei) => 'Gespeichert: $datei';
+  /// Rückmeldung nach dem Anbieten der Datei. Ob sie wirklich gespeichert wurde,
+  /// verrät das Teilen-Fenster nicht (ein Abbruch sieht aus wie Erfolg).
+  static String erstellt(String datei) => 'Datei erstellt: $datei';
   static String dateiSteckbriefe(int n) => 'gewoelbe-steckbriefe-$n.html';
   static String dateiMappe(int nummer) =>
       'gewoelbe-mappe-${nummer.toString().padLeft(2, '0')}.html';

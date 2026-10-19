@@ -3998,7 +3998,7 @@ class LDe extends L {
 
   @override
   String begleiter_anleitung(String name) {
-    return '$name öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.';
+    return '$name öffnet Mordakte, tippt in der Detektei auf „Beitreten“ und gibt diesen Code ein.';
   }
 
   @override
@@ -4012,7 +4012,7 @@ class LDe extends L {
 
   @override
   String get begleiter_fehler =>
-      'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.';
+      'Dieses Gerät erreicht das Relais nicht. Lest am Pult weiter oder versucht es noch einmal.';
 
   @override
   String get begleiter_nochmal => 'Noch einmal versuchen';

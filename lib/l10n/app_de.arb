@@ -2949,7 +2949,7 @@
   "@begleiter_titel": {
     "description": "Erzähler-Begleiter: Titel der Karte"
   },
-  "begleiter_anleitung": "{name} öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.",
+  "begleiter_anleitung": "{name} öffnet Mordakte, tippt in der Detektei auf „Beitreten“ und gibt diesen Code ein.",
   "@begleiter_anleitung": {
     "description": "Erzähler-Begleiter: wie der Erzähler beitritt",
     "placeholders": {
@@ -2971,7 +2971,7 @@
       }
     }
   },
-  "begleiter_fehler": "Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.",
+  "begleiter_fehler": "Dieses Gerät erreicht das Relais nicht. Lest am Pult weiter oder versucht es noch einmal.",
   "@begleiter_fehler": {
     "description": "Erzähler-Begleiter: Raum ließ sich nicht öffnen"
   },

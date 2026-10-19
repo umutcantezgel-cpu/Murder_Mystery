@@ -44,7 +44,7 @@ class _DruckTeilState extends State<DruckTeil> {
     setState(() {
       _ohneBrowser = !ok;
       _beiMappen = mappe;
-      _status = ok ? GewoelbeTexte.gespeichert(datei) : GewoelbeTexte.nurBrowser;
+      _status = ok ? GewoelbeTexte.erstellt(datei) : GewoelbeTexte.nurBrowser;
     });
   }
 

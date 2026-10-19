@@ -6924,7 +6924,7 @@ abstract class L {
   /// Erzähler-Begleiter: wie der Erzähler beitritt
   ///
   /// In de, this message translates to:
-  /// **'{name} öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.'**
+  /// **'{name} öffnet Mordakte, tippt in der Detektei auf „Beitreten“ und gibt diesen Code ein.'**
   String begleiter_anleitung(String name);
 
   /// Erzähler-Begleiter: was sich am Tisch-Gerät ändert
@@ -6942,7 +6942,7 @@ abstract class L {
   /// Erzähler-Begleiter: Raum ließ sich nicht öffnen
   ///
   /// In de, this message translates to:
-  /// **'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.'**
+  /// **'Dieses Gerät erreicht das Relais nicht. Lest am Pult weiter oder versucht es noch einmal.'**
   String get begleiter_fehler;
 
   /// Erzähler-Begleiter: erneut öffnen
