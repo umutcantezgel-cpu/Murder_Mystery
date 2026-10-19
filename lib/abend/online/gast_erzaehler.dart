@@ -67,8 +67,8 @@ class BefragungsStand extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(person(jText(b['rolle'])), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
-                          if (jText(b['thema']).isNotEmpty) Text(jText(b['thema']), style: MPapierSchrift.maschine.copyWith(fontSize: 14)),
+                          MGanzeWorte(person(jText(b['rolle'])), stil: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
+                          if (jText(b['thema']).isNotEmpty) MGanzeWorte(jText(b['thema']), stil: MPapierSchrift.maschine.copyWith(fontSize: 14), minimum: 10),
                         ],
                       ),
                     ),
@@ -238,7 +238,7 @@ class _Karte extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(padding: EdgeInsets.only(top: 9, right: 8), child: SizedBox(width: 5, height: 5, child: DecoratedBox(decoration: BoxDecoration(color: MRoh.tinte, shape: BoxShape.circle)))),
-              Expanded(child: Text(p, style: MPapierSchrift.text)),
+              Expanded(child: MGanzeWorte(p, stil: MPapierSchrift.text, minimum: 12)),
             ],
           ),
         );
@@ -264,7 +264,7 @@ class _Karte extends StatelessWidget {
                 children: [
                   MGanzeWorte(kopf, stil: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
                   if (marke != null) Text(marke!.toUpperCase(), style: MPapierSchrift.marke),
-                  if (unter.isNotEmpty) Text(unter, style: MPapierSchrift.maschine.copyWith(fontSize: 14)),
+                  if (unter.isNotEmpty) MGanzeWorte(unter, stil: MPapierSchrift.maschine.copyWith(fontSize: 14), minimum: 10),
                 ],
               ),
             ),
@@ -280,7 +280,7 @@ class _Karte extends StatelessWidget {
             ],
             if (text.isNotEmpty) ...[
               const SizedBox(height: MMass.s8),
-              Text(text, style: MPapierSchrift.erzaehler),
+              MGanzeWorte(text, stil: MPapierSchrift.erzaehler, minimum: 14),
             ],
           ],
         ),

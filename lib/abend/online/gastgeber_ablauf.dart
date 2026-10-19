@@ -12,6 +12,7 @@ import '../../party/bildschirme/detektiv_karte.dart';
 import '../../party/party_seite.dart';
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
+import '../rollen_uebersicht.dart';
 import 'erzaehler_ablauf.dart';
 import 'gastgeber_sitzung.dart';
 import 'gastgeber_wartet.dart';
@@ -202,6 +203,8 @@ class _Menue extends StatelessWidget {
               ),
               const SizedBox(height: MMass.s16),
             ],
+            Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: sitzung.sitz, art: MKnopfArt.zweit)),
+            const SizedBox(height: MMass.s16),
             Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
             const SizedBox(height: MMass.s4),
             // Der Code bleibt eine Zeile; bei wenig Platz wird er kleiner statt umzubrechen.

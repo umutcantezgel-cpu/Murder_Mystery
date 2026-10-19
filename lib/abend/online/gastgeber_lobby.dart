@@ -16,6 +16,7 @@ import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
 import '../einrichtung/abschnitte.dart' show FesteLoesungHinweis;
+import '../rollen_uebersicht.dart';
 import 'ansicht.dart';
 import 'gastgeber_dienst.dart';
 import 'gastgeber_sitzung.dart';
@@ -265,6 +266,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
                       ? OnlineWarteNotiz(text: l.online_alle_bereit, uhr: false, stempel: l.online_bereit)
                       : OnlineWarteNotiz(text: l.online_warten_bereit),
         ),
+        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz)),
         if (vorschlag.isNotEmpty) ...[
           const SizedBox(height: MMass.s8),
           Align(

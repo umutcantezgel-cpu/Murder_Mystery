@@ -458,7 +458,7 @@ class GastgeberSitzung extends PartySitzung {
     unawaited(_hoerer?.cancel());
     _hoerer = null;
     // Ist der Abend vorbei, ist er auch abgelegt zu Ende; sonst bleibt der Stand
-    // liegen, und die Gäste warten auf die Rückkehr der Spielleitung.
+    // liegen, und die Gäste warten auf die Rückkehr des Gastgebers.
     unawaited(dienst.schliessen(endgueltig: phase == PartyPhase.ende));
     super.dispose();
   }

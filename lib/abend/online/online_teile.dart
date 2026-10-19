@@ -191,7 +191,7 @@ class OnlineBotReihe extends StatelessWidget {
       );
 }
 
-/// Getippter Wartezettel mit Taschenuhr: „Warten auf die Spielleitung …“.
+/// Getippter Wartezettel mit Taschenuhr: „Gleich geht es weiter …“.
 /// Mit [stempel] liegt darunter ein grüner Stempel (z. B. „Abgestimmt“).
 class OnlineWarteNotiz extends StatelessWidget {
   const OnlineWarteNotiz({

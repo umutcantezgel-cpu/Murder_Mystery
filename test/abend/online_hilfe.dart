@@ -498,8 +498,9 @@ Widget gastSeite(BuildContext context, Map<String, Object?> ansicht, {String spi
 }
 
 /// Ein Raum in der Lobby: Anna (Gastgeberin, auf [gastgeberSitz]), Ben (`g1`,
-/// bereit), Cleo (`g2`, langer Name, noch nicht bereit) und Dora (`g3`, getrennt).
-SchlosskellerRaum lobbyRaum({Sitz gastgeberSitz = Sitz.detektiv, PartyDaten? daten}) {
+/// bereit), Cleo (`g2`, mit [langerName] ein sehr langer Name, noch nicht
+/// bereit) und Dora (`g3`, getrennt).
+SchlosskellerRaum lobbyRaum({Sitz gastgeberSitz = Sitz.detektiv, PartyDaten? daten, bool langerName = true}) {
   final d = daten ?? partyDaten;
   final raum = SchlosskellerRaum(
     raumCode: 'ABCDEF',
@@ -510,7 +511,7 @@ SchlosskellerRaum lobbyRaum({Sitz gastgeberSitz = Sitz.detektiv, PartyDaten? dat
     festerGastgeber: true,
     gastgeberSitz: gastgeberSitz,
   );
-  for (final (id, name) in [('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleopatra Konstantinopoulou-Wagenknecht'), ('g3', 'Dora')]) {
+  for (final (id, name) in [('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', langerName ? 'Cleopatra Konstantinopoulou-Wagenknecht' : 'Cleo'), ('g3', 'Dora')]) {
     raum.beitreten(id, name);
   }
   raum.nachricht('gastgeber', {'typ': 'bereit', 'wert': true});

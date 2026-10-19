@@ -579,8 +579,8 @@ class _Wahl extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(text, style: MPapierSchrift.text),
-                          if (unter.isNotEmpty) Text(unter, style: MPapierSchrift.leise),
+                          MGanzeWorte(text, stil: MPapierSchrift.text, minimum: 12),
+                          if (unter.isNotEmpty) MGanzeWorte(unter, stil: MPapierSchrift.leise, minimum: 10),
                         ],
                       ),
                     ),
@@ -632,7 +632,7 @@ Widget _punkt(String text) => Padding(
             padding: const EdgeInsets.only(top: 10, right: 10),
             child: Container(width: 6, height: 6, decoration: BoxDecoration(color: MRoh.stempelRot.withValues(alpha: 0.8), shape: BoxShape.circle)),
           ),
-          Expanded(child: Text(text, style: MPapierSchrift.text)),
+          Expanded(child: MGanzeWorte(text, stil: MPapierSchrift.text, minimum: 12)),
         ],
       ),
     );

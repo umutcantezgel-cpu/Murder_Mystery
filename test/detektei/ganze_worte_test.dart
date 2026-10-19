@@ -8,12 +8,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
+import 'package:mordakte/abend/rollen_uebersicht.dart';
 import 'package:mordakte/app/router.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/detektei/schreibtisch.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/stil/stil.dart';
+import 'package:mordakte_core/runden.dart' show Sitz;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../abend/online_hilfe.dart';
 
 /// Prüft jeden Absatz unter [bereich]: Jedes Wort steht in einer einzigen Zeile.
 void keinWortGeteilt(WidgetTester tester, Finder bereich) {
@@ -140,6 +144,45 @@ void main() {
     final state = await oeffnen(tester, Routes.abendNeu, bereit: find.byType(MAktenmappe));
     keinWortGeteilt(tester, find.byType(MAktenmappe));
     await schliessen(tester, state);
+  });
+
+  testWidgets('Sitze (M3): Lobby, Erzähler, Gast-Detektiv und „Wer macht was“ teilen bei 320 px kein Wort', (tester) async {
+    Future<void> zeige(WidgetBuilder seite) => zeigeImThema(tester, seite, groesse: const Size(320, 844), schrift: 2, ruhig: true);
+    // Lobby eines Gastes mit Wunschwahl, dazu die Lobby des Erzähler-Gastes (teilt zu).
+    // Spielernamen tippen die Gäste selbst; geprüft werden die Wörter der App.
+    final lobby = lobbyRaum(langerName: false)..nachricht('gastgeber', {'typ': 'sitz', 'spieler': 'g1', 'sitz': 'erzaehler'});
+    for (final id in ['g1', 'g2']) {
+      await zeige((c) => gastSeiteLive(LiveGast(lobby, spielerId: id)));
+      keinWortGeteilt(tester, find.byType(MRahmen));
+    }
+    // Erzähler-Gast in den Gesprächen: Text und offenes Erzählerpaket.
+    final abend = sitzRaum(erzaehler: 'g3');
+    spieleBisSitz(abend, 'gespraeche', detektiv: 'gastgeber', leiter: 'g3');
+    await zeige((c) => gastSeiteLive(LiveGast(abend, spielerId: 'g3')));
+    // Alle Abschnitte des Pakets aufklappen (Befragungen mit Antworten, ungespielte Gäste).
+    for (final kopf in [RegExp(r'^Befragungen \('), RegExp(r'^Ungespielte Gäste \(')]) {
+      final f = find.textContaining(kopf, findRichText: true);
+      if (f.evaluate().isEmpty) continue;
+      await tester.ensureVisible(f.first);
+      await tester.tap(f.first);
+      await tester.pump();
+    }
+    keinWortGeteilt(tester, find.byType(MRahmen));
+    // Gast-Detektiv in den Entscheidungen.
+    final detektiv = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(detektiv, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: true);
+    await zeige((c) => gastSeiteLive(LiveGast(detektiv, spielerId: 'g1')));
+    keinWortGeteilt(tester, find.byType(MRahmen));
+    // „Wer macht was“ mit dem offenen Erzähler-Sitz.
+    await zeige((c) => const Scaffold(body: SingleChildScrollView(child: RollenUebersicht(hervorheben: Sitz.erzaehler))));
+    for (final sitz in ['detektiv', 'rolle', 'assistenz']) {
+      await tester.ensureVisible(find.byKey(ValueKey('uebersicht-$sitz')));
+      await tester.tap(find.byKey(ValueKey('uebersicht-$sitz')));
+      await tester.pump();
+    }
+    keinWortGeteilt(tester, find.byType(RollenUebersicht));
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 
   testWidgets('Akte-Knopf der Kampagne: derselbe Name für den Bildschirmleser wie vor der Mappe, ohne Reiter', (tester) async {

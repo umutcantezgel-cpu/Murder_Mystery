@@ -13,6 +13,7 @@ import '../../meta/meta_store.dart';
 import '../../stil/mappe/online_bausteine.dart' show mOnlineStempelGruen;
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
+import '../rollen_uebersicht.dart';
 import 'ansicht.dart';
 import 'gast_ansicht.dart';
 import 'gast_dienst.dart';
@@ -163,9 +164,13 @@ class _GastSeiteState extends State<GastSeite> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ...inhalt.kinder,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: _verlassen),
+                    // Wer was tut (M3) und der Ausgang, nebeneinander oder untereinander.
+                    Wrap(
+                      spacing: MMass.s8,
+                      children: [
+                        RollenUebersichtKnopf(hervorheben: kontext.ich?.sitz),
+                        MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: _verlassen),
+                      ],
                     ),
                   ],
                 ),
@@ -179,7 +184,7 @@ class _GastSeiteState extends State<GastSeite> {
 }
 
 /// Hinweis zum Zustand der Verbindung als Telegramm: Aufbau, eigene Verbindung
-/// weg, Spielleitung getrennt, Abend beendet.
+/// weg, Gastgeber getrennt, Abend beendet.
 class _StatusBand extends StatelessWidget {
   const _StatusBand({required this.dienst, required this.onDetektei});
 

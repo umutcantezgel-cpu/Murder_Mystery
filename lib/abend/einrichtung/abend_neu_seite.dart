@@ -22,6 +22,7 @@ import '../abend_halter.dart';
 import '../abend_speicher.dart';
 import '../online/gastgeber_dienst.dart';
 import '../online/online_halter.dart';
+import '../rollen_uebersicht.dart';
 import 'abschnitte.dart';
 import 'klasse_zeile.dart';
 
@@ -401,6 +402,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
               gewaehlt: _weise == Spielweise.eigene,
               onTap: () => _waehleWeise(Spielweise.eigene),
             ),
+            // Wer an welchem Platz was tut (M3), für die gewählte Spielweise.
+            Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(weise: _weise ?? Spielweise.reihum)),
           ],
         );
       case _Schritt.einstellungen:

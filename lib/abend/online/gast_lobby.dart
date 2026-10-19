@@ -4,6 +4,7 @@ import 'package:mordakte_core/runden.dart' show Sitz;
 import '../../l10n/lookup.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
+import '../rollen_uebersicht.dart';
 import 'gast_ansicht.dart' show GastKontext, GastSeiteninhalt;
 import 'lobby_besetzung.dart';
 import 'online_teile.dart';
@@ -44,7 +45,9 @@ GastSeiteninhalt gastLobby(GastKontext c, String marke) {
           ),
           const SizedBox(height: MMass.s16),
         ],
-        Padding(padding: const EdgeInsets.only(top: MMass.s8, bottom: MMass.s16), child: LobbyTisch(stand: stand, befehl: c.befehl)),
+        Padding(padding: const EdgeInsets.only(top: MMass.s8, bottom: MMass.s8), child: LobbyTisch(stand: stand, befehl: c.befehl)),
+        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz ?? Sitz.rolle)),
+        const SizedBox(height: MMass.s8),
       ] else
         for (var i = 0; i < c.spieler.length; i++) OnlinePlatzKarte(name: c.spieler[i].name, nr: i),
     ],

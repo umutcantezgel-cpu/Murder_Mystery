@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordakte_core/runden.dart' show Sitz;
 import 'package:provider/provider.dart';
 
 import '../app/router.dart';
@@ -13,6 +14,8 @@ import '../party/sitzung.dart';
 import '../stil/stil.dart';
 import 'abend_halter.dart';
 import 'abend_speicher.dart';
+import 'einrichtung/abend_neu_seite.dart' show Spielweise;
+import 'rollen_uebersicht.dart';
 import 'online/gastgeber_ablauf.dart';
 import 'online/gastgeber_sitzung.dart';
 import 'online/online_halter.dart';
@@ -125,7 +128,11 @@ class _AbendSeiteState extends State<AbendSeite> {
             GastgeberSitzung() => GastgeberAblauf(sitzung: s, onEnde: _zurBelohnung),
             _ => Column(
                 children: [
-                  _AbbrechenLeiste(onPressed: _abbrechen, onDetektivKarte: () => zeigeDetektivKarte(context, s)),
+                  _AbbrechenLeiste(
+                    onPressed: _abbrechen,
+                    onDetektivKarte: () => zeigeDetektivKarte(context, s),
+                    onUebersicht: () => zeigeRollenUebersicht(context, weise: s.solo ? Spielweise.solo : Spielweise.reihum, hervorheben: Sitz.detektiv),
+                  ),
                   Expanded(
                     child: MediaQuery.removePadding(
                       context: context,
@@ -172,9 +179,12 @@ Future<bool> _abbruchFragen(BuildContext context) {
 /// Schmale Leiste über dem Abend (Solo und reihum) mit dem Ausgang „Abend abbrechen“
 /// und der Detektivkarte: die Lederkante des Schreibtischs mit einer Messinglinie.
 class _AbbrechenLeiste extends StatelessWidget {
-  const _AbbrechenLeiste({required this.onPressed, required this.onDetektivKarte});
+  const _AbbrechenLeiste({required this.onPressed, required this.onDetektivKarte, required this.onUebersicht});
 
   final VoidCallback onPressed;
+
+  /// Öffnet „Wer macht was“ (M3).
+  final VoidCallback onUebersicht;
 
   /// Öffnet die Karte des Detektivs (Auftrag, Regeln, Klasse, Befragungen).
   final VoidCallback onDetektivKarte;
@@ -204,6 +214,14 @@ class _AbbrechenLeiste extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: MKnopf(text: L.of(context).detektiv_karte_oeffnen, art: MKnopfArt.leise, icon: Icons.badge_outlined, onPressed: onDetektivKarte),
                 ),
+              ),
+              IconButton(
+                key: const ValueKey('wer-macht-was'),
+                tooltip: L.of(context).rollen_uebersicht_oeffnen,
+                onPressed: onUebersicht,
+                icon: const Icon(Icons.groups_outlined),
+                color: MRoh.messingHell,
+                constraints: const BoxConstraints(minWidth: MMass.tippflaeche, minHeight: MMass.tippflaeche),
               ),
               Flexible(
                 child: Align(

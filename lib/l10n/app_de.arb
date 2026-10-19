@@ -1674,11 +1674,11 @@
   "online_fehler_nicht_dran": "Du bist gerade nicht mit Würfeln dran.",
   "online_fehler_phase": "Das geht in diesem Abschnitt gerade nicht.",
   "online_fehler_schon_gewaehlt": "Du hast schon gewählt.",
-  "online_fehler_keine_antwort": "Keine Antwort von der Spielleitung. Versuche es noch einmal.",
+  "online_fehler_keine_antwort": "Keine Antwort vom Gastgeber. Versuche es noch einmal.",
   "online_fehler_allgemein": "Das hat nicht geklappt. Versuche es noch einmal.",
   "online_fehler_code": "Der Raumcode ist nicht gültig. Er hat sechs Zeichen.",
   "online_fehler_relay": "Das Relais ist nicht erreichbar. Prüfe deine Internetverbindung.",
-  "online_fehler_kein_raum": "Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.",
+  "online_fehler_kein_raum": "Es gibt keinen Raum mit diesem Code, oder der Gastgeber ist nicht online.",
   "online_fehler_zeit": "Keine Antwort in der Zeit. Versuche es noch einmal.",
   "online_fehler_voll": "Der Raum ist voll.",
   "online_fehler_gestartet": "Der Abend hat schon begonnen.",
@@ -1687,7 +1687,7 @@
   "online_fehler_name": "Bitte gib einen Namen ein.",
   "online_beitreten_marke": "Online-Abend",
   "online_beitreten_titel": "Einem Abend beitreten",
-  "online_beitreten_untertitel": "Gib den Raumcode ein, den die Spielleitung zeigt.",
+  "online_beitreten_untertitel": "Gib den Raumcode ein, den der Gastgeber zeigt.",
   "online_code_feld": "Raumcode",
   "online_code_platzhalter": "ABC-DEF",
   "online_name_feld": "Dein Name",
@@ -1716,7 +1716,7 @@
   "online_verwerfen": "Verwerfen",
   "online_rueckkehr_fehler": "Die Rückkehr hat nicht geklappt.",
   "online_status_verbinde": "Verbinde …",
-  "online_status_pausiert": "Spielleitung getrennt – Abend pausiert",
+  "online_status_pausiert": "Gastgeber getrennt – Abend pausiert",
   "online_status_geschlossen": "Der Abend wurde beendet.",
   "online_status_getrennt": "Keine Verbindung – prüfe dein Internet. Dein Platz bleibt reserviert.",
   "online_lobby_getrennt": "Die Verbindung zum Relais ist weg. Gäste können gerade nicht beitreten, und der Abend lässt sich nicht starten. Dein Gerät verbindet sich von selbst neu.",
@@ -1744,7 +1744,7 @@
   "online_dossier_besetzung": "Besetzung",
   "online_dossier_stempel": "Geheim",
   "online_gelesen_knopf": "Gelesen",
-  "online_gelesen_warten": "Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.",
+  "online_gelesen_warten": "Du hast deine Rolle gelesen. Es geht weiter, sobald alle gelesen haben.",
   "online_assistenz_text": "Du hast keine eigene Rolle und verfolgst den öffentlichen Verlauf des Abends mit.",
   "online_meine_rolle": "Meine Rolle: {name}",
   "@online_meine_rolle": {
@@ -1754,7 +1754,7 @@
       }
     }
   },
-  "online_warten_spielleitung": "Warten auf die Spielleitung …",
+  "online_warten_spielleitung": "Gleich geht es weiter …",
   "online_runde": "Runde {n}",
   "@online_runde": {
     "placeholders": {
@@ -1805,8 +1805,8 @@
   "online_frage_titel": "Die Frage",
   "online_gewaehlt_titel": "Gewählt",
   "online_optionen_titel": "Zur Wahl stehen",
-  "online_ermittlung_wartet": "Die Spielleitung wählt gerade …",
-  "online_ermittlung_fertig": "Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.",
+  "online_ermittlung_wartet": "Der Detektiv wählt gerade …",
+  "online_ermittlung_fertig": "Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.",
   "online_nachtzeit": "Nachtzeit: {min} Min.",
   "@online_nachtzeit": {
     "placeholders": {
@@ -1824,8 +1824,8 @@
     }
   },
   "online_auftakt": "Der erste Wurf: Die Gruppe sucht nach Spuren.",
-  "online_abstecher": "Die Spielleitung erkundet einen Ort.",
-  "online_zug_aktion": "Die Spielleitung ist unterwegs …",
+  "online_abstecher": "Der Detektiv erkundet einen Ort.",
+  "online_zug_aktion": "Der Detektiv ist unterwegs …",
   "online_wuerfel_titel": "Würfel",
   "online_wuerfel_du": "Du würfelst für die Gruppe.",
   "online_chancen": "Chancen (Modifikator {mod})",
@@ -1889,9 +1889,9 @@
     }
   },
   "online_wuerfe_titel": "Würfelprotokoll",
-  "online_tischruf_wartet": "Pech. Die Spielleitung entscheidet, wie es weitergeht.",
+  "online_tischruf_wartet": "Pech. Der Detektiv entscheidet, wie es weitergeht.",
   "online_fund_titel": "Fund",
-  "online_fund_wartet": "Die Spielleitung liest den Fund.",
+  "online_fund_wartet": "Der Detektiv liest den Fund.",
   "online_notizbuch_titel": "Notizbuch",
   "online_wahl_titel": "Deine Wahl in dieser Runde",
   "online_wahl_geheim": "Niemand sieht, was du wählst. Tippe eine Karte an und gib deine Wahl ab.",
@@ -1899,7 +1899,7 @@
   "online_wahl_abgegeben": "Deine Stimme ist abgegeben. Warten auf die anderen …",
   "online_wahl_assistenz": "Die Gruppenwahl läuft. Du hast keine Stimme, weil du keine Rolle hast.",
   "online_verdaechtige_titel": "Verdächtige",
-  "online_anklage_wartet": "Die Spielleitung erhebt die Anklage gegen eine dieser Personen.",
+  "online_anklage_wartet": "Der Detektiv erhebt die Anklage gegen eine dieser Personen.",
   "online_aufloesung_titel": "Die Auflösung",
   "online_aufloesung_taeter": "Täter oder Täterin",
   "online_aufloesung_punkte": "Richtige Entscheidungen",
@@ -2681,5 +2681,237 @@
   "detektiv_gast_notizen": "Dein Notizbuch",
   "@detektiv_gast_notizen": {
     "description": "Gast-Detektiv: Funde und Antworten"
+  },
+  "rollen_uebersicht_titel": "Wer macht was",
+  "@rollen_uebersicht_titel": {
+    "description": "Übersicht der Sitze und ihrer Aufgaben je Abschnitt"
+  },
+  "rollen_uebersicht_oeffnen": "Wer macht was?",
+  "@rollen_uebersicht_oeffnen": {
+    "description": "Knopf zur Übersicht der Sitze"
+  },
+  "rollen_uebersicht_hinweis": "Je Abschnitt eine Aufgabe für jeden Platz.",
+  "@rollen_uebersicht_hinweis": {
+    "description": "Übersicht: Untertitel"
+  },
+  "uebersicht_weise_solo": "Allein",
+  "@uebersicht_weise_solo": {
+    "description": "Übersicht: Spielweise Solo"
+  },
+  "uebersicht_weise_reihum": "Ein Gerät",
+  "@uebersicht_weise_reihum": {
+    "description": "Übersicht: Spielweise reihum"
+  },
+  "uebersicht_weise_online": "Eigene Geräte",
+  "@uebersicht_weise_online": {
+    "description": "Übersicht: Spielweise online"
+  },
+  "uebersicht_sitz_detektiv": "Detektiv",
+  "@uebersicht_sitz_detektiv": {
+    "description": "Übersicht: Sitz"
+  },
+  "uebersicht_sitz_erzaehler": "Erzähler",
+  "@uebersicht_sitz_erzaehler": {
+    "description": "Übersicht: Sitz"
+  },
+  "uebersicht_sitz_rolle": "Rolle",
+  "@uebersicht_sitz_rolle": {
+    "description": "Übersicht: Sitz"
+  },
+  "uebersicht_sitz_assistenz": "Assistenz",
+  "@uebersicht_sitz_assistenz": {
+    "description": "Übersicht: Sitz"
+  },
+  "uebersicht_sitz_detektiv_kurz": "Ermittelt und klagt an.",
+  "@uebersicht_sitz_detektiv_kurz": {
+    "description": "Übersicht: was der Detektiv tut"
+  },
+  "uebersicht_sitz_erzaehler_kurz": "Liest vor und führt weiter.",
+  "@uebersicht_sitz_erzaehler_kurz": {
+    "description": "Übersicht: was der Erzähler tut"
+  },
+  "uebersicht_sitz_rolle_kurz": "Spielt eine Figur mit Geheimnis.",
+  "@uebersicht_sitz_rolle_kurz": {
+    "description": "Übersicht: was eine Rolle tut"
+  },
+  "uebersicht_sitz_assistenz_kurz": "Verfolgt den Abend und würfelt mit.",
+  "@uebersicht_sitz_assistenz_kurz": {
+    "description": "Übersicht: was die Assistenz tut"
+  },
+  "uebersicht_phase_rollen": "Rollen",
+  "@uebersicht_phase_rollen": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_intro": "Auftakt",
+  "@uebersicht_phase_intro": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_gespraeche": "Gespräche",
+  "@uebersicht_phase_gespraeche": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_entscheidungen": "Ermittlung",
+  "@uebersicht_phase_entscheidungen": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_gruppenwahl": "Gruppenwahl",
+  "@uebersicht_phase_gruppenwahl": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_resuemee": "Hinweis und Resümee",
+  "@uebersicht_phase_resuemee": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_anklage": "Anklage",
+  "@uebersicht_phase_anklage": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "uebersicht_phase_finale": "Finale und Auflösung",
+  "@uebersicht_phase_finale": {
+    "description": "Übersicht: Abschnitt"
+  },
+  "aufgabe_detektiv_rollen": "Detektivkarte lesen",
+  "@aufgabe_detektiv_rollen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_intro": "Zuhören, erste Notizen machen",
+  "@aufgabe_detektiv_intro": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_gespraeche": "Drei bis fünf Personen befragen",
+  "@aufgabe_detektiv_gespraeche": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_entscheidungen": "Spuren auf der Karte wählen",
+  "@aufgabe_detektiv_entscheidungen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_gruppenwahl": "Notizen ordnen, die Gruppe wählt",
+  "@aufgabe_detektiv_gruppenwahl": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_resuemee": "Hinweis prüfen, Verdacht schärfen",
+  "@aufgabe_detektiv_resuemee": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_anklage": "Eine Person anklagen",
+  "@aufgabe_detektiv_anklage": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_finale": "Auflösung lesen, Belohnung holen",
+  "@aufgabe_detektiv_finale": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_detektiv_solo_intro": "Auftakt lesen",
+  "@aufgabe_detektiv_solo_intro": {
+    "description": "Aufgabe Solo"
+  },
+  "aufgabe_detektiv_solo_gespraeche": "Bots befragen, Antworten notieren",
+  "@aufgabe_detektiv_solo_gespraeche": {
+    "description": "Aufgabe Solo"
+  },
+  "aufgabe_detektiv_solo_resuemee": "Hinweis und Resümee lesen",
+  "@aufgabe_detektiv_solo_resuemee": {
+    "description": "Aufgabe Solo"
+  },
+  "aufgabe_erzaehler_rollen": "Warten, bis alle gelesen haben",
+  "@aufgabe_erzaehler_rollen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_intro": "Den Auftakt vorlesen",
+  "@aufgabe_erzaehler_intro": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_gespraeche": "Rundenstart vorlesen, Gespräche anleiten",
+  "@aufgabe_erzaehler_gespraeche": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_entscheidungen": "Den Weg des Detektivs begleiten",
+  "@aufgabe_erzaehler_entscheidungen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_gruppenwahl": "Zur geheimen Wahl aufrufen",
+  "@aufgabe_erzaehler_gruppenwahl": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_resuemee": "Hinweis und Resümee vorlesen",
+  "@aufgabe_erzaehler_resuemee": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_anklage": "Zur Anklage aufrufen",
+  "@aufgabe_erzaehler_anklage": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_finale": "Finale und Auflösung vorlesen",
+  "@aufgabe_erzaehler_finale": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_erzaehler_reihum": "Pult öffnen, vorlesen, zudecken",
+  "@aufgabe_erzaehler_reihum": {
+    "description": "Aufgabe reihum (Lesen am Pult)"
+  },
+  "aufgabe_rolle_rollen": "Eigene Rolle verdeckt lesen",
+  "@aufgabe_rolle_rollen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_intro": "Zuhören, in die Figur finden",
+  "@aufgabe_rolle_intro": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_gespraeche": "Tischgespräch führen, Befragung beantworten",
+  "@aufgabe_rolle_gespraeche": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_entscheidungen": "Mitraten, würfeln, wenn du dran bist",
+  "@aufgabe_rolle_entscheidungen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_gruppenwahl": "Geheim A oder B wählen",
+  "@aufgabe_rolle_gruppenwahl": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_resuemee": "Zuhören, eigene Spur schützen",
+  "@aufgabe_rolle_resuemee": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_anklage": "Verteidigen oder verdächtigen",
+  "@aufgabe_rolle_anklage": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_rolle_finale": "Auflösung hören, Belohnung holen",
+  "@aufgabe_rolle_finale": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_rollen": "Den Tisch kennenlernen",
+  "@aufgabe_assistenz_rollen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_intro": "Zuhören und mitfiebern",
+  "@aufgabe_assistenz_intro": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_gespraeche": "Verfolgen, wer mit wem spricht",
+  "@aufgabe_assistenz_gespraeche": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_entscheidungen": "Würfeln, wenn du dran bist",
+  "@aufgabe_assistenz_entscheidungen": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_gruppenwahl": "Den Stand der Wahl verfolgen",
+  "@aufgabe_assistenz_gruppenwahl": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_resuemee": "Zuhören, mitraten",
+  "@aufgabe_assistenz_resuemee": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_anklage": "Mitraten, wer es war",
+  "@aufgabe_assistenz_anklage": {
+    "description": "Aufgabe"
+  },
+  "aufgabe_assistenz_finale": "Auflösung lesen, Belohnung holen",
+  "@aufgabe_assistenz_finale": {
+    "description": "Aufgabe"
   }
 }

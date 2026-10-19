@@ -286,7 +286,7 @@ class GastgeberDienst extends ChangeNotifier {
   }
 
   /// Schließt den Abend. [endgueltig] `false`: Der Stand bleibt für
-  /// [wiederherstellen] liegen und die Gäste erfahren nur, dass die Spielleitung
+  /// [wiederherstellen] liegen und die Gäste erfahren nur, dass der Gastgeber
   /// weg ist (sie warten auf die Rückkehr).
   Future<void> schliessen({bool endgueltig = true}) async {
     if (_zu) return;

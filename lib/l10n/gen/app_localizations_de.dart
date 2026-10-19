@@ -2798,7 +2798,7 @@ class LDe extends L {
 
   @override
   String get online_fehler_keine_antwort =>
-      'Keine Antwort von der Spielleitung. Versuche es noch einmal.';
+      'Keine Antwort vom Gastgeber. Versuche es noch einmal.';
 
   @override
   String get online_fehler_allgemein =>
@@ -2814,7 +2814,7 @@ class LDe extends L {
 
   @override
   String get online_fehler_kein_raum =>
-      'Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.';
+      'Es gibt keinen Raum mit diesem Code, oder der Gastgeber ist nicht online.';
 
   @override
   String get online_fehler_zeit =>
@@ -2845,7 +2845,7 @@ class LDe extends L {
 
   @override
   String get online_beitreten_untertitel =>
-      'Gib den Raumcode ein, den die Spielleitung zeigt.';
+      'Gib den Raumcode ein, den der Gastgeber zeigt.';
 
   @override
   String get online_code_feld => 'Raumcode';
@@ -2896,7 +2896,7 @@ class LDe extends L {
   String get online_status_verbinde => 'Verbinde …';
 
   @override
-  String get online_status_pausiert => 'Spielleitung getrennt – Abend pausiert';
+  String get online_status_pausiert => 'Gastgeber getrennt – Abend pausiert';
 
   @override
   String get online_status_geschlossen => 'Der Abend wurde beendet.';
@@ -2966,7 +2966,7 @@ class LDe extends L {
 
   @override
   String get online_gelesen_warten =>
-      'Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.';
+      'Du hast deine Rolle gelesen. Es geht weiter, sobald alle gelesen haben.';
 
   @override
   String get online_assistenz_text =>
@@ -2978,7 +2978,7 @@ class LDe extends L {
   }
 
   @override
-  String get online_warten_spielleitung => 'Warten auf die Spielleitung …';
+  String get online_warten_spielleitung => 'Gleich geht es weiter …';
 
   @override
   String online_runde(int n) {
@@ -3066,11 +3066,11 @@ class LDe extends L {
   String get online_optionen_titel => 'Zur Wahl stehen';
 
   @override
-  String get online_ermittlung_wartet => 'Die Spielleitung wählt gerade …';
+  String get online_ermittlung_wartet => 'Der Detektiv wählt gerade …';
 
   @override
   String get online_ermittlung_fertig =>
-      'Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.';
+      'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.';
 
   @override
   String online_nachtzeit(int min) {
@@ -3086,10 +3086,10 @@ class LDe extends L {
   String get online_auftakt => 'Der erste Wurf: Die Gruppe sucht nach Spuren.';
 
   @override
-  String get online_abstecher => 'Die Spielleitung erkundet einen Ort.';
+  String get online_abstecher => 'Der Detektiv erkundet einen Ort.';
 
   @override
-  String get online_zug_aktion => 'Die Spielleitung ist unterwegs …';
+  String get online_zug_aktion => 'Der Detektiv ist unterwegs …';
 
   @override
   String get online_wuerfel_titel => 'Würfel';
@@ -3144,13 +3144,13 @@ class LDe extends L {
 
   @override
   String get online_tischruf_wartet =>
-      'Pech. Die Spielleitung entscheidet, wie es weitergeht.';
+      'Pech. Der Detektiv entscheidet, wie es weitergeht.';
 
   @override
   String get online_fund_titel => 'Fund';
 
   @override
-  String get online_fund_wartet => 'Die Spielleitung liest den Fund.';
+  String get online_fund_wartet => 'Der Detektiv liest den Fund.';
 
   @override
   String get online_notizbuch_titel => 'Notizbuch';
@@ -3178,7 +3178,7 @@ class LDe extends L {
 
   @override
   String get online_anklage_wartet =>
-      'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.';
+      'Der Detektiv erhebt die Anklage gegen eine dieser Personen.';
 
   @override
   String get online_aufloesung_titel => 'Die Auflösung';
@@ -3808,4 +3808,185 @@ class LDe extends L {
 
   @override
   String get detektiv_gast_notizen => 'Dein Notizbuch';
+
+  @override
+  String get rollen_uebersicht_titel => 'Wer macht was';
+
+  @override
+  String get rollen_uebersicht_oeffnen => 'Wer macht was?';
+
+  @override
+  String get rollen_uebersicht_hinweis =>
+      'Je Abschnitt eine Aufgabe für jeden Platz.';
+
+  @override
+  String get uebersicht_weise_solo => 'Allein';
+
+  @override
+  String get uebersicht_weise_reihum => 'Ein Gerät';
+
+  @override
+  String get uebersicht_weise_online => 'Eigene Geräte';
+
+  @override
+  String get uebersicht_sitz_detektiv => 'Detektiv';
+
+  @override
+  String get uebersicht_sitz_erzaehler => 'Erzähler';
+
+  @override
+  String get uebersicht_sitz_rolle => 'Rolle';
+
+  @override
+  String get uebersicht_sitz_assistenz => 'Assistenz';
+
+  @override
+  String get uebersicht_sitz_detektiv_kurz => 'Ermittelt und klagt an.';
+
+  @override
+  String get uebersicht_sitz_erzaehler_kurz => 'Liest vor und führt weiter.';
+
+  @override
+  String get uebersicht_sitz_rolle_kurz => 'Spielt eine Figur mit Geheimnis.';
+
+  @override
+  String get uebersicht_sitz_assistenz_kurz =>
+      'Verfolgt den Abend und würfelt mit.';
+
+  @override
+  String get uebersicht_phase_rollen => 'Rollen';
+
+  @override
+  String get uebersicht_phase_intro => 'Auftakt';
+
+  @override
+  String get uebersicht_phase_gespraeche => 'Gespräche';
+
+  @override
+  String get uebersicht_phase_entscheidungen => 'Ermittlung';
+
+  @override
+  String get uebersicht_phase_gruppenwahl => 'Gruppenwahl';
+
+  @override
+  String get uebersicht_phase_resuemee => 'Hinweis und Resümee';
+
+  @override
+  String get uebersicht_phase_anklage => 'Anklage';
+
+  @override
+  String get uebersicht_phase_finale => 'Finale und Auflösung';
+
+  @override
+  String get aufgabe_detektiv_rollen => 'Detektivkarte lesen';
+
+  @override
+  String get aufgabe_detektiv_intro => 'Zuhören, erste Notizen machen';
+
+  @override
+  String get aufgabe_detektiv_gespraeche => 'Drei bis fünf Personen befragen';
+
+  @override
+  String get aufgabe_detektiv_entscheidungen => 'Spuren auf der Karte wählen';
+
+  @override
+  String get aufgabe_detektiv_gruppenwahl => 'Notizen ordnen, die Gruppe wählt';
+
+  @override
+  String get aufgabe_detektiv_resuemee => 'Hinweis prüfen, Verdacht schärfen';
+
+  @override
+  String get aufgabe_detektiv_anklage => 'Eine Person anklagen';
+
+  @override
+  String get aufgabe_detektiv_finale => 'Auflösung lesen, Belohnung holen';
+
+  @override
+  String get aufgabe_detektiv_solo_intro => 'Auftakt lesen';
+
+  @override
+  String get aufgabe_detektiv_solo_gespraeche =>
+      'Bots befragen, Antworten notieren';
+
+  @override
+  String get aufgabe_detektiv_solo_resuemee => 'Hinweis und Resümee lesen';
+
+  @override
+  String get aufgabe_erzaehler_rollen => 'Warten, bis alle gelesen haben';
+
+  @override
+  String get aufgabe_erzaehler_intro => 'Den Auftakt vorlesen';
+
+  @override
+  String get aufgabe_erzaehler_gespraeche =>
+      'Rundenstart vorlesen, Gespräche anleiten';
+
+  @override
+  String get aufgabe_erzaehler_entscheidungen =>
+      'Den Weg des Detektivs begleiten';
+
+  @override
+  String get aufgabe_erzaehler_gruppenwahl => 'Zur geheimen Wahl aufrufen';
+
+  @override
+  String get aufgabe_erzaehler_resuemee => 'Hinweis und Resümee vorlesen';
+
+  @override
+  String get aufgabe_erzaehler_anklage => 'Zur Anklage aufrufen';
+
+  @override
+  String get aufgabe_erzaehler_finale => 'Finale und Auflösung vorlesen';
+
+  @override
+  String get aufgabe_erzaehler_reihum => 'Pult öffnen, vorlesen, zudecken';
+
+  @override
+  String get aufgabe_rolle_rollen => 'Eigene Rolle verdeckt lesen';
+
+  @override
+  String get aufgabe_rolle_intro => 'Zuhören, in die Figur finden';
+
+  @override
+  String get aufgabe_rolle_gespraeche =>
+      'Tischgespräch führen, Befragung beantworten';
+
+  @override
+  String get aufgabe_rolle_entscheidungen =>
+      'Mitraten, würfeln, wenn du dran bist';
+
+  @override
+  String get aufgabe_rolle_gruppenwahl => 'Geheim A oder B wählen';
+
+  @override
+  String get aufgabe_rolle_resuemee => 'Zuhören, eigene Spur schützen';
+
+  @override
+  String get aufgabe_rolle_anklage => 'Verteidigen oder verdächtigen';
+
+  @override
+  String get aufgabe_rolle_finale => 'Auflösung hören, Belohnung holen';
+
+  @override
+  String get aufgabe_assistenz_rollen => 'Den Tisch kennenlernen';
+
+  @override
+  String get aufgabe_assistenz_intro => 'Zuhören und mitfiebern';
+
+  @override
+  String get aufgabe_assistenz_gespraeche => 'Verfolgen, wer mit wem spricht';
+
+  @override
+  String get aufgabe_assistenz_entscheidungen => 'Würfeln, wenn du dran bist';
+
+  @override
+  String get aufgabe_assistenz_gruppenwahl => 'Den Stand der Wahl verfolgen';
+
+  @override
+  String get aufgabe_assistenz_resuemee => 'Zuhören, mitraten';
+
+  @override
+  String get aufgabe_assistenz_anklage => 'Mitraten, wer es war';
+
+  @override
+  String get aufgabe_assistenz_finale => 'Auflösung lesen, Belohnung holen';
 }
