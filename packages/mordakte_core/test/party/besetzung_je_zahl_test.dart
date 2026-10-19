@@ -136,8 +136,8 @@ Iterable<Entscheidung> bisEinschliesslich(Entscheidung x) =>
     ermittlung.entscheidungen.where((y) => y.runde < x.runde || (y.runde == x.runde && y.nr <= x.nr));
 
 /// (3) Jede Quelle einer Begründungskette (`beobachtung:<id>`), deren Figur bei [n] Rollen unbesetzt ist, erreicht
-/// den Detektiv bis zu den Entscheidungen [bis]: als Ziel einer Option (NPC-Karte) oder als Fakt einer Option,
-/// der im Pfad [pfad] entsteht.
+/// den Detektiv bis zu den Entscheidungen [bis]: über den Erzähler oder als Fakt einer Option, der im Pfad [pfad]
+/// entsteht. Ziel einer Option zu sein reicht im Modell befragung nicht (E-044): Die Fundkarte zeigt nur die Fakten.
 List<String> erreichFehler(String wo, String pfad, int n, Iterable<Entscheidung> bis, Iterable<String> kette, {int runde = 0}) {
   final optionen = [for (final y in bis) ...y.optionen];
   final ziele = {
@@ -156,7 +156,7 @@ List<String> erreichFehler(String wo, String pfad, int n, Iterable<Entscheidung>
     }
     final wer = b['wer'] as String;
     if (texte.besetzung.istBesetzt(wer, n)) continue;
-    final alsZiel = ziele.contains(wer);
+    final alsZiel = !texte.besetzung.befragungsmodell && ziele.contains(wer);
     final alsFakt = fakten.any((fid) => ermittlung.fakten[fid]!.beobachtung == id && ermittlung.gibtEs(fid, pfad));
     // Erzähler (W1, E-035): zum Rundenstart einer Runde bis zur Entscheidung, bei unbesetzter Figur.
     final alsErzaehler = [

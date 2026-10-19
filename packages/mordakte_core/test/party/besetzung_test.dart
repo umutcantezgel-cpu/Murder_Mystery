@@ -73,7 +73,7 @@ void main() {
   });
 
   test('Begründungsketten brauchen kein Wissen, das bei kleiner Besetzung fehlt', () {
-    // Pflichtgespräch-Beobachtungen unbesetzter Gäste kommen als NPC-Karte (W1);
+    // Pflichtgespräch-Beobachtungen unbesetzter Gäste spricht der Erzähler (W1, E-035, E-044);
     // verborgenes Wissen steht nie in einer Kette.
     for (final x in e.entscheidungen) {
       for (final p in kanon.pfade) {

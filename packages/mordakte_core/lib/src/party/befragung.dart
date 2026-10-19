@@ -9,10 +9,10 @@ import 'texte.dart';
 /// Wie ein Tisch-Kettenglied den Detektiv erreicht (A-051, Semantik wie die
 /// Quellenprüfung in `akte_pruefen._besetzung`).
 /// - [befragung]: Der Detektiv befragt die besetzte Halterin bis zur Runde der Entscheidung.
-/// - [npc]: Der Erzähler spricht das Wissen der unbesetzten Halterin zum Rundenstart (`Erzaehler.npcPlan`).
-/// - [ziel]: Die unbesetzte Halterin ist Ziel einer Option bis zur Entscheidung (NPC-Karte).
+/// - [npc]: Der Erzähler spricht das Wissen der unbesetzten Halterin zum Rundenstart (`Erzaehler.npcPlan`),
+///   auch wenn sie Ziel einer Option ist (E-044): Deren Fundkarte zeigt nur die Fakten der Option.
 /// - [fund]: Eine Option bis zur Entscheidung deckt die Beobachtung als Fakt auf.
-enum Zustellweg { befragung, npc, ziel, fund }
+enum Zustellweg { befragung, npc, fund }
 
 /// Zustellung eines Tisch-Kettenglieds bei einer Besetzung.
 class Zustellung {
@@ -341,8 +341,6 @@ class Befragungsplan {
   Iterable<Entscheidung> _bis(Entscheidung e) =>
       ermittlung.entscheidungen.where((y) => y.runde < e.runde || (y.runde == e.runde && y.nr <= e.nr));
 
-  bool _alsZiel(String halter, Entscheidung e) => _bis(e).any((y) => y.optionen.any((o) => o.ziel['person'] == halter));
-
   bool _alsFund(String glied, Entscheidung e, String pfad) {
     if (!glied.startsWith('beobachtung:')) return false;
     final id = glied.substring('beobachtung:'.length);
@@ -381,9 +379,6 @@ class Befragungsplan {
       final npc = _alsNpc(h, g, e.runde);
       if (npc != null) {
         aus[g] = Zustellung(glied: g, halter: h, weg: Zustellweg.npc, runde: npc);
-      } else if (_alsZiel(h, e)) {
-        final y = _bis(e).firstWhere((y) => y.optionen.any((o) => o.ziel['person'] == h));
-        aus[g] = Zustellung(glied: g, halter: h, weg: Zustellweg.ziel, runde: y.runde);
       } else if (_kanon.pfade.every((p) => _alsFund(g, e, p))) {
         aus[g] = Zustellung(glied: g, halter: h, weg: Zustellweg.fund, runde: e.runde);
       }
@@ -474,7 +469,7 @@ class Befragungsplan {
             final h = halter(g);
             final ok = besetzt.contains(h)
                 ? [for (var r = 1; r <= e.runde; r++) r].any((r) => jeRunde[r - 1].pflicht.contains(h) && _sagt(h, r, g))
-                : _alsNpc(h, g, e.runde) != null || _alsZiel(h, e) || _alsFund(g, e, p);
+                : _alsNpc(h, g, e.runde) != null || _alsFund(g, e, p);
             if (!ok) f.add('$n Rollen, $p, ${e.id}: $g von $h erreicht den Detektiv nicht rechtzeitig (I-B2)');
           }
         }

@@ -37,6 +37,18 @@ void main() {
     expect(find.textContaining('00:30'), findsOneWidget);
   });
 
+  testWidgets('E-044: Reihum liest der Vorleser zum Rundenstart das Wissen unbesetzter Zielfiguren vor', (t) async {
+    final s = neueSitzung(rollen: 12);
+    spieleBis(s, PartyPhase.gespraeche, runde: 3);
+    // 12 Rollen: Zeynep ist besetzt, Aylin, Wojtek und Sibel spielt niemand.
+    expect(s.erzaehler, ['runde.3.start', 'npc.aylin.3', 'npc.kaan.3', 'npc.selin.3']);
+    await t.pumpWidget(rahmen(RundeBildschirm(sitzung: s)));
+    for (final k in s.erzaehler) {
+      expect(find.text(s.text(k)), findsOneWidget, reason: k);
+    }
+    expect(find.text(s.text('npc.zeynep.3')), findsNothing);
+  });
+
   testWidgets('Runde 2 zeigt Uhrzeit 01:15', (t) async {
     final s = neueSitzung(rollen: 7);
     spieleBis(s, PartyPhase.gespraeche, runde: 2);

@@ -103,9 +103,13 @@ void main() {
         if (besetzt) expect(_plan.fuer(n, e.runde).pflicht, contains(e.halter));
       }
     }
-    // Bei 20 Rollen kommt alles aus Befragungen, bei 4 aus Erzähler und Zielen.
+    // Bei 20 Rollen kommt alles aus Befragungen, bei 4 das Wissen der Unbesetzten vom Erzähler, auch das der
+    // Zielfiguren (E-044).
     expect(_plan.zustellung(20).values.map((z) => z.weg).toSet(), {Zustellweg.befragung});
-    expect(_plan.zustellung(4).values.map((z) => z.weg).toSet(), containsAll([Zustellweg.npc, Zustellweg.ziel]));
+    expect(_plan.zustellung(4).values.map((z) => z.weg).toSet(), {Zustellweg.befragung, Zustellweg.npc});
+    for (final g in ['beobachtung:b_damir_an_der_theke', 'beobachtung:b_azra_versteck', 'beobachtung:b_emine_versteck']) {
+      expect([_plan.zustellung(4)[g]!.weg, _plan.zustellung(4)[g]!.runde], [Zustellweg.npc, 1], reason: g);
+    }
   });
 
   test('I-B3: Jede Befragung sagt alle eigenen Kettenglieder, die ab ihrer Runde gebraucht werden', () {

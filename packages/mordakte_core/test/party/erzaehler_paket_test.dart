@@ -108,8 +108,8 @@ void main() {
         }
       }
     }
-    // Bei 4 Rollen spricht der Erzähler in Runde 2 für Lejla, Marek und Hana.
-    expect(erzaehlerPaket(_texte, _plan, n: 4, runde: 2).npc.map((x) => x.figur).toSet(), {'leyla', 'murat', 'meryem'});
+    // Bei 4 Rollen spricht der Erzähler in Runde 2 für Lejla, Marek und Hana, dazu für die Zielfigur Azra (E-044).
+    expect(erzaehlerPaket(_texte, _plan, n: 4, runde: 2).npc.map((x) => x.figur).toSet(), {'leyla', 'murat', 'meryem', 'dilara'});
     expect(() => erzaehlerPaket(_texte, _plan, n: 4, runde: 4), throwsArgumentError);
   });
 

@@ -1,4 +1,5 @@
 import 'ablauf.dart';
+import 'besetzung.dart';
 import 'gruppenwahl.dart';
 import 'kanon/kanon.dart';
 
@@ -35,6 +36,8 @@ class Erzaehler {
   /// spricht der Erzähler zu Beginn der Runde, in der sie zuerst gebraucht
   /// werden – aber nur, wenn die Figur nicht besetzt ist. Die Auswahl hängt
   /// an Runde und Besetzung, nie am Pfad (S-1): Die Ketten aller Pfade zählen.
+  /// Im Modell befragung zählen auch Figuren, die Ziel einer Option sind
+  /// (E-044): Ihre Fundkarte zeigt nur die Fakten der Option, nicht ihr Wissen.
   List<String> npcWissen(int runde, {required bool Function(String figur) besetzt}) => [
         for (final f in npcPlan[runde]?.keys ?? const <String>[])
           if (!besetzt(f)) 'npc.$f.$runde',
@@ -48,6 +51,9 @@ class Erzaehler {
       for (final b in kanon.json['beobachtungen.json']!['beobachtungen'] as List) (b as Map)['id'] as String: b.cast<String, Object?>(),
     };
     final kern = kanon.kernverdaechtige.toSet();
+    // Modell legacy: Ziel-Figuren sprechen auf ihrer Karte selbst (E-035). Modell befragung: Der Erzähler
+    // spricht auch ihr Wissen, mit Namen, weil die Optionen sie ohnehin nennen (E-044).
+    final mitZielen = Besetzung(kanon).befragungsmodell;
     final es = [for (final e in kanon.entscheidungenJson['entscheidungen'] as List) (e as Map).cast<String, Object?>()]
       ..sort((a, b) => ((a['runde'] as int) * 10 + (a['nr'] as int)).compareTo((b['runde'] as int) * 10 + (b['nr'] as int)));
     final ziele = <String>{};
@@ -63,7 +69,7 @@ class Erzaehler {
           final x = beob[teile[1]];
           if (x == null || x['kanal'] != 'pflichtgespraech') continue;
           final wer = x['wer'] as String;
-          if (kern.contains(wer) || ziele.contains(wer)) continue;
+          if (kern.contains(wer) || (!mitZielen && ziele.contains(wer))) continue;
           gebraucht.putIfAbsent(teile[1], () => e['runde'] as int);
         }
       }

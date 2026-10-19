@@ -69,6 +69,25 @@ void main() {
     }
   });
 
+  test('E-044: Zum Rundenstart liest das Heft das Wissen unbesetzter Zielfiguren mit Namen vor', () async {
+    // 12 Rollen: Azra, Damir und Aylin spielt niemand, Emine und Zeynep sind besetzt.
+    final h = k.satz.spielleitung.rundenStart;
+    expect(h[1], containsAllInOrder(['runde.1.start', 'npc.dilara.1', 'npc.enes.1']));
+    expect(h[1], isNot(contains('npc.emine.1')));
+    expect(h[2], contains('npc.dilara.2'));
+    expect(h[3], contains('npc.aylin.3'));
+    expect(h[3], isNot(contains('npc.zeynep.3')));
+    for (final id in ['npc.dilara.1', 'npc.enes.1', 'npc.dilara.2', 'npc.aylin.3']) {
+      expect(heft, contains(_anfang(k.text(id))), reason: id);
+    }
+    // Bei 20 Rollen spielt jemand jede Zielfigur: kein Wort über sie im Heft.
+    final voll = druckKontext(n: 20);
+    final vollHeft = flach((await _heft(voll)).text);
+    for (final id in ['npc.emine.1', 'npc.dilara.1', 'npc.enes.1', 'npc.dilara.2', 'npc.zeynep.3', 'npc.aylin.3']) {
+      expect(vollHeft, isNot(contains(_anfang(voll.text(id)))), reason: id);
+    }
+  });
+
   test(
     'Heft nennt jede Restmenge mit Namen und Vorlesetext, dazu Resümee, Lage und Anklage',
     () {

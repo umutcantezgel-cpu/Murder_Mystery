@@ -99,15 +99,33 @@ void main() {
     s.dispose();
   });
 
+  testWidgets('E-044: Solo mit 4 Rollen erzählt zum Rundenstart das Wissen unbesetzter Zielfiguren', (t) async {
+    final s = neueSitzung(rollen: 4, solo: true);
+    spieleBis(s, PartyPhase.gespraeche);
+    expect(s.erzaehler, ['runde.1.start', 'npc.emine.1', 'npc.dilara.1', 'npc.enes.1']);
+    await zeigen(t, bildschirm(s), 390, 1);
+    expect(find.byType(BefragungBildschirm), findsOneWidget);
+    for (final k in s.erzaehler) {
+      expect(find.text(s.text(k)), findsOneWidget, reason: k);
+    }
+    await t.pumpWidget(const SizedBox());
+    s.dispose();
+  });
+
   test('Solo mit dauerhaftem Pech: 4–20 Rollen und alle Pfade vollständig lösbar', () {
     final plan = Befragungsplan(partyDaten.texte);
     for (final pfad in partyDaten.kanon.pfade) {
       for (var n = 4; n <= 20; n++) {
         final s = neueSitzung(rollen: n, pfad: pfad, solo: true, salz: 'solo-probe', wuerfel: const FesterWuerfel.pech());
-        // Je Runde drei bis fünf Befragungen statt aller Bot-Gespräche.
+        // Je Runde drei bis fünf Befragungen statt aller Bot-Gespräche. Was eine unbesetzte Figur weiß, sagt der
+        // Erzähler zum Rundenstart, auch bei Zielfiguren (E-044).
+        final zustellung = plan.zustellung(n);
         for (var r = 1; r <= 3; r++) {
           spieleBis(s, PartyPhase.gespraeche, runde: r);
           expect(s.befragungen.where((k) => k.pflicht).length + s.befragungenFrei, inInclusiveRange(3, 5), reason: '$pfad / $n / Runde $r');
+          for (final z in zustellung.values.where((z) => z.weg == Zustellweg.npc && z.runde == r)) {
+            expect(s.erzaehler, contains('npc.${z.halter}.$r'), reason: '$pfad / $n: ${z.glied}');
+          }
         }
         spieleBis(s, PartyPhase.ende);
         expect(s.ende.id, 'ende_meister', reason: '$pfad / $n');
@@ -116,7 +134,6 @@ void main() {
         expect(s.soloNotizen, isEmpty);
         expect(s.befragungsNotizen.length, inInclusiveRange(9, 15));
         // Jedes Tisch-Kettenglied, das eine Befragung zustellt, hat der Detektiv rechtzeitig gehört.
-        final zustellung = plan.zustellung(n);
         expect(zustellung.keys.toSet(), plan.glieder.keys.toSet(), reason: '$n Rollen: jedes Glied hat einen Weg');
         for (final z in zustellung.values.where((z) => z.weg == Zustellweg.befragung)) {
           final k = s.befragungsNotizen.firstWhere((k) => k.id == BefragungText.kennung(z.halter, z.runde), orElse: () => throw TestFailure('$pfad / $n: ${z.glied} nicht gehört'));

@@ -444,7 +444,8 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
           if (bj == null) continue; // meldet der Simulator
           final wer = bj['wer'] as String;
           if (bes.istBesetzt(wer, n)) continue;
-          final alsZiel = ziele.contains(wer);
+          // Modell legacy: Die Zielfigur spricht als NPC selbst. Modell befragung: Ihr Wissen bringt der Erzähler (E-044).
+          final alsZiel = !bes.befragungsmodell && ziele.contains(wer);
           final alsFakt = fakten.any((fid) => erm.fakten[fid]!.beobachtung == id && erm.gibtEs(fid, p));
           final alsErzaehler = [
             for (var r = 1; r <= e.runde; r++) ...erz.npcWissen(r, besetzt: (x) => bes.istBesetzt(x, n)),

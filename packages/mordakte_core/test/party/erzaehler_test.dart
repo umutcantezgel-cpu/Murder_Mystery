@@ -215,6 +215,52 @@ void main() {
     }
   });
 
+  test('Wissen unbesetzter Zielfiguren (E-044): nur im Modell befragung, nur unbesetzt, nur Beobachtungen aller Pfade', () {
+    final e = Erzaehler(kanon);
+    final beob = {for (final b in kanon.beobachtungen) b['id'] as String: b};
+    final ziele = {
+      for (final x in e.kanon.entscheidungenJson['entscheidungen'] as List)
+        for (final o in (x as Map)['optionen'] as List)
+          if (((o as Map)['ziel'] as Map?)?['person'] case final String p) p,
+    };
+    // Die Zielfiguren mit Kettenwissen, je in der Runde, in der eine Kette es zuerst braucht.
+    final zielPlan = {
+      for (final r in e.npcPlan.entries)
+        for (final f in r.value.entries)
+          if (ziele.contains(f.key)) 'npc.${f.key}.${r.key}': f.value,
+    };
+    expect(zielPlan, {
+      'npc.emine.1': ['b_emine_versteck'],
+      'npc.dilara.1': ['b_azra_versteck'],
+      'npc.enes.1': ['b_damir_an_der_theke'],
+      'npc.dilara.2': ['b_azra_tasche'],
+      'npc.zeynep.3': ['b_zeynep_gesicht'],
+      'npc.aylin.3': ['b_aylin_quittung'],
+    });
+    for (final r in e.npcPlan.values) {
+      for (final l in r.values) {
+        for (final b in l) {
+          // Pfadneutral wie E-035: Der Erzähler spricht nur, was in allen Pfaden gilt.
+          expect([beob[b]!['pfade'], beob[b]!['kanal']], ['alle', 'pflichtgespraech'], reason: b);
+        }
+      }
+    }
+    for (final k in zielPlan.keys) {
+      expect(_textsammlung.herkunft[k], 'texte/erzaehler-npc-ziel.json', reason: k);
+    }
+    // Bei 4 Rollen spricht der Erzähler in Runde 1 über Emine, Azra und Damir; ab 17 Rollen spielt sie jemand.
+    final b = Besetzung(kanon);
+    expect(e.npcWissen(1, besetzt: (x) => b.istBesetzt(x, 4)), ['npc.emine.1', 'npc.dilara.1', 'npc.enes.1']);
+    expect(e.npcWissen(1, besetzt: (x) => b.istBesetzt(x, 17)), isEmpty);
+    expect(e.npcWissen(3, besetzt: (x) => b.istBesetzt(x, 12)), ['npc.aylin.3', 'npc.kaan.3', 'npc.selin.3']);
+    // Die Akten im Modell legacy behalten ihren Erzähler: Ziel-Figuren sprechen dort selbst.
+    for (final akte in ['gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm']) {
+      final k = ladeKanon(akte);
+      expect(Besetzung(k).modell, GespraechsModell.legacy, reason: akte);
+      expect(Erzaehler(k).npcPlan, isEmpty, reason: akte);
+    }
+  });
+
   test('Vor dem Finale nichts aus Finale, Rückblende oder Auflösung', () {
     final f = <String>[];
     for (final l in _alleLaeufe) {

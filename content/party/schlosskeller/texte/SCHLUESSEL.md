@@ -23,6 +23,8 @@ Diese Datei ist die Anleitung für alle Autorinnen und Autoren. Der Lader ist `p
 |---|---|---|
 | `erzaehler-intro.json` | erzaehler | `intro.start`, `intro.lacher.<lacher>.besetzt` und `.npc` (je 3), `intro.auftrag.m`, `intro.auftrag.w` |
 | `erzaehler-runden.json` | erzaehler | `runde.1.start` bis `runde.3.start`, `bonus.rahmen`, `resuemee.gruppe.1` bis `.3`, `resuemee.rest.*` (12), `resuemee.lage.<runde>.<offen\|spur\|klar>` (9), `anklage.start` |
+| `erzaehler-npc.json` | erzaehler | `npc.<figur>.<runde>`: Wissen unbesetzter Gäste ohne Namen (E-035) |
+| `erzaehler-npc-ziel.json` | erzaehler | `npc.<figur>.<runde>`: Wissen unbesetzter Zielfiguren mit Namen (E-044, Modell befragung) |
 | `erzaehler-finale-<pfad>.json` | erzaehler | `finale.<pfad>.<ende_meister\|ende_teilerfolg\|ende_justizirrtum\|ende_eskalation>`, `rueckblende.<pfad>` |
 | `erzaehler-aufloesung.json` | erzaehler | `aufloesung.gruppe.0` bis `.3`, `aufloesung.<rolle>` (16 Nebenrollen), `aufloesung.<kernrolle>.taeter` und `.unschuldig` (8) |
 | `dossiers-b1.json` bis `-b5.json` | dossier | je Rolle: `rolle`, `wer`, `weiss[]`, `verbirgt[]`, `ziel`, `besetzung` |
@@ -72,7 +74,8 @@ Der Schalter steht in `besetzung.json` (`"gespraeche": {"modell": "befragung", "
 - **Befragungen:** Der Detektiv führt je Runde 3 bis 5 Befragungen. Feste Befragungen plant `Befragungsplan` (`packages/mordakte_core/lib/src/party/befragung.dart`) nur aus Rollenzahl und den Ketten aller Pfade; dazu wählt er bis zu zwei frei. Er sieht die Fragen, nie die Antwort, bevor er fragt. Welche Frage er wählt, ändert nichts an der Antwort.
 - **Antworten:** Sie werden nie geschrieben. Für eine Rolle der App entstehen sie aus `preisgabe` (`botAntwort`): Beobachtungen im Wortlaut der dritten Person, Lügen nur als Behauptung. Eine gespielte Rolle sieht dieselben Verweise im eigenen Dossier in der Du-Form („Behaupte: …“) und ihre `stichpunkte`.
 - **Last:** Je Rolle und Runde ein bis drei Gespräche: ein eigenes Tischgespräch, höchstens eines als Partnerin, höchstens eine Befragung.
-- **Zustellung:** Jedes Tisch-Kettenglied (Lüge oder Beobachtung mit Kanal `pflichtgespraech` in einer Begründungskette) erreicht den Detektiv bis zu seiner Entscheidung: über eine feste Befragung der besetzten Halterin, über den Erzähler (`npc.*`), als Ziel einer Option oder als Fund. `akte_pruefen` prüft das für 4 bis 20 Rollen und alle Pfade.
+- **Zustellung:** Jedes Tisch-Kettenglied (Lüge oder Beobachtung mit Kanal `pflichtgespraech` in einer Begründungskette) erreicht den Detektiv bis zu seiner Entscheidung: über eine feste Befragung der besetzten Halterin, über den Erzähler (`npc.*`) oder als Fund. `akte_pruefen` prüft das für 4 bis 20 Rollen und alle Pfade.
+- **Unbesetzte Zielfiguren (E-044):** Ziel einer Option zu sein bringt kein Wissen; die Fundkarte zeigt nur die Fakten der Option. Der Erzähler spricht deshalb zum Rundenstart auch das Pflichtgespräch-Wissen einer unbesetzten Zielfigur (`erzaehler-npc-ziel.json`), mit ihrem Namen, weil die Optionen sie ohnehin nennen. Gäste, die kein Ziel sind, bleiben namenlos (E-035, E-036). Wie dort gilt: nur Beobachtungen aus allen Pfaden, gesprochen in der Runde, in der eine Kette eines beliebigen Pfads sie zuerst braucht.
 
 ## Regeln für Finale und Ausgang (E-029)
 - Das Finale kennt nur Täterpfad, Ende und Punkte, nicht den Verlauf. Kein Finaltext sagt deshalb, ob der Detektiv den Bund in der Nacht gefunden hat.
