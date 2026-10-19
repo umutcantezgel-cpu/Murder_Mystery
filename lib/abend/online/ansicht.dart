@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Rng;
+import 'package:mordakte_core/runden.dart' show Sitz;
 
 Map<String, Object?> jMap(Object? v) => v is Map ? v.cast<String, Object?>() : const {};
 
@@ -20,18 +21,39 @@ String jText(Object? v, [String sonst = '']) => v is String ? v : sonst;
 
 int jZahl(Object? v, [int sonst = 0]) => v is int ? v : sonst;
 
-/// Ein Platz am Tisch: Gastgeber, Gast oder Assistenz.
+/// Ein Platz am Tisch: Gastgeber oder Gast, mit seinem Sitz (Detektiv,
+/// Erzähler, Rolle oder Assistenz).
 class SpielerInfo {
-  const SpielerInfo({required this.id, required this.name, required this.online, required this.bereit, this.rolle, this.istGastgeber = false});
+  const SpielerInfo({
+    required this.id,
+    required this.name,
+    required this.online,
+    required this.bereit,
+    this.rolle,
+    this.istGastgeber = false,
+    this.sitz,
+    this.figur,
+    this.wunsch,
+  });
 
   final String id;
   final String name;
   final bool online;
   final bool bereit;
 
-  /// Rolle (Kanon-Figur) nach dem Start; Gastgeber und Assistenz haben keine.
+  /// Rolle (Kanon-Figur) nach dem Start; Detektiv, Erzähler und Assistenz haben keine.
   final String? rolle;
   final bool istGastgeber;
+
+  /// Sitz am Abend (Langer Abend M3). In der Lobby nur Detektiv oder Erzähler
+  /// (sonst `null`), ab dem Start auch Rolle oder Assistenz.
+  final Sitz? sitz;
+
+  /// Figur aus der Lobby-Zuteilung (nur vor dem Start); ohne Zuteilung lost der Start.
+  final String? figur;
+
+  /// Gewünschte Figur (nur vor dem Start), ein Hinweis für die Zuteilung.
+  final String? wunsch;
 }
 
 /// Die Plätze aus der Ansicht (`spieler`); [host] ist die Kennung des Gastgebers (`host`).
@@ -46,6 +68,9 @@ List<SpielerInfo> spielerAusAnsicht(Map<String, Object?> v) {
         bereit: s['bereit'] == true,
         rolle: s['rolle'] is String ? s['rolle'] as String : null,
         istGastgeber: s['id'] == host,
+        sitz: Sitz.lesen(s['sitz']),
+        figur: s['figur'] is String ? s['figur'] as String : null,
+        wunsch: s['wunsch'] is String ? s['wunsch'] as String : null,
       ),
   ];
 }

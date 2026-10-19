@@ -65,6 +65,9 @@ class _Dienst implements GastgeberDienst {
   String get geburtstagskind => '';
 
   @override
+  Sitz get sitz => Sitz.detektiv;
+
+  @override
   int get minuten => 30;
 
   @override

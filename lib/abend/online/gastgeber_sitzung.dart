@@ -11,11 +11,13 @@ import '../../party/stand/befragung_stand.dart';
 import 'ansicht.dart';
 import 'gastgeber_dienst.dart';
 
-/// Der Abend auf dem Gastgebergerät: Der Gastgeber ist der gemeinsame Detektiv
-/// und nutzt dieselben Bildschirme wie beim Spiel an einem Gerät. Das Lesemodell
-/// ist die Partie des Raums ([SchlosskellerRaum.partieFuerGastgeber]); jede
-/// Eingabe geht als Raumnachricht über den Platz des Gastgebers
-/// ([GastgeberDienst.verb]) hinaus und verändert die Partie nur dort. Nach jeder
+/// Der Abend auf dem Gastgebergerät: Der Gastgeber sitzt auf dem Detektiv-
+/// oder dem Erzähler-Sitz ([sitz], Langer Abend M3) und nutzt dieselben
+/// Bildschirme wie beim Spiel an einem Gerät. Das Lesemodell ist die Partie des
+/// Raums ([SchlosskellerRaum.partieFuerGastgeber]); jede Eingabe geht als
+/// Raumnachricht über den Platz des Gastgebers ([GastgeberDienst.verb]) hinaus
+/// und verändert die Partie nur dort. Ermittlungsbefehle nimmt der Raum nur vom
+/// Detektiv-Sitz an, „Weiter“ nur von dem, der leitet ([leitet]). Nach jeder
 /// Änderung schickt der [RelayHost] den Gästen ihre neuen Ansichten.
 ///
 /// Phasen, die Gäste brauchen (Rollen lesen, Gruppenwahl, Würfeln durch einen
@@ -50,6 +52,34 @@ class GastgeberSitzung extends PartySitzung {
   @override
   bool get online => true;
 
+  // ---------------------------------------------------------------- Sitze
+
+  String get _ich => dienst.verb.spielerId ?? gastgeberPlatz;
+
+  /// Sitz des Gastgebers an diesem Abend: Detektiv oder Erzähler.
+  Sitz get sitz => dienst.raum.sitzVon(_ich) ?? dienst.sitz;
+
+  /// Führt der Gastgeber den Detektiv? Sonst ermittelt ein Gast ([detektivGeraet]).
+  bool get istDetektiv => sitz == Sitz.detektiv;
+
+  /// Gerät auf dem Detektiv-Sitz: der Gastgeber selbst oder ein Gast.
+  String? get detektivGeraet => dienst.raum.detektivGeraet;
+
+  /// Liest dieses Gerät die Erzähltexte vor (Vorleser-Sitz: Erzähler, sonst Detektiv)?
+  bool get istVorleser => dienst.raum.vorleser == _ich;
+
+  /// Klasse des Detektiv-Sitzes (`forensic`, …), sonst `null`. Sie ändert nur
+  /// die Darstellung auf seiner Karte, nie den Abend.
+  String? get detektivKlasse => dienst.raum.klasse;
+
+  /// Darf der Gastgeber gerade „Weiter“ drücken? Als Erzähler, ohne Erzähler,
+  /// oder wenn der Erzähler offline ist (wie der Raum, [SchlosskellerRaum]).
+  /// Die Frist von zwei Minuten, bevor die Oberfläche übernimmt, liegt außen.
+  bool get leitet {
+    final e = dienst.raum.erzaehlerGeraet;
+    return e == null || e == _ich || !dienst.spieler.any((s) => s.id == e && s.online);
+  }
+
   /// Letzte Ablehnung des Raums (fester Schlüssel wie `not_ready`) oder `null`.
   /// Der Bildschirm zeigt sie einmal und ruft dann [fehlerQuittieren].
   String? get letzterFehler => _fehler;
@@ -71,6 +101,11 @@ class GastgeberSitzung extends PartySitzung {
       debugPrint('ONLINE erzaehlstand lesen $e');
     }
   }
+
+  /// Randgespräche mit Zeugen führt der Gastgeber nur auf dem Detektiv-Sitz;
+  /// als Erzähler spricht er niemanden an.
+  @override
+  bool randgespraechMoeglich(String figur) => istDetektiv && super.randgespraechMoeglich(figur);
 
   @override
   void randgespraechGefuehrt() {
@@ -228,9 +263,10 @@ class GastgeberSitzung extends PartySitzung {
     return pate != null && pate == dienst.verb.spielerId;
   }
 
-  /// Der Raum entscheidet mit: In der Rollenphase müssen alle Rollenkarten gelesen sein.
+  /// Der Raum entscheidet mit: In der Rollenphase müssen alle Rollenkarten
+  /// gelesen sein, und „Weiter“ drückt nur, wer leitet ([leitet]).
   @override
-  bool get kannWeiter => super.kannWeiter && dienst.ansicht['kannWeiter'] == true;
+  bool get kannWeiter => super.kannWeiter && dienst.ansicht['kannWeiter'] == true && leitet;
 
   @override
   List<String> get offeneWaehler => [for (final r in besetzt) if (!gestimmt.contains(r)) r];

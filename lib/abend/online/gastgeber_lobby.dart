@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/mordakte_core.dart' show LookDef;
+import 'package:mordakte_core/runden.dart' show Sitz;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 import 'package:provider/provider.dart';
 
@@ -377,7 +378,7 @@ class _TischTafel extends StatelessWidget {
     final l = L.of(context);
     final spieler = dienst.spieler;
     final gaeste = dienst.gaeste;
-    // Die Spielleitung spielt den Detektiv: ihr Abzug zeigt ihn.
+    // Der Detektiv-Sitz spielt den Detektiv: sein Abzug zeigt ihn.
     final detektiv = onlineAussehen(dienst.daten, onlineDetektivId(dienst.daten));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -416,7 +417,7 @@ class _Zeile extends StatelessWidget {
     } else {
       zustand = MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise);
     }
-    return OnlinePlatzKarte(name: spieler.name, look: spieler.istGastgeber ? detektiv : null, zustand: zustand, nr: nr);
+    return OnlinePlatzKarte(name: spieler.name, look: spieler.sitz == Sitz.detektiv ? detektiv : null, zustand: zustand, nr: nr);
   }
 }
 

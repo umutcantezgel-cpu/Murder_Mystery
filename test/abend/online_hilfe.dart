@@ -293,6 +293,9 @@ class TestLobbyDienst implements GastgeberDienst {
   int get maxRollen => 8;
 
   @override
+  Sitz get sitz => Sitz.detektiv;
+
+  @override
   List<SpielerInfo> get gaeste => [for (final s in spieler) if (!s.istGastgeber) s];
 
   @override
@@ -314,9 +317,9 @@ class TestLobbyDienst implements GastgeberDienst {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-/// Plätze der Lobby: Anna leitet, Ben ist bereit, Cleo (langer Name) noch nicht, Dora ist getrennt.
+/// Plätze der Lobby: Anna leitet (auf dem Detektiv-Sitz), Ben ist bereit, Cleo (langer Name) noch nicht, Dora ist getrennt.
 const lobbyPlaetze = [
-  SpielerInfo(id: 'gastgeber', name: 'Anna', online: true, bereit: true, istGastgeber: true),
+  SpielerInfo(id: 'gastgeber', name: 'Anna', online: true, bereit: true, istGastgeber: true, sitz: Sitz.detektiv),
   SpielerInfo(id: 'g1', name: 'Ben', online: true, bereit: true),
   SpielerInfo(id: 'g2', name: 'Cleopatra Konstantinopoulou-Wagenknecht', online: true, bereit: false),
   SpielerInfo(id: 'g3', name: 'Dora', online: false, bereit: false),
@@ -363,6 +366,9 @@ class TestAbendDienst implements GastgeberDienst {
 
   @override
   String get geburtstagskind => '';
+
+  @override
+  Sitz get sitz => Sitz.detektiv;
 
   @override
   int get minuten => 30;

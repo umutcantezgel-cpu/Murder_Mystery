@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Enden, EndeRegel, LookDef;
-import 'package:mordakte_core/runden.dart' show KartenArt, Stufe;
+import 'package:mordakte_core/runden.dart' show KartenArt, Sitz, Stufe;
 import 'package:mordakte_netz/mordakte_netz.dart' show VerbindungsStatus;
 
 import '../../karten/widgets/karten_ansicht.dart' show KartenTexte;
@@ -61,9 +61,12 @@ class GastKontext {
     return null;
   }
 
-  /// Dossier dieses Geräts (`null` für Assistenz-Plätze ohne Rolle).
+  /// Dossier dieses Geräts (`null` für Detektiv, Erzähler und Assistenz).
   Map<String, Object?>? get dossier => privat['dossier'] is Map ? jMap(privat['dossier']) : null;
   String? get rolle => privat['rolle'] is String ? privat['rolle'] as String : null;
+
+  /// Sitz dieses Geräts (Langer Abend M3); in der Lobby ohne Sitz `null`.
+  Sitz? get sitz => ich?.sitz;
 
   /// Liest dieses Gerät vor (Vorleser-Sitz: Erzähler, sonst Detektiv)?
   bool get vorleser => privat['vorleser'] == true;
@@ -109,16 +112,14 @@ class GastKontext {
   /// Aussehen einer Figur für Fotoabzüge (`null`: Schattenriss).
   LookDef? aussehen(String? id) => onlineAussehen(daten, id);
 
-  /// Kennung der Detektivfigur der Akte (die Spielleitung spielt sie).
+  /// Kennung der Detektivfigur der Akte (das Gerät auf dem Detektiv-Sitz spielt sie).
   String? get detektivId => onlineDetektivId(daten);
 
-  /// Name am Tisch zu einer Figur: Gast mit dieser Rolle, die Spielleitung für
-  /// den Detektiv, sonst der Figurenname (ein Bot spielt sie).
+  /// Name am Tisch zu einer Figur: Gast mit dieser Rolle, der Platz auf dem
+  /// Detektiv-Sitz für den Detektiv, sonst der Figurenname (ein Bot spielt sie).
   String personAmTisch(String id) {
     if (id == detektivId) {
-      for (final s in spieler) {
-        if (s.istGastgeber) return s.name;
-      }
+      if (onlineDetektivPlatz(spieler) case final d?) return d.name;
     }
     for (final s in spieler) {
       if (s.rolle == id) return s.name;
@@ -335,18 +336,20 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
   final l = c.l;
   final rolle = mitFiguren ? s.rolle : null;
   final figur = rolle == null ? '' : c.figurName(rolle);
-  // Die Spielleitung spielt immer den Detektiv: ihr Abzug zeigt ihn schon in der
+  // Der Detektiv-Sitz spielt den Detektiv: sein Abzug zeigt ihn schon in der
   // Lobby, wie auf dem Gerät des Gastgebers.
-  final bild = rolle ?? (s.istGastgeber ? c.detektivId : null);
+  final bild = rolle ?? (s.sitz == Sitz.detektiv ? c.detektivId : null);
   final Widget? zustand = s.istGastgeber
       ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
       : !s.online
           ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
           : c.phase == 'lobby'
               ? (s.bereit ? onlineStempel(l.online_bereit) : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
-              : s.rolle == null
-                  ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise)
-                  : null;
+              : s.sitz == Sitz.erzaehler
+                  ? MChip(l.online_erzaehler_titel, icon: Icons.menu_book_rounded, farbe: MRoh.tinteLeise)
+                  : s.rolle == null && s.sitz != Sitz.detektiv
+                      ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise)
+                      : null;
   return OnlinePlatzKarte(
     name: s.name,
     // Der eigene Platz trägt „(Du)“ als Randnotiz in Füllertinte.
@@ -435,7 +438,7 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
   return GastSeiteninhalt(
     marke: marke,
     titel: titel,
-    untertitel: c.phase == 'lobby' ? null : (c.rolle == null ? l.online_assistenz_text : null),
+    untertitel: c.phase == 'lobby' ? null : (c.rolle == null && c.sitz == Sitz.assistenz ? l.online_assistenz_text : null),
     kinder: [
       _erzaehler(c),
       ...spezifisch,
