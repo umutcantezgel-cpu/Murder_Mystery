@@ -66,8 +66,8 @@ List<String>? _sortiert(Set<String>? menge) => menge == null ? null : (menge.toL
 }
 
 /// Die festen Optionen: je Entscheidung die erste oder die letzte Option.
-Map<String, String> _festeWahl({required bool letzte}) => {
-      for (final e in klassenDaten().karte.ermittlung.entscheidungen) e.id: letzte ? e.optionen.last.id : e.optionen.first.id,
+Map<String, String> _festeWahl({required bool letzte, String fall = 'schlosskeller'}) => {
+      for (final e in klassenDaten(fall).karte.ermittlung.entscheidungen) e.id: letzte ? e.optionen.last.id : e.optionen.first.id,
     };
 
 /// Ein ganzer Ermittlungsteil mit Klasse [f]: je Runde zuerst ein Abstecher,
@@ -75,9 +75,11 @@ Map<String, String> _festeWahl({required bool letzte}) => {
 /// Aufgenommen wird vor dem Vorschlag, bei offenem Vorschlag, beim Start des
 /// Laufs und nach dem Zug.
 List<({Map<String, Object?> sache, Map<String, Object?> darstellung})> _verlauf(
-    KlassenFaehigkeit? f, {required String pfad, required int n, required bool solo, required Map<String, String> wahl}) {
-  final s = klassenSitzung(n: n, pfad: pfad, solo: solo, mitAbstecher: true);
-  final k = karteMit(s, f);
+    KlassenFaehigkeit? f, {required String pfad, required int n, required bool solo, required Map<String, String> wahl, String fall = 'schlosskeller'}) {
+  final s = klassenSitzung(fall: fall, n: n, pfad: pfad, solo: solo, mitAbstecher: true);
+  // Akten ohne den Zusatz klassen: die Wirkung trotzdem anlegen, um zu zeigen,
+  // dass sie dort ebenso pfadgleich wäre (freigeschaltet ist sie dort nicht).
+  final k = fall == 'schlosskeller' || f == null ? karteMit(s, f) : PartyKartenSession(s, klasse: KlasseWirkung.amTisch(s, f));
   addTearDown(k.dispose);
   final aufnahmen = <({Map<String, Object?> sache, Map<String, Object?> darstellung})>[];
   for (var r = 1; r <= 3; r++) {
@@ -196,6 +198,30 @@ void main() {
       });
     }
   }
+
+  // Die anderen Akten haben den Zusatz klassen nicht (Besitzer: nachweislich
+  // unverändert). Ihr Lauf zeigt nur, dass die Mechanik dort ebenso pfadgleich
+  // und reine Darstellung wäre.
+  group('Andere Akten (nicht freigeschaltet)', () {
+    for (final fall in ['gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm']) {
+      test('$fall: jede Klasse in allen Pfaden gleich, Sache wie ohne Klasse', () {
+        final pfade = klassenDaten(fall).kanon.pfade;
+        final wahl = _festeWahl(letzte: false, fall: fall);
+        final n = (klassenDaten(fall).kanon.besetzungJson['minRollen'] as int).clamp(4, 20);
+        final ohne = {for (final p in pfade) p: _verlauf(null, pfad: p, n: n, solo: false, wahl: wahl, fall: fall)};
+        for (final f in KlassenFaehigkeit.values) {
+          final verlaeufe = {for (final p in pfade) p: _verlauf(f, pfad: p, n: n, solo: false, wahl: wahl, fall: fall)};
+          for (final p in pfade) {
+            expect(verlaeufe[p], hasLength(ohne[p]!.length), reason: '$fall, ${f.name}, Pfad $p');
+            for (var i = 0; i < ohne[p]!.length; i++) {
+              expect(verlaeufe[p]![i].sache, equals(ohne[p]![i].sache), reason: '$fall, ${f.name}, Pfad $p: ${ohne[p]![i].sache['stelle']}');
+              expect(verlaeufe[p]![i].darstellung, equals(verlaeufe[pfade.first]![i].darstellung), reason: '$fall, ${f.name}, Pfad $p: Darstellung');
+            }
+          }
+        }
+      });
+    }
+  });
 
   group('Gating und Gerüchte', () {
     test('ohne den Zusatz klassen gibt es keine Wirkung, ebenso ohne bekannte Klasse', () {
