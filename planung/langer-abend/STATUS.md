@@ -11,10 +11,10 @@ Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `p
 | M0 | Werkbank, CI, Basislinie, Nähte | fertig: Kanon-Werkzeuge und -Tor, UI-Basis eingefroren, Raum-Naht, Inhaltskennung je Akte, ARB-Tontest, Golden Kern 1.2 |
 | M1 | Glitch-Fix alle Akten, Szenen-Naht | fertig: freie Bahn mit Körperkasten, Neuplanen statt Hängen, kein Stand auf Personen, Rückblende je Frame exakt, WeltSzene-Naht |
 | M2 | Befragungsmodell, Stichpunkte, Kanon K1 und K2 | fertig: Detektiv 3–5 Befragungen, Rollen ein Tischgespräch je Runde, Antworten verdeckt und als Kanon-Kurzfassung (R17), Spickzettel, Erzählerwissen unbesetzter Zielfiguren (E-044), K1 neutrale Feier |
-| M3 | Sitze, Erzähler, Lobby-Zuteilung, Gast-Detektiv | offen |
+| M3 | Sitze, Erzähler, Lobby-Zuteilung, Gast-Detektiv | fertig: Sitzplan und Rechte (Detektiv/Erzähler/Rolle), Vorleser-Sitz nur im Schlosskeller, Lobby mit Figurenwahl durch Detektiv und Erzähler, Gast-Detektiv und Gast-Erzähler am eigenen Gerät, Erzähler-Begleiter reihum, „Wer macht was“, Klasse am Detektiv-Sitz (M6.4); Nachschliff läuft |
 | M4 | Diashow, Rundenuhr | offen |
-| M5 | Steckbriefe, PDFs, Teilen | offen |
-| M6 | Klassenfähigkeiten, Erklärungen | fertig offline: fünf Fähigkeiten auf der Karte (pfadgleich, invariant), Gerüchte mit Prüfer, Klassenzeile, Profil, Detektivkarte; online mit dem Detektiv-Sitz folgt in M3 |
+| M5 | Steckbriefe, PDFs, Teilen | fertig: Steckbriefe und Charakterübersicht (K3), Gästeliste, Erzählerheft mit allen Stichpunkten, Rollenheft je Person, Alles-PDF, Teilen über das System |
+| M6 | Klassenfähigkeiten, Erklärungen | fertig: fünf Fähigkeiten auf der Karte (pfadgleich, invariant), Gerüchte mit Prüfer, Klassenzeile, Profil, Detektivkarte; online reist die Klasse mit dem Detektiv-Sitz |
 | M7 | Langer Abend: Ebenen, Fassung, Streifzug, Vorspiel und Morgen | offen |
 | M8 | Lebendige NPCs | offen |
 | M9 | Mehrspieler-Bewegung | offen |
@@ -23,6 +23,8 @@ Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `p
 
 ## Prüfjournal (neueste zuerst)
 
+- 2026-10-19 M3 + M5 zusammengeführt (je Gegenprüfung mit Korrekturen): `pruefen.sh schnell` grün (Kern 681 +1 übersprungen, Krimidinner 67, Klang 4, Netz 50, Kanon-Tor aktuell), App `flutter test` 522/522, Party-Matrix (3 Sitz-Konstellationen, Host-Wechsel in 5 Akten) und Relais-Matrix (3 Läufe) grün, `akte_pruefen` alle 5 Akten 0 Befunde.
+- 2026-10-19 Klassentests nach M2 (Treiber ohne Befragungen) rot im CI-Lauf zu b3d013d, behoben in 0ffb9fa; CI zu 0ffb9fa komplett grün.
 - 2026-10-19 M2 + M6 zusammengeführt (je zwei Runden Gegenprüfung mit Korrekturen): `pruefen.sh schnell` grün (Analyse ohne Befund, Kern 632 +1 übersprungen, Krimidinner 67, Klang 4, Netz 48, Kanon-Tor aktuell), `akte_pruefen` alle 5 Akten 0 Befunde, Karten, Texte (1668), Plausibilität und Simulator OK. Lanes einzeln: App M2 246 + 35, M6 381, Party- und Relais-Matrix grün, Browserproben solo (320), geraete, karten_fotos grün.
 - 2026-10-19 M1 + K1 zusammengeführt: `flutter analyze` und `dart analyze` ohne Befund, `kanon_tor.sh --pruefen` aktuell. Einzeln geprüft: M1 App-Tests 247 + 28 (party_widgets, session, stil, abend), Kern-Auswahl 133, `akte_pruefen` alle 5 Akten 0 Befunde, Gegenproben ohne Fix rot; K1 Kern 529, App 217 + 79, Netz 48, Plausibilität und Simulator OK, Golden unverändert.
 - 2026-10-18 M0-Tor: `pruefen.sh schnell` grün (Analyse ohne Befund, Kern 529, Netz 48, Krimidinner 67, Klang 4, Kanon-Tor überall aktuell). App `flutter test` 337/337. Party-Matrix (4 Clients) und Relais-Matrix (4 Gäste, lokal) grün.
