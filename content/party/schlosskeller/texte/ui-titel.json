@@ -5,7 +5,7 @@
   "eintraege": [
     {
       "id": "ui.titel.hinweis",
-      "text": "Das Geburtstagskind schaut beim Einrichten weg."
+      "text": "Der Detektiv schaut beim Einrichten weg."
     },
     {
       "id": "ui.titel.start",
@@ -13,7 +13,7 @@
     },
     {
       "id": "ui.intro.marke",
-      "text": "Geburtstag im Gewölbe"
+      "text": "Wiedersehen im Gewölbe"
     },
     {
       "id": "ui.intro.titel",
@@ -29,7 +29,7 @@
     },
     {
       "id": "ui.resuemee.bonus_titel",
-      "text": "Was die Runde dem Geburtstagskind zuflüstert"
+      "text": "Was die Runde dem Detektiv zuflüstert"
     },
     {
       "id": "ui.resuemee.fach_gruppe",

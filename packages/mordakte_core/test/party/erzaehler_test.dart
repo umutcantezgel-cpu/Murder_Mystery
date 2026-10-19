@@ -167,6 +167,22 @@ void main() {
     expect(f, isEmpty, reason: f.join('\n'));
   });
 
+  test('Intro (K1): Ankunft und Stromausfall als zwei Bausteine, danach die Lacher und der Auftrag', () {
+    final s = Spiel(kanon)..weiter();
+    s.einrichten(Einstellungen(rollen: 4, detektiv: 'm', code: FallCode.fuerPfad('can', kanon.pfade)));
+    s.weiter();
+    expect(s.bausteine, [
+      'intro.start',
+      'intro.ausfall',
+      for (final l in kanon.json['setting.json']!['lacher'] as List)
+        'intro.lacher.${(l as Map)['id']}.${s.besetzung.istBesetzt(l['wer'] as String, 4) ? 'besetzt' : 'npc'}',
+      'intro.auftrag.m',
+    ]);
+    expect(s.bausteine, hasLength(6), reason: 'sechs Bilder für die Diashow');
+    // Akten ohne setting.introTeile behalten ihr Intro.
+    expect(Erzaehler(ladeKanon('gewoelbe')).introTeile, isEmpty);
+  });
+
   test('Durchgespielte Abende nutzen nur vorhandene Bausteine (Pfade, 4 und 20 Rollen, drei Spielweisen, zwei Gruppen)', () {
     expect(_alleLaeufe, hasLength(48), reason: 'Matrix: 4 Pfade × 2 Besetzungen × 3 Spielweisen × 2 Gruppen');
     final f = <String>[];

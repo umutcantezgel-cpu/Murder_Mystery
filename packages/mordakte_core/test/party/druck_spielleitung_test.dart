@@ -191,7 +191,7 @@ void main() {
         expect(b.a4, isTrue, reason: 'Bogen $n');
         expect(
           flach(h.text),
-          contains('$n Rollen und das Geburtstagskind'),
+          contains('$n Rollen und der Detektiv'),
           reason: 'Heft $n',
         );
         expect(

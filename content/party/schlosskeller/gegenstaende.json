@@ -213,7 +213,7 @@
           "entstehtWenn": {
             "immer": true
           },
-          "zeigt": "Die Maske steckt zusammengefaltet in Cans Bauchtasche. Die Farbe ist noch leicht klebrig. Darauf angesprochen gibt Can zu: Er hat im dunklen Vorratsraum gewartet, um das Geburtstagskind zu erschrecken.",
+          "zeigt": "Die Maske steckt zusammengefaltet in Cans Bauchtasche. Die Farbe ist noch leicht klebrig. Darauf angesprochen gibt Can zu: Er hat im dunklen Vorratsraum gewartet, um die blinde Kuh zu erschrecken.",
           "rolle": {
             "alle": "nebendelikt"
           },
@@ -739,7 +739,7 @@
     },
     {
       "id": "torte",
-      "name": "Geburtstagstorte",
+      "name": "Mitternachtstorte",
       "beschreibung": "Die Torte auf dem Regal im kühlen Vorratsraum.",
       "lage": {
         "ort": "vorrat_mitte"

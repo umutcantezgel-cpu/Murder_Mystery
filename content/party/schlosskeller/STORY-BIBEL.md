@@ -8,7 +8,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 - **Untertitel:** Das Buffet hinter dicken Mauern
 - **Pfade:** Ahmet (ahmet), Fatma (fatma), Olli (olli), Can (can)
 - **Kernverdächtige:** Ahmet (ahmet), Fatma (fatma), Olli (olli), Can (can)
-- **Personen:** 4 bis 20 (Gezählt werden Rollen ohne das Geburtstagskind (B-13).)
+- **Personen:** 4 bis 20 (Gezählt werden Rollen ohne den Detektiv (B-13).)
 - **Finale:** 02:45
 - **Morgen:** 07:00
 - **Rundendauer:** 30 Minuten
@@ -43,8 +43,8 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 ## 2. Setting
 
 - **Setting-Kennung:** spuk_im_schlosskeller
-- **Schauplatz:** Ein altes, etwas abgelegenes Schloss vor der Stadt. Gefeiert wird im großen Gewölbekeller unter dem Schlossturm.
-- **Anlass:** Geburtstag. Ahmet hat den Keller über einen Gefallen organisiert: Er gestaltet umsonst das Programm des Adventsmarkts der Schlossstiftung.
+- **Schauplatz:** Ein altes, etwas abgelegenes Schloss vor der Stadt. Gefeiert wird im großen Gewölbekeller unter dem Schlossturm. Darüber liegen das Erdgeschoss und der ummauerte Schlosshof.
+- **Anlass:** Ein Wiedersehen der Clique. Ahmet hat den Keller über einen Gefallen organisiert: Er gestaltet umsonst das Programm des Adventsmarkts der Schlossstiftung. Um Mitternacht gibt es Torte und Tugbas Spiel „Blinde Kuh“.
 - **Datum:** ein Samstag im November; draußen kalt und windig
 - **Essen:** Offenes Buffet auf langen Holztischen: warmes Essen aus Warmhaltebehältern, frisches Brot, Dips und Gebäck.
 - **Getränke:**
@@ -53,20 +53,22 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - warmer, alkoholfreier Apfelpunsch
   - Wasser
   - Säfte
-- **Empfang:** Hinter den dicken Mauern gibt es keinen Handyempfang. Empfang gibt es erst draußen auf den Stufen zum Parkplatz.
+- **Empfang:** Hinter den dicken Mauern gibt es keinen Handyempfang, auch nicht im Schlosshof, im Erdgeschoss oder oben im Turm. Empfang gibt es erst draußen vor dem Außentor auf den Stufen zum Parkplatz. Ein Telefon gibt es im Schloss nicht.
 - **Atmosphäre:**
   - Der Wind pfeift durch die Lichtschächte.
   - Schwere Holztüren quietschen im Luftzug.
   - Elektrische Kerzen flackern auf den Tafeln; echte Kerzen brennen nur im Messingkerzenständer an der Theke.
 - **Brandschutz:** Im denkmalgeschützten Keller sind offene Flammen verboten. Erlaubt ist nur der Kerzenständer an der Theke, auf Schneiders Verantwortung, und der Kamin unter Aufsicht.
 - **Ton:** Grusel mit Humor: quietschende Türen, Zugluft, flackerndes Licht, verpatzte Streiche. Herr Schneider überlebt immer; der Schlag ist nur Schatten und Geräusch.
+- **Weitere Intro-Teile:**
+  - ausfall
 
 **Lacher**
 
 | Zeit | Wer | Ort | Was | Trägt |
 |---|---|---|---|---|
 | 21:00 | Sibel (selin) | bei der Ritterrüstung (an_der_ruestung) | Sibel hält die alte Ritterrüstung im Turmgang für einen Menschen, schreit auf und stolpert rückwärts gegen die Schauvitrine. Die Scheibe bekommt einen feinen Sprung. | Spur: Ab 21:00 ist die Vitrinenscheibe lose. |
-| 20:15 | Olli (olli) | im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte) | Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Geburtstagstorte. „Ich wollte nur aufs Klo!“ | Falsche Fährte: Olli kennt den Vorratsraum. |
+| 20:15 | Olli (olli) | im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte) | Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Mitternachtstorte. „Ich wollte nur aufs Klo!“ | Falsche Fährte: Olli kennt den Vorratsraum. |
 | 23:30 | Hana (meryem) | an der Kamin-Nische (am_kamin) | Hana feuert den Kamin an, ohne die Kaminklappe zu öffnen. Dichter Qualm füllt den Kaminsaal, alle husten, die Lichtschacht-Klappen werden aufgerissen, das Feuer wird gelöscht. | Spur: Seit 23:30 zieht Luft vom Buffetsaal in den Kaminsaal; Gerüche wandern mit. |
 
 ## 3. Räume
@@ -77,7 +79,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 | vorratsraum | Vorratsraum | 13,2,3,4 | Kleiner, kühler Raum ohne Fenster hinter der Buffettheke. Einziger Zugang ist die Tür neben der Anrichte. |
 | durchgang | Durchgang | 8,8,2,2 | Kurzer, niedriger Gang zwischen West-Saal und Buffetsaal. Hier stehen die Getränkekisten. |
 | west_saal | Kaminsaal | 1,8,6,12 | Gemeinschaftssaal mit zwei langen Tafeln und Wandbänken. In der Westwand die Kamin-Nische, hoch in der Nordwand zwei Lichtschächte mit Klappen, in der Nordwestecke die geschnitzte Bogentür zum Turm. |
-| turmgang | Turmgang | 1,1,3,6 | Schmaler Gang im Fuß des Schlossturms. Hier stehen die alte Ritterrüstung und die Schauvitrine. Die Wendeltreppe führt hinauf zu den Toiletten; der Rest des Turms ist mit einem Vorhängeschloss abgesperrt. |
+| turmgang | Turmgang | 1,1,3,6 | Schmaler Gang im Fuß des Schlossturms. Hier stehen die alte Ritterrüstung und die Schauvitrine, neben der Hoftür hängt der Schlüsselkasten der Stiftung. Die Wendeltreppe führt hinauf zu den Toiletten; der Rest des Turms ist mit einem Vorhängeschloss abgesperrt. |
 | ost_saal | Ostsaal | 20,7,6,12 | Ruhiger Gemeinschaftssaal ohne weitere Außentür. Am Eingang steht der Jackenständer, an der Ostwand die Wandtafel mit dem Ablaufplan des Abends. |
 | windfang | Windfang | 14,20,2,2 | Kleiner Vorraum zwischen der Innentür des Buffetsaals und dem Außentor. |
 
@@ -159,17 +161,17 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 | am_handykorb | ost_saal | 24.5 | 12.5 | beim Handykorb auf der Tafel |
 | an_der_wandtafel | ost_saal | 24.5 | 10.5 | an der Wandtafel mit dem Ablaufplan |
 | ost_bank | ost_saal | 25.5 | 15.5 | auf der Wandbank an der Ostwand |
-| geburtstagsplatz | ost_saal | 24.5 | 16.5 | auf dem Ehrenplatz des Geburtstagskinds |
+| geburtstagsplatz | ost_saal | 24.5 | 16.5 | auf dem Ehrenplatz der blinden Kuh |
 | im_windfang | windfang | 14.5 | 20.5 | im Windfang |
 | am_aussentor | windfang | 15.5 | 21.5 | am Außentor |
 
 ## 4. Figuren
 
-### Detektiv (Der Detektiv / Die Detektivin (Geburtstagskind))
+### Detektiv (Der Detektiv / Die Detektivin (Gast))
 
 - **Farbcode:** #B8A48A (Sandbeige)
 - **Startraum:** Ostsaal (ost_saal)
-- **Ermittlungsort:** auf dem Ehrenplatz des Geburtstagskinds (geburtstagsplatz)
+- **Ermittlungsort:** auf dem Ehrenplatz der blinden Kuh (geburtstagsplatz)
 - **Optik:**
   - Silhouette: Mittelgroß, aufmerksame Haltung, Kopf leicht schief beim Zuhören
   - Kleidung: Heller sandbeiger Trenchcoat über Alltagskleidung, schwarze Jeans, dunkle Turnschuhe
@@ -182,8 +184,8 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Kopf: detektivhut
   - Statur: normal
   - Schnitt: suit
-- **Tatnacht:** Ab 23:55 sitzt das Geburtstagskind mit verbundenen Augen und Kopfhörern im Ost-Saal auf dem Ehrenplatz. Die Musik läuft laut. Durch die Musik hört es nur den Knall, Herrn Schneiders Rufe „Hab ich dich!“ und „Stehen bleiben!“ und später ein Scheppern.
-- **Auftrag:** Um 0:20 bittet Herr Schneider das Geburtstagskind: „Finde raus, wer das war. Bis zum Morgen.“
+- **Tatnacht:** Ab 23:55 sitzt der Detektiv als blinde Kuh mit verbundenen Augen und Kopfhörern im Ost-Saal auf dem Ehrenplatz. Die Musik läuft laut. Durch die Musik hört er nur den Knall, Herrn Schneiders Rufe „Hab ich dich!“ und „Stehen bleiben!“ und später ein Scheppern.
+- **Auftrag:** Um 0:20 bittet Herr Schneider den Detektiv: „Finde raus, wer das war. Bis zum Morgen.“
 - **Nie verdächtig:** ja
 
 ### Opfer. Herr Schneider (Schlossverwalter)
@@ -208,7 +210,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 - **Motiv:** Seit 25 Jahren hält er das Schloss in Schuss. Den Keller hat er Ahmet umsonst überlassen. Heute ärgert er sich über die Tür, den Parkplatz, die Musik und die offene Vitrine. Um zwölf will er alles klären.
 - **Status:** Nach dem Schlag kurz bewusstlos. Er wacht um 0:01:30 auf, hat eine Beule und eine Gedächtnislücke für die Sekunden vor dem Schlag. Danach sitzt er mit einem Kühlpack im Buffetsaal und ist bald wieder grantig.
 - **Erinnerung:** Knall, Dunkelheit, der Weg zur Notlaterne, ein leuchtendes Gespenstergesicht. Er packt eine Kapuze und ruft „Hab ich dich!“. Danach ist alles weg.
-- **Warme Seite:** Er hat den Messingkerzenständer selbst poliert, weil er Geburtstage mag. Kleine Schäden zahlt er oft aus eigener Tasche.
+- **Warme Seite:** Er hat den Messingkerzenständer selbst poliert, weil er Feste mag. Kleine Schäden zahlt er oft aus eigener Tasche.
 - **Gedächtnislücke ab:** 23:58:14
 - **Schlüsselbund:** Herrn Schneiders Schlüsselbund (bund_schneider)
 
@@ -348,11 +350,11 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Kopf: none
   - Statur: slim
   - Schnitt: suit
-- **Motiv:** Can hat am Nachmittag eine weiße Gespenstermaske mit Leuchtfarbe angemalt. Um 23:54 versteckt er sich damit im dunklen Vorratsraum. Um zwölf soll das Geburtstagskind zur Torte kommen und sich erschrecken. Kurz vor zwölf knallt es, das Licht geht aus, und die Tür zum Vorratsraum quietscht auf. Can glaubt, das Geburtstagskind wird schon gebracht, und springt mit „Buuuh!“ hervor. Er läuft Herrn Schneider in die Arme. Der packt ihn an der Kapuze und ruft: „Hab ich dich!“
+- **Motiv:** Can hat am Nachmittag eine weiße Gespenstermaske mit Leuchtfarbe angemalt. Um 23:54 versteckt er sich damit im dunklen Vorratsraum. Um zwölf soll die blinde Kuh zur Torte kommen und sich erschrecken. Kurz vor zwölf knallt es, das Licht geht aus, und die Tür zum Vorratsraum quietscht auf. Can glaubt, die blinde Kuh wird schon gebracht, und springt mit „Buuuh!“ hervor. Er läuft Herrn Schneider in die Arme. Der packt ihn an der Kapuze und ruft: „Hab ich dich!“
 - **Alibi:** Behauptet, auf der Toilette im Turm gewesen zu sein.
 - **Geheimnis:** Er hat mit der Leuchtmaske im Vorratsraum gewartet. Herr Schneider hat ihn an der Kapuze gepackt.
 - **Persönliches Ziel:** Der Streich soll nicht herauskommen.
-- **Nebendelikt:** Hat sich mit der Leuchtmaske im Vorratsraum versteckt, um das Geburtstagskind zu erschrecken. (nd_streich)
+- **Nebendelikt:** Hat sich mit der Leuchtmaske im Vorratsraum versteckt, um die blinde Kuh zu erschrecken. (nd_streich)
 - **Loyalität:** Zeynep (zeynep): Zeynep hat für ihn Schmiere gestanden.
 - **Lügen:**
   - `luege_can_toilette`: Ich war die ganze Zeit auf der Toilette im Turm. → Er war im Vorratsraum und ist erst nach dem Zusammenstoß in den Turm gerannt.
@@ -475,10 +477,10 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Kopf: none
   - Statur: slim
   - Schnitt: suit
-- **Motiv:** Sie fotografiert den Abend für das Geburtstagskind. Um 23:55 musste ihr Handy in den Handykorb. Ahmet hat sie gebeten, ein Foto zu löschen.
+- **Motiv:** Sie fotografiert den Abend für das Fotoalbum der Clique. Um 23:55 musste ihr Handy in den Handykorb. Ahmet hat sie gebeten, ein Foto zu löschen.
 - **Alibi:** Stand im Ost-Saal und hielt die Hände über den Handykorb. Um 23:59:30 schaltete sie als Erste die Handylampen ein.
 - **Geheimnis:** Sie hat ein Foto von 23:51: Herr Schneider und Ahmet streiten an der Theke.
-- **Persönliches Ziel:** Ihr Versprechen an Ahmet halten, ohne das Geburtstagskind anzulügen.
+- **Persönliches Ziel:** Ihr Versprechen an Ahmet halten, ohne den Detektiv anzulügen.
 - **Loyalität:** Ahmet (ahmet): Ahmet hat sie gebeten, das Streitfoto zu löschen.
 - **Lügen:**
 
@@ -534,8 +536,8 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Statur: small
   - Schnitt: suit
 - **Motiv:** Sie steht für Cans Streich Schmiere am Bogen zum Durchgang. Sie fühlt sich schuldig, weil alles aus dem Ruder lief.
-- **Alibi:** Stand am Bogen zwischen Kaminsaal und Durchgang und hielt nach dem Geburtstagskind Ausschau.
-- **Geheimnis:** Sie weiß, dass Can mit der Leuchtmaske im dunklen Vorratsraum auf das Geburtstagskind gewartet hat.
+- **Alibi:** Stand am Bogen zwischen Kaminsaal und Durchgang und hielt nach der blinden Kuh Ausschau.
+- **Geheimnis:** Sie weiß, dass Can mit der Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh gewartet hat.
 - **Persönliches Ziel:** Can schützen.
 - **Nebendelikt:** Hat für Cans Streich Schmiere gestanden. (nd_schmiere)
 - **Loyalität:** Can (can): Sie hat für Can Schmiere gestanden und fühlt sich mitschuldig.
@@ -555,7 +557,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 - **Optik:**
   - Silhouette: Groß, schlank, leicht nach vorn geneigt
   - Kleidung: Anthrazitfarbener Kapuzenpulli mit neongrünen Kordeln, schwarze Jogginghose
-  - Merkmal: Große Kopfhörer auf dem Kopf (in der Tatnacht trägt sie das Geburtstagskind), tragbare Musikbox unter dem Arm
+  - Merkmal: Große Kopfhörer auf dem Kopf (in der Tatnacht trägt sie der Detektiv), tragbare Musikbox unter dem Arm
   - Ruhe-Animation: Wippt im Takt und dreht am Lautstärkerad der Box
 - **Look:**
   - Haut: #a87655
@@ -563,7 +565,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Kopf: none
   - Statur: tall
   - Schnitt: suit
-- **Motiv:** Herr Schneider verlangte ab 22:00 leise Musik und drohte, die Box einzukassieren. Um 23:55 setzte Baran dem Geburtstagskind seine großen Kopfhörer auf und ließ laute Musik für die Überraschung laufen.
+- **Motiv:** Herr Schneider verlangte ab 22:00 leise Musik und drohte, die Box einzukassieren. Um 23:55 setzte Baran der blinden Kuh seine großen Kopfhörer auf und ließ laute Musik für die Überraschung laufen.
 - **Alibi:** Saß im Ost-Saal auf der Wandbank und hielt seine Box fest.
 - **Geheimnis:** Die Musik in den Kopfhörern lief über seine Box weiter, als der Strom weg war. Im Ost-Saal hörte er aus Richtung Theke erst „Hab ich dich!“, dann „Stehen bleiben!“, dann das Scheppern.
 - **Persönliches Ziel:** Seine Box soll nicht einkassiert werden.
@@ -795,13 +797,13 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 - **Persönliches Ziel:** Herrn Schneider in Schutz nehmen, ohne seine Geldsorgen auszuplaudern.
 - **Lügen:**
 
-### 20. Tugba (Die Geburtstags-Planerin)
+### 20. Tugba (Die Party-Planerin)
 
 - **Alter:** 27
 - **Geschlecht:** w
 - **Herkunft:** türkisch
 - **Aussprache:** Tuuba
-- **Alltag:** Ist Projektleiterin und plant sogar Geburtstage mit Ablaufplan.
+- **Alltag:** Ist Projektleiterin und plant sogar Spieleabende mit Ablaufplan.
 - **Stufe:** 5
 - **Farbcode:** #D2691E (Rostorange mit Gold)
 - **Startraum:** Ostsaal (ost_saal)
@@ -818,7 +820,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Statur: normal
   - Schnitt: suit
   - Kopftuchfarbe: #c9a227
-- **Motiv:** Sie hat den Ablaufplan des Abends geschrieben. Um zwölf sollte das Geburtstagskind mit verbundenen Augen zur Torte in den Vorratsraum geführt werden. Herr Schneider hatte nur widerwillig erlaubt, die Torte dort zu kühlen.
+- **Motiv:** Sie hat den Ablaufplan des Abends geschrieben. Zu ihrem Mitternachtsspiel „Blinde Kuh“ sollte um zwölf der Detektiv mit verbundenen Augen zur Torte in den Vorratsraum geführt werden. Herr Schneider hatte nur widerwillig erlaubt, die Torte dort zu kühlen.
 - **Alibi:** Stand im Ost-Saal an der Wandtafel mit dem Ablaufplan.
 - **Geheimnis:** Um 23:57 hat sie notiert, wer für die Torte fehlt und wo die Leute angeblich gerade sind.
 - **Persönliches Ziel:** Den Abend retten: Torte um halb eins, egal was passiert.
@@ -862,7 +864,7 @@ Nur diese Matrix und die Prüfwerkzeuge lesen das Feld `herkunft`; im Spiel ersc
 | 18:50 | vor der Bogentür (vor_bogentuer) | Herr Schneider (schneider), Olli (olli) | Herr Schneider entdeckt den Schaden, verlangt 2.000 € Bargeld und schreibt es in seinen Quittungsblock. Er schließt Hoftür und Außentor ab: „Keiner geht, bevor das bezahlt ist.“ |
 | 19:00 | vor der Theke (vor_theke) | alle | Das Buffet ist eröffnet: warmes Essen, Brot, Dips, Gebäck. Dazu schwarzer Tee aus dem großen Teekocher, Kaffee, alkoholfreier Apfelpunsch, Wasser und Säfte. |
 | 19:30 | an der Kamin-Nische (am_kamin) | Olli (olli) | Olli wärmt sich am noch kalten Kamin die Hände und vergisst dort seinen linken Arbeitshandschuh. |
-| 20:15 | im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte) | Olli (olli) | Lacher: Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Geburtstagstorte. „Ich wollte nur aufs Klo!“ |
+| 20:15 | im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte) | Olli (olli) | Lacher: Olli sucht die Toilette, nimmt die falsche Tür hinter der Theke und steht im dunklen Vorratsraum vor der Mitternachtstorte. „Ich wollte nur aufs Klo!“ |
 | 21:00 | bei der Ritterrüstung (an_der_ruestung) | Sibel (selin) | Lacher: Sibel hält die Ritterrüstung für einen Menschen, schreit auf und stolpert gegen die Schauvitrine. Die Scheibe bekommt einen feinen Sprung. |
 | 22:00 | an der Anrichte neben der Vorratsraumtür (an_anrichte) | Herr Schneider (schneider) | Herr Schneider zündet die drei roten Kerzen im Messingkerzenständer auf der Anrichte an. Es sind die einzigen echten Kerzen im Keller. |
 | 22:00 | auf der Wandbank an der Ostwand (ost_bank) | Herr Schneider (schneider), Baran (baran) | Herr Schneider verlangt leise Musik und droht, Barans Box einzukassieren. |
@@ -876,8 +878,8 @@ Nur diese Matrix und die Prüfwerkzeuge lesen das Feld `herkunft`; im Spiel ersc
 | 23:51 | vor der Theke (vor_theke) | Herr Schneider (schneider), Ahmet (ahmet), Joanna (johanna) | Herr Schneider zu Ahmet an der Theke: „Um zwölf sag ich allen, was der Keller gekostet hat.“ Joanna fotografiert den Streit. |
 | 23:52 | vor der Bogentür (vor_bogentuer) | Olli (olli), Wojtek (kaan) | Olli zu Wojtek: „Ich hol dir Eis. Und dann red ich mit Schneider.“ |
 | 23:53 | an der Schauvitrine (an_der_vitrine) | Herr Schneider (schneider) | Herr Schneider entdeckt auf seiner Runde die offene Vitrine und die Scherben. |
-| 23:54 | im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte) | Can (can), Zeynep (zeynep) | Can schleicht über den Durchgang hinter die Theke in den Vorratsraum, macht dort das Licht aus und wartet mit der Leuchtmaske auf das Geburtstagskind. Zeynep steht am Bogen zum Durchgang Schmiere. |
-| 23:55 | an der Wandtafel mit dem Ablaufplan (an_der_wandtafel) | Tugba (tugba), Detektiv (detective), Baran (baran) | Tugba ruft alle in den Ost-Saal, die Handys kommen in den Handykorb. Das Geburtstagskind bekommt eine Augenbinde und Barans Kopfhörer mit lauter Musik. Um zwölf soll es zur Torte in den Vorratsraum geführt werden. |
+| 23:54 | im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte) | Can (can), Zeynep (zeynep) | Can schleicht über den Durchgang hinter die Theke in den Vorratsraum, macht dort das Licht aus und wartet mit der Leuchtmaske auf die blinde Kuh. Zeynep steht am Bogen zum Durchgang Schmiere. |
+| 23:55 | an der Wandtafel mit dem Ablaufplan (an_der_wandtafel) | Tugba (tugba), Detektiv (detective), Baran (baran) | Tugba ruft alle zu ihrem Mitternachtsspiel „Blinde Kuh“ in den Ost-Saal, die Handys kommen in den Handykorb. Der Detektiv bekommt als blinde Kuh eine Augenbinde und Barans Kopfhörer mit lauter Musik. Um zwölf soll die blinde Kuh zur Torte in den Vorratsraum geführt werden. |
 | 23:55 | am Jackenständer (am_jackenstaender) | Ahmet (ahmet) | Ahmet hängt seine schwarze Jacke an den Jackenständer im Ost-Saal. |
 | 23:56 | am Außentor (am_aussentor) | Serkan (serkan) | Serkan will Decken aus dem Auto holen und findet das Außentor verschlossen. |
 | 23:56 | am linken Buffettisch (am_linken_buffet) | Herr Schneider (schneider), Fatma (fatma), Emine (emine) | Herr Schneider sieht Glassplitter an Fatmas Mantel: „Die Schatulle. Um Punkt zwölf geh ich raus und ruf die Polizei.“ |
@@ -893,12 +895,13 @@ Nur diese Matrix und die Prüfwerkzeuge lesen das Feld `herkunft`; im Spiel ersc
 | 00:03 | an der Innentür unter dem Notausgangsschild (unter_notausgang) | alle | Das Außentor ist zu, der Bund ist weg, hinter den Mauern gibt es keinen Empfang. Die Gruppe sitzt bis zum Morgen fest. |
 | 00:05 | beim Handykorb auf der Tafel (am_handykorb) | Tugba (tugba) | Tugba gibt die Handys aus dem Korb zurück. Empfang hat keines. |
 | 00:12 | an der Kamin-Nische (am_kamin) | Ahmet (ahmet) | Ahmet leert den Umschlag mit dem Mietgeld und wirft ihn in den Ascheneimer am Kamin. Hana sieht es. |
-| 00:20 | hinter dem rechten Buffettisch (hinter_rechtem_buffet) | Herr Schneider (schneider), Detektiv (detective) | Herr Schneider bittet das Geburtstagskind: „Finde raus, wer das war. Bis zum Morgen.“ |
+| 00:15 | am Fuß der Wendeltreppe (wendeltreppe_fuss) | Herr Schneider (schneider) | Herrn Schneider fällt der Ersatzschlüssel der Stiftung ein. Er holt ihn aus dem Schlüsselkasten im Turmgang und schließt damit die Hoftür, den Turm und die Seitentür vom Schlosshof ins Erdgeschoss auf. Das Außentor und das Einfahrtstor des Hofs öffnet der Ersatzschlüssel nicht. Hof und Garten sind hoch ummauert, die Fenster im Erdgeschoss vergittert. Die Gruppe sitzt weiter bis zum Morgen fest. |
+| 00:20 | hinter dem rechten Buffettisch (hinter_rechtem_buffet) | Herr Schneider (schneider), Detektiv (detective) | Herr Schneider bittet den Detektiv: „Finde raus, wer das war. Bis zum Morgen.“ |
 | 00:30 | vor der Theke (vor_theke) | alle | Runde 1: Das Alibi-Geflecht. |
 | 01:15 | vor der Theke (vor_theke) | alle | Runde 2: Die Indizien-Filterung. |
 | 02:00 | vor der Theke (vor_theke) | alle | Runde 3: Die finale Gegenüberstellung. |
 | 02:45 | vor der Theke (vor_theke) | alle | Finale: die Anklage. |
-| 07:00 | im Windfang (im_windfang) | Herr Schneider (schneider) | Herrn Schneiders Kollegin kommt mit dem Ersatzschlüssel und schließt das Außentor auf. |
+| 07:00 | im Windfang (im_windfang) | Herr Schneider (schneider) | Herrn Schneiders Kollegin kommt mit ihrem Torschlüssel und schließt das Außentor auf. |
 
 ## 6. Gegenstände und Spuren
 
@@ -966,7 +969,7 @@ Nur diese Matrix und die Prüfwerkzeuge lesen das Feld `herkunft`; im Spiel ersc
 
 | Stelle | entsteht wenn | zeigt | harmlos | Rolle |
 |---|---|---|---|---|
-| Bauchtasche | immer: ja | Die Maske steckt zusammengefaltet in Cans Bauchtasche. Die Farbe ist noch leicht klebrig. Darauf angesprochen gibt Can zu: Er hat im dunklen Vorratsraum gewartet, um das Geburtstagskind zu erschrecken. | null | alle: nebendelikt |
+| Bauchtasche | immer: ja | Die Maske steckt zusammengefaltet in Cans Bauchtasche. Die Farbe ist noch leicht klebrig. Darauf angesprochen gibt Can zu: Er hat im dunklen Vorratsraum gewartet, um die blinde Kuh zu erschrecken. | null | alle: nebendelikt |
 | Stirn der Maske | kerzenstaenderGegriffenVon: Can (can) | Auf der Stirn der Maske kleben rote Wachstropfen. | Auf der Stirn der Maske ist grünlich-weiße Leuchtfarbe. | Can (can): zusatzindiz |
 
 ### Herrn Schneiders Schlüsselbund (`bund_schneider`)
@@ -1163,7 +1166,7 @@ Nur diese Matrix und die Prüfwerkzeuge lesen das Feld `herkunft`; im Spiel ersc
 |---|---|---|---|---|
 | Korb | immer: ja | Alle Handys liegen darin. Hinter den Mauern fehlt der Empfang. | null | alle: ausgangslage |
 
-### Geburtstagstorte (`torte`)
+### Mitternachtstorte (`torte`)
 
 - **Lage:** im Vorratsraum vor dem Regal mit der Torte (vorrat_mitte)
 - **Sichtbar:** ja
@@ -1221,7 +1224,7 @@ Nur diese Matrix und die Prüfwerkzeuge lesen das Feld `herkunft`; im Spiel ersc
 | b_selin_gesicht | Sibel (selin) | alle | pflichtgespraech | Im Dunkeln huschte ein leuchtendes Gesicht quer durch den Kaminsaal zur Bogentür. | – | Can (can) | – |
 | b_tim_gesicht | Tim (tim) | alle | pflichtgespraech | Am Sicherungskasten huschte im Dunkeln ein leuchtendes Gesicht an ihm vorbei. | – | Can (can) | – |
 | b_tim_kurzschluss | Tim (tim) | alle | verborgen | Der Kurzschluss kam von seiner alten Mehrfachsteckdose. | – | – | – |
-| b_zeynep_vorrat | Zeynep (zeynep) | alle | verborgen | Can hat mit der Leuchtmaske im dunklen Vorratsraum auf das Geburtstagskind gewartet. | luege_can_toilette, luege_can_maske | Can (can) | – |
+| b_zeynep_vorrat | Zeynep (zeynep) | alle | verborgen | Can hat mit der Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh gewartet. | luege_can_toilette, luege_can_maske | Can (can) | – |
 | b_zeynep_gesicht | Zeynep (zeynep) | alle | pflichtgespraech | Ein leuchtendes Gesicht kam aus dem Durchgang an ihr vorbei in den Kaminsaal. | – | Can (can) | – |
 | b_hana_wachs | Hana (meryem) | alle | pflichtgespraech | Kurz nach dem Scheppern roch sie frisch erloschenes Kerzenwachs. Der Geruch kam mit dem Luftzug aus Richtung Theke. | – | – | – |
 | b_hana_umschlag | Hana (meryem) | alle | pflichtgespraech | Kurz nach zwölf warf Ahmet etwas Raschelndes in den Ascheneimer neben dem Kamin. | – | Ahmet (ahmet) | – |

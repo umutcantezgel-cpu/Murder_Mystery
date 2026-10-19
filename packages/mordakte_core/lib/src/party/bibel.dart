@@ -27,6 +27,7 @@ const _settingLabels = {
   'atmosphaere': 'Atmosphäre',
   'brandschutz': 'Brandschutz',
   'ton': 'Ton',
+  'introTeile': 'Weitere Intro-Teile',
 };
 
 const _optikLabels = {

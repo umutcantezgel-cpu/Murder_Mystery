@@ -192,7 +192,7 @@ class Plausibilitaet {
     }
   }
 
-  /// Das Geburtstagskind sitzt mit Augenbinde im Ost-Saal und ist nie in Tatnähe.
+  /// Der Detektiv sitzt als blinde Kuh mit Augenbinde im Ost-Saal und ist nie in Tatnähe.
   void _detektiv(PfadAuswertung a) {
     final tatort = graph.orte['vor_vorratstuer']!;
     for (var t = Uhrzeit.parse('23:55:30'); t <= Uhrzeit.parse('00:00:30'); t = t.plus(1)) {

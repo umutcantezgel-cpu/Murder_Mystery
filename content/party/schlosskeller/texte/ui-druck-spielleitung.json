@@ -17,7 +17,7 @@
     },
     {
       "id": "ui.druck.spielleitung.personen",
-      "text": "{anzahl} Rollen und das Geburtstagskind"
+      "text": "{anzahl} Rollen und der Detektiv"
     },
     {
       "id": "ui.druck.spielleitung.willkommen",
@@ -41,7 +41,7 @@
     },
     {
       "id": "ui.druck.spielleitung.datei.01",
-      "text": "Detektivbogen mit Ermittlungsbogen. Gehört dem Geburtstagskind."
+      "text": "Detektivbogen mit Ermittlungsbogen. Gehört dem Detektiv."
     },
     {
       "id": "ui.druck.spielleitung.datei.10",
@@ -105,7 +105,7 @@
     },
     {
       "id": "ui.druck.spielleitung.entscheidung",
-      "text": "Drei Entscheidungen. Das Geburtstagskind wählt auf dem Detektivbogen. Du gibst die Indizkarte mit dem gewählten Code aus."
+      "text": "Drei Entscheidungen. Der Detektiv wählt auf dem Detektivbogen. Du gibst die Indizkarte mit dem gewählten Code aus."
     },
     {
       "id": "ui.druck.spielleitung.schritt.gruppenwahl",
@@ -189,7 +189,7 @@
     },
     {
       "id": "ui.druck.spielleitung.anklage.klagt",
-      "text": "Nach Runde 3 liest du die Anklage vor. Das Geburtstagskind klagt eine der vier Verdächtigen an."
+      "text": "Nach Runde 3 liest du die Anklage vor. Der Detektiv klagt eine der vier Verdächtigen an."
     },
     {
       "id": "ui.druck.spielleitung.anklage.aufloesung",

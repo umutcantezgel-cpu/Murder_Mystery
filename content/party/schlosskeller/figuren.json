@@ -3,7 +3,7 @@
   "hinweis": "Kanon der Figuren. IDs aus Behzads JSON bleiben Schlüssel, auch wenn der Anzeigename wegen der Namensbalance wechselt (E-014). Koordinaten in Metern auf dem Raster aus raeume.json; sie zeigen den Platz während der Ermittlungsrunden. Positionen in der Tatnacht stehen in den Tatmatrix-Dateien.",
   "detektiv": {
     "id": "detective",
-    "title": "Der Detektiv / Die Detektivin (Geburtstagskind)",
+    "title": "Der Detektiv / Die Detektivin (Gast)",
     "selectableGenders": [
       "m",
       "w"
@@ -27,8 +27,8 @@
       "interactiveTool": "Handy in der Hand mit Taschenlampen-Lichtkegel",
       "idleAnimation": "Bläst mit der Pfeife ein paar Seifenblasen und tippt aufs Handy"
     },
-    "tatnacht": "Ab 23:55 sitzt das Geburtstagskind mit verbundenen Augen und Kopfhörern im Ost-Saal auf dem Ehrenplatz. Die Musik läuft laut. Durch die Musik hört es nur den Knall, Herrn Schneiders Rufe „Hab ich dich!“ und „Stehen bleiben!“ und später ein Scheppern.",
-    "auftrag": "Um 0:20 bittet Herr Schneider das Geburtstagskind: „Finde raus, wer das war. Bis zum Morgen.“",
+    "tatnacht": "Ab 23:55 sitzt der Detektiv als blinde Kuh mit verbundenen Augen und Kopfhörern im Ost-Saal auf dem Ehrenplatz. Die Musik läuft laut. Durch die Musik hört er nur den Knall, Herrn Schneiders Rufe „Hab ich dich!“ und „Stehen bleiben!“ und später ein Scheppern.",
+    "auftrag": "Um 0:20 bittet Herr Schneider den Detektiv: „Finde raus, wer das war. Bis zum Morgen.“",
     "nieVerdaechtig": true,
     "look": {
       "haut": "#d9a983",
@@ -61,7 +61,7 @@
       "idleAnimation": "Tippt auf die Armbanduhr und hakt etwas auf dem Klemmbrett ab"
     },
     "motiveAndConflict": "Seit 25 Jahren hält er das Schloss in Schuss. Den Keller hat er Ahmet umsonst überlassen. Heute ärgert er sich über die Tür, den Parkplatz, die Musik und die offene Vitrine. Um zwölf will er alles klären.",
-    "warmeSeite": "Er hat den Messingkerzenständer selbst poliert, weil er Geburtstage mag. Kleine Schäden zahlt er oft aus eigener Tasche.",
+    "warmeSeite": "Er hat den Messingkerzenständer selbst poliert, weil er Feste mag. Kleine Schäden zahlt er oft aus eigener Tasche.",
     "erinnerung": "Knall, Dunkelheit, der Weg zur Notlaterne, ein leuchtendes Gespenstergesicht. Er packt eine Kapuze und ruft „Hab ich dich!“. Danach ist alles weg.",
     "schluesselbund": "bund_schneider",
     "gedaechtnisLueckeAb": "23:58:14",
@@ -305,13 +305,13 @@
         "distinguishingFeature": "Auffällige gelbe Kapuze, linke Hand tief in der Bauchtasche des Pullis (dort steckt die Maske)",
         "idleAnimation": "Zieht an den Kapuzenbändern und wippt auf den Zehenspitzen"
       },
-      "motiveAndConflict": "Can hat am Nachmittag eine weiße Gespenstermaske mit Leuchtfarbe angemalt. Um 23:54 versteckt er sich damit im dunklen Vorratsraum. Um zwölf soll das Geburtstagskind zur Torte kommen und sich erschrecken. Kurz vor zwölf knallt es, das Licht geht aus, und die Tür zum Vorratsraum quietscht auf. Can glaubt, das Geburtstagskind wird schon gebracht, und springt mit „Buuuh!“ hervor. Er läuft Herrn Schneider in die Arme. Der packt ihn an der Kapuze und ruft: „Hab ich dich!“",
+      "motiveAndConflict": "Can hat am Nachmittag eine weiße Gespenstermaske mit Leuchtfarbe angemalt. Um 23:54 versteckt er sich damit im dunklen Vorratsraum. Um zwölf soll die blinde Kuh zur Torte kommen und sich erschrecken. Kurz vor zwölf knallt es, das Licht geht aus, und die Tür zum Vorratsraum quietscht auf. Can glaubt, die blinde Kuh wird schon gebracht, und springt mit „Buuuh!“ hervor. Er läuft Herrn Schneider in die Arme. Der packt ihn an der Kapuze und ruft: „Hab ich dich!“",
       "blackoutAlibi": "Behauptet, auf der Toilette im Turm gewesen zu sein.",
       "roleSecret": "Er hat mit der Leuchtmaske im Vorratsraum gewartet. Herr Schneider hat ihn an der Kapuze gepackt.",
       "persoenlichesZiel": "Der Streich soll nicht herauskommen.",
       "nebendelikt": {
         "id": "nd_streich",
-        "text": "Hat sich mit der Leuchtmaske im Vorratsraum versteckt, um das Geburtstagskind zu erschrecken."
+        "text": "Hat sich mit der Leuchtmaske im Vorratsraum versteckt, um die blinde Kuh zu erschrecken."
       },
       "loyalitaet": {
         "zu": "zeynep",
@@ -519,10 +519,10 @@
         "distinguishingFeature": "Handy auf einem kleinen Handyhalter mit Aufsteckleuchte",
         "idleAnimation": "Hebt das Handy, wischt durch Fotos und zoomt hinein"
       },
-      "motiveAndConflict": "Sie fotografiert den Abend für das Geburtstagskind. Um 23:55 musste ihr Handy in den Handykorb. Ahmet hat sie gebeten, ein Foto zu löschen.",
+      "motiveAndConflict": "Sie fotografiert den Abend für das Fotoalbum der Clique. Um 23:55 musste ihr Handy in den Handykorb. Ahmet hat sie gebeten, ein Foto zu löschen.",
       "blackoutAlibi": "Stand im Ost-Saal und hielt die Hände über den Handykorb. Um 23:59:30 schaltete sie als Erste die Handylampen ein.",
       "roleSecret": "Sie hat ein Foto von 23:51: Herr Schneider und Ahmet streiten an der Theke.",
-      "persoenlichesZiel": "Ihr Versprechen an Ahmet halten, ohne das Geburtstagskind anzulügen.",
+      "persoenlichesZiel": "Ihr Versprechen an Ahmet halten, ohne den Detektiv anzulügen.",
       "nebendelikt": null,
       "loyalitaet": {
         "zu": "ahmet",
@@ -614,8 +614,8 @@
         "idleAnimation": "Kaut Kaugummi, wippt auf den Absätzen und behält Can im Blick"
       },
       "motiveAndConflict": "Sie steht für Cans Streich Schmiere am Bogen zum Durchgang. Sie fühlt sich schuldig, weil alles aus dem Ruder lief.",
-      "blackoutAlibi": "Stand am Bogen zwischen Kaminsaal und Durchgang und hielt nach dem Geburtstagskind Ausschau.",
-      "roleSecret": "Sie weiß, dass Can mit der Leuchtmaske im dunklen Vorratsraum auf das Geburtstagskind gewartet hat.",
+      "blackoutAlibi": "Stand am Bogen zwischen Kaminsaal und Durchgang und hielt nach der blinden Kuh Ausschau.",
+      "roleSecret": "Sie weiß, dass Can mit der Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh gewartet hat.",
       "persoenlichesZiel": "Can schützen.",
       "nebendelikt": {
         "id": "nd_schmiere",
@@ -658,10 +658,10 @@
       "visualSpecs": {
         "silhouette": "Groß, schlank, leicht nach vorn geneigt",
         "outfit": "Anthrazitfarbener Kapuzenpulli mit neongrünen Kordeln, schwarze Jogginghose",
-        "distinguishingFeature": "Große Kopfhörer auf dem Kopf (in der Tatnacht trägt sie das Geburtstagskind), tragbare Musikbox unter dem Arm",
+        "distinguishingFeature": "Große Kopfhörer auf dem Kopf (in der Tatnacht trägt sie der Detektiv), tragbare Musikbox unter dem Arm",
         "idleAnimation": "Wippt im Takt und dreht am Lautstärkerad der Box"
       },
-      "motiveAndConflict": "Herr Schneider verlangte ab 22:00 leise Musik und drohte, die Box einzukassieren. Um 23:55 setzte Baran dem Geburtstagskind seine großen Kopfhörer auf und ließ laute Musik für die Überraschung laufen.",
+      "motiveAndConflict": "Herr Schneider verlangte ab 22:00 leise Musik und drohte, die Box einzukassieren. Um 23:55 setzte Baran der blinden Kuh seine großen Kopfhörer auf und ließ laute Musik für die Überraschung laufen.",
       "blackoutAlibi": "Saß im Ost-Saal auf der Wandbank und hielt seine Box fest.",
       "roleSecret": "Die Musik in den Kopfhörern lief über seine Box weiter, als der Strom weg war. Im Ost-Saal hörte er aus Richtung Theke erst „Hab ich dich!“, dann „Stehen bleiben!“, dann das Scheppern.",
       "persoenlichesZiel": "Seine Box soll nicht einkassiert werden.",
@@ -1053,7 +1053,7 @@
       "tier": 5,
       "besetzungsplatz": 20,
       "minPlayers": 20,
-      "roleTitle": "Die Geburtstags-Planerin",
+      "roleTitle": "Die Party-Planerin",
       "isPotentialKiller": false,
       "colorCode": "#D2691E",
       "farbname": "Rostorange mit Gold",
@@ -1069,7 +1069,7 @@
         "distinguishingFeature": "Notizbuch mit goldenem Einband und Fineliner",
         "idleAnimation": "Blättert im Notizbuch, hakt Zeilen ab und schaut zur Wanduhr"
       },
-      "motiveAndConflict": "Sie hat den Ablaufplan des Abends geschrieben. Um zwölf sollte das Geburtstagskind mit verbundenen Augen zur Torte in den Vorratsraum geführt werden. Herr Schneider hatte nur widerwillig erlaubt, die Torte dort zu kühlen.",
+      "motiveAndConflict": "Sie hat den Ablaufplan des Abends geschrieben. Zu ihrem Mitternachtsspiel „Blinde Kuh“ sollte um zwölf der Detektiv mit verbundenen Augen zur Torte in den Vorratsraum geführt werden. Herr Schneider hatte nur widerwillig erlaubt, die Torte dort zu kühlen.",
       "blackoutAlibi": "Stand im Ost-Saal an der Wandtafel mit dem Ablaufplan.",
       "roleSecret": "Um 23:57 hat sie notiert, wer für die Torte fehlt und wo die Leute angeblich gerade sind.",
       "persoenlichesZiel": "Den Abend retten: Torte um halb eins, egal was passiert.",
@@ -1084,7 +1084,7 @@
         "schnitt": "suit",
         "kopftuchFarbe": "#c9a227"
       },
-      "alltag": "Ist Projektleiterin und plant sogar Geburtstage mit Ablaufplan."
+      "alltag": "Ist Projektleiterin und plant sogar Spieleabende mit Ablaufplan."
     }
   ],
   "lookHinweis": "Haut- und Haarfarben sind über alle Herkunftsgruppen gestreut und folgen keiner Herkunft (TON-LEITFADEN §7). kopf: Renderer-Kopfbedeckung (none, bun, cap, kopftuch, detektivhut); statur und schnitt wie im Renderer (slim/normal/broad/tall/small, suit/dress)."
