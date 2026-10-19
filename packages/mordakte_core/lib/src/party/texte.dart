@@ -85,6 +85,25 @@ class BefragungText {
   static String kennung(String rolle, int runde) => 'bf_${rolle}_$runde';
 }
 
+/// Kurzfassung einer Befragungs-Preisgabe (E-044, Kartenformat R17): eine
+/// Karte mit ein bis drei Stichpunkten zu je höchstens acht Wörtern statt des
+/// Kanon-Wortlauts. [antwort] zeigt die App dem Detektiv (Beobachtung in der
+/// dritten Person, Lüge nur als Behauptung in der Ich-Form), [du] steht auf dem
+/// Spickzettel der befragten Rolle; ohne [du] gilt [antwort]. Die Langfassung
+/// bleibt in Beobachtung und Lüge, die Kurzfassung ändert keine Tatsache.
+class Kurzfassung {
+  final String quelle;
+  final List<String> antwort;
+  final List<String>? du;
+  Kurzfassung(Map j)
+      : quelle = j['quelle'] as String,
+        antwort = _texte(j['antwort']),
+        du = j['du'] == null ? null : _texte(j['du']);
+
+  /// Zeilen für den Spickzettel der Rolle.
+  List<String> get zettel => du ?? antwort;
+}
+
 class WahlText {
   final String id, a, b;
   final String? sabotage;
@@ -109,6 +128,9 @@ class Textsammlung {
   final Map<String, TaeterRoh> taeter = {};
   final List<Gespraech> gespraeche = [];
   final Map<String, BefragungText> befragungen = {};
+
+  /// Kurzfassungen der Befragungs-Preisgaben nach Verweis (`beobachtung:<id>`, `luege:<id>`).
+  final Map<String, Kurzfassung> kurzfassungen = {};
   final Map<String, WahlText> wahlen = {};
   final List<String> doppelt = [];
 
@@ -137,6 +159,8 @@ class Textsammlung {
             if (merke(m['id'] as String, d.key)) gespraeche.add(Gespraech(m));
           case 'befragung':
             if (merke(m['id'] as String, d.key)) befragungen[m['id'] as String] = BefragungText(m);
+          case 'kurzfassung':
+            if (merke('kurz.${m['quelle']}', d.key)) kurzfassungen[m['quelle'] as String] = Kurzfassung(m);
           case 'wahl':
             if (merke(m['id'] as String, d.key)) wahlen[m['id'] as String] = WahlText(m);
         }
@@ -248,6 +272,9 @@ class Texte {
 
   Map<String, Object?>? beobachtung(String id) => _beob[id];
   Map<String, Object?>? luege(String id) => _luegen[id];
+
+  /// Kurzfassung einer Befragungs-Preisgabe (E-044), sonst null.
+  Kurzfassung? kurzfassung(String quelle) => sammlung.kurzfassungen[quelle];
 
   late final Map<String, String> _hinweise = {
     for (final h in kanon.bonusJson['hinweise'] as List) (h as Map)['id'] as String: h['text'] as String,
@@ -471,6 +498,27 @@ List<String> textVerweise(Kanon kanon, Textsammlung t) {
     karte(wo, b.stichpunkte, mindestens: 0, hoechstens: 2);
     preisgaben(wo, b.rolle, b.preisgabe);
   }
+  // Kurzfassungen (E-044): nur für öffentliche Preisgaben einer Befragung, je eine Karte nach R17.
+  final preisgegeben = {for (final b in t.befragungen.values) ...b.preisgabe};
+  for (final k in t.kurzfassungen.values) {
+    final wo = 'Kurzfassung ${k.quelle}';
+    if (!besetzung.befragungsmodell) f.add('$wo: Kurzfassungen gibt es nur im Modell befragung');
+    if (!texte.bekannt(k.quelle)) {
+      f.add('$wo: unbekannter Verweis');
+      continue;
+    }
+    if (!preisgegeben.contains(k.quelle)) f.add('$wo: keine Befragung gibt das preis');
+    if (k.quelle.startsWith('beobachtung:')) {
+      final b = texte.beobachtung(k.quelle.substring(12))!;
+      if (b['kanal'] != 'pflichtgespraech' || b['pfade'] != 'alle') f.add('$wo: nicht öffentlich (Kanal ${b['kanal']}, Pfade ${b['pfade']})');
+    } else if (k.quelle.startsWith('luege:')) {
+      if (k.du != null) f.add('$wo: eine Lüge hat nur die Behauptung, kein du');
+    } else {
+      f.add('$wo: nur Beobachtungen und Lügen');
+    }
+    karte('$wo, antwort', k.antwort, mindestens: 1, hoechstens: 3);
+    if (k.du != null) karte('$wo, du', k.du!, mindestens: 1, hoechstens: 3);
+  }
   for (final w in t.wahlen.values) {
     if (!wahlIds.contains(w.id)) f.add('Wahl ${w.id}: keine Gruppenwahl mit dieser Kennung');
     final rolle = w.id.substring(3, w.id.lastIndexOf('_'));
@@ -493,7 +541,11 @@ List<String> textLuecken(Kanon kanon, Textsammlung t) {
       final n = t.gespraeche.where((g) => g.rolle == r && g.runde == runde).length;
       if (besetzung.befragungsmodell) {
         if (n != besetzung.tischJeRolle) f.add('Rolle $r, Runde $runde: $n statt ${besetzung.tischJeRolle} Tischgespräche');
-        if (!t.befragungen.containsKey(BefragungText.kennung(r, runde))) f.add('Befragung ${BefragungText.kennung(r, runde)} fehlt');
+        final b = t.befragungen[BefragungText.kennung(r, runde)];
+        if (b == null) f.add('Befragung ${BefragungText.kennung(r, runde)} fehlt');
+        for (final q in b?.preisgabe ?? const <String>[]) {
+          if (!t.kurzfassungen.containsKey(q)) f.add('Kurzfassung $q fehlt (${b!.id})');
+        }
       } else if (n != 3) {
         f.add('Rolle $r, Runde $runde: $n statt 3 Pflichtgespräche');
       }

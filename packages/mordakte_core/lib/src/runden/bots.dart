@@ -71,7 +71,8 @@ List<BotGespraech> botGespraeche(Texte texte, {required int rollen, required int
 }
 
 /// Antwort einer App-gesprochenen Rolle auf eine Befragung des Detektivs
-/// (A-051): die Preisgaben der Befragung, aufgelöst wie in [botGespraeche] –
+/// (A-051): die Preisgaben der Befragung mit derselben Prüfung wie in
+/// [botGespraeche], als Stichpunkte ihrer Kanon-Kurzfassungen (E-044) –
 /// Beobachtungen in der dritten Person, Lügen nur als Behauptung. Die Antwort
 /// wird nie geschrieben, sondern immer aus den Preisgaben erzeugt; welche Frage
 /// der Detektiv stellt, ändert nichts daran. Nicht Öffentliches wirft [StateError].

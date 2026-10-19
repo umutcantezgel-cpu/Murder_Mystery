@@ -91,6 +91,9 @@ List<Map<String, Object?>> _probeEintraege(String bereich, int n) => switch (ber
             'preisgabe': <String>[],
           },
         ],
+      'kurzfassung' => [
+          {'quelle': 'beobachtung:probe$n', 'antwort': ['Sie war da.'], 'du': ['Du warst da.']},
+        ],
       _ => [
           {'id': 'gw_probe$n', 'a': 'Option a.', 'b': 'Option b.', 'sabotage': null},
         ],
@@ -224,10 +227,10 @@ void main() {
   });
 
   group('Quellen (textQuellen)', () {
-    test('textQuellen deckt jede Textdatei des Index ab (38 aus F3, 8 Oberflächendateien aus F4, 3 Druckdateien aus F5, 1 Gästewissen aus F5, 3 Befragungen aus M2a, 1 Befragungs-Oberfläche aus M2b, 1 Gästewissen der Zielfiguren aus E-044)', () {
+    test('textQuellen deckt jede Textdatei des Index ab (38 aus F3, 8 Oberflächendateien aus F4, 3 Druckdateien aus F5, 1 Gästewissen aus F5, 3 Befragungen aus M2a, 1 Befragungs-Oberfläche aus M2b, 1 Gästewissen der Zielfiguren und 1 Kurzfassungsdatei aus E-044)', () {
       final index = leseJson('$repoWurzel/content/party/schlosskeller/texte/index.json');
       final dateien = [for (final d in index['dateien'] as List) 'texte/${(d as Map)['datei']}'];
-      expect(dateien, hasLength(55));
+      expect(dateien, hasLength(56));
       final quellen = textQuellen(kanon, _probeSammlung(index));
       final orte = {for (final q in quellen) q.ort.split('#').first};
       expect(orte.where((o) => o.startsWith('texte/')), unorderedEquals(dateien));

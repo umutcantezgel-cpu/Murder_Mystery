@@ -85,6 +85,7 @@ const _schemaJeBereich = {
   'taeter': 'texte-taeter',
   'gespraech': 'texte-gespraech',
   'befragung': 'texte-befragung',
+  'kurzfassung': 'texte-kurzfassung',
   'wahl': 'texte-wahl',
 };
 

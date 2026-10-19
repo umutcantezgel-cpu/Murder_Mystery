@@ -151,7 +151,7 @@ void main() {
     expect(_texte.lastVerstoesse(), isEmpty);
   });
 
-  test('I-B6: Fragen, Thema und Stichpunkte nennen nur Figuren, die mit der befragten Rolle besetzt sind', () {
+  test('I-B6: Fragen, Thema, Stichpunkte und Antworten nennen nur Figuren, die mit der befragten Rolle besetzt sind', () {
     final namen = {for (final x in kanon.figuren) x['id'] as String: x['name'] as String};
     final reihe = _texte.besetzung.reihenfolge;
     final f = <String>[];
@@ -160,7 +160,8 @@ void main() {
       final unsicher = reihe.skip(reihe.indexOf(b.rolle) + 1);
       for (final u in unsicher) {
         final re = RegExp('(?<!\\p{L})${RegExp.escape(namen[u]!)}(?!\\p{L})', unicode: true);
-        for (final t in [b.thema, ...b.fragen, ...b.stichpunkte]) {
+        final z = befragungsZettel(_texte, b);
+        for (final t in [b.thema, ...b.fragen, ...b.stichpunkte, ...botAntwort(_texte, b), ...z.sagen, ...z.behaupten]) {
           if (re.hasMatch(t)) f.add('${b.id}: nennt ${namen[u]}');
         }
       }
@@ -183,30 +184,113 @@ void main() {
     }
   });
 
-  test('Antworten entstehen nur aus den Preisgaben, unabhängig von der Frage', () {
+  test('Antworten entstehen nur aus den Preisgaben, unabhängig von der Frage: je Preisgabe ihre Kurzfassung', () {
     for (final b in _texte.sammlung.befragungen.values) {
-      final antwort = botAntwort(_texte, b);
-      expect(antwort, hasLength(b.preisgabe.length), reason: b.id);
-      for (var i = 0; i < antwort.length; i++) {
-        final id = b.preisgabe[i].split(':').last;
-        expect(antwort[i], b.preisgabe[i].startsWith('luege:') ? _texte.luege(id)!['behauptung'] : _texte.beobachtung(id)!['text'], reason: b.id);
-        if (b.preisgabe[i].startsWith('luege:')) expect(antwort[i], isNot(_texte.luege(id)!['wahrheit']));
+      final karten = befragungsKarten(_texte, b);
+      expect(karten, hasLength(b.preisgabe.length), reason: b.id);
+      for (var i = 0; i < karten.length; i++) {
+        final q = b.preisgabe[i];
+        // Die Karte ist die Kanon-Kurzfassung derselben Preisgabe (E-044), nie ein Text der App.
+        expect(karten[i], _texte.sammlung.kurzfassungen[q]!.antwort, reason: '${b.id} $q');
+        if (q.startsWith('luege:')) {
+          final l = _texte.luege(q.split(':').last)!;
+          for (final w in [l['wahrheit'], l['duWahrheit']].whereType<String>()) {
+            expect(karten[i], isNot(contains(w)), reason: '${b.id} $q');
+          }
+        }
       }
+      final antwort = botAntwort(_texte, b);
+      expect(antwort, [for (final k in karten) ...k], reason: b.id);
       expect(() => antwort.clear(), throwsUnsupportedError);
+      if (karten.isNotEmpty) expect(() => karten.first.clear(), throwsUnsupportedError);
+      // Der Spickzettel trägt dieselben Preisgaben: Beobachtungen in der Du-Form, Lügen nur als Behauptung.
+      final z = befragungsZettel(_texte, b);
+      expect(z.sagen, [
+        for (final q in b.preisgabe)
+          if (q.startsWith('beobachtung:')) ..._texte.sammlung.kurzfassungen[q]!.zettel,
+      ], reason: b.id);
+      expect(z.behaupten, [
+        for (final q in b.preisgabe)
+          if (q.startsWith('luege:')) ..._texte.sammlung.kurzfassungen[q]!.antwort,
+      ], reason: b.id);
     }
   });
 
-  // Offen (Prüfung M2): Antwort und Spickzettel geben Beobachtung und Behauptung wortgleich aus dem Kanon wieder, bis
-  // 19 Wörter. R17 verlangt auf dem Handy Stichpunkte zu höchstens acht Wörtern. Ob Kurzfassungen den Wortlaut
-  // ersetzen und welche Einzelheiten dabei wegfallen, entscheidet der Besitzer.
-  test('R17: Antwort- und Spickzettelzeilen haben höchstens acht Wörter', () {
-    final lang = <String>[
-      for (final b in _texte.sammlung.befragungen.values)
-        for (final z in {...botAntwort(_texte, b), ...befragungsZettel(_texte, b).sagen, ...befragungsZettel(_texte, b).behaupten})
-          if (stichpunktWoerter(z) > 8) '${b.id}: ${stichpunktWoerter(z)} Wörter: $z',
-    ];
+  // E-044: Der Besitzer will keine Textantworten, sondern Stichpunkte als Dialoghilfe. Jede Preisgabe ist eine Karte
+  // mit höchstens drei Stichpunkten zu höchstens acht Wörtern; der Kanon-Wortlaut bleibt in Beobachtung und Lüge.
+  test('R17: Jede Preisgabe ist eine Karte mit höchstens drei Stichpunkten zu höchstens acht Wörtern', () {
+    final lang = <String>[];
+    for (final b in _texte.sammlung.befragungen.values) {
+      for (final q in b.preisgabe) {
+        final k = _texte.sammlung.kurzfassungen[q]!;
+        for (final (feld, zeilen) in [('antwort', k.antwort), ('du', k.zettel)]) {
+          if (zeilen.isEmpty || zeilen.length > 3) lang.add('${b.id}, $q, $feld: ${zeilen.length} Stichpunkte');
+          for (final z in zeilen) {
+            if (stichpunktWoerter(z) > 8) lang.add('${b.id}, $q, $feld: ${stichpunktWoerter(z)} Wörter: $z');
+          }
+        }
+      }
+      final z = befragungsZettel(_texte, b);
+      for (final x in {...botAntwort(_texte, b), ...z.sagen, ...z.behaupten}) {
+        if (stichpunktWoerter(x) > 8) lang.add('${b.id}: ${stichpunktWoerter(x)} Wörter: $x');
+      }
+    }
     expect(lang, isEmpty, reason: lang.join('\n'));
-  }, skip: 'offen: Kurzfassungen der Preisgaben für Befragungen, Entscheidung des Besitzers');
+    // Keine Antwortzeile ist mehr der Kanon-Wortlaut einer Beobachtung mit mehr als acht Wörtern.
+    final langfassungen = {
+      for (final b in kanon.beobachtungen)
+        if (stichpunktWoerter(b['text'] as String) > 8) ...[b['text'] as String, ?b['duText'] as String?],
+    };
+    for (final b in _texte.sammlung.befragungen.values) {
+      expect(botAntwort(_texte, b).where(langfassungen.contains), isEmpty, reason: b.id);
+    }
+  });
+
+  test('Kurzfassungen: genau eine je Preisgabe einer Befragung, Lügen ohne Du-Fassung', () {
+    final preisgaben = {for (final b in _texte.sammlung.befragungen.values) ...b.preisgabe};
+    expect(_texte.sammlung.kurzfassungen.keys.toSet(), preisgaben);
+    expect(_texte.sammlung.kurzfassungen, hasLength(25));
+    for (final k in _texte.sammlung.kurzfassungen.values.where((k) => k.quelle.startsWith('luege:'))) {
+      expect(k.du, isNull, reason: k.quelle);
+    }
+    expect(textVerweise(kanon, _texte.sammlung).where((x) => x.startsWith('Kurzfassung')), isEmpty);
+    expect(textLuecken(kanon, _texte.sammlung).where((x) => x.startsWith('Kurzfassung')), isEmpty);
+  });
+
+  test('Rot-Probe: fehlt eine Kurzfassung, scheitert die Antwort geschlossen und die Lückenliste nennt sie', () {
+    final t = _texteMit({
+      'texte/befragung-kurz.json': _geaendert('texte/befragung-kurz.json', (alt) => [
+            for (final e in alt)
+              if (e['quelle'] != 'beobachtung:b_emine_versteck') e,
+          ]),
+    });
+    final b = t.sammlung.befragungen['bf_emine_1']!;
+    expect(() => botAntwort(t, b), throwsStateError);
+    expect(() => befragungsZettel(t, b), throwsStateError);
+    expect(textLuecken(kanon, t.sammlung), contains('Kurzfassung beobachtung:b_emine_versteck fehlt (bf_emine_1)'));
+  });
+
+  test('Rot-Probe: zu lange, zu viele, fremde und verborgene Kurzfassungen werden gemeldet', () {
+    final t = _sammlungMit({
+      'texte/befragung-kurz.json': _geaendert('texte/befragung-kurz.json', (alt) => [
+            for (final e in alt)
+              if (e['quelle'] == 'beobachtung:b_emine_versteck')
+                {...e, 'antwort': ['Eins zwei drei vier fünf sechs sieben acht neun.']}
+              else if (e['quelle'] == 'beobachtung:b_tim_gesicht')
+                {...e, 'du': ['Eins.', 'Zwei.', 'Drei.', 'Vier.']}
+              else if (e['quelle'] == 'luege:luege_can_maske')
+                {...e, 'du': ['Du hast eine Maske.']}
+              else
+                e,
+            {'quelle': 'beobachtung:b_tim_kurzschluss', 'antwort': ['Etwas Verborgenes.']},
+          ]),
+    });
+    final f = textVerweise(kanon, t);
+    expect(f, contains('Kurzfassung beobachtung:b_emine_versteck, antwort: Stichpunkt mit 9 Wörtern statt höchstens 8 (R17): Eins zwei drei vier fünf sechs sieben acht neun.'));
+    expect(f, contains('Kurzfassung beobachtung:b_tim_gesicht, du: 4 Stichpunkte statt 1 bis 3 (R17)'));
+    expect(f, contains('Kurzfassung luege:luege_can_maske: eine Lüge hat nur die Behauptung, kein du'));
+    expect(f.where((x) => x.startsWith('Kurzfassung beobachtung:b_tim_kurzschluss: ')), isNotEmpty);
+  });
 
   test('Tischgespräche: eines je Rolle und Runde, Stichpunkte statt Prosa, ohne Kettenglied', () {
     final glieder = tischKettenglieder(kanon);

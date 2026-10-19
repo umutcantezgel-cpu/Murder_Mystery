@@ -1,0 +1,257 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "kurzfassung",
+  "hinweis": "Kurzfassungen der Befragungs-Preisgaben (E-044, Kartenformat R17): je Beobachtung oder Lüge eine Karte mit ein bis drei Stichpunkten zu höchstens acht Wörtern. antwort: was die App dem Detektiv zeigt, bei Beobachtungen in der dritten Person, bei Lügen nur die Behauptung in der Ich-Form. du: der Spickzettel der befragten Rolle; ohne du gilt antwort, bei Lügen mit „Behaupte:“ davor. Jeder Hinweisinhalt der Langfassung bleibt erhalten (Uhrzeit, Personen, Ort, Richtung). Die Langfassung bleibt in beobachtungen.json und figuren.json.",
+  "eintraege": [
+    {
+      "quelle": "luege:luege_ahmet_servietten",
+      "antwort": [
+        "Ich hab hinter der Theke nur Servietten gesucht."
+      ]
+    },
+    {
+      "quelle": "luege:luege_ahmet_miete",
+      "antwort": [
+        "Die 150 € waren für die Miete."
+      ]
+    },
+    {
+      "quelle": "luege:luege_fatma_buffet",
+      "antwort": [
+        "Ich stand durchgehend beim Gebäck am linken Buffet."
+      ]
+    },
+    {
+      "quelle": "luege:luege_fatma_tasche",
+      "antwort": [
+        "In meiner Tasche sind nur Bücher."
+      ]
+    },
+    {
+      "quelle": "luege:luege_olli_tafel",
+      "antwort": [
+        "Ich saß durchgehend am Tisch im Ost-Saal."
+      ]
+    },
+    {
+      "quelle": "luege:luege_can_toilette",
+      "antwort": [
+        "Ich war durchgehend auf der Toilette im Turm."
+      ]
+    },
+    {
+      "quelle": "luege:luege_can_maske",
+      "antwort": [
+        "Welche Maske? Ich hab keine Maske."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_lejla_ahmet_theke",
+      "antwort": [
+        "Um 23:57 schlüpfte Ahmet hinter die Theke.",
+        "Er hatte einen dicken Umschlag dabei."
+      ],
+      "du": [
+        "Um 23:57 hast du Ahmet gesehen.",
+        "Er schlüpfte mit dickem Umschlag hinter die Theke."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_emine_versteck",
+      "antwort": [
+        "Duckte sich beim Knall hinter den linken Buffettisch.",
+        "Blieb dort, bis das Licht anging."
+      ],
+      "du": [
+        "Du hast dich beim Knall geduckt.",
+        "Hinter den linken Buffettisch.",
+        "Dort bist du geblieben, bis das Licht anging."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_tim_gesicht",
+      "antwort": [
+        "Am Sicherungskasten, im Dunkeln.",
+        "Ein leuchtendes Gesicht huschte an ihm vorbei."
+      ],
+      "du": [
+        "Im Dunkeln, am Sicherungskasten.",
+        "Ein leuchtendes Gesicht huschte an dir vorbei."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_marek_gesicht",
+      "antwort": [
+        "Ein leuchtendes Gespenstergesicht rannte an ihm vorbei.",
+        "Im Dunkeln, durch den Durchgang Richtung Kaminsaal."
+      ],
+      "du": [
+        "Ein leuchtendes Gespenstergesicht rannte an dir vorbei.",
+        "Im Dunkeln durch den Durchgang, Richtung Kaminsaal."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_zeynep_gesicht",
+      "antwort": [
+        "Ein leuchtendes Gesicht kam aus dem Durchgang.",
+        "Es lief an ihr vorbei in den Kaminsaal."
+      ],
+      "du": [
+        "Aus dem Durchgang kam ein leuchtendes Gesicht.",
+        "Es lief an dir vorbei in den Kaminsaal."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_baran_rufe",
+      "antwort": [
+        "Er hörte Rufe aus Richtung Theke.",
+        "Erst „Hab ich dich!“, dann „Stehen bleiben!“",
+        "Danach kam das Scheppern."
+      ],
+      "du": [
+        "Du hast Rufe aus Richtung Theke gehört.",
+        "Erst „Hab ich dich!“, dann „Stehen bleiben!“",
+        "Und dann das Scheppern."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_hana_umschlag",
+      "antwort": [
+        "Kurz nach zwölf, beim Kamin:",
+        "Ahmet warf etwas Raschelndes in den Ascheneimer."
+      ],
+      "du": [
+        "Kurz nach zwölf hast du Ahmet gesehen.",
+        "Er warf etwas Raschelndes in den Ascheneimer.",
+        "Der Eimer steht neben dem Kamin."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_hana_wachs",
+      "antwort": [
+        "Kurz nach dem Scheppern roch sie Kerzenwachs.",
+        "Das Wachs war frisch erloschen.",
+        "Geruch mit dem Luftzug aus Richtung Theke."
+      ],
+      "du": [
+        "Kurz nach dem Scheppern hast du Kerzenwachs gerochen.",
+        "Es war frisch erloschenes Wachs.",
+        "Der Luftzug brachte es aus Richtung Theke."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_serkan_tor",
+      "antwort": [
+        "Er stand am Außentor.",
+        "Von kurz vor bis nach zwölf.",
+        "Es war abgeschlossen, niemand ist hinaus."
+      ],
+      "du": [
+        "Du hast am Außentor gestanden.",
+        "Von kurz vor bis nach zwölf.",
+        "Es war abgeschlossen, niemand ist hinaus."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_aylin_quittung",
+      "antwort": [
+        "Sie hat Herrn Schneiders Quittungszettel.",
+        "Darauf steht: „Miete: 0 Euro.“"
+      ],
+      "du": [
+        "Du hast Herrn Schneiders Quittungszettel.",
+        "Darauf steht: „Miete: 0 Euro.“"
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_wojtek_olli_satz",
+      "antwort": [
+        "Um 23:52 sagte Olli:",
+        "„Ich hol dir Eis.“",
+        "„Und dann red ich mit Schneider.“"
+      ],
+      "du": [
+        "Um 23:52 hast du Olli gehört:",
+        "„Ich hol dir Eis.“",
+        "„Und dann red ich mit Schneider.“"
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_wojtek_vorbei",
+      "antwort": [
+        "Im Dunkeln drängte sich jemand an ihm vorbei.",
+        "Durch die Bogentür in den Turm."
+      ],
+      "du": [
+        "Im Dunkeln drängte sich jemand an dir vorbei.",
+        "Weiter durch die Bogentür in den Turm."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_azra_versteck",
+      "antwort": [
+        "Duckte sich beim Knall am rechten Buffettisch.",
+        "Sie blieb dort, bis das Licht anging."
+      ],
+      "du": [
+        "Beim Knall hast du dich geduckt.",
+        "Am rechten Buffettisch.",
+        "Da bist du geblieben, bis das Licht anging."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_azra_tasche",
+      "antwort": [
+        "Um 23:45 war Fatmas Tasche auffällig ausgebeult."
+      ],
+      "du": [
+        "Um 23:45 ist dir Fatmas Tasche aufgefallen.",
+        "Sie war auffällig ausgebeult."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_damir_an_der_theke",
+      "antwort": [
+        "Um 23:57 standen an der Theke:",
+        "Ahmet, Fatma und Olli.",
+        "Herr Schneider am Ostende, Can nicht zu sehen."
+      ],
+      "du": [
+        "Um 23:57 sahst du an der Theke:",
+        "Ahmet, Fatma und Olli.",
+        "Herr Schneider am Ostende, Can nicht zu sehen."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_selin_gesicht",
+      "antwort": [
+        "Im Dunkeln: ein leuchtendes Gesicht.",
+        "Es huschte quer durch den Kaminsaal zur Bogentür."
+      ],
+      "du": [
+        "Im Dunkeln hast du ein leuchtendes Gesicht gesehen.",
+        "Es huschte quer durch den Kaminsaal zur Bogentür."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_pawel_schneider",
+      "antwort": [
+        "Herr Schneider muss jeden Schaden der Stiftung melden.",
+        "Darum ist er beim Geld so streng."
+      ]
+    },
+    {
+      "quelle": "beobachtung:b_tugba_notiz",
+      "antwort": [
+        "Um 23:57 hat sie etwas notiert:",
+        "Wer für die Torte fehlt.",
+        "Und wo die Leute angeblich gerade sind."
+      ],
+      "du": [
+        "Um 23:57 hast du notiert:",
+        "Wer für die Torte fehlt.",
+        "Und wo die Leute angeblich gerade sind."
+      ]
+    }
+  ]
+}

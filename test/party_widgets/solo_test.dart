@@ -137,7 +137,8 @@ void main() {
         expect(zustellung.keys.toSet(), plan.glieder.keys.toSet(), reason: '$n Rollen: jedes Glied hat einen Weg');
         for (final z in zustellung.values.where((z) => z.weg == Zustellweg.befragung)) {
           final k = s.befragungsNotizen.firstWhere((k) => k.id == BefragungText.kennung(z.halter, z.runde), orElse: () => throw TestFailure('$pfad / $n: ${z.glied} nicht gehört'));
-          expect(k.antwort, contains(oeffentlicheAussage(partyDaten.texte, z.halter, z.glied)), reason: '$pfad / $n: ${z.glied}');
+          // Gehört hat er die Kanon-Kurzfassung derselben Preisgabe (E-044).
+          expect(k.antwort, containsAllInOrder(oeffentlicheKurzfassung(partyDaten.texte, z.halter, z.glied).antwort), reason: '$pfad / $n: ${z.glied}');
         }
         for (var r = 1; r <= 3; r++) {
           final stimmen = {for (final rolle in s.besetzt) rolle: botKooperativ(salz: 'solo-probe', rolle: rolle, runde: r)};

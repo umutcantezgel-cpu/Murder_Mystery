@@ -4,7 +4,6 @@
 // Zielfigur gibt es nicht: Die Fundkarte zeigt nur die Fakten der Option. Freie Wahlen zählen nicht mit: Wer sie
 // verschenkt, löst den Fall trotzdem.
 import 'package:mordakte_core/mordakte_core.dart';
-import 'package:mordakte_core/runden.dart';
 import 'package:test/test.dart';
 
 import 'kanon_hilfe.dart';
@@ -32,10 +31,11 @@ List<String> _abend(int n, String pfad, {bool befragen = true, bool erzaehler = 
   };
   for (var r = 1; r <= 3; r++) {
     final br = _plan.fuer(n, r);
-    // Feste Befragungen: Die Antwort entsteht aus der Preisgabe; die gewählte Frage ändert nichts.
+    // Feste Befragungen: Die Antwort entsteht aus der Preisgabe, je Preisgabe eine Karte (E-044); die gewählte Frage
+    // ändert nichts.
     for (final x in befragen ? br.pflicht : const <String>[]) {
       final b = br.text(x);
-      expect(botAntwort(_texte, b), hasLength(b.preisgabe.length));
+      expect(befragungsKarten(_texte, b), hasLength(b.preisgabe.length));
       bekannt.addAll(b.preisgabe);
     }
     // Erzähler zum Rundenstart: Wissen unbesetzter Gäste.

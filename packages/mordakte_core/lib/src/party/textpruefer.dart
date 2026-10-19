@@ -337,6 +337,15 @@ List<TextQuelle> textQuellen(Kanon kanon, Textsammlung t) {
       add('$o.stichpunkte[$i]', b.stichpunkte[i]);
     }
   }
+  for (final k in t.kurzfassungen.values) {
+    final o = '${t.herkunft['kurz.${k.quelle}']}#${k.quelle}';
+    for (var i = 0; i < k.antwort.length; i++) {
+      add('$o.antwort[$i]', k.antwort[i]);
+    }
+    for (var i = 0; i < (k.du?.length ?? 0); i++) {
+      add('$o.du[$i]', k.du![i]);
+    }
+  }
   for (final e in t.wahlen.entries) {
     final o = '${t.herkunft[e.key]}#${e.key}';
     add('$o.a', e.value.a);

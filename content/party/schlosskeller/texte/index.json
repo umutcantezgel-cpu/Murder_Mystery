@@ -151,6 +151,10 @@
       "bereich": "befragung"
     },
     {
+      "datei": "befragung-kurz.json",
+      "bereich": "kurzfassung"
+    },
+    {
       "datei": "wahlen-kern.json",
       "bereich": "wahl"
     },

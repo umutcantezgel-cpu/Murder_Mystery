@@ -103,7 +103,8 @@ Map<String, String> _verboten(Kanon kanon) {
 
 /// Texte, die am Tisch stehen (Fundstelle → Text): Erzählerbausteine außer finale.*, rueckblende.* und aufloesung.*,
 /// Vorstellung (dossier.wer), Thema, Text und Stichpunkte aller Gespräche, Thema, Fragen und Stichpunkte aller
-/// Befragungen (A-051), Frage und Optionen aus den Entscheidungen.
+/// Befragungen (A-051), die Kurzfassungen ihrer Preisgaben als Antwort und Spickzettel (E-044), Frage und Optionen
+/// aus den Entscheidungen.
 Map<String, String> _tisch(Kanon kanon, Textsammlung t) {
   final tisch = <String, String>{};
   for (final e in t.bausteine.entries) {
@@ -130,6 +131,14 @@ Map<String, String> _tisch(Kanon kanon, Textsammlung t) {
     }
     for (var i = 0; i < b.stichpunkte.length; i++) {
       tisch['Befragung ${b.id}, Stichpunkt ${i + 1}'] = b.stichpunkte[i];
+    }
+  }
+  for (final k in t.kurzfassungen.values) {
+    for (var i = 0; i < k.antwort.length; i++) {
+      tisch['Kurzfassung ${k.quelle}, Antwort ${i + 1}'] = k.antwort[i];
+    }
+    for (var i = 0; i < (k.du?.length ?? 0); i++) {
+      tisch['Kurzfassung ${k.quelle}, Du ${i + 1}'] = k.du![i];
     }
   }
   for (final e in kanon.entscheidungenJson['entscheidungen'] as List) {
@@ -269,6 +278,16 @@ void main() {
     final tisch = _tisch(kanon, _textsammlung);
     expect(tisch.keys.where((k) => k.contains(', Stichpunkt ')), isNotEmpty);
     expect(tisch.keys.where((k) => k.startsWith('Befragung ') && k.contains(', Frage ')), hasLength(greaterThanOrEqualTo(120)));
+    // E-044: auch jede Zeile der Kurzfassungen, als Antwort und als Spickzettel.
+    expect(tisch.keys.where((k) => k.startsWith('Kurzfassung ') && k.contains(', Antwort ')), hasLength(greaterThanOrEqualTo(25)));
+    expect(tisch.keys.where((k) => k.startsWith('Kurzfassung ') && k.contains(', Du ')), isNotEmpty);
+  });
+
+  test('Rot-Probe (E-044): Täterwissen in einer Kurzfassung wird gemeldet', () {
+    final v = _verboten(kanon);
+    final folge = v.keys.first;
+    final tisch = {..._tisch(kanon, _textsammlung), 'Kurzfassung beobachtung:b_emine_versteck, Antwort 1': folge};
+    expect(_tischFehler(tisch, v).where((x) => x.startsWith('Kurzfassung beobachtung:b_emine_versteck, Antwort 1')), isNotEmpty);
   });
 
   test('Rot-Probe: Täterwissen in einer Befragungsfrage wird gemeldet', () {

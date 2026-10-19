@@ -71,17 +71,33 @@ String oeffentlicheAussage(Texte texte, String rolle, String quelle) {
   }
 }
 
-/// Antwort-Stichpunkte einer Befragung in der dritten Person bzw. als Behauptung
-/// (A-051). Sie entstehen nur aus den Preisgaben, nie aus der gewählten Frage.
+/// Kurzfassung einer öffentlichen Preisgabe von [rolle] (E-044): erst dieselbe
+/// Prüfung wie [oeffentlicheAussage], dann die Kanon-Karte aus
+/// `texte/befragung-kurz.json`. Fehlt sie, scheitert die Antwort geschlossen:
+/// Die App schreibt keinen eigenen Text (F-11).
+Kurzfassung oeffentlicheKurzfassung(Texte texte, String rolle, String quelle) {
+  oeffentlicheAussage(texte, rolle, quelle);
+  return texte.kurzfassung(quelle) ?? (throw StateError('keine Kurzfassung für $quelle'));
+}
+
+/// Antwort einer Befragung als Karten (E-044): je Preisgabe eine Kanon-Kurzfassung
+/// mit ein bis drei Stichpunkten, Beobachtungen in der dritten Person, Lügen nur
+/// als Behauptung. Sie entstehen nur aus den Preisgaben, nie aus der gewählten Frage.
+List<List<String>> befragungsKarten(Texte texte, BefragungText b) => List.unmodifiable([
+      for (final q in b.preisgabe) List<String>.unmodifiable(oeffentlicheKurzfassung(texte, b.rolle, q).antwort),
+    ]);
+
+/// Antwort-Stichpunkte einer Befragung (A-051, E-044): die Karten aus
+/// [befragungsKarten] hintereinander.
 List<String> befragungsAntwort(Texte texte, BefragungText b) => List.unmodifiable([
-      for (final q in b.preisgabe) oeffentlicheAussage(texte, b.rolle, q),
+      for (final k in befragungsKarten(texte, b)) ...k,
     ]);
 
 /// Spickzettel einer befragten Rolle, die ein Mensch spielt (A-051): was sie dem
-/// Detektiv sagt. [sagen] sind die eigenen Beobachtungen in der Du-Form, [behaupten]
-/// die Behauptungen eigener Lügen (nie ihre Wahrheit), [eigene] die Würze der
-/// Befragung ohne neue Tatsache. Pfadfrei wie [befragungsAntwort]: Nicht
-/// Öffentliches wirft [StateError].
+/// Detektiv sagt, als Stichpunkte der Kurzfassungen (E-044). [sagen] sind die
+/// eigenen Beobachtungen in der Du-Form, [behaupten] die Behauptungen eigener
+/// Lügen (nie ihre Wahrheit), [eigene] die Würze der Befragung ohne neue
+/// Tatsache. Pfadfrei wie [befragungsAntwort]: Nicht Öffentliches wirft [StateError].
 class BefragungsZettel {
   final List<String> sagen, behaupten, eigene;
   const BefragungsZettel({required this.sagen, required this.behaupten, required this.eigene});
@@ -93,14 +109,12 @@ class BefragungsZettel {
 BefragungsZettel befragungsZettel(Texte texte, BefragungText b) {
   final sagen = <String>[], behaupten = <String>[];
   for (final q in b.preisgabe) {
-    // Dieselbe Prüfung wie die Antwort der App: nur Öffentliches.
-    oeffentlicheAussage(texte, b.rolle, q);
-    final id = q.substring(q.indexOf(':') + 1);
+    // Dieselbe Prüfung wie die Antwort der App: nur Öffentliches, als Kanon-Kurzfassung.
+    final k = oeffentlicheKurzfassung(texte, b.rolle, q);
     if (q.startsWith('luege:')) {
-      behaupten.add(texte.luege(id)!['behauptung'] as String);
+      behaupten.addAll(k.antwort);
     } else {
-      final x = texte.beobachtung(id)!;
-      sagen.add((x['duText'] ?? x['text']) as String);
+      sagen.addAll(k.zettel);
     }
   }
   return BefragungsZettel(sagen: List.unmodifiable(sagen), behaupten: List.unmodifiable(behaupten), eigene: List.unmodifiable(b.stichpunkte));
@@ -444,14 +458,18 @@ class Befragungsplan {
             f.add('$wo: $x hat ${sprecher + partner} Tischgespräche und bis zu eine Befragung, erlaubt 1 bis ${_besetzung.hoechstlast} (I-B5)');
           }
         }
-        // I-B6: Thema, Fragen und Stichpunkte nennen keine unbesetzte Figur.
+        // I-B6: Thema, Fragen, Stichpunkte und die Kurzfassungen der Antwort nennen keine unbesetzte Figur.
         for (final x in [...br.pflicht, ...br.frei]) {
           final b = br._texte[x];
           if (b == null) continue;
+          final antwort = [
+            for (final q in b.preisgabe) ...?texte.kurzfassung(q)?.antwort,
+            for (final q in b.preisgabe) ...?texte.kurzfassung(q)?.du,
+          ];
           for (final u in npc) {
             final name = namen[u]!;
             final re = RegExp('(?<!\\p{L})${RegExp.escape(name)}(?!\\p{L})', unicode: true);
-            for (final t in [b.thema, ...b.fragen, ...b.stichpunkte]) {
+            for (final t in [b.thema, ...b.fragen, ...b.stichpunkte, ...antwort]) {
               if (re.hasMatch(t)) f.add('$wo: Befragung ${b.id} nennt die unbesetzte Figur $u ($name): $t');
             }
           }
