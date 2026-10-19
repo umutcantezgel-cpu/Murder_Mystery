@@ -1,0 +1,86 @@
+{
+  "format": "diashow/1",
+  "akte": "schlosskeller",
+  "hinweis": "Diashow zur Einleitung (M4): je Abschnitt des Intros ein Bild aus der Spielgrafik, in der Reihenfolge von Erzaehler.intro. Reine Regie, kein Text: Die Kamera schaut auf einen Ort, im Bild stehen nur Figuren, die der Baustein nennt, der Lacher des Bildes, im Auftrag der Detektiv und sonst Gäste ohne Verdacht (R15). Gerendert in der App (dia_session.dart), ohne fremde Dienste.",
+  "dias": [
+    {
+      "baustein": "intro.start",
+      "kamera": {
+        "ort": "saalmitte",
+        "zoom": 1,
+        "fahrt": "schwenk"
+      },
+      "figuren": [
+        "tugba",
+        "dilara",
+        "emine",
+        "leyla"
+      ],
+      "stimmung": "feier"
+    },
+    {
+      "baustein": "intro.ausfall",
+      "kamera": {
+        "ort": "vorrat_innen",
+        "zoom": 1.3,
+        "fahrt": "heran"
+      },
+      "figuren": [
+        "schneider"
+      ],
+      "liegt": [
+        "schneider"
+      ],
+      "stimmung": "stromausfall"
+    },
+    {
+      "baustein": "intro.lacher.lacher_ruestung",
+      "kamera": {
+        "ort": "an_der_ruestung",
+        "zoom": 1.4,
+        "fahrt": "heran"
+      },
+      "figuren": [
+        "selin"
+      ],
+      "stimmung": "rueckblick"
+    },
+    {
+      "baustein": "intro.lacher.lacher_verlaufen",
+      "kamera": {
+        "ort": "vorrat_mitte",
+        "zoom": 1.4,
+        "fahrt": "zurueck"
+      },
+      "figuren": [
+        "olli"
+      ],
+      "stimmung": "rueckblick"
+    },
+    {
+      "baustein": "intro.lacher.lacher_kamin",
+      "kamera": {
+        "ort": "am_kamin",
+        "zoom": 1.3,
+        "fahrt": "schwenk"
+      },
+      "figuren": [
+        "meryem"
+      ],
+      "stimmung": "rueckblick"
+    },
+    {
+      "baustein": "intro.auftrag",
+      "kamera": {
+        "ort": "geburtstagsplatz",
+        "zoom": 1.5,
+        "fahrt": "heran"
+      },
+      "figuren": [
+        "schneider",
+        "detective"
+      ],
+      "stimmung": "stromausfall"
+    }
+  ]
+}
