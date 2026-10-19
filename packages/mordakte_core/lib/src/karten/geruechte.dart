@@ -56,11 +56,12 @@ class Geruechte {
 }
 
 /// Wörter aus den Namen von Sperrorten, die zu allgemein sind, um sie zu sperren.
-const _allgemeineOrtswoerter = {'hinter', 'direkt', 'linken', 'rechten', 'neben', 'unter', 'vorne'};
+const _allgemeineOrtswoerter = {'hinter', 'direkt', 'linken', 'rechten', 'neben', 'unter', 'vorne', 'beim'};
 
-/// Wörter rund um den Vorfall, die zusätzlich zu den [spoilerWoerter] in keinem
-/// Gerücht stehen.
-const _vorfallWoerter = ['scheppern', 'geschepper', 'knall', 'sicherung', 'strom', 'miete', 'geld', 'kassier'];
+/// Wörter, die zusätzlich zu den [spoilerWoerter] in keinem Gerücht stehen:
+/// rund um den Vorfall und Beinamen von Gegenständen, die kein Name trägt
+/// (Gespenst für die Leuchtmaske).
+const _vorfallWoerter = ['scheppern', 'geschepper', 'knall', 'sicherung', 'strom', 'miete', 'geld', 'kassier', 'gespenst'];
 
 /// Prüft die [geruechte] gegen den [kanon]. Liefert Befunde als Sätze; leer
 /// heißt in Ordnung.
@@ -70,7 +71,9 @@ const _vorfallWoerter = ['scheppern', 'geschepper', 'knall', 'sicherung', 'strom
 /// - Jede Zeile ist ein Satz mit höchstens [geruechtWorte] Wörtern (R17).
 /// - Keine Zeile nennt ein Sperrwort, einen Gegenstand, einen Namen oder ein
 ///   Wort aus dem Namen eines Sperrorts: Fundorte der Gegenstände, Ziel-Orte
-///   der Entscheidungen und Orte der Lacher (R15).
+///   der Entscheidungen und Orte der Lacher (R15). Das gilt auch für kurze
+///   Wörter und Teile zusammengesetzter Namen ([teilwoerter]): Brot aus
+///   Brottasche, Ring aus Silberring, Helm, Foto, Vitrine aus Schauvitrine.
 /// - Keine Zeile teilt fünf Wörter am Stück mit verborgenen Beobachtungen,
 ///   Wahrheiten, Rollengeheimnissen, Bonus-Hinweisen, Spuren oder [geschuetzt].
 /// - Tonregeln über [ton].
@@ -87,11 +90,25 @@ List<String> pruefeGeruechte(Geruechte geruechte, Kanon kanon, {Textpruefer? ton
     }
   }
 
+  final sperrorte = _sperrorte(kanon);
   final sperren = [
     ...sperrregeln(kanon.figurenJson, kanon.gegenstaendeJson),
     for (final w in _vorfallWoerter) wortAnfang(w),
-    for (final w in _sperrortWoerter(kanon)) wortAnfang(w),
+    for (final o in sperrorte)
+      for (final w in kennwoerter(o, mindestens: 5))
+        if (!_allgemeineOrtswoerter.contains(w)) wortAnfang(w),
   ];
+  // Teile der Namen von Gegenständen und Sperrorten, je mit ihrem Namen; sie
+  // treffen nur ganze Wörter einer Zeile.
+  final teile = <String, String>{};
+  for (final (name, ohne) in [
+    for (final g in kanon.gegenstaende) (g['name'] as String, const <String>{}),
+    for (final o in sperrorte) (o, _allgemeineOrtswoerter),
+  ]) {
+    for (final t in teilwoerter(name, ohne: ohne)) {
+      teile.putIfAbsent(t, () => name);
+    }
+  }
   final gesperrt = <String>{for (final t in [..._geschuetzteTexte(kanon), ...geschuetzt]) ..._fuenfer(t)};
 
   for (final e in geruechte.eintraege) {
@@ -102,11 +119,21 @@ List<String> pruefeGeruechte(Geruechte geruechte, Kanon kanon, {Textpruefer? ton
       final worte = _wortRe.allMatches(z).length;
       if (worte > geruechtWorte) befunde.add('$ort: $worte Wörter (höchstens $geruechtWorte, R17)');
       if (ton != null && ton.saetze(z).length != 1) befunde.add('$ort: mehr oder weniger als ein Satz');
+      var r15 = false;
       for (final re in sperren) {
         final m = re.firstMatch(z);
         if (m != null) {
           befunde.add('$ort: „${m.group(0)}“ gehört nicht in ein pfadgleiches Gerücht (R15)');
+          r15 = true;
           break;
+        }
+      }
+      if (!r15) {
+        for (final w in _wortRe.allMatches(z)) {
+          if (wortformen(w.group(0)!).map((f) => teile[f]).nonNulls.firstOrNull case final name?) {
+            befunde.add('$ort: „${w.group(0)}“ steckt in „$name“ und gehört nicht in ein pfadgleiches Gerücht (R15)');
+            break;
+          }
         }
       }
       for (final f in _fuenfer(z)) {
@@ -125,9 +152,9 @@ List<String> pruefeGeruechte(Geruechte geruechte, Kanon kanon, {Textpruefer? ton
   return befunde;
 }
 
-/// Wörter aus den Namen der Sperrorte: Fundorte der Gegenstände, Ziel-Orte der
-/// Entscheidungen und Orte der Lacher.
-Set<String> _sperrortWoerter(Kanon kanon) {
+/// Namen der Sperrorte: Fundorte der Gegenstände, Ziel-Orte der Entscheidungen
+/// und Orte der Lacher.
+List<String> _sperrorte(Kanon kanon) {
   final orte = <String>{
     for (final g in kanon.gegenstaende)
       if ((g['lage'] as Map?)?['ort'] case final String o) o,
@@ -137,12 +164,10 @@ Set<String> _sperrortWoerter(Kanon kanon) {
     for (final l in (kanon.json['setting.json']?['lacher'] as List? ?? const []))
       if ((l as Map)['ort'] case final String o) o,
   };
-  return {
+  return [
     for (final o in orte)
-      if (kanon.graph.orte[o] case final ort?)
-        for (final w in kennwoerter(ort.name, mindestens: 5))
-          if (!_allgemeineOrtswoerter.contains(w)) w,
-  };
+      if (kanon.graph.orte[o] case final ort?) ort.name,
+  ];
 }
 
 /// Texte aus dem Kanon, aus denen nichts in ein Gerücht wandern darf:

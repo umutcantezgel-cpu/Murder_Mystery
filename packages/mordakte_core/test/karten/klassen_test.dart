@@ -4,6 +4,7 @@
 import 'dart:io';
 
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/src/karten/sperrwoerter.dart';
 import 'package:test/test.dart';
 
 import '../party/kanon_hilfe.dart';
@@ -129,6 +130,38 @@ void main() {
         'geruechte': [for (final e in j['geruechte'] as List) if ((e as Map)['figur'] != 'tim' || e['runde'] != 2) e],
       });
       expect(pruefeGeruechte(ohneTim, kanon), contains(startsWith('tim, Runde 2')));
+    });
+
+    test('Gegenproben R15: kurze Namenswörter, Teile zusammengesetzter Namen und Beinamen fallen auf', () {
+      for (final zeile in [
+        'Unter dem Brot liegt bestimmt etwas.', // Brottasche
+        'Die Maske leuchtet im Dunkeln.', // Leuchtmaske
+        'Ein Gespenstergesicht leuchtet im Dunkeln.', // Beiname der Leuchtmaske
+        'Ein Gespenst leuchtet im Dunkeln.',
+        'Der Ring glänzt wie frisches Messing.', // Silberring, Messingkerzenständer
+        'Frisches Messing glänzt im Licht.',
+        'Im Korb liegen alle Handys.', // Handykorb
+        'Der Helm klemmt schon ewig.', // Helm der Ritterrüstung
+        'Das Foto von vorhin ist verräterisch.', // Joannas Foto
+        'In der Vitrine fehlt etwas.', // Schauvitrine (Gegenstand und Sperrort)
+        'Die Laterne hängt gleich hinter der Tür.', // Notlaterne
+        'Laternen hängen hier überall.',
+        'Am Buffet ist es ziemlich voll.', // Sperrort hinter dem linken Buffettisch
+      ]) {
+        expect(pruefeGeruechte(mit(zeile), kanon), [startsWith('tim, Runde 1, Zeile 1: „')], reason: zeile);
+      }
+      expect(pruefeGeruechte(mit('Unter dem Brot liegt bestimmt etwas.'), kanon), [contains('Brottasche')], reason: 'nennt den Namen');
+    });
+
+    test('Teilwörter: Wörter ab vier Buchstaben und ihre vorderen und hinteren Teile', () {
+      expect(teilwoerter('Brottasche'), containsAll(['brottasche', 'brot', 'tasche']));
+      expect(teilwoerter('Fatmas breiter Silberring'), containsAll(['fatmas', 'silber', 'ring']));
+      expect(teilwoerter('Fatmas breiter Silberring'), isNot(contains('breiter')));
+      expect(teilwoerter('Helm der Ritterrüstung'), containsAll(['helm', 'ritter', 'rüstung']));
+      expect(teilwoerter('Helm der Ritterrüstung'), isNot(contains('der')));
+      expect(wortformen('Laternen'), contains('laterne'));
+      expect(wortformen('Handys'), contains('handy'));
+      expect(wortformen('Ring'), ['ring']);
     });
   });
 }

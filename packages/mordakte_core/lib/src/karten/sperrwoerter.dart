@@ -11,7 +11,7 @@ const spoilerWoerter = [
 ];
 
 /// Gegenstandsnamen, die zu allgemein sind, um sie in Zusatztexten zu sperren.
-const allgemeineWoerter = {'breiter', 'linker', 'rechter', 'braunem', 'schwarze', 'schaden', 'bündel', 'turmgang'};
+const allgemeineWoerter = {'breiter', 'linker', 'rechter', 'braunem', 'schwarze', 'schaden', 'bündel', 'turmgang', 'alte'};
 
 final _buchstaben = RegExp(r'[\p{L}]+', unicode: true);
 
@@ -24,6 +24,41 @@ Iterable<String> kennwoerter(String name, {int mindestens = 6}) sync* {
     final w = m.group(0)!.toLowerCase();
     if (w.length >= mindestens && !allgemeineWoerter.contains(w)) yield w;
   }
+}
+
+/// Teile eines Namens für den Vergleich mit ganzen Wörtern: jedes Wort ab
+/// [mindestens] Buchstaben (klein, ohne [allgemeineWoerter] und [ohne]) und
+/// jeder vordere und hintere Teil davon ab [mindestens] Buchstaben, der
+/// mindestens drei Buchstaben übrig lässt. So stecken in „Brottasche“ brot und
+/// tasche, in „Silberring“ silber und ring. Ohne Wörterbuch fallen auch
+/// Bruchstücke an (brott, asche); darum nur mit ganzen Wörtern vergleichen
+/// ([wortformen]), nie mit Wortanfängen.
+Iterable<String> teilwoerter(String name, {int mindestens = 4, Set<String> ohne = const {}}) sync* {
+  for (final m in _buchstaben.allMatches(name)) {
+    final w = m.group(0)!.toLowerCase();
+    if (w.length < mindestens || allgemeineWoerter.contains(w) || ohne.contains(w)) continue;
+    yield w;
+    for (var i = mindestens; i <= w.length - 3; i++) {
+      yield w.substring(0, i);
+    }
+    for (var i = 3; i <= w.length - mindestens; i++) {
+      yield w.substring(i);
+    }
+  }
+}
+
+/// Endungen, die [wortformen] abstreift: Mehrzahl und Fälle der Hauptwörter.
+const _endungen = ['en', 'es', 'e', 'n', 's'];
+
+/// [wort] klein, dazu ohne Endung (Laternen → laterne, Handys → handy); jede
+/// Form behält mindestens drei Buchstaben.
+List<String> wortformen(String wort) {
+  final w = wort.toLowerCase();
+  return [
+    w,
+    for (final e in _endungen)
+      if (w.length - e.length >= 3 && w.endsWith(e)) w.substring(0, w.length - e.length),
+  ];
 }
 
 /// Sperrregeln einer Akte: die [spoilerWoerter], Gegenstandsnamen
