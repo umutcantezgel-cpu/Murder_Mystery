@@ -37,10 +37,12 @@ const einrichtungMinuten = [20, 30, 45, 60];
 class EinrichtungsWerte extends ChangeNotifier {
   /// [druckbar]: Die Akte hat eine Druckmappe (`AkteInfo.druckbar`). Ohne Angabe
   /// gilt sie als druckbar (alter Einrichtungsbildschirm, Druckmappe).
-  /// [gaeste]: Gästeliste der Akte (M5) für Personenzahl und Namen.
+  /// [gaeste]: Gästeliste der Akte (M5) für Personenzahl und Namen; ihr
+  /// Detektiv-Eintrag füllt [detektivName] vor (reihum und online).
   EinrichtungsWerte(this.sitzung, {this.druckbar = true, GaesteListe gaeste = const GaesteListe()})
       : rollen = (gaeste.personen ?? 7).clamp(sitzung.minRollen, sitzung.maxRollen).toInt(),
-        _gaeste = gaeste.namenJeFigur;
+        _gaeste = gaeste.namenJeFigur,
+        detektivName = TextEditingController(text: gaeste.namenJeFigur[Besetzung.detektiv]);
 
   final PartySitzung sitzung;
 
@@ -62,7 +64,7 @@ class EinrichtungsWerte extends ChangeNotifier {
   bool _solo = false;
 
   /// Name des Detektivs (im Solo das Namensfeld).
-  final detektivName = TextEditingController();
+  final TextEditingController detektivName;
 
   /// Früherer Name von [detektivName] (vor Langer Abend M3).
   @Deprecated('detektivName')

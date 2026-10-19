@@ -138,7 +138,14 @@ class _AbendSeiteState extends State<AbendSeite> {
                   _AbbrechenLeiste(
                     onPressed: _abbrechen,
                     onDetektivKarte: () => zeigeDetektivKarte(context, s),
-                    onUebersicht: () => zeigeRollenUebersicht(context, weise: s.solo ? Spielweise.solo : Spielweise.reihum, hervorheben: Sitz.detektiv),
+                    onUebersicht: () => zeigeRollenUebersicht(
+                      context,
+                      weise: s.solo ? Spielweise.solo : Spielweise.reihum,
+                      hervorheben: Sitz.detektiv,
+                      // Altakten kennen keinen Erzähler und nennen den Ermittler mit eigenem Wort.
+                      mitErzaehler: s.daten.mitErzaehlerSitz,
+                      detektivWort: s.hatText('ui.allgemein.detektiv') ? s.text('ui.allgemein.detektiv') : null,
+                    ),
                   ),
                   Expanded(
                     child: MediaQuery.removePadding(

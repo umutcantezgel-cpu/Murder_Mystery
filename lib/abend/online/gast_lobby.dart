@@ -46,7 +46,7 @@ GastSeiteninhalt gastLobby(GastKontext c, String marke) {
           const SizedBox(height: MMass.s16),
         ],
         Padding(padding: const EdgeInsets.only(top: MMass.s8, bottom: MMass.s8), child: LobbyTisch(stand: stand, befehl: c.befehl)),
-        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz ?? Sitz.rolle)),
+        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz ?? Sitz.rolle, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort)),
         const SizedBox(height: MMass.s8),
       ] else
         for (var i = 0; i < c.spieler.length; i++) OnlinePlatzKarte(name: c.spieler[i].name, nr: i),
@@ -75,7 +75,7 @@ class _DeinPlatz extends StatelessWidget {
     if (ich == null) return const SizedBox.shrink();
     final figur = ich.figur;
     final (titel, name, text) = switch (ich.sitz) {
-      Sitz.detektiv => (l.online_gast_platz_titel, l.abend_platz_detektiv, l.online_gast_detektiv_text),
+      Sitz.detektiv => (l.online_gast_platz_titel, detektivBezeichnung(l, stand.daten), l.online_gast_detektiv_text),
       Sitz.erzaehler => (l.online_gast_platz_titel, l.abend_platz_erzaehler, l.online_gast_erzaehler_text),
       _ when figur != null => (l.online_gast_figur_titel, figurName(stand.daten, figur), _titel(figur)),
       _ => (l.online_gast_figur_titel, l.online_lobby_zufall, l.online_gast_zufall_text),

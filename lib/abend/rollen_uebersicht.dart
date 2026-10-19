@@ -14,11 +14,13 @@ enum UebersichtPhase { rollen, intro, gespraeche, entscheidungen, gruppenwahl, r
 /// Die Sitze eines Abends je Spielweise (Langer Abend M3): Solo ermittelt nur
 /// der Detektiv (Bots spielen die Rollen, nie ein Erzähler); an einem Gerät
 /// kommen die Rollen und optional ein Erzähler dazu; online außerdem Geräte
-/// ohne Figur (Assistenz).
-List<Sitz> sitzeBei(Spielweise weise) => switch (weise) {
+/// ohne Figur (Assistenz). Einen Erzähler gibt es nur in Akten mit
+/// Erzähler-Sitz ([mitErzaehler], `PartyDaten.mitErzaehlerSitz`); die Altakten
+/// kennen weder Pult noch Erzähler.
+List<Sitz> sitzeBei(Spielweise weise, {bool mitErzaehler = true}) => switch (weise) {
       Spielweise.solo => const [Sitz.detektiv],
-      Spielweise.reihum => const [Sitz.detektiv, Sitz.erzaehler, Sitz.rolle],
-      Spielweise.eigene => const [Sitz.detektiv, Sitz.erzaehler, Sitz.rolle, Sitz.assistenz],
+      Spielweise.reihum => [Sitz.detektiv, if (mitErzaehler) Sitz.erzaehler, Sitz.rolle],
+      Spielweise.eigene => [Sitz.detektiv, if (mitErzaehler) Sitz.erzaehler, Sitz.rolle, Sitz.assistenz],
     };
 
 /// Der Sitzzeitplan: die aktive Aufgabe von [sitz] im Abschnitt [phase] bei
@@ -85,8 +87,8 @@ String _phase(L l, UebersichtPhase p) => switch (p) {
       UebersichtPhase.finale => l.uebersicht_phase_finale,
     };
 
-(String, String, IconData) _sitz(L l, Sitz s) => switch (s) {
-      Sitz.detektiv => (l.uebersicht_sitz_detektiv, l.uebersicht_sitz_detektiv_kurz, Icons.search_rounded),
+(String, String, IconData) _sitz(L l, Sitz s, String? detektivWort) => switch (s) {
+      Sitz.detektiv => (detektivWort ?? l.uebersicht_sitz_detektiv, l.uebersicht_sitz_detektiv_kurz, Icons.search_rounded),
       Sitz.erzaehler => (l.uebersicht_sitz_erzaehler, l.uebersicht_sitz_erzaehler_kurz, Icons.menu_book_rounded),
       Sitz.rolle => (l.uebersicht_sitz_rolle, l.uebersicht_sitz_rolle_kurz, Icons.theater_comedy_outlined),
       Sitz.assistenz => (l.uebersicht_sitz_assistenz, l.uebersicht_sitz_assistenz_kurz, Icons.visibility_outlined),
@@ -95,12 +97,17 @@ String _phase(L l, UebersichtPhase p) => switch (p) {
 /// „Wer macht was“ (Langer Abend M3): je Spielweise die Sitze mit ihrer
 /// Aufgabe in jedem Abschnitt. Erreichbar aus dem Assistenten, der Lobby und
 /// dem Abendmenü ([zeigeRollenUebersicht]). Der eigene Sitz ([hervorheben])
-/// steht oben und offen.
+/// steht oben und offen. Ohne Erzähler-Sitz der Akte ([mitErzaehler]) fehlt
+/// der Erzähler; der Detektiv heißt, wie die Akte ihn nennt ([detektivWort]).
 class RollenUebersicht extends StatefulWidget {
-  const RollenUebersicht({super.key, this.weise = Spielweise.eigene, this.hervorheben});
+  const RollenUebersicht({super.key, this.weise = Spielweise.eigene, this.hervorheben, this.mitErzaehler = true, this.detektivWort});
 
   final Spielweise weise;
   final Sitz? hervorheben;
+  final bool mitErzaehler;
+
+  /// Bezeichnung des Detektiv-Sitzes in dieser Akte (Noir „Inspektor“); sonst „Detektiv“.
+  final String? detektivWort;
 
   @override
   State<RollenUebersicht> createState() => _RollenUebersichtState();
@@ -113,9 +120,10 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
+    final alle = sitzeBei(_weise, mitErzaehler: widget.mitErzaehler);
     final sitze = [
-      ...sitzeBei(_weise).where((s) => s == widget.hervorheben),
-      ...sitzeBei(_weise).where((s) => s != widget.hervorheben),
+      ...alle.where((s) => s == widget.hervorheben),
+      ...alle.where((s) => s != widget.hervorheben),
     ];
     return Column(
       key: const ValueKey('rollen-uebersicht'),
@@ -134,7 +142,14 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
           onWahl: (w) => setState(() => _weise = w),
         ),
         const SizedBox(height: MMass.s12),
-        for (final s in sitze) _SitzKarte(weise: _weise, sitz: s, offen: _offen.contains(s), onTap: () => setState(() => _offen.contains(s) ? _offen.remove(s) : _offen.add(s))),
+        for (final s in sitze)
+          _SitzKarte(
+            weise: _weise,
+            sitz: s,
+            detektivWort: widget.detektivWort,
+            offen: _offen.contains(s),
+            onTap: () => setState(() => _offen.contains(s) ? _offen.remove(s) : _offen.add(s)),
+          ),
       ],
     );
   }
@@ -143,17 +158,18 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
 /// Ein Sitz als aufklappbare Karteikarte: Name und was er tut; offen je
 /// Abschnitt seine Aufgabe.
 class _SitzKarte extends StatelessWidget {
-  const _SitzKarte({required this.weise, required this.sitz, required this.offen, required this.onTap});
+  const _SitzKarte({required this.weise, required this.sitz, required this.offen, required this.onTap, this.detektivWort});
 
   final Spielweise weise;
   final Sitz sitz;
+  final String? detektivWort;
   final bool offen;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final (name, kurz, icon) = _sitz(l, sitz);
+    final (name, kurz, icon) = _sitz(l, sitz, detektivWort);
     return Padding(
       padding: const EdgeInsets.only(bottom: MMass.s12),
       child: Semantics(
@@ -212,7 +228,13 @@ class _SitzKarte extends StatelessWidget {
 }
 
 /// Öffnet „Wer macht was“ als Karteikarte über der Seite.
-Future<void> zeigeRollenUebersicht(BuildContext context, {Spielweise weise = Spielweise.eigene, Sitz? hervorheben}) {
+Future<void> zeigeRollenUebersicht(
+  BuildContext context, {
+  Spielweise weise = Spielweise.eigene,
+  Sitz? hervorheben,
+  bool mitErzaehler = true,
+  String? detektivWort,
+}) {
   Klang.instanz.spiele('blatt', laut: 0.7);
   final l = L.of(context);
   return showDialog<void>(
@@ -220,19 +242,29 @@ Future<void> zeigeRollenUebersicht(BuildContext context, {Spielweise weise = Spi
     barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (c) => MKarteikartenDialog(
       titel: l.rollen_uebersicht_titel,
-      inhalt: RollenUebersicht(weise: weise, hervorheben: hervorheben),
+      inhalt: RollenUebersicht(weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort),
       aktionen: [MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(c).pop())],
     ),
   );
 }
 
-/// Knopf „Wer macht was?“ (leise), der die Übersicht öffnet.
+/// Knopf „Wer macht was?“ (leise), der die Übersicht öffnet; [mitErzaehler]
+/// und [detektivWort] wie bei [RollenUebersicht].
 class RollenUebersichtKnopf extends StatelessWidget {
-  const RollenUebersichtKnopf({super.key, this.weise = Spielweise.eigene, this.hervorheben, this.art = MKnopfArt.leise});
+  const RollenUebersichtKnopf({
+    super.key,
+    this.weise = Spielweise.eigene,
+    this.hervorheben,
+    this.art = MKnopfArt.leise,
+    this.mitErzaehler = true,
+    this.detektivWort,
+  });
 
   final Spielweise weise;
   final Sitz? hervorheben;
   final MKnopfArt art;
+  final bool mitErzaehler;
+  final String? detektivWort;
 
   @override
   Widget build(BuildContext context) => MKnopf(
@@ -240,6 +272,6 @@ class RollenUebersichtKnopf extends StatelessWidget {
         text: L.of(context).rollen_uebersicht_oeffnen,
         art: art,
         icon: Icons.groups_outlined,
-        onPressed: () => zeigeRollenUebersicht(context, weise: weise, hervorheben: hervorheben),
+        onPressed: () => zeigeRollenUebersicht(context, weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort),
       );
 }

@@ -3120,5 +3120,101 @@
   "steckbrief_senden": "Steckbrief senden",
   "@steckbrief_senden": {
     "description": "Steckbrief-Seite: Steckbrief eines Gastes teilen"
+  },
+  "online_lobby_gaesteliste_weg": "Bei {anzahl} Rollen nicht dabei: {figuren}.",
+  "@online_lobby_gaesteliste_weg": {
+    "description": "Lobby des Gastgebers: Figuren der Gästeliste, die bei dieser Rollenzahl wegfallen (Figur und Gast)",
+    "placeholders": {
+      "anzahl": {
+        "type": "int"
+      },
+      "figuren": {
+        "type": "String"
+      }
+    }
+  },
+  "online_ermittlung_wartet_leitung": "Die Spielleitung wählt gerade …",
+  "@online_ermittlung_wartet_leitung": {
+    "description": "Gast, Akte ohne Erzähler-Sitz (Altakte): Der Gastgeber wählt eine Option (Wortlaut wie vor M3)"
+  },
+  "online_abstecher_leitung": "Die Spielleitung erkundet einen Ort.",
+  "@online_abstecher_leitung": {
+    "description": "Gast, Altakte: Abstecher läuft (Wortlaut wie vor M3)"
+  },
+  "online_zug_aktion_leitung": "Die Spielleitung ist unterwegs …",
+  "@online_zug_aktion_leitung": {
+    "description": "Gast, Altakte: Weg auf der Karte läuft (Wortlaut wie vor M3)"
+  },
+  "online_tischruf_wartet_leitung": "Pech. Die Spielleitung entscheidet, wie es weitergeht.",
+  "@online_tischruf_wartet_leitung": {
+    "description": "Gast, Altakte: Tischruf nach Pech (Wortlaut wie vor M3)"
+  },
+  "online_fund_wartet_leitung": "Die Spielleitung liest den Fund.",
+  "@online_fund_wartet_leitung": {
+    "description": "Gast, Altakte: Fund wird gelesen (Wortlaut wie vor M3)"
+  },
+  "online_anklage_wartet_leitung": "Die Spielleitung erhebt die Anklage gegen eine dieser Personen.",
+  "@online_anklage_wartet_leitung": {
+    "description": "Gast, Altakte: Anklage (Wortlaut wie vor M3)"
+  },
+  "online_platz_neu_detektiv": "Du ermittelst jetzt.",
+  "@online_platz_neu_detektiv": {
+    "description": "Mitten im Abend wechselt der Platz dieses Geräts: jetzt Detektiv-Sitz"
+  },
+  "online_platz_neu_erzaehler": "Du liest jetzt vor.",
+  "@online_platz_neu_erzaehler": {
+    "description": "Mitten im Abend wechselt der Platz dieses Geräts: jetzt Erzähler-Sitz"
+  },
+  "online_platz_neu_rolle": "Du spielst jetzt {figur}.",
+  "@online_platz_neu_rolle": {
+    "description": "Mitten im Abend wechselt der Platz dieses Geräts: jetzt eine Figur",
+    "placeholders": {
+      "figur": {
+        "type": "String"
+      }
+    }
+  },
+  "online_platz_neu_assistenz": "Du schaust jetzt zu.",
+  "@online_platz_neu_assistenz": {
+    "description": "Mitten im Abend wechselt der Platz dieses Geräts: jetzt ohne Figur"
+  },
+  "online_detektiv_weg": "{name} ermittelt und ist getrennt. Kommt {name} nicht zurück, gib den Detektiv-Sitz weiter.",
+  "@online_detektiv_weg": {
+    "description": "Gastgeber: Der Gast auf dem Detektiv-Sitz ist getrennt",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "online_detektiv_weitergeben": "Detektiv-Sitz weitergeben",
+  "@online_detektiv_weitergeben": {
+    "description": "Gastgeber: Knopf, der den Detektiv-Sitz neu vergibt"
+  },
+  "online_detektiv_wer": "Wer ermittelt weiter?",
+  "@online_detektiv_wer": {
+    "description": "Gastgeber: Karteikarte zur Wahl des neuen Detektivs"
+  },
+  "online_detektiv_wer_hinweis": "Wer übernimmt, tauscht den Platz mit {name}.",
+  "@online_detektiv_wer_hinweis": {
+    "description": "Gastgeber: Wer den Sitz übernimmt, bekommt dessen Platz nicht mehr",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "online_detektiv_ich": "Ich ermittle selbst",
+  "@online_detektiv_ich": {
+    "description": "Gastgeber: übernimmt den Detektiv-Sitz selbst"
+  },
+  "online_detektiv_neu": "{name} ermittelt jetzt.",
+  "@online_detektiv_neu": {
+    "description": "Gastgeber: Meldung nach dem Wechsel des Detektiv-Sitzes",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

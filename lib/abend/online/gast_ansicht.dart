@@ -101,6 +101,15 @@ class GastKontext {
   /// Ermittelt dieses Gerät (Detektiv-Sitz oder Vertretung, privat `detektiv`)?
   bool get ermittelt => privat['detektiv'] == true;
 
+  /// Kennt die Akte einen Erzähler-Sitz (heute der Schlosskeller)? Solange sie
+  /// lädt, verrät es die Ansicht: Nur dort steht `erzaehlerLiest`.
+  bool get mitErzaehlerSitz => daten?.mitErzaehlerSitz ?? v.containsKey('erzaehlerLiest');
+
+  /// Wie die Akte den Ermittler nennt (Etikett des Detektiv-Sitzes): in den
+  /// Noir-Akten „Inspektor“, im Gewölbe „Geburtstagskind“, im Schlosskeller
+  /// „Detektiv“ (`ui.allgemein.detektiv`). Altakten bleiben so unverändert.
+  String get detektivWort => detektivBezeichnung(l, daten);
+
   /// Nummer dieses Platzes am Tisch, zweistellig (Reiter der Mappe).
   String get platzNr {
     final i = spieler.indexWhere((s) => s.id == ichId);
@@ -384,7 +393,7 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
                   : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
           : switch (s.sitz) {
               Sitz.erzaehler => MChip(l.abend_platz_erzaehler, icon: Icons.menu_book_rounded, farbe: MRoh.tinteLeise),
-              Sitz.detektiv => MChip(l.abend_platz_detektiv, icon: Icons.search_rounded, farbe: MRoh.tinteLeise),
+              Sitz.detektiv => MChip(c.detektivWort, icon: Icons.search_rounded, farbe: MRoh.tinteLeise),
               _ when s.istGastgeber => MChip(l.online_spielleitung, icon: Icons.star_rounded),
               Sitz.assistenz => MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise),
               _ => s.rolle == null ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise) : null,
@@ -824,7 +833,9 @@ Widget _ermittlung(GastKontext c) {
     final id = jText(z['id']);
     final option = z['option'] is String ? z['option'] as String : null;
     final zugPhase = jText(z['phase']);
-    final frage = id == 'auftakt' ? l.online_auftakt : (id.startsWith('abstecher:') ? l.online_abstecher : frageZu(id));
+    // Altakten (ohne Erzähler-Sitz) sagen wie vor M3 „Spielleitung“, nie das Wort des Schlosskellers.
+    final neu = c.mitErzaehlerSitz;
+    final frage = id == 'auftakt' ? l.online_auftakt : (id.startsWith('abstecher:') ? (neu ? l.online_abstecher : l.online_abstecher_leitung) : frageZu(id));
     final gewaehlt = option == null ? '' : optionText(id, option);
     final wurf = z['wurf'] is Map ? jMap(z['wurf']) : null;
     kinder.add(_Block(
@@ -850,12 +861,12 @@ Widget _ermittlung(GastKontext c) {
     ));
     switch (zugPhase) {
       case 'aktion':
-        kinder.add(_notiz(l.online_zug_aktion));
+        kinder.add(_notiz(neu ? l.online_zug_aktion : l.online_zug_aktion_leitung));
       case 'wurf':
         kinder.add(GastWuerfel(kontext: c, zug: z));
       case 'tischruf':
         if (wurf != null) kinder.add(_wurfBlock(c, wurf));
-        kinder.add(_notiz(l.online_tischruf_wartet));
+        kinder.add(_notiz(neu ? l.online_tischruf_wartet : l.online_tischruf_wartet_leitung));
       case 'fund':
         if (wurf != null) kinder.add(_wurfBlock(c, wurf));
         final funde = jTexte(z['funde']);
@@ -868,7 +879,7 @@ Widget _ermittlung(GastKontext c) {
             kinder: [for (final f in funde) _punkt(f), if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text)],
           ));
         } else {
-          kinder.add(_notiz(l.online_fund_wartet));
+          kinder.add(_notiz(neu ? l.online_fund_wartet : l.online_fund_wartet_leitung));
         }
     }
   } else if (e != null) {
@@ -889,7 +900,7 @@ Widget _ermittlung(GastKontext c) {
           children: [
             const MOnlineTaschenuhr(groesse: 28),
             const SizedBox(width: MMass.s12),
-            Expanded(child: Text(l.online_ermittlung_wartet, style: MPapierSchrift.leise)),
+            Expanded(child: Text(c.mitErzaehlerSitz ? l.online_ermittlung_wartet : l.online_ermittlung_wartet_leitung, style: MPapierSchrift.leise)),
           ],
         ),
       ],
@@ -1195,7 +1206,7 @@ Widget _anklage(GastKontext c) {
     titel: l.online_verdaechtige_titel,
     reissnagel: true,
     kinder: [
-      Text(l.online_anklage_wartet, style: MPapierSchrift.leise),
+      Text(c.mitErzaehlerSitz ? l.online_anklage_wartet : l.online_anklage_wartet_leitung, style: MPapierSchrift.leise),
       const SizedBox(height: MMass.s16),
       for (var i = 0; i < verdaechtige.length; i++)
         Padding(

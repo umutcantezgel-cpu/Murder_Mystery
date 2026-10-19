@@ -13,6 +13,7 @@ import 'package:mordakte/abend/online/online_halter.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/stil/stil.dart';
+import 'package:mordakte_core/mordakte_core.dart' show Besetzung;
 import 'package:mordakte_core/runden.dart';
 import 'package:provider/provider.dart';
 
@@ -229,6 +230,65 @@ void main() {
     final stand = LobbyStand.aus(raum.zustandFuer('gastgeber'), daten, 'gastgeber');
     expect(stand.sitzWahl(stand.spieler.firstWhere((s) => s.id == 'g1')), [null]);
     expect(stand.sitzWahl(stand.gastgeber!), [Sitz.detektiv]);
+    // Der Sitz heißt, wie die Akte den Ermittler nennt (Gewölbe: Geburtstagskind), nie „Detektiv“.
+    expect(lobbyUnterzeile(l, stand, stand.gastgeber!), startsWith('Geburtstagskind'));
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  test('Gästeliste: Rollenzahl als Vorgabe, Detektiv-Sitz nur frei und mit Erzähler-Sitz, wegfallende Figuren', () {
+    const liste = GaesteListe(personen: 5, gaeste: [Gast('Ben', 'olli'), Gast('cleo', Besetzung.detektiv), Gast('Zoe', 'murat')]);
+    final raum = lobbyRaum(gastgeberSitz: Sitz.erzaehler, langerName: false);
+    var stand = LobbyStand.aus(raum.zustandFuer('gastgeber'), partyDaten, 'gastgeber', vorgabe: liste.personen);
+    expect([stand.vorgabe, stand.anzahl], [5, 5]);
+    expect(stand.detektivAus(liste.figurJeName)?.id, 'g2', reason: 'Der Detektiv-Sitz ist frei');
+    expect(stand.wegfallendAus(liste), {'murat': 'Zoe'}, reason: 'Murat ist erst ab neun Rollen besetzt');
+    expect(LobbyStand.aus(raum.zustandFuer('gastgeber'), partyDaten, 'gastgeber').anzahl, LobbyStand.standardVorgabe);
+    // Sitzt der Gastgeber selbst auf dem Detektiv-Sitz, bleibt er dort.
+    stand = LobbyStand.aus(lobbyRaum(langerName: false).zustandFuer('gastgeber'), partyDaten, 'gastgeber');
+    expect(stand.detektivAus(liste.figurJeName), isNull);
+    // Altakten setzen keinen Gast auf den Detektiv-Sitz.
+    final gewoelbe = akteDaten('gewoelbe');
+    stand = LobbyStand.aus(lobbyRaum(daten: gewoelbe, gastgeberSitz: Sitz.detektiv, langerName: false).zustandFuer('gastgeber'), gewoelbe, 'gastgeber');
+    expect(stand.detektivAus({'Cleo': Besetzung.detektiv}), isNull);
+  });
+
+  testWidgets('Gästeliste in der Lobby: Rollenzahl, Figur und Detektiv-Sitz vorbelegt, einmal je Gast; Hinweis auf wegfallende Figuren', (tester) async {
+    final raum = lobbyRaum(gastgeberSitz: Sitz.erzaehler, langerName: false);
+    final meta = MetaStore.memory()
+      ..name = 'Anna'
+      ..setzeGaesteliste('schlosskeller', const GaesteListe(personen: 5, gaeste: [Gast('Ben', 'olli'), Gast('Cleo', Besetzung.detektiv), Gast('Zoe', 'murat')]));
+    final d = TestLobbyDienst(raum);
+    final halter = OnlineHalter()..uebernehmeDienst(d);
+    await zeigeImThema(
+      tester,
+      (c) => const GastgeberLobbySeite(),
+      huelle: (app) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider<MetaStore>.value(value: meta),
+          ChangeNotifierProvider<OnlineHalter>.value(value: halter),
+          ChangeNotifierProvider<AbendHalter>.value(value: AbendHalter()),
+        ],
+        child: app,
+      ),
+    );
+    for (var i = 0; i < 4; i++) {
+      await tester.pump();
+    }
+    expect(raum.lobbyRollen, 5, reason: 'Die Rollenzahl kommt aus der Gästeliste');
+    expect([raum.detektivGeraet, raum.zustandFuer('g1')['spieler']], ['g2', contains(allOf(containsPair('id', 'g1'), containsPair('figur', 'olli')))]);
+    final weg = find.byKey(const ValueKey('lobby-gaesteliste-weg'));
+    await tester.ensureVisible(weg);
+    expect(find.descendant(of: weg, matching: find.text(l.online_lobby_gaesteliste_weg(5, '${figurName(partyDaten, 'murat')} (Zoe)'))), findsOneWidget);
+    // Ändert der Gastgeber die Figur von Hand, bleibt es dabei.
+    await d.verb.befehl({'typ': 'zuteilen', 'spieler': 'g1', 'rolle': null});
+    for (var i = 0; i < 3; i++) {
+      await tester.pump();
+    }
+    expect(raum.zustandFuer('g1')['spieler'], contains(allOf(containsPair('id', 'g1'), isNot(contains('figur')))));
+    // Mit neun Rollen ist die Figur dabei: Der Hinweis verschwindet.
+    await d.verb.befehl({'typ': 'besetzung', 'rollen': 9});
+    await tester.pump();
+    expect(find.byKey(const ValueKey('lobby-gaesteliste-weg')), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

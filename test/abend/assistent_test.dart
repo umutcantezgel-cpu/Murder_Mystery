@@ -134,10 +134,13 @@ void main() {
     state.dispose();
   });
 
-  testWidgets('Die Gästeliste der Steckbrief-Seite füllt reihum Personenzahl und Namen vor (M5)', (tester) async {
+  testWidgets('Die Gästeliste der Steckbrief-Seite füllt reihum Personenzahl und Namen vor, auch den des Detektivs (M5)', (tester) async {
     final meta = MetaStore.memory()
       ..name = 'Test'
-      ..setzeGaesteliste('schlosskeller', const GaesteListe(personen: 5, gaeste: [Gast('Ayla', 'fatma'), Gast('Bo', 'tugba'), Gast('Cem')]));
+      ..setzeGaesteliste(
+        'schlosskeller',
+        const GaesteListe(personen: 5, gaeste: [Gast('Ayla', 'fatma'), Gast('Bo', 'tugba'), Gast('Cem'), Gast('Dana', 'detective')]),
+      );
     final state = await oeffnen(tester, ort: Routes.abendNeuMit('schlosskeller'), meta: meta);
     await tippen(tester, 'Ein Gerät reihum');
     await tippen(tester, 'Weiter');
@@ -155,6 +158,7 @@ void main() {
     expect(s.einstellungen.rollen, 5);
     expect(s.spielerName('fatma'), 'Ayla');
     expect(s.spielerName('ahmet'), 'Ahmet');
+    expect(s.detektivName, 'Dana', reason: 'Der Detektiv-Eintrag füllt das Namensfeld des Detektivs');
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

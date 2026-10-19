@@ -90,20 +90,57 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     if (!mounted) return;
     setState(() {});
     _rollenNachziehen();
+    _vorbelegen();
   }
 
-  /// Die Rollenzahl liegt im Raum (`besetzung`): beim Öffnen die Vorgabe, und
-  /// kommen mehr Gäste ohne Sitz als Rollen, die neue Mindestzahl.
-  void _rollenNachziehen() {
+  /// Steht der Raum in der Lobby und lässt sich gestalten?
+  bool get _inLobby {
     final d = _dienst;
-    if (d == null || !d.offen || d.gestartet || d.ansicht['phase'] != 'lobby') return;
-    final stand = _stand(d);
+    return d != null && d.offen && !d.gestartet && d.ansicht['phase'] == 'lobby';
+  }
+
+  /// Die Rollenzahl liegt im Raum (`besetzung`): beim Öffnen die Vorgabe (aus
+  /// der Gästeliste, sonst sieben), und kommen mehr Gäste ohne Sitz als Rollen,
+  /// die neue Mindestzahl.
+  void _rollenNachziehen() {
+    if (!_inLobby) return;
+    final stand = _stand(_d);
     if (!stand.rollenNachziehen || _gesandt == stand.anzahl) return;
     _gesandt = stand.anzahl;
     unawaited(_befehl({'typ': 'besetzung', 'rollen': stand.anzahl}));
   }
 
-  LobbyStand _stand(GastgeberDienst d) => LobbyStand.aus(d.ansicht, d.daten, d.verb.spielerId ?? gastgeberPlatz);
+  /// Die Gästeliste dieses Geräts für die Akte des Raums (M5).
+  GaesteListe _liste(GastgeberDienst d) => gaestelisteFuer(context, d.akteId);
+
+  LobbyStand _stand(GastgeberDienst d) =>
+      LobbyStand.aus(d.ansicht, d.daten, d.verb.spielerId ?? gastgeberPlatz, vorgabe: _liste(d).personen);
+
+  /// Geräte, die die Gästeliste schon vorbelegt hat: je Gerät einmal, damit eine
+  /// Änderung von Hand danach gilt.
+  final Set<String> _vorbelegt = {};
+
+  /// Vorbelegung aus der Gästeliste (M5): Tritt ein Gast bei, dessen Name dort
+  /// mit einer besetzten Figur steht, bekommt er sie; führt die Liste ihn als
+  /// Detektiv und ist der Sitz frei, bekommt er den Detektiv-Sitz. Erst, wenn
+  /// die Rollenzahl im Raum liegt (vorher lehnt der Raum die Zuteilung ab).
+  void _vorbelegen() {
+    if (!_inLobby) return;
+    final stand = _stand(_d);
+    final figurJeName = _liste(_d).figurJeName;
+    if (stand.rollen == null || stand.rollenNachziehen || figurJeName.isEmpty) return;
+    final nachrichten = [
+      if (stand.detektivAus(figurJeName) case final d? when _vorbelegt.add(d.id)) {'typ': 'sitz', 'spieler': d.id, 'sitz': Sitz.detektiv.name},
+      for (final e in stand.vorschlagAus(figurJeName).entries)
+        if (_vorbelegt.add(e.key)) {'typ': 'zuteilen', 'spieler': e.key, 'rolle': e.value},
+    ];
+    if (nachrichten.isEmpty) return;
+    unawaited(() async {
+      for (final n in nachrichten) {
+        await _befehl(n);
+      }
+    }());
+  }
 
   /// Lobby-Nachricht an den Raum; eine Ablehnung steht kurz als Meldung da.
   Future<void> _befehl(Map<String, Object?> nachricht) async {
@@ -216,7 +253,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
               MKnopf(
                 text: l.online_abend_starten,
                 icon: Icons.play_arrow_rounded,
-                onPressed: d.offen && d.verbunden && !_startet && _alleBereit && _stand(d).sitzeKlar ? _starten : null,
+                onPressed: d.offen && d.verbunden && !_startet && _alleBereit && _stand(d).sitzeKlar && !_stand(d).rollenNachziehen ? _starten : null,
               ),
             ],
             child: _inhalt(context, d),
@@ -244,7 +281,10 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     final code = d.raumCode;
     final link = beitrittsLink(code);
     final stand = _stand(d);
-    final vorschlag = stand.vorschlagAus(gaesteVorschlag(context, d.akteId));
+    final liste = _liste(d);
+    final vorschlag = stand.vorschlagAus(liste.figurJeName);
+    // Figuren der Gästeliste, die bei dieser Rollenzahl nicht dabei sind (M5).
+    final weg = stand.wegfallendAus(liste);
     final ich = stand.ich;
     final sitzeFehlen = stand.sitzHinweis(l);
     return Column(
@@ -267,7 +307,10 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
                       ? OnlineWarteNotiz(text: l.online_alle_bereit, uhr: false, stempel: l.online_bereit)
                       : OnlineWarteNotiz(text: l.online_warten_bereit),
         ),
-        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz)),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: RollenUebersichtKnopf(hervorheben: ich?.sitz, mitErzaehler: d.daten.mitErzaehlerSitz, detektivWort: detektivBezeichnung(l, d.daten)),
+        ),
         if (vorschlag.isNotEmpty) ...[
           const SizedBox(height: MMass.s8),
           Align(
@@ -283,6 +326,15 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
         ],
         const SizedBox(height: MMass.s16),
         LobbyRollenTafel(stand: stand, onAendern: (n) => unawaited(_befehl({'typ': 'besetzung', 'rollen': n}))),
+        if (weg.isNotEmpty) ...[
+          const SizedBox(height: MMass.s12),
+          OnlineHinweisKarte(
+            key: const ValueKey('lobby-gaesteliste-weg'),
+            icon: Icons.person_off_outlined,
+            text: l.online_lobby_gaesteliste_weg(stand.anzahl, [for (final e in weg.entries) '${figurName(d.daten, e.key)} (${e.value})'].join(', ')),
+            farbe: onlineWarnTinte,
+          ),
+        ],
         const SizedBox(height: MMass.s24),
         // Eine Akte mit fester Lösung kennt keinen Fall-Code; eine Druckfassung gibt es online nie.
         if (d.daten.kanon.festeLoesung) const FesteLoesungHinweis(online: true),
