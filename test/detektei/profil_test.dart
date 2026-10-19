@@ -1,11 +1,13 @@
 // Profil (/profile) als Personalakte: Dienstausweis, Dienstakte, Klassen als Karteikarten
-// mit ihrer Wirkung auf der Karte des Abends, Garderobe, Erfolge und Ton; der Name lässt sich
-// auf der Karteikarte ändern. Kein Überlauf bei 320 und 390 px, auch mit doppelter Schrift.
+// mit ihrer Wirkung auf der Karte des Abends (und in welchen Akten sie wirkt), Garderobe,
+// Erfolge und Ton; der Name lässt sich auf der Karteikarte ändern. Kein Überlauf bei 320 und
+// 390 px, auch mit doppelter Schrift.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
+import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/klang/klang.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/stil/stil.dart';
@@ -23,7 +25,15 @@ void main() {
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     final meta = MetaStore.memory()..name = 'Test';
     final state = AppState(meta: meta, scenarios: const {});
-    await tester.pumpWidget(MordakteApp(app: state, initialLocation: Routes.profile));
+    await tester.runAsync(() async {
+      // Echte Ladezeit für die Kampagne (siehe akte_seite_test): Das Profil nennt die Akten mit Klassen.
+      await AktenKatalog.laden();
+      await tester.pumpWidget(MordakteApp(app: state, initialLocation: Routes.profile));
+    });
+    for (var i = 0; i < 100 && find.textContaining('Spuk im Schlosskeller', skipOffstage: false).evaluate().isEmpty; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump(const Duration(milliseconds: 50));
+    }
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
     return (state, meta);
@@ -104,6 +114,17 @@ void main() {
     for (final alt in ['Vier statt drei Herzen.', 'Erkennt Lügen im Verhör.', 'Wiederbelebt doppelt so schnell.']) {
       expect(find.text(alt, skipOffstage: false), findsNothing, reason: 'Text der klassischen Engine: $alt');
     }
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Das Profil sagt, in welchen Akten die Fähigkeiten wirken (M6)', (tester) async {
+    final (state, _) = await oeffnen(tester);
+    final akten = await tester.runAsync(AktenKatalog.laden);
+    final mit = [for (final a in akten!) if (a.hat('klassen')) a.titel];
+    expect(mit, ['Spuk im Schlosskeller'], reason: 'Heute hat nur der Schlosskeller Klassen');
+    expect(find.text('Die Fähigkeiten wirken nur in diesen Akten: ${mit.join(', ')}.', skipOffstage: false), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();

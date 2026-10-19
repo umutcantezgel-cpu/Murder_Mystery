@@ -2190,6 +2190,15 @@ class LDe extends L {
       'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.';
 
   @override
+  String profil_klasse_akten(String akten) {
+    return 'Die Fähigkeiten wirken nur in diesen Akten: $akten.';
+  }
+
+  @override
+  String get profil_klasse_akten_allgemein =>
+      'Die Fähigkeiten wirken nicht in jeder Akte.';
+
+  @override
   String get profil_klasse_gewaehlt => 'Gewählt';
 
   @override

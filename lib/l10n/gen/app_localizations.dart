@@ -3837,6 +3837,18 @@ abstract class L {
   /// **'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.'**
   String get profil_klasse_hinweis;
 
+  /// No description provided for @profil_klasse_akten.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Fähigkeiten wirken nur in diesen Akten: {akten}.'**
+  String profil_klasse_akten(String akten);
+
+  /// No description provided for @profil_klasse_akten_allgemein.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Fähigkeiten wirken nicht in jeder Akte.'**
+  String get profil_klasse_akten_allgemein;
+
   /// No description provided for @profil_klasse_gewaehlt.
   ///
   /// In de, this message translates to:
