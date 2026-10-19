@@ -1,5 +1,7 @@
-// F5-BAUMEISTER-01: Spielleitungsheft ohne Lösung und Detektivbogen mit Ermittlungsbogen (Master 7.14).
-// Geprüft wird das fertige PDF (pdfinfo, pdftotext): Format, Wortlaut aus den Bausteinen, Codes, Fragen.
+// F5-BAUMEISTER-01: Erzählerheft (früher Spielleitungsheft, M5) ohne Lösung und Detektivbogen mit
+// Ermittlungsbogen (Master 7.14). Geprüft wird das fertige PDF (pdfinfo, pdftotext): Format, Wortlaut
+// aus den Bausteinen, Codes, Fragen. M5: Das Heft kennt alle Stichpunkte des Erzählerpakets, die
+// Antworten der Befragungen und die Dia-Nummern; der Bogen zeigt nur die Fragen.
 import 'dart:math' as math;
 
 import 'package:mordakte_core/mordakte_core.dart' show befragungsZettel;
@@ -16,9 +18,9 @@ String _anfang(String s) {
   return f.substring(0, math.min(60, f.length));
 }
 
-Future<PdfBefund> _heft(DruckKontext k) async {
+Future<PdfBefund> _heft(DruckKontext k, {bool druckspiel = true}) async {
   final doc = k.stil.neuesDokument('Heft');
-  spielleitungsheft(doc, k);
+  erzaehlerheft(doc, k, druckspiel: druckspiel);
   return pdfPruefen(await doc.save());
 }
 
@@ -201,7 +203,7 @@ void main() {
     },
   );
 
-  test('Modell befragung: Heft und Bogen nennen je Runde die Befragungen mit ihren Fragen, nie eine Antwort', () {
+  test('Modell befragung: Heft und Bogen nennen je Runde die Befragungen mit ihren Fragen, nur das Heft die Antworten', () {
     for (var r = 1; r <= 3; r++) {
       final br = k.satz.befragungen[r]!;
       final rollen = [...br.pflicht, if (br.freiWahlen > 0) ...br.frei];
@@ -219,11 +221,18 @@ void main() {
         expect(heft, contains(flach(k.ui('ui.druck.spielleitung.befragungen_frei_${br.freiWahlen}'))));
         expect(bogen, contains(flach(k.ui('ui.druck.bogen.befragungen_frei_${br.freiWahlen}'))));
       }
-      // Antworten stehen nur im Rollenheft der befragten Rolle.
+      // Antworten kennt der Erzähler (A-052): im Heft aus dem Erzählerpaket, nie im Bogen des Detektivs.
+      final paket = k.satz.erzaehler[r]!;
+      expect({for (final b in paket.befragungen) b.rolle}, {...br.pflicht, ...br.frei}, reason: 'Runde $r');
+      for (final b in paket.befragungen) {
+        expect(b.antwort, botAntwort(k.texte, br.text(b.rolle)), reason: 'Runde $r: ${b.rolle}');
+        for (final a in b.antwort) {
+          expect(heft, contains(flach(a)), reason: 'Heft Runde $r: Antwort von ${b.rolle}');
+        }
+      }
       for (final rolle in [...br.pflicht, ...br.frei]) {
         final z = befragungsZettel(k.texte, br.text(rolle));
         for (final a in [...z.sagen, ...z.behaupten, ...z.eigene, ...botAntwort(k.texte, br.text(rolle))]) {
-          expect(heft, isNot(contains(flach(a))), reason: 'Heft Runde $r: Antwort von $rolle');
           expect(bogen, isNot(contains(flach(a))), reason: 'Bogen Runde $r: Antwort von $rolle');
         }
       }
@@ -231,6 +240,74 @@ void main() {
     // Marken stehen in Großbuchstaben.
     expect(heft, contains(flach(k.ui('ui.druck.spielleitung.schritt.befragungen')).toUpperCase()));
     expect(heft, isNot(contains(flach(k.ui('ui.druck.spielleitung.schritt.gespraeche')).toUpperCase())));
+  });
+
+  test('Erzählerheft: Am Tisch steht jedes Tischgespräch des Erzählerpakets mit Partner, Thema und Stichpunkten', () {
+    expect(heft, contains(flach(k.ui('ui.druck.erzaehler.tisch')).toUpperCase()));
+    for (var r = 1; r <= 3; r++) {
+      final paket = k.satz.erzaehler[r]!;
+      expect(paket.tisch, isNotEmpty, reason: 'Runde $r');
+      expect(paket.tisch.map((t) => t.sprecher).toSet(), k.satz.besetzt.toSet(), reason: 'Runde $r: jede besetzte Rolle spricht am Tisch');
+      for (final t in paket.tisch) {
+        final zeile = flach(k.ui('ui.druck.erzaehler.tisch_zeile', {'sprecher': k.figurName(t.sprecher), 'partner': k.figurName(t.partner), 'thema': t.thema}));
+        expect(heft, contains(zeile), reason: 'Runde $r: ${t.sprecher}');
+        for (final z in t.stichpunkte) {
+          expect(heft, contains(flach(z)), reason: 'Runde $r: ${t.sprecher}');
+        }
+      }
+    }
+  });
+
+  test('Erzählerheft: jedes Intro-Stück trägt seine Dia-Nummer, der Kasten sagt, dass der Detektiv es nicht liest', () {
+    final intro = k.satz.spielleitung.intro;
+    expect(intro, hasLength(6), reason: 'Schlosskeller: sechs Dias (A-054)');
+    for (var i = 1; i <= intro.length; i++) {
+      expect(heft, contains(k.ui('ui.druck.erzaehler.dia', {'nr': '$i'})), reason: 'Dia $i');
+    }
+    expect(heft, isNot(contains(k.ui('ui.druck.erzaehler.dia', {'nr': '${intro.length + 1}'}))));
+    expect(heft, contains(flach(k.ui('ui.druck.erzaehler.nur_du'))));
+    expect(bogen, isNot(contains(k.ui('ui.druck.erzaehler.dia', {'nr': '1'}))));
+  });
+
+  test('Erzählerheft ohne Druckspiel (Abend am Bildschirm): Vorlesen, Tisch und Befragungen, kein Code, keine Auszählung, keine Anklage', () async {
+    final h = await _heft(k, druckspiel: false);
+    expect(h.a4, isTrue);
+    final text = flach(h.text);
+    expect(text, contains(flach(k.ui('ui.druck.erzaehler.app'))));
+    expect(text, contains(flach(k.ui('ui.druck.erzaehler.app_rest'))));
+    for (final id in [...k.satz.spielleitung.intro, ...k.satz.spielleitung.rundenStart.values.expand((l) => l)]) {
+      expect(text, contains(_anfang(k.text(id))), reason: id);
+    }
+    for (final t in k.satz.erzaehler[2]!.tisch) {
+      expect(text, contains(flach(t.stichpunkte.first)), reason: t.sprecher);
+    }
+    for (final b in k.satz.erzaehler[3]!.befragungen) {
+      for (final a in b.antwort) {
+        expect(text, contains(flach(a)), reason: b.rolle);
+      }
+    }
+    expect(text, isNot(contains(k.satz.code.code)));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.vorbereitung.einleitung')))));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.wertseite')))));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.anklage.klagt')))));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.anhang')))));
+    for (final f in k.satz.fassungen) {
+      expect(text, isNot(contains(f.code)), reason: f.rolle);
+    }
+  });
+
+  test('Erzählerheft: Hat eine Befragte nichts zu sagen, steht das in der dritten Person, nie in der Du-Form des Rollenhefts', () async {
+    // Bei zwölf Personen hat das Erzählerpaket für manche Befragte keine Zeile (Joanna).
+    final leer = [
+      for (var r = 1; r <= 3; r++)
+        for (final b in k.satz.erzaehler[r]!.befragungen)
+          if (b.antwort.isEmpty) b.rolle,
+    ];
+    expect(leer, isNotEmpty, reason: 'Die Probe braucht eine leere Antwort');
+    for (final (art, text) in [('Druckspiel', heft), ('am Bildschirm', flach((await _heft(k, druckspiel: false)).text))]) {
+      expect(text, isNot(contains(flach(k.ui('ui.druck.rollen.nichts')))), reason: art);
+      expect(_zaehle(text, flach(k.ui('ui.druck.erzaehler.nichts'))), leer.length, reason: art);
+    }
   });
 
   test(

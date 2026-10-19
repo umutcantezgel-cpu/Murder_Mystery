@@ -138,7 +138,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
       final s = PartySitzung(r[0] as PartyDaten);
       // Eine Druckfassung gibt es nur für Akten mit Druckmappe.
       final druckbar = _akten?.where((a) => a.id == id).firstOrNull?.druckbar ?? false;
-      final werte = EinrichtungsWerte(s, druckbar: druckbar)..solo = _weise == Spielweise.solo;
+      // Die Gästeliste der Akte (Steckbrief-Seite, M5) füllt Personenzahl und Namen vor.
+      final werte = EinrichtungsWerte(s, druckbar: druckbar, gaeste: context.read<MetaStore>().gaesteliste(id))..solo = _weise == Spielweise.solo;
       // Der Fußbereich hängt vom Fall-Code ab: bei jeder Eingabe neu zeichnen.
       werte.addListener(_werteGeaendert);
       setState(() => _geladen = _Geladen(id, s, werte, r[1] as List<AbstecherOrt>));

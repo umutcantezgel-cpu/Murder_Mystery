@@ -67,6 +67,8 @@ void main() {
     expect(find.text('Spuk im Schlosskeller'), findsOneWidget);
     expect(find.bySemanticsLabel('Ungelöst'), findsOneWidget, reason: 'Auf einem neuen Gerät ist die Akte ungelöst');
     expect(find.text('Diese Akte spielen'), findsOneWidget);
+    // M5: Steckbriefe & Übersicht mit einem Tipp, ohne Einrichtung.
+    expect(find.text('Steckbriefe & Übersicht'), findsOneWidget);
     for (final text in ['Die Lage', 'Schauplatz', 'Anlass', 'Zeitpunkt', 'Personen', 'Das Opfer']) {
       expect(find.text(text), findsOneWidget, reason: text);
     }
@@ -102,6 +104,8 @@ void main() {
       final state = await oeffnen(tester, 'blue_palm', breite: breite, schrift: 2);
       expect(find.text('Blue Palm Motel'), findsOneWidget);
       expect(find.text('Die Lage'), findsOneWidget);
+      // Steckbriefe gibt es nur bei Akten mit dem Zusatz steckbriefe.
+      expect(find.text('Steckbriefe & Übersicht'), findsNothing);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();

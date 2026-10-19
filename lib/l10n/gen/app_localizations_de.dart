@@ -4031,4 +4031,91 @@ class LDe extends L {
   @override
   String get online_lobby_gastgeber_platz =>
       'Du brauchst selbst einen Platz. Tippe dazu auf deine Karte.';
+
+  @override
+  String get druck_datei_laedt => 'Die Datei wird erstellt …';
+
+  @override
+  String druck_datei_teilen(String datei) {
+    return 'Teilen: $datei';
+  }
+
+  @override
+  String druck_datei_laden(String datei) {
+    return 'Herunterladen: $datei';
+  }
+
+  @override
+  String get druck_datei_fehler =>
+      'Das hat nicht geklappt. Versuch es bitte noch einmal.';
+
+  @override
+  String get druck_je_person => 'Rollenhefte einzeln senden';
+
+  @override
+  String get druck_je_person_hinweis =>
+      'Jede Person bekommt nur ihr eigenes Heft. Die Hefte gelten nur mit diesem Fall-Code.';
+
+  @override
+  String druck_senden_an(String name) {
+    return 'Senden an $name';
+  }
+
+  @override
+  String get druck_erzaehlerheft_hinweis =>
+      'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.';
+
+  @override
+  String get detektei_akte_steckbriefe => 'Steckbriefe & Übersicht';
+
+  @override
+  String get steckbrief_titel => 'Steckbriefe & Übersicht';
+
+  @override
+  String get steckbrief_hinweis =>
+      'Für die Wochen vor dem Abend: ohne Geheimnisse und ohne Fall-Code. Ihr dürft alles verschicken.';
+
+  @override
+  String get steckbrief_personen => 'Wie viele seid ihr?';
+
+  @override
+  String get steckbrief_personen_offen => 'Wissen wir noch nicht';
+
+  @override
+  String get steckbrief_personen_fest => 'Steht fest';
+
+  @override
+  String steckbrief_personen_wert(String anzahl) {
+    return '$anzahl Personen am Tisch, dazu der Detektiv';
+  }
+
+  @override
+  String get steckbrief_dateien => 'Zum Verschicken';
+
+  @override
+  String get steckbrief_gaeste => 'Gästeliste';
+
+  @override
+  String get steckbrief_gaeste_hinweis =>
+      'Tragt ein, wer welche Figur spielt. Am Abend stehen die Namen schon in der Einrichtung.';
+
+  @override
+  String get steckbrief_gast_neu => 'Gast eintragen';
+
+  @override
+  String get steckbrief_gast_name => 'Name';
+
+  @override
+  String get steckbrief_gast_ohne => 'Noch keine Figur';
+
+  @override
+  String steckbrief_gast_nicht_dabei(String anzahl) {
+    return 'Bei $anzahl Personen nicht dabei';
+  }
+
+  @override
+  String get steckbrief_gast_entfernen => 'Gast entfernen';
+
+  @override
+  String get steckbrief_senden => 'Steckbrief senden';
 }

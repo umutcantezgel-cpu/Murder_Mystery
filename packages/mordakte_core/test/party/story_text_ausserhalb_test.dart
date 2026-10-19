@@ -33,6 +33,7 @@ const _erlaubt = {
   'Inter': 'Schriftname',
   'SpecialElite': 'Schriftname',
   'Mordakte Partymodus': 'PDF-Metadatum Autor, nicht sichtbar',
+  'AbortError': 'Name des Browser-Fehlers, wenn das Teilen-Fenster abgebrochen wird (druck_speichern_web.dart)',
 };
 
 Iterable<File> _dartDateien(String ordner) => Directory(ordner)

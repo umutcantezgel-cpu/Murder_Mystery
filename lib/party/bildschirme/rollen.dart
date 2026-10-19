@@ -105,6 +105,10 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
           if (s.einstellungen.druck) ...[
             DruckTafel(sitzung: s),
             const SizedBox(height: 16),
+          ] else if (!s.solo && s.daten.hat('druckspiel')) ...[
+            // Abend am Bildschirm (M5): das Erzählerheft zum Vorlesen, ohne Druckspiel.
+            DruckTafel(sitzung: s, druckspiel: false),
+            const SizedBox(height: 16),
           ],
           if (_zugedeckt) ...[
             PartyTafel(akzent: context.farben.akzent, child: Text(s.ui('ui.verdeckt.neutral'), style: Keller.text)),

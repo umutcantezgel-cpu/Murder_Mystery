@@ -225,6 +225,10 @@
     {
       "datei": "ui-befragung.json",
       "bereich": "ui"
+    },
+    {
+      "datei": "ui-druck-steckbrief.json",
+      "bereich": "ui"
     }
   ]
 }

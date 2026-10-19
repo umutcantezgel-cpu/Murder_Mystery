@@ -14,6 +14,8 @@
 //   Figuren     Herkunftsmatrix, Farbabstand im selben Startraum
 //   Partie      vollständiger Abend mit bestem Spiel je Rollenzahl (RundenPartie, Salz- und Pech-Würfel)
 //   Gerüchte    nur mit content/welt/<akte>/geruechte.json (in welt.json genannt): Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
+//   Steckbriefe nur mit steckbriefe.json (Zusatz steckbriefe in akten.json): Schema und pruefeSteckbriefe (K3: R17, ohne Fallbezug,
+//     nichts aus Dossiers, Täterfassungen, Finale und Auflösung, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -106,7 +108,7 @@ void _pruefeAlles(String fall, Befunde b) {
     sammlung.ergaenzeUi(Textsammlung.lade((p) => _lies('$wurzel/content/party/basis-ui/$p')));
   }
 
-  _schema(b, kanon, roh, schemaOrdner);
+  _schema(b, kanon, roh, schemaOrdner, ordner);
   b.add('Verweise', kanonVerweise(kanon));
 
   final sim = Simulator(kanon);
@@ -131,16 +133,22 @@ void _pruefeAlles(String fall, Befunde b) {
   _figuren(b, kanon);
   _partien(b, kanon, erm, texte, fall);
   _geruechte(b, kanon, roh, wurzel, fall);
+  _steckbriefe(b, kanon, texte, ordner, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
 
-void _schema(Befunde b, Kanon kanon, Textsammlung sammlung, String schemaOrdner) {
+void _schema(Befunde b, Kanon kanon, Textsammlung sammlung, String schemaOrdner, String ordner) {
   SchemaPruefer schema(String name) => SchemaPruefer(_lies('$schemaOrdner/$name.schema.json'));
   for (final e in kanon.json.entries) {
     final datei = e.key.split('/').last.replaceAll('.json', '');
     final name = e.key.startsWith('tatmatrix/') ? 'tatmatrix' : datei;
     b.add('Schema', [for (final f in schema(name).pruefe(e.value)) '${e.key}: $f']);
+  }
+  // Steckbriefe (K3) liegen neben dem Kanon; kein Spielzustand liest sie.
+  final steckbriefe = File('$ordner/steckbriefe.json');
+  if (steckbriefe.existsSync()) {
+    b.add('Schema', [for (final f in schema('steckbriefe').pruefe(_lies(steckbriefe.path))) 'steckbriefe.json: $f']);
   }
   b.add('Schema', [for (final f in schema('texte-index').pruefe(sammlung.index)) 'texte/index.json: $f']);
   for (final d in sammlung.dateien.entries.where((d) => d.key != 'texte/index.json')) {
@@ -384,6 +392,29 @@ void _geruechte(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, St
   ];
   final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
   b.add('Gerüchte', pruefeGeruechte(Geruechte.ausJson(j), kanon, ton: ton, geschuetzt: geschuetzt));
+}
+
+// ---------------------------------------------------------------- Steckbriefe
+
+/// Steckbriefe und Charakterübersicht (K3, A-059), nur wenn die Akte den Zusatz
+/// `steckbriefe` hat: Datei und Eintrag in `akten.json` gehören zusammen, dann
+/// pruefeSteckbriefe mit den Tonregeln. Geschützt sind zusätzlich Dossiers,
+/// Täterfassungen, Finale und Auflösung (steckbriefGeschuetzt). Das Schema prüft [_schema].
+void _steckbriefe(Befunde b, Kanon kanon, Texte texte, String ordner, String wurzel, String fall) {
+  final datei = File('$ordner/steckbriefe.json');
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  final faehig = ((akte?['faehigkeiten'] as List?) ?? const []).contains('steckbriefe');
+  if (datei.existsSync() != faehig) {
+    b.add('Steckbriefe', [faehig ? 'akten.json nennt steckbriefe, steckbriefe.json fehlt' : 'steckbriefe.json ohne Zusatz steckbriefe in akten.json']);
+  }
+  if (!datei.existsSync()) return;
+  final j = _lies(datei.path);
+  if (j['settingId'] != kanon.settingId) b.add('Steckbriefe', ['steckbriefe.json: settingId ${j['settingId']} statt ${kanon.settingId}']);
+  final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
+  b.add('Steckbriefe', pruefeSteckbriefe(Steckbriefe.ausJson(j), kanon, ton: ton, geschuetzt: steckbriefGeschuetzt(texte)));
 }
 
 // ---------------------------------------------------------------- Besetzung

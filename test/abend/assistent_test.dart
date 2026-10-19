@@ -26,13 +26,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Startet die App auf einem Handy. Akte und Daten lädt die App über rootBundle;
 /// der Zwischenspeicher wird vorab gefüllt, damit die Schritte ohne Wartezeit laufen.
-Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu}) async {
+Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu, MetaStore? meta}) async {
   tester.view.physicalSize = const Size(390, 844);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
   SharedPreferences.setMockInitialValues({});
-  final state = AppState(meta: MetaStore.memory()..name = 'Test', scenarios: const {});
+  final state = AppState(meta: meta ?? (MetaStore.memory()..name = 'Test'), scenarios: const {});
   await tester.runAsync(() async {
     // rootBundle merkt sich jede Textdatei samt Ladevorgang (CachingAssetBundle). Was der
     // Assistent braucht, lädt deshalb hier in echter Zeit: ein Vorgang, der erst in der
@@ -130,6 +130,31 @@ void main() {
     final abend = abendNach(tester);
     expect(abend.phase, PartyPhase.rollen);
     expect(abend.solo, isFalse);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Die Gästeliste der Steckbrief-Seite füllt reihum Personenzahl und Namen vor (M5)', (tester) async {
+    final meta = MetaStore.memory()
+      ..name = 'Test'
+      ..setzeGaesteliste('schlosskeller', const GaesteListe(personen: 5, gaeste: [Gast('Ayla', 'fatma'), Gast('Bo', 'tugba'), Gast('Cem')]));
+    final state = await oeffnen(tester, ort: Routes.abendNeuMit('schlosskeller'), meta: meta);
+    await tippen(tester, 'Ein Gerät reihum');
+    await tippen(tester, 'Weiter');
+    expect(find.text('5 Personen sitzen am Tisch'), findsOneWidget);
+    final fatma = tester.widget<TextField>(find.byKey(const ValueKey('name-fatma')));
+    expect(fatma.controller!.text, 'Ayla');
+    final ahmet = tester.widget<TextField>(find.byKey(const ValueKey('name-ahmet')));
+    expect(ahmet.controller!.text, isEmpty);
+    // Tugba ist bei fünf Personen nicht dabei; ihr Name taucht nirgends auf.
+    expect(find.byKey(const ValueKey('name-tugba')), findsNothing);
+    await tester.tap(find.text('Weiter'));
+    await warten(tester, bis: find.text('Bereit?'));
+    await tippen(tester, 'Abend beginnen');
+    final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
+    expect(s.einstellungen.rollen, 5);
+    expect(s.spielerName('fatma'), 'Ayla');
+    expect(s.spielerName('ahmet'), 'Ahmet');
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

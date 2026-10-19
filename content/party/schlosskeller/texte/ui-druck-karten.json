@@ -25,7 +25,7 @@
     },
     {
       "id": "ui.druck.umschlag.aussen",
-      "text": "Hinweis-Umschlag. Erst öffnen, wenn die Spielleitung diesen Code nennt."
+      "text": "Hinweis-Umschlag. Erst öffnen, wenn der Erzähler diesen Code nennt."
     },
     {
       "id": "ui.druck.umschlag.vorlesen",
@@ -45,7 +45,7 @@
     },
     {
       "id": "ui.druck.aufloesung.deckhinweis",
-      "text": "Dieses Heft verrät die ganze Lösung. Die Spielleitung öffnet es erst, wenn die Anklage steht."
+      "text": "Dieses Heft verrät die ganze Lösung. Der Erzähler öffnet es erst, wenn die Anklage steht."
     },
     {
       "id": "ui.druck.aufloesung.taeter",

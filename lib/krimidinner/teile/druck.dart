@@ -34,8 +34,13 @@ class _DruckTeilState extends State<DruckTeil> {
 
   Gewoelbe get g => widget.gewoelbe;
 
-  void _speichern(String datei, String html, {required bool mappe}) {
-    final ok = dateiAnbieten(datei, utf8.encode(html), typ: 'text/html');
+  /// Bietet die Datei an: in der App über das Teilen des Systems, im Browser als
+  /// Download, damit sie sich wie im Hinweis speichern und drucken lässt (A-059).
+  /// Das HTML entsteht im Tipp selbst, darum reicht im Browser ein Tipp. Nur wenn
+  /// das Anbieten scheitert, kommt der Browser-Hinweis.
+  Future<void> _speichern(String datei, String html, {required bool mappe}) async {
+    final ok = await dateiAnbieten(datei, utf8.encode(html), typ: 'text/html');
+    if (!mounted) return;
     setState(() {
       _ohneBrowser = !ok;
       _beiMappen = mappe;
@@ -43,13 +48,13 @@ class _DruckTeilState extends State<DruckTeil> {
     });
   }
 
-  void _steckbriefe() =>
+  Future<void> _steckbriefe() =>
       _speichern(GewoelbeTexte.dateiSteckbriefe(widget.rollen), steckbriefeHtml(g, widget.rollen), mappe: false);
 
   /// Erst beim Tipp wird die Mappe erzeugt; im Bildschirm steht nie ihr Inhalt.
-  void _mappe(String person) {
+  Future<void> _mappe(String person) {
     final m = g.mappeFuer(person, widget.rollen);
-    _speichern(GewoelbeTexte.dateiMappe(m.nummer), mappeHtml(m), mappe: true);
+    return _speichern(GewoelbeTexte.dateiMappe(m.nummer), mappeHtml(m), mappe: true);
   }
 
   @override

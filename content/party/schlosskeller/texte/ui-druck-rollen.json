@@ -53,7 +53,7 @@
     },
     {
       "id": "ui.druck.rollen.umschlag",
-      "text": "Deine Fassung trägt den Code {code}. Öffne sie erst, wenn die Spielleitung diesen Code nennt."
+      "text": "Deine Fassung trägt den Code {code}. Öffne sie erst, wenn der Erzähler diesen Code nennt."
     },
     {
       "id": "ui.druck.rollen.weiss",
@@ -81,7 +81,7 @@
     },
     {
       "id": "ui.druck.fassung.aussen",
-      "text": "Versiegelt. Erst öffnen, wenn die Spielleitung diesen Code nennt."
+      "text": "Versiegelt. Erst öffnen, wenn der Erzähler diesen Code nennt."
     },
     {
       "id": "ui.druck.fassung.sabotage",

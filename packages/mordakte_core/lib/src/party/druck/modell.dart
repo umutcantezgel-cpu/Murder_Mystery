@@ -4,6 +4,7 @@ import '../befragung.dart';
 import '../enden.dart';
 import '../entscheidungen.dart';
 import '../erzaehler.dart';
+import '../erzaehler_paket.dart';
 import '../fall_code.dart';
 import '../gruppenwahl.dart';
 import '../kanon/kanon.dart';
@@ -132,7 +133,7 @@ class Fassung {
   const Fassung(this.code, this.rolle, this.dossier, this.streifenA, this.streifen, this.streifenWert);
 }
 
-/// Spielleitungsheft (ohne Lösung): Bausteine je Abschnitt in Lesereihenfolge.
+/// Erzählerheft, früher Spielleitungsheft (ohne Lösung): Bausteine je Abschnitt in Lesereihenfolge.
 class Spielleitungsheft {
   final List<String> intro;
   /// Runde → Bausteine zum Rundenstart (mit dem Wissen unbesetzter Gäste, F-09).
@@ -229,6 +230,10 @@ class DruckSatz {
   /// Sie hängen nur an der Personenzahl, nie am Pfad.
   final Map<int, BefragungsRunde> befragungen;
 
+  /// Erzählerpaket je Runde für das Erzählerheft (A-052, M2.1): Tisch-Stichpunkte,
+  /// Befragungen mit Antworten, NPC-Bausteine. Pfadfrei; leer im Modell legacy.
+  final Map<int, ErzaehlerPaket> erzaehler;
+
   DruckSatz._({
     required this.code,
     required this.rollen,
@@ -246,6 +251,7 @@ class DruckSatz {
     required this.aufloesung,
     required this.gespraechsplan,
     required this.befragungen,
+    required this.erzaehler,
   });
 
   Indizkarte karte(String code) => indizkarten.firstWhere((k) => k.code == code);
@@ -427,6 +433,9 @@ class DruckSatz {
       aufloesung: heftAufloesung,
       gespraechsplan: texte.gespraechsplan(rollen),
       befragungen: befragungsplan == null ? const {} : {for (var r = 1; r <= Befragungsplan.runden; r++) r: befragungsplan.fuer(rollen, r)},
+      erzaehler: befragungsplan == null
+          ? const {}
+          : {for (var r = 1; r <= Befragungsplan.runden; r++) r: erzaehlerPaket(texte, befragungsplan, n: rollen, runde: r)},
     );
   }
 

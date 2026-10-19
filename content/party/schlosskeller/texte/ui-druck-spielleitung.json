@@ -1,15 +1,15 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "ui",
-  "hinweis": "Spielleitungsheft und Detektivbogen im Druck (F5-BAUMEISTER-01). Kennungen ui.druck.spielleitung.* und ui.druck.bogen.*.",
+  "hinweis": "Erzählerheft (früher Spielleitungsheft, M5) und Detektivbogen im Druck (F5-BAUMEISTER-01). Kennungen ui.druck.spielleitung.* und ui.druck.bogen.*.",
   "eintraege": [
     {
       "id": "ui.druck.spielleitung.marke",
-      "text": "Spielleitungsheft"
+      "text": "Erzählerheft"
     },
     {
       "id": "ui.druck.spielleitung.titel",
-      "text": "Spielleitungsheft – ohne Lösung"
+      "text": "Erzählerheft – ohne Lösung"
     },
     {
       "id": "ui.druck.spielleitung.fallcode",
@@ -21,7 +21,7 @@
     },
     {
       "id": "ui.druck.spielleitung.willkommen",
-      "text": "Dieses Heft führt dich durch den Abend. Es enthält keine Lösung."
+      "text": "Dieses Heft führt dich als Erzähler durch den Abend. Es enthält keine Lösung."
     },
     {
       "id": "ui.druck.spielleitung.aufloesung",
@@ -37,7 +37,7 @@
     },
     {
       "id": "ui.druck.spielleitung.datei.00",
-      "text": "Spielleitungsheft. Dieses Heft bleibt bei dir."
+      "text": "Erzählerheft. Dieses Heft bleibt bei dir."
     },
     {
       "id": "ui.druck.spielleitung.datei.01",
