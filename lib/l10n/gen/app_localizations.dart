@@ -5654,6 +5654,240 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.'**
   String get erzaehltiefe_hinweis;
+
+  /// Befragungen des Detektivs: Überschrift (Solo und am Tisch)
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Befragungen'**
+  String get party_befragung_titel;
+
+  /// Solo: Hinweis unter der Überschrift der Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe eine Frage an, dann hörst du die Antwort. Behauptungen können falsch sein.'**
+  String get party_befragung_hinweis;
+
+  /// Am Tisch: Hinweis über den Befragungskarten des Detektivs
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe die Frage an, die du am Tisch stellst. Die Antwort kennt nur die befragte Person.'**
+  String get party_befragung_hinweis_tisch;
+
+  /// Marke einer festen Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Pflicht'**
+  String get party_befragung_pflicht;
+
+  /// Überschrift der frei wählbaren Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Frei wählbar'**
+  String get party_befragung_frei_titel;
+
+  /// Freie Wahl: eine offen
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle noch eine Befragung frei.'**
+  String get party_befragung_frei_eine;
+
+  /// Freie Wahl: zwei offen
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle noch zwei Befragungen frei.'**
+  String get party_befragung_frei_zwei;
+
+  /// Freie Wahl: alle getroffen
+  ///
+  /// In de, this message translates to:
+  /// **'Deine freien Wahlen sind getroffen.'**
+  String get party_befragung_frei_fertig;
+
+  /// Gesperrte freie Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Keine freie Wahl mehr'**
+  String get party_befragung_vergeben;
+
+  /// Feld Thema einer Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Thema'**
+  String get party_befragung_thema;
+
+  /// Feld Fragen einer Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Fragen'**
+  String get party_befragung_fragen;
+
+  /// Feld Antwort einer Befragung (nur App-Rollen)
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort'**
+  String get party_befragung_antwort;
+
+  /// Antwort ohne Preisgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Nichts Neues. Mehr weiß diese Person nicht.'**
+  String get party_befragung_nichts;
+
+  /// Stempel einer erledigten Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Erledigt'**
+  String get party_befragung_erledigt;
+
+  /// Knopf: Die Person hat am Tisch geantwortet
+  ///
+  /// In de, this message translates to:
+  /// **'Beantwortet'**
+  String get party_befragung_beantwortet;
+
+  /// Knopf: Gerät an die befragte Person geben
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort zeigen'**
+  String get party_befragung_antwort_zeigen;
+
+  /// Verdeckter Hinweis bei einer Befragung am Tisch
+  ///
+  /// In de, this message translates to:
+  /// **'Gib das Gerät kurz an {name}.'**
+  String party_befragung_geraet(String name);
+
+  /// Solo: höchstens drei Paarungen ohne Antwort
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch aufgeschnappt'**
+  String get party_befragung_aufgeschnappt;
+
+  /// Am Tisch: Paarungen der Tischgespräche
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch in dieser Runde'**
+  String get party_befragung_tisch_titel;
+
+  /// Am Tisch: Hinweis zu den Paarungen
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Person führt ein Gespräch. Was sie sagt, steht auf ihrem Spickzettel.'**
+  String get party_befragung_tisch_hinweis;
+
+  /// Solo: alle Befragungen erledigt
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Befragungen geführt. Jetzt ermittelst du auf der Karte.'**
+  String get party_befragung_fertig;
+
+  /// Weiter ist gesperrt, bis die Befragungen erledigt sind
+  ///
+  /// In de, this message translates to:
+  /// **'Erst die Befragungen, dann geht es weiter.'**
+  String get party_befragung_offen;
+
+  /// Notizbuch: Antworten der Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Antworten aus deinen Befragungen'**
+  String get party_befragung_notizen;
+
+  /// Verdeckter Zettel je Person für die laufende Runde
+  ///
+  /// In de, this message translates to:
+  /// **'Mein Spickzettel'**
+  String get party_befragung_spickzettel;
+
+  /// Am Tisch: Hinweis zu den Spickzetteln
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe deinen Namen an. Nur du siehst deinen Zettel für diese Runde.'**
+  String get party_befragung_spickzettel_hinweis;
+
+  /// Spickzettel: eigenes Tischgespräch
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Tischgespräch'**
+  String get party_befragung_tisch_eigen;
+
+  /// Spickzettel: Stichpunkte des Tischgesprächs
+  ///
+  /// In de, this message translates to:
+  /// **'Stichpunkte'**
+  String get party_befragung_stichpunkte;
+
+  /// Spickzettel: wer die Rolle anspricht
+  ///
+  /// In de, this message translates to:
+  /// **'Wer dich anspricht'**
+  String get party_befragung_anspricht;
+
+  /// Spickzettel: niemand spricht die Rolle an
+  ///
+  /// In de, this message translates to:
+  /// **'In dieser Runde spricht dich niemand an.'**
+  String get party_befragung_niemand;
+
+  /// Spickzettel: eigene Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn der Detektiv dich befragt'**
+  String get party_befragung_dich;
+
+  /// Spickzettel: Antwort-Stichpunkte
+  ///
+  /// In de, this message translates to:
+  /// **'Das sagst du'**
+  String get party_befragung_sagen;
+
+  /// Spickzettel: Behauptung einer Lüge
+  ///
+  /// In de, this message translates to:
+  /// **'Behaupte: {text}'**
+  String party_befragung_behaupte(String text);
+
+  /// Spickzettel: feste Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv befragt dich in dieser Runde.'**
+  String get party_befragung_sicher;
+
+  /// Spickzettel: freie Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv kann dich in dieser Runde frei wählen.'**
+  String get party_befragung_vielleicht;
+
+  /// Spickzettel: freie Wahl ist vergeben
+  ///
+  /// In de, this message translates to:
+  /// **'In dieser Runde befragt dich der Detektiv nicht.'**
+  String get party_befragung_entfaellt;
+
+  /// Spickzettel: die gestellte Frage
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv fragt dich: {frage}'**
+  String party_befragung_fragt(String frage);
+
+  /// Rollenübergabe: nur die Notizen der ersten Runde
+  ///
+  /// In de, this message translates to:
+  /// **'Das ist dein Zettel für die erste Runde. Die nächsten Zettel siehst du in der Runde selbst.'**
+  String get party_befragung_runde_eins;
+
+  /// Online: öffentliche Liste der Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Wen der Detektiv befragt'**
+  String get party_befragung_oeffentlich;
+
+  /// Detektei: alter Abendstand wurde verworfen
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.'**
+  String get abend_fortsetzen_veraltet;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

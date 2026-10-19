@@ -10,6 +10,7 @@ import '../../party/daten.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
+import 'gast_befragung.dart';
 import 'gast_dienst.dart';
 import 'online_teile.dart';
 
@@ -602,6 +603,8 @@ class DossierAnsicht extends StatelessWidget {
 // ---------------------------------------------------------------- Gespräche
 
 Widget _gespraeche(GastKontext c) {
+  // Modell befragung (A-051): eigene Karte mit Stichpunkten statt Eröffnung, keine Sprechblasen der Bots.
+  if (c.v.containsKey('tisch')) return GastBefragung(c: c);
   final l = c.l;
   final eigene = jMaps(c.privat['gespraeche']);
   final bots = jMaps(c.v['botGespraeche']);

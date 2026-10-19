@@ -27,7 +27,7 @@ abstract final class AbendSpeicher {
     try {
       final roh = (await SharedPreferences.getInstance()).getString(schluessel);
       final d = roh == null ? null : jsonDecode(roh);
-      stand = d is Map<String, Object?> && d['format'] == 'abendstand/1' ? d : null;
+      stand = d is Map<String, Object?> && PartySitzung.abendstandFormate.contains(d['format']) ? d : null;
     } catch (_) {
       stand = null;
     }
@@ -51,7 +51,9 @@ abstract final class AbendSpeicher {
 
   /// Baut den abgelegten Abend wieder auf (Akte, Erkundungsorte und Deck wie
   /// beim Anlegen). `null`, wenn keiner da ist oder er sich nicht mehr
-  /// abspielen lässt; dann ist er verworfen. Scheitert nur das Laden der Akte
+  /// abspielen lässt; dann ist er verworfen. Stammt er aus einer älteren
+  /// Fassung der Akte ([AbendstandVeraltet]), ist er ebenso verworfen, und der
+  /// Fehler kommt für einen Hinweis an. Scheitert nur das Laden der Akte
   /// (Speicher, Netz im Web), bleibt der Stand liegen und der Fehler kommt an.
   static Future<PartySitzung?> fortsetzen(MetaStore meta, [AssetBundle? bundle]) async {
     final stand = await lesen();
@@ -67,6 +69,10 @@ abstract final class AbendSpeicher {
     final katalog = await kartenBereit(meta, bundle);
     try {
       return PartySitzung.fortsetzen(daten, stand, katalog: katalog, abstecher: abstecher);
+    } on AbendstandVeraltet {
+      debugPrint('ABEND fortsetzen verworfen: ältere Fassung');
+      await loeschen();
+      rethrow;
     } on FormatException catch (e) {
       debugPrint('ABEND fortsetzen verworfen: $e');
       await loeschen();

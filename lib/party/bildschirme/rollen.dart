@@ -8,6 +8,7 @@ import '../../stil/stil.dart';
 import '../druck_tafel.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'spickzettel.dart';
 
 /// Verdeckte Rollenvergabe und Dossier (F4-BAUMEISTER-02, Master 7.6 Schritt 3, 7.11).
 ///
@@ -192,7 +193,14 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
               ..._zeilen(d.verbirgt),
             ]),
             _abschnitt(s.ui('ui.rollen.ziel_titel'), [Text(d.ziel, style: MPapierSchrift.text)]),
-            _abschnitt(s.ui('ui.rollen.gespraeche_titel'), _gespraeche(d)),
+            if (s.befragungsmodell) ...[
+              // Modell befragung (A-051): Bei der Rollenübergabe nur die Notizen der ersten Runde,
+              // die übrigen zeigt der Spickzettel in der Runde selbst.
+              SpickzettelInhalt(sitzung: s, rolle: rolle, runde: 1),
+              const SizedBox(height: 10),
+              Text(s.ui('ui.befragung.runde_eins'), style: MPapierSchrift.leise),
+            ] else
+              _abschnitt(s.ui('ui.rollen.gespraeche_titel'), _gespraeche(d)),
             _abschnitt(s.ui('ui.rollen.wahl_titel'), _wahlen(d)),
             _abschnitt(s.ui('ui.rollen.besetzung_titel'), [Text(d.besetzung, style: MPapierSchrift.leise)]),
           ],

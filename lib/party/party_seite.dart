@@ -9,6 +9,7 @@ import '../l10n/lookup.dart';
 import '../stil/stil.dart';
 import 'bildschirme/anklage.dart';
 import 'bildschirme/aufloesung.dart';
+import 'bildschirme/befragung.dart';
 import 'bildschirme/einrichtung.dart';
 import 'bildschirme/finale.dart';
 import 'bildschirme/gruppenwahl.dart';
@@ -138,7 +139,10 @@ Widget bildschirm(PartySitzung s, {Widget? menu, VoidCallback? onEnde}) => switc
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
       PartyPhase.intro => IntroBildschirm(sitzung: s),
-      PartyPhase.gespraeche => s.solo ? SoloGespraecheBildschirm(sitzung: s) : RundeBildschirm(sitzung: s),
+      // Modell befragung (A-051): Im Solo befragt der Detektiv die Bots; Altakten hören Sprechblasen.
+      PartyPhase.gespraeche => s.solo
+          ? (s.befragungsmodell ? BefragungBildschirm(sitzung: s) : SoloGespraecheBildschirm(sitzung: s))
+          : RundeBildschirm(sitzung: s),
       PartyPhase.entscheidungen => KartenBildschirm(sitzung: s),
       PartyPhase.gruppenwahl => GruppenwahlBildschirm(sitzung: s),
       PartyPhase.bonus || PartyPhase.resuemee => ResuemeeBildschirm(sitzung: s),

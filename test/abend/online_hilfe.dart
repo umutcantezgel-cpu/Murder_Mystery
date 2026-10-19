@@ -97,6 +97,28 @@ void starte(SchlosskellerRaum raum) {
   raum.nachricht('gastgeber', {'typ': 'start', 'rollen': 4, 'detektiv': 'w', 'vorrat': [_karte]});
 }
 
+/// Modell befragung (A-051): Der Detektiv ([detektiv]) erledigt die Befragungen
+/// der Runde über Nachrichten – feste und so viele freie, wie erlaubt, je mit
+/// der ersten Frage; was ein Mensch beantwortet, markiert er als erledigt.
+/// Ohne Befragungen (Altakte, andere Phase) geschieht nichts.
+void befragungenImRaum(SchlosskellerRaum raum, {String detektiv = 'gastgeber'}) {
+  final privat = _map(raum.zustandFuer(detektiv)['privat']);
+  final karten = privat['befragungen'];
+  if (karten is! List) return;
+  var frei = privat['befragungenFrei'] as int;
+  for (final k in _liste(karten)) {
+    if (k['erledigt'] == true) continue;
+    if (k['frage'] == null) {
+      if (k['pflicht'] != true) {
+        if (frei <= 0) continue;
+        frei--;
+      }
+      raum.nachricht(detektiv, {'typ': 'befragen', 'id': k['id'], 'frage': 0});
+    }
+    if (k['mensch'] == true) raum.nachricht(detektiv, {'typ': 'erledigt', 'id': k['id']});
+  }
+}
+
 /// Ein Schritt des Abends wie in der Raumprüfung: Gäste lesen und stimmen,
 /// die Spielleitung wählt richtig, würfelt über den Würfelpaten und geht weiter.
 /// [vorWeiter] läuft nach dem Lesen der Rollen und nach den Stimmen, bevor die
@@ -130,6 +152,10 @@ void schritt(SchlosskellerRaum raum, Ermittlung erm, String pfad, {void Function
       } else {
         raum.nachricht('gastgeber', {'typ': 'weiter'});
       }
+    case 'gespraeche':
+      befragungenImRaum(raum);
+      vorWeiter?.call();
+      raum.nachricht('gastgeber', {'typ': 'weiter'});
     case 'gruppenwahl':
       for (final t in _liste(s['spieler'])) {
         if (t['rolle'] != null && t['online'] == true) raum.nachricht(t['id'] as String, {'typ': 'stimme', 'kooperativ': true});

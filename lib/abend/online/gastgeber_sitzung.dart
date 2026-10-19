@@ -7,6 +7,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 
 import '../../party/sitzung.dart';
+import '../../party/stand/befragung_stand.dart';
 import 'ansicht.dart';
 import 'gastgeber_dienst.dart';
 
@@ -85,8 +86,59 @@ class GastgeberSitzung extends PartySitzung {
   void _abgleichen() {
     if (_entsorgt) return;
     final n = jListe(dienst.ansicht['erzaehler']).length;
+    // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
+    for (final k in befragungen) {
+      if (k.antwort != null) _notizen[k.id] = k;
+    }
     raumGeaendert(erzaehlerAb: spiel.bausteine.length - n);
   }
+
+  // ------------------------------------------------------------ Befragungen
+
+  /// Die Befragungskarten des Detektivs stehen im privaten Teil der eigenen
+  /// Ansicht (A-051); die Antwort einer App-Rolle erst nach der Frage.
+  @override
+  List<BefragungKarte> get befragungen {
+    final privat = jMap(dienst.ansicht['privat']);
+    final offen = jZahl(privat['befragungenFrei']);
+    return [
+      for (final k in jMaps(privat['befragungen']))
+        BefragungKarte(
+          id: jText(k['id']),
+          rolle: jText(k['rolle']),
+          thema: jText(k['thema']),
+          fragen: jTexte(k['fragen']),
+          pflicht: k['pflicht'] == true,
+          mensch: k['mensch'] == true,
+          frage: k['frage'] is int ? k['frage'] as int : null,
+          erledigt: k['erledigt'] == true,
+          waehlbar: k['pflicht'] == true || k['frage'] is int || offen > 0,
+          antwort: k['antwort'] is List ? jTexte(k['antwort']) : null,
+        ),
+    ];
+  }
+
+  @override
+  int get befragungenFrei => jZahl(jMap(dienst.ansicht['privat'])['befragungenFrei']);
+
+  /// Der Raum entscheidet mit [kannWeiter], ob die Befragungen der Runde durch sind.
+  @override
+  bool get befragungenFertig => phase != PartyPhase.gespraeche || dienst.ansicht['kannWeiter'] == true;
+
+  final Map<String, BefragungKarte> _notizen = {};
+
+  @override
+  List<BefragungKarte> get befragungsNotizen => List.unmodifiable(_notizen.values);
+
+  @override
+  void befragen(String id, int frage) => _senden([
+        {'typ': 'befragen', 'id': id, 'frage': frage},
+      ]);
+
+  @override
+  void befragungErledigt(String id) => _senden([
+        {'typ': 'erledigt', 'id': id},
+      ]);
 
   // ---------------------------------------------------------------- Lesen
 

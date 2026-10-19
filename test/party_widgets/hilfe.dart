@@ -9,6 +9,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/skript.dart';
 
 PartyDaten? _daten;
 
@@ -52,6 +53,7 @@ void spieleBis(PartySitzung s, PartyPhase ziel, {int? runde}) {
         s.einrichten(rollen: 7, detektiv: 'w', code: FallCode.fuerPfad('ahmet', s.kanon.pfade).code);
       case PartyPhase.gespraeche:
         for (final g in s.soloGespraeche) { s.soloGespraechGelesen(g.id); }
+        PartySkript.befragungenErledigen(s);
         s.weiter();
       case PartyPhase.entscheidungen:
         if (s.zug != null) {

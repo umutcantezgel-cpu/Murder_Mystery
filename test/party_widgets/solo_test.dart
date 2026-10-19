@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/party/bildschirme/befragung.dart';
 import 'package:mordakte/party/bildschirme/einrichtung.dart';
 import 'package:mordakte/party/bildschirme/gruppenwahl.dart';
 import 'package:mordakte/party/bildschirme/karte.dart';
 import 'package:mordakte/party/bildschirme/rollen.dart';
 import 'package:mordakte/party/bildschirme/solo_gespraeche.dart';
 import 'package:mordakte/party/party_seite.dart';
+import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/skript.dart';
+import 'package:mordakte/party/stand/befragung_stand.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
@@ -54,34 +58,70 @@ void main() {
     s.dispose();
   });
 
-  test('Gespräche sperren die nächste Entscheidung, sind öffentlich und bleiben in den Notizen', () {
+  test('Befragungen sperren die nächste Entscheidung; die Antwort kommt erst nach der Frage und bleibt im Notizbuch', () {
     final s = neueSitzung(rollen: 4, solo: true);
     spieleBis(s, PartyPhase.gespraeche);
+    expect(s.befragungsmodell, isTrue);
+    expect(s.soloGespraeche, isEmpty, reason: 'Im Modell befragung keine öffentlichen Sprechblasen');
+    final plan = Befragungsplan(partyDaten.texte).fuer(4, 1);
+    expect([for (final k in s.befragungen) k.rolle], [...plan.pflicht, ...plan.frei]);
+    expect(s.befragungen.every((k) => k.antwort == null && !k.mensch), isTrue);
     expect(s.kannWeiter, isFalse);
     expect(() => s.weiter(), throwsStateError);
-    expect(() => s.soloGespraechGelesen('g_ahmet_3_1'), throwsStateError);
-    expect(s.soloNotizen, isEmpty);
-    for (final g in s.soloGespraeche) { s.soloGespraechGelesen(g.id); }
+    expect(() => s.befragen('bf_ahmet_3', 0), throwsArgumentError, reason: 'nicht in dieser Runde');
+    expect(s.befragungsNotizen, isEmpty);
+    final pflicht = s.befragungen.firstWhere((k) => k.pflicht);
+    expect(() => s.befragen(pflicht.id, pflicht.fragen.length), throwsArgumentError);
+    s.befragen(pflicht.id, 1);
+    final gefragt = s.befragungen.firstWhere((k) => k.id == pflicht.id);
+    expect(gefragt.frage, 1);
+    expect(gefragt.erledigt, isTrue, reason: 'Im Solo antwortet die App sofort');
+    expect(gefragt.antwort, botAntwort(partyDaten.texte, plan.text(pflicht.rolle)));
+    // Freie Wahlen: genau so viele, wie die Runde erlaubt; danach sind die übrigen gesperrt.
+    final frei = [for (final k in s.befragungen) if (!k.pflicht) k];
+    for (var w = 0; w < plan.freiWahlen; w++) {
+      s.befragen(frei[w].id, 0);
+    }
+    expect(s.befragungenFrei, 0);
+    for (final k in frei.skip(plan.freiWahlen)) {
+      expect(s.befragungVon(k.rolle)!.waehlbar, isFalse);
+      expect(() => s.befragen(k.id, 0), throwsArgumentError);
+    }
+    PartySkript.befragungenErledigen(s);
     expect(s.kannWeiter, isTrue);
-    expect(s.soloNotizen, hasLength(s.soloGespraeche.length));
-    final notizen = s.soloNotizen;
+    expect(s.befragungsNotizen, hasLength(plan.gesamt));
+    final notizen = s.befragungsNotizen;
     expect(() => notizen.clear(), throwsUnsupportedError);
     s.weiter();
     expect(s.phase, PartyPhase.entscheidungen);
-    expect(s.soloNotizen, notizen);
-    expect(() => s.soloGespraechGelesen(notizen.first.id), throwsStateError);
+    expect(s.befragungsNotizen.map((k) => k.id), notizen.map((k) => k.id));
+    expect(() => s.befragen(frei.last.id, 0), throwsStateError);
     s.dispose();
   });
 
   test('Solo mit dauerhaftem Pech: 4–20 Rollen und alle Pfade vollständig lösbar', () {
+    final plan = Befragungsplan(partyDaten.texte);
     for (final pfad in partyDaten.kanon.pfade) {
       for (var n = 4; n <= 20; n++) {
         final s = neueSitzung(rollen: n, pfad: pfad, solo: true, salz: 'solo-probe', wuerfel: const FesterWuerfel.pech());
+        // Je Runde drei bis fünf Befragungen statt aller Bot-Gespräche.
+        for (var r = 1; r <= 3; r++) {
+          spieleBis(s, PartyPhase.gespraeche, runde: r);
+          expect(s.befragungen.where((k) => k.pflicht).length + s.befragungenFrei, inInclusiveRange(3, 5), reason: '$pfad / $n / Runde $r');
+        }
         spieleBis(s, PartyPhase.ende);
         expect(s.ende.id, 'ende_meister', reason: '$pfad / $n');
         expect(s.spiel.punkte, 9);
         expect(s.spiel.restmenge(), {pfad});
-        expect(s.soloNotizen, isNotEmpty);
+        expect(s.soloNotizen, isEmpty);
+        expect(s.befragungsNotizen.length, inInclusiveRange(9, 15));
+        // Jedes Tisch-Kettenglied, das eine Befragung zustellt, hat der Detektiv rechtzeitig gehört.
+        final zustellung = plan.zustellung(n);
+        expect(zustellung.keys.toSet(), plan.glieder.keys.toSet(), reason: '$n Rollen: jedes Glied hat einen Weg');
+        for (final z in zustellung.values.where((z) => z.weg == Zustellweg.befragung)) {
+          final k = s.befragungsNotizen.firstWhere((k) => k.id == BefragungText.kennung(z.halter, z.runde), orElse: () => throw TestFailure('$pfad / $n: ${z.glied} nicht gehört'));
+          expect(k.antwort, contains(oeffentlicheAussage(partyDaten.texte, z.halter, z.glied)), reason: '$pfad / $n: ${z.glied}');
+        }
         for (var r = 1; r <= 3; r++) {
           final stimmen = {for (final rolle in s.besetzt) rolle: botKooperativ(salz: 'solo-probe', rolle: rolle, runde: r)};
           final q = s.spiel.gruppe.auswerten(rollen: n,
@@ -139,25 +179,54 @@ void main() {
 
   for (final breite in [320.0, 390.0]) {
     for (final schrift in [1.0, 2.0]) {
-      testWidgets('Solo-Sprechblasen und automatische Wahl bei $breite px / Schrift $schrift', (t) async {
+      testWidgets('Solo-Befragungen und automatische Wahl bei $breite px / Schrift $schrift', (t) async {
         final s = neueSitzung(rollen: 20, solo: true);
         spieleBis(s, PartyPhase.gespraeche);
         await zeigen(t, bildschirm(s), breite, schrift);
-        expect(find.byType(SoloGespraecheBildschirm), findsOneWidget);
-        expect(find.byType(BotSprechblase), findsOneWidget);
-        expect(find.text('Gespräch 1 von ${s.soloGespraeche.length}'), findsOneWidget);
+        expect(find.byType(BefragungBildschirm), findsOneWidget);
+        expect(find.byType(SoloGespraecheBildschirm), findsNothing);
+        final karten = s.befragungen;
+        final antworten = {
+          for (final k in karten)
+            for (final a in botAntwort(partyDaten.texte, partyDaten.texte.sammlung.befragungen[k.id]!)) a,
+        };
+        for (final k in karten) {
+          expect(find.byKey(ValueKey(k.id)), findsOneWidget, reason: k.id);
+        }
+        for (final a in antworten) {
+          expect(find.text(a), findsNothing, reason: 'Vor der Frage keine Antwort: $a');
+        }
         expect(find.text(s.ui('ui.runde.weiter')), findsNothing);
         expect(find.text(s.ui('ui.rollen.verbirgt_titel')), findsNothing);
-        for (final g in s.soloGespraeche) {
-          expect(find.byKey(ValueKey(g.id)), findsOneWidget);
-          await tippen(t, s.ui('ui.solo.gehoert'));
+        // Höchstens drei Zeilen am Tisch aufgeschnappt, nur Paarung und Thema.
+        expect(find.byType(TischZeile), findsNWidgets(3));
+        final fragen = {for (final k in karten) ...k.fragen};
+        for (final g in partyDaten.texte.sammlung.gespraeche.where((g) => g.runde == 1)) {
+          for (final p in g.stichpunkte.where((p) => !fragen.contains(p))) {
+            expect(find.text(p), findsNothing, reason: 'Stichpunkt am Tisch: $p');
+          }
+        }
+        Future<void> frage(BefragungKarte k) async {
+          final f = find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.text(k.fragen.first));
+          await t.ensureVisible(f);
+          await t.tap(f);
+          await t.pump();
           expect(t.takeException(), isNull);
         }
-        expect(find.text(s.ui('ui.solo.fertig')), findsOneWidget);
+        for (final k in karten.where((k) => k.pflicht)) {
+          await frage(k);
+          final antwort = s.befragungVon(k.rolle)!.antwort!;
+          expect(antwort, isNotEmpty);
+          expect(find.descendant(of: find.byKey(ValueKey(k.id)), matching: find.text(antwort.first)), findsOneWidget, reason: k.id);
+        }
+        for (final k in karten.where((k) => !k.pflicht).take(s.befragungenFrei)) {
+          await frage(k);
+        }
+        expect(s.befragungenFertig, isTrue);
+        await t.pump();
+        expect(find.text(s.ui('ui.befragung.fertig')), findsOneWidget);
         expect(find.text(s.ui('ui.runde.weiter')), findsOneWidget);
-        await tippen(t, s.ui('ui.solo.vorheriges'));
-        expect(find.byType(BotSprechblase), findsOneWidget);
-        expect(s.soloNotizen.length, s.soloGespraeche.length);
+        expect(s.befragungsNotizen, hasLength(karten.where((k) => k.pflicht).length + 1));
         await t.pumpWidget(const SizedBox());
         spieleBis(s, PartyPhase.gruppenwahl);
         expect(s.alleGestimmt, isTrue);
@@ -172,12 +241,34 @@ void main() {
     }
   }
 
-  testWidgets('Notizbuch zeigt gehörte Sprechblasen, keine Bot-Dossiers', (t) async {
+  testWidgets('Altakte (Modell legacy): Solo-Sprechblasen wie bisher, dann die Karte', (t) async {
+    final d = akteDaten('gewoelbe');
+    final s = PartySitzung(d, wuerfel: const FesterWuerfel.neutral())
+      ..einrichten(rollen: 4, detektiv: 'w', solo: true, code: FallCode.fuerPfad(d.kanon.pfade.first, d.kanon.pfade).code);
+    spieleBis(s, PartyPhase.gespraeche);
+    expect(s.befragungsmodell, isFalse);
+    expect(s.befragungen, isEmpty);
+    await zeigen(t, bildschirm(s), 390, 1);
+    expect(find.byType(SoloGespraecheBildschirm), findsOneWidget);
+    expect(find.text('Gespräch 1 von ${s.soloGespraeche.length}'), findsOneWidget);
+    for (final _ in s.soloGespraeche) {
+      await tippen(t, s.ui('ui.solo.gehoert'));
+    }
+    expect(find.text(s.ui('ui.runde.weiter')), findsOneWidget);
+    expect(t.takeException(), isNull);
+    await t.pumpWidget(const SizedBox());
+    s.dispose();
+  });
+
+  testWidgets('Notizbuch zeigt die Antworten der Befragungen, keine Bot-Dossiers', (t) async {
     final s = neueSitzung(rollen: 4, solo: true);
     spieleBis(s, PartyPhase.entscheidungen);
     await zeigen(t, KartenBildschirm(sitzung: s), 390, 1);
     await tippen(t, s.ui('ui.karte.notizbuch'));
-    expect(find.byType(BotSprechblase), findsNWidgets(s.soloNotizen.length));
+    expect(s.befragungsNotizen, isNotEmpty);
+    expect(find.byType(BefragungsKarte), findsNWidgets(s.befragungsNotizen.length));
+    expect(find.text(s.ui('ui.befragung.notizen')), findsOneWidget);
+    expect(find.byType(BotSprechblase), findsNothing);
     expect(find.text(s.ui('ui.rollen.verbirgt_titel')), findsNothing);
     expect(find.text(s.ui('ui.karte.notizbuch_leer')), findsNothing);
     expect(t.takeException(), isNull);

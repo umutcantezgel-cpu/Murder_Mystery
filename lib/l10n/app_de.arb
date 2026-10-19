@@ -2056,5 +2056,176 @@
   "erzaehltiefe_hinweis": "Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.",
   "@erzaehltiefe_hinweis": {
     "description": "Einrichtung: Hinweis unter der Erzähltiefe"
+  },
+  "party_befragung_titel": "Deine Befragungen",
+  "@party_befragung_titel": {
+    "description": "Befragungen des Detektivs: Überschrift (Solo und am Tisch)"
+  },
+  "party_befragung_hinweis": "Tippe eine Frage an, dann hörst du die Antwort. Behauptungen können falsch sein.",
+  "@party_befragung_hinweis": {
+    "description": "Solo: Hinweis unter der Überschrift der Befragungen"
+  },
+  "party_befragung_hinweis_tisch": "Tippe die Frage an, die du am Tisch stellst. Die Antwort kennt nur die befragte Person.",
+  "@party_befragung_hinweis_tisch": {
+    "description": "Am Tisch: Hinweis über den Befragungskarten des Detektivs"
+  },
+  "party_befragung_pflicht": "Pflicht",
+  "@party_befragung_pflicht": {
+    "description": "Marke einer festen Befragung"
+  },
+  "party_befragung_frei_titel": "Frei wählbar",
+  "@party_befragung_frei_titel": {
+    "description": "Überschrift der frei wählbaren Befragungen"
+  },
+  "party_befragung_frei_eine": "Wähle noch eine Befragung frei.",
+  "@party_befragung_frei_eine": {
+    "description": "Freie Wahl: eine offen"
+  },
+  "party_befragung_frei_zwei": "Wähle noch zwei Befragungen frei.",
+  "@party_befragung_frei_zwei": {
+    "description": "Freie Wahl: zwei offen"
+  },
+  "party_befragung_frei_fertig": "Deine freien Wahlen sind getroffen.",
+  "@party_befragung_frei_fertig": {
+    "description": "Freie Wahl: alle getroffen"
+  },
+  "party_befragung_vergeben": "Keine freie Wahl mehr",
+  "@party_befragung_vergeben": {
+    "description": "Gesperrte freie Befragung"
+  },
+  "party_befragung_thema": "Thema",
+  "@party_befragung_thema": {
+    "description": "Feld Thema einer Befragung"
+  },
+  "party_befragung_fragen": "Deine Fragen",
+  "@party_befragung_fragen": {
+    "description": "Feld Fragen einer Befragung"
+  },
+  "party_befragung_antwort": "Antwort",
+  "@party_befragung_antwort": {
+    "description": "Feld Antwort einer Befragung (nur App-Rollen)"
+  },
+  "party_befragung_nichts": "Nichts Neues. Mehr weiß diese Person nicht.",
+  "@party_befragung_nichts": {
+    "description": "Antwort ohne Preisgabe"
+  },
+  "party_befragung_erledigt": "Erledigt",
+  "@party_befragung_erledigt": {
+    "description": "Stempel einer erledigten Befragung"
+  },
+  "party_befragung_beantwortet": "Beantwortet",
+  "@party_befragung_beantwortet": {
+    "description": "Knopf: Die Person hat am Tisch geantwortet"
+  },
+  "party_befragung_antwort_zeigen": "Antwort zeigen",
+  "@party_befragung_antwort_zeigen": {
+    "description": "Knopf: Gerät an die befragte Person geben"
+  },
+  "party_befragung_geraet": "Gib das Gerät kurz an {name}.",
+  "@party_befragung_geraet": {
+    "description": "Verdeckter Hinweis bei einer Befragung am Tisch",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "party_befragung_aufgeschnappt": "Am Tisch aufgeschnappt",
+  "@party_befragung_aufgeschnappt": {
+    "description": "Solo: höchstens drei Paarungen ohne Antwort"
+  },
+  "party_befragung_tisch_titel": "Am Tisch in dieser Runde",
+  "@party_befragung_tisch_titel": {
+    "description": "Am Tisch: Paarungen der Tischgespräche"
+  },
+  "party_befragung_tisch_hinweis": "Jede Person führt ein Gespräch. Was sie sagt, steht auf ihrem Spickzettel.",
+  "@party_befragung_tisch_hinweis": {
+    "description": "Am Tisch: Hinweis zu den Paarungen"
+  },
+  "party_befragung_fertig": "Alle Befragungen geführt. Jetzt ermittelst du auf der Karte.",
+  "@party_befragung_fertig": {
+    "description": "Solo: alle Befragungen erledigt"
+  },
+  "party_befragung_offen": "Erst die Befragungen, dann geht es weiter.",
+  "@party_befragung_offen": {
+    "description": "Weiter ist gesperrt, bis die Befragungen erledigt sind"
+  },
+  "party_befragung_notizen": "Antworten aus deinen Befragungen",
+  "@party_befragung_notizen": {
+    "description": "Notizbuch: Antworten der Befragungen"
+  },
+  "party_befragung_spickzettel": "Mein Spickzettel",
+  "@party_befragung_spickzettel": {
+    "description": "Verdeckter Zettel je Person für die laufende Runde"
+  },
+  "party_befragung_spickzettel_hinweis": "Tippe deinen Namen an. Nur du siehst deinen Zettel für diese Runde.",
+  "@party_befragung_spickzettel_hinweis": {
+    "description": "Am Tisch: Hinweis zu den Spickzetteln"
+  },
+  "party_befragung_tisch_eigen": "Dein Tischgespräch",
+  "@party_befragung_tisch_eigen": {
+    "description": "Spickzettel: eigenes Tischgespräch"
+  },
+  "party_befragung_stichpunkte": "Stichpunkte",
+  "@party_befragung_stichpunkte": {
+    "description": "Spickzettel: Stichpunkte des Tischgesprächs"
+  },
+  "party_befragung_anspricht": "Wer dich anspricht",
+  "@party_befragung_anspricht": {
+    "description": "Spickzettel: wer die Rolle anspricht"
+  },
+  "party_befragung_niemand": "In dieser Runde spricht dich niemand an.",
+  "@party_befragung_niemand": {
+    "description": "Spickzettel: niemand spricht die Rolle an"
+  },
+  "party_befragung_dich": "Wenn der Detektiv dich befragt",
+  "@party_befragung_dich": {
+    "description": "Spickzettel: eigene Befragung"
+  },
+  "party_befragung_sagen": "Das sagst du",
+  "@party_befragung_sagen": {
+    "description": "Spickzettel: Antwort-Stichpunkte"
+  },
+  "party_befragung_behaupte": "Behaupte: {text}",
+  "@party_befragung_behaupte": {
+    "description": "Spickzettel: Behauptung einer Lüge",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "party_befragung_sicher": "Der Detektiv befragt dich in dieser Runde.",
+  "@party_befragung_sicher": {
+    "description": "Spickzettel: feste Befragung"
+  },
+  "party_befragung_vielleicht": "Der Detektiv kann dich in dieser Runde frei wählen.",
+  "@party_befragung_vielleicht": {
+    "description": "Spickzettel: freie Befragung"
+  },
+  "party_befragung_entfaellt": "In dieser Runde befragt dich der Detektiv nicht.",
+  "@party_befragung_entfaellt": {
+    "description": "Spickzettel: freie Wahl ist vergeben"
+  },
+  "party_befragung_fragt": "Der Detektiv fragt dich: {frage}",
+  "@party_befragung_fragt": {
+    "description": "Spickzettel: die gestellte Frage",
+    "placeholders": {
+      "frage": {
+        "type": "String"
+      }
+    }
+  },
+  "party_befragung_runde_eins": "Das ist dein Zettel für die erste Runde. Die nächsten Zettel siehst du in der Runde selbst.",
+  "@party_befragung_runde_eins": {
+    "description": "Rollenübergabe: nur die Notizen der ersten Runde"
+  },
+  "party_befragung_oeffentlich": "Wen der Detektiv befragt",
+  "@party_befragung_oeffentlich": {
+    "description": "Online: öffentliche Liste der Befragungen"
+  },
+  "abend_fortsetzen_veraltet": "Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.",
+  "@abend_fortsetzen_veraltet": {
+    "description": "Detektei: alter Abendstand wurde verworfen"
   }
 }

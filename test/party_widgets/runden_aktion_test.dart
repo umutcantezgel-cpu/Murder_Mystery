@@ -2,6 +2,7 @@ import 'package:flame/game.dart' show Vector2;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/party/karte_session.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/skript.dart';
 import 'package:mordakte/game/mordakte_game.dart';
 import 'package:mordakte/game/szenen_erweiterung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
@@ -107,7 +108,7 @@ void main() {
 
   test('ein Hintergrund-Timer allein beendet keine Kartenaktion', () async {
     final s = neueSitzung(rollen: 4);
-    while (s.phase != PartyPhase.entscheidungen) { s.weiter(); }
+    while (s.phase != PartyPhase.entscheidungen) { PartySkript.befragungenErledigen(s); s.weiter(); }
     final k = karte(s);
     final start = k.world.value!.detectives.single;
     await Future<void>.delayed(const Duration(milliseconds: 230));
