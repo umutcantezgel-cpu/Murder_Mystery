@@ -3,6 +3,8 @@
 // Menschen über `erledigt`, und „Weiter“ wartet, bis die Runde durch ist. Eine
 // App-Rolle antwortet nur ihm und erst nach der Frage; die Antwort bleibt im
 // Notizbuch. Antworten von Menschen sieht er nie.
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/online/ansicht.dart';
@@ -33,7 +35,7 @@ class _Mitschrift extends LokaleVerbindung {
 
 /// Gastgebergerät mit einem gestarteten Raum, nur die Teile, die die Sitzung liest.
 class _Dienst implements GastgeberDienst {
-  _Dienst(this.raum, this.verb);
+  _Dienst(this.raum, this.verb, {Ablage? ablage, this.salz = 'salz-test'}) : ablage = ablage ?? SpeicherAblage();
 
   @override
   final SchlosskellerRaum raum;
@@ -42,13 +44,13 @@ class _Dienst implements GastgeberDienst {
   final _Mitschrift verb;
 
   @override
-  final Ablage ablage = SpeicherAblage();
+  final Ablage ablage;
 
   @override
   PartyDaten get daten => partyDaten;
 
   @override
-  String get salz => 'salz-test';
+  final String salz;
 
   @override
   String get geburtstagskind => '';
@@ -169,6 +171,43 @@ void main() {
     expect(s.phase, PartyPhase.entscheidungen);
     expect(s.befragungen, isEmpty, reason: 'Nach den Gesprächen trägt die Ansicht keine Karten mehr');
     expect([for (final k in s.befragungsNotizen) k.id], notizen);
+  });
+
+  test('Rückkehr zum Abend: Das Notizbuch der Befragungen bleibt, aber nur für denselben Abend', () async {
+    final raum = testRaum();
+    starte(raum);
+    spieleBisPhase(raum, 'gespraeche');
+    final ablage = SpeicherAblage();
+    final s = GastgeberSitzung(_Dienst(raum, _Mitschrift(raum), ablage: ablage));
+    await _warten();
+    PartySkript.befragungenErledigen(s);
+    await _warten();
+    final notizen = [for (final k in s.befragungsNotizen) [k.id, k.frage, k.pflicht, k.antwort]];
+    expect(notizen, isNotEmpty);
+    s.weiter();
+    await _warten();
+    expect(s.phase, PartyPhase.entscheidungen);
+    final abgelegt = jsonDecode(ablage.daten[GastgeberDienst.notizSchluessel]!) as Map;
+    expect(abgelegt['salz'], 'salz-test');
+    expect(abgelegt.toString(), isNot(contains('antwort')), reason: 'Die Antwort entsteht beim Laden aus den Preisgaben');
+
+    // Die App wird beendet; nach der Rückkehr trägt die Ansicht keine Karten mehr, das Notizbuch kommt aus der Ablage.
+    s.dispose();
+    final zweite = GastgeberSitzung(_Dienst(raum, _Mitschrift(raum), ablage: ablage));
+    expect(zweite.befragungen, isEmpty);
+    await _warten();
+    expect([for (final k in zweite.befragungsNotizen) [k.id, k.frage, k.pflicht, k.antwort]], notizen);
+    for (final k in zweite.befragungsNotizen) {
+      expect(k.antwort, befragungsAntwort(texte, texte.sammlung.befragungen[k.id]!), reason: k.id);
+      expect([k.mensch, k.erledigt], [false, true], reason: k.id);
+    }
+
+    // Ein anderer Abend übernimmt nichts; Verwerfen räumt ab.
+    final fremd = GastgeberSitzung(_Dienst(raum, _Mitschrift(raum), ablage: ablage, salz: 'anderer-abend'));
+    await _warten();
+    expect(fremd.befragungsNotizen, isEmpty);
+    await GastgeberDienst.verwerfeGespeicherten(ablage);
+    expect(ablage.daten.containsKey(GastgeberDienst.notizSchluessel), isFalse);
   });
 
   test('Gastgeber: eine freie Befragung zählt erst mit der Frage; danach entfallen die übrigen', () async {

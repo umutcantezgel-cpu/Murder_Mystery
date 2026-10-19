@@ -176,11 +176,15 @@ class GastgeberDienst extends ChangeNotifier {
     try {
       await ablage.loeschen(RelayHost.ablageSchluessel);
       await ablage.loeschen(erzaehlSchluessel);
+      await ablage.loeschen(notizSchluessel);
     } catch (_) {}
   }
 
   /// Wo der Gastgeber seine Randgespräche ablegt ([GastgeberSitzung]).
   static const erzaehlSchluessel = 'gastgeber.erzaehlung';
+
+  /// Wo der Gastgeber das Notizbuch seiner Befragungen ablegt ([GastgeberSitzung]).
+  static const notizSchluessel = 'gastgeber.befragungen';
 
   /// Baut einen abgelegten Abend wieder auf (gleicher Raumcode, gleiche Rollen,
   /// neue Epoche) oder liefert `null`, wenn nichts Brauchbares abgelegt ist.
@@ -262,7 +266,10 @@ class GastgeberDienst extends ChangeNotifier {
     _verbindungsHoerer = null;
     try {
       await host.schliessen(endgueltig: endgueltig, gaesteBenachrichtigen: endgueltig);
-      if (endgueltig) await ablage.loeschen(erzaehlSchluessel);
+      if (endgueltig) {
+        await ablage.loeschen(erzaehlSchluessel);
+        await ablage.loeschen(notizSchluessel);
+      }
     } catch (e) {
       debugPrint('ONLINE schliessen fehler $e');
     }
