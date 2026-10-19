@@ -97,6 +97,10 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
    - *Personen am Tisch*: nur bei „Ein Gerät reihum“. Du stellst die Zahl der Rollen mit dem Regler ein.
      Jede Rolle hat ein Feld für den Namen. Ohne Namen heißt jede Person wie ihre Figur.
    - *Name des Detektivs* und *Detektiv oder Detektivin*.
+   - *Rollen am Tisch* (Schlosskeller): Bei „Ein Gerät reihum“ trägst du auf Wunsch einen **Erzähler** ein. Er liest
+     vor und führt weiter, ermittelt aber nicht. Bei „Jeder am eigenen Gerät“ wählst du **Dein Platz**:
+     *Detektiv* (du ermittelst) oder *Erzähler* (du liest vor, ein Gast ermittelt). Die anderen Akten kennen
+     keinen Erzähler-Platz; dort ermittelst du am Gastgeber-Gerät.
    - *Der Fall*: **Zufall** oder **Code eingeben**. Mit demselben fünfstelligen Fall-Code spielt ihr denselben
      Fall noch einmal.
    - *Rundendauer*: 20, 30, 45 oder 60 Minuten. Das ist die Gesprächsuhr am Tisch. Bei „Solo mit Bots“
@@ -138,6 +142,13 @@ Diese Ansicht ist ein Schutz gegen Mitlesen, keine technische Sperre. Alle ander
      *Meine Rundenwahl*.
    - Mit **„Fertig, Bildschirm zudecken“** wird der Bildschirm wieder verdeckt.
    - Haben alle ihre Rolle gesehen, tippst du auf **„Alle kennen ihre Rolle“**.
+   - Mit Erzähler am Tisch liegen die Erzähltexte im **Erzählerpult** zugedeckt. Das Gerät geht an den Erzähler.
+     Er tippt auf **„Ich bin …, zeig her“**, liest vor und deckt mit **„Gelesen, zudecken“** wieder zu. Ab dem Finale
+     lesen alle mit.
+   - Bequemer ist **„Am eigenen Handy lesen“** am Pult: Das Gerät zeigt Code und QR-Code, der Erzähler tritt
+     wie ein Gast bei (Detektei → **Beitreten**). Sein Handy zeigt die Texte und sein Erzählerpaket, und er
+     tippt dort auf **Weiter**. Das Gerät am Tisch zeigt nur noch „… liest vor“. Ist sein Handy weg, liegt der
+     Text wieder im Pult. Dafür braucht es Internet.
 3. **Gruppenwahl.** Jede Person wählt geheim zwischen zwei Handlungen. Die Liste zeigt nur, *wer* schon
    gewählt hat. Eine Stimmenzahl steht nie auf dem Bildschirm.
 4. **Würfeln.** Das Gerät geht an den angezeigten **Würfelpaten**. Er wechselt nach jedem Wurf.
@@ -148,8 +159,16 @@ Spiel. Nach dem Start lässt sich die Besetzung nicht mehr ändern. Auch dieser 
 
 ### 5.3 Jeder am eigenen Gerät
 
-Jede Person spielt mit dem eigenen Handy. Ein Gerät, das **Gastgeber-Gerät**, führt den Abend. Der Gastgeber
-ist der Detektiv. Die anderen sind Gäste mit eigener Rolle.
+Jede Person spielt mit dem eigenen Handy. Ein Gerät, das **Gastgeber-Gerät**, führt den Abend. Es gibt drei
+Arten von Plätzen:
+
+- **Detektiv**: ermittelt, befragt, wählt die Spuren und klagt an. Nur dieses Gerät hat Detektivkarte und Klasse.
+- **Erzähler** (nur Schlosskeller): liest die Texte vor und tippt auf **Weiter**. Er sieht sein Erzählerpaket mit
+  Tischgesprächen, Befragungen samt Antwort und dem Wissen ungespielter Gäste, aber nie ein Dossier.
+- **Rolle**: spielt eine Figur mit eigenem Dossier.
+
+Der Gastgeber sitzt als Detektiv oder als Erzähler am Tisch. **„Wer macht was?“** (im Assistenten, in der Lobby
+und in der Leiste des Abends) zeigt für jeden Platz die Aufgabe in jedem Abschnitt.
 
 **Was du dafür brauchst:** Internet auf allen Geräten, dieselbe App-Version und eine gemeinsame Akte.
 Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschnitt „Technik“ unten).
@@ -162,12 +181,17 @@ Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschn
 4. In der **Lobby** siehst du:
    - den **Raumcode** mit sechs Zeichen (zum Beispiel `ABC-DEF`) und einen **QR-Code**,
    - **Code kopieren**, in der Web-Fassung auch **Link kopieren**,
-   - die Liste **Am Tisch** mit dem Zustand jedes Gastes (*Bereit*, *Nicht bereit*, *Getrennt*),
+   - die Liste **Am Tisch** mit dem Zustand jedes Gastes (*Bereit*, *Nicht bereit*, *Getrennt*). Tippe auf einen
+     Platz, um ihm den **Detektiv-** oder **Erzähler-Platz** zu geben oder ihm eine **Figur** zuzuteilen (sonst
+     lost der Start). Gäste können sich eine Figur wünschen; der Wunsch steht unter ihrem Namen. Ohne Detektiv
+     startet kein Abend.
    - die **Rollen**: Mit **Weniger Rollen** und **Mehr Rollen** legst du die Zahl fest. Sie ist mindestens so
      groß wie die Zahl der Gäste und höchstens so groß wie die Zahl, die die Akte kennt. **Bots übernehmen
      die freien Rollen.**
 5. Sind alle Gäste online und bereit, steht dort **„Alle sind bereit.“** Tippe auf **Abend starten**.
-6. Du führst den Abend wie ein Solo-Abend. In der Rollenphase und bei der Gruppenwahl zeigt dir das Gerät, wer
+6. Als Detektiv führst du den Abend wie ein Solo-Abend. Als Erzähler zeigt dein Gerät das **Erzählerpult**:
+   den Text zum Vorlesen, wen der Detektiv befragt, dein Erzählerpaket und in der Ermittlung eine
+   **Zuschauerkarte**. Du tippst auf **Weiter**, sobald der Abschnitt fertig ist. In der Rollenphase und bei der Gruppenwahl zeigt dir das Gerät, wer
    schon gelesen oder gewählt hat. Oben steht eine schmale Leiste mit dem Raumcode und der Zahl der Gäste.
    Das Menü dort zeigt den Tisch und bietet **Abend beenden** (für alle).
 
@@ -180,6 +204,9 @@ Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschn
 3. Gib deinen Namen ein und tippe auf **Beitreten**.
 4. Tippe auf **Bereit**. Mit **Doch nicht bereit** nimmst du es zurück.
 5. Nach dem Start liest du **Deine Rolle** (das Dossier). Tippe danach auf **Gelesen**. Nur du siehst es.
+   Hast du den Detektiv-Platz, siehst du statt eines Dossiers deine **Detektivkarte**. Du befragst, wählst die
+   Spuren auf deiner Karte und klagst an, alles am eigenen Handy. Hast du den Erzähler-Platz, liest du vor und
+   tippst auf **Weiter**. Fällt dein Handy als Erzähler aus, liest nach zwei Minuten der Gastgeber.
 6. Pro Runde siehst du **deine Gespräche** mit Thema, Ziel und Eröffnung. Dazu kommt **Deine Wahl in dieser
    Runde**: Tippe eine Karte an und dann auf **Wahl abgeben**. Niemand sieht, was du wählst.
 7. Du verfolgst die Ermittlung auf deinem Gerät: Würfel, Würfelprotokoll, Funde, Resümee, Anklage, Auflösung.
@@ -198,7 +225,7 @@ eigene Rolle und keine Stimme. Sie verfolgen den öffentlichen Verlauf mit.
   Das Relais sieht nur verschlüsselte Pakete. Offen sind nur Raumcode, Akte, freie Plätze und öffentliche Schlüssel.
 - Der Raumcode ist an den Schlüssel des Gastgebers gebunden. So kann sich niemand im Relais als Gastgeber ausgeben.
 - **Das Gastgeber-Gerät muss im Vordergrund bleiben.** Lass den Bildschirm an. Geht die App in den Hintergrund,
-  sehen die Gäste **„Spielleitung getrennt – Abend pausiert“**. Der Abend geht weiter, sobald du zurück bist.
+  sehen die Gäste **„Gastgeber getrennt – Abend pausiert“**. Der Abend geht weiter, sobald du zurück bist.
 
 ---
 
@@ -347,8 +374,8 @@ Tippe eine Karte an, um sie ins Deck zu legen. Eine Karte gleicher Art ersetzt d
 | **Nachtexpress 1931** · Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann. | Noir | 4 bis 8 | vier Pfade |
 | **Blue Palm Motel** · Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7 | Noir | 4 bis 8 | vier Pfade |
 
-- In Schlosskeller und Gewölbe ermittelt das **Geburtstagskind**. In den Noir-Akten ermittelt der **Inspektor** oder
-  die **Inspektorin**.
+- In Schlosskeller und Gewölbe ermittelt der **Detektiv** oder die **Detektivin**; den Namen trägst du in der
+  Einrichtung ein. In den Noir-Akten ermittelt der **Inspektor** oder die **Inspektorin**.
 - Bei der Rollenzahl zählen die Rollen ohne den Detektiv. Alle weiteren Figuren der Akte spielt das Spiel als Gäste ohne Spieler.
 - Jede Akte hat **Erkundungsorte** (Schlosskeller 8, Gewölbe 7, die drei anderen je 6).
 - Den Schlosskeller gibt es auch als **Druckspiel** auf Papier: Akte öffnen → **Druckmappe**
@@ -364,7 +391,7 @@ Tippe eine Karte an, um sie ins Deck zu legen. Eine Karte gleicher Art ersetzt d
 2. Bleibt es dabei, kann das kostenlose Supabase-Projekt **pausiert** sein. Es pausiert nach sieben Tagen ohne Nutzung.
    Der Besitzer des Projekts muss es im Supabase-Dashboard **wieder aktivieren**.
 
-**„Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.“** Prüfe den Code. Der Gastgeber muss
+**„Es gibt keinen Raum mit diesem Code, oder der Gastgeber ist nicht online.“** Prüfe den Code. Der Gastgeber muss
 die Lobby geöffnet haben und online sein.
 
 **„Der Raum ist voll.“ / „Der Abend hat schon begonnen.“** Nach dem Start kommen nur Geräte wieder herein,
@@ -385,7 +412,7 @@ Der Abend setzt sich fort. Lass den Bildschirm des Gastgebers während des Abend
 - Ist ein Gast länger als zwei Minuten weg, stimmt ein Bot für seine Rolle. Er kann trotzdem zurückkehren.
 - Mit **Abend verlassen** (Gast) gibst du deinen Platz und deine Rolle auf.
 
-**„Keine Antwort von der Spielleitung. Versuche es noch einmal.“** Die Verbindung hakt kurz. Tippe noch einmal.
+**„Keine Antwort vom Gastgeber. Versuche es noch einmal.“** Die Verbindung hakt kurz. Tippe noch einmal.
 
 **Ein Abend am Tisch ist weg.** Solo- und Reihum-Abende werden nicht gespeichert. Nach dem Neuladen oder Schließen
 beginnt ihr neu. Der Fall-Code bringt euch zum selben Fall zurück.

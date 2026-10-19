@@ -377,7 +377,11 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
   final Widget? zustand = !s.online
       ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
       : c.phase == 'lobby'
-          ? (s.bereit ? onlineStempel(l.online_bereit) : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
+          ? (s.istGastgeber
+              ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
+              : s.bereit
+                  ? onlineStempel(l.online_bereit)
+                  : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
           : switch (s.sitz) {
               Sitz.erzaehler => MChip(l.abend_platz_erzaehler, icon: Icons.menu_book_rounded, farbe: MRoh.tinteLeise),
               Sitz.detektiv => MChip(l.abend_platz_detektiv, icon: Icons.search_rounded, farbe: MRoh.tinteLeise),

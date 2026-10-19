@@ -4,6 +4,8 @@
 // wählen, „Das ist endgültig“, der Weg läuft sichtbar und meldet sein Ende,
 // Fund lesen, Anklage. Bleibt die Meldung des Gast-Geräts aus, meldet der
 // Gastgeber nach einer festen Frist.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/online/gast_ansicht.dart' show DossierAnsicht, GastWuerfel;
@@ -28,6 +30,31 @@ Future<void> _tippe(WidgetTester tester, Finder f) async {
 
 /// Der Zug, den Ben gerade sieht (`null` ohne Zug).
 Map<String, Object?>? _zug(SchlosskellerRaum raum) => raum.zustandFuer('g1')['zug'] is Map ? _map(raum.zustandFuer('g1')['zug']) : null;
+
+/// Ein Gast-Gerät mit Netz dazwischen: Befehle warten, bis der Test sie
+/// freigibt, und die Ansicht bleibt, bis eine neue kommt ([neueAnsicht]).
+class _LangsamerGast extends LiveGast {
+  _LangsamerGast(super.raum, {required super.spielerId});
+
+  Map<String, Object?>? _stand;
+  final List<Completer<void>> offen = [];
+
+  @override
+  Map<String, Object?> get ansicht => _stand ??= raum.zustandFuer(spielerId);
+
+  @override
+  Future<String?> befehl(Map<String, Object?> c) async {
+    final k = Completer<void>();
+    offen.add(k);
+    await k.future;
+    return super.befehl(c);
+  }
+
+  void neueAnsicht() {
+    _stand = null;
+    notifyListeners();
+  }
+}
 
 void main() {
   testWidgets('Gast-Detektiv: Detektivkarte, Befragung, Option mit Ziel, Weg, Fund und Anklage', (tester) async {
@@ -96,6 +123,29 @@ void main() {
     expect(raum.partieFuerGastgeber!.spiel.angeklagt, 'ahmet');
     expect(raum.zustandFuer('g1')['kannWeiter'], isTrue, reason: 'Weiter führt der Erzähler-Gastgeber');
     expect(find.byKey(const ValueKey('gast-weiter')), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Eine Frage gilt sofort als gestellt, bis die Ansicht des Raums sie trägt (kein zweiter Tipp)', (tester) async {
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(raum, 'gespraeche', detektiv: 'g1', leiter: 'gastgeber');
+    final ben = _LangsamerGast(raum, spielerId: 'g1');
+    await zeigeImThema(tester, (c) => gastSeiteLive(ben), groesse: const Size(390, 2400), ruhig: true);
+    final karte = _liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['pflicht'] == true);
+    final frage = find.bySemanticsIdentifier('befragung-frage-${karte['id']}-0');
+    expect(frage, findsOneWidget);
+    await _tippe(tester, frage);
+    expect(ben.offen, hasLength(1), reason: 'Der Befehl ist unterwegs');
+    expect(frage, findsNothing, reason: 'Die Karte zeigt die Frage schon als gestellt');
+    // Der Raum bestätigt; bis die neue Ansicht kommt, bleibt die Frage gestellt.
+    ben.offen.single.complete();
+    await tester.pump();
+    expect(frage, findsNothing);
+    ben.neueAnsicht();
+    await tester.pump();
+    expect(frage, findsNothing);
+    expect(_liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['id'] == karte['id'])['frage'], 0);
+    expect(ben.befehle.where((b) => b.$1['typ'] == 'befragen'), hasLength(1), reason: 'Nichts doppelt');
     await tester.pumpWidget(const SizedBox.shrink());
   });
 

@@ -186,9 +186,12 @@ class LobbyPlatz extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final s = spieler;
-    final Widget zustand = !s.online
+    // Der Gastgeber startet den Abend; „bereit“ gibt es für ihn nicht (seine Zeile sagt „Gastgeber“).
+    final Widget? zustand = !s.online
         ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
-        : s.bereit
+        : s.istGastgeber
+            ? null
+            : s.bereit
             ? onlineStempel(l.online_bereit)
             : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise);
     final karte = OnlinePlatzKarte(

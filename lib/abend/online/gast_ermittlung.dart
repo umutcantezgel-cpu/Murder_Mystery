@@ -51,17 +51,21 @@ Widget gastDetektivGespraeche(GastKontext c) {
       OnlineRegisterKopf(s.ui('ui.befragung.titel').toUpperCase()),
       Text(s.ui('ui.befragung.hinweis_tisch'), style: MSchrift.von(c.context).leise),
       const SizedBox(height: MMass.s12),
-      BefragungsListe(
-        sitzung: s,
-        onFrage: c.verbunden ? s.befragen : null,
-        aktionen: (k) => [
-          if (k.gefragt && k.mensch && !k.erledigt)
-            Semantics(
-              container: true,
-              identifier: 'befragung-beantwortet-${k.id}',
-              child: MKnopf(text: s.ui('ui.befragung.beantwortet'), onPressed: c.verbunden ? () => s.befragungErledigt(k.id) : null),
-            ),
-        ],
+      // Eine Frage zeigt sich gleich als gestellt, noch bevor der Raum antwortet.
+      ListenableBuilder(
+        listenable: s,
+        builder: (_, _) => BefragungsListe(
+          sitzung: s,
+          onFrage: c.verbunden ? s.befragen : null,
+          aktionen: (k) => [
+            if (k.gefragt && k.mensch && !k.erledigt)
+              Semantics(
+                container: true,
+                identifier: 'befragung-beantwortet-${k.id}',
+                child: MKnopf(text: s.ui('ui.befragung.beantwortet'), onPressed: c.verbunden ? () => s.befragungErledigt(k.id) : null),
+              ),
+          ],
+        ),
       ),
       if (!fertig) Padding(padding: const EdgeInsets.only(bottom: MMass.s12), child: Text(s.ui('ui.befragung.offen'), style: MSchrift.von(c.context).text)),
       GastBefragung(c: c),

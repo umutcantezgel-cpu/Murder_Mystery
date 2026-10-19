@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../party/sitzung.dart';
@@ -57,15 +59,75 @@ class GastLeseSitzung extends PartySitzung {
   @override
   String? get detektivKlasse => _privat['klasse'] is String ? _privat['klasse'] as String : null;
 
-  @override
-  List<BefragungKarte> get befragungen => befragungsKartenAus(_privat);
+  /// Fragen und „Beantwortet“ auf dem Weg zum Raum. Bis eine neue Ansicht
+  /// kommt, zeigt die Karte sie schon als gestellt: Ein zweiter Tipp schickt
+  /// nichts doppelt, eine freie Wahl ist sofort verbraucht. Mit der nächsten
+  /// Ansicht gilt wieder nur sie.
+  final Map<String, ({int frage, Object? ansicht, bool fertig})> _gefragt = {};
+  final Map<String, ({Object? ansicht, bool fertig})> _beantwortet = {};
+
+  /// Gilt ein Eintrag noch? Solange der Befehl läuft, und danach, bis eine
+  /// neue Ansicht da ist.
+  bool _gilt(Object? ansicht, bool fertig) => !fertig || identical(ansicht, _dienst?.ansicht);
+
+  int? _unterwegs(String id) {
+    final e = _gefragt[id];
+    return e != null && _gilt(e.ansicht, e.fertig) ? e.frage : null;
+  }
+
+  bool _erledigtUnterwegs(String id) {
+    final e = _beantwortet[id];
+    return e != null && _gilt(e.ansicht, e.fertig);
+  }
 
   @override
-  int get befragungenFrei => jZahl(_privat['befragungenFrei']);
+  List<BefragungKarte> get befragungen => [
+        for (final k in befragungsKartenAus(_privat))
+          if ((k.frage == null && _unterwegs(k.id) != null) || (!k.erledigt && _erledigtUnterwegs(k.id)))
+            BefragungKarte(
+              id: k.id,
+              rolle: k.rolle,
+              thema: k.thema,
+              fragen: k.fragen,
+              pflicht: k.pflicht,
+              mensch: k.mensch,
+              frage: k.frage ?? _unterwegs(k.id),
+              erledigt: k.erledigt || _erledigtUnterwegs(k.id),
+              waehlbar: k.waehlbar,
+              antwortKarten: k.antwortKarten,
+            )
+          else
+            k,
+      ];
 
   @override
-  void befragen(String id, int frage) => _befehl?.call({'typ': 'befragen', 'id': id, 'frage': frage});
+  int get befragungenFrei {
+    final frei = jZahl(_privat['befragungenFrei']);
+    final unterwegs = [for (final k in befragungsKartenAus(_privat)) if (!k.pflicht && k.frage == null && _unterwegs(k.id) != null) k].length;
+    return (frei - unterwegs).clamp(0, frei);
+  }
 
   @override
-  void befragungErledigt(String id) => _befehl?.call({'typ': 'erledigt', 'id': id});
+  void befragen(String id, int frage) {
+    if (_unterwegs(id) != null) return;
+    final ansicht = _dienst?.ansicht;
+    _gefragt[id] = (frage: frage, ansicht: ansicht, fertig: false);
+    notifyListeners();
+    unawaited((_befehl?.call({'typ': 'befragen', 'id': id, 'frage': frage}) ?? Future<void>.value()).whenComplete(() {
+      if (_gefragt[id]?.ansicht case final a when identical(a, ansicht)) _gefragt[id] = (frage: frage, ansicht: ansicht, fertig: true);
+      notifyListeners();
+    }));
+  }
+
+  @override
+  void befragungErledigt(String id) {
+    if (_erledigtUnterwegs(id)) return;
+    final ansicht = _dienst?.ansicht;
+    _beantwortet[id] = (ansicht: ansicht, fertig: false);
+    notifyListeners();
+    unawaited((_befehl?.call({'typ': 'erledigt', 'id': id}) ?? Future<void>.value()).whenComplete(() {
+      if (_beantwortet[id]?.ansicht case final a when identical(a, ansicht)) _beantwortet[id] = (ansicht: ansicht, fertig: true);
+      notifyListeners();
+    }));
+  }
 }
