@@ -16,6 +16,8 @@
 //   Gerüchte    nur mit content/welt/<akte>/geruechte.json (in welt.json genannt): Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
 //   Steckbriefe nur mit steckbriefe.json (Zusatz steckbriefe in akten.json): Schema und pruefeSteckbriefe (K3: R17, ohne Fallbezug,
 //     nichts aus Dossiers, Täterfassungen, Finale und Auflösung, Ton)
+//   Langfassung nur mit content/welt/<akte>/langfassung.json (in welt.json genannt): Schema und pruefeEbenen (Raster, Portale,
+//     Erreichbarkeit, Außentor in den Runden zu, Hoftür erst mit dem Ersatzschlüssel, keine Kanon-Kennung, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -134,6 +136,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _partien(b, kanon, erm, texte, fall);
   _geruechte(b, kanon, roh, wurzel, fall);
   _steckbriefe(b, kanon, texte, ordner, wurzel, fall);
+  _langfassung(b, kanon, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -392,6 +395,29 @@ void _geruechte(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, St
   ];
   final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
   b.add('Gerüchte', pruefeGeruechte(Geruechte.ausJson(j), kanon, ton: ton, geschuetzt: geschuetzt));
+}
+
+// ---------------------------------------------------------------- Langfassung
+
+/// Welt-Ebenen des langen Abends (M7a), nur wenn welt.json `langfassung`
+/// nennt: Die Datei muss es dann geben, danach Schema und pruefeEbenen mit den
+/// Tonregeln.
+void _langfassung(Befunde b, Kanon kanon, String wurzel, String fall) {
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final genannt = welt.existsSync() ? _lies(welt.path)['langfassung'] : null;
+  if (genannt is! String) return;
+  final datei = File('$wurzel/content/welt/$fall/$genannt');
+  if (!datei.existsSync()) {
+    b.add('Langfassung', ['welt.json nennt $genannt, die Datei fehlt']);
+    return;
+  }
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/langfassung.schema.json')).pruefe(j);
+  b.add('Langfassung', [for (final f in schema) '$genannt: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Langfassung', ['$genannt: akte ${j['akte']} statt $fall']);
+  final regeln = _lies('$wurzel/content/party/textregeln.json');
+  b.add('Langfassung', pruefeEbenen(WeltEbenen.ausJson(j, kanon), ton: Textpruefer(regeln), regeln: regeln));
 }
 
 // ---------------------------------------------------------------- Steckbriefe
