@@ -88,7 +88,12 @@ const knopf = (page, name) => page.getByRole('button', { name, exact: true });
 
 async function offen(page, name) {
   const b = knopf(page, name);
-  return (await b.count()) === 1 && (await b.isVisible()) && (await b.isEnabled());
+  // Ein Knopf kann zwischen zwei Abfragen verschwinden (neue Ansicht): dann ist er nicht offen.
+  try {
+    return (await b.count()) === 1 && (await b.isVisible()) && (await b.isEnabled({ timeout: 1000 }));
+  } catch {
+    return false;
+  }
 }
 
 async function tippe(page, ziel, label, warten = 30000) {
