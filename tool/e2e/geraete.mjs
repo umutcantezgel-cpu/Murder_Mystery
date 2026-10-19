@@ -43,6 +43,11 @@ const dossiere = [];
 for (const eintrag of index.dateien.filter(e => e.bereich === 'dossier')) {
   dossiere.push(...(await readJson(`${root}/texte/${eintrag.datei}`)).eintraege);
 }
+// Täterfassungen: Wer die Tat begangen hat, sieht Ziel und Verborgenes daraus, dazu die Tarngeschichte.
+const taeter = new Map();
+for (const eintrag of index.dateien.filter(e => e.bereich === 'taeter')) {
+  for (const t of (await readJson(`${root}/texte/${eintrag.datei}`)).eintraege) taeter.set(t.rolle, t);
+}
 // Befragungen des Detektivs (A-051): Kennung → Rolle, Fragen und eigene Stichpunkte der Rolle.
 const befragungen = new Map();
 for (const eintrag of index.dateien.filter(e => e.bereich === 'befragung')) {
@@ -178,8 +183,8 @@ async function gastTippt(gastListe, name) {
 const norm = s => s.replace(/\s+/g, ' ').trim();
 const zeilen = liste => (liste ?? []).map(z => (typeof z === 'string' ? z : z?.text)).filter(t => typeof t === 'string');
 
-/** Die privaten Zeilen eines Dossiers (Wer ich bin, Ziel, Was ich weiß, Was ich verberge), ab 20 Zeichen. */
-const privat = e => [e.wer, e.ziel, ...zeilen(e.weiss), ...zeilen(e.verbirgt)]
+/** Die privaten Zeilen eines Dossiers (Wer ich bin, Ziel, Was ich weiß, Was ich verberge; bei der Täterfassung auch Tarngeschichte und Tatwissen), ab 20 Zeichen. */
+const privat = e => [e.wer, e.ziel, e.tarnung, ...zeilen(e.weiss), ...zeilen(e.verbirgt), ...zeilen(e.tatwissen)]
   .filter(t => typeof t === 'string').map(norm).filter(t => t.length >= 20);
 
 /** Das Dossier, dessen „Wer ich bin“-Zeile auf dieser Seite steht; `null`, solange nichts gezeichnet ist. */
@@ -278,13 +283,15 @@ async function main() {
     // 4. Rollen auf das Minimum, Lobbyfoto, Start
     stufe = 'Anna: Rollen auf das Minimum';
     let minimum = 0;
-    for (let i = 0; i < 20; i++) {
-      if (!(await offen(p, text('online_rollen_weniger')))) break;
+    const erwartet = Math.max(besetzung.minRollen, Math.min(gaeste.length, besetzung.maxRollen));
+    const rollenZahl = async () => Number((await alleTexte(p)).find(t => /^\d+ Rollen$/.test(t))?.split(' ')[0]);
+    // Nach dem Beitritt zeichnet die Lobby neu: Auf den Knopf warten, statt beim ersten Blick aufzuhören.
+    for (let i = 0; i < 20 && (await rollenZahl()) > erwartet; i++) {
+      await warteAuf(anna, () => offen(p, text('online_rollen_weniger')), '„Weniger Rollen“');
       await tippeKnopf(anna, text('online_rollen_weniger'));
     }
     const rollenText = (await alleTexte(p)).find(t => /^\d+ Rollen$/.test(t));
     minimum = Number(rollenText?.split(' ')[0]);
-    const erwartet = Math.max(besetzung.minRollen, Math.min(gaeste.length, besetzung.maxRollen));
     assert.equal(minimum, erwartet, `Rollen auf dem Minimum: ${rollenText}`);
     log(`Rollen: ${minimum} (Minimum aus Gästen und Besetzung)`);
     await fotografiere(anna, 'geraete-host-lobby-390x844.png', 'Gastgeber-Lobby');
@@ -299,7 +306,10 @@ async function main() {
       rollen[g.name] = await warteAuf(g, async () => {
         const texte = await alleTexte(g.page);
         const eintrag = eigenesDossier(texte);
-        return eintrag ? { texte, eintrag } : null;
+        if (!eintrag) return null;
+        // Die Täterin oder der Täter liest die Täterfassung (erkennbar an der Tarngeschichte).
+        const istTaeter = nennt(texte, text('online_dossier_tarnung')) && taeter.has(eintrag.rolle);
+        return { texte, eintrag: istTaeter ? { ...eintrag, ...taeter.get(eintrag.rolle) } : eintrag };
       }, 'Eigenes Dossier mit „Wer ich bin“', 60000);
     }
     assert.notEqual(rollen.Ben.eintrag.rolle, rollen.Cleo.eintrag.rolle, 'Ben und Cleo bekommen dieselbe Rolle');
@@ -309,7 +319,8 @@ async function main() {
     for (const g of gastHandys) {
       const sicht = norm((await alleTexte(g.page)).join('\n'));
       const eigene = new Set(priv[g.name]);
-      const eigeneVerborgen = zeilen(rollen[g.name].eintrag.verbirgt).map(norm);
+      const e = rollen[g.name].eintrag;
+      const eigeneVerborgen = [...zeilen(e.verbirgt), ...(e.tarnung ? [e.tarnung] : [])].map(norm);
       assert(eigeneVerborgen.some(z => sicht.includes(z)), `${g.name}: die eigenen Zeilen „Was ich verberge“ fehlen auf dem Gerät`);
       for (const fremder of gastHandys.filter(x => x !== g)) {
         for (const zeile of priv[fremder.name]) {
