@@ -3621,6 +3621,192 @@ abstract class L {
   /// **'{klasse}, gesperrt, {rang}'**
   String abend_klasse_gesperrt(String klasse, String rang);
 
+  /// No description provided for @abend_klasse_forensic_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Spurenblick'**
+  String get abend_klasse_forensic_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_forensic_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Suchstellen und Erkundungsorte leuchten schon von weitem.'**
+  String get abend_klasse_forensic_faehigkeit;
+
+  /// No description provided for @abend_klasse_profiler_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Menschenkenner'**
+  String get abend_klasse_profiler_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_profiler_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Du siehst Gesprächspartner und ihre Stimmung sofort.'**
+  String get abend_klasse_profiler_faehigkeit;
+
+  /// No description provided for @abend_klasse_excop_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Ortskundig'**
+  String get abend_klasse_excop_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_excop_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Türen, verschlossene Türen und Treppen sind umrandet.'**
+  String get abend_klasse_excop_faehigkeit;
+
+  /// No description provided for @abend_klasse_journalist_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Gerüchte'**
+  String get abend_klasse_journalist_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_journalist_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Im Vorbeigehen schnappst du Gerüchte auf.'**
+  String get abend_klasse_journalist_faehigkeit;
+
+  /// No description provided for @abend_klasse_medic_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Laufschritt'**
+  String get abend_klasse_medic_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_medic_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Du läufst auf der Karte schneller.'**
+  String get abend_klasse_medic_faehigkeit;
+
+  /// No description provided for @abend_klasse_fair.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'**
+  String get abend_klasse_fair;
+
+  /// No description provided for @abend_klasse_karte_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf der Karte'**
+  String get abend_klasse_karte_titel;
+
+  /// No description provided for @abend_klasse_karten_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Sammelkarten dieser Klasse'**
+  String get abend_klasse_karten_titel;
+
+  /// No description provided for @abend_klasse_karte_besessen.
+  ///
+  /// In de, this message translates to:
+  /// **'in deiner Sammlung'**
+  String get abend_klasse_karte_besessen;
+
+  /// No description provided for @detektiv_karte_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Detektivkarte'**
+  String get detektiv_karte_titel;
+
+  /// No description provided for @detektiv_karte_oeffnen.
+  ///
+  /// In de, this message translates to:
+  /// **'Detektivkarte'**
+  String get detektiv_karte_oeffnen;
+
+  /// No description provided for @detektiv_karte_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ermittelt, liest hier Auftrag und Regeln.'**
+  String get detektiv_karte_hinweis;
+
+  /// No description provided for @detektiv_karte_auftrag.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Auftrag'**
+  String get detektiv_karte_auftrag;
+
+  /// No description provided for @detektiv_karte_auftrag_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Finde heraus, wer es war.'**
+  String get detektiv_karte_auftrag_1;
+
+  /// No description provided for @detektiv_karte_auftrag_2.
+  ///
+  /// In de, this message translates to:
+  /// **'{runden} Runden, {entscheidungen} Entscheidungen, dann die Anklage.'**
+  String detektiv_karte_auftrag_2(int runden, int entscheidungen);
+
+  /// No description provided for @detektiv_karte_auftrag_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Anklage und Punkte bestimmen zusammen das Ende.'**
+  String get detektiv_karte_auftrag_3;
+
+  /// No description provided for @detektiv_karte_regeln.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Regeln'**
+  String get detektiv_karte_regeln;
+
+  /// No description provided for @detektiv_karte_regel_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Je Entscheidung wählst du genau eine Möglichkeit.'**
+  String get detektiv_karte_regel_1;
+
+  /// No description provided for @detektiv_karte_regel_2.
+  ///
+  /// In de, this message translates to:
+  /// **'Gute Entscheidungen geben Punkte, sichtbar erst am Ende.'**
+  String get detektiv_karte_regel_2;
+
+  /// No description provided for @detektiv_karte_regel_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Was dir zugeflüstert wird, prüfst du selbst.'**
+  String get detektiv_karte_regel_3;
+
+  /// No description provided for @detektiv_karte_klasse.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Klasse'**
+  String get detektiv_karte_klasse;
+
+  /// No description provided for @detektiv_karte_belohnung.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder Abend bringt eine Sammelkarte deiner Klasse.'**
+  String get detektiv_karte_belohnung;
+
+  /// No description provided for @detektiv_karte_befragungen.
+  ///
+  /// In de, this message translates to:
+  /// **'So laufen Befragungen'**
+  String get detektiv_karte_befragungen;
+
+  /// No description provided for @detektiv_karte_befragung_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Frag gezielt: Wer war wann wo?'**
+  String get detektiv_karte_befragung_1;
+
+  /// No description provided for @detektiv_karte_befragung_2.
+  ///
+  /// In de, this message translates to:
+  /// **'Du fragst nach und hörst genau zu.'**
+  String get detektiv_karte_befragung_2;
+
+  /// No description provided for @detektiv_karte_befragung_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Schreib auf, was nicht zusammenpasst.'**
+  String get detektiv_karte_befragung_3;
+
   /// No description provided for @abend_feste_loesung_titel.
   ///
   /// In de, this message translates to:
@@ -3650,6 +3836,18 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.'**
   String get profil_klasse_hinweis;
+
+  /// No description provided for @profil_klasse_akten.
+  ///
+  /// In de, this message translates to:
+  /// **'Wirkt nur in diesen Akten: {akten}.'**
+  String profil_klasse_akten(String akten);
+
+  /// No description provided for @profil_klasse_akten_allgemein.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Fähigkeiten wirken nicht in jeder Akte.'**
+  String get profil_klasse_akten_allgemein;
 
   /// No description provided for @profil_klasse_gewaehlt.
   ///

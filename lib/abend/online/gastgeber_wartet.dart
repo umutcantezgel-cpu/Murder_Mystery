@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/lookup.dart';
+import '../../party/bildschirme/detektiv_karte.dart';
 import '../../party/party_stil.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
@@ -34,6 +35,9 @@ class GastgeberRollenWarten extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(l.online_rollen_erklaerung, style: context.schrift.text),
+                const SizedBox(height: MMass.s16),
+                // Der Gastgeber ermittelt (bis es Sitze gibt): seine Detektivkarte.
+                DetektivKarteEintrag(sitzung: s),
                 const SizedBox(height: MMass.s16),
                 OnlineWarteNotiz(
                   text: menschen.isEmpty

@@ -2062,6 +2062,114 @@ class LDe extends L {
   }
 
   @override
+  String get abend_klasse_forensic_faehigkeit_name => 'Spurenblick';
+
+  @override
+  String get abend_klasse_forensic_faehigkeit =>
+      'Suchstellen und Erkundungsorte leuchten schon von weitem.';
+
+  @override
+  String get abend_klasse_profiler_faehigkeit_name => 'Menschenkenner';
+
+  @override
+  String get abend_klasse_profiler_faehigkeit =>
+      'Du siehst Gesprächspartner und ihre Stimmung sofort.';
+
+  @override
+  String get abend_klasse_excop_faehigkeit_name => 'Ortskundig';
+
+  @override
+  String get abend_klasse_excop_faehigkeit =>
+      'Türen, verschlossene Türen und Treppen sind umrandet.';
+
+  @override
+  String get abend_klasse_journalist_faehigkeit_name => 'Gerüchte';
+
+  @override
+  String get abend_klasse_journalist_faehigkeit =>
+      'Im Vorbeigehen schnappst du Gerüchte auf.';
+
+  @override
+  String get abend_klasse_medic_faehigkeit_name => 'Laufschritt';
+
+  @override
+  String get abend_klasse_medic_faehigkeit =>
+      'Du läufst auf der Karte schneller.';
+
+  @override
+  String get abend_klasse_fair =>
+      'Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.';
+
+  @override
+  String get abend_klasse_karte_titel => 'Auf der Karte';
+
+  @override
+  String get abend_klasse_karten_titel => 'Sammelkarten dieser Klasse';
+
+  @override
+  String get abend_klasse_karte_besessen => 'in deiner Sammlung';
+
+  @override
+  String get detektiv_karte_titel => 'Deine Detektivkarte';
+
+  @override
+  String get detektiv_karte_oeffnen => 'Detektivkarte';
+
+  @override
+  String get detektiv_karte_hinweis =>
+      'Wer ermittelt, liest hier Auftrag und Regeln.';
+
+  @override
+  String get detektiv_karte_auftrag => 'Dein Auftrag';
+
+  @override
+  String get detektiv_karte_auftrag_1 => 'Finde heraus, wer es war.';
+
+  @override
+  String detektiv_karte_auftrag_2(int runden, int entscheidungen) {
+    return '$runden Runden, $entscheidungen Entscheidungen, dann die Anklage.';
+  }
+
+  @override
+  String get detektiv_karte_auftrag_3 =>
+      'Anklage und Punkte bestimmen zusammen das Ende.';
+
+  @override
+  String get detektiv_karte_regeln => 'Deine Regeln';
+
+  @override
+  String get detektiv_karte_regel_1 =>
+      'Je Entscheidung wählst du genau eine Möglichkeit.';
+
+  @override
+  String get detektiv_karte_regel_2 =>
+      'Gute Entscheidungen geben Punkte, sichtbar erst am Ende.';
+
+  @override
+  String get detektiv_karte_regel_3 =>
+      'Was dir zugeflüstert wird, prüfst du selbst.';
+
+  @override
+  String get detektiv_karte_klasse => 'Deine Klasse';
+
+  @override
+  String get detektiv_karte_belohnung =>
+      'Jeder Abend bringt eine Sammelkarte deiner Klasse.';
+
+  @override
+  String get detektiv_karte_befragungen => 'So laufen Befragungen';
+
+  @override
+  String get detektiv_karte_befragung_1 => 'Frag gezielt: Wer war wann wo?';
+
+  @override
+  String get detektiv_karte_befragung_2 => 'Du fragst nach und hörst genau zu.';
+
+  @override
+  String get detektiv_karte_befragung_3 =>
+      'Schreib auf, was nicht zusammenpasst.';
+
+  @override
   String get abend_feste_loesung_titel => 'Feste Lösung';
 
   @override
@@ -2079,6 +2187,15 @@ class LDe extends L {
   @override
   String get profil_klasse_hinweis =>
       'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.';
+
+  @override
+  String profil_klasse_akten(String akten) {
+    return 'Wirkt nur in diesen Akten: $akten.';
+  }
+
+  @override
+  String get profil_klasse_akten_allgemein =>
+      'Die Fähigkeiten wirken nicht in jeder Akte.';
 
   @override
   String get profil_klasse_gewaehlt => 'Gewählt';

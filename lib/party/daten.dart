@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../detektei/akten.dart';
+
 /// Alles, was ein Partyabend aus dem Kanon braucht: Kanon, Textsammlung,
 /// Karte und das Renderer-Szenario. Wird einmal geladen und nie verändert.
 class PartyDaten {
@@ -22,8 +24,19 @@ class PartyDaten {
   /// bei Akten ohne Gespräche.
   final Erzaehlung? erzaehlung;
 
-  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung)
+  /// Eintrag der Akte in `content/party/akten.json` (Zusätze je Akte); `null`,
+  /// wenn er nicht gelesen wurde (Tests): dann gilt der Grundabend.
+  final AkteInfo? akte;
+
+  /// Gerüchte der Klassenfähigkeit (`content/welt/<fall>/geruechte.json`, in
+  /// `welt.json` unter `geruechte` genannt); `null` bei Akten ohne Gerüchte.
+  final Geruechte? geruechte;
+
+  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte)
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
+
+  /// Hat die Akte den Zusatz [faehigkeit] (`AkteInfo.hat`)?
+  bool hat(String faehigkeit) => akte?.hat(faehigkeit) ?? false;
 
   /// Aus einem synchronen Leser (Tests) und der Szenario-Vorlage. Für Akten
   /// außer dem Schlosskeller ergänzt [basis] fehlende Oberflächentexte aus
@@ -35,6 +48,8 @@ class PartyDaten {
     KanonLeser? basis,
     Map<String, Object?>? welt,
     Map<String, Object?>? erzaehlung,
+    AkteInfo? akte,
+    Map<String, Object?>? geruechte,
   }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
@@ -50,6 +65,8 @@ class PartyDaten {
       szenario,
       partyNpcKennungen(kanon, vorlage),
       erzaehlung == null ? null : Erzaehlung.ausJson(erzaehlung),
+      akte,
+      geruechte == null ? null : Geruechte.ausJson(geruechte),
     );
   }
 
@@ -73,7 +90,19 @@ class PartyDaten {
     final erzaehlung = (verzeichnis['akten'] as List).contains(fall)
         ? jsonDecode(await bundle.loadString('content/erzaehlung/$fall/gespraeche.json')) as Map<String, Object?>
         : null;
-    return PartyDaten.aus(eigen.lies, vorlage, fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung);
+    // Zusätze der Akte (Klassen, Druck …) und die Gerüchte der Klassenfähigkeit; ohne Datei wie bisher.
+    AkteInfo? akte;
+    try {
+      akte = (await AktenKatalog.laden(bundle)).where((a) => a.id == fall).firstOrNull;
+    } catch (_) {
+      akte = null;
+    }
+    // Gerüchte nur, wenn welt.json sie nennt (nie eine fehlende Datei anfragen).
+    final geruechte = welt?['geruechte'] is String
+        ? jsonDecode(await bundle.loadString('content/welt/$fall/${welt!['geruechte']}')) as Map<String, Object?>
+        : null;
+    return PartyDaten.aus(eigen.lies, vorlage,
+        fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung, akte: akte, geruechte: geruechte);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

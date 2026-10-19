@@ -65,6 +65,27 @@ extension LLookup on L {
     _ => '',
   };
 
+  /// Name der Klassenfähigkeit auf der Karte des Abends (A-055); die alten
+  /// `class_*`-Texte gehören zur klassischen Engine.
+  String klasseFaehigkeitName(String id) => switch (id) {
+    'forensic' => abend_klasse_forensic_faehigkeit_name,
+    'profiler' => abend_klasse_profiler_faehigkeit_name,
+    'excop' => abend_klasse_excop_faehigkeit_name,
+    'journalist' => abend_klasse_journalist_faehigkeit_name,
+    'medic' => abend_klasse_medic_faehigkeit_name,
+    _ => '',
+  };
+
+  /// Was die Klasse auf der Karte des Abends tut.
+  String klasseFaehigkeit(String id) => switch (id) {
+    'forensic' => abend_klasse_forensic_faehigkeit,
+    'profiler' => abend_klasse_profiler_faehigkeit,
+    'excop' => abend_klasse_excop_faehigkeit,
+    'journalist' => abend_klasse_journalist_faehigkeit,
+    'medic' => abend_klasse_medic_faehigkeit,
+    _ => '',
+  };
+
   String abilityName(String ability) => switch (ability) {
     'scan' => ability_scan,
     'calm' => ability_calm,

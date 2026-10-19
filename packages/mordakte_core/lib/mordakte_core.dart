@@ -48,3 +48,8 @@ export 'src/party/textpruefer.dart';
 export 'src/erzaehlung/erzaehlung.dart';
 export 'src/erzaehlung/pruefer.dart';
 export 'src/party/karte.dart';
+
+// Klassenfähigkeiten auf der Karte (Langer Abend M6, A-055): ohne Partie,
+// Zugschicht und Würfel, darum hier und nicht in runden.dart.
+export 'src/karten/klassen.dart';
+export 'src/karten/geruechte.dart';

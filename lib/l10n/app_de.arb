@@ -1204,11 +1204,61 @@
       }
     }
   },
+  "abend_klasse_forensic_faehigkeit_name": "Spurenblick",
+  "abend_klasse_forensic_faehigkeit": "Suchstellen und Erkundungsorte leuchten schon von weitem.",
+  "abend_klasse_profiler_faehigkeit_name": "Menschenkenner",
+  "abend_klasse_profiler_faehigkeit": "Du siehst Gesprächspartner und ihre Stimmung sofort.",
+  "abend_klasse_excop_faehigkeit_name": "Ortskundig",
+  "abend_klasse_excop_faehigkeit": "Türen, verschlossene Türen und Treppen sind umrandet.",
+  "abend_klasse_journalist_faehigkeit_name": "Gerüchte",
+  "abend_klasse_journalist_faehigkeit": "Im Vorbeigehen schnappst du Gerüchte auf.",
+  "abend_klasse_medic_faehigkeit_name": "Laufschritt",
+  "abend_klasse_medic_faehigkeit": "Du läufst auf der Karte schneller.",
+  "abend_klasse_fair": "Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.",
+  "abend_klasse_karte_titel": "Auf der Karte",
+  "abend_klasse_karten_titel": "Sammelkarten dieser Klasse",
+  "abend_klasse_karte_besessen": "in deiner Sammlung",
+  "detektiv_karte_titel": "Deine Detektivkarte",
+  "detektiv_karte_oeffnen": "Detektivkarte",
+  "detektiv_karte_hinweis": "Wer ermittelt, liest hier Auftrag und Regeln.",
+  "detektiv_karte_auftrag": "Dein Auftrag",
+  "detektiv_karte_auftrag_1": "Finde heraus, wer es war.",
+  "detektiv_karte_auftrag_2": "{runden} Runden, {entscheidungen} Entscheidungen, dann die Anklage.",
+  "@detektiv_karte_auftrag_2": {
+    "placeholders": {
+      "runden": {
+        "type": "int"
+      },
+      "entscheidungen": {
+        "type": "int"
+      }
+    }
+  },
+  "detektiv_karte_auftrag_3": "Anklage und Punkte bestimmen zusammen das Ende.",
+  "detektiv_karte_regeln": "Deine Regeln",
+  "detektiv_karte_regel_1": "Je Entscheidung wählst du genau eine Möglichkeit.",
+  "detektiv_karte_regel_2": "Gute Entscheidungen geben Punkte, sichtbar erst am Ende.",
+  "detektiv_karte_regel_3": "Was dir zugeflüstert wird, prüfst du selbst.",
+  "detektiv_karte_klasse": "Deine Klasse",
+  "detektiv_karte_belohnung": "Jeder Abend bringt eine Sammelkarte deiner Klasse.",
+  "detektiv_karte_befragungen": "So laufen Befragungen",
+  "detektiv_karte_befragung_1": "Frag gezielt: Wer war wann wo?",
+  "detektiv_karte_befragung_2": "Du fragst nach und hörst genau zu.",
+  "detektiv_karte_befragung_3": "Schreib auf, was nicht zusammenpasst.",
   "abend_feste_loesung_titel": "Feste Lösung",
   "abend_feste_loesung_hinweis": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung.",
   "abend_feste_loesung_solo": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, wählt besser eine andere Akte.",
   "abend_feste_loesung_online": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.",
   "profil_klasse_hinweis": "Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.",
+  "profil_klasse_akten": "Wirkt nur in diesen Akten: {akten}.",
+  "@profil_klasse_akten": {
+    "placeholders": {
+      "akten": {
+        "type": "String"
+      }
+    }
+  },
+  "profil_klasse_akten_allgemein": "Die Fähigkeiten wirken nicht in jeder Akte.",
   "profil_klasse_gewaehlt": "Gewählt",
   "karten_sammlung_titel": "Sammlung",
   "karten_sammlung_text": "Die Karten der Figuren und Detektivklassen. Tippe eine Karte an, um sie groß zu sehen.",

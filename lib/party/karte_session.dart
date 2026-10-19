@@ -26,7 +26,7 @@ import 'sitzung.dart';
 final _de = LDe();
 
 class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGespraech {
-  PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25})
+  PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25, super.klasse})
       : super(sitzung.daten, SitzungsKartenQuelle(sitzung)) {
     // Akten ohne Simulation erzählen ihre Rückblende nur (Text); es gibt keine Szene.
     if (rueckblendeModus && sitzung.hatRueckblende) {
@@ -164,6 +164,7 @@ class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGesp
       raster: raster, startX: detektivX, startY: detektivY, facing: detektivBlick,
       zielX: zx, zielY: zy, raum: raum, suchen: z.suche, umweg: z.ruf == Tischruf.umweg,
       personen: [for (final f in sitzung.karte.figuren) (f.x, f.y)],
+      tempo: tempoFaktor,
     );
     _aktionsZiel = Offset(zx, zy);
     _abstecherOhneWeg = z.istAbstecher && _aktion == null;

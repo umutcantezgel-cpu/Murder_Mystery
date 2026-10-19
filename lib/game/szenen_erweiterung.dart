@@ -103,22 +103,31 @@ abstract interface class SzenenFiguren {
   String? schild(String id);
 }
 
-/// Optional (M1.5, noch ohne Nutzer): Wirkung der Detektivklasse auf die
-/// Szene, nur Darstellung und Tempo, nie Fakten, Punkte oder Würfel. Ohne sie
-/// bleibt alles wie bisher: Standardglanz, Grundtempo, keine Türhinweise und
-/// keine Gerüchte.
+/// Optional: Wirkung der Detektivklasse auf die Szene (A-055, M6), nur
+/// Darstellung und Tempo, nie Fakten, Punkte oder Würfel. Ohne sie oder mit
+/// den neutralen Werten (Radius 0, Tempo 1, sonst nichts) bleibt alles wie
+/// bisher: kein Leuchten im Umkreis, Grundtempo, keine Türhinweise, keine
+/// Marken und keine Gerüchte.
 abstract interface class SzenenKlasse {
-  /// Radius, in dem Glanzpunkte und Spuren funkeln (Kacheln).
+  /// Radius um den eigenen Detektiv, in dem offene Hotspots und Glanzpunkte
+  /// zusätzlich leuchten (Kacheln); 0 heißt: kein Leuchten.
   double get glanzRadius;
 
   /// Faktor auf das Lauftempo des eigenen Detektivs (1 = Grundtempo).
   double get tempoFaktor;
 
-  /// Türen und Durchgänge werden hervorgehoben.
+  /// Türen, verschlossene Türen und Treppen werden umrandet.
   bool get tuerenZeigen;
 
-  /// Gerücht über der Figur [npcId]; `null` heißt: keines.
+  /// Gerücht der Figur [npcId] beim Vorbeigehen; `null` heißt: keines.
   String? geruechtFuer(String npcId);
+
+  /// Sprechblasen-Marker über der Figur [npcId]: Mit ihr ist gerade ein
+  /// Randgespräch möglich.
+  bool gespraechsMarker(String npcId);
+
+  /// Die Geste der laufenden Gesprächszeile steht als Zeichen über der Figur.
+  bool get stimmungZeigen;
 }
 
 /// Optional: Geste der befragten Figur in einem Gespräch mit Wahl. Die Figur

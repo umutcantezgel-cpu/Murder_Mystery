@@ -12,6 +12,7 @@ import '../klang/klang.dart';
 import '../session/game_session.dart';
 import 'iso_math.dart';
 import 'scene/figure_painter.dart';
+import 'scene/klassen_ebene.dart';
 import 'scene/lighting.dart';
 import 'szenen_erweiterung.dart';
 import 'scene/markers.dart';
@@ -754,6 +755,7 @@ class MordakteGame extends Game with KeyboardEvents {
     _openDoors = {};
     _caseVersion = -1;
     _markers = MarkerPainter(_pal, _text);
+    _klassenEbene = KlassenEbene(_pal, _text);
     _lighting = LightingRenderer(_pal);
     _weather = WeatherSystem(ThemeDef.weathers.contains(s.theme.weather) ? s.theme.weather : 'none', _pal);
     _tracks.clear();
@@ -1079,7 +1081,8 @@ class MordakteGame extends Game with KeyboardEvents {
       final dl = dir.distance;
       if (dl > 1e-6) {
         // Geister sind wie in der Engine (PlayerState.speedMul) 10 % schneller.
-        final speed = Tuning.playerSpeed * (me.life == LifeState.ghost ? 1.1 : _effectMul(me, (m) => m.speed)) * _tempo;
+        // Laufschritt der Detektivklasse (A-055): nur das Tempo der eigenen Figur.
+        final speed = Tuning.playerSpeed * (me.life == LifeState.ghost ? 1.1 : _effectMul(me, (m) => m.speed)) * _tempo * (_klasse?.tempoFaktor ?? 1);
         final step = speed * dt;
         final (nx, ny) = weg != null ? _folgeWeg(grid, weg, step) : _gehe(grid, dir.dx / dl * step, dir.dy / dl * step);
         moved = dist(nx, ny, _px, _py);
@@ -1738,6 +1741,13 @@ class MordakteGame extends Game with KeyboardEvents {
     // 4b) Nebel des Krieges (Partymodus)
     _renderNebel(canvas, scene);
 
+    // 4c) Detektivklasse (A-055): Leuchten im Umkreis, Türen und Treppen
+    if (_klasse case final k? when _hasPos) {
+      final glanz = session is SzenenGlanz ? (session as SzenenGlanz).glanzpunkte : const <SzenenGlanzPunkt>[];
+      _klassenEbene?.boden(canvas, k, scene: scene, fall: cv, glanz: glanz, ich: Offset(_px, _py), offen: _openDoors, cull: cull, t: t,
+          ruhig: _fuehrung?.bewegungReduziert == true);
+    }
+
     // 5) Über der Dunkelheit: Augen, Pings, Notsignale
     _renderPostLight(canvas, scene, w, cv, cull);
     canvas.restore();
@@ -1886,6 +1896,13 @@ class MordakteGame extends Game with KeyboardEvents {
     final s = session;
     return s is SzenenErweiterung ? s as SzenenErweiterung : null;
   }
+
+  SzenenKlasse? get _klasse {
+    final s = session;
+    return s is SzenenKlasse ? s as SzenenKlasse : null;
+  }
+
+  KlassenEbene? _klassenEbene;
 
   void _renderSzenenLicht(Canvas canvas, Rect view, StaticScene scene, SzenenLicht l, Rect cull, double t) {
     final lights = <SceneLight>[];
@@ -2636,6 +2653,21 @@ class MordakteGame extends Game with KeyboardEvents {
       final alpha = (life - age).clamp(0.0, 1.0);
       final pop = age < 0.25 ? _easeOutBack(age / 0.25) : 1.0;
       m.bubble(c, anchor, sg.kind, sg.value, alpha, pop);
+    }
+    // Detektivklasse (A-055): Gesprächsmarker, Stimmung und Gerüchte über den Köpfen
+    if (_klasse case final k? when _hasPos) {
+      _klassenEbene?.ueberKoepfen(
+        c,
+        k,
+        figuren: [
+          for (final n in w?.npcs ?? const <NpcView>[])
+            if (_tracks['n:${n.id}'] case final tr? when n.alive && _nebelSicht(tr.x, tr.y) >= 0.5)
+              (id: n.id, kopf: _toView(Iso.toScreen(tr.x, tr.y)).translate(0, -headPx - 6 * _zoom), abstand: dist(tr.x, tr.y, _px, _py)),
+        ],
+        gespraech: session is SzenenGespraech ? (session as SzenenGespraech).gespraechsGeste : null,
+        t: _time,
+        dt: _lastDt,
+      );
     }
     // Zielbeschriftung
     if (tg != null && targetAnchor != null) m.targetLabel(c, targetAnchor, tg.name, 1);
