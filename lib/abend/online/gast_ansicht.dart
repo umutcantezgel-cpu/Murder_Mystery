@@ -6,12 +6,15 @@ import 'package:mordakte_netz/mordakte_netz.dart' show VerbindungsStatus;
 import '../../karten/widgets/karten_ansicht.dart' show KartenTexte;
 import '../../l10n/lookup.dart';
 import '../../netz/relay_einstellung.dart';
+import '../../party/bildschirme/erzaehlerpult.dart' show VorleserKarte;
 import '../../party/daten.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_befragung.dart';
 import 'gast_dienst.dart';
+import 'gast_erzaehler.dart';
+import 'gast_ermittlung.dart';
 import 'gast_lobby.dart';
 import 'online_teile.dart';
 
@@ -75,6 +78,28 @@ class GastKontext {
   /// Erzähltext für dieses Gerät: vor dem Finale nur beim Vorleser (privat),
   /// ab dem Finale für alle (öffentlich).
   List<String> get erzaehlerTexte => privat['erzaehler'] is List ? jTexte(privat['erzaehler']) : jTexte(v['erzaehler']);
+
+  /// Wer gerade leitet („Weiter“) und vorliest, wie im Raum
+  /// (`SchlosskellerRaum.vorleser`): der Erzähler-Sitz, solange er verbunden
+  /// ist, sonst der Detektiv-Sitz, sonst der Gastgeber. In der Lobby niemand.
+  String? get leiterId {
+    if (phase == 'lobby') return null;
+    for (final sitz in [Sitz.erzaehler, Sitz.detektiv]) {
+      for (final s in spieler) {
+        if (s.sitz == sitz && s.online) return s.id;
+      }
+    }
+    return jText(v['host']).isEmpty ? null : jText(v['host']);
+  }
+
+  /// Leitet dieses Gerät gerade den Abend?
+  bool get leitet => leiterId == ichId;
+
+  /// Name dessen, der gerade leitet und vorliest.
+  String get leiterName => nameVon(leiterId);
+
+  /// Ermittelt dieses Gerät (Detektiv-Sitz oder Vertretung, privat `detektiv`)?
+  bool get ermittelt => privat['detektiv'] == true;
 
   /// Nummer dieses Platzes am Tisch, zweistellig (Reiter der Mappe).
   String get platzNr {
@@ -169,8 +194,13 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _rollen(c);
     case 'intro':
       return _abschnitt(c, rundenMarke, l.online_phase_intro, []);
+    // Der Gast auf dem Detektiv-Sitz ermittelt selbst (M3, gast_ermittlung.dart).
+    case 'gespraeche' when c.ermittelt:
+      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [gastDetektivGespraeche(c)]);
     case 'gespraeche':
       return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [_gespraeche(c)]);
+    case 'entscheidungen' when c.ermittelt:
+      return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [GastErmittlung(key: ValueKey('ermittlung-${c.runde}'), kontext: c)]);
     case 'entscheidungen':
       return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [_ermittlung(c)]);
     case 'gruppenwahl':
@@ -179,6 +209,8 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, rundenMarke, l.online_phase_bonus, []);
     case 'resuemee':
       return _abschnitt(c, rundenMarke, l.online_phase_resuemee, []);
+    case 'anklage' when c.ermittelt:
+      return _abschnitt(c, marke, l.online_phase_anklage, [GastAnklage(kontext: c)]);
     case 'anklage':
       return _abschnitt(c, marke, l.online_phase_anklage, [_anklage(c)]);
     case 'finale':
@@ -435,22 +467,49 @@ class _MeineRolleState extends State<_MeineRolle> {
 }
 
 /// Rahmen eines Abschnitts: Erzähler, Spezifisches, dann Rolle und Tisch.
+///
+/// Vorleser-Sitz (M3): Liest ein anderes Gerät vor, steht statt des Texts die
+/// [VorleserKarte]. Der Erzähler-Sitz bekommt dazu sein Erzählerpaket
+/// ([gastErzaehlerTeile]); wer leitet, hat „Weiter“ ([gastWeiter]).
 GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch, {List<Widget> aktionen = const []}) {
   final l = c.l;
+  final liestAnderswo = c.erzaehlerTexte.isEmpty && c.v['erzaehlerLiest'] == true;
   return GastSeiteninhalt(
     marke: marke,
     titel: titel,
-    untertitel: c.phase == 'lobby' ? null : (c.rolle == null && c.sitz == Sitz.assistenz ? l.online_assistenz_text : null),
+    untertitel: c.phase == 'lobby'
+        ? null
+        : c.sitz == Sitz.erzaehler
+            ? l.online_erzaehler_hinweis
+            : (c.rolle == null && c.sitz == Sitz.assistenz ? l.online_assistenz_text : null),
     kinder: [
       _erzaehler(c),
+      if (liestAnderswo)
+        Padding(
+          padding: const EdgeInsets.only(bottom: MMass.s16),
+          child: VorleserKarte(name: c.leiterName, texte: jZahl(c.v['bausteinZahl'])),
+        ),
       ...spezifisch,
-      if (spezifisch.isEmpty && c.erzaehlerTexte.isEmpty) _notiz(l.online_warten_spielleitung),
+      if (c.sitz == Sitz.erzaehler) ...gastErzaehlerTeile(c),
+      if (spezifisch.isEmpty && c.erzaehlerTexte.isEmpty && !liestAnderswo && !c.leitet) _notiz(l.online_warten_spielleitung),
       _meineRolle(c),
       _tisch(c),
     ],
-    aktionen: aktionen,
+    aktionen: [...aktionen, ...gastWeiter(c)],
   );
 }
+
+/// „Weiter“ für das Gerät, das gerade leitet (meist der Erzähler-Sitz); frei,
+/// sobald der Raum weiter kann (`kannWeiter`).
+List<Widget> gastWeiter(GastKontext c) => [
+      if (c.leitet)
+        MKnopf(
+          key: const ValueKey('gast-weiter'),
+          text: c.l.online_weiter,
+          icon: Icons.arrow_forward_rounded,
+          onPressed: c.verbunden && c.v['kannWeiter'] == true ? () => c.befehl({'typ': 'weiter'}) : null,
+        ),
+    ];
 
 /// Schließt der Raum, bevor dieses Gerät die Phase „ende“ erhalten hat, bleiben
 /// Finale oder Auflösung die letzte Ansicht, und sie enthält alles für die
@@ -464,6 +523,13 @@ List<Widget> _belohnungOhneSpielleitung(GastKontext c) => [
 GastSeiteninhalt _rollen(GastKontext c) {
   final l = c.l;
   final d = c.dossier;
+  if (d == null && (c.sitz == Sitz.erzaehler || c.ermittelt)) {
+    // Erzähler und Detektiv lesen keine Rolle; wer leitet, führt weiter, sobald alle gelesen haben.
+    return _abschnitt(c, l.online_gast_marke(raumCodeAnzeige(c.dienst.raumCode)), l.online_phase_rollen, [
+      if (c.ermittelt) ...gastDetektivRollen(c),
+      _notiz(l.online_sitz_rollen, textKey: const ValueKey('sitz-rollen')),
+    ]);
+  }
   if (d == null) {
     // Assistenz: keine eigene Rolle, nur der öffentliche Teil.
     return GastSeiteninhalt(
@@ -1031,7 +1097,8 @@ class _GastGruppenwahlState extends State<GastGruppenwahl> {
     final l = c.l;
     final wahl = c.privat['wahl'] is Map ? jMap(c.privat['wahl']) : null;
     if (c.dossier == null) {
-      return _notiz(l.online_wahl_assistenz);
+      // Detektiv und Erzähler wählen nicht mit; Assistenz hat keine Stimme.
+      return _notiz(c.sitz == Sitz.erzaehler || c.ermittelt ? l.online_wahl_sitz : l.online_wahl_assistenz);
     }
     if (c.privat['hatGestimmt'] == true) {
       return _notiz(

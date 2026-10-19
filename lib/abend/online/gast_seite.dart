@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
 import '../../l10n/lookup.dart';
+import '../../meta/meta_store.dart';
 import '../../stil/mappe/online_bausteine.dart' show mOnlineStempelGruen;
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
@@ -84,13 +85,16 @@ class _GastSeiteState extends State<GastSeite> {
     final endeId = jText(a['ende']);
     final regel = Enden(daten.kanon).regeln.where((r) => r.id == endeId).firstOrNull;
     if (regel == null) return;
-    final rolle = jText(jMap(v['privat'])['rolle']);
+    final privat = jMap(v['privat']);
+    final rolle = jText(privat['rolle']);
+    // Der Detektiv-Sitz bekommt die Karte seiner Klasse (M6.4): die des Sitzes, sonst die eigene.
+    final klasse = privat['detektiv'] == true ? jText(privat['klasse'], context.read<MetaStore?>()?.loadout.cls ?? '') : '';
     final zusage = jText(v['wuerfelZusage']);
     final ergebnis = AbendErgebnis(
       akte: jText(v['akte'], daten.fall),
       salz: jText(a['salz']),
       spielerId: d.spielerId,
-      rolle: rolle.isEmpty ? null : rolle,
+      rolle: rolle.isNotEmpty ? rolle : (klasse.isNotEmpty ? 'klasse:$klasse' : null),
       pfad: jText(a['pfad']),
       anklageRichtig: regel.richtig,
       ende: regel.id,

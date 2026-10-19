@@ -12,6 +12,7 @@ import '../../party/bildschirme/detektiv_karte.dart';
 import '../../party/party_seite.dart';
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
+import 'erzaehler_ablauf.dart';
 import 'gastgeber_sitzung.dart';
 import 'gastgeber_wartet.dart';
 import 'online_fehler.dart';
@@ -60,10 +61,13 @@ class _GastgeberAblaufState extends State<GastgeberAblauf> {
     });
   }
 
+  /// Rollen und Gruppenwahl zeigen den Fortschritt der Gäste; sitzt der
+  /// Gastgeber auf dem Erzähler-Sitz, ersetzt sein Pult die Bildschirme, auf
+  /// denen sonst der Detektiv handelt (`erzaehler_ablauf.dart`).
   Widget? _ersatz(PartySitzung p) => switch (p.phase) {
         PartyPhase.rollen => GastgeberRollenWarten(sitzung: s),
         PartyPhase.gruppenwahl => GastgeberGruppenwahl(sitzung: s),
-        _ => null,
+        _ => erzaehlerErsatz(s),
       };
 
   @override

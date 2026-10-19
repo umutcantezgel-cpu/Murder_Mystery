@@ -2540,5 +2540,146 @@
   "online_fehler_nicht_leitung": "Das darf nur, wer den Abend leitet.",
   "@online_fehler_nicht_leitung": {
     "description": "Raum lehnt ab: nur wer leitet"
+  },
+  "online_weiter": "Weiter",
+  "@online_weiter": {
+    "description": "Gast: wer leitet, führt weiter"
+  },
+  "online_erzaehler_hinweis": "Du liest vor und drückst „Weiter“.",
+  "@online_erzaehler_hinweis": {
+    "description": "Gast auf dem Erzähler-Sitz: Untertitel"
+  },
+  "online_sitz_rollen": "Alle lesen ihre Rolle. Danach geht es weiter.",
+  "@online_sitz_rollen": {
+    "description": "Rollenphase für Detektiv und Erzähler"
+  },
+  "online_wahl_sitz": "Die Gäste wählen geheim. Du wählst nicht mit.",
+  "@online_wahl_sitz": {
+    "description": "Gruppenwahl für Detektiv und Erzähler"
+  },
+  "erzaehler_paket_titel": "Dein Erzählerpaket",
+  "@erzaehler_paket_titel": {
+    "description": "Erzähler: was er zur Runde wissen darf"
+  },
+  "erzaehler_paket_tisch": "Am Tisch",
+  "@erzaehler_paket_tisch": {
+    "description": "Erzählerpaket: Tischgespräche"
+  },
+  "erzaehler_paket_befragungen": "Befragungen",
+  "@erzaehler_paket_befragungen": {
+    "description": "Erzählerpaket: Befragungen des Detektivs"
+  },
+  "erzaehler_paket_npc": "Ungespielte Gäste",
+  "@erzaehler_paket_npc": {
+    "description": "Erzählerpaket: Wissen der Figuren ohne Spieler"
+  },
+  "erzaehler_paket_mit": "{sprecher} mit {partner}",
+  "@erzaehler_paket_mit": {
+    "description": "Erzählerpaket: wer mit wem spricht",
+    "placeholders": {
+      "sprecher": {
+        "type": "String"
+      },
+      "partner": {
+        "type": "String"
+      }
+    }
+  },
+  "erzaehler_paket_pflicht": "fest",
+  "@erzaehler_paket_pflicht": {
+    "description": "Erzählerpaket: feste Befragung"
+  },
+  "erzaehler_paket_frei": "Freie Wahlen in dieser Runde: {n}",
+  "@erzaehler_paket_frei": {
+    "description": "Erzählerpaket: Zahl der freien Befragungen",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "erzaehler_paket_fragen": "Fragen",
+  "@erzaehler_paket_fragen": {
+    "description": "Erzählerpaket: Fragen einer Befragung"
+  },
+  "erzaehler_paket_antwort": "Antwort",
+  "@erzaehler_paket_antwort": {
+    "description": "Erzählerpaket: Antwort in Stichpunkten"
+  },
+  "erzaehler_pult_marke": "Erzählerpult",
+  "@erzaehler_pult_marke": {
+    "description": "Gastgeber als Erzähler: Marke des Pults"
+  },
+  "erzaehler_zuschauer_titel": "Was der Detektiv tut",
+  "@erzaehler_zuschauer_titel": {
+    "description": "Gastgeber als Erzähler: Zuschauerkarte"
+  },
+  "erzaehler_detektiv_waehlt": "Der Detektiv wählt gerade.",
+  "@erzaehler_detektiv_waehlt": {
+    "description": "Erzähler: der Detektiv entscheidet"
+  },
+  "erzaehler_detektiv_fertig": "Die Runde ist ermittelt. Du führst weiter.",
+  "@erzaehler_detektiv_fertig": {
+    "description": "Erzähler: alle Entscheidungen getroffen"
+  },
+  "erzaehler_befragt": "Der Detektiv befragt den Tisch.",
+  "@erzaehler_befragt": {
+    "description": "Erzähler: Gespräche laufen"
+  },
+  "erzaehler_anklage_wartet": "Der Detektiv erhebt gleich die Anklage.",
+  "@erzaehler_anklage_wartet": {
+    "description": "Erzähler: Anklage steht aus"
+  },
+  "erzaehler_angeklagt": "Angeklagt: {name}",
+  "@erzaehler_angeklagt": {
+    "description": "Erzähler: wen der Detektiv angeklagt hat",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "detektiv_gast_optionen": "Wähle eine Spur. Die Karte zeigt das Ziel.",
+  "@detektiv_gast_optionen": {
+    "description": "Gast-Detektiv: Optionen der Entscheidung"
+  },
+  "detektiv_gast_karte_spielen": "Spielen: {titel}",
+  "@detektiv_gast_karte_spielen": {
+    "description": "Gast-Detektiv: Sofortkarte ausspielen",
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
+  "detektiv_gast_karte_gruendlich": "Gründlich mit Karte: {titel}",
+  "@detektiv_gast_karte_gruendlich": {
+    "description": "Gast-Detektiv: Karte für gründlich",
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
+  "detektiv_gast_karte_ruf": "Mit Karte: {titel}",
+  "@detektiv_gast_karte_ruf": {
+    "description": "Gast-Detektiv: Karte beim Tischruf",
+    "placeholders": {
+      "titel": {
+        "type": "String"
+      }
+    }
+  },
+  "detektiv_gast_unterwegs": "Du bist unterwegs.",
+  "@detektiv_gast_unterwegs": {
+    "description": "Gast-Detektiv: der sichtbare Weg läuft"
+  },
+  "detektiv_gast_anklage": "Wen klagst du an?",
+  "@detektiv_gast_anklage": {
+    "description": "Gast-Detektiv: Anklage wählen"
+  },
+  "detektiv_gast_notizen": "Dein Notizbuch",
+  "@detektiv_gast_notizen": {
+    "description": "Gast-Detektiv: Funde und Antworten"
   }
 }

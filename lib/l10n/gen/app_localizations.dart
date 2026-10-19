@@ -4572,7 +4572,7 @@ abstract class L {
   /// No description provided for @online_spielleitung.
   ///
   /// In de, this message translates to:
-  /// **'Spielleitung'**
+  /// **'Gastgeber'**
   String get online_spielleitung;
 
   /// No description provided for @online_bereit.
@@ -6398,6 +6398,168 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Das darf nur, wer den Abend leitet.'**
   String get online_fehler_nicht_leitung;
+
+  /// Gast: wer leitet, führt weiter
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get online_weiter;
+
+  /// Gast auf dem Erzähler-Sitz: Untertitel
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest vor und drückst „Weiter“.'**
+  String get online_erzaehler_hinweis;
+
+  /// Rollenphase für Detektiv und Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Alle lesen ihre Rolle. Danach geht es weiter.'**
+  String get online_sitz_rollen;
+
+  /// Gruppenwahl für Detektiv und Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Die Gäste wählen geheim. Du wählst nicht mit.'**
+  String get online_wahl_sitz;
+
+  /// Erzähler: was er zur Runde wissen darf
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Erzählerpaket'**
+  String get erzaehler_paket_titel;
+
+  /// Erzählerpaket: Tischgespräche
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch'**
+  String get erzaehler_paket_tisch;
+
+  /// Erzählerpaket: Befragungen des Detektivs
+  ///
+  /// In de, this message translates to:
+  /// **'Befragungen'**
+  String get erzaehler_paket_befragungen;
+
+  /// Erzählerpaket: Wissen der Figuren ohne Spieler
+  ///
+  /// In de, this message translates to:
+  /// **'Ungespielte Gäste'**
+  String get erzaehler_paket_npc;
+
+  /// Erzählerpaket: wer mit wem spricht
+  ///
+  /// In de, this message translates to:
+  /// **'{sprecher} mit {partner}'**
+  String erzaehler_paket_mit(String sprecher, String partner);
+
+  /// Erzählerpaket: feste Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'fest'**
+  String get erzaehler_paket_pflicht;
+
+  /// Erzählerpaket: Zahl der freien Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Freie Wahlen in dieser Runde: {n}'**
+  String erzaehler_paket_frei(int n);
+
+  /// Erzählerpaket: Fragen einer Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Fragen'**
+  String get erzaehler_paket_fragen;
+
+  /// Erzählerpaket: Antwort in Stichpunkten
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort'**
+  String get erzaehler_paket_antwort;
+
+  /// Gastgeber als Erzähler: Marke des Pults
+  ///
+  /// In de, this message translates to:
+  /// **'Erzählerpult'**
+  String get erzaehler_pult_marke;
+
+  /// Gastgeber als Erzähler: Zuschauerkarte
+  ///
+  /// In de, this message translates to:
+  /// **'Was der Detektiv tut'**
+  String get erzaehler_zuschauer_titel;
+
+  /// Erzähler: der Detektiv entscheidet
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv wählt gerade.'**
+  String get erzaehler_detektiv_waehlt;
+
+  /// Erzähler: alle Entscheidungen getroffen
+  ///
+  /// In de, this message translates to:
+  /// **'Die Runde ist ermittelt. Du führst weiter.'**
+  String get erzaehler_detektiv_fertig;
+
+  /// Erzähler: Gespräche laufen
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv befragt den Tisch.'**
+  String get erzaehler_befragt;
+
+  /// Erzähler: Anklage steht aus
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv erhebt gleich die Anklage.'**
+  String get erzaehler_anklage_wartet;
+
+  /// Erzähler: wen der Detektiv angeklagt hat
+  ///
+  /// In de, this message translates to:
+  /// **'Angeklagt: {name}'**
+  String erzaehler_angeklagt(String name);
+
+  /// Gast-Detektiv: Optionen der Entscheidung
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle eine Spur. Die Karte zeigt das Ziel.'**
+  String get detektiv_gast_optionen;
+
+  /// Gast-Detektiv: Sofortkarte ausspielen
+  ///
+  /// In de, this message translates to:
+  /// **'Spielen: {titel}'**
+  String detektiv_gast_karte_spielen(String titel);
+
+  /// Gast-Detektiv: Karte für gründlich
+  ///
+  /// In de, this message translates to:
+  /// **'Gründlich mit Karte: {titel}'**
+  String detektiv_gast_karte_gruendlich(String titel);
+
+  /// Gast-Detektiv: Karte beim Tischruf
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Karte: {titel}'**
+  String detektiv_gast_karte_ruf(String titel);
+
+  /// Gast-Detektiv: der sichtbare Weg läuft
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist unterwegs.'**
+  String get detektiv_gast_unterwegs;
+
+  /// Gast-Detektiv: Anklage wählen
+  ///
+  /// In de, this message translates to:
+  /// **'Wen klagst du an?'**
+  String get detektiv_gast_anklage;
+
+  /// Gast-Detektiv: Funde und Antworten
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Notizbuch'**
+  String get detektiv_gast_notizen;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

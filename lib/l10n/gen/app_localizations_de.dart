@@ -2641,7 +2641,7 @@ class LDe extends L {
   String get online_tisch_leer => 'Noch ist niemand beigetreten.';
 
   @override
-  String get online_spielleitung => 'Spielleitung';
+  String get online_spielleitung => 'Gastgeber';
 
   @override
   String get online_bereit => 'Bereit';
@@ -3710,4 +3710,102 @@ class LDe extends L {
   @override
   String get online_fehler_nicht_leitung =>
       'Das darf nur, wer den Abend leitet.';
+
+  @override
+  String get online_weiter => 'Weiter';
+
+  @override
+  String get online_erzaehler_hinweis => 'Du liest vor und drückst „Weiter“.';
+
+  @override
+  String get online_sitz_rollen =>
+      'Alle lesen ihre Rolle. Danach geht es weiter.';
+
+  @override
+  String get online_wahl_sitz =>
+      'Die Gäste wählen geheim. Du wählst nicht mit.';
+
+  @override
+  String get erzaehler_paket_titel => 'Dein Erzählerpaket';
+
+  @override
+  String get erzaehler_paket_tisch => 'Am Tisch';
+
+  @override
+  String get erzaehler_paket_befragungen => 'Befragungen';
+
+  @override
+  String get erzaehler_paket_npc => 'Ungespielte Gäste';
+
+  @override
+  String erzaehler_paket_mit(String sprecher, String partner) {
+    return '$sprecher mit $partner';
+  }
+
+  @override
+  String get erzaehler_paket_pflicht => 'fest';
+
+  @override
+  String erzaehler_paket_frei(int n) {
+    return 'Freie Wahlen in dieser Runde: $n';
+  }
+
+  @override
+  String get erzaehler_paket_fragen => 'Fragen';
+
+  @override
+  String get erzaehler_paket_antwort => 'Antwort';
+
+  @override
+  String get erzaehler_pult_marke => 'Erzählerpult';
+
+  @override
+  String get erzaehler_zuschauer_titel => 'Was der Detektiv tut';
+
+  @override
+  String get erzaehler_detektiv_waehlt => 'Der Detektiv wählt gerade.';
+
+  @override
+  String get erzaehler_detektiv_fertig =>
+      'Die Runde ist ermittelt. Du führst weiter.';
+
+  @override
+  String get erzaehler_befragt => 'Der Detektiv befragt den Tisch.';
+
+  @override
+  String get erzaehler_anklage_wartet =>
+      'Der Detektiv erhebt gleich die Anklage.';
+
+  @override
+  String erzaehler_angeklagt(String name) {
+    return 'Angeklagt: $name';
+  }
+
+  @override
+  String get detektiv_gast_optionen =>
+      'Wähle eine Spur. Die Karte zeigt das Ziel.';
+
+  @override
+  String detektiv_gast_karte_spielen(String titel) {
+    return 'Spielen: $titel';
+  }
+
+  @override
+  String detektiv_gast_karte_gruendlich(String titel) {
+    return 'Gründlich mit Karte: $titel';
+  }
+
+  @override
+  String detektiv_gast_karte_ruf(String titel) {
+    return 'Mit Karte: $titel';
+  }
+
+  @override
+  String get detektiv_gast_unterwegs => 'Du bist unterwegs.';
+
+  @override
+  String get detektiv_gast_anklage => 'Wen klagst du an?';
+
+  @override
+  String get detektiv_gast_notizen => 'Dein Notizbuch';
 }

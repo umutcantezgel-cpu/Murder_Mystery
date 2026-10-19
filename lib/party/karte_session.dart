@@ -26,7 +26,7 @@ import 'sitzung.dart';
 final _de = LDe();
 
 class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGespraech {
-  PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25, super.klasse})
+  PartyKartenSession(this.sitzung, {this.rueckblendeModus = false, this.zeitraffer = 25, this.zuschauer = false, super.klasse})
       : super(sitzung.daten, SitzungsKartenQuelle(sitzung)) {
     // Akten ohne Simulation erzählen ihre Rückblende nur (Text); es gibt keine Szene.
     if (rueckblendeModus && sitzung.hatRueckblende) {
@@ -46,6 +46,12 @@ class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGesp
 
   /// Spielsekunden je echter Sekunde in der Rückblende.
   final double zeitraffer;
+
+  /// Zuschauerkarte (Langer Abend M3, Erzähler-Gastgeber): Die Karte zeigt, was
+  /// der Detektiv tut, nimmt aber keine Eingabe an und meldet das Ende eines
+  /// Wegs nicht selbst; das tut das Gerät des Detektivs (ersatzweise der
+  /// Gastgeber nach einer festen Frist).
+  final bool zuschauer;
 
   /// Aktuelle Uhrzeit der Rückblende (für die Anzeige).
   final ValueNotifier<Uhrzeit?> zeit = ValueNotifier(null);
@@ -83,7 +89,7 @@ class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGesp
   KartenAktion? get kartenAktion => _aktion;
 
   @override
-  bool get eingabeGesperrt => rueckblendeModus || sitzung.phase != PartyPhase.entscheidungen ||
+  bool get eingabeGesperrt => zuschauer || rueckblendeModus || sitzung.phase != PartyPhase.entscheidungen ||
       sitzung.zug != null || sitzung.vorschlag != null || sitzung.letzterFund != null || sitzung.gespraech != null;
 
   /// Position der Figur im laufenden Randgespräch (Kachelkoordinaten).
@@ -186,7 +192,7 @@ class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGesp
     final a = _aktion;
     final nr = _aktionsNummer;
     if (a == null && nr != null && _abstecherOhneWeg) {
-      sitzung.aktionFertig(nr);
+      if (!zuschauer) sitzung.aktionFertig(nr);
       return;
     }
     if (a == null || nr == null) return;
@@ -196,7 +202,7 @@ class PartyKartenSession extends WeltSzene implements GefuehrteSzene, SzenenGesp
     detektivBlick = a.facing;
     aktionsFortschritt.value = a.fortschritt;
     zeigeWelt();
-    if (a.fertig) sitzung.aktionFertig(nr);
+    if (a.fertig && !zuschauer) sitzung.aktionFertig(nr);
   }
 
   /// Bewusste Abkürzung, nie ein versteckter E2E-/Zeitgeber-Automatismus.

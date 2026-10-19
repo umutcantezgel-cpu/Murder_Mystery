@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 
+import '../../party/karten_aktion.dart';
 import '../../party/sitzung.dart';
 import '../../party/stand/befragung_stand.dart';
 import 'ansicht.dart';
@@ -140,6 +141,44 @@ class GastgeberSitzung extends PartySitzung {
 
   void fehlerQuittieren() => _fehler = null;
 
+  // ---------------------------------------------- Ersatzmeldung der Aktion
+
+  /// Ermittelt ein Gast, meldet sein Gerät das Ende jedes sichtbaren Wegs. Bleibt
+  /// die Meldung aus (Gerät im Hintergrund, Verbindung weg), meldet der
+  /// Gastgeber nach dieser festen Frist ersatzweise: der längste Weg plus etwas
+  /// Puffer ([KartenAktion.hoechstDauer]). Die Nummer der Aktion verhindert
+  /// Doppelte; eine veraltete Meldung bleibt still.
+  static Duration aktionsFrist = KartenAktion.hoechstDauer + const Duration(seconds: 2);
+
+  Timer? _aktionsUhr;
+  int? _aktionsNr;
+
+  void _aktionPruefen() {
+    final z = zug;
+    if (istDetektiv || z == null || z.phase != RundenZugPhase.aktion) {
+      _aktionsUhr?.cancel();
+      _aktionsUhr = null;
+      _aktionsNr = null;
+      return;
+    }
+    if (_aktionsNr == z.aktion) return;
+    _aktionsNr = z.aktion;
+    _aktionsUhr?.cancel();
+    final nr = z.aktion;
+    _aktionsUhr = Timer(aktionsFrist, () {
+      _aktionsUhr = null;
+      final jetzt = zug;
+      if (_entsorgt || jetzt == null || jetzt.phase != RundenZugPhase.aktion || jetzt.aktion != nr) return;
+      unawaited(() async {
+        try {
+          await dienst.verb.befehl({'typ': 'aktionFertig', 'aktion': nr});
+        } catch (_) {
+          // Der Detektiv war schneller: nichts zu melden.
+        }
+      }());
+    });
+  }
+
   // ------------------------------------------------------- Randgespräche
 
   /// Die Randgespräche führt nur der Gastgeber; der Raum kennt sie nicht. Damit
@@ -176,6 +215,7 @@ class GastgeberSitzung extends PartySitzung {
   void _abgleichen() {
     if (_entsorgt) return;
     _fristPruefen();
+    _aktionPruefen();
     // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
     final vorher = _notizen.length;
     for (final k in befragungen) {
@@ -251,26 +291,7 @@ class GastgeberSitzung extends PartySitzung {
   /// Die Befragungskarten des Detektivs stehen im privaten Teil der eigenen
   /// Ansicht (A-051); die Antwort einer App-Rolle erst nach der Frage.
   @override
-  List<BefragungKarte> get befragungen {
-    final privat = jMap(dienst.ansicht['privat']);
-    final offen = jZahl(privat['befragungenFrei']);
-    return [
-      for (final k in jMaps(privat['befragungen']))
-        BefragungKarte(
-          id: jText(k['id']),
-          rolle: jText(k['rolle']),
-          thema: jText(k['thema']),
-          fragen: jTexte(k['fragen']),
-          pflicht: k['pflicht'] == true,
-          mensch: k['mensch'] == true,
-          frage: k['frage'] is int ? k['frage'] as int : null,
-          erledigt: k['erledigt'] == true,
-          waehlbar: k['pflicht'] == true || k['frage'] is int || offen > 0,
-          // Die Antwort kommt als Karten (R17, E-044): je Preisgabe eine Liste von Stichpunkten.
-          antwortKarten: k['antwort'] is List ? [for (final x in jListe(k['antwort'])) jTexte(x)] : null,
-        ),
-    ];
-  }
+  List<BefragungKarte> get befragungen => befragungsKartenAus(jMap(dienst.ansicht['privat']));
 
   @override
   int get befragungenFrei => jZahl(jMap(dienst.ansicht['privat'])['befragungenFrei']);
@@ -432,6 +453,8 @@ class GastgeberSitzung extends PartySitzung {
     _entsorgt = true;
     _fristUhr?.cancel();
     _fristUhr = null;
+    _aktionsUhr?.cancel();
+    _aktionsUhr = null;
     unawaited(_hoerer?.cancel());
     _hoerer = null;
     // Ist der Abend vorbei, ist er auch abgelegt zu Ende; sonst bleibt der Stand

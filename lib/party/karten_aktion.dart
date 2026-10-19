@@ -104,6 +104,12 @@ class KartenAktion {
         tempo: tempo > 0 && tempo.isFinite ? tempo : 1);
   }
 
+  /// Längste sichtbare Aktion: Lauf höchstens 8,5 s (beim Tempo 1), danach die
+  /// Pose mindestens 1,5 s. Kürzer wird sie nur durch ein höheres Tempo. Der
+  /// Gastgeber meldet damit ersatzweise das Ende, wenn ein Gast-Detektiv
+  /// ermittelt und dessen Gerät schweigt (`GastgeberSitzung`).
+  static const hoechstDauer = Duration(seconds: 10);
+
   /// Abstand, unter dem eine Kachelmitte als „auf einer Person“ gilt.
   static const _personenAbstand = 0.6;
 

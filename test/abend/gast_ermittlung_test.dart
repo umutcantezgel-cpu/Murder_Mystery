@@ -1,0 +1,147 @@
+// Langer Abend M3b: der Gast auf dem Detektiv-Sitz ermittelt am eigenen Handy
+// (Host = Erzähler + Gast = Detektiv). Detektivkarte in der Rollenphase,
+// Befragungen mit den Karten aus M2, eine Option mit Ziel auf der Karte
+// wählen, „Das ist endgültig“, der Weg läuft sichtbar und meldet sein Ende,
+// Fund lesen, Anklage. Bleibt die Meldung des Gast-Geräts aus, meldet der
+// Gastgeber nach einer festen Frist.
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/abend/online/gast_ansicht.dart' show DossierAnsicht, GastWuerfel;
+import 'package:mordakte/abend/online/gast_ermittlung.dart';
+import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
+import 'package:mordakte/party/bildschirme/befragung.dart' show BefragungsListe;
+import 'package:mordakte/party/bildschirme/detektiv_karte.dart' show DetektivKarteEintrag;
+import 'package:mordakte_core/runden.dart';
+
+import 'online_hilfe.dart';
+
+Map<String, Object?> _map(Object? wert) => (wert as Map).cast<String, Object?>();
+List<Map<String, Object?>> _liste(Object? wert) => [for (final v in wert as List) _map(v)];
+
+Future<void> _tippe(WidgetTester tester, Finder f) async {
+  await tester.ensureVisible(f);
+  await tester.pump();
+  await tester.tap(f);
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 200));
+}
+
+/// Der Zug, den Ben gerade sieht (`null` ohne Zug).
+Map<String, Object?>? _zug(SchlosskellerRaum raum) => raum.zustandFuer('g1')['zug'] is Map ? _map(raum.zustandFuer('g1')['zug']) : null;
+
+void main() {
+  testWidgets('Gast-Detektiv: Detektivkarte, Befragung, Option mit Ziel, Weg, Fund und Anklage', (tester) async {
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    final ben = LiveGast(raum, spielerId: 'g1');
+    await zeigeImThema(tester, (c) => gastSeiteLive(ben), groesse: const Size(390, 2400), ruhig: true);
+    // Rollen: die Detektivkarte (M6.4), kein Dossier.
+    expect(find.byType(DetektivKarteEintrag), findsOneWidget);
+    expect(find.byType(DossierAnsicht), findsNothing);
+    spieleBisSitz(raum, 'gespraeche', detektiv: 'g1', leiter: 'gastgeber');
+    ben.geaendert();
+    await tester.pump();
+    expect(find.byType(BefragungsListe), findsOneWidget);
+    // Die erste feste Befragung: Frage stellen; spielt ein Mensch die Rolle, ist sie danach zu beantworten.
+    final karte = _liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['pflicht'] == true);
+    await _tippe(tester, find.text((karte['fragen'] as List).first as String).first);
+    final nachher = _liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['id'] == karte['id']);
+    expect(nachher['frage'], 0);
+    if (nachher['mensch'] == true) {
+      await _tippe(tester, find.bySemanticsIdentifier('befragung-beantwortet-${karte['id']}'));
+      expect(_liste(_map(raum.zustandFuer('g1')['privat'])['befragungen']).firstWhere((k) => k['id'] == karte['id'])['erledigt'], isTrue);
+    }
+    // Entscheidungen: Karte, Option wählen, endgültig.
+    spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: true);
+    ben.geaendert();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byKey(const ValueKey('gast-karte')), findsOneWidget);
+    final e = _map(raum.zustandFuer('g1')['entscheidung']);
+    final option = _liste(e['optionen']).first;
+    await _tippe(tester, find.byKey(ValueKey('option-${option['id']}')));
+    await _tippe(tester, find.byKey(const ValueKey('option-bestaetigen')));
+    expect(_zug(raum)?['option'], option['id']);
+    expect(ben.befehle.any((b) => b.$1['typ'] == 'wahl' && b.$1['option'] == option['id'] && b.$2 == null), isTrue);
+    // Der Weg läuft auf Bens Karte (abgekürzt bei „Bewegung reduzieren“) und meldet sein Ende.
+    for (var i = 0; i < 80 && _zug(raum)?['phase'] == 'aktion'; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(ben.befehle.any((b) => b.$1['typ'] == 'aktionFertig'), isTrue);
+    expect(_zug(raum)?['phase'], isNot('aktion'));
+    // Wurf (der Würfelpate würfelt), dann Tischruf oder Fund.
+    for (var i = 0; i < 10 && _zug(raum) != null && _zug(raum)!['phase'] != 'fund'; i++) {
+      final z = _zug(raum)!;
+      if (z['phase'] == 'wurf') {
+        raum.nachricht(raum.zustandFuer('g1')['wuerfelPate'] as String, {'typ': 'wurf'});
+      } else if (z['phase'] == 'tischruf') {
+        ben.geaendert();
+        await tester.pump();
+        await _tippe(tester, find.byKey(const ValueKey('ruf-umweg')));
+        for (var j = 0; j < 80 && _zug(raum)?['phase'] == 'aktion'; j++) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+      }
+      ben.geaendert();
+      await tester.pump();
+    }
+    expect(_zug(raum)?['phase'], 'fund');
+    await _tippe(tester, find.byKey(const ValueKey('fund-gelesen')));
+    expect(_zug(raum), isNull, reason: 'Fund gelesen');
+    // Anklage: Ahmet markieren, endgültig anklagen.
+    spieleBisSitz(raum, 'anklage', detektiv: 'g1', leiter: 'gastgeber');
+    ben.geaendert();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byType(GastAnklage), findsOneWidget);
+    await _tippe(tester, find.byKey(const ValueKey('verdaechtig-ahmet')));
+    await _tippe(tester, find.byKey(const ValueKey('anklagen')));
+    expect(raum.partieFuerGastgeber!.spiel.angeklagt, 'ahmet');
+    expect(raum.zustandFuer('g1')['kannWeiter'], isTrue, reason: 'Weiter führt der Erzähler-Gastgeber');
+    expect(find.byKey(const ValueKey('gast-weiter')), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Würfelt der Gast-Detektiv selbst, steht die Würfelbühne auf seiner Seite', (tester) async {
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber');
+    // Der Auftakt: aktionFertig, dann würfelt der Pate.
+    final ben = LiveGast(raum, spielerId: 'g1');
+    raum.nachricht('g1', {'typ': 'aktionFertig', 'aktion': _zug(raum)!['aktion']});
+    await zeigeImThema(tester, (c) => gastSeiteLive(ben), ruhig: true);
+    expect(_zug(raum)?['phase'], 'wurf');
+    expect(find.byType(GastWuerfel), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  test('Ersatzmeldung: Schweigt das Gerät des Gast-Detektivs, meldet der Gastgeber das Ende des Wegs', () async {
+    final frist = GastgeberSitzung.aktionsFrist;
+    GastgeberSitzung.aktionsFrist = const Duration(milliseconds: 40);
+    addTearDown(() => GastgeberSitzung.aktionsFrist = frist);
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: true);
+    final s = GastgeberSitzung(SitzDienst(raum));
+    final e = _map(raum.zustandFuer('g1')['entscheidung']);
+    raum.nachricht('g1', {'typ': 'wahl', 'option': _liste(e['optionen']).first['id']});
+    s.dienst.verb.aktualisiere();
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+    expect(_zug(raum)?['phase'], 'aktion');
+    await Future<void>.delayed(const Duration(milliseconds: 120));
+    expect(_zug(raum)?['phase'], isNot('aktion'), reason: 'Der Gastgeber hat gemeldet');
+    expect((s.dienst.verb as SitzVerbindung).befehle.where((b) => b['typ'] == 'aktionFertig'), hasLength(1));
+    expect(s.letzterFehler, isNull, reason: 'Still, auch wenn der Detektiv schneller war');
+    s.dispose();
+  });
+
+  testWidgets('Detektiv-Seiten ohne Überlauf bei 320 px und doppelter Schrift', (tester) async {
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    final ben = LiveGast(raum, spielerId: 'g1');
+    for (final phase in ['rollen', 'gespraeche', 'entscheidungen', 'anklage']) {
+      spieleBisSitz(raum, phase, detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: phase == 'entscheidungen');
+      await zeigeImThema(tester, (c) => gastSeiteLive(ben), groesse: const Size(320, 640), schrift: 2, ruhig: true);
+      if (phase == 'entscheidungen') {
+        final e = _map(raum.zustandFuer('g1')['entscheidung']);
+        await _tippe(tester, find.byKey(ValueKey('option-${_liste(e['optionen']).first['id']}')));
+      }
+      expect(tester.takeException(), isNull, reason: phase);
+    }
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+}

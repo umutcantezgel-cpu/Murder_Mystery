@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Rng;
 import 'package:mordakte_core/runden.dart' show Sitz;
 
+import '../../party/stand/befragung_stand.dart';
+
 Map<String, Object?> jMap(Object? v) => v is Map ? v.cast<String, Object?>() : const {};
 
 List<Object?> jListe(Object? v) => v is List ? v : const [];
@@ -71,6 +73,29 @@ List<SpielerInfo> spielerAusAnsicht(Map<String, Object?> v) {
         sitz: Sitz.lesen(s['sitz']),
         figur: s['figur'] is String ? s['figur'] as String : null,
         wunsch: s['wunsch'] is String ? s['wunsch'] as String : null,
+      ),
+  ];
+}
+
+/// Die Befragungskarten des Detektivs aus dem privaten Teil seiner Ansicht
+/// (A-051, `befragung_modul.dart`): Fragen, Stand und die Antwort einer
+/// App-Rolle erst nach der Frage, als Karten (R17, E-044). Gleich für den
+/// Gastgeber und einen Gast auf dem Detektiv-Sitz.
+List<BefragungKarte> befragungsKartenAus(Map<String, Object?> privat) {
+  final offen = jZahl(privat['befragungenFrei']);
+  return [
+    for (final k in jMaps(privat['befragungen']))
+      BefragungKarte(
+        id: jText(k['id']),
+        rolle: jText(k['rolle']),
+        thema: jText(k['thema']),
+        fragen: jTexte(k['fragen']),
+        pflicht: k['pflicht'] == true,
+        mensch: k['mensch'] == true,
+        frage: k['frage'] is int ? k['frage'] as int : null,
+        erledigt: k['erledigt'] == true,
+        waehlbar: k['pflicht'] == true || k['frage'] is int || offen > 0,
+        antwortKarten: k['antwort'] is List ? [for (final x in jListe(k['antwort'])) jTexte(x)] : null,
       ),
   ];
 }
