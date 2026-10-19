@@ -364,6 +364,24 @@ void main() {
       expect(pruefeGeruechte(mit('Alle sind heute begeistert.'), kanon), isEmpty);
     });
 
+    test('Gegenproben R15: Suchstellen von Optionen, die nur in einem Teil der Pfade richtig sind, fallen bei jeder Figur auf', () {
+      // Cans Bauchtasche (e2_1, nur im Pfad can), der Ascheneimer (e2_1, nicht
+      // im Pfad can), Fatmas Hände (e3_2, nur im Pfad fatma). Zeynep ist Cans
+      // Schwester und kennt den Streich.
+      for (final (zeile, figur, wort) in [
+        ('In jeder Bauchtasche steckt eine Überraschung.', 'zeynep', 'Bauchtasche'),
+        ('Bauchtaschen sind wieder total in Mode.', 'tim', 'Bauchtasche'),
+        ('Der Ascheneimer ist schon wieder voll.', 'tim', 'Ascheneimer'),
+        ('Ihre Hände waren vorhin ganz weiß.', 'tim', 'Hände'),
+        ('Hände waschen nicht vergessen.', 'zeynep', 'Hände'),
+      ]) {
+        expect(pruefeGeruechte(mit(zeile, figur: figur), kanon, ton: ton), [allOf(startsWith('$figur, Runde 1, Zeile 1: „'), contains(wort))],
+            reason: zeile);
+      }
+      // Ohne Hauptwort aus einer solchen Option bleibt die Zeile frei.
+      expect(pruefeGeruechte(mit('Die Wandteppiche oben sind angeblich handgewebt.'), kanon), isEmpty);
+    });
+
     test('Teilwörter: Wörter ab vier Buchstaben und ihre vorderen und hinteren Teile', () {
       expect(teilwoerter('Brottasche'), containsAll(['brottasche', 'brot', 'tasche']));
       expect(teilwoerter('Fatmas breiter Silberring'), containsAll(['fatmas', 'silber', 'ring']));

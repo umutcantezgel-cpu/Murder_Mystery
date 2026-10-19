@@ -101,6 +101,9 @@ String? _beiname(String wort) {
 ///   auch für kurze Wörter und Teile zusammengesetzter Namen ([teilwoerter]):
 ///   Brot aus Brottasche, Ring aus Silberring, Helm, Foto, Vitrine aus
 ///   Schauvitrine, Turm aus Turmgang.
+/// - Keine Zeile nennt eine Suchstelle aus einer Option, die nur in einem Teil
+///   der Pfade richtig ist ([_pfadSuchstellen]), gleich welche Figur sie sagt:
+///   Bauchtasche bei Zeynep, Hände bei Tim.
 /// - Keine Zeile nimmt einen Umweg zu einem Gegenstand oder Geheimnis
 ///   ([_beinamen]: Schlossgeist für die Leuchtmaske, Listen für die Quittung).
 ///   Sonst schiebt das Gerücht die Journalistin in allen Pfaden zur selben
@@ -143,6 +146,13 @@ List<String> pruefeGeruechte(Geruechte geruechte, Kanon kanon, {Textpruefer? ton
   ]) {
     for (final t in teilwoerter(name, ohne: ohne, allgemein: allgemein)) {
       teile.putIfAbsent(t, () => name);
+    }
+  }
+  // Ebenso die Suchstellen pfadabhängiger Optionen, je mit dem Text der
+  // Option; auch sie sind nie zu allgemein.
+  for (final (suchstelle, option) in _pfadSuchstellen(kanon)) {
+    for (final t in teilwoerter(suchstelle, allgemein: const {})) {
+      teile.putIfAbsent(t, () => option);
     }
   }
   final bezug = _bezug(kanon);
@@ -223,6 +233,18 @@ List<String> _zielRaeume(Kanon kanon) => [
         for (final o in (e as Map)['optionen'] as List)
           if (((o as Map)['ziel'] as Map?)?['raum'] case final String raum)
             if (kanon.graph.raeume[raum] case final r?) ...{r.name, r.anzeigename},
+    ];
+
+/// Hauptwörter aus den Optionen der Entscheidungen, deren richtige Option je
+/// Pfad verschieden ist, je mit dem Text der Option: die Suchstellen (Cans
+/// Bauchtasche, der Ascheneimer, Fatmas Hände und ihr Ring). Kein Gerücht
+/// nennt sie, gleich welche Figur es sagt; sonst schiebt es die Journalistin
+/// in allen Pfaden zur selben Option.
+List<(String, String)> _pfadSuchstellen(Kanon kanon) => [
+      for (final e in kanon.entscheidungenJson['entscheidungen'] as List)
+        if ((e as Map)['richtig'] case final Map richtig when richtig.values.toSet().length > 1)
+          for (final o in e['optionen'] as List)
+            for (final m in _hauptwortRe.allMatches((o as Map)['text'] as String)) (m.group(1)!, o['text'] as String),
     ];
 
 /// Hauptwörter, die in den Gerüchten einer Figur nicht stehen, je Figur:
