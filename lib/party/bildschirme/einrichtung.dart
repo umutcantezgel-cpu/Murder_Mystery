@@ -6,9 +6,10 @@ import '../party_stil.dart';
 import '../sitzung.dart';
 
 /// Einrichtung des Abends (F4-BAUMEISTER-01, Master 7.6, Schritt 2): Personen
-/// und Spielernamen, Geburtstagskind, Detektiv oder Detektivin, Fall-Code oder
-/// Zufall, Bildschirm- oder Druckspiel, Rundendauer und Erzählerstimme. Der
-/// Startknopf richtet den Abend ein; das Geburtstagskind schaut dabei weg.
+/// und Spielernamen, Name des Detektivs, Rollen am Tisch (Erzähler), Detektiv
+/// oder Detektivin, Fall-Code oder Zufall, Bildschirm- oder Druckspiel,
+/// Rundendauer und Erzählerstimme. Der Startknopf richtet den Abend ein; der
+/// Detektiv schaut dabei weg.
 ///
 /// Dieser Bildschirm gehört zum alten Einstieg `/party`. Im Spiel wählt der
 /// Assistent `/abend/neu` die Spielweise vorab und verwendet dieselben

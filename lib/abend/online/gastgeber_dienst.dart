@@ -61,7 +61,14 @@ class GastgeberDienst extends ChangeNotifier {
   String get salz => meta['salz'] as String;
   String get gastgeberName => jText(meta['name']);
   String get detektiv => meta['detektiv'] == 'm' ? 'm' : 'w';
-  String get geburtstagskind => jText(meta['geburtstag']);
+
+  /// Name des Detektivs aus der Einrichtung; Abende vor M3 legten ihn unter
+  /// `geburtstag` ab.
+  String get detektivName => jText(meta['detektivName'], jText(meta['geburtstag']));
+
+  /// Früherer Name von [detektivName].
+  @Deprecated('detektivName')
+  String get geburtstagskind => detektivName;
 
   /// Sitz des Gastgebers, mit dem der Raum geöffnet wurde (Meta `sitz`):
   /// Detektiv oder Erzähler. Abende ohne den Schlüssel (vor M3) sind Detektiv.
@@ -137,7 +144,7 @@ class GastgeberDienst extends ChangeNotifier {
     List<AbstecherOrt> abstecher = const [],
     KartenKatalog? katalog,
     String? fallCodeEingabe,
-    String geburtstagskind = '',
+    String detektivName = '',
     Sitz sitz = Sitz.detektiv,
     int minuten = 30,
     bool stimme = false,
@@ -153,7 +160,7 @@ class GastgeberDienst extends ChangeNotifier {
       'fallCode': code.code,
       'name': name,
       'detektiv': detektiv,
-      'geburtstag': geburtstagskind,
+      'detektivName': detektivName,
       'sitz': sitz.name,
       'minuten': minuten,
       'stimme': stimme,

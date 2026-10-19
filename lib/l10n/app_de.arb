@@ -55,7 +55,7 @@
   "hub_online": "Online spielen",
   "hub_online_sub": "Mit bis zu fünf Freunden",
   "hub_party": "Partyabend: Spuk im Schlosskeller",
-  "hub_party_sub": "Ein Krimi für den Geburtstag, für 4 bis 20 Personen und ein Geburtstagskind",
+  "hub_party_sub": "Ein Krimi für 4 bis 20 Gäste, einen Detektiv und auf Wunsch einen Erzähler",
   "hub_section_party": "Partyabende",
   "party_menu": "Andere Abende & Fälle",
   "party_solo_spielweise": "Wie möchtest du spielen?",
@@ -1550,7 +1550,7 @@
   "abend_belohnung_ansehen": "Belohnung ansehen",
   "online_einstellungen_hinweis": "Wie viele Rollen es gibt, legst du gleich in der Lobby fest. Freie Rollen übernehmen Bots.",
   "online_raum_oeffnen": "Raum öffnen",
-  "online_start_hinweis": "Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.",
+  "online_start_hinweis": "Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei.",
   "online_oeffnen_fehler": "Der Raum konnte nicht angelegt werden.",
   "online_lobby_marke": "Jeder am eigenen Gerät",
   "online_lobby_titel": "Lobby",
@@ -1979,7 +1979,7 @@
   "@erster_fall_marke": {
     "description": "Detektei: Formularkopf der Schnellstart-Akte für neue Spielende"
   },
-  "erster_fall_text": "Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.",
+  "erster_fall_text": "Ein Fest im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.",
   "@erster_fall_text": {
     "description": "Detektei: Text der Schnellstart-Akte"
   },
@@ -2285,5 +2285,153 @@
   "abend_fortsetzen_veraltet": "Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.",
   "@abend_fortsetzen_veraltet": {
     "description": "Detektei: alter Abendstand wurde verworfen"
+  },
+  "abend_rollen_titel": "Rollen am Tisch",
+  "@abend_rollen_titel": {
+    "description": "Einrichtung: Abschnitt mit Erzähler (reihum) bzw. eigenem Platz (online)"
+  },
+  "abend_erzaehler_feld": "Name des Erzählers (optional)",
+  "@abend_erzaehler_feld": {
+    "description": "Einrichtung reihum: Feld für den Erzähler"
+  },
+  "abend_erzaehler_hinweis": "Der Erzähler liest vor und führt weiter. Er ermittelt nicht.",
+  "@abend_erzaehler_hinweis": {
+    "description": "Einrichtung reihum: was der Erzähler tut"
+  },
+  "abend_erzaehler_leer": "Ohne Namen liest, wer gerade das Gerät hält.",
+  "@abend_erzaehler_leer": {
+    "description": "Einrichtung reihum: ohne Erzähler"
+  },
+  "abend_platz_titel": "Dein Platz",
+  "@abend_platz_titel": {
+    "description": "Einrichtung online: Sitz des Gastgebers"
+  },
+  "abend_platz_detektiv": "Detektiv",
+  "@abend_platz_detektiv": {
+    "description": "Sitz: Detektiv"
+  },
+  "abend_platz_erzaehler": "Erzähler",
+  "@abend_platz_erzaehler": {
+    "description": "Sitz: Erzähler"
+  },
+  "abend_platz_hinweis_detektiv": "Du ermittelst. Ein Gast kann vorlesen.",
+  "@abend_platz_hinweis_detektiv": {
+    "description": "Einrichtung online: Gastgeber ermittelt"
+  },
+  "abend_platz_hinweis_erzaehler": "Du liest vor und führst weiter. Ein Gast ermittelt.",
+  "@abend_platz_hinweis_erzaehler": {
+    "description": "Einrichtung online: Gastgeber liest vor"
+  },
+  "abend_start_erzaehler": "Erzähler",
+  "@abend_start_erzaehler": {
+    "description": "Startübersicht: Name des Erzählers"
+  },
+  "abend_start_platz": "Dein Platz",
+  "@abend_start_platz": {
+    "description": "Startübersicht online: Sitz des Gastgebers"
+  },
+  "abend_start_ohne": "keiner",
+  "@abend_start_ohne": {
+    "description": "Startübersicht: kein Erzähler"
+  },
+  "erzaehlerpult_titel": "Erzählerpult",
+  "@erzaehlerpult_titel": {
+    "description": "Reihum: verdeckte Erzähltexte"
+  },
+  "erzaehlerpult_geben": "Gib das Gerät an {name}.",
+  "@erzaehlerpult_geben": {
+    "description": "Reihum: Übergabe an den Erzähler",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "erzaehlerpult_nur": "Nur {name} schaut hin und liest vor.",
+  "@erzaehlerpult_nur": {
+    "description": "Reihum: nur der Erzähler sieht die Texte",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "erzaehlerpult_texte": "Texte in diesem Abschnitt: {anzahl}",
+  "@erzaehlerpult_texte": {
+    "description": "Reihum: wie viele Texte warten",
+    "placeholders": {
+      "anzahl": {
+        "type": "int"
+      }
+    }
+  },
+  "erzaehlerpult_zeigen": "Ich bin {name}, zeig her",
+  "@erzaehlerpult_zeigen": {
+    "description": "Reihum: Pult öffnen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "erzaehlerpult_zudecken": "Gelesen, zudecken",
+  "@erzaehlerpult_zudecken": {
+    "description": "Reihum: Pult schließen"
+  },
+  "vorleser_titel": "Vorlesen",
+  "@vorleser_titel": {
+    "description": "Karte: ein anderes Gerät liest vor"
+  },
+  "vorleser_liest": "{name} liest vor.",
+  "@vorleser_liest": {
+    "description": "Karte: wer vorliest",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "vorleser_zuhoeren": "Hört zu. Der Text steht nur dort.",
+  "@vorleser_zuhoeren": {
+    "description": "Karte: zuhören"
+  },
+  "vorleser_erzaehler": "Der Erzähler",
+  "@vorleser_erzaehler": {
+    "description": "Name, wenn der Erzähler keinen Namen hat"
+  },
+  "vorleser_frist": "{name} ist getrennt. Gleich liest du.",
+  "@vorleser_frist": {
+    "description": "Gastgeber: der Erzähler ist weg, die Übernahme kommt",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "vorleser_fuehrt": "{name} führt weiter.",
+  "@vorleser_fuehrt": {
+    "description": "Gastgeber: der Erzähler drückt Weiter",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "abend_tausch_hinweis": "Zwei Porträts antippen tauscht die Namen.",
+  "@abend_tausch_hinweis": {
+    "description": "Einrichtung reihum: Namen per Porträt tauschen"
+  },
+  "abend_tausch_portraet": "Porträt {figur}: Namen tauschen",
+  "@abend_tausch_portraet": {
+    "description": "Einrichtung reihum: Bildschirmleser-Beschriftung des Porträts",
+    "placeholders": {
+      "figur": {
+        "type": "String"
+      }
+    }
+  },
+  "abend_platz_hinweis_allein": "Du führst den Abend als Detektiv.",
+  "@abend_platz_hinweis_allein": {
+    "description": "Einrichtung online: Akte ohne Erzähler-Sitz"
   }
 }

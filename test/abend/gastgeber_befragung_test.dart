@@ -53,7 +53,7 @@ class _Dienst implements GastgeberDienst {
   final String salz;
 
   @override
-  String get geburtstagskind => '';
+  String get detektivName => '';
 
   @override
   Sitz get sitz => Sitz.detektiv;

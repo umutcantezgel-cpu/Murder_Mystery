@@ -48,9 +48,12 @@ class KlasseWirkung implements SzenenKlasse {
     return KlasseWirkung.amTisch(s, f);
   }
 
-  /// Wie [fuer] mit der gewählten Klasse dieses Geräts (Ausrüstung im
-  /// [MetaStore]); ohne MetaStore (Tests) keine Klasse.
-  static KlasseWirkung? diesesGeraets(BuildContext context, PartySitzung s) => fuer(s, context.read<MetaStore?>()?.loadout.cls);
+  /// Wie [fuer] mit der Klasse des Detektiv-Sitzes: Legt der Abend sie fest
+  /// (online reist sie mit dem Sitz, [PartySitzung.detektivKlasse]), gilt sie;
+  /// sonst die gewählte Klasse dieses Geräts (Ausrüstung im [MetaStore]), aber
+  /// nur, wenn es den Detektiv führt. Ohne MetaStore (Tests) keine Klasse.
+  static KlasseWirkung? diesesGeraets(BuildContext context, PartySitzung s) =>
+      fuer(s, s.detektivKlasse ?? (s.detektivAmGeraet ? context.read<MetaStore?>()?.loadout.cls : null));
 
   final KlassenFaehigkeit faehigkeit;
   final KlassenParameter parameter;

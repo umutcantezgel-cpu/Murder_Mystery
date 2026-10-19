@@ -236,7 +236,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                   MKnopf(text: s.ui('ui.zug.auftakt_weiter'), onPressed: s.fundGelesen),
                 ],
               )),
-              if (s.kannWeiter && e == null && fund == null && vorschlag == null && _abstecher == null) _abgedeckt(_fertig()),
+              // Online führt vielleicht ein anderes Gerät weiter: Fertig ist die Runde trotzdem.
+              if (s.abschnittFertig && e == null && fund == null && vorschlag == null && _abstecher == null) _abgedeckt(_fertig()),
             ],
           ));
         },
@@ -576,7 +577,12 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             const SizedBox(height: 16),
             ..._erkunden(),
             const SizedBox(height: 6),
-            Align(alignment: Alignment.centerRight, child: MKnopf(text: s.ui('ui.karte.zur_gruppenwahl'), onPressed: s.weiter)),
+            // Online führt der Erzähler weiter, solange er da ist (Vorleser-Sitz, M3).
+            if (!s.leitet) ...[
+              MGanzwortText(_de.vorleser_fuehrt(s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim()), style: MPapierSchrift.leise),
+              const SizedBox(height: 6),
+            ],
+            Align(alignment: Alignment.centerRight, child: MKnopf(text: s.ui('ui.karte.zur_gruppenwahl'), onPressed: s.kannWeiter ? s.weiter : null)),
           ],
         ),
       );

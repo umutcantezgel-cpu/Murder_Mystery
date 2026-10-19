@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte/abend/einrichtung/abschnitte.dart' show EinrichtungsWerte;
 import 'package:mordakte/party/bildschirme/einrichtung.dart';
 import 'package:mordakte/stil/stil.dart' show MFotoabzug;
 import 'package:mordakte/party/sitzung.dart';
@@ -161,6 +162,48 @@ void main() {
     await _tippe(t, find.text(s.ui('ui.einrichtung.stimme_schalter')));
     await _tippe(t, find.text(s.ui('ui.einrichtung.start')));
     expect(s.stimmeAn, isTrue);
+  });
+
+  testWidgets('Rollen am Tisch: der Name des Erzählers wird übernommen (M3)', (t) async {
+    _ansicht(t, 1280, 800);
+    final s = _einrichtung();
+    await t.pumpWidget(rahmen(EinrichtungBildschirm(sitzung: s)));
+    await _schreibe(t, find.byKey(const ValueKey('erzaehler-name')), 'Mia');
+    await _schreibe(t, find.byKey(const ValueKey('detektiv-name')), 'Ada');
+    await _tippe(t, find.text(s.ui('ui.einrichtung.start')));
+    expect([s.erzaehlerName, s.detektivName, s.erzaehlerAmPult], ['Mia', 'Ada', true]);
+    expect(s.personAmTisch(Besetzung.detektiv), 'Ada');
+  });
+
+  testWidgets('Solo und Altakten: kein Erzähler am Tisch', (t) async {
+    _ansicht(t, 1280, 800);
+    final s = _einrichtung();
+    await t.pumpWidget(rahmen(EinrichtungBildschirm(sitzung: s)));
+    expect(find.byKey(const ValueKey('erzaehler-name')), findsOneWidget);
+    await _tippe(t, find.text(s.ui('ui.solo.solo')));
+    expect(find.byKey(const ValueKey('erzaehler-name')), findsNothing, reason: 'Solo');
+    // Altakten (Gewölbe, Noir) bieten keinen Erzähler an; die Überschrift des Namens kommt je Akte.
+    for (final fall in ['gewoelbe', 'ravensmoor']) {
+      final g = PartySitzung(akteDaten(fall));
+      final werte = EinrichtungsWerte(g);
+      expect(werte.mitErzaehler, isFalse, reason: fall);
+      werte.dispose();
+    }
+    expect(PartySitzung(akteDaten('ravensmoor')).ui('ui.einrichtung.geburtstag'), 'Der Inspektor');
+  });
+
+  testWidgets('Zwei Porträts antippen tauscht die Namen beider Rollen', (t) async {
+    _ansicht(t, 1280, 800);
+    final s = _einrichtung();
+    await t.pumpWidget(rahmen(EinrichtungBildschirm(sitzung: s)));
+    final [a, b, ...] = s.rollenBei(7);
+    await _schreibe(t, find.byKey(ValueKey('name-$a')), 'Lena');
+    await _schreibe(t, find.byKey(ValueKey('name-$b')), 'Tom');
+    await _tippe(t, find.byKey(ValueKey('portraet-$a')));
+    expect(t.getSemantics(find.byKey(ValueKey('portraet-$a'))), isNotNull);
+    await _tippe(t, find.byKey(ValueKey('portraet-$b')));
+    await _tippe(t, find.text(s.ui('ui.einrichtung.start')));
+    expect([s.spielerName(a), s.spielerName(b)], ['Tom', 'Lena']);
   });
 
   testWidgets('ohne Überlauf auf 1280 × 800 mit 20 Rollen', (t) async {

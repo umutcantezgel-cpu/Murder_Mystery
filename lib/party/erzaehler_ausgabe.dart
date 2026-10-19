@@ -3,18 +3,35 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../l10n/gen/app_localizations_de.dart';
 import '../stil/stil.dart';
+import 'bildschirme/erzaehlerpult.dart';
 import 'party_stil.dart';
 import 'sitzung.dart';
 import 'stimme.dart';
+
+/// Wie die übrigen Partybildschirme deutsch, auch ohne Lokalisierung im Baum.
+final _de = LDe();
 
 /// Wortgleich-Prüfung (Master 7.12): Ein Vorlesetext gilt nur, wenn er dem
 /// Baustein [kennung] entspricht. Unbekannte Kennungen sind nie wortgleich.
 bool wortgleich(PartySitzung s, String kennung, String text) => s.hatText(kennung) && text == s.text(kennung);
 
+/// Steht der Erzähltext dieses Schritts auf diesem Gerät offen? Nur auf dem
+/// Vorleser-Sitz ([PartySitzung.istVorleser]) und, sitzt an einem Gerät ein
+/// Erzähler mit am Tisch, nur bei offenem Pult ([PartySitzung.pultOffen]).
+/// Bildschirme, die Erzähltext selbst setzen (Resümee), fragen hier.
+bool erzaehltextOffen(PartySitzung s) => s.istVorleser && (!s.erzaehlerAmPult || s.pultOffen);
+
 /// Erzählerfeld (F4-BAUMEISTER-05, Master 7.12): zeigt die Bausteine [kennungen]
 /// wortgleich als Text. Ist die Erzählerstimme an, liest es sie nacheinander vor,
-/// aber nur, wenn der Wortlaut stimmt. Der Text bleibt immer sichtbar.
+/// aber nur, wenn der Wortlaut stimmt.
+///
+/// Vorleser-Sitz (Langer Abend M3): Den Text sieht nur, wer vorliest
+/// ([erzaehltextOffen]). Ein Gerät, das nicht vorliest, zeigt die
+/// [VorleserKarte]; mit Erzähler am Tisch liegt der Text zugedeckt im
+/// Erzählerpult ([ErzaehlerpultZu]), bis der Erzähler hinschaut. Ohne Erzähler
+/// und im Solo bleibt der Text immer sichtbar.
 class ErzaehlerFeld extends StatefulWidget {
   const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen, this.verborgen = const {}});
 
@@ -55,23 +72,50 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
   void initState() {
     super.initState();
     _einblenden.forward();
+    s.addListener(_offenGeaendert);
+    _offen = erzaehltextOffen(s);
     // Nach dem ersten Aufbau liest das Feld, wenn die Stimme an ist.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && s.stimmeAn) unawaited(_vorlesen());
+      if (mounted && s.stimmeAn && _offen) unawaited(_vorlesen());
     });
+  }
+
+  /// War der Text beim letzten Blick offen (Vorleser, Pult offen)?
+  bool _offen = false;
+
+  /// Öffnet sich das Pult oder wechselt der Vorleser, liest die Stimme neu; schließt
+  /// es sich, verstummt sie.
+  void _offenGeaendert() {
+    final jetzt = erzaehltextOffen(s);
+    if (jetzt == _offen || !mounted) return;
+    setState(() => _offen = jetzt);
+    if (jetzt) {
+      _einblenden.forward(from: 0);
+      if (s.stimmeAn) unawaited(_vorlesen());
+    } else {
+      _lauf++;
+      if (_spricht) _stimme.stopp();
+      _spricht = false;
+    }
   }
 
   @override
   void didUpdateWidget(covariant ErzaehlerFeld alt) {
     super.didUpdateWidget(alt);
+    if (alt.sitzung != widget.sitzung) {
+      alt.sitzung.removeListener(_offenGeaendert);
+      widget.sitzung.addListener(_offenGeaendert);
+      _offen = erzaehltextOffen(s);
+    }
     if (!listEquals(alt.kennungen, widget.kennungen)) {
       _einblenden.forward(from: 0);
-      if (s.stimmeAn) unawaited(_vorlesen());
+      if (s.stimmeAn && _offen) unawaited(_vorlesen());
     }
   }
 
   @override
   void dispose() {
+    s.removeListener(_offenGeaendert);
     _lauf++;
     if (_spricht) _stimme.stopp();
     _einblenden.dispose();
@@ -109,12 +153,28 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
     }
   }
 
-  /// Gilt dieser Lauf noch? Nach Abbau, Abschalten oder einem neuen Lauf nicht mehr.
-  bool _gilt(int lauf) => mounted && lauf == _lauf && s.stimmeAn;
+  /// Gilt dieser Lauf noch? Nach Abbau, Abschalten, einem neuen Lauf oder
+  /// zugedecktem Text nicht mehr.
+  bool _gilt(int lauf) => mounted && lauf == _lauf && s.stimmeAn && erzaehltextOffen(s);
 
   @override
   Widget build(BuildContext context) {
     final kennungen = _bekannte;
+    // Vorleser-Sitz (M3): Wer nicht vorliest, sieht nur, dass vorgelesen wird.
+    if (!s.istVorleser) {
+      if (kennungen.isEmpty) return const SizedBox.shrink();
+      return VorleserKarte(
+        name: s.vorleserName,
+        texte: kennungen.length,
+        // Ist der Erzähler getrennt, übernimmt dieses Gerät nach einer Frist (online).
+        hinweis: s.uebernahmeFrist ? _de.vorleser_frist(s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim()) : null,
+      );
+    }
+    if (s.erzaehlerAmPult && !s.pultOffen) {
+      // Ohne Text in diesem Schritt (etwa in den Entscheidungen) gibt es nichts zu übergeben.
+      if (kennungen.isEmpty) return const SizedBox.shrink();
+      return ErzaehlerpultZu(sitzung: s, texte: kennungen.length);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -125,6 +185,11 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
             _tafel(i, kennungen[i]),
             const SizedBox(height: 12),
           ],
+        // Am offenen Pult: nach dem Vorlesen zudecken (die Tafeln des Bildschirms stehen darüber).
+        if (s.erzaehlerAmPult) ...[
+          ErzaehlerpultZudecken(sitzung: s),
+          const SizedBox(height: 12),
+        ],
       ],
     );
   }

@@ -36,9 +36,11 @@ class GastgeberRollenWarten extends StatelessWidget {
               children: [
                 Text(l.online_rollen_erklaerung, style: context.schrift.text),
                 const SizedBox(height: MMass.s16),
-                // Der Gastgeber ermittelt (bis es Sitze gibt): seine Detektivkarte.
-                DetektivKarteEintrag(sitzung: s),
-                const SizedBox(height: MMass.s16),
+                // Nur auf dem Detektiv-Sitz: seine Detektivkarte (M6.4).
+                if (s.istDetektiv) ...[
+                  DetektivKarteEintrag(sitzung: s),
+                  const SizedBox(height: MMass.s16),
+                ],
                 OnlineWarteNotiz(
                   text: menschen.isEmpty
                       ? l.online_rollen_ohne_gaeste

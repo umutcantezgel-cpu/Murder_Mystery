@@ -74,14 +74,16 @@ class _AbendSeiteState extends State<AbendSeite> {
   }
 
   /// Das Ende ist gelesen: Ergebnis für die Belohnung merken und dorthin wechseln.
-  /// Die Rolle des Geräts ist die gewählte Detektivklasse (`klasse:<name>`).
+  /// Die Rolle des Geräts ist die Detektivklasse (`klasse:<name>`), aber nur auf
+  /// dem Gerät, das den Detektiv führt (M6.4); online die Klasse des Sitzes. Ein
+  /// Erzähler-Gastgeber bekommt keine Klassenkarte.
   void _zurBelohnung() {
     final s = _sitzung;
     if (s == null) return;
-    final klasse = context.read<MetaStore>().loadout.cls;
+    final klasse = s.detektivKlasse ?? context.read<MetaStore>().loadout.cls;
     _halter.beende(AbendAbschluss(
       abendId: s.abendId,
-      ergebnis: s.abendErgebnis(rolle: 'klasse:$klasse'),
+      ergebnis: s.abendErgebnis(rolle: s.detektivAmGeraet ? 'klasse:$klasse' : null),
       punkte: s.spiel.punkte,
       endeName: s.ende.name,
     ));

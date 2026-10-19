@@ -190,12 +190,14 @@ class _Menue extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Der Gastgeber ermittelt (bis es Sitze gibt): seine Detektivkarte, im rollenden Teil.
-            Align(
-              alignment: Alignment.centerLeft,
-              child: MKnopf(text: l.detektiv_karte_oeffnen, art: MKnopfArt.zweit, icon: Icons.badge_outlined, onPressed: () => zeigeDetektivKarte(context, sitzung)),
-            ),
-            const SizedBox(height: MMass.s16),
+            // Nur auf dem Detektiv-Sitz: seine Detektivkarte (M6.4), im rollenden Teil.
+            if (sitzung.istDetektiv) ...[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: MKnopf(text: l.detektiv_karte_oeffnen, art: MKnopfArt.zweit, icon: Icons.badge_outlined, onPressed: () => zeigeDetektivKarte(context, sitzung)),
+              ),
+              const SizedBox(height: MMass.s16),
+            ],
             Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
             const SizedBox(height: MMass.s4),
             // Der Code bleibt eine Zeile; bei wenig Platz wird er kleiner statt umzubrechen.

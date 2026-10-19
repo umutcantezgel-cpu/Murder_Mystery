@@ -365,7 +365,7 @@ class TestAbendDienst implements GastgeberDienst {
   String get salz => 'salz-test';
 
   @override
-  String get geburtstagskind => '';
+  String get detektivName => '';
 
   @override
   Sitz get sitz => Sitz.detektiv;

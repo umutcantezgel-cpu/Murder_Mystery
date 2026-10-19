@@ -29,7 +29,7 @@ class GastgeberSitzung extends PartySitzung {
       final r = s.rolle;
       if (r != null && s.name.trim().isNotEmpty) namen[r] = s.name.trim();
     }
-    geburtstagskind = dienst.geburtstagskind;
+    detektivName = dienst.detektivName;
     rundendauer = Duration(minutes: dienst.minuten);
     stimmeAn = dienst.stimme;
     _hoerer = dienst.verb.ansichten.listen((_) => _abgleichen());
@@ -59,25 +59,79 @@ class GastgeberSitzung extends PartySitzung {
   /// Sitz des Gastgebers an diesem Abend: Detektiv oder Erzähler.
   Sitz get sitz => dienst.raum.sitzVon(_ich) ?? dienst.sitz;
 
-  /// Führt der Gastgeber den Detektiv? Sonst ermittelt ein Gast ([detektivGeraet]).
-  bool get istDetektiv => sitz == Sitz.detektiv;
+  /// Ermittelt der Gastgeber? Auf dem Detektiv-Sitz, oder wenn er einen Gast-
+  /// Detektiv vertritt, der den Abend aufgegeben hat ([SchlosskellerRaum.ermittler]).
+  /// Sonst ermittelt ein Gast ([detektivGeraet]).
+  bool get istDetektiv => dienst.raum.ermittler == _ich;
+
+  /// Nur wer ermittelt, hat Detektivkarte, Klassenwirkung und Klassen-Belohnung.
+  @override
+  bool get detektivAmGeraet => istDetektiv;
 
   /// Gerät auf dem Detektiv-Sitz: der Gastgeber selbst oder ein Gast.
   String? get detektivGeraet => dienst.raum.detektivGeraet;
 
-  /// Liest dieses Gerät die Erzähltexte vor (Vorleser-Sitz: Erzähler, sonst Detektiv)?
-  bool get istVorleser => dienst.raum.vorleser == _ich;
+  /// Liest dieses Gerät die Erzähltexte vor? Wer leitet, liest ([SchlosskellerRaum.vorleser]):
+  /// der Erzähler, sonst der Detektiv, sonst der Gastgeber; während der Frist
+  /// für einen getrennten Erzähler noch nicht ([uebernahmeFrist]). Ab dem Finale
+  /// und in Akten ohne Vorleser-Sitz lesen alle.
+  @override
+  bool get istVorleser => nachFinale || !dienst.raum.vorleserSitz || (dienst.raum.vorleser == _ich && !uebernahmeFrist);
 
-  /// Klasse des Detektiv-Sitzes (`forensic`, …), sonst `null`. Sie ändert nur
-  /// die Darstellung auf seiner Karte, nie den Abend.
-  String? get detektivKlasse => dienst.raum.klasse;
+  /// Wer vorliest, wenn es nicht der Gastgeber ist; während der Frist der getrennte Erzähler.
+  @override
+  String get vorleserName => dienst.nameVon(uebernahmeFrist ? dienst.raum.erzaehlerGeraet : dienst.raum.vorleser);
 
-  /// Darf der Gastgeber gerade „Weiter“ drücken? Als Erzähler, ohne Erzähler,
-  /// oder wenn der Erzähler offline ist (wie der Raum, [SchlosskellerRaum]).
-  /// Die Frist von zwei Minuten, bevor die Oberfläche übernimmt, liegt außen.
-  bool get leitet {
+  /// Klasse des Detektiv-Sitzes (`forensic`, …), sonst `null`. Sie reist mit dem
+  /// Sitz und ändert nur die Darstellung auf seiner Karte, nie den Abend.
+  /// Vertritt der Gastgeber einen Gast-Detektiv, gilt seine eigene Klasse
+  /// (`null`: die Ausrüstung dieses Geräts).
+  @override
+  String? get detektivKlasse => istDetektiv && sitz != Sitz.detektiv ? null : dienst.raum.klasse;
+
+  /// Darf der Gastgeber gerade „Weiter“ drücken? Nur, wenn er leitet wie im Raum
+  /// ([SchlosskellerRaum.vorleser]): als Erzähler, ohne verbundenen Erzähler als
+  /// Detektiv, sonst als Gastgeber. Fällt ein Gast-Erzähler aus, übernimmt der
+  /// Gastgeber erst nach der Frist ([erzaehlerFrist]).
+  @override
+  bool get leitet => dienst.raum.vorleser == _ich && !uebernahmeFrist;
+
+  /// So lange wartet der Gastgeber, bevor er für einen getrennten Erzähler
+  /// vorliest und weiterführt (Plan M3: zwei Minuten). Kommt der Erzähler in der
+  /// Zeit zurück, merkt der Tisch nichts.
+  static Duration erzaehlerFrist = const Duration(minutes: 2);
+
+  Timer? _fristUhr;
+  bool _fristVorbei = false;
+
+  /// Ist der Erzähler-Sitz ein Gast, der gerade getrennt ist?
+  bool get _erzaehlerWeg {
     final e = dienst.raum.erzaehlerGeraet;
-    return e == null || e == _ich || !dienst.spieler.any((s) => s.id == e && s.online);
+    return e != null && e != _ich && !dienst.spieler.any((s) => s.id == e && s.online);
+  }
+
+  @override
+  bool get uebernahmeFrist {
+    _fristPruefen();
+    return _fristUhr != null;
+  }
+
+  /// Startet die Frist, sobald der Erzähler getrennt ist, und setzt sie zurück,
+  /// wenn er wieder da ist. Nach Ablauf meldet die Sitzung die Übernahme.
+  void _fristPruefen() {
+    if (_entsorgt) return;
+    if (!_erzaehlerWeg) {
+      _fristUhr?.cancel();
+      _fristUhr = null;
+      _fristVorbei = false;
+      return;
+    }
+    if (_fristUhr != null || _fristVorbei) return;
+    _fristUhr = Timer(erzaehlerFrist, () {
+      _fristUhr = null;
+      _fristVorbei = true;
+      if (!_entsorgt) notifyListeners();
+    });
   }
 
   /// Letzte Ablehnung des Raums (fester Schlüssel wie `not_ready`) oder `null`.
@@ -121,6 +175,7 @@ class GastgeberSitzung extends PartySitzung {
 
   void _abgleichen() {
     if (_entsorgt) return;
+    _fristPruefen();
     // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
     final vorher = _notizen.length;
     for (final k in befragungen) {
@@ -266,7 +321,11 @@ class GastgeberSitzung extends PartySitzung {
   /// Der Raum entscheidet mit: In der Rollenphase müssen alle Rollenkarten
   /// gelesen sein, und „Weiter“ drückt nur, wer leitet ([leitet]).
   @override
-  bool get kannWeiter => super.kannWeiter && dienst.ansicht['kannWeiter'] == true && leitet;
+  bool get kannWeiter => abschnittFertig && leitet;
+
+  /// Fertig nach Partie und Raum, egal wer weiterführt.
+  @override
+  bool get abschnittFertig => super.kannWeiter && dienst.ansicht['kannWeiter'] == true;
 
   @override
   List<String> get offeneWaehler => [for (final r in besetzt) if (!gestimmt.contains(r)) r];
@@ -371,6 +430,8 @@ class GastgeberSitzung extends PartySitzung {
   void dispose() {
     if (_entsorgt) return;
     _entsorgt = true;
+    _fristUhr?.cancel();
+    _fristUhr = null;
     unawaited(_hoerer?.cancel());
     _hoerer = null;
     // Ist der Abend vorbei, ist er auch abgelegt zu Ende; sonst bleibt der Stand

@@ -21,14 +21,15 @@ final _de = LDe();
 ///
 /// Sie liegt in der Rollenphase als eigener Eintrag aus ([DetektivKarteEintrag])
 /// und ist im Abendmenü erreichbar ([zeigeDetektivKarte]). Online gehört sie
-/// auf das Gerät mit dem Detektiv-Sitz; bis es Sitze gibt, ist das der Gastgeber.
+/// nur auf das Gerät mit dem Detektiv-Sitz (M6.4, [PartySitzung.detektivAmGeraet]);
+/// die Klasse ist dann die des Sitzes ([PartySitzung.detektivKlasse]).
 class DetektivKarte extends StatelessWidget {
   const DetektivKarte({super.key, required this.sitzung, this.klasse});
 
   final PartySitzung sitzung;
 
-  /// Gewählte Klasse dieses Geräts (`forensic`, …); `null` liest die
-  /// Ausrüstung aus dem [MetaStore], falls es ihn gibt.
+  /// Klasse des Detektiv-Sitzes (`forensic`, …); `null` nimmt die des Abends
+  /// ([PartySitzung.detektivKlasse]), sonst die Ausrüstung aus dem [MetaStore].
   final String? klasse;
 
   @override
@@ -36,7 +37,7 @@ class DetektivKarte extends StatelessWidget {
     final l = _de;
     final s = sitzung;
     final entscheidungen = s.karte.ermittlung.entscheidungen;
-    final id = klasse ?? context.read<MetaStore?>()?.loadout.cls;
+    final id = klasse ?? s.detektivKlasse ?? context.read<MetaStore?>()?.loadout.cls;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,

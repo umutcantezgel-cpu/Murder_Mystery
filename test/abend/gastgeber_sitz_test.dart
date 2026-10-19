@@ -60,7 +60,7 @@ class _Dienst implements GastgeberDienst {
   String get salz => 'salz-test';
 
   @override
-  String get geburtstagskind => '';
+  String get detektivName => '';
 
   @override
   Sitz get sitz => Sitz.detektiv;
@@ -221,9 +221,17 @@ void main() {
     await _warten();
     expect(s.dienst.ansicht['kannWeiter'], isTrue, reason: 'Der Raum wäre bereit');
     expect(s.kannWeiter, isFalse, reason: 'Weiter drückt der Erzähler');
+    // Fällt der Erzähler aus, übernimmt der Gastgeber erst nach der Frist (Plan M3: zwei Minuten).
+    final frist = GastgeberSitzung.erzaehlerFrist;
+    GastgeberSitzung.erzaehlerFrist = const Duration(milliseconds: 30);
+    addTearDown(() => GastgeberSitzung.erzaehlerFrist = frist);
     raum.verbunden('g3', false);
-    expect([s.leitet, s.kannWeiter], [true, true], reason: 'Fällt der Erzähler aus, leitet der Gastgeber');
+    expect([s.uebernahmeFrist, s.leitet, s.kannWeiter, s.istVorleser], [true, false, false, false], reason: 'Die Frist läuft');
+    expect(s.vorleserName, 'Dora', reason: 'Bis dahin steht der getrennte Erzähler da');
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    expect([s.uebernahmeFrist, s.leitet, s.kannWeiter], [false, true, true], reason: 'Nach der Frist leitet der Gastgeber');
     raum.verbunden('g3', true);
+    expect([s.uebernahmeFrist, s.leitet], [false, false], reason: 'Zurück leitet wieder der Erzähler');
     raum.nachricht('g3', {'typ': 'weiter'});
     (s.dienst.verb as _Verbindung).aktualisiere();
     await _warten();

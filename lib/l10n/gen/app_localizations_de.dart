@@ -81,7 +81,7 @@ class LDe extends L {
 
   @override
   String get hub_party_sub =>
-      'Ein Krimi für den Geburtstag, für 4 bis 20 Personen und ein Geburtstagskind';
+      'Ein Krimi für 4 bis 20 Gäste, einen Detektiv und auf Wunsch einen Erzähler';
 
   @override
   String get hub_section_party => 'Partyabende';
@@ -2585,7 +2585,7 @@ class LDe extends L {
 
   @override
   String get online_start_hinweis =>
-      'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.';
+      'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei.';
 
   @override
   String get online_oeffnen_fehler => 'Der Raum konnte nicht angelegt werden.';
@@ -3284,7 +3284,7 @@ class LDe extends L {
 
   @override
   String get erster_fall_text =>
-      'Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.';
+      'Ein Fest im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.';
 
   @override
   String get erster_fall_los => 'Sofort ermitteln';
@@ -3529,4 +3529,106 @@ class LDe extends L {
   @override
   String get abend_fortsetzen_veraltet =>
       'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.';
+
+  @override
+  String get abend_rollen_titel => 'Rollen am Tisch';
+
+  @override
+  String get abend_erzaehler_feld => 'Name des Erzählers (optional)';
+
+  @override
+  String get abend_erzaehler_hinweis =>
+      'Der Erzähler liest vor und führt weiter. Er ermittelt nicht.';
+
+  @override
+  String get abend_erzaehler_leer =>
+      'Ohne Namen liest, wer gerade das Gerät hält.';
+
+  @override
+  String get abend_platz_titel => 'Dein Platz';
+
+  @override
+  String get abend_platz_detektiv => 'Detektiv';
+
+  @override
+  String get abend_platz_erzaehler => 'Erzähler';
+
+  @override
+  String get abend_platz_hinweis_detektiv =>
+      'Du ermittelst. Ein Gast kann vorlesen.';
+
+  @override
+  String get abend_platz_hinweis_erzaehler =>
+      'Du liest vor und führst weiter. Ein Gast ermittelt.';
+
+  @override
+  String get abend_start_erzaehler => 'Erzähler';
+
+  @override
+  String get abend_start_platz => 'Dein Platz';
+
+  @override
+  String get abend_start_ohne => 'keiner';
+
+  @override
+  String get erzaehlerpult_titel => 'Erzählerpult';
+
+  @override
+  String erzaehlerpult_geben(String name) {
+    return 'Gib das Gerät an $name.';
+  }
+
+  @override
+  String erzaehlerpult_nur(String name) {
+    return 'Nur $name schaut hin und liest vor.';
+  }
+
+  @override
+  String erzaehlerpult_texte(int anzahl) {
+    return 'Texte in diesem Abschnitt: $anzahl';
+  }
+
+  @override
+  String erzaehlerpult_zeigen(String name) {
+    return 'Ich bin $name, zeig her';
+  }
+
+  @override
+  String get erzaehlerpult_zudecken => 'Gelesen, zudecken';
+
+  @override
+  String get vorleser_titel => 'Vorlesen';
+
+  @override
+  String vorleser_liest(String name) {
+    return '$name liest vor.';
+  }
+
+  @override
+  String get vorleser_zuhoeren => 'Hört zu. Der Text steht nur dort.';
+
+  @override
+  String get vorleser_erzaehler => 'Der Erzähler';
+
+  @override
+  String vorleser_frist(String name) {
+    return '$name ist getrennt. Gleich liest du.';
+  }
+
+  @override
+  String vorleser_fuehrt(String name) {
+    return '$name führt weiter.';
+  }
+
+  @override
+  String get abend_tausch_hinweis =>
+      'Zwei Porträts antippen tauscht die Namen.';
+
+  @override
+  String abend_tausch_portraet(String figur) {
+    return 'Porträt $figur: Namen tauschen';
+  }
+
+  @override
+  String get abend_platz_hinweis_allein => 'Du führst den Abend als Detektiv.';
 }

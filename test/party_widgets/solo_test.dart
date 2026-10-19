@@ -38,7 +38,7 @@ void main() {
     final s = neueSitzung();
     expect(() => s.einrichten(rollen: 4, detektiv: 'w', solo: true, druck: true), throwsArgumentError);
     expect(s.phase, PartyPhase.titel);
-    s.einrichten(rollen: 4, detektiv: 'w', solo: true, geburtstagskind: 'Mira');
+    s.einrichten(rollen: 4, detektiv: 'w', solo: true, detektivName: 'Mira');
     expect(s.solo, isTrue);
     expect(s.mitWuerfel, isTrue);
     expect(s.wuerfelPate, 'Mira');

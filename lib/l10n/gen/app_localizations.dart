@@ -216,7 +216,7 @@ abstract class L {
   /// No description provided for @hub_party_sub.
   ///
   /// In de, this message translates to:
-  /// **'Ein Krimi für den Geburtstag, für 4 bis 20 Personen und ein Geburtstagskind'**
+  /// **'Ein Krimi für 4 bis 20 Gäste, einen Detektiv und auf Wunsch einen Erzähler'**
   String get hub_party_sub;
 
   /// No description provided for @hub_section_party.
@@ -4470,7 +4470,7 @@ abstract class L {
   /// No description provided for @online_start_hinweis.
   ///
   /// In de, this message translates to:
-  /// **'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.'**
+  /// **'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei.'**
   String get online_start_hinweis;
 
   /// No description provided for @online_oeffnen_fehler.
@@ -5688,7 +5688,7 @@ abstract class L {
   /// Detektei: Text der Schnellstart-Akte
   ///
   /// In de, this message translates to:
-  /// **'Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.'**
+  /// **'Ein Fest im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.'**
   String get erster_fall_text;
 
   /// Detektei: Knopf der Schnellstart-Akte
@@ -6098,6 +6098,168 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.'**
   String get abend_fortsetzen_veraltet;
+
+  /// Einrichtung: Abschnitt mit Erzähler (reihum) bzw. eigenem Platz (online)
+  ///
+  /// In de, this message translates to:
+  /// **'Rollen am Tisch'**
+  String get abend_rollen_titel;
+
+  /// Einrichtung reihum: Feld für den Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Name des Erzählers (optional)'**
+  String get abend_erzaehler_feld;
+
+  /// Einrichtung reihum: was der Erzähler tut
+  ///
+  /// In de, this message translates to:
+  /// **'Der Erzähler liest vor und führt weiter. Er ermittelt nicht.'**
+  String get abend_erzaehler_hinweis;
+
+  /// Einrichtung reihum: ohne Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Ohne Namen liest, wer gerade das Gerät hält.'**
+  String get abend_erzaehler_leer;
+
+  /// Einrichtung online: Sitz des Gastgebers
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Platz'**
+  String get abend_platz_titel;
+
+  /// Sitz: Detektiv
+  ///
+  /// In de, this message translates to:
+  /// **'Detektiv'**
+  String get abend_platz_detektiv;
+
+  /// Sitz: Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler'**
+  String get abend_platz_erzaehler;
+
+  /// Einrichtung online: Gastgeber ermittelt
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst. Ein Gast kann vorlesen.'**
+  String get abend_platz_hinweis_detektiv;
+
+  /// Einrichtung online: Gastgeber liest vor
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest vor und führst weiter. Ein Gast ermittelt.'**
+  String get abend_platz_hinweis_erzaehler;
+
+  /// Startübersicht: Name des Erzählers
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler'**
+  String get abend_start_erzaehler;
+
+  /// Startübersicht online: Sitz des Gastgebers
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Platz'**
+  String get abend_start_platz;
+
+  /// Startübersicht: kein Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'keiner'**
+  String get abend_start_ohne;
+
+  /// Reihum: verdeckte Erzähltexte
+  ///
+  /// In de, this message translates to:
+  /// **'Erzählerpult'**
+  String get erzaehlerpult_titel;
+
+  /// Reihum: Übergabe an den Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Gib das Gerät an {name}.'**
+  String erzaehlerpult_geben(String name);
+
+  /// Reihum: nur der Erzähler sieht die Texte
+  ///
+  /// In de, this message translates to:
+  /// **'Nur {name} schaut hin und liest vor.'**
+  String erzaehlerpult_nur(String name);
+
+  /// Reihum: wie viele Texte warten
+  ///
+  /// In de, this message translates to:
+  /// **'Texte in diesem Abschnitt: {anzahl}'**
+  String erzaehlerpult_texte(int anzahl);
+
+  /// Reihum: Pult öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Ich bin {name}, zeig her'**
+  String erzaehlerpult_zeigen(String name);
+
+  /// Reihum: Pult schließen
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen, zudecken'**
+  String get erzaehlerpult_zudecken;
+
+  /// Karte: ein anderes Gerät liest vor
+  ///
+  /// In de, this message translates to:
+  /// **'Vorlesen'**
+  String get vorleser_titel;
+
+  /// Karte: wer vorliest
+  ///
+  /// In de, this message translates to:
+  /// **'{name} liest vor.'**
+  String vorleser_liest(String name);
+
+  /// Karte: zuhören
+  ///
+  /// In de, this message translates to:
+  /// **'Hört zu. Der Text steht nur dort.'**
+  String get vorleser_zuhoeren;
+
+  /// Name, wenn der Erzähler keinen Namen hat
+  ///
+  /// In de, this message translates to:
+  /// **'Der Erzähler'**
+  String get vorleser_erzaehler;
+
+  /// Gastgeber: der Erzähler ist weg, die Übernahme kommt
+  ///
+  /// In de, this message translates to:
+  /// **'{name} ist getrennt. Gleich liest du.'**
+  String vorleser_frist(String name);
+
+  /// Gastgeber: der Erzähler drückt Weiter
+  ///
+  /// In de, this message translates to:
+  /// **'{name} führt weiter.'**
+  String vorleser_fuehrt(String name);
+
+  /// Einrichtung reihum: Namen per Porträt tauschen
+  ///
+  /// In de, this message translates to:
+  /// **'Zwei Porträts antippen tauscht die Namen.'**
+  String get abend_tausch_hinweis;
+
+  /// Einrichtung reihum: Bildschirmleser-Beschriftung des Porträts
+  ///
+  /// In de, this message translates to:
+  /// **'Porträt {figur}: Namen tauschen'**
+  String abend_tausch_portraet(String figur);
+
+  /// Einrichtung online: Akte ohne Erzähler-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du führst den Abend als Detektiv.'**
+  String get abend_platz_hinweis_allein;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
