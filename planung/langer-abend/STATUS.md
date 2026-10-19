@@ -10,11 +10,11 @@ Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `p
 |---|---|---|
 | M0 | Werkbank, CI, Basislinie, Nähte | fertig: Kanon-Werkzeuge und -Tor, UI-Basis eingefroren, Raum-Naht, Inhaltskennung je Akte, ARB-Tontest, Golden Kern 1.2 |
 | M1 | Glitch-Fix alle Akten, Szenen-Naht | fertig: freie Bahn mit Körperkasten, Neuplanen statt Hängen, kein Stand auf Personen, Rückblende je Frame exakt, WeltSzene-Naht |
-| M2 | Befragungsmodell, Stichpunkte, Kanon K1 und K2 | K1 fertig (neutrale Feier, Ersatzschlüssel 00:15, Torschlüssel 07:00); Befragungsmodell in Arbeit |
+| M2 | Befragungsmodell, Stichpunkte, Kanon K1 und K2 | fertig: Detektiv 3–5 Befragungen, Rollen ein Tischgespräch je Runde, Antworten verdeckt und als Kanon-Kurzfassung (R17), Spickzettel, Erzählerwissen unbesetzter Zielfiguren (E-044), K1 neutrale Feier |
 | M3 | Sitze, Erzähler, Lobby-Zuteilung, Gast-Detektiv | offen |
 | M4 | Diashow, Rundenuhr | offen |
 | M5 | Steckbriefe, PDFs, Teilen | offen |
-| M6 | Klassenfähigkeiten, Erklärungen | offen |
+| M6 | Klassenfähigkeiten, Erklärungen | fertig offline: fünf Fähigkeiten auf der Karte (pfadgleich, invariant), Gerüchte mit Prüfer, Klassenzeile, Profil, Detektivkarte; online mit dem Detektiv-Sitz folgt in M3 |
 | M7 | Langer Abend: Ebenen, Fassung, Streifzug, Vorspiel und Morgen | offen |
 | M8 | Lebendige NPCs | offen |
 | M9 | Mehrspieler-Bewegung | offen |
@@ -23,6 +23,7 @@ Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `p
 
 ## Prüfjournal (neueste zuerst)
 
+- 2026-10-19 M2 + M6 zusammengeführt (je zwei Runden Gegenprüfung mit Korrekturen): `pruefen.sh schnell` grün (Analyse ohne Befund, Kern 632 +1 übersprungen, Krimidinner 67, Klang 4, Netz 48, Kanon-Tor aktuell), `akte_pruefen` alle 5 Akten 0 Befunde, Karten, Texte (1668), Plausibilität und Simulator OK. Lanes einzeln: App M2 246 + 35, M6 381, Party- und Relais-Matrix grün, Browserproben solo (320), geraete, karten_fotos grün.
 - 2026-10-19 M1 + K1 zusammengeführt: `flutter analyze` und `dart analyze` ohne Befund, `kanon_tor.sh --pruefen` aktuell. Einzeln geprüft: M1 App-Tests 247 + 28 (party_widgets, session, stil, abend), Kern-Auswahl 133, `akte_pruefen` alle 5 Akten 0 Befunde, Gegenproben ohne Fix rot; K1 Kern 529, App 217 + 79, Netz 48, Plausibilität und Simulator OK, Golden unverändert.
 - 2026-10-18 M0-Tor: `pruefen.sh schnell` grün (Analyse ohne Befund, Kern 529, Netz 48, Krimidinner 67, Klang 4, Kanon-Tor überall aktuell). App `flutter test` 337/337. Party-Matrix (4 Clients) und Relais-Matrix (4 Gäste, lokal) grün.
 - 2026-10-18 Basis korrigiert (E-043): Die eingebettete Kanon-Kopie war veraltet (6 Dateien). Neu erzeugt; der Golden von Kern 1.1 passte nur zur alten Kopie (Code 7 wich ab). Neuer Golden `determinismus_soll_k12.g.dart` auf dem aktuellen Kanon, VM und Node grün; `determinismus_web_test` nutzt ihn. Ab jetzt nie neu schreiben.
