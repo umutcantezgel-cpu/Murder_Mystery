@@ -12,6 +12,10 @@ import 'palette.dart';
 /// Wendeltreppe, Ritterrüstung, Jackenständer und der umgestoßene
 /// Kerzenständer vor der Vorratstür. Elektrische Teelichter stehen genau dort,
 /// wo die Karte ihre warmen Lichtpunkte setzt (PartyKarte.dekoKerzen).
+///
+/// Für die Ebenen des langen Abends (M7a): Hecke, Brunnen, Bank, Stufen, Tor,
+/// Zinne, Laterne und Beet für Hof, Garten, Wehrgang und Außenwelt, dazu
+/// Herd und Truhe für Küche, Halle und Turmzimmer.
 class PartyProps {
   PartyProps(this.pal);
 
@@ -23,12 +27,20 @@ class PartyProps {
   static const _stahl = Color(0xFF9AA0A6);
   static const _wachsRot = Color(0xFFB0283A);
   static const _teelicht = Color(0xFFFFE2B0);
+  static const _schwarz = Color(0xFF000000);
+  static const _eisen = Color(0xFF26272B);
+  static const _sandstein = Color(0xFFB59A76);
 
   /// Höhe der Oberkante (Hotspot-Marker auf Props).
   static double? topZ(String type) => switch (type) {
         'party_tafel' || 'party_buffet' => 0.45,
         'party_theke' || 'party_anrichte' || 'party_teekocher' || 'party_kaffee' => 0.61,
         'party_kerzenstaender' => 0.1,
+        'party_bank' => 0.31,
+        'party_truhe' => 0.44,
+        'party_herd' => 0.8,
+        'party_beet' => 0.18,
+        'party_brunnen' => 0.32,
         _ => null,
       };
 
@@ -65,6 +77,26 @@ class PartyProps {
         _jackenstaender(pen, rng);
       case 'party_kerzenstaender':
         _kerzenstaenderLiegt(pen);
+      case 'party_hecke':
+        _hecke(pen, rng);
+      case 'party_brunnen':
+        _brunnen(pen);
+      case 'party_bank':
+        _bank(pen);
+      case 'party_stufen':
+        _stufen(pen);
+      case 'party_tor':
+        _tor(pen);
+      case 'party_zinne':
+        _zinne(pen);
+      case 'party_laterne':
+        _laterne(pen);
+      case 'party_beet':
+        _beet(pen, rng);
+      case 'party_herd':
+        _herd(pen);
+      case 'party_truhe':
+        _truhe(pen);
       default:
         return false;
     }
@@ -287,5 +319,119 @@ class PartyProps {
     for (final (u, v) in [(0.5, 0.7), (0.58, 0.76), (0.44, 0.78)]) {
       pen.oval(u, v, 0.005, 0.025, pen.fill(_wachsRot));
     }
+  }
+
+  // --- Langer Abend (M7a) ----------------------------------------------------
+
+  Color get _stein => mix(pal.wall, const Color(0xFF8A7F74), 0.5);
+
+  void _hecke(IsoPen pen, Rng rng) {
+    final gruen = mix(const Color(0xFF2E4A2C), pal.fog, 0.15);
+    pen.oval(0.5, 0.5, 0, 0.5, pen.fill(withAlpha(_schwarz, 0.25)));
+    pen.box(0.04, 0.14, 0.96, 0.86, 0, 0.74, gruen, edge: withAlpha(shade(gruen, 0.3), 0.4));
+    // Geschnittene Oberkante mit kleinen Buckeln.
+    for (var i = 0; i < 4; i++) {
+      final u = 0.16 + i * 0.23 + (rng.nextDouble() - 0.5) * 0.05;
+      final farbe = shade(gruen, 0.06 + rng.nextDouble() * 0.08);
+      pen.part(u, 0.5, () => pen.sphere(u, 0.5, 0.76, 0.17, farbe, squash: 0.55));
+    }
+    pen.flush();
+  }
+
+  void _brunnen(IsoPen pen) {
+    final stein = shade(_stein, 0.08);
+    pen.oval(0.5, 0.5, 0, 0.52, pen.fill(withAlpha(_schwarz, 0.3)));
+    pen.cylinder(0.5, 0.5, 0.46, 0, 0.32, stein, top: shade(stein, 0.12));
+    pen.oval(0.5, 0.5, 0.321, 0.38, pen.fill(const Color(0xFF2C4A5A)));
+    pen.oval(0.45, 0.45, 0.322, 0.13, pen.fill(withAlpha(_white, 0.12)));
+    pen.cylinder(0.5, 0.5, 0.07, 0.32, 0.68, shade(stein, -0.05));
+    pen.cylinder(0.5, 0.5, 0.18, 0.64, 0.72, stein, top: const Color(0xFF34576A));
+    pen.sphere(0.5, 0.5, 0.78, 0.05, shade(stein, 0.1));
+  }
+
+  void _bank(IsoPen pen) {
+    for (final u in [0.12, 0.82]) {
+      pen.box(u, 0.32, u + 0.06, 0.68, 0, 0.26, _eisen);
+    }
+    pen.box(0.08, 0.34, 0.92, 0.66, 0.26, 0.31, pal.wood, edge: withAlpha(_white, 0.15));
+    pen.box(0.08, 0.3, 0.92, 0.35, 0.31, 0.56, shade(pal.wood, -0.1));
+  }
+
+  void _stufen(IsoPen pen) {
+    // Begehbar: drei Kanten aus Sandstein, flach auf dem Boden.
+    for (var i = 0; i < 3; i++) {
+      final v0 = i / 3, v1 = (i + 1) / 3;
+      pen.topRect(0.0, v0, 1.0, v1, 0.01 + i * 0.012, pen.fill(shade(_sandstein, 0.06 - 0.07 * i)));
+      pen.c.drawLine(pen.p(0, v1, 0.012 + i * 0.012), pen.p(1, v1, 0.012 + i * 0.012), pen.stroke(shade(_sandstein, -0.4), 1.0));
+    }
+  }
+
+  void _tor(IsoPen pen) {
+    final stein = _stein;
+    pen.box(0.0, 0.36, 0.18, 0.64, 0, 1.8, stein, edge: withAlpha(_white, 0.1));
+    pen.box(-0.02, 0.34, 0.2, 0.66, 1.8, 1.88, shade(stein, 0.15));
+    for (final z in [0.2, 1.35]) {
+      pen.c.drawLine(pen.p(0.18, 0.5, z), pen.p(1.0, 0.5, z), pen.stroke(_eisen, 2.2));
+    }
+    for (var u = 0.26; u < 1.0; u += 0.12) {
+      pen.c.drawLine(pen.p(u, 0.5, 0.04), pen.p(u, 0.5, 1.55), pen.stroke(_eisen, 1.6));
+      pen.sphere(u, 0.5, 1.58, 0.025, _eisen);
+    }
+  }
+
+  void _zinne(IsoPen pen) {
+    final stein = _stein;
+    pen.box(0.08, 0.2, 0.92, 0.8, 0, 0.82, stein, edge: withAlpha(_white, 0.1));
+    pen.box(0.04, 0.16, 0.96, 0.84, 0.82, 0.9, shade(stein, 0.15));
+  }
+
+  void _laterne(IsoPen pen) {
+    pen.oval(0.5, 0.5, 0, 0.16, pen.fill(withAlpha(_schwarz, 0.3)));
+    pen.cylinder(0.5, 0.5, 0.09, 0, 0.12, _eisen);
+    pen.cylinder(0.5, 0.5, 0.035, 0.12, 1.7, _eisen);
+    pen.box(0.4, 0.4, 0.6, 0.6, 1.7, 1.96, const Color(0xFFFFE2A8), edge: _eisen);
+    pen.cylinder(0.5, 0.5, 0.15, 1.96, 2.04, _eisen, rTop: 0.02);
+  }
+
+  void _beet(IsoPen pen, Rng rng) {
+    pen.box(0.04, 0.04, 0.96, 0.96, 0, 0.18, shade(_stein, 0.1));
+    pen.topRect(0.1, 0.1, 0.9, 0.9, 0.181, pen.fill(const Color(0xFF3B2A1E)));
+    const farben = [Color(0xFF8E3B52), Color(0xFFD9B44A), Color(0xFF6C5A9A), Color(0xFFE6E0D2)];
+    for (var i = 0; i < 7; i++) {
+      final u = 0.2 + rng.nextDouble() * 0.6, v = 0.2 + rng.nextDouble() * 0.6;
+      final bluete = farben[rng.nextInt(farben.length)];
+      pen.part(u, v, () {
+        pen.cylinder(u, v, 0.012, 0.18, 0.28, const Color(0xFF3E5A32));
+        pen.sphere(u, v, 0.3, 0.045, bluete);
+      });
+    }
+    pen.flush();
+  }
+
+  void _herd(IsoPen pen) {
+    const eisen = Color(0xFF2A2B2F);
+    pen.box(0.04, 0.12, 0.96, 0.85, 0, 0.75, eisen, edge: withAlpha(_white, 0.15));
+    pen.onFront(0.85, () {
+      pen.c.drawRect(const Rect.fromLTRB(0.15, 0.12, 0.85, 0.42), Paint()..color = const Color(0xFF1A1B1E));
+      pen.c.drawRect(const Rect.fromLTRB(0.1, 0.5, 0.9, 0.54), Paint()..color = _brass);
+    });
+    pen.box(0.02, 0.1, 0.98, 0.87, 0.75, 0.8, const Color(0xFF3A3B40));
+    for (final u in [0.3, 0.7]) {
+      pen.oval(u, 0.48, 0.801, 0.13, pen.fill(const Color(0xFF16171A)));
+    }
+    // Kupfertopf
+    pen.cylinder(0.7, 0.48, 0.11, 0.8, 0.95, const Color(0xFFB8733F), top: const Color(0xFF8A5530));
+  }
+
+  void _truhe(IsoPen pen) {
+    final holz = shade(pal.wood, -0.05);
+    pen.box(0.12, 0.25, 0.88, 0.75, 0, 0.34, holz, edge: withAlpha(_white, 0.15));
+    pen.box(0.1, 0.23, 0.9, 0.77, 0.34, 0.44, shade(holz, 0.1));
+    pen.onFront(0.77, () {
+      for (final u in [0.25, 0.75]) {
+        pen.c.drawRect(Rect.fromLTRB(u - 0.03, 0.0, u + 0.03, 0.44), Paint()..color = const Color(0xFF3A3B40));
+      }
+      pen.c.drawRect(const Rect.fromLTRB(0.46, 0.22, 0.54, 0.32), Paint()..color = _brass);
+    });
   }
 }
