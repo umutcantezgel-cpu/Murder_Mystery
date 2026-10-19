@@ -25,7 +25,8 @@ const _dateien = [
 /// Kette, die hinter dem erlaubten Teil weiterläuft ([_weiter]), oder die
 /// Sitzung als Ganzes außerhalb von [_sitzungAn].
 const _sitzungLesen = {
-  'lib/party/klasse_wirkung.dart': {'daten', 'daten.hat', 'randgespraechMoeglich', 'solo', 'besetzt.contains'},
+  // Sitze (M3b, M6.4): Klasse und Wirkung nur am Gerät des Detektiv-Sitzes.
+  'lib/party/klasse_wirkung.dart': {'daten', 'daten.hat', 'randgespraechMoeglich', 'solo', 'besetzt.contains', 'detektivKlasse', 'detektivAmGeraet'},
   'lib/party/karten_quelle.dart': {'phase', 'runde', 'laufendeEntscheidung', 'spiel.gewaehlt', 'zug', 'abstecherOffen'},
 };
 
