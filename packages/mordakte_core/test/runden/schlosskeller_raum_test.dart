@@ -11,11 +11,27 @@ import 'befragung_treiber.dart';
 final _texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
 final _erm = Ermittlung(kanon);
 
-SchlosskellerRaum _raum({String pfad = 'ahmet', KartenKatalog? katalog}) => SchlosskellerRaum(
+SchlosskellerRaum _raum({String pfad = 'ahmet', KartenKatalog? katalog, bool fest = false}) => SchlosskellerRaum(
   raumCode: 'ABCD', kanon: kanon, texte: _texte,
   fallCode: FallCode.fuerPfad(pfad, kanon.pfade), salz: 'pruefung-raumsalz-unabhaengig-vom-pfad',
-  katalog: katalog,
+  katalog: katalog, festerGastgeber: fest,
 );
+
+/// Die vier Altakten (Modell legacy, ohne Vorleser-Sitz); sie laufen online wie vor M3.
+const _altakten = ['gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm'];
+
+/// Raum einer Akte [akte] mit ihrem ersten Täterpfad (der Pfad steht im Ergebnis).
+(SchlosskellerRaum, String) _akteRaum(String akte) {
+  if (akte == 'schlosskeller') return (_raum(), 'ahmet');
+  final k = ladeKanon(akte);
+  final t = Texte(k, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/$akte/$p')));
+  final pfad = k.pfade.first;
+  return (
+    SchlosskellerRaum(raumCode: 'ABCD', kanon: k, texte: t, akte: akte,
+        fallCode: FallCode.fuerPfad(pfad, k.pfade), salz: 'pruefung-raumsalz-unabhaengig-vom-pfad'),
+    pfad,
+  );
+}
 
 Map<String, Object?> _map(Object? value) => (value as Map).cast<String, Object?>();
 List<Map<String, Object?>> _liste(Object? value) => [for (final v in value as List) _map(v)];
@@ -34,50 +50,79 @@ void _start(SchlosskellerRaum r, int clients, int rollen, {List<String>? vorrat}
   _befehl(r, 'p0', 'start', {'rollen': rollen, 'vorrat': ?vorrat});
 }
 
+/// Sitze eines Testabends: wer „Weiter“ drückt (Erzähler, sonst Detektiv) und wer ermittelt.
+typedef _Sitze = ({String leiter, String detektiv, String? erzaehler});
+const _sitzeStandard = (leiter: 'p0', detektiv: 'p0', erzaehler: null);
+
+/// Die drei Konstellationen des Online-Abends (M3): Gastgeber p0, Gast p1.
+const _konstellationen = <String, ({String detektiv, String? erzaehler})>{
+  'Host = Erzähler + Gast = Detektiv': (detektiv: 'p1', erzaehler: 'p0'),
+  'Host = Detektiv ohne Erzähler': (detektiv: 'p0', erzaehler: null),
+  'Host = Detektiv + Gast = Erzähler': (detektiv: 'p0', erzaehler: 'p1'),
+};
+
+/// Startet mit [clients] Geräten (p0 Gastgeber) und den Sitzen [detektiv]/[erzaehler];
+/// [klasse] reist mit dem Detektiv-Sitz. Die Sitze werden in der Lobby vergeben.
+_Sitze _startMitSitzen(SchlosskellerRaum r, int clients, int rollen, {String detektiv = 'p0', String? erzaehler, String? klasse}) {
+  for (var i = 0; i < clients; i++) {
+    expect(r.beitreten('p$i', 'Person $i'), isTrue);
+  }
+  if (erzaehler != null) _befehl(r, 'p0', 'sitz', {'spieler': erzaehler, 'sitz': 'erzaehler'});
+  _befehl(r, 'p0', 'sitz', {'spieler': detektiv, 'sitz': 'detektiv', 'klasse': ?klasse});
+  for (var i = 0; i < clients; i++) {
+    _befehl(r, 'p$i', 'bereit', {'wert': true});
+  }
+  _befehl(r, 'p0', 'start', {'rollen': rollen});
+  return (leiter: erzaehler ?? detektiv, detektiv: detektiv, erzaehler: erzaehler);
+}
+
 /// Treiber benutzt nur Ansichten und Nachrichten, niemals den internen Zustand.
-void _schritt(SchlosskellerRaum r, {String pfad = 'ahmet', bool bestesSpiel = true}) {
-  final s = r.zustandFuer('p0');
+/// Der Detektiv-Sitz ermittelt, der Leiter (Erzähler, sonst Detektiv) geht weiter.
+void _schritt(SchlosskellerRaum r, {String pfad = 'ahmet', bool bestesSpiel = true, _Sitze sitze = _sitzeStandard}) {
+  final d = sitze.detektiv, l = sitze.leiter;
+  final s = r.zustandFuer(d);
   switch (s['phase']) {
     case 'rollen':
       for (final t in _liste(s['spieler'])) {
         if (t['rolle'] != null && t['online'] == true) _befehl(r, t['id'] as String, 'rollenGelesen');
       }
-      _befehl(r, 'p0', 'weiter');
+      _befehl(r, l, 'weiter');
     case 'entscheidungen':
       if (s['zug'] case final Map zug) {
         switch (zug['phase']) {
           case 'aktion':
-            _befehl(r, 'p0', 'aktionFertig', {'aktion': zug['aktion']});
+            _befehl(r, d, 'aktionFertig', {'aktion': zug['aktion']});
           case 'wurf':
             _befehl(r, s['wuerfelPate'] as String, 'wurf');
           case 'tischruf':
-            _befehl(r, 'p0', 'tischruf', {'ruf': (zug['aktion'] as int).isEven ? 'nochmal' : 'umweg'});
+            _befehl(r, d, 'tischruf', {'ruf': (zug['aktion'] as int).isEven ? 'nochmal' : 'umweg'});
           case 'fund':
-            _befehl(r, 'p0', 'fundGelesen');
+            _befehl(r, d, 'fundGelesen');
           default:
             fail('Unbekannter Zugabschnitt');
         }
       } else if (s['entscheidung'] case final Map e) {
         final option = bestesSpiel ? _erm.entscheidung(e['id'] as String).richtig[pfad]! : _liste(e['optionen']).first['id'];
-        _befehl(r, 'p0', 'wahl', {'option': option});
+        _befehl(r, d, 'wahl', {'option': option});
       } else {
-        _befehl(r, 'p0', 'weiter');
+        _befehl(r, l, 'weiter');
       }
     case 'gespraeche':
-      befragungenErledigen(s, (typ, daten) => _befehl(r, 'p0', typ, daten));
-      _befehl(r, 'p0', 'weiter');
+      befragungenErledigen(s, (typ, daten) => _befehl(r, d, typ, daten));
+      _befehl(r, l, 'weiter');
     case 'gruppenwahl':
       for (final t in _liste(s['spieler'])) {
+        if (t['online'] != true) continue;
         final id = t['id'] as String;
         final privat = _map(r.zustandFuer(id)['privat']);
         if (privat['rolle'] != null && privat['hatGestimmt'] == false) _befehl(r, id, 'stimme', {'kooperativ': true});
       }
-      _befehl(r, 'p0', 'weiter');
+      _befehl(r, l, 'weiter');
     case 'anklage':
-      _befehl(r, 'p0', 'anklage', {'person': pfad});
-      _befehl(r, 'p0', 'weiter');
+      _befehl(r, d, 'anklage', {'person': pfad});
+      _befehl(r, l, 'weiter');
     default:
-      _befehl(r, 'p0', 'weiter');
+      _befehl(r, l, 'weiter');
   }
 }
 
@@ -111,10 +156,10 @@ void main() {
     expect(() => _befehl(r, 'p0', 'start', {'rollen': 4}), throwsA(_fehler('not_ready')));
     expect(() => _befehl(r, 'p1', 'bereit', {'wert': true, 'spieler': 'p0'}), throwsA(_fehler('invalid')));
     expect(r.zustandFuer('p0'), vorher);
-    // Kapazität: maxRollen (20) + Leitung + vier Assistenz-Plätze = 25 Geräte.
-    for (var i = 2; i <= 24; i++) { expect(r.beitreten('p$i', 'Person $i'), isTrue); }
+    // Kapazität: maxRollen (20) + Detektiv- und Erzähler-Sitz + vier Assistenz-Plätze = 26 Geräte.
+    for (var i = 2; i <= 25; i++) { expect(r.beitreten('p$i', 'Person $i'), isTrue); }
     expect(r.beitreten('zu-viel', 'Niemand'), isFalse);
-    expect(r.spielerIds, hasLength(25));
+    expect(r.spielerIds, hasLength(26));
   });
 
   test('4–20 Rollen: jedes Gerät erhält ausschließlich sein eigenes Dossier', () {
@@ -188,7 +233,9 @@ void main() {
       taeterSabotiert: stimmen['ahmet'] == false);
     _befehl(r, 'p0', 'weiter');
     final hinweis = gruppe.hinweis('ahmet', 1, qualitaet)['text'];
-    expect(r.zustandFuer('p0')['erzaehler'], contains(hinweis));
+    // Vorleser-Sitz: Ohne Erzähler liest der Detektiv (p0) den Bonus-Hinweis vor, privat.
+    expect(_map(r.zustandFuer('p0')['privat'])['erzaehler'], contains(hinweis));
+    expect(r.zustandFuer('p0').containsKey('erzaehler'), isFalse);
   });
 
   test('Öffentliche Auswahlreihenfolge und Würfe verraten keinen Fall-Code/Pfad', () {
@@ -309,10 +356,46 @@ void main() {
     final s = r.zustandFuer('p1');
     expect(s['host'], 'p1');
     expect(_map(s['privat'])['rolle'], rolle);
-    expect(_map(s['privat'])['detektiv'], isFalse);
+    // M3: Der Detektiv-Sitz bleibt beim alten Gastgeber. Solange er aufgegeben hat,
+    // ermittelt und liest der neue Gastgeber (sonst stünde der Abend still).
+    expect([r.detektivGeraet, r.ermittler, r.vorleser], ['p0', 'p1', 'p1']);
+    expect(_map(s['privat'])['detektiv'], isTrue);
+    expect(_map(s['privat'])['vorleser'], isTrue);
+    expect(() => _befehl(r, 'p2', 'wahl', {'option': 'x'}), throwsA(_fehler('not_detective')));
     expect(r.beitreten('p0', 'Leitung zurück'), isTrue);
     expect(_map(r.zustandFuer('p0')['privat']).containsKey('dossier'), isFalse);
     expect(r.zustandFuer('p0')['host'], 'p1');
+    expect([r.ermittler, r.vorleser], ['p0', 'p0'], reason: 'Der Detektiv ist zurück, ermittelt und liest wieder');
+    expect(_map(r.zustandFuer('p1')['privat'])['detektiv'], isFalse);
+    expect(() => _befehl(r, 'p1', 'wahl', {'option': 'x'}), throwsA(_fehler('not_detective')));
+  });
+
+  test('Ohne festen Gastgeber: Gibt der Detektiv-Gastgeber auf, führt der neue Gastgeber den Abend zu Ende (alle Akten)', () {
+    for (final akte in ['schlosskeller', ..._altakten]) {
+      final (r, pfad) = _akteRaum(akte);
+      _start(r, 4, 4);
+      for (var i = 0; i < 100 && r.zustandFuer('p0')['phase'] != 'entscheidungen'; i++) {
+        _schritt(r, pfad: pfad, bestesSpiel: false);
+      }
+      r.verlassen('p0'); // Gnadenfrist abgelaufen
+      final s = r.zustandFuer('p1');
+      expect([s['host'], r.detektivGeraet, r.ermittler, r.vorleser], ['p1', 'p0', 'p1', 'p1'], reason: akte);
+      expect(_map(s['privat'])['detektiv'], isTrue, reason: akte);
+      expect(() => _befehl(r, 'p2', 'fundGelesen'), throwsA(_fehler('not_detective')), reason: akte);
+      const ersatz = (leiter: 'p1', detektiv: 'p1', erzaehler: null);
+      var befragt = 0;
+      for (var i = 0; i < 400 && !r.beendet; i++) {
+        final privat = _map(r.zustandFuer('p1')['privat']);
+        if (privat['befragungen'] is List) {
+          // Der Vertreter spielt selbst eine Rolle: Er bekommt die Karten des Detektivs und seinen Spickzettel.
+          expect(privat['befragung'], isA<Map>(), reason: akte);
+          befragt++;
+        }
+        _schritt(r, pfad: pfad, bestesSpiel: false, sitze: ersatz);
+      }
+      expect(r.beendet, isTrue, reason: '$akte: Der Abend hängt nach dem Host-Wechsel');
+      expect(befragt, akte == 'schlosskeller' ? greaterThan(0) : 0, reason: akte);
+    }
   });
 
   test('Solo/Bots und 4/12/20/21 Geräte: vier Pfade vollständig, eigene Karten, prüfbare Würfe', () {
@@ -342,5 +425,334 @@ void main() {
         }
       }
     }
+  });
+
+  group('Sitze und Vorleser-Sitz (M3)', () {
+    final npcTexte = {for (final e in _texte.sammlung.bausteine.entries) if (e.key.startsWith('npc.')) e.value};
+    for (final MapEntry(key: name, value: k) in _konstellationen.entries) {
+      test('$name: ganzer Abend; Erzähltext nur beim Vorleser, Erzählerpaket nur beim Erzähler, Notizen beim Detektiv', () {
+        final sitzZahl = k.erzaehler == null ? 1 : 2;
+        var notizen = 0;
+        for (final pfad in kanon.pfade) {
+          for (final clients in [3, 8]) {
+            final rollen = (clients - sitzZahl).clamp(4, 20);
+            final r = _raum(pfad: pfad);
+            final sitze = _startMitSitzen(r, clients, rollen, detektiv: k.detektiv, erzaehler: k.erzaehler);
+            final ids = [for (var i = 0; i < clients; i++) 'p$i'];
+            final vorleser = k.erzaehler ?? k.detektiv;
+            final geheim = <String>{
+              for (final rolle in _texte.besetzung.besetzt(rollen)) ...[
+                for (final z in _texte.dossier(rolle, pfad, rollen).verbirgt) z.text,
+                for (final z in _texte.dossier(rolle, pfad, rollen).tatwissen) z.text,
+                ?_texte.dossier(rolle, pfad, rollen).tarnung,
+              ],
+            };
+            final vorgelesen = <String>{};
+            final vorFinale = <String, List<Map<String, Object?>>>{for (final id in ids) id: []};
+            var pakete = 0;
+            for (var i = 0; i < 400 && !r.beendet; i++) {
+              final alle = {for (final id in ids) id: r.zustandFuer(id)};
+              final oeffentlich = jsonEncode(_oeffentlich(alle['p0']!));
+              for (final MapEntry(key: id, value: v) in alle.entries) {
+                final privat = _map(v['privat']);
+                final grund = '$name/$pfad/$clients/$id/${v['phase']}';
+                expect(jsonEncode(_oeffentlich(v)), oeffentlich, reason: '$grund: öffentlicher Teil für alle gleich');
+                expect(privat['detektiv'], id == k.detektiv, reason: grund);
+                expect(privat.containsKey('erzaehlerPaket'), id == k.erzaehler, reason: grund);
+                expect(privat.containsKey('erzaehlerNotizen'), id == k.detektiv, reason: grund);
+                if (id == k.detektiv || id == k.erzaehler) expect(privat.keys.toSet().intersection({'rolle', 'dossier'}), isEmpty, reason: grund);
+                if (privat['erzaehlerNotizen'] case final List n) {
+                  expect(npcTexte.containsAll(n), isTrue, reason: '$grund: Notizen sind nur npc-Wissen');
+                  notizen += n.length;
+                }
+                if (privat['erzaehlerPaket'] case final Map paket) {
+                  final soll = erzaehlerPaket(_texte, Befragungsplan(_texte), n: rollen, runde: (v['runde'] as int).clamp(1, 3)).toJson();
+                  expect(jsonEncode(paket), jsonEncode(soll), reason: grund);
+                  pakete++;
+                }
+                if (id == k.erzaehler) {
+                  expect(_schluessel(v).toSet().intersection({'dossier', 'verbirgt', 'tatwissen', 'tarnung'}), isEmpty, reason: grund);
+                }
+                expect(v['wuerfelPate'], isNot(k.erzaehler ?? '-'), reason: '$grund: Der Erzähler würfelt nie');
+                if (['finale', 'aufloesung', 'ende'].contains(v['phase'])) {
+                  // Nach dem Finale dürfen alle die Auflösungstexte sehen.
+                  expect(v['erzaehler'], _map(alle[vorleser]!['privat'])['erzaehler'], reason: grund);
+                  continue;
+                }
+                vorFinale[id]!.add(v);
+                expect(v.containsKey('erzaehler'), isFalse, reason: '$grund: kein öffentlicher Erzähltext');
+                expect(v['erzaehlerLiest'], (v['bausteinZahl'] as int) > 0, reason: grund);
+                if (id == vorleser) {
+                  final texte = (privat['erzaehler'] as List).cast<String>();
+                  expect([texte.length, privat['vorleser']], [v['bausteinZahl'], true], reason: grund);
+                  vorgelesen.addAll(texte);
+                } else {
+                  expect(privat.keys.toSet().intersection({'erzaehler', 'vorleser'}), isEmpty, reason: grund);
+                }
+              }
+              _schritt(r, pfad: pfad, sitze: sitze);
+            }
+            expect(r.beendet, isTrue, reason: '$name/$pfad/$clients');
+            final aufloesung = _map(r.zustandFuer('p0')['aufloesung']);
+            expect([aufloesung['pfad'], aufloesung['punkte'], aufloesung['ende']], [pfad, 9, 'ende_meister']);
+            expect(vorgelesen, isNotEmpty);
+            expect(pakete, k.erzaehler == null ? 0 : greaterThan(0));
+            for (final id in ids) {
+              for (final v in vorFinale[id]!) {
+                final privat = Map.of(_map(v['privat']))..remove('erzaehlerNotizen');
+                final text = jsonEncode({...v, 'privat': privat});
+                if (id != vorleser) {
+                  for (final t in vorgelesen) {
+                    expect(text.contains(jsonEncode(t)), isFalse, reason: '$name/$pfad/$id sieht Erzähltext vor dem Finale: $t');
+                  }
+                }
+                if (id == k.erzaehler) {
+                  // Öffentlich ist für alle gleich (oben geprüft; Funde dürfen dort stehen). Was nur der
+                  // Erzähler bekommt, enthält nie verbirgt, Tatwissen oder Tarnung.
+                  final nurErzaehler = jsonEncode(privat);
+                  for (final t in geheim) {
+                    expect(nurErzaehler.contains(t), isFalse, reason: '$name/$pfad: Erzähler sieht verbirgt/Tatwissen/Tarnung: $t');
+                  }
+                }
+              }
+            }
+          }
+        }
+        expect(notizen, greaterThan(0), reason: 'Der Detektiv hat npc-Wissen notiert');
+      });
+    }
+
+    test('Ohne Erzähler bekommt nur der Detektiv den Erzähltext', () {
+      final r = _raum();
+      final sitze = _startMitSitzen(r, 4, 4);
+      _bis(r, (s) => s['phase'] == 'gespraeche');
+      expect(r.vorleser, 'p0');
+      final texte = _map(r.zustandFuer('p0')['privat'])['erzaehler'] as List;
+      expect(texte, isNotEmpty);
+      for (final id in ['p1', 'p2', 'p3']) {
+        final v = r.zustandFuer(id);
+        expect([v['erzaehlerLiest'], v['bausteinZahl'], v.containsKey('erzaehler'), _map(v['privat']).containsKey('erzaehler')],
+            [true, texte.length, false, false], reason: id);
+      }
+      expect(sitze.leiter, 'p0');
+    });
+
+    test('Gast-Detektiv darf wahl und ermitteln; andere Gäste und der Erzähler-Gastgeber nicht', () {
+      final r = _raum();
+      final sitze = _startMitSitzen(r, 4, 4, detektiv: 'p1', erzaehler: 'p0');
+      for (var i = 0; i < 400; i++) {
+        final s = r.zustandFuer('p1');
+        if (s['phase'] == 'entscheidungen' && s['entscheidung'] is Map && s['zug'] == null) break;
+        _schritt(r, sitze: sitze);
+      }
+      final e = _map(r.zustandFuer('p1')['entscheidung']);
+      final option = _erm.entscheidung(e['id'] as String).richtig['ahmet']!;
+      final vorher = r.zustandFuer('p0');
+      for (final id in ['p0', 'p2', 'p3']) {
+        expect(() => _befehl(r, id, 'wahl', {'option': option}), throwsA(_fehler('not_detective')), reason: id);
+        expect(() => _befehl(r, id, 'anklage', {'person': 'ahmet'}), throwsA(_fehler('not_detective')), reason: id);
+        expect(() => _befehl(r, id, 'karte', {'id': 'x'}), throwsA(_fehler('not_detective')), reason: id);
+        expect(() => _befehl(r, id, 'abstecher', {'ort': 'x'}), throwsA(_fehler('not_detective')), reason: id);
+        expect(() => _befehl(r, id, 'fundGelesen'), throwsA(_fehler('not_detective')), reason: id);
+      }
+      // Der Gast-Detektiv geht nicht weiter, solange ein Erzähler da ist; eine Rolle nie.
+      expect(() => _befehl(r, 'p1', 'weiter'), throwsA(_fehler('not_host')));
+      expect(() => _befehl(r, 'p2', 'weiter'), throwsA(_fehler('not_host')));
+      expect(r.zustandFuer('p0'), vorher);
+      _befehl(r, 'p1', 'wahl', {'option': option});
+      // Den Lauf meldet die Karte des Detektivs, ersatzweise der Gastgeber; die Nummer verhindert Doppelte.
+      final zug = _map(r.zustandFuer('p1')['zug']);
+      expect(zug['phase'], 'aktion');
+      expect(() => _befehl(r, 'p2', 'aktionFertig', {'aktion': zug['aktion']}), throwsA(_fehler('not_detective')));
+      _befehl(r, 'p0', 'aktionFertig', {'aktion': zug['aktion']});
+      expect(() => _befehl(r, 'p1', 'aktionFertig', {'aktion': zug['aktion']}), throwsA(_fehler('stale')));
+    });
+
+    test('Befragungen nur vom Detektiv-Sitz, auch wenn er ein Gast ist', () {
+      final r = _raum();
+      final sitze = _startMitSitzen(r, 4, 4, detektiv: 'p1', erzaehler: 'p0');
+      _bis(r, (s) => s['phase'] == 'gespraeche');
+      final karten = _liste(_map(r.zustandFuer('p1')['privat'])['befragungen']);
+      expect(karten, isNotEmpty);
+      expect(_map(r.zustandFuer('p0')['privat']).containsKey('befragungen'), isFalse, reason: 'Der Erzähler-Gastgeber hat keine Detektivkarten');
+      expect(() => _befehl(r, 'p0', 'befragen', {'id': karten.first['id'], 'frage': 0}), throwsA(_fehler('not_detective')));
+      _befehl(r, 'p1', 'befragen', {'id': karten.first['id'], 'frage': 0});
+      befragungenErledigen(r.zustandFuer('p1'), (typ, d) => _befehl(r, 'p1', typ, d));
+      _befehl(r, sitze.leiter, 'weiter');
+      expect(r.zustandFuer('p0')['phase'], 'entscheidungen');
+    });
+
+    test('Fällt der Erzähler aus, darf der Gastgeber leiten; gibt er auf, liest der Detektiv', () {
+      final r = _raum();
+      _startMitSitzen(r, 4, 4, erzaehler: 'p1');
+      for (final id in ['p2', 'p3']) {
+        if (r.rolleVon(id) != null) _befehl(r, id, 'rollenGelesen');
+      }
+      expect(() => _befehl(r, 'p0', 'weiter'), throwsA(_fehler('not_host')), reason: 'Der Erzähler ist da');
+      r.verbunden('p1', false);
+      _befehl(r, 'p0', 'weiter');
+      expect(r.zustandFuer('p0')['phase'], isNot('rollen'));
+      expect(r.vorleser, 'p0', reason: 'Wer leitet, liest; offline bekommt kein Gerät Erzähltext');
+      r.verbunden('p1', true);
+      expect(r.vorleser, 'p1');
+      expect(() => _befehl(r, 'p0', 'weiter'), throwsA(_fehler('not_host')));
+      _befehl(r, 'p1', 'weiter');
+      r.verlassen('p1');
+      expect(r.vorleser, 'p0');
+      expect(_map(r.zustandFuer('p0')['privat'])['vorleser'], isTrue);
+      befragungenErledigen(r.zustandFuer('p0'), (typ, d) => _befehl(r, 'p0', typ, d));
+      _befehl(r, 'p0', 'weiter');
+      expect(r.zustandFuer('p0')['phase'], 'entscheidungen');
+    });
+
+    test('Fällt der Erzähler aus, bekommt der Leiter den Erzähltext; nichts geht an das getrennte Gerät', () {
+      final r = _raum(fest: true);
+      final sitze = _startMitSitzen(r, 6, 4, erzaehler: 'p1');
+      for (var i = 0; i < 20 && r.zustandFuer('p0')['phase'] != 'intro'; i++) {
+        _schritt(r, sitze: sitze);
+      }
+      r.verbunden('p1', false);
+      final gelesen = <String>[];
+      // Zwei Schritte während des Ausfalls: Intro und Gespräche der ersten Runde.
+      for (final phase in ['intro', 'gespraeche']) {
+        final v = r.zustandFuer('p0');
+        expect(v['phase'], phase);
+        expect(r.vorleser, 'p0', reason: phase);
+        final privat = _map(v['privat']);
+        expect([privat['vorleser'], (privat['erzaehler'] as List).length], [true, v['bausteinZahl']], reason: phase);
+        gelesen.addAll((privat['erzaehler'] as List).cast<String>());
+        befragungenErledigen(v, (typ, d) => _befehl(r, 'p0', typ, d));
+        _befehl(r, 'p0', 'weiter');
+      }
+      expect(gelesen, containsAll([_texte.baustein('runde.1.start'), _texte.baustein('npc.emine.1')]));
+      r.verbunden('p1', true);
+      expect(r.vorleser, 'p1', reason: 'Zurück liest der Erzähler wieder selbst');
+      expect(_map(r.zustandFuer('p0')['privat']).keys.toSet().intersection({'erzaehler', 'vorleser'}), isEmpty);
+    });
+
+    test('Ohne festen Gastgeber, Host = Erzähler + Gast = Detektiv: Fällt der Erzähler aus, leitet und liest der Detektiv, nie eine Rolle', () {
+      final r = _raum();
+      // p1 tritt vor dem Detektiv p2 bei und spielt eine Rolle; er wird neuer Gastgeber.
+      final sitze = _startMitSitzen(r, 5, 4, detektiv: 'p2', erzaehler: 'p0');
+      for (var i = 0; i < 20 && r.zustandFuer('p2')['phase'] != 'gespraeche'; i++) {
+        _schritt(r, sitze: sitze);
+      }
+      r.verbunden('p0', false); // Gnadenfrist läuft
+      expect(r.vorleser, 'p2');
+      final v = r.zustandFuer('p2');
+      expect((_map(v['privat'])['erzaehler'] as List).length, v['bausteinZahl']);
+      befragungenErledigen(v, (typ, d) => _befehl(r, 'p2', typ, d));
+      expect(() => _befehl(r, 'p1', 'weiter'), throwsA(_fehler('not_host')));
+      _befehl(r, 'p2', 'weiter');
+      r.verlassen('p0'); // Gnadenfrist abgelaufen
+      final s = r.zustandFuer('p1');
+      expect([s['host'], r.sitzVon('p1'), r.vorleser, r.ermittler], ['p1', Sitz.rolle, 'p2', 'p2']);
+      expect(_map(s['privat']).keys.toSet().intersection({'erzaehler', 'vorleser'}), isEmpty);
+      const weiter = (leiter: 'p2', detektiv: 'p2', erzaehler: null);
+      var abgelehnt = 0;
+      for (var i = 0; i < 400 && !r.beendet; i++) {
+        if (r.zustandFuer('p2')['kannWeiter'] == true) {
+          expect(() => _befehl(r, 'p1', 'weiter'), throwsA(_fehler('not_host')), reason: 'Eine Rolle leitet nie, auch als Gastgeber');
+          abgelehnt++;
+        }
+        _schritt(r, sitze: weiter);
+      }
+      expect(r.beendet, isTrue);
+      expect(abgelehnt, greaterThan(0));
+    });
+
+    test('Altakten ohne Vorleser-Sitz: Der Erzähltext bleibt wie vor M3 für alle öffentlich (Besitzerentscheidung 1)', () {
+      expect(_raum().vorleserSitz, isTrue);
+      for (final akte in _altakten) {
+        final (r, pfad) = _akteRaum(akte);
+        expect(r.vorleserSitz, isFalse, reason: akte);
+        _start(r, 5, 4);
+        var vorFinale = 0;
+        for (var i = 0; i < 400 && !r.beendet; i++) {
+          final gastgeber = r.zustandFuer('p0');
+          expect(gastgeber['erzaehler'], isA<List>(), reason: akte);
+          for (var g = 0; g < 5; g++) {
+            final v = r.zustandFuer('p$g');
+            final grund = '$akte/p$g/${v['phase']}';
+            expect(v['erzaehler'], gastgeber['erzaehler'], reason: grund);
+            expect(v.keys.toSet().intersection({'erzaehlerLiest', 'bausteinZahl'}), isEmpty, reason: grund);
+            expect(_map(v['privat']).keys.toSet().intersection({'erzaehler', 'vorleser'}), isEmpty, reason: grund);
+          }
+          if (!['finale', 'aufloesung', 'ende'].contains(gastgeber['phase'])) vorFinale += (gastgeber['erzaehler'] as List).length;
+          _schritt(r, pfad: pfad, bestesSpiel: false);
+        }
+        expect(r.beendet, isTrue, reason: akte);
+        expect(vorFinale, greaterThan(0), reason: '$akte: Die Gäste lesen vor dem Finale mit');
+      }
+    });
+
+    test('Der Erzähler würfelt und stimmt nie; Würfelpaten sind die übrigen Geräte', () {
+      final r = _raum();
+      final sitze = _startMitSitzen(r, 4, 4, detektiv: 'p1', erzaehler: 'p0');
+      final paten = <String>{};
+      for (var i = 0; i < 400 && !r.beendet; i++) {
+        final s = r.zustandFuer('p1');
+        if (s['wuerfelPate'] case final String pate) paten.add(pate);
+        if (s['phase'] == 'gruppenwahl') {
+          expect(() => _befehl(r, 'p0', 'stimme', {'kooperativ': true}), throwsA(_fehler('invalid_phase')));
+          expect(() => _befehl(r, 'p1', 'stimme', {'kooperativ': true}), throwsA(_fehler('invalid_phase')));
+        }
+        _schritt(r, sitze: sitze);
+      }
+      expect(r.beendet, isTrue);
+      expect(paten, {'p1', 'p2', 'p3'});
+    });
+
+    test('E-044: Der Detektiv-Sitz behält das npc-Wissen als Notiz, auch wenn der Erzähler vorliest', () {
+      final r = _raum();
+      final sitze = _startMitSitzen(r, 3, 4, detektiv: 'p1', erzaehler: 'p0');
+      _bis(r, (s) => s['phase'] == 'gespraeche');
+      final erzaehlt = (_map(r.zustandFuer('p0')['privat'])['erzaehler'] as List).cast<String>();
+      final soll = [for (final k in ['npc.emine.1', 'npc.dilara.1', 'npc.enes.1']) _texte.baustein(k)];
+      expect(erzaehlt, containsAll(soll));
+      final detektiv = _map(r.zustandFuer('p1')['privat']);
+      expect(detektiv.containsKey('erzaehler'), isFalse);
+      expect(detektiv['erzaehlerNotizen'], soll);
+      // Die Notiz bleibt über die Runde hinaus; die Ansicht des Erzählers trägt sie nur im Fenster.
+      befragungenErledigen(r.zustandFuer('p1'), (typ, d) => _befehl(r, 'p1', typ, d));
+      _befehl(r, sitze.leiter, 'weiter');
+      expect(_map(r.zustandFuer('p1')['privat'])['erzaehlerNotizen'], soll);
+      expect(_map(r.zustandFuer('p0')['privat'])['erzaehler'], isNot(containsAll(soll)));
+      // Altakte: keine Notizen, kein Paket (E-044 gilt nur im Modell befragung).
+      final gk = ladeKanon('gewoelbe');
+      final gt = Texte(gk, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/gewoelbe/$p')));
+      final g = SchlosskellerRaum(raumCode: 'ABCD', kanon: gk, texte: gt, akte: 'gewoelbe',
+          fallCode: FallCode.fuerPfad(gk.pfade.first, gk.pfade), salz: 'pruefung-raumsalz-unabhaengig-vom-pfad');
+      _startMitSitzen(g, 3, 4, detektiv: 'p1', erzaehler: 'p0');
+      expect(_map(g.zustandFuer('p1')['privat']).containsKey('erzaehlerNotizen'), isFalse);
+      expect(_map(g.zustandFuer('p0')['privat']).containsKey('erzaehlerPaket'), isFalse);
+    });
+
+    test('Die Klasse des Detektiv-Sitzes ändert den Abend nicht (Invarianz)', () {
+      // Alles außer der Klasse selbst: jede Ansicht jedes Geräts, Schritt für Schritt.
+      List<String> abend(String? klasse, String detektiv, String? erzaehler) {
+        final r = _raum(pfad: 'fatma');
+        final sitze = _startMitSitzen(r, 4, 4, detektiv: detektiv, erzaehler: erzaehler, klasse: klasse);
+        final verlauf = <String>[];
+        for (var i = 0; i < 400 && !r.beendet; i++) {
+          for (var g = 0; g < 4; g++) {
+            final v = r.zustandFuer('p$g');
+            final privat = Map.of(_map(v['privat']));
+            expect(privat.remove('klasse'), g == 0 || 'p$g' == detektiv ? klasse : null, reason: 'p$g sieht die Klasse');
+            verlauf.add(jsonEncode({...v, 'privat': privat}));
+          }
+          _schritt(r, pfad: 'fatma', bestesSpiel: false, sitze: sitze);
+        }
+        expect(r.beendet, isTrue);
+        return verlauf;
+      }
+
+      for (final (detektiv, erzaehler) in [('p1', 'p0'), ('p0', null)]) {
+        final ohne = abend(null, detektiv, erzaehler);
+        for (final f in KlassenFaehigkeit.values) {
+          expect(abend(f.klasse, detektiv, erzaehler), ohne, reason: '${f.klasse} / Detektiv $detektiv');
+        }
+      }
+    });
   });
 }

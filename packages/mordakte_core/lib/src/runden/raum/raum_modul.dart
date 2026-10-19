@@ -8,8 +8,12 @@ abstract class RaumKontext {
   /// Gerät der Spielleitung (Autorität).
   String? get host;
 
-  /// Gerät, das den Detektiv führt (heute der Host).
+  /// Gerät, das ermittelt: der Detektiv-Sitz (Gastgeber oder Gast, siehe
+  /// `runden/sitze.dart`); hat er den Abend aufgegeben, der Gastgeber.
   String? get detektiv;
+
+  /// Gerät auf dem Erzähler-Sitz; `null` ohne Erzähler.
+  String? get erzaehler;
 
   /// Laufende Partie; null vor dem Start. Nur lesen, Änderungen nie hier.
   RundenPartie? get partie;
@@ -33,6 +37,10 @@ abstract class RaumKontext {
   void nurHost(String id);
   void nurDetektiv(String id);
   void darfLeiten(String id);
+
+  /// Einzige schreibende Hilfe, nur für die Lobby: Ändern sich Sitz oder Figur
+  /// eines Geräts, muss es wieder `bereit` melden.
+  void bereitAufheben(String id);
 }
 
 /// Erweiterung des Raums mit eigenen Nachrichten und Ansichtsteilen.

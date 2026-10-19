@@ -38,6 +38,12 @@ class PartyDaten {
   /// Hat die Akte den Zusatz [faehigkeit] (`AkteInfo.hat`)?
   bool hat(String faehigkeit) => akte?.hat(faehigkeit) ?? false;
 
+  /// Kennt die Akte einen Erzähler-Sitz (Langer Abend M3)? Wie beim Raum
+  /// (`SchlosskellerRaum.vorleserSitz`) die Akten im Gesprächsmodell befragung,
+  /// heute nur der Schlosskeller. Die übrigen Akten bieten keinen Erzähler an und
+  /// zeigen ihre Texte wie bisher (Besitzerentscheidung 1).
+  bool get mitErzaehlerSitz => texte.besetzung.befragungsmodell;
+
   /// Aus einem synchronen Leser (Tests) und der Szenario-Vorlage. Für Akten
   /// außer dem Schlosskeller ergänzt [basis] fehlende Oberflächentexte aus
   /// der eingefrorenen Basis `content/party/basis-ui` (A-061).

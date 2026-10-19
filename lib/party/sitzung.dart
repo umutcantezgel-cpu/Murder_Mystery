@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
 import 'daten.dart';
+import 'erzaehler_begleitung.dart';
 import 'runden_texte.dart';
 import 'stand/befragung_stand.dart';
 
@@ -169,7 +170,11 @@ class PartySitzung extends ChangeNotifier {
   }
 
   /// Würfelpate wechselt mit jedem Wurf; Rollen haben keinen Einfluss auf die Augen.
-  String get wuerfelPate => solo ? personAmTisch(Besetzung.detektiv) : spielerName(besetzt[wuerfe.length % besetzt.length]);
+  String get wuerfelPate => solo ? personAmTisch(Besetzung.detektiv) : spielerName(wuerfelRolle!);
+
+  /// Rolle der Person, die als Nächste würfelt (reihum der Reihe nach); im Solo
+  /// würfelt der Detektiv (`null`).
+  String? get wuerfelRolle => solo ? null : besetzt[wuerfe.length % besetzt.length];
 
   /// Schreibt bei jedem Schritt eine Zeile `PARTY …` in die Konsole
   /// (Entwickler-Einstieg und E2E-Läufe).
@@ -210,6 +215,87 @@ class PartySitzung extends ChangeNotifier {
   /// Bausteine, die der Erzähler beim letzten Schritt ausgegeben hat.
   List<String> get erzaehler => spiel.bausteine.sublist(_erzaehlerAb);
   int _erzaehlerAb = 0;
+
+  // ---------------------------------------------------------------------------
+  // Sitze und Vorleser (Langer Abend M3)
+
+  /// Liest dieses Gerät die Erzähltexte vor? An einem Gerät ja (mit einem
+  /// Erzähler am Tisch über das verdeckte Pult, [erzaehlerAmPult]), außer der
+  /// Erzähler liest am eigenen Handy mit ([begleitung]); ab dem Finale lesen
+  /// alle. Online nur der Vorleser-Sitz des Raums. Wer nicht vorliest, sieht
+  /// nur, dass gerade vorgelesen wird (`ErzaehlerFeld`).
+  bool get istVorleser => nachFinale || !(_begleitung?.liest ?? false);
+
+  /// Name dessen, der gerade vorliest, wenn es nicht dieses Gerät ist; sonst
+  /// leer. Liest der Erzähler am Handy, der Name, mit dem er beigetreten ist:
+  /// So sieht der Tisch, wer wirklich liest ([ErzaehlerBegleitung.name]).
+  String get vorleserName {
+    if (istVorleser) return '';
+    final amHandy = _begleitung?.name.trim() ?? '';
+    return amHandy.isNotEmpty ? amHandy : erzaehlerName;
+  }
+
+  ErzaehlerBegleitung? _begleitung;
+
+  /// Erzähler-Begleiter (nur reihum mit Erzähler am Tisch): Das Gerät öffnet
+  /// einen Raum nur mit dem Erzählersitz, der Erzähler liest am eigenen Handy.
+  /// Gehört dem Bildschirm des Abends, der ihn auch entsorgt; liegt nie im Journal.
+  ErzaehlerBegleitung? get begleitung => _begleitung;
+
+  set begleitung(ErzaehlerBegleitung? b) {
+    if (identical(b, _begleitung)) return;
+    _begleitung?.removeListener(_begleitungGeaendert);
+    _begleitung = b;
+    b?.addListener(_begleitungGeaendert);
+  }
+
+  void _begleitungGeaendert() => notifyListeners();
+
+  /// Darf dieses Gerät „Weiter“ drücken? An einem Gerät immer; online nur, wer
+  /// gerade leitet (der Erzähler, sonst der Detektiv, sonst der Gastgeber).
+  bool get leitet => true;
+
+  /// Ist der Abschnitt fertig, egal welches Gerät weiterführt? An einem Gerät
+  /// dasselbe wie [kannWeiter].
+  bool get abschnittFertig => kannWeiter;
+
+  /// Läuft gerade die Frist, bevor dieses Gerät für einen getrennten Erzähler
+  /// übernimmt (online, zwei Minuten)? Bis dahin liest und leitet es noch nicht.
+  bool get uebernahmeFrist => false;
+
+  /// Führt dieses Gerät den Detektiv? An einem Gerät immer; online nur der
+  /// Detektiv-Sitz oder wer ihn vertritt. Nur dort liegen Detektivkarte,
+  /// Klassenwirkung und Klassen-Belohnung.
+  bool get detektivAmGeraet => true;
+
+  /// Klasse des Detektiv-Sitzes, wenn der Abend sie festlegt (online: der Raum,
+  /// die Klasse reist mit dem Sitz); `null`: die Ausrüstung dieses Geräts.
+  String? get detektivKlasse => null;
+
+  /// Sitzt an einem Gerät ein Erzähler mit am Tisch ([erzaehlerName])? Dann
+  /// liegen die Erzähltexte vor dem Finale im verdeckten Erzählerpult: Das Gerät
+  /// geht an den Erzähler, nur er schaut hin (Muster [zeigeVerdeckt]). Die
+  /// Auflösung lesen danach alle. Solo und Akten ohne Erzähler-Sitz nie.
+  bool get erzaehlerAmPult => !online && !solo && erzaehlerName.isNotEmpty && daten.mitErzaehlerSitz && !nachFinale;
+
+  bool _pult = false;
+
+  /// Ist das Erzählerpult offen (nur der Erzähler schaut hin)?
+  bool get pultOffen => _pult && erzaehlerAmPult;
+
+  /// „Ich bin der Erzähler, zeig her“: öffnet das Pult mit den Texten dieses Schritts.
+  void pultZeigen() {
+    if (!erzaehlerAmPult) throw StateError('Kein Erzähler am Tisch');
+    _pult = true;
+    notifyListeners();
+  }
+
+  /// Pult zudecken; der Bildschirm ist wieder neutral.
+  void pultSchliessen() {
+    if (!_pult) return;
+    _pult = false;
+    notifyListeners();
+  }
 
   /// Für Online-Abende: Der Raum hat die Partie verändert (eigener Befehl oder
   /// ein Gast). Gleicht Erzählerfenster und letzten Fund mit der Partie ab und
@@ -266,8 +352,19 @@ class PartySitzung extends ChangeNotifier {
   /// Spielernamen je Rolle.
   final Map<String, String> namen = {};
 
-  /// Name des Geburtstagskinds (Detektiv).
-  String geburtstagskind = '';
+  /// Name des Detektivs am Tisch (leer: „Detektiv“ der Akte).
+  String detektivName = '';
+
+  /// Früherer Name von [detektivName] (vor Langer Abend M3).
+  @Deprecated('detektivName')
+  String get geburtstagskind => detektivName;
+  @Deprecated('detektivName')
+  set geburtstagskind(String wert) => detektivName = wert;
+
+  /// Name des Erzählers beim Spiel an einem Gerät (Langer Abend M3); leer heißt:
+  /// kein Erzähler, das Gerät zeigt die Texte offen wie bisher. Nie im Solo und
+  /// nur in Akten mit Erzähler-Sitz ([PartyDaten.mitErzaehlerSitz]).
+  String erzaehlerName = '';
 
   /// Erzähler-Stimme an (lokal, abschaltbar).
   bool get stimmeAn => _stimmeAn;
@@ -298,6 +395,9 @@ class PartySitzung extends ChangeNotifier {
   }
 
   /// Einrichtung abschließen. [code] leer oder ungültig heißt: Zufall.
+  /// [erzaehlerName] (an einem Gerät, optional) setzt einen Erzähler an den
+  /// Tisch; im Solo gibt es keinen. [geburtstagskind] ist der frühere Name von
+  /// [detektivName] und gilt nur, wenn dieser fehlt.
   void einrichten({
     required int rollen,
     required String detektiv,
@@ -306,9 +406,14 @@ class PartySitzung extends ChangeNotifier {
     bool solo = false,
     int rundendauerMinuten = 30,
     Map<String, String> namen = const {},
-    String geburtstagskind = '',
+    String detektivName = '',
+    String erzaehlerName = '',
+    @Deprecated('detektivName') String? geburtstagskind,
   }) {
     if (solo && druck) throw ArgumentError('Solo ist kein Druckspiel');
+    if (solo && erzaehlerName.trim().isNotEmpty) throw ArgumentError('Im Solo gibt es keinen Erzähler');
+    if (erzaehlerName.trim().isNotEmpty && !daten.mitErzaehlerSitz) throw ArgumentError('Diese Akte hat keinen Erzähler-Sitz');
+    final detektivname = detektivName.trim().isEmpty ? (geburtstagskind ?? '') : detektivName;
     if (phase == PartyPhase.titel) _weiter();
     final c = (code == null ? null : FallCode.lesen(code)) ?? zufallsCode();
     final einstellung = Einstellungen(rollen: rollen, detektiv: detektiv, code: c, druck: druck, rundendauerMinuten: rundendauerMinuten);
@@ -330,7 +435,9 @@ class PartySitzung extends ChangeNotifier {
     this.namen
       ..clear()
       ..addAll({for (final r in besetzt) if (namen[r] != null) r: namen[r]!});
-    this.geburtstagskind = geburtstagskind;
+    this.detektivName = detektivname;
+    this.erzaehlerName = erzaehlerName.trim();
+    _pult = false;
     rundendauer = Duration(minutes: rundendauerMinuten);
     _merke('einrichten', {
       'rollen': rollen,
@@ -340,7 +447,8 @@ class PartySitzung extends ChangeNotifier {
       'solo': solo,
       'minuten': rundendauerMinuten,
       'namen': {...this.namen},
-      'geburtstagskind': geburtstagskind,
+      'detektivName': detektivname,
+      if (this.erzaehlerName.isNotEmpty) 'erzaehler': this.erzaehlerName,
     });
     _melde();
     notifyListeners();
@@ -420,7 +528,7 @@ class PartySitzung extends ChangeNotifier {
 
   /// Name einer Gesprächsperson am Tisch (Rolle oder Detektiv).
   String personAmTisch(String id) => id == (kanon.figurenJson['detektiv'] as Map)['id']
-      ? (geburtstagskind.trim().isEmpty ? ui('ui.allgemein.detektiv') : geburtstagskind.trim())
+      ? (detektivName.trim().isEmpty ? ui('ui.allgemein.detektiv') : detektivName.trim())
       : spielerName(id);
 
   final Map<int, List<BotGespraech>> _soloGespraeche = {};
@@ -567,6 +675,8 @@ class PartySitzung extends ChangeNotifier {
     }
     _erzaehlerAb = vorher;
     _verdeckt = null;
+    // Neue Texte liegen wieder zugedeckt im Pult, bis der Erzähler hinschaut.
+    _pult = false;
     if (phase == PartyPhase.gruppenwahl) {
       _stimmen.clear();
       if (solo) {
@@ -853,7 +963,9 @@ class PartySitzung extends ChangeNotifier {
           solo: b['solo'] == true,
           rundendauerMinuten: b['minuten'] as int? ?? 30,
           namen: ((b['namen'] as Map?) ?? const {}).cast<String, String>(),
-          geburtstagskind: text('geburtstagskind') ?? '',
+          // Abende vor M3 legten den Detektivnamen unter `geburtstagskind` ab.
+          detektivName: text('detektivName') ?? text('geburtstagskind') ?? '',
+          erzaehlerName: text('erzaehler') ?? '',
         );
       case 'zeigen':
         zeigeVerdeckt(text('rolle')!);

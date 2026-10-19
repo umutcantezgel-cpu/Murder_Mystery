@@ -81,6 +81,8 @@ RuntimeFactory loadSchlosskellerFactory(String dir) {
   final zufall = Random.secure();
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
     raumCode: roomCode, kanon: kanon, texte: texte,
+    // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
+    gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
     salz: [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join(),
   ));
@@ -119,6 +121,7 @@ Map<String, RuntimeFactory> loadAktenFactories(String partyDir) {
         final abstecher = ab.existsSync() ? AbstecherOrt.liste(json(ab.path)) : const <AbstecherOrt>[];
         return (String roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
               raumCode: roomCode, kanon: kanon, texte: texte, akte: id, katalog: katalog, abstecher: abstecher,
+              gastgeberSitz: Sitz.detektiv,
               fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
               salz: [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join(),
             ));

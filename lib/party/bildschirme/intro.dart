@@ -18,7 +18,7 @@ class IntroBildschirm extends StatelessWidget {
   @override
   Widget build(BuildContext context) => PartyRahmen(
         titel: sitzung.ui('ui.intro.titel'),
-        aktionen: [PartyKnopf(text: sitzung.ui('ui.intro.weiter'), onPressed: sitzung.weiter)],
+        aktionen: [PartyKnopf(text: sitzung.ui('ui.intro.weiter'), onPressed: sitzung.kannWeiter ? sitzung.weiter : null)],
         child: LayoutBuilder(
           // Schmal und mit großer Schrift liegen die Blätter fast bis zum Rand der Mappe.
           builder: (context, box) {

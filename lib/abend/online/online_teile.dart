@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show LookDef, renderLook;
+import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../party/daten.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
+import 'ansicht.dart';
 
 /// Gemeinsame Teile der Online-Bildschirme in der Ermittlungsmappe: Karteikarte
 /// eines Platzes am Tisch, Wartezettel mit Taschenuhr, Hinweiskarte und der
@@ -30,10 +32,18 @@ LookDef? onlineAussehen(PartyDaten? daten, String? id) {
   });
 }
 
-/// Kennung der Detektivfigur der Akte (die Spielleitung spielt sie).
+/// Kennung der Detektivfigur der Akte (das Gerät auf dem Detektiv-Sitz spielt sie).
 String? onlineDetektivId(PartyDaten? daten) {
   final d = daten?.kanon.figurenJson['detektiv'];
   return d is Map && d['id'] is String ? d['id'] as String : null;
+}
+
+/// Der Platz auf dem Detektiv-Sitz (Gastgeber oder Gast), sonst `null`.
+SpielerInfo? onlineDetektivPlatz(List<SpielerInfo> spieler) {
+  for (final s in spieler) {
+    if (s.sitz == Sitz.detektiv) return s;
+  }
+  return null;
 }
 
 /// Stempel für einen erledigten Zustand („Bereit“, „Gelesen“, „Abgestimmt“).
@@ -181,7 +191,7 @@ class OnlineBotReihe extends StatelessWidget {
       );
 }
 
-/// Getippter Wartezettel mit Taschenuhr: „Warten auf die Spielleitung …“.
+/// Getippter Wartezettel mit Taschenuhr: „Gleich geht es weiter …“.
 /// Mit [stempel] liegt darunter ein grüner Stempel (z. B. „Abgestimmt“).
 class OnlineWarteNotiz extends StatelessWidget {
   const OnlineWarteNotiz({

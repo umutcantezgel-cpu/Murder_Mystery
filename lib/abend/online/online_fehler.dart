@@ -20,6 +20,10 @@ String befehlsFehlerText(L l, String key) => switch (key) {
       'not_dice_player' => l.online_fehler_nicht_dran,
       'invalid_phase' || 'game_running' || 'not_started' || 'stale' => l.online_fehler_phase,
       'already_voted' => l.online_fehler_schon_gewaehlt,
+      // Sitze (Langer Abend M3): Start ohne Detektiv, Ermittlung nur vom Detektiv-Sitz, Weiter nur, wer leitet.
+      'seats' => l.online_fehler_sitze,
+      'not_detective' => l.online_fehler_nur_detektiv,
+      'not_host' => l.online_fehler_nicht_leitung,
       'zeitueberschreitung' || 'getrennt' || 'geschlossen' => l.online_fehler_keine_antwort,
       _ => l.online_fehler_allgemein,
     };

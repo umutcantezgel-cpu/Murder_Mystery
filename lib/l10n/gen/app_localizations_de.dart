@@ -81,7 +81,7 @@ class LDe extends L {
 
   @override
   String get hub_party_sub =>
-      'Ein Krimi für den Geburtstag, für 4 bis 20 Personen und ein Geburtstagskind';
+      'Ein Krimi für 4 bis 20 Gäste, einen Detektiv und auf Wunsch einen Erzähler';
 
   @override
   String get hub_section_party => 'Partyabende';
@@ -2585,7 +2585,7 @@ class LDe extends L {
 
   @override
   String get online_start_hinweis =>
-      'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.';
+      'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei.';
 
   @override
   String get online_oeffnen_fehler => 'Der Raum konnte nicht angelegt werden.';
@@ -2641,7 +2641,7 @@ class LDe extends L {
   String get online_tisch_leer => 'Noch ist niemand beigetreten.';
 
   @override
-  String get online_spielleitung => 'Spielleitung';
+  String get online_spielleitung => 'Gastgeber';
 
   @override
   String get online_bereit => 'Bereit';
@@ -2738,7 +2738,7 @@ class LDe extends L {
 
   @override
   String get online_rollen_erklaerung =>
-      'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.';
+      'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du hast keine Rolle zu lesen.';
 
   @override
   String online_rollen_warten(int x, int y) {
@@ -2798,7 +2798,7 @@ class LDe extends L {
 
   @override
   String get online_fehler_keine_antwort =>
-      'Keine Antwort von der Spielleitung. Versuche es noch einmal.';
+      'Keine Antwort vom Gastgeber. Versuche es noch einmal.';
 
   @override
   String get online_fehler_allgemein =>
@@ -2814,7 +2814,7 @@ class LDe extends L {
 
   @override
   String get online_fehler_kein_raum =>
-      'Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.';
+      'Es gibt keinen Raum mit diesem Code, oder der Gastgeber ist nicht online.';
 
   @override
   String get online_fehler_zeit =>
@@ -2845,7 +2845,7 @@ class LDe extends L {
 
   @override
   String get online_beitreten_untertitel =>
-      'Gib den Raumcode ein, den die Spielleitung zeigt.';
+      'Gib den Raumcode ein, den der Gastgeber zeigt.';
 
   @override
   String get online_code_feld => 'Raumcode';
@@ -2896,7 +2896,7 @@ class LDe extends L {
   String get online_status_verbinde => 'Verbinde …';
 
   @override
-  String get online_status_pausiert => 'Spielleitung getrennt – Abend pausiert';
+  String get online_status_pausiert => 'Gastgeber getrennt – Abend pausiert';
 
   @override
   String get online_status_geschlossen => 'Der Abend wurde beendet.';
@@ -2926,7 +2926,7 @@ class LDe extends L {
 
   @override
   String get online_gast_lobby_hinweis =>
-      'Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.';
+      'Tippe auf „Bereit“. Sind alle bereit, startet der Gastgeber den Abend.';
 
   @override
   String get online_bereit_knopf => 'Bereit';
@@ -2966,7 +2966,7 @@ class LDe extends L {
 
   @override
   String get online_gelesen_warten =>
-      'Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.';
+      'Du hast deine Rolle gelesen. Es geht weiter, sobald alle gelesen haben.';
 
   @override
   String get online_assistenz_text =>
@@ -2978,7 +2978,7 @@ class LDe extends L {
   }
 
   @override
-  String get online_warten_spielleitung => 'Warten auf die Spielleitung …';
+  String get online_warten_spielleitung => 'Gleich geht es weiter …';
 
   @override
   String online_runde(int n) {
@@ -3066,11 +3066,11 @@ class LDe extends L {
   String get online_optionen_titel => 'Zur Wahl stehen';
 
   @override
-  String get online_ermittlung_wartet => 'Die Spielleitung wählt gerade …';
+  String get online_ermittlung_wartet => 'Der Detektiv wählt gerade …';
 
   @override
   String get online_ermittlung_fertig =>
-      'Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.';
+      'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.';
 
   @override
   String online_nachtzeit(int min) {
@@ -3086,10 +3086,10 @@ class LDe extends L {
   String get online_auftakt => 'Der erste Wurf: Die Gruppe sucht nach Spuren.';
 
   @override
-  String get online_abstecher => 'Die Spielleitung erkundet einen Ort.';
+  String get online_abstecher => 'Der Detektiv erkundet einen Ort.';
 
   @override
-  String get online_zug_aktion => 'Die Spielleitung ist unterwegs …';
+  String get online_zug_aktion => 'Der Detektiv ist unterwegs …';
 
   @override
   String get online_wuerfel_titel => 'Würfel';
@@ -3144,13 +3144,13 @@ class LDe extends L {
 
   @override
   String get online_tischruf_wartet =>
-      'Pech. Die Spielleitung entscheidet, wie es weitergeht.';
+      'Pech. Der Detektiv entscheidet, wie es weitergeht.';
 
   @override
   String get online_fund_titel => 'Fund';
 
   @override
-  String get online_fund_wartet => 'Die Spielleitung liest den Fund.';
+  String get online_fund_wartet => 'Der Detektiv liest den Fund.';
 
   @override
   String get online_notizbuch_titel => 'Notizbuch';
@@ -3178,7 +3178,7 @@ class LDe extends L {
 
   @override
   String get online_anklage_wartet =>
-      'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.';
+      'Der Detektiv erhebt die Anklage gegen eine dieser Personen.';
 
   @override
   String get online_aufloesung_titel => 'Die Auflösung';
@@ -3284,7 +3284,7 @@ class LDe extends L {
 
   @override
   String get erster_fall_text =>
-      'Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.';
+      'Ein Fest im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.';
 
   @override
   String get erster_fall_los => 'Sofort ermitteln';
@@ -3529,4 +3529,506 @@ class LDe extends L {
   @override
   String get abend_fortsetzen_veraltet =>
       'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.';
+
+  @override
+  String get abend_rollen_titel => 'Rollen am Tisch';
+
+  @override
+  String get abend_erzaehler_feld => 'Name des Erzählers (optional)';
+
+  @override
+  String get abend_erzaehler_hinweis =>
+      'Der Erzähler liest vor und führt weiter. Er ermittelt nicht.';
+
+  @override
+  String get abend_erzaehler_leer =>
+      'Ohne Namen liest, wer gerade das Gerät hält.';
+
+  @override
+  String get abend_platz_titel => 'Dein Platz';
+
+  @override
+  String get abend_platz_detektiv => 'Detektiv';
+
+  @override
+  String get abend_platz_erzaehler => 'Erzähler';
+
+  @override
+  String get abend_platz_hinweis_detektiv =>
+      'Du ermittelst. Ein Gast kann vorlesen.';
+
+  @override
+  String get abend_platz_hinweis_erzaehler =>
+      'Du liest vor und führst weiter. Ein Gast ermittelt.';
+
+  @override
+  String get abend_start_erzaehler => 'Erzähler';
+
+  @override
+  String get abend_start_platz => 'Dein Platz';
+
+  @override
+  String get abend_start_ohne => 'keiner';
+
+  @override
+  String get erzaehlerpult_titel => 'Erzählerpult';
+
+  @override
+  String erzaehlerpult_geben(String name) {
+    return 'Gib das Gerät an $name.';
+  }
+
+  @override
+  String erzaehlerpult_nur(String name) {
+    return 'Nur $name schaut hin und liest vor.';
+  }
+
+  @override
+  String erzaehlerpult_texte(int anzahl) {
+    return 'Texte in diesem Abschnitt: $anzahl';
+  }
+
+  @override
+  String erzaehlerpult_zeigen(String name) {
+    return 'Ich bin $name, zeig her';
+  }
+
+  @override
+  String get erzaehlerpult_zudecken => 'Gelesen, zudecken';
+
+  @override
+  String get vorleser_titel => 'Vorlesen';
+
+  @override
+  String vorleser_liest(String name) {
+    return '$name liest vor.';
+  }
+
+  @override
+  String get vorleser_zuhoeren => 'Hört zu. Der Text steht nur dort.';
+
+  @override
+  String get vorleser_erzaehler => 'Der Erzähler';
+
+  @override
+  String vorleser_frist(String name) {
+    return '$name ist getrennt. Gleich liest du.';
+  }
+
+  @override
+  String vorleser_fuehrt(String name) {
+    return '$name führt weiter.';
+  }
+
+  @override
+  String get abend_tausch_hinweis =>
+      'Zwei Porträts antippen tauscht die Namen.';
+
+  @override
+  String abend_tausch_portraet(String figur) {
+    return 'Porträt $figur: Namen tauschen';
+  }
+
+  @override
+  String get abend_platz_hinweis_allein => 'Du führst den Abend als Detektiv.';
+
+  @override
+  String get online_lobby_platz => 'Platz';
+
+  @override
+  String get online_lobby_figur => 'Figur';
+
+  @override
+  String get online_lobby_figur_spielen => 'Figur spielen';
+
+  @override
+  String get online_lobby_zufall => 'Zufall';
+
+  @override
+  String online_lobby_wunsch(String name) {
+    return 'Wunsch: $name';
+  }
+
+  @override
+  String online_lobby_vergeben(String name) {
+    return 'hat $name';
+  }
+
+  @override
+  String get online_lobby_gastgeber => 'Gastgeber';
+
+  @override
+  String online_lobby_wahl_titel(String name) {
+    return 'Platz und Figur: $name';
+  }
+
+  @override
+  String get online_lobby_wahl_hinweis => 'Platz und Figur wählen';
+
+  @override
+  String get online_lobby_detektiv_fehlt =>
+      'Wähle zuerst, wer ermittelt. Tippe dazu auf einen Platz.';
+
+  @override
+  String get online_lobby_gaesteliste => 'Figuren aus der Gästeliste';
+
+  @override
+  String get online_gast_platz_titel => 'Dein Platz';
+
+  @override
+  String get online_gast_figur_titel => 'Deine Figur';
+
+  @override
+  String get online_gast_detektiv_text =>
+      'Du ermittelst heute und spielst keine Figur.';
+
+  @override
+  String get online_gast_erzaehler_text =>
+      'Du liest vor und führst durch den Abend.';
+
+  @override
+  String get online_gast_zufall_text => 'Deine Figur lost der Start.';
+
+  @override
+  String get online_gast_wunsch_titel => 'Dein Wunsch';
+
+  @override
+  String get online_gast_wunsch_hinweis => 'Wer zuteilt, sieht deinen Wunsch.';
+
+  @override
+  String get online_gast_kein_wunsch => 'Egal';
+
+  @override
+  String get online_gast_verteilen_titel => 'Figuren verteilen';
+
+  @override
+  String get online_fehler_sitze => 'Es fehlt noch der Detektiv.';
+
+  @override
+  String get online_fehler_nur_detektiv => 'Das darf nur der Detektiv.';
+
+  @override
+  String get online_fehler_nicht_leitung =>
+      'Das darf nur, wer den Abend leitet.';
+
+  @override
+  String get online_weiter => 'Weiter';
+
+  @override
+  String get online_erzaehler_hinweis => 'Du liest vor und drückst „Weiter“.';
+
+  @override
+  String get online_sitz_rollen =>
+      'Alle lesen ihre Rolle. Danach geht es weiter.';
+
+  @override
+  String get online_wahl_sitz =>
+      'Die Gäste wählen geheim. Du wählst nicht mit.';
+
+  @override
+  String get erzaehler_paket_titel => 'Dein Erzählerpaket';
+
+  @override
+  String get erzaehler_paket_tisch => 'Am Tisch';
+
+  @override
+  String get erzaehler_paket_befragungen => 'Befragungen';
+
+  @override
+  String get erzaehler_paket_npc => 'Ungespielte Gäste';
+
+  @override
+  String erzaehler_paket_mit(String sprecher, String partner) {
+    return '$sprecher mit $partner';
+  }
+
+  @override
+  String get erzaehler_paket_pflicht => 'fest';
+
+  @override
+  String erzaehler_paket_frei(int n) {
+    return 'Freie Wahlen in dieser Runde: $n';
+  }
+
+  @override
+  String get erzaehler_paket_fragen => 'Fragen';
+
+  @override
+  String get erzaehler_paket_antwort => 'Antwort';
+
+  @override
+  String get erzaehler_pult_marke => 'Erzählerpult';
+
+  @override
+  String get erzaehler_zuschauer_titel => 'Was der Detektiv tut';
+
+  @override
+  String get erzaehler_detektiv_waehlt => 'Der Detektiv wählt gerade.';
+
+  @override
+  String get erzaehler_detektiv_fertig =>
+      'Die Runde ist ermittelt. Du führst weiter.';
+
+  @override
+  String get erzaehler_befragt => 'Der Detektiv befragt den Tisch.';
+
+  @override
+  String get erzaehler_anklage_wartet =>
+      'Der Detektiv erhebt gleich die Anklage.';
+
+  @override
+  String erzaehler_angeklagt(String name) {
+    return 'Angeklagt: $name';
+  }
+
+  @override
+  String get detektiv_gast_optionen =>
+      'Wähle eine Spur. Die Karte zeigt das Ziel.';
+
+  @override
+  String detektiv_gast_karte_spielen(String titel) {
+    return 'Spielen: $titel';
+  }
+
+  @override
+  String detektiv_gast_karte_gruendlich(String titel) {
+    return 'Gründlich mit Karte: $titel';
+  }
+
+  @override
+  String detektiv_gast_karte_ruf(String titel) {
+    return 'Mit Karte: $titel';
+  }
+
+  @override
+  String get detektiv_gast_unterwegs => 'Du bist unterwegs.';
+
+  @override
+  String get detektiv_gast_anklage => 'Wen klagst du an?';
+
+  @override
+  String get detektiv_gast_notizen => 'Dein Notizbuch';
+
+  @override
+  String get rollen_uebersicht_titel => 'Wer macht was';
+
+  @override
+  String get rollen_uebersicht_oeffnen => 'Wer macht was?';
+
+  @override
+  String get rollen_uebersicht_hinweis =>
+      'Je Abschnitt eine Aufgabe für jeden Platz.';
+
+  @override
+  String get uebersicht_weise_solo => 'Allein';
+
+  @override
+  String get uebersicht_weise_reihum => 'Ein Gerät';
+
+  @override
+  String get uebersicht_weise_online => 'Eigene Geräte';
+
+  @override
+  String get uebersicht_sitz_detektiv => 'Detektiv';
+
+  @override
+  String get uebersicht_sitz_erzaehler => 'Erzähler';
+
+  @override
+  String get uebersicht_sitz_rolle => 'Rolle';
+
+  @override
+  String get uebersicht_sitz_assistenz => 'Assistenz';
+
+  @override
+  String get uebersicht_sitz_detektiv_kurz => 'Ermittelt und klagt an.';
+
+  @override
+  String get uebersicht_sitz_erzaehler_kurz => 'Liest vor und führt weiter.';
+
+  @override
+  String get uebersicht_sitz_rolle_kurz => 'Spielt eine Figur mit Geheimnis.';
+
+  @override
+  String get uebersicht_sitz_assistenz_kurz =>
+      'Verfolgt den Abend und würfelt mit.';
+
+  @override
+  String get uebersicht_phase_rollen => 'Rollen';
+
+  @override
+  String get uebersicht_phase_intro => 'Auftakt';
+
+  @override
+  String get uebersicht_phase_gespraeche => 'Gespräche';
+
+  @override
+  String get uebersicht_phase_entscheidungen => 'Ermittlung';
+
+  @override
+  String get uebersicht_phase_gruppenwahl => 'Gruppenwahl';
+
+  @override
+  String get uebersicht_phase_resuemee => 'Hinweis und Resümee';
+
+  @override
+  String get uebersicht_phase_anklage => 'Anklage';
+
+  @override
+  String get uebersicht_phase_finale => 'Finale und Auflösung';
+
+  @override
+  String get aufgabe_detektiv_rollen => 'Detektivkarte lesen';
+
+  @override
+  String get aufgabe_detektiv_intro => 'Zuhören, erste Notizen machen';
+
+  @override
+  String get aufgabe_detektiv_gespraeche => 'Drei bis fünf Personen befragen';
+
+  @override
+  String get aufgabe_detektiv_entscheidungen => 'Spuren auf der Karte wählen';
+
+  @override
+  String get aufgabe_detektiv_gruppenwahl => 'Notizen ordnen, die Gruppe wählt';
+
+  @override
+  String get aufgabe_detektiv_resuemee => 'Hinweis prüfen, Verdacht schärfen';
+
+  @override
+  String get aufgabe_detektiv_anklage => 'Eine Person anklagen';
+
+  @override
+  String get aufgabe_detektiv_finale => 'Auflösung lesen, Belohnung holen';
+
+  @override
+  String get aufgabe_detektiv_solo_intro => 'Auftakt lesen';
+
+  @override
+  String get aufgabe_detektiv_solo_gespraeche =>
+      'Bots befragen, Antworten notieren';
+
+  @override
+  String get aufgabe_detektiv_solo_resuemee => 'Hinweis und Resümee lesen';
+
+  @override
+  String get aufgabe_erzaehler_rollen => 'Warten, bis alle gelesen haben';
+
+  @override
+  String get aufgabe_erzaehler_intro => 'Den Auftakt vorlesen';
+
+  @override
+  String get aufgabe_erzaehler_gespraeche =>
+      'Rundenstart vorlesen, Gespräche anleiten';
+
+  @override
+  String get aufgabe_erzaehler_entscheidungen =>
+      'Den Weg des Detektivs begleiten';
+
+  @override
+  String get aufgabe_erzaehler_gruppenwahl => 'Zur geheimen Wahl aufrufen';
+
+  @override
+  String get aufgabe_erzaehler_resuemee => 'Hinweis und Resümee vorlesen';
+
+  @override
+  String get aufgabe_erzaehler_anklage => 'Zur Anklage aufrufen';
+
+  @override
+  String get aufgabe_erzaehler_finale => 'Finale und Auflösung vorlesen';
+
+  @override
+  String get aufgabe_erzaehler_reihum => 'Pult öffnen, vorlesen, zudecken';
+
+  @override
+  String get aufgabe_rolle_rollen => 'Eigene Rolle verdeckt lesen';
+
+  @override
+  String get aufgabe_rolle_intro => 'Zuhören, in die Figur finden';
+
+  @override
+  String get aufgabe_rolle_gespraeche =>
+      'Tischgespräch führen, Befragung beantworten';
+
+  @override
+  String get aufgabe_rolle_entscheidungen =>
+      'Mitraten, würfeln, wenn du dran bist';
+
+  @override
+  String get aufgabe_rolle_gruppenwahl => 'Geheim A oder B wählen';
+
+  @override
+  String get aufgabe_rolle_resuemee => 'Zuhören, eigene Spur schützen';
+
+  @override
+  String get aufgabe_rolle_anklage => 'Verteidigen oder verdächtigen';
+
+  @override
+  String get aufgabe_rolle_finale => 'Auflösung hören, Belohnung holen';
+
+  @override
+  String get aufgabe_assistenz_rollen => 'Den Tisch kennenlernen';
+
+  @override
+  String get aufgabe_assistenz_intro => 'Zuhören und mitfiebern';
+
+  @override
+  String get aufgabe_assistenz_gespraeche => 'Verfolgen, wer mit wem spricht';
+
+  @override
+  String get aufgabe_assistenz_entscheidungen => 'Würfeln, wenn du dran bist';
+
+  @override
+  String get aufgabe_assistenz_gruppenwahl => 'Den Stand der Wahl verfolgen';
+
+  @override
+  String get aufgabe_assistenz_resuemee => 'Zuhören, mitraten';
+
+  @override
+  String get aufgabe_assistenz_anklage => 'Mitraten, wer es war';
+
+  @override
+  String get aufgabe_assistenz_finale => 'Auflösung lesen, Belohnung holen';
+
+  @override
+  String get erzaehlerpult_handy => 'Am eigenen Handy lesen';
+
+  @override
+  String get begleiter_titel => 'Erzähler am eigenen Handy';
+
+  @override
+  String begleiter_anleitung(String name) {
+    return '$name öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.';
+  }
+
+  @override
+  String get begleiter_hinweis =>
+      'Danach stehen die Texte nur auf dem Handy. Dieses Gerät zeigt, wer vorliest.';
+
+  @override
+  String begleiter_liest(String name) {
+    return '$name liest jetzt am eigenen Handy.';
+  }
+
+  @override
+  String get begleiter_fehler =>
+      'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.';
+
+  @override
+  String get begleiter_nochmal => 'Noch einmal versuchen';
+
+  @override
+  String get begleiter_zurueck => 'Zurück zum Abend';
+
+  @override
+  String get begleiter_beenden => 'Wieder am Pult lesen';
+
+  @override
+  String begleiter_handy_hinweis(String name) {
+    return 'Der Text steht auf dem Handy von $name.';
+  }
+
+  @override
+  String get online_lobby_gastgeber_platz =>
+      'Du brauchst selbst einen Platz. Tippe dazu auf deine Karte.';
 }

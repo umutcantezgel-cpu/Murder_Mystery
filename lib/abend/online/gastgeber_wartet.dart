@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../l10n/lookup.dart';
 import '../../party/bildschirme/detektiv_karte.dart';
@@ -36,9 +37,11 @@ class GastgeberRollenWarten extends StatelessWidget {
               children: [
                 Text(l.online_rollen_erklaerung, style: context.schrift.text),
                 const SizedBox(height: MMass.s16),
-                // Der Gastgeber ermittelt (bis es Sitze gibt): seine Detektivkarte.
-                DetektivKarteEintrag(sitzung: s),
-                const SizedBox(height: MMass.s16),
+                // Nur auf dem Detektiv-Sitz: seine Detektivkarte (M6.4).
+                if (s.istDetektiv) ...[
+                  DetektivKarteEintrag(sitzung: s),
+                  const SizedBox(height: MMass.s16),
+                ],
                 OnlineWarteNotiz(
                   text: menschen.isEmpty
                       ? l.online_rollen_ohne_gaeste
@@ -208,11 +211,14 @@ class PlatzZeile extends StatelessWidget {
           Expanded(child: Text(spieler.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.text)),
           const SizedBox(width: MMass.s8),
           Flexible(
-            child: spieler.istGastgeber
-                ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
-                : spieler.online
-                    ? MChip(l.online_verbunden, icon: Icons.wifi_rounded, farbe: f.erfolg)
-                    : MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: f.warnung),
+            // Sitze (M3): wer ermittelt oder vorliest, trägt sein Etikett; sonst die Verbindung.
+            child: switch (spieler.sitz) {
+              _ when !spieler.online => MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: f.warnung),
+              Sitz.detektiv => MChip(l.abend_platz_detektiv, icon: Icons.search_rounded),
+              Sitz.erzaehler => MChip(l.abend_platz_erzaehler, icon: Icons.menu_book_rounded),
+              _ when spieler.istGastgeber => MChip(l.online_spielleitung, icon: Icons.star_rounded),
+              _ => MChip(l.online_verbunden, icon: Icons.wifi_rounded, farbe: f.erfolg),
+            },
           ),
         ],
       ),

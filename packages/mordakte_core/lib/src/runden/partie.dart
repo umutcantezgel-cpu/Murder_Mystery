@@ -45,6 +45,19 @@ class RundenZug {
     this.nebenfund,
   });
 
+  /// Ein Zug, wie ihn ein Gerät aus der Ansicht des Raums kennt (Langer Abend
+  /// M3, Gast-Detektiv): nur lesend für die Karte, ohne Wurf und Funde. Er
+  /// verändert keine Partie; die Partie erzeugt ihre Züge selbst.
+  const RundenZug.ansicht({
+    required String id,
+    String? option,
+    bool suche = false,
+    required RundenZugPhase phase,
+    required int aktion,
+    Tischruf? ruf,
+    String? abstecher,
+  }) : this._(id: id, option: option, suche: suche, phase: phase, aktion: aktion, ruf: ruf, abstecher: abstecher);
+
   bool get istAuftakt => option == null && abstecher == null;
   bool get istAbstecher => abstecher != null;
 }

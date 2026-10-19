@@ -62,7 +62,10 @@ class _Dienst implements GastgeberDienst {
   PartyDaten get daten => _daten;
 
   @override
-  String get geburtstagskind => '';
+  String get detektivName => '';
+
+  @override
+  Sitz get sitz => Sitz.detektiv;
 
   @override
   int get minuten => 30;

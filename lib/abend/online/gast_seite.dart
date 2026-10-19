@@ -9,9 +9,11 @@ import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
 import '../../l10n/lookup.dart';
+import '../../meta/meta_store.dart';
 import '../../stil/mappe/online_bausteine.dart' show mOnlineStempelGruen;
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
+import '../rollen_uebersicht.dart';
 import 'ansicht.dart';
 import 'gast_ansicht.dart';
 import 'gast_dienst.dart';
@@ -84,13 +86,16 @@ class _GastSeiteState extends State<GastSeite> {
     final endeId = jText(a['ende']);
     final regel = Enden(daten.kanon).regeln.where((r) => r.id == endeId).firstOrNull;
     if (regel == null) return;
-    final rolle = jText(jMap(v['privat'])['rolle']);
+    final privat = jMap(v['privat']);
+    final rolle = jText(privat['rolle']);
+    // Der Detektiv-Sitz bekommt die Karte seiner Klasse (M6.4): die des Sitzes, sonst die eigene.
+    final klasse = privat['detektiv'] == true ? jText(privat['klasse'], context.read<MetaStore?>()?.loadout.cls ?? '') : '';
     final zusage = jText(v['wuerfelZusage']);
     final ergebnis = AbendErgebnis(
       akte: jText(v['akte'], daten.fall),
       salz: jText(a['salz']),
       spielerId: d.spielerId,
-      rolle: rolle.isEmpty ? null : rolle,
+      rolle: rolle.isNotEmpty ? rolle : (klasse.isNotEmpty ? 'klasse:$klasse' : null),
       pfad: jText(a['pfad']),
       anklageRichtig: regel.richtig,
       ende: regel.id,
@@ -159,9 +164,13 @@ class _GastSeiteState extends State<GastSeite> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ...inhalt.kinder,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: _verlassen),
+                    // Wer was tut (M3) und der Ausgang, nebeneinander oder untereinander.
+                    Wrap(
+                      spacing: MMass.s8,
+                      children: [
+                        RollenUebersichtKnopf(hervorheben: kontext.ich?.sitz),
+                        MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: _verlassen),
+                      ],
                     ),
                   ],
                 ),
@@ -175,7 +184,7 @@ class _GastSeiteState extends State<GastSeite> {
 }
 
 /// Hinweis zum Zustand der Verbindung als Telegramm: Aufbau, eigene Verbindung
-/// weg, Spielleitung getrennt, Abend beendet.
+/// weg, Gastgeber getrennt, Abend beendet.
 class _StatusBand extends StatelessWidget {
   const _StatusBand({required this.dienst, required this.onDetektei});
 

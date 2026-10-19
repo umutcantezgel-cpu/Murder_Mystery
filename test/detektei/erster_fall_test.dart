@@ -70,7 +70,7 @@ void main() {
     expect(s.daten.fall, 'schlosskeller');
     expect(s.solo, isTrue);
     expect(s.phase, PartyPhase.rollen, reason: 'Ohne Assistent direkt in den Abend');
-    expect(s.geburtstagskind, 'Ada');
+    expect(s.detektivName, 'Ada');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();

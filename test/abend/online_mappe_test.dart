@@ -12,6 +12,7 @@ import 'package:mordakte/abend/online/gast_ansicht.dart';
 import 'package:mordakte/abend/online/gast_seite.dart';
 import 'package:mordakte/abend/online/gastgeber_ablauf.dart';
 import 'package:mordakte/abend/online/gastgeber_lobby.dart';
+import 'package:mordakte/abend/online/lobby_besetzung.dart' show LobbyTisch;
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/abend/online/gastgeber_wartet.dart';
 import 'package:mordakte/abend/online/online_halter.dart';
@@ -45,7 +46,7 @@ import 'online_hilfe.dart';
 
 /// Anbieter, die Lobby und Beitritt lesen; die Lobby bekommt jedes Mal einen frischen Raum.
 Widget Function(Widget) anbieter() {
-  final halter = OnlineHalter()..uebernehmeDienst(TestLobbyDienst(lobbyPlaetze));
+  final halter = OnlineHalter()..uebernehmeDienst(TestLobbyDienst(lobbyRaum()));
   return (app) => MultiProvider(
         providers: [
           ChangeNotifierProvider<MetaStore>.value(value: MetaStore.memory()..name = 'Test'),
@@ -84,11 +85,13 @@ void main() {
   });
 
   testWidgets('Gastansicht: Detektiv schon in der Lobby, eigener Platz mit Randnotiz, Akte erst nach dem Finale zugestempelt', (tester) async {
-    // Lobby: Die Spielleitung spielt den Detektiv; ihr Platz zeigt seinen Abzug, die Gäste
-    // (Rollen noch unbekannt) Schattenrisse.
+    // Lobby: Der Gastgeber sitzt auf dem Detektiv-Sitz; sein Platz zeigt dessen Abzug, die Gäste
+    // (noch ohne Figur) Schattenrisse. Darunter liegt die Wahl des eigenen Wunschs (M3).
     await zeigeImThema(tester, (c) => gastSeite(c, ansichten['lobby']!));
-    expect(find.byType(MFotoabzug), findsOneWidget, reason: 'Nur der Detektiv hat vor dem Start ein Bild');
-    expect(find.byType(MOnlineSilhouette), findsNWidgets(2));
+    final tisch = find.byType(LobbyTisch);
+    expect(find.descendant(of: tisch, matching: find.byType(MFotoabzug)), findsOneWidget, reason: 'Nur der Detektiv hat vor dem Start ein Bild');
+    expect(find.descendant(of: tisch, matching: find.byType(MOnlineSilhouette)), findsNWidgets(2));
+    expect(find.byKey(const ValueKey('wunsch')), findsOneWidget);
     expect(find.text('Ben · (${l.common_you})'), findsOneWidget, reason: 'Der eigene Platz bleibt „Name · (Du)“');
 
     int geschlossen() => tester.widgetList<MStempel>(find.byType(MStempel)).where((s) => s.text == l.ending_case_closed).length;
