@@ -1,20 +1,20 @@
 {
   "format": "geruechte/1",
   "akte": "schlosskeller",
-  "hinweis": "Gerüchte für die Klassenfähigkeit Gerüchte (A-055): je Figur und Runde ein bis zwei Zeilen, die die Journalistin beim Vorbeigehen hört. Reine Stimmung, auf allen Pfaden gleich, ohne Namen, Fallgegenstände, Suchstellen, Indizorte, Lacher und Sperrorte (R15). Kartenformat R17: höchstens acht Wörter je Zeile. Eine Figur, die ein Mensch spielt, sagt nichts (R14).",
+  "hinweis": "Gerüchte für die Klassenfähigkeit Gerüchte (A-055): je Figur und Runde ein bis zwei Zeilen, die die Journalistin beim Vorbeigehen hört. Reine Stimmung, auf allen Pfaden gleich, ohne Namen, Fallgegenstände, Suchstellen, Indizorte, Lacher, Sperrorte und Ziel-Räume (R15). Auch kein Umweg: Keine Zeile berührt, was eine Figur verbirgt oder trägt oder was eine Entscheidung untersucht, weder mit eigenen Worten noch über Beinamen (Schlossgeist für die Leuchtmaske, Listen für die Quittung, viel Essen für die Bestellung, Turm für den Turmgang). Sonst schiebt das Gerücht die Journalistin in allen Pfaden zur selben Option, die nur in einem Pfad richtig ist. Kartenformat R17: höchstens acht Wörter je Zeile. Eine Figur, die ein Mensch spielt, sagt nichts (R14).",
   "geruechte": [
     {
       "figur": "ahmet",
       "runde": 1,
       "zeilen": [
-        "Der Adventsmarkt hier soll riesig werden."
+        "Nächsten Sommer will ich endlich segeln lernen."
       ]
     },
     {
       "figur": "ahmet",
       "runde": 2,
       "zeilen": [
-        "Die Stiftung sucht noch Helfer für Dezember."
+        "Im Frühling ziehe ich in eine neue Wohnung."
       ]
     },
     {
@@ -28,15 +28,15 @@
       "figur": "fatma",
       "runde": 1,
       "zeilen": [
-        "Die Wandteppiche oben sind angeblich handgewebt."
+        "Blau ist im Winter meine liebste Farbe."
       ]
     },
     {
       "figur": "fatma",
       "runde": 2,
       "zeilen": [
-        "Im Erdgeschoss soll es alte Fresken geben.",
-        "Die Fenster hier würde ich gern zeichnen."
+        "Im Frühling fange ich ein neues Projekt an.",
+        "Schöne Schrift macht jedes Plakat besser."
       ]
     },
     {
@@ -50,14 +50,14 @@
       "figur": "olli",
       "runde": 1,
       "zeilen": [
-        "Das Außentor klemmt bei Frost immer."
+        "Bei Frost springt mein Auto schlecht an."
       ]
     },
     {
       "figur": "olli",
       "runde": 2,
       "zeilen": [
-        "Die Holzbänke hat angeblich ein Schreiner geschnitzt."
+        "Nächste Woche helfe ich wieder beim Umzug."
       ]
     },
     {
@@ -71,29 +71,29 @@
       "figur": "can",
       "runde": 1,
       "zeilen": [
-        "Hier soll ein Schlossgeist Socken klauen."
+        "Nächstes Jahr fahre ich ans Meer."
       ]
     },
     {
       "figur": "can",
       "runde": 2,
       "zeilen": [
-        "Der Geist mag angeblich keine Witze.",
-        "Wer zuletzt lacht, muss abspülen."
+        "Mein Bruder hat morgen Geburtstag.",
+        "Ich brauche dringend neue Turnschuhe."
       ]
     },
     {
       "figur": "can",
       "runde": 3,
       "zeilen": [
-        "Ich wette, der Geist tanzt heimlich."
+        "Im Sommer fahre ich viel Fahrrad."
       ]
     },
     {
       "figur": "leyla",
       "runde": 1,
       "zeilen": [
-        "Im Turm soll früher ein Uhrmacher gewohnt haben."
+        "Früher lebte hier angeblich ein Uhrmacher."
       ]
     },
     {
@@ -121,22 +121,22 @@
       "figur": "emine",
       "runde": 2,
       "zeilen": [
-        "Die Kinder glauben fest an den Schlossgeist.",
-        "Der Geist soll Rätsel lieben."
+        "Die Kinder malen gern Burgen und Drachen.",
+        "Im Winter basteln wir Sterne aus Stroh."
       ]
     },
     {
       "figur": "emine",
       "runde": 3,
       "zeilen": [
-        "Am Montag erzähle ich alles meiner Klasse."
+        "Nächste Woche gehen wir mit der Klasse rodeln."
       ]
     },
     {
       "figur": "tim",
       "runde": 1,
       "zeilen": [
-        "Die alte Turmuhr läuft angeblich noch."
+        "Alte Uhren repariere ich am liebsten selbst."
       ]
     },
     {
@@ -164,21 +164,21 @@
       "figur": "johanna",
       "runde": 2,
       "zeilen": [
-        "Bei Vollmond wirft der Turm lange Schatten."
+        "Bei Vollmond werfen die Zinnen lange Schatten."
       ]
     },
     {
       "figur": "johanna",
       "runde": 3,
       "zeilen": [
-        "Die schönsten Bilder entstehen immer zum Schluss."
+        "Der Winter ist meine liebste Jahreszeit."
       ]
     },
     {
       "figur": "murat",
       "runde": 1,
       "zeilen": [
-        "Die Suppe reicht angeblich für drei Feiern."
+        "Zimt passt angeblich in jede Suppe."
       ]
     },
     {
@@ -193,7 +193,7 @@
       "figur": "murat",
       "runde": 3,
       "zeilen": [
-        "Reste nehmen alle gern mit, wie immer."
+        "Nächste Woche koche ich auf einer Hochzeit."
       ]
     },
     {
@@ -263,7 +263,7 @@
       "figur": "serkan",
       "runde": 1,
       "zeilen": [
-        "Der Parkplatz liegt weit hinter dem Außentor."
+        "Heute bringe ich alle sicher heim."
       ]
     },
     {
@@ -285,21 +285,21 @@
       "figur": "aylin",
       "runde": 1,
       "zeilen": [
-        "Die Stiftung führt angeblich sehr genaue Listen."
+        "Im Winter lese ich am liebsten Märchen."
       ]
     },
     {
       "figur": "aylin",
       "runde": 2,
       "zeilen": [
-        "Der Adventsmarkt braucht noch viele Stände."
+        "Nächsten Monat besuche ich meine Schwester."
       ]
     },
     {
       "figur": "aylin",
       "runde": 3,
       "zeilen": [
-        "Ich zähle lieber Sterne als Zahlen."
+        "Heute Nacht sieht man bestimmt viele Sterne."
       ]
     },
     {
@@ -313,7 +313,7 @@
       "figur": "kaan",
       "runde": 2,
       "zeilen": [
-        "Der Turm wurde zweimal neu aufgebaut, sagt man."
+        "Gute Treppen haben immer gleich hohe Stufen."
       ]
     },
     {
@@ -334,14 +334,14 @@
       "figur": "dilara",
       "runde": 2,
       "zeilen": [
-        "Vom Adventsmarkt bringe ich immer Trödel mit."
+        "Auf Flohmärkten finde ich die schönsten Knöpfe."
       ]
     },
     {
       "figur": "dilara",
       "runde": 3,
       "zeilen": [
-        "Alte Truhen erzählen die besten Geschichten."
+        "Alte Postkarten erzählen die besten Geschichten."
       ]
     },
     {
@@ -369,7 +369,7 @@
       "figur": "selin",
       "runde": 1,
       "zeilen": [
-        "Im Turm sollen nachts Eulen wohnen."
+        "Unter dem Dach sollen nachts Eulen wohnen."
       ]
     },
     {
@@ -390,7 +390,7 @@
       "figur": "hakan",
       "runde": 1,
       "zeilen": [
-        "Die Stiftung will das Schloss bald öffnen."
+        "Nächste Woche schreibe ich meine letzte Prüfung."
       ]
     },
     {
@@ -411,7 +411,7 @@
       "figur": "tugba",
       "runde": 1,
       "zeilen": [
-        "Nächstes Mal plane ich ein Liederquiz."
+        "Nächstes Mal gibt es ein Liederquiz."
       ]
     },
     {

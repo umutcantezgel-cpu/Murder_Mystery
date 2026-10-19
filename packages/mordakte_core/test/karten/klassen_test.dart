@@ -108,12 +108,13 @@ void main() {
       }
     });
 
-    /// Gerüchte des Schlosskellers mit [zeile] statt der ersten Zeile von Tim in Runde 1.
-    Geruechte mit(String zeile) {
+    /// Gerüchte des Schlosskellers mit [zeile] statt der Zeilen von [figur] in
+    /// [runde] (ohne Angabe: Tim in Runde 1).
+    Geruechte mit(String zeile, {String figur = 'tim', int runde = 1}) {
       final j = leseJson('$repoWurzel/content/welt/schlosskeller/geruechte.json');
       final eintraege = [for (final e in j['geruechte'] as List) Map<String, Object?>.of(e as Map<String, Object?>)];
-      final tim = eintraege.firstWhere((e) => e['figur'] == 'tim' && e['runde'] == 1);
-      tim['zeilen'] = [zeile];
+      final eintrag = eintraege.firstWhere((e) => e['figur'] == figur && e['runde'] == runde);
+      eintrag['zeilen'] = [zeile];
       return Geruechte.ausJson({...j, 'geruechte': eintraege});
     }
 
@@ -151,6 +152,42 @@ void main() {
         expect(pruefeGeruechte(mit(zeile), kanon), [startsWith('tim, Runde 1, Zeile 1: „')], reason: zeile);
       }
       expect(pruefeGeruechte(mit('Unter dem Brot liegt bestimmt etwas.'), kanon), [contains('Brottasche')], reason: 'nennt den Namen');
+    });
+
+    test('Gegenproben R15: Umwege zu Gegenständen, Geheimnissen und Zielen von Entscheidungen fallen auf', () {
+      // Beinamen, auch in zusammengesetzten Wörtern: Der Schlossgeist zeigt auf
+      // die Leuchtmaske (Cans Bauchtasche ist nur im Pfad can richtig), Listen
+      // und Belege auf Aylins Quittung (nur im Pfad can richtig).
+      for (final (zeile, figur) in [
+        ('Hier soll ein Schlossgeist Socken klauen.', 'can'),
+        ('Die Kinder glauben fest an den Schlossgeist.', 'emine'),
+        ('Geister mögen angeblich keine Witze.', 'tim'),
+        ('Wer zuletzt erschreckt wird, muss abspülen.', 'tim'),
+        ('Die Stiftung führt angeblich sehr genaue Listen.', 'aylin'),
+        ('Die Gästeliste ist sehr lang.', 'tim'),
+        ('Der Adventsmarkt hier soll riesig werden.', 'ahmet'),
+        ('Hier bezahlt jeder für sich.', 'tim'),
+      ]) {
+        expect(pruefeGeruechte(mit(zeile, figur: figur), kanon), [startsWith('$figur, Runde 1, Zeile 1: „')], reason: zeile);
+      }
+      // Ziel-Räume der Ortsentscheidung: Turm und Turmgang, Ost-Saal.
+      for (final zeile in ['Im Turm sollen nachts Eulen wohnen.', 'Die alte Turmuhr läuft angeblich noch.', 'Im Saal ist es warm.']) {
+        expect(pruefeGeruechte(mit(zeile), kanon), [startsWith('tim, Runde 1, Zeile 1: „')], reason: zeile);
+      }
+      // Was die eigene Figur verbirgt oder trägt und was eine Entscheidung an
+      // ihr untersucht, steht nicht in ihren Gerüchten; einer anderen Figur
+      // gehört das Wort nicht.
+      for (final (zeile, figur, wort) in [
+        ('Am Montag erzähle ich alles meiner Klasse.', 'emine', 'Montag'),
+        ('Der Parkplatz liegt weit hinter dem Außentor.', 'serkan', 'Außentor'),
+        ('Ein Schloss braucht Kapuzen gegen Wind.', 'can', 'Kapuze'),
+        ('Die Wandteppiche oben sind angeblich handgewebt.', 'fatma', 'Hand'),
+      ]) {
+        expect(pruefeGeruechte(mit(zeile, figur: figur), kanon), [allOf(startsWith('$figur, Runde 1, Zeile 1: „'), contains(wort))], reason: zeile);
+        expect(pruefeGeruechte(mit(zeile), kanon), isEmpty, reason: '$zeile gehört Tim nicht');
+      }
+      // begeistert ist kein Geist.
+      expect(pruefeGeruechte(mit('Alle sind heute begeistert.'), kanon), isEmpty);
     });
 
     test('Teilwörter: Wörter ab vier Buchstaben und ihre vorderen und hinteren Teile', () {

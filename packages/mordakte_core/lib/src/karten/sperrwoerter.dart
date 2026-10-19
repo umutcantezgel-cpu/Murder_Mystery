@@ -27,16 +27,16 @@ Iterable<String> kennwoerter(String name, {int mindestens = 6}) sync* {
 }
 
 /// Teile eines Namens für den Vergleich mit ganzen Wörtern: jedes Wort ab
-/// [mindestens] Buchstaben (klein, ohne [allgemeineWoerter] und [ohne]) und
+/// [mindestens] Buchstaben (klein, ohne [allgemein] und [ohne]) und
 /// jeder vordere und hintere Teil davon ab [mindestens] Buchstaben, der
 /// mindestens drei Buchstaben übrig lässt. So stecken in „Brottasche“ brot und
 /// tasche, in „Silberring“ silber und ring. Ohne Wörterbuch fallen auch
 /// Bruchstücke an (brott, asche); darum nur mit ganzen Wörtern vergleichen
 /// ([wortformen]), nie mit Wortanfängen.
-Iterable<String> teilwoerter(String name, {int mindestens = 4, Set<String> ohne = const {}}) sync* {
+Iterable<String> teilwoerter(String name, {int mindestens = 4, Set<String> ohne = const {}, Set<String> allgemein = allgemeineWoerter}) sync* {
   for (final m in _buchstaben.allMatches(name)) {
     final w = m.group(0)!.toLowerCase();
-    if (w.length < mindestens || allgemeineWoerter.contains(w) || ohne.contains(w)) continue;
+    if (w.length < mindestens || allgemein.contains(w) || ohne.contains(w)) continue;
     yield w;
     for (var i = mindestens; i <= w.length - 3; i++) {
       yield w.substring(0, i);

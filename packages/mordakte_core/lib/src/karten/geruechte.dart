@@ -59,9 +59,35 @@ class Geruechte {
 const _allgemeineOrtswoerter = {'hinter', 'direkt', 'linken', 'rechten', 'neben', 'unter', 'vorne', 'beim'};
 
 /// Wörter, die zusätzlich zu den [spoilerWoerter] in keinem Gerücht stehen:
-/// rund um den Vorfall und Beinamen von Gegenständen, die kein Name trägt
-/// (Gespenst für die Leuchtmaske).
-const _vorfallWoerter = ['scheppern', 'geschepper', 'knall', 'sicherung', 'strom', 'miete', 'geld', 'kassier', 'gespenst'];
+/// rund um den Vorfall.
+const _vorfallWoerter = ['scheppern', 'geschepper', 'knall', 'sicherung', 'strom', 'miete', 'geld', 'kassier'];
+
+/// Umwege, die kein Name trägt: Wortteile, die am Anfang oder Ende eines
+/// Wortes auf einen Gegenstand, ein Geheimnis oder das Ziel einer Entscheidung
+/// zeigen (R15). Gespenst, Geist, Spuk, Schreck und Streich zeigen auf die
+/// Leuchtmaske und Cans Streich, Liste, Beleg und Zahl auf Quittung und
+/// Notizbuch, Stiftung und Advent auf das Mietgeld, Turm auf den Turmgang. Sie
+/// treffen auch Schlossgeist, Gästeliste, bezahlt und Turmuhr, aber nicht
+/// begeistert.
+const _beinamen = ['gespenst', 'geist', 'spuk', 'schreck', 'streich', 'liste', 'beleg', 'zahl', 'stiftung', 'advent', 'turm'];
+
+/// Verbendungen, die vor dem Vergleich mit den [_beinamen] zusätzlich zu den
+/// Endungen der [wortformen] wegfallen (spukt, erschreckt, bezahlt).
+const _verbendungen = ['st', 't'];
+
+/// Trägt [wort] einen der [_beinamen] am Anfang oder Ende (auch ohne Endung)?
+String? _beiname(String wort) {
+  final w = wort.toLowerCase();
+  final staemme = {
+    ...wortformen(w),
+    for (final e in _verbendungen)
+      if (w.length - e.length >= 3 && w.endsWith(e)) w.substring(0, w.length - e.length),
+  };
+  for (final b in _beinamen) {
+    if (staemme.any((s) => s.startsWith(b) || s.endsWith(b))) return b;
+  }
+  return null;
+}
 
 /// Prüft die [geruechte] gegen den [kanon]. Liefert Befunde als Sätze; leer
 /// heißt in Ordnung.
@@ -71,9 +97,17 @@ const _vorfallWoerter = ['scheppern', 'geschepper', 'knall', 'sicherung', 'strom
 /// - Jede Zeile ist ein Satz mit höchstens [geruechtWorte] Wörtern (R17).
 /// - Keine Zeile nennt ein Sperrwort, einen Gegenstand, einen Namen oder ein
 ///   Wort aus dem Namen eines Sperrorts: Fundorte der Gegenstände, Ziel-Orte
-///   der Entscheidungen und Orte der Lacher (R15). Das gilt auch für kurze
-///   Wörter und Teile zusammengesetzter Namen ([teilwoerter]): Brot aus
-///   Brottasche, Ring aus Silberring, Helm, Foto, Vitrine aus Schauvitrine.
+///   und Ziel-Räume der Entscheidungen und Orte der Lacher (R15). Das gilt
+///   auch für kurze Wörter und Teile zusammengesetzter Namen ([teilwoerter]):
+///   Brot aus Brottasche, Ring aus Silberring, Helm, Foto, Vitrine aus
+///   Schauvitrine, Turm aus Turmgang.
+/// - Keine Zeile nimmt einen Umweg zu einem Gegenstand oder Geheimnis
+///   ([_beinamen]: Schlossgeist für die Leuchtmaske, Listen für die Quittung).
+///   Sonst schiebt das Gerücht die Journalistin in allen Pfaden zur selben
+///   Option, die nur in einem Pfad richtig ist.
+/// - Keine Zeile einer Figur nennt ein Hauptwort aus dem, was sie verbirgt
+///   oder trägt und was eine Entscheidung an ihr untersucht ([_bezug]), auch
+///   nicht als Teil eines Wortes (handgewebt bei Fatmas Hand).
 /// - Keine Zeile teilt fünf Wörter am Stück mit verborgenen Beobachtungen,
 ///   Wahrheiten, Rollengeheimnissen, Bonus-Hinweisen, Spuren oder [geschuetzt].
 /// - Tonregeln über [ton].
@@ -98,17 +132,20 @@ List<String> pruefeGeruechte(Geruechte geruechte, Kanon kanon, {Textpruefer? ton
       for (final w in kennwoerter(o, mindestens: 5))
         if (!_allgemeineOrtswoerter.contains(w)) wortAnfang(w),
   ];
-  // Teile der Namen von Gegenständen und Sperrorten, je mit ihrem Namen; sie
-  // treffen nur ganze Wörter einer Zeile.
+  // Teile der Namen von Gegenständen, Sperrorten und Ziel-Räumen, je mit ihrem
+  // Namen; sie treffen nur ganze Wörter einer Zeile. Ein Ziel-Raum ist nie zu
+  // allgemein (Turmgang).
   final teile = <String, String>{};
-  for (final (name, ohne) in [
-    for (final g in kanon.gegenstaende) (g['name'] as String, const <String>{}),
-    for (final o in sperrorte) (o, _allgemeineOrtswoerter),
+  for (final (name, ohne, allgemein) in [
+    for (final g in kanon.gegenstaende) (g['name'] as String, const <String>{}, allgemeineWoerter),
+    for (final o in sperrorte) (o, _allgemeineOrtswoerter, allgemeineWoerter),
+    for (final r in _zielRaeume(kanon)) (r, _allgemeineOrtswoerter, const <String>{}),
   ]) {
-    for (final t in teilwoerter(name, ohne: ohne)) {
+    for (final t in teilwoerter(name, ohne: ohne, allgemein: allgemein)) {
       teile.putIfAbsent(t, () => name);
     }
   }
+  final bezug = _bezug(kanon);
   final gesperrt = <String>{for (final t in [..._geschuetzteTexte(kanon), ...geschuetzt]) ..._fuenfer(t)};
 
   for (final e in geruechte.eintraege) {
@@ -128,13 +165,22 @@ List<String> pruefeGeruechte(Geruechte geruechte, Kanon kanon, {Textpruefer? ton
           break;
         }
       }
-      if (!r15) {
-        for (final w in _wortRe.allMatches(z)) {
-          if (wortformen(w.group(0)!).map((f) => teile[f]).nonNulls.firstOrNull case final name?) {
-            befunde.add('$ort: „${w.group(0)}“ steckt in „$name“ und gehört nicht in ein pfadgleiches Gerücht (R15)');
-            break;
-          }
+      // Je Wort: Teil eines gesperrten Namens, Beiname, Hauptwort der eigenen
+      // Figur. Für die Figur zerlegt der Prüfer das Wort der Zeile (handgewebt),
+      // nie das Hauptwort; so bleiben die Bruchstücke der [teilwoerter] harmlos.
+      for (final w in r15 ? const <RegExpMatch>[] : _wortRe.allMatches(z)) {
+        final wort = w.group(0)!;
+        if (wortformen(wort).map((f) => teile[f]).nonNulls.firstOrNull case final name?) {
+          befunde.add('$ort: „$wort“ steckt in „$name“ und gehört nicht in ein pfadgleiches Gerücht (R15)');
+        } else if (_beiname(wort) case final b?) {
+          befunde.add('$ort: „$wort“ zeigt über „$b“ auf einen Gegenstand, ein Geheimnis oder ein Entscheidungsziel (R15)');
+        } else if ([...wortformen(wort), for (final t in teilwoerter(wort)) ...wortformen(t)].map((f) => bezug[e.figur]?[f]).nonNulls.firstOrNull
+            case final haupt?) {
+          befunde.add('$ort: „$wort“ berührt „$haupt“ aus dem, was ${e.figur} verbirgt, trägt oder was eine Entscheidung an ihr untersucht (R15)');
+        } else {
+          continue;
         }
+        break;
       }
       for (final f in _fuenfer(z)) {
         if (gesperrt.contains(f)) {
@@ -168,6 +214,84 @@ List<String> _sperrorte(Kanon kanon) {
     for (final o in orte)
       if (kanon.graph.orte[o] case final ort?) ort.name,
   ];
+}
+
+/// Namen der Räume, auf die eine Entscheidung zielt (Ortsentscheidung: Wo
+/// suchst du?), mit ihrem Anzeigenamen.
+List<String> _zielRaeume(Kanon kanon) => [
+      for (final e in kanon.entscheidungenJson['entscheidungen'] as List)
+        for (final o in (e as Map)['optionen'] as List)
+          if (((o as Map)['ziel'] as Map?)?['raum'] case final String raum)
+            if (kanon.graph.raeume[raum] case final r?) ...{r.name, r.anzeigename},
+    ];
+
+/// Hauptwörter, die in den Gerüchten einer Figur nicht stehen, je Figur:
+/// Wortform → Hauptwort. Sie kommen aus dem, was die Figur verbirgt (Geheimnis,
+/// Motiv, Ziel, Nebendelikt, Lügen samt Wahrheit, Täter- und Unschuldsfassung,
+/// Treue, Kennzeichen, Alibi), aus den Gegenständen, die sie trägt, samt Spuren,
+/// aus ihren Beobachtungen und aus den Optionen, die auf sie oder ihre
+/// Gegenstände zielen. Hauptwörter sind groß geschriebene Wörter ab vier
+/// Buchstaben mitten im Satz.
+Map<String, Map<String, String>> _bezug(Kanon kanon) {
+  final traeger = {
+    for (final g in kanon.gegenstaende)
+      if ((g['lage'] as Map?)?['traeger'] case final String t) g['id'] as String: t,
+  };
+  final texte = <String, List<String>>{};
+  for (final f in kanon.figuren) {
+    final vs = f['visualSpecs'] as Map?;
+    texte[f['id'] as String] = [
+      for (final k in _bezugsfelder) ..._strings(f[k]),
+      ..._strings(vs?['distinguishingFeature']),
+    ];
+  }
+  for (final g in kanon.gegenstaende) {
+    if (traeger[g['id']] case final t?) texte[t]?.addAll(_strings(g));
+  }
+  for (final b in kanon.beobachtungen) {
+    if (b['wer'] case final String w) texte[w]?.addAll([..._strings(b['text']), ..._strings(b['duText']), ..._strings(b['grundVerborgen'])]);
+  }
+  for (final e in kanon.entscheidungenJson['entscheidungen'] as List) {
+    for (final o in (e as Map)['optionen'] as List) {
+      final ziel = ((o as Map)['ziel'] as Map?) ?? const {};
+      if ((ziel['person'] as String?) ?? traeger[ziel['gegenstand']] case final p?) texte[p]?.add(o['text'] as String);
+    }
+  }
+  return {
+    for (final MapEntry(key: figur, value: t) in texte.entries)
+      figur: {
+        for (final text in t)
+          for (final m in _hauptwortRe.allMatches(text))
+            for (final form in wortformen(m.group(1)!)) form: m.group(1)!,
+      },
+  };
+}
+
+/// Felder einer Figur in `figuren.json`, die sie verbirgt oder die sie verraten.
+const _bezugsfelder = [
+  'roleSecret', 'motiveAndConflict', 'persoenlichesZiel', 'blackoutAlibi', 'beweisFarbe', 'nebendelikt', 'luegen', 'innocentProfile',
+  'killerProfile', 'loyalitaet',
+];
+
+/// Ein groß geschriebenes Wort ab vier Buchstaben, das nicht am Satzanfang
+/// steht (nicht nach Punkt, Ausrufe- oder Fragezeichen, Doppelpunkt oder
+/// Anführungszeichen).
+final _hauptwortRe = RegExp(r'(?<![.!?:„“"]\s*|^\s*|\p{L})(\p{Lu}\p{L}{3,})', unicode: true);
+
+/// Alle Zeichenketten in [wert] (auch in Listen und Maps).
+Iterable<String> _strings(Object? wert) sync* {
+  switch (wert) {
+    case final String s:
+      yield s;
+    case final List l:
+      for (final x in l) {
+        yield* _strings(x);
+      }
+    case final Map m:
+      for (final x in m.values) {
+        yield* _strings(x);
+      }
+  }
 }
 
 /// Texte aus dem Kanon, aus denen nichts in ein Gerücht wandern darf:
