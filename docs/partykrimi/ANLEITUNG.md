@@ -17,27 +17,47 @@ unveränderten, würfelfreien Papierablauf.
 
 - Ihr wollt ohne Bildschirm am Tisch spielen. Der Abend läuft ganz ohne App.
 - Ihr habt einen Drucker und wollt die Karten in der Hand halten.
-- Ihr seid bereit, die Stimmen von Hand zu zählen. Das macht die Spielleitung mit Abreißstreifen und einer Tabelle.
+- Ihr seid bereit, die Stimmen von Hand zu zählen. Das macht der Erzähler mit Abreißstreifen und einer Tabelle.
+
+### Wochen vorher: Steckbriefe und Charakterübersicht
+
+Detektei → **Spuk im Schlosskeller** → **Steckbriefe & Übersicht**. Ein Tipp, keine Einrichtung, kein Fall-Code.
+
+- **Wie viele seid ihr?** Ist die Zahl noch offen, zeigt die Charakterübersicht alle Figuren. Steht sie fest, zeigt
+  sie genau die Figuren, die bei dieser Zahl dabei sind, alphabetisch und gleich groß. Den Detektiv gibt es immer.
+- **Zum Verschicken:** „Charakterübersicht“ und „Übersicht und alle Steckbriefe“. Jeder Steckbrief hat eine Seite:
+  Name, Aussprache, Rolle, Alter, Alltag, „Wer du bist“, Kostümtipp, Auftritt und ein typischer Satz. Kein
+  Steckbrief verrät etwas über den Fall.
+- **Gästeliste:** Tragt ein, wer welche Figur spielt. Je Gast schickt **Steckbrief senden** seinen Steckbrief. Fällt
+  eine Figur bei einer kleineren Zahl weg, steht das am Gast. Die Liste bleibt auf dem Gerät und füllt am Abend
+  reihum die Personenzahl und die Namen in der Einrichtung vor.
+
+Jede Datei entsteht erst beim Tipp. In der App öffnet sich danach das Teilen des Telefons: speichern, drucken
+oder direkt an eine Person schicken. Im Browser tippt ihr ein zweites Mal: Dann teilt oder lädt der Browser die
+Datei. Die Steckbriefe heißen nach der Figur, etwa `steckbrief-fatma.pdf`.
 
 ### Die acht Dateien bekommen
 
 Es gibt drei Wege.
 
 - **Über die Akte:** Detektei → **Spuk im Schlosskeller** → **Druckmappe**. Stelle Personen, Detektiv oder
-  Detektivin und Fall ein. Tippe auf **Druckmappe vorbereiten** und dann auf **Druckfassung erstellen**.
-  Danach gibt es für jede Datei einen Knopf. Der Download klappt in der Browser-Fassung. Sonst steht da:
-  „Herunterladen geht nur in der Browser-Fassung.“
+  Detektivin und Fall ein und tippe auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen
+  Knopf je Datei und **Rollenhefte einzeln senden** mit einem Knopf je Person. Jede Datei entsteht beim ersten Tipp
+  und geht dann an das Teilen des Telefons (im Browser mit einem zweiten Tipp).
 - **Über einen Abend am Tisch:** Wähle im Assistenten **Ein Gerät reihum** und bei den Einstellungen
   **Zum Drucken**. Auf der Seite „Eure Rollen“ steht dann die Tafel „Druckfassung“. Der Bildschirm führt
-  trotzdem durch den Abend.
+  trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen.
 - **Per Befehl:** Das Team erstellt den Satz mit einem Befehl (siehe unten).
+
+Die Rollenhefte je Person heißen nach der Figur, etwa `10-rollenheft-fatma.pdf`. Sie gelten nur mit demselben
+Fall-Code und derselben Personenzahl. Alle anderen Dateien tragen nur Nummer und Teil im Namen.
 
 Der Satz besteht aus diesen Dateien:
 
-| Knopf in der App | Dateiname | So steht es im Spielleitungsheft |
+| Knopf in der App | Dateiname | So steht es im Erzählerheft |
 | --- | --- | --- |
-| Spielleitungsheft | 00-spielleitung.pdf | Spielleitungsheft. Dieses Heft bleibt bei dir. |
-| Detektivbogen | 01-detektivbogen.pdf | Detektivbogen mit Ermittlungsbogen. Gehört dem Geburtstagskind. |
+| Erzählerheft | 00-erzaehlerheft.pdf | Erzählerheft. Dieses Heft bleibt bei dir. |
+| Detektivbogen | 01-detektivbogen.pdf | Detektivbogen mit Ermittlungsbogen. Gehört dem Detektiv. |
 | Rollenhefte | 10-rollenhefte.pdf | Rollenhefte. Je Person ein Heft mit der eigenen Rolle. |
 | Fassungen der Kernrollen | 11-fassungen.pdf | Fassungen. Vier versiegelte Fassungen, außen steht nur ein Code. |
 | Stimmkarten | 12-stimmkarten.pdf | Stimmkarten. Für jeden Gast je Runde zwei Karten, A und B, mit einem Streifen zum Abreißen. Die vier Kernrollen haben keine Stimmkarten, ihre Streifen stecken in der Fassung. |
@@ -48,24 +68,27 @@ Der Satz besteht aus diesen Dateien:
 ### Vor dem Spiel: drucken und vorbereiten
 
 1. **Einseitig drucken.** Druckt alle Dateien einseitig aus. Lest dabei nichts. Das Heft sagt: „Drucke alle Dateien einseitig aus und lies dabei nichts. Sortiere nur nach Nummern, Codes und Rollennamen.“
-2. **Teile vorbereiten.** Das Spielleitungsheft steht unter „So bereitest du die Teile vor“:
+2. **Teile vorbereiten.** Das Erzählerheft steht unter „So bereitest du die Teile vor“:
    - **Indizkarten:** „Schneide jede Karte aus und falte sie an der gestrichelten Mittellinie. Vorn steht dann der Code, hinten der Fund. Leg sie mit dem Code nach oben bereit. Lies dabei nicht, was hinten steht.“
    - **Hinweis-Umschläge:** „Falte jedes Blatt an der gestrichelten Linie, sodass vorn der Code steht und hinten der Text. Wer mag, steckt es in einen echten Umschlag und schreibt den Code darauf. Lies dabei nicht, was hinten steht.“
    - **Fassungen:** „Jede Fassung hat vier Blätter. Leg sie mit der Schrift nach oben aufeinander, das Blatt mit dem Code obenauf. Knick den Stapel in der Mitte nach hinten, sodass der Code vorn bleibt, und klebe ihn zu, ohne hineinzusehen.“
    - **Stimmkarten:** „Schneide die Karten aus und leg sie zu den Rollenheften mit demselben Namen.“ Auf dem Abreißstreifen unten steht der Code und der Hinweis „Abreißen, falten und in die Schüssel legen.“
    - **Auflösungsheft:** „Leg alle Blätter mit der Schrift nach oben aufeinander, das Deckblatt obenauf. Knick den Stapel in der Mitte nach hinten und klebe ihn zu, ohne hineinzusehen.“
 
-### Die Rolle der Spielleitung
+### Die Rolle des Erzählers
 
-Die Spielleitung ist eine eigene Person. Sie sollte nicht das Geburtstagskind sein. Das Spielleitungsheft bleibt bei ihr. Der Detektivbogen gehört dem Geburtstagskind.
+Der Erzähler ist eine eigene Person, nie der Detektiv. Das Erzählerheft bleibt bei ihm, der Detektivbogen gehört dem
+Detektiv. Das Heft kennt alle Stichpunkte: Neben den Vorlesetexten (im Intro mit der Dia-Nummer als Stichwort)
+stehen je Runde die Befragungen mit ihren Antworten und alle Tischgespräche. Die Lösung steht nicht darin; sie
+bleibt im versiegelten Auflösungsheft.
 
-Das Heft sagt der Spielleitung: „Lies die Texte mit der Marke Vorlesen genau so vor, wie sie dastehen. Alles andere ist Anleitung für dich.“
+Das Heft sagt dem Erzähler: „Lies die Texte mit der Marke Vorlesen genau so vor, wie sie dastehen. Alles andere ist Anleitung für dich.“
 
 - **Zu Beginn:** Lest die Texte mit der Marke „Vorlesen“ vor.
 - **Rollen und Fassungen:** „Gib jeder Person ihr Rollenheft und, wenn sie welche hat, ihre Stimmkarten.“ Legt dann die vier versiegelten Fassungen aus und nennt ihre Codes. „Wer einen dieser Codes im eigenen Heft findet, nimmt die Fassung und liest sie allein.“
 - **Pro Runde:**
   1. **Rundenstart.** Lest den Rundenstart vor. Stellt die Uhr auf die Minuten, die das Heft nennt. Jede Rolle beginnt die drei Gespräche aus ihrem Heft. Wer angesprochen wird, antwortet aus der eigenen Rolle.
-  2. **Entscheidungen.** Das Geburtstagskind wählt auf dem Detektivbogen. Ihr gebt die Indizkarte mit dem gewählten Code aus.
+  2. **Entscheidungen.** Der Detektiv wählt auf dem Detektivbogen. Ihr gebt die Indizkarte mit dem gewählten Code aus.
   3. **Gruppenwahl.** Jede Rolle gibt genau einen Streifen ab. Gäste reißen ihn von ihrer Karte A oder B ab. Die vier Kernrollen nehmen Streifen A oder B aus ihrer Fassung. Alle falten den Streifen und legen ihn in eine Schüssel.
      - „Nimm die Streifen einzeln heraus und such jeden Code in der Tabelle. Zähl die Werte zusammen und sag die Summe nie laut. Danach kommen die Streifen weg.“
      - Die Tabelle hat die Spalten „Code“ und „Wert“.
@@ -73,7 +96,7 @@ Das Heft sagt der Spielleitung: „Lies die Texte mit der Marke Vorlesen genau s
      - Spielen nur die vier Kernrollen, gibt es keine Stimmkarten. Alle stimmen dann mit den Streifen aus ihrer Fassung; das Heft sagt es an dieser Stelle.
   4. **Umschlag.** „Öffne den Umschlag mit dem Code aus der Tabelle und lies ihn vor.“
   5. **Zwischenresümee.** Lest die Gruppe vor. Dann die Restmenge: Die Regeln stehen auf dem Detektivbogen, der Anhang „Anhang: Restmengen“ im Heft hat die Texte. Zuletzt die Lage: „Die Lage steht auf dem Bogen. Lies den Text vor, der dazu passt.“
-- **Nach Runde 3 die Anklage.** „Nach Runde 3 liest du die Anklage vor. Das Geburtstagskind klagt eine der vier Verdächtigen an.“
+- **Nach Runde 3 die Anklage.** „Nach Runde 3 liest du die Anklage vor. Der Detektiv klagt eine der vier Verdächtigen an.“
   - „Dann öffnest du das Auflösungsheft. Dort stehen die richtigen Karten und die Endentabelle.“
   - „Vergleiche die Codes der gewählten Karten mit dem Auflösungsheft. Jede Übereinstimmung bringt einen Punkt.“
   - „Trage die Punkte auf dem Bogen ein. Dann liest du das Ende vor.“
@@ -81,24 +104,24 @@ Das Heft sagt der Spielleitung: „Lies die Texte mit der Marke Vorlesen genau s
 
 ### Die Fassungen der vier Verdächtigen
 
-- Die Datei mit den Fassungen enthält vier versiegelte Fassungen. Außen steht nur ein Code: „Versiegelt. Erst öffnen, wenn die Spielleitung diesen Code nennt.“
+- Die Datei mit den Fassungen enthält vier versiegelte Fassungen. Außen steht nur ein Code: „Versiegelt. Erst öffnen, wenn der Erzähler diesen Code nennt.“
 - Jede Kernrolle findet ihren Code im eigenen Rollenheft. Wer den Code findet, nimmt die Fassung und liest sie allein.
 - Die Kernrollen haben keine Stimmkarten. Ihre Streifen A und B stecken in der Fassung. Auf der Fassung steht: „Du hast keine Stimmkarten. In jeder Runde gibst du genau einen Streifen von dieser Seite ab.“ Unter jedem Streifen steht: „Nur wenn gewählt: abreißen, in die Schüssel.“
-- Im Rollenheft steht: „Deine Fassung trägt den Code … Öffne sie erst, wenn die Spielleitung diesen Code nennt.“
+- Im Rollenheft steht: „Deine Fassung trägt den Code … Öffne sie erst, wenn der Erzähler diesen Code nennt.“
 - Die Fassungen faltet ihr nach dem Heft, ohne hineinzusehen.
 
 ### Das versiegelte Auflösungsheft
 
 - Das Auflösungsheft ist versiegelt. Dort steht: „Versiegelt – erst nach der Anklage öffnen“.
 - Es enthält die richtigen Karten, die Endentabelle, „Auflösung für alle“ und eine Codeliste.
-- Die Spielleitung öffnet es erst nach der Anklage.
+- Der Erzähler öffnet es erst nach der Anklage.
 
 ### Bekannte Grenzen
 
-- **Ausschneiden.** Wer beim Ausschneiden die Rückseiten liest, kann Funde und Fassungen lesen. Druckt einseitig, sortiert nur nach Codes und lasst jemanden ausschneiden, der nicht das Geburtstagskind ist.
-- **Dauer.** Das Spielleitungsheft nennt die Rundendauer, die bei der Einrichtung gewählt war. Per Befehl gilt die Vorgabe von 30 Minuten, außer ihr gebt `--dauer` an.
+- **Ausschneiden.** Wer beim Ausschneiden die Rückseiten liest, kann Funde und Fassungen lesen. Druckt einseitig, sortiert nur nach Codes und lasst jemanden ausschneiden, der nicht der Detektiv ist.
+- **Dauer.** Das Erzählerheft nennt die Rundendauer, die bei der Einrichtung gewählt war. Per Befehl gilt die Vorgabe von 30 Minuten, außer ihr gebt `--dauer` an.
 - **Rückblende.** Den Zeitraffer im Finale gibt es nur am Bildschirm. Im Druck steht die Rückblende als Text im Auflösungsheft.
-- **Die Summe.** Die Spielleitung sagt die Summe nie laut.
+- **Die Summe.** Der Erzähler sagt die Summe nie laut.
 - **Würfel.** Das Druckspiel ist würfelfrei. Der Kellerwürfel und die Kartenhand gehören zum Abend am Bildschirm.
 
 ### Der Befehl für Entwickler
@@ -107,9 +130,15 @@ Im Ordner `packages/mordakte_core`, nach `source tool/flutter_env.sh`:
 
 ```
 dart run bin/party_druck.dart --code XXXXX --n 7 --detektiv w --dauer 30 --aus <Ordner>
+dart run bin/party_druck.dart --pfad olli --n 7 --alles
+dart run bin/party_druck.dart --steckbriefe --n 7
 ```
 
-Er erzeugt den PDF-Satz mit acht Dateien. Ohne `--aus` landet er in `build/druck/<Code>-n<Zahl>`. Die Vorgaben
-sind `--n 12`, `--detektiv w` und die Rundendauer aus `fall.json` (30 Minuten). `--pfad` (ahmet, fatma, olli,
-can) ist nur für Testläufe gedacht. Der Befehl liest den Kanon `content/party/schlosskeller/`. Danach meldet er
-„Druckspiel <Code> für 7 Rollen und das Geburtstagskind in <Ordner>“.
+Der erste Befehl erzeugt den PDF-Satz mit acht Dateien. Ohne `--aus` landet er in `build/druck/<Code>-n<Zahl>`.
+Die Vorgaben sind `--fall schlosskeller`, `--n 12`, `--detektiv w` und die Rundendauer aus `fall.json` (30 Minuten).
+`--pfad` (ahmet, fatma, olli, can) ist nur für Testläufe gedacht. Danach meldet er „Druckspiel <Code> für 7 Rollen
+und den Detektiv in <Ordner>“. Mit `--alles` stehen die acht Teile in einer Datei `druckspiel-alles.pdf`.
+
+`--steckbriefe` braucht keinen Fall-Code. Es schreibt die Charakterübersicht, eine Datei mit Übersicht und allen
+Steckbriefen und je Figur einen Steckbrief, ohne `--n` für alle Figuren. `--fall` wählt die Akte; Steckbriefe gibt
+es nur, wo `steckbriefe.json` liegt.
