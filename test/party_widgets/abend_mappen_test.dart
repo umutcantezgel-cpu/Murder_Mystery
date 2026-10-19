@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/party/bildschirme/befragung.dart';
 import 'package:mordakte/party/bildschirme/einrichtung.dart';
 import 'package:mordakte/party/bildschirme/gruppenwahl.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
@@ -12,9 +13,11 @@ import 'package:mordakte/party/bildschirme/resuemee.dart';
 import 'package:mordakte/party/bildschirme/runde.dart';
 import 'package:mordakte/party/bildschirme/solo_gespraeche.dart';
 import 'package:mordakte/party/bildschirme/titel.dart';
+import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/stil/mappe/abend1_bausteine.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart' show FesterWuerfel;
 
 import 'hilfe.dart';
 
@@ -172,8 +175,15 @@ void main() {
     expect(t.takeException(), isNull);
   });
 
-  testWidgets('Vernehmungsplan: jede Rolle als Fotoabzug, Gespräche mit dem Abzug der Gesprächsperson', (t) async {
-    final s = neueSitzung(rollen: 4);
+  /// Eine Sitzung der Altakte Gewölbe (Modell legacy): Pflichtgespräche und Sprechblasen wie bisher.
+  PartySitzung gewoelbe({bool solo = false}) {
+    final d = akteDaten('gewoelbe');
+    return PartySitzung(d, wuerfel: const FesterWuerfel.neutral())
+      ..einrichten(rollen: 4, detektiv: 'w', solo: solo, code: FallCode.fuerPfad(d.kanon.pfade.first, d.kanon.pfade).code);
+  }
+
+  testWidgets('Vernehmungsplan (Altakte): jede Rolle als Fotoabzug, Gespräche mit dem Abzug der Gesprächsperson', (t) async {
+    final s = gewoelbe();
     spieleBis(s, PartyPhase.gespraeche);
     await _zeige(t, RundeBildschirm(sitzung: s));
     for (final z in s.gespraeche(s.runde)) {
@@ -181,8 +191,26 @@ void main() {
     }
   });
 
-  testWidgets('Vernehmungsprotokoll: Fotoabzug, Thema als Formularfeld, Aussage in Kursive', (t) async {
+  testWidgets('Befragungskarte: Fotoabzug, Thema, Fragen als Knöpfe; nach der Frage die Antwort in Kursive', (t) async {
     final s = neueSitzung(rollen: 4, solo: true);
+    spieleBis(s, PartyPhase.gespraeche);
+    final k = s.befragungen.firstWhere((k) => k.pflicht);
+    Widget karte() => SingleChildScrollView(child: BefragungsKarte(sitzung: s, karte: s.befragungVon(k.rolle)!, onFrage: (f) => s.befragen(k.id, f)));
+    await _zeige(t, karte());
+    final blatt = find.byType(BefragungsKarte);
+    expect(find.descendant(of: blatt, matching: find.byType(MFotoabzug)), findsOneWidget);
+    expect(find.descendant(of: blatt, matching: find.text(k.thema)), findsOneWidget);
+    expect(find.descendant(of: blatt, matching: find.byType(MKnopf)), findsNWidgets(k.fragen.length));
+    s.befragen(k.id, 0);
+    await _zeige(t, karte());
+    expect(find.descendant(of: blatt, matching: find.byType(MKnopf)), findsNothing, reason: 'Nach der Frage keine Knöpfe mehr');
+    final antwort = s.befragungVon(k.rolle)!.antwort!;
+    expect(t.widget<Text>(find.text(antwort.first)).style, MPapierSchrift.kursiv);
+    expect(find.byWidgetPredicate((w) => w is MStempel && w.text == s.ui('ui.befragung.erledigt')), findsOneWidget);
+  });
+
+  testWidgets('Vernehmungsprotokoll (Altakte): Fotoabzug, Thema als Formularfeld, Aussage in Kursive', (t) async {
+    final s = gewoelbe(solo: true);
     spieleBis(s, PartyPhase.gespraeche);
     final g = s.soloGespraeche.first;
     await _zeige(t, SingleChildScrollView(child: BotSprechblase(sitzung: s, gespraech: g)));

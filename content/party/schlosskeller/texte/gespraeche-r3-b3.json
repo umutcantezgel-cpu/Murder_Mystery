@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 9 bis 12.",
+  "hinweis": "Tischgespräche Runde 3, Besetzungsplätze 9 bis 12 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_murat_3_1",
@@ -10,140 +10,58 @@
       "nr": 1,
       "partner": "leyla",
       "thema": "Halten wir zusammen?",
-      "ziel": "Ich will das Gegenüber auf meine Seite holen und hören, wie die Person den Abend sieht.",
+      "ziel": "Ich will jemanden auf meine Seite holen.",
       "preisgabe": [],
-      "text": "Wir zwei sollten zusammenhalten, bis der Abend vorbei ist."
-    },
-    {
-      "id": "g_murat_3_2",
-      "rolle": "murat",
-      "runde": 3,
-      "nr": 2,
-      "partner": "can",
-      "thema": "Wer war das im Dunkeln?",
-      "ziel": "Ich will Can drängen, bevor der Abend zu Ende geht, dass er sagt, wer das war.",
-      "preisgabe": [
-        "beobachtung:b_marek_gesicht"
-      ],
-      "text": "Can, im Dunkeln hab ich etwas Leuchtendes am Durchgang vorbeihuschen sehen. Wer war das?"
-    },
-    {
-      "id": "g_murat_3_3",
-      "rolle": "murat",
-      "runde": 3,
-      "nr": 3,
-      "partner": "enes",
-      "thema": "Wollen wir reden?",
-      "ziel": "Ich will dem Gegenüber zeigen, dass ich offen bin, und jemanden auf meine Seite ziehen.",
-      "preisgabe": [],
-      "text": "Ich will heute Abend offen reden. Frag mich ruhig."
+      "stichpunkte": [
+        "Wir zwei sollten zusammenhalten.",
+        "Wie siehst du den Abend?"
+      ]
     },
     {
       "id": "g_zeynep_3_1",
       "rolle": "zeynep",
       "runde": 3,
       "nr": 1,
-      "partner": "can",
-      "thema": "Was stimmt jetzt?",
-      "ziel": "Ich will, dass Can mir selbst sagt, was er im Dunkeln gemacht hat, bevor es jemand anders herausfindet.",
-      "preisgabe": [],
-      "text": "Can, ich will dir helfen. Dafür musst du mir sagen, was du beim Knall wirklich gemacht hast."
-    },
-    {
-      "id": "g_zeynep_3_2",
-      "rolle": "zeynep",
-      "runde": 3,
-      "nr": 2,
       "partner": "tim",
-      "thema": "Wir vergleichen, was wir sagen",
-      "ziel": "Ich will das Gegenüber auf meine Seite holen und hören, was im Dunkeln passiert ist.",
+      "thema": "Wir vergleichen",
+      "ziel": "Ich will hören, was andere im Dunkeln gesehen haben.",
       "preisgabe": [],
-      "text": "Lass uns nebeneinanderlegen, was wir gesagt haben. Was hast du im Dunkeln mitgekriegt?"
-    },
-    {
-      "id": "g_zeynep_3_3",
-      "rolle": "zeynep",
-      "runde": 3,
-      "nr": 3,
-      "partner": "aylin",
-      "thema": "Was ich auch gesehen hab",
-      "ziel": "Ich will dem Gegenüber sagen, was ich im Dunkeln gesehen habe, und es zum Reden bringen.",
-      "preisgabe": [
-        "beobachtung:b_zeynep_gesicht"
-      ],
-      "text": "Ich hab im Dunkeln auch was gesehen. Da war ein leuchtendes Gesicht, das aus dem Durchgang kam und an mir vorbei in den Kaminsaal huschte."
+      "stichpunkte": [
+        "Lass uns vergleichen, was wir gesagt haben.",
+        "Was hast du im Dunkeln mitgekriegt?"
+      ]
     },
     {
       "id": "g_baran_3_1",
       "rolle": "baran",
       "runde": 3,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Was war beim Knall los?",
-      "ziel": "Ich will von Ahmet hören, was an der Theke passiert ist, und ihn zum Reden bringen.",
-      "preisgabe": [],
-      "text": "Ahmet, jetzt brauch ich mal ein paar Worte, die stimmen. Was war bei dir los, als das Licht ausging?"
-    },
-    {
-      "id": "g_baran_3_2",
-      "rolle": "baran",
-      "runde": 3,
-      "nr": 2,
-      "partner": "olli",
-      "thema": "Olli und der Knall",
-      "ziel": "Ich will von Olli wissen, wo er beim Knall war, und ihn auf meine Seite holen.",
-      "preisgabe": [],
-      "text": "Olli, wenn du mir hilfst, helf ich dir auch. Was hast du beim Knall mitbekommen?"
-    },
-    {
-      "id": "g_baran_3_3",
-      "rolle": "baran",
-      "runde": 3,
-      "nr": 3,
       "partner": "meryem",
       "thema": "Was ich gehört hab",
-      "ziel": "Ich will dem Gegenüber erzählen, was ich gehört habe, und dann selbst etwas hören.",
+      "ziel": "Ich will erzählen, was ich gehört habe, und dann zuhören.",
       "preisgabe": [
         "beobachtung:b_baran_rufe"
       ],
-      "text": "Ich sag dir, was ich gehört hab. Zuerst ein Ruf: „Hab ich dich!“ Danach kam „Stehen bleiben!“, zum Schluss das Scheppern. Jetzt bist du dran."
+      "stichpunkte": [
+        "Ich hab zwei Rufe und ein Scheppern gehört.",
+        "Jetzt bist du dran."
+      ]
     },
     {
       "id": "g_meryem_3_1",
       "rolle": "meryem",
       "runde": 3,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Was war im Ascheneimer?",
-      "ziel": "Ich will Ahmet dazu bringen, dass er sagt, was er neben dem Kamin in den Ascheneimer geworfen hat.",
-      "preisgabe": [
-        "beobachtung:b_hana_umschlag"
-      ],
-      "text": "Ahmet, ich weiß noch genau, dass du kurz nach zwölf was Raschelndes in den Ascheneimer geworfen hast. Was war das?"
-    },
-    {
-      "id": "g_meryem_3_2",
-      "rolle": "meryem",
-      "runde": 3,
-      "nr": 2,
-      "partner": "emine",
-      "thema": "Der Ruß am Kamin",
-      "ziel": "Ich will herausfinden, wie Herr Schneider gerade drauf ist, und mich bei ihm für den Ruß entschuldigen.",
-      "preisgabe": [],
-      "text": "Wegen dem Ruß tut es mir leid. Lass uns jetzt zusammen rausfinden, wie es Herrn Schneider geht."
-    },
-    {
-      "id": "g_meryem_3_3",
-      "rolle": "meryem",
-      "runde": 3,
-      "nr": 3,
       "partner": "serkan",
       "thema": "Was ich gerochen hab",
-      "ziel": "Ich will dem Gegenüber sagen, was ich nach dem Scheppern gerochen habe.",
+      "ziel": "Ich will erzählen, was ich nach dem Scheppern gerochen habe.",
       "preisgabe": [
         "beobachtung:b_hana_wachs"
       ],
-      "text": "Als das Scheppern vorbei war, stieg mir Kerzenwachs in die Nase, frisch erloschen. Von der Theke her hat der Luftzug den Geruch zu mir getragen. Du bist jetzt an der Reihe."
+      "stichpunkte": [
+        "Frisch erloschenes Kerzenwachs, von der Theke her.",
+        "Jetzt bist du an der Reihe."
+      ]
     }
   ]
 }

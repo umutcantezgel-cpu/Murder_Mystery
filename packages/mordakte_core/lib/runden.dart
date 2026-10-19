@@ -8,6 +8,7 @@ export 'src/runden/bots.dart';
 export 'src/runden/schlosskeller_raum.dart';
 export 'src/runden/abend_raum.dart';
 export 'src/runden/raum/raum_modul.dart';
+export 'src/runden/raum/befragung_modul.dart';
 export 'src/runden/raum/sichtfelder.dart';
 export 'src/karten/karte.dart';
 export 'src/karten/vorrat.dart';

@@ -23,6 +23,9 @@ import 'sitzung.dart';
 /// - `gespraech=<figur>[,<schritte>]` (mit `bis`): in Runde 1 ein Randgespräch mit
 ///   dieser Figur beginnen und je Schritt die erste Wahl nehmen; liegt `bis`
 ///   hinter den Entscheidungen, wird es zu Ende geführt (Nachspiel)
+///
+/// Im Modell befragung erledigt das Skript die Befragungen jeder Runde selbst
+/// (erste Frage, feste und so viele freie wie erlaubt).
 class PartyDev {
   final String fall;
   final String? code;
@@ -213,7 +216,28 @@ class PartySkript {
         return;
       default:
         await _foto('${s.phase.name}${s.runde > 0 ? '_r${s.runde}' : ''}');
+        befragungenErledigen(s);
         s.weiter();
+    }
+  }
+
+  /// Erledigt die Befragungen der laufenden Runde (Modell befragung, A-051): jede
+  /// feste und so viele freie, wie die Runde erlaubt, je mit der ersten Frage.
+  /// Reihum ist die Person danach beantwortet. Ohne Befragungen geschieht nichts.
+  static void befragungenErledigen(PartySitzung s) {
+    // Im Druckspiel stehen die Befragungen auf dem Bogen; die App führt sie nicht.
+    if (s.phase != PartyPhase.gespraeche || s.befragungAufPapier) return;
+    var frei = s.befragungenFrei;
+    for (final k in s.befragungen) {
+      if (k.erledigt) continue;
+      if (!k.gefragt) {
+        if (!k.pflicht) {
+          if (frei <= 0) continue;
+          frei--;
+        }
+        s.befragen(k.id, 0);
+      }
+      if (k.mensch) s.befragungErledigt(k.id);
     }
   }
 
@@ -286,6 +310,7 @@ class PartySkript {
           if (s.angeklagt == null) s.anklagen(s.spiel.pfad);
           s.weiter();
         default:
+          befragungenErledigen(s);
           s.weiter();
       }
     }

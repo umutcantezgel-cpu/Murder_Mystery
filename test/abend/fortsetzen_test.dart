@@ -207,12 +207,39 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
 
-    final kaputt = jsonEncode({'format': 'abendstand/1', 'fall': 'schlosskeller', 'salz': 'aa', 'titel': 'X', 'befehle': [{'b': 'zaubern'}]});
+    final kaputt = jsonEncode({'format': 'abendstand/2', 'fall': 'schlosskeller', 'salz': 'aa', 'titel': 'X', 'befehle': [{'b': 'zaubern'}]});
     state = await _oeffnen(tester, Routes.start, ablage: {AbendSpeicher.schluessel: kaputt});
     await _tippen(tester, 'Abend fortsetzen');
     expect(find.byType(DetekteiSeite), findsOneWidget);
     expect(find.text('Abend fortsetzen'), findsNothing);
     expect(await _ablage(tester), isNull, reason: 'Ein Stand, der sich nicht abspielen lässt, ist verworfen');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Ein Schlosskeller-Abend aus der Fassung vor den Befragungen wird mit Hinweis verworfen', (tester) async {
+    final alt = jsonEncode({
+      'format': 'abendstand/1',
+      'fall': 'schlosskeller',
+      'salz': '00aa11bb22cc33dd',
+      'titel': 'Spuk im Schlosskeller',
+      'phase': 'gespraeche',
+      'runde': 1,
+      'befehle': [
+        {'b': 'titel'},
+        {'b': 'einrichten', 'rollen': 4, 'detektiv': 'w', 'solo': true},
+        {'b': 'gelesen', 'id': 'g_ahmet_1_1'},
+      ],
+    });
+    final state = await _oeffnen(tester, Routes.start, ablage: {AbendSpeicher.schluessel: alt});
+    expect(find.text('Abend fortsetzen'), findsOneWidget, reason: 'Die Detektei zeigt den alten Stand zunächst an');
+    await _tippen(tester, 'Abend fortsetzen');
+    expect(find.byType(DetekteiSeite), findsOneWidget);
+    expect(find.byType(AbendSeite), findsNothing);
+    expect(find.text('Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.'), findsOneWidget);
+    expect(find.text('Abend fortsetzen'), findsNothing);
+    expect(await _ablage(tester), isNull, reason: 'Der alte Stand ist verworfen');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();

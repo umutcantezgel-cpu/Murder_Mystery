@@ -118,6 +118,41 @@
           "$ref": "#/$defs/id"
         }
       }
+    },
+    "gespraeche": {
+      "type": "object",
+      "required": [
+        "modell"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "modell": {
+          "enum": [
+            "legacy",
+            "befragung"
+          ]
+        },
+        "tischJeRolle": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "lastRolle": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7
+        },
+        "befragungenJeRunde": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      }
     }
   }
 }

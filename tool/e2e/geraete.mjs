@@ -1,6 +1,8 @@
 // Online-Abend „Jeder am eigenen Gerät“ mit drei Handys (390 × 844), echte Zeigerereignisse:
 // Gastgeberin Anna in der Detektei bis zur Lobby, Gäste Ben und Cleo über den Beitrittslink.
-// Rollen lesen, Runde 1 bis zur Gruppenwahl, Gäste geben ihre Stimme ab. Relais ist die lokale
+// Rollen lesen, in Runde 1 befragt Anna als Detektiv drei bis fünf Rollen (Modell befragung:
+// Ben und Cleo sehen die Frage auf dem eigenen Gerät, Anna nie ihre Antwort), dann bis zur
+// Gruppenwahl, Gäste geben ihre Stimme ab. Relais ist die lokale
 // Attrappe (server/ → dart run ../tool/e2e/attrappe.dart). Keine Anfrage außerhalb von localhost.
 // Aufruf: node tool/e2e/geraete.mjs. Eine schon laufende Attrappe nimmt MORDAKTE_RELAIS=ws://127.0.0.1:4455.
 // Fotos ohne geheime Texte: planung/einspiel/fotos/m2/ (390 px). Rollen- und Wahlfotos (Dossiers) und Fehlerbilder
@@ -9,6 +11,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import { befragungenFuehren } from './befragung.mjs';
 import { starteBrowser } from './browser.mjs';
 import { starteServer } from './server.mjs';
 
@@ -39,6 +42,16 @@ const besetzung = await readJson(`${root}/besetzung.json`);
 const dossiere = [];
 for (const eintrag of index.dateien.filter(e => e.bereich === 'dossier')) {
   dossiere.push(...(await readJson(`${root}/texte/${eintrag.datei}`)).eintraege);
+}
+// Täterfassungen: Wer die Tat begangen hat, sieht Ziel und Verborgenes daraus, dazu die Tarngeschichte.
+const taeter = new Map();
+for (const eintrag of index.dateien.filter(e => e.bereich === 'taeter')) {
+  for (const t of (await readJson(`${root}/texte/${eintrag.datei}`)).eintraege) taeter.set(t.rolle, t);
+}
+// Befragungen des Detektivs (A-051): Kennung → Rolle, Fragen und eigene Stichpunkte der Rolle.
+const befragungen = new Map();
+for (const eintrag of index.dateien.filter(e => e.bereich === 'befragung')) {
+  for (const b of (await readJson(`${root}/texte/${eintrag.datei}`)).eintraege) befragungen.set(b.id, b);
 }
 const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -154,7 +167,7 @@ async function oeffneHandy(browser, name, url, log) {
 
 // ---------------------------------------------------------------- Ablauf
 
-const lauf = { schritt: '', zaehler: { gehoert: 0, gewuerfelt: 0, gastWuerfe: 0, entscheidungen: 0 } };
+const lauf = { schritt: '', zaehler: { befragt: 0, gastFragen: 0, gewuerfelt: 0, gastWuerfe: 0, entscheidungen: 0 } };
 const log = text => console.log(`· ${text}`);
 
 async function gastTippt(gastListe, name) {
@@ -170,8 +183,8 @@ async function gastTippt(gastListe, name) {
 const norm = s => s.replace(/\s+/g, ' ').trim();
 const zeilen = liste => (liste ?? []).map(z => (typeof z === 'string' ? z : z?.text)).filter(t => typeof t === 'string');
 
-/** Die privaten Zeilen eines Dossiers (Wer ich bin, Ziel, Was ich weiß, Was ich verberge), ab 20 Zeichen. */
-const privat = e => [e.wer, e.ziel, ...zeilen(e.weiss), ...zeilen(e.verbirgt)]
+/** Die privaten Zeilen eines Dossiers (Wer ich bin, Ziel, Was ich weiß, Was ich verberge; bei der Täterfassung auch Tarngeschichte und Tatwissen), ab 20 Zeichen. */
+const privat = e => [e.wer, e.ziel, e.tarnung, ...zeilen(e.weiss), ...zeilen(e.verbirgt), ...zeilen(e.tatwissen)]
   .filter(t => typeof t === 'string').map(norm).filter(t => t.length >= 20);
 
 /** Das Dossier, dessen „Wer ich bin“-Zeile auf dieser Seite steht; `null`, solange nichts gezeichnet ist. */
@@ -270,13 +283,15 @@ async function main() {
     // 4. Rollen auf das Minimum, Lobbyfoto, Start
     stufe = 'Anna: Rollen auf das Minimum';
     let minimum = 0;
-    for (let i = 0; i < 20; i++) {
-      if (!(await offen(p, text('online_rollen_weniger')))) break;
+    const erwartet = Math.max(besetzung.minRollen, Math.min(gaeste.length, besetzung.maxRollen));
+    const rollenZahl = async () => Number((await alleTexte(p)).find(t => /^\d+ Rollen$/.test(t))?.split(' ')[0]);
+    // Nach dem Beitritt zeichnet die Lobby neu: Auf den Knopf warten, statt beim ersten Blick aufzuhören.
+    for (let i = 0; i < 20 && (await rollenZahl()) > erwartet; i++) {
+      await warteAuf(anna, () => offen(p, text('online_rollen_weniger')), '„Weniger Rollen“');
       await tippeKnopf(anna, text('online_rollen_weniger'));
     }
     const rollenText = (await alleTexte(p)).find(t => /^\d+ Rollen$/.test(t));
     minimum = Number(rollenText?.split(' ')[0]);
-    const erwartet = Math.max(besetzung.minRollen, Math.min(gaeste.length, besetzung.maxRollen));
     assert.equal(minimum, erwartet, `Rollen auf dem Minimum: ${rollenText}`);
     log(`Rollen: ${minimum} (Minimum aus Gästen und Besetzung)`);
     await fotografiere(anna, 'geraete-host-lobby-390x844.png', 'Gastgeber-Lobby');
@@ -291,7 +306,10 @@ async function main() {
       rollen[g.name] = await warteAuf(g, async () => {
         const texte = await alleTexte(g.page);
         const eintrag = eigenesDossier(texte);
-        return eintrag ? { texte, eintrag } : null;
+        if (!eintrag) return null;
+        // Die Täterin oder der Täter liest die Täterfassung (erkennbar an der Tarngeschichte).
+        const istTaeter = nennt(texte, text('online_dossier_tarnung')) && taeter.has(eintrag.rolle);
+        return { texte, eintrag: istTaeter ? { ...eintrag, ...taeter.get(eintrag.rolle) } : eintrag };
       }, 'Eigenes Dossier mit „Wer ich bin“', 60000);
     }
     assert.notEqual(rollen.Ben.eintrag.rolle, rollen.Cleo.eintrag.rolle, 'Ben und Cleo bekommen dieselbe Rolle');
@@ -301,7 +319,8 @@ async function main() {
     for (const g of gastHandys) {
       const sicht = norm((await alleTexte(g.page)).join('\n'));
       const eigene = new Set(priv[g.name]);
-      const eigeneVerborgen = zeilen(rollen[g.name].eintrag.verbirgt).map(norm);
+      const e = rollen[g.name].eintrag;
+      const eigeneVerborgen = [...zeilen(e.verbirgt), ...(e.tarnung ? [e.tarnung] : [])].map(norm);
       assert(eigeneVerborgen.some(z => sicht.includes(z)), `${g.name}: die eigenen Zeilen „Was ich verberge“ fehlen auf dem Gerät`);
       for (const fremder of gastHandys.filter(x => x !== g)) {
         for (const zeile of priv[fremder.name]) {
@@ -329,19 +348,39 @@ async function main() {
     await tippeKnopf(anna, text('ui.rollen.weiter'));
     await tippeKnopf(anna, text('ui.intro.weiter'));
 
-    // 6. Runde 1: Gespräche (Bots sprechen, Gastgeberin hört zu) bis zur Ermittlung
-    stufe = 'Anna: Gespräche Runde 1';
-    const weiterGespraech = text('ui.solo.gehoert');
+    // 6. Runde 1: Befragungen (Modell befragung, A-051). Anna ist der Detektiv und stellt je Karte die
+    // erste Frage. Rollen der App antworten nur ihr; Ben und Cleo sehen die Frage auf dem eigenen Gerät,
+    // antworten am Tisch, und Anna tippt „Beantwortet“. „Weiter“ wird erst danach frei.
+    stufe = 'Anna: Befragungen Runde 1';
     const rundeWeiter = text('ui.runde.weiter');
-    for (let i = 0; ; i++) {
-      assert(i < 120, 'Die Gespräche der Runde 1 enden nicht');
-      if (await offen(p, weiterGespraech)) {
-        await tippeKnopf(anna, weiterGespraech);
-        lauf.zaehler.gehoert++;
-      } else if (await offen(p, rundeWeiter)) {
-        break;
-      } else await p.waitForTimeout(zeit.kurz);
-    }
+    assert(!(await offen(p, rundeWeiter)), 'Weiter ist vor den Befragungen frei');
+    const gastVon = Object.fromEntries(gastHandys.map(g => [rollen[g.name].eintrag.rolle, g]));
+    const befragung = await befragungenFuehren(p, {
+      tippe: (ziel, label) => tippe(p, ziel, `Anna: ${label}`),
+      fertig: () => offen(p, rundeWeiter),
+      nachFrage: async id => {
+        const b = befragungen.get(id);
+        assert(b, `Unbekannte Befragung ${id}`);
+        const g = gastVon[b.rolle];
+        if (!g) return;
+        stufe = `${g.name}: Frage des Detektivs`;
+        const frage = text('party_befragung_fragt').replace('{frage}', b.fragen[0]);
+        await warteAuf(g, () => zeigt(g.page, frage), `„${frage}“ auf dem Gerät`);
+        if (lauf.zaehler.gastFragen++ === 0) {
+          await fotografiere(g, `geraete-gast-befragt-${g.name.toLowerCase()}-390x844.png`, `Befragt: ${g.name} (geheim, nur lokal)`, geheimOrdner);
+        }
+        // Was die befragte Person sagt, steht nie auf Annas Gerät.
+        const sicht = norm((await alleTexte(p)).join('\n'));
+        for (const z of b.stichpunkte ?? []) assert(!sicht.includes(norm(z)), `Anna sieht den Spickzettel von ${g.name}: „${z}“`);
+        stufe = 'Anna: Befragungen Runde 1';
+      },
+    });
+    assert(befragung.fragen >= 3 && befragung.fragen <= 5, `Runde 1: ${befragung.fragen} Befragungen statt drei bis fünf`);
+    assert.equal(befragung.beantwortet, lauf.zaehler.gastFragen, 'Jede Frage an Ben oder Cleo wird am Tisch beantwortet');
+    lauf.zaehler.befragt = befragung.fragen;
+    log(`Befragungen: ${befragung.fragen} (davon ${lauf.zaehler.gastFragen} an Gäste, ${befragung.gewaehlt} frei gewählt)`);
+    // Annas Karten zeigen die Antworten der App-Rollen: nur für den Detektiv, daher nur lokal.
+    await fotografiere(anna, 'geraete-host-befragungen-390x844.png', 'Gastgeberin nach den Befragungen (nur lokal)', geheimOrdner);
     stufe = 'Anna: Runde 1 weiter';
     await tippeKnopf(anna, rundeWeiter);
 
@@ -406,7 +445,7 @@ async function main() {
       assert.equal(h.fremd.length, 0, `${h.name}: fremde Anfragen ${h.fremd.join(' | ')}`);
       for (const socket of h.sockets) assert(socket.startsWith('ws://127.0.0.1:'), `${h.name}: fremder Socket ${socket}`);
     }
-    console.log(`GERÄTE OK · 3 Handys · Raum ${code} · Rollen ${minimum} · ${lauf.zaehler.gehoert} Sprechblasen · ${lauf.zaehler.entscheidungen} Entscheidungen · ${lauf.zaehler.gastWuerfe} Gast-Würfe · Gruppenwahl von Ben und Cleo · 0 Konsolenfehler · 0 fremde Anfragen`);
+    console.log(`GERÄTE OK · 3 Handys · Raum ${code} · Rollen ${minimum} · ${lauf.zaehler.befragt} Befragungen (${lauf.zaehler.gastFragen} an Gäste) · ${lauf.zaehler.entscheidungen} Entscheidungen · ${lauf.zaehler.gastWuerfe} Gast-Würfe · Gruppenwahl von Ben und Cleo · 0 Konsolenfehler · 0 fremde Anfragen`);
   } catch (error) {
     const aufnahmen = [];
     for (const h of handys) {

@@ -406,6 +406,7 @@ Future<void> _lauf({
     _require(nachher - vorher == gastBefehle, 'Befehle wurden nicht genau einmal ausgeführt ($vorher -> $nachher, erwartet +$gastBefehle).');
     await _befehl(hostPlatz, hostPlatz, 'weiter');
 
+    var befragungenGesehen = 0;
     var gefaelschterWurf = false;
     var neuverbindungA = false;
     var hostNetz = false;
@@ -447,6 +448,13 @@ Future<void> _lauf({
           } else {
             await _befehl(hostPlatz, hostPlatz, 'weiter');
           }
+        case 'gespraeche':
+          // Modell befragung (A-051): Der Gastgeber ist der Detektiv und erledigt seine Befragungen.
+          // Erst sehen alle Gäste ihre Spickzettel, dann fragt der Detektiv; vor „Weiter“ sehen sie den Stand.
+          await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
+          befragungenGesehen += await _befragungen(hostPlatz, s);
+          await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
+          await _befehl(hostPlatz, hostPlatz, 'weiter');
         case 'gruppenwahl':
           if (!neuverbindungB) {
             neuverbindungB = true;
@@ -516,6 +524,7 @@ Future<void> _lauf({
       for (final r in Besetzung(kanon).besetzt(rollen)) r: _dossierJson(texte, r, pfad, rollen),
     };
     var geprueft = 0;
+    var spickzettel = 0;
     var ansichtenGesamt = 0;
     var verglichen = 0;
     final hostOhnePrivat = <Object?, String>{
@@ -543,6 +552,17 @@ Future<void> _lauf({
           _require(!text.contains(texte.sammlung.taeter[pfad]!.tarnung) || eigeneRolle == pfad, 'Täterfassung vor dem Finale an Unschuldigen.');
         }
         _require(_keys(view).where((k) => k == 'dossier').length <= 1, 'Mehr als ein Dossier in einer Ansicht.');
+        // Modell befragung: kein Gast sieht eine Antwort der App oder fremde Befragungskarten,
+        // der eigene Spickzettel ist genau der der eigenen Rolle in dieser Runde.
+        _require(!_keys(view).contains('antwort') && !privat.containsKey('befragungen'), 'Befragungsantwort oder Detektivkarten an ${p.name}.');
+        if (privat['befragung'] case final Map b) {
+          final runde = view['runde'] as int;
+          _require(b['id'] == BefragungText.kennung(eigeneRolle, runde), 'Fremde Befragung an ${p.name}.');
+          final soll = befragungsZettel(texte, texte.sammlung.befragungen[b['id']]!);
+          _require(jsonEncode(b['karten']) == jsonEncode([for (final k in soll.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}]),
+              'Falscher Spickzettel an ${p.name}.');
+          spickzettel++;
+        }
         if (privat['dossier'] != null) {
           _require(jsonEncode(privat['dossier']) == jsonEncode(eigenes), 'Falsches oder fremdes Dossier an ${p.name}.');
           geprueft++;
@@ -570,6 +590,13 @@ Future<void> _lauf({
     _require(!hostPlatz.inbox.any((v) => _map(v['privat'])['dossier'] != null), 'Gastgeber (Detektiv) bekam ein Dossier.');
     _require(hostText.isNotEmpty, 'Gastgeber ohne Ansichten.');
     _require(geprueft >= n, 'Zu wenige Dossiers geprüft.');
+    if (texte.besetzung.befragungsmodell) {
+      _require(spickzettel >= n, 'Zu wenige Spickzettel geprüft ($spickzettel).');
+      _require(befragungenGesehen >= 9, 'Der Detektiv hat kaum Befragungen geführt ($befragungenGesehen).');
+      // Antworten der App bekommt nur der Gastgeber, und nur nach der Frage.
+      _require(!hostPlatz.inbox.any((v) => _list(_map(v['privat'])['befragungen'] ?? const []).any((k) => k['frage'] == null && k.containsKey('antwort'))),
+          'Antwort vor der Frage an den Detektiv.');
+    }
     final ablageText = hostAblage.daten[RelayHost.ablageSchluessel]!;
     _require(ablageText.contains('"log"'), 'Gastgeberzustand ohne Protokoll abgelegt.');
 
@@ -710,6 +737,28 @@ Set<String> _texte(Map<String, Object?> dossier) {
 
   sammle(dossier);
   return out;
+}
+
+/// Modell befragung (A-051): Der Detektiv stellt je feste und bis zur Grenze freie Befragung
+/// die erste Frage und erledigt, was ein Mensch am Tisch beantwortet. Ergibt die Zahl der Befragungen.
+Future<int> _befragungen(_Platz host, Map<String, Object?> s) async {
+  final privat = _map(s['privat']);
+  if (privat['befragungen'] is! List) return 0;
+  var frei = privat['befragungenFrei'] as int;
+  var zahl = 0;
+  for (final k in _list(privat['befragungen'])) {
+    if (k['erledigt'] == true) continue;
+    if (k['frage'] == null) {
+      if (k['pflicht'] != true) {
+        if (frei <= 0) continue;
+        frei--;
+      }
+      await _befehl(host, host, 'befragen', {'id': k['id'], 'frage': 0});
+      zahl++;
+    }
+    if (k['mensch'] == true) await _befehl(host, host, 'erledigt', {'id': k['id']});
+  }
+  return zahl;
 }
 
 Future<void> _bereit(_Platz host, _Platz wer) => _befehl(host, wer, 'bereit', {'wert': true});

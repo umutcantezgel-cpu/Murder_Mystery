@@ -1,116 +1,55 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 1 bis 4.",
+  "hinweis": "Tischgespräche Runde 1, Besetzungsplätze 1 bis 4 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_ahmet_1_1",
       "rolle": "ahmet",
       "runde": 1,
       "nr": 1,
-      "partner": "leyla",
-      "thema": "Wo warst du beim Knall?",
-      "ziel": "Ich will wissen, was die andere Person vom Knall mitbekommen hat.",
-      "preisgabe": [
-        "luege:luege_ahmet_servietten"
-      ],
-      "text": "Ich hab hinter der Theke nur Servietten gesucht. Und wo warst du beim Knall?"
-    },
-    {
-      "id": "g_ahmet_1_2",
-      "rolle": "ahmet",
-      "runde": 1,
-      "nr": 2,
       "partner": "aylin",
       "thema": "Das Geld für die Miete",
-      "ziel": "Ich will wissen, ob die andere Person etwas vom Geld weiß.",
+      "ziel": "Ich will wissen, ob jemand am Geld zweifelt.",
       "preisgabe": [
         "luege:luege_ahmet_miete"
       ],
-      "text": "Zum Geld: Die hundertfünfzig Euro waren für die Miete. Hast du davon beim Knall was mitbekommen?"
-    },
-    {
-      "id": "g_ahmet_1_3",
-      "rolle": "ahmet",
-      "runde": 1,
-      "nr": 3,
-      "partner": "meryem",
-      "thema": "Wer war wo?",
-      "ziel": "Ich will wissen, wer im Dunkeln wo war.",
-      "preisgabe": [],
-      "text": "Sag mal, wer war beim Knall wo? Was hast du mitbekommen?"
+      "stichpunkte": [
+        "Die hundertfünfzig Euro waren für die Miete.",
+        "Hast du beim Knall etwas mitbekommen?"
+      ]
     },
     {
       "id": "g_fatma_1_1",
       "rolle": "fatma",
       "runde": 1,
       "nr": 1,
-      "partner": "emine",
+      "partner": "enes",
       "thema": "Wo hast du beim Knall gestanden?",
-      "ziel": "Ich will herausfinden, was die andere Person beim Knall gesehen hat.",
+      "ziel": "Ich will wissen, was andere beim Knall gesehen haben.",
       "preisgabe": [
         "luege:luege_fatma_buffet"
       ],
-      "text": "Ich stand die ganze Zeit beim Gebäck am linken Buffet. Und du, wo warst du?"
-    },
-    {
-      "id": "g_fatma_1_2",
-      "rolle": "fatma",
-      "runde": 1,
-      "nr": 2,
-      "partner": "dilara",
-      "thema": "Was ist in der Tasche?",
-      "ziel": "Ich will wissen, ob die andere Person an meiner Tasche etwas gesehen hat.",
-      "preisgabe": [
-        "luege:luege_fatma_tasche"
-      ],
-      "text": "In meiner Tasche sind nur Bücher. Hast du beim Knall was an meiner Tasche gesehen?"
-    },
-    {
-      "id": "g_fatma_1_3",
-      "rolle": "fatma",
-      "runde": 1,
-      "nr": 3,
-      "partner": "enes",
-      "thema": "Wer stand an der Theke?",
-      "ziel": "Ich will wissen, wer beim Knall an der Theke stand.",
-      "preisgabe": [],
-      "text": "Hast du beim Knall jemanden an der Theke bemerkt?"
+      "stichpunkte": [
+        "Ich stand die ganze Zeit am linken Buffet.",
+        "Und wo warst du, als es knallte?"
+      ]
     },
     {
       "id": "g_olli_1_1",
       "rolle": "olli",
       "runde": 1,
       "nr": 1,
-      "partner": "kaan",
+      "partner": "tugba",
       "thema": "Wo warst du, als es knallte?",
-      "ziel": "Ich will wissen, ob die andere Person mich am Tisch gesehen hat.",
+      "ziel": "Ich will wissen, ob man mich am Tisch gesehen hat.",
       "preisgabe": [
         "luege:luege_olli_tafel"
       ],
-      "text": "Ich saß die ganze Zeit am Tisch im Ost-Saal. Und du, wo warst du, als es knallte?"
-    },
-    {
-      "id": "g_olli_1_2",
-      "rolle": "olli",
-      "runde": 1,
-      "nr": 2,
-      "partner": "enes",
-      "thema": "Was hast du alles gesehen?",
-      "ziel": "Ich will wissen, was die andere Person im Dunkeln gehört hat.",
-      "preisgabe": [],
-      "text": "Was hast du beim Knall alles mitbekommen?"
-    },
-    {
-      "id": "g_olli_1_3",
-      "rolle": "olli",
-      "runde": 1,
-      "nr": 3,
-      "partner": "tugba",
-      "thema": "Wer wo war",
-      "ziel": "Ich will wissen, wer alles wo gesessen hat.",
-      "preisgabe": [],
-      "text": "Hast du dir beim Knall gemerkt, wer wo war?"
+      "stichpunkte": [
+        "Ich saß die ganze Zeit im Ost-Saal.",
+        "Und wo warst du beim Knall?"
+      ]
     },
     {
       "id": "g_can_1_1",
@@ -119,35 +58,14 @@
       "nr": 1,
       "partner": "tim",
       "thema": "Was hast du im Dunkeln gesehen?",
-      "ziel": "Ich will wissen, ob die andere Person im Dunkeln etwas gesehen hat.",
-      "preisgabe": [
-        "luege:luege_can_maske"
-      ],
-      "text": "Welche Maske? Ich hab keine Maske. Und du, was hast du im Dunkeln gesehen?"
-    },
-    {
-      "id": "g_can_1_2",
-      "rolle": "can",
-      "runde": 1,
-      "nr": 2,
-      "partner": "murat",
-      "thema": "Wo du beim Knall warst",
-      "ziel": "Ich will wissen, wo die andere Person beim Knall war.",
+      "ziel": "Ich will wissen, ob jemand im Dunkeln etwas gesehen hat.",
       "preisgabe": [
         "luege:luege_can_toilette"
       ],
-      "text": "Ich war die ganze Zeit auf der Toilette im Turm. Und du?"
-    },
-    {
-      "id": "g_can_1_3",
-      "rolle": "can",
-      "runde": 1,
-      "nr": 3,
-      "partner": "zeynep",
-      "thema": "Was hast du gesehen oder gehört?",
-      "ziel": "Ich will wissen, was die andere Person gesehen oder gehört hat.",
-      "preisgabe": [],
-      "text": "Sag mal, was hast du beim Knall gesehen oder gehört?"
+      "stichpunkte": [
+        "Ich war die ganze Zeit auf der Toilette.",
+        "Was hast du im Dunkeln gesehen?"
+      ]
     }
   ]
 }

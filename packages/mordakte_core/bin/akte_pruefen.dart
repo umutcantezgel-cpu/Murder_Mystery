@@ -9,7 +9,8 @@
 //   Karte       Ziele der Optionen, Figuren an ihren Orten, Türen, Erreichbarkeit, Szenario-Export
 //   Texte       textVerweise, textLuecken, Textprüfer (Sätze, Fachwörter, Verbote, Vorlesezeichen), Textlint,
 //               Tonregeln (kein Schlag als Handlung, Rahmen ohne Qualität, Résumé ohne Namen)
-//   Besetzung   je Rollenzahl: drei Gespräche je Runde, Partner, Namen, Last, Quellen der Ketten
+//   Besetzung   je Rollenzahl: Gespräche je Runde nach Gesprächsmodell (legacy drei, befragung eins plus
+//               Befragungsplan: Größe, Last, Zustellung jedes Kettenglieds), Partner, Namen, Last, Quellen der Ketten
 //   Figuren     Herkunftsmatrix, Farbabstand im selben Startraum
 //   Partie      vollständiger Abend mit bestem Spiel je Rollenzahl (RundenPartie, Salz- und Pech-Würfel)
 //
@@ -83,6 +84,8 @@ const _schemaJeBereich = {
   'dossier': 'texte-dossier',
   'taeter': 'texte-taeter',
   'gespraech': 'texte-gespraech',
+  'befragung': 'texte-befragung',
+  'kurzfassung': 'texte-kurzfassung',
   'wahl': 'texte-wahl',
 };
 
@@ -336,12 +339,15 @@ void _texte(Befunde b, Kanon kanon, Textsammlung sammlung, Texte texte, String w
       }
     }
   }
-  // Preisgaben am Tisch gelten in allen Pfaden (S-1).
+  // Preisgaben am Tisch und in Befragungen gelten in allen Pfaden (S-1).
   final beob = {for (final x in kanon.beobachtungen) x['id'] as String: x};
-  for (final g in sammlung.gespraeche) {
-    for (final p in g.preisgabe) {
+  for (final (id, preisgabe) in [
+    for (final g in sammlung.gespraeche) (g.id, g.preisgabe),
+    for (final x in sammlung.befragungen.values) (x.id, x.preisgabe),
+  ]) {
+    for (final p in preisgabe) {
       if (p.startsWith('beobachtung:') && beob[p.substring('beobachtung:'.length)]?['pfade'] != 'alle') {
-        b.add('Texte', ['${g.id}: $p gilt nicht in allen Pfaden']);
+        b.add('Texte', ['$id: $p gilt nicht in allen Pfaden']);
       }
     }
   }
@@ -398,16 +404,19 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
           }
         }
       }
+      // Nummern 1 bis tischJeRolle (legacy 1,2,3; Modell befragung genau ein Tischgespräch).
+      final soll = [for (var i = 1; i <= bes.tischJeRolle; i++) i].join(',');
       for (final r in besetzt) {
         for (var runde = 1; runde <= 3; runde++) {
           final nrs = [for (final x in zeilen) if (x.rolle == r && x.runde == runde) x.nr]..sort();
-          if (nrs.join(',') != '1,2,3') f.add('$n Rollen, $p: $r, Runde $runde hat Gespräche $nrs statt 1,2,3');
+          if (nrs.join(',') != soll) f.add('$n Rollen, $p: $r, Runde $runde hat Gespräche $nrs statt $soll');
         }
       }
       for (final x in zeilen) {
         if (!bes.istBesetzt(x.partner, n)) f.add('$n Rollen, $p: ${x.rolle} Runde ${x.runde} Nr ${x.nr}: Partner ${x.partner} unbesetzt');
         if (x.partner == x.rolle) f.add('$n Rollen, $p: ${x.rolle} Runde ${x.runde} Nr ${x.nr}: Partner ist die Rolle selbst');
-        final felder = {'Thema': x.g.thema, 'Ziel': x.g.ziel, 'Text': x.g.text};
+        if (bes.befragungsmodell && x.partner == Besetzung.detektiv) f.add('$n Rollen, $p: ${x.rolle} Runde ${x.runde} Nr ${x.nr}: der Detektiv sitzt nicht am Tisch');
+        final felder = {'Thema': x.g.thema, 'Ziel': x.g.ziel, 'Text': x.g.text, 'Stichpunkte': x.g.stichpunkte.join(' / ')};
         for (final u in unbesetzt) {
           final name = kanon.figur(u)!['name'] as String;
           for (final fe in felder.entries) {
@@ -436,7 +445,8 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
           if (bj == null) continue; // meldet der Simulator
           final wer = bj['wer'] as String;
           if (bes.istBesetzt(wer, n)) continue;
-          final alsZiel = ziele.contains(wer);
+          // Modell legacy: Die Zielfigur spricht als NPC selbst. Modell befragung: Ihr Wissen bringt der Erzähler (E-044).
+          final alsZiel = !bes.befragungsmodell && ziele.contains(wer);
           final alsFakt = fakten.any((fid) => erm.fakten[fid]!.beobachtung == id && erm.gibtEs(fid, p));
           final alsErzaehler = [
             for (var r = 1; r <= e.runde; r++) ...erz.npcWissen(r, besetzt: (x) => bes.istBesetzt(x, n)),
@@ -445,6 +455,28 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
         }
       }
     }
+  }
+
+  // Modell befragung (A-051): Befragungsplan je Rollenzahl (Größe 3 bis 5, Last höchstens 3, jedes
+  // Kettenglied rechtzeitig in allen Pfaden, Kernrollen befragt, keine unbesetzten Namen), ein Tischgespräch
+  // je Bot und Runde, und jede Antwort entsteht nur aus öffentlichen Preisgaben.
+  if (bes.befragungsmodell) {
+    try {
+      f.addAll(Befragungsplan(texte).verstoesse());
+      for (var n = bes.minRollen; n <= bes.maxRollen; n++) {
+        for (var runde = 1; runde <= 3; runde++) {
+          final liste = botGespraeche(texte, rollen: n, runde: runde);
+          if (liste.length != n * bes.tischJeRolle) f.add('Bots: $n Rollen, Runde $runde: ${liste.length} Sprechblasen statt ${n * bes.tischJeRolle}');
+        }
+      }
+      for (final x in texte.sammlung.befragungen.values) {
+        botAntwort(texte, x);
+      }
+    } catch (e) {
+      f.add('Befragung: $e');
+    }
+    b.add('Besetzung', f);
+    return;
   }
 
   // Sprechblasen der Bots: nur freigegebene Quellen, alle Tisch-Glieder einer Kette rechtzeitig erreichbar.

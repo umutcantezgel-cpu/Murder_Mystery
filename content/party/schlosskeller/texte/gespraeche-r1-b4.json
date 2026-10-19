@@ -1,114 +1,52 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 13 bis 16.",
+  "hinweis": "Tischgespräche Runde 1, Besetzungsplätze 13 bis 16 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_serkan_1_1",
       "rolle": "serkan",
       "runde": 1,
       "nr": 1,
-      "partner": "johanna",
+      "partner": "selin",
       "thema": "Am Außentor beim Knall",
       "ziel": "Ich will wissen, wer beim Knall wo war.",
       "preisgabe": [
         "beobachtung:b_serkan_tor"
       ],
-      "text": "Du, wo warst du beim Knall? Ich stand am Außentor, von kurz vor zwölf bis nach zwölf. Das Tor war abgeschlossen, niemand ist hinaus."
-    },
-    {
-      "id": "g_serkan_1_2",
-      "rolle": "serkan",
-      "runde": 1,
-      "nr": 2,
-      "partner": "selin",
-      "thema": "Hast du was gesehen?",
-      "ziel": "Ich will wissen, was die anderen beim Knall gesehen haben.",
-      "preisgabe": [],
-      "text": "Du, im Dunkeln sieht man ja kaum was. Hast du beim Knall irgendwas gesehen?"
-    },
-    {
-      "id": "g_serkan_1_3",
-      "rolle": "serkan",
-      "runde": 1,
-      "nr": 3,
-      "partner": "baran",
-      "thema": "Geräusche im Dunkeln",
-      "ziel": "Ich will wissen, was man beim Knall gehört hat.",
-      "preisgabe": [],
-      "text": "Du, ich fahr heute alle heil nach Hause. Also, hast du beim Knall was gehört?"
+      "stichpunkte": [
+        "Ich stand ab kurz vor zwölf am Außentor.",
+        "Das Tor war zu, keiner ist raus.",
+        "Wo warst du beim Knall?"
+      ]
     },
     {
       "id": "g_aylin_1_1",
       "rolle": "aylin",
       "runde": 1,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Der Quittungszettel",
-      "ziel": "Ich will wissen, was man zu dem Zettel sagt.",
-      "preisgabe": [
-        "beobachtung:b_aylin_quittung"
-      ],
-      "text": "Du, ich heb ja jeden Beleg auf. Ich hab hier einen Quittungszettel von Herrn Schneider, da steht: Miete, null Euro. Und wo standest du, als es knallte?"
-    },
-    {
-      "id": "g_aylin_1_2",
-      "rolle": "aylin",
-      "runde": 1,
-      "nr": 2,
       "partner": "dilara",
-      "thema": "Der Platz beim Knall",
-      "ziel": "Ich will wissen, wer beim Knall am Buffet stand.",
-      "preisgabe": [],
-      "text": "Du, sag mal, wo warst du in der Zeit? Ich will es nur wissen."
-    },
-    {
-      "id": "g_aylin_1_3",
-      "rolle": "aylin",
-      "runde": 1,
-      "nr": 3,
-      "partner": "selin",
       "thema": "Wer war am Buffet?",
       "ziel": "Ich will wissen, wer kurz vor zwölf am Buffet stand.",
       "preisgabe": [],
-      "text": "Du, wer war eigentlich kurz vor zwölf am Buffet?"
+      "stichpunkte": [
+        "Ich heb jeden Beleg auf.",
+        "Wer war kurz vor zwölf am Buffet?"
+      ]
     },
     {
       "id": "g_kaan_1_1",
       "rolle": "kaan",
       "runde": 1,
       "nr": 1,
-      "partner": "olli",
-      "thema": "Das Eis",
-      "ziel": "Ich will wissen, was Olli mit Herrn Schneider vorhat.",
-      "preisgabe": [
-        "beobachtung:b_wojtek_olli_satz"
-      ],
-      "text": "Olli, du hast um acht vor zwölf gesagt: Ich hol dir Eis. Und dann red ich mit Schneider. Wo warst du dann?"
-    },
-    {
-      "id": "g_kaan_1_2",
-      "rolle": "kaan",
-      "runde": 1,
-      "nr": 2,
-      "partner": "tugba",
-      "thema": "Jemand im Dunkeln",
-      "ziel": "Ich will wissen, wer im Dunkeln unterwegs war.",
-      "preisgabe": [
-        "beobachtung:b_wojtek_vorbei"
-      ],
-      "text": "Du, im Dunkeln hat sich jemand an mir vorbei durch die Bogentür in den Turm gedrängt. Hast du was davon mitbekommen?"
-    },
-    {
-      "id": "g_kaan_1_3",
-      "rolle": "kaan",
-      "runde": 1,
-      "nr": 3,
       "partner": "zeynep",
       "thema": "Das Maßband im Dunkeln",
       "ziel": "Ich will wissen, wer beim Knall etwas mitbekommen hat.",
       "preisgabe": [],
-      "text": "Du, mein Maßband hilft im Dunkeln leider gar nichts. Wo hast du dich beim Knall aufgehalten?"
+      "stichpunkte": [
+        "Mein Maßband hilft im Dunkeln gar nicht.",
+        "Wo warst du beim Knall?"
+      ]
     },
     {
       "id": "g_dilara_1_1",
@@ -116,36 +54,13 @@
       "runde": 1,
       "nr": 1,
       "partner": "hakan",
-      "thema": "Der Platz am Buffet",
-      "ziel": "Ich will wissen, wo die anderen beim Knall waren.",
-      "preisgabe": [
-        "beobachtung:b_azra_versteck"
-      ],
-      "text": "Du, ich hab mich beim Knall am rechten Buffettisch geduckt. Dort blieb ich, bis das Licht anging. Wo warst du denn, als es knallte?"
-    },
-    {
-      "id": "g_dilara_1_2",
-      "rolle": "dilara",
-      "runde": 1,
-      "nr": 2,
-      "partner": "fatma",
-      "thema": "Die Tasche",
-      "ziel": "Ich will wissen, wo Fatma um die Zeit war.",
-      "preisgabe": [
-        "beobachtung:b_azra_tasche"
-      ],
-      "text": "Du, um Viertel vor zwölf war deine Tasche auffällig ausgebeult. Und wo standest du um die Zeit?"
-    },
-    {
-      "id": "g_dilara_1_3",
-      "rolle": "dilara",
-      "runde": 1,
-      "nr": 3,
-      "partner": "can",
       "thema": "Was war am Buffet los?",
       "ziel": "Ich will wissen, wer am Buffet etwas mitbekommen hat.",
       "preisgabe": [],
-      "text": "Can, wo warst du, als es dunkel wurde? Hast du am Buffet was mitbekommen?"
+      "stichpunkte": [
+        "Ich stöbere sonst auf Flohmärkten.",
+        "Was hast du am Buffet mitbekommen?"
+      ]
     }
   ]
 }

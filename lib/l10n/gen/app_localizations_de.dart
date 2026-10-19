@@ -3268,4 +3268,148 @@ class LDe extends L {
   @override
   String get erzaehltiefe_hinweis =>
       'Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.';
+
+  @override
+  String get party_befragung_titel => 'Deine Befragungen';
+
+  @override
+  String get party_befragung_hinweis =>
+      'Tippe eine Frage an, dann hörst du die Antwort. Behauptungen können falsch sein.';
+
+  @override
+  String get party_befragung_hinweis_tisch =>
+      'Tippe die Frage an, die du am Tisch stellst. Die Antwort kennt nur die befragte Person.';
+
+  @override
+  String get party_befragung_hinweis_druck =>
+      'Deine Befragungen stehen auch auf deinem Bogen. Stelle am Tisch eine der Fragen.';
+
+  @override
+  String get party_befragung_pflicht => 'Pflicht';
+
+  @override
+  String get party_befragung_frei_titel => 'Frei wählbar';
+
+  @override
+  String get party_befragung_frei_eine => 'Wähle noch eine Befragung frei.';
+
+  @override
+  String get party_befragung_frei_zwei => 'Wähle noch zwei Befragungen frei.';
+
+  @override
+  String get party_befragung_frei_fertig =>
+      'Deine freien Wahlen sind getroffen.';
+
+  @override
+  String get party_befragung_vergeben => 'Keine freie Wahl mehr';
+
+  @override
+  String get party_befragung_thema => 'Thema';
+
+  @override
+  String get party_befragung_fragen => 'Deine Fragen';
+
+  @override
+  String get party_befragung_antwort => 'Antwort';
+
+  @override
+  String get party_befragung_nichts =>
+      'Nichts Neues. Mehr weiß diese Person nicht.';
+
+  @override
+  String get party_befragung_erledigt => 'Erledigt';
+
+  @override
+  String get party_befragung_beantwortet => 'Beantwortet';
+
+  @override
+  String get party_befragung_antwort_zeigen => 'Antwort zeigen';
+
+  @override
+  String party_befragung_geraet(String name) {
+    return 'Gib das Gerät kurz an $name.';
+  }
+
+  @override
+  String get party_befragung_aufgeschnappt => 'Am Tisch aufgeschnappt';
+
+  @override
+  String get party_befragung_tisch_titel => 'Am Tisch in dieser Runde';
+
+  @override
+  String get party_befragung_tisch_hinweis =>
+      'Jede Person führt ein Gespräch. Was sie sagt, steht auf ihrem Spickzettel.';
+
+  @override
+  String get party_befragung_fertig =>
+      'Alle Befragungen geführt. Jetzt ermittelst du auf der Karte.';
+
+  @override
+  String get party_befragung_offen =>
+      'Erst die Befragungen, dann geht es weiter.';
+
+  @override
+  String get party_befragung_notizen => 'Antworten aus deinen Befragungen';
+
+  @override
+  String get party_befragung_erzaehler_notizen => 'Vom Erzähler gehört';
+
+  @override
+  String get party_befragung_spickzettel => 'Mein Spickzettel';
+
+  @override
+  String get party_befragung_spickzettel_hinweis =>
+      'Tippe deinen Namen an. Nur du siehst deinen Zettel für diese Runde.';
+
+  @override
+  String get party_befragung_tisch_eigen => 'Dein Tischgespräch';
+
+  @override
+  String get party_befragung_stichpunkte => 'Stichpunkte';
+
+  @override
+  String get party_befragung_anspricht => 'Wer dich anspricht';
+
+  @override
+  String get party_befragung_niemand =>
+      'In dieser Runde spricht dich niemand an.';
+
+  @override
+  String get party_befragung_dich => 'Wenn der Detektiv dich befragt';
+
+  @override
+  String get party_befragung_sagen => 'Das sagst du';
+
+  @override
+  String party_befragung_behaupte(String text) {
+    return 'Behaupte: $text';
+  }
+
+  @override
+  String get party_befragung_sicher =>
+      'Der Detektiv befragt dich in dieser Runde.';
+
+  @override
+  String get party_befragung_vielleicht =>
+      'Der Detektiv kann dich in dieser Runde frei wählen.';
+
+  @override
+  String get party_befragung_entfaellt =>
+      'In dieser Runde befragt dich der Detektiv nicht.';
+
+  @override
+  String party_befragung_fragt(String frage) {
+    return 'Der Detektiv fragt dich: $frage';
+  }
+
+  @override
+  String get party_befragung_runde_eins =>
+      'Das ist dein Zettel für die erste Runde. Die nächsten Zettel siehst du in der Runde selbst.';
+
+  @override
+  String get party_befragung_oeffentlich => 'Wen der Detektiv befragt';
+
+  @override
+  String get abend_fortsetzen_veraltet =>
+      'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.';
 }

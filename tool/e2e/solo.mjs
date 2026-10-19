@@ -1,9 +1,11 @@
 // Echter Solo-Abend von der Detektei bis zum Ende, ohne Entwicklerroute oder PartySkript.
-// Nur öffentliche Sprechblasen fotografieren, keine Dossiers oder Auflösung.
+// Je Runde drei bis fünf Befragungen der Bots (Modell befragung, A-051): Antwort erst nach
+// der Frage. Nur Befragungskarten fotografieren, keine Dossiers oder Auflösung.
 // Aufruf: node tool/e2e/solo.mjs [--nur320]
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { befragungenFuehren, kennung } from './befragung.mjs';
 import { starteBrowser } from './browser.mjs';
 import { starteServer } from './server.mjs';
 
@@ -114,22 +116,24 @@ try {
     assert.equal(await page.getByText(text('ui.rollen.verbirgt_titel'), { exact: true }).count(), 0);
     await click('ui.rollen.weiter');
     await click('ui.intro.weiter');
-    let conversations = 0;
+    let questions = 0;
     let decisions = 0;
     let rolls = 0;
     for (let round = 1; round <= 3; round++) {
-      stage = `${width} px · Runde ${round} · öffentliche Sprechblasen`;
-      await button('ui.solo.gehoert').waitFor();
-      assert.equal(await button('ui.runde.weiter').count(), 0);
-      let count = 0;
-      while (await button('ui.solo.gehoert').count()) {
-        assert(++count <= 70, 'Sprechblasen erreichen ihr Ende nicht');
-        await click('ui.solo.gehoert');
-        conversations++;
-        if (round === 1 && count === 1) await photo('sprechblase', 'Nur öffentliche Bot-Aussagen');
-        assert.equal(await page.getByText(text('ui.rollen.verbirgt_titel'), { exact: true }).count(), 0);
-      }
-      assert(count >= 12, 'Pflichtgespräche fehlen');
+      stage = `${width} px · Runde ${round} · Befragungen`;
+      await kennung(page, 'befragung-').first().waitFor({ state: 'attached', timeout: 30000 });
+      assert.equal(await button('ui.runde.weiter').count(), 0, 'Weiter steht vor den Befragungen');
+      if (round === 1) await photo('befragung', 'Befragungskarten vor der ersten Frage');
+      const runde = await befragungenFuehren(page, {
+        tippe: target => tap(target),
+        fertig: async () => (await button('ui.runde.weiter').count()) > 0,
+        nachFrage: async () => {
+          if (round === 1 && questions === 0) await photo('antwort', 'Antwort des Bots erst nach der Frage');
+          questions++;
+          assert.equal(await page.getByText(text('ui.rollen.verbirgt_titel'), { exact: true }).count(), 0);
+        },
+      });
+      assert(runde.fragen >= 3 && runde.fragen <= 5, `Runde ${round}: ${runde.fragen} Befragungen statt drei bis fünf`);
       await click('ui.runde.weiter');
       if (round === 1) {
         stage = `${width} px · Auftaktwurf`;
@@ -178,7 +182,7 @@ try {
     assert.equal(decisions, 9);
     assert(rolls >= 3, 'Würfel wurden umgangen');
     assert.equal(errors.length, 0, 'Konsole oder fremde Netzaufrufe');
-    console.log(`SOLO OK · ${width} px · ${conversations} Sprechblasen · 9 echte Kartenentscheidungen · ${rolls} sichtbare Würfe · 3 Bot-Wahlen · Ende erreicht`);
+    console.log(`SOLO OK · ${width} px · ${questions} Befragungen · 9 echte Kartenentscheidungen · ${rolls} sichtbare Würfe · 3 Bot-Wahlen · Ende erreicht`);
     await page.close();
   }
   const sheet = await browser.newPage({ viewport: { width: 1220, height: 960 }, locale: 'de-DE' });

@@ -3,6 +3,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:test/test.dart';
 
 import '../party/kanon_hilfe.dart';
+import '../runden/befragung_treiber.dart';
 
 final _texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
 final _erm = Ermittlung(kanon);
@@ -66,6 +67,9 @@ void _schritt(AbendRaum r, {String pfad = 'ahmet'}) {
       } else {
         _befehl(r, 'p0', 'weiter');
       }
+    case 'gespraeche':
+      befragungenErledigen(s, (typ, daten) => _befehl(r, 'p0', typ, daten));
+      _befehl(r, 'p0', 'weiter');
     case 'gruppenwahl':
       for (final t in _liste(s['spieler'])) {
         final id = t['id'] as String;

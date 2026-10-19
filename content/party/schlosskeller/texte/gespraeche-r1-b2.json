@@ -1,145 +1,66 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 1, Besetzungsplätze 5 bis 8.",
+  "hinweis": "Tischgespräche Runde 1, Besetzungsplätze 5 bis 8 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_leyla_1_1",
       "rolle": "leyla",
       "runde": 1,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Was war hinter der Theke los?",
-      "ziel": "Ich will hören, was Ahmet zu dem Umschlag sagt.",
-      "preisgabe": [
-        "beobachtung:b_lejla_ahmet_theke"
-      ],
-      "text": "Ahmet, ich hab gesehen, wie du drei vor zwölf mit einem dicken Umschlag hinter die Theke geschlüpft bist. Was war da los?"
-    },
-    {
-      "id": "g_leyla_1_2",
-      "rolle": "leyla",
-      "runde": 1,
-      "nr": 2,
       "partner": "fatma",
-      "thema": "Wer stand beim Knall an der Theke?",
-      "ziel": "Ich will wissen, wer sich beim Knall an der Theke aufhielt.",
-      "preisgabe": [],
-      "text": "Fatma, wo warst du, als es knallte? Wer war noch an der Theke?"
-    },
-    {
-      "id": "g_leyla_1_3",
-      "rolle": "leyla",
-      "runde": 1,
-      "nr": 3,
-      "partner": "emine",
       "thema": "Das Buffet beim Knall",
       "ziel": "Ich will wissen, wer beim Knall am Buffet war.",
       "preisgabe": [],
-      "text": "Wo warst du beim Knall? Hast du was gesehen? Ich hab das Buffet für heute Abend geplant."
+      "stichpunkte": [
+        "Ich hab das Buffet für heute geplant.",
+        "Wer stand beim Knall am Buffet?"
+      ]
     },
     {
       "id": "g_emine_1_1",
       "rolle": "emine",
       "runde": 1,
       "nr": 1,
-      "partner": "fatma",
-      "thema": "Mein Platz beim Knall",
-      "ziel": "Ich will herausfinden, was Fatma beim Knall gesehen hat, ohne mehr zu verraten als nötig.",
-      "preisgabe": [
-        "beobachtung:b_emine_versteck"
-      ],
-      "text": "Fatma, beim Knall hab ich mich hinter den linken Buffettisch geduckt. Dort bin ich geblieben, bis das Licht anging. Und du, wo stecktest du?"
-    },
-    {
-      "id": "g_emine_1_2",
-      "rolle": "emine",
-      "runde": 1,
-      "nr": 2,
-      "partner": "tim",
-      "thema": "Was im Dunkeln passierte",
-      "ziel": "Ich will wissen, was der andere im Dunkeln gesehen hat.",
-      "preisgabe": [],
-      "text": "Wo steckst du beim Knall? Und was hast du im Dunkeln gesehen?"
-    },
-    {
-      "id": "g_emine_1_3",
-      "rolle": "emine",
-      "runde": 1,
-      "nr": 3,
       "partner": "olli",
       "thema": "Die Theke beim Knall",
-      "ziel": "Ich will wissen, ob Olli etwas über die Theke gesehen hat.",
+      "ziel": "Ich will wissen, wer beim Knall an der Theke war.",
       "preisgabe": [],
-      "text": "Olli, wer war beim Knall eigentlich an der Theke?"
+      "stichpunkte": [
+        "Ich hab mich beim Knall furchtbar erschrocken.",
+        "Wer war da an der Theke?"
+      ]
     },
     {
       "id": "g_tim_1_1",
       "rolle": "tim",
       "runde": 1,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Ahmets Platz beim Knall",
-      "ziel": "Ich will wissen, wo Ahmet beim Knall war.",
-      "preisgabe": [],
-      "text": "Ahmet, wo warst du eigentlich beim Knall?"
-    },
-    {
-      "id": "g_tim_1_2",
-      "rolle": "tim",
-      "runde": 1,
-      "nr": 2,
       "partner": "murat",
       "thema": "Das leuchtende Gesicht",
-      "ziel": "Ich will wissen, was der andere im Dunkeln mitbekommen hat.",
+      "ziel": "Ich will wissen, wer im Dunkeln noch etwas gesehen hat.",
       "preisgabe": [
         "beobachtung:b_tim_gesicht"
       ],
-      "text": "Ich war am Sicherungskasten. Dann huschte im Dunkeln ein leuchtendes Gesicht an mir vorbei. Und bei dir, was hast du gehört?"
-    },
-    {
-      "id": "g_tim_1_3",
-      "rolle": "tim",
-      "runde": 1,
-      "nr": 3,
-      "partner": "olli",
-      "thema": "Der Knall aus Ollis Sicht",
-      "ziel": "Ich will wissen, was Olli beim Knall gehört hat.",
-      "preisgabe": [],
-      "text": "Olli, wie war das bei dir beim Knall? Hast du was gehört?"
+      "stichpunkte": [
+        "Ich war am Sicherungskasten, als es dunkel wurde.",
+        "Da huschte ein leuchtendes Gesicht vorbei.",
+        "Hast du das auch gesehen?"
+      ]
     },
     {
       "id": "g_johanna_1_1",
       "rolle": "johanna",
       "runde": 1,
       "nr": 1,
-      "partner": "detective",
-      "thema": "Der Ost-Saal beim Knall",
-      "ziel": "Ich will ehrlich bleiben und trotzdem mein Versprechen an Ahmet halten.",
-      "preisgabe": [],
-      "text": "Du, ich bin die Fotografin des Abends. Und wo stecktest du beim Knall?"
-    },
-    {
-      "id": "g_johanna_1_2",
-      "rolle": "johanna",
-      "runde": 1,
-      "nr": 2,
       "partner": "meryem",
-      "thema": "Wo war Ahmet beim Knall?",
-      "ziel": "Ich will herausfinden, wo Ahmet beim Knall war.",
+      "thema": "Die Fotos des Abends",
+      "ziel": "Ich will wissen, wer beim Knall wo war.",
       "preisgabe": [],
-      "text": "Hast du Ahmet beim Knall gesehen? Ich frag ja nur."
-    },
-    {
-      "id": "g_johanna_1_3",
-      "rolle": "johanna",
-      "runde": 1,
-      "nr": 3,
-      "partner": "baran",
-      "thema": "Die Geräusche beim Knall",
-      "ziel": "Ich will wissen, was man beim Knall aus Richtung Theke gehört hat.",
-      "preisgabe": [],
-      "text": "Was hast du beim Knall mitbekommen? Erzähl mal."
+      "stichpunkte": [
+        "Ich bin heute die Fotografin.",
+        "Wo warst du beim Knall?"
+      ]
     }
   ]
 }

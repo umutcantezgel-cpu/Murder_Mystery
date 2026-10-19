@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:mordakte_core/mordakte_core.dart' show Gespraech, befragungsZettel;
 import 'package:mordakte_core/src/party/druck/rollen.dart';
 import 'package:mordakte_core/src/party/druck/satz.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -225,6 +226,58 @@ void main() {
     expect(karten.seiten, 12, reason: '96 Karten der 16 Gäste zu acht je Blatt');
     expect(_zaehle(flach(karten.text), 'Code '), 96);
     expect(flach(karten.text), isNot(contains('−1')));
+  });
+
+  test('Modell befragung: Das Heft zeigt Stichpunkte, wer dich anspricht und was du in der Befragung sagst', () async {
+    final k = druckKontext(pfad: 'fatma', n: 7);
+    final b = await _teil(rollenhefte, k);
+    final deck = _deckblaetter(b);
+    final alle = flach(b.text);
+    expect(alle, isNot(contains(flach(k.ui('ui.druck.rollen.anfang')))), reason: 'Kein Eröffnungssatz mehr');
+    for (var j = 0; j < deck.length; j++) {
+      final rolle = k.satz.besetzt[j];
+      final heft = _seiten(b, deck[j], j + 1 < deck.length ? deck[j + 1] : b.seiten);
+      final d = k.satz.rollenhefte[rolle]!;
+      expect(heft, contains(flach(k.ui('ui.druck.rollen.tisch'))), reason: rolle);
+      for (var r = 1; r <= 3; r++) {
+        for (final (g, _) in d.gespraeche[r]!) {
+          for (final p in g.stichpunkte) {
+            expect(heft, contains(flach(p)), reason: '$rolle Runde $r: $p');
+          }
+        }
+        for (final (g, sprecher) in d.alsPartner[r] ?? const <(Gespraech, String)>[]) {
+          expect(heft, contains(flach(k.ui('ui.druck.befragung.zeile', {'name': k.figurName(sprecher), 'thema': g.thema}))), reason: '$rolle Runde $r');
+        }
+        final bf = d.befragungen[r]!;
+        for (final f in bf.fragen) {
+          expect(heft, contains(flach(f)), reason: '$rolle Runde $r: $f');
+        }
+        final z = befragungsZettel(k.texte, bf);
+        for (final x in [...z.sagen, ...z.eigene]) {
+          expect(heft, contains(flach(x)), reason: '$rolle Runde $r: $x');
+        }
+        for (final x in z.behaupten) {
+          expect(heft, contains(flach(k.ui('ui.druck.rollen.behaupte', {'text': x}))), reason: '$rolle Runde $r: $x');
+        }
+        if (z.stichpunkte.isEmpty && z.behaupten.isEmpty) expect(heft, contains(flach(k.ui('ui.druck.rollen.nichts'))));
+      }
+      expect(_zaehle(heft, flach(k.ui('ui.druck.rollen.befragt'))), 3, reason: rolle);
+    }
+  });
+
+  // Prüfung M2z: Hanas „Das sagst du“ stand als ein Block mit sieben Stichpunkten im Heft. R17 gilt je Karte,
+  // deshalb steht jede Karte (je Preisgabe eine, zuletzt die Würze) in einem eigenen Block.
+  test('R17 im Rollenheft: Was du in der Befragung sagst, steht je Karte in einem eigenen Block', () async {
+    final k = druckKontext(pfad: 'fatma', n: 12);
+    expect(k.satz.besetzt, contains('meryem'));
+    final b = await _teil(rollenhefte, k);
+    final z = befragungsZettel(k.texte, k.texte.sammlung.befragungen['bf_meryem_1']!);
+    expect([for (final x in z.karten) x.zeilen.length], [3, 3, 1]);
+    for (var i = 1; i < z.karten.length; i++) {
+      final vorher = z.karten[i - 1].zeilen.last, danach = z.karten[i].zeilen.first;
+      final getrennt = RegExp('${RegExp.escape(vorher)} *\\n\\s*\\n\\s*– ${RegExp.escape(danach)}');
+      expect(getrennt.hasMatch(b.text), isTrue, reason: 'Leerzeile zwischen „$vorher“ und „$danach“');
+    }
   });
 
   test('Täterziel steht nur in der versiegelten Fassung, nie im Rollenheft (E-033)', () async {

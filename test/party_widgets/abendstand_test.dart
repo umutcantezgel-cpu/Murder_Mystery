@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/stand/befragung_stand.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
@@ -54,6 +55,9 @@ String _bild(PartySitzung s) => [
       s.namen,
       [for (final k in s.vorrat.karten) k.id],
       s.abstecherErgebnis,
+      [for (final k in s.befragungen) '${k.id}:${k.frage}:${k.erledigt}:${k.antwort?.length}'],
+      s.befragungenFrei,
+      s.befragungsNotizen.length,
       if (s.nachFinale) s.ende.id,
     ].toString();
 
@@ -68,7 +72,22 @@ bool _schritt(PartySitzung s, int i) {
       s.zurEinrichtung();
     case PartyPhase.gespraeche:
       final offen = s.soloGespraeche.where((g) => !s.soloNotizen.any((n) => n.id == g.id)).toList();
-      offen.isEmpty ? s.weiter() : s.soloGespraechGelesen(offen.first.id);
+      final befragung = _befragung(s, i);
+      if (offen.isNotEmpty) {
+        s.soloGespraechGelesen(offen.first.id);
+      } else if (befragung != null) {
+        // Modell befragung: je Schritt ein Handgriff, mal die erste, mal die letzte Frage.
+        if (!befragung.gefragt) {
+          s.befragen(befragung.id, i % befragung.fragen.length);
+        } else if (s.verdeckt == null && i.isOdd) {
+          s.zeigeVerdeckt(befragung.rolle);
+        } else {
+          if (s.verdeckt != null) s.verdecken();
+          s.befragungErledigt(befragung.id);
+        }
+      } else {
+        s.weiter();
+      }
     case PartyPhase.entscheidungen:
       final g = s.gespraech;
       final z = s.zug;
@@ -110,6 +129,15 @@ bool _schritt(PartySitzung s, int i) {
       s.weiter();
   }
   return true;
+}
+
+/// Die nächste offene Befragung: feste zuerst, dann eine freie (mal von vorn, mal von hinten).
+BefragungKarte? _befragung(PartySitzung s, int i) {
+  final offen = [for (final k in s.befragungen) if (!k.erledigt && (k.pflicht || k.gefragt)) k];
+  if (offen.isNotEmpty) return offen.first;
+  if (s.befragungenFrei <= 0) return null;
+  final frei = [for (final k in s.befragungen) if (!k.pflicht && k.waehlbar && !k.gefragt) k];
+  return frei.isEmpty ? null : (i.isEven ? frei.first : frei.last);
 }
 
 PartySitzung _fortgesetzt(PartySitzung s, List<AbstecherOrt> abstecher) =>
@@ -162,6 +190,27 @@ void main() {
     _pruefeAbend(s, abstecher);
     expect(s.abstecherErgebnis, isNotEmpty, reason: 'Erkundung gespielt');
     s.dispose();
+  });
+
+  test('Schlosskeller reihum: Befragungen, verdeckte Antwort und Spickzettel überstehen das Neuladen', () {
+    final s = PartySitzung(partyDaten, salz: '7766554433221100');
+    s.einrichten(rollen: 6, detektiv: 'm', code: FallCode.fuerPfad('can', s.kanon.pfade).code, namen: {'can': 'Cem'});
+    _pruefeAbend(s, const []);
+    expect(s.befragungsNotizen, isEmpty, reason: 'Reihum antworten Menschen, nicht die App');
+    s.dispose();
+  });
+
+  test('Ein Abendstand der Fassung 1 des Schlosskellers wird mit Hinweis verworfen, andere Akten lesen ihn weiter', () {
+    final s = PartySitzung(partyDaten, salz: 'aabbccddeeff0011')..einrichten(rollen: 4, detektiv: 'w');
+    final stand = jsonDecode(jsonEncode(s.abendstand)) as Map<String, Object?>;
+    expect(stand['format'], PartySitzung.abendstandFormat);
+    expect(() => PartySitzung.fortsetzen(partyDaten, {...stand, 'format': 'abendstand/1'}), throwsA(isA<AbendstandVeraltet>()));
+    expect(() => PartySitzung.fortsetzen(partyDaten, {...stand, 'format': 'abendstand/0'}), throwsA(isNot(isA<AbendstandVeraltet>())));
+    final r = PartySitzung(akteDaten('ravensmoor'), salz: '1122334455667788')..einrichten(rollen: 4, detektiv: 'w');
+    final alt = {...jsonDecode(jsonEncode(r.abendstand)) as Map<String, Object?>, 'format': 'abendstand/1'};
+    expect(PartySitzung.fortsetzen(akteDaten('ravensmoor'), alt).phase, r.phase);
+    s.dispose();
+    r.dispose();
   });
 
   test('Ein Stand einer anderen Akte oder mit kaputtem Befehl wird abgelehnt', () {

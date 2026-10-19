@@ -7,6 +7,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 
 import '../../party/sitzung.dart';
+import '../../party/stand/befragung_stand.dart';
 import 'ansicht.dart';
 import 'gastgeber_dienst.dart';
 
@@ -32,6 +33,7 @@ class GastgeberSitzung extends PartySitzung {
     _hoerer = dienst.verb.ansichten.listen((_) => _abgleichen());
     _abgleichen();
     unawaited(_erzaehlstandLaden());
+    unawaited(_notizenLaden());
   }
 
   /// Baut die Sitzung für einen schon gestarteten Raum ([GastgeberDienst.gestartet]).
@@ -85,8 +87,121 @@ class GastgeberSitzung extends PartySitzung {
   void _abgleichen() {
     if (_entsorgt) return;
     final n = jListe(dienst.ansicht['erzaehler']).length;
+    // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
+    final vorher = _notizen.length;
+    for (final k in befragungen) {
+      if (k.antwort != null) _notizen[k.id] = k;
+    }
+    if (_notizen.length != vorher && _notizenBereit) _notizenSichern();
     raumGeaendert(erzaehlerAb: spiel.bausteine.length - n);
   }
+
+  // ------------------------------------------------------ Notizbuch
+
+  /// Das Notizbuch der Befragungen kennt nur dieses Gerät: Nach den Gesprächen
+  /// trägt die Ansicht des Raums die Antworten nicht mehr. Damit es eine
+  /// Rückkehr zum Abend übersteht, liegen Kennung, Frage und Art jeder
+  /// beantworteten Befragung neben dem Raum in der Ablage, an das Salz dieses
+  /// Abends gebunden. Die Antwort entsteht beim Laden wieder aus den
+  /// Preisgaben, wie im Raum ([befragungsKarten]). Geschrieben wird erst nach
+  /// dem Laden, damit die Notizen der Runden davor nicht verloren gehen.
+  Future<void> _notizenLaden() async {
+    try {
+      final roh = await dienst.ablage.lesen(GastgeberDienst.notizSchluessel);
+      if (roh == null || _entsorgt) return;
+      final d = jsonDecode(roh);
+      if (d is! Map || d['salz'] != dienst.salz) return;
+      final texte = daten.texte;
+      final geladen = <String, BefragungKarte>{};
+      for (final n in jMaps(d['notizen'])) {
+        final b = texte.sammlung.befragungen[jText(n['id'])];
+        final frage = n['frage'];
+        if (b == null || frage is! int || frage < 0 || frage >= b.fragen.length) continue;
+        geladen[b.id] = BefragungKarte(
+          id: b.id, rolle: b.rolle, thema: b.thema, fragen: b.fragen, pflicht: n['pflicht'] == true,
+          mensch: false, frage: frage, erledigt: true, waehlbar: false, antwortKarten: befragungsKarten(texte, b),
+        );
+      }
+      if (geladen.isEmpty) return;
+      final jetzt = Map.of(_notizen);
+      _notizen
+        ..clear()
+        ..addAll(geladen)
+        ..addAll(jetzt);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('ONLINE notizen lesen $e');
+    } finally {
+      _notizenBereit = true;
+      if (!_entsorgt && _notizen.isNotEmpty) _notizenSichern();
+    }
+  }
+
+  bool _notizenBereit = false;
+
+  void _notizenSichern() {
+    final stand = jsonEncode({
+      'salz': dienst.salz,
+      'notizen': [
+        for (final k in _notizen.values) {'id': k.id, 'frage': k.frage, 'pflicht': k.pflicht},
+      ],
+    });
+    unawaited(() async {
+      try {
+        await dienst.ablage.schreiben(GastgeberDienst.notizSchluessel, stand);
+      } catch (e) {
+        debugPrint('ONLINE notizen schreiben $e');
+      }
+    }());
+  }
+
+  // ------------------------------------------------------------ Befragungen
+
+  /// Die Befragungskarten des Detektivs stehen im privaten Teil der eigenen
+  /// Ansicht (A-051); die Antwort einer App-Rolle erst nach der Frage.
+  @override
+  List<BefragungKarte> get befragungen {
+    final privat = jMap(dienst.ansicht['privat']);
+    final offen = jZahl(privat['befragungenFrei']);
+    return [
+      for (final k in jMaps(privat['befragungen']))
+        BefragungKarte(
+          id: jText(k['id']),
+          rolle: jText(k['rolle']),
+          thema: jText(k['thema']),
+          fragen: jTexte(k['fragen']),
+          pflicht: k['pflicht'] == true,
+          mensch: k['mensch'] == true,
+          frage: k['frage'] is int ? k['frage'] as int : null,
+          erledigt: k['erledigt'] == true,
+          waehlbar: k['pflicht'] == true || k['frage'] is int || offen > 0,
+          // Die Antwort kommt als Karten (R17, E-044): je Preisgabe eine Liste von Stichpunkten.
+          antwortKarten: k['antwort'] is List ? [for (final x in jListe(k['antwort'])) jTexte(x)] : null,
+        ),
+    ];
+  }
+
+  @override
+  int get befragungenFrei => jZahl(jMap(dienst.ansicht['privat'])['befragungenFrei']);
+
+  /// Der Raum entscheidet mit [kannWeiter], ob die Befragungen der Runde durch sind.
+  @override
+  bool get befragungenFertig => phase != PartyPhase.gespraeche || dienst.ansicht['kannWeiter'] == true;
+
+  final Map<String, BefragungKarte> _notizen = {};
+
+  @override
+  List<BefragungKarte> get befragungsNotizen => List.unmodifiable(_notizen.values);
+
+  @override
+  void befragen(String id, int frage) => _senden([
+        {'typ': 'befragen', 'id': id, 'frage': frage},
+      ]);
+
+  @override
+  void befragungErledigt(String id) => _senden([
+        {'typ': 'erledigt', 'id': id},
+      ]);
 
   // ---------------------------------------------------------------- Lesen
 

@@ -118,6 +118,7 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
     await active[1].expect(Msg.error, where: (s) => s['key'] == 'not_host');
 
     var forgedDiceChecked = false;
+    var befragt = 0;
     var steps = 0;
     while (host.latest(Msg.abend)['phase'] != 'ende') {
       _require(++steps < 400, 'Partyabend erreicht das Ende nicht.');
@@ -152,6 +153,25 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
           } else {
             await _command(host, host, 'weiter');
           }
+        case 'gespraeche':
+          // Modell befragung (A-051): Der Gastgeber ist der Detektiv und erledigt seine Befragungen.
+          final privat = _map(s['privat']);
+          if (privat['befragungen'] is List) {
+            var frei = privat['befragungenFrei'] as int;
+            for (final k in _list(privat['befragungen'])) {
+              if (k['erledigt'] == true) continue;
+              if (k['frage'] == null) {
+                if (k['pflicht'] != true) {
+                  if (frei <= 0) continue;
+                  frei--;
+                }
+                await _command(host, host, 'befragen', {'id': k['id'], 'frage': 0});
+                befragt++;
+              }
+              if (k['mensch'] == true) await _command(host, host, 'erledigt', {'id': k['id']});
+            }
+          }
+          await _command(host, host, 'weiter');
         case 'gruppenwahl':
           for (final c in active.skip(1)) {
             final state = await c.expect(Msg.abend, where: (m) => m['phase'] == 'gruppenwahl' && m['runde'] == s['runde']);
@@ -187,6 +207,7 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
     // Die Anmeldung selbst enthält natürlich das eigene Sitzungstoken; sie wird
     // weder als Spielansicht geprüft noch je ausgegeben.
     final identities = all.map((c) => c.token!).toSet();
+    var spickzettel = 0;
     for (final c in all.where((c) => c != outsider)) {
       for (final view in c.inbox.where((m) => m['t'] == Msg.abend)) {
         final private = _map(view['privat']);
@@ -201,7 +222,16 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
           // Die Liste steht einmal im Kern (raumOeffentlicheSchluessel, A-009).
           _require(view.keys.every(raumOeffentlicheSchluessel.contains), 'Nicht freigegebenes Feld vor dem Finale übertragen.');
         }
+        // Modell befragung: Antworten der App und Befragungskarten gibt es nur für den Detektiv.
+        if (c != host) _require(!_keys(view).contains('antwort') && !private.containsKey('befragungen'), 'Befragungsantwort an einen Gast.');
         if (private['rolle'] case final String role) {
+          if (private['befragung'] case final Map b) {
+            _require(b['id'] == BefragungText.kennung(role, view['runde'] as int), 'Fremde Befragung an einen Gast.');
+            final soll = befragungsZettel(texte, texte.sammlung.befragungen[b['id']]!);
+            _require(jsonEncode(b['karten']) == jsonEncode([for (final k in soll.karten) {'zeilen': k.zeilen, 'behaupte': k.behaupten}]),
+                'Falscher Spickzettel an einen Gast.');
+            spickzettel++;
+          }
           final dossier = _map(private['dossier']);
           final expected = texte.dossier(role, pfad, rollen);
           final expectedDossier = {
@@ -222,6 +252,10 @@ Future<void> _batch(Uri url, int count, Texte texte) async {
       }
     }
     _require(!outsider.has(Msg.abend), 'Ein fremder Raum bekam eine Partyansicht.');
+    if (texte.besetzung.befragungsmodell) {
+      _require(befragt >= 9, 'Der Detektiv hat kaum Befragungen geführt ($befragt).');
+      _require(spickzettel >= count - 1, 'Zu wenige Spickzettel geprüft ($spickzettel).');
+    }
     await _health(url);
     print('PARTY-ONLINE OK · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend, eigene Karten, Rechte, Reconnect, Würfel, Isolation, Health');
   } finally {

@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 1 bis 4.",
+  "hinweis": "Tischgespräche Runde 2, Besetzungsplätze 1 bis 4 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_ahmet_2_1",
@@ -9,36 +9,13 @@
       "runde": 2,
       "nr": 1,
       "partner": "olli",
-      "thema": "Was war an der Theke los?",
-      "ziel": "Ich will wissen, was Olli zur Theke sagt, ohne selbst mehr zu verraten.",
-      "preisgabe": [
-        "luege:luege_ahmet_servietten"
-      ],
-      "text": "Nur Servietten hab ich hinter der Theke gesucht. Olli, passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_ahmet_2_2",
-      "rolle": "ahmet",
-      "runde": 2,
-      "nr": 2,
-      "partner": "enes",
-      "thema": "Das Geld, nochmal",
-      "ziel": "Ich will, dass beim Geld niemand nachhakt.",
-      "preisgabe": [
-        "luege:luege_ahmet_miete"
-      ],
-      "text": "Das Geld war für die Miete, hundertfünfzig Euro. Ist dir dazu etwas aufgefallen, das nicht passt?"
-    },
-    {
-      "id": "g_ahmet_2_3",
-      "rolle": "ahmet",
-      "runde": 2,
-      "nr": 3,
-      "partner": "baran",
-      "thema": "Auffälliges im Dunkeln",
-      "ziel": "Ich will wissen, ob im Dunkeln jemandem etwas Komisches aufgefallen ist.",
+      "thema": "Wer war wo?",
+      "ziel": "Ich will hören, ob die Geschichten zusammenpassen.",
       "preisgabe": [],
-      "text": "Ist dir im Dunkeln was aufgefallen, das nicht ins Bild passt?"
+      "stichpunkte": [
+        "Ich hab den Abend organisiert, nicht bewacht.",
+        "Wer stand beim Knall in deiner Nähe?"
+      ]
     },
     {
       "id": "g_fatma_2_1",
@@ -46,71 +23,29 @@
       "runde": 2,
       "nr": 1,
       "partner": "ahmet",
-      "thema": "Wie war das bei dir?",
-      "ziel": "Ich will bei meiner Version bleiben, ohne dass Ahmet nachhakt.",
+      "thema": "Meine Version",
+      "ziel": "Ich will bei meiner Version bleiben, ohne dass jemand nachhakt.",
       "preisgabe": [
         "luege:luege_fatma_buffet"
       ],
-      "text": "Am linken Buffet beim Gebäck war ich, die ganze Zeit. Ahmet, wie passt das zu deiner Geschichte von vorhin?"
-    },
-    {
-      "id": "g_fatma_2_2",
-      "rolle": "fatma",
-      "runde": 2,
-      "nr": 2,
-      "partner": "dilara",
-      "thema": "Meine Tasche, nochmal",
-      "ziel": "Ich will die Tasche unauffällig halten und das Gespräch schnell beenden.",
-      "preisgabe": [
-        "luege:luege_fatma_tasche"
-      ],
-      "text": "Bücher sind da drin, mehr nicht. Ist dir an meiner Tasche etwas aufgefallen, das nicht zu Büchern passt?"
-    },
-    {
-      "id": "g_fatma_2_3",
-      "rolle": "fatma",
-      "runde": 2,
-      "nr": 3,
-      "partner": "olli",
-      "thema": "Dein Abend bis zum Knall",
-      "ziel": "Ich will Olli zu einer klaren Antwort bringen, damit niemand weiter nachfragt.",
-      "preisgabe": [],
-      "text": "Olli, ich will es genau wissen. Wie passt dein Abend zu dem, was du vorhin erzählt hast?"
+      "stichpunkte": [
+        "Beim Gebäck am linken Buffet war ich.",
+        "Passt das zu deiner Geschichte?"
+      ]
     },
     {
       "id": "g_olli_2_1",
       "rolle": "olli",
       "runde": 2,
       "nr": 1,
-      "partner": "kaan",
-      "thema": "Meine Version",
-      "ziel": "Ich will, dass die andere Person meine Version glaubt.",
-      "preisgabe": [
-        "luege:luege_olli_tafel"
-      ],
-      "text": "Ich saß die ganze Zeit am Tisch im Ost-Saal. Ist dir dabei etwas anders in Erinnerung?"
-    },
-    {
-      "id": "g_olli_2_2",
-      "rolle": "olli",
-      "runde": 2,
-      "nr": 2,
-      "partner": "aylin",
-      "thema": "Wie es Herrn Schneider geht",
-      "ziel": "Ich will wissen, was die andere Person über Herrn Schneider weiß.",
-      "preisgabe": [],
-      "text": "Wie geht es Herrn Schneider eigentlich? Weißt du da was Genaues oder nur Gerede?"
-    },
-    {
-      "id": "g_olli_2_3",
-      "rolle": "olli",
-      "runde": 2,
-      "nr": 3,
       "partner": "can",
-      "thema": "Wo steckst du eigentlich?",
-      "ziel": "Ich will Can zum Reden bringen, bevor er selbst gefragt wird.",
+      "thema": "Wie es Herrn Schneider geht",
+      "ziel": "Ich will wissen, was man über Herrn Schneider weiß.",
       "preisgabe": [],
-      "text": "Can, was war bei dir auffällig, als es knallte? Ich frag mich, ob das zu deiner Geschichte passt."
+      "stichpunkte": [
+        "Wie geht es Herrn Schneider eigentlich?",
+        "Weißt du was Genaues oder nur Gerede?"
+      ]
     },
     {
       "id": "g_can_2_1",
@@ -118,36 +53,15 @@
       "runde": 2,
       "nr": 1,
       "partner": "kaan",
-      "thema": "Was nicht zusammenpasst",
-      "ziel": "Ich will wissen, was die andere Person im Dunkeln mitbekommen hat.",
-      "preisgabe": [
-        "luege:luege_can_toilette"
-      ],
-      "text": "Auf der Toilette im Turm war ich die ganze Zeit. Fällt dir dazu was auf, das nicht stimmt?"
-    },
-    {
-      "id": "g_can_2_2",
-      "rolle": "can",
-      "runde": 2,
-      "nr": 2,
-      "partner": "zeynep",
       "thema": "Die Maske",
-      "ziel": "Ich will die andere Person auf meine Seite ziehen, ohne dass es auffällt.",
+      "ziel": "Ich will hören, ob jemand von einer Maske redet.",
       "preisgabe": [
         "luege:luege_can_maske"
       ],
-      "text": "Welche Maske? Ich hab keine Maske. Passt das für dich zusammen?"
-    },
-    {
-      "id": "g_can_2_3",
-      "rolle": "can",
-      "runde": 2,
-      "nr": 3,
-      "partner": "fatma",
-      "thema": "Was steckt in deiner Tasche?",
-      "ziel": "Ich will Fatma in ein Gespräch über ihre Tasche ziehen, damit niemand nach mir fragt.",
-      "preisgabe": [],
-      "text": "Fatma, deine Tasche ist ganz schön schwer. Wie passt das zu dem, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Welche Maske? Ich hab keine Maske.",
+        "Wer erzählt denn so was?"
+      ]
     }
   ]
 }

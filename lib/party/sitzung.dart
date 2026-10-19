@@ -7,6 +7,7 @@ import 'package:mordakte_core/runden.dart';
 
 import 'daten.dart';
 import 'runden_texte.dart';
+import 'stand/befragung_stand.dart';
 
 /// Ein Partyabend in der App (F4-ORCH-02). Hält den Spielzustand ([Spiel]),
 /// Einstellungen, Spielernamen, die verdeckte Einzelansicht, die laufende
@@ -320,6 +321,9 @@ class PartySitzung extends ChangeNotifier {
     }
     _code = c;
     _solo = solo;
+    // Modell befragung (A-051): Der Detektiv führt eigene Befragungen. Im Druckspiel stehen sie auf
+    // seinem Bogen; die App zeigt sie dann nur ([befragungAufPapier]).
+    _befragung = befragungsmodell ? BefragungStand(daten.texte, rollen: rollen, mensch: !solo) : null;
     _erzaehlFlags.clear();
     _gefuehrteGespraeche.clear();
     _gespraech = null;
@@ -423,7 +427,8 @@ class PartySitzung extends ChangeNotifier {
   final Set<String> _soloGelesen = {};
 
   /// Nur öffentliche Sprechblasen der aktuellen Runde, keine künftigen Texte.
-  List<BotGespraech> get soloGespraeche => !solo || runde < 1 ? const [] : _soloGespraeche.putIfAbsent(
+  /// Nur im Modell legacy; im Modell befragung antworten die Bots auf Fragen ([befragungen]).
+  List<BotGespraech> get soloGespraeche => !solo || runde < 1 || befragungsmodell ? const [] : _soloGespraeche.putIfAbsent(
     runde, () => botGespraeche(daten.texte, rollen: einstellungen.rollen, runde: runde, mitNpc: true),
   );
 
@@ -444,6 +449,87 @@ class PartySitzung extends ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
+  // Befragungen (A-051, Modell befragung): Der Detektiv befragt je Runde drei bis
+  // fünf Rollen, feste und frei gewählte. Er sieht Thema und Fragen; antwortet
+  // die App (Solo), kommt die Antwort erst nach der Frage. Reihum antwortet die
+  // Person am Tisch aus ihrem verdeckten Spickzettel.
+
+  /// Hat diese Akte das Gesprächsmodell befragung?
+  bool get befragungsmodell => daten.texte.besetzung.befragungsmodell;
+
+  BefragungStand? _befragung;
+
+  /// Befragungskarten der laufenden Runde (leer ohne Modell befragung und außerhalb der Runden).
+  List<BefragungKarte> get befragungen => _befragung == null || runde < 1 ? const [] : _befragung!.karten(runde);
+
+  /// Freie Wahlen, die in dieser Runde noch offen sind.
+  int get befragungenFrei => _befragung == null || runde < 1 ? 0 : _befragung!.freiOffen(runde);
+
+  /// Druckspiel im Modell befragung: Die Befragungen stehen auf dem Bogen des
+  /// Detektivs. Die App zeigt sie nur zum Lesen, und „Weiter“ wartet nicht.
+  bool get befragungAufPapier => _befragung != null && einstellungen.druck;
+
+  /// Sind alle Befragungen der Runde geführt? Erst dann geht es aus den Gesprächen weiter.
+  bool get befragungenFertig => _befragung == null || runde < 1 || befragungAufPapier || _befragung!.fertig(runde);
+
+  void _nurBefragung() {
+    if (_befragung == null || befragungAufPapier || phase != PartyPhase.gespraeche) throw StateError('keine Befragung in diesem Abschnitt');
+  }
+
+  /// Der Detektiv stellt die Frage [frage] der Befragung [id]. Eine freie
+  /// Befragung ist damit gewählt; im Solo ist sie erledigt, reihum erst nach
+  /// [befragungErledigt].
+  void befragen(String id, int frage) {
+    _nurBefragung();
+    _befragung!.befragen(runde, id, frage);
+    _merke('befragt', {'id': id, 'frage': frage});
+    notifyListeners();
+  }
+
+  /// Die befragte Person hat am Tisch geantwortet.
+  void befragungErledigt(String id) {
+    _nurBefragung();
+    if (_befragung!.verlauf.erledigt(id)) return;
+    _befragung!.erledigen(runde, id);
+    _merke('befragtFertig', {'id': id});
+    notifyListeners();
+  }
+
+  /// Antworten, die die App bisher gegeben hat (Notizbuch des Solo-Detektivs).
+  List<BefragungKarte> get befragungsNotizen => List.unmodifiable(_befragung?.aufgedeckt ?? const <BefragungKarte>[]);
+
+  /// Modell befragung (E-044): Das Wissen unbesetzter Gäste spricht der Erzähler
+  /// nur zum Rundenstart; das Erzählerfenster trägt es danach nicht mehr. Damit
+  /// der Detektiv es bei den Entscheidungen nachlesen kann, wie eine Antwort aus
+  /// einer Befragung, bleibt es im Notizbuch: die npc-Bausteine dieses Abends in
+  /// der Reihenfolge, in der der Erzähler sie sprach. Sie hängen nur an Runde und
+  /// Besetzung (S-1) und entstehen beim Fortsetzen und online mit der Partie neu.
+  List<String> get erzaehlerNotizen => !befragungsmodell ? const [] : List.unmodifiable({
+        for (final k in spiel.bausteine) if (k.startsWith('npc.')) k,
+      });
+
+  /// Die Tischgespräche der Runde [r]: nur Paarung und Thema.
+  List<TischPaarung> tisch(int r) => tischPaarungen(daten.texte, n: einstellungen.rollen, runde: r);
+
+  /// Die Befragungskarte von [rolle] in dieser Runde (öffentlich: Thema, Stand), sonst null.
+  BefragungKarte? befragungVon(String rolle) {
+    for (final k in befragungen) {
+      if (k.rolle == rolle) return k;
+    }
+    return null;
+  }
+
+  /// Ist die Befragung von [rolle] in Runde [r] fest? Null ohne Befragungen an diesem Gerät (online, Altakte).
+  bool? befragungFest(String rolle, int r) => _befragung?.verlauf.runde(r).pflicht.contains(rolle);
+
+  /// Spickzettel der Befragung von [rolle] in Runde [r] (nur verdeckt): was sie dem Detektiv sagt.
+  BefragungsZettel spickzettel(String rolle, int r) {
+    _nurVerdeckt(rolle);
+    final b = daten.texte.sammlung.befragungen[BefragungText.kennung(rolle, r)] ?? (throw StateError('keine Befragung von $rolle'));
+    return befragungsZettel(daten.texte, b);
+  }
+
+  // ---------------------------------------------------------------------------
   // Ablauf
 
   /// Kann der Abend zum nächsten Abschnitt? Solo-Wissen kommt vor der Wahl;
@@ -452,6 +538,7 @@ class PartySitzung extends ChangeNotifier {
     // Ein offenes Randgespräch endet erst mit „Gespräch beenden“.
     if (_gespraech != null) return false;
     if (solo && phase == PartyPhase.gespraeche && soloGespraeche.any((g) => !_soloGelesen.contains(g.id))) return false;
+    if (phase == PartyPhase.gespraeche && !befragungenFertig) return false;
     return mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
         PartyPhase.titel => true,
         PartyPhase.einrichtung => false,
@@ -691,9 +778,17 @@ class PartySitzung extends ChangeNotifier {
 
   void _merke(String befehl, [Map<String, Object?> werte = const {}]) => _befehle.add({'b': befehl, ...werte});
 
+  /// Formatversion des Abendstands. Version 2 (A-051): Befragungen als Befehle
+  /// `befragt` und `befragtFertig`; ein Stand der Version 1 einer Akte mit dem
+  /// Modell befragung stammt aus der alten Fassung und wird verworfen.
+  static const abendstandFormat = 'abendstand/2';
+
+  /// Formate, die [fortsetzen] noch liest.
+  static const abendstandFormate = {'abendstand/1', abendstandFormat};
+
   /// Der Abend zum Ablegen (JSON): Akte, Salz und alle Befehle seit dem Anlegen.
   Map<String, Object?> get abendstand => {
-        'format': 'abendstand/1',
+        'format': abendstandFormat,
         'fall': daten.fall,
         'salz': _salz,
         'titel': kanon.fall['titel'],
@@ -713,9 +808,11 @@ class PartySitzung extends ChangeNotifier {
     KartenKatalog? katalog,
     List<AbstecherOrt> abstecher = const [],
   }) {
-    if (stand['format'] != 'abendstand/1' || stand['fall'] != daten.fall || stand['salz'] is! String) {
+    if (!abendstandFormate.contains(stand['format']) || stand['fall'] != daten.fall || stand['salz'] is! String) {
       throw const FormatException('Abendstand passt nicht zur Akte');
     }
+    // Vor dem Modell befragung kannte der Schlosskeller drei Pflichtgespräche je Rolle.
+    if (stand['format'] == 'abendstand/1' && daten.texte.besetzung.befragungsmodell) throw const AbendstandVeraltet();
     final s = PartySitzung(daten, salz: stand['salz'] as String);
     try {
       for (final b in stand['befehle'] as List) {
@@ -764,6 +861,10 @@ class PartySitzung extends ChangeNotifier {
         verdecken();
       case 'gelesen':
         soloGespraechGelesen(text('id')!);
+      case 'befragt':
+        befragen(text('id')!, b['frage'] as int);
+      case 'befragtFertig':
+        befragungErledigt(text('id')!);
       case 'weiter':
         weiter();
       case 'an':
@@ -924,4 +1025,11 @@ class PartySitzung extends ChangeNotifier {
   /// Uhrzeit, die die laufende Rückblende gerade zeigt (gesetzt von der Ansicht).
   /// Nur der Entwickler-Einstieg liest sie, um eine Fotostelle im Stromausfall zu treffen.
   Uhrzeit? rueckblendeZeit;
+}
+
+/// Ein Abendstand aus der Fassung vor dem Modell befragung (A-051): Er lässt sich
+/// nicht mehr abspielen und wird mit einem Hinweis verworfen.
+class AbendstandVeraltet extends FormatException {
+  // Technische Meldung (nur Protokoll); den Hinweis zeigt die Detektei aus dem ARB.
+  const AbendstandVeraltet() : super('abendstand_veraltet');
 }

@@ -1,0 +1,331 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "befragung",
+  "hinweis": "Befragungen des Detektivs, Runde 1 (A-051): Thema, Fragen und eigene Würze je Rolle. Die Antwort entsteht nur aus der Preisgabe.",
+  "eintraege": [
+    {
+      "id": "bf_ahmet_1",
+      "rolle": "ahmet",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was hast du kurz vor zwölf gemacht?",
+        "Wer stand bei dir?"
+      ],
+      "stichpunkte": [
+        "Ich hab den ganzen Abend organisiert."
+      ],
+      "preisgabe": [
+        "luege:luege_ahmet_servietten"
+      ]
+    },
+    {
+      "id": "bf_fatma_1",
+      "rolle": "fatma",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als das Licht ausging?",
+        "Was hast du heute alles dabei?",
+        "Wer stand in deiner Nähe?"
+      ],
+      "stichpunkte": [
+        "Ich studiere Design, ich achte auf Details."
+      ],
+      "preisgabe": [
+        "luege:luege_fatma_buffet",
+        "luege:luege_fatma_tasche"
+      ]
+    },
+    {
+      "id": "bf_olli_1",
+      "rolle": "olli",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Wen hast du in deiner Nähe bemerkt?"
+      ],
+      "stichpunkte": [
+        "Ich trag hier sonst die schweren Sachen."
+      ],
+      "preisgabe": [
+        "luege:luege_olli_tafel"
+      ]
+    },
+    {
+      "id": "bf_can_1",
+      "rolle": "can",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Wer hat dich dort gesehen?"
+      ],
+      "stichpunkte": [
+        "Ich dreh sonst lustige Kurzvideos."
+      ],
+      "preisgabe": [
+        "luege:luege_can_toilette"
+      ]
+    },
+    {
+      "id": "bf_leyla_1",
+      "rolle": "leyla",
+      "runde": 1,
+      "thema": "Lejla und das Buffet",
+      "fragen": [
+        "Wo warst du kurz vor dem Knall?",
+        "Wen hast du an der Theke gesehen?"
+      ],
+      "stichpunkte": [
+        "Ich hab das Buffet für heute geplant."
+      ],
+      "preisgabe": [
+        "beobachtung:b_lejla_ahmet_theke"
+      ]
+    },
+    {
+      "id": "bf_emine_1",
+      "rolle": "emine",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Wer war in deiner Nähe?"
+      ],
+      "stichpunkte": [
+        "Ich hatte meine Thermoskanne mit Tee dabei."
+      ],
+      "preisgabe": [
+        "beobachtung:b_emine_versteck"
+      ]
+    },
+    {
+      "id": "bf_tim_1",
+      "rolle": "tim",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als das Licht ausging?",
+        "Was hast du im Dunkeln gesehen?"
+      ],
+      "stichpunkte": [
+        "Ich repariere gern alles selbst."
+      ],
+      "preisgabe": [
+        "beobachtung:b_tim_gesicht"
+      ]
+    },
+    {
+      "id": "bf_johanna_1",
+      "rolle": "johanna",
+      "runde": 1,
+      "thema": "Die Fotografin",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Hast du heute Abend viel fotografiert?"
+      ],
+      "stichpunkte": [
+        "Ich fotografiere sonst Hochzeiten."
+      ],
+      "preisgabe": []
+    },
+    {
+      "id": "bf_murat_1",
+      "rolle": "murat",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es dunkel wurde?",
+        "Ist im Dunkeln jemand an dir vorbei?"
+      ],
+      "stichpunkte": [
+        "Ich hab das Essen für heute geliefert."
+      ],
+      "preisgabe": [
+        "beobachtung:b_marek_gesicht"
+      ]
+    },
+    {
+      "id": "bf_zeynep_1",
+      "rolle": "zeynep",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es dunkel wurde?",
+        "Hast du im Dunkeln etwas bemerkt?"
+      ],
+      "stichpunkte": [
+        "Ich trainiere eine Mädchenmannschaft."
+      ],
+      "preisgabe": [
+        "beobachtung:b_zeynep_gesicht"
+      ]
+    },
+    {
+      "id": "bf_baran_1",
+      "rolle": "baran",
+      "runde": 1,
+      "thema": "Die Musik beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was hast du trotz Musik gehört?"
+      ],
+      "stichpunkte": [
+        "Meine Box bleibt bei mir."
+      ],
+      "preisgabe": [
+        "beobachtung:b_baran_rufe"
+      ]
+    },
+    {
+      "id": "bf_meryem_1",
+      "rolle": "meryem",
+      "runde": 1,
+      "thema": "Hana am Kamin",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was ist dir nach dem Knall aufgefallen?"
+      ],
+      "stichpunkte": [
+        "Ich bin Försterin und kenne Holz."
+      ],
+      "preisgabe": [
+        "beobachtung:b_hana_umschlag",
+        "beobachtung:b_hana_wachs"
+      ]
+    },
+    {
+      "id": "bf_serkan_1",
+      "rolle": "serkan",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Ist jemand hinausgekommen?"
+      ],
+      "stichpunkte": [
+        "Ich fahre nachher alle sicher heim."
+      ],
+      "preisgabe": [
+        "beobachtung:b_serkan_tor"
+      ]
+    },
+    {
+      "id": "bf_aylin_1",
+      "rolle": "aylin",
+      "runde": 1,
+      "thema": "Belege und Geld",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was hast du in deiner Ledermappe?"
+      ],
+      "stichpunkte": [
+        "Ich hebe jeden Beleg auf."
+      ],
+      "preisgabe": [
+        "beobachtung:b_aylin_quittung"
+      ]
+    },
+    {
+      "id": "bf_kaan_1",
+      "rolle": "kaan",
+      "runde": 1,
+      "thema": "Wojtek beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was hast du kurz davor mitbekommen?"
+      ],
+      "stichpunkte": [
+        "Maßband und Bleistift hab ich immer dabei."
+      ],
+      "preisgabe": [
+        "beobachtung:b_wojtek_olli_satz",
+        "beobachtung:b_wojtek_vorbei"
+      ]
+    },
+    {
+      "id": "bf_dilara_1",
+      "rolle": "dilara",
+      "runde": 1,
+      "thema": "Azra beim Knall",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Ist dir vorher an jemandem etwas aufgefallen?"
+      ],
+      "stichpunkte": [
+        "Mit meiner Lupe seh ich jedes Detail."
+      ],
+      "preisgabe": [
+        "beobachtung:b_azra_versteck",
+        "beobachtung:b_azra_tasche"
+      ]
+    },
+    {
+      "id": "bf_enes_1",
+      "rolle": "enes",
+      "runde": 1,
+      "thema": "Dein Platz beim Knall",
+      "fragen": [
+        "Wo warst du kurz vor dem Knall?",
+        "Wen hast du an der Theke gesehen?"
+      ],
+      "stichpunkte": [
+        "Ich koch heute für alle Tee."
+      ],
+      "preisgabe": [
+        "beobachtung:b_damir_an_der_theke"
+      ]
+    },
+    {
+      "id": "bf_selin_1",
+      "rolle": "selin",
+      "runde": 1,
+      "thema": "Sibel im Dunkeln",
+      "fragen": [
+        "Wo warst du, als das Licht ausging?",
+        "Hast du im Dunkeln etwas Seltsames gesehen?"
+      ],
+      "stichpunkte": [
+        "Ich fürchte mich nur vor alten Rüstungen."
+      ],
+      "preisgabe": [
+        "beobachtung:b_selin_gesicht"
+      ]
+    },
+    {
+      "id": "bf_hakan_1",
+      "rolle": "hakan",
+      "runde": 1,
+      "thema": "Pawel am Tisch",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was weißt du über Herrn Schneider?"
+      ],
+      "stichpunkte": [
+        "Ich schlichte seit der Schulzeit jeden Streit."
+      ],
+      "preisgabe": [
+        "beobachtung:b_pawel_schneider"
+      ]
+    },
+    {
+      "id": "bf_tugba_1",
+      "rolle": "tugba",
+      "runde": 1,
+      "thema": "Tugbas Notizbuch",
+      "fragen": [
+        "Wo warst du, als es knallte?",
+        "Was steht in deinem Notizbuch?"
+      ],
+      "stichpunkte": [
+        "Den Ablaufplan für heute hab ich geschrieben."
+      ],
+      "preisgabe": [
+        "beobachtung:b_tugba_notiz"
+      ]
+    }
+  ]
+}

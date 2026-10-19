@@ -1,77 +1,35 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 13 bis 16.",
+  "hinweis": "Tischgespräche Runde 2, Besetzungsplätze 13 bis 16 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_serkan_2_1",
       "rolle": "serkan",
       "runde": 2,
       "nr": 1,
-      "partner": "murat",
+      "partner": "meryem",
       "thema": "Wer wollte raus?",
       "ziel": "Ich will wissen, ob im Dunkeln jemand raus wollte.",
       "preisgabe": [],
-      "text": "Ich fahr nachher alle heim, da muss ich wissen, wer raus wollte. Im Dunkeln sieht keiner viel. Stimmt das denn so?"
-    },
-    {
-      "id": "g_serkan_2_2",
-      "rolle": "serkan",
-      "runde": 2,
-      "nr": 2,
-      "partner": "meryem",
-      "thema": "Der Platz am Tor",
-      "ziel": "Ich will die Aussagen der anderen prüfen, ohne selbst verdächtig zu wirken.",
-      "preisgabe": [
-        "beobachtung:b_serkan_tor"
-      ],
-      "text": "Ab kurz vor zwölf hab ich am Außentor gestanden, bis kurz danach. Das Tor war zu, raus ist keiner. Stimmt das wirklich, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_serkan_2_3",
-      "rolle": "serkan",
-      "runde": 2,
-      "nr": 3,
-      "partner": "tim",
-      "thema": "Unterwegs im Dunkeln?",
-      "ziel": "Ich will wissen, ob im Dunkeln jemand ungewöhnlich unterwegs war.",
-      "preisgabe": [],
-      "text": "Das Außentor war zu, das wissen alle. Da passt etwas nicht zusammen, oder?"
+      "stichpunkte": [
+        "Ich fahr nachher alle sicher heim.",
+        "Wollte im Dunkeln jemand raus?"
+      ]
     },
     {
       "id": "g_aylin_2_1",
       "rolle": "aylin",
       "runde": 2,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Frage zur Miete",
-      "ziel": "Ich will mit Ahmet unter vier Augen klären, wie ich mein Geld zurückbekomme.",
-      "preisgabe": [
-        "beobachtung:b_aylin_quittung"
-      ],
-      "text": "Ahmet, auf Herrn Schneiders Quittungszettel steht: Miete, null Euro. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_aylin_2_2",
-      "rolle": "aylin",
-      "runde": 2,
-      "nr": 2,
-      "partner": "emine",
-      "thema": "Genau erzählen",
-      "ziel": "Ich will genau wissen, wer beim Knall wo stand, ohne gleich über Geld zu reden.",
-      "preisgabe": [],
-      "text": "Beim Knall war es dunkel, da sieht man nicht viel. Wie will man da genau gesehen haben, wer wo stand?"
-    },
-    {
-      "id": "g_aylin_2_3",
-      "rolle": "aylin",
-      "runde": 2,
-      "nr": 3,
       "partner": "baran",
-      "thema": "Auffälliges am Buffet",
-      "ziel": "Ich will wissen, ob am Buffet jemand auffällig war.",
+      "thema": "Genau erzählen",
+      "ziel": "Ich will genau wissen, wer wo stand, ohne über Geld zu reden.",
       "preisgabe": [],
-      "text": "Als es kurz vor Mitternacht knallte, war es stockdunkel. Da passt doch etwas nicht zusammen, oder?"
+      "stichpunkte": [
+        "Im Dunkeln sieht man nicht viel.",
+        "Wie genau weißt du, wer wo stand?"
+      ]
     },
     {
       "id": "g_kaan_2_1",
@@ -79,73 +37,27 @@
       "runde": 2,
       "nr": 1,
       "partner": "zeynep",
-      "thema": "Wer ging durch die Bogentür?",
-      "ziel": "Ich will wissen, wo mein Gegenüber im Dunkeln war.",
-      "preisgabe": [
-        "beobachtung:b_wojtek_vorbei"
-      ],
-      "text": "An der Bogentür zum Turm ist im Dunkeln jemand an mir vorbeigekommen. Wie passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_kaan_2_2",
-      "rolle": "kaan",
-      "runde": 2,
-      "nr": 2,
-      "partner": "olli",
-      "thema": "Was wolltest du mit Herrn Schneider?",
-      "ziel": "Ich will wissen, ob Olli mit Herrn Schneider wirklich geredet hat.",
-      "preisgabe": [
-        "beobachtung:b_wojtek_olli_satz"
-      ],
-      "text": "Olli, um acht vor zwölf wolltest du mir Eis holen. Und Herrn Schneider wolltest du danach ansprechen. Was ist daraus geworden?"
-    },
-    {
-      "id": "g_kaan_2_3",
-      "rolle": "kaan",
-      "runde": 2,
-      "nr": 3,
-      "partner": "leyla",
       "thema": "Olli nach dem Knall",
       "ziel": "Ich will wissen, ob jemand Olli nach dem Knall gesehen hat.",
       "preisgabe": [],
-      "text": "Kurz nach dem Knall lag alles im Dunkeln. Hast du Olli da gesehen? Passt das zusammen, wenn es so dunkel war?"
+      "stichpunkte": [
+        "Nach dem Knall lag alles im Dunkeln.",
+        "Hast du Olli da irgendwo gesehen?"
+      ]
     },
     {
       "id": "g_dilara_2_1",
       "rolle": "dilara",
       "runde": 2,
       "nr": 1,
-      "partner": "fatma",
-      "thema": "Deine Tasche um Viertel vor zwölf",
-      "ziel": "Ich will wissen, was Fatma in der Tasche hatte, ohne selbst verdächtig zu wirken.",
-      "preisgabe": [
-        "beobachtung:b_azra_tasche"
-      ],
-      "text": "Fatma, deine Tasche war um Viertel vor zwölf ziemlich prall. Stimmt das denn so?"
-    },
-    {
-      "id": "g_dilara_2_2",
-      "rolle": "dilara",
-      "runde": 2,
-      "nr": 2,
       "partner": "leyla",
-      "thema": "Passt das zusammen?",
-      "ziel": "Ich will sehen, ob mein Gegenüber bei seinen Worten bleibt.",
-      "preisgabe": [
-        "beobachtung:b_azra_versteck"
-      ],
-      "text": "Ich kauerte am rechten Buffettisch und blieb dort, bis es wieder hell wurde. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_dilara_2_3",
-      "rolle": "dilara",
-      "runde": 2,
-      "nr": 3,
-      "partner": "meryem",
       "thema": "Nach dem Knall",
       "ziel": "Ich will wissen, ob nach dem Knall jemand auffällig war.",
       "preisgabe": [],
-      "text": "Nach dem Knall war alles dunkel, das weiß jeder. Stimmt das, was du bisher gesagt hast?"
+      "stichpunkte": [
+        "Nach dem Knall war alles dunkel.",
+        "Ist dir danach jemand aufgefallen?"
+      ]
     }
   ]
 }

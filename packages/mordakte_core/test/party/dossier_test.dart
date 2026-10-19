@@ -141,11 +141,14 @@ List<String> _verbirgtFehler(Kanon kanon, Textsammlung t) {
   return f;
 }
 
-/// Schritt 5: je besetzter Rolle und Besetzung 4 bis 20 je Runde genau drei Pflichtgespräche, Nummern 1 bis 3,
-/// Partner besetzt und nie die Rolle selbst.
+/// Schritt 5: je besetzter Rolle und Besetzung 4 bis 20 je Runde so viele Gespräche, wie das Gesprächsmodell
+/// verlangt (legacy drei mit den Nummern 1 bis 3, befragung eines; A-051), Partner besetzt und nie die Rolle selbst;
+/// im Modell befragung je Runde die eigene Befragung und genau eine Person, die die Rolle anspricht.
 List<String> _gespraechFehler(Kanon kanon, Textsammlung t) {
   final texte = Texte(kanon, t);
   final b = texte.besetzung;
+  final je = b.tischJeRolle;
+  final soll = [for (var i = 1; i <= je; i++) i].join(',');
   final f = <String>[];
   for (var n = b.minRollen; n <= b.maxRollen; n++) {
     for (final r in b.besetzt(n)) {
@@ -154,12 +157,16 @@ List<String> _gespraechFehler(Kanon kanon, Textsammlung t) {
         for (var runde = 1; runde <= 3; runde++) {
           final l = d.gespraeche[runde] ?? const <(Gespraech, String)>[];
           final wo = '$r, Runde $runde, $n Rollen';
-          if (l.length != 3) f.add('$wo: ${l.length} statt 3 Gespräche');
+          if (l.length != je) f.add('$wo: ${l.length} statt $je Gespräche');
           final nrs = [for (final x in l) x.$1.nr];
-          if (nrs.join(',') != '1,2,3') f.add('$wo: Nummern $nrs statt 1,2,3');
+          if (nrs.join(',') != soll) f.add('$wo: Nummern $nrs statt $soll');
           for (final x in l) {
             if (!b.istBesetzt(x.$2, n)) f.add('$wo: Partner ${x.$2} ist nicht besetzt');
             if (x.$2 == r) f.add('$wo: Partner ist die Rolle selbst');
+          }
+          if (b.befragungsmodell) {
+            if (d.befragungen[runde]?.id != BefragungText.kennung(r, runde)) f.add('$wo: eigene Befragung fehlt');
+            if ((d.alsPartner[runde] ?? const []).length != 1) f.add('$wo: ${(d.alsPartner[runde] ?? const []).length} Personen sprechen die Rolle an statt 1');
           }
         }
       }
@@ -224,6 +231,14 @@ List<String> _platzhalterFehler(Kanon kanon, Textsammlung t) {
     pruefe('Gespräch ${g.id}', g.thema);
     pruefe('Gespräch ${g.id}', g.ziel);
     pruefe('Gespräch ${g.id}', g.text);
+    for (final x in g.stichpunkte) {
+      pruefe('Gespräch ${g.id}', x);
+    }
+  }
+  for (final b in t.befragungen.values) {
+    for (final x in [b.thema, ...b.fragen, ...b.stichpunkte]) {
+      pruefe('Befragung ${b.id}', x);
+    }
   }
   for (final w in t.wahlen.values) {
     pruefe('Wahl ${w.id}', w.a);
@@ -247,6 +262,9 @@ List<String> _platzhalterFehler(Kanon kanon, Textsammlung t) {
           pruefe(wo, x.$1.thema);
           pruefe(wo, x.$1.ziel);
           pruefe(wo, x.$1.text);
+          for (final y in x.$1.stichpunkte) {
+            pruefe(wo, y);
+          }
         }
       }
       for (final w in d.wahlen.values) {
@@ -289,7 +307,7 @@ void main() {
     expect(f, isEmpty, reason: f.join('\n'));
   });
 
-  test('Pflichtgespräche je Besetzung 4 bis 20: drei je Runde, Nummern 1 bis 3, Partner besetzt', () {
+  test('Gespräche je Besetzung 4 bis 20 nach Gesprächsmodell: Anzahl, Nummern, Partner besetzt, Befragung', () {
     final f = _gespraechFehler(kanon, _textsammlung);
     expect(f, isEmpty, reason: f.join('\n'));
   });
@@ -362,22 +380,22 @@ void main() {
     expect(f.any((x) => x == 'fatma in ahmet: Lüge luege_fatma_buffet fehlt'), isTrue, reason: f.join('\n'));
   });
 
-  test('Rot-Probe: ein Pflichtgespräch zu wenig wird gemeldet', () {
+  test('Rot-Probe: ein Tischgespräch zu wenig wird gemeldet', () {
     final t = _sammlungMit({
       'texte/gespraeche-r1-b1.json': _geaendert(
         'texte/gespraeche-r1-b1.json',
-        (alt) => [for (final e in alt) if (e['id'] != 'g_ahmet_1_3') e],
+        (alt) => [for (final e in alt) if (e['id'] != 'g_ahmet_1_1') e],
       ),
     });
     final f = _gespraechFehler(kanon, t);
-    expect(f.any((x) => x.startsWith('ahmet, Runde 1') && x.contains('2 statt 3')), isTrue, reason: f.join('\n'));
+    expect(f.any((x) => x.startsWith('ahmet, Runde 1') && x.contains('0 statt 1')), isTrue, reason: f.join('\n'));
   });
 
   test('Rot-Probe: eine falsche Gesprächsnummer wird gemeldet', () {
     final t = _sammlungMit({
       'texte/gespraeche-r1-b1.json': _geaendert(
         'texte/gespraeche-r1-b1.json',
-        (alt) => [for (final e in alt) if (e['id'] == 'g_ahmet_1_3') {...e, 'nr': 5} else e],
+        (alt) => [for (final e in alt) if (e['id'] == 'g_ahmet_1_1') {...e, 'nr': 5} else e],
       ),
     });
     final f = _gespraechFehler(kanon, t);
