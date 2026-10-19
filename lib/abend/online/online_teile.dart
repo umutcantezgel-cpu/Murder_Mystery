@@ -260,7 +260,15 @@ class OnlineWarteNotiz extends StatelessWidget {
           Row(
             children: [
               if (uhr) ...[const MOnlineTaschenuhr(groesse: 40), const SizedBox(width: 14)],
-              Expanded(child: Text(text, key: textKey, style: stil)),
+              // Schmal und mit großer Schrift wird der Text kleiner, statt ein Wort zu teilen.
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final g = ganzeWorteGroesse(context, text, stil, box.maxWidth, minimum: 12);
+                    return Text(text, key: textKey, style: g == stil.fontSize ? stil : stil.copyWith(fontSize: g));
+                  },
+                ),
+              ),
             ],
           ),
           if (marke != null)

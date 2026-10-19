@@ -423,7 +423,8 @@ class _FigurKachel extends StatelessWidget {
               bild,
               const SizedBox(height: MMass.s4),
               MGanzeWorte(name, stil: MPapierSchrift.text.copyWith(fontSize: 14), minimum: 10),
-              if (vermerk.isNotEmpty) Text(vermerk, textAlign: TextAlign.center, style: MPapierSchrift.leise.copyWith(fontSize: 12)),
+              // Die Kachel ist schmal: Mit großer Schrift wird der Vermerk kleiner, statt „Wunsch:“ zu teilen.
+              if (vermerk.isNotEmpty) MGanzeWorte(vermerk, textAlign: TextAlign.center, stil: MPapierSchrift.leise.copyWith(fontSize: 12), minimum: 7),
             ],
           ),
         ),

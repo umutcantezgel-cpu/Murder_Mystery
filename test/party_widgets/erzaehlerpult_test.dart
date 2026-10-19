@@ -109,6 +109,10 @@ void main() {
     s.pultZeigen();
     await t.pump();
     expect(find.text(s.text(lage)), findsOneWidget);
+    // „Gelesen, zudecken“ steht unter dem Bericht, nicht über ihm (Nachschliff M3).
+    final zudecken = find.byKey(const ValueKey('erzaehlerpult-zudecken'));
+    expect(zudecken, findsOneWidget);
+    expect(t.getTopLeft(zudecken).dy, greaterThan(t.getBottomLeft(find.text(s.text(lage))).dy));
   });
 
   testWidgets('Finale: alle lesen, das Pult ist weg', (t) async {

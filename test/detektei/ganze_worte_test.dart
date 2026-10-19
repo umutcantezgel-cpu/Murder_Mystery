@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
+import 'package:mordakte/abend/online/lobby_besetzung.dart' show LobbyStand, zeigeLobbyWahl;
 import 'package:mordakte/abend/rollen_uebersicht.dart';
 import 'package:mordakte/app/router.dart';
 import 'package:mordakte/detektei/akten.dart';
@@ -18,6 +19,7 @@ import 'package:mordakte_core/runden.dart' show Sitz;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../abend/online_hilfe.dart';
+import '../party_widgets/hilfe.dart' show partyDaten;
 
 /// Prüft jeden Absatz unter [bereich]: Jedes Wort steht in einer einzigen Zeile.
 void keinWortGeteilt(WidgetTester tester, Finder bereich) {
@@ -181,6 +183,68 @@ void main() {
       await tester.pump();
     }
     keinWortGeteilt(tester, find.byType(RollenUebersicht));
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Sitze (M3): Tischruf, Fund und Fertig des Gast-Detektivs und die Figurenwahl der Lobby teilen bei 320 px kein Wort', (tester) async {
+    Future<void> zeige(WidgetBuilder seite) => zeigeImThema(tester, seite, groesse: const Size(320, 844), schrift: 2, ruhig: true);
+    // Ben ermittelt am eigenen Handy und wählt falsch, damit auch Pech (Tischruf) kommt.
+    final raum = sitzRaum(detektiv: 'g1', erzaehler: 'gastgeber');
+    spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber', ersteEntscheidung: true);
+    final ben = LiveGast(raum, spielerId: 'g1');
+    final erm = raum.partieFuerGastgeber!.spiel.ermittlung;
+    final gesehen = <String>{};
+    const alle = ['tischruf', 'fund', 'fertig'];
+    for (var i = 0; i < 600 && !gesehen.containsAll(alle); i++) {
+      // Pech kommt erst in einer späteren Runde: bis zu ihren Entscheidungen weiter.
+      if (raum.zustandFuer('g1')['phase'] != 'entscheidungen') {
+        spieleBisSitz(raum, 'entscheidungen', detektiv: 'g1', leiter: 'gastgeber');
+        continue;
+      }
+      final v = raum.zustandFuer('g1');
+      final zug = v['zug'] is Map ? (v['zug'] as Map).cast<String, Object?>() : null;
+      final art = zug != null ? '${zug['phase']}' : (v['entscheidung'] is Map ? 'frage' : 'fertig');
+      if (art != 'frage' && art != 'aktion' && art != 'wurf' && gesehen.add(art)) {
+        await zeige((c) => gastSeiteLive(ben));
+        keinWortGeteilt(tester, find.byType(MRahmen));
+      }
+      switch (art) {
+        case 'aktion':
+          raum.nachricht('g1', {'typ': 'aktionFertig', 'aktion': zug!['aktion']});
+        case 'wurf':
+          raum.nachricht(v['wuerfelPate'] as String, {'typ': 'wurf'});
+        case 'tischruf':
+          raum.nachricht('g1', {'typ': 'tischruf', 'ruf': 'umweg'});
+        case 'fund':
+          raum.nachricht('g1', {'typ': 'fundGelesen'});
+        case 'frage':
+          final e = (v['entscheidung'] as Map).cast<String, Object?>();
+          final optionen = [for (final o in e['optionen'] as List) (o as Map)['id'] as String];
+          final richtig = erm.entscheidung(e['id'] as String).richtig['ahmet'];
+          raum.nachricht('g1', {'typ': 'wahl', 'option': optionen.firstWhere((o) => o != richtig, orElse: () => optionen.first)});
+        default:
+          raum.nachricht('gastgeber', {'typ': 'weiter'});
+      }
+    }
+    expect(gesehen, containsAll(alle));
+    // Die Figurenwahl der Lobby: Kachel mit Inhaber und Wunsch eines anderen Gastes.
+    final lobby = lobbyRaum(langerName: false)
+      ..nachricht('gastgeber', {'typ': 'besetzung', 'rollen': 7})
+      ..nachricht('gastgeber', {'typ': 'zuteilen', 'spieler': 'g2', 'rolle': 'fatma'})
+      ..nachricht('g2', {'typ': 'wunsch', 'rolle': 'ahmet'})
+      ..nachricht('g1', {'typ': 'wunsch', 'rolle': 'fatma'});
+    final stand = LobbyStand.aus(lobby.zustandFuer('gastgeber'), partyDaten, 'gastgeber');
+    await zeige((c) => Scaffold(
+          body: Center(
+            child: MKnopf(text: 'auf', onPressed: () => zeigeLobbyWahl(c, stand: stand, spieler: stand.spieler.firstWhere((s) => s.id == 'g1'), befehl: (_) async {})),
+          ),
+        ));
+    await tester.tap(find.text('auf'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.textContaining('Wunsch: Cleo'), findsWidgets);
+    keinWortGeteilt(tester, find.byType(Dialog));
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

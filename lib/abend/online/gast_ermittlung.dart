@@ -381,6 +381,7 @@ class _GastErmittlungState extends State<GastErmittlung> {
                   text: l.detektiv_gast_karte_ruf(_titel(k)),
                   art: MKnopfArt.zweit,
                   breit: true,
+                  ganzeWorte: true,
                   onPressed: offen ? () => _senden({'typ': 'tischruf', 'ruf': k['art'], 'karte': k['id']}) : null,
                 ),
               ),
@@ -391,12 +392,14 @@ class _GastErmittlungState extends State<GastErmittlung> {
                 MKnopf(
                   key: const ValueKey('ruf-nochmal'),
                   text: s.ui('ui.zug.nochmal'),
+                  ganzeWorte: true,
                   onPressed: offen ? () => _senden({'typ': 'tischruf', 'ruf': 'nochmal'}) : null,
                 ),
                 MKnopf(
                   key: const ValueKey('ruf-umweg'),
                   text: s.ui('ui.zug.umweg_knopf'),
                   art: MKnopfArt.zweit,
+                  ganzeWorte: true,
                   onPressed: offen ? () => _senden({'typ': 'tischruf', 'ruf': 'umweg'}) : null,
                 ),
               ],
@@ -416,6 +419,7 @@ class _GastErmittlungState extends State<GastErmittlung> {
             MKnopf(
               key: const ValueKey('fund-gelesen'),
               text: s.ui(auftakt ? 'ui.zug.auftakt_weiter' : 'ui.karte.gelesen'),
+              ganzeWorte: true,
               onPressed: offen ? () => _senden({'typ': 'fundGelesen'}) : null,
             ),
           ], hervorgehoben: true),
@@ -550,7 +554,7 @@ class _Notizbuch extends StatelessWidget {
         for (final f in jTexte(e.value)) _punkt(f),
         const SizedBox(height: MMass.s8),
       ],
-      for (final n in npc) Padding(padding: const EdgeInsets.only(bottom: MMass.s8), child: Text(n, style: MPapierSchrift.kursiv)),
+      for (final n in npc) Padding(padding: const EdgeInsets.only(bottom: MMass.s8), child: MGanzeWorte(n, stil: MPapierSchrift.kursiv, minimum: 10)),
     ], art: PapierArt.notiz);
   }
 }
@@ -652,7 +656,8 @@ Widget _punkt(String text) => Padding(
             padding: const EdgeInsets.only(top: 10, right: 10),
             child: Container(width: 6, height: 6, decoration: BoxDecoration(color: MRoh.stempelRot.withValues(alpha: 0.8), shape: BoxShape.circle)),
           ),
-          Expanded(child: MGanzeWorte(text, stil: MPapierSchrift.text, minimum: 12)),
+          // Lange Wörter der Funde („Mehrfachsteckdose“) passen schmal erst kleiner.
+          Expanded(child: MGanzeWorte(text, stil: MPapierSchrift.text, minimum: 10)),
         ],
       ),
     );
