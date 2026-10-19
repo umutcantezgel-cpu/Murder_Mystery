@@ -38,30 +38,62 @@ class DruckKontext {
   String figurTitel(String id) => (kanon.figur(id)!['roleTitle'] ?? '') as String;
 }
 
-/// Eine fertige PDF-Datei des Satzes. Der Dateiname trägt nur eine Nummer
-/// und den Teil, nie einen Pfad oder eine Person.
+/// Eine fertige PDF-Datei. Die Dateien des Druckspiels ([druckDateien],
+/// [druckAlles]) tragen nur eine Nummer und den Teil, nie einen Pfad oder eine
+/// Person. Steckbriefe und Rollenhefte je Person dürfen den Figurennamen tragen
+/// (A-059): Jede Figur hat in jedem Pfad dasselbe Heft, der Name verrät nichts.
 class DruckDatei {
   final String name;
   final Uint8List bytes;
-  const DruckDatei(this.name, this.bytes);
+
+  /// Figur, für die die Datei ist (Steckbrief, Rollenheft je Person); sonst null.
+  final String? figur;
+  const DruckDatei(this.name, this.bytes, {this.figur});
 }
 
-/// Setzt alle Teile des Druckspiels.
-Future<List<DruckDatei>> druckDateien(DruckKontext k) async {
-  Future<DruckDatei> datei(String name, String titel, void Function(pw.Document, DruckKontext) teil) async {
-    final doc = k.stil.neuesDokument('${k.fallTitel} · $titel');
-    teil(doc, k);
-    return DruckDatei(name, await doc.save());
-  }
+/// Die acht Teile des Druckspiels in fester Reihenfolge: Dateiname, Baustein
+/// des Titels, Setzfunktion.
+List<(String, String, void Function(pw.Document, DruckKontext))> get _teile => [
+      ('00-erzaehlerheft.pdf', 'ui.druck.datei.spielleitung', erzaehlerheft),
+      ('01-detektivbogen.pdf', 'ui.druck.datei.detektivbogen', detektivbogen),
+      ('10-rollenhefte.pdf', 'ui.druck.datei.rollenhefte', rollenhefte),
+      ('11-fassungen.pdf', 'ui.druck.datei.fassungen', fassungen),
+      ('12-stimmkarten.pdf', 'ui.druck.datei.stimmkarten', stimmkarten),
+      ('20-indizkarten.pdf', 'ui.druck.datei.indizkarten', indizkarten),
+      ('21-umschlaege.pdf', 'ui.druck.datei.umschlaege', umschlaege),
+      ('90-aufloesung-versiegelt.pdf', 'ui.druck.datei.aufloesung', aufloesungsheft),
+    ];
 
-  return [
-    await datei('00-spielleitung.pdf', k.ui('ui.druck.datei.spielleitung'), spielleitungsheft),
-    await datei('01-detektivbogen.pdf', k.ui('ui.druck.datei.detektivbogen'), detektivbogen),
-    await datei('10-rollenhefte.pdf', k.ui('ui.druck.datei.rollenhefte'), rollenhefte),
-    await datei('11-fassungen.pdf', k.ui('ui.druck.datei.fassungen'), fassungen),
-    await datei('12-stimmkarten.pdf', k.ui('ui.druck.datei.stimmkarten'), stimmkarten),
-    await datei('20-indizkarten.pdf', k.ui('ui.druck.datei.indizkarten'), indizkarten),
-    await datei('21-umschlaege.pdf', k.ui('ui.druck.datei.umschlaege'), umschlaege),
-    await datei('90-aufloesung-versiegelt.pdf', k.ui('ui.druck.datei.aufloesung'), aufloesungsheft),
-  ];
+/// Setzt alle Teile des Druckspiels, je Teil eine Datei.
+Future<List<DruckDatei>> druckDateien(DruckKontext k) async => [
+      for (final (name, titel, teil) in _teile) await druckTeil(k, name, k.ui(titel), teil),
+    ];
+
+/// Ein Teil als eigene Datei mit dem Titel „Falltitel · [titel]“.
+Future<DruckDatei> druckTeil(DruckKontext k, String name, String titel, void Function(pw.Document, DruckKontext) teil, {String? figur}) async {
+  final doc = k.stil.neuesDokument('${k.fallTitel} · $titel');
+  teil(doc, k);
+  return DruckDatei(name, await doc.save(), figur: figur);
+}
+
+/// Alle acht Teile in einem PDF, in der Reihenfolge von [druckDateien]: ein
+/// Download, ein Druckauftrag. Die Seitenzahlen laufen durch.
+Future<DruckDatei> druckAlles(DruckKontext k) async {
+  final doc = k.stil.neuesDokument('${k.fallTitel} · ${k.ui('ui.druck.datei.alles')}');
+  for (final (_, _, teil) in _teile) {
+    teil(doc, k);
+  }
+  return DruckDatei('druckspiel-alles.pdf', await doc.save());
+}
+
+/// Ein Wort für Dateinamen: klein, ohne Umlaute, nur Buchstaben, Ziffern und Bindestriche.
+String dateiWort(String text) {
+  final t = text
+      .toLowerCase()
+      .replaceAll('ä', 'ae')
+      .replaceAll('ö', 'oe')
+      .replaceAll('ü', 'ue')
+      .replaceAll('ß', 'ss')
+      .replaceAll(RegExp(r'[^a-z0-9]+'), '-');
+  return t.replaceAll(RegExp(r'^-+|-+$'), '');
 }

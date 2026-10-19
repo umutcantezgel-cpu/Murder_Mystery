@@ -21,15 +21,36 @@ const _vorneHoehe = _kartenHoehe - _streifenHoehe;
 
 void rollenhefte(pw.Document doc, DruckKontext k) {
   for (final rolle in k.satz.besetzt) {
-    doc.addPage(_deckblatt(k, rolle));
-    doc.addPage(pw.MultiPage(
-      pageFormat: DruckStil.format,
-      margin: DruckStil.rand,
-      footer: (c) => k.stil.fuss(c, k.fallTitel),
-      build: (c) => _heft(k, rolle),
-    ));
+    rollenheft(doc, k, rolle);
   }
 }
+
+/// Das Heft einer Rolle: Deckblatt und Inhalt.
+void rollenheft(pw.Document doc, DruckKontext k, String rolle) {
+  doc.addPage(_deckblatt(k, rolle));
+  doc.addPage(pw.MultiPage(
+    pageFormat: DruckStil.format,
+    margin: DruckStil.rand,
+    footer: (c) => k.stil.fuss(c, k.fallTitel),
+    build: (c) => _heft(k, rolle),
+  ));
+}
+
+/// Je besetzter Rolle ein eigenes Rollenheft (A-059), in Besetzungsreihenfolge, damit
+/// jede Person nur ihr Heft bekommt. Der Dateiname trägt den Figurennamen
+/// (`10-rollenheft-<figur>.pdf`); jede Rolle hat in jedem Pfad genau ein Heft.
+Future<List<DruckDatei>> rollenheftDateien(DruckKontext k) async => [
+      for (final rolle in k.satz.besetzt) await rollenheftDatei(k, rolle),
+    ];
+
+/// Das Rollenheft von [rolle] als eigene Datei.
+Future<DruckDatei> rollenheftDatei(DruckKontext k, String rolle) => druckTeil(
+      k,
+      '10-rollenheft-${dateiWort(k.figurName(rolle))}.pdf',
+      '${k.ui('ui.druck.rollen.heft')} · ${k.figurName(rolle)}',
+      (doc, k) => rollenheft(doc, k, rolle),
+      figur: rolle,
+    );
 
 /// Jede Fassung hat genau vier Seiten mit denselben Überschriften (E-036):
 /// Außenseite, Inhalt, Rundenwahl mit den Streifen A und B (E-039), Notizen. Eine Schriftgröße
