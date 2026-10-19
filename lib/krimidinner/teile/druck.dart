@@ -35,8 +35,9 @@ class _DruckTeilState extends State<DruckTeil> {
   Gewoelbe get g => widget.gewoelbe;
 
   /// Bietet die Datei an: in der App über das Teilen des Systems, im Browser als
-  /// Teilen oder Download (A-059). Das HTML entsteht im Tipp selbst, darum reicht
-  /// im Browser ein Tipp. Nur wenn das Anbieten scheitert, kommt der Browser-Hinweis.
+  /// Download, damit sie sich wie im Hinweis speichern und drucken lässt (A-059).
+  /// Das HTML entsteht im Tipp selbst, darum reicht im Browser ein Tipp. Nur wenn
+  /// das Anbieten scheitert, kommt der Browser-Hinweis.
   Future<void> _speichern(String datei, String html, {required bool mappe}) async {
     final ok = await dateiAnbieten(datei, utf8.encode(html), typ: 'text/html');
     if (!mounted) return;

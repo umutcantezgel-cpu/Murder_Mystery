@@ -3,26 +3,30 @@ import 'dart:js_interop';
 import 'dart:typed_data';
 import 'dart:ui' show Rect;
 
-/// Im Browser (nur `dart:js_interop`, ohne Paket): Kann der Browser Dateien
-/// teilen (`navigator.canShare`), öffnet sich sein Teilen-Fenster (am Handy:
-/// speichern, an eine Person schicken); sonst ein Download über einen Blob-Link.
-/// Beides verlangt einen Tipp des Nutzers: Bis zum Aufruf läuft alles synchron.
-Future<bool> dateiAnbieten(String name, Uint8List bytes, {String typ = 'application/pdf', Rect? ursprung}) async {
+/// Im Browser (nur `dart:js_interop`, ohne Paket): ein Download über einen
+/// Blob-Link, mit [teilen] das Teilen-Fenster des Browsers (`navigator.share`).
+/// Am Handy kann es speichern und an eine Person schicken, am Rechner
+/// (Windows, macOS) weder speichern noch drucken: Darum ist der Download der
+/// Standard und steht immer neben dem Teilen. Beides verlangt einen Tipp des
+/// Nutzers: Bis zum Aufruf läuft alles synchron.
+Future<bool> dateiAnbieten(String name, Uint8List bytes, {String typ = 'application/pdf', Rect? ursprung, bool teilen = false}) async {
+  if (!teilen) return _herunterladen(name, bytes, typ);
   final daten = _TeilDaten(files: [_Datei([bytes.toJS].toJS, name.toJS, _BlobOptionen(type: typ.toJS))].toJS);
-  if (_kannTeilen(daten)) {
-    try {
-      await _navigator.share(daten).toDart;
-      return true;
-    } catch (e) {
-      // Ein Abbruch im Teilen-Fenster zählt als angeboten; sonst bleibt der Download.
-      if ('$e'.contains('AbortError')) return true;
-    }
+  if (!_kannTeilen(daten)) return false;
+  try {
+    await _navigator.share(daten).toDart;
+    return true;
+  } catch (e) {
+    // Ein Abbruch im Teilen-Fenster ist kein Fehler: Der Download steht daneben.
+    return '$e'.contains('AbortError');
   }
-  return _herunterladen(name, bytes, typ);
 }
 
 /// Der Browser verlangt für Teilen und Download einen eigenen Tipp.
 const zweiterTipp = true;
+
+/// Den Download gibt es in jedem Browser.
+const kannHerunterladen = true;
 
 bool dateiTeilbar(String name, String typ) =>
     _kannTeilen(_TeilDaten(files: [_Datei(<JSAny>[].toJS, name.toJS, _BlobOptionen(type: typ.toJS))].toJS));

@@ -33,8 +33,9 @@ Detektei → **Spuk im Schlosskeller** → **Steckbriefe & Übersicht**. Ein Tip
   reihum die Personenzahl und die Namen in der Einrichtung vor.
 
 Jede Datei entsteht erst beim Tipp. In der App öffnet sich danach das Teilen des Telefons: speichern, drucken
-oder direkt an eine Person schicken. Im Browser tippt ihr ein zweites Mal: Dann teilt oder lädt der Browser die
-Datei. Die Steckbriefe heißen nach der Figur, etwa `steckbrief-fatma.pdf`.
+oder direkt an eine Person schicken. Im Browser tippt ihr ein zweites Mal: **Herunterladen** speichert die Datei,
+am Rechner der Weg zum Drucken. Kann der Browser Dateien teilen, steht daneben **Teilen**. Die Steckbriefe heißen
+nach der Figur, etwa `steckbrief-fatma.pdf`.
 
 ### Die acht Dateien bekommen
 
@@ -43,7 +44,7 @@ Es gibt drei Wege.
 - **Über die Akte:** Detektei → **Spuk im Schlosskeller** → **Druckmappe**. Stelle Personen, Detektiv oder
   Detektivin und Fall ein und tippe auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen
   Knopf je Datei und **Rollenhefte einzeln senden** mit einem Knopf je Person. Jede Datei entsteht beim ersten Tipp
-  und geht dann an das Teilen des Telefons (im Browser mit einem zweiten Tipp).
+  und geht dann an das Teilen des Telefons (im Browser mit einem zweiten Tipp: Herunterladen oder Teilen).
 - **Über einen Abend am Tisch:** Wähle im Assistenten **Ein Gerät reihum** und bei den Einstellungen
   **Zum Drucken**. Auf der Seite „Eure Rollen“ steht dann die Tafel „Druckfassung“. Der Bildschirm führt
   trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen.

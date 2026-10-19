@@ -1,10 +1,12 @@
 // F5-BAUMEISTER-04, M5: Druckfassung in der App (Master 7.6, 7.14, A-059). Mit Druckspiel
 // steht die Tafel in der Rollenvergabe: Fall-Code-Hinweis, „Alles in einer Datei“, die acht
 // Teile und je Person ein Rollenheft. Jede Datei entsteht erst beim Tipp und geht an das
-// Teilen des Systems (kein „nur im Browser“ mehr). Ohne Druckspiel gibt es reihum bei
+// Teilen des Systems (kein „nur im Browser“ mehr); im Browser steht danach immer
+// „Herunterladen“ und, wenn er Dateien teilen kann, „Teilen“. Ohne Druckspiel gibt es reihum bei
 // Akten mit Druckfassung nur das Erzählerheft, ohne Fall-Code.
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,6 +15,7 @@ import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/rollen.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/datei_teilen.dart';
+import 'package:mordakte/party/druck_speichern.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:share_plus/share_plus.dart';
@@ -53,6 +56,39 @@ List<ShareParams> _zeuge({bool scheitern = false}) {
   };
   addTearDown(() => dateiTeilenUeber = vorher);
   return geteilt;
+}
+
+/// Spielt den Browser nach: Download immer, Teilen nur mit [teilbar] (Chrome und
+/// Edge unter Windows, Safari am Mac). Das Teilen-Fenster wird geschlossen; das
+/// meldet die Web-Fassung wie ein Abbruch ohne Fehler.
+class _Browser extends DateiGeraet {
+  _Browser({required this.teilbar});
+
+  final bool teilbar;
+  final angeboten = <(String, DateiWeg)>[];
+
+  @override
+  bool get zweiterTipp => true;
+
+  @override
+  bool get kannHerunterladen => true;
+
+  @override
+  bool kannTeilen(String name, String typ) => teilbar;
+
+  @override
+  Future<bool> anbieten(String name, Uint8List bytes, {required String typ, Rect? ursprung, required DateiWeg weg}) async {
+    angeboten.add((name, weg));
+    return true;
+  }
+}
+
+_Browser _imBrowser({required bool teilbar}) {
+  final b = _Browser(teilbar: teilbar);
+  final vorher = dateiGeraet;
+  dateiGeraet = b;
+  addTearDown(() => dateiGeraet = vorher);
+  return b;
 }
 
 /// Tippt auf [knopf] und wartet in echter Zeit, bis [fertig] gilt (die PDF-Erzeugung läuft wirklich).
@@ -135,6 +171,44 @@ void main() {
     expect(geteilt, isEmpty);
     expect(find.text(_de.druck_datei_fehler), findsOneWidget);
     expect(find.text(s.ui('ui.druck.app.nur_browser')), findsNothing);
+  });
+
+  testWidgets('im Browser mit Teilen (Rechner): Herunterladen steht vorn, ein geschlossenes Teilen-Fenster lässt den Download', (t) async {
+    final browser = _imBrowser(teilbar: true);
+    final s = _sitzung(druck: true);
+    await _zeige(t, s);
+    final alles = s.ui('ui.druck.datei.alles');
+    final laden = find.text(_de.druck_datei_laden(alles));
+    final teilen = find.text(_de.druck_datei_teilen(alles));
+    await _tippeUndWarte(t, find.text(alles), () => laden.evaluate().isNotEmpty);
+    // Der erste Tipp baut nur; Download und Teilen brauchen im Browser einen eigenen Tipp.
+    expect(browser.angeboten, isEmpty);
+    expect(laden, findsOneWidget);
+    expect(teilen, findsOneWidget);
+    expect(t.getTopLeft(laden).dx, lessThan(t.getTopLeft(teilen).dx));
+
+    await t.tap(teilen);
+    await t.pump();
+    expect(browser.angeboten, [('druckspiel-alles.pdf', DateiWeg.teilen)]);
+    expect(find.text(_de.druck_datei_fehler), findsNothing);
+    // Nach dem Teilen-Fenster ist der Download noch da.
+    expect(laden, findsOneWidget);
+    await t.tap(laden);
+    await t.pump();
+    expect(browser.angeboten.last, ('druckspiel-alles.pdf', DateiWeg.herunterladen));
+  });
+
+  testWidgets('im Browser ohne Teilen (Firefox am Rechner): nur Herunterladen', (t) async {
+    final browser = _imBrowser(teilbar: false);
+    final s = _sitzung(druck: true, namen: {'fatma': 'Bea'});
+    await _zeige(t, s);
+    final senden = _de.druck_senden_an('Bea');
+    final laden = find.text(_de.druck_datei_laden(senden));
+    await _tippeUndWarte(t, find.text(senden), () => laden.evaluate().isNotEmpty);
+    expect(find.text(_de.druck_datei_teilen(senden)), findsNothing);
+    await t.tap(laden);
+    await t.pump();
+    expect(browser.angeboten, [('10-rollenheft-fatma.pdf', DateiWeg.herunterladen)]);
   });
 
   testWidgets('reihum ohne Druck, Akte mit Druckspiel: nur das Erzählerheft, kein Fall-Code; im Solo keins', (t) async {

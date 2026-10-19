@@ -16,7 +16,8 @@ typedef FertigeDatei = ({String name, Uint8List bytes});
 /// sie (einmal, danach liegt sie bereit). In der App geht sie gleich danach an das
 /// Teilen des Systems. Im Browser wartet sie auf einen zweiten Tipp
 /// ([zweiterTipp]), weil Teilen und Download dort direkt im Tipp liegen müssen;
-/// der Knopf sagt dann „Teilen“ oder „Herunterladen“. Scheitert etwas, steht
+/// dann steht da ein Knopf je Weg ([dateiWege]): immer „Herunterladen“ und, wenn
+/// der Browser Dateien teilen kann, daneben „Teilen“. Scheitert etwas, steht
 /// darunter ein Satz in Handschrift.
 ///
 /// Eine Datei, die von Einstellungen abhängt (Personenzahl, Detektiv), bekommt
@@ -52,9 +53,9 @@ class _DateiKnopfState extends State<DateiKnopf> {
     return box == null || !box.hasSize ? null : box.localToGlobal(Offset.zero) & box.size;
   }
 
-  Future<void> _tipp() async {
+  Future<void> _tipp([DateiWeg? weg]) async {
     final fertig = _datei;
-    if (fertig != null) return _anbieten(fertig);
+    if (fertig != null) return _anbieten(fertig, weg);
     setState(() {
       _baut = true;
       _fehler = false;
@@ -80,9 +81,10 @@ class _DateiKnopfState extends State<DateiKnopf> {
     }
   }
 
-  /// Bietet die Datei an; bis zum Aufruf ohne `await`, damit der Browser den Tipp noch sieht.
-  Future<void> _anbieten(FertigeDatei d) async {
-    final ok = await dateiAnbieten(d.name, d.bytes, typ: widget.typ, ursprung: _ursprung());
+  /// Bietet die Datei auf dem Weg [weg] an (ohne Angabe: Standardweg); bis zum
+  /// Aufruf ohne `await`, damit der Browser den Tipp noch sieht.
+  Future<void> _anbieten(FertigeDatei d, [DateiWeg? weg]) async {
+    final ok = await dateiAnbieten(d.name, d.bytes, typ: widget.typ, ursprung: _ursprung(), weg: weg);
     if (mounted) setState(() => _fehler = !ok);
   }
 
@@ -105,15 +107,28 @@ class _DateiKnopfState extends State<DateiKnopf> {
       );
     }
     final d = _datei;
-    final bereit = d != null && zweiterTipp;
-    final text = !bereit
-        ? widget.text
-        : (dateiTeilbar(d.name, typ: widget.typ) ? _de.druck_datei_teilen(widget.text) : _de.druck_datei_laden(widget.text));
+    // Im Browser liegt die fertige Datei bereit: ein Knopf je Weg, der Standard vorn.
+    final wege = d != null && zweiterTipp ? dateiWege(d.name, typ: widget.typ) : const <DateiWeg>[];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        PartyKnopf(text: text, haupt: widget.haupt, icon: bereit ? Icons.download_done_rounded : widget.icon, onPressed: _tipp),
+        if (wege.isEmpty)
+          PartyKnopf(text: widget.text, haupt: widget.haupt, icon: widget.icon, onPressed: _tipp)
+        else
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final (i, weg) in wege.indexed)
+                PartyKnopf(
+                  text: weg == DateiWeg.teilen ? _de.druck_datei_teilen(widget.text) : _de.druck_datei_laden(widget.text),
+                  haupt: widget.haupt && i == 0,
+                  icon: weg == DateiWeg.teilen ? Icons.ios_share_rounded : Icons.download_rounded,
+                  onPressed: () => _tipp(weg),
+                ),
+            ],
+          ),
         if (_fehler) ...[
           const SizedBox(height: 6),
           Text(_de.druck_datei_fehler, style: MPapierSchrift.hand.copyWith(fontSize: 19)),
