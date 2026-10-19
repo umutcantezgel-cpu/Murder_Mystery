@@ -6,7 +6,9 @@
 // Nur localhost; fremde Netzaufrufe und Konsolenfehler werden gezählt.
 //
 // Aufruf: node tool/e2e/leistung.mjs <buildOrdner> <ausgabe.json>
-//           [--ansichten name=query;name=query] [--klassen hoch,mittel,einfach] [--sekunden 8]
+//           [--ansichten name=query;name=query | ebenen] [--klassen hoch,mittel,einfach] [--sekunden 8]
+// `--ansichten ebenen` misst die Welt-Ebenen des langen Abends (M7a) in der Übersicht gegen den Keller
+// heute (Partykarte) und den Keller in derselben Ebenen-Vorschau.
 import { createRequire } from 'node:module';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -30,8 +32,16 @@ const sekunden = Number(opt('sekunden', '8'));
 const warten = Number(opt('warten', '2000')); // Einschwingen nach dem ersten Bild (ms)
 const drossel = { hoch: 1, mittel: 4, einfach: 6 };
 const klassen = opt('klassen', 'hoch,mittel,einfach').split(',');
-const ansichten = opt('ansichten',
-  'buffetsaal=party=schlosskeller&zoom=1.1&at=14.5,11.5;uebersicht=party=schlosskeller&zoom=0.55&at=13.5,11.5')
+const ebenen = [
+  'keller_heute=party=schlosskeller&zoom=0.55&at=13.5,11.5',
+  'ebene_keller=ebene=keller&zoom=0.55&at=13.5,11.5',
+  'ebene_erdgeschoss=ebene=erdgeschoss&zoom=0.55&at=25.5,10.5',
+  'ebene_turm=ebene=turm&zoom=0.55&at=8.5,8.5',
+  'ebene_aussen=ebene=aussen&zoom=0.55&at=21.5,9.5',
+].join(';');
+const ansichtenWahl = opt('ansichten',
+  'buffetsaal=party=schlosskeller&zoom=1.1&at=14.5,11.5;uebersicht=party=schlosskeller&zoom=0.55&at=13.5,11.5');
+const ansichten = (ansichtenWahl === 'ebenen' ? ebenen : ansichtenWahl)
   .split(';').map((a) => { const i = a.indexOf('='); return { name: a.slice(0, i), q: a.slice(i + 1) }; });
 
 const typen = {
