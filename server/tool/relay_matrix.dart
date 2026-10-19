@@ -33,6 +33,11 @@
 /// beim Vorleser, Erzählerpaket nur beim Erzähler und nie mit verbirgt,
 /// Tatwissen oder Tarnung, npc-Notizen beim Detektiv, Klasse beim Detektiv und
 /// beim Gastgeber, Rechte je Sitz.
+///
+/// Rundenuhr und Diashow (M4): Die Abendzeit jedes Befehls stempelt der
+/// Gastgeber (eine mitgeschickte Zeit gilt nicht), alle sehen dieselbe Uhr und
+/// rechnen die Restzeit mit dem Versatz aus dem `pong`; den Bilderzähler der
+/// Einleitung sehen alle gleich. Beides stellt nur, wer leitet.
 library;
 
 import 'dart:async';
@@ -295,6 +300,9 @@ Future<void> _lauf({
         festerGastgeber: true,
         // Wie die App (GastgeberDienst): Der Sitz des Gastgebers steht in der Meta.
         gastgeberSitz: Sitz.lesen(meta['sitz']) ?? Sitz.detektiv,
+        // Wie die App: Rundendauer aus der Meta, Diashow der Akte (M4).
+        rundenMinuten: 20,
+        diaAnzahl: _diaAnzahl,
       );
   var host = await RelayHost.neu(
     fabrik: fabrik,
@@ -451,6 +459,7 @@ Future<void> _lauf({
     await _befehl(hostPlatz, leitPlatz, 'weiter');
 
     var befragungenGesehen = 0;
+    var uhrGeprueft = false, diaGeprueft = false;
     var gefaelschterWurf = false;
     var neuverbindungA = false;
     var hostNetz = false;
@@ -494,6 +503,10 @@ Future<void> _lauf({
             await _befehl(hostPlatz, leitPlatz, 'weiter');
           }
         case 'gespraeche':
+          if (!uhrGeprueft) {
+            uhrGeprueft = true;
+            await _imFenster('Rundenuhr', () => _rundenuhr(host, hostPlatz, leitPlatz, rolle, plaetze));
+          }
           // Modell befragung (A-051): Der Detektiv-Sitz erledigt seine Befragungen.
           // Erst sehen alle Gäste ihre Spickzettel, dann fragt der Detektiv; vor „Weiter“ sehen sie den Stand.
           await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
@@ -513,6 +526,10 @@ Future<void> _lauf({
           }
           await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'intro':
+          if (!diaGeprueft) {
+            diaGeprueft = true;
+            await _imFenster('Diashow', () => _diashow(hostPlatz, leitPlatz, rolle, plaetze));
+          }
           if (!hostNetz) {
             hostNetz = true;
             await _imFenster('Netzabbruch Gastgeber', () => _hostNetzabbruch(host, hostPlatz, plaetze));
@@ -537,6 +554,7 @@ Future<void> _lauf({
       }
     }
     _require(gefaelschterWurf, 'Manipulationsprüfung des Würfels wurde nicht erreicht.');
+    _require(uhrGeprueft && diaGeprueft, 'Rundenuhr- und Diashow-Prüfung wurden nicht erreicht.');
     _require(neuverbindungB, 'App-Neustart-Prüfung wurde nicht erreicht.');
     _require(hostNetz && hostNeustart, 'Gastgeber-Prüfungen (Netzabbruch, Neustart) wurden nicht erreicht.');
     _require(attrappe == null || neuverbindungA, 'Netzabbruch-Prüfung wurde nicht erreicht.');
@@ -873,6 +891,48 @@ Future<int> _befragungen(_Platz host, _Platz detektiv) async {
 }
 
 Future<void> _bereit(_Platz host, _Platz wer) => _befehl(host, wer, 'bereit', {'wert': true});
+
+/// Bilder der Diashow des Schlosskellers (`content/welt/schlosskeller/diashow.json`), wie in der App.
+final int _diaAnzahl = () {
+  final datei = File('${Directory(resolvePartyDir(null)).parent.parent.path}/welt/schlosskeller/diashow.json');
+  return Diashow.ausJson((jsonDecode(datei.readAsStringSync()) as Map).cast<String, Object?>()).dias.length;
+}();
+
+/// Diashow (M4): Den Zähler `dia` sehen alle gleich; schalten darf nur, wer
+/// leitet. Eine Rolle bekommt `not_host`, ein Bild außerhalb `invalid`.
+Future<void> _diashow(_Platz host, _Platz leiter, _Platz rolle, List<_Platz> plaetze) async {
+  _require(host.latest['dia'] == 0, 'Die Einleitung beginnt nicht mit dem ersten Bild.');
+  await _erwarteFehler(rolle, {'typ': 'dia', 'nr': 1}, 'not_host');
+  await _erwarteFehler(leiter, {'typ': 'dia', 'nr': _diaAnzahl}, 'invalid');
+  for (var nr = 1; nr < _diaAnzahl; nr++) {
+    await _befehl(host, leiter, 'dia', {'nr': nr});
+  }
+  await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+  _require([host, ...plaetze].every((p) => p.latest['dia'] == _diaAnzahl - 1), 'Nicht alle Geräte zeigen dasselbe Bild.');
+}
+
+/// Gemeinsame Rundenuhr (M4): Der Gastgeber stempelt die Abendzeit, auch wenn
+/// ein Gerät eine eigene mitschickt; alle sehen dieselbe Uhr und rechnen die
+/// Restzeit mit dem Versatz aus dem `pong` selbst. Nur wer leitet, stellt sie.
+Future<void> _rundenuhr(RelayHost relais, _Platz host, _Platz leiter, _Platz rolle, List<_Platz> plaetze) async {
+  _require(RundenUhr.ausJson(host.latest['uhr'])?.gestartet == false, 'Die Runde beginnt nicht mit gestellter Uhr.');
+  await _erwarteFehler(rolle, {'typ': 'uhr', 'aktion': 'start'}, 'not_host');
+  final vorher = relais.abendzeit();
+  await _befehl(host, leiter, 'uhr', {'aktion': 'start', 'zeit': 1});
+  final nachher = relais.abendzeit();
+  await _befehl(host, leiter, 'uhr', {'aktion': 'plus', 'minuten': 5});
+  await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+  final uhren = {for (final p in [host, ...plaetze]) jsonEncode(p.latest['uhr'])};
+  _require(uhren.length == 1, 'Die Uhr ist nicht für alle gleich.');
+  final uhr = RundenUhr.ausJson(host.latest['uhr'])!;
+  _require(uhr.laeuft && uhr.start! >= vorher && uhr.start! <= nachher, 'Die Uhr trägt nicht die Zeit des Gastgebers.');
+  _require(uhr.dauer == 25 * RundenUhr.minute, 'Plus fünf Minuten fehlt.');
+  for (final p in plaetze) {
+    final g = p.verb as RelayGast;
+    _require(g.versatz != null, '${p.name} kennt die Uhr des Gastgebers nicht.');
+    _require(uhr.rest(g.gastgeberZeit) > uhr.dauer - 60000, '${p.name} rechnet eine falsche Restzeit.');
+  }
+}
 
 Future<void> _befehl(_Platz host, _Platz sender, String typ, [Map<String, Object?> daten = const {}]) async {
   final v = host.version;

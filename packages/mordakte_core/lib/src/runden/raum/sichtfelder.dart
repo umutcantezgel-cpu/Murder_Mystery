@@ -13,6 +13,8 @@ const raumOeffentlicheSchluessel = <String>{
   'befragungen', 'tisch',
   // Vorleser-Sitz (M3): Erzähltext steht im `privat` genau eines Geräts; alle sehen nur, dass vorgelesen wird.
   'erzaehlerLiest', 'bausteinZahl',
+  // Rundenuhr und Diashow (M4): Zustand der Uhr ohne Takt (`raum/uhr_modul.dart`), Nummer des Bildes (`raum/dia_modul.dart`).
+  'uhr', 'dia',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der
