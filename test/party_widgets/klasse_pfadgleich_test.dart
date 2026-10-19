@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/party/karte_session.dart';
 import 'package:mordakte/party/klasse_wirkung.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/skript.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import 'klasse_hilfe.dart';
@@ -114,6 +115,7 @@ void _bisEntscheidungen(PartySitzung s, PartyKartenSession k, int runde) {
         for (final g in s.soloGespraeche) {
           s.soloGespraechGelesen(g.id);
         }
+        PartySkript.befragungenErledigen(s);
         s.weiter();
       case PartyPhase.entscheidungen:
         if (s.zug != null) {

@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/game/mordakte_game.dart';
 import 'package:mordakte/party/karte_session.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/skript.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart' hide KartenQuelle;
 
@@ -93,6 +94,7 @@ void _spieleAbend(PartySitzung s, Map<String, String> wahl, void Function() schr
         for (final g in s.soloGespraeche) {
           s.soloGespraechGelesen(g.id);
         }
+        PartySkript.befragungenErledigen(s);
         s.weiter();
       case PartyPhase.entscheidungen:
         if (s.zug != null) {
@@ -195,6 +197,7 @@ void main() {
                 s.fundGelesen();
             }
           } else {
+            PartySkript.befragungenErledigen(s);
             s.weiter();
           }
         }
@@ -255,6 +258,7 @@ void main() {
                 for (final g in s.phase == PartyPhase.gespraeche ? s.soloGespraeche : const []) {
                   s.soloGespraechGelesen(g.id);
                 }
+                PartySkript.befragungenErledigen(s);
                 s.weiter();
               case RundenZugPhase.aktion:
                 bild();
