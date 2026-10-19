@@ -21,12 +21,18 @@ const _dateien = [
 
 /// Was die Klassenwirkung an der laufenden `PartySitzung` lesen darf, je Datei
 /// (Positivliste; die Kartenquelle reicht ihre Lesezugriffe an die Wirkung
-/// durch). Jeder andere Zugriff fällt auf, auch ein Setter, eine Kaskade oder
-/// die Sitzung als Ganzes außerhalb von [_sitzungAn].
+/// durch). Jeder andere Zugriff fällt auf, auch ein Setter, eine Kaskade, eine
+/// Kette, die hinter dem erlaubten Teil weiterläuft ([_weiter]), oder die
+/// Sitzung als Ganzes außerhalb von [_sitzungAn].
 const _sitzungLesen = {
   'lib/party/klasse_wirkung.dart': {'daten', 'daten.hat', 'randgespraechMoeglich', 'solo', 'besetzt.contains'},
   'lib/party/karten_quelle.dart': {'phase', 'runde', 'laufendeEntscheidung', 'spiel.gewaehlt', 'zug', 'abstecherOffen'},
 };
+
+/// Lesezugriffe der Positivliste, die eine veränderbare Sammlung des Abends
+/// liefern: die Wahl bisher, aus der Optionen und Punkte kommen. Sie verlassen
+/// die Sitzung nur in einer unveränderlichen Hülle (`UnmodifiableMapView(…)`).
+const _nurInHuelle = {'spiel.gewaehlt'};
 
 /// Wem diese Dateien die Sitzung als Ganzes geben dürfen: einander.
 const _sitzungAn = {'SitzungsKartenQuelle', 'fuer', 'amTisch'};
@@ -37,9 +43,17 @@ final _sitzungsName = RegExp(r'\bPartySitzung\??\s+(\w+)');
 /// Zuweisung, auch zusammengesetzt (`=`, `+=`, `??=`), oder `++`/`--` direkt danach.
 final _zuweisung = RegExp(r'^\s*((?:[-+*/%~|&^]|\?\?|<<|>>>?)?=(?![=>])|\+\+|--)');
 
-/// Zuweisung an ein Feld eines anderen Objekts (`a.b = …`, `a.b.c += …`): ein
-/// Setter. Eigene Felder (`this.x = 3` als Vorgabe im Konstruktor) zählen nicht.
-final _setzer = RegExp(r'(?<![\w.])(?!this\.)\w+(?:\.\w+)+\s*(?:[-+*/%~|&^]|\?\?|<<|>>>?)?=(?![=>])');
+/// Eine Lesekette, die ungeprüft weiterläuft: Index (`[k]`, `?[k]`, `![k]`),
+/// Zugriff nach `!` oder `?` oder Kaskade (`..`).
+final _weiter = RegExp(r'^\s*[!?]?[.\[]');
+
+/// Zuweisung an ein Feld oder einen Eintrag eines anderen Objekts (`a.b = …`,
+/// `a.b.c += …`, `a.b[k] = …`, `a.b!.c[k] = …`, `a.b..[k] = …`): ein Setter.
+/// Eigene Felder (`this.x = 3` als Vorgabe im Konstruktor, `_m[k] = v`)
+/// zählen nicht.
+final _setzer = RegExp(
+  r'(?<![\w.])(?!this\.)\w+(?:[!?]?\.\w+)+(?:[!?]?\.{0,2}(?:\w+|\[[^\]]*\]))*\s*(?:[-+*/%~|&^]|\?\?|<<|>>>?)?=(?![=>])',
+);
 
 /// Zugriffe auf eine `PartySitzung` in [zeilen] (Kommentare und Importe
 /// ausgenommen), die nicht auf der Positivliste [erlaubt] stehen.
@@ -67,6 +81,10 @@ List<String> _sitzungsZugriffe(String pfad, List<String> zeilen, Set<String> erl
           fund = 'nicht auf der Positivliste: $n.$kette';
         } else if (_zuweisung.hasMatch(nach)) {
           fund = 'Setter: $n.$kette';
+        } else if (_weiter.hasMatch(nach)) {
+          fund = 'Kette läuft ungeprüft weiter: $n.$kette${nach.trim()}';
+        } else if (_nurInHuelle.contains(kette) && !(RegExp(r'Unmodifiable\w*View\(\s*$').hasMatch(vor) && RegExp(r'^\s*\)').hasMatch(nach))) {
+          fund = 'veränderbar ohne Hülle: $n.$kette';
         } else {
           fund = null;
         }
@@ -188,6 +206,48 @@ void main() {
         'quelle: SitzungsKartenQuelle(s),',
         'return KlasseWirkung.amTisch(s, f);',
         'fuer(s, klasse)',
+      ]) {
+        expect(zugriffe(z), isEmpty, reason: z);
+      }
+    });
+
+    test('Gegenprobe: Index-Zuweisungen, weiterlaufende Ketten und die Wahl bisher ohne Hülle fallen auf', () {
+      // `Spiel.gewaehlt` ist die veränderbare Wahl des Abends, aus ihr kommen
+      // Optionen und Punkte.
+      for (final z in [
+        "quelle.gewaehlt['e3_1'] = 'e3_1_turmgang';",
+        "daten.kanonKennung[npcId] = 'can';",
+        "s.spiel.gewaehlt['e3_1'] += 'x';",
+        'a.b![k] = v;',
+        'a.b?[k] ??= v;',
+        'a.b..[k] = v;',
+        'a.b!.c[k] = v;',
+        'a.b..c = v;',
+      ]) {
+        expect(_setzer.hasMatch(z), isTrue, reason: z);
+      }
+      for (final z in ['final x = a.b[k];', 'a.b[k] == c', 'a.b[k] >= c', 'a.b[k] ?? c', '_geruecht[f.id] = neu;', 'x[a.b] = 1;']) {
+        expect(_setzer.hasMatch(z), isFalse, reason: z);
+      }
+      List<String> zugriffe(String zeile) =>
+          _sitzungsZugriffe('probe', ['  final PartySitzung sitzung;', zeile], _sitzungLesen['lib/party/karten_quelle.dart']!);
+      for (final z in [
+        "sitzung.spiel.gewaehlt['e3_1'] = 'e3_1_turmgang';",
+        "sitzung.spiel.gewaehlt..['e3_1'] = 'e3_1_turmgang';",
+        'Map<String, String> get gewaehlt => sitzung.spiel.gewaehlt;',
+        'final g = sitzung.spiel.gewaehlt;',
+        'sitzung.abstecherOffen[0] = ort;',
+        'sitzung.zug!.funde.clear();',
+        'sitzung.zug?.funde.clear();',
+      ]) {
+        expect(zugriffe(z), isNotEmpty, reason: z);
+      }
+      for (final z in [
+        'SitzungsKartenQuelle(this.sitzung);',
+        'PartyPhase get phase => sitzung.phase;',
+        'Map<String, String> get gewaehlt => UnmodifiableMapView(sitzung.spiel.gewaehlt);',
+        'RundenZug? get zug => sitzung.zug;',
+        'List<AbstecherOrt> get abstecherOffen => sitzung.abstecherOffen;',
       ]) {
         expect(zugriffe(z), isEmpty, reason: z);
       }
