@@ -55,6 +55,12 @@ class KlasseWirkung implements SzenenKlasse {
   static KlasseWirkung? diesesGeraets(BuildContext context, PartySitzung s) =>
       fuer(s, s.detektivKlasse ?? (s.detektivAmGeraet ? context.read<MetaStore?>()?.loadout.cls : null));
 
+  /// Für die Zuschauerkarte eines Geräts ohne Detektiv-Sitz (Erzähler online):
+  /// Die Klasse gehört dem Detektiv-Sitz (M6.4). Hier wirkt nur ihr Tempo,
+  /// damit der Weg im Gleichlauf mit dem Gerät des Detektivs läuft; Leuchten,
+  /// Türen, Marken und Gerüchte bleiben aus ([KlasseNurTempo]).
+  static SzenenKlasse? zuschauer(KlasseWirkung? wirkung) => wirkung == null ? null : KlasseNurTempo(wirkung.tempoFaktor);
+
   final KlassenFaehigkeit faehigkeit;
   final KlassenParameter parameter;
   final PartyDaten daten;
@@ -94,4 +100,28 @@ class KlasseWirkung implements SzenenKlasse {
     final zeilen = g.zeilen(figur, quelle.runde.clamp(1, 3));
     return zeilen.isEmpty ? null : zeilen[quelle.gewaehlt.length % zeilen.length];
   }
+}
+
+/// Nur das Tempo einer Klasse, sonst die Karte wie ohne Klasse: für Geräte, die
+/// dem Detektiv zuschauen ([KlasseWirkung.zuschauer]).
+class KlasseNurTempo implements SzenenKlasse {
+  const KlasseNurTempo(this.tempoFaktor);
+
+  @override
+  final double tempoFaktor;
+
+  @override
+  double get glanzRadius => 0;
+
+  @override
+  bool get tuerenZeigen => false;
+
+  @override
+  bool get stimmungZeigen => false;
+
+  @override
+  String? geruechtFuer(String npcId) => null;
+
+  @override
+  bool gespraechsMarker(String npcId) => false;
 }

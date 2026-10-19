@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show LookDef, renderLook;
 import 'package:mordakte_core/runden.dart' show Sitz;
 
+import '../../l10n/lookup.dart';
 import '../../party/daten.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
@@ -44,6 +45,23 @@ SpielerInfo? onlineDetektivPlatz(List<SpielerInfo> spieler) {
     if (s.sitz == Sitz.detektiv) return s;
   }
   return null;
+}
+
+/// Wie die Akte den Ermittler nennt, als Etikett des Detektiv-Sitzes
+/// (`ui.allgemein.detektiv`): in den Noir-Akten „Inspektor“, im Gewölbe
+/// „Geburtstagskind“, im Schlosskeller „Detektiv“. Ohne Akte (sie lädt noch)
+/// oder ohne eigenes Wort „Detektiv“. So tragen Altakten ihr eigenes Wort
+/// (Besitzerentscheidung 1), nie das neutrale des Schlosskellers.
+String detektivBezeichnung(L l, PartyDaten? daten) {
+  if (daten != null) {
+    try {
+      final wort = daten.texte.baustein('ui.allgemein.detektiv').trim();
+      if (wort.isNotEmpty) return wort;
+    } on ArgumentError {
+      // Keine eigene Bezeichnung: wie im Schlosskeller.
+    }
+  }
+  return l.abend_platz_detektiv;
 }
 
 /// Stempel für einen erledigten Zustand („Bereit“, „Gelesen“, „Abgestimmt“).
@@ -242,7 +260,15 @@ class OnlineWarteNotiz extends StatelessWidget {
           Row(
             children: [
               if (uhr) ...[const MOnlineTaschenuhr(groesse: 40), const SizedBox(width: 14)],
-              Expanded(child: Text(text, key: textKey, style: stil)),
+              // Schmal und mit großer Schrift wird der Text kleiner, statt ein Wort zu teilen.
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final g = ganzeWorteGroesse(context, text, stil, box.maxWidth, minimum: 12);
+                    return Text(text, key: textKey, style: g == stil.fontSize ? stil : stil.copyWith(fontSize: g));
+                  },
+                ),
+              ),
             ],
           ),
           if (marke != null)

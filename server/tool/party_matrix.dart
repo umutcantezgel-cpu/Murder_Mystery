@@ -3,7 +3,8 @@
 /// ohne Erzähler, Host = Detektiv + Gast = Erzähler).
 /// Vollständiger Abend, eigene Rollenansichten, Sitze, Vorleser-Sitz, Rechte,
 /// Reconnect, Würfelprüfung. Dazu je Akte ein Host-Wechsel nach dem Start: Der
-/// Gastgeber auf dem Detektiv-Sitz geht, der neue führt den Abend zu Ende.
+/// Gastgeber auf dem Detektiv-Sitz geht, der neue führt den Abend zu Ende. Zuletzt
+/// fällt ein Gast-Detektiv aus, und der Gastgeber vergibt seinen Sitz neu.
 /// Lokal: dart run tool/party_matrix.dart [--clients=4]
 /// Öffentlich: `dart run tool/party_matrix.dart --url=wss://<freigegebener-host>/ws`
 library;
@@ -392,6 +393,141 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
   }
 }
 
+/// Ausfall des Gast-Detektivs (Nachschliff M3): Host = Erzähler, Gast = Detektiv mit
+/// Klasse. Solange der Detektiv da ist, lehnt der Raum `detektivNeu` ab, und nur der
+/// Gastgeber darf es senden. Ist der Detektiv getrennt, gibt der Gastgeber den Sitz
+/// einem Gast mit Figur: Beide tauschen die Plätze, die Klasse bleibt beim Sitz. Der
+/// alte Detektiv kommt zurück und spielt die Figur seines Nachfolgers; der neue
+/// ermittelt den Abend zu Ende. Alle Ansichten bleiben in der Sichtfeld-Liste.
+Future<void> _detektivAusfall(Uri url) async {
+  final all = <Client>[];
+  try {
+    _stage = 'Detektiv-Ausfall: Anmeldung';
+    for (var i = 0; i < 5; i++) {
+      final c = await Client.connect(url.toString(), 'Ausfallprobe-$i').timeout(const Duration(seconds: 10));
+      all.add(c);
+      await c.hello();
+    }
+    final host = all[0], alt = all[1], neu = all[2];
+    host.send({'t': Msg.create, 'abend': 'schlosskeller'});
+    final room = await host.expect(Msg.room);
+    final code = room['code'] as String;
+    for (final c in all.skip(1)) {
+      c.send({'t': Msg.join, 'code': code});
+      await c.expect(Msg.room, where: (s) => s['code'] == code);
+    }
+    for (final c in all) {
+      await c.expect(Msg.abend, where: (s) => _list(s['spieler']).length == all.length);
+    }
+    await _command(host, host, 'sitz', {'spieler': host.playerId, 'sitz': 'erzaehler'});
+    await _command(host, host, 'sitz', {'spieler': alt.playerId, 'sitz': 'detektiv'});
+    await _command(host, alt, 'sitz', {'spieler': alt.playerId, 'sitz': 'detektiv', 'klasse': 'forensic'});
+    for (final c in all) {
+      c.send({'t': Msg.abendCmd, 'c': {'typ': 'bereit', 'wert': true}});
+    }
+    await host.expect(Msg.abend, where: (s) => _list(s['spieler']).every((t) => t['bereit'] == true));
+    await _command(host, host, 'start', {'rollen': 4});
+
+    _stage = 'Detektiv-Ausfall: Rechte';
+    host.send({'t': Msg.abendCmd, 'c': {'typ': 'detektivNeu', 'spieler': neu.playerId}});
+    await host.expect(Msg.error, where: (s) => s['key'] == 'invalid');
+    neu.send({'t': Msg.abendCmd, 'c': {'typ': 'detektivNeu', 'spieler': neu.playerId}});
+    await neu.expect(Msg.error, where: (s) => s['key'] == 'not_host');
+    final figur = _map((await neu.expect(Msg.abend, where: (s) => _map(s['privat'])['rolle'] is String))['privat'])['rolle'] as String;
+
+    _stage = 'Detektiv-Ausfall: Detektiv getrennt';
+    await alt.close();
+    await alt.closed.future.timeout(const Duration(seconds: 5));
+    await host.expect(Msg.abend, where: (s) => _list(s['spieler']).any((t) => t['id'] == alt.playerId && t['online'] == false));
+    await _command(host, host, 'detektivNeu', {'spieler': neu.playerId});
+    final sicht = _map((await neu.expect(Msg.abend, where: (s) => _map(s['privat'])['detektiv'] == true))['privat']);
+    _require(sicht['klasse'] == 'forensic' && !sicht.containsKey('dossier') && !sicht.containsKey('rolle'), 'Der neue Detektiv hat noch seine Figur oder keine Klasse.');
+    final sitze = {for (final t in _list(host.latest(Msg.abend)['spieler'])) t['id']: t['sitz']};
+    _require(sitze[neu.playerId] == 'detektiv' && sitze[alt.playerId] == 'rolle', 'Die Sitze wurden nicht getauscht.');
+
+    _stage = 'Detektiv-Ausfall: Rückkehr';
+    final zurueck = await Client.connect(url.toString(), alt.name).timeout(const Duration(seconds: 10));
+    all.add(zurueck);
+    await zurueck.hello(token: alt.token);
+    _require(zurueck.playerId == alt.playerId, 'Rückkehr wechselte die Spieler-ID.');
+    final privat = _map((await zurueck.expect(Msg.abend, where: (s) => _map(s['privat'])['rolle'] == figur))['privat']);
+    _require(privat['detektiv'] == false && privat['dossier'] is Map && !privat.containsKey('klasse'), 'Der alte Detektiv spielt nicht die Figur seines Nachfolgers.');
+    zurueck.send({'t': Msg.abendCmd, 'c': {'typ': 'fundGelesen'}});
+    await zurueck.expect(Msg.error, where: (s) => s['key'] == 'not_detective');
+
+    // Der neue Detektiv ermittelt, der Erzähler (Gastgeber) führt weiter.
+    final rollen = [zurueck, all[3], all[4]];
+    var steps = 0;
+    while (host.latest(Msg.abend)['phase'] != 'ende') {
+      _require(++steps < 400, 'Detektiv-Ausfall: Der Abend erreicht das Ende nicht.');
+      final s = host.latest(Msg.abend);
+      _stage = 'Detektiv-Ausfall: Phase ${s['phase']}';
+      switch (s['phase']) {
+        case 'rollen':
+          for (final c in rollen) {
+            if (_map((await _sicht(c, s['version'] as int))['privat'])['gelesen'] == false) await _command(host, c, 'rollenGelesen');
+          }
+          await _command(host, host, 'weiter');
+        case 'entscheidungen':
+          if (s['zug'] case final Map z) {
+            switch (z['phase']) {
+              case 'aktion':
+                await _command(host, neu, 'aktionFertig', {'aktion': z['aktion']});
+              case 'wurf':
+                await _command(host, [neu, ...rollen].firstWhere((c) => c.playerId == s['wuerfelPate']), 'wurf');
+              case 'tischruf':
+                await _command(host, neu, 'tischruf', {'ruf': 'umweg'});
+              case 'fund':
+                await _command(host, neu, 'fundGelesen');
+              default: throw StateError('Unbekannter Zugabschnitt.');
+            }
+          } else if (s['entscheidung'] case final Map e) {
+            await _command(host, neu, 'wahl', {'option': _list(e['optionen']).first['id']});
+          } else {
+            await _command(host, host, 'weiter');
+          }
+        case 'gespraeche':
+          final p = _map((await _sicht(neu, s['version'] as int))['privat']);
+          _require(p['befragungen'] is List, 'Der neue Detektiv bekommt keine Befragungskarten.');
+          var frei = p['befragungenFrei'] as int;
+          for (final k in _list(p['befragungen'])) {
+            if (k['erledigt'] == true) continue;
+            if (k['frage'] == null) {
+              if (k['pflicht'] != true) {
+                if (frei <= 0) continue;
+                frei--;
+              }
+              await _command(host, neu, 'befragen', {'id': k['id'], 'frage': 0});
+            }
+            if (k['mensch'] == true) await _command(host, neu, 'erledigt', {'id': k['id']});
+          }
+          await _command(host, host, 'weiter');
+        case 'gruppenwahl':
+          for (final c in rollen) {
+            if (_map((await _sicht(c, s['version'] as int))['privat'])['hatGestimmt'] == false) await _command(host, c, 'stimme', {'kooperativ': true});
+          }
+          await _command(host, host, 'weiter');
+        case 'anklage':
+          await _command(host, neu, 'anklage', {'person': (s['verdaechtige'] as List).first});
+          await _command(host, host, 'weiter');
+        default:
+          await _command(host, host, 'weiter');
+      }
+    }
+    for (final c in all) {
+      for (final view in c.inbox.where((m) => m['t'] == Msg.abend && !['finale', 'aufloesung', 'ende'].contains(m['phase']))) {
+        _require(view.keys.every(raumOeffentlicheSchluessel.contains), 'Detektiv-Ausfall: nicht freigegebenes Feld vor dem Finale.');
+        _require(_list(view['spieler']).every((t) => raumSpielerFelder.containsAll(t.keys)), 'Detektiv-Ausfall: nicht freigegebenes Spielerfeld.');
+      }
+    }
+    print('PARTY-ONLINE OK · Ausfall des Gast-Detektivs · nur der Gastgeber vergibt den Sitz neu, Plätze getauscht, Klasse beim Sitz, Abend zu Ende');
+  } finally {
+    for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
+    await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+  }
+}
+
 /// Server ohne festen Gastgeber, Akte [akte]: Der Gastgeber (Detektiv-Sitz) geht in
 /// der ersten Entscheidung. Der neue Gastgeber vertritt ihn als Ermittler und Leiter
 /// und führt den Abend zu Ende (vor M3 lief das über die Leitung allein).
@@ -542,9 +678,11 @@ Future<void> main(List<String> args) async {
       for (final a in (jsonDecode(File('${Directory(partyDir).parent.path}/akten.json').readAsStringSync())['akten'] as List)) (a as Map)['id'] as String,
     ];
     for (final akte in akten) { await _hostwechsel(url, akte); }
+    // Fällt der Gast-Detektiv aus, vergibt der Gastgeber den Sitz neu (Nachschliff M3).
+    await _detektivAusfall(url);
     _require(runtimeErrors == 0, 'Server meldete unerwartete Runtime-Fehler.');
     print('PARTY-ONLINE-MATRIX GRÜN · ${counts.length}/${counts.length} Laststufen × ${_konstellationen.length} Sitz-Konstellationen, '
-        'Host-Wechsel in ${akten.length} Akten; App-Bedienung und öffentliche Bereitstellung separat abnehmen.');
+        'Host-Wechsel in ${akten.length} Akten, Ausfall des Gast-Detektivs; App-Bedienung und öffentliche Bereitstellung separat abnehmen.');
   } catch (error) {
     // Keine Rohpakete, Tokens, privaten Rollenkarten oder Konfigurationswerte.
     final detail = error is StateError ? error.message : '${error.runtimeType} bei $_stage';

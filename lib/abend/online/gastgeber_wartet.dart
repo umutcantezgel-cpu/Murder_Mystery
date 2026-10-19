@@ -195,9 +195,13 @@ class _Bots extends StatelessWidget {
 /// Zeile `Name (online/offline)` für die Raumübersicht im Menü des Gastgebers.
 /// Auf der Karteikarte in Tinte, auf dem Schreibtisch hell.
 class PlatzZeile extends StatelessWidget {
-  const PlatzZeile({super.key, required this.spieler});
+  const PlatzZeile({super.key, required this.spieler, this.detektivWort});
 
   final SpielerInfo spieler;
+
+  /// Etikett des Detektiv-Sitzes, wie die Akte den Ermittler nennt
+  /// ([detektivBezeichnung]); ohne Angabe „Detektiv“.
+  final String? detektivWort;
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +218,7 @@ class PlatzZeile extends StatelessWidget {
             // Sitze (M3): wer ermittelt oder vorliest, trägt sein Etikett; sonst die Verbindung.
             child: switch (spieler.sitz) {
               _ when !spieler.online => MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: f.warnung),
-              Sitz.detektiv => MChip(l.abend_platz_detektiv, icon: Icons.search_rounded),
+              Sitz.detektiv => MChip(detektivWort ?? l.abend_platz_detektiv, icon: Icons.search_rounded),
               Sitz.erzaehler => MChip(l.abend_platz_erzaehler, icon: Icons.menu_book_rounded),
               _ when spieler.istGastgeber => MChip(l.online_spielleitung, icon: Icons.star_rounded),
               _ => MChip(l.online_verbunden, icon: Icons.wifi_rounded, farbe: f.erfolg),

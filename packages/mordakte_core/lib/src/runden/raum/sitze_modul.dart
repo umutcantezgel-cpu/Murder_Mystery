@@ -91,10 +91,13 @@ class SitzeModul extends RaumModul {
   }
 
   /// Die Klasse des Detektiv-Sitzes sehen nur dieses Gerät und der Gastgeber.
+  /// Ab dem Start bleibt sie beim Sitz, auch wenn der Gastgeber ihn neu
+  /// vergibt (`detektivNeu`): Dann sieht sie, wer jetzt ermittelt.
   @override
   Map<String, Object?> privat(RaumKontext k, String id) {
     final klasse = plan.klasse;
-    if (klasse == null || (id != plan.detektiv && id != k.host)) return const {};
+    final detektiv = k.partie == null ? plan.detektiv : k.detektiv;
+    if (klasse == null || (id != detektiv && id != k.host)) return const {};
     return {'klasse': klasse};
   }
 }

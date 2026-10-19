@@ -134,8 +134,10 @@ async function inSicht(page, ziel) {
   const { width, height } = page.viewportSize();
   let letzte = null;
   for (let i = 0; i < 40; i++) {
-    // Verschwindet die Fläche (neue Ansicht), entscheidet der Aufrufer neu.
-    const box = await ziel.boundingBox({ timeout: 3000 }).catch(() => null);
+    // Verschwindet die Fläche (neue Ansicht), entscheidet der Aufrufer neu. Drei
+    // Handys im selben Chromium rechnen lange Seiten langsam: Drei Sekunden reichen
+    // für die Messung nicht immer, und eine Fläche knapp über dem Bild bliebe dort.
+    const box = await ziel.boundingBox({ timeout: 15000 }).catch(() => null);
     if (!box) return;
     const y = box.y + box.height / 2;
     if (y >= 70 && y <= height - 110) return;

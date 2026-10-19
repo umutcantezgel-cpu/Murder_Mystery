@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/online/gast_ansicht.dart';
+import 'package:mordakte/abend/online/gast_seite.dart';
 import 'package:mordakte/abend/online/gastgeber_ablauf.dart';
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/abend/online/online_halter.dart';
@@ -127,6 +128,35 @@ void main() {
     final host = s.dienst.ansicht;
     expect([host['erzaehlerLiest'], _map(host['privat']).containsKey('erzaehler')], [true, false]);
     expect(_map(raum.zustandFuer('g3')['privat'])['erzaehler'], [for (final k in s.erzaehler) texte.baustein(k)]);
+  });
+
+  test('Übernimmt der Gastgeber den Detektiv-Sitz vom Erzähler-Sitz aus, liest und leitet er ohne Frist weiter', () async {
+    // Host = Erzähler + Gast = Detektiv: Ben fällt aus, Anna ermittelt selbst. Ben
+    // landet getrennt auf dem Erzähler-Sitz; vorgelesen hat bis eben Anna.
+    final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
+    final s = GastgeberSitzung(SitzDienst(raum));
+    raum.verbunden('g1', false);
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await _warten();
+    expect([s.detektivWeg, s.leitet, s.istVorleser, s.uebernahmeFrist], [true, true, true, false]);
+    s.detektivNeu('gastgeber');
+    await _warten();
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await _warten();
+    expect([raum.detektivGeraet, raum.erzaehlerGeraet, raum.vorleser], ['gastgeber', 'g1', 'gastgeber']);
+    expect([s.istDetektiv, s.uebernahmeFrist, s.leitet, s.istVorleser], [true, false, true, true], reason: 'Keine Frist für Ben');
+    expect(s.vorleserName, 'Anna');
+    // Kommt Ben zurück, liest er als Erzähler; fällt er dann aus, gilt die Frist wie sonst.
+    final frist = GastgeberSitzung.erzaehlerFrist;
+    GastgeberSitzung.erzaehlerFrist = const Duration(milliseconds: 30);
+    addTearDown(() => GastgeberSitzung.erzaehlerFrist = frist);
+    raum.verbunden('g1', true);
+    expect([s.uebernahmeFrist, s.leitet, s.istVorleser], [false, false, false]);
+    raum.verbunden('g1', false);
+    expect([s.uebernahmeFrist, s.leitet, s.vorleserName], [true, false, 'Ben'], reason: 'Ben las vor');
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    expect([s.uebernahmeFrist, s.leitet, s.istVorleser], [false, true, true]);
+    s.dispose();
   });
 
   testWidgets('Gastansicht: Erzähltext nur beim Vorleser, der Detektiv sitzt am Platz des Detektiv-Sitzes', (tester) async {
@@ -247,5 +277,108 @@ void main() {
     expect(find.byKey(const ValueKey('fuss-hinweis')), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
     s.dispose();
+  });
+
+  group('Ausfall des Gast-Detektivs (Nachschliff M3)', () {
+    Future<void> zeige(WidgetTester tester, GastgeberSitzung s) => zeigeImThema(
+          tester,
+          (c) => Scaffold(body: GastgeberAblauf(sitzung: s)),
+          huelle: (app) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider<OnlineHalter>.value(value: OnlineHalter()),
+              ChangeNotifierProvider<AbendHalter>.value(value: AbendHalter()),
+            ],
+            child: app,
+          ),
+        );
+
+    Future<void> tippe(WidgetTester tester, Finder f) async {
+      await tester.ensureVisible(f);
+      await tester.pump();
+      await tester.tap(f);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+    }
+
+    testWidgets('Ein Band sagt, dass Ben fehlt; der Gastgeber gibt den Sitz an Cleo, beide tauschen', (tester) async {
+      final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
+      final s = GastgeberSitzung(SitzDienst(raum));
+      final cleo = raum.rolleVon('g2');
+      await zeige(tester, s);
+      expect([s.detektivWeg, find.byKey(const ValueKey('detektiv-weg')).evaluate().length], [false, 0]);
+      raum.verbunden('g1', false);
+      (s.dienst.verb as SitzVerbindung).aktualisiere();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(s.detektivWeg, isTrue);
+      expect(find.text(de.online_detektiv_weg('Ben')), findsOneWidget);
+      await tippe(tester, find.byKey(const ValueKey('detektiv-weitergeben')));
+      expect(find.text(de.online_detektiv_wer), findsOneWidget);
+      expect(find.byKey(const ValueKey('detektiv-an-g1')), findsNothing, reason: 'Nicht an den, der fehlt');
+      for (final id in ['gastgeber', 'g2', 'g3']) {
+        expect(find.byKey(ValueKey('detektiv-an-$id')), findsOneWidget, reason: id);
+      }
+      await tippe(tester, find.byKey(const ValueKey('detektiv-an-g2')));
+      expect([raum.detektivGeraet, raum.rolleVon('g1'), raum.rolleVon('g2')], ['g2', cleo, null]);
+      expect(find.text(de.online_detektiv_neu('Cleo')), findsOneWidget);
+      expect(find.byKey(const ValueKey('detektiv-weg')), findsNothing, reason: 'Cleo ist da');
+      expect([s.istDetektiv, s.sitz], [false, Sitz.erzaehler]);
+      await tester.pumpWidget(const SizedBox.shrink());
+      s.dispose();
+    });
+
+    testWidgets('Der Gastgeber übernimmt selbst: Er ermittelt, Ben bekommt den Erzähler-Sitz', (tester) async {
+      final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
+      final s = GastgeberSitzung(SitzDienst(raum));
+      raum.verlassen('g1');
+      (s.dienst.verb as SitzVerbindung).aktualisiere();
+      await zeige(tester, s);
+      expect(find.byKey(const ValueKey('detektiv-weg')), findsOneWidget, reason: 'Auch nach dem Aufgeben');
+      await tippe(tester, find.byKey(const ValueKey('detektiv-weitergeben')));
+      await tippe(tester, find.byKey(const ValueKey('detektiv-an-gastgeber')));
+      expect([raum.detektivGeraet, raum.erzaehlerGeraet, s.istDetektiv, s.sitz], ['gastgeber', 'g1', true, Sitz.detektiv]);
+      expect(find.text(de.online_platz_neu_detektiv), findsOneWidget);
+      expect(find.byKey(const ValueKey('detektiv-weg')), findsNothing);
+      await tester.pumpWidget(const SizedBox.shrink());
+      s.dispose();
+    });
+
+    testWidgets('Am Gast-Gerät: Cleo erfährt, dass sie jetzt ermittelt, und öffnet ihre Detektivkarte', (tester) async {
+      final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
+      final cleo = LiveGast(raum, spielerId: 'g2');
+      final halter = OnlineHalter()..uebernehmeGast(cleo);
+      await zeigeImThema(
+        tester,
+        (c) => const GastSeite(),
+        groesse: const Size(390, 2400),
+        huelle: (app) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider<OnlineHalter>.value(value: halter),
+            ChangeNotifierProvider<AbendHalter>.value(value: AbendHalter()),
+          ],
+          child: app,
+        ),
+      );
+      expect(find.byKey(const ValueKey('gast-detektivkarte')), findsNothing, reason: 'Cleo spielt eine Figur');
+      raum.verbunden('g1', false);
+      raum.nachricht('gastgeber', {'typ': 'detektivNeu', 'spieler': 'g2'});
+      cleo.geaendert();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byKey(const ValueKey('platz-neu')), findsOneWidget);
+      expect(find.text(de.online_platz_neu_detektiv), findsOneWidget);
+      // In der Rollenphase steht die Detektivkarte im Inhalt, danach im Fuß der Seite.
+      // Ben ist zurück und liest Cleos Figur.
+      raum.verbunden('g1', true);
+      for (final g in ['g1', 'g3']) {
+        raum.nachricht(g, {'typ': 'rollenGelesen'});
+      }
+      raum.nachricht('gastgeber', {'typ': 'weiter'});
+      cleo.geaendert();
+      await tester.pump();
+      await tippe(tester, find.byKey(const ValueKey('gast-detektivkarte')));
+      expect(find.text(de.detektiv_karte_titel), findsWidgets);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
   });
 }

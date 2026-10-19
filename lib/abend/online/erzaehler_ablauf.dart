@@ -63,8 +63,10 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
   }
 
   /// Die Zuschauerkarte: zeigt Detektiv, Ziele und den sichtbaren Weg, nimmt
-  /// keine Eingabe an und meldet nichts (die Klasse des Sitzes wirkt mit).
-  PartyKartenSession _zuschauer() => _karte ??= PartyKartenSession(s, zuschauer: true, klasse: KlasseWirkung.diesesGeraets(context, s))
+  /// keine Eingabe an und meldet nichts. Von der Klasse des Detektiv-Sitzes
+  /// wirkt nur das Tempo (Gleichlauf des Wegs); was sie zeigt, sieht nur der
+  /// Detektiv (M6.4).
+  PartyKartenSession _zuschauer() => _karte ??= PartyKartenSession(s, zuschauer: true, klasse: KlasseWirkung.zuschauer(KlasseWirkung.diesesGeraets(context, s)))
     ..bewegungReduziert = MediaQuery.disableAnimationsOf(context);
 
   @override

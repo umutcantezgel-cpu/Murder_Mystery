@@ -404,7 +404,18 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
               onTap: () => _waehleWeise(Spielweise.eigene),
             ),
             // Wer an welchem Platz was tut (M3), für die gewählte Spielweise.
-            Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(weise: _weise ?? Spielweise.reihum)),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: RollenUebersichtKnopf(
+                weise: _weise ?? Spielweise.reihum,
+                // Die Akte lädt ab diesem Schritt; Altakten kennen keinen Erzähler.
+                mitErzaehler: _geladen?.sitzung.daten.mitErzaehlerSitz ?? true,
+                detektivWort: switch (_geladen?.sitzung) {
+                  final s? when s.hatText('ui.allgemein.detektiv') => s.text('ui.allgemein.detektiv'),
+                  _ => null,
+                },
+              ),
+            ),
           ],
         );
       case _Schritt.einstellungen:

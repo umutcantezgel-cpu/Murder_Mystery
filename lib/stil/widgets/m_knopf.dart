@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../klang/klang.dart';
 import '../mappe/material.dart';
 import '../tokens.dart';
+import 'm_ganze_worte.dart';
 
 /// Art eines Knopfs:
 /// - [haupt]: Messingschild mit eingravierter Schrift.
@@ -24,6 +25,7 @@ class MKnopf extends StatelessWidget {
     this.breit = false,
     this.gross = false,
     this.semantik,
+    this.ganzeWorte = false,
   });
 
   final String text;
@@ -39,6 +41,11 @@ class MKnopf extends StatelessWidget {
 
   /// Eigene Beschriftung für den Bildschirmleser (sonst [text]).
   final String? semantik;
+
+  /// Schmal und mit großer Schrift wird die Beschriftung kleiner, statt ein
+  /// Wort mitten durch zu brechen ([ganzeWorteGroesse]). Für Knöpfe mit langen
+  /// Wörtern („Nachtminuten“) auf dem Handy.
+  final bool ganzeWorte;
 
   /// Mit Klang: Messingschild klickt, Etikett raschelt, Tintenlink bleibt still.
   VoidCallback? get _gedrueckt {
@@ -69,12 +76,22 @@ class MKnopf extends StatelessWidget {
     final polster = EdgeInsets.symmetric(horizontal: 22, vertical: gross ? 19 : 13);
     final schild = MRohSchrift.knopf.copyWith(fontSize: gross ? 19 : 17);
     final etikett = MRohSchrift.schreibmaschine.copyWith(fontSize: gross ? 17 : 15, letterSpacing: 0.6);
+    // Gemessen wird im Knopf: Dort gilt seine Schrift (DefaultTextStyle).
+    final Widget beschriftung = ganzeWorte
+        ? LayoutBuilder(
+            builder: (context, box) {
+              final groesse = DefaultTextStyle.of(context).style.fontSize;
+              final g = ganzeWorteGroesse(context, text, const TextStyle(), box.maxWidth, minimum: 11);
+              return Text(text, textAlign: TextAlign.center, style: g == groesse ? null : TextStyle(fontSize: g));
+            },
+          )
+        : Text(text, textAlign: TextAlign.center);
     final inhalt = icon == null
-        ? Text(text, textAlign: TextAlign.center)
+        ? beschriftung
         : Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Icon(icon, size: 20), const SizedBox(width: MMass.s8), Flexible(child: Text(text, textAlign: TextAlign.center))],
+            children: [Icon(icon, size: 20), const SizedBox(width: MMass.s8), Flexible(child: beschriftung)],
           );
     final Widget knopf = switch (art) {
       MKnopfArt.haupt || MKnopfArt.gefahr => FilledButton(

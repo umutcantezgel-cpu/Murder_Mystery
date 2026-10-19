@@ -54,4 +54,26 @@ void main() {
       expect(tester.takeException(), isNull, reason: '$groesse');
     }
   });
+
+  testWidgets('Altakten (ohne Erzähler-Sitz): kein Erzähler-Platz, der Detektiv heißt wie in der Akte', (tester) async {
+    expect(sitzeBei(Spielweise.reihum, mitErzaehler: false), [Sitz.detektiv, Sitz.rolle]);
+    expect(sitzeBei(Spielweise.eigene, mitErzaehler: false), [Sitz.detektiv, Sitz.rolle, Sitz.assistenz]);
+    await zeigeImThema(
+      tester,
+      (c) => Scaffold(
+        body: Center(
+          child: Builder(builder: (c) => const RollenUebersichtKnopf(weise: Spielweise.reihum, mitErzaehler: false, detektivWort: 'Inspektor')),
+        ),
+      ),
+    );
+    await tester.tap(find.byKey(const ValueKey('wer-macht-was')));
+    await tester.pumpAndSettle();
+    for (final weise in [l.uebersicht_weise_reihum, l.uebersicht_weise_online]) {
+      await tester.tap(find.text(weise));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('uebersicht-erzaehler')), findsNothing, reason: weise);
+      expect(find.text('Inspektor'), findsOneWidget, reason: weise);
+      expect(find.text(l.uebersicht_sitz_detektiv), findsNothing, reason: weise);
+    }
+  });
 }

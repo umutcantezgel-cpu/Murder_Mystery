@@ -33,7 +33,7 @@ bool erzaehltextOffen(PartySitzung s) => s.istVorleser && (!s.erzaehlerAmPult ||
 /// Erzählerpult ([ErzaehlerpultZu]), bis der Erzähler hinschaut. Ohne Erzähler
 /// und im Solo bleibt der Text immer sichtbar.
 class ErzaehlerFeld extends StatefulWidget {
-  const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen, this.verborgen = const {}});
+  const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen, this.verborgen = const {}, this.zudecken = true});
 
   final PartySitzung sitzung;
 
@@ -43,6 +43,11 @@ class ErzaehlerFeld extends StatefulWidget {
   /// Kennungen, die der Bildschirm selbst zeigt (z. B. die Rückblende als
   /// Erinnerung): sie bekommen hier keine Tafel, werden aber vorgelesen.
   final Set<String> verborgen;
+
+  /// Am offenen Pult „Gelesen, zudecken“ unter den Tafeln zeigen. `false`, wenn
+  /// der Bildschirm den Text selbst unter das Feld setzt (Resümee) und den
+  /// Knopf ([ErzaehlerpultZudecken]) danach stellt.
+  final bool zudecken;
 
   @override
   State<ErzaehlerFeld> createState() => _ErzaehlerFeldState();
@@ -214,7 +219,7 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
             const SizedBox(height: 12),
           ],
         // Am offenen Pult: nach dem Vorlesen zudecken (die Tafeln des Bildschirms stehen darüber).
-        if (s.erzaehlerAmPult) ...[
+        if (s.erzaehlerAmPult && widget.zudecken) ...[
           ErzaehlerpultZudecken(sitzung: s),
           const SizedBox(height: 12),
         ],

@@ -277,12 +277,14 @@ class GastgeberDienst extends ChangeNotifier {
   /// wenn ein anderes Gerät die Figur hält.
   Future<void> zuteilen(String spieler, String? rolle) => verb.befehl({'typ': 'zuteilen', 'spieler': spieler, 'rolle': rolle});
 
-  /// Meldet den Gastgeber bereit und startet den Abend mit [rollen] Rollen und
-  /// dem Tischvorrat [vorrat] (Kartenkennungen). Wirft [AbendFehler], etwa
-  /// `not_ready`, wenn ein Gast nicht bereit oder nicht verbunden ist.
+  /// Meldet den Gastgeber bereit und startet den Abend mit dem Tischvorrat
+  /// [vorrat] (Kartenkennungen). Die Rollenzahl liegt seit der Lobby im Raum
+  /// (`besetzung`, alle sehen sie); [rollen] gilt nur, solange dort keine steht.
+  /// Wirft [AbendFehler], etwa `not_ready`, wenn ein Gast nicht bereit oder
+  /// nicht verbunden ist.
   Future<void> abendStarten({required int rollen, required List<String> vorrat}) async {
     await verb.befehl({'typ': 'bereit', 'wert': true});
-    await verb.befehl({'typ': 'start', 'rollen': rollen, 'detektiv': detektiv, 'vorrat': vorrat});
+    await verb.befehl({'typ': 'start', if (raum.lobbyRollen == null) 'rollen': rollen, 'detektiv': detektiv, 'vorrat': vorrat});
   }
 
   /// Schließt den Abend. [endgueltig] `false`: Der Stand bleibt für

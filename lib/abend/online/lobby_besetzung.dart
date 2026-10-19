@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:mordakte_core/mordakte_core.dart' show LookDef;
+import 'package:mordakte_core/mordakte_core.dart' show Besetzung, LookDef;
 import 'package:mordakte_core/runden.dart' show KartenKatalog, Sitz;
 import 'package:provider/provider.dart';
 
@@ -19,28 +19,29 @@ import 'online_teile.dart';
 /// Schickt eine Raumnachricht der Lobby; Ablehnungen meldet der Aufrufer.
 typedef LobbyBefehl = Future<void> Function(Map<String, Object?> nachricht);
 
-/// Gästeliste der Akte (Langer Abend M5): Name → Figur, falls dieses Gerät eine
-/// kennt; sonst leer. Die Lobby schlägt damit die Zuteilung vor. Solange M5
-/// nicht verdrahtet ist, liefert der Haken nichts; die Verdrahtung setzt ihn auf
-/// `context.read<MetaStore>().gaesteliste(akte).figurJeName`.
-typedef GaesteVorschlag = Map<String, String> Function(BuildContext context, String akte);
-
-/// Der Haken für die Gästeliste ([GaesteVorschlag]); ohne Gästeliste leer.
-GaesteVorschlag gaesteVorschlag = (_, _) => const {};
+/// Die Gästeliste der Akte auf diesem Gerät (Langer Abend M5, im [MetaStore]):
+/// wer welche Figur spielt und wie viele am Tisch sitzen. Die Lobby des
+/// Gastgebers nimmt daraus die Rollenzahl, belegt die Figuren der Gäste vor
+/// und gibt einem Gast den Detektiv-Sitz, wenn die Liste ihn dort führt. Ohne
+/// MetaStore (Tests) leer.
+GaesteListe gaestelisteFuer(BuildContext context, String akte) => context.read<MetaStore?>()?.gaesteliste(akte) ?? const GaesteListe();
 
 /// Die Lobby aus der Ansicht des Raums (Langer Abend M3): Plätze mit Sitz,
 /// zugeteilter Figur und Wunsch, die Rollenzahl im Raum und was dieses Gerät
 /// darf. Rein lesend; Änderungen gehen als Nachrichten `sitz`, `besetzung`,
 /// `zuteilen` und `wunsch` an den Raum.
 class LobbyStand {
-  LobbyStand({required this.spieler, required this.rollen, required this.daten, required this.ichId});
+  LobbyStand({required this.spieler, required this.rollen, required this.daten, required this.ichId, int? vorgabe})
+      : vorgabe = vorgabe ?? standardVorgabe;
 
-  /// Aus der Ansicht `zustandFuer` (Lobby) dieses Geräts [ichId].
-  factory LobbyStand.aus(Map<String, Object?> ansicht, PartyDaten daten, String ichId) => LobbyStand(
+  /// Aus der Ansicht `zustandFuer` (Lobby) dieses Geräts [ichId]; [vorgabe] ist
+  /// die Rollenzahl, solange der Raum keine hat (etwa aus der Gästeliste).
+  factory LobbyStand.aus(Map<String, Object?> ansicht, PartyDaten daten, String ichId, {int? vorgabe}) => LobbyStand(
         spieler: spielerAusAnsicht(ansicht),
         rollen: ansicht['rollen'] is int ? ansicht['rollen'] as int : null,
         daten: daten,
         ichId: ichId,
+        vorgabe: vorgabe,
       );
 
   final List<SpielerInfo> spieler;
@@ -50,8 +51,12 @@ class LobbyStand {
   final PartyDaten daten;
   final String ichId;
 
-  /// Rollenzahl, wenn noch niemand eine festgelegt hat.
-  static const vorgabe = 7;
+  /// Rollenzahl, wenn noch niemand eine festgelegt hat: die der Gästeliste,
+  /// sonst [standardVorgabe].
+  final int vorgabe;
+
+  /// Rollenzahl ohne Gästeliste.
+  static const standardVorgabe = 7;
 
   int get minRollen => daten.texte.besetzung.minRollen;
   int get maxRollen => daten.texte.besetzung.maxRollen;
@@ -120,11 +125,12 @@ class LobbyStand {
   /// Geräte, die sich [figur] wünschen.
   List<SpielerInfo> wuenschenSich(String figur) => [for (final s in spieler) if (s.wunsch == figur) s];
 
-  /// Zuteilungen aus der Gästeliste ([gaesteVorschlag]): Gast ohne Sitz und ohne
-  /// Figur, dessen Name dort mit einer besetzten Figur steht, die noch frei ist.
+  /// Zuteilungen aus der Gästeliste ([gaestelisteFuer], Name → Figur): Gast ohne
+  /// Sitz und ohne Figur, dessen Name dort mit einer besetzten Figur steht, die
+  /// noch frei ist. Groß- und Kleinschreibung zählen nicht.
   Map<String, String> vorschlagAus(Map<String, String> figurJeName) {
     final frei = {for (final f in besetzt) if (inhaberVon(f) == null) f};
-    final namen = {for (final e in figurJeName.entries) e.key.trim().toLowerCase(): e.value};
+    final namen = _namen(figurJeName);
     final ergebnis = <String, String>{};
     for (final s in ohneSitz) {
       final f = namen[s.name.trim().toLowerCase()];
@@ -132,6 +138,29 @@ class LobbyStand {
     }
     return ergebnis;
   }
+
+  /// Der Gast, den die Gästeliste als Detektiv führt ([Besetzung.detektiv]), wenn
+  /// der Detektiv-Sitz frei ist und die Akte Gäste dort sitzen lässt
+  /// ([sitzWahl]); sonst `null`. Nur der Gastgeber vergibt Sitze.
+  SpielerInfo? detektivAus(Map<String, String> figurJeName) {
+    if (detektiv != null || !erzaehlerMoeglich) return null;
+    final namen = _namen(figurJeName);
+    return ohneSitz.where((s) => !s.istGastgeber && namen[s.name.trim().toLowerCase()] == Besetzung.detektiv).firstOrNull;
+  }
+
+  /// Figuren der Gästeliste, die bei [anzahl] Rollen nicht besetzt sind, je
+  /// mit dem Namen ihres Gastes (Figur → Name, in der Reihenfolge der Akte).
+  /// Der Detektiv zählt nicht: Er ist immer dabei.
+  Map<String, String> wegfallendAus(GaesteListe liste) {
+    final namen = liste.namenJeFigur;
+    return {
+      for (final f in daten.texte.besetzung.reihenfolge)
+        if (namen[f] case final name? when !besetzt.contains(f)) f: name,
+    };
+  }
+
+  static Map<String, String> _namen(Map<String, String> figurJeName) =>
+      {for (final e in figurJeName.entries) e.key.trim().toLowerCase(): e.value};
 }
 
 /// Wie ein Platz in der Lobby heißt: Sitz, sonst zugeteilte Figur oder Zufall,
@@ -139,7 +168,7 @@ class LobbyStand {
 String lobbyUnterzeile(L l, LobbyStand stand, SpielerInfo s) {
   final teile = <String>[
     switch (s.sitz) {
-      Sitz.detektiv => l.abend_platz_detektiv,
+      Sitz.detektiv => detektivBezeichnung(l, stand.daten),
       Sitz.erzaehler => l.abend_platz_erzaehler,
       _ => s.figur != null ? figurName(stand.daten, s.figur!) : l.online_lobby_zufall,
     },
@@ -269,7 +298,7 @@ Future<void> zeigeLobbyWahl(BuildContext context, {required LobbyStand stand, re
                 optionen: [
                   for (final w in wahl)
                     (w, switch (w) {
-                      Sitz.detektiv => l.abend_platz_detektiv,
+                      Sitz.detektiv => detektivBezeichnung(l, stand.daten),
                       Sitz.erzaehler => l.abend_platz_erzaehler,
                       _ => l.online_lobby_figur_spielen,
                     }),
@@ -394,7 +423,8 @@ class _FigurKachel extends StatelessWidget {
               bild,
               const SizedBox(height: MMass.s4),
               MGanzeWorte(name, stil: MPapierSchrift.text.copyWith(fontSize: 14), minimum: 10),
-              if (vermerk.isNotEmpty) Text(vermerk, textAlign: TextAlign.center, style: MPapierSchrift.leise.copyWith(fontSize: 12)),
+              // Die Kachel ist schmal: Mit großer Schrift wird der Vermerk kleiner, statt „Wunsch:“ zu teilen.
+              if (vermerk.isNotEmpty) MGanzeWorte(vermerk, textAlign: TextAlign.center, stil: MPapierSchrift.leise.copyWith(fontSize: 12), minimum: 7),
             ],
           ),
         ),

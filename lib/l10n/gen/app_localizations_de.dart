@@ -3998,7 +3998,7 @@ class LDe extends L {
 
   @override
   String begleiter_anleitung(String name) {
-    return '$name öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.';
+    return '$name öffnet Mordakte, tippt in der Detektei auf „Beitreten“ und gibt diesen Code ein.';
   }
 
   @override
@@ -4012,7 +4012,7 @@ class LDe extends L {
 
   @override
   String get begleiter_fehler =>
-      'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.';
+      'Dieses Gerät erreicht das Relais nicht. Lest am Pult weiter oder versucht es noch einmal.';
 
   @override
   String get begleiter_nochmal => 'Noch einmal versuchen';
@@ -4118,4 +4118,68 @@ class LDe extends L {
 
   @override
   String get steckbrief_senden => 'Steckbrief senden';
+
+  @override
+  String online_lobby_gaesteliste_weg(int anzahl, String figuren) {
+    return 'Bei $anzahl Rollen nicht dabei: $figuren.';
+  }
+
+  @override
+  String get online_ermittlung_wartet_leitung =>
+      'Die Spielleitung wählt gerade …';
+
+  @override
+  String get online_abstecher_leitung => 'Die Spielleitung erkundet einen Ort.';
+
+  @override
+  String get online_zug_aktion_leitung => 'Die Spielleitung ist unterwegs …';
+
+  @override
+  String get online_tischruf_wartet_leitung =>
+      'Pech. Die Spielleitung entscheidet, wie es weitergeht.';
+
+  @override
+  String get online_fund_wartet_leitung => 'Die Spielleitung liest den Fund.';
+
+  @override
+  String get online_anklage_wartet_leitung =>
+      'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.';
+
+  @override
+  String get online_platz_neu_detektiv => 'Du ermittelst jetzt.';
+
+  @override
+  String get online_platz_neu_erzaehler => 'Du liest jetzt vor.';
+
+  @override
+  String online_platz_neu_rolle(String figur) {
+    return 'Du spielst jetzt $figur.';
+  }
+
+  @override
+  String get online_platz_neu_assistenz => 'Du schaust jetzt zu.';
+
+  @override
+  String online_detektiv_weg(String name) {
+    return '$name ermittelt und ist getrennt. Kommt $name nicht zurück, gib den Detektiv-Sitz weiter.';
+  }
+
+  @override
+  String get online_detektiv_weitergeben => 'Detektiv-Sitz weitergeben';
+
+  @override
+  String get online_detektiv_wer => 'Wer ermittelt weiter?';
+
+  @override
+  String online_detektiv_wer_hinweis(String name) {
+    return 'Wer übernimmt, tauscht den Platz mit $name.';
+  }
+
+  @override
+  String get online_detektiv_ich => 'Ich ermittle selbst';
+
+  @override
+  String online_detektiv_neu(String name) {
+    return '$name ermittelt jetzt.';
+  }
 }

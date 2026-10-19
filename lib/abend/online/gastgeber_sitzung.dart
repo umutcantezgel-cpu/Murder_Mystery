@@ -97,6 +97,29 @@ class GastgeberSitzung extends PartySitzung {
   @override
   bool get leitet => dienst.raum.vorleser == _ich && !uebernahmeFrist;
 
+  /// Ist der Detektiv-Sitz ein Gast, der getrennt ist oder den Abend aufgegeben
+  /// hat? Dann steht die Ermittlung, bis er zurückkommt oder der Gastgeber den
+  /// Sitz neu vergibt ([detektivNeu]). Nur bis zur Anklage: danach ermittelt
+  /// niemand mehr.
+  bool get detektivWeg {
+    final d = detektivGeraet;
+    if (d == null || d == _ich || phase.index >= PartyPhase.finale.index) return false;
+    return !dienst.spieler.any((s) => s.id == d && s.online);
+  }
+
+  /// Wer den Detektiv-Sitz übernehmen kann: der Gastgeber und jeder verbundene Gast.
+  List<SpielerInfo> get detektivKandidaten => [
+        for (final s in dienst.spieler)
+          if (s.online && s.id != detektivGeraet) s,
+      ];
+
+  /// Gibt den Detektiv-Sitz an [spieler] (Gastgeber oder Gast); beide tauschen
+  /// die Plätze (Raumnachricht `detektivNeu`). Kommt der bisherige Detektiv
+  /// zurück, sitzt er auf dem Platz seines Nachfolgers.
+  void detektivNeu(String spieler) => _senden([
+        {'typ': 'detektivNeu', 'spieler': spieler},
+      ]);
+
   /// So lange wartet der Gastgeber, bevor er für einen getrennten Erzähler
   /// vorliest und weiterführt (Plan M3: zwei Minuten). Kommt der Erzähler in der
   /// Zeit zurück, merkt der Tisch nichts.
@@ -104,6 +127,9 @@ class GastgeberSitzung extends PartySitzung {
 
   Timer? _fristUhr;
   bool _fristVorbei = false;
+
+  /// Gerät auf dem Erzähler-Sitz bei der letzten Prüfung ([_fristPruefen]).
+  String? _erzaehlerZuletzt;
 
   /// Ist der Erzähler-Sitz ein Gast, der gerade getrennt ist?
   bool get _erzaehlerWeg {
@@ -119,14 +145,20 @@ class GastgeberSitzung extends PartySitzung {
 
   /// Startet die Frist, sobald der Erzähler getrennt ist, und setzt sie zurück,
   /// wenn er wieder da ist. Nach Ablauf meldet die Sitzung die Übernahme.
+  /// Übernimmt der Gastgeber den Detektiv-Sitz vom Erzähler-Sitz aus selbst
+  /// ([detektivNeu]), landet der getrennte Gast-Detektiv auf dem Erzähler-Sitz.
+  /// Vorgelesen hat bis eben der Gastgeber; auf den Gast wartet niemand.
   void _fristPruefen() {
     if (_entsorgt) return;
+    final abgegeben = _erzaehlerZuletzt == _ich && dienst.raum.erzaehlerGeraet != _ich;
+    _erzaehlerZuletzt = dienst.raum.erzaehlerGeraet;
     if (!_erzaehlerWeg) {
       _fristUhr?.cancel();
       _fristUhr = null;
       _fristVorbei = false;
       return;
     }
+    if (abgegeben) _fristVorbei = true;
     if (_fristUhr != null || _fristVorbei) return;
     _fristUhr = Timer(erzaehlerFrist, () {
       _fristUhr = null;

@@ -14,6 +14,7 @@ import '../../party/party_stil.dart' show PartyFussHinweis;
 import '../../party/sitzung.dart';
 import '../../stil/stil.dart';
 import '../rollen_uebersicht.dart';
+import 'ansicht.dart';
 import 'erzaehler_ablauf.dart';
 import 'gastgeber_sitzung.dart';
 import 'gastgeber_wartet.dart';
@@ -92,6 +93,8 @@ class _GastgeberAblaufState extends State<GastgeberAblauf> {
             child: Column(
               children: [
                 _Leiste(sitzung: s),
+                // Fällt der Gast-Detektiv aus, steht hier, wer ermittelt hat, und wie es weitergeht.
+                ListenableBuilder(listenable: s, builder: (context, _) => s.detektivWeg ? DetektivWegBand(sitzung: s) : const SizedBox.shrink()),
                 Expanded(
                   child: MediaQuery.removePadding(
                     context: context,
@@ -219,7 +222,15 @@ class _Menue extends StatelessWidget {
               ),
               const SizedBox(height: MMass.s16),
             ],
-            Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: sitzung.sitz, art: MKnopfArt.zweit)),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: RollenUebersichtKnopf(
+                hervorheben: sitzung.sitz,
+                art: MKnopfArt.zweit,
+                mitErzaehler: sitzung.daten.mitErzaehlerSitz,
+                detektivWort: detektivBezeichnung(l, sitzung.daten),
+              ),
+            ),
             const SizedBox(height: MMass.s16),
             Text(l.online_code_titel.toUpperCase(), style: MPapierSchrift.marke),
             const SizedBox(height: MMass.s4),
@@ -232,7 +243,7 @@ class _Menue extends StatelessWidget {
             const SizedBox(height: MMass.s16),
             Text(l.online_tisch_titel.toUpperCase(), style: MPapierSchrift.marke),
             const SizedBox(height: MMass.s8),
-            for (final p in sitzung.dienst.spieler) PlatzZeile(spieler: p),
+            for (final p in sitzung.dienst.spieler) PlatzZeile(spieler: p, detektivWort: detektivBezeichnung(l, sitzung.daten)),
           ],
         ),
       ),
@@ -251,4 +262,85 @@ class _Menue extends StatelessWidget {
     );
     if (ja && context.mounted) Navigator.of(context).pop(true);
   }
+}
+
+/// Der Gast auf dem Detektiv-Sitz ist getrennt oder hat aufgegeben
+/// ([GastgeberSitzung.detektivWeg]): ohne ihn steht die Ermittlung. Kommt er
+/// nicht zurück, gibt der Gastgeber den Sitz weiter, an sich selbst oder an
+/// einen verbundenen Gast ([zeigeDetektivWahl]).
+class DetektivWegBand extends StatelessWidget {
+  const DetektivWegBand({super.key, required this.sitzung});
+
+  final GastgeberSitzung sitzung;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final name = sitzung.dienst.nameVon(sitzung.detektivGeraet);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MMass.s16, MMass.s8, MMass.s16, 0),
+      child: Semantics(
+        liveRegion: true,
+        container: true,
+        child: OnlineHinweisKarte(
+          key: const ValueKey('detektiv-weg'),
+          art: PapierArt.telegramm,
+          icon: Icons.person_search_outlined,
+          text: l.online_detektiv_weg(name),
+          farbe: onlineWarnTinte,
+          aktion: MKnopf(
+            key: const ValueKey('detektiv-weitergeben'),
+            text: l.online_detektiv_weitergeben,
+            art: MKnopfArt.zweit,
+            icon: Icons.swap_horiz_rounded,
+            onPressed: () => zeigeDetektivWahl(context, sitzung),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Karteikarte „Wer ermittelt weiter?“: der Gastgeber selbst und jeder
+/// verbundene Gast. Wer übernimmt, tauscht den Platz mit dem getrennten
+/// Detektiv (`detektivNeu`); eine Meldung sagt, wer jetzt ermittelt.
+Future<void> zeigeDetektivWahl(BuildContext context, GastgeberSitzung sitzung) async {
+  final l = L.of(context);
+  final weg = sitzung.dienst.nameVon(sitzung.detektivGeraet);
+  final ziel = await showDialog<SpielerInfo>(
+    context: context,
+    barrierColor: Colors.black.withValues(alpha: 0.6),
+    builder: (c) => MKarteikartenDialog(
+      titel: l.online_detektiv_wer,
+      inhalt: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l.online_detektiv_wer_hinweis(weg), style: MPapierSchrift.leise),
+          const SizedBox(height: MMass.s12),
+          for (final p in sitzung.detektivKandidaten)
+            Padding(
+              padding: const EdgeInsets.only(bottom: MMass.s8),
+              child: MKnopf(
+                key: ValueKey('detektiv-an-${p.id}'),
+                text: p.istGastgeber
+                    ? l.online_detektiv_ich
+                    : p.rolle == null
+                        ? p.name
+                        : '${p.name} · ${sitzung.figurName(p.rolle!)}',
+                art: MKnopfArt.zweit,
+                breit: true,
+                onPressed: () => Navigator.of(c).pop(p),
+              ),
+            ),
+        ],
+      ),
+      aktionen: [MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(c).pop())],
+    ),
+  );
+  if (ziel == null || !context.mounted) return;
+  sitzung.detektivNeu(ziel.id);
+  ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+    SnackBar(content: Text(ziel.istGastgeber ? l.online_platz_neu_detektiv : l.online_detektiv_neu(ziel.name))),
+  );
 }

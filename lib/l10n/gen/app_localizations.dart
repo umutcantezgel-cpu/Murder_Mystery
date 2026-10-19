@@ -6924,7 +6924,7 @@ abstract class L {
   /// Erzähler-Begleiter: wie der Erzähler beitritt
   ///
   /// In de, this message translates to:
-  /// **'{name} öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.'**
+  /// **'{name} öffnet Mordakte, tippt in der Detektei auf „Beitreten“ und gibt diesen Code ein.'**
   String begleiter_anleitung(String name);
 
   /// Erzähler-Begleiter: was sich am Tisch-Gerät ändert
@@ -6942,7 +6942,7 @@ abstract class L {
   /// Erzähler-Begleiter: Raum ließ sich nicht öffnen
   ///
   /// In de, this message translates to:
-  /// **'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.'**
+  /// **'Dieses Gerät erreicht das Relais nicht. Lest am Pult weiter oder versucht es noch einmal.'**
   String get begleiter_fehler;
 
   /// Erzähler-Begleiter: erneut öffnen
@@ -7118,6 +7118,108 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Steckbrief senden'**
   String get steckbrief_senden;
+
+  /// Lobby des Gastgebers: Figuren der Gästeliste, die bei dieser Rollenzahl wegfallen (Figur und Gast)
+  ///
+  /// In de, this message translates to:
+  /// **'Bei {anzahl} Rollen nicht dabei: {figuren}.'**
+  String online_lobby_gaesteliste_weg(int anzahl, String figuren);
+
+  /// Gast, Akte ohne Erzähler-Sitz (Altakte): Der Gastgeber wählt eine Option (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung wählt gerade …'**
+  String get online_ermittlung_wartet_leitung;
+
+  /// Gast, Altakte: Abstecher läuft (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung erkundet einen Ort.'**
+  String get online_abstecher_leitung;
+
+  /// Gast, Altakte: Weg auf der Karte läuft (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung ist unterwegs …'**
+  String get online_zug_aktion_leitung;
+
+  /// Gast, Altakte: Tischruf nach Pech (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Pech. Die Spielleitung entscheidet, wie es weitergeht.'**
+  String get online_tischruf_wartet_leitung;
+
+  /// Gast, Altakte: Fund wird gelesen (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung liest den Fund.'**
+  String get online_fund_wartet_leitung;
+
+  /// Gast, Altakte: Anklage (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.'**
+  String get online_anklage_wartet_leitung;
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt Detektiv-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst jetzt.'**
+  String get online_platz_neu_detektiv;
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt Erzähler-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest jetzt vor.'**
+  String get online_platz_neu_erzaehler;
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt eine Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Du spielst jetzt {figur}.'**
+  String online_platz_neu_rolle(String figur);
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt ohne Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Du schaust jetzt zu.'**
+  String get online_platz_neu_assistenz;
+
+  /// Gastgeber: Der Gast auf dem Detektiv-Sitz ist getrennt
+  ///
+  /// In de, this message translates to:
+  /// **'{name} ermittelt und ist getrennt. Kommt {name} nicht zurück, gib den Detektiv-Sitz weiter.'**
+  String online_detektiv_weg(String name);
+
+  /// Gastgeber: Knopf, der den Detektiv-Sitz neu vergibt
+  ///
+  /// In de, this message translates to:
+  /// **'Detektiv-Sitz weitergeben'**
+  String get online_detektiv_weitergeben;
+
+  /// Gastgeber: Karteikarte zur Wahl des neuen Detektivs
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ermittelt weiter?'**
+  String get online_detektiv_wer;
+
+  /// Gastgeber: Wer den Sitz übernimmt, bekommt dessen Platz nicht mehr
+  ///
+  /// In de, this message translates to:
+  /// **'Wer übernimmt, tauscht den Platz mit {name}.'**
+  String online_detektiv_wer_hinweis(String name);
+
+  /// Gastgeber: übernimmt den Detektiv-Sitz selbst
+  ///
+  /// In de, this message translates to:
+  /// **'Ich ermittle selbst'**
+  String get online_detektiv_ich;
+
+  /// Gastgeber: Meldung nach dem Wechsel des Detektiv-Sitzes
+  ///
+  /// In de, this message translates to:
+  /// **'{name} ermittelt jetzt.'**
+  String online_detektiv_neu(String name);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

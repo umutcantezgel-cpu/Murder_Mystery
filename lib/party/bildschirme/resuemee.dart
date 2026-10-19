@@ -6,6 +6,7 @@ import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'erzaehlerpult.dart' show ErzaehlerpultZudecken;
 
 /// Bonus-Hinweis (Phase bonus) und Zwischenresümee (Phase resuemee), Master 7.6
 /// Schritt 5 und 7.12. Der Hinweis zeigt nie, ob er stimmt (E-024), und das
@@ -66,7 +67,8 @@ class ResuemeeBildschirm extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ErzaehlerFeld(sitzung: sitzung, kennungen: kennungen, verborgen: kennungen.toSet()),
+            // „Gelesen, zudecken“ gehört unter den Bericht, nicht über ihn.
+            ErzaehlerFeld(sitzung: sitzung, kennungen: kennungen, verborgen: kennungen.toSet(), zudecken: false),
             // Der Bericht ist Erzähltext: Ihn sieht nur, wer vorliest (Vorleser-Sitz, M3).
             if (erzaehltextOffen(sitzung)) MBlatt(
               klammer: true,
@@ -82,6 +84,10 @@ class ResuemeeBildschirm extends StatelessWidget {
                 ],
               ),
             ),
+            if (sitzung.erzaehlerAmPult && erzaehltextOffen(sitzung)) ...[
+              const SizedBox(height: 12),
+              ErzaehlerpultZudecken(sitzung: sitzung),
+            ],
           ],
         ),
       ),
