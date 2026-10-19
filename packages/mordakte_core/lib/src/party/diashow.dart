@@ -294,7 +294,7 @@ Set<String> _pfadSpurOrte(Kanon kanon) {
       {
         for (final s in kanon.tatmatrix(p).gegenstaende.values)
           for (final punkt in s.spur)
-            if (punkt.ort case final o?) o,
+            ?punkt.ort,
       },
   ];
   if (je.isEmpty) return const {};

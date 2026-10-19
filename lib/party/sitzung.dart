@@ -378,6 +378,64 @@ class PartySitzung extends ChangeNotifier {
   /// Rundendauer; im Entwickler-Einstieg auch in Sekunden.
   Duration rundendauer = const Duration(minutes: 30);
 
+  // ---------------------------------------------------------------------------
+  // Rundenuhr und Diashow (Langer Abend M4)
+
+  /// Uhr des Abends in Millisekunden ([RundenUhr]): an einem Gerät seine
+  /// Wanduhr, online die des Gastgebers (dieselbe, mit der der Transport jeden
+  /// Befehl stempelt). Tests setzen eine eigene.
+  int Function() abendzeit = () => DateTime.now().millisecondsSinceEpoch;
+
+  /// Uhr der laufenden Gespräche, sobald jemand sie gestellt hat; sonst steht
+  /// sie auf der vollen [rundendauer]. Mit jeder Runde wieder gestellt; nicht im
+  /// Journal: Nach dem Fortsetzen steht die Uhr wieder auf voller Zeit.
+  RundenUhr? _uhr;
+
+  /// Die gemeinsame Rundenuhr der Gespräche. An einem Gerät hält sie die
+  /// Sitzung, online der Raum (`GastgeberSitzung`); jedes Gerät rechnet die
+  /// Restzeit selbst aus [abendzeit].
+  RundenUhr get uhr => _uhr ?? RundenUhr.neu(rundendauer.inMilliseconds.clamp(1000, RundenUhr.hoechstDauer));
+
+  /// Stellt dieses Gerät die Uhr? An einem Gerät immer; online nur, wer leitet.
+  bool get uhrSteuerbar => leitet;
+
+  /// Wer die Uhr stellt, wenn es nicht dieses Gerät ist (online); sonst leer.
+  String get uhrStellerName => '';
+
+  /// Start, Pause, Weiter oder Zugabe ([minuten]) an der Uhr, zur Abendzeit
+  /// [zeit] (ohne Angabe jetzt). `false`, wenn die Aktion gerade nicht passt.
+  bool uhrAktion(UhrAktion aktion, {int? minuten, int? zeit}) {
+    try {
+      _uhr = uhr.aktion(aktion, zeit: zeit ?? abendzeit(), minuten: minuten);
+    } on StateError {
+      return false;
+    } on ArgumentError {
+      return false;
+    }
+    notifyListeners();
+    return true;
+  }
+
+  /// Diashow zur Einleitung der Akte (`daten.diashow`), sonst `null`.
+  Diashow? get diashow => daten.diashow;
+
+  int _dia = 0;
+
+  /// Laufendes Bild der Diashow in der Einleitung (ab 0). An einem Gerät hält
+  /// es die Sitzung, online der Raum.
+  int get dia => _dia;
+
+  /// Schaltet dieses Gerät die Bilder? An einem Gerät immer; online nur, wer leitet.
+  bool get diaSteuerbar => leitet;
+
+  /// Zeigt Bild [nr] der Diashow (nur in der Einleitung, nur gültige Bilder).
+  void diaSetzen(int nr) {
+    final d = diashow;
+    if (d == null || phase != PartyPhase.intro || nr < 0 || nr >= d.dias.length || nr == _dia) return;
+    _dia = nr;
+    notifyListeners();
+  }
+
   /// Spielsekunden je echter Sekunde in der Rückblende.
   double zeitraffer = 25;
 
@@ -677,6 +735,9 @@ class PartySitzung extends ChangeNotifier {
     _verdeckt = null;
     // Neue Texte liegen wieder zugedeckt im Pult, bis der Erzähler hinschaut.
     _pult = false;
+    // Jede Einleitung beginnt mit dem ersten Bild, jede Runde mit gestellter Uhr.
+    _dia = 0;
+    if (phase == PartyPhase.gespraeche) _uhr = null;
     if (phase == PartyPhase.gruppenwahl) {
       _stimmen.clear();
       if (solo) {

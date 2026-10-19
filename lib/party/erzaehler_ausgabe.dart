@@ -32,8 +32,12 @@ bool erzaehltextOffen(PartySitzung s) => s.istVorleser && (!s.erzaehlerAmPult ||
 /// [VorleserKarte]; mit Erzähler am Tisch liegt der Text zugedeckt im
 /// Erzählerpult ([ErzaehlerpultZu]), bis der Erzähler hinschaut. Ohne Erzähler
 /// und im Solo bleibt der Text immer sichtbar.
+///
+/// Diashow (M4): Mit [nur] steht nur ein Baustein da, der zum laufenden Bild;
+/// die Stimme liest ab ihm weiter und meldet jeden Baustein über
+/// [onBaustein], damit Bild und Text zusammen weiterschalten.
 class ErzaehlerFeld extends StatefulWidget {
-  const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen, this.verborgen = const {}});
+  const ErzaehlerFeld({super.key, required this.sitzung, required this.kennungen, this.verborgen = const {}, this.nur, this.onBaustein});
 
   final PartySitzung sitzung;
 
@@ -43,6 +47,13 @@ class ErzaehlerFeld extends StatefulWidget {
   /// Kennungen, die der Bildschirm selbst zeigt (z. B. die Rückblende als
   /// Erinnerung): sie bekommen hier keine Tafel, werden aber vorgelesen.
   final Set<String> verborgen;
+
+  /// Nur dieser Baustein (Index in [kennungen]) bekommt eine Tafel; vorgelesen
+  /// wird ab ihm. `null`: alle.
+  final int? nur;
+
+  /// Die Stimme beginnt den Baustein mit diesem Index in [kennungen].
+  final ValueChanged<int>? onBaustein;
 
   @override
   State<ErzaehlerFeld> createState() => _ErzaehlerFeldState();
@@ -58,6 +69,9 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
 
   /// Läuft gerade eine Äußerung dieses Feldes?
   bool _spricht = false;
+
+  /// Baustein (Index in den Kennungen), den die Stimme gerade liest.
+  int? _liest;
 
   PartySitzung get s => widget.sitzung;
 
@@ -110,6 +124,11 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
     if (!listEquals(alt.kennungen, widget.kennungen)) {
       _einblenden.forward(from: 0);
       if (s.stimmeAn && _offen) unawaited(_vorlesen());
+    } else if (alt.nur != widget.nur) {
+      _einblenden.forward(from: 0);
+      // Weitergeschaltet von Hand: ab dem neuen Baustein lesen. Hat die Stimme selbst
+      // weitergeschaltet ([onBaustein]), liest sie schon dort.
+      if (s.stimmeAn && _offen && widget.nur != _liest) unawaited(_vorlesen());
     }
   }
 
@@ -136,17 +155,26 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
     }
   }
 
-  /// Liest alle Bausteine nacheinander vor. Jeder Text wird vorher auf
-  /// Wortgleichheit geprüft; was nicht passt, bleibt beim Bildschirmtext.
+  /// Liest alle Bausteine nacheinander vor (mit [ErzaehlerFeld.nur] ab
+  /// diesem). Jeder Text wird vorher auf Wortgleichheit geprüft; was nicht
+  /// passt, bleibt beim Bildschirmtext.
   Future<void> _vorlesen() async {
     final lauf = ++_lauf;
     _stimme.stopp();
+    _liest = null;
     if (!_stimme.verfuegbar) return;
-    for (final k in _bekannte) {
+    final kennungen = widget.kennungen;
+    for (var i = widget.nur ?? 0; i < kennungen.length; i++) {
+      final k = kennungen[i];
+      if (!s.hatText(k)) continue;
       final text = s.text(k);
       if (!_gilt(lauf)) return;
       if (!wortgleich(s, k, text)) continue;
       _spricht = true;
+      _liest = i;
+      // Der erste Baustein eines Laufs steht schon da; gemeldet wird erst der nächste
+      // (nach dem Vorlesen, nie mitten im Aufbau).
+      if (i != (widget.nur ?? 0)) widget.onBaustein?.call(i);
       final ok = await _stimme.sprich(text);
       if (lauf == _lauf) _spricht = false;
       if (!ok) return;
@@ -203,14 +231,16 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
       if (kennungen.isEmpty) return const SizedBox.shrink();
       return ErzaehlerpultZu(sitzung: s, texte: kennungen.length);
     }
+    final nur = widget.nur;
+    final einzeln = nur != null && nur >= 0 && nur < widget.kennungen.length ? widget.kennungen[nur] : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _kopf(),
         const SizedBox(height: 16),
         for (var i = 0; i < kennungen.length; i++)
-          if (!widget.verborgen.contains(kennungen[i])) ...[
-            _tafel(i, kennungen[i]),
+          if (!widget.verborgen.contains(kennungen[i]) && (nur == null || kennungen[i] == einzeln)) ...[
+            _tafel(nur == null ? i : 0, kennungen[i]),
             const SizedBox(height: 12),
           ],
         // Am offenen Pult: nach dem Vorlesen zudecken (die Tafeln des Bildschirms stehen darüber).

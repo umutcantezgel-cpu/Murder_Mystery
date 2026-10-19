@@ -32,7 +32,11 @@ class PartyDaten {
   /// `welt.json` unter `geruechte` genannt); `null` bei Akten ohne Gerüchte.
   final Geruechte? geruechte;
 
-  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte)
+  /// Diashow zur Einleitung (`content/welt/<fall>/diashow.json`, M4), nur bei
+  /// Akten mit dem Zusatz `diashow`; `null`: Die Einleitung bleibt wie bisher.
+  final Diashow? diashow;
+
+  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow)
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
 
   /// Hat die Akte den Zusatz [faehigkeit] (`AkteInfo.hat`)?
@@ -56,6 +60,7 @@ class PartyDaten {
     Map<String, Object?>? erzaehlung,
     AkteInfo? akte,
     Map<String, Object?>? geruechte,
+    Map<String, Object?>? diashow,
   }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
@@ -73,6 +78,7 @@ class PartyDaten {
       erzaehlung == null ? null : Erzaehlung.ausJson(erzaehlung),
       akte,
       geruechte == null ? null : Geruechte.ausJson(geruechte),
+      diashow == null ? null : Diashow.ausJson(diashow),
     );
   }
 
@@ -107,8 +113,17 @@ class PartyDaten {
     final geruechte = welt?['geruechte'] is String
         ? jsonDecode(await bundle.loadString('content/welt/$fall/${welt!['geruechte']}')) as Map<String, Object?>
         : null;
+    // Die Diashow nur, wenn die Akte den Zusatz hat (akte_pruefen hält Datei und Zusatz zusammen).
+    Map<String, Object?>? diashow;
+    if (akte?.hat('diashow') ?? false) {
+      try {
+        diashow = jsonDecode(await bundle.loadString('content/welt/$fall/diashow.json')) as Map<String, Object?>;
+      } catch (_) {
+        diashow = null;
+      }
+    }
     return PartyDaten.aus(eigen.lies, vorlage,
-        fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung, akte: akte, geruechte: geruechte);
+        fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung, akte: akte, geruechte: geruechte, diashow: diashow);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

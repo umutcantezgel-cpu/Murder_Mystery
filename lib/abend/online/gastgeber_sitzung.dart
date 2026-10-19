@@ -362,6 +362,43 @@ class GastgeberSitzung extends PartySitzung {
         {'typ': 'weiter'},
       ]);
 
+  // ------------------------------------------------- Rundenuhr und Diashow
+
+  /// Die Uhr hält der Raum (Ansicht `uhr`, M4); ohne sie steht sie auf der
+  /// vollen Rundendauer.
+  @override
+  RundenUhr get uhr => RundenUhr.ausJson(dienst.ansicht['uhr']) ?? super.uhr;
+
+  /// Dieselbe Uhr, mit der der eigene Platz jeden Befehl stempelt.
+  @override
+  int Function() get abendzeit => dienst.verb.abendzeit;
+
+  @override
+  String get uhrStellerName => dienst.nameVon(dienst.raum.vorleser);
+
+  /// Geht als Nachricht `uhr` in den Raum; die Abendzeit setzt der Transport.
+  @override
+  bool uhrAktion(UhrAktion aktion, {int? minuten, int? zeit}) {
+    if (!uhrSteuerbar) return false;
+    _senden([
+      {'typ': 'uhr', 'aktion': aktion.name, 'minuten': ?minuten},
+    ]);
+    return true;
+  }
+
+  /// Das Bild der Einleitung zeigt der Raum für alle (Ansicht `dia`).
+  @override
+  int get dia => jZahl(dienst.ansicht['dia']);
+
+  @override
+  void diaSetzen(int nr) {
+    final d = diashow;
+    if (d == null || !diaSteuerbar || phase != PartyPhase.intro || nr < 0 || nr >= d.dias.length || nr == dia) return;
+    _senden([
+      {'typ': 'dia', 'nr': nr},
+    ]);
+  }
+
   @override
   void bestaetigen({bool gruendlich = false, String? karte}) {
     final z = vorschlag ?? (throw StateError('kein Vorschlag'));

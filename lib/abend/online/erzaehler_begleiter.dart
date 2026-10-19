@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Befragungsplan, PartyPhase, erzaehlerPaket;
-import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, RundenZugPhase, Sitz, istSuche;
+import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, RundenZugPhase, Sitz, UhrAktion, istSuche;
 import 'package:mordakte_netz/mordakte_netz.dart' show RelayHost, RelayParameter;
 
 import '../../l10n/gen/app_localizations_de.dart';
@@ -154,6 +154,22 @@ class BegleiterRaum implements AbendRaum {
         if (!kannWeiter) throw const PartyRaumFehler('not_ready');
         sitzung.weiter();
         _version++;
+      // Diashow und Rundenuhr (M4): Der Erzähler schaltet die Bilder und stellt die Uhr am Handy;
+      // das Gerät zeigt beides. Die Abendzeit stempelt der Transport dieses Geräts.
+      case 'dia':
+        final nr = inhalt['nr'];
+        final d = sitzung.diashow;
+        if (d == null || sitzung.phase != PartyPhase.intro) throw const PartyRaumFehler('invalid_phase');
+        if (nr is! int || nr < 0 || nr >= d.dias.length) throw const PartyRaumFehler('invalid');
+        sitzung.diaSetzen(nr);
+        _version++;
+      case 'uhr':
+        final aktion = UhrAktion.lesen(inhalt['aktion']);
+        final minuten = inhalt['minuten'], zeit = inhalt['zeit'];
+        if (sitzung.phase != PartyPhase.gespraeche) throw const PartyRaumFehler('invalid_phase');
+        if (aktion == null || zeit is! int || (minuten != null && minuten is! int)) throw const PartyRaumFehler('invalid');
+        if (!sitzung.uhrAktion(aktion, minuten: minuten as int?, zeit: zeit)) throw const PartyRaumFehler('invalid_phase');
+        _version++;
       default:
         throw const PartyRaumFehler('invalid');
     }
@@ -200,6 +216,9 @@ class BegleiterRaum implements AbendRaum {
           if (b.pflicht || b.frage != null) {'rolle': b.rolle, 'thema': b.thema, 'erledigt': b.erledigt},
       ],
       ..._ermittlung(s),
+      // Diashow und Rundenuhr wie im Online-Raum (M4): Nummer des Bildes, Zustand der Uhr.
+      if (s.phase == PartyPhase.intro && s.diashow != null) 'dia': s.dia,
+      if (s.phase == PartyPhase.gespraeche) 'uhr': s.uhr.toJson(),
       'privat': {
         'spieler': id,
         'vorleser': true,

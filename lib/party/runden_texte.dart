@@ -102,4 +102,11 @@ final rundenTexte = <String, String>{
   'ui.befragung.fragt': _de.party_befragung_fragt('{frage}'),
   'ui.befragung.runde_eins': _de.party_befragung_runde_eins,
   'ui.befragung.oeffentlich': _de.party_befragung_oeffentlich,
+  // Rundenuhr und Diashow der Einleitung (M4).
+  'ui.runde.plus': _de.party_runde_plus,
+  'ui.runde.weiterlaufen': _de.party_runde_weiterlaufen,
+  'ui.runde.angehalten': _de.party_runde_angehalten,
+  'ui.runde.stellt': _de.party_runde_stellt('{name}'),
+  'ui.intro.naechstes': _de.party_intro_naechstes,
+  'ui.intro.bild': _de.party_intro_bild('{nr}', '{anzahl}'),
 };
