@@ -178,7 +178,7 @@ class BegleiterRaum implements AbendRaum {
       'spieler': [
         {'id': tisch, 'name': s.detektivName.trim().isEmpty ? _de.abend_platz_detektiv : s.detektivName.trim(), 'sitz': Sitz.detektiv.name, 'online': true},
         // Reihum ist öffentlich, wer welche Figur spielt (Einrichtung).
-        for (final rolle in s.besetzt) {'id': 'rolle:$rolle', 'name': s.namen[rolle] ?? '', 'rolle': rolle, 'online': true},
+        for (final rolle in s.besetzt) {'id': 'rolle:$rolle', 'name': s.personAmTisch(rolle), 'rolle': rolle, 'online': true},
         {'id': id, 'name': _name, 'sitz': Sitz.erzaehler.name, 'online': _online},
       ],
       // Wen der Detektiv befragt (öffentlich: Person, Thema, Stand).
@@ -199,7 +199,7 @@ class BegleiterRaum implements AbendRaum {
   }
 
   /// Abschnitt in der Schreibweise des Online-Raums; vor den Rollen „lobby“,
-  /// das Ende zeigt das Handy wie das Finale (das Gerät schließt den Raum dann).
+  /// das Ende zeigt das Handy wie die Auflösung (das Gerät schließt den Raum dann).
   String get _phase => switch (sitzung.phase) {
         PartyPhase.titel || PartyPhase.einrichtung => 'lobby',
         PartyPhase.ende => PartyPhase.aufloesung.name,
