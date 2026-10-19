@@ -2913,5 +2913,60 @@
   "aufgabe_assistenz_finale": "Auflösung lesen, Belohnung holen",
   "@aufgabe_assistenz_finale": {
     "description": "Aufgabe"
+  },
+  "erzaehlerpult_handy": "Am eigenen Handy lesen",
+  "@erzaehlerpult_handy": {
+    "description": "Erzählerpult: Erzähler-Begleiter öffnen"
+  },
+  "begleiter_titel": "Erzähler am eigenen Handy",
+  "@begleiter_titel": {
+    "description": "Erzähler-Begleiter: Titel der Karte"
+  },
+  "begleiter_anleitung": "{name} öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.",
+  "@begleiter_anleitung": {
+    "description": "Erzähler-Begleiter: wie der Erzähler beitritt",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "begleiter_hinweis": "Danach stehen die Texte nur auf dem Handy. Dieses Gerät zeigt, wer vorliest.",
+  "@begleiter_hinweis": {
+    "description": "Erzähler-Begleiter: was sich am Tisch-Gerät ändert"
+  },
+  "begleiter_liest": "{name} liest jetzt am eigenen Handy.",
+  "@begleiter_liest": {
+    "description": "Erzähler-Begleiter: verbunden",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "begleiter_fehler": "Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.",
+  "@begleiter_fehler": {
+    "description": "Erzähler-Begleiter: Raum ließ sich nicht öffnen"
+  },
+  "begleiter_nochmal": "Noch einmal versuchen",
+  "@begleiter_nochmal": {
+    "description": "Erzähler-Begleiter: erneut öffnen"
+  },
+  "begleiter_zurueck": "Zurück zum Abend",
+  "@begleiter_zurueck": {
+    "description": "Erzähler-Begleiter: Karte schließen, Raum bleibt offen"
+  },
+  "begleiter_beenden": "Wieder am Pult lesen",
+  "@begleiter_beenden": {
+    "description": "Erzähler-Begleiter: Raum schließen"
+  },
+  "begleiter_handy_hinweis": "Der Text steht auf dem Handy von {name}.",
+  "@begleiter_handy_hinweis": {
+    "description": "Vorleser-Karte am Tisch-Gerät, während der Erzähler am Handy liest",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -253,7 +253,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
           const _GetrenntHinweis(),
           const SizedBox(height: MMass.s16),
         ],
-        _CodeTafel(code: code, link: link, sigel: AkteStil.fuer(d.akteId).sigel),
+        OnlineCodeTafel(code: code, link: link, sigel: AkteStil.fuer(d.akteId).sigel),
         const SizedBox(height: MMass.s32),
         LobbyTisch(
           stand: stand,
@@ -322,8 +322,8 @@ class _GetrenntHinweis extends StatelessWidget {
 
 /// Der Raumcode als getipptes Telegramm, daneben (oder darunter) die
 /// Platzkarte mit dem gedruckten QR-Code und dem Siegel der Akte.
-class _CodeTafel extends StatelessWidget {
-  const _CodeTafel({required this.code, required this.link, required this.sigel});
+class OnlineCodeTafel extends StatelessWidget {
+  const OnlineCodeTafel({super.key, required this.code, required this.link, required this.sigel});
 
   final String code;
 

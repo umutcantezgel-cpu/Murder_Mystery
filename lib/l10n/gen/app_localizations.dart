@@ -6908,6 +6908,66 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Auflösung lesen, Belohnung holen'**
   String get aufgabe_assistenz_finale;
+
+  /// Erzählerpult: Erzähler-Begleiter öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Am eigenen Handy lesen'**
+  String get erzaehlerpult_handy;
+
+  /// Erzähler-Begleiter: Titel der Karte
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler am eigenen Handy'**
+  String get begleiter_titel;
+
+  /// Erzähler-Begleiter: wie der Erzähler beitritt
+  ///
+  /// In de, this message translates to:
+  /// **'{name} öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.'**
+  String begleiter_anleitung(String name);
+
+  /// Erzähler-Begleiter: was sich am Tisch-Gerät ändert
+  ///
+  /// In de, this message translates to:
+  /// **'Danach stehen die Texte nur auf dem Handy. Dieses Gerät zeigt, wer vorliest.'**
+  String get begleiter_hinweis;
+
+  /// Erzähler-Begleiter: verbunden
+  ///
+  /// In de, this message translates to:
+  /// **'{name} liest jetzt am eigenen Handy.'**
+  String begleiter_liest(String name);
+
+  /// Erzähler-Begleiter: Raum ließ sich nicht öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.'**
+  String get begleiter_fehler;
+
+  /// Erzähler-Begleiter: erneut öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Noch einmal versuchen'**
+  String get begleiter_nochmal;
+
+  /// Erzähler-Begleiter: Karte schließen, Raum bleibt offen
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück zum Abend'**
+  String get begleiter_zurueck;
+
+  /// Erzähler-Begleiter: Raum schließen
+  ///
+  /// In de, this message translates to:
+  /// **'Wieder am Pult lesen'**
+  String get begleiter_beenden;
+
+  /// Vorleser-Karte am Tisch-Gerät, während der Erzähler am Handy liest
+  ///
+  /// In de, this message translates to:
+  /// **'Der Text steht auf dem Handy von {name}.'**
+  String begleiter_handy_hinweis(String name);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

@@ -828,6 +828,11 @@ class RelayHost {
     }
   }
 
+  /// Der Raum hat sich ohne Nachricht eines Platzes geändert (etwa das
+  /// Reihum-Gerät hinter einem Erzähler-Begleiter): Alle Plätze bekommen ihre
+  /// Ansicht neu, wie nach einem Befehl.
+  void ansichtenNeu() => _geaendert();
+
   /// Nach jeder Änderung: eigener Platz sofort, Gäste entprellt (200 ms je
   /// Empfänger), nur bei geänderter Ansicht, gedeckelt auf [maxProSekunde]
   /// Nachrichten, immer die jüngste Fassung.

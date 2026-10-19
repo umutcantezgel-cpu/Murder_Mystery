@@ -163,11 +163,17 @@ class _ErzaehlerFeldState extends State<ErzaehlerFeld> with SingleTickerProvider
     // Vorleser-Sitz (M3): Wer nicht vorliest, sieht nur, dass vorgelesen wird.
     if (!s.istVorleser) {
       if (kennungen.isEmpty) return const SizedBox.shrink();
+      final wer = s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim();
       return VorleserKarte(
         name: s.vorleserName,
         texte: kennungen.length,
-        // Ist der Erzähler getrennt, übernimmt dieses Gerät nach einer Frist (online).
-        hinweis: s.uebernahmeFrist ? _de.vorleser_frist(s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim()) : null,
+        // Ist der Erzähler getrennt, übernimmt dieses Gerät nach einer Frist
+        // (online); reihum liest er mit dem Erzähler-Begleiter am Handy.
+        hinweis: s.uebernahmeFrist
+            ? _de.vorleser_frist(wer)
+            : (s.begleitung?.liest ?? false)
+                ? _de.begleiter_handy_hinweis(wer)
+                : null,
       );
     }
     if (s.erzaehlerAmPult && !s.pultOffen) {

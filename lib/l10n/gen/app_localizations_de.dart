@@ -3989,4 +3989,42 @@ class LDe extends L {
 
   @override
   String get aufgabe_assistenz_finale => 'Auflösung lesen, Belohnung holen';
+
+  @override
+  String get erzaehlerpult_handy => 'Am eigenen Handy lesen';
+
+  @override
+  String get begleiter_titel => 'Erzähler am eigenen Handy';
+
+  @override
+  String begleiter_anleitung(String name) {
+    return '$name öffnet Mordakte, tippt auf „Abend beitreten“ und gibt diesen Code ein.';
+  }
+
+  @override
+  String get begleiter_hinweis =>
+      'Danach stehen die Texte nur auf dem Handy. Dieses Gerät zeigt, wer vorliest.';
+
+  @override
+  String begleiter_liest(String name) {
+    return '$name liest jetzt am eigenen Handy.';
+  }
+
+  @override
+  String get begleiter_fehler =>
+      'Das Handy ließ sich nicht verbinden. Lest am Pult weiter oder versucht es noch einmal.';
+
+  @override
+  String get begleiter_nochmal => 'Noch einmal versuchen';
+
+  @override
+  String get begleiter_zurueck => 'Zurück zum Abend';
+
+  @override
+  String get begleiter_beenden => 'Wieder am Pult lesen';
+
+  @override
+  String begleiter_handy_hinweis(String name) {
+    return 'Der Text steht auf dem Handy von $name.';
+  }
 }

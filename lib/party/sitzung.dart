@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
 import 'daten.dart';
+import 'erzaehler_begleitung.dart';
 import 'runden_texte.dart';
 import 'stand/befragung_stand.dart';
 
@@ -214,14 +215,31 @@ class PartySitzung extends ChangeNotifier {
   // ---------------------------------------------------------------------------
   // Sitze und Vorleser (Langer Abend M3)
 
-  /// Liest dieses Gerät die Erzähltexte vor? An einem Gerät immer (mit einem
-  /// Erzähler am Tisch über das verdeckte Pult, [erzaehlerAmPult]); online nur
-  /// der Vorleser-Sitz des Raums. Wer nicht vorliest, sieht nur, dass gerade
-  /// vorgelesen wird (`ErzaehlerFeld`).
-  bool get istVorleser => true;
+  /// Liest dieses Gerät die Erzähltexte vor? An einem Gerät ja (mit einem
+  /// Erzähler am Tisch über das verdeckte Pult, [erzaehlerAmPult]), außer der
+  /// Erzähler liest am eigenen Handy mit ([begleitung]); ab dem Finale lesen
+  /// alle. Online nur der Vorleser-Sitz des Raums. Wer nicht vorliest, sieht
+  /// nur, dass gerade vorgelesen wird (`ErzaehlerFeld`).
+  bool get istVorleser => nachFinale || !(_begleitung?.liest ?? false);
 
   /// Name dessen, der gerade vorliest, wenn es nicht dieses Gerät ist; sonst leer.
-  String get vorleserName => '';
+  String get vorleserName => istVorleser ? '' : erzaehlerName;
+
+  ErzaehlerBegleitung? _begleitung;
+
+  /// Erzähler-Begleiter (nur reihum mit Erzähler am Tisch): Das Gerät öffnet
+  /// einen Raum nur mit dem Erzählersitz, der Erzähler liest am eigenen Handy.
+  /// Gehört dem Bildschirm des Abends, der ihn auch entsorgt; liegt nie im Journal.
+  ErzaehlerBegleitung? get begleitung => _begleitung;
+
+  set begleitung(ErzaehlerBegleitung? b) {
+    if (identical(b, _begleitung)) return;
+    _begleitung?.removeListener(_begleitungGeaendert);
+    _begleitung = b;
+    b?.addListener(_begleitungGeaendert);
+  }
+
+  void _begleitungGeaendert() => notifyListeners();
 
   /// Darf dieses Gerät „Weiter“ drücken? An einem Gerät immer; online nur, wer
   /// gerade leitet (der Erzähler, sonst der Detektiv, sonst der Gastgeber).

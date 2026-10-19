@@ -341,7 +341,7 @@ class SitzDienst implements GastgeberDienst {
 class LiveGast extends ChangeNotifier implements GastDienst {
   LiveGast(this.raum, {required this.spielerId, PartyDaten? daten}) : daten = daten ?? akteDaten('schlosskeller');
 
-  final SchlosskellerRaum raum;
+  final AbendRaum raum;
 
   @override
   final String spielerId;

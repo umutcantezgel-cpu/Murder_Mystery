@@ -14,6 +14,8 @@ final _de = LDe();
 /// Erzähler; erst „Ich bin …, zeig her“ öffnet das Pult
 /// ([PartySitzung.pultZeigen]). Danach liest er vor und deckt zu
 /// ([ErzaehlerpultZudecken]). Bis zum Finale; die Auflösung lesen alle.
+/// Bevorzugt liest der Erzähler am eigenen Handy mit
+/// ([PartySitzung.begleitung], „Am eigenen Handy lesen“).
 ///
 /// Der zugedeckte Zustand nennt nur, wie viele Texte warten: nie ein Wort daraus.
 class ErzaehlerpultZu extends StatelessWidget {
@@ -50,16 +52,28 @@ class ErzaehlerpultZu extends StatelessWidget {
             Text(l.erzaehlerpult_texte(texte), style: MPapierSchrift.leise),
           ],
           const SizedBox(height: MMass.s16),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: MKnopf(
-              text: l.erzaehlerpult_zeigen(name),
-              icon: Icons.menu_book_rounded,
-              onPressed: () {
-                Klang.instanz.spiele('siegel');
-                sitzung.pultZeigen();
-              },
-            ),
+          Wrap(
+            spacing: MMass.s8,
+            runSpacing: MMass.s8,
+            children: [
+              MKnopf(
+                text: l.erzaehlerpult_zeigen(name),
+                icon: Icons.menu_book_rounded,
+                onPressed: () {
+                  Klang.instanz.spiele('siegel');
+                  sitzung.pultZeigen();
+                },
+              ),
+              // Erzähler-Begleiter: Der Erzähler liest am eigenen Handy mit.
+              if (sitzung.begleitung case final b?)
+                MKnopf(
+                  key: const ValueKey('erzaehlerpult-handy'),
+                  text: l.erzaehlerpult_handy,
+                  art: MKnopfArt.zweit,
+                  icon: Icons.smartphone_rounded,
+                  onPressed: () => b.zeigen(context),
+                ),
+            ],
           ),
         ],
       ),
