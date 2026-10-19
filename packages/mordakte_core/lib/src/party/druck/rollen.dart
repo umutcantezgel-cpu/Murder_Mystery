@@ -44,7 +44,7 @@ Future<List<DruckDatei>> rollenheftDateien(DruckKontext k) async => [
     ];
 
 /// Das Rollenheft von [rolle] als eigene Datei.
-Future<DruckDatei> rollenheftDatei(DruckKontext k, String rolle) => druckTeil(
+Future<DruckDatei> rollenheftDatei(DruckKontext k, String rolle) => setzeDatei(
       k,
       '10-rollenheft-${dateiWort(k.figurName(rolle))}.pdf',
       '${k.ui('ui.druck.rollen.heft')} · ${k.figurName(rolle)}',

@@ -6098,6 +6098,150 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.'**
   String get abend_fortsetzen_veraltet;
+
+  /// Druck: Die Datei entsteht beim ersten Tipp
+  ///
+  /// In de, this message translates to:
+  /// **'Die Datei wird erstellt …'**
+  String get druck_datei_laedt;
+
+  /// Druck im Browser: Der zweite Tipp teilt die fertige Datei
+  ///
+  /// In de, this message translates to:
+  /// **'Teilen: {datei}'**
+  String druck_datei_teilen(String datei);
+
+  /// Druck im Browser: Der zweite Tipp lädt die fertige Datei herunter
+  ///
+  /// In de, this message translates to:
+  /// **'Herunterladen: {datei}'**
+  String druck_datei_laden(String datei);
+
+  /// Druck: Erstellen oder Teilen der Datei ist gescheitert
+  ///
+  /// In de, this message translates to:
+  /// **'Das hat nicht geklappt. Versuch es bitte noch einmal.'**
+  String get druck_datei_fehler;
+
+  /// Druckfassung: Überschrift der Rollenhefte je Person
+  ///
+  /// In de, this message translates to:
+  /// **'Rollenhefte einzeln senden'**
+  String get druck_je_person;
+
+  /// Druckfassung: Hinweis zu den Rollenheften je Person
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Person bekommt nur ihr eigenes Heft. Die Hefte gelten nur mit diesem Fall-Code.'**
+  String get druck_je_person_hinweis;
+
+  /// Druckfassung: Rollenheft einer Person teilen
+  ///
+  /// In de, this message translates to:
+  /// **'Senden an {name}'**
+  String druck_senden_an(String name);
+
+  /// Rollenvergabe reihum: Erzählerheft ohne Druckspiel
+  ///
+  /// In de, this message translates to:
+  /// **'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.'**
+  String get druck_erzaehlerheft_hinweis;
+
+  /// Akte: Knopf zu Steckbriefen und Charakterübersicht
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbriefe & Übersicht'**
+  String get detektei_akte_steckbriefe;
+
+  /// Steckbrief-Seite: Titel
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbriefe & Übersicht'**
+  String get steckbrief_titel;
+
+  /// Steckbrief-Seite: Hinweis unter dem Titel
+  ///
+  /// In de, this message translates to:
+  /// **'Für die Wochen vor dem Abend: ohne Geheimnisse und ohne Fall-Code. Ihr dürft alles verschicken.'**
+  String get steckbrief_hinweis;
+
+  /// Steckbrief-Seite: Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'Wie viele seid ihr?'**
+  String get steckbrief_personen;
+
+  /// Steckbrief-Seite: Personenzahl noch offen
+  ///
+  /// In de, this message translates to:
+  /// **'Wissen wir noch nicht'**
+  String get steckbrief_personen_offen;
+
+  /// Steckbrief-Seite: Personenzahl steht fest
+  ///
+  /// In de, this message translates to:
+  /// **'Steht fest'**
+  String get steckbrief_personen_fest;
+
+  /// Steckbrief-Seite: gewählte Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'{anzahl} Personen am Tisch, dazu der Detektiv'**
+  String steckbrief_personen_wert(String anzahl);
+
+  /// Steckbrief-Seite: Dateien
+  ///
+  /// In de, this message translates to:
+  /// **'Zum Verschicken'**
+  String get steckbrief_dateien;
+
+  /// Steckbrief-Seite: Gästeliste
+  ///
+  /// In de, this message translates to:
+  /// **'Gästeliste'**
+  String get steckbrief_gaeste;
+
+  /// Steckbrief-Seite: Hinweis zur Gästeliste
+  ///
+  /// In de, this message translates to:
+  /// **'Tragt ein, wer welche Figur spielt. Am Abend stehen die Namen schon in der Einrichtung.'**
+  String get steckbrief_gaeste_hinweis;
+
+  /// Steckbrief-Seite: neuer Gast
+  ///
+  /// In de, this message translates to:
+  /// **'Gast eintragen'**
+  String get steckbrief_gast_neu;
+
+  /// Steckbrief-Seite: Name eines Gastes
+  ///
+  /// In de, this message translates to:
+  /// **'Name'**
+  String get steckbrief_gast_name;
+
+  /// Steckbrief-Seite: Gast ohne Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Noch keine Figur'**
+  String get steckbrief_gast_ohne;
+
+  /// Steckbrief-Seite: gewählte Figur fällt bei dieser Personenzahl weg
+  ///
+  /// In de, this message translates to:
+  /// **'Bei {anzahl} Personen nicht dabei'**
+  String steckbrief_gast_nicht_dabei(String anzahl);
+
+  /// Steckbrief-Seite: Gast löschen
+  ///
+  /// In de, this message translates to:
+  /// **'Gast entfernen'**
+  String get steckbrief_gast_entfernen;
+
+  /// Steckbrief-Seite: Steckbrief eines Gastes teilen
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbrief senden'**
+  String get steckbrief_senden;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

@@ -1,9 +1,12 @@
 // Druck: Vorschau der Steckbriefe auf Papierweiß, je Person ein Mappen-Knopf,
-// kein Mappeninhalt im Baum; ohne Browser der Hinweis aufs Drucken im Browser.
+// kein Mappeninhalt im Baum. In der App gehen Steckbriefe und Mappen an das Teilen
+// des Systems (M5, A-059); nur wenn das scheitert, kommt der Hinweis aufs Drucken im Browser.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/krimidinner/abschnitt_ansicht.dart';
 import 'package:mordakte/krimidinner/gewoelbe_seite.dart';
+import 'package:mordakte/party/datei_teilen.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'hilfe.dart';
 
@@ -43,7 +46,38 @@ void main() {
     expect(mappenInhaltSichtbar(tester, 6), isFalse);
   });
 
-  testWidgets('Speichern ohne Browser zeigt den Hinweis, Mappen bleiben verdeckt', (tester) async {
+  testWidgets('In der App gehen Steckbriefe und Mappen als HTML an das Teilen des Systems', (tester) async {
+    final geteilt = <ShareParams>[];
+    final vorher = dateiTeilenUeber;
+    dateiTeilenUeber = (p) async {
+      geteilt.add(p);
+      return const ShareResult('ok', ShareResultStatus.success);
+    };
+    addTearDown(() => dateiTeilenUeber = vorher);
+    groesse(tester, const Size(800, 3000));
+    await tester.pumpWidget(gewoelbeApp(teil: GewoelbeTeil.druck, n: 5));
+    await bilder(tester);
+
+    await tester.tap(find.text('Als Datei speichern'));
+    await bilder(tester);
+    expect(geteilt.single.fileNameOverrides, ['gewoelbe-steckbriefe-5.html']);
+    expect(geteilt.single.files!.single.mimeType, 'text/html');
+    expect(find.text('Gespeichert: gewoelbe-steckbriefe-5.html'), findsOneWidget);
+    expect(find.text(nurBrowser), findsNothing);
+
+    await tester.ensureVisible(find.text('Mappe für Merle Hartwig'));
+    await tester.tap(find.text('Mappe für Merle Hartwig'));
+    await bilder(tester);
+    expect(geteilt, hasLength(2));
+    expect(geteilt.last.fileNameOverrides!.single, startsWith('gewoelbe-mappe-'));
+    expect(find.text(nurBrowser), findsNothing);
+    expect(mappenInhaltSichtbar(tester, 5), isFalse);
+  });
+
+  testWidgets('Scheitert das Teilen, zeigt Speichern den Hinweis, Mappen bleiben verdeckt', (tester) async {
+    final vorher = dateiTeilenUeber;
+    dateiTeilenUeber = (p) async => throw UnsupportedError('kein Teilen');
+    addTearDown(() => dateiTeilenUeber = vorher);
     groesse(tester, const Size(800, 3000));
     await tester.pumpWidget(gewoelbeApp(teil: GewoelbeTeil.druck, n: 5));
     await bilder(tester);

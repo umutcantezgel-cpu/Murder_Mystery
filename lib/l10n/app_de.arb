@@ -2285,5 +2285,126 @@
   "abend_fortsetzen_veraltet": "Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.",
   "@abend_fortsetzen_veraltet": {
     "description": "Detektei: alter Abendstand wurde verworfen"
+  },
+  "druck_datei_laedt": "Die Datei wird erstellt …",
+  "@druck_datei_laedt": {
+    "description": "Druck: Die Datei entsteht beim ersten Tipp"
+  },
+  "druck_datei_teilen": "Teilen: {datei}",
+  "@druck_datei_teilen": {
+    "description": "Druck im Browser: Der zweite Tipp teilt die fertige Datei",
+    "placeholders": {
+      "datei": {
+        "type": "String"
+      }
+    }
+  },
+  "druck_datei_laden": "Herunterladen: {datei}",
+  "@druck_datei_laden": {
+    "description": "Druck im Browser: Der zweite Tipp lädt die fertige Datei herunter",
+    "placeholders": {
+      "datei": {
+        "type": "String"
+      }
+    }
+  },
+  "druck_datei_fehler": "Das hat nicht geklappt. Versuch es bitte noch einmal.",
+  "@druck_datei_fehler": {
+    "description": "Druck: Erstellen oder Teilen der Datei ist gescheitert"
+  },
+  "druck_je_person": "Rollenhefte einzeln senden",
+  "@druck_je_person": {
+    "description": "Druckfassung: Überschrift der Rollenhefte je Person"
+  },
+  "druck_je_person_hinweis": "Jede Person bekommt nur ihr eigenes Heft. Die Hefte gelten nur mit diesem Fall-Code.",
+  "@druck_je_person_hinweis": {
+    "description": "Druckfassung: Hinweis zu den Rollenheften je Person"
+  },
+  "druck_senden_an": "Senden an {name}",
+  "@druck_senden_an": {
+    "description": "Druckfassung: Rollenheft einer Person teilen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "druck_erzaehlerheft_hinweis": "Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.",
+  "@druck_erzaehlerheft_hinweis": {
+    "description": "Rollenvergabe reihum: Erzählerheft ohne Druckspiel"
+  },
+  "detektei_akte_steckbriefe": "Steckbriefe & Übersicht",
+  "@detektei_akte_steckbriefe": {
+    "description": "Akte: Knopf zu Steckbriefen und Charakterübersicht"
+  },
+  "steckbrief_titel": "Steckbriefe & Übersicht",
+  "@steckbrief_titel": {
+    "description": "Steckbrief-Seite: Titel"
+  },
+  "steckbrief_hinweis": "Für die Wochen vor dem Abend: ohne Geheimnisse und ohne Fall-Code. Ihr dürft alles verschicken.",
+  "@steckbrief_hinweis": {
+    "description": "Steckbrief-Seite: Hinweis unter dem Titel"
+  },
+  "steckbrief_personen": "Wie viele seid ihr?",
+  "@steckbrief_personen": {
+    "description": "Steckbrief-Seite: Personenzahl"
+  },
+  "steckbrief_personen_offen": "Wissen wir noch nicht",
+  "@steckbrief_personen_offen": {
+    "description": "Steckbrief-Seite: Personenzahl noch offen"
+  },
+  "steckbrief_personen_fest": "Steht fest",
+  "@steckbrief_personen_fest": {
+    "description": "Steckbrief-Seite: Personenzahl steht fest"
+  },
+  "steckbrief_personen_wert": "{anzahl} Personen am Tisch, dazu der Detektiv",
+  "@steckbrief_personen_wert": {
+    "description": "Steckbrief-Seite: gewählte Personenzahl",
+    "placeholders": {
+      "anzahl": {
+        "type": "String"
+      }
+    }
+  },
+  "steckbrief_dateien": "Zum Verschicken",
+  "@steckbrief_dateien": {
+    "description": "Steckbrief-Seite: Dateien"
+  },
+  "steckbrief_gaeste": "Gästeliste",
+  "@steckbrief_gaeste": {
+    "description": "Steckbrief-Seite: Gästeliste"
+  },
+  "steckbrief_gaeste_hinweis": "Tragt ein, wer welche Figur spielt. Am Abend stehen die Namen schon in der Einrichtung.",
+  "@steckbrief_gaeste_hinweis": {
+    "description": "Steckbrief-Seite: Hinweis zur Gästeliste"
+  },
+  "steckbrief_gast_neu": "Gast eintragen",
+  "@steckbrief_gast_neu": {
+    "description": "Steckbrief-Seite: neuer Gast"
+  },
+  "steckbrief_gast_name": "Name",
+  "@steckbrief_gast_name": {
+    "description": "Steckbrief-Seite: Name eines Gastes"
+  },
+  "steckbrief_gast_ohne": "Noch keine Figur",
+  "@steckbrief_gast_ohne": {
+    "description": "Steckbrief-Seite: Gast ohne Figur"
+  },
+  "steckbrief_gast_nicht_dabei": "Bei {anzahl} Personen nicht dabei",
+  "@steckbrief_gast_nicht_dabei": {
+    "description": "Steckbrief-Seite: gewählte Figur fällt bei dieser Personenzahl weg",
+    "placeholders": {
+      "anzahl": {
+        "type": "String"
+      }
+    }
+  },
+  "steckbrief_gast_entfernen": "Gast entfernen",
+  "@steckbrief_gast_entfernen": {
+    "description": "Steckbrief-Seite: Gast löschen"
+  },
+  "steckbrief_senden": "Steckbrief senden",
+  "@steckbrief_senden": {
+    "description": "Steckbrief-Seite: Steckbrief eines Gastes teilen"
   }
 }
