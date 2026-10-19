@@ -296,6 +296,20 @@ void main() {
     }
   });
 
+  test('Erzählerheft: Hat eine Befragte nichts zu sagen, steht das in der dritten Person, nie in der Du-Form des Rollenhefts', () async {
+    // Bei zwölf Personen hat das Erzählerpaket für manche Befragte keine Zeile (Joanna).
+    final leer = [
+      for (var r = 1; r <= 3; r++)
+        for (final b in k.satz.erzaehler[r]!.befragungen)
+          if (b.antwort.isEmpty) b.rolle,
+    ];
+    expect(leer, isNotEmpty, reason: 'Die Probe braucht eine leere Antwort');
+    for (final (art, text) in [('Druckspiel', heft), ('am Bildschirm', flach((await _heft(k, druckspiel: false)).text))]) {
+      expect(text, isNot(contains(flach(k.ui('ui.druck.rollen.nichts')))), reason: art);
+      expect(_zaehle(text, flach(k.ui('ui.druck.erzaehler.nichts'))), leer.length, reason: art);
+    }
+  });
+
   test(
     'Personenzahl 4 und 20: beide Teile A4 ohne Überlauf, mit Personenzahl und Anhang',
     () async {

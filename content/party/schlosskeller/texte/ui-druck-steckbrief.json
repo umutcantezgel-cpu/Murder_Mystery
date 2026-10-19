@@ -116,6 +116,10 @@
       "text": "Antwort"
     },
     {
+      "id": "ui.druck.erzaehler.nichts",
+      "text": "Weiß dazu nichts Neues."
+    },
+    {
       "id": "ui.druck.erzaehler.nur_du",
       "text": "Nur für dich. Der Detektiv liest dieses Heft nicht, denn hier stehen die Antworten seiner Befragungen."
     },

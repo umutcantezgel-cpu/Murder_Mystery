@@ -389,7 +389,8 @@ pw.Widget _lage(DruckKontext k, Map<String, String> lage) => pw.Padding(
 /// Die Befragungen der Runde [r]: feste mit Thema und Fragen, dann wie viele
 /// freie Wahlen es gibt und unter wem ([frei] ist der Bausteinstamm der Zeile).
 /// Mit [antworten] (Erzählerheft) folgt jeder Befragung ihre Antwort aus dem
-/// Erzählerpaket; der Detektivbogen zeigt nie eine Antwort.
+/// Erzählerpaket, ohne Zeile ein eigener Satz über die Befragte (nicht die
+/// Du-Form des Rollenhefts); der Detektivbogen zeigt nie eine Antwort.
 List<pw.Widget> _befragungen(DruckKontext k, int r, String frei, {bool antworten = false}) {
   final br = k.satz.befragungen[r]!;
   final antwort = {
@@ -406,7 +407,7 @@ List<pw.Widget> _befragungen(DruckKontext k, int r, String frei, {bool antworten
           pw.Padding(padding: const pw.EdgeInsets.only(left: 10), child: _marke(k, k.ui('ui.druck.erzaehler.antwort'))),
           pw.Padding(
             padding: const pw.EdgeInsets.only(left: 10, top: 2, bottom: 6),
-            child: pw.Text(zeilen.isEmpty ? k.ui('ui.druck.rollen.nichts') : [for (final z in zeilen) '– $z'].join('\n'), style: k.stil.text(10)),
+            child: pw.Text(zeilen.isEmpty ? k.ui('ui.druck.erzaehler.nichts') : [for (final z in zeilen) '– $z'].join('\n'), style: k.stil.text(10)),
           ),
         ],
       ]);
