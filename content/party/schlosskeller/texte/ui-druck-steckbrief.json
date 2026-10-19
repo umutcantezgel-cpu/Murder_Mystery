@@ -1,0 +1,131 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Bausteine für Steckbriefe, Charakterübersicht und Erzählerheft im Druck (K3, A-059, M5). Steckbriefe und Übersicht kommen ohne Fall-Code aus und verraten nichts über den Fall. Nur in dieser Akte; die geteilten ui-Dateien bleiben unverändert.",
+  "eintraege": [
+    {
+      "id": "ui.druck.steckbrief.marke",
+      "text": "Steckbrief"
+    },
+    {
+      "id": "ui.druck.steckbrief.aussprache",
+      "text": "Sprich: {aussprache}"
+    },
+    {
+      "id": "ui.druck.steckbrief.alter",
+      "text": "{alter} Jahre"
+    },
+    {
+      "id": "ui.druck.steckbrief.alltag",
+      "text": "Im Alltag"
+    },
+    {
+      "id": "ui.druck.steckbrief.wer",
+      "text": "Wer du bist"
+    },
+    {
+      "id": "ui.druck.steckbrief.kostuem",
+      "text": "Kostümtipp"
+    },
+    {
+      "id": "ui.druck.steckbrief.auftritt",
+      "text": "So trittst du auf"
+    },
+    {
+      "id": "ui.druck.steckbrief.satz",
+      "text": "Dein Satz am Abend"
+    },
+    {
+      "id": "ui.druck.steckbrief.zitat",
+      "text": "„{satz}“"
+    },
+    {
+      "id": "ui.druck.steckbrief.besetzung",
+      "text": "Hinweis zur Besetzung"
+    },
+    {
+      "id": "ui.druck.steckbrief.ohne_geheimnis",
+      "text": "Dieser Steckbrief verrät nichts über den Fall. Dein Rollenheft mit deinen Geheimnissen bekommst du erst am Abend."
+    },
+    {
+      "id": "ui.druck.steckbrief.detektiv.m",
+      "text": "Der Detektiv"
+    },
+    {
+      "id": "ui.druck.steckbrief.detektiv.w",
+      "text": "Die Detektivin"
+    },
+    {
+      "id": "ui.druck.steckbrief.detektiv_titel",
+      "text": "Gast der Clique"
+    },
+    {
+      "id": "ui.druck.steckbrief.detektiv_alltag",
+      "text": "Ermittelt in dieser Nacht und stellt die Fragen."
+    },
+    {
+      "id": "ui.druck.steckbrief.detektiv_besetzung",
+      "text": "Jede Person kann den Detektiv spielen, egal welches Geschlecht sie hat."
+    },
+    {
+      "id": "ui.druck.uebersicht.marke",
+      "text": "Charakterübersicht"
+    },
+    {
+      "id": "ui.druck.uebersicht.mit_zahl",
+      "text": "Bei {anzahl} Personen am Tisch sind diese Figuren dabei. Den Detektiv gibt es immer."
+    },
+    {
+      "id": "ui.druck.uebersicht.ohne_zahl",
+      "text": "Welche Figuren dabei sind, hängt davon ab, wie viele ihr seid. Den Detektiv gibt es immer."
+    },
+    {
+      "id": "ui.druck.uebersicht.waehlen",
+      "text": "Sucht euch eine Figur aus. Wer einlädt, trägt eure Wahl ein und schickt euch den Steckbrief."
+    },
+    {
+      "id": "ui.druck.uebersicht.detektiv",
+      "text": "Detektiv oder Detektivin"
+    },
+    {
+      "id": "ui.druck.datei.uebersicht",
+      "text": "Charakterübersicht"
+    },
+    {
+      "id": "ui.druck.datei.steckbriefe",
+      "text": "Übersicht und alle Steckbriefe"
+    },
+    {
+      "id": "ui.druck.datei.alles",
+      "text": "Alles in einer Datei"
+    },
+    {
+      "id": "ui.druck.erzaehler.dia",
+      "text": "Dia {nr}"
+    },
+    {
+      "id": "ui.druck.erzaehler.tisch",
+      "text": "Am Tisch"
+    },
+    {
+      "id": "ui.druck.erzaehler.tisch_zeile",
+      "text": "{sprecher} mit {partner}: {thema}"
+    },
+    {
+      "id": "ui.druck.erzaehler.antwort",
+      "text": "Antwort"
+    },
+    {
+      "id": "ui.druck.erzaehler.nur_du",
+      "text": "Nur für dich. Der Detektiv liest dieses Heft nicht, denn hier stehen die Antworten seiner Befragungen."
+    },
+    {
+      "id": "ui.druck.erzaehler.app",
+      "text": "Die App führt durch den Abend. Mit diesem Heft liest du vor und behältst den Tisch im Blick."
+    },
+    {
+      "id": "ui.druck.erzaehler.app_rest",
+      "text": "Entscheidungen, Gruppenwahl, Hinweis und Resümee zeigt die App. Den Hinweis siehst du dort nur kurz."
+    }
+  ]
+}

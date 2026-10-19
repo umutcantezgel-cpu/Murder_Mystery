@@ -1,0 +1,216 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "hinweis": "Steckbriefe für die Zeit vor dem Abend (K3, A-059): je Figur und für den Detektiv ein Kostümtipp, zwei bis drei Stichpunkte zum Auftritt und ein typischer Satz. Kartenformat R17. Ohne Fallbezug: keine Uhrzeit, kein Raum, kein Gegenstand der Ermittlung, kein Name einer Figur, kein Geburtstag. Der Satz steht ohne Anführungszeichen; die Steckbriefe setzen sie.",
+  "eintraege": [
+    {
+      "figur": "ahmet",
+      "kostuem": "Schwarzer Strickpulli, dunkle Jeans, Brille, blaues Armband",
+      "auftritt": [
+        "Verteil Aufgaben, bevor jemand fragt",
+        "Sprich schnell und voller Ideen",
+        "Begrüß jeden Gast mit Handschlag"
+      ],
+      "satz": "Keine Sorge, ich kümmere mich darum."
+    },
+    {
+      "figur": "fatma",
+      "kostuem": "Beerenroter Mantel, dunkler Rollkragen, taubengraues Kopftuch",
+      "auftritt": [
+        "Lob schöne Farben und Muster",
+        "Sprich leise und lächle viel",
+        "Frag andere nach ihrer Meinung"
+      ],
+      "satz": "Die Farben hier sind einfach wunderschön."
+    },
+    {
+      "figur": "olli",
+      "kostuem": "Grauer Kapuzenpulli, dunkelblaue Weste, Hose mit Seitentaschen",
+      "auftritt": [
+        "Pack überall mit an",
+        "Sprich ruhig und gutmütig",
+        "Erzähl von deinem letzten Umzug"
+      ],
+      "satz": "Pack mal mit an, dann geht es schneller."
+    },
+    {
+      "figur": "can",
+      "kostuem": "Knallgelber Kapuzenpulli, bunte Turnschuhe, weite Jeans",
+      "auftritt": [
+        "Reiß Witze, auch wenn keiner lacht",
+        "Film lustige Momente für deine Videos",
+        "Bleib nie lange still sitzen"
+      ],
+      "satz": "Wartet, das muss ich filmen!"
+    },
+    {
+      "figur": "leyla",
+      "kostuem": "Türkise Latzschürze, beiger Pulli, Holzlöffel in der Hand",
+      "auftritt": [
+        "Biete allen etwas vom Buffet an",
+        "Frag jeden nach seinem Lieblingsgericht",
+        "Achte darauf, dass jeder satt wird"
+      ],
+      "satz": "Habt ihr schon vom Buffet probiert?"
+    },
+    {
+      "figur": "emine",
+      "kostuem": "Olivgrüner Steppmantel, beiges Kopftuch, schwarze Stiefel",
+      "auftritt": [
+        "Sprich ruhig wie vor deiner Klasse",
+        "Hab immer eine Kanne Tee dabei",
+        "Lob andere für gute Ideen"
+      ],
+      "satz": "Jetzt bitte alle schön der Reihe nach."
+    },
+    {
+      "figur": "tim",
+      "kostuem": "Rot-schwarz kariertes Hemd, derbe Arbeitshose",
+      "auftritt": [
+        "Gib ungefragt gute Ratschläge",
+        "Erzähl von deinem letzten Bastelprojekt",
+        "Lach laut über deine eigenen Witze"
+      ],
+      "satz": "Lass mal, das schau ich mir an."
+    },
+    {
+      "figur": "johanna",
+      "kostuem": "Violette Strickjacke, weißes Oberteil, schwarze Stoffhose",
+      "auftritt": [
+        "Ruf alle für Gruppenbilder zusammen",
+        "Erzähl von schönen Hochzeiten",
+        "Bleib immer in Bewegung"
+      ],
+      "satz": "Alle zusammenrücken und bitte lächeln!"
+    },
+    {
+      "figur": "murat",
+      "kostuem": "Lederjacke in Dunkelbraun, weißer Rollkragen, Jeans",
+      "auftritt": [
+        "Zähl nach, ob genug Essen da ist",
+        "Nimm jedes Lob fürs Essen gern an",
+        "Erzähl vom Betrieb mit deiner Schwester"
+      ],
+      "satz": "Für Nachschub ist bestens gesorgt."
+    },
+    {
+      "figur": "zeynep",
+      "kostuem": "Minzgrüner Pulli, verkehrte Kappe, weiße Kopfhörer am Hals",
+      "auftritt": [
+        "Feuere alle an wie beim Training",
+        "Sprich laut und voller Schwung",
+        "Mach aus allem einen Wettkampf"
+      ],
+      "satz": "Los, Leute, mehr Einsatz!"
+    },
+    {
+      "figur": "baran",
+      "kostuem": "Dunkelgrauer Kapuzenpulli mit neongrünen Kordeln, kleine Musikbox",
+      "auftritt": [
+        "Frag alle nach ihren Musikwünschen",
+        "Wipp im Takt, auch ohne Musik",
+        "Erzähl begeistert von guten Liedern"
+      ],
+      "satz": "Noch ein Musikwunsch? Ich hab alles dabei."
+    },
+    {
+      "figur": "meryem",
+      "kostuem": "Blaues Jeanshemd, Arbeitshose, schwere Schnürstiefel",
+      "auftritt": [
+        "Erzähl gern von deinem Wald",
+        "Pack zu, wo es praktisch wird",
+        "Lach über dich selbst"
+      ],
+      "satz": "Im Wald ist es nie so laut."
+    },
+    {
+      "figur": "serkan",
+      "kostuem": "Stahlblaue Steppweste, grauer Pulli, dunkle Kappe",
+      "auftritt": [
+        "Frag jeden, wann er heimwill",
+        "Plane die Heimfahrt für alle",
+        "Bleib ruhig, wenn es hektisch wird"
+      ],
+      "satz": "Wer fährt nachher mit wem?"
+    },
+    {
+      "figur": "aylin",
+      "kostuem": "Taubenblaue Strickjacke, weiße Bluse, schwarze Stoffhose",
+      "auftritt": [
+        "Sitz kerzengerade und bleib sachlich",
+        "Halte Ordnung in allen Dingen",
+        "Klick beim Nachdenken mit dem Kugelschreiber"
+      ],
+      "satz": "Ordnung ist das halbe Leben."
+    },
+    {
+      "figur": "kaan",
+      "kostuem": "Aschgrauer Kapuzenpulli, Brille, Bleistift hinter dem Ohr",
+      "auftritt": [
+        "Bewundere laut die alten Mauern",
+        "Miss mit dem Maßband alles nach",
+        "Erklär gern, wie man früher baute"
+      ],
+      "satz": "Schaut euch nur diese alten Mauern an!"
+    },
+    {
+      "figur": "dilara",
+      "kostuem": "Pflaumenfarbenes Samtkleid, lange Strickjacke, Lupe an der Kette",
+      "auftritt": [
+        "Erzähl von deinem besten Flohmarktfund",
+        "Feilsche aus Spaß um alles",
+        "Sprich gern über Kunst"
+      ],
+      "satz": "Jeder Trödel erzählt eine Geschichte."
+    },
+    {
+      "figur": "enes",
+      "kostuem": "Weißes Hemd, hochgekrempelte Ärmel, schwarze Schürze",
+      "auftritt": [
+        "Biete allen ungefragt Tee an",
+        "Hör aufmerksam zu",
+        "Bleib freundlich, auch wenn es laut wird"
+      ],
+      "satz": "Noch ein Glas Tee? Ich bestehe darauf."
+    },
+    {
+      "figur": "selin",
+      "kostuem": "Weißer Fransenschal, rosa Strickpulli, helle Jeans",
+      "auftritt": [
+        "Zuck bei lauten Geräuschen zusammen",
+        "Zieh den Schal bis übers Kinn",
+        "Erzähl begeistert von seltenen Pflanzen"
+      ],
+      "satz": "Habt ihr das auch gehört?"
+    },
+    {
+      "figur": "hakan",
+      "kostuem": "Schokobraune Steppjacke, beiger Rollkragen, Teetasse in der Hand",
+      "auftritt": [
+        "Schlichte jeden kleinen Streit",
+        "Hör lieber zu, als zu reden",
+        "Bleib ruhig und aufrecht"
+      ],
+      "satz": "Lasst uns das in Ruhe klären."
+    },
+    {
+      "figur": "tugba",
+      "kostuem": "Rostoranges Jackett, goldfarbenes Kopftuch, schmale Metallbrille",
+      "auftritt": [
+        "Ruf alle zum nächsten Programmpunkt",
+        "Achte darauf, dass alles pünktlich läuft",
+        "Bring gute Laune in jede Runde"
+      ],
+      "satz": "Laut Plan geht es jetzt weiter!"
+    },
+    {
+      "figur": "detective",
+      "kostuem": "Heller Mantel, karierter Hut, Brille, Seifenblasenpfeife",
+      "auftritt": [
+        "Hör genau hin und frag nach",
+        "Schreib dir alles Wichtige auf",
+        "Bleib freundlich, aber hartnäckig"
+      ],
+      "satz": "Erzähl mir mehr davon."
+    }
+  ]
+}

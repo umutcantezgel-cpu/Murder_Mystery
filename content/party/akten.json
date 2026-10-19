@@ -10,9 +10,10 @@
       "vorlage": "content/scenarios/ravensmoor.json",
       "faehigkeiten": [
         "druckspiel",
+        "steckbriefe",
         "klassen"
       ],
-      "inhalt": "96a27eb38c7b92d6"
+      "inhalt": "b5a1d6756e3c20a8"
     },
     {
       "id": "gewoelbe",
