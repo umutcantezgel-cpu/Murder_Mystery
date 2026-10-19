@@ -296,5 +296,100 @@ void main() {
       expect([innen.detektivGeraet, innen.erzaehlerGeraet], ['p3', 'p0']);
       expect({for (var i = 0; i < 6; i++) ?innen.rolleVon('p$i')}, hasLength(4));
     });
+
+    test('Start: Liegt die Rollenzahl im Raum, lehnt er eine andere ab und behält die Zuteilung', () {
+      final r = _raum();
+      _beitreten(r, 4);
+      _befehl(r, 'p0', 'besetzung', {'rollen': 7});
+      _befehl(r, 'p0', 'zuteilen', {'spieler': 'p1', 'rolle': besetzt7[6]});
+      _befehl(r, 'p1', 'bereit', {'wert': true});
+      // Mit 6 Rollen fiele die Figur, die alle in der Lobby gesehen haben, still weg.
+      expect(() => _befehl(r, 'p0', 'start', {'rollen': 6}), throwsA(_fehler('invalid')));
+      expect([r.vorStart, r.lobbyRollen, _platz(r, 'p1')['figur']], [true, 7, besetzt7[6]]);
+      _befehl(r, 'p0', 'start', {'rollen': 7});
+      expect([r.zustandFuer('p1')['rollen'], r.rolleVon('p1')], [7, besetzt7[6]]);
+    });
+  });
+
+  group('Detektiv-Sitz neu vergeben (detektivNeu)', () {
+    /// Gastgeber p0 liest vor, p1 ermittelt mit Klasse, p2 bis p4 spielen Figuren.
+    SchlosskellerRaum gestartet() {
+      final r = _raum(gastgeberSitz: Sitz.erzaehler);
+      _beitreten(r, 5);
+      _befehl(r, 'p0', 'sitz', {'spieler': 'p1', 'sitz': 'detektiv', 'klasse': 'profiler'});
+      _befehl(r, 'p1', 'bereit', {'wert': true});
+      _befehl(r, 'p0', 'start', {'rollen': 4});
+      return r;
+    }
+
+    test('Nur der Gastgeber, nur nach dem Start und nur, wenn der Detektiv fehlt', () {
+      final lobby = _raum(gastgeberSitz: Sitz.erzaehler);
+      _beitreten(lobby, 3);
+      expect(() => _befehl(lobby, 'p0', 'detektivNeu', {'spieler': 'p2'}), throwsA(_fehler('not_started')));
+      final r = gestartet();
+      expect(() => _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p2'}), throwsA(_fehler('invalid')), reason: 'Der Detektiv ist da');
+      r.verbunden('p1', false);
+      expect(() => _befehl(r, 'p2', 'detektivNeu', {'spieler': 'p2'}), throwsA(_fehler('not_host')));
+      for (final ziel in ['p1', 'p9', '']) {
+        expect(() => _befehl(r, 'p0', 'detektivNeu', {'spieler': ziel}), throwsA(_fehler('invalid')), reason: ziel);
+      }
+      r.verbunden('p3', false);
+      expect(() => _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p3'}), throwsA(_fehler('invalid')), reason: 'Ziel getrennt');
+      expect(() => _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p2', 'klasse': 'forensic'}), throwsA(_fehler('invalid')));
+      expect(r.detektivGeraet, 'p1');
+    });
+
+    test('Ein Gast übernimmt: Er tauscht den Platz mit dem Detektiv, die Klasse bleibt beim Sitz', () {
+      final r = gestartet();
+      final figur = r.rolleVon('p2')!;
+      final rollen = {for (var i = 0; i < 5; i++) ?r.rolleVon('p$i')};
+      for (final id in ['p2', 'p3', 'p4']) {
+        _befehl(r, id, 'rollenGelesen');
+      }
+      r.verbunden('p1', false);
+      _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p2'});
+      expect([r.detektivGeraet, r.ermittler, r.sitzVon('p1'), r.sitzVon('p2')], ['p2', 'p2', Sitz.rolle, Sitz.detektiv]);
+      expect([r.rolleVon('p1'), r.rolleVon('p2')], [figur, null]);
+      expect({for (var i = 0; i < 5; i++) ?r.rolleVon('p$i')}, rollen, reason: 'Dieselben Figuren am Tisch');
+      expect(r.gelesen, contains(figur), reason: 'Gelesen ist die Figur, nicht das Gerät');
+      final neu = _map(r.zustandFuer('p2')['privat']);
+      expect([neu['detektiv'], neu['klasse'], neu.containsKey('dossier')], [true, 'profiler', false]);
+      expect(_platz(r, 'p2')['sitz'], 'detektiv');
+      // Der bisherige Detektiv kommt zurück und spielt die Figur seines Nachfolgers.
+      r.verbunden('p1', true);
+      final alt = _map(r.zustandFuer('p1')['privat']);
+      expect([alt['detektiv'], alt['rolle'], alt.containsKey('klasse'), alt.containsKey('dossier')], [false, figur, false, true]);
+      expect(() => _befehl(r, 'p1', 'weiter'), throwsA(_fehler('not_host')));
+      _befehl(r, 'p0', 'weiter');
+      expect(r.zustandFuer('p0')['phase'], 'intro');
+    });
+
+    test('Der Gastgeber übernimmt selbst; wer zurückkommt, sitzt auf dem Erzähler-Sitz', () {
+      final r = gestartet();
+      r.verlassen('p1');
+      expect(r.ermittler, 'p0', reason: 'Bis dahin vertritt der Gastgeber');
+      _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p0'});
+      expect([r.detektivGeraet, r.erzaehlerGeraet, r.vorleser], ['p0', 'p1', 'p0']);
+      expect(_map(r.zustandFuer('p0')['privat'])['klasse'], 'profiler');
+      expect(r.beitreten('p1', 'Person 1'), isTrue);
+      expect([r.sitzVon('p1'), r.vorleser, r.rolleVon('p1')], [Sitz.erzaehler, 'p1', null]);
+      expect(() => _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p2'}), throwsA(_fehler('invalid')), reason: 'Der Detektiv ist da');
+    });
+
+    test('Wiederherstellung über ProtokollRaum ergibt dieselben Sitze nach dem Wechsel', () {
+      final r = ProtokollRaum(_raum(gastgeberSitz: Sitz.erzaehler));
+      _beitreten(r, 5);
+      _befehl(r, 'p0', 'sitz', {'spieler': 'p1', 'sitz': 'detektiv', 'klasse': 'profiler'});
+      _befehl(r, 'p1', 'bereit', {'wert': true});
+      _befehl(r, 'p0', 'start', {'rollen': 4});
+      r.verbunden('p1', false);
+      _befehl(r, 'p0', 'detektivNeu', {'spieler': 'p3'});
+      r.verbunden('p1', true);
+      final neu = ProtokollRaum.wiederherstellen(r.protokoll, () => _raum(gastgeberSitz: Sitz.erzaehler));
+      for (var i = 0; i < 5; i++) {
+        expect(neu.zustandFuer('p$i'), r.zustandFuer('p$i'), reason: 'p$i');
+      }
+      expect((neu.innen as SchlosskellerRaum).detektivGeraet, 'p3');
+    });
   });
 }

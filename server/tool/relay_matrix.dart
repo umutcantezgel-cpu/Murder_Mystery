@@ -32,7 +32,8 @@
 /// (auch nach der Wiederherstellung). Geprüft wird zusätzlich: Erzähltext nur
 /// beim Vorleser, Erzählerpaket nur beim Erzähler und nie mit verbirgt,
 /// Tatwissen oder Tarnung, npc-Notizen beim Detektiv, Klasse beim Detektiv und
-/// beim Gastgeber, Rechte je Sitz.
+/// beim Gastgeber, Rechte je Sitz. Zuletzt fällt ein Gast-Detektiv aus, und der
+/// Gastgeber vergibt seinen Sitz neu (auch über einen Neustart des Gastgebers).
 library;
 
 import 'dart:async';
@@ -1015,6 +1016,129 @@ Future<void> _appNeustart(_Platz p, List<RelayGast> gaeste, List<SpeicherAblage>
   await _bis(() => _list(host.latest['spieler']).firstWhere((s) => s['id'] == idVorher)['online'] == true ? true : null, 'Gast wieder online');
 }
 
+/// Ausfall des Gast-Detektivs über das Relais (Nachschliff M3): Host = Erzähler,
+/// Gast1 = Detektiv mit Klasse. Ist Gast1 getrennt, gibt der Gastgeber den Sitz an
+/// Gast2 (`detektivNeu`); beide tauschen die Plätze, die Klasse bleibt beim Sitz.
+/// Nach einem Absturz des Gastgebers spielt das Protokoll denselben Sitzplan ein;
+/// Gast1 kommt mit seinem Schlüssel zurück und spielt die Figur von Gast2.
+Future<void> _detektivAusfall({required RelayParameter relay, required Kanon kanon, required Texte texte}) async {
+  _stage = 'Detektiv-Ausfall: Gastgeber';
+  final zufall = Random.secure();
+  final salz = [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join();
+  final fallCode = FallCode.zufall(Rng(zufall.nextInt(1 << 32)));
+  final hostAblage = SpeicherAblage();
+  AbendRaum fabrik(String code, Map<String, Object?> meta) => SchlosskellerRaum(
+        raumCode: code,
+        kanon: kanon,
+        texte: texte,
+        fallCode: FallCode.lesen(meta['fallCode'] as String)!,
+        salz: meta['salz'] as String,
+        festerGastgeber: true,
+        gastgeberSitz: Sitz.lesen(meta['sitz']) ?? Sitz.detektiv,
+      );
+  var host = await RelayHost.neu(
+    fabrik: fabrik,
+    meta: {'salz': salz, 'fallCode': fallCode.code, 'sitz': 'erzaehler'},
+    relay: relay,
+    akte: 'schlosskeller',
+    inhalt: 'matrix',
+    ablage: hostAblage,
+    log: _logFuer('Gastgeber'),
+  );
+  final code = host.raumCode;
+  final hostPlatz = _Platz('Gastgeber', host.lokaleVerbindung('host', 'Gastgeber'));
+  await host.starten();
+  final gaeste = <RelayGast>[];
+  final plaetze = <_Platz>[];
+  final ablagen = <SpeicherAblage>[];
+  try {
+    for (var i = 0; i < 3; i++) {
+      final ablage = SpeicherAblage();
+      ablagen.add(ablage);
+      final g = await RelayGast.beitreten(
+          code: code, name: 'Gast${i + 1}', ablage: ablage, relay: relay, app: 'matrix', inhalt: 'matrix', pingIntervall: const Duration(seconds: 5));
+      gaeste.add(g);
+      plaetze.add(_Platz('Gast${i + 1}', g));
+    }
+    for (final p in plaetze) {
+      await _bis(() => p.inbox.isEmpty ? null : true, 'erste Ansicht ${p.name}');
+    }
+    final alt = plaetze[0], neu = plaetze[1];
+    await _befehl(hostPlatz, hostPlatz, 'sitz', {'spieler': alt.pid, 'sitz': 'detektiv'});
+    await _befehl(hostPlatz, alt, 'sitz', {'spieler': alt.pid, 'sitz': 'detektiv', 'klasse': 'journalist'});
+    for (final p in [hostPlatz, ...plaetze]) {
+      await _bereit(hostPlatz, p);
+    }
+    await _befehl(hostPlatz, hostPlatz, 'start', {'rollen': 4});
+    await _bis(() => _map(neu.latest['privat'])['rolle'] is String ? true : null, 'Rolle für Gast2');
+    final figur = _map(neu.latest['privat'])['rolle'] as String;
+
+    _stage = 'Detektiv-Ausfall: Rechte';
+    await _erwarteFehler(hostPlatz, {'typ': 'detektivNeu', 'spieler': neu.pid}, 'invalid');
+    await _erwarteFehler(neu, {'typ': 'detektivNeu', 'spieler': neu.pid}, 'not_host');
+
+    _stage = 'Detektiv-Ausfall: Gast1 getrennt';
+    await (alt.verb as RelayGast).trennen();
+    await _bis(() => _list(hostPlatz.latest['spieler']).firstWhere((s) => s['id'] == alt.pid)['online'] == false ? true : null, 'Detektiv als offline erkannt',
+        timeout: const Duration(seconds: 40));
+    await _befehl(hostPlatz, hostPlatz, 'detektivNeu', {'spieler': neu.pid});
+    await _bis(() => _map(neu.latest['privat'])['detektiv'] == true ? true : null, 'Gast2 ermittelt');
+    final privat2 = _map(neu.latest['privat']);
+    _require(privat2['klasse'] == 'journalist' && !privat2.containsKey('dossier'), 'Gast2 hat noch seine Figur oder keine Klasse.');
+    final sitze = jsonEncode([for (final t in _list(hostPlatz.latest['spieler'])) [t['id'], t['sitz']]]);
+
+    _stage = 'Detektiv-Ausfall: Neustart des Gastgebers';
+    await host.schliessen(endgueltig: false, gaesteBenachrichtigen: false);
+    final verbunden = plaetze.skip(1).toList();
+    await _bis(() => verbunden.every((p) => p.statusVerlauf.last == VerbindungsStatus.pausiert) ? true : null, 'Gäste bemerken den Absturz',
+        timeout: const Duration(seconds: 60));
+    final wieder = await RelayHost.wiederherstellen(ablage: hostAblage, fabrik: fabrik, relay: relay, log: _logFuer('Gastgeber2'));
+    _require(wieder != null, 'Wiederherstellung lieferte nichts.');
+    host = wieder!;
+    hostPlatz.ersetze(host.lokaleVerbindung('host', 'Gastgeber'));
+    await host.starten();
+    await _bis(() => verbunden.every((p) => p.statusVerlauf.last == VerbindungsStatus.verbunden) ? true : null, 'Gäste nach dem Neustart',
+        timeout: const Duration(seconds: 60));
+    await _konvergenz(hostPlatz, verbunden, timeout: const Duration(seconds: 40));
+    _require(jsonEncode([for (final t in _list(hostPlatz.latest['spieler'])) [t['id'], t['sitz']]]) == sitze, 'Sitze änderten sich beim Neustart nach dem Wechsel.');
+
+    _stage = 'Detektiv-Ausfall: Rückkehr von Gast1';
+    final zurueck = await RelayGast.beitreten(
+        code: code, name: alt.name, ablage: ablagen[0], relay: relay, app: 'matrix', inhalt: 'matrix', pingIntervall: const Duration(seconds: 5));
+    gaeste[0] = zurueck;
+    alt.ersetze(zurueck);
+    _require(zurueck.spielerId == alt.pid, 'Rückkehr: andere Spieler-ID.');
+    await _bis(() => _map(alt.latest['privat'])['rolle'] == figur ? true : null, 'Gast1 spielt die Figur von Gast2');
+    final privat1 = _map(alt.latest['privat']);
+    _require(privat1['detektiv'] == false && privat1['dossier'] is Map && !privat1.containsKey('klasse'), 'Gast1 sitzt nicht auf dem Platz von Gast2.');
+    await _erwarteFehler(alt, {'typ': 'fundGelesen'}, 'not_detective');
+    for (final p in [alt, plaetze[2]]) {
+      if (_map(p.latest['privat'])['gelesen'] == false) await _befehl(hostPlatz, p, 'rollenGelesen');
+    }
+    await _befehl(hostPlatz, hostPlatz, 'weiter');
+    _require(hostPlatz.latest['phase'] == 'intro', 'Nach dem Wechsel geht der Abend nicht weiter.');
+    await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
+    for (final p in plaetze) {
+      for (final v in p.inbox) {
+        _require(v.keys.every(raumOeffentlicheSchluessel.contains), 'Detektiv-Ausfall: nicht freigegebenes Feld bei ${p.name}.');
+        final privat = _map(v['privat']);
+        _require(!privat.containsKey('erzaehler') && !privat.containsKey('erzaehlerPaket'), 'Detektiv-Ausfall: Erzähltext an ${p.name}.');
+      }
+    }
+    print('RELAIS-ONLINE OK · Ausfall des Gast-Detektivs · Sitz neu vergeben, Plätze getauscht, Klasse beim Sitz, Neustart und Rückkehr mit demselben Sitzplan');
+  } finally {
+    for (final g in gaeste) {
+      try {
+        await g.trennen();
+      } catch (_) {}
+    }
+    try {
+      await host.schliessen();
+    } catch (_) {}
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+  }
+}
+
 Future<void> main(List<String> args) async {
   var lokal = false;
   List<int> zahlen = [4];
@@ -1073,7 +1197,10 @@ Future<void> main(List<String> args) async {
         print('  ($n Gäste, ${k.name}: ${t.elapsed.inSeconds} s)');
       }
     }
-    print('RELAIS-MATRIX GRÜN · ${zahlen.length}/${zahlen.length} Laststufen (${zahlen.join(', ')} Gäste) · $laeufe Läufe mit Sitz-Konstellationen');
+    // Fällt der Gast-Detektiv aus, vergibt der Gastgeber den Sitz neu (Nachschliff M3).
+    await _detektivAusfall(relay: relay, kanon: kanon, texte: texte)
+        .timeout(const Duration(minutes: 4), onTimeout: () => throw StateError('Zeitüberschreitung beim Ausfall des Gast-Detektivs'));
+    print('RELAIS-MATRIX GRÜN · ${zahlen.length}/${zahlen.length} Laststufen (${zahlen.join(', ')} Gäste) · $laeufe Läufe mit Sitz-Konstellationen · Ausfall des Gast-Detektivs');
   } catch (error) {
     // Keine Rohpakete, Schlüssel, Dossiers oder Zugangsdaten ausgeben.
     final detail = error is StateError ? error.message : '${error.runtimeType}: $error';

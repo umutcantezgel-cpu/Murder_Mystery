@@ -63,7 +63,8 @@ class _Teilnehmer {
 /// `abstecher`, `tischruf`, `fundGelesen`, `karte`, `anklage`, Befragungen) nur
 /// der Detektiv-Sitz, hat er aufgegeben, der Gastgeber ([ermittler]); „Weiter“
 /// nur, wer gerade leitet: der Erzähler, sonst der Detektiv, sonst der
-/// Gastgeber ([vorleser], [_darfLeiten]).
+/// Gastgeber ([vorleser], [_darfLeiten]). Fällt der Detektiv-Sitz während des
+/// Abends aus, vergibt ihn der Gastgeber neu (`detektivNeu`, [_detektivNeu]).
 ///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
@@ -364,6 +365,7 @@ class SchlosskellerRaum implements AbendRaum {
       'karte' => {'id'},
       'stimme' => {'kooperativ'},
       'anklage' => {'person'},
+      'detektivNeu' => {'spieler'},
       _ => _modulFuer(typ)?.nachrichten[typ] ?? (throw const PartyRaumFehler('invalid')),
     };
     if (inhalt.keys.any((k) => k != 'typ' && k != 'revision' && !erlaubt.contains(k))) {
@@ -416,6 +418,9 @@ class SchlosskellerRaum implements AbendRaum {
             _wurfKarte = null;
             _merkeFund();
           }
+        } else if (typ == 'detektivNeu') {
+          _nurHost(id);
+          _detektivNeu(_string(inhalt, 'spieler'));
         } else if (typ == 'karte') {
           // Sofort wirkende Karten (Zeit, Marke, Erinnerung) legt der Detektiv.
           _nurDetektiv(id);
@@ -481,8 +486,12 @@ class SchlosskellerRaum implements AbendRaum {
   void _start(Map<String, Object?> inhalt) {
     if (!vorStart) throw const PartyRaumFehler('game_running');
     if (_teilnehmer.values.any((t) => !t.online || !t.bereit)) throw const PartyRaumFehler('not_ready');
-    // Ohne Angabe gilt die Rollenzahl der Lobby (`besetzung`).
-    final rollen = inhalt['rollen'] ?? _sitze.rollen;
+    // Ohne Angabe gilt die Rollenzahl der Lobby (`besetzung`). Liegt sie im
+    // Raum, gilt nur sie: Was alle in der Lobby gesehen haben (Rollenzahl und
+    // Zuteilung), überschreibt der Start nicht still.
+    final lobby = _sitze.rollen;
+    final rollen = inhalt['rollen'] ?? lobby;
+    if (lobby != null && rollen != lobby) throw const PartyRaumFehler('invalid');
     final detektiv = inhalt['detektiv'] ?? 'm';
     // Eine Figur bekommt jedes Gerät ohne Sitz, soweit die Rollen reichen.
     final gaeste = _teilnehmer.keys.where((id) => !_sitze.sitzt(id)).length;
@@ -512,6 +521,34 @@ class SchlosskellerRaum implements AbendRaum {
     _detektiv = _sitze.detektiv;
     _erzaehler = _sitze.erzaehler;
     _partie = p;
+  }
+
+  /// Fällt der Detektiv-Sitz während des Abends aus (getrennt oder
+  /// aufgegeben), vergibt ihn der Gastgeber neu: an sich selbst oder an einen
+  /// anderen verbundenen Platz ([ziel]). Die beiden tauschen ihre Plätze; der
+  /// bisherige Detektiv bekommt den Platz von [ziel] (Figur samt „gelesen“, den
+  /// Erzähler-Sitz oder einen Platz ohne Figur) und sitzt dort, wenn er
+  /// zurückkommt. So bleibt der Sitzplan eine Permutation, und das Protokoll
+  /// spielt ihn gleich wieder ein. Die Klasse bleibt beim Sitz (der Abend hat
+  /// mit ihr begonnen; sie ändert ohnehin nur die Darstellung).
+  void _detektivNeu(String ziel) {
+    final alt = _detektiv;
+    final weg = alt == null ? null : _teilnehmer[alt];
+    final neu = _teilnehmer[ziel];
+    if (alt == null || weg == null || (weg.online && !weg.aufgegeben) || neu == null || !neu.online || neu.aufgegeben || ziel == alt) {
+      throw const PartyRaumFehler('invalid');
+    }
+    if (ziel == _erzaehler) {
+      _erzaehler = alt;
+    } else {
+      weg
+        ..rolle = neu.rolle
+        ..gelesen = neu.gelesen;
+      neu
+        ..rolle = null
+        ..gelesen = false;
+    }
+    _detektiv = ziel;
   }
 
   static bool _bool(Map<String, Object?> j, String name, {bool? sonst}) {
