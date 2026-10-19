@@ -128,6 +128,9 @@ class GastgeberSitzung extends PartySitzung {
   Timer? _fristUhr;
   bool _fristVorbei = false;
 
+  /// Gerät auf dem Erzähler-Sitz bei der letzten Prüfung ([_fristPruefen]).
+  String? _erzaehlerZuletzt;
+
   /// Ist der Erzähler-Sitz ein Gast, der gerade getrennt ist?
   bool get _erzaehlerWeg {
     final e = dienst.raum.erzaehlerGeraet;
@@ -142,14 +145,20 @@ class GastgeberSitzung extends PartySitzung {
 
   /// Startet die Frist, sobald der Erzähler getrennt ist, und setzt sie zurück,
   /// wenn er wieder da ist. Nach Ablauf meldet die Sitzung die Übernahme.
+  /// Übernimmt der Gastgeber den Detektiv-Sitz vom Erzähler-Sitz aus selbst
+  /// ([detektivNeu]), landet der getrennte Gast-Detektiv auf dem Erzähler-Sitz.
+  /// Vorgelesen hat bis eben der Gastgeber; auf den Gast wartet niemand.
   void _fristPruefen() {
     if (_entsorgt) return;
+    final abgegeben = _erzaehlerZuletzt == _ich && dienst.raum.erzaehlerGeraet != _ich;
+    _erzaehlerZuletzt = dienst.raum.erzaehlerGeraet;
     if (!_erzaehlerWeg) {
       _fristUhr?.cancel();
       _fristUhr = null;
       _fristVorbei = false;
       return;
     }
+    if (abgegeben) _fristVorbei = true;
     if (_fristUhr != null || _fristVorbei) return;
     _fristUhr = Timer(erzaehlerFrist, () {
       _fristUhr = null;

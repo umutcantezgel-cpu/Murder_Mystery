@@ -130,6 +130,35 @@ void main() {
     expect(_map(raum.zustandFuer('g3')['privat'])['erzaehler'], [for (final k in s.erzaehler) texte.baustein(k)]);
   });
 
+  test('Übernimmt der Gastgeber den Detektiv-Sitz vom Erzähler-Sitz aus, liest und leitet er ohne Frist weiter', () async {
+    // Host = Erzähler + Gast = Detektiv: Ben fällt aus, Anna ermittelt selbst. Ben
+    // landet getrennt auf dem Erzähler-Sitz; vorgelesen hat bis eben Anna.
+    final raum = _raum(detektiv: 'g1', erzaehler: 'gastgeber');
+    final s = GastgeberSitzung(SitzDienst(raum));
+    raum.verbunden('g1', false);
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await _warten();
+    expect([s.detektivWeg, s.leitet, s.istVorleser, s.uebernahmeFrist], [true, true, true, false]);
+    s.detektivNeu('gastgeber');
+    await _warten();
+    (s.dienst.verb as SitzVerbindung).aktualisiere();
+    await _warten();
+    expect([raum.detektivGeraet, raum.erzaehlerGeraet, raum.vorleser], ['gastgeber', 'g1', 'gastgeber']);
+    expect([s.istDetektiv, s.uebernahmeFrist, s.leitet, s.istVorleser], [true, false, true, true], reason: 'Keine Frist für Ben');
+    expect(s.vorleserName, 'Anna');
+    // Kommt Ben zurück, liest er als Erzähler; fällt er dann aus, gilt die Frist wie sonst.
+    final frist = GastgeberSitzung.erzaehlerFrist;
+    GastgeberSitzung.erzaehlerFrist = const Duration(milliseconds: 30);
+    addTearDown(() => GastgeberSitzung.erzaehlerFrist = frist);
+    raum.verbunden('g1', true);
+    expect([s.uebernahmeFrist, s.leitet, s.istVorleser], [false, false, false]);
+    raum.verbunden('g1', false);
+    expect([s.uebernahmeFrist, s.leitet, s.vorleserName], [true, false, 'Ben'], reason: 'Ben las vor');
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    expect([s.uebernahmeFrist, s.leitet, s.istVorleser], [false, true, true]);
+    s.dispose();
+  });
+
   testWidgets('Gastansicht: Erzähltext nur beim Vorleser, der Detektiv sitzt am Platz des Detektiv-Sitzes', (tester) async {
     // Host = Detektiv + Gast = Erzähler: Dora liest vor, die Rollen hören zu.
     final raum = _raum(erzaehler: 'g3');
