@@ -432,6 +432,10 @@ class GastgeberSitzung extends PartySitzung {
   @override
   int get dia => jZahl(dienst.ansicht['dia']);
 
+  /// Wie die Uhr: Die Bilder schaltet sofort, wer laut Raum leitet.
+  @override
+  bool get diaSteuerbar => dienst.raum.vorleser == _ich;
+
   @override
   void diaSetzen(int nr) {
     final d = diashow;
