@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/game/game_view.dart';
 import 'package:mordakte/party/bildschirme/befragung.dart';
@@ -396,6 +397,13 @@ void main() {
     k.send(Interact(npc));
     expect(angekommen, hasLength(4));
     expect(() => k.laufeZuPunkt('mond', (1, 1), ziel: 'x'), throwsArgumentError);
+  });
+
+  testWidgets('Die App lädt die Welt des Streifzugs aus den Assets (Ebenen, Szenarien, Erkundung)', (t) async {
+    final w = await t.runAsync(() => StreifzugWelt.laden(rootBundle, langDaten));
+    expect(w!.erkundung.orte, hasLength(erkundungAnzahl));
+    expect(w.szenarien.keys, containsAll(['keller', 'erdgeschoss', 'turm']));
+    expect(await t.runAsync(() => StreifzugWelt.ladeErkundung(rootBundle, 'gewoelbe')), isNull, reason: 'Altakten haben keine');
   });
 
   test('Solo ohne Deckel; Erkundung ändert keine Wertung', () {

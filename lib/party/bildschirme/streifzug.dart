@@ -266,15 +266,15 @@ class _StreifzugAnsichtState extends State<StreifzugAnsicht> implements Streifzu
 
   /// Abschnitt, für den dieser Bildschirm gebaut ist. Wechselt er, blendet der
   /// nächste Bildschirm über diesen; bedient wird dann nur noch jener.
-  late final PartyPhase _phase = a.phase;
-  late final int _runde = a.runde;
+  late final PartyPhase _phase;
+  late final int _runde;
   bool get _gilt => a.phase == _phase && a.runde == _runde;
 
   @override
   void initState() {
     super.initState();
-    _phase;
-    _runde;
+    _phase = a.phase;
+    _runde = a.runde;
     a.addListener(_abendGeaendert);
     // Eine neue Runde beginnt mit dem Rundenstart (Erzähltext, Uhr), wenn es ihn gibt.
     final pos = a.steuerung.position;
