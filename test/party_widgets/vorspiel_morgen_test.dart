@@ -4,10 +4,12 @@
 // Schlussbild. Punkte, Ende, Würfe und Nachtminuten bleiben gleich; das Journal
 // merkt den Rundgang nur bei lang. Kurz: weder Vorspiel noch Morgen.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/party/bildschirme/aufloesung.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/bildschirme/rundgang.dart';
+import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/diashow_ansicht.dart';
 import 'package:mordakte/party/party_seite.dart';
 import 'package:mordakte/party/sitzung.dart';
@@ -253,5 +255,16 @@ void main() {
     s.weiter();
     expect([s.lang, s.rundgang, s.kannWeiter], [true, null, true]);
     s.dispose();
+  });
+
+  testWidgets('App-Assets: Der Schlosskeller lädt Vorspiel und Morgen aus content/welt, das Gewölbe (ohne langfassung) nicht', (t) async {
+    final (keller, gewoelbe) = (await t.runAsync(() async => (
+          await PartyDaten.laden(rootBundle, fall: 'schlosskeller'),
+          await PartyDaten.laden(rootBundle, fall: 'gewoelbe'),
+        )))!;
+    final v = keller.vorspielMorgen;
+    expect(v, isNotNull);
+    expect([v!.vorspiel.stationen.length, v.morgen.stationen.length], [rundgangDaten.vorspielMorgen!.vorspiel.stationen.length, rundgangDaten.vorspielMorgen!.morgen.stationen.length]);
+    expect(gewoelbe.vorspielMorgen, isNull);
   });
 }
