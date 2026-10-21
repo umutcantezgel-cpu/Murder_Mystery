@@ -99,6 +99,26 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
   @protected
   void vorDemZeigen() {}
 
+  // Haken für Szenen mit Ebenen (Langer Abend M7b, `AbendKarte`). Die
+  // Vorgaben lassen die Karte am Tisch, wie sie war.
+
+  /// Szenario, das der Fall-Stand nennt; Vorgabe: der Keller der Akte.
+  @protected
+  String get fallSzenarioId => daten.szenario.id;
+
+  /// Zeigt die Szene den Keller mit der laufenden Entscheidung (Hotspots,
+  /// Kameraziele)? Auf einer anderen Ebene nicht.
+  @protected
+  bool get mitKellerFall => true;
+
+  /// Weitere offene Hotspots (etwa Portale), Kennung → Zustand.
+  @protected
+  Map<String, String> get zusatzHotspots => const {};
+
+  /// Offene Türkacheln für den Renderer (`[x, y]`); Vorgabe: keine.
+  @protected
+  List<List<int>> get offeneTuerKacheln => const [];
+
   /// Kartenzustand der Ermittlung aus der Quelle (Phase, Runde, Wahl).
   KartenZustand get kartenZustand => daten.karte.zustandBei(quelle.phase, quelle.runde, quelle.gewaehlt);
 
@@ -112,7 +132,7 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
     vorDemZeigen();
     final hotspots = <String, String>{};
     final ziele = <Offset>[];
-    if (zeigtErmittlung) {
+    if (zeigtErmittlung && mitKellerFall) {
       final z = kartenZustand;
       for (final h in z.erledigt) {
         hotspots[h] = HotspotState.searched;
@@ -138,12 +158,13 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
         hotspots[ziel.hotspot] = HotspotState.open;
       }
     }
+    hotspots.addAll(zusatzHotspots);
     _kameraZiele = ziele;
     _case.value = CaseView(
       version: ++_version,
       roomCode: 'PARTY',
       hostId: 'me',
-      scenarioId: daten.szenario.id,
+      scenarioId: fallSzenarioId,
       mode: 'story',
       seed: 0,
       bots: 0,
@@ -155,7 +176,7 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
       deductions: const [],
       contradictions: 0,
       hotspots: hotspots,
-      openDoors: const [],
+      openDoors: offeneTuerKacheln,
       items: const [],
       inventory: const [],
       leadOptions: const [],
@@ -217,6 +238,14 @@ abstract class WeltSzene implements GameSession, SzenenErweiterung, SzenenGlanz,
   /// Detektiv an eine Stelle setzen (Entwickler-Skript, Kamera).
   void setzeDetektiv(double x, double y, {double facing = 0.8}) {
     if (quelle.zug != null || _entsorgt) return;
+    stelleDetektiv(x, y, facing: facing);
+  }
+
+  /// Setzt den Detektiv sofort an ([x], [y]) und meldet dem Renderer die
+  /// Korrektur (kein Weg dorthin), etwa nach einem Wechsel der Ebene.
+  @protected
+  void stelleDetektiv(double x, double y, {double facing = 0.8}) {
+    if (_entsorgt) return;
     detektivX = x;
     detektivY = y;
     detektivBlick = facing;

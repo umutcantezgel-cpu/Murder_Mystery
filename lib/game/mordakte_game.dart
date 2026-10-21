@@ -1822,7 +1822,8 @@ class MordakteGame extends Game with KeyboardEvents {
 
     // 8) Vignette + Blitz
     final vr = Rect.fromLTWH(0, 0, size.x, size.y);
-    final night = szLicht != null || phase == Phase.night;
+    final tag = szLicht?.tag ?? false;
+    final night = (szLicht != null && !tag) || phase == Phase.night;
     // Mit Umgebung der Akte: leichterer Rand in einem dunklen Ton der Akte, nie reines Schwarz.
     final vignette = umg == null ? const Color(0xFF000000) : Color.lerp(umg.rand, const Color(0xFF000000), 0.45)!;
     canvas.drawRect(
@@ -1831,7 +1832,7 @@ class MordakteGame extends Game with KeyboardEvents {
         ..shader = Gradient.radial(
           vr.center,
           vr.longestSide * 0.72,
-          [vignette.withValues(alpha: 0), withAlpha(vignette, umg == null ? (night ? 0.62 : 0.38) : 0.5)],
+          [vignette.withValues(alpha: 0), withAlpha(vignette, vignettenStaerke(nacht: night, tag: tag, umgebung: umg != null))],
           const [0.45, 1.0],
         ),
     );
@@ -1968,9 +1969,27 @@ class MordakteGame extends Game with KeyboardEvents {
 
   KlassenEbene? _klassenEbene;
 
+  /// Stärke der Vignette am Bildrand: nachts kräftig, am Tag leichter; mit
+  /// der Umgebung der Akte ein mittlerer Ton, bei Tageslicht ([SzenenLicht.tag],
+  /// M7b) schwächer.
+  @visibleForTesting
+  static double vignettenStaerke({required bool nacht, required bool tag, required bool umgebung}) =>
+      umgebung ? (tag ? 0.32 : 0.5) : (nacht ? 0.62 : 0.38);
+
+  /// Lichtmodus einer Szene mit eigenem Licht: nachts die Dunkelheit der Szene
+  /// mit Mondlicht ([LightMode.night], wie bisher), bei Tageslicht
+  /// ([SzenenLicht.tag], Morgen im langen Abend, M7b) der Tag-Modus ohne
+  /// Dunkelheitsebene und Mondlicht, nur ein leichter Schleier aus dem Grunddunkel
+  /// und keine Taschenlampe.
+  @visibleForTesting
+  static ({LightMode mode, double darkness, double dayTint, bool taschenlampe}) szenenLichtModus(SzenenLicht l) => l.tag
+      ? (mode: LightMode.day, darkness: 0, dayTint: (l.dunkel * 0.2).clamp(0.0, 0.15), taschenlampe: false)
+      : (mode: LightMode.night, darkness: l.dunkel.clamp(0.0, 1.0), dayTint: 0, taschenlampe: l.taschenlampe);
+
   void _renderSzenenLicht(Canvas canvas, Rect view, StaticScene scene, SzenenLicht l, Rect cull, double t) {
+    final modus = szenenLichtModus(l);
     final lights = <SceneLight>[];
-    if (l.taschenlampe && _hasPos) {
+    if (modus.taschenlampe && _hasPos) {
       lights.add(SceneLight(_px, _py, Tuning.nightLightRadius, cone: _pf));
       lights.add(SceneLight(_px, _py, 1.2, strength: 0.75));
     }
@@ -1984,8 +2003,8 @@ class MordakteGame extends Game with KeyboardEvents {
     _lighting!.render(
       canvas,
       view.inflate(4),
-      mode: LightMode.night,
-      darkness: l.dunkel.clamp(0.0, 1.0),
+      mode: modus.mode,
+      darkness: modus.darkness,
       lights: lights,
       litRooms: [
         for (final r in scene.scenario.map.rooms)
@@ -1993,7 +2012,7 @@ class MordakteGame extends Game with KeyboardEvents {
       ],
       glows: glows,
       flash: 0,
-      dayTint: 0,
+      dayTint: modus.dayTint,
     );
     // Umrisse und Hervorhebungen über der Dunkelheit (Rückblende)
     final ext = _ext!;

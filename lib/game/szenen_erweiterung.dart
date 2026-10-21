@@ -153,7 +153,8 @@ class SzenenLichtpunkt {
 
 /// Licht einer Szene (Master 7.13): Grundlicht, Lichtpunkte, Taschenlampe.
 class SzenenLicht {
-  /// Anteil der Dunkelheit (0,77 heißt 23 % Grundlicht).
+  /// Anteil der Dunkelheit (0,77 heißt 23 % Grundlicht). Bei [tag] nur noch
+  /// ein leichter Schleier.
   final double dunkel;
 
   /// Lichtpunkte (warme Kerzen, Notausgangsschild, getragene Lampen).
@@ -165,7 +166,13 @@ class SzenenLicht {
   /// Räume mit Raumlicht (werden aufgehellt).
   final Set<String> helleRaeume;
 
-  const SzenenLicht({required this.dunkel, this.punkte = const [], this.taschenlampe = true, this.helleRaeume = const {}});
+  /// Tageslicht (Langer Abend M7b, Morgen ab sieben draußen, auf Hof und im
+  /// Garten): Der Renderer zeichnet den Tag-Modus ohne Dunkelheitsebene und
+  /// Mondlicht, mit schwächerer Vignette und ohne Taschenlampe. Vorgabe ist die
+  /// Nacht; sie bleibt, wie sie war.
+  final bool tag;
+
+  const SzenenLicht({required this.dunkel, this.punkte = const [], this.taschenlampe = true, this.helleRaeume = const {}, this.tag = false});
 }
 
 /// Szene mit mehreren Ebenen (langer Abend, M7a): Ihre Szenarien sind die
