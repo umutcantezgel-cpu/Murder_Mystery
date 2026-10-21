@@ -208,7 +208,7 @@
             ]
           ],
           "art": "hohes Tor aus Eisen",
-          "zustand": "verschlossen bis zum Morgen",
+          "zustand": "verschlossen ab zehn vor sieben, auf erst wieder mit dem Torschlüssel der Kollegin um sieben",
           "quietscht": true
         }
       ],
@@ -1506,7 +1506,7 @@
             ]
           ],
           "art": "schweres Holztor",
-          "zustand": "verschlossen bis zum Morgen",
+          "zustand": "verschlossen ab zehn vor sieben, auf erst wieder mit dem Torschlüssel der Kollegin um sieben",
           "quietscht": true
         },
         {
@@ -1525,7 +1525,7 @@
             ]
           ],
           "art": "hohes Tor aus Eisen",
-          "zustand": "verschlossen bis zum Morgen",
+          "zustand": "verschlossen ab zehn vor sieben, auf erst wieder mit dem Torschlüssel der Kollegin um sieben",
           "quietscht": true
         }
       ],
@@ -2106,7 +2106,7 @@
     {
       "id": "p_einfahrtstor",
       "art": "tor",
-      "offen": "nie_in_runden",
+      "offen": "vorspiel_morgen",
       "weg": 1,
       "a": {
         "ebene": "erdgeschoss",
