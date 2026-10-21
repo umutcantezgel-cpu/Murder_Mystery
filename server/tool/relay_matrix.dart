@@ -45,7 +45,9 @@
 /// läuft die Uhr der Gespräche in den Entscheidungen weiter, für alle gleich,
 /// und wer leitet, stellt sie dort; jede Ansicht trägt `fassung: lang`, sonst
 /// nichts Neues. Im kurzen Abend fehlen Uhr (`invalid_phase`) und Schlüssel in
-/// den Entscheidungen wie bisher.
+/// den Entscheidungen wie bisher. Dazu der Streifzug (Erkundung, Treffpunkte):
+/// nur vom Detektiv-Sitz, alle sehen dasselbe Treffen, die Treffpunkte aller
+/// nur der Detektiv; kurz ist `erkunde` ungültig und der Schlüssel fehlt.
 library;
 
 import 'dart:async';
@@ -57,7 +59,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/io.dart';
 import 'package:mordakte_netz/mordakte_netz.dart';
-import 'package:mordakte_server/party.dart' show resolvePartyDir;
+import 'package:mordakte_server/party.dart' show ladeErkundung, resolvePartyDir;
 
 String _stage = 'Vorbereitung';
 
@@ -313,8 +315,9 @@ Future<void> _lauf({
         // Wie die App: Rundendauer aus der Meta, Diashow der Akte (M4).
         rundenMinuten: 20,
         diaAnzahl: _diaAnzahl,
-        // Wie die App (M7b): die Fassung aus der Meta, nur bei lang geschrieben.
+        // Wie die App (M7b): die Fassung aus der Meta, nur bei lang geschrieben; lang mit dem Streifzug.
         fassung: Abendfassung.lesen(meta['fassung']),
+        erkundung: Abendfassung.lesen(meta['fassung']).istLang ? _erkundung : null,
       );
   var host = await RelayHost.neu(
     fabrik: fabrik,
@@ -472,7 +475,7 @@ Future<void> _lauf({
 
     var befragungenGesehen = 0;
     var uhrGeprueft = false, diaGeprueft = false;
-    var streifzugGeprueft = false, uhrAbgeraeumt = false, uhrNeu = false;
+    var streifzugGeprueft = false, uhrAbgeraeumt = false, uhrNeu = false, wegGeprueft = false;
     var gefaelschterWurf = false;
     var neuverbindungA = false;
     var hostNetz = false;
@@ -527,6 +530,10 @@ Future<void> _lauf({
             // Jede Runde beginnt mit gestellter Uhr, kurz wie lang.
             uhrNeu = true;
             _require(RundenUhr.ausJson(s['uhr'])?.gestartet == false, 'Die neue Runde beginnt nicht mit gestellter Uhr.');
+          }
+          if (!wegGeprueft) {
+            wegGeprueft = true;
+            await _imFenster('Streifzug', () => _streifzug(hostPlatz, detektivPlatz, rolle, plaetze, lang: k.lang));
           }
           // Modell befragung (A-051): Der Detektiv-Sitz erledigt seine Befragungen.
           // Erst sehen alle Gäste ihre Spickzettel, dann fragt der Detektiv; vor „Weiter“ sehen sie den Stand.
@@ -583,6 +590,7 @@ Future<void> _lauf({
     _require(gefaelschterWurf, 'Manipulationsprüfung des Würfels wurde nicht erreicht.');
     _require(uhrGeprueft && diaGeprueft, 'Rundenuhr- und Diashow-Prüfung wurden nicht erreicht.');
     _require(streifzugGeprueft && uhrAbgeraeumt && uhrNeu, 'Prüfungen der Uhr im Streifzug wurden nicht erreicht.');
+    _require(wegGeprueft, 'Die Prüfung des Streifzugs wurde nicht erreicht.');
     _require(neuverbindungB, 'App-Neustart-Prüfung wurde nicht erreicht.');
     _require(hostNetz && hostNeustart, 'Gastgeber-Prüfungen (Netzabbruch, Neustart) wurden nicht erreicht.');
     _require(attrappe == null || neuverbindungA, 'Netzabbruch-Prüfung wurde nicht erreicht.');
@@ -921,6 +929,43 @@ Future<int> _befragungen(_Platz host, _Platz detektiv) async {
 }
 
 Future<void> _bereit(_Platz host, _Platz wer) => _befehl(host, wer, 'bereit', {'wert': true});
+
+/// Erkundung des Schlosskellers (`content/welt/schlosskeller/erkundung.json`), wie in der App.
+final Erkundung? _erkundung = ladeErkundung('${Directory(resolvePartyDir(null)).parent.parent.path}/welt/schlosskeller');
+
+/// Streifzug (M7b) in den ersten Gesprächen: kurz kennt der Raum `erkunde`
+/// nicht und zeigt keinen Schlüssel. Lang nur vom Detektiv-Sitz; nach Erkunden
+/// und Treffen sehen alle dieselbe Stelle und dasselbe Treffen, die Treffpunkte
+/// aller stehen nur privat beim Detektiv, und die getroffene Person erkennt
+/// ihre Figur.
+Future<void> _streifzug(_Platz host, _Platz detektiv, _Platz rolle, List<_Platz> plaetze, {required bool lang}) async {
+  if (!lang) {
+    _require(!host.latest.containsKey('streifzug'), 'Kurzer Abend: Streifzug in der Ansicht.');
+    await _erwarteFehler(detektiv, {'typ': 'erkunde', 'ort': 'ek_brunnen'}, 'invalid');
+    return;
+  }
+  await _erwarteFehler(rolle, {'typ': 'erkunde', 'ort': 'ek_brunnen'}, 'not_detective');
+  await _befehl(host, detektiv, 'erkunde', {'ort': 'ek_brunnen'});
+  await _bis(() => detektiv.latest['streifzug'] is Map ? true : null, 'Streifzug beim Detektiv');
+  final treffpunkte = _map(_map(_map(detektiv.latest['privat'])['streifzug'])['treffpunkte']);
+  _require(treffpunkte.isNotEmpty, 'Streifzug: Der Detektiv-Sitz hat keine Treffpunkte.');
+  final befragung = treffpunkte.keys.first;
+  await _befehl(host, detektiv, 'treffen', {'befragung': befragung});
+  await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+  final treffen = <String>{};
+  for (final p in [host, ...plaetze]) {
+    final weg = _map(p.latest['streifzug']);
+    _require((weg['erkundet'] as List).contains('ek_brunnen'), 'Streifzug: Erkundung fehlt bei ${p.name}.');
+    final t = _map(weg['treffpunkt']);
+    _require(t['ort'] == treffpunkte[befragung], 'Streifzug: Treffpunkt weicht ab bei ${p.name}.');
+    treffen.add(jsonEncode(t));
+    _require(p == detektiv || !_map(p.latest['privat']).containsKey('streifzug'), 'Streifzug: Treffpunkte aller bei ${p.name}.');
+    if (_map(p.latest['privat'])['rolle'] case final String r when r == t['figur']) {
+      _require(weg['ebene'] != null, 'Streifzug: Die getroffene Person sieht keine Stelle.');
+    }
+  }
+  _require(treffen.length == 1, 'Streifzug: Das Treffen ist nicht für alle gleich.');
+}
 
 /// Bilder der Diashow des Schlosskellers (`content/welt/schlosskeller/diashow.json`), wie in der App.
 final int _diaAnzahl = () {

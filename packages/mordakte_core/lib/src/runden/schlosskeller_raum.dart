@@ -13,6 +13,7 @@ import '../party/texte.dart';
 import '../karten/abstecher.dart';
 import '../karten/karte.dart';
 import '../karten/vorrat.dart';
+import '../welt/erkundung.dart';
 import '../util/rng.dart';
 import 'abend_raum.dart';
 import 'bots.dart';
@@ -22,6 +23,7 @@ import 'raum/dia_modul.dart';
 import 'raum/raum_modul.dart';
 import 'raum/sichtfelder.dart';
 import 'raum/sitze_modul.dart';
+import 'raum/streifzug_modul.dart';
 import 'raum/uhr_modul.dart';
 import 'runden_uhr.dart' show RundenUhr, abendZeitFeld;
 import 'sitze.dart';
@@ -78,9 +80,10 @@ class _Teilnehmer {
 ///
 /// Fassung (M7b): Im langen Abend ([fassung], aus der Meta des Gastgebers)
 /// deckt die Rundenuhr den ganzen Streifzug ab, Gespräche und Entscheidungen;
-/// alle sehen öffentlich `fassung: lang`. Kurze Abende tragen den Schlüssel
-/// nicht und bleiben bytegleich. Partie, Würfel und Wertung kennen die Fassung
-/// nicht.
+/// alle sehen öffentlich `fassung: lang`. Mit der Erkundung der Akte kommt der
+/// Streifzug dazu ([StreifzugModul]: Erkundung und Treffpunkte). Kurze Abende
+/// tragen keinen der Schlüssel und bleiben bytegleich. Partie, Würfel und
+/// Wertung kennen die Fassung nicht.
 ///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
@@ -107,6 +110,7 @@ class SchlosskellerRaum implements AbendRaum {
     this.rundenMinuten = 30,
     this.diaAnzahl = 0,
     this.fassung = Abendfassung.kurz,
+    Erkundung? erkundung,
     List<RaumModul> module = const [],
   }) : _module = List.unmodifiable([
          // Die Lobby (Sitze, Rollenzahl, Figurenwahl) gehört zu jedem Raum; [_sitze] liest ihren Plan.
@@ -116,6 +120,8 @@ class SchlosskellerRaum implements AbendRaum {
          // Die Gesprächszeit läuft für alle gleich (M4); die Diashow nur in Akten, die eine haben.
          UhrModul(minuten: rundenMinuten.clamp(1, RundenUhr.hoechstStart), lang: fassung.istLang),
          if (diaAnzahl > 0) DiaModul(anzahl: diaAnzahl),
+         // Der lange Abend wird zum Streifzug (M7b): Erkundung und Treffpunkte, rein kosmetisch.
+         if (fassung.istLang && erkundung != null) StreifzugModul(erkundung: erkundung, weltSamen: weltSamenAus(salz)),
          ...module,
        ]), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {

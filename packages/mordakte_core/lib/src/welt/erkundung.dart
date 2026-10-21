@@ -45,6 +45,11 @@ const erkundungVarianten = 3;
 /// online gibt es keinen Deckel.
 const streifzugDeckelReihum = 5;
 
+/// Samen der Welt des langen Abends aus dem Salz eines Abends (Gerät oder
+/// Raum): Quelle allen kosmetischen Zufalls (`lang:$weltSamen:…`). Er berührt
+/// den Würfelstrom nie und verlässt weder Raum noch Gastgebergerät.
+int weltSamenAus(String salz) => Rng.hashString('welt:$salz');
+
 /// Abstand (Kacheln), den ein Erkundungsort im Keller zu jedem Sperrort hält.
 const kellerRandAbstand = 3.0;
 
@@ -82,13 +87,16 @@ class ErkundungsOrt {
   /// Weitere Fassungen der Stichpunkte; welche gilt, wählt [stichpunkteFuer].
   final List<List<String>> varianten;
 
-  /// Die Stichpunkte dieses Abends: Grundfassung oder eine Variante, gewählt
-  /// mit `Rng(Rng.hashString('lang:$weltSamen:erkundung:<id>'))`.
-  List<String> stichpunkteFuer(int weltSamen) {
-    if (varianten.isEmpty) return stichpunkte;
-    final i = Rng(Rng.hashString('lang:$weltSamen:erkundung:$id')).nextInt(varianten.length + 1);
-    return i == 0 ? stichpunkte : varianten[i - 1];
-  }
+  /// Fassung dieses Abends: 0 die Stichpunkte, sonst die Variante davor,
+  /// gewählt mit `Rng(Rng.hashString('lang:$weltSamen:erkundung:<id>'))`.
+  int fassungFuer(int weltSamen) =>
+      varianten.isEmpty ? 0 : Rng(Rng.hashString('lang:$weltSamen:erkundung:$id')).nextInt(varianten.length + 1);
+
+  /// Die Stichpunkte der Fassung [i] ([fassungFuer]); unbekannte Fassungen sind die Grundfassung.
+  List<String> stichpunkteDer(int i) => i <= 0 || i > varianten.length ? stichpunkte : varianten[i - 1];
+
+  /// Die Stichpunkte dieses Abends: Grundfassung oder eine Variante ([fassungFuer]).
+  List<String> stichpunkteFuer(int weltSamen) => stichpunkteDer(fassungFuer(weltSamen));
 }
 
 /// Ein benannter Treffpunkt für Befragungen („Triff Ahmet am Brunnen“).

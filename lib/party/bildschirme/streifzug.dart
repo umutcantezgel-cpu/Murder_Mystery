@@ -609,7 +609,8 @@ class _StreifzugAnsichtState extends State<StreifzugAnsicht> implements Streifzu
             identifier: 'streifzug-zur-entscheidung',
             child: PartyKnopf(key: const ValueKey('streifzug-zur-entscheidung'), text: l.streifzug_zur_entscheidung, onPressed: zurEntscheidung),
           ),
-        if (_modus == StreifzugModus.streifzug && !_entscheidungOffen)
+        // Eingebettet (Gast) steht „Weiter“ auf der Seite selbst.
+        if (widget.vollbild && _modus == StreifzugModus.streifzug && !_entscheidungOffen)
           PartyKnopf(
             key: const ValueKey('streifzug-weiter'),
             text: a.phase == PartyPhase.gespraeche ? s.ui('ui.runde.weiter') : s.ui('ui.allgemein.weiter'),

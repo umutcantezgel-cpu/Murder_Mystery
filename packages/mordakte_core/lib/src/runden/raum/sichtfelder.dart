@@ -17,6 +17,8 @@ const raumOeffentlicheSchluessel = <String>{
   'uhr', 'dia',
   // Fassung (M7b): nur im langen Abend, Wert `lang`; nie Pfad, Salz oder Wertung.
   'fassung',
+  // Streifzug (M7b, `raum/streifzug_modul.dart`): Stelle des Detektivs, erkundete Orte, laufendes Treffen; nur lang, rein kosmetisch.
+  'streifzug',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der

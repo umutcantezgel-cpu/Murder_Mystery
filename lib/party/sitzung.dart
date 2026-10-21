@@ -158,7 +158,7 @@ class PartySitzung extends ChangeNotifier {
   /// Abends wie [abendId], berührt den Würfelstrom ([SalzWuerfel]) nie und ist
   /// an einem Gerät, nach dem Fortsetzen und online beim Gastgeber (gleiches
   /// Salz des Raums) derselbe. Er verrät das Salz nicht und geht nie an Gäste.
-  int get weltSamen => Rng.hashString('welt:$_salz');
+  int get weltSamen => weltSamenAus(_salz);
 
   /// Ergebnis dieses Abends aus Sicht eines Geräts (erst nach dem Finale):
   /// Grundlage der Kartenbelohnung. [rolle] ist die gespielte Rolle oder

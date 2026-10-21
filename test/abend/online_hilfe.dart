@@ -183,7 +183,8 @@ void schritt(SchlosskellerRaum raum, Ermittlung erm, String pfad, {void Function
 /// Dora (`g3`), vier Rollen, Pfad ahmet; die Sitze vergibt die Lobby (M3):
 /// [detektiv] und [erzaehler] sind Geräte (der Gastgeber sitzt auf einem davon).
 /// Der Detektiv-Sitz eines Gastes trägt die Klasse [klasse]. Mit [diaAnzahl]
-/// zeigt die Einleitung eine Diashow mit so vielen Bildern (M4).
+/// zeigt die Einleitung eine Diashow mit so vielen Bildern (M4). Mit [fassung]
+/// lang und [erkundung] läuft der Streifzug (M7b).
 ///
 /// Mit [ohneFigur] sitzen 23 Geräte am Tisch und spielen alle zwanzig Rollen;
 /// das letzte Gerät, Greta (`g22`), bleibt ohne Figur (Assistenz).
@@ -195,6 +196,7 @@ SchlosskellerRaum sitzRaum({
   int diaAnzahl = 0,
   bool ohneFigur = false,
   Abendfassung fassung = Abendfassung.kurz,
+  Erkundung? erkundung,
 }) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
@@ -207,6 +209,8 @@ SchlosskellerRaum sitzRaum({
     gastgeberSitz: erzaehler == 'gastgeber' ? Sitz.erzaehler : Sitz.detektiv,
     diaAnzahl: diaAnzahl,
     fassung: fassung,
+    // Streifzug (M7b): nur lang und nur mit der Erkundung der Akte.
+    erkundung: erkundung,
   );
   final plaetze = [
     ('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora'),
