@@ -80,7 +80,10 @@ String resolvePartyDir(String? fromEnv) {
 /// Liest nur die vom Kanon/Textindex vorgegebenen Dateien. Kein Dateipfad und
 /// kein Fall-Code stammen aus einer Client-Nachricht. Kein Fallback-Spiel, falls
 /// die Deployment-Dateien fehlen: Der Server soll dann nicht bereit melden.
-RuntimeFactory loadSchlosskellerFactory(String dir) {
+///
+/// Server-Räume haben keine Meta: Sie spielen den kurzen Abend. [fassung] lang
+/// nutzt nur die Party-Matrix für ihren Lauf mit dem langen Abend (M7b).
+RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Abendfassung.kurz}) {
   Map<String, Object?> lesen(String path) => (jsonDecode(File('$dir/$path').readAsStringSync()) as Map).cast<String, Object?>();
   final kanon = Kanon.lade(lesen);
   final texte = Texte(kanon, Textsammlung.lade(lesen));
@@ -89,7 +92,7 @@ RuntimeFactory loadSchlosskellerFactory(String dir) {
   final dia = File('${Directory(dir).parent.parent.path}/welt/schlosskeller/diashow.json');
   final dias = dia.existsSync() ? Diashow.ausJson((jsonDecode(dia.readAsStringSync()) as Map).cast<String, Object?>()).dias.length : 0;
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
-    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias,
+    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung,
     // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
     gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),

@@ -15,6 +15,8 @@ const raumOeffentlicheSchluessel = <String>{
   'erzaehlerLiest', 'bausteinZahl',
   // Rundenuhr und Diashow (M4): Zustand der Uhr ohne Takt (`raum/uhr_modul.dart`), Nummer des Bildes (`raum/dia_modul.dart`).
   'uhr', 'dia',
+  // Fassung (M7b): nur im langen Abend, Wert `lang`; nie Pfad, Salz oder Wertung.
+  'fassung',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der

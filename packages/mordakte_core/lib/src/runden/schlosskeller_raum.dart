@@ -7,6 +7,7 @@ import '../party/befragung.dart';
 import '../party/entscheidungen.dart';
 import '../party/erzaehler_paket.dart';
 import '../party/fall_code.dart';
+import '../party/fassung.dart';
 import '../party/kanon/kanon.dart';
 import '../party/texte.dart';
 import '../karten/abstecher.dart';
@@ -75,6 +76,12 @@ class _Teilnehmer {
 /// zeigen alle Geräte in der Einleitung dasselbe Bild ([DiaModul]). Die
 /// Abendzeit kommt nur vom Transport (Feld [abendZeitFeld] jeder Nachricht).
 ///
+/// Fassung (M7b): Im langen Abend ([fassung], aus der Meta des Gastgebers)
+/// deckt die Rundenuhr den ganzen Streifzug ab, Gespräche und Entscheidungen;
+/// alle sehen öffentlich `fassung: lang`. Kurze Abende tragen den Schlüssel
+/// nicht und bleiben bytegleich. Partie, Würfel und Wertung kennen die Fassung
+/// nicht.
+///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
 /// privaten Teil. Alle sehen öffentlich nur `erzaehlerLiest` und
@@ -99,6 +106,7 @@ class SchlosskellerRaum implements AbendRaum {
     List<AbstecherOrt> abstecher = const [],
     this.rundenMinuten = 30,
     this.diaAnzahl = 0,
+    this.fassung = Abendfassung.kurz,
     List<RaumModul> module = const [],
   }) : _module = List.unmodifiable([
          // Die Lobby (Sitze, Rollenzahl, Figurenwahl) gehört zu jedem Raum; [_sitze] liest ihren Plan.
@@ -106,7 +114,7 @@ class SchlosskellerRaum implements AbendRaum {
          // Das Gesprächsmodell der Akte bringt sein Modul selbst mit (A-051); Altakten bleiben ohne.
          if (texte.besetzung.befragungsmodell) BefragungModul(),
          // Die Gesprächszeit läuft für alle gleich (M4); die Diashow nur in Akten, die eine haben.
-         UhrModul(minuten: rundenMinuten.clamp(1, RundenUhr.hoechstStart)),
+         UhrModul(minuten: rundenMinuten.clamp(1, RundenUhr.hoechstStart), lang: fassung.istLang),
          if (diaAnzahl > 0) DiaModul(anzahl: diaAnzahl),
          ...module,
        ]), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
@@ -124,6 +132,10 @@ class SchlosskellerRaum implements AbendRaum {
   /// Zahl der Bilder der Diashow zur Einleitung (`party/diashow.dart`); 0 heißt:
   /// keine Diashow, die Einleitung bleibt wie bisher.
   final int diaAnzahl;
+
+  /// Kurzer oder langer Abend (M7b). Lang lebt die Rundenuhr über Gespräche
+  /// und Entscheidungen ([UhrModul.lang]); sonst ändert sie nichts am Abend.
+  final Abendfassung fassung;
 
   /// Gastgebergerät als Autorität (Relais-Modus): Die Leitung wandert nie zu
   /// einem anderen Gerät, sonst bekäme ein Gast Salz und Täterpfad.
@@ -668,6 +680,8 @@ class SchlosskellerRaum implements AbendRaum {
     final ansicht = <String, Object?>{
       't': 'abend', 'protokoll': 1, 'version': _version,
       'spiel': akte, 'akte': akte, 'raum': raumCode, 'host': _host,
+      // Nur der lange Abend trägt die Fassung; kurze Ansichten bleiben bytegleich.
+      if (fassung.istLang) 'fassung': fassung.name,
       'phase': p?.phase.name ?? 'lobby', 'runde': p?.runde ?? 0,
       'wuerfelZusage': wuerfelZusage,
       // Sitz, Figur (Lobby) und Wunsch sind am Tisch öffentlich, nie ein Dossier.

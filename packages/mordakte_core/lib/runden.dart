@@ -15,6 +15,7 @@ export 'src/runden/raum/sitze_modul.dart';
 export 'src/runden/raum/uhr_modul.dart';
 export 'src/runden/runden_uhr.dart';
 export 'src/runden/sitze.dart';
+export 'src/party/fassung.dart';
 export 'src/karten/karte.dart';
 export 'src/karten/vorrat.dart';
 export 'src/karten/belohnung.dart';

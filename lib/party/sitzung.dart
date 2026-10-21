@@ -151,6 +151,14 @@ class PartySitzung extends ChangeNotifier {
     return '${hex('abend:a:$_salz')}${hex('abend:b:$_salz')}';
   }
 
+  /// Samen der Welt des langen Abends (M7b): kosmetischer Zufall auf den
+  /// Welt-Ebenen (Erkundung, Wege, Wetter) zieht nur aus
+  /// `Rng(Rng.hashString('lang:$weltSamen:…'))`. Er kommt aus dem Salz des
+  /// Abends wie [abendId], berührt den Würfelstrom ([SalzWuerfel]) nie und ist
+  /// an einem Gerät, nach dem Fortsetzen und online beim Gastgeber (gleiches
+  /// Salz des Raums) derselbe. Er verrät das Salz nicht und geht nie an Gäste.
+  int get weltSamen => Rng.hashString('welt:$_salz');
+
   /// Ergebnis dieses Abends aus Sicht eines Geräts (erst nach dem Finale):
   /// Grundlage der Kartenbelohnung. [rolle] ist die gespielte Rolle oder
   /// `klasse:<name>` für den Detektiv.
@@ -379,6 +387,27 @@ class PartySitzung extends ChangeNotifier {
   Duration rundendauer = const Duration(minutes: 30);
 
   // ---------------------------------------------------------------------------
+  // Fassung (Langer Abend M7b)
+
+  Abendfassung _fassung = Abendfassung.kurz;
+
+  /// Kurzer oder langer Abend ([einrichten]); nur Akten mit dem Zusatz
+  /// `langfassung` können lang sein. Die Fassung ändert nie Fall, Wertung,
+  /// Würfe oder Nachtminuten, nur Zeit und Darstellung: Lang deckt die
+  /// Rundenuhr den ganzen Streifzug ab ([uhrInPhase]).
+  Abendfassung get fassung => _fassung;
+
+  /// Online übernimmt die Sitzung des Gastgebers die Fassung des Raums.
+  @protected
+  set fassung(Abendfassung f) {
+    if (f.istLang && !daten.hat('langfassung')) throw ArgumentError('Diese Akte hat keinen langen Abend');
+    _fassung = f;
+  }
+
+  /// Läuft der lange Abend?
+  bool get lang => _fassung.istLang;
+
+  // ---------------------------------------------------------------------------
   // Rundenuhr und Diashow (Langer Abend M4)
 
   /// Uhr des Abends in Millisekunden ([RundenUhr]): an einem Gerät seine
@@ -393,8 +422,16 @@ class PartySitzung extends ChangeNotifier {
 
   /// Die gemeinsame Rundenuhr der Gespräche. An einem Gerät hält sie die
   /// Sitzung, online der Raum (`GastgeberSitzung`); jedes Gerät rechnet die
-  /// Restzeit selbst aus [abendzeit].
+  /// Restzeit selbst aus [abendzeit]. Im langen Abend ist es die Uhr des ganzen
+  /// Streifzugs: Sie wird beim Eintritt in die Gespräche gestellt und läuft in
+  /// den Entscheidungen derselben Runde weiter ([uhrInPhase]).
   RundenUhr get uhr => _uhr ?? RundenUhr.neu(rundendauer.inMilliseconds.clamp(1000, RundenUhr.hoechstDauer));
+
+  /// Gehört die Rundenuhr zur laufenden Phase? Kurz nur in den Gesprächen
+  /// (wie bisher), lang im ganzen Streifzug: Gespräche und Entscheidungen
+  /// einer Runde teilen sich eine Uhr. Der Streifzug-Bildschirm zeigt sie dann
+  /// in beiden Phasen ([SitzungsUhr]).
+  bool get uhrInPhase => phase == PartyPhase.gespraeche || (lang && phase == PartyPhase.entscheidungen);
 
   /// Stellt dieses Gerät die Uhr? An einem Gerät immer; online nur, wer leitet.
   bool get uhrSteuerbar => leitet;
@@ -455,7 +492,9 @@ class PartySitzung extends ChangeNotifier {
   /// Einrichtung abschließen. [code] leer oder ungültig heißt: Zufall.
   /// [erzaehlerName] (an einem Gerät, optional) setzt einen Erzähler an den
   /// Tisch; im Solo gibt es keinen. [geburtstagskind] ist der frühere Name von
-  /// [detektivName] und gilt nur, wenn dieser fehlt.
+  /// [detektivName] und gilt nur, wenn dieser fehlt. [fassung] lang gibt es nur
+  /// in Akten mit dem Zusatz `langfassung` und nicht im Druckspiel; das Journal
+  /// merkt sie nur bei lang, kurze Abende bleiben bytegleich.
   void einrichten({
     required int rollen,
     required String detektiv,
@@ -466,9 +505,12 @@ class PartySitzung extends ChangeNotifier {
     Map<String, String> namen = const {},
     String detektivName = '',
     String erzaehlerName = '',
+    Abendfassung fassung = Abendfassung.kurz,
     @Deprecated('detektivName') String? geburtstagskind,
   }) {
     if (solo && druck) throw ArgumentError('Solo ist kein Druckspiel');
+    if (fassung.istLang && !daten.hat('langfassung')) throw ArgumentError('Diese Akte hat keinen langen Abend');
+    if (fassung.istLang && druck) throw ArgumentError('Das Druckspiel ist ein kurzer Abend');
     if (solo && erzaehlerName.trim().isNotEmpty) throw ArgumentError('Im Solo gibt es keinen Erzähler');
     if (erzaehlerName.trim().isNotEmpty && !daten.mitErzaehlerSitz) throw ArgumentError('Diese Akte hat keinen Erzähler-Sitz');
     final detektivname = detektivName.trim().isEmpty ? (geburtstagskind ?? '') : detektivName;
@@ -497,6 +539,7 @@ class PartySitzung extends ChangeNotifier {
     this.erzaehlerName = erzaehlerName.trim();
     _pult = false;
     rundendauer = Duration(minutes: rundendauerMinuten);
+    _fassung = fassung;
     _merke('einrichten', {
       'rollen': rollen,
       'detektiv': detektiv,
@@ -507,6 +550,8 @@ class PartySitzung extends ChangeNotifier {
       'namen': {...this.namen},
       'detektivName': detektivname,
       if (this.erzaehlerName.isNotEmpty) 'erzaehler': this.erzaehlerName,
+      // Nur der lange Abend steht im Journal; kurze Abende bleiben bytegleich wie vor M7b.
+      if (fassung.istLang) 'fassung': fassung.name,
     });
     _melde();
     notifyListeners();
@@ -736,6 +781,7 @@ class PartySitzung extends ChangeNotifier {
     // Neue Texte liegen wieder zugedeckt im Pult, bis der Erzähler hinschaut.
     _pult = false;
     // Jede Einleitung beginnt mit dem ersten Bild, jede Runde mit gestellter Uhr.
+    // Im langen Abend läuft dieselbe Uhr in den Entscheidungen weiter ([uhrInPhase]).
     _dia = 0;
     if (phase == PartyPhase.gespraeche) _uhr = null;
     if (phase == PartyPhase.gruppenwahl) {
@@ -1027,6 +1073,8 @@ class PartySitzung extends ChangeNotifier {
           // Abende vor M3 legten den Detektivnamen unter `geburtstagskind` ab.
           detektivName: text('detektivName') ?? text('geburtstagskind') ?? '',
           erzaehlerName: text('erzaehler') ?? '',
+          // Abende ohne den Schlüssel (kurz, vor M7b) bleiben kurz.
+          fassung: Abendfassung.lesen(b['fassung']),
         );
       case 'zeigen':
         zeigeVerdeckt(text('rolle')!);

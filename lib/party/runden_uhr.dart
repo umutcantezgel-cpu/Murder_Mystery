@@ -228,7 +228,10 @@ class _RundenUhrAnzeigeState extends State<RundenUhrAnzeige> {
 }
 
 /// Die Rundenuhr am Tisch (Rundenzentrale, Erzählerpult): Zustand und
-/// Abendzeit aus der [sitzung], Knöpfe nur auf dem Gerät, das leitet.
+/// Abendzeit aus der [sitzung], Knöpfe nur auf dem Gerät, das leitet. Im
+/// langen Abend (M7b) gehört die Uhr zum ganzen Streifzug
+/// ([PartySitzung.uhrInPhase]): Der Streifzug zeigt sie in den Gesprächen und
+/// den Entscheidungen, es ist dieselbe Uhr.
 class SitzungsUhr extends StatelessWidget {
   const SitzungsUhr({super.key, required this.sitzung, this.groesse = 320});
 

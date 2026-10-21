@@ -5,6 +5,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte/party/bildschirme/runde.dart';
 import 'package:mordakte/party/bildschirme/spickzettel.dart';
 import 'package:mordakte/party/party_stil.dart';
+import 'package:mordakte/party/runden_uhr.dart' show SitzungsUhr;
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte/party/skript.dart';
 import 'package:mordakte/stil/mappe/zeichen.dart' show MStempel;
@@ -124,6 +125,25 @@ void main() {
     expect(s.uhr.dauer, const Duration(seconds: 5).inMilliseconds);
     await t.pump();
     expect(find.text('00:05'), findsOneWidget);
+  });
+
+  testWidgets('Langer Abend (M7b): Die Uhr am Tisch läuft in den Entscheidungen weiter, eine neue Runde stellt sie neu', (t) async {
+    final s = PartySitzung(langDaten, wuerfel: const FesterWuerfel.neutral())
+      ..einrichten(rollen: 7, detektiv: 'w', code: FallCode.fuerPfad('ahmet', langDaten.kanon.pfade).code, rundendauerMinuten: 20, fassung: Abendfassung.lang);
+    testAbendzeit(t, s);
+    spieleBis(s, PartyPhase.gespraeche);
+    await t.pumpWidget(rahmen(ListenableBuilder(listenable: s, builder: (_, _) => SitzungsUhr(sitzung: s))));
+    expect(find.text('20:00'), findsOneWidget);
+    expect(s.uhrAktion(UhrAktion.start), isTrue);
+    await t.pump(const Duration(minutes: 1));
+    spieleBis(s, PartyPhase.entscheidungen);
+    expect(s.uhrInPhase, isTrue);
+    await t.pump(const Duration(seconds: 30));
+    expect(find.text('18:30'), findsOneWidget, reason: 'Dieselbe Uhr wie in den Gesprächen');
+    spieleBis(s, PartyPhase.gespraeche, runde: 2);
+    await t.pump();
+    expect(find.text('20:00'), findsOneWidget);
+    await t.pumpWidget(const SizedBox.shrink());
   });
 
   testWidgets('bei 0 erscheint der Baustein Die Zeit ist um', (t) async {

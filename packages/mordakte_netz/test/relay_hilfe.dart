@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:mordakte_core/mordakte_core.dart' show FallCode, Kanon, Rng, Texte, Textsammlung;
+import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, FallCode, Kanon, Rng, Texte, Textsammlung;
 import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, ProtokollRaum, SchlosskellerRaum;
 import 'package:mordakte_netz/io.dart';
 import 'package:mordakte_netz/mordakte_netz.dart';
@@ -109,7 +109,10 @@ class Abend {
   /// für einzelne Tests; ohne Angabe gelten die Standardwerte des Pakets.
   ///
   /// [abendzeit] ersetzt die Uhr des Gastgebers (gemeinsame Rundenuhr, M4).
-  static Future<Abend> starten({Duration? offlineFrist, Duration? umschlagFrist, int? maxSpieler, int Function()? abendzeit}) async {
+  /// [fassung] lang legt den langen Abend in die Meta wie das Gastgebergerät
+  /// (M7b, nur dann der Schlüssel `fassung`); ohne Angabe kurz wie bisher.
+  static Future<Abend> starten(
+      {Duration? offlineFrist, Duration? umschlagFrist, int? maxSpieler, int Function()? abendzeit, Abendfassung fassung = Abendfassung.kurz}) async {
     final attrappe = await PhoenixAttrappe.starten();
     final relay = RelayParameter(url: attrappe.url, schluessel: attrappe.schluessel);
     final dir = _partyDir();
@@ -128,10 +131,12 @@ class Abend {
           festerGastgeber: true,
           // Diashow wie im Schlosskeller: sechs Bilder in der Einleitung.
           diaAnzahl: 6,
+          // Fassung aus der Meta wie beim Gastgebergerät (M7b).
+          fassung: Abendfassung.lesen(meta['fassung']),
         );
         return maxSpieler == null ? raum : BegrenzterRaum(raum, maxSpieler);
       },
-      meta: {'salz': salz, 'fallCode': fall.code},
+      meta: {'salz': salz, 'fallCode': fall.code, if (fassung.istLang) 'fassung': fassung.name},
       relay: relay,
       akte: 'schlosskeller',
       inhalt: 'test',

@@ -23,6 +23,8 @@ import 'sitzung.dart';
 /// - `gespraech=<figur>[,<schritte>]` (mit `bis`): in Runde 1 ein Randgespräch mit
 ///   dieser Figur beginnen und je Schritt die erste Wahl nehmen; liegt `bis`
 ///   hinter den Entscheidungen, wird es zu Ende geführt (Nachspiel)
+/// - `fassung=lang`: der lange Abend (M7b), nur in Akten mit Langfassung;
+///   sonst und ohne Angabe der kurze
 ///
 /// Im Modell befragung erledigt das Skript die Befragungen jeder Runde selbst
 /// (erste Frage, feste und so viele freie wie erlaubt).
@@ -44,6 +46,9 @@ class PartyDev {
   final String? gespraech;
   final int gespraechSchritte;
 
+  /// Kurzer oder langer Abend (`fassung=lang`).
+  final Abendfassung fassung;
+
   const PartyDev({
     this.fall = 'schlosskeller',
     this.code,
@@ -61,6 +66,7 @@ class PartyDev {
     this.zoom,
     this.gespraech,
     this.gespraechSchritte = 0,
+    this.fassung = Abendfassung.kurz,
   });
 
   /// Aus den URL-Parametern; `null` ohne `party=`.
@@ -87,8 +93,12 @@ class PartyDev {
       zoom: double.tryParse(q['zoom'] ?? ''),
       gespraech: q['gespraech']?.split(',').first,
       gespraechSchritte: int.tryParse(q['gespraech']?.split(',').elementAtOrNull(1) ?? '') ?? 0,
+      fassung: Abendfassung.lesen(q['fassung']),
     );
   }
+
+  /// Fassung für die Sitzung [s]: lang nur, wenn die Akte eine Langfassung hat.
+  Abendfassung fassungFuer(PartySitzung s) => s.daten.hat('langfassung') ? fassung : Abendfassung.kurz;
 
   /// Fall-Code aus `code` oder `pfad`.
   String? fallCode(Kanon kanon) => code ?? (pfad == null ? null : FallCode.fuerPfad(pfad!, kanon.pfade).code);
@@ -143,7 +153,7 @@ class PartySkript {
         s.zurEinrichtung();
       case PartyPhase.einrichtung:
         await _foto('einrichtung');
-        s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon));
+        s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s));
         if (dev.dauerSekunden != null) s.rundendauer = Duration(seconds: dev.dauerSekunden!);
         if (dev.zeitraffer != null) s.zeitraffer = dev.zeitraffer!;
       case PartyPhase.rollen:
@@ -276,7 +286,7 @@ class PartySkript {
         case PartyPhase.titel:
           s.zurEinrichtung();
         case PartyPhase.einrichtung:
-          s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon));
+          s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s));
         case PartyPhase.entscheidungen:
           // Nur der explizite Standbild-Einstieg überspringt das Rendering.
           // Der vollständige E2E-Lauf unten wartet auf echte Kartenaktionen.

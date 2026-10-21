@@ -80,6 +80,10 @@ class GastgeberDienst extends ChangeNotifier {
   int get minuten => jZahl(meta['minuten'], 30);
   bool get stimme => meta['stimme'] == true;
 
+  /// Kurzer oder langer Abend (M7b, Meta `fassung`, nur bei lang geschrieben).
+  /// Abende ohne den Schlüssel sind kurz.
+  Abendfassung get fassung => Abendfassung.lesen(meta['fassung']);
+
   /// Hat der Abend schon begonnen (Rollen verteilt)?
   bool get gestartet => !raum.vorStart;
 
@@ -130,14 +134,18 @@ class GastgeberDienst extends ChangeNotifier {
         // Rundenuhr und Diashow (M4): Dauer der Einrichtung, Bilder der Akte.
         rundenMinuten: jZahl(meta['minuten'], 30),
         diaAnzahl: daten.diashow?.dias.length ?? 0,
+        // Fassung (M7b): lang nur aus der Meta und nur in Akten mit Langfassung.
+        fassung: daten.hat('langfassung') ? Abendfassung.lesen(meta['fassung']) : Abendfassung.kurz,
       );
 
   /// Erzeugt Schlüssel, Raumcode und Raum neu. Das Relais ist noch nicht
   /// verbunden: [oeffnen] tut das.
   ///
   /// [fallCodeEingabe] leer oder ungültig heißt Zufall. [sitz] ist der Platz
-  /// des Gastgebers (Detektiv oder Erzähler). Alle Einstellungen liegen in
-  /// [meta], damit [wiederherstellen] denselben Abend aufbauen kann.
+  /// des Gastgebers (Detektiv oder Erzähler). [fassung] lang nur in Akten mit
+  /// Langfassung; die Meta trägt sie nur dann, kurze Abende bleiben bytegleich.
+  /// Alle Einstellungen liegen in [meta], damit [wiederherstellen] denselben
+  /// Abend aufbauen kann.
   static Future<GastgeberDienst> neu({
     required PartyDaten daten,
     required String akteId,
@@ -151,10 +159,12 @@ class GastgeberDienst extends ChangeNotifier {
     Sitz sitz = Sitz.detektiv,
     int minuten = 30,
     bool stimme = false,
+    Abendfassung fassung = Abendfassung.kurz,
     RelayParameter? relay,
     void Function(String)? log,
   }) async {
     if (!sitz.vergeben) throw ArgumentError.value(sitz, 'sitz', 'Detektiv oder Erzähler');
+    if (fassung.istLang && !daten.hat('langfassung')) throw ArgumentError.value(fassung, 'fassung', 'Diese Akte hat keinen langen Abend');
     final zufall = math.Random.secure();
     final salz = [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join();
     final code = (fallCodeEingabe == null ? null : FallCode.lesen(fallCodeEingabe)) ?? PartySitzung.zufallsCode();
@@ -167,6 +177,7 @@ class GastgeberDienst extends ChangeNotifier {
       'sitz': sitz.name,
       'minuten': minuten,
       'stimme': stimme,
+      if (fassung.istLang) 'fassung': fassung.name,
     };
     final host = await RelayHost.neu(
       fabrik: (c, m) => _baue(c, m, daten, akteId, katalog, abstecher),

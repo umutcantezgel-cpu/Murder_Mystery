@@ -194,6 +194,7 @@ SchlosskellerRaum sitzRaum({
   PartyDaten? daten,
   int diaAnzahl = 0,
   bool ohneFigur = false,
+  Abendfassung fassung = Abendfassung.kurz,
 }) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
@@ -205,6 +206,7 @@ SchlosskellerRaum sitzRaum({
     festerGastgeber: true,
     gastgeberSitz: erzaehler == 'gastgeber' ? Sitz.erzaehler : Sitz.detektiv,
     diaAnzahl: diaAnzahl,
+    fassung: fassung,
   );
   final plaetze = [
     ('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora'),
@@ -323,6 +325,10 @@ class SitzDienst implements GastgeberDienst {
 
   @override
   int get minuten => 30;
+
+  /// Fassung des Raums (M7b); kurz, solange der Raum nichts anderes sagt.
+  @override
+  Abendfassung get fassung => raum.fassung;
 
   @override
   bool get stimme => false;
@@ -608,6 +614,10 @@ class TestLobbyDienst extends ChangeNotifier implements GastgeberDienst {
   @override
   Sitz get sitz => raum.sitzVon('gastgeber') ?? Sitz.detektiv;
 
+  /// Fassung des Raums (M7b); kurz, solange der Raum nichts anderes sagt.
+  @override
+  Abendfassung get fassung => raum.fassung;
+
   @override
   List<SpielerInfo> get gaeste => [for (final s in spieler) if (!s.istGastgeber) s];
 
@@ -691,6 +701,10 @@ class TestAbendDienst implements GastgeberDienst {
 
   @override
   int get minuten => 30;
+
+  /// Fassung des Raums (M7b); kurz, solange der Raum nichts anderes sagt.
+  @override
+  Abendfassung get fassung => raum.fassung;
 
   @override
   bool get stimme => false;

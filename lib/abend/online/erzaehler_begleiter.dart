@@ -166,7 +166,8 @@ class BegleiterRaum implements AbendRaum {
       case 'uhr':
         final aktion = UhrAktion.lesen(inhalt['aktion']);
         final minuten = inhalt['minuten'], zeit = inhalt['zeit'];
-        if (sitzung.phase != PartyPhase.gespraeche) throw const PartyRaumFehler('invalid_phase');
+        // Kurz nur in den Gesprächen, lang im ganzen Streifzug (M7b, [PartySitzung.uhrInPhase]).
+        if (!sitzung.uhrInPhase) throw const PartyRaumFehler('invalid_phase');
         if (aktion == null || zeit is! int || (minuten != null && minuten is! int)) throw const PartyRaumFehler('invalid');
         if (!sitzung.uhrAktion(aktion, minuten: minuten as int?, zeit: zeit)) throw const PartyRaumFehler('invalid_phase');
         _version++;
@@ -192,7 +193,11 @@ class BegleiterRaum implements AbendRaum {
   }
 
   Map<String, Object?> _ansicht(String id) {
-    final kopf = {'t': 'abend', 'protokoll': 1, 'spiel': sitzung.daten.fall, 'akte': sitzung.daten.fall, 'raum': raumCode};
+    final kopf = {
+      't': 'abend', 'protokoll': 1, 'spiel': sitzung.daten.fall, 'akte': sitzung.daten.fall, 'raum': raumCode,
+      // Wie im Online-Raum nur beim langen Abend (M7b).
+      if (sitzung.lang) 'fassung': sitzung.fassung.name,
+    };
     if (id == tisch) return {...kopf, 'phase': _phase, 'privat': {'spieler': id}};
     if (id != _erzaehler) throw const PartyRaumFehler('not_in_room');
     final s = sitzung;
@@ -216,9 +221,10 @@ class BegleiterRaum implements AbendRaum {
           if (b.pflicht || b.frage != null) {'rolle': b.rolle, 'thema': b.thema, 'erledigt': b.erledigt},
       ],
       ..._ermittlung(s),
-      // Diashow und Rundenuhr wie im Online-Raum (M4): Nummer des Bildes, Zustand der Uhr.
+      // Diashow und Rundenuhr wie im Online-Raum (M4): Nummer des Bildes, Zustand der Uhr;
+      // lang auch in den Entscheidungen (M7b).
       if (s.phase == PartyPhase.intro && s.diashow != null) 'dia': s.dia,
-      if (s.phase == PartyPhase.gespraeche) 'uhr': s.uhr.toJson(),
+      if (s.uhrInPhase) 'uhr': s.uhr.toJson(),
       'privat': {
         'spieler': id,
         'vorleser': true,

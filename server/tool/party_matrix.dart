@@ -1,6 +1,9 @@
 /// Echte WebSocket-Clients in EINEM Schlosskeller-Raum, 4–20 Laststufen, je in
 /// drei Sitz-Konstellationen (Host = Erzähler + Gast = Detektiv, Host = Detektiv
-/// ohne Erzähler, Host = Detektiv + Gast = Erzähler).
+/// ohne Erzähler, Host = Detektiv + Gast = Erzähler). Lokal dazu ein Lauf mit dem
+/// langen Abend (M7b, eigene Raumart nur dieser Matrix): Die Uhr der Gespräche
+/// läuft in den Entscheidungen weiter und lässt sich dort stellen, jede Ansicht
+/// trägt `fassung: lang`. Kurz fehlen Uhr und Schlüssel dort wie bisher.
 /// Vollständiger Abend, eigene Rollenansichten, Sitze, Vorleser-Sitz, Rechte,
 /// Reconnect, Würfelprüfung. Dazu je Akte ein Host-Wechsel nach dem Start: Der
 /// Gastgeber auf dem Detektiv-Sitz geht, der neue führt den Abend zu Ende. Zuletzt
@@ -61,14 +64,20 @@ Future<void> _health(Uri url) async {
   } finally { http.close(force: true); }
 }
 
-/// Sitze eines Laufs (M3): Client 0 öffnet den Raum, Client 1 ist der Gast mit Sitz.
-typedef _Konstellation = ({String name, String hostSitz, String? gastSitz});
+/// Sitze eines Laufs (M3): Client 0 öffnet den Raum, Client 1 ist der Gast mit Sitz;
+/// [lang]: der lange Abend (M7b).
+typedef _Konstellation = ({String name, String hostSitz, String? gastSitz, bool lang});
 
 const _konstellationen = <_Konstellation>[
-  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv'),
-  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null),
-  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler'),
+  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false),
+  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null, lang: false),
+  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false),
+  (name: 'Langer Abend: Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: true),
 ];
+
+/// Raumart des langen Abends, nur am lokalen Server dieser Matrix (Server-Räume
+/// des Produktionsservers haben keine Meta und spielen kurz).
+const _langAbend = 'schlosskeller~lang';
 
 /// Ansicht von [c], die [wo] erfüllt: schon empfangen (auch wenn `_command` sie
 /// verbraucht hat), sonst die nächste.
@@ -98,7 +107,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     }
     final host = active.first;
     _stage = 'Partyraum erstellen und beitreten';
-    host.send({'t': Msg.create, 'abend': 'schlosskeller'});
+    host.send({'t': Msg.create, 'abend': k.lang ? _langAbend : 'schlosskeller'});
     final room = await host.expect(Msg.room);
     final code = room['code'] as String;
     _require(room['abend'] == 'schlosskeller', 'Falsche Raumart beim Erstellen.');
@@ -195,8 +204,8 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     var forgedDiceChecked = false;
     var befragt = 0;
     var steps = 0;
-    // Rundenuhr und Diashow (M4): je einmal geprüft.
-    var uhrGeprueft = false, diaGeprueft = false;
+    // Rundenuhr und Diashow (M4): je einmal geprüft; dazu die Uhr im Streifzug (M7b).
+    var uhrGeprueft = false, diaGeprueft = false, streifzugGeprueft = false, uhrAbgeraeumt = false;
     while (host.latest(Msg.abend)['phase'] != 'ende') {
       _require(++steps < 400, 'Partyabend erreicht das Ende nicht.');
       final s = host.latest(Msg.abend);
@@ -204,6 +213,31 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
         case 'rollen':
           for (final c in rollenC) { await _command(host, c, 'rollenGelesen'); }
           await _command(host, leiterC, 'weiter');
+        case 'entscheidungen' when !streifzugGeprueft:
+          // Uhr im Streifzug (M7b): lang läuft die Uhr der Gespräche weiter, für alle gleich,
+          // und wer leitet, stellt sie; kurz gibt es dort keine Uhr (`invalid_phase`).
+          _stage = 'Uhr im Streifzug';
+          streifzugGeprueft = true;
+          if (k.lang) {
+            _require(RundenUhr.ausJson(s['uhr'])?.laeuft == true, 'Langer Abend: Die Uhr der Gespräche läuft in den Entscheidungen nicht weiter.');
+            final andere = rollenC.first;
+            andere.send({'t': Msg.abendCmd, 'c': {'typ': 'uhr', 'aktion': 'pause'}});
+            await andere.expect(Msg.error, where: (m) => m['key'] == 'not_host');
+            final angehalten = await _command(host, leiterC, 'uhr', {'aktion': 'pause'});
+            _require(RundenUhr.ausJson(angehalten['uhr'])?.pausiert == true, 'Langer Abend: Die Uhr hält in den Entscheidungen nicht an.');
+            final weiter = await _command(host, leiterC, 'uhr', {'aktion': 'weiter'});
+            final uhren = <String>{};
+            for (final c in active) {
+              final v = await _sicht(c, weiter['version'] as int);
+              _require(RundenUhr.ausJson(v['uhr'])?.laeuft == true, 'Langer Abend: Die Uhr läuft nach Weiter nicht.');
+              uhren.add(jsonEncode(v['uhr']));
+            }
+            _require(uhren.length == 1, 'Langer Abend: Die Uhr in den Entscheidungen ist nicht für alle gleich.');
+          } else {
+            _require(!s.containsKey('uhr'), 'Kurzer Abend: Uhr in den Entscheidungen.');
+            leiterC.send({'t': Msg.abendCmd, 'c': {'typ': 'uhr', 'aktion': 'pause'}});
+            await leiterC.expect(Msg.error, where: (m) => m['key'] == 'invalid_phase');
+          }
         case 'entscheidungen':
           if (s['zug'] case final Map z) {
             switch (z['phase']) {
@@ -280,6 +314,13 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
             }
           }
           await _command(host, leiterC, 'weiter');
+        case 'gruppenwahl' when !uhrAbgeraeumt:
+          // Nach dem Streifzug gibt es keine Uhr mehr, kurz wie lang.
+          _stage = 'Uhr nach dem Streifzug';
+          uhrAbgeraeumt = true;
+          _require(!s.containsKey('uhr'), 'Uhr in der Gruppenwahl.');
+          leiterC.send({'t': Msg.abendCmd, 'c': {'typ': 'uhr', 'aktion': 'pause'}});
+          await leiterC.expect(Msg.error, where: (m) => m['key'] == 'invalid_phase');
         case 'gruppenwahl':
           for (final c in rollenC) {
             final state = await c.expect(Msg.abend, where: (m) => m['phase'] == 'gruppenwahl' && m['runde'] == s['runde']);
@@ -299,6 +340,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     }
     _require(forgedDiceChecked, 'Manipulationsprüfung wurde nicht erreicht.');
     _require(uhrGeprueft, 'Die Rundenuhr wurde nicht geprüft.');
+    _require(streifzugGeprueft && uhrAbgeraeumt, 'Die Uhr im Streifzug wurde nicht geprüft.');
     _require(diaGeprueft, 'Die Diashow wurde nicht geprüft.');
     final solution = _map(last['aufloesung']);
     final pfad = solution['pfad'] as String;
@@ -336,6 +378,8 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
         _require(identities.every((identity) => !text.contains(identity)), 'Sitzungsschlüssel in einer Spielansicht.');
         final istDetektiv = c.playerId == detektiv.playerId, istErzaehler = c.playerId == erzaehler?.playerId;
         final lobby = view['phase'] == 'lobby';
+        // Fassung (M7b): lang trägt jede Ansicht `fassung: lang`, kurz keine den Schlüssel.
+        _require(k.lang ? view['fassung'] == 'lang' : !view.containsKey('fassung'), 'Fassung fehlt oder steht im kurzen Abend.');
         final nachFinale = ['finale', 'aufloesung', 'ende'].contains(view['phase']);
         if (!nachFinale) {
           _require(_keys(view).toSet().intersection({'pfad', 'fallCode', 'salz', 'seed', 'richtig', 'qualitaeten'}).isEmpty, 'Geheimer Steuerwert vor dem Finale übertragen.');
@@ -724,7 +768,12 @@ Future<void> main(List<String> args) async {
       rooms = RoomManager(
         runtimeFactory: coreRuntimeFactory(scenarios),
         // Alle Akten wie der Produktionsserver; der Schlosskeller wie bisher ohne Zusatzorte.
-        abendFactories: {...loadAktenFactories(partyDir), 'schlosskeller': loadSchlosskellerFactory(partyDir)},
+        abendFactories: {
+          ...loadAktenFactories(partyDir),
+          'schlosskeller': loadSchlosskellerFactory(partyDir),
+          // Nur diese Matrix: der lange Abend als eigene Raumart (M7b).
+          _langAbend: loadSchlosskellerFactory(partyDir, fassung: Abendfassung.lang),
+        },
         log: (message) { if (message.contains('Fehler')) runtimeErrors++; },
       );
       server = await serveMordakte(rooms, port: 0, trustProxy: false);
@@ -738,9 +787,10 @@ Future<void> main(List<String> args) async {
     }
     await _health(url);
     final counts = single == null ? [for (var n = 4; n <= 20; n++) n] : [single];
-    // Je Laststufe alle drei Sitz-Konstellationen (M3).
+    // Je Laststufe alle drei Sitz-Konstellationen (M3), lokal dazu der lange Abend (M7b).
+    final konstellationen = [for (final k in _konstellationen) if (remote == null || !k.lang) k];
     for (final n in counts) {
-      for (final k in _konstellationen) { await _batch(url, n, texte, k); }
+      for (final k in konstellationen) { await _batch(url, n, texte, k); }
     }
     // Host-Wechsel nach dem Start in jeder Akte (M3: der Detektiv-Sitz wandert nicht mit).
     final akten = [
@@ -750,7 +800,7 @@ Future<void> main(List<String> args) async {
     // Fällt der Gast-Detektiv aus, vergibt der Gastgeber den Sitz neu (Nachschliff M3).
     await _detektivAusfall(url);
     _require(runtimeErrors == 0, 'Server meldete unerwartete Runtime-Fehler.');
-    print('PARTY-ONLINE-MATRIX GRÜN · ${counts.length}/${counts.length} Laststufen × ${_konstellationen.length} Sitz-Konstellationen, '
+    print('PARTY-ONLINE-MATRIX GRÜN · ${counts.length}/${counts.length} Laststufen × ${konstellationen.length} Sitz-Konstellationen, '
         'Host-Wechsel in ${akten.length} Akten, Ausfall des Gast-Detektivs; App-Bedienung und öffentliche Bereitstellung separat abnehmen.');
   } catch (error) {
     // Keine Rohpakete, Tokens, privaten Rollenkarten oder Konfigurationswerte.

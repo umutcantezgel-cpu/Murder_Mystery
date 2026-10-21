@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordakte_core/runden.dart' show AbstecherOrt, KartenKatalog, Sitz, TischVorrat;
+import 'package:mordakte_core/runden.dart' show Abendfassung, AbstecherOrt, KartenKatalog, Sitz, TischVorrat;
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
@@ -285,6 +285,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         sitz: g.werte.mitErzaehler ? g.werte.platz : Sitz.detektiv,
         minuten: g.werte.minuten,
         stimme: g.werte.stimme,
+        fassung: g.werte.langfassung ? g.werte.fassung : Abendfassung.kurz,
       );
       if (!mounted) {
         await dienst.schliessen();
@@ -456,6 +457,9 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                   // Online legt die Lobby die Rollen fest, sobald klar ist, wer mitspielt.
                   if (_weise != Spielweise.eigene) (l.abend_start_personen, '${g.werte.rollen}'),
                   if (_weise != Spielweise.solo) (l.abend_start_dauer, l.common_minutes(g.werte.minuten)),
+                  // Kurzer oder langer Abend und seine Länge (M7b), nur Akten mit Langfassung.
+                  if (g.werte.langfassung) (l.abend_start_fassung, g.werte.fassung.istLang ? l.abend_fassung_lang : l.abend_fassung_kurz),
+                  if (g.werte.abendMinutenCa case final ca? when _weise != Spielweise.solo) (l.abend_start_laenge, l.abend_ca_minuten(ca)),
                   // Rollen am Tisch (M3): reihum der Erzähler, online der eigene Platz.
                   if (g.werte.mitErzaehler && _weise == Spielweise.reihum)
                     (l.abend_start_erzaehler, g.werte.erzaehlerName.text.trim().isEmpty ? l.abend_start_ohne : g.werte.erzaehlerName.text.trim()),

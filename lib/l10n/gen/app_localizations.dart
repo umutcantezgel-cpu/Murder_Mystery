@@ -7286,6 +7286,72 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.'**
   String get online_detektiv_wer_figuren;
+
+  /// Einrichtung (M7b): Überschrift der Wahl kurzer oder langer Abend, nur Akten mit Langfassung
+  ///
+  /// In de, this message translates to:
+  /// **'Länge des Abends'**
+  String get abend_fassung_titel;
+
+  /// Einrichtung und Startübersicht (M7b): der kurze Abend
+  ///
+  /// In de, this message translates to:
+  /// **'Kurzer Abend'**
+  String get abend_fassung_kurz;
+
+  /// Einrichtung und Startübersicht (M7b): der lange Abend mit Streifzug
+  ///
+  /// In de, this message translates to:
+  /// **'Langer Abend'**
+  String get abend_fassung_lang;
+
+  /// Einrichtung (M7b): Wahl der Fassung mit geschätzter Abendlänge bei der Vorgabe ihrer Rundendauer
+  ///
+  /// In de, this message translates to:
+  /// **'{fassung} · ca. {minuten} Min.'**
+  String abend_fassung_mit_dauer(String fassung, int minuten);
+
+  /// Einrichtung (M7b): Hinweis unter der Wahl, kurzer Abend gewählt
+  ///
+  /// In de, this message translates to:
+  /// **'Der gewohnte Abend am Tisch.'**
+  String get abend_fassung_hinweis_kurz;
+
+  /// Einrichtung (M7b): Hinweis unter der Wahl, langer Abend gewählt
+  ///
+  /// In de, this message translates to:
+  /// **'Streifzug durch Schloss, Hof und Garten.'**
+  String get abend_fassung_hinweis_lang;
+
+  /// Einrichtung (M7b): geschätzte Länge des ganzen Abends unter der Rundendauer (K-18)
+  ///
+  /// In de, this message translates to:
+  /// **'Ganzer Abend: ca. {minuten} Min.'**
+  String abend_dauer_ca(int minuten);
+
+  /// Einrichtung (M7b): Im langen Abend deckt die Rundenuhr Gespräche und Entscheidungen ab
+  ///
+  /// In de, this message translates to:
+  /// **'Die Uhr läuft über den ganzen Streifzug.'**
+  String get abend_dauer_lang_hinweis;
+
+  /// Startübersicht (M7b): geschätzte Länge des Abends
+  ///
+  /// In de, this message translates to:
+  /// **'ca. {minuten} Min.'**
+  String abend_ca_minuten(int minuten);
+
+  /// Startübersicht (M7b): kurzer oder langer Abend
+  ///
+  /// In de, this message translates to:
+  /// **'Abend'**
+  String get abend_start_fassung;
+
+  /// Startübersicht (M7b): geschätzte Länge des Abends
+  ///
+  /// In de, this message translates to:
+  /// **'Länge'**
+  String get abend_start_laenge;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

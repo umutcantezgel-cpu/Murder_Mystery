@@ -15,8 +15,8 @@ final _texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/conte
 final _erm = Ermittlung(kanon);
 const _min = RundenUhr.minute;
 
-SchlosskellerRaum _raum({int minuten = 20, int dias = 6}) => SchlosskellerRaum(
-      raumCode: 'ABCD', kanon: kanon, texte: _texte, rundenMinuten: minuten, diaAnzahl: dias,
+SchlosskellerRaum _raum({int minuten = 20, int dias = 6, Abendfassung fassung = Abendfassung.kurz}) => SchlosskellerRaum(
+      raumCode: 'ABCD', kanon: kanon, texte: _texte, rundenMinuten: minuten, diaAnzahl: dias, fassung: fassung,
       fallCode: FallCode.fuerPfad('ahmet', kanon.pfade), salz: 'pruefung-raumsalz-unabhaengig-vom-pfad',
     );
 
@@ -76,6 +76,8 @@ void _schritt(AbendRaum r, String leiter) {
         if (privat['rolle'] != null && privat['hatGestimmt'] == false) _befehl(r, id, 'stimme', {'kooperativ': true});
       }
       _befehl(r, leiter, 'weiter');
+    case 'anklage' when s['kannWeiter'] != true:
+      _befehl(r, 'p0', 'anklage', {'person': 'ahmet'});
     default:
       _befehl(r, leiter, 'weiter');
   }
@@ -250,6 +252,106 @@ void main() {
         _bis(r, 'gespraeche');
         expect(_uhr(r).dauer, soll * _min, reason: '$minuten');
       }
+    });
+  });
+
+  group('Langer Abend (M7b): eine Uhr für den ganzen Streifzug', () {
+    test('Lang läuft die Uhr der Gespräche in den Entscheidungen weiter; erst die Gruppenwahl räumt sie ab', () {
+      final r = _raum(fassung: Abendfassung.lang);
+      expect(r.fassung, Abendfassung.lang);
+      _start(r);
+      expect(r.zustandFuer('p2')['fassung'], 'lang', reason: 'Alle sehen die Fassung, auch in der Lobby');
+      expect(() => _befehl(r, 'p0', 'uhr', {'aktion': 'start'}), throwsA(_fehler('invalid_phase')));
+      _bis(r, 'gespraeche');
+      expect(_uhr(r), RundenUhr.minuten(20));
+      _befehl(r, 'p0', 'uhr', {'aktion': 'start'}, 5000);
+      _bis(r, 'entscheidungen');
+      expect(_uhr(r).start, 5000, reason: 'Dieselbe Uhr, nicht neu gestellt');
+      expect(_uhr(r, 'p3').laeuft, isTrue);
+      _befehl(r, 'p0', 'uhr', {'aktion': 'pause'}, 5000 + 7 * _min);
+      _befehl(r, 'p0', 'uhr', {'aktion': 'plus', 'minuten': 5}, 5000 + 8 * _min);
+      _befehl(r, 'p0', 'uhr', {'aktion': 'weiter'}, 5000 + 9 * _min);
+      final u = _uhr(r, 'p2');
+      expect([u.laeuft, u.dauer, u.rest(5000 + 9 * _min)], [true, 25 * _min, 18 * _min]);
+      _bis(r, 'gruppenwahl');
+      expect(r.zustandFuer('p0').containsKey('uhr'), isFalse);
+      expect(() => _befehl(r, 'p0', 'uhr', {'aktion': 'pause'}), throwsA(_fehler('invalid_phase')));
+      _bis(r, 'gespraeche', runde: 2);
+      expect(_uhr(r), RundenUhr.minuten(20), reason: 'Neue Runde, neue Uhr');
+      _bis(r, 'entscheidungen', runde: 2);
+      expect(_uhr(r), RundenUhr.minuten(20), reason: 'Ungestartet bleibt sie auch in den Entscheidungen stehen');
+      _befehl(r, 'p0', 'uhr', {'aktion': 'start'}, 9000);
+      expect(_uhr(r).start, 9000, reason: 'In den Entscheidungen lässt sie sich auch starten');
+    });
+
+    test('Lang in den Entscheidungen: nur wer leitet stellt die Uhr, alle sehen dieselbe', () {
+      final r = _raum(fassung: Abendfassung.lang);
+      _start(r, erzaehler: true);
+      _bis(r, 'gespraeche', leiter: 'p1');
+      _befehl(r, 'p1', 'uhr', {'aktion': 'start'}, 100);
+      _bis(r, 'entscheidungen', leiter: 'p1');
+      for (final id in ['p0', 'p2', 'p3']) {
+        expect(() => _befehl(r, id, 'uhr', {'aktion': 'pause'}), throwsA(_fehler('not_host')), reason: id);
+      }
+      _befehl(r, 'p1', 'uhr', {'aktion': 'pause'}, 200);
+      expect({for (final id in ['p0', 'p1', 'p2', 'p3']) jsonEncode(r.zustandFuer(id)['uhr'])}, hasLength(1));
+      expect(_uhr(r, 'p2').pausiert, isTrue);
+    });
+
+    test('Kurz bleibt, wie es war: nie der Schlüssel fassung, keine Uhr in den Entscheidungen', () {
+      final r = _raum();
+      expect(r.fassung, Abendfassung.kurz);
+      _start(r);
+      for (var i = 0; i < 400 && r.zustandFuer('p0')['phase'] != 'ende'; i++) {
+        final s = r.zustandFuer('p2');
+        expect(s.containsKey('fassung'), isFalse, reason: '${s['phase']}');
+        if (s['phase'] == 'entscheidungen') {
+          expect(s.containsKey('uhr'), isFalse);
+          expect(() => _befehl(r, 'p0', 'uhr', {'aktion': 'start'}), throwsA(_fehler('invalid_phase')));
+        }
+        _schritt(r, 'p0');
+      }
+      expect(r.zustandFuer('p0')['phase'], 'ende');
+    });
+
+    test('Lang und kurz spielen denselben Abend: Ansichten gleich bis auf Fassung und Uhr, Auflösung, Würfe und Nachtminuten gleich', () {
+      final kurz = _raum(), lang = _raum(fassung: Abendfassung.lang);
+      _start(kurz);
+      _start(lang);
+      Map<String, Object?> ohne(Map<String, Object?> v) => Map.of(v)..remove('fassung')..remove('uhr');
+      var schritte = 0;
+      while (kurz.zustandFuer('p0')['phase'] != 'ende') {
+        expect(++schritte, lessThan(400));
+        for (final id in ['p0', 'p1', 'p2', 'p3']) {
+          expect(jsonEncode(ohne(lang.zustandFuer(id))), jsonEncode(ohne(kurz.zustandFuer(id))), reason: '$id, Schritt $schritte');
+        }
+        _schritt(kurz, 'p0');
+        _schritt(lang, 'p0');
+      }
+      final a = kurz.zustandFuer('p0'), b = lang.zustandFuer('p0');
+      expect(b['phase'], 'ende');
+      for (final k in ['aufloesung', 'wuerfe', 'restMinuten', 'marken', 'notizbuch', 'gewaehlt']) {
+        expect(jsonEncode(b[k]), jsonEncode(a[k]), reason: k);
+      }
+    });
+
+    test('Lang: Das Protokoll ergibt nach der Wiederherstellung dieselbe Uhr in den Entscheidungen', () {
+      final r = ProtokollRaum(_raum(fassung: Abendfassung.lang));
+      _start(r);
+      _bis(r, 'gespraeche');
+      _befehl(r, 'p0', 'uhr', {'aktion': 'start'}, 1000);
+      _bis(r, 'entscheidungen');
+      _befehl(r, 'p0', 'uhr', {'aktion': 'pause'}, 1000 + 3 * _min);
+      final abgelegt = [for (final e in jsonDecode(jsonEncode(r.protokoll)) as List) (e as List).cast<Object?>()];
+      final neu = ProtokollRaum.wiederherstellen(abgelegt, () => _raum(fassung: Abendfassung.lang));
+      for (final id in ['p0', 'p1', 'p2', 'p3']) {
+        expect(jsonEncode(neu.zustandFuer(id)), jsonEncode(r.zustandFuer(id)), reason: id);
+      }
+      expect(_uhr(neu).restBeiPause, 17 * _min);
+    });
+
+    test('Der Schlüssel fassung ist öffentlich freigegeben', () {
+      expect(raumOeffentlicheSchluessel, contains('fassung'));
     });
   });
 

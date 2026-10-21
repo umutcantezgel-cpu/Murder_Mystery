@@ -2,6 +2,7 @@
 // der Gastgeber beim Annehmen jedes Befehls (auch des eigenen Platzes); was ein
 // Gast als `zeit` mitschickt, gilt nie. Gäste kennen den Versatz zur Uhr des
 // Gastgebers aus dem `pong` (Feld `ht`) und rechnen die Restzeit selbst.
+import 'package:mordakte_core/mordakte_core.dart' show Abendfassung;
 import 'package:mordakte_core/runden.dart' show ProtokollRaum, RundenUhr;
 import 'package:mordakte_netz/mordakte_netz.dart';
 import 'package:test/test.dart';
@@ -70,5 +71,44 @@ void main() {
     final log = (a.host.raum as ProtokollRaum).protokoll.where((e) => e[0] == 'nachricht').map((e) => e[2] as Map).toList();
     expect(log.every((m) => m['zeit'] is int), isTrue, reason: 'Jeder Befehl trägt die Abendzeit des Transports');
     expect(log.where((m) => m['typ'] == 'uhr').map((m) => m['zeit']), everyElement(greaterThanOrEqualTo(vorher)));
+  });
+
+  test('Langer Abend über das Relais: alle sehen die Fassung, die Uhr läuft in den Entscheidungen weiter, stellen darf nur, wer leitet', () async {
+    final a = await Abend.starten(fassung: Abendfassung.lang);
+    addTearDown(a.schliessen);
+    for (var i = 0; i < 3; i++) {
+      await a.gast(i);
+    }
+    final erzaehler = a.gaeste[0], rolle = a.gaeste[1];
+    await a.hostPlatz.befehl({'typ': 'sitz', 'spieler': erzaehler.spielerId, 'sitz': 'erzaehler'});
+    await a.startet();
+    expect({for (final g in a.gaeste) g.letzteAnsicht!['fassung']}, {'lang'});
+    for (final g in a.gaeste) {
+      await g.befehl({'typ': 'rollenGelesen'}).catchError((Object _) {});
+    }
+    await erzaehler.befehl({'typ': 'weiter'});
+    await erzaehler.befehl({'typ': 'weiter'});
+    await warteBis(() => a.gaeste.every((g) => a.aktuell(g) && g.letzteAnsicht!['phase'] == 'gespraeche'));
+    await erzaehler.befehl({'typ': 'uhr', 'aktion': 'start'});
+    // Der Gastgeber führt den Detektiv: feste Befragungen und so viele freie, wie erlaubt.
+    final karten = privat(a.hostPlatz.letzteAnsicht!);
+    var frei = karten['befragungenFrei'] as int;
+    for (final k in [for (final x in karten['befragungen'] as List) (x as Map).cast<String, Object?>()]) {
+      if (k['pflicht'] != true) {
+        if (frei <= 0) continue;
+        frei--;
+      }
+      await a.hostPlatz.befehl({'typ': 'befragen', 'id': k['id'], 'frage': 0});
+      if (k['mensch'] == true) await a.hostPlatz.befehl({'typ': 'erledigt', 'id': k['id']});
+    }
+    await erzaehler.befehl({'typ': 'weiter'});
+    await warteBis(() => a.gaeste.every((g) => a.aktuell(g) && g.letzteAnsicht!['phase'] == 'entscheidungen'));
+    final uhren = {for (final g in a.gaeste) g.letzteAnsicht!['uhr'].toString()};
+    expect(uhren, hasLength(1));
+    expect(RundenUhr.ausJson(rolle.letzteAnsicht!['uhr'])!.laeuft, isTrue, reason: 'Dieselbe Uhr wie in den Gesprächen');
+    await expectLater(rolle.befehl({'typ': 'uhr', 'aktion': 'pause'}), _fehler('not_host'));
+    await erzaehler.befehl({'typ': 'uhr', 'aktion': 'pause'});
+    await warteBis(() => a.gaeste.every((g) => a.aktuell(g) && RundenUhr.ausJson(g.letzteAnsicht!['uhr'])?.pausiert == true));
+    expect(a.host.meta['fassung'], 'lang');
   });
 }

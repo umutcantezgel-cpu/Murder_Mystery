@@ -5,8 +5,8 @@ import 'raum_modul.dart';
 
 /// Gemeinsame Rundenuhr im Online-Abend (Langer Abend M4, `runden_uhr.dart`).
 ///
-/// Nachricht `uhr {aktion, minuten?}`, nur in den Gesprächen und nur von dem
-/// Gerät, das gerade leitet ([RaumKontext.darfLeiten]: der Erzähler, sonst der
+/// Nachricht `uhr {aktion, minuten?}`, nur in den Gesprächen (im langen Abend
+/// im ganzen Streifzug, siehe [lang]) und nur von dem Gerät, das gerade leitet ([RaumKontext.darfLeiten]: der Erzähler, sonst der
 /// Detektiv, sonst der Gastgeber):
 /// - `start` stellt die Uhr auf die volle Dauer ([minuten] der Einrichtung
 ///   oder `minuten`) und lässt sie laufen,
@@ -21,13 +21,25 @@ import 'raum_modul.dart';
 /// auf der vollen Dauer, noch nicht gestartet. Öffentlich ist nur ihr Zustand
 /// (`uhr`, [RundenUhr.toJson]), solange die Gespräche laufen; die Restzeit
 /// rechnet jedes Gerät selbst.
+///
+/// Langer Abend ([lang], M7b): Die Uhr deckt den ganzen Streifzug einer Runde
+/// ab. Sie bleibt beim Übergang in die Entscheidungen stehen, wie sie ist, ist
+/// dort öffentlich und nimmt `uhr`-Nachrichten an; erst die Gruppenwahl räumt
+/// sie ab. Im kurzen Abend bleibt alles wie bisher (`invalid_phase` außerhalb
+/// der Gespräche).
 class UhrModul extends RaumModul {
-  UhrModul({this.minuten = 30}) {
+  UhrModul({this.minuten = 30, this.lang = false}) {
     if (minuten < 1 || minuten > RundenUhr.hoechstStart) throw ArgumentError.value(minuten, 'minuten');
   }
 
   /// Rundendauer der Einrichtung in Minuten.
   final int minuten;
+
+  /// Langer Abend: eine Uhr für Gespräche und Entscheidungen einer Runde.
+  final bool lang;
+
+  /// Gehört die Uhr zu [phase]? Kurz nur die Gespräche, lang der ganze Streifzug.
+  bool _gilt(PartyPhase? phase) => phase == PartyPhase.gespraeche || (lang && phase == PartyPhase.entscheidungen);
 
   RundenUhr? _uhr;
 
@@ -43,7 +55,7 @@ class UhrModul extends RaumModul {
   void nachricht(RaumKontext k, String id, String typ, Map<String, Object?> inhalt) {
     k.darfLeiten(id);
     final uhr = _uhr;
-    if (uhr == null || k.phase != PartyPhase.gespraeche) throw const PartyRaumFehler('invalid_phase');
+    if (uhr == null || !_gilt(k.phase)) throw const PartyRaumFehler('invalid_phase');
     final zeit = inhalt[abendZeitFeld];
     final aktion = UhrAktion.lesen(inhalt['aktion']);
     final minuten = inhalt['minuten'];
@@ -56,12 +68,19 @@ class UhrModul extends RaumModul {
   void beimStart(RaumKontext k) => _uhr = null;
 
   @override
-  void phaseGewechselt(RaumKontext k) => _uhr = k.phase == PartyPhase.gespraeche ? RundenUhr.minuten(minuten) : null;
+  void phaseGewechselt(RaumKontext k) {
+    if (k.phase == PartyPhase.gespraeche) {
+      _uhr = RundenUhr.minuten(minuten);
+    } else if (!_gilt(k.phase)) {
+      _uhr = null;
+    }
+    // Lang, Übergang in die Entscheidungen: dieselbe Uhr läuft weiter.
+  }
 
   @override
   Map<String, Object?> oeffentlich(RaumKontext k, String id) {
     final uhr = _uhr;
-    if (uhr == null || k.phase != PartyPhase.gespraeche) return const {};
+    if (uhr == null || !_gilt(k.phase)) return const {};
     return {'uhr': uhr.toJson()};
   }
 }

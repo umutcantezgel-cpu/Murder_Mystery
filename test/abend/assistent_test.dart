@@ -20,7 +20,7 @@ import 'package:mordakte/karten/katalog_laden.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
-import 'package:mordakte_core/mordakte_core.dart' show PartyPhase;
+import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, PartyPhase;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -199,6 +199,133 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
+  });
+
+  group('Zeitbudget (M7b)', () {
+    /// Die Schätzung unter der Rundendauer, als Zahl (`null`: keine Schätzung).
+    int? ca(WidgetTester tester) {
+      final f = find.byKey(const ValueKey('abend-ca'));
+      if (f.evaluate().isEmpty) return null;
+      return int.parse(RegExp(r'ca\. (\d+) Min\.').firstMatch(tester.widget<Text>(f).data!)!.group(1)!);
+    }
+
+    /// Wählt die Rundendauer [minuten] und gibt die Schätzung zurück.
+    Future<int> mitDauer(WidgetTester tester, int minuten) async {
+      final option = find.text('$minuten Minuten');
+      await tester.ensureVisible(option);
+      await tippen(tester, '$minuten Minuten');
+      return ca(tester)!;
+    }
+
+    Future<void> fassung(WidgetTester tester, String beschriftung) async {
+      await tester.ensureVisible(find.text(beschriftung));
+      await tippen(tester, beschriftung);
+    }
+
+    bool feld(String name, String wert) => find.byWidgetPredicate((w) => w is MFeld && w.name == name && w.wert == wert).evaluate().isNotEmpty;
+
+    testWidgets('Schlosskeller: kurz ca. 100 Min. (Vorgabe 15), lang ca. 120 Min. (Vorgabe 20); jede lange Schätzung über jeder kurzen', (tester) async {
+      final state = await oeffnen(tester);
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      expect(find.byType(FassungAbschnitt), findsOneWidget);
+      expect(find.text('Kurzer Abend · ca. 100 Min.'), findsOneWidget);
+      expect(find.text('Langer Abend · ca. 120 Min.'), findsOneWidget);
+      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
+      expect([werte.fassung, werte.minuten, werte.minutenOptionen], [Abendfassung.kurz, 15, [10, 15, 20]]);
+      await tester.ensureVisible(find.byKey(const ValueKey('abend-ca')));
+      expect(find.text('Ganzer Abend: ca. 100 Min.'), findsOneWidget);
+      expect(find.text('30 Minuten'), findsNothing, reason: 'Kurz: 10, 15 oder 20 Minuten');
+      final kurz = [for (final m in [10, 15, 20]) await mitDauer(tester, m)];
+      expect(kurz, [85, 100, 115]);
+
+      await fassung(tester, 'Langer Abend · ca. 120 Min.');
+      expect([werte.fassung, werte.minuten], [Abendfassung.lang, 20], reason: '20 passt, die Dauer bleibt');
+      await tester.ensureVisible(find.byKey(const ValueKey('abend-ca')));
+      expect(find.text('Ganzer Abend: ca. 120 Min.'), findsOneWidget);
+      expect(find.byKey(const ValueKey('dauer-lang-hinweis')), findsOneWidget);
+      final lang = [for (final m in [20, 25, 30, 40]) await mitDauer(tester, m)];
+      expect(lang, [120, 135, 150, 180]);
+      for (final l in lang) {
+        for (final k in kurz) {
+          expect(l, greaterThan(k), reason: 'lang $l gegen kurz $k');
+        }
+      }
+      // Zurück zu kurz: 40 Minuten gibt es dort nicht, es gilt die Vorgabe 15.
+      await fassung(tester, 'Kurzer Abend · ca. 100 Min.');
+      expect([werte.fassung, werte.minuten], [Abendfassung.kurz, 15]);
+      await fassung(tester, 'Langer Abend · ca. 120 Min.');
+      expect(werte.minuten, 20);
+
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(feld('Abend', 'Langer Abend'), isTrue);
+      expect(feld('Länge', 'ca. 120 Min.'), isTrue);
+      expect(feld('Rundendauer', '20 Min.'), isTrue);
+      await tippen(tester, 'Abend beginnen');
+      final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
+      expect([s.fassung, s.rundendauer], [Abendfassung.lang, const Duration(minutes: 20)]);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('Schlosskeller kurz bleibt kurz bis in den Abend; im Solo die Wahl ohne Zahl', (tester) async {
+      final state = await oeffnen(tester);
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Solo mit Bots');
+      await tippen(tester, 'Weiter');
+      expect(find.byType(FassungAbschnitt), findsOneWidget, reason: 'Auch im Solo');
+      expect(find.text('Kurzer Abend'), findsOneWidget);
+      expect(find.text('Langer Abend'), findsOneWidget);
+      expect(find.textContaining('ca.'), findsNothing, reason: 'Die Schätzung gilt dem Abend am Tisch');
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(feld('Abend', 'Kurzer Abend'), isTrue);
+      expect(find.byWidgetPredicate((w) => w is MFeld && w.name == 'Länge'), findsNothing);
+      await tippen(tester, 'Abend beginnen');
+      final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
+      expect(s.fassung, Abendfassung.kurz);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('Online sieht der Gastgeber die Fassungswahl wie reihum', (tester) async {
+      final state = await oeffnen(tester);
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Jeder am eigenen Gerät');
+      await tippen(tester, 'Weiter');
+      expect(find.byType(FassungAbschnitt), findsOneWidget);
+      expect(find.text('Langer Abend · ca. 120 Min.'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('Altakte (Gewölbe): keine Fassungswahl, keine Schätzung, Rundendauer wie bisher', (tester) async {
+      final state = await oeffnen(tester);
+      await tippen(tester, 'Spuk im Gewölbe');
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      expect(find.byType(FassungAbschnitt), findsNothing);
+      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
+      expect([werte.langfassung, werte.minuten, werte.minutenOptionen, werte.abendMinutenCa], [false, 30, [20, 30, 45, 60], null]);
+      await tester.ensureVisible(find.text('60 Minuten'));
+      for (final m in [20, 30, 45, 60]) {
+        expect(find.text('$m Minuten'), findsOneWidget);
+      }
+      expect(find.byKey(const ValueKey('abend-ca')), findsNothing);
+      expect(find.textContaining('ca.'), findsNothing);
+      werte.setzeFassung(Abendfassung.lang);
+      expect(werte.fassung, Abendfassung.kurz, reason: 'Ohne Langfassung bleibt der Abend kurz');
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(find.byWidgetPredicate((w) => w is MFeld && (w.name == 'Abend' || w.name == 'Länge')), findsNothing);
+      expect(feld('Rundendauer', '30 Min.'), isTrue);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
   });
 
   testWidgets('Die Ermittlerklasse im Start wird gewählt und gespeichert', (tester) async {

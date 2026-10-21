@@ -4220,4 +4220,45 @@ class LDe extends L {
   @override
   String get online_detektiv_wer_figuren =>
       'Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.';
+
+  @override
+  String get abend_fassung_titel => 'Länge des Abends';
+
+  @override
+  String get abend_fassung_kurz => 'Kurzer Abend';
+
+  @override
+  String get abend_fassung_lang => 'Langer Abend';
+
+  @override
+  String abend_fassung_mit_dauer(String fassung, int minuten) {
+    return '$fassung · ca. $minuten Min.';
+  }
+
+  @override
+  String get abend_fassung_hinweis_kurz => 'Der gewohnte Abend am Tisch.';
+
+  @override
+  String get abend_fassung_hinweis_lang =>
+      'Streifzug durch Schloss, Hof und Garten.';
+
+  @override
+  String abend_dauer_ca(int minuten) {
+    return 'Ganzer Abend: ca. $minuten Min.';
+  }
+
+  @override
+  String get abend_dauer_lang_hinweis =>
+      'Die Uhr läuft über den ganzen Streifzug.';
+
+  @override
+  String abend_ca_minuten(int minuten) {
+    return 'ca. $minuten Min.';
+  }
+
+  @override
+  String get abend_start_fassung => 'Abend';
+
+  @override
+  String get abend_start_laenge => 'Länge';
 }

@@ -3273,5 +3273,67 @@
   "online_detektiv_wer_figuren": "Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.",
   "@online_detektiv_wer_figuren": {
     "description": "Gastgeber: Den Detektiv-Sitz übernimmt nur der Gastgeber oder ein Gerät ohne Figur (A-062)"
+  },
+  "abend_fassung_titel": "Länge des Abends",
+  "@abend_fassung_titel": {
+    "description": "Einrichtung (M7b): Überschrift der Wahl kurzer oder langer Abend, nur Akten mit Langfassung"
+  },
+  "abend_fassung_kurz": "Kurzer Abend",
+  "@abend_fassung_kurz": {
+    "description": "Einrichtung und Startübersicht (M7b): der kurze Abend"
+  },
+  "abend_fassung_lang": "Langer Abend",
+  "@abend_fassung_lang": {
+    "description": "Einrichtung und Startübersicht (M7b): der lange Abend mit Streifzug"
+  },
+  "abend_fassung_mit_dauer": "{fassung} · ca. {minuten} Min.",
+  "@abend_fassung_mit_dauer": {
+    "description": "Einrichtung (M7b): Wahl der Fassung mit geschätzter Abendlänge bei der Vorgabe ihrer Rundendauer",
+    "placeholders": {
+      "fassung": {
+        "type": "String"
+      },
+      "minuten": {
+        "type": "int"
+      }
+    }
+  },
+  "abend_fassung_hinweis_kurz": "Der gewohnte Abend am Tisch.",
+  "@abend_fassung_hinweis_kurz": {
+    "description": "Einrichtung (M7b): Hinweis unter der Wahl, kurzer Abend gewählt"
+  },
+  "abend_fassung_hinweis_lang": "Streifzug durch Schloss, Hof und Garten.",
+  "@abend_fassung_hinweis_lang": {
+    "description": "Einrichtung (M7b): Hinweis unter der Wahl, langer Abend gewählt"
+  },
+  "abend_dauer_ca": "Ganzer Abend: ca. {minuten} Min.",
+  "@abend_dauer_ca": {
+    "description": "Einrichtung (M7b): geschätzte Länge des ganzen Abends unter der Rundendauer (K-18)",
+    "placeholders": {
+      "minuten": {
+        "type": "int"
+      }
+    }
+  },
+  "abend_dauer_lang_hinweis": "Die Uhr läuft über den ganzen Streifzug.",
+  "@abend_dauer_lang_hinweis": {
+    "description": "Einrichtung (M7b): Im langen Abend deckt die Rundenuhr Gespräche und Entscheidungen ab"
+  },
+  "abend_ca_minuten": "ca. {minuten} Min.",
+  "@abend_ca_minuten": {
+    "description": "Startübersicht (M7b): geschätzte Länge des Abends",
+    "placeholders": {
+      "minuten": {
+        "type": "int"
+      }
+    }
+  },
+  "abend_start_fassung": "Abend",
+  "@abend_start_fassung": {
+    "description": "Startübersicht (M7b): kurzer oder langer Abend"
+  },
+  "abend_start_laenge": "Länge",
+  "@abend_start_laenge": {
+    "description": "Startübersicht (M7b): geschätzte Länge des Abends"
   }
 }

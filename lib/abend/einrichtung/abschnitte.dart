@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/mordakte_core.dart' as kern show abendMinutenCa;
 import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../l10n/gen/app_localizations_de.dart';
@@ -21,7 +22,9 @@ enum CodeWahl { zufall, eingabe }
 /// Bildschirmspiel (Vorgabe) oder Druckfassung als PDF.
 enum Spielart { bildschirm, druck }
 
-/// Rundendauern zur Wahl, in Minuten.
+/// Rundendauern zur Wahl, in Minuten, für Akten ohne den Zusatz
+/// `langfassung` (unverändert seit vor M7b). Akten mit dem Zusatz bieten die
+/// Dauern ihrer Fassung an ([Abendfassung.minutenOptionen]).
 const einrichtungMinuten = [20, 30, 45, 60];
 
 /// Alle Eingaben der Einrichtung eines Abends: Personen und Spielernamen,
@@ -34,6 +37,11 @@ const einrichtungMinuten = [20, 30, 45, 60];
 /// Zwei Eigenschaften der Akte schränken die Wahl ein: Eine Druckfassung gibt es
 /// nur für Akten mit Druckmappe ([druckbar]), und eine Akte mit fester Lösung
 /// ([festeLoesung]) kennt keinen Fall-Code.
+///
+/// Akten mit dem Zusatz `langfassung` ([langfassung], M7b) bieten dazu den
+/// kurzen oder langen Abend an ([fassung]), die Rundendauern der Fassung
+/// ([minutenOptionen]) und die geschätzte Abendlänge ([abendMinutenCa]).
+/// Alle anderen Akten bleiben, wie sie waren.
 class EinrichtungsWerte extends ChangeNotifier {
   /// [druckbar]: Die Akte hat eine Druckmappe (`AkteInfo.druckbar`). Ohne Angabe
   /// gilt sie als druckbar (alter Einrichtungsbildschirm, Druckmappe).
@@ -41,6 +49,7 @@ class EinrichtungsWerte extends ChangeNotifier {
   /// Detektiv-Eintrag füllt [detektivName] vor (reihum und online).
   EinrichtungsWerte(this.sitzung, {this.druckbar = true, GaesteListe gaeste = const GaesteListe()})
       : rollen = (gaeste.personen ?? 7).clamp(sitzung.minRollen, sitzung.maxRollen).toInt(),
+        minuten = sitzung.daten.hat('langfassung') ? Abendfassung.kurz.standardMinuten : 30,
         _gaeste = gaeste.namenJeFigur,
         detektivName = TextEditingController(text: gaeste.namenJeFigur[Besetzung.detektiv]);
 
@@ -56,8 +65,13 @@ class EinrichtungsWerte extends ChangeNotifier {
   String detektiv = 'w';
   CodeWahl codeWahl = CodeWahl.zufall;
   Spielart spielart = Spielart.bildschirm;
-  int minuten = 30;
+
+  /// Rundendauer in Minuten (eine der [minutenOptionen]).
+  int minuten;
   bool stimme = false;
+
+  /// Kurzer oder langer Abend; lang nur bei [langfassung] und nie im Druckspiel.
+  Abendfassung fassung = Abendfassung.kurz;
 
   /// Gespräche mit Zeugen (M6); nur bei Akten, die welche haben.
   Erzaehltiefe erzaehltiefe = Erzaehltiefe.voll;
@@ -162,8 +176,33 @@ class EinrichtungsWerte extends ChangeNotifier {
 
   void setzeSpielart(Spielart wert) {
     spielart = druckbar ? wert : Spielart.bildschirm;
+    // Die Druckfassung ist ein kurzer Abend auf Papier.
+    if (druck) _fassungSetzen(Abendfassung.kurz);
     notifyListeners();
   }
+
+  /// Bietet die Akte den langen Abend an (Zusatz `langfassung`)?
+  bool get langfassung => sitzung.daten.hat('langfassung');
+
+  /// Kurzer oder langer Abend. Passt die gewählte Rundendauer nicht zur neuen
+  /// Fassung, gilt deren Vorgabe. Ohne [langfassung] und im Druckspiel bleibt
+  /// es beim kurzen Abend.
+  void setzeFassung(Abendfassung wert) {
+    _fassungSetzen(langfassung && !druck ? wert : Abendfassung.kurz);
+    notifyListeners();
+  }
+
+  void _fassungSetzen(Abendfassung wert) {
+    fassung = wert;
+    if (!minutenOptionen.contains(minuten)) minuten = wert.standardMinuten;
+  }
+
+  /// Rundendauern zur Wahl: die der Fassung bei [langfassung], sonst wie bisher.
+  List<int> get minutenOptionen => langfassung ? fassung.minutenOptionen : einrichtungMinuten;
+
+  /// Geschätzte Länge des ganzen Abends in Minuten („ca. X Min.“, K-18), nur
+  /// bei [langfassung]; sonst `null` (Altakten zeigen keine Schätzung).
+  int? get abendMinutenCa => langfassung ? kern.abendMinutenCa(fassung, minuten) : null;
 
   void setzeMinuten(int wert) {
     minuten = wert;
@@ -204,6 +243,7 @@ class EinrichtungsWerte extends ChangeNotifier {
       namen: namen,
       detektivName: detektivName.text.trim(),
       erzaehlerName: mitErzaehler ? erzaehlerName.text.trim() : '',
+      fassung: langfassung && !druck && !druckErzwingen ? fassung : Abendfassung.kurz,
     );
     s.stimmeAn = stimme;
     s.erzaehltiefe = erzaehltiefe;
@@ -308,6 +348,8 @@ class EinrichtungsAbschnitte extends StatelessWidget {
               DetektivAbschnitt(werte: werte),
               FallAbschnitt(werte: werte, online: online),
               if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
+              // Kurzer oder langer Abend (M7b): nur Akten mit Langfassung, auch im Solo und online.
+              if (werte.langfassung && !werte.druck) FassungAbschnitt(werte: werte),
               if (!werte.solo) DauerAbschnitt(werte: werte),
               // Online richtet der Raum den Abend ein; dort gilt die Vorgabe.
               if (werte.hatGespraeche && !online) ErzaehltiefeAbschnitt(werte: werte),
@@ -689,21 +731,63 @@ class SpielartAbschnitt extends _Abschnitt {
       );
 }
 
-/// Rundendauer (nur reihum).
+/// Kurzer oder langer Abend (Langer Abend M7b), nur in Akten mit dem Zusatz
+/// `langfassung`, auch im Solo und online. Jede Wahl nennt die Länge des Abends
+/// bei der Vorgabe ihrer Rundendauer (K-18); im Solo ohne Zahl, denn die
+/// Schätzung gilt für den Abend am Tisch.
+class FassungAbschnitt extends _Abschnitt {
+  const FassungAbschnitt({super.key, required super.werte});
+
+  @override
+  Widget baue(BuildContext context) {
+    final l = _texte(context);
+    String name(Abendfassung f) => f.istLang ? l.abend_fassung_lang : l.abend_fassung_kurz;
+    String beschriftung(Abendfassung f) =>
+        werte.solo ? name(f) : l.abend_fassung_mit_dauer(name(f), kern.abendMinutenCa(f, f.standardMinuten));
+    return EinrichtungsTafel(
+      ueberschrift: l.abend_fassung_titel,
+      kinder: [
+        MAnkreuzWahl<Abendfassung>(
+          optionen: [for (final f in Abendfassung.values) (f, beschriftung(f))],
+          gewaehlt: werte.fassung,
+          onWahl: werte.setzeFassung,
+        ),
+        const SizedBox(height: MMass.s8),
+        Text(
+          werte.fassung.istLang ? l.abend_fassung_hinweis_lang : l.abend_fassung_hinweis_kurz,
+          key: const ValueKey('fassung-hinweis'),
+          style: MPapierSchrift.leise,
+        ),
+      ],
+    );
+  }
+}
+
+/// Rundendauer (nicht im Solo). In Akten mit Langfassung die Dauern der
+/// Fassung und darunter die Länge des ganzen Abends („ca. X Min.“); sonst wie
+/// bisher.
 class DauerAbschnitt extends _Abschnitt {
   const DauerAbschnitt({super.key, required super.werte});
 
   @override
-  Widget baue(BuildContext context) => EinrichtungsTafel(
-        ueberschrift: s.ui('ui.einrichtung.dauer'),
-        kinder: [
-          MAnkreuzWahl<int>(
-            optionen: [for (final m in einrichtungMinuten) (m, s.ui('ui.einrichtung.minuten', {'minuten': '$m'}))],
-            gewaehlt: werte.minuten,
-            onWahl: werte.setzeMinuten,
-          ),
+  Widget baue(BuildContext context) {
+    final ca = werte.abendMinutenCa;
+    return EinrichtungsTafel(
+      ueberschrift: s.ui('ui.einrichtung.dauer'),
+      kinder: [
+        MAnkreuzWahl<int>(
+          optionen: [for (final m in werte.minutenOptionen) (m, s.ui('ui.einrichtung.minuten', {'minuten': '$m'}))],
+          gewaehlt: werte.minuten,
+          onWahl: werte.setzeMinuten,
+        ),
+        if (ca != null) ...[
+          const SizedBox(height: MMass.s8),
+          Text(_texte(context).abend_dauer_ca(ca), key: const ValueKey('abend-ca'), style: MPapierSchrift.leise),
+          if (werte.fassung.istLang) Text(_texte(context).abend_dauer_lang_hinweis, key: const ValueKey('dauer-lang-hinweis'), style: MPapierSchrift.leise),
         ],
-      );
+      ],
+    );
+  }
 }
 
 /// Gespräche mit Zeugen: keine, kurz (eine Wahl) oder ausführlich (ganze

@@ -39,6 +39,13 @@
 /// Gastgeber (eine mitgeschickte Zeit gilt nicht), alle sehen dieselbe Uhr und
 /// rechnen die Restzeit mit dem Versatz aus dem `pong`; den Bilderzähler der
 /// Einleitung sehen alle gleich. Beides stellt nur, wer leitet.
+///
+/// Fassung (M7b): Ein weiterer Lauf je Laststufe spielt den langen Abend (Meta
+/// `fassung: lang` wie in der App, auch nach dem Neustart des Gastgebers). Dort
+/// läuft die Uhr der Gespräche in den Entscheidungen weiter, für alle gleich,
+/// und wer leitet, stellt sie dort; jede Ansicht trägt `fassung: lang`, sonst
+/// nichts Neues. Im kurzen Abend fehlen Uhr (`invalid_phase`) und Schlüssel in
+/// den Entscheidungen wie bisher.
 library;
 
 import 'dart:async';
@@ -259,13 +266,15 @@ class _Hochstapler {
   }
 }
 
-/// Sitze eines Laufs: Gastgeber und Gast1 (der erste Gast).
-typedef _Konstellation = ({String name, String hostSitz, String? gastSitz});
+/// Sitze eines Laufs: Gastgeber und Gast1 (der erste Gast); [lang]: der lange Abend (M7b).
+typedef _Konstellation = ({String name, String hostSitz, String? gastSitz, bool lang});
 
 const _konstellationen = <_Konstellation>[
-  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv'),
-  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null),
-  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler'),
+  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false),
+  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null, lang: false),
+  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false),
+  // Langer Abend: Der Gast-Erzähler stellt die Uhr auch in den Entscheidungen.
+  (name: 'Langer Abend: Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: true),
 ];
 
 class _Ergebnis {
@@ -304,10 +313,12 @@ Future<void> _lauf({
         // Wie die App: Rundendauer aus der Meta, Diashow der Akte (M4).
         rundenMinuten: 20,
         diaAnzahl: _diaAnzahl,
+        // Wie die App (M7b): die Fassung aus der Meta, nur bei lang geschrieben.
+        fassung: Abendfassung.lesen(meta['fassung']),
       );
   var host = await RelayHost.neu(
     fabrik: fabrik,
-    meta: {'salz': salz, 'fallCode': fallCode.code, 'sitz': k.hostSitz},
+    meta: {'salz': salz, 'fallCode': fallCode.code, 'sitz': k.hostSitz, if (k.lang) 'fassung': 'lang'},
     relay: relay,
     akte: 'schlosskeller',
     inhalt: 'matrix',
@@ -461,6 +472,7 @@ Future<void> _lauf({
 
     var befragungenGesehen = 0;
     var uhrGeprueft = false, diaGeprueft = false;
+    var streifzugGeprueft = false, uhrAbgeraeumt = false, uhrNeu = false;
     var gefaelschterWurf = false;
     var neuverbindungA = false;
     var hostNetz = false;
@@ -474,6 +486,10 @@ Future<void> _lauf({
       _meldung('Phase ${s['phase']} Runde ${s['runde']} v${s['version']}');
       switch (s['phase']) {
         case 'entscheidungen':
+          if (!streifzugGeprueft) {
+            streifzugGeprueft = true;
+            await _imFenster('Uhr im Streifzug', () => _uhrStreifzug(hostPlatz, leitPlatz, rolle, plaetze, lang: k.lang));
+          }
           if (!neuverbindungA && attrappe != null && s['entscheidung'] != null) {
             neuverbindungA = true;
             await _imFenster('Netzabbruch Gast', () => _netzabbruch(attrappe, code, plaetze[1], hostPlatz));
@@ -507,6 +523,10 @@ Future<void> _lauf({
           if (!uhrGeprueft) {
             uhrGeprueft = true;
             await _imFenster('Rundenuhr', () => _rundenuhr(host, hostPlatz, leitPlatz, rolle, plaetze));
+          } else if (!uhrNeu) {
+            // Jede Runde beginnt mit gestellter Uhr, kurz wie lang.
+            uhrNeu = true;
+            _require(RundenUhr.ausJson(s['uhr'])?.gestartet == false, 'Die neue Runde beginnt nicht mit gestellter Uhr.');
           }
           // Modell befragung (A-051): Der Detektiv-Sitz erledigt seine Befragungen.
           // Erst sehen alle Gäste ihre Spickzettel, dann fragt der Detektiv; vor „Weiter“ sehen sie den Stand.
@@ -515,6 +535,12 @@ Future<void> _lauf({
           await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
           await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'gruppenwahl':
+          if (!uhrAbgeraeumt) {
+            // Nach dem Streifzug gibt es keine Uhr mehr, kurz wie lang.
+            uhrAbgeraeumt = true;
+            _require(!s.containsKey('uhr'), 'Uhr in der Gruppenwahl.');
+            await _erwarteFehler(leitPlatz, {'typ': 'uhr', 'aktion': 'pause'}, 'invalid_phase');
+          }
           if (!neuverbindungB) {
             neuverbindungB = true;
             await _imFenster('Neustart Gast-App', () => _appNeustart(plaetze[min(2, n - 1)], gaeste, ablagen, relay, code, min(2, n - 1), hostPlatz));
@@ -556,6 +582,7 @@ Future<void> _lauf({
     }
     _require(gefaelschterWurf, 'Manipulationsprüfung des Würfels wurde nicht erreicht.');
     _require(uhrGeprueft && diaGeprueft, 'Rundenuhr- und Diashow-Prüfung wurden nicht erreicht.');
+    _require(streifzugGeprueft && uhrAbgeraeumt && uhrNeu, 'Prüfungen der Uhr im Streifzug wurden nicht erreicht.');
     _require(neuverbindungB, 'App-Neustart-Prüfung wurde nicht erreicht.');
     _require(hostNetz && hostNeustart, 'Gastgeber-Prüfungen (Netzabbruch, Neustart) wurden nicht erreicht.');
     _require(attrappe == null || neuverbindungA, 'Netzabbruch-Prüfung wurde nicht erreicht.');
@@ -616,6 +643,8 @@ Future<void> _lauf({
       for (final view in p.inbox) {
         final privat = _map(view['privat']);
         final lobby = view['phase'] == 'lobby';
+        // Fassung (M7b): lang trägt jede Ansicht `fassung: lang`, kurz keine den Schlüssel.
+        _require(k.lang ? view['fassung'] == 'lang' : !view.containsKey('fassung'), 'Fassung fehlt oder steht im kurzen Abend (${p.name}).');
         final nachFinale = ['finale', 'aufloesung', 'ende'].contains(view['phase']);
         if (!nachFinale) {
           _require(!view.containsKey('erzaehler'), 'Öffentlicher Erzähltext vor dem Finale (${p.name}).');
@@ -933,6 +962,28 @@ Future<void> _rundenuhr(RelayHost relais, _Platz host, _Platz leiter, _Platz rol
     _require(g.versatz != null, '${p.name} kennt die Uhr des Gastgebers nicht.');
     _require(uhr.rest(g.gastgeberZeit) > uhr.dauer - 60000, '${p.name} rechnet eine falsche Restzeit.');
   }
+}
+
+/// Uhr im Streifzug (M7b), beim Eintritt in die Entscheidungen der ersten Runde.
+/// Lang läuft die Uhr der Gespräche weiter (gestartet, 25 Minuten), alle sehen
+/// sie gleich, nur wer leitet, hält sie an und lässt sie weiterlaufen. Kurz gibt
+/// es dort keine Uhr, und `uhr` ist `invalid_phase` wie bisher.
+Future<void> _uhrStreifzug(_Platz host, _Platz leiter, _Platz rolle, List<_Platz> plaetze, {required bool lang}) async {
+  final s = host.latest;
+  if (!lang) {
+    _require(!s.containsKey('uhr'), 'Kurzer Abend: Uhr in den Entscheidungen.');
+    await _erwarteFehler(leiter, {'typ': 'uhr', 'aktion': 'pause'}, 'invalid_phase');
+    return;
+  }
+  final uhr = RundenUhr.ausJson(s['uhr']);
+  _require(uhr != null && uhr.laeuft && uhr.dauer == 25 * RundenUhr.minute, 'Langer Abend: Die Uhr der Gespräche läuft in den Entscheidungen nicht weiter.');
+  await _erwarteFehler(rolle, {'typ': 'uhr', 'aktion': 'pause'}, 'not_host');
+  await _befehl(host, leiter, 'uhr', {'aktion': 'pause'});
+  _require(RundenUhr.ausJson(host.latest['uhr'])?.pausiert == true, 'Langer Abend: Die Uhr hält in den Entscheidungen nicht an.');
+  await _befehl(host, leiter, 'uhr', {'aktion': 'weiter'});
+  await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+  final uhren = {for (final p in [host, ...plaetze]) jsonEncode(p.latest['uhr'])};
+  _require(uhren.length == 1 && RundenUhr.ausJson(host.latest['uhr'])!.laeuft, 'Langer Abend: Die Uhr in den Entscheidungen ist nicht für alle gleich.');
 }
 
 Future<void> _befehl(_Platz host, _Platz sender, String typ, [Map<String, Object?> daten = const {}]) async {

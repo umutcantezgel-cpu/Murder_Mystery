@@ -48,6 +48,7 @@ export 'src/party/erzaehler_paket.dart';
 export 'src/party/diashow.dart';
 export 'src/party/steckbriefe.dart';
 export 'src/party/textpruefer.dart';
+export 'src/party/fassung.dart';
 export 'src/erzaehlung/erzaehlung.dart';
 export 'src/erzaehlung/pruefer.dart';
 export 'src/party/karte.dart';

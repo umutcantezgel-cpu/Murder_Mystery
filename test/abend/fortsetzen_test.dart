@@ -20,7 +20,7 @@ import 'package:mordakte/karten/katalog_laden.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
-import 'package:mordakte_core/mordakte_core.dart' show PartyPhase;
+import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, PartyPhase;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,11 +65,16 @@ Future<void> _tippen(WidgetTester tester, String text, {Finder? bis}) async {
   await _warten(tester, bis: bis);
 }
 
-/// Assistent bis „Abend beginnen“ (Akte vorgewählt, Standardeinstellungen).
-Future<void> _soloAbend(WidgetTester tester) async {
+/// Assistent bis „Abend beginnen“ (Akte vorgewählt, Standardeinstellungen;
+/// [lang]: der lange Abend, M7b).
+Future<void> _soloAbend(WidgetTester tester, {bool lang = false}) async {
   await _tippen(tester, 'Weiter');
   await _tippen(tester, 'Solo mit Bots');
   await _tippen(tester, 'Weiter');
+  if (lang) {
+    await tester.ensureVisible(find.text('Langer Abend'));
+    await _tippen(tester, 'Langer Abend');
+  }
   await tester.tap(find.text('Weiter'));
   await _warten(tester, bis: find.text('Bereit?'));
   await _tippen(tester, 'Abend beginnen', bis: find.byType(AbendSeite));
@@ -113,6 +118,38 @@ void main() {
     expect(find.byType(DetekteiSeite), findsNothing);
     expect(await _ablage(tester), isNotNull, reason: 'Er liegt weiter ab');
     expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Ein langer Abend bleibt nach dem Neuladen lang (M7b)', (tester) async {
+    var state = await _oeffnen(tester, Routes.abendNeu);
+    await _soloAbend(tester, lang: true);
+    final s = _halter(tester).sitzung!;
+    expect(s.fassung, Abendfassung.lang);
+    s.weiter();
+    await _warten(tester);
+    final roh = (await _ablage(tester))!;
+    final einrichten = ((jsonDecode(roh) as Map)['befehle'] as List).cast<Map<String, Object?>>().firstWhere((b) => b['b'] == 'einrichten');
+    expect(einrichten['fassung'], 'lang', reason: 'Der lange Abend steht im Journal');
+    final samen = s.weltSamen;
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+    state = await _oeffnen(tester, Routes.abend, ablage: {AbendSpeicher.schluessel: roh});
+    await _tippen(tester, 'Abend fortsetzen', bis: find.byType(AbendSeite));
+    final weiter = _halter(tester).sitzung!;
+    expect([weiter.fassung, weiter.weltSamen, weiter.phase], [Abendfassung.lang, samen, s.phase]);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Ein kurzer Abend legt keine Fassung ab (bytegleich wie vor M7b)', (tester) async {
+    final state = await _oeffnen(tester, Routes.abendNeu);
+    await _soloAbend(tester);
+    expect(_halter(tester).sitzung!.fassung, Abendfassung.kurz);
+    final roh = (await _ablage(tester))!;
+    expect(roh.contains('fassung'), isFalse);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

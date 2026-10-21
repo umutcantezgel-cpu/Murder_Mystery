@@ -32,6 +32,8 @@ class GastgeberSitzung extends PartySitzung {
     }
     detektivName = dienst.detektivName;
     rundendauer = Duration(minutes: dienst.minuten);
+    // Fassung des Raums (M7b): Lang deckt die Uhr den ganzen Streifzug ab.
+    fassung = dienst.raum.fassung;
     stimmeAn = dienst.stimme;
     _hoerer = dienst.verb.ansichten.listen((_) => _abgleichen());
     _abgleichen();

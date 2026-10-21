@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mordakte_core/mordakte_core.dart' show Enden, EndeRegel, LookDef;
+import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, Enden, EndeRegel, LookDef;
 import 'package:mordakte_core/runden.dart' show KartenArt, Sitz, Stufe;
 import 'package:mordakte_netz/mordakte_netz.dart' show VerbindungsStatus;
 
@@ -55,6 +55,14 @@ class GastKontext {
   Map<String, Object?> get privat => jMap(v['privat']);
   String get phase => jText(v['phase'], 'lobby');
   int get runde => jZahl(v['runde']);
+
+  /// Kurzer oder langer Abend (M7b): Der Raum zeigt `fassung` nur beim
+  /// langen Abend; ohne den Schlüssel ist es der kurze.
+  Abendfassung get fassung => Abendfassung.lesen(v['fassung']);
+
+  /// Gehört die Rundenuhr zum laufenden Abschnitt? Kurz in den Gesprächen,
+  /// lang im ganzen Streifzug (Gespräche und Entscheidungen), wie im Raum.
+  bool get uhrInPhase => phase == 'gespraeche' || (fassung.istLang && phase == 'entscheidungen');
   bool get verbunden => dienst.status == VerbindungsStatus.verbunden;
   PartyDaten? get daten => dienst.daten;
   List<SpielerInfo> get spieler => spielerAusAnsicht(v);

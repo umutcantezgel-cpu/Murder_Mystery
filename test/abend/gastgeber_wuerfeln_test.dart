@@ -71,6 +71,9 @@ class _Dienst implements GastgeberDienst {
   int get minuten => 30;
 
   @override
+  Abendfassung get fassung => raum.fassung;
+
+  @override
   bool get stimme => false;
 
   @override

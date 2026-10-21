@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart' show WidgetTester;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
+import 'package:mordakte/detektei/akten.dart' show AkteInfo;
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/ebenen_vorschau.dart';
 import 'package:mordakte/party/sitzung.dart';
@@ -20,6 +21,27 @@ PartyDaten get partyDaten => _daten ??= PartyDaten.aus(
       (p) => jsonDecode(File('content/party/schlosskeller/$p').readAsStringSync()) as Map<String, Object?>,
       jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
     );
+
+PartyDaten? _langDaten;
+
+/// Der Schlosskeller mit seinem Eintrag in `content/party/akten.json` (Zusätze
+/// samt `langfassung`, M7b): Nur damit lässt sich ein langer Abend einrichten.
+/// [partyDaten] hat keinen Eintrag und bleibt beim Grundabend.
+PartyDaten get langDaten => _langDaten ??= () {
+      final akten = jsonDecode(File('content/party/akten.json').readAsStringSync()) as Map<String, Object?>;
+      final e = (akten['akten'] as List).cast<Map<String, Object?>>().firstWhere((a) => a['id'] == 'schlosskeller');
+      return PartyDaten.aus(
+        (p) => jsonDecode(File('content/party/schlosskeller/$p').readAsStringSync()) as Map<String, Object?>,
+        jsonDecode(File('content/scenarios/ravensmoor.json').readAsStringSync()) as Map<String, dynamic>,
+        akte: AkteInfo(
+          id: 'schlosskeller',
+          titel: e['titel'] as String,
+          untertitel: e['untertitel'] as String,
+          ton: e['ton'] as String,
+          faehigkeiten: {for (final f in e['faehigkeiten'] as List) f as String},
+        ),
+      );
+    }();
 
 WeltEbenen? _welt;
 Map<String, ScenarioDef>? _ebenenSzenarien;

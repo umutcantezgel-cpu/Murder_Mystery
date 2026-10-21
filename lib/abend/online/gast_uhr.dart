@@ -9,12 +9,14 @@ import 'gast_ansicht.dart' show GastKontext;
 /// Die gemeinsame Rundenuhr auf dem Gerät eines Gastes (M4): der Zustand aus
 /// der Ansicht (`uhr`), die Restzeit aus der Abendzeit des Gastgebers
 /// ([GastKontext.dienst], Versatz aus dem `pong`). Knöpfe hat nur, wer leitet
-/// ([GastKontext.leitet]); alle anderen sehen, wer die Uhr stellt.
+/// ([GastKontext.leitet]); alle anderen sehen, wer die Uhr stellt. Im langen
+/// Abend (M7b) steht sie im ganzen Streifzug, auch in den Entscheidungen
+/// ([GastKontext.uhrInPhase]).
 ///
-/// `null` ohne Uhr in der Ansicht (andere Abschnitte).
+/// `null` ohne Uhr in der Ansicht oder außerhalb ihrer Abschnitte.
 Widget? gastRundenUhr(GastKontext c) {
   final uhr = RundenUhr.ausJson(c.v['uhr']);
-  if (uhr == null) return null;
+  if (uhr == null || !c.uhrInPhase) return null;
   final l = c.l;
   return Padding(
     key: const ValueKey('gast-rundenuhr'),
