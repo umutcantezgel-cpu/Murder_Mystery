@@ -17,6 +17,7 @@ import 'gast_dienst.dart';
 import 'gast_erzaehler.dart';
 import 'gast_ermittlung.dart';
 import 'gast_lobby.dart';
+import 'gast_rundgang.dart';
 import 'gast_uhr.dart';
 import 'online_teile.dart';
 
@@ -211,6 +212,10 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return gastLobby(c, marke);
     case 'rollen':
       return _rollen(c);
+    // Langer Abend (M7b): erst das Vorspiel, dann die Diashow (gast_rundgang.dart).
+    case 'intro' when gastRundgang(c) != null:
+      return _abschnitt(c, rundenMarke, l.rundgang_vorspiel, [GastRundgang(kontext: c)],
+          mitErzaehlertext: false, vorleserKarte: false, weiter: false, aktionen: gastRundgangAktionen(c));
     // Diashow zur Einleitung (M4): Bild für alle, Text nur beim Vorleser (gast_diashow.dart).
     case 'intro' when gastMitDiashow(c):
       return _abschnitt(c, rundenMarke, l.online_phase_intro, [GastDiashow(kontext: c)], mitErzaehlertext: false);
@@ -239,6 +244,10 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, marke, l.online_phase_finale, [], aktionen: _belohnungOhneGastgeber(c));
     case 'aufloesung':
       return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c)], aktionen: _belohnungOhneGastgeber(c));
+    // Langer Abend (M7b): nach der Auflösung der Morgen, dann das Schlussbild.
+    case 'ende' when gastRundgang(c) != null:
+      return _abschnitt(c, marke, l.rundgang_morgen, [GastRundgang(kontext: c)],
+          mitErzaehlertext: false, vorleserKarte: false, weiter: false, aktionen: [...gastRundgangAktionen(c), ..._belohnungOhneGastgeber(c)]);
     case 'ende':
       return _ende(c, marke);
     default:
@@ -501,9 +510,10 @@ class _MeineRolleState extends State<_MeineRolle> {
 ///
 /// [mitErzaehlertext] `false`: Der spezifische Teil zeigt den Erzähltext selbst (Diashow).
 GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch,
-    {List<Widget> aktionen = const [], bool mitErzaehlertext = true}) {
+    {List<Widget> aktionen = const [], bool mitErzaehlertext = true, bool vorleserKarte = true, bool weiter = true}) {
   final l = c.l;
-  final liestAnderswo = c.erzaehlerTexte.isEmpty && c.v['erzaehlerLiest'] == true;
+  // Ein Rundgang (M7b) zeigt selbst, wer vorliest; die Karte zu den Texten der Einleitung käme zu früh.
+  final liestAnderswo = vorleserKarte && c.erzaehlerTexte.isEmpty && c.v['erzaehlerLiest'] == true;
   return GastSeiteninhalt(
     marke: marke,
     titel: titel,
@@ -527,7 +537,7 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
       _meineRolle(c),
       _tisch(c),
     ],
-    aktionen: [...aktionen, ...gastWeiter(c)],
+    aktionen: [...aktionen, if (weiter) ...gastWeiter(c)],
   );
 }
 

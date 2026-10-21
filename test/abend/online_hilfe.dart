@@ -195,6 +195,7 @@ SchlosskellerRaum sitzRaum({
   int diaAnzahl = 0,
   bool ohneFigur = false,
   Abendfassung fassung = Abendfassung.kurz,
+  VorspielMorgen? rundgang,
 }) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
@@ -207,6 +208,7 @@ SchlosskellerRaum sitzRaum({
     gastgeberSitz: erzaehler == 'gastgeber' ? Sitz.erzaehler : Sitz.detektiv,
     diaAnzahl: diaAnzahl,
     fassung: fassung,
+    rundgang: rundgang,
   );
   final plaetze = [
     ('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora'),
@@ -233,6 +235,11 @@ void spieleBisSitz(SchlosskellerRaum raum, String phase, {required String detekt
   for (var i = 0; i < 400; i++) {
     final s = raum.zustandFuer(detektiv);
     if (s['phase'] == phase && (!ersteEntscheidung || (s['entscheidung'] is Map && s['zug'] == null))) return;
+    // Langer Abend (M7b): Vorspiel und Morgen überspringt, wer leitet.
+    if (s['rundgang'] is Map) {
+      raum.nachricht(leiter, {'typ': 'rundgang', 'ueberspringen': true});
+      continue;
+    }
     switch (s['phase']) {
       case 'rollen':
         for (final t in _liste(s['spieler'])) {

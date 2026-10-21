@@ -1,7 +1,9 @@
 /// Echte WebSocket-Clients in EINEM Schlosskeller-Raum, 4–20 Laststufen, je in
 /// drei Sitz-Konstellationen (Host = Erzähler + Gast = Detektiv, Host = Detektiv
 /// ohne Erzähler, Host = Detektiv + Gast = Erzähler). Lokal dazu ein Lauf mit dem
-/// langen Abend (M7b, eigene Raumart nur dieser Matrix): Die Uhr der Gespräche
+/// langen Abend (M7b, eigene Raumart nur dieser Matrix) mit Vorspiel und Morgen:
+/// Alle sehen dieselbe Station, den Vorlesetext nur der Vorleser, weiter
+/// schaltet nur, wer leitet; der Raum ist erst nach dem Morgen beendet. Die Uhr der Gespräche
 /// läuft in den Entscheidungen weiter und lässt sich dort stellen, jede Ansicht
 /// trägt `fassung: lang`. Kurz fehlen Uhr und Schlüssel dort wie bisher.
 /// Vollständiger Abend, eigene Rollenansichten, Sitze, Vorleser-Sitz, Rechte,
@@ -52,6 +54,43 @@ Future<Map<String, dynamic>> _command(Client host, Client sender, String typ, [M
     final neu = sender.inbox.where((m) => m['t'] == Msg.error).skip(fehler).map((m) => m['key']).toList();
     throw StateError('$_stage ohne Wirkung${neu.isEmpty ? '' : ', abgelehnt: ${neu.join(', ')}'}.');
   }
+}
+
+/// Geht einen Rundgang (Vorspiel oder Morgen, M7b) ab: Eine Rolle darf nicht
+/// schalten, ein veralteter Schritt ist `stale`; je Station sehen alle dieselbe
+/// Karte, den Vorlesetext nur [vorleser] (privat). Liefert die vorgelesenen Texte.
+Future<Set<String>> _rundgang(Client host, Client leiter, Client rolle, List<Client> alle, Client vorleser) async {
+  final texte = <String>{};
+  final teil = _map(host.latest(Msg.abend)['rundgang'])['teil'];
+  rolle.send({'t': Msg.abendCmd, 'c': {'typ': 'rundgang', 'station': 0}});
+  await rolle.expect(Msg.error, where: (m) => m['key'] == 'not_host');
+  final erste = _map(host.latest(Msg.abend)['rundgang'])['station'] as int;
+  leiter.send({'t': Msg.abendCmd, 'c': {'typ': 'rundgang', 'station': erste + 1}});
+  await leiter.expect(Msg.error, where: (m) => m['key'] == 'stale');
+  for (var i = 0; i < 12; i++) {
+    final s = host.latest(Msg.abend);
+    final g = s['rundgang'];
+    if (g is! Map || g['teil'] != teil) break;
+    final karten = <String>{};
+    for (final c in alle) {
+      final v = await _sicht(c, s['version'] as int);
+      _require(v['rundgang'] is Map, 'Rundgang fehlt bei einem Gerät.');
+      _require(_map(v['rundgang']).keys.toSet().difference({'teil', 'station', 'anzahl', 'id', 'zeit', 'karte'}).isEmpty, 'Unbekanntes Feld im Rundgang.');
+      karten.add(jsonEncode(v['rundgang']));
+      final privat = _map(v['privat']);
+      if (c.playerId == vorleser.playerId) {
+        _require(privat['rundgangText'] is String, 'Der Vorleser bekam den Vorlesetext der Station nicht.');
+        texte.add(privat['rundgangText'] as String);
+      } else {
+        _require(!privat.containsKey('rundgangText'), 'Vorlesetext der Station an ein Gerät, das nicht vorliest.');
+      }
+    }
+    _require(karten.length == 1, 'Die Station ist nicht für alle gleich.');
+    _require(s['kannWeiter'] != true || teil == 'morgen', 'Während des Vorspiels geht es nicht weiter in die Runden.');
+    await _command(host, leiter, 'rundgang', {'station': g['station']});
+  }
+  _require(host.latest(Msg.abend)['rundgang'] == null, 'Der Rundgang endet nicht.');
+  return texte;
 }
 
 Future<void> _health(Uri url) async {
@@ -206,10 +245,18 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     var steps = 0;
     // Rundenuhr und Diashow (M4): je einmal geprüft; dazu die Uhr im Streifzug (M7b).
     var uhrGeprueft = false, diaGeprueft = false, streifzugGeprueft = false, uhrAbgeraeumt = false;
-    while (host.latest(Msg.abend)['phase'] != 'ende') {
+    // Vorspiel und Morgen (M7b): nur im langen Abend, je ganz abgegangen.
+    final rundgaenge = <String>{};
+    final vorgelesenRundgang = <String>{};
+    // Im langen Abend läuft im Ende noch der Morgen; erst danach ist der Abend vorbei.
+    while (host.latest(Msg.abend)['phase'] != 'ende' || host.latest(Msg.abend)['rundgang'] is Map) {
       _require(++steps < 400, 'Partyabend erreicht das Ende nicht.');
       final s = host.latest(Msg.abend);
       switch (s['phase']) {
+        case 'intro' || 'ende' when s['rundgang'] is Map:
+          _stage = 'Rundgang ${(s['rundgang'] as Map)['teil']}';
+          rundgaenge.add((s['rundgang'] as Map)['teil'] as String);
+          vorgelesenRundgang.addAll(await _rundgang(host, leiterC, rollenC.first, active, wer(vorleser)));
         case 'rollen':
           for (final c in rollenC) { await _command(host, c, 'rollenGelesen'); }
           await _command(host, leiterC, 'weiter');
@@ -342,6 +389,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     _require(uhrGeprueft, 'Die Rundenuhr wurde nicht geprüft.');
     _require(streifzugGeprueft && uhrAbgeraeumt, 'Die Uhr im Streifzug wurde nicht geprüft.');
     _require(diaGeprueft, 'Die Diashow wurde nicht geprüft.');
+    _require(k.lang ? rundgaenge.containsAll(['vorspiel', 'morgen']) : rundgaenge.isEmpty, 'Vorspiel und Morgen nur im langen Abend und dort ganz.');
     final solution = _map(last['aufloesung']);
     final pfad = solution['pfad'] as String;
     final salz = solution['salz'] as String;
@@ -455,6 +503,14 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
         }
       }
     }
+    // Vorspiel und Morgen (M7b): Den Vorlesetext einer Station sieht nur der Vorleser, auch am Morgen.
+    for (final c in all.where((c) => c != outsider && c.playerId != vorleser.playerId)) {
+      for (final view in c.inbox.where((m) => m['t'] == Msg.abend)) {
+        final text = jsonEncode(view);
+        _require(vorgelesenRundgang.every((t) => !text.contains(jsonEncode(t))), 'Vorlesetext des Rundgangs an ein Gerät, das nicht vorliest.');
+        _require(!_map(view['privat']).containsKey('rundgangText'), 'Vorlesetext des Rundgangs an ein Gerät, das nicht vorliest.');
+      }
+    }
     // Kein Gerät außer dem Vorleser sieht vor dem Finale einen vorgelesenen Text (die Notizen des Detektivs ausgenommen).
     for (final c in all.where((c) => c != outsider && c.playerId != vorleser.playerId)) {
       for (final view in c.inbox.where((m) => m['t'] == Msg.abend && !['finale', 'aufloesung', 'ende'].contains(m['phase']))) {
@@ -472,7 +528,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
       _require(rollen > 7 || notizen > 0, 'Der Detektiv bekam kein npc-Wissen als Notiz.');
     }
     await _health(url);
-    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, Reconnect, Würfel, Isolation, Health');
+    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend${k.lang ? ' mit Vorspiel und Morgen' : ''}, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, Reconnect, Würfel, Isolation, Health');
   } finally {
     for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
     await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));

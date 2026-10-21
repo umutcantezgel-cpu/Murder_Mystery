@@ -17,6 +17,8 @@ const raumOeffentlicheSchluessel = <String>{
   'uhr', 'dia',
   // Fassung (M7b): nur im langen Abend, Wert `lang`; nie Pfad, Salz oder Wertung.
   'fassung',
+  // Vorspiel und Morgen (M7b, `raum/rundgang_modul.dart`): Station und Karte nach R17, nie der Vorlesetext.
+  'rundgang',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der

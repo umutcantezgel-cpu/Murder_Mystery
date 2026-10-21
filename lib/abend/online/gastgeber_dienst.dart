@@ -136,6 +136,8 @@ class GastgeberDienst extends ChangeNotifier {
         diaAnzahl: daten.diashow?.dias.length ?? 0,
         // Fassung (M7b): lang nur aus der Meta und nur in Akten mit Langfassung.
         fassung: daten.hat('langfassung') ? Abendfassung.lesen(meta['fassung']) : Abendfassung.kurz,
+        // Vorspiel und Morgen (M7b): der Rundgang der Akte; der Raum nimmt ihn nur im langen Abend.
+        rundgang: daten.vorspielMorgen,
       );
 
   /// Erzeugt Schlüssel, Raumcode und Raum neu. Das Relais ist noch nicht

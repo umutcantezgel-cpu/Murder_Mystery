@@ -82,7 +82,9 @@ String resolvePartyDir(String? fromEnv) {
 /// die Deployment-Dateien fehlen: Der Server soll dann nicht bereit melden.
 ///
 /// Server-Räume haben keine Meta: Sie spielen den kurzen Abend. [fassung] lang
-/// nutzt nur die Party-Matrix für ihren Lauf mit dem langen Abend (M7b).
+/// nutzt nur die Party-Matrix für ihren Lauf mit dem langen Abend (M7b), mit
+/// Vorspiel und Morgen; solange der Morgen läuft, gilt der Raum nicht als
+/// beendet ([SchlosskellerRaum.beendet]).
 RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Abendfassung.kurz}) {
   Map<String, Object?> lesen(String path) => (jsonDecode(File('$dir/$path').readAsStringSync()) as Map).cast<String, Object?>();
   final kanon = Kanon.lade(lesen);
@@ -91,8 +93,10 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   // Diashow zur Einleitung (M4) liegt neben dem Kanon unter content/welt/.
   final dia = File('${Directory(dir).parent.parent.path}/welt/schlosskeller/diashow.json');
   final dias = dia.existsSync() ? Diashow.ausJson((jsonDecode(dia.readAsStringSync()) as Map).cast<String, Object?>()).dias.length : 0;
+  // Vorspiel und Morgen (M7b) nur im langen Abend, aus der Datei, die welt.json nennt.
+  final rundgang = fassung.istLang ? ladeVorspielMorgen('${Directory(dir).parent.parent.path}/welt/schlosskeller') : null;
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
-    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung,
+    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung, rundgang: rundgang,
     // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
     gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
@@ -100,6 +104,18 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   ));
 }
 
+
+/// Vorspiel und Morgen einer Akte aus ihrem Welt-Ordner [weltDir]
+/// (`content/welt/<akte>`), wenn `welt.json` die Datei unter `vorspielMorgen`
+/// nennt; sonst `null`.
+VorspielMorgen? ladeVorspielMorgen(String weltDir) {
+  final welt = File('$weltDir/welt.json');
+  if (!welt.existsSync()) return null;
+  final name = (jsonDecode(welt.readAsStringSync()) as Map)['vorspielMorgen'];
+  if (name is! String) return null;
+  final datei = File('$weltDir/$name');
+  return datei.existsSync() ? VorspielMorgen.ausJson((jsonDecode(datei.readAsStringSync()) as Map).cast<String, Object?>()) : null;
+}
 
 /// Fabriken für alle Akten aus `content/party/akten.json` (ein Spiel, viele
 /// Akten). [partyDir] ist der Schlosskeller-Ordner; daneben liegen die übrigen

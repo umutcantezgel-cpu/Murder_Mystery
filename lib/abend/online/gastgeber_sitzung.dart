@@ -447,6 +447,37 @@ class GastgeberSitzung extends PartySitzung {
     ]);
   }
 
+  // ------------------------------------------------- Vorspiel und Morgen (M7b)
+
+  /// Station und Fortschritt des Rundgangs hält der Raum (Ansicht `rundgang`).
+  Map<String, Object?>? get _rundgangAnsicht => dienst.ansicht['rundgang'] is Map ? jMap(dienst.ansicht['rundgang']) : null;
+
+  @override
+  RundgangTeil? get rundgang => vorspielMorgen == null ? null : RundgangTeil.lesen(_rundgangAnsicht?['teil']);
+
+  @override
+  int get rundgangStation => jZahl(_rundgangAnsicht?['station']);
+
+  /// Wie die Bilder: Den Rundgang führt sofort, wer laut Raum leitet.
+  @override
+  bool get rundgangSteuerbar => dienst.raum.vorleser == _ich;
+
+  @override
+  void rundgangWeiter() {
+    if (rundgang == null || !rundgangSteuerbar) return;
+    _senden([
+      {'typ': 'rundgang', 'station': rundgangStation},
+    ]);
+  }
+
+  @override
+  void rundgangUeberspringen() {
+    if (rundgang == null || !rundgangSteuerbar) return;
+    _senden([
+      {'typ': 'rundgang', 'ueberspringen': true},
+    ]);
+  }
+
   @override
   void bestaetigen({bool gruendlich = false, String? karte}) {
     final z = vorschlag ?? (throw StateError('kein Vorschlag'));
@@ -528,8 +559,9 @@ class GastgeberSitzung extends PartySitzung {
     unawaited(_hoerer?.cancel());
     _hoerer = null;
     // Ist der Abend vorbei, ist er auch abgelegt zu Ende; sonst bleibt der Stand
-    // liegen, und die Gäste warten auf die Rückkehr des Gastgebers.
-    unawaited(dienst.schliessen(endgueltig: phase == PartyPhase.ende));
+    // liegen, und die Gäste warten auf die Rückkehr des Gastgebers. Im langen
+    // Abend ist er erst nach dem Morgen vorbei (M7b).
+    unawaited(dienst.schliessen(endgueltig: phase == PartyPhase.ende && rundgang == null));
     super.dispose();
   }
 }
