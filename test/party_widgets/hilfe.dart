@@ -138,6 +138,9 @@ void spieleBis(PartySitzung s, PartyPhase ziel, {int? runde}) {
       case PartyPhase.anklage:
         if (s.angeklagt == null) s.anklagen(s.spiel.pfad);
         s.weiter();
+      // Langer Abend (M7b): Das Vorspiel läuft vor der Einleitung; der Test überspringt es.
+      case PartyPhase.intro when s.rundgang != null:
+        s.rundgangUeberspringen();
       case PartyPhase.ende:
         throw StateError('Phase $ziel nicht erreicht');
       default:

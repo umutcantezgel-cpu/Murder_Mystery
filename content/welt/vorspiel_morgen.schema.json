@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vorspiel und Morgen des langen Abends",
+  "description": "content/welt/<akte>/vorspiel_morgen.json (Langer Abend M7b): zwei Rundgänge auf den Welt-Ebenen, das Vorspiel vor dem Abend (Unterzustand der Einleitung) und der Morgen nach der Auflösung (Unterzustand des Endes). Je Station ein Ort, an den der Detektiv geht, die Uhrzeit (Lage der Tore), Figuren ohne Verdacht und eine Karte nach R17 mit Vorlesetext des Erzählers; am Morgen dürfen Stationen je Ende variieren. Keine Fallhinweise, kein Spielstand.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "uhrzeit": {
+      "type": "string",
+      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+    },
+    "zeile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "text": {
+      "type": "object",
+      "required": [
+        "titel",
+        "punkte",
+        "vorlesen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "titel": {
+          "$ref": "#/$defs/zeile"
+        },
+        "punkte": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/zeile"
+          }
+        },
+        "vorlesen": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "figur": {
+      "type": "object",
+      "required": [
+        "figur",
+        "ort"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "figur": {
+          "$ref": "#/$defs/id"
+        },
+        "ort": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "start": {
+      "type": "object",
+      "required": [
+        "ebene",
+        "ort",
+        "zeit"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ebene": {
+          "$ref": "#/$defs/id"
+        },
+        "ort": {
+          "$ref": "#/$defs/id"
+        },
+        "zeit": {
+          "$ref": "#/$defs/uhrzeit"
+        }
+      }
+    },
+    "station": {
+      "type": "object",
+      "required": [
+        "id",
+        "zeit",
+        "ebene",
+        "ort",
+        "figuren"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "zeit": {
+          "$ref": "#/$defs/uhrzeit"
+        },
+        "ebene": {
+          "$ref": "#/$defs/id"
+        },
+        "ort": {
+          "$ref": "#/$defs/id"
+        },
+        "figuren": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/figur"
+          }
+        },
+        "text": {
+          "$ref": "#/$defs/text"
+        },
+        "jeEnde": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "rundgang": {
+      "type": "object",
+      "required": [
+        "start",
+        "stationen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/start"
+        },
+        "stationen": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 6,
+          "items": {
+            "$ref": "#/$defs/station"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "format",
+    "akte",
+    "vorspiel",
+    "morgen"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "vorspiel_morgen/1"
+    },
+    "hinweis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "vorspiel": {
+      "$ref": "#/$defs/rundgang"
+    },
+    "morgen": {
+      "$ref": "#/$defs/rundgang"
+    }
+  }
+}

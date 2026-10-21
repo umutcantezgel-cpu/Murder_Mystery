@@ -1,0 +1,253 @@
+{
+  "format": "vorspiel_morgen/1",
+  "akte": "schlosskeller",
+  "hinweis": "Langer Abend (M7b): Vorspiel um sechs vor dem Abend und Morgen um sieben nach der Auflösung, je ein Rundgang auf den Welt-Ebenen (langfassung.json). Je Station geht der Detektiv an einen Ort; die Uhrzeit stellt die Tore (Vorspiel: Außentor, Einfahrtstor und Hoftür offen bis zur Sperre um zehn vor sieben; Morgen: Torschlüssel der Kollegin um sieben). Karten nach R17, Prosa nur im Vorlesetext. Keine Fallhinweise, keine Verdächtigen, kein Geburtstag; der Morgen ist ende-neutral oder je Ende verschieden.",
+  "vorspiel": {
+    "start": {
+      "ebene": "aussen",
+      "ort": "aussen_parkplatz_mitte",
+      "zeit": "18:00"
+    },
+    "stationen": [
+      {
+        "id": "v_ankunft",
+        "zeit": "18:00",
+        "ebene": "aussen",
+        "ort": "aussen_parkplatz_mitte",
+        "figuren": [],
+        "text": {
+          "titel": "Ankunft am Schloss",
+          "punkte": [
+            "Ihr parkt vor dem alten Schloss.",
+            "Es ist dunkel, kalt und windig.",
+            "Über den Mauern ragt der Turm."
+          ],
+          "vorlesen": "Ein Samstag im November, kurz nach sechs. Die Autos rollen auf den Parkplatz vor dem alten Schloss. Der Wind ist kalt und zerrt an den Jacken. Über den hohen Mauern ragt der Schlossturm in den dunklen Himmel. Heute feiert die Clique ihr Wiedersehen."
+        }
+      },
+      {
+        "id": "v_begruessung",
+        "zeit": "18:00",
+        "ebene": "aussen",
+        "ort": "aussen_oben_auf_den_stufen",
+        "figuren": [
+          {
+            "figur": "schneider",
+            "ort": "aussen_vor_dem_tor"
+          }
+        ],
+        "text": {
+          "titel": "Herr Schneider begrüßt euch",
+          "punkte": [
+            "Der Schlossverwalter wartet am Außentor.",
+            "Er begrüßt alle knapp.",
+            "Fünf Stufen führen hinunter zum Tor."
+          ],
+          "vorlesen": "Fünf Stufen aus Sandstein führen hinunter zum Außentor. Dort wartet schon Herr Schneider, der Schlossverwalter, die Hände in den Jackentaschen. Er begrüßt alle knapp und zeigt den Weg in den Keller. Gesprächig ist er nicht, aber er kennt hier jeden Stein."
+        }
+      },
+      {
+        "id": "v_park",
+        "zeit": "18:10",
+        "ebene": "aussen",
+        "ort": "aussen_park_bank",
+        "figuren": [],
+        "text": {
+          "titel": "Der Park der Stiftung",
+          "punkte": [
+            "Schloss und Park gehören einer Stiftung.",
+            "Kahle Bäume, nasses Laub, leere Bänke.",
+            "Hinter der Mauer liegt der Schlosshof."
+          ],
+          "vorlesen": "Neben dem Parkplatz beginnt ein kleiner Park. Schloss und Park gehören einer Stiftung, und Herr Schneider hält beides seit vielen Jahren in Schuss. Die Bäume sind kahl, auf den Bänken liegt nasses Laub. Der Wind pfeift über die Wege."
+        }
+      },
+      {
+        "id": "v_lieferung",
+        "zeit": "18:30",
+        "ebene": "erdgeschoss",
+        "ort": "eg_am_brunnen",
+        "figuren": [
+          {
+            "figur": "murat",
+            "ort": "eg_beim_lieferwagen"
+          }
+        ],
+        "text": {
+          "titel": "Die Lieferung",
+          "punkte": [
+            "Ein Lieferwagen rollt in den Schlosshof.",
+            "Marek bringt das warme Essen.",
+            "Das Einfahrtstor steht noch offen."
+          ],
+          "vorlesen": "Halb sieben. Durch das offene Einfahrtstor rollt ein Lieferwagen in den Schlosshof und hält beim alten Brunnen. Marek springt heraus und öffnet die Hecktüren. Es duftet nach warmem Essen. Durch die Hoftür geht es hinüber in den Keller."
+        }
+      },
+      {
+        "id": "v_garten",
+        "zeit": "18:40",
+        "ebene": "erdgeschoss",
+        "ort": "eg_garten_bank",
+        "figuren": [],
+        "text": {
+          "titel": "Blick in den Garten",
+          "punkte": [
+            "Eine Pforte führt in einen stillen Garten.",
+            "Hecken, Beete und vier Bänke.",
+            "Die Mauern sind hoch und glatt."
+          ],
+          "vorlesen": "Eine Pforte führt vom Hof in einen stillen Garten. Hecken, Blumenbeete und vier Bänke liegen hinter hohen Mauern. Im Sommer ist es hier bestimmt schön, heute pfeift der Wind. Über der Mauer sieht man nur den Himmel und den Turm."
+        }
+      },
+      {
+        "id": "v_sperre",
+        "zeit": "18:50",
+        "ebene": "keller",
+        "ort": "geburtstagsplatz",
+        "figuren": [],
+        "text": {
+          "titel": "Zehn vor sieben",
+          "punkte": [
+            "Herr Schneider schließt alle Tore ab.",
+            "Hoftür, Einfahrtstor und Außentor sind zu.",
+            "Unten im Keller beginnt die Feier."
+          ],
+          "vorlesen": "Herr Schneider ist schlecht gelaunt. Um zehn vor sieben schließt er die Hoftür, das Einfahrtstor und das Außentor ab. Wer jetzt noch hinauswill, muss ihn fragen. Unten im Gewölbekeller beginnt die Feier."
+        }
+      }
+    ]
+  },
+  "morgen": {
+    "start": {
+      "ebene": "keller",
+      "ort": "geburtstagsplatz",
+      "zeit": "07:00"
+    },
+    "stationen": [
+      {
+        "id": "m_kollegin",
+        "zeit": "07:00",
+        "ebene": "aussen",
+        "ort": "aussen_oben_auf_den_stufen",
+        "figuren": [
+          {
+            "figur": "schneider",
+            "ort": "aussen_vor_dem_tor"
+          }
+        ],
+        "text": {
+          "titel": "Sieben Uhr",
+          "punkte": [
+            "Die Kollegin kommt mit dem Torschlüssel.",
+            "Außentor und Einfahrtstor gehen auf.",
+            "Draußen wird es langsam hell."
+          ],
+          "vorlesen": "Sieben Uhr. Draußen sind Schritte zu hören, dann dreht sich der Torschlüssel im Außentor. Herrn Schneiders Kollegin ist da. Sie schließt das Außentor und das Einfahrtstor auf und staunt über die müden Gesichter. Kalte Morgenluft strömt herein."
+        }
+      },
+      {
+        "id": "m_empfang",
+        "zeit": "07:10",
+        "ebene": "aussen",
+        "ort": "aussen_parkplatz_mitte",
+        "figuren": [
+          {
+            "figur": "serkan",
+            "ort": "aussen_am_einfahrtstor"
+          }
+        ],
+        "text": {
+          "titel": "Wieder Empfang",
+          "punkte": [
+            "Auf den Stufen piepen die Handys.",
+            "Raureif glitzert auf den Autos.",
+            "Serkan plant die Fahrten nach Hause."
+          ],
+          "vorlesen": "Oben auf den Stufen piepen plötzlich alle Handys. Hier draußen gibt es wieder Empfang, die Nachrichten der Nacht trudeln ein. Auf dem Parkplatz glitzert Raureif auf den Autos. Serkan kratzt die Scheiben frei und teilt ein, wer bei wem mitfährt."
+        }
+      },
+      {
+        "id": "m_hof",
+        "zeit": "07:20",
+        "ebene": "erdgeschoss",
+        "ort": "eg_am_brunnen",
+        "figuren": [
+          {
+            "figur": "murat",
+            "ort": "eg_beim_lieferwagen"
+          }
+        ],
+        "text": {
+          "titel": "Der Lieferwagen",
+          "punkte": [
+            "Das Einfahrtstor steht weit offen.",
+            "Marek holt seinen Lieferwagen ab.",
+            "Auf dem Brunnen liegt dünnes Eis."
+          ],
+          "vorlesen": "Durch das offene Einfahrtstor geht es in den Schlosshof. Marek steht schon bei seinem Lieferwagen und gähnt. Endlich darf er heim, hinten klappern die leeren Behälter. Auf dem alten Brunnen liegt eine dünne Schicht Eis."
+        }
+      },
+      {
+        "id": "m_garten",
+        "zeit": "07:30",
+        "ebene": "erdgeschoss",
+        "ort": "eg_garten_bank",
+        "figuren": [],
+        "text": {
+          "titel": "Stille im Garten",
+          "punkte": [
+            "Raureif liegt auf Hecken und Beeten.",
+            "Der Himmel über der Mauer wird hell.",
+            "Die lange Nacht ist vorbei."
+          ],
+          "vorlesen": "Im Garten ist es still. Raureif überzieht Hecken und Beete, und die Bänke sind nass vom Tau. Der Himmel über der Mauer wird hell. Nach dieser Nacht tut die kalte Luft richtig gut."
+        }
+      },
+      {
+        "id": "m_abschied",
+        "zeit": "07:40",
+        "ebene": "aussen",
+        "ort": "aussen_park_ende",
+        "figuren": [],
+        "jeEnde": {
+          "ende_meister": {
+            "titel": "Abschied am Morgen",
+            "punkte": [
+              "Der Fall ist gelöst.",
+              "Herr Schneider nickt dir dankbar zu.",
+              "Die Clique fährt erleichtert heim."
+            ],
+            "vorlesen": "Am Ende des Parks bleibst du kurz stehen. Der Fall ist gelöst, und jedes Teil hat seinen Platz gefunden. Herr Schneider reibt sich die Beule und nickt dir dankbar zu. Dann steigen alle müde, aber erleichtert in die Autos."
+          },
+          "ende_teilerfolg": {
+            "titel": "Abschied am Morgen",
+            "punkte": [
+              "Der Fall ist gelöst, Fragen bleiben.",
+              "Herr Schneider brummt etwas wie Danke.",
+              "Alle wollen nur noch schlafen."
+            ],
+            "vorlesen": "Am Ende des Parks bleibst du kurz stehen. Der Fall ist gelöst, auch wenn nicht jede Frage eine Antwort gefunden hat. Herr Schneider brummt etwas, das fast wie Danke klingt. Dann steigen alle müde in die Autos und wollen nur noch schlafen."
+          },
+          "ende_justizirrtum": {
+            "titel": "Abschied am Morgen",
+            "punkte": [
+              "Die Anklage traf die falsche Person.",
+              "Auf dem Heimweg wird viel geredet.",
+              "Manche Freundschaft braucht jetzt Zeit."
+            ],
+            "vorlesen": "Am Ende des Parks bleibst du kurz stehen. Die Anklage hat die falsche Person getroffen, und das wiegt schwer. Auf dem Heimweg wird noch lange geredet. Manche Freundschaft braucht nach dieser Nacht ein bisschen Zeit."
+          },
+          "ende_eskalation": {
+            "titel": "Abschied am Morgen",
+            "punkte": [
+              "Die Nacht endet im Streit.",
+              "Niemand ist zufrieden.",
+              "Herr Schneider schimpft noch am Tor."
+            ],
+            "vorlesen": "Am Ende des Parks bleibst du kurz stehen. Die Nacht endet im Streit, und die Anklage lag daneben. Herr Schneider schimpft noch am Tor, die Clique geht grußlos auseinander. Vielleicht wird beim nächsten Wiedersehen alles besser."
+          }
+        }
+      }
+    ]
+  }
+}

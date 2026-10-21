@@ -473,6 +473,79 @@ class PartySitzung extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ---------------------------------------------------------------------------
+  // Vorspiel und Morgen (Langer Abend M7b)
+
+  /// Vorspiel und Morgen der Akte ([PartyDaten.vorspielMorgen]), nur im langen
+  /// Abend; sonst `null`, und kurze Abende bleiben, wie sie waren.
+  VorspielMorgen? get vorspielMorgen => lang ? daten.vorspielMorgen : null;
+
+  /// Rundgänge, die an diesem Abend fertig sind (zu Ende gegangen oder übersprungen).
+  final Set<RundgangTeil> _rundgangFertig = {};
+  int _rundgangStation = 0;
+
+  /// Der laufende Rundgang: das Vorspiel in der Einleitung, bevor die Diashow
+  /// kommt, und der Morgen im Ende, bevor das Schlussbild kommt. Die Phasen
+  /// bleiben dabei, wie sie sind (`PARTY phase=`); der Rundgang ist ein
+  /// Unterzustand. `null` ohne Rundgang (kurzer Abend, Akte ohne Inhalt) und
+  /// sobald er fertig ist.
+  RundgangTeil? get rundgang {
+    final teil = switch (phase) {
+      PartyPhase.intro => RundgangTeil.vorspiel,
+      PartyPhase.ende => RundgangTeil.morgen,
+      _ => null,
+    };
+    if (teil == null || vorspielMorgen == null || _rundgangFertig.contains(teil)) return null;
+    return teil;
+  }
+
+  /// Station des laufenden Rundgangs (ab 0). An einem Gerät hält sie die
+  /// Sitzung, online der Raum.
+  int get rundgangStation => _rundgangStation;
+
+  /// Stationen des laufenden Rundgangs (leer ohne Rundgang).
+  List<RundgangStation> get rundgangStationen {
+    final teil = rundgang;
+    final v = vorspielMorgen;
+    return teil == null || v == null ? const [] : v.rundgang(teil).stationen;
+  }
+
+  /// Die laufende Station, sonst `null`.
+  RundgangStation? get rundgangAktuell {
+    final stationen = rundgangStationen;
+    return stationen.isEmpty ? null : stationen[rundgangStation.clamp(0, stationen.length - 1)];
+  }
+
+  /// Karte und Vorlesetext der laufenden Station; am Morgen zum gezogenen Ende.
+  RundgangText? get rundgangText => rundgangAktuell?.textFuer(phase == PartyPhase.ende ? spiel.ende.id : null);
+
+  /// Führt dieses Gerät durch den Rundgang? An einem Gerät immer; online, wer leitet.
+  bool get rundgangSteuerbar => leitet;
+
+  /// Zur nächsten Station; nach der letzten ist der Rundgang fertig, und es
+  /// geht zur Diashow (Vorspiel) bzw. zum Schlussbild (Morgen). Nichts davon
+  /// berührt Partie, Würfel, Nachtminuten, Punkte oder Ende. Das Journal merkt
+  /// den Schritt; es gibt ihn nur im langen Abend.
+  void rundgangWeiter() {
+    final teil = rundgang ?? (throw StateError('Gerade läuft kein Rundgang.'));
+    final station = _rundgangStation;
+    if (station + 1 >= rundgangStationen.length) {
+      _rundgangFertig.add(teil);
+    } else {
+      _rundgangStation = station + 1;
+    }
+    _merke('rundgang', {'station': station});
+    notifyListeners();
+  }
+
+  /// Überspringt den Rest des laufenden Rundgangs.
+  void rundgangUeberspringen() {
+    final teil = rundgang ?? (throw StateError('Gerade läuft kein Rundgang.'));
+    _rundgangFertig.add(teil);
+    _merke('rundgang', {'ueberspringen': true});
+    notifyListeners();
+  }
+
   /// Spielsekunden je echter Sekunde in der Rückblende.
   double zeitraffer = 25;
 
@@ -748,6 +821,8 @@ class PartySitzung extends ChangeNotifier {
   bool get kannWeiter {
     // Ein offenes Randgespräch endet erst mit „Gespräch beenden“.
     if (_gespraech != null) return false;
+    // Erst das Vorspiel, dann die Einleitung (langer Abend, M7b).
+    if (rundgang != null) return false;
     if (solo && phase == PartyPhase.gespraeche && soloGespraeche.any((g) => !_soloGelesen.contains(g.id))) return false;
     if (phase == PartyPhase.gespraeche && !befragungenFertig) return false;
     return mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
@@ -783,6 +858,7 @@ class PartySitzung extends ChangeNotifier {
     // Jede Einleitung beginnt mit dem ersten Bild, jede Runde mit gestellter Uhr.
     // Im langen Abend läuft dieselbe Uhr in den Entscheidungen weiter ([uhrInPhase]).
     _dia = 0;
+    _rundgangStation = 0;
     if (phase == PartyPhase.gespraeche) _uhr = null;
     if (phase == PartyPhase.gruppenwahl) {
       _stimmen.clear();
@@ -1117,6 +1193,13 @@ class PartySitzung extends ChangeNotifier {
         randgespraechWaehlen(g.wahlen[b['nr'] as int]);
       case 'gespraechEnde':
         randgespraechBeenden();
+      case 'rundgang':
+        if (b['ueberspringen'] == true) {
+          rundgangUeberspringen();
+        } else {
+          if (b['station'] != rundgangStation) throw StateError('Rundgang an Station ${b['station']} nicht möglich');
+          rundgangWeiter();
+        }
       default:
         throw FormatException('unbekannter Befehl ${b['b']}');
     }

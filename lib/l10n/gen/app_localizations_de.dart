@@ -4206,6 +4206,49 @@ class LDe extends L {
   }
 
   @override
+  String get rundgang_vorspiel => 'Vorspiel';
+
+  @override
+  String get rundgang_morgen => 'Der Morgen';
+
+  @override
+  String rundgang_marke(String teil, String uhrzeit) {
+    return '$teil · $uhrzeit';
+  }
+
+  @override
+  String rundgang_station(String nr, String anzahl) {
+    return 'Station $nr von $anzahl';
+  }
+
+  @override
+  String get rundgang_weiter => 'Nächste Station';
+
+  @override
+  String get rundgang_zur_einleitung => 'Weiter zur Einleitung';
+
+  @override
+  String get rundgang_zum_schluss => 'Weiter zum Schluss';
+
+  @override
+  String get rundgang_ueberspringen => 'Rundgang überspringen';
+
+  @override
+  String rundgang_fuehrt(String name) {
+    return '$name führt durch den Rundgang.';
+  }
+
+  @override
+  String get rundgang_laeuft_vorspiel => 'Das Vorspiel läuft.';
+
+  @override
+  String get rundgang_laeuft_morgen => 'Der Morgen läuft.';
+
+  @override
+  String get rundgang_karte_semantik =>
+      'Karte des Rundgangs. Der Detektiv geht zur Station.';
+
+  @override
   String get online_uhr_titel => 'Zeit für diese Runde';
 
   @override
