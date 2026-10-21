@@ -28,6 +28,7 @@ export 'src/party/kanon/verweise.dart';
 export 'src/party/plausibilitaet.dart';
 export 'src/party/beweise.dart';
 export 'src/party/szenario_export.dart';
+export 'src/welt/ebenen.dart';
 export 'src/party/bibel.dart';
 export 'src/party/farbe.dart';
 export 'src/party/herkunft.dart';
@@ -42,7 +43,16 @@ export 'src/party/ablauf.dart';
 export 'src/party/erzaehler.dart';
 export 'src/party/simulator.dart';
 export 'src/party/texte.dart';
+export 'src/party/befragung.dart';
+export 'src/party/erzaehler_paket.dart';
+export 'src/party/diashow.dart';
+export 'src/party/steckbriefe.dart';
 export 'src/party/textpruefer.dart';
 export 'src/erzaehlung/erzaehlung.dart';
 export 'src/erzaehlung/pruefer.dart';
 export 'src/party/karte.dart';
+
+// Klassenfähigkeiten auf der Karte (Langer Abend M6, A-055): ohne Partie,
+// Zugschicht und Würfel, darum hier und nicht in runden.dart.
+export 'src/karten/klassen.dart';
+export 'src/karten/geruechte.dart';

@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart' show Sitz;
 
+import '../../l10n/gen/app_localizations_de.dart';
 import '../../l10n/lookup.dart';
+import '../../meta/gaesteliste.dart';
 import '../../party/sitzung.dart';
 import '../../stil/mappe/assistent_formular.dart';
 import '../../stil/stil.dart';
+
+/// Texte der neuen Abschnitte: aus der Lokalisierung, sonst deutsch (der alte
+/// Einrichtungsbildschirm `/party` läuft auch ohne Lokalisierung im Baum).
+L _texte(BuildContext context) => Localizations.of<L>(context, L) ?? _de;
+final _de = LDe();
 
 /// Fall-Code: Zufall (Vorgabe) oder eigene Eingabe.
 enum CodeWahl { zufall, eingabe }
@@ -17,7 +25,8 @@ enum Spielart { bildschirm, druck }
 const einrichtungMinuten = [20, 30, 45, 60];
 
 /// Alle Eingaben der Einrichtung eines Abends: Personen und Spielernamen,
-/// Geburtstagskind, Detektiv oder Detektivin, Fall-Code, Bildschirm- oder
+/// Name des Detektivs, Rollen am Tisch (Erzähler bzw. eigener Platz online),
+/// Detektiv oder Detektivin, Fall-Code, Bildschirm- oder
 /// Druckspiel, Rundendauer, Erzählerstimme und Erzähltiefe. Der Assistent für neue Abende
 /// und der alte Einrichtungsbildschirm teilen sich diese Werte und die
 /// Abschnitte darunter; [starten] richtet den Abend ein.
@@ -28,7 +37,12 @@ const einrichtungMinuten = [20, 30, 45, 60];
 class EinrichtungsWerte extends ChangeNotifier {
   /// [druckbar]: Die Akte hat eine Druckmappe (`AkteInfo.druckbar`). Ohne Angabe
   /// gilt sie als druckbar (alter Einrichtungsbildschirm, Druckmappe).
-  EinrichtungsWerte(this.sitzung, {this.druckbar = true}) : rollen = 7.clamp(sitzung.minRollen, sitzung.maxRollen).toInt();
+  /// [gaeste]: Gästeliste der Akte (M5) für Personenzahl und Namen; ihr
+  /// Detektiv-Eintrag füllt [detektivName] vor (reihum und online).
+  EinrichtungsWerte(this.sitzung, {this.druckbar = true, GaesteListe gaeste = const GaesteListe()})
+      : rollen = (gaeste.personen ?? 7).clamp(sitzung.minRollen, sitzung.maxRollen).toInt(),
+        _gaeste = gaeste.namenJeFigur,
+        detektivName = TextEditingController(text: gaeste.namenJeFigur[Besetzung.detektiv]);
 
   final PartySitzung sitzung;
 
@@ -48,11 +62,27 @@ class EinrichtungsWerte extends ChangeNotifier {
   /// Gespräche mit Zeugen (M6); nur bei Akten, die welche haben.
   Erzaehltiefe erzaehltiefe = Erzaehltiefe.voll;
   bool _solo = false;
-  final geburtstag = TextEditingController();
+
+  /// Name des Detektivs (im Solo das Namensfeld).
+  final TextEditingController detektivName;
+
+  /// Früherer Name von [detektivName] (vor Langer Abend M3).
+  @Deprecated('detektivName')
+  TextEditingController get geburtstag => detektivName;
+
+  /// Name des Erzählers beim Spiel an einem Gerät (optional; leer: kein Erzähler).
+  final erzaehlerName = TextEditingController();
+
+  /// Platz des Gastgebers am Online-Abend: Detektiv (Vorgabe) oder Erzähler.
+  Sitz platz = Sitz.detektiv;
   final code = TextEditingController();
 
   /// Spielernamen je Rolle. Die Felder bleiben erhalten, wenn sich die Anzahl ändert.
   final Map<String, TextEditingController> _namen = {};
+
+  /// Haken der Gästeliste (M5): Figur → Name. Erscheint eine Rolle zum ersten
+  /// Mal in [PersonenAbschnitt], steht ihr Gast schon im Namensfeld.
+  final Map<String, String> _gaeste;
 
   /// Solo mit Bots (kein Druckspiel, keine Spielernamen).
   bool get solo => _solo;
@@ -77,11 +107,43 @@ class EinrichtungsWerte extends ChangeNotifier {
   /// Wird gedruckt? Nur reihum und nur, wenn die Akte eine Druckfassung hat.
   bool get druck => !_solo && druckbar && spielart == Spielart.druck;
 
-  TextEditingController namenFeld(String rolle) => _namen.putIfAbsent(rolle, () => TextEditingController());
+  /// Gibt es Rollen am Tisch zu verteilen (Erzähler)? Nie im Solo und nur in
+  /// Akten mit Erzähler-Sitz ([PartyDaten.mitErzaehlerSitz]).
+  bool get mitErzaehler => !_solo && sitzung.daten.mitErzaehlerSitz;
+
+  void setzePlatz(Sitz wert) {
+    platz = wert == Sitz.erzaehler && mitErzaehler ? Sitz.erzaehler : Sitz.detektiv;
+    notifyListeners();
+  }
+
+  /// Rolle, deren Porträt zum Tausch der Namen angetippt ist (reihum).
+  String? get tauschWahl => _tausch;
+  String? _tausch;
+
+  /// Porträt angetippt: das erste merkt sich die Rolle, das zweite tauscht die
+  /// Namen beider Rollen; noch einmal dasselbe hebt die Wahl auf.
+  void tippePortraet(String rolle) {
+    final erste = _tausch;
+    if (erste == null) {
+      _tausch = rolle;
+    } else if (erste == rolle) {
+      _tausch = null;
+    } else {
+      final a = namenFeld(erste), b = namenFeld(rolle);
+      final zwischen = a.text;
+      a.text = b.text;
+      b.text = zwischen;
+      _tausch = null;
+    }
+    notifyListeners();
+  }
+
+  TextEditingController namenFeld(String rolle) => _namen.putIfAbsent(rolle, () => TextEditingController(text: _gaeste[rolle]));
 
   /// Anzahl der Personen; die Grenzen kommen aus der Besetzung.
   void setzeRollen(int n) {
     rollen = n.clamp(sitzung.minRollen, sitzung.maxRollen).toInt();
+    if (_tausch != null && !sitzung.rollenBei(rollen).contains(_tausch)) _tausch = null;
     notifyListeners();
   }
 
@@ -140,7 +202,8 @@ class EinrichtungsWerte extends ChangeNotifier {
       solo: _solo,
       rundendauerMinuten: minuten,
       namen: namen,
-      geburtstagskind: geburtstag.text.trim(),
+      detektivName: detektivName.text.trim(),
+      erzaehlerName: mitErzaehler ? erzaehlerName.text.trim() : '',
     );
     s.stimmeAn = stimme;
     s.erzaehltiefe = erzaehltiefe;
@@ -148,7 +211,8 @@ class EinrichtungsWerte extends ChangeNotifier {
 
   @override
   void dispose() {
-    geburtstag.dispose();
+    detektivName.dispose();
+    erzaehlerName.dispose();
     code.dispose();
     for (final c in _namen.values) {
       c.dispose();
@@ -239,7 +303,8 @@ class EinrichtungsAbschnitte extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (!online) PersonenAbschnitt(werte: werte),
-              GeburtstagAbschnitt(werte: werte),
+              DetektivNameAbschnitt(werte: werte),
+              if (werte.mitErzaehler) RollenAmTischAbschnitt(werte: werte, online: online),
               DetektivAbschnitt(werte: werte),
               FallAbschnitt(werte: werte, online: online),
               if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
@@ -299,9 +364,48 @@ class PersonenAbschnitt extends _Abschnitt {
         ),
         const SizedBox(height: MMass.s8),
         Text(s.ui(solo ? 'ui.solo.rollen_hinweis' : 'ui.einrichtung.namen_hinweis'), style: MPapierSchrift.leise),
+        // Reihum: Wer welche Figur spielt, tauscht man über die Porträts.
+        if (!solo) Text(_texte(context).abend_tausch_hinweis, key: const ValueKey('tausch-hinweis'), style: MPapierSchrift.leise),
         const SizedBox(height: MMass.s16),
         for (var i = 0; i < rollen.length; i++) _rollenZeile(rollen[i], i),
       ],
+    );
+  }
+
+  /// Fotoabzug einer Rolle. Reihum ist er eine Tippfläche: Zwei Porträts
+  /// nacheinander antippen tauscht die Namen beider Rollen
+  /// ([EinrichtungsWerte.tippePortraet]); das erste liegt bis dahin rot umrandet.
+  /// Im Solo bleibt das Bild für den Bildschirmleser stumm.
+  Widget _portraet(BuildContext context, String rolle, int nr) {
+    final foto = MFotoabzug(
+      look: s.figurAussehen(rolle),
+      groesse: _foto,
+      neigung: nr.isEven ? -0.05 : 0.04,
+      akzent: s.figurFarbe(rolle),
+    );
+    if (werte.solo) return ExcludeSemantics(child: foto);
+    final gewaehlt = werte.tauschWahl == rolle;
+    final l = _texte(context);
+    return Semantics(
+      button: true,
+      selected: gewaehlt,
+      label: l.abend_tausch_portraet(s.figurName(rolle)),
+      excludeSemantics: true,
+      onTap: () => werte.tippePortraet(rolle),
+      child: GestureDetector(
+        key: ValueKey('portraet-$rolle'),
+        behavior: HitTestBehavior.opaque,
+        onTap: () => werte.tippePortraet(rolle),
+        child: Container(
+          constraints: const BoxConstraints(minWidth: MMass.tippflaeche, minHeight: MMass.tippflaeche),
+          padding: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: gewaehlt ? MRoh.stempelRot : Colors.transparent, width: 2),
+          ),
+          child: foto,
+        ),
+      ),
     );
   }
 
@@ -328,15 +432,7 @@ class PersonenAbschnitt extends _Abschnitt {
               children: [
                 Row(
                   children: [
-                    // Der Name steht daneben; das Bild bleibt für den Bildschirmleser stumm.
-                    ExcludeSemantics(
-                      child: MFotoabzug(
-                        look: s.figurAussehen(rolle),
-                        groesse: _foto,
-                        neigung: nr.isEven ? -0.05 : 0.04,
-                        akzent: s.figurFarbe(rolle),
-                      ),
-                    ),
+                    _portraet(context, rolle, nr),
                     const SizedBox(width: MMass.s16),
                     Expanded(
                       child: Column(
@@ -421,9 +517,11 @@ class _Formularzeile extends StatelessWidget {
       );
 }
 
-/// Name des Geburtstagskinds (Detektiv); im Solo-Spiel der Name des Detektivs.
-class GeburtstagAbschnitt extends _Abschnitt {
-  const GeburtstagAbschnitt({super.key, required super.werte});
+/// Name des Detektivs. Die Überschrift kommt je Akte aus dem Baustein
+/// `ui.einrichtung.geburtstag` (Schlosskeller „Name des Detektivs“, Noir „Der
+/// Inspektor“); im Solo-Spiel ist es das Namensfeld des Detektivs.
+class DetektivNameAbschnitt extends _Abschnitt {
+  const DetektivNameAbschnitt({super.key, required super.werte});
 
   @override
   Widget baue(BuildContext context) {
@@ -432,11 +530,55 @@ class GeburtstagAbschnitt extends _Abschnitt {
       ueberschrift: s.ui(solo ? 'ui.solo.name' : 'ui.einrichtung.geburtstag'),
       kinder: [
         _Formularzeile(
-          feldKey: null,
-          controller: werte.geburtstag,
+          feldKey: const ValueKey('detektiv-name'),
+          controller: werte.detektivName,
           platzhalter: s.ui(solo ? 'ui.solo.name_feld' : 'ui.einrichtung.geburtstag_feld'),
         ),
       ],
+    );
+  }
+}
+
+/// Früherer Name von [DetektivNameAbschnitt] (vor Langer Abend M3).
+@Deprecated('DetektivNameAbschnitt')
+typedef GeburtstagAbschnitt = DetektivNameAbschnitt;
+
+/// Rollen am Tisch (Langer Abend M3, nie im Solo, nur Akten mit Erzähler-Sitz):
+/// An einem Gerät der Name des Erzählers (optional; leer heißt ohne Erzähler).
+/// Online ([online]) „Dein Platz“: Detektiv oder Erzähler; den anderen Sitz
+/// vergibt die Lobby an einen Gast.
+class RollenAmTischAbschnitt extends _Abschnitt {
+  const RollenAmTischAbschnitt({super.key, required super.werte, this.online = false});
+
+  final bool online;
+
+  @override
+  Widget baue(BuildContext context) {
+    final l = _texte(context);
+    return EinrichtungsTafel(
+      ueberschrift: l.abend_rollen_titel,
+      kinder: online
+          ? [
+              Text(l.abend_platz_titel, style: MPapierSchrift.leise),
+              const SizedBox(height: MMass.s4),
+              MAnkreuzWahl<Sitz>(
+                optionen: [(Sitz.detektiv, l.abend_platz_detektiv), (Sitz.erzaehler, l.abend_platz_erzaehler)],
+                gewaehlt: werte.platz,
+                onWahl: werte.setzePlatz,
+              ),
+              const SizedBox(height: MMass.s8),
+              Text(
+                werte.platz == Sitz.erzaehler ? l.abend_platz_hinweis_erzaehler : l.abend_platz_hinweis_detektiv,
+                key: const ValueKey('platz-hinweis'),
+                style: MPapierSchrift.leise,
+              ),
+            ]
+          : [
+              _Formularzeile(feldKey: const ValueKey('erzaehler-name'), controller: werte.erzaehlerName, platzhalter: l.abend_erzaehler_feld),
+              const SizedBox(height: MMass.s8),
+              Text(l.abend_erzaehler_hinweis, style: MPapierSchrift.leise),
+              Text(l.abend_erzaehler_leer, style: MPapierSchrift.leise),
+            ],
     );
   }
 }

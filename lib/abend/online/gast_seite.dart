@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Enden;
-import 'package:mordakte_core/runden.dart' show AbendErgebnis;
+import 'package:mordakte_core/runden.dart' show AbendErgebnis, Sitz;
 import 'package:mordakte_netz/mordakte_netz.dart' show VerbindungsStatus;
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
 import '../../l10n/lookup.dart';
+import '../../meta/meta_store.dart';
+import '../../party/bildschirme/detektiv_karte.dart' show zeigeDetektivKarte;
 import '../../stil/mappe/online_bausteine.dart' show mOnlineStempelGruen;
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
+import '../rollen_uebersicht.dart';
 import 'ansicht.dart';
 import 'gast_ansicht.dart';
 import 'gast_dienst.dart';
+import 'gast_lese_sitzung.dart';
 import 'online_fehler.dart';
 import 'online_halter.dart';
 import 'online_teile.dart';
@@ -40,21 +44,60 @@ class _GastSeiteState extends State<GastSeite> {
   /// Der Platz wird aufgegeben (Abend verlassen oder zu Ende), nicht nur getrennt.
   bool _aufgeben = false;
 
+  /// Sitz dieses Geräts in der letzten Ansicht nach dem Start (`null` davor).
+  Sitz? _sitz;
+  bool _sitzBekannt = false;
+
   @override
   void initState() {
     super.initState();
-    if (_dienst == null) {
+    final d = _dienst;
+    if (d == null) {
       // Ohne Verbindung (z. B. nach dem Neuladen) zurück in die Detektei.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) context.go(Routes.start);
       });
+    } else {
+      d.addListener(_sitzPruefen);
+      _sitzPruefen();
     }
+  }
+
+  /// Vergibt der Gastgeber den Detektiv-Sitz neu (Nachschliff M3), wechselt
+  /// mitten im Abend der Platz dieses Geräts: Eine Meldung sagt, was es jetzt
+  /// tut. Der Start selbst (Lobby → Rolle) meldet nichts.
+  void _sitzPruefen() {
+    final d = _dienst;
+    if (d == null || !mounted) return;
+    final v = d.ansicht;
+    if (jText(v['phase'], 'lobby') == 'lobby') {
+      _sitzBekannt = false;
+      return;
+    }
+    final ich = spielerAusAnsicht(v).where((s) => s.id == d.spielerId).firstOrNull;
+    final sitz = ich?.sitz;
+    if (_sitzBekannt && sitz != null && sitz != _sitz) {
+      final l = L.of(context);
+      final figur = d.daten?.kanon.figur(ich?.rolle ?? '')?['name'];
+      final text = switch (sitz) {
+        Sitz.detektiv => l.online_platz_neu_detektiv,
+        Sitz.erzaehler => l.online_platz_neu_erzaehler,
+        Sitz.rolle => l.online_platz_neu_rolle(figur is String ? figur : (ich?.rolle ?? '')),
+        Sitz.assistenz => l.online_platz_neu_assistenz,
+      };
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(key: const ValueKey('platz-neu'), content: Text(text)));
+      });
+    }
+    _sitz = sitz;
+    _sitzBekannt = true;
   }
 
   @override
   void dispose() {
     final d = _dienst;
     if (d != null) {
+      d.removeListener(_sitzPruefen);
       _halter.vergissGast(d);
       // Wer die Seite nur verlässt, behält seinen Platz und kann zurückkehren.
       unawaited(_aufgeben || d.geschlossen ? d.verlassen() : d.trennen());
@@ -84,13 +127,16 @@ class _GastSeiteState extends State<GastSeite> {
     final endeId = jText(a['ende']);
     final regel = Enden(daten.kanon).regeln.where((r) => r.id == endeId).firstOrNull;
     if (regel == null) return;
-    final rolle = jText(jMap(v['privat'])['rolle']);
+    final privat = jMap(v['privat']);
+    final rolle = jText(privat['rolle']);
+    // Der Detektiv-Sitz bekommt die Karte seiner Klasse (M6.4): die des Sitzes, sonst die eigene.
+    final klasse = privat['detektiv'] == true ? jText(privat['klasse'], context.read<MetaStore?>()?.loadout.cls ?? '') : '';
     final zusage = jText(v['wuerfelZusage']);
     final ergebnis = AbendErgebnis(
       akte: jText(v['akte'], daten.fall),
       salz: jText(a['salz']),
       spielerId: d.spielerId,
-      rolle: rolle.isEmpty ? null : rolle,
+      rolle: rolle.isNotEmpty ? rolle : (klasse.isNotEmpty ? 'klasse:$klasse' : null),
       pfad: jText(a['pfad']),
       anklageRichtig: regel.richtig,
       ende: regel.id,
@@ -139,7 +185,6 @@ class _GastSeiteState extends State<GastSeite> {
         akte: jText(d.ansicht['akte']),
         child: Builder(
           builder: (context) {
-            final l = L.of(context);
             final kontext = GastKontext(
               context: context,
               dienst: d,
@@ -159,10 +204,7 @@ class _GastSeiteState extends State<GastSeite> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ...inhalt.kinder,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: _verlassen),
-                    ),
+                    GastFuss(kontext: kontext, onVerlassen: _verlassen),
                   ],
                 ),
               ),
@@ -174,8 +216,41 @@ class _GastSeiteState extends State<GastSeite> {
   }
 }
 
+/// Fuß der Gastseite, nebeneinander oder untereinander: auf dem Detektiv-Sitz
+/// die Detektivkarte (Auftrag, Regeln, Klasse; in der Rollenphase steht sie
+/// schon im Inhalt), „Wer macht was?“ (M3, in Akten ohne Erzähler-Sitz ohne
+/// ihn) und der Ausgang.
+class GastFuss extends StatelessWidget {
+  const GastFuss({super.key, required this.kontext, required this.onVerlassen});
+
+  final GastKontext kontext;
+  final VoidCallback onVerlassen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final c = kontext;
+    final karte = c.ermittelt && c.phase != 'lobby' && c.phase != 'rollen' ? GastLeseSitzung.fuer(c) : null;
+    return Wrap(
+      spacing: MMass.s8,
+      children: [
+        if (karte != null)
+          MKnopf(
+            key: const ValueKey('gast-detektivkarte'),
+            text: l.detektiv_karte_oeffnen,
+            art: MKnopfArt.leise,
+            icon: Icons.badge_outlined,
+            onPressed: () => zeigeDetektivKarte(context, karte),
+          ),
+        RollenUebersichtKnopf(hervorheben: c.ich?.sitz, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort),
+        MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: onVerlassen),
+      ],
+    );
+  }
+}
+
 /// Hinweis zum Zustand der Verbindung als Telegramm: Aufbau, eigene Verbindung
-/// weg, Spielleitung getrennt, Abend beendet.
+/// weg, Gastgeber getrennt, Abend beendet.
 class _StatusBand extends StatelessWidget {
   const _StatusBand({required this.dienst, required this.onDetektei});
 

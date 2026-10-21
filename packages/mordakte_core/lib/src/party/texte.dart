@@ -36,10 +36,19 @@ class TaeterRoh {
         verbirgt = _punkte(j['verbirgt']);
 }
 
+List<String> _texte(Object? l) => [for (final x in (l as List? ?? const [])) x as String];
+
 class Gespraech {
-  final String id, rolle, partner, thema, ziel, text;
+  final String id, rolle, partner, thema, ziel;
+
+  /// Eröffnungssatz (Modell legacy); im Modell befragung leer.
+  final String text;
   final int runde, nr;
   final List<String> preisgabe;
+
+  /// Stichpunkte statt Eröffnungssatz (Modell befragung, Kartenformat R17):
+  /// höchstens drei kurze Zeilen in der Ich- und Du-Form; sonst leer.
+  final List<String> stichpunkte;
   Gespraech(Map j)
       : id = j['id'] as String,
         rolle = j['rolle'] as String,
@@ -48,8 +57,51 @@ class Gespraech {
         partner = j['partner'] as String,
         thema = j['thema'] as String,
         ziel = j['ziel'] as String,
-        text = j['text'] as String,
-        preisgabe = [for (final p in j['preisgabe'] as List) p as String];
+        text = (j['text'] as String?) ?? '',
+        preisgabe = _texte(j['preisgabe']),
+        stichpunkte = _texte(j['stichpunkte']);
+}
+
+/// Befragung einer Rolle durch den Detektiv in einer Runde (A-051, Modell
+/// befragung). Der Detektiv sieht [thema] und [fragen], nie die Antwort. Was
+/// die Rolle sagt, steht nur als Verweis in [preisgabe] (eigene Beobachtungen
+/// mit Kanal `pflichtgespraech`, Behauptungen eigener Lügen) und hängt nie von
+/// der gewählten Frage ab. [stichpunkte] sind eigene Würze der befragten Rolle
+/// für ihre Spielerin, ohne neue Tatsache.
+class BefragungText {
+  final String id, rolle, thema;
+  final int runde;
+  final List<String> fragen, stichpunkte, preisgabe;
+  BefragungText(Map j)
+      : id = j['id'] as String,
+        rolle = j['rolle'] as String,
+        runde = j['runde'] as int,
+        thema = j['thema'] as String,
+        fragen = _texte(j['fragen']),
+        stichpunkte = _texte(j['stichpunkte']),
+        preisgabe = _texte(j['preisgabe']);
+
+  /// Kennung der Befragung von [rolle] in [runde].
+  static String kennung(String rolle, int runde) => 'bf_${rolle}_$runde';
+}
+
+/// Kurzfassung einer Befragungs-Preisgabe (E-044, Kartenformat R17): eine
+/// Karte mit ein bis drei Stichpunkten zu je höchstens acht Wörtern statt des
+/// Kanon-Wortlauts. [antwort] zeigt die App dem Detektiv (Beobachtung in der
+/// dritten Person, Lüge nur als Behauptung in der Ich-Form), [du] steht auf dem
+/// Spickzettel der befragten Rolle; ohne [du] gilt [antwort]. Die Langfassung
+/// bleibt in Beobachtung und Lüge, die Kurzfassung ändert keine Tatsache.
+class Kurzfassung {
+  final String quelle;
+  final List<String> antwort;
+  final List<String>? du;
+  Kurzfassung(Map j)
+      : quelle = j['quelle'] as String,
+        antwort = _texte(j['antwort']),
+        du = j['du'] == null ? null : _texte(j['du']);
+
+  /// Zeilen für den Spickzettel der Rolle.
+  List<String> get zettel => du ?? antwort;
 }
 
 class WahlText {
@@ -75,6 +127,10 @@ class Textsammlung {
   final Map<String, DossierRoh> dossiers = {};
   final Map<String, TaeterRoh> taeter = {};
   final List<Gespraech> gespraeche = [];
+  final Map<String, BefragungText> befragungen = {};
+
+  /// Kurzfassungen der Befragungs-Preisgaben nach Verweis (`beobachtung:<id>`, `luege:<id>`).
+  final Map<String, Kurzfassung> kurzfassungen = {};
   final Map<String, WahlText> wahlen = {};
   final List<String> doppelt = [];
 
@@ -101,6 +157,10 @@ class Textsammlung {
             if (merke('taeter.${m['rolle']}', d.key)) taeter[m['rolle'] as String] = TaeterRoh(m);
           case 'gespraech':
             if (merke(m['id'] as String, d.key)) gespraeche.add(Gespraech(m));
+          case 'befragung':
+            if (merke(m['id'] as String, d.key)) befragungen[m['id'] as String] = BefragungText(m);
+          case 'kurzfassung':
+            if (merke('kurz.${m['quelle']}', d.key)) kurzfassungen[m['quelle'] as String] = Kurzfassung(m);
           case 'wahl':
             if (merke(m['id'] as String, d.key)) wahlen[m['id'] as String] = WahlText(m);
         }
@@ -120,7 +180,7 @@ class Textsammlung {
   Map<String, Object?> get index => dateien['texte/index.json']!;
 
   /// Übernimmt fehlende Oberflächentexte (`ui.*`) aus [basis], der
-  /// unveränderten Schlosskeller-Sammlung. Neue Akten liefern nur, was bei
+  /// eingefrorenen Basis `content/party/basis-ui` (A-061). Neue Akten liefern nur, was bei
   /// ihnen anders heißt (z. B. ohne Geburtstagskind).
   void ergaenzeUi(Textsammlung basis) {
     for (final e in basis.bausteine.entries) {
@@ -148,6 +208,12 @@ class Dossier {
   final String? tarnung;
   final List<DossierZeile> weiss, verbirgt, tatwissen;
   final Map<int, List<(Gespraech, String)>> gespraeche;
+
+  /// Wer die Rolle am Tisch anspricht: je Runde Gespräch und Sprecher.
+  final Map<int, List<(Gespraech, String)>> alsPartner;
+
+  /// Je Runde die eigene Befragung durch den Detektiv (nur Modell befragung, sonst null).
+  final Map<int, BefragungText?> befragungen;
   final Map<int, WahlText?> wahlen;
   const Dossier({
     required this.rolle,
@@ -160,6 +226,8 @@ class Dossier {
     required this.verbirgt,
     required this.tatwissen,
     required this.gespraeche,
+    required this.alsPartner,
+    required this.befragungen,
     required this.wahlen,
   });
 }
@@ -204,6 +272,9 @@ class Texte {
 
   Map<String, Object?>? beobachtung(String id) => _beob[id];
   Map<String, Object?>? luege(String id) => _luegen[id];
+
+  /// Kurzfassung einer Befragungs-Preisgabe (E-044), sonst null.
+  Kurzfassung? kurzfassung(String quelle) => sammlung.kurzfassungen[quelle];
 
   late final Map<String, String> _hinweise = {
     for (final h in kanon.bonusJson['hinweise'] as List) (h as Map)['id'] as String: h['text'] as String,
@@ -282,6 +353,14 @@ class Texte {
     for (final l in gespraeche.values) {
       l.sort((a, b) => a.$1.nr.compareTo(b.$1.nr));
     }
+    final alsPartner = <int, List<(Gespraech, String)>>{};
+    for (final g in sammlung.gespraeche) {
+      if (plan[g.id] == rolle) (alsPartner[g.runde] ??= []).add((g, g.rolle));
+    }
+    int platz(String r) => besetzung.reihenfolge.indexOf(r);
+    for (final l in alsPartner.values) {
+      l.sort((a, b) => platz(a.$2) != platz(b.$2) ? platz(a.$2) - platz(b.$2) : a.$1.nr - b.$1.nr);
+    }
     return Dossier(
       rolle: rolle,
       taeter: t != null,
@@ -293,6 +372,8 @@ class Texte {
       verbirgt: _liste(t?.verbirgt ?? roh.verbirgt, pfad),
       tatwissen: t == null ? const [] : _liste(t.tatwissen, pfad),
       gespraeche: gespraeche,
+      alsPartner: alsPartner,
+      befragungen: {for (var r = 1; r <= 3; r++) r: sammlung.befragungen[BefragungText.kennung(rolle, r)]},
       // Die Sabotage sieht nur, wer in diesem Pfad die Tat begangen hat.
       wahlen: {for (var r = 1; r <= 3; r++) r: t != null ? sammlung.wahlen['gw_${rolle}_$r'] : sammlung.wahlen['gw_${rolle}_$r']?.ohneSabotage},
     );
@@ -350,30 +431,100 @@ List<String> textVerweise(Kanon kanon, Textsammlung t) {
     punkte('Täterfassung ${x.rolle}.tatwissen', x.rolle, x.tatwissen);
     punkte('Täterfassung ${x.rolle}.verbirgt', x.rolle, x.verbirgt);
   }
-  for (final g in t.gespraeche) {
-    if (g.id != 'g_${g.rolle}_${g.runde}_${g.nr}') f.add('Gespräch ${g.id}: Kennung passt nicht zu Rolle, Runde, Nummer');
-    if (!figuren.contains(g.rolle)) f.add('Gespräch ${g.id}: unbekannte Rolle');
-    if (g.partner == g.rolle) f.add('Gespräch ${g.id}: Partner ist die Rolle selbst');
-    if (!figuren.contains(g.partner) && g.partner != Besetzung.detektiv) f.add('Gespräch ${g.id}: unbekannter Partner ${g.partner}');
-    // P-2: Ein Partner, der ersetzt werden kann, steht nicht im Text; die App nennt ihn auf der Karte.
-    final name = namen[g.partner];
-    if (name != null && !kern.contains(g.partner) && RegExp('(^|[^\\p{L}])$name(\$|[^\\p{L}])', unicode: true).hasMatch('${g.thema} ${g.ziel} ${g.text}')) {
-      f.add('Gespräch ${g.id}: nennt den Partner $name, der ersetzt werden kann (P-2)');
-    }
-    // P-1: am Tisch nur Pflichtgespräch-Beobachtungen der Rolle und behauptete Fassungen ihrer Lügen.
-    for (final p in g.preisgabe) {
+  // P-1: am Tisch und in Befragungen nur Pflichtgespräch-Beobachtungen der Rolle und behauptete Fassungen ihrer Lügen.
+  void preisgaben(String wo, String rolle, List<String> l) {
+    for (final p in l) {
       if (!texte.bekannt(p)) {
-        f.add('Gespräch ${g.id}: unbekannter Verweis $p');
+        f.add('$wo: unbekannter Verweis $p');
       } else if (p.startsWith('beobachtung:')) {
         final b = texte.beobachtung(p.substring(12))!;
-        if (b['kanal'] != 'pflichtgespraech') f.add('Gespräch ${g.id}: $p ist nicht für den Tisch (Kanal ${b['kanal']})');
-        if (b['wer'] != g.rolle) f.add('Gespräch ${g.id}: $p gehört nicht zu ${g.rolle}');
+        if (b['kanal'] != 'pflichtgespraech') f.add('$wo: $p ist nicht für den Tisch (Kanal ${b['kanal']})');
+        if (b['wer'] != rolle) f.add('$wo: $p gehört nicht zu $rolle');
       } else if (p.startsWith('luege:')) {
-        if (texte.luege(p.substring(6))!['person'] != g.rolle) f.add('Gespräch ${g.id}: $p ist nicht die Lüge von ${g.rolle}');
+        if (texte.luege(p.substring(6))!['person'] != rolle) f.add('$wo: $p ist nicht die Lüge von $rolle');
       } else {
-        f.add('Gespräch ${g.id}: $p ist am Tisch nicht erlaubt (nur Beobachtungen und Lügen)');
+        f.add('$wo: $p ist am Tisch nicht erlaubt (nur Beobachtungen und Lügen)');
       }
     }
+  }
+
+  // Kartenformat R17: höchstens [hoechstens] Stichpunkte zu je höchstens acht Wörtern.
+  void karte(String wo, List<String> l, {required int mindestens, required int hoechstens}) {
+    if (l.length < mindestens || l.length > hoechstens) f.add('$wo: ${l.length} Stichpunkte statt $mindestens bis $hoechstens (R17)');
+    for (final x in l) {
+      if (stichpunktWoerter(x) > 8) f.add('$wo: Stichpunkt mit ${stichpunktWoerter(x)} Wörtern statt höchstens 8 (R17): $x');
+    }
+  }
+
+  final besetzung = texte.besetzung;
+  final glieder = besetzung.befragungsmodell ? tischKettenglieder(kanon) : const <String, int>{};
+  for (final g in t.gespraeche) {
+    final wo = 'Gespräch ${g.id}';
+    if (g.id != 'g_${g.rolle}_${g.runde}_${g.nr}') f.add('$wo: Kennung passt nicht zu Rolle, Runde, Nummer');
+    if (!figuren.contains(g.rolle)) f.add('$wo: unbekannte Rolle');
+    if (g.partner == g.rolle) f.add('$wo: Partner ist die Rolle selbst');
+    if (!figuren.contains(g.partner) && g.partner != Besetzung.detektiv) f.add('$wo: unbekannter Partner ${g.partner}');
+    // P-2: Ein Partner, der ersetzt werden kann, steht nicht im Text; die App nennt ihn auf der Karte.
+    final name = namen[g.partner];
+    if (name != null && !kern.contains(g.partner) && RegExp('(^|[^\\p{L}])$name(\$|[^\\p{L}])', unicode: true).hasMatch('${g.thema} ${g.ziel} ${g.text} ${g.stichpunkte.join(' ')}')) {
+      f.add('$wo: nennt den Partner $name, der ersetzt werden kann (P-2)');
+    }
+    preisgaben(wo, g.rolle, g.preisgabe);
+    if (besetzung.befragungsmodell) {
+      // Modell befragung (A-051): Stichpunkte statt Prosa, der Detektiv sitzt nicht am Tisch,
+      // Kettenglieder erfährt er nur in seinen Befragungen.
+      if (g.partner == Besetzung.detektiv) f.add('$wo: der Detektiv ist kein Tischpartner (Modell befragung)');
+      if (g.nr < 1 || g.nr > besetzung.tischJeRolle) f.add('$wo: Nummer ${g.nr}, das Modell kennt ${besetzung.tischJeRolle} Tischgespräch je Runde');
+      if (g.text.isNotEmpty) f.add('$wo: Prosa statt Stichpunkte (Modell befragung)');
+      karte(wo, g.stichpunkte, mindestens: 2, hoechstens: 3);
+      for (final p in g.preisgabe) {
+        if (glieder.containsKey(p)) f.add('$wo: $p ist ein Kettenglied und gehört in die Befragung');
+      }
+    } else if (g.text.isEmpty) {
+      f.add('$wo: Eröffnungssatz fehlt (Modell legacy)');
+    }
+  }
+  for (final b in t.befragungen.values) {
+    final wo = 'Befragung ${b.id}';
+    if (!besetzung.befragungsmodell) f.add('$wo: Befragungen gibt es nur im Modell befragung');
+    if (b.id != BefragungText.kennung(b.rolle, b.runde)) f.add('$wo: Kennung passt nicht zu Rolle und Runde');
+    if (!figuren.contains(b.rolle)) f.add('$wo: unbekannte Rolle');
+    if (b.runde < 1 || b.runde > 3) f.add('$wo: Runde ${b.runde}');
+    if (b.fragen.length < 2 || b.fragen.length > 3) f.add('$wo: ${b.fragen.length} Fragen statt 2 bis 3');
+    for (final q in b.fragen) {
+      if (!q.trimRight().endsWith('?')) f.add('$wo: Frage ohne Fragezeichen: $q');
+      if (stichpunktWoerter(q) > 12) f.add('$wo: Frage mit ${stichpunktWoerter(q)} Wörtern statt höchstens 12: $q');
+    }
+    karte(wo, b.stichpunkte, mindestens: 0, hoechstens: 2);
+    preisgaben(wo, b.rolle, b.preisgabe);
+  }
+  // Kurzfassungen (E-044): nur für öffentliche Preisgaben einer Befragung, je eine Karte nach R17.
+  final preisgegeben = {for (final b in t.befragungen.values) ...b.preisgabe};
+  for (final k in t.kurzfassungen.values) {
+    final wo = 'Kurzfassung ${k.quelle}';
+    if (!besetzung.befragungsmodell) f.add('$wo: Kurzfassungen gibt es nur im Modell befragung');
+    if (!texte.bekannt(k.quelle)) {
+      f.add('$wo: unbekannter Verweis');
+      continue;
+    }
+    if (!preisgegeben.contains(k.quelle)) f.add('$wo: keine Befragung gibt das preis');
+    if (k.quelle.startsWith('beobachtung:')) {
+      final b = texte.beobachtung(k.quelle.substring(12))!;
+      if (b['kanal'] != 'pflichtgespraech' || b['pfade'] != 'alle') f.add('$wo: nicht öffentlich (Kanal ${b['kanal']}, Pfade ${b['pfade']})');
+    } else if (k.quelle.startsWith('luege:')) {
+      if (k.du != null) f.add('$wo: eine Lüge hat nur die Behauptung, kein du');
+      // Der Spickzettel zeigt die Behauptung mit Vorsatz („Behaupte: …“); auch so bleibt die Zeile bei acht Wörtern.
+      if (t.bausteine['ui.druck.rollen.behaupte'] case final vorsatz?) {
+        for (final x in k.antwort) {
+          final zeile = vorsatz.replaceAll('{text}', x);
+          if (stichpunktWoerter(zeile) > 8) f.add('$wo: Spickzettel-Zeile mit ${stichpunktWoerter(zeile)} Wörtern statt höchstens 8 (R17): $zeile');
+        }
+      }
+    } else {
+      f.add('$wo: nur Beobachtungen und Lügen');
+    }
+    karte('$wo, antwort', k.antwort, mindestens: 1, hoechstens: 3);
+    if (k.du != null) karte('$wo, du', k.du!, mindestens: 1, hoechstens: 3);
   }
   for (final w in t.wahlen.values) {
     if (!wahlIds.contains(w.id)) f.add('Wahl ${w.id}: keine Gruppenwahl mit dieser Kennung');
@@ -386,6 +537,7 @@ List<String> textVerweise(Kanon kanon, Textsammlung t) {
 /// Was der Textsammlung zur Vollständigkeit noch fehlt (Tor F3).
 List<String> textLuecken(Kanon kanon, Textsammlung t) {
   final f = <String>[];
+  final besetzung = Besetzung(kanon);
   for (final k in Erzaehler(kanon).katalog()) {
     if (!t.bausteine.containsKey(k)) f.add('Erzähler-Baustein $k fehlt');
   }
@@ -394,7 +546,16 @@ List<String> textLuecken(Kanon kanon, Textsammlung t) {
     if (!t.dossiers.containsKey(r)) f.add('Dossier $r fehlt');
     for (var runde = 1; runde <= 3; runde++) {
       final n = t.gespraeche.where((g) => g.rolle == r && g.runde == runde).length;
-      if (n != 3) f.add('Rolle $r, Runde $runde: $n statt 3 Pflichtgespräche');
+      if (besetzung.befragungsmodell) {
+        if (n != besetzung.tischJeRolle) f.add('Rolle $r, Runde $runde: $n statt ${besetzung.tischJeRolle} Tischgespräche');
+        final b = t.befragungen[BefragungText.kennung(r, runde)];
+        if (b == null) f.add('Befragung ${BefragungText.kennung(r, runde)} fehlt');
+        for (final q in b?.preisgabe ?? const <String>[]) {
+          if (!t.kurzfassungen.containsKey(q)) f.add('Kurzfassung $q fehlt (${b!.id})');
+        }
+      } else if (n != 3) {
+        f.add('Rolle $r, Runde $runde: $n statt 3 Pflichtgespräche');
+      }
       final w = t.wahlen['gw_${r}_$runde'];
       if (w == null) f.add('Wahltext gw_${r}_$runde fehlt');
       // Sabotieren kann nur, wer in einem Pfad Täter ist (Akten mit fester Lösung: eine Rolle).
@@ -408,4 +569,30 @@ List<String> textLuecken(Kanon kanon, Textsammlung t) {
     if (!t.bausteine.keys.any((k) => k.startsWith('detektiv.$g.'))) f.add('Detektiv-Bogen $g fehlt');
   }
   return f;
+}
+
+final _wortRe = RegExp(r'[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*', unicode: true);
+
+/// Wörter einer Stichpunktzeile oder Frage (wie der Textprüfer: Bindestrich verbindet).
+int stichpunktWoerter(String s) => _wortRe.allMatches(s).length;
+
+/// Tisch-Kettenglieder (A-051): Verweise der Begründungsketten, die nur am Tisch
+/// gesagt werden – Lügen und Beobachtungen mit Kanal `pflichtgespraech` –, je mit
+/// der ersten Runde, in der eine Entscheidung sie braucht. Die Ketten aller Pfade
+/// zählen, damit nichts den Pfad verrät (S-1).
+Map<String, int> tischKettenglieder(Kanon kanon) {
+  final beob = {for (final b in kanon.beobachtungen) b['id'] as String: b};
+  final aus = <String, int>{};
+  for (final e in kanon.entscheidungenJson['entscheidungen'] as List) {
+    final runde = (e as Map)['runde'] as int;
+    for (final b in (e['begruendung'] as Map).values) {
+      for (final k in (b as Map)['kette'] as List) {
+        final ref = k as String;
+        final tisch = ref.startsWith('luege:') ||
+            (ref.startsWith('beobachtung:') && beob[ref.substring('beobachtung:'.length)]?['kanal'] == 'pflichtgespraech');
+        if (tisch && (aus[ref] == null || runde < aus[ref]!)) aus[ref] = runde;
+      }
+    }
+  }
+  return aus;
 }

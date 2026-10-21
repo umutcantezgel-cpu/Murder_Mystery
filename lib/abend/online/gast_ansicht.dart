@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Enden, EndeRegel, LookDef;
-import 'package:mordakte_core/runden.dart' show KartenArt, Stufe;
+import 'package:mordakte_core/runden.dart' show KartenArt, Sitz, Stufe;
 import 'package:mordakte_netz/mordakte_netz.dart' show VerbindungsStatus;
 
 import '../../karten/widgets/karten_ansicht.dart' show KartenTexte;
 import '../../l10n/lookup.dart';
 import '../../netz/relay_einstellung.dart';
+import '../../party/bildschirme/erzaehlerpult.dart' show VorleserKarte;
 import '../../party/daten.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
+import 'gast_befragung.dart';
+import 'gast_diashow.dart';
 import 'gast_dienst.dart';
+import 'gast_erzaehler.dart';
+import 'gast_ermittlung.dart';
+import 'gast_lobby.dart';
+import 'gast_uhr.dart';
 import 'online_teile.dart';
 
 /// Schickt eine Raumnachricht; Ablehnungen zeigt die Seite selbst als Meldung.
@@ -60,9 +67,50 @@ class GastKontext {
     return null;
   }
 
-  /// Dossier dieses Geräts (`null` für Assistenz-Plätze ohne Rolle).
+  /// Dossier dieses Geräts (`null` für Detektiv, Erzähler und Assistenz).
   Map<String, Object?>? get dossier => privat['dossier'] is Map ? jMap(privat['dossier']) : null;
   String? get rolle => privat['rolle'] is String ? privat['rolle'] as String : null;
+
+  /// Sitz dieses Geräts (Langer Abend M3); in der Lobby ohne Sitz `null`.
+  Sitz? get sitz => ich?.sitz;
+
+  /// Liest dieses Gerät vor (Vorleser-Sitz: Erzähler, sonst Detektiv)?
+  bool get vorleser => privat['vorleser'] == true;
+
+  /// Erzähltext für dieses Gerät: vor dem Finale nur beim Vorleser (privat),
+  /// ab dem Finale für alle (öffentlich).
+  List<String> get erzaehlerTexte => privat['erzaehler'] is List ? jTexte(privat['erzaehler']) : jTexte(v['erzaehler']);
+
+  /// Wer gerade leitet („Weiter“) und vorliest, wie im Raum
+  /// (`SchlosskellerRaum.vorleser`): der Erzähler-Sitz, solange er verbunden
+  /// ist, sonst der Detektiv-Sitz, sonst der Gastgeber. In der Lobby niemand.
+  String? get leiterId {
+    if (phase == 'lobby') return null;
+    for (final sitz in [Sitz.erzaehler, Sitz.detektiv]) {
+      for (final s in spieler) {
+        if (s.sitz == sitz && s.online) return s.id;
+      }
+    }
+    return jText(v['host']).isEmpty ? null : jText(v['host']);
+  }
+
+  /// Leitet dieses Gerät gerade den Abend?
+  bool get leitet => leiterId == ichId;
+
+  /// Name dessen, der gerade leitet und vorliest.
+  String get leiterName => nameVon(leiterId);
+
+  /// Ermittelt dieses Gerät (Detektiv-Sitz oder Vertretung, privat `detektiv`)?
+  bool get ermittelt => privat['detektiv'] == true;
+
+  /// Kennt die Akte einen Erzähler-Sitz (heute der Schlosskeller)? Solange sie
+  /// lädt, verrät es die Ansicht: Nur dort steht `erzaehlerLiest`.
+  bool get mitErzaehlerSitz => daten?.mitErzaehlerSitz ?? v.containsKey('erzaehlerLiest');
+
+  /// Wie die Akte den Ermittler nennt (Etikett des Detektiv-Sitzes): in den
+  /// Noir-Akten „Inspektor“, im Gewölbe „Geburtstagskind“, im Schlosskeller
+  /// „Detektiv“ (`ui.allgemein.detektiv`). Altakten bleiben so unverändert.
+  String get detektivWort => detektivBezeichnung(l, daten);
 
   /// Nummer dieses Platzes am Tisch, zweistellig (Reiter der Mappe).
   String get platzNr {
@@ -101,16 +149,14 @@ class GastKontext {
   /// Aussehen einer Figur für Fotoabzüge (`null`: Schattenriss).
   LookDef? aussehen(String? id) => onlineAussehen(daten, id);
 
-  /// Kennung der Detektivfigur der Akte (die Spielleitung spielt sie).
+  /// Kennung der Detektivfigur der Akte (das Gerät auf dem Detektiv-Sitz spielt sie).
   String? get detektivId => onlineDetektivId(daten);
 
-  /// Name am Tisch zu einer Figur: Gast mit dieser Rolle, die Spielleitung für
-  /// den Detektiv, sonst der Figurenname (ein Bot spielt sie).
+  /// Name am Tisch zu einer Figur: Gast mit dieser Rolle, der Platz auf dem
+  /// Detektiv-Sitz für den Detektiv, sonst der Figurenname (ein Bot spielt sie).
   String personAmTisch(String id) {
     if (id == detektivId) {
-      for (final s in spieler) {
-        if (s.istGastgeber) return s.name;
-      }
+      if (onlineDetektivPlatz(spieler) case final d?) return d.name;
     }
     for (final s in spieler) {
       if (s.rolle == id) return s.name;
@@ -154,13 +200,21 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
   final rundenMarke = c.runde > 0 ? l.online_runde(c.runde) : marke;
   switch (phase) {
     case 'lobby':
-      return _lobby(c, marke);
+      return gastLobby(c, marke);
     case 'rollen':
       return _rollen(c);
+    // Diashow zur Einleitung (M4): Bild für alle, Text nur beim Vorleser (gast_diashow.dart).
+    case 'intro' when gastMitDiashow(c):
+      return _abschnitt(c, rundenMarke, l.online_phase_intro, [GastDiashow(kontext: c)], mitErzaehlertext: false);
     case 'intro':
       return _abschnitt(c, rundenMarke, l.online_phase_intro, []);
+    // Der Gast auf dem Detektiv-Sitz ermittelt selbst (M3, gast_ermittlung.dart).
+    case 'gespraeche' when c.ermittelt:
+      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [gastDetektivGespraeche(c)]);
     case 'gespraeche':
       return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [_gespraeche(c)]);
+    case 'entscheidungen' when c.ermittelt:
+      return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [GastErmittlung(key: ValueKey('ermittlung-${c.runde}'), kontext: c)]);
     case 'entscheidungen':
       return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [_ermittlung(c)]);
     case 'gruppenwahl':
@@ -169,12 +223,14 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, rundenMarke, l.online_phase_bonus, []);
     case 'resuemee':
       return _abschnitt(c, rundenMarke, l.online_phase_resuemee, []);
+    case 'anklage' when c.ermittelt:
+      return _abschnitt(c, marke, l.online_phase_anklage, [GastAnklage(kontext: c)]);
     case 'anklage':
       return _abschnitt(c, marke, l.online_phase_anklage, [_anklage(c)]);
     case 'finale':
-      return _abschnitt(c, marke, l.online_phase_finale, [], aktionen: _belohnungOhneSpielleitung(c));
+      return _abschnitt(c, marke, l.online_phase_finale, [], aktionen: _belohnungOhneGastgeber(c));
     case 'aufloesung':
-      return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c)], aktionen: _belohnungOhneSpielleitung(c));
+      return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c)], aktionen: _belohnungOhneGastgeber(c));
     case 'ende':
       return _ende(c, marke);
     default:
@@ -262,10 +318,10 @@ Widget _foto(GastKontext c, String? id, {double groesse = 52, double neigung = -
   return MFotoabzug(look: look, groesse: groesse, neigung: neigung, klammer: klammer, akzent: c.figurFarbe(id));
 }
 
-/// Erzählertext der Spielleitung (fertige Texte aus der Ansicht) als getippte
-/// Berichtsblätter, leicht versetzt gestapelt.
+/// Erzählertext (fertige Texte aus der Ansicht) als getippte Berichtsblätter,
+/// leicht versetzt gestapelt. Vor dem Finale hat ihn nur der Vorleser-Sitz.
 Widget _erzaehler(GastKontext c) {
-  final bloecke = jTexte(c.v['erzaehler']);
+  final bloecke = c.erzaehlerTexte;
   if (bloecke.isEmpty) return const SizedBox.shrink();
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -283,7 +339,8 @@ Widget _erzaehler(GastKontext c) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (i == 0) ..._formkopf(c.l.online_erzaehler_titel.toUpperCase()),
-                Text(bloecke[i], style: MPapierSchrift.erzaehler),
+                // Schmal und mit großer Schrift bricht kein Wort mitten durch (wie am Tisch).
+                MGanzeWorte(bloecke[i], stil: MPapierSchrift.erzaehler, minimum: 14),
               ],
             ),
           ),
@@ -327,18 +384,25 @@ Widget _platz(GastKontext c, SpielerInfo s, int nr, {required bool mitFiguren}) 
   final l = c.l;
   final rolle = mitFiguren ? s.rolle : null;
   final figur = rolle == null ? '' : c.figurName(rolle);
-  // Die Spielleitung spielt immer den Detektiv: ihr Abzug zeigt ihn schon in der
+  // Der Detektiv-Sitz spielt den Detektiv: sein Abzug zeigt ihn schon in der
   // Lobby, wie auf dem Gerät des Gastgebers.
-  final bild = rolle ?? (s.istGastgeber ? c.detektivId : null);
-  final Widget? zustand = s.istGastgeber
-      ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
-      : !s.online
-          ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
-          : c.phase == 'lobby'
-              ? (s.bereit ? onlineStempel(l.online_bereit) : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
-              : s.rolle == null
-                  ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise)
-                  : null;
+  final bild = rolle ?? (s.sitz == Sitz.detektiv ? c.detektivId : null);
+  // Sitze (M3): Detektiv und Erzähler tragen ihr Etikett, der Gastgeber nur, wenn er keinen Sitz hat.
+  final Widget? zustand = !s.online
+      ? MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte)
+      : c.phase == 'lobby'
+          ? (s.istGastgeber
+              ? MChip(l.online_spielleitung, icon: Icons.star_rounded)
+              : s.bereit
+                  ? onlineStempel(l.online_bereit)
+                  : MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise))
+          : switch (s.sitz) {
+              Sitz.erzaehler => MChip(l.abend_platz_erzaehler, icon: Icons.menu_book_rounded, farbe: MRoh.tinteLeise),
+              Sitz.detektiv => MChip(c.detektivWort, icon: Icons.search_rounded, farbe: MRoh.tinteLeise),
+              _ when s.istGastgeber => MChip(l.online_spielleitung, icon: Icons.star_rounded),
+              Sitz.assistenz => MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise),
+              _ => s.rolle == null ? MChip(l.online_assistenz, icon: Icons.visibility_outlined, farbe: MRoh.tinteLeise) : null,
+            };
   return OnlinePlatzKarte(
     name: s.name,
     // Der eigene Platz trägt „(Du)“ als Randnotiz in Füllertinte.
@@ -422,57 +486,74 @@ class _MeineRolleState extends State<_MeineRolle> {
 }
 
 /// Rahmen eines Abschnitts: Erzähler, Spezifisches, dann Rolle und Tisch.
-GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch, {List<Widget> aktionen = const []}) {
+///
+/// Vorleser-Sitz (M3): Liest ein anderes Gerät vor, steht statt des Texts die
+/// [VorleserKarte]. Der Erzähler-Sitz bekommt dazu sein Erzählerpaket
+/// ([gastErzaehlerTeile]); wer leitet, hat „Weiter“ ([gastWeiter]).
+///
+/// [mitErzaehlertext] `false`: Der spezifische Teil zeigt den Erzähltext selbst (Diashow).
+GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widget> spezifisch,
+    {List<Widget> aktionen = const [], bool mitErzaehlertext = true}) {
   final l = c.l;
+  final liestAnderswo = c.erzaehlerTexte.isEmpty && c.v['erzaehlerLiest'] == true;
   return GastSeiteninhalt(
     marke: marke,
     titel: titel,
-    untertitel: c.phase == 'lobby' ? null : (c.rolle == null ? l.online_assistenz_text : null),
+    untertitel: c.phase == 'lobby'
+        ? null
+        : c.sitz == Sitz.erzaehler
+            ? l.online_erzaehler_hinweis
+            : (c.rolle == null && c.sitz == Sitz.assistenz ? l.online_assistenz_text : null),
     kinder: [
-      _erzaehler(c),
+      // Die gemeinsame Rundenuhr steht oben, solange sie läuft (M4, gast_uhr.dart).
+      ?gastRundenUhr(c),
+      if (mitErzaehlertext) _erzaehler(c),
+      if (liestAnderswo)
+        Padding(
+          padding: const EdgeInsets.only(bottom: MMass.s16),
+          child: VorleserKarte(name: c.leiterName, texte: jZahl(c.v['bausteinZahl'])),
+        ),
       ...spezifisch,
-      if (spezifisch.isEmpty && jTexte(c.v['erzaehler']).isEmpty) _notiz(l.online_warten_spielleitung),
+      if (c.sitz == Sitz.erzaehler) ...gastErzaehlerTeile(c),
+      if (spezifisch.isEmpty && c.erzaehlerTexte.isEmpty && !liestAnderswo && !c.leitet) _notiz(l.online_warten_spielleitung),
       _meineRolle(c),
       _tisch(c),
     ],
-    aktionen: aktionen,
+    aktionen: [...aktionen, ...gastWeiter(c)],
   );
 }
+
+/// „Weiter“ für das Gerät, das gerade leitet (meist der Erzähler-Sitz); frei,
+/// sobald der Raum weiter kann (`kannWeiter`).
+List<Widget> gastWeiter(GastKontext c) => [
+      if (c.leitet)
+        MKnopf(
+          key: const ValueKey('gast-weiter'),
+          text: c.l.online_weiter,
+          icon: Icons.arrow_forward_rounded,
+          onPressed: c.verbunden && c.v['kannWeiter'] == true ? () => c.befehl({'typ': 'weiter'}) : null,
+        ),
+    ];
 
 /// Schließt der Raum, bevor dieses Gerät die Phase „ende“ erhalten hat, bleiben
 /// Finale oder Auflösung die letzte Ansicht, und sie enthält alles für die
-/// Belohnung: Ist die Spielleitung weg oder der Raum zu, lässt sie sich hier abholen.
-List<Widget> _belohnungOhneSpielleitung(GastKontext c) => [
+/// Belohnung: Ist der Gastgeber weg oder der Raum zu, lässt sie sich hier abholen.
+List<Widget> _belohnungOhneGastgeber(GastKontext c) => [
       if (c.belohnung != null && !c.verbunden) MKnopf(text: c.l.abend_belohnung_ansehen, icon: Icons.style_rounded, onPressed: c.belohnung),
     ];
-
-// -------------------------------------------------------------------- Lobby
-
-GastSeiteninhalt _lobby(GastKontext c, String marke) {
-  final l = c.l;
-  final ich = c.ich;
-  final bereit = ich?.bereit ?? false;
-  return GastSeiteninhalt(
-    marke: marke,
-    titel: l.online_gast_lobby_titel,
-    untertitel: l.online_gast_lobby_hinweis,
-    kinder: [_tisch(c, mitFiguren: false)],
-    aktionen: [
-      MKnopf(
-        text: bereit ? l.online_bereit_zurueck : l.online_bereit_knopf,
-        art: bereit ? MKnopfArt.zweit : MKnopfArt.haupt,
-        icon: bereit ? Icons.undo_rounded : Icons.check_rounded,
-        onPressed: c.verbunden ? () => c.befehl({'typ': 'bereit', 'wert': !bereit}) : null,
-      ),
-    ],
-  );
-}
 
 // ------------------------------------------------------------------- Rollen
 
 GastSeiteninhalt _rollen(GastKontext c) {
   final l = c.l;
   final d = c.dossier;
+  if (d == null && (c.sitz == Sitz.erzaehler || c.ermittelt)) {
+    // Erzähler und Detektiv lesen keine Rolle; wer leitet, führt weiter, sobald alle gelesen haben.
+    return _abschnitt(c, l.online_gast_marke(raumCodeAnzeige(c.dienst.raumCode)), l.online_phase_rollen, [
+      if (c.ermittelt) ...gastDetektivRollen(c),
+      _notiz(l.online_sitz_rollen, textKey: const ValueKey('sitz-rollen')),
+    ]);
+  }
   if (d == null) {
     // Assistenz: keine eigene Rolle, nur der öffentliche Teil.
     return GastSeiteninhalt(
@@ -602,6 +683,8 @@ class DossierAnsicht extends StatelessWidget {
 // ---------------------------------------------------------------- Gespräche
 
 Widget _gespraeche(GastKontext c) {
+  // Modell befragung (A-051): eigene Karte mit Stichpunkten statt Eröffnung, keine Sprechblasen der Bots.
+  if (c.v.containsKey('tisch')) return GastBefragung(c: c);
   final l = c.l;
   final eigene = jMaps(c.privat['gespraeche']);
   final bots = jMaps(c.v['botGespraeche']);
@@ -760,7 +843,9 @@ Widget _ermittlung(GastKontext c) {
     final id = jText(z['id']);
     final option = z['option'] is String ? z['option'] as String : null;
     final zugPhase = jText(z['phase']);
-    final frage = id == 'auftakt' ? l.online_auftakt : (id.startsWith('abstecher:') ? l.online_abstecher : frageZu(id));
+    // Altakten (ohne Erzähler-Sitz) sagen wie vor M3 „Spielleitung“, nie das Wort des Schlosskellers.
+    final neu = c.mitErzaehlerSitz;
+    final frage = id == 'auftakt' ? l.online_auftakt : (id.startsWith('abstecher:') ? (neu ? l.online_abstecher : l.online_abstecher_leitung) : frageZu(id));
     final gewaehlt = option == null ? '' : optionText(id, option);
     final wurf = z['wurf'] is Map ? jMap(z['wurf']) : null;
     kinder.add(_Block(
@@ -786,12 +871,12 @@ Widget _ermittlung(GastKontext c) {
     ));
     switch (zugPhase) {
       case 'aktion':
-        kinder.add(_notiz(l.online_zug_aktion));
+        kinder.add(_notiz(neu ? l.online_zug_aktion : l.online_zug_aktion_leitung));
       case 'wurf':
         kinder.add(GastWuerfel(kontext: c, zug: z));
       case 'tischruf':
         if (wurf != null) kinder.add(_wurfBlock(c, wurf));
-        kinder.add(_notiz(l.online_tischruf_wartet));
+        kinder.add(_notiz(neu ? l.online_tischruf_wartet : l.online_tischruf_wartet_leitung));
       case 'fund':
         if (wurf != null) kinder.add(_wurfBlock(c, wurf));
         final funde = jTexte(z['funde']);
@@ -804,7 +889,7 @@ Widget _ermittlung(GastKontext c) {
             kinder: [for (final f in funde) _punkt(f), if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text)],
           ));
         } else {
-          kinder.add(_notiz(l.online_fund_wartet));
+          kinder.add(_notiz(neu ? l.online_fund_wartet : l.online_fund_wartet_leitung));
         }
     }
   } else if (e != null) {
@@ -825,7 +910,7 @@ Widget _ermittlung(GastKontext c) {
           children: [
             const MOnlineTaschenuhr(groesse: 28),
             const SizedBox(width: MMass.s12),
-            Expanded(child: Text(l.online_ermittlung_wartet, style: MPapierSchrift.leise)),
+            Expanded(child: Text(c.mitErzaehlerSitz ? l.online_ermittlung_wartet : l.online_ermittlung_wartet_leitung, style: MPapierSchrift.leise)),
           ],
         ),
       ],
@@ -1038,7 +1123,8 @@ class _GastGruppenwahlState extends State<GastGruppenwahl> {
     final l = c.l;
     final wahl = c.privat['wahl'] is Map ? jMap(c.privat['wahl']) : null;
     if (c.dossier == null) {
-      return _notiz(l.online_wahl_assistenz);
+      // Detektiv und Erzähler wählen nicht mit; Assistenz hat keine Stimme.
+      return _notiz(c.sitz == Sitz.erzaehler || c.ermittelt ? l.online_wahl_sitz : l.online_wahl_assistenz);
     }
     if (c.privat['hatGestimmt'] == true) {
       return _notiz(
@@ -1130,7 +1216,7 @@ Widget _anklage(GastKontext c) {
     titel: l.online_verdaechtige_titel,
     reissnagel: true,
     kinder: [
-      Text(l.online_anklage_wartet, style: MPapierSchrift.leise),
+      Text(c.mitErzaehlerSitz ? l.online_anklage_wartet : l.online_anklage_wartet_leitung, style: MPapierSchrift.leise),
       const SizedBox(height: MMass.s16),
       for (var i = 0; i < verdaechtige.length; i++)
         Padding(

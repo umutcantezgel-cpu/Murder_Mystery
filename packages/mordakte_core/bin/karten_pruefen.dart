@@ -16,6 +16,7 @@ import 'dart:io';
 
 import 'package:mordakte_core/src/karten/abstecher.dart';
 import 'package:mordakte_core/src/karten/karte.dart';
+import 'package:mordakte_core/src/karten/sperrwoerter.dart';
 import 'package:mordakte_core/src/model/rules.dart';
 import 'package:mordakte_core/src/party/kanon/schema.dart';
 import 'package:mordakte_core/src/party/textpruefer.dart';
@@ -43,17 +44,6 @@ const _versprechen = [
   'hinweis', 'beweis', 'indiz', 'spur', 'verrät', 'verrat', 'wissen', 'wahrheit', 'lösung', 'fakt', 'geheimnis',
   'täter', 'mörder', 'verdacht', 'verdächtig', 'alibi', 'anklage', 'stimme', 'abstimm', 'wahl', 'punkt', 'ende',
 ];
-
-/// Wörter, die in Abstecher-Texten nie vorkommen (Beweise, Schlüsselbund, Kerzenständer, Alibis, Geheimnisse).
-const _spoilerwoerter = [
-  'beweis', 'indiz', 'spur', 'alibi', 'täter', 'mörder', 'verdächtig', 'geheimnis', 'tatort', 'mordwaffe',
-  'schlüssel', 'kerze', 'kerzenständer', 'wachs', 'kurzschluss', 'stromausfall', 'blackout', 'opfer', 'schneider',
-];
-
-/// Gegenstandsnamen, die zu allgemein sind, um sie in Abstecher-Texten zu sperren.
-const _allgemeineWoerter = {'breiter', 'linker', 'rechter', 'braunem', 'schwarze', 'schaden', 'bündel', 'turmgang'};
-
-final _buchstaben = RegExp(r'[\p{L}]+', unicode: true);
 
 void main(List<String> args) {
   final f = <String>[];
@@ -198,7 +188,7 @@ void main(List<String> args) {
         }
         if (fehler.isEmpty) {
           if (j['akte'] != id) f.add('${_kurz(wurzel, abPfad)}: akte ist ${j['akte']}, erwartet $id');
-          final sperren = _sperrregeln(figuren, gegenstaende);
+          final sperren = sperrregeln(figuren, gegenstaende);
           for (final a in AbstecherOrt.liste(j)) {
             abstecherZahl++;
             if (spots.containsKey(a.id)) f.add('Abstecher ${a.id}: Kennung doppelt');
@@ -259,7 +249,7 @@ void _pruefeKarte(KartenDef k, Textpruefer textPruefer, List<String> f) {
   if (!_mitNachtminuten.contains(k.art) && t.contains('Nachtminuten')) f.add('$ort: nennt Nachtminuten, die diese Art nicht gibt');
   if (textPruefer.saetze(t).length != 1) f.add('$ort: mehr oder weniger als ein Satz');
   for (final w in _versprechen) {
-    if (_wortAnfang(w).hasMatch(t)) f.add('$ort: „$w“ verspricht Wissen oder Einfluss, Karten sind nur Komfort');
+    if (wortAnfang(w).hasMatch(t)) f.add('$ort: „$w“ verspricht Wissen oder Einfluss, Karten sind nur Komfort');
   }
   for (final b in [
     ...textPruefer.pruefe(TextQuelle(ort: '${k.id}.titel', text: k.titel, vorlesen: false)),
@@ -268,29 +258,6 @@ void _pruefeKarte(KartenDef k, Textpruefer textPruefer, List<String> f) {
     f.add('${b.ort}: ${b.regel}: ${b.auszug}');
   }
 }
-
-/// Sperrregeln für Abstecher-Texte: feste Wörter, Gegenstandsnamen und Figurennamen der Akte.
-List<RegExp> _sperrregeln(Map<String, Object?> figuren, Map<String, Object?> gegenstaende) {
-  final woerter = <String>{..._spoilerwoerter};
-  for (final g in gegenstaende['gegenstaende'] as List) {
-    for (final m in _buchstaben.allMatches((g as Map)['name'] as String)) {
-      final w = m.group(0)!.toLowerCase();
-      if (w.length >= 6 && !_allgemeineWoerter.contains(w)) woerter.add(w);
-    }
-  }
-  final regeln = [for (final w in woerter) _wortAnfang(w)];
-  final namen = <String>{
-    for (final x in [...(figuren['figuren'] as List), figuren['detektiv'] as Map, figuren['opfer'] as Map])
-      if ((x as Map)['id'] != 'detective') (x['name'] as String? ?? x['id'] as String).toLowerCase(),
-    for (final x in figuren['figuren'] as List) (x as Map)['id'] as String,
-  };
-  return [
-    ...regeln,
-    for (final n in namen) RegExp('(?<!\\p{L})${RegExp.escape(n)}(?!\\p{L})', unicode: true, caseSensitive: false),
-  ];
-}
-
-RegExp _wortAnfang(String wort) => RegExp('(?<!\\p{L})${RegExp.escape(wort)}', unicode: true, caseSensitive: false);
 
 void _pruefeAbstecherText(String ort, String text, List<RegExp> sperren, Textpruefer textPruefer, List<String> f) {
   if (text.trim().isEmpty) f.add('$ort: leer');

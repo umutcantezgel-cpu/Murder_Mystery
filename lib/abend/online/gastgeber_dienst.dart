@@ -61,7 +61,22 @@ class GastgeberDienst extends ChangeNotifier {
   String get salz => meta['salz'] as String;
   String get gastgeberName => jText(meta['name']);
   String get detektiv => meta['detektiv'] == 'm' ? 'm' : 'w';
-  String get geburtstagskind => jText(meta['geburtstag']);
+
+  /// Name des Detektivs aus der Einrichtung; Abende vor M3 legten ihn unter
+  /// `geburtstag` ab.
+  String get detektivName => jText(meta['detektivName'], jText(meta['geburtstag']));
+
+  /// Früherer Name von [detektivName].
+  @Deprecated('detektivName')
+  String get geburtstagskind => detektivName;
+
+  /// Sitz des Gastgebers, mit dem der Raum geöffnet wurde (Meta `sitz`):
+  /// Detektiv oder Erzähler. Abende ohne den Schlüssel (vor M3) sind Detektiv.
+  /// In der Lobby ändert die Nachricht `sitz` ihn; ab dem Start gilt der Raum
+  /// ([SchlosskellerRaum.sitzVon]).
+  Sitz get sitz => _sitzAus(meta);
+
+  static Sitz _sitzAus(Map<String, Object?> meta) => Sitz.lesen(meta['sitz']) == Sitz.erzaehler ? Sitz.erzaehler : Sitz.detektiv;
   int get minuten => jZahl(meta['minuten'], 30);
   bool get stimme => meta['stimme'] == true;
 
@@ -109,15 +124,20 @@ class GastgeberDienst extends ChangeNotifier {
         salz: meta['salz'] as String,
         akte: akte,
         festerGastgeber: true,
+        gastgeberSitz: _sitzAus(meta),
         katalog: katalog,
         abstecher: abstecher,
+        // Rundenuhr und Diashow (M4): Dauer der Einrichtung, Bilder der Akte.
+        rundenMinuten: jZahl(meta['minuten'], 30),
+        diaAnzahl: daten.diashow?.dias.length ?? 0,
       );
 
   /// Erzeugt Schlüssel, Raumcode und Raum neu. Das Relais ist noch nicht
   /// verbunden: [oeffnen] tut das.
   ///
-  /// [fallCodeEingabe] leer oder ungültig heißt Zufall. Alle Einstellungen
-  /// liegen in [meta], damit [wiederherstellen] denselben Abend aufbauen kann.
+  /// [fallCodeEingabe] leer oder ungültig heißt Zufall. [sitz] ist der Platz
+  /// des Gastgebers (Detektiv oder Erzähler). Alle Einstellungen liegen in
+  /// [meta], damit [wiederherstellen] denselben Abend aufbauen kann.
   static Future<GastgeberDienst> neu({
     required PartyDaten daten,
     required String akteId,
@@ -127,12 +147,14 @@ class GastgeberDienst extends ChangeNotifier {
     List<AbstecherOrt> abstecher = const [],
     KartenKatalog? katalog,
     String? fallCodeEingabe,
-    String geburtstagskind = '',
+    String detektivName = '',
+    Sitz sitz = Sitz.detektiv,
     int minuten = 30,
     bool stimme = false,
     RelayParameter? relay,
     void Function(String)? log,
   }) async {
+    if (!sitz.vergeben) throw ArgumentError.value(sitz, 'sitz', 'Detektiv oder Erzähler');
     final zufall = math.Random.secure();
     final salz = [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join();
     final code = (fallCodeEingabe == null ? null : FallCode.lesen(fallCodeEingabe)) ?? PartySitzung.zufallsCode();
@@ -141,7 +163,8 @@ class GastgeberDienst extends ChangeNotifier {
       'fallCode': code.code,
       'name': name,
       'detektiv': detektiv,
-      'geburtstag': geburtstagskind,
+      'detektivName': detektivName,
+      'sitz': sitz.name,
       'minuten': minuten,
       'stimme': stimme,
     };
@@ -176,11 +199,15 @@ class GastgeberDienst extends ChangeNotifier {
     try {
       await ablage.loeschen(RelayHost.ablageSchluessel);
       await ablage.loeschen(erzaehlSchluessel);
+      await ablage.loeschen(notizSchluessel);
     } catch (_) {}
   }
 
   /// Wo der Gastgeber seine Randgespräche ablegt ([GastgeberSitzung]).
   static const erzaehlSchluessel = 'gastgeber.erzaehlung';
+
+  /// Wo der Gastgeber das Notizbuch seiner Befragungen ablegt ([GastgeberSitzung]).
+  static const notizSchluessel = 'gastgeber.befragungen';
 
   /// Baut einen abgelegten Abend wieder auf (gleicher Raumcode, gleiche Rollen,
   /// neue Epoche) oder liefert `null`, wenn nichts Brauchbares abgelegt ist.
@@ -240,16 +267,31 @@ class GastgeberDienst extends ChangeNotifier {
 
   // ------------------------------------------------------------- Abend
 
-  /// Meldet den Gastgeber bereit und startet den Abend mit [rollen] Rollen und
-  /// dem Tischvorrat [vorrat] (Kartenkennungen). Wirft [AbendFehler], etwa
-  /// `not_ready`, wenn ein Gast nicht bereit oder nicht verbunden ist.
+  /// Lobby (M3): setzt [spieler] auf [sitz] (Detektiv oder Erzähler) oder nimmt
+  /// ihm den Sitz (`null`); [klasse] reist mit dem Detektiv-Sitz. Wirft
+  /// [AbendFehler] mit dem festen Code des Raums.
+  Future<void> sitzSetzen(String spieler, Sitz? sitz, {String? klasse}) =>
+      verb.befehl({'typ': 'sitz', 'spieler': spieler, 'sitz': sitz?.name, 'klasse': ?klasse});
+
+  /// Lobby (M3): die Rollenzahl liegt im Raum; alle sehen sie.
+  Future<void> besetzungSetzen(int rollen) => verb.befehl({'typ': 'besetzung', 'rollen': rollen});
+
+  /// Lobby (M3): Figur [rolle] für [spieler] (`null`: Zufall beim Start); Tausch,
+  /// wenn ein anderes Gerät die Figur hält.
+  Future<void> zuteilen(String spieler, String? rolle) => verb.befehl({'typ': 'zuteilen', 'spieler': spieler, 'rolle': rolle});
+
+  /// Meldet den Gastgeber bereit und startet den Abend mit dem Tischvorrat
+  /// [vorrat] (Kartenkennungen). Die Rollenzahl liegt seit der Lobby im Raum
+  /// (`besetzung`, alle sehen sie); [rollen] gilt nur, solange dort keine steht.
+  /// Wirft [AbendFehler], etwa `not_ready`, wenn ein Gast nicht bereit oder
+  /// nicht verbunden ist.
   Future<void> abendStarten({required int rollen, required List<String> vorrat}) async {
     await verb.befehl({'typ': 'bereit', 'wert': true});
-    await verb.befehl({'typ': 'start', 'rollen': rollen, 'detektiv': detektiv, 'vorrat': vorrat});
+    await verb.befehl({'typ': 'start', if (raum.lobbyRollen == null) 'rollen': rollen, 'detektiv': detektiv, 'vorrat': vorrat});
   }
 
   /// Schließt den Abend. [endgueltig] `false`: Der Stand bleibt für
-  /// [wiederherstellen] liegen und die Gäste erfahren nur, dass die Spielleitung
+  /// [wiederherstellen] liegen und die Gäste erfahren nur, dass der Gastgeber
   /// weg ist (sie warten auf die Rückkehr).
   Future<void> schliessen({bool endgueltig = true}) async {
     if (_zu) return;
@@ -262,7 +304,10 @@ class GastgeberDienst extends ChangeNotifier {
     _verbindungsHoerer = null;
     try {
       await host.schliessen(endgueltig: endgueltig, gaesteBenachrichtigen: endgueltig);
-      if (endgueltig) await ablage.loeschen(erzaehlSchluessel);
+      if (endgueltig) {
+        await ablage.loeschen(erzaehlSchluessel);
+        await ablage.loeschen(notizSchluessel);
+      }
     } catch (e) {
       debugPrint('ONLINE schliessen fehler $e');
     }

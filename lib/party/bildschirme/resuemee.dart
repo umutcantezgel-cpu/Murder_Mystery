@@ -6,6 +6,7 @@ import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'erzaehlerpult.dart' show ErzaehlerpultZudecken;
 
 /// Bonus-Hinweis (Phase bonus) und Zwischenresümee (Phase resuemee), Master 7.6
 /// Schritt 5 und 7.12. Der Hinweis zeigt nie, ob er stimmt (E-024), und das
@@ -25,7 +26,7 @@ class ResuemeeBildschirm extends StatelessWidget {
   /// Rahmen und Hinweis aus dem Erzähler, ohne Angabe der Qualität.
   Widget _bonus(BuildContext context) => PartyRahmen(
         marke: _runde,
-        aktionen: [PartyKnopf(text: sitzung.ui('ui.allgemein.weiter'), onPressed: sitzung.weiter)],
+        aktionen: [PartyKnopf(text: sitzung.ui('ui.allgemein.weiter'), onPressed: sitzung.kannWeiter ? sitzung.weiter : null)],
         child: _mappe(
           context,
           Column(
@@ -60,14 +61,16 @@ class ResuemeeBildschirm extends StatelessWidget {
     return PartyRahmen(
       marke: _runde,
       titel: sitzung.ui('ui.resuemee.titel'),
-      aktionen: [PartyKnopf(text: _weiterText, onPressed: sitzung.weiter)],
+      aktionen: [PartyKnopf(text: _weiterText, onPressed: sitzung.kannWeiter ? sitzung.weiter : null)],
       child: _mappe(
         context,
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ErzaehlerFeld(sitzung: sitzung, kennungen: kennungen, verborgen: kennungen.toSet()),
-            MBlatt(
+            // „Gelesen, zudecken“ gehört unter den Bericht, nicht über ihn.
+            ErzaehlerFeld(sitzung: sitzung, kennungen: kennungen, verborgen: kennungen.toSet(), zudecken: false),
+            // Der Bericht ist Erzähltext: Ihn sieht nur, wer vorliest (Vorleser-Sitz, M3).
+            if (erzaehltextOffen(sitzung)) MBlatt(
               klammer: true,
               samen: 40 + sitzung.runde,
               neigung: -0.003,
@@ -81,6 +84,10 @@ class ResuemeeBildschirm extends StatelessWidget {
                 ],
               ),
             ),
+            if (sitzung.erzaehlerAmPult && erzaehltextOffen(sitzung)) ...[
+              const SizedBox(height: 12),
+              ErzaehlerpultZudecken(sitzung: sitzung),
+            ],
           ],
         ),
       ),

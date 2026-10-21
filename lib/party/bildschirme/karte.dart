@@ -12,8 +12,10 @@ import '../../stil/mappe/abend2_bausteine.dart';
 import '../../stil/stil.dart';
 import '../karte_session.dart';
 import '../karten_figur.dart';
+import '../klasse_wirkung.dart';
 import '../sitzung.dart';
 import 'abstecher.dart';
+import 'befragung.dart';
 import 'gespraech_szene.dart';
 import 'npc_karte.dart';
 import 'solo_gespraeche.dart';
@@ -63,7 +65,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
   @override
   void initState() {
     super.initState();
-    _session = PartyKartenSession(s);
+    _session = PartyKartenSession(s, klasse: KlasseWirkung.diesesGeraets(context, s));
     _raster = TileGrid(s.daten.szenario.map);
     s.detektivSetzen.addListener(_setzeDetektiv);
     s.detektivAn.addListener(_detektivAn);
@@ -234,7 +236,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                   MKnopf(text: s.ui('ui.zug.auftakt_weiter'), onPressed: s.fundGelesen),
                 ],
               )),
-              if (s.kannWeiter && e == null && fund == null && vorschlag == null && _abstecher == null) _abgedeckt(_fertig()),
+              // Online führt vielleicht ein anderes Gerät weiter: Fertig ist die Runde trotzdem.
+              if (s.abschnittFertig && e == null && fund == null && vorschlag == null && _abstecher == null) _abgedeckt(_fertig()),
             ],
           ));
         },
@@ -574,7 +577,12 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             const SizedBox(height: 16),
             ..._erkunden(),
             const SizedBox(height: 6),
-            Align(alignment: Alignment.centerRight, child: MKnopf(text: s.ui('ui.karte.zur_gruppenwahl'), onPressed: s.weiter)),
+            // Online führt der Erzähler weiter, solange er da ist (Vorleser-Sitz, M3).
+            if (!s.leitet) ...[
+              MGanzwortText(_de.vorleser_fuehrt(s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim()), style: MPapierSchrift.leise),
+              const SizedBox(height: 6),
+            ],
+            Align(alignment: Alignment.centerRight, child: MKnopf(text: s.ui('ui.karte.zur_gruppenwahl'), onPressed: s.kannWeiter ? s.weiter : null)),
           ],
         ),
       );
@@ -628,8 +636,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
         },
       );
 
-  /// Das Notizbuch: ein Notizblock mit den gehörten Sprechblasen, den Funden je
-  /// Entscheidung und dem Würfelprotokoll.
+  /// Das Notizbuch: ein Notizblock mit den gehörten Sprechblasen bzw. den
+  /// Antworten aus den Befragungen, den Funden je Entscheidung und dem Würfelprotokoll.
   Future<void> _notizbuch() => showDialog<void>(
         context: context,
         barrierColor: Colors.black.withValues(alpha: 0.6),
@@ -641,7 +649,27 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (s.funde.isEmpty && s.soloNotizen.isEmpty) Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
+              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty && s.erzaehlerNotizen.isEmpty)
+                Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
+              // Modell befragung (A-051): die Antworten, die die App auf die Fragen des Detektivs gab.
+              if (s.befragungsNotizen.isNotEmpty) ...[
+                MGanzwortText(s.ui('ui.befragung.notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
+                const SizedBox(height: 10),
+                for (final (i, k) in s.befragungsNotizen.indexed) Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: BefragungsKarte(sitzung: s, karte: k, nr: i),
+                ),
+              ],
+              // E-044: was der Erzähler zum Rundenstart für unbesetzte Gäste sprach, wortgleich.
+              if (s.erzaehlerNotizen.isNotEmpty) ...[
+                MGanzwortText(s.ui('ui.befragung.erzaehler_notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
+                const SizedBox(height: 10),
+                for (final k in s.erzaehlerNotizen) Padding(
+                  key: ValueKey('erzaehlt-$k'),
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text(s.text(k), style: MPapierSchrift.kursiv),
+                ),
+              ],
               if (s.soloNotizen.isNotEmpty) ...[
                 MGanzwortText(s.ui('ui.solo.notizen'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 17)),
                 const SizedBox(height: 10),

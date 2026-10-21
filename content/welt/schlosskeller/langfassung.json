@@ -1,0 +1,2162 @@
+{
+  "format": "langfassung/1",
+  "akte": "schlosskeller",
+  "hinweis": "Langer Abend (A-056, K1): Ebenen über und vor dem Keller. Nur Darstellung und freies Gehen: keine Spur, kein Kettenglied, kein Sperrort, in allen Pfaden gleich. Kanon-Systeme sehen nur den Keller (raeume.json, Raster fest). Raster wie raeume.json: 1 Kachel = 1 Meter, x nach Osten, y nach Süden.",
+  "zeiten": {
+    "sperre": "z_forderung",
+    "ersatzschluessel": "z_ersatzschluessel",
+    "morgen": "z_morgen"
+  },
+  "ebenen": [
+    {
+      "id": "keller",
+      "name": "Gewölbekeller",
+      "stockwerk": -1,
+      "quelle": "kanon",
+      "zugang": [
+        "immer"
+      ]
+    },
+    {
+      "id": "erdgeschoss",
+      "name": "Erdgeschoss mit Schlosshof und Garten",
+      "stockwerk": 0,
+      "zugang": [
+        "vorspiel_nach_ersatzschluessel"
+      ],
+      "aussen": [
+        "eg_garten",
+        "eg_hof"
+      ],
+      "stimmung": {
+        "kulisse": "schloss",
+        "wetter": "none",
+        "dunkel": 0.5,
+        "palette": {
+          "background": "#080b14",
+          "floor": "#4a4640",
+          "floorAlt": "#423e38",
+          "wall": "#3a3430",
+          "wallTop": "#5c5249",
+          "trim": "#7d6242",
+          "accent": "#ff9329",
+          "light": "#ffc27a",
+          "danger": "#b3263a",
+          "text": "#f1ede4",
+          "fog": "#0e1220"
+        }
+      },
+      "raster": {
+        "breite": 40,
+        "hoehe": 27
+      },
+      "rooms": [
+        {
+          "id": "eg_garten",
+          "name": "Ummauerter Garten",
+          "anzeigename": "Garten",
+          "rechteck": {
+            "x": 1,
+            "y": 1,
+            "b": 16,
+            "l": 14
+          },
+          "boden": "grass",
+          "features": [
+            "Hecken",
+            "Blumenbeete",
+            "Bänke",
+            "Laternen"
+          ],
+          "beschreibung": "Hinter hohen Mauern liegt ein stiller Garten mit Hecken, Beeten und vier Bänken."
+        },
+        {
+          "id": "eg_hof",
+          "name": "Schlosshof",
+          "anzeigename": "Schlosshof",
+          "rechteck": {
+            "x": 18,
+            "y": 1,
+            "b": 16,
+            "l": 14
+          },
+          "boden": "gravel",
+          "features": [
+            "Brunnen",
+            "Laternen",
+            "Lieferwagen",
+            "Einfahrtstor"
+          ],
+          "beschreibung": "Der Schlosshof ist hoch ummauert. In der Mitte steht ein alter Brunnen."
+        },
+        {
+          "id": "eg_halle",
+          "name": "Halle im Erdgeschoss",
+          "anzeigename": "Halle",
+          "rechteck": {
+            "x": 18,
+            "y": 16,
+            "b": 12,
+            "l": 10
+          },
+          "boden": "checker",
+          "features": [
+            "Kamin",
+            "Lange Tafel",
+            "Sessel",
+            "Standuhr",
+            "Bücherregale"
+          ],
+          "beschreibung": "Die Halle ist hoch und still. Die Fenster im Erdgeschoss sind vergittert."
+        },
+        {
+          "id": "eg_kueche",
+          "name": "Schlossküche",
+          "anzeigename": "Küche",
+          "rechteck": {
+            "x": 31,
+            "y": 16,
+            "b": 8,
+            "l": 8
+          },
+          "boden": "tiles",
+          "features": [
+            "Herd",
+            "Arbeitsplatte",
+            "Spülstein",
+            "Küchenschränke",
+            "Küchentisch"
+          ],
+          "beschreibung": "Die alte Küche ist kühl und blank geputzt."
+        }
+      ],
+      "tueren": [
+        {
+          "id": "eg_pforte",
+          "name": "Gartenpforte",
+          "von": "eg_hof",
+          "nach": "eg_garten",
+          "kacheln": [
+            [
+              17,
+              7
+            ]
+          ],
+          "art": "Eisenpforte in der Hofmauer",
+          "zustand": "offen",
+          "quietscht": true
+        },
+        {
+          "id": "eg_seitentuer",
+          "name": "Seitentür",
+          "von": "eg_hof",
+          "nach": "eg_halle",
+          "kacheln": [
+            [
+              22,
+              15
+            ]
+          ],
+          "art": "schwere Holztür",
+          "zustand": "verschlossen bis Viertel nach zwölf",
+          "quietscht": true,
+          "offen": "nach_ersatzschluessel"
+        },
+        {
+          "id": "eg_kuechentuer",
+          "name": "Küchentür",
+          "von": "eg_halle",
+          "nach": "eg_kueche",
+          "kacheln": [
+            [
+              30,
+              19
+            ]
+          ],
+          "art": "Holztür",
+          "zustand": "offen",
+          "quietscht": false
+        },
+        {
+          "id": "eg_hoftuer",
+          "name": "Hoftür",
+          "von": "eg_hof",
+          "nach": "keller",
+          "kacheln": [
+            [
+              34,
+              10
+            ]
+          ],
+          "art": "schwere Turmtür",
+          "zustand": "ab zehn vor sieben verschlossen bis Viertel nach zwölf",
+          "quietscht": true
+        },
+        {
+          "id": "eg_einfahrtstor",
+          "name": "Einfahrtstor",
+          "von": "eg_hof",
+          "nach": "aussen",
+          "kacheln": [
+            [
+              25,
+              0
+            ],
+            [
+              26,
+              0
+            ]
+          ],
+          "art": "hohes Tor aus Eisen",
+          "zustand": "verschlossen bis zum Morgen",
+          "quietscht": true
+        }
+      ],
+      "einrichtung": [
+        {
+          "id": "eg_brunnen",
+          "name": "Brunnen",
+          "typ": "brunnen",
+          "x": 25,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_brunnen"
+        },
+        {
+          "id": "eg_bank_hof_west",
+          "name": "Bank",
+          "typ": "bank",
+          "x": 23,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "eg_bank_hof_ost",
+          "name": "Bank",
+          "typ": "bank",
+          "x": 28,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "eg_lieferwagen",
+          "name": "Lieferwagen",
+          "typ": "auto",
+          "x": 30,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "car"
+        },
+        {
+          "id": "eg_laterne_hof_1",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 19,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "eg_laterne_hof_2",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 32,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "eg_laterne_hof_3",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 19,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "eg_laterne_hof_4",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 32,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "eg_hecke_3_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 3,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_4_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 4,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_5_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 5,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_6_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 6,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_11_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 11,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_12_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 12,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_13_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 13,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_14_4",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 14,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_3_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 3,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_4_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 4,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_5_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 5,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_6_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 6,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_11_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 11,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_12_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 12,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_13_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 13,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_hecke_14_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 14,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "eg_beet_1",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 8,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "eg_beet_2",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 9,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "eg_beet_3",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 8,
+          "y": 8,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "eg_beet_4",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 9,
+          "y": 8,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "eg_beet_5",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 3,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "eg_beet_6",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 14,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "eg_bank_garten_1",
+          "name": "Gartenbank",
+          "typ": "bank",
+          "x": 5,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "eg_bank_garten_2",
+          "name": "Gartenbank",
+          "typ": "bank",
+          "x": 12,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "eg_bank_garten_3",
+          "name": "Gartenbank",
+          "typ": "bank",
+          "x": 5,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "eg_bank_garten_4",
+          "name": "Gartenbank",
+          "typ": "bank",
+          "x": 12,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "eg_baum_1",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 2,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "eg_baum_2",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 15,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "eg_baum_3",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 2,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "eg_baum_4",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 15,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "eg_busch_1",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 7,
+          "y": 12,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "eg_busch_2",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 10,
+          "y": 12,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "eg_busch_3",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 7,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "eg_busch_4",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 10,
+          "y": 2,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "eg_laterne_garten_1",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 2,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "eg_laterne_garten_2",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 15,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "eg_kamin",
+          "name": "Kamin",
+          "typ": "kamin",
+          "x": 25,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "party_kamin"
+        },
+        {
+          "id": "eg_standuhr",
+          "name": "Standuhr",
+          "typ": "uhr",
+          "x": 18,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "clock"
+        },
+        {
+          "id": "eg_lampe",
+          "name": "Stehlampe",
+          "typ": "lampe",
+          "x": 29,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "lamp"
+        },
+        {
+          "id": "eg_sessel_west",
+          "name": "Sessel",
+          "typ": "sessel",
+          "x": 24,
+          "y": 18,
+          "blockiert": true,
+          "darstellung": "armchair"
+        },
+        {
+          "id": "eg_sessel_ost",
+          "name": "Sessel",
+          "typ": "sessel",
+          "x": 26,
+          "y": 18,
+          "blockiert": true,
+          "darstellung": "armchair"
+        },
+        {
+          "id": "eg_teppich",
+          "name": "Teppich",
+          "typ": "teppich",
+          "x": 25,
+          "y": 18,
+          "blockiert": false,
+          "darstellung": "rug"
+        },
+        {
+          "id": "eg_truhe",
+          "name": "Truhe",
+          "typ": "truhe",
+          "x": 29,
+          "y": 25,
+          "blockiert": true,
+          "darstellung": "party_truhe"
+        },
+        {
+          "id": "eg_regal_19",
+          "name": "Bücherregal",
+          "typ": "regal",
+          "x": 18,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "bookshelf"
+        },
+        {
+          "id": "eg_regal_20",
+          "name": "Bücherregal",
+          "typ": "regal",
+          "x": 18,
+          "y": 20,
+          "blockiert": true,
+          "darstellung": "bookshelf"
+        },
+        {
+          "id": "eg_regal_21",
+          "name": "Bücherregal",
+          "typ": "regal",
+          "x": 18,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "bookshelf"
+        },
+        {
+          "id": "eg_tafel_22",
+          "name": "Lange Tafel",
+          "typ": "tisch",
+          "x": 22,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "party_tafel"
+        },
+        {
+          "id": "eg_tafel_23",
+          "name": "Lange Tafel",
+          "typ": "tisch",
+          "x": 23,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "party_tafel"
+        },
+        {
+          "id": "eg_tafel_24",
+          "name": "Lange Tafel",
+          "typ": "tisch",
+          "x": 24,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "party_tafel"
+        },
+        {
+          "id": "eg_tafel_25",
+          "name": "Lange Tafel",
+          "typ": "tisch",
+          "x": 25,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "party_tafel"
+        },
+        {
+          "id": "eg_tafel_26",
+          "name": "Lange Tafel",
+          "typ": "tisch",
+          "x": 26,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "party_tafel"
+        },
+        {
+          "id": "eg_herd_1",
+          "name": "Herd",
+          "typ": "herd",
+          "x": 33,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "party_herd"
+        },
+        {
+          "id": "eg_herd_2",
+          "name": "Herd",
+          "typ": "herd",
+          "x": 34,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "party_herd"
+        },
+        {
+          "id": "eg_arbeitsplatte_1",
+          "name": "Arbeitsplatte",
+          "typ": "platte",
+          "x": 35,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "counter"
+        },
+        {
+          "id": "eg_arbeitsplatte_2",
+          "name": "Arbeitsplatte",
+          "typ": "platte",
+          "x": 36,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "counter"
+        },
+        {
+          "id": "eg_spuele",
+          "name": "Spülstein",
+          "typ": "spuele",
+          "x": 37,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "sink"
+        },
+        {
+          "id": "eg_schrank_1",
+          "name": "Küchenschrank",
+          "typ": "schrank",
+          "x": 38,
+          "y": 18,
+          "blockiert": true,
+          "darstellung": "cabinet"
+        },
+        {
+          "id": "eg_schrank_2",
+          "name": "Küchenschrank",
+          "typ": "schrank",
+          "x": 38,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "cabinet"
+        },
+        {
+          "id": "eg_kuechentisch_1",
+          "name": "Küchentisch",
+          "typ": "tisch",
+          "x": 34,
+          "y": 20,
+          "blockiert": true,
+          "darstellung": "table"
+        },
+        {
+          "id": "eg_kuechentisch_2",
+          "name": "Küchentisch",
+          "typ": "tisch",
+          "x": 35,
+          "y": 20,
+          "blockiert": true,
+          "darstellung": "table"
+        }
+      ],
+      "orte": [
+        {
+          "id": "eg_am_brunnen",
+          "raum": "eg_hof",
+          "x": 25.5,
+          "y": 8.5,
+          "name": "am Brunnen im Schlosshof"
+        },
+        {
+          "id": "eg_hof_bank",
+          "raum": "eg_hof",
+          "x": 23.5,
+          "y": 10.5,
+          "name": "bei der Bank am Brunnen"
+        },
+        {
+          "id": "eg_am_einfahrtstor",
+          "raum": "eg_hof",
+          "x": 25.5,
+          "y": 1.5,
+          "name": "am Einfahrtstor"
+        },
+        {
+          "id": "eg_an_der_hoftuer",
+          "raum": "eg_hof",
+          "x": 33.5,
+          "y": 10.5,
+          "name": "an der Hoftür"
+        },
+        {
+          "id": "eg_beim_lieferwagen",
+          "raum": "eg_hof",
+          "x": 30.5,
+          "y": 5.5,
+          "name": "beim Lieferwagen"
+        },
+        {
+          "id": "eg_garten_beet",
+          "raum": "eg_garten",
+          "x": 8.5,
+          "y": 6.5,
+          "name": "am Blumenbeet im Garten"
+        },
+        {
+          "id": "eg_garten_bank",
+          "raum": "eg_garten",
+          "x": 5.5,
+          "y": 3.5,
+          "name": "bei der Gartenbank"
+        },
+        {
+          "id": "eg_garten_pforte",
+          "raum": "eg_garten",
+          "x": 16.5,
+          "y": 6.5,
+          "name": "an der Gartenpforte"
+        },
+        {
+          "id": "eg_halle_kamin",
+          "raum": "eg_halle",
+          "x": 25.5,
+          "y": 17.5,
+          "name": "vor dem Kamin in der Halle"
+        },
+        {
+          "id": "eg_halle_tafel",
+          "raum": "eg_halle",
+          "x": 24.5,
+          "y": 22.5,
+          "name": "an der langen Tafel"
+        },
+        {
+          "id": "eg_halle_seitentuer",
+          "raum": "eg_halle",
+          "x": 22.5,
+          "y": 16.5,
+          "name": "an der Seitentür"
+        },
+        {
+          "id": "eg_kueche_herd",
+          "raum": "eg_kueche",
+          "x": 33.5,
+          "y": 17.5,
+          "name": "am Herd"
+        },
+        {
+          "id": "eg_kueche_tisch",
+          "raum": "eg_kueche",
+          "x": 34.5,
+          "y": 21.5,
+          "name": "am Küchentisch"
+        }
+      ],
+      "lichtquellen": [
+        {
+          "id": "eg_licht",
+          "art": "elektrisch",
+          "name": "Deckenlicht in Halle und Küche",
+          "raeume": [
+            "eg_halle",
+            "eg_kueche"
+          ],
+          "an": [
+            [
+              "17:00",
+              "23:58:00"
+            ],
+            [
+              "00:00:00",
+              "07:00"
+            ]
+          ]
+        }
+      ],
+      "geraeusch": {
+        "nachbarn": [
+          [
+            "eg_hof",
+            "eg_garten"
+          ],
+          [
+            "eg_halle",
+            "eg_kueche"
+          ],
+          [
+            "eg_hof",
+            "eg_halle"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "turm",
+      "name": "Schlossturm",
+      "stockwerk": 1,
+      "zugang": [
+        "immer"
+      ],
+      "aussen": [
+        "turm_wehrgang"
+      ],
+      "stimmung": {
+        "kulisse": "schloss",
+        "wetter": "none",
+        "dunkel": 0.55,
+        "palette": {
+          "background": "#080b14",
+          "floor": "#4a4640",
+          "floorAlt": "#423e38",
+          "wall": "#3a3430",
+          "wallTop": "#5c5249",
+          "trim": "#7d6242",
+          "accent": "#ff9329",
+          "light": "#ffc27a",
+          "danger": "#b3263a",
+          "text": "#f1ede4",
+          "fog": "#0e1220"
+        }
+      },
+      "raster": {
+        "breite": 18,
+        "hoehe": 15
+      },
+      "rooms": [
+        {
+          "id": "turm_treppe",
+          "name": "Treppe im Turm",
+          "anzeigename": "Turmtreppe",
+          "rechteck": {
+            "x": 1,
+            "y": 5,
+            "b": 4,
+            "l": 5
+          },
+          "boden": "stone",
+          "features": [
+            "Wendeltreppe"
+          ],
+          "beschreibung": "Die Wendeltreppe windet sich aus dem Keller herauf. Oben geht es zur Toilette und zum Turmzimmer."
+        },
+        {
+          "id": "turm_wc",
+          "name": "Toilette oben im Turm",
+          "anzeigename": "Toilette",
+          "rechteck": {
+            "x": 1,
+            "y": 1,
+            "b": 4,
+            "l": 3
+          },
+          "boden": "tiles",
+          "features": [
+            "Toilette",
+            "Waschbecken"
+          ],
+          "beschreibung": "Ein kleiner, gefliester Raum mit Toilette und Waschbecken."
+        },
+        {
+          "id": "turm_zimmer",
+          "name": "Turmzimmer",
+          "anzeigename": "Turmzimmer",
+          "rechteck": {
+            "x": 6,
+            "y": 1,
+            "b": 7,
+            "l": 9
+          },
+          "boden": "planks",
+          "features": [
+            "Schreibtisch",
+            "Bücherregale",
+            "Sessel",
+            "Truhe"
+          ],
+          "beschreibung": "Im Turmzimmer stehen alte Bücher und ein schwerer Schreibtisch. Es riecht nach Staub und Papier."
+        },
+        {
+          "id": "turm_wehrgang",
+          "name": "Wehrgang",
+          "anzeigename": "Wehrgang",
+          "rechteck": {
+            "x": 1,
+            "y": 11,
+            "b": 16,
+            "l": 3
+          },
+          "boden": "stone",
+          "features": [
+            "Zinnen",
+            "Ausblick"
+          ],
+          "beschreibung": "Vom Wehrgang aus seht ihr weit über das Land. Unten liegen Parkplatz und Park."
+        }
+      ],
+      "tueren": [
+        {
+          "id": "turm_wc_tuer",
+          "name": "Toilettentür",
+          "von": "turm_treppe",
+          "nach": "turm_wc",
+          "kacheln": [
+            [
+              2,
+              4
+            ]
+          ],
+          "art": "Holztür",
+          "zustand": "offen",
+          "quietscht": true
+        },
+        {
+          "id": "turm_tuer",
+          "name": "Tür zum Turmzimmer",
+          "von": "turm_treppe",
+          "nach": "turm_zimmer",
+          "kacheln": [
+            [
+              5,
+              7
+            ]
+          ],
+          "art": "Eichentür mit Vorhängeschloss",
+          "zustand": "verschlossen bis Viertel nach zwölf",
+          "quietscht": true,
+          "offen": "nach_ersatzschluessel"
+        },
+        {
+          "id": "turm_wehrgang_tuer",
+          "name": "Tür zum Wehrgang",
+          "von": "turm_zimmer",
+          "nach": "turm_wehrgang",
+          "kacheln": [
+            [
+              9,
+              10
+            ]
+          ],
+          "art": "niedrige Holztür",
+          "zustand": "offen",
+          "quietscht": true
+        }
+      ],
+      "einrichtung": [
+        {
+          "id": "turm_wendeltreppe",
+          "name": "Wendeltreppe",
+          "typ": "treppe",
+          "x": 1,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "party_wendeltreppe"
+        },
+        {
+          "id": "turm_toilette",
+          "name": "Toilette",
+          "typ": "toilette",
+          "x": 4,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "toilet"
+        },
+        {
+          "id": "turm_waschbecken",
+          "name": "Waschbecken",
+          "typ": "becken",
+          "x": 1,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "sink"
+        },
+        {
+          "id": "turm_regal_1",
+          "name": "Bücherregal",
+          "typ": "regal",
+          "x": 6,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "bookshelf"
+        },
+        {
+          "id": "turm_regal_2",
+          "name": "Bücherregal",
+          "typ": "regal",
+          "x": 7,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "bookshelf"
+        },
+        {
+          "id": "turm_schreibtisch",
+          "name": "Schreibtisch",
+          "typ": "tisch",
+          "x": 10,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "desk"
+        },
+        {
+          "id": "turm_lampe",
+          "name": "Stehlampe",
+          "typ": "lampe",
+          "x": 12,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "lamp"
+        },
+        {
+          "id": "turm_sessel",
+          "name": "Sessel",
+          "typ": "sessel",
+          "x": 11,
+          "y": 4,
+          "blockiert": true,
+          "darstellung": "armchair"
+        },
+        {
+          "id": "turm_teppich",
+          "name": "Teppich",
+          "typ": "teppich",
+          "x": 9,
+          "y": 5,
+          "blockiert": false,
+          "darstellung": "rug"
+        },
+        {
+          "id": "turm_truhe",
+          "name": "Truhe",
+          "typ": "truhe",
+          "x": 12,
+          "y": 8,
+          "blockiert": true,
+          "darstellung": "party_truhe"
+        },
+        {
+          "id": "turm_laterne",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 16,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "turm_zinne_1",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 1,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_3",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 3,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_5",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 5,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_7",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 7,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_9",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 9,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_11",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 11,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_13",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 13,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        },
+        {
+          "id": "turm_zinne_15",
+          "name": "Zinne",
+          "typ": "zinne",
+          "x": 15,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_zinne"
+        }
+      ],
+      "orte": [
+        {
+          "id": "turm_an_der_treppe",
+          "raum": "turm_treppe",
+          "x": 2.5,
+          "y": 7.5,
+          "name": "oben an der Wendeltreppe"
+        },
+        {
+          "id": "turm_in_der_toilette",
+          "raum": "turm_wc",
+          "x": 2.5,
+          "y": 2.5,
+          "name": "in der Toilette oben im Turm"
+        },
+        {
+          "id": "turm_am_schreibtisch",
+          "raum": "turm_zimmer",
+          "x": 10.5,
+          "y": 2.5,
+          "name": "am Schreibtisch im Turmzimmer"
+        },
+        {
+          "id": "turm_beim_sessel",
+          "raum": "turm_zimmer",
+          "x": 11.5,
+          "y": 5.5,
+          "name": "beim Sessel im Turmzimmer"
+        },
+        {
+          "id": "turm_an_der_zinne",
+          "raum": "turm_wehrgang",
+          "x": 8.5,
+          "y": 12.5,
+          "name": "an der Zinne mit Ausblick"
+        },
+        {
+          "id": "turm_ende_wehrgang",
+          "raum": "turm_wehrgang",
+          "x": 15.5,
+          "y": 11.5,
+          "name": "am Ende des Wehrgangs"
+        }
+      ],
+      "lichtquellen": [
+        {
+          "id": "turm_licht",
+          "art": "elektrisch",
+          "name": "Licht im Turm",
+          "raeume": [
+            "turm_treppe",
+            "turm_wc",
+            "turm_zimmer"
+          ],
+          "an": [
+            [
+              "17:00",
+              "23:58:00"
+            ],
+            [
+              "00:00:00",
+              "07:00"
+            ]
+          ]
+        }
+      ],
+      "geraeusch": {
+        "nachbarn": [
+          [
+            "turm_treppe",
+            "turm_wc"
+          ],
+          [
+            "turm_treppe",
+            "turm_zimmer"
+          ],
+          [
+            "turm_zimmer",
+            "turm_wehrgang"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "aussen",
+      "name": "Vor dem Schloss",
+      "stockwerk": 0,
+      "zugang": [
+        "vorspiel_morgen",
+        "nie_in_runden"
+      ],
+      "aussen": [
+        "aussen_stufen",
+        "aussen_parkplatz",
+        "aussen_park"
+      ],
+      "stimmung": {
+        "kulisse": "schloss",
+        "wetter": "dust",
+        "dunkel": 0.45,
+        "palette": {
+          "background": "#080b14",
+          "floor": "#4a4640",
+          "floorAlt": "#423e38",
+          "wall": "#3a3430",
+          "wallTop": "#5c5249",
+          "trim": "#7d6242",
+          "accent": "#ff9329",
+          "light": "#ffc27a",
+          "danger": "#b3263a",
+          "text": "#f1ede4",
+          "fog": "#0e1220"
+        }
+      },
+      "raster": {
+        "breite": 35,
+        "hoehe": 29
+      },
+      "rooms": [
+        {
+          "id": "aussen_stufen",
+          "name": "Stufen vor dem Außentor",
+          "anzeigename": "Stufen",
+          "rechteck": {
+            "x": 19,
+            "y": 1,
+            "b": 6,
+            "l": 4
+          },
+          "boden": "stone",
+          "features": [
+            "Sandsteinstufen",
+            "Laternen"
+          ],
+          "beschreibung": "Fünf Stufen aus Sandstein führen vom Außentor hinauf zum Parkplatz."
+        },
+        {
+          "id": "aussen_parkplatz",
+          "name": "Parkplatz vor dem Schloss",
+          "anzeigename": "Parkplatz",
+          "rechteck": {
+            "x": 14,
+            "y": 6,
+            "b": 20,
+            "l": 12
+          },
+          "boden": "asphalt",
+          "features": [
+            "Autos der Gäste",
+            "Laternen",
+            "Tor zur Straße"
+          ],
+          "beschreibung": "Auf dem Parkplatz stehen die Autos der Gäste."
+        },
+        {
+          "id": "aussen_park",
+          "name": "Schlosspark",
+          "anzeigename": "Park",
+          "rechteck": {
+            "x": 1,
+            "y": 6,
+            "b": 12,
+            "l": 22
+          },
+          "boden": "grass",
+          "features": [
+            "Alte Bäume",
+            "Hecken",
+            "Bänke",
+            "Blumenbeet"
+          ],
+          "beschreibung": "Im Schlosspark stehen alte Bäume. Wege führen zwischen Hecken und Bänken hindurch."
+        }
+      ],
+      "tueren": [
+        {
+          "id": "aussen_durchlass",
+          "name": "Durchlass",
+          "von": "aussen_stufen",
+          "nach": "aussen_parkplatz",
+          "kacheln": [
+            [
+              21,
+              5
+            ],
+            [
+              22,
+              5
+            ]
+          ],
+          "art": "offener Durchlass in der Mauer",
+          "zustand": "offen",
+          "quietscht": false
+        },
+        {
+          "id": "aussen_parkpforte",
+          "name": "Parkpforte",
+          "von": "aussen_parkplatz",
+          "nach": "aussen_park",
+          "kacheln": [
+            [
+              13,
+              12
+            ]
+          ],
+          "art": "Eisenpforte",
+          "zustand": "offen",
+          "quietscht": true
+        },
+        {
+          "id": "aussen_tor",
+          "name": "Außentor",
+          "von": "aussen_stufen",
+          "nach": "keller",
+          "kacheln": [
+            [
+              21,
+              0
+            ],
+            [
+              22,
+              0
+            ]
+          ],
+          "art": "schweres Holztor",
+          "zustand": "verschlossen bis zum Morgen",
+          "quietscht": true
+        },
+        {
+          "id": "aussen_einfahrt",
+          "name": "Einfahrtstor",
+          "von": "aussen_parkplatz",
+          "nach": "erdgeschoss",
+          "kacheln": [
+            [
+              30,
+              5
+            ],
+            [
+              31,
+              5
+            ]
+          ],
+          "art": "hohes Tor aus Eisen",
+          "zustand": "verschlossen bis zum Morgen",
+          "quietscht": true
+        }
+      ],
+      "einrichtung": [
+        {
+          "id": "aussen_stufe_1",
+          "name": "Sandsteinstufe",
+          "typ": "stufe",
+          "x": 21,
+          "y": 3,
+          "blockiert": false,
+          "darstellung": "party_stufen"
+        },
+        {
+          "id": "aussen_stufe_2",
+          "name": "Sandsteinstufe",
+          "typ": "stufe",
+          "x": 22,
+          "y": 3,
+          "blockiert": false,
+          "darstellung": "party_stufen"
+        },
+        {
+          "id": "aussen_ausfahrt_1",
+          "name": "Tor zur Straße",
+          "typ": "tor",
+          "x": 23,
+          "y": 17,
+          "blockiert": true,
+          "darstellung": "party_tor"
+        },
+        {
+          "id": "aussen_ausfahrt_2",
+          "name": "Tor zur Straße",
+          "typ": "tor",
+          "x": 24,
+          "y": 17,
+          "blockiert": true,
+          "darstellung": "party_tor"
+        },
+        {
+          "id": "aussen_laterne_1",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 19,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_2",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 24,
+          "y": 1,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_3",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 14,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_4",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 33,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_5",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 14,
+          "y": 17,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_6",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 33,
+          "y": 17,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_7",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 6,
+          "y": 13,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_laterne_8",
+          "name": "Laterne",
+          "typ": "laterne",
+          "x": 6,
+          "y": 21,
+          "blockiert": true,
+          "darstellung": "party_laterne"
+        },
+        {
+          "id": "aussen_auto_1",
+          "name": "Auto",
+          "typ": "auto",
+          "x": 17,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "car"
+        },
+        {
+          "id": "aussen_auto_2",
+          "name": "Auto",
+          "typ": "auto",
+          "x": 20,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "car"
+        },
+        {
+          "id": "aussen_auto_3",
+          "name": "Auto",
+          "typ": "auto",
+          "x": 26,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "car"
+        },
+        {
+          "id": "aussen_auto_4",
+          "name": "Auto",
+          "typ": "auto",
+          "x": 29,
+          "y": 14,
+          "blockiert": true,
+          "darstellung": "car"
+        },
+        {
+          "id": "aussen_auto_5",
+          "name": "Auto",
+          "typ": "auto",
+          "x": 18,
+          "y": 14,
+          "blockiert": true,
+          "darstellung": "car"
+        },
+        {
+          "id": "aussen_hecke_2_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 2,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_3_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 3,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_4_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 4,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_8_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 8,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_9_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 9,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_10_11",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 10,
+          "y": 11,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_2_19",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 2,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_3_19",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 3,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_4_19",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 4,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_8_19",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 8,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_9_19",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 9,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_hecke_10_19",
+          "name": "Hecke",
+          "typ": "hecke",
+          "x": 10,
+          "y": 19,
+          "blockiert": true,
+          "darstellung": "party_hecke"
+        },
+        {
+          "id": "aussen_baum_1",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 2,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_baum_2",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 11,
+          "y": 7,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_baum_3",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 2,
+          "y": 15,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_baum_4",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 11,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_baum_5",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 2,
+          "y": 25,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_baum_6",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 11,
+          "y": 26,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_baum_7",
+          "name": "Baum",
+          "typ": "baum",
+          "x": 4,
+          "y": 27,
+          "blockiert": true,
+          "darstellung": "tree"
+        },
+        {
+          "id": "aussen_busch_1",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 9,
+          "y": 23,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "aussen_busch_2",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 3,
+          "y": 22,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "aussen_busch_3",
+          "name": "Busch",
+          "typ": "busch",
+          "x": 10,
+          "y": 9,
+          "blockiert": true,
+          "darstellung": "bush"
+        },
+        {
+          "id": "aussen_bank_1",
+          "name": "Parkbank",
+          "typ": "bank",
+          "x": 6,
+          "y": 8,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "aussen_bank_2",
+          "name": "Parkbank",
+          "typ": "bank",
+          "x": 7,
+          "y": 24,
+          "blockiert": true,
+          "darstellung": "party_bank"
+        },
+        {
+          "id": "aussen_beet_1",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 5,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "aussen_beet_2",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 6,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        },
+        {
+          "id": "aussen_beet_3",
+          "name": "Blumenbeet",
+          "typ": "beet",
+          "x": 7,
+          "y": 16,
+          "blockiert": true,
+          "darstellung": "party_beet"
+        }
+      ],
+      "orte": [
+        {
+          "id": "aussen_vor_dem_tor",
+          "raum": "aussen_stufen",
+          "x": 21.5,
+          "y": 1.5,
+          "name": "vor dem Außentor"
+        },
+        {
+          "id": "aussen_oben_auf_den_stufen",
+          "raum": "aussen_stufen",
+          "x": 22.5,
+          "y": 4.5,
+          "name": "oben auf den Stufen"
+        },
+        {
+          "id": "aussen_parkplatz_mitte",
+          "raum": "aussen_parkplatz",
+          "x": 23.5,
+          "y": 12.5,
+          "name": "mitten auf dem Parkplatz"
+        },
+        {
+          "id": "aussen_am_einfahrtstor",
+          "raum": "aussen_parkplatz",
+          "x": 30.5,
+          "y": 6.5,
+          "name": "am Einfahrtstor"
+        },
+        {
+          "id": "aussen_park_bank",
+          "raum": "aussen_park",
+          "x": 6.5,
+          "y": 9.5,
+          "name": "bei der Parkbank"
+        },
+        {
+          "id": "aussen_park_beet",
+          "raum": "aussen_park",
+          "x": 6.5,
+          "y": 17.5,
+          "name": "am Blumenbeet im Park"
+        },
+        {
+          "id": "aussen_park_ende",
+          "raum": "aussen_park",
+          "x": 6.5,
+          "y": 26.5,
+          "name": "am Ende des Parks"
+        }
+      ],
+      "geraeusch": {
+        "nachbarn": [
+          [
+            "aussen_stufen",
+            "aussen_parkplatz"
+          ],
+          [
+            "aussen_parkplatz",
+            "aussen_park"
+          ]
+        ]
+      }
+    }
+  ],
+  "portale": [
+    {
+      "id": "p_wendeltreppe",
+      "art": "treppe",
+      "offen": "immer",
+      "weg": 4,
+      "a": {
+        "ebene": "keller",
+        "kacheln": [
+          [
+            1,
+            1
+          ]
+        ],
+        "ankunft": [
+          1.5,
+          2.5
+        ],
+        "aktion": "Die Wendeltreppe hinauf"
+      },
+      "b": {
+        "ebene": "turm",
+        "kacheln": [
+          [
+            1,
+            9
+          ]
+        ],
+        "ankunft": [
+          2.5,
+          8.5
+        ],
+        "aktion": "Hinunter in den Keller"
+      }
+    },
+    {
+      "id": "p_hoftuer",
+      "art": "tuer",
+      "offen": "vorspiel_nach_ersatzschluessel",
+      "weg": 1,
+      "a": {
+        "ebene": "keller",
+        "kacheln": [
+          [
+            2,
+            0
+          ]
+        ],
+        "ankunft": [
+          2.5,
+          1.5
+        ],
+        "aktion": "Durch die Hoftür in den Schlosshof"
+      },
+      "b": {
+        "ebene": "erdgeschoss",
+        "kacheln": [
+          [
+            34,
+            10
+          ]
+        ],
+        "ankunft": [
+          33.5,
+          10.5
+        ],
+        "aktion": "Durch die Hoftür in den Keller"
+      }
+    },
+    {
+      "id": "p_aussentor",
+      "art": "tor",
+      "offen": "vorspiel_morgen",
+      "weg": 1,
+      "a": {
+        "ebene": "keller",
+        "kacheln": [
+          [
+            14,
+            22
+          ],
+          [
+            15,
+            22
+          ]
+        ],
+        "ankunft": [
+          14.5,
+          21.5
+        ],
+        "aktion": "Durch das Außentor hinaus"
+      },
+      "b": {
+        "ebene": "aussen",
+        "kacheln": [
+          [
+            21,
+            0
+          ],
+          [
+            22,
+            0
+          ]
+        ],
+        "ankunft": [
+          21.5,
+          1.5
+        ],
+        "aktion": "Durch das Außentor hinein"
+      }
+    },
+    {
+      "id": "p_einfahrtstor",
+      "art": "tor",
+      "offen": "nie_in_runden",
+      "weg": 1,
+      "a": {
+        "ebene": "erdgeschoss",
+        "kacheln": [
+          [
+            25,
+            0
+          ],
+          [
+            26,
+            0
+          ]
+        ],
+        "ankunft": [
+          25.5,
+          1.5
+        ],
+        "aktion": "Durch das Einfahrtstor hinaus"
+      },
+      "b": {
+        "ebene": "aussen",
+        "kacheln": [
+          [
+            30,
+            5
+          ],
+          [
+            31,
+            5
+          ]
+        ],
+        "ankunft": [
+          30.5,
+          6.5
+        ],
+        "aktion": "Durch das Einfahrtstor in den Hof"
+      }
+    }
+  ],
+  "ausblicke": [
+    {
+      "id": "ab_wehrgang",
+      "ebene": "turm",
+      "ort": "turm_an_der_zinne",
+      "zeigt": "aussen",
+      "mitte": [
+        23.5,
+        12.5
+      ],
+      "zoom": 0.6
+    }
+  ]
+}

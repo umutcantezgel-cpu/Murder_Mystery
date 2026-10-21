@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import '../model/rules.dart';
 import '../util/geom.dart';
 import 'catalog.dart';
 import 'scenario_def.dart';
@@ -135,9 +136,43 @@ class TileGrid {
     return true;
   }
 
+  /// Kommt der Körper (Radius [r]) auf der Strecke von (ax, ay) nach (bx, by)
+  /// durch? Anders als [lineOfSight] zählen Requisiten und die Breite der
+  /// Figur: ein gewischter Kreis statt eines Strahls. Geprüft wird in Schritten
+  /// von höchstens 0,1 Kacheln, je Schritt der Kasten um beide Proben. So
+  /// besteht auch jede Zwischenposition [canStand], selbst an Möbelecken.
+  bool freieBahn(double ax, double ay, double bx, double by, [double r = Tuning.playerRadius]) {
+    final schritte = math.max(1, (dist(ax, ay, bx, by) / 0.1).ceil());
+    var vx = ax, vy = ay;
+    for (var i = 1; i <= schritte; i++) {
+      final k = i / schritte;
+      final nx = ax + (bx - ax) * k, ny = ay + (by - ay) * k;
+      if (!_kastenFrei(math.min(vx, nx) - r, math.min(vy, ny) - r, math.max(vx, nx) + r, math.max(vy, ny) + r)) return false;
+      vx = nx;
+      vy = ny;
+    }
+    return true;
+  }
+
+  /// Keine blockierte Kachel unter dem Kasten [x0, x1] × [y0, y1] (wie [canStand]).
+  bool _kastenFrei(double x0, double y0, double x1, double y1) {
+    for (var ty = y0.floor(); ty <= y1.floor(); ty++) {
+      for (var tx = x0.floor(); tx <= x1.floor(); tx++) {
+        if (blocked(tx, ty)) return false;
+      }
+    }
+    return true;
+  }
+
+  /// Aufschlag für eine Kachel aus `extraBlockiert` (Personen). Weich: Der Weg
+  /// geht außen herum, solange der Umweg kürzer ist; ein Ziel wird dadurch nie
+  /// unerreichbar.
+  static const _personenAufschlag = 6.0;
+
   /// A* über begehbare Kacheln (4er-Nachbarschaft + Diagonalen ohne Eckenschneiden).
-  /// Liefert Kachelpfad ohne Start, oder `null`.
-  List<Pt>? findPath(Pt from, Pt to, {int maxNodes = 4000}) {
+  /// Liefert Kachelpfad ohne Start, oder `null`. Kacheln in [extraBlockiert]
+  /// (z. B. unter Personen) sind weiche Hindernisse mit Aufschlag, keine Wände.
+  List<Pt>? findPath(Pt from, Pt to, {int maxNodes = 4000, Set<Pt> extraBlockiert = const {}}) {
     if (from == to) return [];
     if (blocked(to.x, to.y)) return null;
     final open = _MinHeap();
@@ -166,7 +201,8 @@ class TileGrid {
         if (diag && (blocked(cur.x + d.$1, cur.y) || blocked(cur.x, cur.y + d.$2))) continue;
         final n = Pt(nx, ny);
         if (closed.contains(n)) continue;
-        final ng = g[cur]! + (diag ? 1.4142 : 1.0);
+        var ng = g[cur]! + (diag ? 1.4142 : 1.0);
+        if (extraBlockiert.isNotEmpty && n != to && extraBlockiert.contains(n)) ng += _personenAufschlag;
         if (ng < (g[n] ?? double.infinity)) {
           g[n] = ng;
           came[n] = cur;

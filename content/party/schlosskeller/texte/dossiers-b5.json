@@ -30,7 +30,7 @@
     },
     {
       "rolle": "selin",
-      "wer": "Du bist Sibel, die Vorsichtige. Du studierst Biologie und fürchtest dich vor nichts außer alten Rüstungen. Du bist auf der Geburtstagsfeier dabei und ziehst bei lauten Geräuschen oft die Schultern hoch. Man erkennt dich an dem weißen Fransenschal, den du dir bis übers Kinn ziehst.",
+      "wer": "Du bist Sibel, die Vorsichtige. Du studierst Biologie und fürchtest dich vor nichts außer alten Rüstungen. Du bist beim Wiedersehen der Clique dabei und ziehst bei lauten Geräuschen oft die Schultern hoch. Man erkennt dich an dem weißen Fransenschal, den du dir bis übers Kinn ziehst.",
       "weiss": [
         {
           "ref": "beobachtung:b_selin_gesicht"
@@ -74,7 +74,7 @@
     },
     {
       "rolle": "tugba",
-      "wer": "Du bist Tugba, die Geburtstags-Planerin. Du leitest Projekte bei der Arbeit und planst sogar Geburtstage mit Ablaufplan. Den Ablaufplan für diesen Abend hast du geschrieben. Man erkennt dich an deinem rostorangen Jackett, dem goldfarbenen Kopftuch, der schmalen Metallbrille und dem Notizbuch mit goldenem Einband.",
+      "wer": "Du bist Tugba, die Party-Planerin. Du leitest Projekte bei der Arbeit und planst sogar Spieleabende mit Ablaufplan. Den Ablaufplan für diesen Abend hast du geschrieben, samt deinem Mitternachtsspiel „Blinde Kuh“. Man erkennt dich an deinem rostorangen Jackett, dem goldfarbenen Kopftuch, der schmalen Metallbrille und dem Notizbuch mit goldenem Einband.",
       "weiss": [
         {
           "ref": "beobachtung:b_tugba_notiz"
@@ -83,7 +83,7 @@
           "text": "Um 23:55 Uhr rufst du alle in den Ost-Saal."
         },
         {
-          "text": "Um zwölf soll das Geburtstagskind zur Torte in den Vorratsraum geführt werden."
+          "text": "Um zwölf soll der Detektiv als blinde Kuh zur Torte in den Vorratsraum geführt werden."
         }
       ],
       "verbirgt": [

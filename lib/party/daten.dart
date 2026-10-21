@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
+import '../detektei/akten.dart';
+
 /// Alles, was ein Partyabend aus dem Kanon braucht: Kanon, Textsammlung,
 /// Karte und das Renderer-Szenario. Wird einmal geladen und nie verändert.
 class PartyDaten {
@@ -22,12 +24,33 @@ class PartyDaten {
   /// bei Akten ohne Gespräche.
   final Erzaehlung? erzaehlung;
 
-  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung)
+  /// Eintrag der Akte in `content/party/akten.json` (Zusätze je Akte); `null`,
+  /// wenn er nicht gelesen wurde (Tests): dann gilt der Grundabend.
+  final AkteInfo? akte;
+
+  /// Gerüchte der Klassenfähigkeit (`content/welt/<fall>/geruechte.json`, in
+  /// `welt.json` unter `geruechte` genannt); `null` bei Akten ohne Gerüchte.
+  final Geruechte? geruechte;
+
+  /// Diashow zur Einleitung (`content/welt/<fall>/diashow.json`, M4), nur bei
+  /// Akten mit dem Zusatz `diashow`; `null`: Die Einleitung bleibt wie bisher.
+  final Diashow? diashow;
+
+  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow)
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
+
+  /// Hat die Akte den Zusatz [faehigkeit] (`AkteInfo.hat`)?
+  bool hat(String faehigkeit) => akte?.hat(faehigkeit) ?? false;
+
+  /// Kennt die Akte einen Erzähler-Sitz (Langer Abend M3)? Wie beim Raum
+  /// (`SchlosskellerRaum.vorleserSitz`) die Akten im Gesprächsmodell befragung,
+  /// heute nur der Schlosskeller. Die übrigen Akten bieten keinen Erzähler an und
+  /// zeigen ihre Texte wie bisher (Besitzerentscheidung 1).
+  bool get mitErzaehlerSitz => texte.besetzung.befragungsmodell;
 
   /// Aus einem synchronen Leser (Tests) und der Szenario-Vorlage. Für Akten
   /// außer dem Schlosskeller ergänzt [basis] fehlende Oberflächentexte aus
-  /// dem unveränderten Schlosskeller.
+  /// der eingefrorenen Basis `content/party/basis-ui` (A-061).
   factory PartyDaten.aus(
     KanonLeser lies,
     Map<String, dynamic> vorlage, {
@@ -35,6 +58,9 @@ class PartyDaten {
     KanonLeser? basis,
     Map<String, Object?>? welt,
     Map<String, Object?>? erzaehlung,
+    AkteInfo? akte,
+    Map<String, Object?>? geruechte,
+    Map<String, Object?>? diashow,
   }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
@@ -50,13 +76,17 @@ class PartyDaten {
       szenario,
       partyNpcKennungen(kanon, vorlage),
       erzaehlung == null ? null : Erzaehlung.ausJson(erzaehlung),
+      akte,
+      geruechte == null ? null : Geruechte.ausJson(geruechte),
+      diashow == null ? null : Diashow.ausJson(diashow),
     );
   }
 
   /// Lädt alle Dateien einer Akte aus den Assets (`content/party/<fall>/`).
   static Future<PartyDaten> laden(AssetBundle bundle, {String fall = 'schlosskeller'}) async {
     final eigen = await _ordner(bundle, 'content/party/$fall');
-    final basis = fall == 'schlosskeller' ? null : await _ordner(bundle, 'content/party/schlosskeller', nurTexte: true);
+    // Andere Akten ergänzen ui-Texte aus der eingefrorenen Basis (A-061), nie aus dem Schlosskeller.
+    final basis = fall == 'schlosskeller' ? null : await _ordner(bundle, 'content/party/basis-ui', nurTexte: true);
     final vorlagePfad = eigen.vorlage ?? 'content/scenarios/ravensmoor.json';
     final vorlage = jsonDecode(await bundle.loadString(vorlagePfad)) as Map<String, dynamic>;
     // Darstellungsschicht der Akte (Außenräume, Wetter); ohne Datei wie bisher.
@@ -72,7 +102,28 @@ class PartyDaten {
     final erzaehlung = (verzeichnis['akten'] as List).contains(fall)
         ? jsonDecode(await bundle.loadString('content/erzaehlung/$fall/gespraeche.json')) as Map<String, Object?>
         : null;
-    return PartyDaten.aus(eigen.lies, vorlage, fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung);
+    // Zusätze der Akte (Klassen, Druck …) und die Gerüchte der Klassenfähigkeit; ohne Datei wie bisher.
+    AkteInfo? akte;
+    try {
+      akte = (await AktenKatalog.laden(bundle)).where((a) => a.id == fall).firstOrNull;
+    } catch (_) {
+      akte = null;
+    }
+    // Gerüchte nur, wenn welt.json sie nennt (nie eine fehlende Datei anfragen).
+    final geruechte = welt?['geruechte'] is String
+        ? jsonDecode(await bundle.loadString('content/welt/$fall/${welt!['geruechte']}')) as Map<String, Object?>
+        : null;
+    // Die Diashow nur, wenn die Akte den Zusatz hat (akte_pruefen hält Datei und Zusatz zusammen).
+    Map<String, Object?>? diashow;
+    if (akte?.hat('diashow') ?? false) {
+      try {
+        diashow = jsonDecode(await bundle.loadString('content/welt/$fall/diashow.json')) as Map<String, Object?>;
+      } catch (_) {
+        diashow = null;
+      }
+    }
+    return PartyDaten.aus(eigen.lies, vorlage,
+        fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung, akte: akte, geruechte: geruechte, diashow: diashow);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

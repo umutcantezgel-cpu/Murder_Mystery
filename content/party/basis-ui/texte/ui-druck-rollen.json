@@ -1,0 +1,135 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Rollenhefte, Fassungen und Stimmkarten im Druck (F5-BAUMEISTER-02).",
+  "eintraege": [
+    {
+      "id": "ui.druck.rollen.heft",
+      "text": "Rollenheft"
+    },
+    {
+      "id": "ui.druck.rollen.nurfuerdich",
+      "text": "Nur für dich. Erst lesen, wenn du dein Heft in der Hand hast."
+    },
+    {
+      "id": "ui.druck.rollen.wer",
+      "text": "Wer ich bin"
+    },
+    {
+      "id": "ui.druck.rollen.ziel",
+      "text": "Mein Ziel heute Nacht"
+    },
+    {
+      "id": "ui.druck.rollen.gespraeche",
+      "text": "Meine Pflichtgespräche"
+    },
+    {
+      "id": "ui.druck.rollen.runde",
+      "text": "Runde {nr}"
+    },
+    {
+      "id": "ui.druck.rollen.partner",
+      "text": "Partner"
+    },
+    {
+      "id": "ui.druck.rollen.thema",
+      "text": "Thema"
+    },
+    {
+      "id": "ui.druck.rollen.gespraechsziel",
+      "text": "Ziel im Gespräch"
+    },
+    {
+      "id": "ui.druck.rollen.anfang",
+      "text": "So fängst du an"
+    },
+    {
+      "id": "ui.druck.rollen.detektiv",
+      "text": "das Geburtstagskind"
+    },
+    {
+      "id": "ui.druck.rollen.besetzung",
+      "text": "Hinweis zur Besetzung"
+    },
+    {
+      "id": "ui.druck.rollen.umschlag",
+      "text": "Deine Fassung trägt den Code {code}. Öffne sie erst, wenn die Spielleitung diesen Code nennt."
+    },
+    {
+      "id": "ui.druck.rollen.weiss",
+      "text": "Was ich weiß"
+    },
+    {
+      "id": "ui.druck.rollen.verberge",
+      "text": "Was ich verberge"
+    },
+    {
+      "id": "ui.druck.rollen.behauptet",
+      "text": "Du behauptest: {behauptung}"
+    },
+    {
+      "id": "ui.druck.rollen.wahrheit",
+      "text": "In Wahrheit: {wahrheit}"
+    },
+    {
+      "id": "ui.druck.rollen.wahl",
+      "text": "Meine Rundenwahl"
+    },
+    {
+      "id": "ui.druck.fassung.marke",
+      "text": "Versiegelte Fassung"
+    },
+    {
+      "id": "ui.druck.fassung.aussen",
+      "text": "Versiegelt. Erst öffnen, wenn die Spielleitung diesen Code nennt."
+    },
+    {
+      "id": "ui.druck.fassung.sabotage",
+      "text": "Deine Wahl B ist heimlich. Für die anderen klingt sie harmlos, aber ihr Streifen schwächt den Hinweis der Runde."
+    },
+    {
+      "id": "ui.druck.fassung.notizen",
+      "text": "Notizen"
+    },
+    {
+      "id": "ui.druck.stimme.runde",
+      "text": "Runde {nr}"
+    },
+    {
+      "id": "ui.druck.stimme.titel",
+      "text": "Stimmkarten"
+    },
+    {
+      "id": "ui.druck.stimme.keine",
+      "text": "Heute spielen nur die vier Kernrollen. Sie stimmen mit den Streifen aus ihrer versiegelten Fassung ab. Darum gibt es keine Stimmkarten."
+    },
+    {
+      "id": "ui.druck.stimme.wert",
+      "text": "Code {code}"
+    },
+    {
+      "id": "ui.druck.stimme.falz",
+      "text": "Abreißen, falten und in die Schüssel legen."
+    },
+    {
+      "id": "ui.druck.stimme.falz_fassung",
+      "text": "Nur wenn gewählt: abreißen, in die Schüssel."
+    },
+    {
+      "id": "ui.druck.fassung.taeter",
+      "text": "Du warst es. Vor dem Morgen darf das niemand erfahren."
+    },
+    {
+      "id": "ui.druck.fassung.unschuldig",
+      "text": "Du warst es nicht. Trotzdem hast du heute Nacht etwas zu verbergen."
+    },
+    {
+      "id": "ui.druck.fassung.tipp",
+      "text": "Bleib bei deiner Geschichte. Dein Geheimnis gibst du erst preis, wenn du in der Rundenwahl A wählst."
+    },
+    {
+      "id": "ui.druck.fassung.streifen",
+      "text": "Du hast keine Stimmkarten. In jeder Runde gibst du genau einen Streifen von dieser Seite ab. Wählst du A, ist es Streifen A, sonst Streifen B. Den anderen Streifen der Runde zerreißt du."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Personenkarte und Fundkarte auf der Karte (F4-BAUMEISTER-09).",
+  "eintraege": [
+    {
+      "id": "ui.npc.besetzt",
+      "text": "{name} spielt diese Rolle. Frag nach, die Karte hält fest, was herauskommt."
+    },
+    {
+      "id": "ui.npc.unbesetzt",
+      "text": "Diese Person spielt heute niemand. Die Karte sagt, was sie weiß."
+    }
+  ]
+}

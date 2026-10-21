@@ -10,6 +10,7 @@ import '../../abend/einrichtung/klasse_zeile.dart' show klassenNachRang;
 import '../../app/router.dart';
 import '../../app/theme.dart' show coatColor;
 import '../../detektei/akte_bausteine.dart' show mappenBlaetter;
+import '../../detektei/akten.dart';
 import '../../detektei/dienstausweis.dart';
 import '../../detektei/name_dialog.dart';
 import '../../detektei/schreibtisch.dart' show GanzeWorte;
@@ -26,6 +27,7 @@ import '../icons.dart';
 /// - Der Dienstausweis (Name antippen ändert ihn).
 /// - Die Dienstakte mit den Zahlen der bisherigen Fälle.
 /// - Die Klassen als Karteikarten in einer Mappe; die gewählte trägt den Stempel „Gewählt“.
+///   Darüber steht, in welchen Akten ihre Fähigkeiten wirken.
 /// - Die Garderobe: Hüte als Fotoabzüge, Mäntel als Stoffmuster.
 /// - Die Erfolge als Urkundenblatt mit Messingmedaillen.
 /// - Der Ton: Kippschalter und Messingregler für Geräusche und Atmosphäre.
@@ -72,6 +74,8 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(l.profil_klasse_hinweis, style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45, color: MRoh.tinteLeise)),
+                    const SizedBox(height: MMass.s8),
+                    const _KlassenAkten(),
                     const SizedBox(height: MMass.s16),
                     for (var i = 0; i < klassen.length; i++)
                       _ClassRow(
@@ -238,6 +242,35 @@ class _Dienstakte extends StatelessWidget {
   }
 }
 
+/// Wo die Fähigkeiten der Klassen wirken: nur in Akten mit dem Zusatz
+/// `klassen` (`AkteInfo.hat('klassen')`, A-055), mit ihren Titeln aus der
+/// Kampagne. Solange sie lädt oder wenn sie fehlt, steht der Satz ohne Titel.
+class _KlassenAkten extends StatefulWidget {
+  const _KlassenAkten();
+
+  @override
+  State<_KlassenAkten> createState() => _KlassenAktenState();
+}
+
+class _KlassenAktenState extends State<_KlassenAkten> {
+  late final Future<List<AkteInfo>> _akten = AktenKatalog.laden().catchError((Object _) => const <AkteInfo>[]);
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    return FutureBuilder<List<AkteInfo>>(
+      future: _akten,
+      builder: (context, snap) {
+        final titel = [for (final a in snap.data ?? const <AkteInfo>[]) if (a.hat('klassen')) a.titel];
+        return Text(
+          titel.isEmpty ? l.profil_klasse_akten_allgemein : l.profil_klasse_akten(titel.join(', ')),
+          style: MPapierSchrift.text.copyWith(fontSize: 15, height: 1.45, color: MRoh.tinteLeise),
+        );
+      },
+    );
+  }
+}
+
 /// Eine Klasse im Profil als Karteikarte: Tippen wählt sie als Ermittlerklasse des
 /// Geräts. Gesperrte Klassen sind nicht wählbar und nennen den nötigen Rang.
 class _ClassRow extends StatelessWidget {
@@ -259,7 +292,8 @@ class _ClassRow extends StatelessWidget {
       selected: selected,
       enabled: !locked,
       label: locked ? l.abend_klasse_gesperrt(name, l.common_unlock_at(l.rankName(cls.unlockRank))) : name,
-      hint: l.classAbility(cls.id),
+      // Was die Klasse am Abend auf der Karte tut; die alten class_*-Texte gelten nur der klassischen Engine.
+      hint: '${l.klasseFaehigkeitName(cls.id)}: ${l.klasseFaehigkeit(cls.id)}',
       onTap: locked ? null : onTap,
       excludeSemantics: true,
       child: Padding(
@@ -290,9 +324,9 @@ class _ClassRow extends StatelessWidget {
                       ],
                     );
                     final text = [
-                      GanzeWorte(l.classAbility(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
+                      GanzeWorte('${l.klasseFaehigkeitName(cls.id)}: ${l.klasseFaehigkeit(cls.id)}', style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4)),
                       const SizedBox(height: 2),
-                      GanzeWorte(l.classPassive(cls.id), style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
+                      GanzeWorte(l.abend_klasse_fair, style: MPapierSchrift.text.copyWith(fontSize: 14, height: 1.4, color: MRoh.tinteLeise)),
                     ];
                     // Bei großer Schrift auf schmalem Handy wird die Spalte neben der
                     // Medaille zu eng: Dann steht die Medaille oben und Name und Text

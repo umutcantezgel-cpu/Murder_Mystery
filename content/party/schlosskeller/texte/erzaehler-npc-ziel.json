@@ -1,0 +1,31 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "erzaehler",
+  "hinweis": "Wissen unbesetzter Ziel-Figuren (E-044, Modell befragung): npc.<figur>.<runde>. Ist eine Figur Ziel einer Option und spielt sie niemand, spricht der Erzähler ihr Pflichtgespräch-Wissen zum Rundenstart. Mit Namen, weil die Optionen sie ohnehin nennen. Nur Beobachtungen, die in allen Pfaden gelten.",
+  "eintraege": [
+    {
+      "id": "npc.emine.1",
+      "text": "Emine spielt heute niemand, doch sie erzählt dir, wo sie im Dunkeln war. „Beim Knall habe ich mich hinter den linken Buffettisch geduckt. Dort bin ich geblieben, bis das Licht anging.“"
+    },
+    {
+      "id": "npc.dilara.1",
+      "text": "Azra, die heute niemand spielt, flüstert dir zu, wo sie beim Knall war. „Ich habe mich am rechten Buffettisch geduckt. Da bin ich geblieben, bis das Licht anging.“"
+    },
+    {
+      "id": "npc.enes.1",
+      "text": "Damir, den heute niemand spielt, erzählt dir von der Theke. „Drei Minuten vor zwölf standen Ahmet, Fatma und Olli an der Theke. Herr Schneider stand am Ostende. Can war nicht zu sehen.“"
+    },
+    {
+      "id": "npc.dilara.2",
+      "text": "Azra spielt heute niemand, aber ihr ist vor dem Knall etwas aufgefallen. „Um Viertel vor zwölf sah ich Fatmas Tasche. Sie war auffällig ausgebeult.“"
+    },
+    {
+      "id": "npc.zeynep.3",
+      "text": "Zeynep, die heute niemand spielt, erinnert sich an den Durchgang. „Ein leuchtendes Gesicht kam aus dem Durchgang an mir vorbei, hinein in den Kaminsaal.“"
+    },
+    {
+      "id": "npc.aylin.3",
+      "text": "Aylin, die heute niemand spielt, zeigt dir Herrn Schneiders Quittungszettel. Darauf steht: „Miete: null Euro.“"
+    }
+  ]
+}

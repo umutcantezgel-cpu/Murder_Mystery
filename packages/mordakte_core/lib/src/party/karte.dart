@@ -225,10 +225,13 @@ class PartyKarte {
       ];
 
   /// Laufende Entscheidung: die erste offene der Runde nach Nummer.
-  String? laufend(Spiel s) {
-    if (s.phase != PartyPhase.entscheidungen) return null;
-    for (final e in ermittlung.runde(s.runde)) {
-      if (!s.gewaehlt.containsKey(e.id)) return e.id;
+  String? laufend(Spiel s) => laufendBei(s.phase, s.runde, s.gewaehlt);
+
+  /// Wie [laufend], aus Phase, Runde und Wahl (eine Kartenquelle ohne Spiel).
+  String? laufendBei(PartyPhase phase, int runde, Map<String, String> gewaehlt) {
+    if (phase != PartyPhase.entscheidungen) return null;
+    for (final e in ermittlung.runde(runde)) {
+      if (!gewaehlt.containsKey(e.id)) return e.id;
     }
     return null;
   }
@@ -248,8 +251,11 @@ class PartyKarte {
   }
 
   /// Kartenzustand zu einem Spielstand. Liest nur Phase, Runde und Wahl.
-  KartenZustand zustand(Spiel s) {
-    final e = laufend(s);
+  KartenZustand zustand(Spiel s) => zustandBei(s.phase, s.runde, s.gewaehlt);
+
+  /// Wie [zustand], aus Phase, Runde und Wahl (eine Kartenquelle ohne Spiel).
+  KartenZustand zustandBei(PartyPhase phase, int runde, Map<String, String> gewaehlt) {
+    final e = laufendBei(phase, runde, gewaehlt);
     final offen = <String, ZielArt>{};
     final ansprechbar = <String, ZielArt>{};
     if (e != null) {
@@ -262,12 +268,12 @@ class PartyKarte {
       }
     }
     return KartenZustand(
-      phase: s.phase,
-      runde: s.runde,
+      phase: phase,
+      runde: runde,
       entscheidung: e,
       offen: offen,
       ansprechbar: ansprechbar,
-      erledigt: {for (final o in s.gewaehlt.values) if (ziele[o]!.person == null) ziele[o]!.hotspot},
+      erledigt: {for (final o in gewaehlt.values) if (ziele[o]!.person == null) ziele[o]!.hotspot},
       lichter: ermittlungsLichter,
     );
   }
@@ -316,11 +322,15 @@ class Rueckblende {
 
   Set<String> get hervorgehoben => {pfad, (kanon.figurenJson['opfer'] as Map)['id'] as String};
 
-  RueckblendeBild bild(Uhrzeit t) {
+  /// Bild zur Uhrzeit [t]. Mit [bruch] (Sekundenbruchteil, 0 bis unter 1)
+  /// stehen die Personen genau dort, wo sie zwischen zwei Sekunden auf ihrem
+  /// Weg sind (flüssiger Zeitraffer). Ob ein Licht brennt und wer den Bund
+  /// trägt, entscheidet die ganze Sekunde.
+  RueckblendeBild bild(Uhrzeit t, {double bruch = 0}) {
     final g = kanon.graph;
     final personen = <String, PersonZustand>{
       for (final p in ablauf.personen)
-        p: ?ablauf.zustand(p, t),
+        p: ?ablauf.zustand(p, t, bruch: bruch),
     };
     final lichter = <RueckblendeLicht>[];
     final hell = <String>{};

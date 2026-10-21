@@ -53,11 +53,19 @@ class GastDienst extends ChangeNotifier {
   /// Raumcode (6 Zeichen).
   String get raumCode => verb.raumCode;
 
+  /// Ablage dieses Gastes (im Web nur dieser Tab), etwa für das Notizbuch des Gast-Detektivs.
+  Ablage get ablage => _ablage;
+
   /// Eigene Gerätekennung im Raum.
   String get spielerId => verb.spielerId ?? '';
 
   /// Die letzte Ansicht des Gastgebers für dieses Gerät.
   Map<String, Object?> get ansicht => _ansicht ?? const {};
+
+  /// Abendzeit des Gastgebers jetzt (ms), aus der eigenen Uhr und dem Versatz
+  /// aus dem `pong`: Damit rechnet das Gerät die Restzeit der gemeinsamen
+  /// Rundenuhr selbst (M4).
+  int get gastgeberZeit => verb.gastgeberZeit;
 
   VerbindungsStatus get status => _status;
 
@@ -103,10 +111,11 @@ class GastDienst extends ChangeNotifier {
     }
   }
 
-  /// Vergisst den gemerkten Raum (und den Wiederverbindungs-Schlüssel dazu).
+  /// Vergisst den gemerkten Raum (mit Wiederverbindungs-Schlüssel und Notizbuch).
   static Future<void> vergiss(String code, [Ablage ablage = standardAblage]) async {
     try {
       await ablage.loeschen(AblagePrefs.gastSitzung);
+      await ablage.loeschen(AblagePrefs.gastBefragungen);
       await ablage.loeschen(RelayGast.ablageSchluesselFuer(code));
     } catch (_) {}
   }

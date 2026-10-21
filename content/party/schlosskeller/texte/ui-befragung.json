@@ -1,0 +1,71 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Bausteine des Gesprächsmodells befragung im Druck (A-051, M2b): Tischgespräch mit Stichpunkten, Befragungen des Detektivs. Nur in dieser Akte; die geteilten ui-Dateien bleiben unverändert.",
+  "eintraege": [
+    {
+      "id": "ui.druck.rollen.tisch",
+      "text": "Mein Tischgespräch"
+    },
+    {
+      "id": "ui.druck.rollen.stichpunkte",
+      "text": "Stichpunkte"
+    },
+    {
+      "id": "ui.druck.rollen.angesprochen",
+      "text": "Wer dich anspricht"
+    },
+    {
+      "id": "ui.druck.rollen.befragt",
+      "text": "Wenn der Detektiv dich befragt"
+    },
+    {
+      "id": "ui.druck.rollen.fragen",
+      "text": "Mögliche Fragen"
+    },
+    {
+      "id": "ui.druck.rollen.sagen",
+      "text": "Das sagst du"
+    },
+    {
+      "id": "ui.druck.rollen.behaupte",
+      "text": "Behaupte: {text}"
+    },
+    {
+      "id": "ui.druck.rollen.nichts",
+      "text": "Du hast nichts Neues zu erzählen."
+    },
+    {
+      "id": "ui.druck.befragung.zeile",
+      "text": "{name}: {thema}"
+    },
+    {
+      "id": "ui.druck.spielleitung.schritt.befragungen",
+      "text": "Tischgespräche und Befragungen"
+    },
+    {
+      "id": "ui.druck.spielleitung.befragungen",
+      "text": "Stell die Uhr auf {minuten} Minuten. Jede Rolle führt das Tischgespräch aus ihrem Heft. Der Detektiv befragt diese Rollen:"
+    },
+    {
+      "id": "ui.druck.spielleitung.befragungen_frei_1",
+      "text": "Dazu wählt der Detektiv eine weitere Rolle frei."
+    },
+    {
+      "id": "ui.druck.spielleitung.befragungen_frei_2",
+      "text": "Dazu wählt der Detektiv zwei weitere Rollen frei."
+    },
+    {
+      "id": "ui.druck.bogen.befragungen",
+      "text": "Deine Befragungen"
+    },
+    {
+      "id": "ui.druck.bogen.befragungen_frei_1",
+      "text": "Wähle dazu eine weitere Rolle frei."
+    },
+    {
+      "id": "ui.druck.bogen.befragungen_frei_2",
+      "text": "Wähle dazu zwei weitere Rollen frei."
+    }
+  ]
+}

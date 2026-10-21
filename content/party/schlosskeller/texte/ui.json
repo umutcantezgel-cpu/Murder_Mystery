@@ -13,7 +13,7 @@
     },
     {
       "id": "ui.allgemein.detektiv",
-      "text": "Geburtstagskind"
+      "text": "Detektiv"
     },
     {
       "id": "ui.allgemein.laden",
@@ -57,7 +57,7 @@
     },
     {
       "id": "ui.karte.hinweis",
-      "text": "Geh mit dem Geburtstagskind zu einer der leuchtenden Stellen oder zu einer der Personen, die du ansprechen kannst. Steuern: Joystick, Pfeiltasten oder WASD. Handeln: Knopf unten rechts oder Leertaste."
+      "text": "Geh mit deiner Figur zu einer der leuchtenden Stellen oder zu einer der Personen, die du ansprechen kannst. Steuern: Joystick, Pfeiltasten oder WASD. Handeln: Knopf unten rechts oder Leertaste."
     },
     {
       "id": "ui.karte.aktion.person",
@@ -121,7 +121,7 @@
     },
     {
       "id": "ui.druck.datei.spielleitung",
-      "text": "Spielleitungsheft"
+      "text": "Erzählerheft"
     },
     {
       "id": "ui.druck.datei.detektivbogen",

@@ -89,7 +89,7 @@ void main() {
     }
   });
 
-  testWidgets('das Geburtstagskind wählt nicht mit und steht in keiner Liste', (t) async {
+  testWidgets('der Detektiv wählt nicht mit und steht in keiner Liste', (t) async {
     final s = await _aufbau(t);
     expect(s.offeneWaehler, isNot(contains(Besetzung.detektiv)));
     expect(find.byKey(const ValueKey(Besetzung.detektiv)), findsNothing);

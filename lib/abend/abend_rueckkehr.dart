@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../app/router.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
+import '../party/sitzung.dart' show AbendstandVeraltet;
 import 'abend_halter.dart';
 import 'abend_speicher.dart';
 import 'online/rueckkehr.dart' show RueckkehrBanner;
@@ -60,6 +61,7 @@ class _AbendRueckkehrState extends State<AbendRueckkehr> {
     final router = GoRouter.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final fehler = L.of(context).abend_fortsetzen_fehler;
+    final veraltet = L.of(context).abend_fortsetzen_veraltet;
     setState(() => _laeuft = true);
     try {
       final s = await AbendSpeicher.fortsetzen(context.read<MetaStore>());
@@ -77,6 +79,15 @@ class _AbendRueckkehrState extends State<AbendRueckkehr> {
       }
       halter.uebernehmen(s);
       router.go(Routes.abend);
+    } on AbendstandVeraltet {
+      // Ein Abend aus der Fassung vor den Befragungen (A-051): verworfen, mit Hinweis.
+      if (mounted) {
+        setState(() {
+          _laeuft = false;
+          _stand = null;
+        });
+        messenger.showSnackBar(SnackBar(content: Text(veraltet)));
+      }
     } catch (e) {
       debugPrint('ABEND fortsetzen fehler $e');
       if (mounted) {

@@ -9,9 +9,17 @@
 //   Karte       Ziele der Optionen, Figuren an ihren Orten, Türen, Erreichbarkeit, Szenario-Export
 //   Texte       textVerweise, textLuecken, Textprüfer (Sätze, Fachwörter, Verbote, Vorlesezeichen), Textlint,
 //               Tonregeln (kein Schlag als Handlung, Rahmen ohne Qualität, Résumé ohne Namen)
-//   Besetzung   je Rollenzahl: drei Gespräche je Runde, Partner, Namen, Last, Quellen der Ketten
+//   Besetzung   je Rollenzahl: Gespräche je Runde nach Gesprächsmodell (legacy drei, befragung eins plus
+//               Befragungsplan: Größe, Last, Zustellung jedes Kettenglieds), Partner, Namen, Last, Quellen der Ketten
 //   Figuren     Herkunftsmatrix, Farbabstand im selben Startraum
 //   Partie      vollständiger Abend mit bestem Spiel je Rollenzahl (RundenPartie, Salz- und Pech-Würfel)
+//   Gerüchte    nur mit content/welt/<akte>/geruechte.json (in welt.json genannt): Schema und pruefeGeruechte (R15, R17, Fünf-Wort-Regel, Ton)
+//   Steckbriefe nur mit steckbriefe.json (Zusatz steckbriefe in akten.json): Schema und pruefeSteckbriefe (K3: R17, ohne Fallbezug,
+//     nichts aus Dossiers, Täterfassungen, Finale und Auflösung, Ton)
+//   Langfassung nur mit content/welt/<akte>/langfassung.json (in welt.json genannt): Schema und pruefeEbenen (Raster, Portale,
+//     Erreichbarkeit, Außentor in den Runden zu, Hoftür erst mit dem Ersatzschlüssel, keine Kanon-Kennung, Ton)
+//   Diashow     nur mit content/welt/<akte>/diashow.json (Zusatz diashow in akten.json): Schema und pruefeDiashow (M4: ein Bild je
+//     Abschnitt des Intros, 20–60 Wörter je Baustein, nur bekannte Orte und Figuren, keine Fallhinweise, kein Text)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -83,6 +91,8 @@ const _schemaJeBereich = {
   'dossier': 'texte-dossier',
   'taeter': 'texte-taeter',
   'gespraech': 'texte-gespraech',
+  'befragung': 'texte-befragung',
+  'kurzfassung': 'texte-kurzfassung',
   'wahl': 'texte-wahl',
 };
 
@@ -98,11 +108,11 @@ void _pruefeAlles(String fall, Befunde b) {
   final roh = Textsammlung.lade(leseAkte);
   final sammlung = Textsammlung.lade(leseAkte);
   if (fall != 'schlosskeller') {
-    // Wie die App: fehlende Oberflächentexte aus dem Schlosskeller.
-    sammlung.ergaenzeUi(Textsammlung.lade((p) => _lies('$wurzel/content/party/schlosskeller/$p')));
+    // Wie die App: fehlende Oberflächentexte aus der eingefrorenen Basis (A-061).
+    sammlung.ergaenzeUi(Textsammlung.lade((p) => _lies('$wurzel/content/party/basis-ui/$p')));
   }
 
-  _schema(b, kanon, roh, schemaOrdner);
+  _schema(b, kanon, roh, schemaOrdner, ordner);
   b.add('Verweise', kanonVerweise(kanon));
 
   final sim = Simulator(kanon);
@@ -126,16 +136,25 @@ void _pruefeAlles(String fall, Befunde b) {
   _besetzung(b, kanon, erm, karte, texte);
   _figuren(b, kanon);
   _partien(b, kanon, erm, texte, fall);
+  _geruechte(b, kanon, roh, wurzel, fall);
+  _steckbriefe(b, kanon, texte, ordner, wurzel, fall);
+  _langfassung(b, kanon, wurzel, fall);
+  _diashow(b, kanon, sammlung, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
 
-void _schema(Befunde b, Kanon kanon, Textsammlung sammlung, String schemaOrdner) {
+void _schema(Befunde b, Kanon kanon, Textsammlung sammlung, String schemaOrdner, String ordner) {
   SchemaPruefer schema(String name) => SchemaPruefer(_lies('$schemaOrdner/$name.schema.json'));
   for (final e in kanon.json.entries) {
     final datei = e.key.split('/').last.replaceAll('.json', '');
     final name = e.key.startsWith('tatmatrix/') ? 'tatmatrix' : datei;
     b.add('Schema', [for (final f in schema(name).pruefe(e.value)) '${e.key}: $f']);
+  }
+  // Steckbriefe (K3) liegen neben dem Kanon; kein Spielzustand liest sie.
+  final steckbriefe = File('$ordner/steckbriefe.json');
+  if (steckbriefe.existsSync()) {
+    b.add('Schema', [for (final f in schema('steckbriefe').pruefe(_lies(steckbriefe.path))) 'steckbriefe.json: $f']);
   }
   b.add('Schema', [for (final f in schema('texte-index').pruefe(sammlung.index)) 'texte/index.json: $f']);
   for (final d in sammlung.dateien.entries.where((d) => d.key != 'texte/index.json')) {
@@ -336,12 +355,15 @@ void _texte(Befunde b, Kanon kanon, Textsammlung sammlung, Texte texte, String w
       }
     }
   }
-  // Preisgaben am Tisch gelten in allen Pfaden (S-1).
+  // Preisgaben am Tisch und in Befragungen gelten in allen Pfaden (S-1).
   final beob = {for (final x in kanon.beobachtungen) x['id'] as String: x};
-  for (final g in sammlung.gespraeche) {
-    for (final p in g.preisgabe) {
+  for (final (id, preisgabe) in [
+    for (final g in sammlung.gespraeche) (g.id, g.preisgabe),
+    for (final x in sammlung.befragungen.values) (x.id, x.preisgabe),
+  ]) {
+    for (final p in preisgabe) {
       if (p.startsWith('beobachtung:') && beob[p.substring('beobachtung:'.length)]?['pfade'] != 'alle') {
-        b.add('Texte', ['${g.id}: $p gilt nicht in allen Pfaden']);
+        b.add('Texte', ['$id: $p gilt nicht in allen Pfaden']);
       }
     }
   }
@@ -349,6 +371,103 @@ void _texte(Befunde b, Kanon kanon, Textsammlung sammlung, Texte texte, String w
   for (final t in sammlung.taeter.keys) {
     if (!kanon.pfade.contains(t)) b.add('Texte', ['Täterfassung $t: keine Pfadperson']);
   }
+}
+
+// ---------------------------------------------------------------- Gerüchte
+
+/// Gerüchte der Klassenfähigkeit (A-055), nur wenn die Akte welche hat: Schema,
+/// dann pruefeGeruechte. Geschützt sind zusätzlich Täterfassungen, Finale und
+/// Auflösung.
+void _geruechte(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, String fall) {
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final genannt = welt.existsSync() ? _lies(welt.path)['geruechte'] : null;
+  final datei = File('$wurzel/content/welt/$fall/${genannt is String ? genannt : 'geruechte.json'}');
+  // Die App lädt nur, was welt.json nennt: Datei und Eintrag gehören zusammen.
+  if (datei.existsSync() != (genannt is String)) {
+    b.add('Gerüchte', [genannt is String ? 'welt.json nennt $genannt, die Datei fehlt' : 'geruechte.json fehlt in welt.json (Feld geruechte)']);
+  }
+  if (!datei.existsSync()) return;
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/geruechte.schema.json')).pruefe(j);
+  b.add('Gerüchte', [for (final f in schema) 'geruechte.json: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Gerüchte', ['geruechte.json: akte ${j['akte']} statt $fall']);
+  final geschuetzt = [
+    for (final d in sammlung.dateien.entries)
+      if (RegExp(r'texte/(taeter-|erzaehler-finale|erzaehler-aufloesung)').hasMatch(d.key)) ..._alleTexte(d.value),
+  ];
+  final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
+  b.add('Gerüchte', pruefeGeruechte(Geruechte.ausJson(j), kanon, ton: ton, geschuetzt: geschuetzt));
+}
+
+// ---------------------------------------------------------------- Langfassung
+
+/// Welt-Ebenen des langen Abends (M7a), nur wenn welt.json `langfassung`
+/// nennt: Die Datei muss es dann geben, danach Schema und pruefeEbenen mit den
+/// Tonregeln.
+void _langfassung(Befunde b, Kanon kanon, String wurzel, String fall) {
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final genannt = welt.existsSync() ? _lies(welt.path)['langfassung'] : null;
+  if (genannt is! String) return;
+  final datei = File('$wurzel/content/welt/$fall/$genannt');
+  if (!datei.existsSync()) {
+    b.add('Langfassung', ['welt.json nennt $genannt, die Datei fehlt']);
+    return;
+  }
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/langfassung.schema.json')).pruefe(j);
+  b.add('Langfassung', [for (final f in schema) '$genannt: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Langfassung', ['$genannt: akte ${j['akte']} statt $fall']);
+  final regeln = _lies('$wurzel/content/party/textregeln.json');
+  b.add('Langfassung', pruefeEbenen(WeltEbenen.ausJson(j, kanon), ton: Textpruefer(regeln), regeln: regeln));
+}
+
+// ---------------------------------------------------------------- Steckbriefe
+
+/// Steckbriefe und Charakterübersicht (K3, A-059), nur wenn die Akte den Zusatz
+/// `steckbriefe` hat: Datei und Eintrag in `akten.json` gehören zusammen, dann
+/// pruefeSteckbriefe mit den Tonregeln. Geschützt sind zusätzlich Dossiers,
+/// Täterfassungen, Finale und Auflösung (steckbriefGeschuetzt). Das Schema prüft [_schema].
+void _steckbriefe(Befunde b, Kanon kanon, Texte texte, String ordner, String wurzel, String fall) {
+  final datei = File('$ordner/steckbriefe.json');
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  final faehig = ((akte?['faehigkeiten'] as List?) ?? const []).contains('steckbriefe');
+  if (datei.existsSync() != faehig) {
+    b.add('Steckbriefe', [faehig ? 'akten.json nennt steckbriefe, steckbriefe.json fehlt' : 'steckbriefe.json ohne Zusatz steckbriefe in akten.json']);
+  }
+  if (!datei.existsSync()) return;
+  final j = _lies(datei.path);
+  if (j['settingId'] != kanon.settingId) b.add('Steckbriefe', ['steckbriefe.json: settingId ${j['settingId']} statt ${kanon.settingId}']);
+  final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
+  b.add('Steckbriefe', pruefeSteckbriefe(Steckbriefe.ausJson(j), kanon, ton: ton, geschuetzt: steckbriefGeschuetzt(texte)));
+}
+
+// ---------------------------------------------------------------- Diashow
+
+/// Diashow zur Einleitung (M4), nur wenn die Akte den Zusatz `diashow` hat:
+/// Datei und Eintrag in `akten.json` gehören zusammen, dann Schema und
+/// pruefeDiashow gegen die Erzähltexte der Akte.
+void _diashow(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, String fall) {
+  final datei = File('$wurzel/content/welt/$fall/diashow.json');
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  final faehig = ((akte?['faehigkeiten'] as List?) ?? const []).contains('diashow');
+  if (datei.existsSync() != faehig) {
+    b.add('Diashow', [faehig ? 'akten.json nennt diashow, content/welt/$fall/diashow.json fehlt' : 'diashow.json ohne Zusatz diashow in akten.json']);
+  }
+  if (!datei.existsSync()) return;
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/diashow.schema.json')).pruefe(j);
+  b.add('Diashow', [for (final f in schema) 'diashow.json: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Diashow', ['diashow.json: akte ${j['akte']} statt $fall']);
+  b.add('Diashow', pruefeDiashow(Diashow.ausJson(j), kanon, (k) => sammlung.bausteine[k]));
 }
 
 // ---------------------------------------------------------------- Besetzung
@@ -398,16 +517,19 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
           }
         }
       }
+      // Nummern 1 bis tischJeRolle (legacy 1,2,3; Modell befragung genau ein Tischgespräch).
+      final soll = [for (var i = 1; i <= bes.tischJeRolle; i++) i].join(',');
       for (final r in besetzt) {
         for (var runde = 1; runde <= 3; runde++) {
           final nrs = [for (final x in zeilen) if (x.rolle == r && x.runde == runde) x.nr]..sort();
-          if (nrs.join(',') != '1,2,3') f.add('$n Rollen, $p: $r, Runde $runde hat Gespräche $nrs statt 1,2,3');
+          if (nrs.join(',') != soll) f.add('$n Rollen, $p: $r, Runde $runde hat Gespräche $nrs statt $soll');
         }
       }
       for (final x in zeilen) {
         if (!bes.istBesetzt(x.partner, n)) f.add('$n Rollen, $p: ${x.rolle} Runde ${x.runde} Nr ${x.nr}: Partner ${x.partner} unbesetzt');
         if (x.partner == x.rolle) f.add('$n Rollen, $p: ${x.rolle} Runde ${x.runde} Nr ${x.nr}: Partner ist die Rolle selbst');
-        final felder = {'Thema': x.g.thema, 'Ziel': x.g.ziel, 'Text': x.g.text};
+        if (bes.befragungsmodell && x.partner == Besetzung.detektiv) f.add('$n Rollen, $p: ${x.rolle} Runde ${x.runde} Nr ${x.nr}: der Detektiv sitzt nicht am Tisch');
+        final felder = {'Thema': x.g.thema, 'Ziel': x.g.ziel, 'Text': x.g.text, 'Stichpunkte': x.g.stichpunkte.join(' / ')};
         for (final u in unbesetzt) {
           final name = kanon.figur(u)!['name'] as String;
           for (final fe in felder.entries) {
@@ -436,7 +558,8 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
           if (bj == null) continue; // meldet der Simulator
           final wer = bj['wer'] as String;
           if (bes.istBesetzt(wer, n)) continue;
-          final alsZiel = ziele.contains(wer);
+          // Modell legacy: Die Zielfigur spricht als NPC selbst. Modell befragung: Ihr Wissen bringt der Erzähler (E-044).
+          final alsZiel = !bes.befragungsmodell && ziele.contains(wer);
           final alsFakt = fakten.any((fid) => erm.fakten[fid]!.beobachtung == id && erm.gibtEs(fid, p));
           final alsErzaehler = [
             for (var r = 1; r <= e.runde; r++) ...erz.npcWissen(r, besetzt: (x) => bes.istBesetzt(x, n)),
@@ -445,6 +568,28 @@ void _besetzung(Befunde b, Kanon kanon, Ermittlung erm, PartyKarte karte, Texte 
         }
       }
     }
+  }
+
+  // Modell befragung (A-051): Befragungsplan je Rollenzahl (Größe 3 bis 5, Last höchstens 3, jedes
+  // Kettenglied rechtzeitig in allen Pfaden, Kernrollen befragt, keine unbesetzten Namen), ein Tischgespräch
+  // je Bot und Runde, und jede Antwort entsteht nur aus öffentlichen Preisgaben.
+  if (bes.befragungsmodell) {
+    try {
+      f.addAll(Befragungsplan(texte).verstoesse());
+      for (var n = bes.minRollen; n <= bes.maxRollen; n++) {
+        for (var runde = 1; runde <= 3; runde++) {
+          final liste = botGespraeche(texte, rollen: n, runde: runde);
+          if (liste.length != n * bes.tischJeRolle) f.add('Bots: $n Rollen, Runde $runde: ${liste.length} Sprechblasen statt ${n * bes.tischJeRolle}');
+        }
+      }
+      for (final x in texte.sammlung.befragungen.values) {
+        botAntwort(texte, x);
+      }
+    } catch (e) {
+      f.add('Befragung: $e');
+    }
+    b.add('Besetzung', f);
+    return;
   }
 
   // Sprechblasen der Bots: nur freigegebene Quellen, alle Tisch-Glieder einer Kette rechtzeitig erreichbar.

@@ -14,6 +14,10 @@ abstract class Stimme {
   /// Bricht das laufende Vorlesen ab.
   void stopp();
 
+  /// Nur für Tests: eine eigene Stimme statt der des Geräts (etwa, um zu
+  /// prüfen, dass Bild und Text der Diashow mit der Stimme weiterschalten).
+  static Stimme Function()? testStimme;
+
   /// Die Stimme dieses Geräts (Browser oder Stub ohne Stimme).
-  static Stimme erzeugen() => erzeugeStimme();
+  static Stimme erzeugen() => testStimme?.call() ?? erzeugeStimme();
 }

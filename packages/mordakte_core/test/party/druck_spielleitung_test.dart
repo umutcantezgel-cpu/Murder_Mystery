@@ -1,12 +1,17 @@
-// F5-BAUMEISTER-01: Spielleitungsheft ohne Lösung und Detektivbogen mit Ermittlungsbogen (Master 7.14).
-// Geprüft wird das fertige PDF (pdfinfo, pdftotext): Format, Wortlaut aus den Bausteinen, Codes, Fragen.
+// F5-BAUMEISTER-01: Erzählerheft (früher Spielleitungsheft, M5) ohne Lösung und Detektivbogen mit
+// Ermittlungsbogen (Master 7.14). Geprüft wird das fertige PDF (pdfinfo, pdftotext): Format, Wortlaut
+// aus den Bausteinen, Codes, Fragen. M5: Das Heft kennt alle Stichpunkte des Erzählerpakets, die
+// Antworten der Befragungen und die Dia-Nummern; der Bogen zeigt nur die Fragen.
 import 'dart:math' as math;
 
+import 'package:mordakte_core/mordakte_core.dart' show Diashow, befragungsZettel;
+import 'package:mordakte_core/runden.dart' show botAntwort;
 import 'package:mordakte_core/src/party/druck/satz.dart';
 import 'package:mordakte_core/src/party/druck/spielleitung.dart';
 import 'package:test/test.dart';
 
 import 'druck_hilfe.dart';
+import 'kanon_hilfe.dart' show leseJson, repoWurzel;
 
 /// Die ersten 60 Zeichen eines Bausteins, flach wie der Text aus dem PDF.
 String _anfang(String s) {
@@ -14,9 +19,9 @@ String _anfang(String s) {
   return f.substring(0, math.min(60, f.length));
 }
 
-Future<PdfBefund> _heft(DruckKontext k) async {
+Future<PdfBefund> _heft(DruckKontext k, {bool druckspiel = true}) async {
   final doc = k.stil.neuesDokument('Heft');
-  spielleitungsheft(doc, k);
+  erzaehlerheft(doc, k, druckspiel: druckspiel);
   return pdfPruefen(await doc.save());
 }
 
@@ -64,6 +69,25 @@ void main() {
     expect(k.satz.spielleitung.rundenStart, hasLength(3));
     for (final id in k.satz.spielleitung.rundenStart.values.expand((l) => l)) {
       expect(heft, contains(_anfang(k.text(id))), reason: id);
+    }
+  });
+
+  test('E-044: Zum Rundenstart liest das Heft das Wissen unbesetzter Zielfiguren mit Namen vor', () async {
+    // 12 Rollen: Azra, Damir und Aylin spielt niemand, Emine und Zeynep sind besetzt.
+    final h = k.satz.spielleitung.rundenStart;
+    expect(h[1], containsAllInOrder(['runde.1.start', 'npc.dilara.1', 'npc.enes.1']));
+    expect(h[1], isNot(contains('npc.emine.1')));
+    expect(h[2], contains('npc.dilara.2'));
+    expect(h[3], contains('npc.aylin.3'));
+    expect(h[3], isNot(contains('npc.zeynep.3')));
+    for (final id in ['npc.dilara.1', 'npc.enes.1', 'npc.dilara.2', 'npc.aylin.3']) {
+      expect(heft, contains(_anfang(k.text(id))), reason: id);
+    }
+    // Bei 20 Rollen spielt jemand jede Zielfigur: kein Wort über sie im Heft.
+    final voll = druckKontext(n: 20);
+    final vollHeft = flach((await _heft(voll)).text);
+    for (final id in ['npc.emine.1', 'npc.dilara.1', 'npc.enes.1', 'npc.dilara.2', 'npc.zeynep.3', 'npc.aylin.3']) {
+      expect(vollHeft, isNot(contains(_anfang(voll.text(id)))), reason: id);
     }
   });
 
@@ -180,6 +204,131 @@ void main() {
     },
   );
 
+  test('Modell befragung: Heft und Bogen nennen je Runde die Befragungen mit ihren Fragen, nur das Heft die Antworten', () {
+    for (var r = 1; r <= 3; r++) {
+      final br = k.satz.befragungen[r]!;
+      final rollen = [...br.pflicht, if (br.freiWahlen > 0) ...br.frei];
+      for (final rolle in rollen) {
+        final t = br.text(rolle);
+        final zeile = flach(k.ui('ui.druck.befragung.zeile', {'name': k.figurName(rolle), 'thema': t.thema}));
+        expect(heft, contains(zeile), reason: 'Heft Runde $r: $rolle');
+        expect(bogen, contains(zeile), reason: 'Bogen Runde $r: $rolle');
+        for (final f in t.fragen) {
+          expect(heft, contains(flach(f)), reason: 'Heft Runde $r: $f');
+          expect(bogen, contains(flach(f)), reason: 'Bogen Runde $r: $f');
+        }
+      }
+      if (br.freiWahlen > 0) {
+        expect(heft, contains(flach(k.ui('ui.druck.spielleitung.befragungen_frei_${br.freiWahlen}'))));
+        expect(bogen, contains(flach(k.ui('ui.druck.bogen.befragungen_frei_${br.freiWahlen}'))));
+      }
+      // Antworten kennt der Erzähler (A-052): im Heft aus dem Erzählerpaket, nie im Bogen des Detektivs.
+      final paket = k.satz.erzaehler[r]!;
+      expect({for (final b in paket.befragungen) b.rolle}, {...br.pflicht, ...br.frei}, reason: 'Runde $r');
+      for (final b in paket.befragungen) {
+        expect(b.antwort, botAntwort(k.texte, br.text(b.rolle)), reason: 'Runde $r: ${b.rolle}');
+        for (final a in b.antwort) {
+          expect(heft, contains(flach(a)), reason: 'Heft Runde $r: Antwort von ${b.rolle}');
+        }
+      }
+      for (final rolle in [...br.pflicht, ...br.frei]) {
+        final z = befragungsZettel(k.texte, br.text(rolle));
+        for (final a in [...z.sagen, ...z.behaupten, ...z.eigene, ...botAntwort(k.texte, br.text(rolle))]) {
+          expect(bogen, isNot(contains(flach(a))), reason: 'Bogen Runde $r: Antwort von $rolle');
+        }
+      }
+    }
+    // Marken stehen in Großbuchstaben.
+    expect(heft, contains(flach(k.ui('ui.druck.spielleitung.schritt.befragungen')).toUpperCase()));
+    expect(heft, isNot(contains(flach(k.ui('ui.druck.spielleitung.schritt.gespraeche')).toUpperCase())));
+  });
+
+  test('Erzählerheft: Am Tisch steht jedes Tischgespräch des Erzählerpakets mit Partner, Thema und Stichpunkten', () {
+    expect(heft, contains(flach(k.ui('ui.druck.erzaehler.tisch')).toUpperCase()));
+    for (var r = 1; r <= 3; r++) {
+      final paket = k.satz.erzaehler[r]!;
+      expect(paket.tisch, isNotEmpty, reason: 'Runde $r');
+      expect(paket.tisch.map((t) => t.sprecher).toSet(), k.satz.besetzt.toSet(), reason: 'Runde $r: jede besetzte Rolle spricht am Tisch');
+      for (final t in paket.tisch) {
+        final zeile = flach(k.ui('ui.druck.erzaehler.tisch_zeile', {'sprecher': k.figurName(t.sprecher), 'partner': k.figurName(t.partner), 'thema': t.thema}));
+        expect(heft, contains(zeile), reason: 'Runde $r: ${t.sprecher}');
+        for (final z in t.stichpunkte) {
+          expect(heft, contains(flach(z)), reason: 'Runde $r: ${t.sprecher}');
+        }
+      }
+    }
+  });
+
+  test('Erzählerheft: jedes Intro-Stück trägt seine Dia-Nummer, der Kasten sagt, dass der Detektiv es nicht liest', () {
+    final intro = k.satz.spielleitung.intro;
+    expect(intro, hasLength(6), reason: 'Schlosskeller: sechs Dias (A-054)');
+    for (var i = 1; i <= intro.length; i++) {
+      expect(heft, contains(k.ui('ui.druck.erzaehler.dia', {'nr': '$i'})), reason: 'Dia $i');
+    }
+    expect(heft, isNot(contains(k.ui('ui.druck.erzaehler.dia', {'nr': '${intro.length + 1}'}))));
+    expect(heft, contains(flach(k.ui('ui.druck.erzaehler.nur_du'))));
+    expect(bogen, isNot(contains(k.ui('ui.druck.erzaehler.dia', {'nr': '1'}))));
+  });
+
+  test('Erzählerheft mit Diashow (M4): die Dia-Nummern kommen aus diashow.json, ein Abschnitt ohne Bild trägt keine', () async {
+    final roh = leseJson('$repoWurzel/content/welt/schlosskeller/diashow.json');
+    final dia = RegExp(RegExp.escape(k.ui('ui.druck.erzaehler.dia', {'nr': '#'})).replaceFirst('#', r'(\d+)'));
+    List<String> nummern(String text) => [for (final m in dia.allMatches(text)) m.group(1)!];
+    final voll = Diashow.ausJson(roh);
+    expect(voll.dias, hasLength(6));
+    final mit = flach((await _heft(druckKontext(diashow: voll))).text);
+    expect(nummern(mit), ['1', '2', '3', '4', '5', '6']);
+    // Ohne das Bild zum ersten Lacher: fünf Bilder, die Abschnitte danach rücken auf, der Lacher hat kein Stichwort.
+    final kurz = Diashow.ausJson({
+      ...roh,
+      'dias': [for (final d in roh['dias'] as List) if ((d as Map)['baustein'] != 'intro.lacher.lacher_ruestung') d],
+    });
+    expect(kurz.dias, hasLength(5));
+    final ohne = flach((await _heft(druckKontext(diashow: kurz))).text);
+    expect(nummern(ohne), ['1', '2', '3', '4', '5']);
+  });
+
+  test('Erzählerheft ohne Druckspiel (Abend am Bildschirm): Vorlesen, Tisch und Befragungen, kein Code, keine Auszählung, keine Anklage', () async {
+    final h = await _heft(k, druckspiel: false);
+    expect(h.a4, isTrue);
+    final text = flach(h.text);
+    expect(text, contains(flach(k.ui('ui.druck.erzaehler.app'))));
+    expect(text, contains(flach(k.ui('ui.druck.erzaehler.app_rest'))));
+    for (final id in [...k.satz.spielleitung.intro, ...k.satz.spielleitung.rundenStart.values.expand((l) => l)]) {
+      expect(text, contains(_anfang(k.text(id))), reason: id);
+    }
+    for (final t in k.satz.erzaehler[2]!.tisch) {
+      expect(text, contains(flach(t.stichpunkte.first)), reason: t.sprecher);
+    }
+    for (final b in k.satz.erzaehler[3]!.befragungen) {
+      for (final a in b.antwort) {
+        expect(text, contains(flach(a)), reason: b.rolle);
+      }
+    }
+    expect(text, isNot(contains(k.satz.code.code)));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.vorbereitung.einleitung')))));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.wertseite')))));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.anklage.klagt')))));
+    expect(text, isNot(contains(flach(k.ui('ui.druck.spielleitung.anhang')))));
+    for (final f in k.satz.fassungen) {
+      expect(text, isNot(contains(f.code)), reason: f.rolle);
+    }
+  });
+
+  test('Erzählerheft: Hat eine Befragte nichts zu sagen, steht das in der dritten Person, nie in der Du-Form des Rollenhefts', () async {
+    // Bei zwölf Personen hat das Erzählerpaket für manche Befragte keine Zeile (Joanna).
+    final leer = [
+      for (var r = 1; r <= 3; r++)
+        for (final b in k.satz.erzaehler[r]!.befragungen)
+          if (b.antwort.isEmpty) b.rolle,
+    ];
+    expect(leer, isNotEmpty, reason: 'Die Probe braucht eine leere Antwort');
+    for (final (art, text) in [('Druckspiel', heft), ('am Bildschirm', flach((await _heft(k, druckspiel: false)).text))]) {
+      expect(text, isNot(contains(flach(k.ui('ui.druck.rollen.nichts')))), reason: art);
+      expect(_zaehle(text, flach(k.ui('ui.druck.erzaehler.nichts'))), leer.length, reason: art);
+    }
+  });
+
   test(
     'Personenzahl 4 und 20: beide Teile A4 ohne Überlauf, mit Personenzahl und Anhang',
     () async {
@@ -191,7 +340,7 @@ void main() {
         expect(b.a4, isTrue, reason: 'Bogen $n');
         expect(
           flach(h.text),
-          contains('$n Rollen und das Geburtstagskind'),
+          contains('$n Rollen und der Detektiv'),
           reason: 'Heft $n',
         );
         expect(

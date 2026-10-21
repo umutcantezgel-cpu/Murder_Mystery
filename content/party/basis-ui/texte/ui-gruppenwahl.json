@@ -1,0 +1,47 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Gruppenwahl reihum und verdeckt (F4-BAUMEISTER-04, Master 7.8, E-025). Nie eine Stimmenzahl und nie die Qualität einer Wahl.",
+  "eintraege": [
+    {
+      "id": "ui.gruppenwahl.titel",
+      "text": "Die Gruppenwahl"
+    },
+    {
+      "id": "ui.gruppenwahl.erklaerung",
+      "text": "Reihum wählt ihr geheim zwischen zwei Handlungen. Das Geburtstagskind wählt nicht mit. Danach flüstert die Runde dem Geburtstagskind etwas zu, und wie viel das taugt, verrät niemand."
+    },
+    {
+      "id": "ui.gruppenwahl.frage",
+      "text": "Was tust du in dieser Runde?"
+    },
+    {
+      "id": "ui.gruppenwahl.tippen",
+      "text": "Tippe eine Karte an und bestätige sie danach."
+    },
+    {
+      "id": "ui.gruppenwahl.bestaetigen",
+      "text": "Das ist meine Wahl"
+    },
+    {
+      "id": "ui.gruppenwahl.schon",
+      "text": "Schon gewählt"
+    },
+    {
+      "id": "ui.gruppenwahl.offen",
+      "text": "Noch offen"
+    },
+    {
+      "id": "ui.gruppenwahl.niemand",
+      "text": "Noch niemand hat gewählt."
+    },
+    {
+      "id": "ui.gruppenwahl.hat_gewaehlt",
+      "text": "hat gewählt"
+    },
+    {
+      "id": "ui.gruppenwahl.alle",
+      "text": "Alle haben gewählt. Es wird still im Gewölbe."
+    }
+  ]
+}

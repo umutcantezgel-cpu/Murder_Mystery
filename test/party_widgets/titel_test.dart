@@ -23,7 +23,7 @@ void main() {
     expect(find.text(s.kanon.fall['untertitel'] as String), findsOneWidget);
   });
 
-  testWidgets('Titel zeigt den Hinweis, dass das Geburtstagskind wegschaut', (t) async {
+  testWidgets('Titel zeigt den Hinweis, dass der Detektiv wegschaut', (t) async {
     final s = neueSitzung();
     await t.pumpWidget(rahmen(TitelBildschirm(sitzung: s)));
     expect(find.text(s.ui('ui.titel.hinweis')), findsOneWidget);

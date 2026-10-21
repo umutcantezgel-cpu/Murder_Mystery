@@ -157,7 +157,7 @@
       "start": "a",
       "knoten": {
         "a": {
-          "text": "Marek winkt dich zum Buffet. „Hey, Geburtstagskind. Ich hab dir was zurückgelegt, bevor die anderen alles wegfuttern.“",
+          "text": "Marek winkt dich zum Buffet. „Hey, Spürnase. Ich hab dir was zurückgelegt, bevor die anderen alles wegfuttern.“",
           "geste": "nicken",
           "wahlen": [
             {
@@ -632,7 +632,7 @@
           ]
         },
         "freund": {
-          "text": "Er grinst und dreht das Klemmbrett um. Ganz oben steht dein Name, doppelt unterstrichen. „Erste Fahrt, vorne sitzen, Heizung an. Das Geburtstagskind wartet nicht.“",
+          "text": "Er grinst und dreht das Klemmbrett um. Ganz oben steht dein Name, doppelt unterstrichen. „Erste Fahrt, vorne sitzen, Heizung an. Wer ermittelt, fährt zuerst.“",
           "geste": "nicken",
           "setzt": [
             "serkan_freund"
@@ -675,7 +675,7 @@
           ]
         },
         "versoehnt": {
-          "text": "Er schnaubt, dann lacht er. „Schon gut. Ich hätte auch schlechte Laune, wenn ich an meinem Geburtstag ermitteln müsste.“",
+          "text": "Er schnaubt, dann lacht er. „Schon gut. Ich hätte auch schlechte Laune, wenn ich mitten in der Feier ermitteln müsste.“",
           "geste": "nicken",
           "setzt": [
             "serkan_versoehnt"
@@ -859,7 +859,7 @@
           ]
         },
         "freund": {
-          "text": "Er lächelt. „Wenn diese Nacht vorbei ist, trinken wir alle zusammen Tee. Und das Geburtstagskind kriegt das erste Glas.“",
+          "text": "Er lächelt. „Wenn diese Nacht vorbei ist, trinken wir alle zusammen Tee. Und wer ermittelt, kriegt das erste Glas.“",
           "geste": "nicken",
           "setzt": [
             "damir_freund"
@@ -923,7 +923,7 @@
         "marek_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Zu deinem nächsten Geburtstag liefert Marek das Buffet. Auf dem Zettel am Gebäck steht: „Für die beste Ermittlung des Jahres.“"
+      "text": "Zum nächsten Wiedersehen der Clique liefert Marek das Buffet. Auf dem Zettel am Gebäck steht: „Für die beste Ermittlung des Jahres.“"
     },
     {
       "id": "marek_freund",
@@ -1005,7 +1005,7 @@
         "serkan_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Serkan fährt dich zuerst nach Hause, Heizung an, Radio leise. Vor deiner Tür sagt er: „Gut gemacht, Geburtstagskind.“"
+      "text": "Serkan fährt dich zuerst nach Hause, Heizung an, Radio leise. Vor deiner Tür sagt er: „Gut gemacht, Spürnase.“"
     },
     {
       "id": "serkan_freund",
@@ -1046,7 +1046,7 @@
         "damir_freund"
       ],
       "ergebnis": "richtig",
-      "text": "Eine Woche später lädt Damir alle zum Tee ein. Das erste Glas bekommt das Geburtstagskind, genau wie versprochen."
+      "text": "Eine Woche später lädt Damir alle zum Tee ein. Das erste Glas bekommst du, genau wie versprochen."
     },
     {
       "id": "damir_freund",

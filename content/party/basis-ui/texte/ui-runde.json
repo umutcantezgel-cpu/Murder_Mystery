@@ -1,0 +1,43 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Rundenzentrale mit Uhr und Gesprächsübersicht (F4-BAUMEISTER-03).",
+  "eintraege": [
+    {
+      "id": "ui.runde.uhr",
+      "text": "Zeit für diese Runde"
+    },
+    {
+      "id": "ui.runde.start",
+      "text": "Uhr starten"
+    },
+    {
+      "id": "ui.runde.pause",
+      "text": "Uhr anhalten"
+    },
+    {
+      "id": "ui.runde.zuruecksetzen",
+      "text": "Uhr zurücksetzen"
+    },
+    {
+      "id": "ui.runde.zeit_um",
+      "text": "Die Zeit ist um."
+    },
+    {
+      "id": "ui.runde.gespraeche",
+      "text": "Pflichtgespräche dieser Runde"
+    },
+    {
+      "id": "ui.runde.hinweis",
+      "text": "Jede Person findet ihre Gespräche auch im eigenen Dossier."
+    },
+    {
+      "id": "ui.runde.paarung",
+      "text": "{sprecher} → {partner}"
+    },
+    {
+      "id": "ui.runde.weiter",
+      "text": "Zur Ermittlung auf der Karte"
+    }
+  ]
+}

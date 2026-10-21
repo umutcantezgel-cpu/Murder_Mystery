@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordakte_core/mordakte_core.dart' show LookDef;
+import 'package:mordakte_core/runden.dart' show Sitz;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 import 'package:provider/provider.dart';
 
@@ -17,10 +16,11 @@ import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
 import '../einrichtung/abschnitte.dart' show FesteLoesungHinweis;
-import '../einrichtung/klasse_zeile.dart';
+import '../rollen_uebersicht.dart';
 import 'ansicht.dart';
 import 'gastgeber_dienst.dart';
 import 'gastgeber_sitzung.dart';
+import 'lobby_besetzung.dart';
 import 'online_fehler.dart';
 import 'online_halter.dart';
 import 'online_teile.dart';
@@ -28,10 +28,12 @@ import 'qr_bild.dart';
 
 /// Die Lobby des Gastgebers (Route `/abend/lobby`): zeigt den Raumcode groß und
 /// als QR-Code, wer schon am Tisch sitzt und ob alle bereit sind, und lässt die
-/// Zahl der Rollen und den Tischvorrat festlegen. „Abend starten“ meldet den
-/// Gastgeber bereit und startet den Abend; danach führt er als Detektiv weiter
-/// (`/abend`). Das Relais wird erst hier verbunden, nicht schon beim Wählen der
-/// Spielweise.
+/// Sitze (wer ermittelt, wer vorliest), die Zahl der Rollen, die Figuren und
+/// den Tischvorrat festlegen (Langer Abend M3, [LobbyTisch]). Rollenzahl und
+/// Zuteilung liegen im Raum, alle sehen sie. „Abend starten“ meldet den
+/// Gastgeber bereit und startet den Abend; danach führt er auf seinem Sitz
+/// weiter (`/abend`). Das Relais wird erst hier verbunden, nicht schon beim
+/// Wählen der Spielweise.
 class GastgeberLobbySeite extends StatefulWidget {
   const GastgeberLobbySeite({super.key});
 
@@ -48,7 +50,9 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
   bool _verbindungsFehler = false;
   bool _startet = false;
   bool _uebergeben = false;
-  int? _rollen;
+
+  /// Zuletzt an den Raum gesandte Rollenzahl (nachgezogen, wenn Gäste dazukommen).
+  int? _gesandt;
 
   GastgeberDienst get _d => _dienst!;
 
@@ -83,7 +87,76 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
   }
 
   void _geaendert() {
-    if (mounted) setState(() {});
+    if (!mounted) return;
+    setState(() {});
+    _rollenNachziehen();
+    _vorbelegen();
+  }
+
+  /// Steht der Raum in der Lobby und lässt sich gestalten?
+  bool get _inLobby {
+    final d = _dienst;
+    return d != null && d.offen && !d.gestartet && d.ansicht['phase'] == 'lobby';
+  }
+
+  /// Die Rollenzahl liegt im Raum (`besetzung`): beim Öffnen die Vorgabe (aus
+  /// der Gästeliste, sonst sieben), und kommen mehr Gäste ohne Sitz als Rollen,
+  /// die neue Mindestzahl.
+  void _rollenNachziehen() {
+    if (!_inLobby) return;
+    final stand = _stand(_d);
+    if (!stand.rollenNachziehen || _gesandt == stand.anzahl) return;
+    _gesandt = stand.anzahl;
+    unawaited(_befehl({'typ': 'besetzung', 'rollen': stand.anzahl}));
+  }
+
+  /// Die Gästeliste dieses Geräts für die Akte des Raums (M5).
+  GaesteListe _liste(GastgeberDienst d) => gaestelisteFuer(context, d.akteId);
+
+  LobbyStand _stand(GastgeberDienst d) =>
+      LobbyStand.aus(d.ansicht, d.daten, d.verb.spielerId ?? gastgeberPlatz, vorgabe: _liste(d).personen);
+
+  /// Geräte, die die Gästeliste schon vorbelegt hat: je Gerät einmal, damit eine
+  /// Änderung von Hand danach gilt.
+  final Set<String> _vorbelegt = {};
+
+  /// Vorbelegung aus der Gästeliste (M5): Tritt ein Gast bei, dessen Name dort
+  /// mit einer besetzten Figur steht, bekommt er sie; führt die Liste ihn als
+  /// Detektiv und ist der Sitz frei, bekommt er den Detektiv-Sitz. Erst, wenn
+  /// die Rollenzahl im Raum liegt (vorher lehnt der Raum die Zuteilung ab).
+  void _vorbelegen() {
+    if (!_inLobby) return;
+    final stand = _stand(_d);
+    final figurJeName = _liste(_d).figurJeName;
+    if (stand.rollen == null || stand.rollenNachziehen || figurJeName.isEmpty) return;
+    final nachrichten = [
+      if (stand.detektivAus(figurJeName) case final d? when _vorbelegt.add(d.id)) {'typ': 'sitz', 'spieler': d.id, 'sitz': Sitz.detektiv.name},
+      for (final e in stand.vorschlagAus(figurJeName).entries)
+        if (_vorbelegt.add(e.key)) {'typ': 'zuteilen', 'spieler': e.key, 'rolle': e.value},
+    ];
+    if (nachrichten.isEmpty) return;
+    unawaited(() async {
+      for (final n in nachrichten) {
+        await _befehl(n);
+      }
+    }());
+  }
+
+  /// Lobby-Nachricht an den Raum; eine Ablehnung steht kurz als Meldung da.
+  Future<void> _befehl(Map<String, Object?> nachricht) async {
+    final l = L.of(context);
+    try {
+      await _d.verb.befehl(nachricht);
+    } on AbendFehler catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(befehlsFehlerText(l, e.key))));
+    }
+  }
+
+  /// Gäste aus der Gästeliste (M5), deren Name dort mit einer Figur steht, bekommen sie.
+  Future<void> _ausGaesteliste(Map<String, String> vorschlag) async {
+    for (final e in vorschlag.entries) {
+      await _befehl({'typ': 'zuteilen', 'spieler': e.key, 'rolle': e.value});
+    }
   }
 
   Future<void> _verbinde() async {
@@ -109,7 +182,11 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     if (!mounted) return;
     setState(() => _verbindet = false);
     // Ein wiederhergestellter Abend läuft schon: gleich weiter zum Abend.
-    if (d.gestartet) _zumAbend();
+    if (d.gestartet) {
+      _zumAbend();
+    } else {
+      _rollenNachziehen();
+    }
   }
 
   void _zumAbend() {
@@ -119,10 +196,6 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     context.go(Routes.abend);
   }
 
-  int get _min => math.max(_d.minRollen, math.min(_d.gaeste.length, _d.maxRollen));
-  int get _max => _d.maxRollen;
-  int get _anzahl => (_rollen ?? 7).clamp(_min, _max).toInt();
-
   bool get _alleBereit => _d.gaeste.every((g) => g.bereit && g.online);
 
   Future<void> _starten() async {
@@ -131,7 +204,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     final deck = context.read<MetaStore>().deck;
     setState(() => _startet = true);
     try {
-      await _d.abendStarten(rollen: _anzahl, vorrat: deck);
+      await _d.abendStarten(rollen: _stand(_d).anzahl, vorrat: deck);
     } on AbendFehler catch (e) {
       if (mounted) {
         setState(() => _startet = false);
@@ -180,7 +253,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
               MKnopf(
                 text: l.online_abend_starten,
                 icon: Icons.play_arrow_rounded,
-                onPressed: d.offen && d.verbunden && !_startet && _alleBereit ? _starten : null,
+                onPressed: d.offen && d.verbunden && !_startet && _alleBereit && _stand(d).sitzeKlar && !_stand(d).rollenNachziehen ? _starten : null,
               ),
             ],
             child: _inhalt(context, d),
@@ -207,6 +280,13 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
     }
     final code = d.raumCode;
     final link = beitrittsLink(code);
+    final stand = _stand(d);
+    final liste = _liste(d);
+    final vorschlag = stand.vorschlagAus(liste.figurJeName);
+    // Figuren der Gästeliste, die bei dieser Rollenzahl nicht dabei sind (M5).
+    final weg = stand.wegfallendAus(liste);
+    final ich = stand.ich;
+    final sitzeFehlen = stand.sitzHinweis(l);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -214,22 +294,61 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
           const _GetrenntHinweis(),
           const SizedBox(height: MMass.s16),
         ],
-        _CodeTafel(code: code, link: link, sigel: AkteStil.fuer(d.akteId).sigel),
+        OnlineCodeTafel(code: code, link: link, sigel: AkteStil.fuer(d.akteId).sigel),
         const SizedBox(height: MMass.s32),
-        _TischTafel(dienst: d, alleBereit: _alleBereit),
-        const SizedBox(height: MMass.s16),
-        _RollenTafel(
-          anzahl: _anzahl,
-          min: _min,
-          max: _max,
-          gaeste: d.gaeste.length,
-          onAendern: (n) => setState(() => _rollen = n),
+        LobbyTisch(
+          stand: stand,
+          befehl: _befehl,
+          fuss: d.gaeste.isEmpty
+              ? OnlineWarteNotiz(text: l.online_tisch_leer)
+              : sitzeFehlen != null
+                  ? OnlineWarteNotiz(key: const ValueKey('lobby-sitze'), text: sitzeFehlen, uhr: false)
+                  : _alleBereit
+                      ? OnlineWarteNotiz(text: l.online_alle_bereit, uhr: false, stempel: l.online_bereit)
+                      : OnlineWarteNotiz(text: l.online_warten_bereit),
         ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: RollenUebersichtKnopf(hervorheben: ich?.sitz, mitErzaehler: d.daten.mitErzaehlerSitz, detektivWort: detektivBezeichnung(l, d.daten)),
+        ),
+        if (vorschlag.isNotEmpty) ...[
+          const SizedBox(height: MMass.s8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: MKnopf(
+              key: const ValueKey('lobby-gaesteliste'),
+              text: l.online_lobby_gaesteliste,
+              art: MKnopfArt.zweit,
+              icon: Icons.people_alt_outlined,
+              onPressed: () => _ausGaesteliste(vorschlag),
+            ),
+          ),
+        ],
+        const SizedBox(height: MMass.s16),
+        LobbyRollenTafel(stand: stand, onAendern: (n) => unawaited(_befehl({'typ': 'besetzung', 'rollen': n}))),
+        if (weg.isNotEmpty) ...[
+          const SizedBox(height: MMass.s12),
+          OnlineHinweisKarte(
+            key: const ValueKey('lobby-gaesteliste-weg'),
+            icon: Icons.person_off_outlined,
+            text: l.online_lobby_gaesteliste_weg(stand.anzahl, [for (final e in weg.entries) '${figurName(d.daten, e.key)} (${e.value})'].join(', ')),
+            farbe: onlineWarnTinte,
+          ),
+        ],
         const SizedBox(height: MMass.s24),
         // Eine Akte mit fester Lösung kennt keinen Fall-Code; eine Druckfassung gibt es online nie.
         if (d.daten.kanon.festeLoesung) const FesteLoesungHinweis(online: true),
-        const KlasseZeile(),
-        const SizedBox(height: MMass.s16),
+        // Die Klasse reist mit dem Detektiv-Sitz (M6.4): nur, wenn der Gastgeber ermittelt.
+        if (ich?.sitz == Sitz.detektiv) ...[
+          LobbyKlasse(
+            ichId: ich!.id,
+            klasseImRaum: jMap(d.ansicht['privat'])['klasse'] as String?,
+            befehl: _befehl,
+            karte: d.daten.hat('klassen'),
+            katalog: d.katalog,
+          ),
+          const SizedBox(height: MMass.s16),
+        ],
         DeckZeile(katalog: d.katalog, onAendern: () => context.push(Routes.sammlungDeck)),
       ],
     );
@@ -256,8 +375,8 @@ class _GetrenntHinweis extends StatelessWidget {
 
 /// Der Raumcode als getipptes Telegramm, daneben (oder darunter) die
 /// Platzkarte mit dem gedruckten QR-Code und dem Siegel der Akte.
-class _CodeTafel extends StatelessWidget {
-  const _CodeTafel({required this.code, required this.link, required this.sigel});
+class OnlineCodeTafel extends StatelessWidget {
+  const OnlineCodeTafel({super.key, required this.code, required this.link, required this.sigel});
 
   final String code;
 
@@ -360,139 +479,6 @@ class _CodeTafel extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-
-/// Das Gästeregister: wer am Tisch sitzt, je Platz eine Karteikarte mit
-/// Schattenriss (die Rollen verteilt erst der Start) und dem Bereit-Stempel.
-class _TischTafel extends StatelessWidget {
-  const _TischTafel({required this.dienst, required this.alleBereit});
-
-  final GastgeberDienst dienst;
-  final bool alleBereit;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = L.of(context);
-    final spieler = dienst.spieler;
-    final gaeste = dienst.gaeste;
-    // Die Spielleitung spielt den Detektiv: ihr Abzug zeigt ihn.
-    final detektiv = onlineAussehen(dienst.daten, onlineDetektivId(dienst.daten));
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        OnlineRegisterKopf('${l.online_tisch_titel} (${spieler.length})'),
-        for (var i = 0; i < spieler.length; i++) _Zeile(spieler: spieler[i], nr: i, detektiv: detektiv),
-        const SizedBox(height: MMass.s4),
-        if (gaeste.isEmpty)
-          OnlineWarteNotiz(text: l.online_tisch_leer)
-        else if (alleBereit)
-          OnlineWarteNotiz(text: l.online_alle_bereit, uhr: false, stempel: l.online_bereit)
-        else
-          OnlineWarteNotiz(text: l.online_warten_bereit),
-      ],
-    );
-  }
-}
-
-class _Zeile extends StatelessWidget {
-  const _Zeile({required this.spieler, required this.nr, required this.detektiv});
-
-  final SpielerInfo spieler;
-  final int nr;
-  final LookDef? detektiv;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = L.of(context);
-    final Widget zustand;
-    if (spieler.istGastgeber) {
-      zustand = MChip(l.online_spielleitung, icon: Icons.star_rounded);
-    } else if (!spieler.online) {
-      zustand = MChip(l.online_getrennt, icon: Icons.wifi_off_rounded, farbe: onlineWarnTinte);
-    } else if (spieler.bereit) {
-      zustand = onlineStempel(l.online_bereit);
-    } else {
-      zustand = MChip(l.online_nicht_bereit, icon: Icons.hourglass_empty_rounded, farbe: MRoh.tinteLeise);
-    }
-    return OnlinePlatzKarte(name: spieler.name, look: spieler.istGastgeber ? detektiv : null, zustand: zustand, nr: nr);
-  }
-}
-
-/// Zahl der Rollen als Besetzungsblatt: mindestens so viele wie Gäste,
-/// höchstens die Besetzung der Akte. Freie Rollen übernehmen Bots; je Bot liegt
-/// ein gestempelter Schattenriss auf dem Blatt.
-class _RollenTafel extends StatelessWidget {
-  const _RollenTafel({required this.anzahl, required this.min, required this.max, required this.gaeste, required this.onAendern});
-
-  final int anzahl;
-  final int min;
-  final int max;
-  final int gaeste;
-  final ValueChanged<int> onAendern;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = L.of(context);
-    final bots = (anzahl - gaeste).clamp(0, anzahl).toInt();
-    final gesperrt = MRoh.tinte.withValues(alpha: 0.28);
-    return MBlatt(
-      neigung: 0.004,
-      samen: 29,
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(l.online_rollen_titel, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
-          const SizedBox(height: 4),
-          Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
-          const SizedBox(height: MMass.s12),
-          Semantics(container: true, child: Text(l.online_rollen_anzahl(anzahl), textAlign: TextAlign.center, style: MPapierSchrift.titel)),
-          Row(
-            children: [
-              IconButton(
-                tooltip: l.online_rollen_weniger,
-                onPressed: anzahl > min ? () => onAendern(anzahl - 1) : null,
-                icon: const Icon(Icons.remove_circle_outline),
-                color: MRoh.tinte,
-                disabledColor: gesperrt,
-              ),
-              Expanded(
-                child: min >= max
-                    ? const SizedBox.shrink()
-                    : Slider(
-                        value: anzahl.toDouble(),
-                        min: min.toDouble(),
-                        max: max.toDouble(),
-                        divisions: max - min,
-                        activeColor: MRoh.stempelRot,
-                        inactiveColor: MRoh.tinte.withValues(alpha: 0.18),
-                        thumbColor: MRoh.messingMitte,
-                        semanticFormatterCallback: (v) => l.online_rollen_anzahl(v.round()),
-                        onChanged: (v) => onAendern(v.round()),
-                      ),
-              ),
-              IconButton(
-                tooltip: l.online_rollen_mehr,
-                onPressed: anzahl < max ? () => onAendern(anzahl + 1) : null,
-                icon: const Icon(Icons.add_circle_outline),
-                color: MRoh.tinte,
-                disabledColor: gesperrt,
-              ),
-            ],
-          ),
-          const SizedBox(height: MMass.s4),
-          Text(l.online_rollen_bots(bots), style: MPapierSchrift.text),
-          if (bots > 0) ...[
-            const SizedBox(height: MMass.s16),
-            OnlineBotReihe(bots: [for (var i = 0; i < bots; i++) (look: null, name: null, farbe: null)], stempel: l.online_bot_stempel),
-          ],
-          const SizedBox(height: MMass.s16),
-          Text(l.online_rollen_hinweis, style: MPapierSchrift.leise),
-        ],
-      ),
     );
   }
 }

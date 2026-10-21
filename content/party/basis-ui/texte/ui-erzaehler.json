@@ -1,0 +1,27 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Erzählerfeld und Erzählerstimme (F4-BAUMEISTER-05, Master 7.12).",
+  "eintraege": [
+    {
+      "id": "ui.erzaehler.stimme",
+      "text": "Erzählerstimme"
+    },
+    {
+      "id": "ui.erzaehler.stimme_tipp",
+      "text": "Erzählerstimme an- oder ausschalten"
+    },
+    {
+      "id": "ui.erzaehler.rueckblick",
+      "text": "Rückblick"
+    },
+    {
+      "id": "ui.erzaehler.nochmal",
+      "text": "Noch einmal vorlesen"
+    },
+    {
+      "id": "ui.erzaehler.keine_stimme",
+      "text": "Auf diesem Gerät gibt es keine deutsche Stimme. Der Text steht trotzdem da."
+    }
+  ]
+}

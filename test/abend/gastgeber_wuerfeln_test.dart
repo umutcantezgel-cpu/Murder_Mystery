@@ -11,6 +11,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show LokaleVerbindung;
 
 import '../party_widgets/hilfe.dart' show partyDaten;
+import 'online_hilfe.dart' show befragungenImRaum;
 
 const _karte = 'schlosskeller:ahmet:lupe';
 
@@ -61,7 +62,10 @@ class _Dienst implements GastgeberDienst {
   String get salz => 'salz-test';
 
   @override
-  String get geburtstagskind => '';
+  String get detektivName => '';
+
+  @override
+  Sitz get sitz => Sitz.detektiv;
 
   @override
   int get minuten => 30;
@@ -140,6 +144,9 @@ void _bisWurf(SchlosskellerRaum raum) {
         } else {
           raum.nachricht('gastgeber', {'typ': 'weiter'});
         }
+      case 'gespraeche':
+        befragungenImRaum(raum);
+        raum.nachricht('gastgeber', {'typ': 'weiter'});
       case 'gruppenwahl':
         raum.nachricht('gastgeber', {'typ': 'weiter'});
       case 'anklage':

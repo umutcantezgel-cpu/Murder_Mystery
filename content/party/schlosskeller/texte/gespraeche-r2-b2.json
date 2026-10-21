@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 5 bis 8.",
+  "hinweis": "Tischgespräche Runde 2, Besetzungsplätze 5 bis 8 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_leyla_2_1",
@@ -9,34 +9,13 @@
       "runde": 2,
       "nr": 1,
       "partner": "enes",
-      "thema": "Wer stand um drei vor zwölf an der Theke?",
-      "ziel": "Ich will wissen, was der andere noch weiß, und Ahmet die Chance lassen, selbst zu reden.",
-      "preisgabe": [
-        "beobachtung:b_lejla_ahmet_theke"
-      ],
-      "text": "Ahmet ist um drei vor zwölf hinter die Theke geschlüpft. Er hatte einen dicken Umschlag dabei. Ist dir das auch aufgefallen, oder passt das nicht zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_leyla_2_2",
-      "rolle": "leyla",
-      "runde": 2,
-      "nr": 2,
-      "partner": "tim",
       "thema": "Das Dunkel nach dem Knall",
-      "ziel": "Ich will wissen, was der andere im Dunkeln gemacht hat, ohne Ahmet ins Gespräch zu bringen.",
+      "ziel": "Ich will hören, was im Dunkeln los war, ohne Ahmet hineinzuziehen.",
       "preisgabe": [],
-      "text": "Es war stockdunkel. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_leyla_2_3",
-      "rolle": "leyla",
-      "runde": 2,
-      "nr": 3,
-      "partner": "johanna",
-      "thema": "Ist dir was aufgefallen?",
-      "ziel": "Ich will wissen, ob jemand an der Theke etwas bemerkt hat, ohne Ahmet in die Enge zu treiben.",
-      "preisgabe": [],
-      "text": "Um drei vor zwölf war noch Licht. Was du vorhin gesagt hast, passt das dazu?"
+      "stichpunkte": [
+        "Nach dem Knall war es stockdunkel.",
+        "Was hast du im Dunkeln gemacht?"
+      ]
     },
     {
       "id": "g_emine_2_1",
@@ -44,34 +23,13 @@
       "runde": 2,
       "nr": 1,
       "partner": "dilara",
-      "thema": "Wer war beim Knall am Buffet?",
-      "ziel": "Ich will prüfen, ob der andere am Buffet mehr mitbekommen hat, ohne selbst mehr zu verraten.",
-      "preisgabe": [
-        "beobachtung:b_emine_versteck"
-      ],
-      "text": "Beim Knall hab ich mich hinter dem linken Buffettisch geduckt, bis das Licht anging. Ist dir in der Zeit etwas aufgefallen, das nicht passt?"
-    },
-    {
-      "id": "g_emine_2_2",
-      "rolle": "emine",
-      "runde": 2,
-      "nr": 2,
-      "partner": "fatma",
       "thema": "Dein Wort von vorhin",
-      "ziel": "Ich will Fatma Gelegenheit geben, selbst etwas zu sagen, ohne sie zu verraten.",
+      "ziel": "Ich will hören, ob die Geschichten von vorhin stimmen.",
       "preisgabe": [],
-      "text": "Fatma, du kannst mir alles sagen. Ist das wahr, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_emine_2_3",
-      "rolle": "emine",
-      "runde": 2,
-      "nr": 3,
-      "partner": "leyla",
-      "thema": "Die Theke vor Mitternacht",
-      "ziel": "Ich will wissen, ob der andere etwas über die Theke weiß, ohne Fatma ins Spiel zu bringen.",
-      "preisgabe": [],
-      "text": "Ich glaub, da stimmt was nicht. Stimmt das, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Ich glaub, da stimmt was nicht.",
+        "Passt das zu deinem Wort von vorhin?"
+      ]
     },
     {
       "id": "g_tim_2_1",
@@ -79,67 +37,27 @@
       "runde": 2,
       "nr": 1,
       "partner": "murat",
-      "thema": "Das Gesicht am Sicherungskasten",
-      "ziel": "Ich will herausfinden, wohin das Gesicht lief, und vergleichen, was die anderen gesehen haben.",
-      "preisgabe": [
-        "beobachtung:b_tim_gesicht"
-      ],
-      "text": "Am Sicherungskasten ist mir im Dunkeln ein leuchtendes Gesicht begegnet. Ist dir dabei irgendwas aufgefallen, das nicht zusammenpasst?"
-    },
-    {
-      "id": "g_tim_2_2",
-      "rolle": "tim",
-      "runde": 2,
-      "nr": 2,
-      "partner": "olli",
       "thema": "Wie dunkel es war",
-      "ziel": "Ich will wissen, ob Olli bei dem bleibt, was er vorher gesagt hat, ohne selbst ins Gespräch zu kommen.",
+      "ziel": "Ich will hören, ob alle bei ihrer Geschichte bleiben.",
       "preisgabe": [],
-      "text": "Olli, das Licht ging aus, und es war stockdunkel. Da passt doch was nicht, oder?"
-    },
-    {
-      "id": "g_tim_2_3",
-      "rolle": "tim",
-      "runde": 2,
-      "nr": 3,
-      "partner": "can",
-      "thema": "Wer war bei dir?",
-      "ziel": "Ich will wissen, wo Can im Dunkeln war, ohne selbst ins Gespräch zu kommen.",
-      "preisgabe": [],
-      "text": "Can, als alles dunkel war, wer war da bei dir? Stimmt das wirklich, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Das Licht ging aus, es war stockdunkel.",
+        "Passt deine Geschichte noch zusammen?"
+      ]
     },
     {
       "id": "g_johanna_2_1",
       "rolle": "johanna",
       "runde": 2,
       "nr": 1,
-      "partner": "ahmet",
-      "thema": "Was du bisher erzählt hast",
-      "ziel": "Ich will Ahmet die Chance geben, selbst zu erzählen, ohne etwas Falsches zu sagen.",
-      "preisgabe": [],
-      "text": "Ahmet, ich will dir nichts Böses. Passt das alles zusammen, was du bisher erzählt hast?"
-    },
-    {
-      "id": "g_johanna_2_2",
-      "rolle": "johanna",
-      "runde": 2,
-      "nr": 2,
       "partner": "aylin",
       "thema": "Ist das wirklich so?",
-      "ziel": "Ich will wissen, ob der andere ehrlich ist, ohne selbst etwas über den Abend zu verraten.",
+      "ziel": "Ich will wissen, wer ehrlich ist, ohne selbst viel zu verraten.",
       "preisgabe": [],
-      "text": "Stimmt das, was du bisher gesagt hast? Ich glaub dir nicht ganz."
-    },
-    {
-      "id": "g_johanna_2_3",
-      "rolle": "johanna",
-      "runde": 2,
-      "nr": 3,
-      "partner": "hakan",
-      "thema": "Herr Schneider im Vorratsraum",
-      "ziel": "Ich will wissen, wie Herr Schneider wirklich tickt, ohne Ahmet ins Spiel zu bringen.",
-      "preisgabe": [],
-      "text": "Herr Schneider lag bewusstlos im Vorratsraum. Passt das zusammen mit dem, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Stimmt das, was du bisher gesagt hast?",
+        "Ich glaub dir noch nicht ganz."
+      ]
     }
   ]
 }

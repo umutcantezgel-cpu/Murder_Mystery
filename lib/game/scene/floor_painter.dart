@@ -583,6 +583,27 @@ class FloorPainter {
           }
           c.restore();
         }
+      case 'party_ascheneimer':
+        // Von oben: Blechrand, graue Asche und der umgelegte Henkel, alles flach.
+        final ctr = Offset(x + 0.5, y + 0.5);
+        c.drawCircle(ctr.translate(0.03, 0.03), 0.22, Paint()..color = withAlpha(_black, 0.3));
+        c.drawCircle(ctr, 0.2, Paint()..color = const Color(0xFF55575C));
+        c.drawCircle(ctr, 0.16, Paint()..color = const Color(0xFF8C8A86));
+        for (var i = 0; i < 5; i++) {
+          final a = rng.nextDouble() * math.pi * 2;
+          final d = rng.nextDouble() * 0.1;
+          c.drawCircle(ctr.translate(math.cos(a) * d, math.sin(a) * d), 0.02 + rng.nextDouble() * 0.02, Paint()..color = const Color(0xFF6E6C69));
+        }
+        c.drawArc(
+          Rect.fromCircle(center: ctr, radius: 0.26),
+          math.pi * 0.15,
+          math.pi * 0.7,
+          false,
+          Paint()
+            ..color = const Color(0xFF3A3B3F)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 0.025,
+        );
       case 'puddle':
         final col = custom ?? mix(const Color(0xFF243246), pal.fog, 0.3);
         final path = Path()

@@ -152,6 +152,8 @@ class _Plan {
         _gleis(Rng(0x676c65));
       case 'motel':
         _motel(Rng(0x6d6f74));
+      case 'schloss':
+        _schloss(Rng(0x736368));
     }
   }
 
@@ -219,7 +221,7 @@ class _Plan {
     return true;
   }
 
-  static const _hoehen = {'baum': 2.1, 'tanne': 2.4, 'palme': 2.9, 'laterne': 2.8, 'busch': 0.7, 'fels': 0.45, 'auto': 0.95};
+  static const _hoehen = {'baum': 2.1, 'tanne': 2.4, 'palme': 2.9, 'laterne': 2.8, 'busch': 0.7, 'fels': 0.45, 'auto': 0.95, 'mauer': 0.9};
 
   /// Setzt ein Ding, wenn die Kachel zur Kulisse gehört, frei ist und es
   /// nichts von der Karte verdeckt.
@@ -336,6 +338,33 @@ class _Plan {
         if (setze('tanne', t.x, t.y, rng, groesse: 0.8 + rng.nextDouble() * 0.6, rand: 1)) continue;
       }
       if (d >= 2 && rng.chance(0.03)) setze('fels', t.x, t.y, rng, groesse: 0.7 + rng.nextDouble() * 0.5, rand: 1);
+    }
+  }
+
+  void _schloss(Rng rng) {
+    final r = reichweite;
+    // Ebenen des langen Abends (M7a): Fels am Mauerfuß mit Mauerkronen auf
+    // dem Ring dahinter, ein Kiesweg im Westen, dann Rasen mit Tannen und
+    // alten Bäumen bis in die Nacht.
+    for (final t in abstand.keys) {
+      if (abstand[t]! <= 1) boden[t] = 'fels';
+    }
+    _flaeche('kies', -4, -r, -3, h + r);
+    for (final t in _ringGeordnet) {
+      if (abstand[t] == 1 && (t.x + t.y).isEven) setze('mauer', t.x, t.y, rng);
+    }
+    for (var y = -r + 2; y < h + r; y += 8) {
+      setze('laterne', -5, y, rng);
+    }
+    for (final t in _ringGeordnet) {
+      final d = abstand[t]!;
+      if (boden[t] != 'rasen') continue;
+      if (d >= 3 && rng.chance(d <= 4 ? 0.14 : 0.3)) {
+        final tanne = rng.chance(0.4);
+        final gross = 0.85 + rng.nextDouble() * 0.4 + (d >= 6 ? 0.2 : 0);
+        if (setze(tanne ? 'tanne' : 'baum', t.x, t.y, rng, groesse: gross, rand: 1)) continue;
+      }
+      if (d >= 2 && rng.chance(0.05)) setze('busch', t.x, t.y, rng, groesse: 0.8 + rng.nextDouble() * 0.3);
     }
   }
 
@@ -777,8 +806,17 @@ class _Plan {
         _fels(pen, rng);
       case 'laterne':
         _laterne(pen);
+      case 'mauer':
+        _mauerkrone(pen);
     }
     c.restore();
+  }
+
+  /// Mauerkrone hinter der Karte: Mauerstück mit Zinne (Kulisse schloss).
+  void _mauerkrone(IsoPen pen) {
+    final stein = mix(pal.wall, const Color(0xFF6B5E55), 0.5);
+    pen.box(0.0, 0.0, 1.0, 1.0, 0, 0.55, stein, edge: withAlpha(_weiss, 0.08));
+    pen.box(0.15, 0.15, 0.85, 0.85, 0.55, 0.9, shade(stein, 0.1), edge: withAlpha(_weiss, 0.08));
   }
 
   void _schattenOval(IsoPen pen, double u, double v, double r) => pen.oval(u, v, 0, r, pen.fill(withAlpha(_schwarz, 0.3)));

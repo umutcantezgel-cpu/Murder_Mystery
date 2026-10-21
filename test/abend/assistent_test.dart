@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/abend_seite.dart';
 import 'package:mordakte/abend/einrichtung/abschnitte.dart';
+import 'package:mordakte/abend/einrichtung/klasse_zeile.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
@@ -25,13 +26,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Startet die App auf einem Handy. Akte und Daten lädt die App über rootBundle;
 /// der Zwischenspeicher wird vorab gefüllt, damit die Schritte ohne Wartezeit laufen.
-Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu}) async {
+Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu, MetaStore? meta}) async {
   tester.view.physicalSize = const Size(390, 844);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
   SharedPreferences.setMockInitialValues({});
-  final state = AppState(meta: MetaStore.memory()..name = 'Test', scenarios: const {});
+  final state = AppState(meta: meta ?? (MetaStore.memory()..name = 'Test'), scenarios: const {});
   await tester.runAsync(() async {
     // rootBundle merkt sich jede Textdatei samt Ladevorgang (CachingAssetBundle). Was der
     // Assistent braucht, lädt deshalb hier in echter Zeit: ein Vorgang, der erst in der
@@ -80,6 +81,9 @@ MKnopf knopf(WidgetTester tester, String text) =>
   final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
   return (phase: s.phase, solo: s.solo);
 }
+
+/// [f] innerhalb der Karteikarte „Deine Ermittlerklasse“.
+Finder _inKlasse(Finder f) => find.descendant(of: find.byType(KlasseZeile), matching: f);
 
 /// Akte (vorgewählt), Spielweise, Einstellungen (Standard) und Start.
 Future<void> bisZumStart(WidgetTester tester, String weise) async {
@@ -130,6 +134,35 @@ void main() {
     state.dispose();
   });
 
+  testWidgets('Die Gästeliste der Steckbrief-Seite füllt reihum Personenzahl und Namen vor, auch den des Detektivs (M5)', (tester) async {
+    final meta = MetaStore.memory()
+      ..name = 'Test'
+      ..setzeGaesteliste(
+        'schlosskeller',
+        const GaesteListe(personen: 5, gaeste: [Gast('Ayla', 'fatma'), Gast('Bo', 'tugba'), Gast('Cem'), Gast('Dana', 'detective')]),
+      );
+    final state = await oeffnen(tester, ort: Routes.abendNeuMit('schlosskeller'), meta: meta);
+    await tippen(tester, 'Ein Gerät reihum');
+    await tippen(tester, 'Weiter');
+    expect(find.text('5 Personen sitzen am Tisch'), findsOneWidget);
+    final fatma = tester.widget<TextField>(find.byKey(const ValueKey('name-fatma')));
+    expect(fatma.controller!.text, 'Ayla');
+    final ahmet = tester.widget<TextField>(find.byKey(const ValueKey('name-ahmet')));
+    expect(ahmet.controller!.text, isEmpty);
+    // Tugba ist bei fünf Personen nicht dabei; ihr Name taucht nirgends auf.
+    expect(find.byKey(const ValueKey('name-tugba')), findsNothing);
+    await tester.tap(find.text('Weiter'));
+    await warten(tester, bis: find.text('Bereit?'));
+    await tippen(tester, 'Abend beginnen');
+    final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
+    expect(s.einstellungen.rollen, 5);
+    expect(s.spielerName('fatma'), 'Ayla');
+    expect(s.spielerName('ahmet'), 'Ahmet');
+    expect(s.detektivName, 'Dana', reason: 'Der Detektiv-Eintrag füllt das Namensfeld des Detektivs');
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
   testWidgets('Jeder am eigenen Gerät ist wählbar, ohne Personenzahl bis zum Raum öffnen', (tester) async {
     final semantik = tester.ensureSemantics();
     try {
@@ -174,6 +207,56 @@ void main() {
     await tester.ensureVisible(find.text('Profiler'));
     await tippen(tester, 'Profiler');
     expect(state.meta.loadout.cls, 'profiler', reason: 'Die gewählte Klasse liegt in der Ausrüstung');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Im Start erklärt die Klasse ihre Wirkung auf der Karte und ihre drei Karten (M6)', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    // Vorgewählt ist die Forensikerin: Spurenblick im Schlosskeller.
+    final wirkung = find.text('Spurenblick: Suchstellen und Erkundungsorte leuchten schon von weitem.');
+    await tester.ensureVisible(wirkung);
+    expect(wirkung, findsOneWidget);
+    expect(find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'), findsOneWidget);
+    for (final titel in ['Forensik-Köfferchen', 'Der zweite Abdruck', 'Die große Lupe']) {
+      expect(_inKlasse(find.textContaining(titel, findRichText: true)), findsOneWidget, reason: titel);
+    }
+    await tester.ensureVisible(find.text('Profiler'));
+    await tippen(tester, 'Profiler');
+    expect(find.text('Menschenkenner: Du siehst Gesprächspartner und ihre Stimmung sofort.'), findsOneWidget, reason: 'Die Erklärung folgt der Wahl');
+    expect(_inKlasse(find.textContaining('Der Gedankenpalast', findRichText: true)), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Der faire Satz gilt der Fähigkeit; die Karten der Klasse sind Sammelkarten, besessene markiert (M6)', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    final fair = find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.');
+    await tester.ensureVisible(fair);
+    expect(fair, findsOneWidget, reason: 'Der Satz nennt die Fähigkeit auf der Karte, nicht die Sammelkarten');
+    expect(_inKlasse(find.text('SAMMELKARTEN DIESER KLASSE')), findsOneWidget);
+    expect(find.text('DEINE DREI KLASSENKARTEN'), findsNothing, reason: 'Nicht jede Karte der Klasse ist schon deine');
+    // Das Köfferchen gehört zum Startset; Abdruck und Lupe bringt erst ein Abend.
+    expect(_inKlasse(find.textContaining('in deiner Sammlung', findRichText: true)), findsOneWidget);
+    expect(_inKlasse(find.textContaining(RegExp('Forensik-Köfferchen.*in deiner Sammlung'), findRichText: true)), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Gewölbe kennt keine Klassen auf der Karte: nur Karten und Belohnung', (tester) async {
+    final state = await oeffnen(tester);
+    await tippen(tester, 'Spuk im Gewölbe');
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tester.ensureVisible(find.text('Profiler'));
+    expect(find.textContaining('Spurenblick'), findsNothing);
+    expect(find.text('Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'), findsNothing);
+    expect(_inKlasse(find.textContaining('Forensik-Köfferchen', findRichText: true)), findsOneWidget);
+    expect(find.text('Dein Abend bringt dir immer eine Sammelkarte deiner Klasse.'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
@@ -250,6 +333,28 @@ void main() {
     expect(find.byType(DetekteiSeite), findsOneWidget, reason: 'Nach Ja geht es in die Detektei');
     expect(find.byType(AbendSeite), findsNothing);
     expect(halter.laeuft, isFalse, reason: 'Der Abend ist freigegeben und lässt sich nicht fortsetzen');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('Solo-Abend: die Leiste öffnet die Detektivkarte, auch bei 320 px und doppelter Schrift (M6)', (tester) async {
+    final state = await oeffnen(tester);
+    await bisZumStart(tester, 'Solo mit Bots');
+    await tippen(tester, 'Abend beginnen');
+    tester.view.physicalSize = const Size(320, 844);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await warten(tester);
+    expect(tester.takeException(), isNull, reason: 'Die Leiste läuft nicht über');
+    // Der Knopf der Leiste (der Eintrag der Rollenphase heißt „Deine Detektivkarte“).
+    await tester.tap(find.text('Detektivkarte'));
+    await warten(tester, bis: find.byType(MKarteikartenDialog));
+    expect(find.text('Deine Detektivkarte'), findsWidgets);
+    expect(find.text('So laufen Befragungen', skipOffstage: false), findsOneWidget);
+    await tippen(tester, 'Schließen');
+    expect(find.byType(MKarteikartenDialog), findsNothing);
+    expect(find.byType(AbendSeite), findsOneWidget, reason: 'Der Abend läuft weiter');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();

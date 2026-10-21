@@ -56,7 +56,7 @@ class _ErsterFallState extends State<ErsterFall> {
       if (!mounted) return;
       final s = PartySitzung(daten);
       s.kartenAnlegen(vorrat: TischVorrat.aus(meta.deck, katalog), abstecher: abstecher);
-      s.einrichten(rollen: s.minRollen, detektiv: 'w', solo: true, geburtstagskind: (meta.name ?? '').trim());
+      s.einrichten(rollen: s.minRollen, detektiv: 'w', solo: true, detektivName: (meta.name ?? '').trim());
       halter.uebernehmen(s);
       router.go(Routes.abend);
     } catch (e) {

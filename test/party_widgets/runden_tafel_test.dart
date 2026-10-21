@@ -4,6 +4,7 @@ import 'package:mordakte/party/bildschirme/karte.dart';
 import 'package:mordakte/party/bildschirme/zug_tafel.dart';
 import 'package:mordakte/party/bildschirme/npc_karte.dart';
 import 'package:mordakte/party/sitzung.dart';
+import 'package:mordakte/party/skript.dart';
 import 'package:mordakte/party/karte_session.dart';
 import 'package:mordakte/game/game_view.dart';
 import 'package:mordakte_core/mordakte_core.dart';
@@ -77,7 +78,7 @@ void main() {
 
   testWidgets('erste Runde zeigt Auftakt statt eines verfrühten Runde-fertig-Dialogs', (t) async {
     final s = neueSitzung(rollen: 4);
-    while (s.phase != PartyPhase.entscheidungen) { s.weiter(); }
+    while (s.phase != PartyPhase.entscheidungen) { PartySkript.befragungenErledigen(s); s.weiter(); }
     await zeige(t, s, 320, 2);
     expect(find.text(s.ui('ui.zug.auftakt')), findsOneWidget);
     expect(find.text(s.ui('ui.karte.fertig')), findsNothing);

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show LookDef, renderLook;
+import 'package:mordakte_core/runden.dart' show Sitz;
 
+import '../../l10n/lookup.dart';
 import '../../party/daten.dart';
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
+import 'ansicht.dart';
 
 /// Gemeinsame Teile der Online-Bildschirme in der Ermittlungsmappe: Karteikarte
 /// eines Platzes am Tisch, Wartezettel mit Taschenuhr, Hinweiskarte und der
@@ -30,10 +33,35 @@ LookDef? onlineAussehen(PartyDaten? daten, String? id) {
   });
 }
 
-/// Kennung der Detektivfigur der Akte (die Spielleitung spielt sie).
+/// Kennung der Detektivfigur der Akte (das Gerät auf dem Detektiv-Sitz spielt sie).
 String? onlineDetektivId(PartyDaten? daten) {
   final d = daten?.kanon.figurenJson['detektiv'];
   return d is Map && d['id'] is String ? d['id'] as String : null;
+}
+
+/// Der Platz auf dem Detektiv-Sitz (Gastgeber oder Gast), sonst `null`.
+SpielerInfo? onlineDetektivPlatz(List<SpielerInfo> spieler) {
+  for (final s in spieler) {
+    if (s.sitz == Sitz.detektiv) return s;
+  }
+  return null;
+}
+
+/// Wie die Akte den Ermittler nennt, als Etikett des Detektiv-Sitzes
+/// (`ui.allgemein.detektiv`): in den Noir-Akten „Inspektor“, im Gewölbe
+/// „Geburtstagskind“, im Schlosskeller „Detektiv“. Ohne Akte (sie lädt noch)
+/// oder ohne eigenes Wort „Detektiv“. So tragen Altakten ihr eigenes Wort
+/// (Besitzerentscheidung 1), nie das neutrale des Schlosskellers.
+String detektivBezeichnung(L l, PartyDaten? daten) {
+  if (daten != null) {
+    try {
+      final wort = daten.texte.baustein('ui.allgemein.detektiv').trim();
+      if (wort.isNotEmpty) return wort;
+    } on ArgumentError {
+      // Keine eigene Bezeichnung: wie im Schlosskeller.
+    }
+  }
+  return l.abend_platz_detektiv;
 }
 
 /// Stempel für einen erledigten Zustand („Bereit“, „Gelesen“, „Abgestimmt“).
@@ -181,7 +209,7 @@ class OnlineBotReihe extends StatelessWidget {
       );
 }
 
-/// Getippter Wartezettel mit Taschenuhr: „Warten auf die Spielleitung …“.
+/// Getippter Wartezettel mit Taschenuhr: „Gleich geht es weiter …“.
 /// Mit [stempel] liegt darunter ein grüner Stempel (z. B. „Abgestimmt“).
 class OnlineWarteNotiz extends StatelessWidget {
   const OnlineWarteNotiz({
@@ -232,7 +260,15 @@ class OnlineWarteNotiz extends StatelessWidget {
           Row(
             children: [
               if (uhr) ...[const MOnlineTaschenuhr(groesse: 40), const SizedBox(width: 14)],
-              Expanded(child: Text(text, key: textKey, style: stil)),
+              // Schmal und mit großer Schrift wird der Text kleiner, statt ein Wort zu teilen.
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final g = ganzeWorteGroesse(context, text, stil, box.maxWidth, minimum: 12);
+                    return Text(text, key: textKey, style: g == stil.fontSize ? stil : stil.copyWith(fontSize: g));
+                  },
+                ),
+              ),
             ],
           ),
           if (marke != null)

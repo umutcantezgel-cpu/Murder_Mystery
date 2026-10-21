@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Steckbriefe: Kostümtipp, Auftritt und typischer Satz je Figur (K3, A-059)",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "required": [
+    "settingId",
+    "hinweis",
+    "eintraege"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "eintraege": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 21,
+      "items": {
+        "type": "object",
+        "required": [
+          "figur",
+          "kostuem",
+          "auftritt",
+          "satz"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "figur": {
+            "$ref": "#/$defs/id"
+          },
+          "kostuem": {
+            "$ref": "#/$defs/text"
+          },
+          "auftritt": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "satz": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

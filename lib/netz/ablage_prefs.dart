@@ -20,6 +20,9 @@ class AblagePrefs implements Ablage {
   /// Wo Gäste merken, in welchem Raum sie sitzen: `{"code": …, "name": …}`.
   static const gastSitzung = 'gast.sitzung';
 
+  /// Notizbuch des Gast-Detektivs: `{"raum": …, "spieler": …, "notizen": […]}`.
+  static const gastBefragungen = 'gast.befragungen';
+
   /// Im Web: nur dieser Tab.
   final bool proTab;
 

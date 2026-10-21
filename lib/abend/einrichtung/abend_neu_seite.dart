@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordakte_core/runden.dart' show AbstecherOrt, KartenKatalog, TischVorrat;
+import 'package:mordakte_core/runden.dart' show AbstecherOrt, KartenKatalog, Sitz, TischVorrat;
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
@@ -22,6 +22,7 @@ import '../abend_halter.dart';
 import '../abend_speicher.dart';
 import '../online/gastgeber_dienst.dart';
 import '../online/online_halter.dart';
+import '../rollen_uebersicht.dart';
 import 'abschnitte.dart';
 import 'klasse_zeile.dart';
 
@@ -137,7 +138,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
       final s = PartySitzung(r[0] as PartyDaten);
       // Eine Druckfassung gibt es nur für Akten mit Druckmappe.
       final druckbar = _akten?.where((a) => a.id == id).firstOrNull?.druckbar ?? false;
-      final werte = EinrichtungsWerte(s, druckbar: druckbar)..solo = _weise == Spielweise.solo;
+      // Die Gästeliste der Akte (Steckbrief-Seite, M5) füllt Personenzahl und Namen vor.
+      final werte = EinrichtungsWerte(s, druckbar: druckbar, gaeste: context.read<MetaStore>().gaesteliste(id))..solo = _weise == Spielweise.solo;
       // Der Fußbereich hängt vom Fall-Code ab: bei jeder Eingabe neu zeichnen.
       werte.addListener(_werteGeaendert);
       setState(() => _geladen = _Geladen(id, s, werte, r[1] as List<AbstecherOrt>));
@@ -279,7 +281,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         abstecher: g.abstecher,
         katalog: katalog,
         fallCodeEingabe: g.werte.codeEingabe,
-        geburtstagskind: g.werte.geburtstag.text.trim(),
+        detektivName: g.werte.detektivName.text.trim(),
+        sitz: g.werte.mitErzaehler ? g.werte.platz : Sitz.detektiv,
         minuten: g.werte.minuten,
         stimme: g.werte.stimme,
       );
@@ -400,6 +403,19 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
               gewaehlt: _weise == Spielweise.eigene,
               onTap: () => _waehleWeise(Spielweise.eigene),
             ),
+            // Wer an welchem Platz was tut (M3), für die gewählte Spielweise.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: RollenUebersichtKnopf(
+                weise: _weise ?? Spielweise.reihum,
+                // Die Akte lädt ab diesem Schritt; Altakten kennen keinen Erzähler.
+                mitErzaehler: _geladen?.sitzung.daten.mitErzaehlerSitz ?? true,
+                detektivWort: switch (_geladen?.sitzung) {
+                  final s? when s.hatText('ui.allgemein.detektiv') => s.text('ui.allgemein.detektiv'),
+                  _ => null,
+                },
+              ),
+            ),
           ],
         );
       case _Schritt.einstellungen:
@@ -440,12 +456,21 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                   // Online legt die Lobby die Rollen fest, sobald klar ist, wer mitspielt.
                   if (_weise != Spielweise.eigene) (l.abend_start_personen, '${g.werte.rollen}'),
                   if (_weise != Spielweise.solo) (l.abend_start_dauer, l.common_minutes(g.werte.minuten)),
+                  // Rollen am Tisch (M3): reihum der Erzähler, online der eigene Platz.
+                  if (g.werte.mitErzaehler && _weise == Spielweise.reihum)
+                    (l.abend_start_erzaehler, g.werte.erzaehlerName.text.trim().isEmpty ? l.abend_start_ohne : g.werte.erzaehlerName.text.trim()),
+                  if (g.werte.mitErzaehler && _weise == Spielweise.eigene)
+                    (l.abend_start_platz, g.werte.platz == Sitz.erzaehler ? l.abend_platz_erzaehler : l.abend_platz_detektiv),
                 ],
               ),
               const SizedBox(height: MMass.s32),
-              // Die Klasse bestimmt die Karte der Belohnung, das Deck liegt am Abend als gemeinsame Hilfe auf dem Tisch.
-              const KlasseZeile(),
-              const SizedBox(height: MMass.s24),
+              // Die Klasse wirkt auf der Karte (Akten mit Klassen) und bestimmt die Karte der
+              // Belohnung; das Deck liegt am Abend als gemeinsame Hilfe auf dem Tisch.
+              // Die Klasse reist mit dem Detektiv-Sitz (M6.4): Liest der Gastgeber vor, wählt sie der Gast-Detektiv.
+              if (!(_weise == Spielweise.eigene && g.werte.mitErzaehler && g.werte.platz == Sitz.erzaehler)) ...[
+                KlasseZeile(karte: akte.hat('klassen'), katalog: _katalog),
+                const SizedBox(height: MMass.s24),
+              ],
               DeckZeile(katalog: _katalog, onAendern: () => context.push(Routes.sammlungDeck)),
               if (_weise == Spielweise.eigene) ...[
                 const SizedBox(height: MMass.s24),
@@ -455,7 +480,10 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                   neigung: 0.005,
                   samen: 71,
                   padding: const EdgeInsets.fromLTRB(40, 20, 18, 16),
-                  child: Text(l.online_start_hinweis, style: MPapierSchrift.text.copyWith(fontSize: 15)),
+                  child: Text(
+                    '${l.online_start_hinweis} ${!g.werte.mitErzaehler ? l.abend_platz_hinweis_allein : g.werte.platz == Sitz.erzaehler ? l.abend_platz_hinweis_erzaehler : l.abend_platz_hinweis_detektiv}',
+                    style: MPapierSchrift.text.copyWith(fontSize: 15),
+                  ),
                 ),
                 if (_oeffnenFehler) ...[
                   const SizedBox(height: MMass.s16),

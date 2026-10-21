@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 17 bis 20.",
+  "hinweis": "Tischgespräche Runde 3, Besetzungsplätze 17 bis 20 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_enes_3_1",
@@ -9,34 +9,13 @@
       "runde": 3,
       "nr": 1,
       "partner": "olli",
-      "thema": "Klarheit an der Theke",
-      "ziel": "Olli dazu bringen, ehrlich zu sagen, wo er um drei vor zwölf war.",
-      "preisgabe": [
-        "beobachtung:b_damir_an_der_theke"
-      ],
-      "text": "Olli, um drei vor zwölf hab ich dich bei der Theke erkannt. Sag mir ehrlich, wie das zu deiner Erzählung passt."
-    },
-    {
-      "id": "g_enes_3_2",
-      "rolle": "enes",
-      "runde": 3,
-      "nr": 2,
-      "partner": "emine",
-      "thema": "Versionen nebeneinanderlegen",
-      "ziel": "Ich will herausfinden, ob mein Gegenüber beim Knall etwas mitbekommen hat, das meine Version stützt.",
-      "preisgabe": [],
-      "text": "Lass uns vergleichen, was wir gesagt haben. Sag mir, was du beim Knall mitbekommen hast."
-    },
-    {
-      "id": "g_enes_3_3",
-      "rolle": "enes",
-      "runde": 3,
-      "nr": 3,
-      "partner": "zeynep",
       "thema": "Ein Tee zwischendurch",
-      "ziel": "Ich will wissen, wer an der Vorratstür war, und den Abend ruhig halten.",
+      "ziel": "Ich will den Abend ruhig halten.",
       "preisgabe": [],
-      "text": "Ich mach uns einen Tee, ob wir wollen oder nicht. Wer war vorhin an der Vorratstür? Sag's mir, wie du es siehst."
+      "stichpunkte": [
+        "Ich mach uns erst mal einen Tee.",
+        "Wer war vorhin an der Vorratstür?"
+      ]
     },
     {
       "id": "g_selin_3_1",
@@ -45,68 +24,26 @@
       "nr": 1,
       "partner": "kaan",
       "thema": "Hilfe mit der Rüstung",
-      "ziel": "Ich will wissen, was mein Gegenüber über den Schlüsselbund denkt, und die Rüstung soll weg.",
+      "ziel": "Ich will Hilfe, damit die Rüstung wegkommt.",
       "preisgabe": [],
-      "text": "Die Rüstung muss aus dem Turmgang weg, das ist mir wichtig. Ich hab vor nichts Angst außer vor ihr. Und du, wo steckt der Schlüsselbund deiner Meinung nach?"
-    },
-    {
-      "id": "g_selin_3_2",
-      "rolle": "selin",
-      "runde": 3,
-      "nr": 2,
-      "partner": "zeynep",
-      "thema": "Das Gesicht an der Bogentür",
-      "ziel": "Ich will wissen, ob mein Gegenüber das Gesicht auch gesehen hat.",
-      "preisgabe": [
-        "beobachtung:b_selin_gesicht"
-      ],
-      "text": "Das mit dem leuchtenden Gesicht lass ich nicht auf sich beruhen. Zur Bogentür huschte es, das weiß ich genau. Leg du dagegen, was du gesehen hast."
-    },
-    {
-      "id": "g_selin_3_3",
-      "rolle": "selin",
-      "runde": 3,
-      "nr": 3,
-      "partner": "baran",
-      "thema": "Was beim Knall zu hören war",
-      "ziel": "Ich will wissen, was beim Knall zu hören war.",
-      "preisgabe": [],
-      "text": "Was hast du dabei gehört, und wer war in der Nähe?"
+      "stichpunkte": [
+        "Die Rüstung muss aus dem Turmgang weg.",
+        "Wo steckt der Schlüsselbund, was meinst du?"
+      ]
     },
     {
       "id": "g_hakan_3_1",
       "rolle": "hakan",
       "runde": 3,
       "nr": 1,
-      "partner": "leyla",
-      "thema": "Den Abend ruhig zu Ende bringen",
-      "ziel": "Ich will den Abend ohne Streit beenden und den Schlüsselbund ruhig besprechen.",
-      "preisgabe": [],
-      "text": "Lass uns den Abend ruhig zu Ende bringen. Ohne Streit geht das am besten, finde ich. Wo, glaubst du, steckt der Schlüsselbund?"
-    },
-    {
-      "id": "g_hakan_3_2",
-      "rolle": "hakan",
-      "runde": 3,
-      "nr": 2,
       "partner": "tugba",
-      "thema": "Herr Schneider lieber in Ruhe lassen",
-      "ziel": "Ich will verhindern, dass Herr Schneider bedrängt wird, und die Strenge beim Geld erklären.",
-      "preisgabe": [
-        "beobachtung:b_pawel_schneider"
-      ],
-      "text": "Ich will, dass Herr Schneider heute seine Ruhe hat. Was der Stiftung kaputtgeht, muss er melden. Daher kommt seine Strenge. Wer hat vorhin an der Vorratstür gestanden, weißt du das?"
-    },
-    {
-      "id": "g_hakan_3_3",
-      "rolle": "hakan",
-      "runde": 3,
-      "nr": 3,
-      "partner": "serkan",
-      "thema": "Ein fairer Abend",
-      "ziel": "Ich will, dass wir fair bleiben, auch wenn es um Klarheit geht.",
+      "thema": "Den Abend ruhig beenden",
+      "ziel": "Ich will den Abend ohne Streit zu Ende bringen.",
       "preisgabe": [],
-      "text": "Klarheit ist gut, keine Frage. Aber Herr Schneider bleibt da außen vor."
+      "stichpunkte": [
+        "Ohne Streit geht es am besten.",
+        "Wo, glaubst du, steckt der Schlüsselbund?"
+      ]
     },
     {
       "id": "g_tugba_3_1",
@@ -114,34 +51,13 @@
       "runde": 3,
       "nr": 1,
       "partner": "johanna",
-      "thema": "Die Torte um halb eins",
-      "ziel": "Ich will hören, wer vorhin an der Vorratstür stand, damit die Torte um halb eins auf den Tisch kommt.",
+      "thema": "Der Abend wird gerettet",
+      "ziel": "Ich will den Abend retten, egal was passiert.",
       "preisgabe": [],
-      "text": "Die Torte kommt um halb eins auf den Tisch. Wer ist vorhin durch die Vorratstür gegangen? Ich schreib's mir auf."
-    },
-    {
-      "id": "g_tugba_3_2",
-      "rolle": "tugba",
-      "runde": 3,
-      "nr": 2,
-      "partner": "murat",
-      "thema": "Der Plan für die Torte",
-      "ziel": "Ich will wissen, ob mein Gegenüber den Schlüsselbund gesehen hat, damit die Torte um halb eins fertig ist.",
-      "preisgabe": [],
-      "text": "Die Torte muss um halb eins fertig sein. Den Schlüsselbund hast du nicht zufällig gesehen?"
-    },
-    {
-      "id": "g_tugba_3_3",
-      "rolle": "tugba",
-      "runde": 3,
-      "nr": 3,
-      "partner": "dilara",
-      "thema": "Wer fehlt noch?",
-      "ziel": "Ich will hören, wo mein Gegenüber angeblich gerade ist, und das mit meiner Liste vergleichen.",
-      "preisgabe": [
-        "beobachtung:b_tugba_notiz"
-      ],
-      "text": "Auf meiner Liste fehlen ein paar Leute für die Torte, samt ihrem angeblichen Platz. Leg du dagegen, was du gesehen hast."
+      "stichpunkte": [
+        "Mein Ablaufplan gilt auch heute Nacht.",
+        "Wer stand vorhin an der Vorratstür?"
+      ]
     }
   ]
 }

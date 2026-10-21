@@ -216,7 +216,7 @@ abstract class L {
   /// No description provided for @hub_party_sub.
   ///
   /// In de, this message translates to:
-  /// **'Ein Krimi für den Geburtstag, für 4 bis 20 Personen und ein Geburtstagskind'**
+  /// **'Ein Krimi für 4 bis 20 Gäste, einen Detektiv und auf Wunsch einen Erzähler'**
   String get hub_party_sub;
 
   /// No description provided for @hub_section_party.
@@ -3621,6 +3621,192 @@ abstract class L {
   /// **'{klasse}, gesperrt, {rang}'**
   String abend_klasse_gesperrt(String klasse, String rang);
 
+  /// No description provided for @abend_klasse_forensic_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Spurenblick'**
+  String get abend_klasse_forensic_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_forensic_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Suchstellen und Erkundungsorte leuchten schon von weitem.'**
+  String get abend_klasse_forensic_faehigkeit;
+
+  /// No description provided for @abend_klasse_profiler_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Menschenkenner'**
+  String get abend_klasse_profiler_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_profiler_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Du siehst Gesprächspartner und ihre Stimmung sofort.'**
+  String get abend_klasse_profiler_faehigkeit;
+
+  /// No description provided for @abend_klasse_excop_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Ortskundig'**
+  String get abend_klasse_excop_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_excop_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Türen, verschlossene Türen und Treppen sind umrandet.'**
+  String get abend_klasse_excop_faehigkeit;
+
+  /// No description provided for @abend_klasse_journalist_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Gerüchte'**
+  String get abend_klasse_journalist_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_journalist_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Im Vorbeigehen schnappst du Gerüchte auf.'**
+  String get abend_klasse_journalist_faehigkeit;
+
+  /// No description provided for @abend_klasse_medic_faehigkeit_name.
+  ///
+  /// In de, this message translates to:
+  /// **'Laufschritt'**
+  String get abend_klasse_medic_faehigkeit_name;
+
+  /// No description provided for @abend_klasse_medic_faehigkeit.
+  ///
+  /// In de, this message translates to:
+  /// **'Du läufst auf der Karte schneller.'**
+  String get abend_klasse_medic_faehigkeit;
+
+  /// No description provided for @abend_klasse_fair.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Fähigkeit ändert nie Fakten, Punkte oder Würfel.'**
+  String get abend_klasse_fair;
+
+  /// No description provided for @abend_klasse_karte_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf der Karte'**
+  String get abend_klasse_karte_titel;
+
+  /// No description provided for @abend_klasse_karten_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Sammelkarten dieser Klasse'**
+  String get abend_klasse_karten_titel;
+
+  /// No description provided for @abend_klasse_karte_besessen.
+  ///
+  /// In de, this message translates to:
+  /// **'in deiner Sammlung'**
+  String get abend_klasse_karte_besessen;
+
+  /// No description provided for @detektiv_karte_titel.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Detektivkarte'**
+  String get detektiv_karte_titel;
+
+  /// No description provided for @detektiv_karte_oeffnen.
+  ///
+  /// In de, this message translates to:
+  /// **'Detektivkarte'**
+  String get detektiv_karte_oeffnen;
+
+  /// No description provided for @detektiv_karte_hinweis.
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ermittelt, liest hier Auftrag und Regeln.'**
+  String get detektiv_karte_hinweis;
+
+  /// No description provided for @detektiv_karte_auftrag.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Auftrag'**
+  String get detektiv_karte_auftrag;
+
+  /// No description provided for @detektiv_karte_auftrag_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Finde heraus, wer es war.'**
+  String get detektiv_karte_auftrag_1;
+
+  /// No description provided for @detektiv_karte_auftrag_2.
+  ///
+  /// In de, this message translates to:
+  /// **'{runden} Runden, {entscheidungen} Entscheidungen, dann die Anklage.'**
+  String detektiv_karte_auftrag_2(int runden, int entscheidungen);
+
+  /// No description provided for @detektiv_karte_auftrag_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Anklage und Punkte bestimmen zusammen das Ende.'**
+  String get detektiv_karte_auftrag_3;
+
+  /// No description provided for @detektiv_karte_regeln.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Regeln'**
+  String get detektiv_karte_regeln;
+
+  /// No description provided for @detektiv_karte_regel_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Je Entscheidung wählst du genau eine Möglichkeit.'**
+  String get detektiv_karte_regel_1;
+
+  /// No description provided for @detektiv_karte_regel_2.
+  ///
+  /// In de, this message translates to:
+  /// **'Gute Entscheidungen geben Punkte, sichtbar erst am Ende.'**
+  String get detektiv_karte_regel_2;
+
+  /// No description provided for @detektiv_karte_regel_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Was dir zugeflüstert wird, prüfst du selbst.'**
+  String get detektiv_karte_regel_3;
+
+  /// No description provided for @detektiv_karte_klasse.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Klasse'**
+  String get detektiv_karte_klasse;
+
+  /// No description provided for @detektiv_karte_belohnung.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder Abend bringt eine Sammelkarte deiner Klasse.'**
+  String get detektiv_karte_belohnung;
+
+  /// No description provided for @detektiv_karte_befragungen.
+  ///
+  /// In de, this message translates to:
+  /// **'So laufen Befragungen'**
+  String get detektiv_karte_befragungen;
+
+  /// No description provided for @detektiv_karte_befragung_1.
+  ///
+  /// In de, this message translates to:
+  /// **'Frag gezielt: Wer war wann wo?'**
+  String get detektiv_karte_befragung_1;
+
+  /// No description provided for @detektiv_karte_befragung_2.
+  ///
+  /// In de, this message translates to:
+  /// **'Du fragst nach und hörst genau zu.'**
+  String get detektiv_karte_befragung_2;
+
+  /// No description provided for @detektiv_karte_befragung_3.
+  ///
+  /// In de, this message translates to:
+  /// **'Schreib auf, was nicht zusammenpasst.'**
+  String get detektiv_karte_befragung_3;
+
   /// No description provided for @abend_feste_loesung_titel.
   ///
   /// In de, this message translates to:
@@ -3650,6 +3836,18 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.'**
   String get profil_klasse_hinweis;
+
+  /// No description provided for @profil_klasse_akten.
+  ///
+  /// In de, this message translates to:
+  /// **'Wirkt nur in diesen Akten: {akten}.'**
+  String profil_klasse_akten(String akten);
+
+  /// No description provided for @profil_klasse_akten_allgemein.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Fähigkeiten wirken nicht in jeder Akte.'**
+  String get profil_klasse_akten_allgemein;
 
   /// No description provided for @profil_klasse_gewaehlt.
   ///
@@ -4272,7 +4470,7 @@ abstract class L {
   /// No description provided for @online_start_hinweis.
   ///
   /// In de, this message translates to:
-  /// **'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei. Du führst den Abend als Detektiv.'**
+  /// **'Beim Öffnen verbindet sich dein Gerät mit dem Relais. Danach treten die anderen mit dem Raumcode bei.'**
   String get online_start_hinweis;
 
   /// No description provided for @online_oeffnen_fehler.
@@ -4374,7 +4572,7 @@ abstract class L {
   /// No description provided for @online_spielleitung.
   ///
   /// In de, this message translates to:
-  /// **'Spielleitung'**
+  /// **'Gastgeber'**
   String get online_spielleitung;
 
   /// No description provided for @online_bereit.
@@ -4530,7 +4728,7 @@ abstract class L {
   /// No description provided for @online_rollen_erklaerung.
   ///
   /// In de, this message translates to:
-  /// **'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du führst als Detektiv und hast keine Rolle zu lesen.'**
+  /// **'Jede Person liest ihre Rolle auf dem eigenen Gerät. Du hast keine Rolle zu lesen.'**
   String get online_rollen_erklaerung;
 
   /// No description provided for @online_rollen_warten.
@@ -4626,7 +4824,7 @@ abstract class L {
   /// No description provided for @online_fehler_keine_antwort.
   ///
   /// In de, this message translates to:
-  /// **'Keine Antwort von der Spielleitung. Versuche es noch einmal.'**
+  /// **'Keine Antwort vom Gastgeber. Versuche es noch einmal.'**
   String get online_fehler_keine_antwort;
 
   /// No description provided for @online_fehler_allgemein.
@@ -4650,7 +4848,7 @@ abstract class L {
   /// No description provided for @online_fehler_kein_raum.
   ///
   /// In de, this message translates to:
-  /// **'Es gibt keinen Raum mit diesem Code, oder die Spielleitung ist nicht online.'**
+  /// **'Es gibt keinen Raum mit diesem Code, oder der Gastgeber ist nicht online.'**
   String get online_fehler_kein_raum;
 
   /// No description provided for @online_fehler_zeit.
@@ -4704,7 +4902,7 @@ abstract class L {
   /// No description provided for @online_beitreten_untertitel.
   ///
   /// In de, this message translates to:
-  /// **'Gib den Raumcode ein, den die Spielleitung zeigt.'**
+  /// **'Gib den Raumcode ein, den der Gastgeber zeigt.'**
   String get online_beitreten_untertitel;
 
   /// No description provided for @online_code_feld.
@@ -4794,7 +4992,7 @@ abstract class L {
   /// No description provided for @online_status_pausiert.
   ///
   /// In de, this message translates to:
-  /// **'Spielleitung getrennt – Abend pausiert'**
+  /// **'Gastgeber getrennt – Abend pausiert'**
   String get online_status_pausiert;
 
   /// No description provided for @online_status_geschlossen.
@@ -4842,7 +5040,7 @@ abstract class L {
   /// No description provided for @online_gast_lobby_hinweis.
   ///
   /// In de, this message translates to:
-  /// **'Tippe auf „Bereit“. Sind alle bereit, startet die Spielleitung den Abend.'**
+  /// **'Tippe auf „Bereit“. Sind alle bereit, startet der Gastgeber den Abend.'**
   String get online_gast_lobby_hinweis;
 
   /// No description provided for @online_bereit_knopf.
@@ -4920,7 +5118,7 @@ abstract class L {
   /// No description provided for @online_gelesen_warten.
   ///
   /// In de, this message translates to:
-  /// **'Du hast deine Rolle gelesen. Die Spielleitung wartet noch auf alle anderen.'**
+  /// **'Du hast deine Rolle gelesen. Es geht weiter, sobald alle gelesen haben.'**
   String get online_gelesen_warten;
 
   /// No description provided for @online_assistenz_text.
@@ -4938,7 +5136,7 @@ abstract class L {
   /// No description provided for @online_warten_spielleitung.
   ///
   /// In de, this message translates to:
-  /// **'Warten auf die Spielleitung …'**
+  /// **'Gleich geht es weiter …'**
   String get online_warten_spielleitung;
 
   /// No description provided for @online_runde.
@@ -5100,13 +5298,13 @@ abstract class L {
   /// No description provided for @online_ermittlung_wartet.
   ///
   /// In de, this message translates to:
-  /// **'Die Spielleitung wählt gerade …'**
+  /// **'Der Detektiv wählt gerade …'**
   String get online_ermittlung_wartet;
 
   /// No description provided for @online_ermittlung_fertig.
   ///
   /// In de, this message translates to:
-  /// **'Die Ermittlung dieser Runde ist abgeschlossen. Die Spielleitung geht gleich zur Gruppenwahl.'**
+  /// **'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.'**
   String get online_ermittlung_fertig;
 
   /// No description provided for @online_nachtzeit.
@@ -5130,13 +5328,13 @@ abstract class L {
   /// No description provided for @online_abstecher.
   ///
   /// In de, this message translates to:
-  /// **'Die Spielleitung erkundet einen Ort.'**
+  /// **'Der Detektiv erkundet einen Ort.'**
   String get online_abstecher;
 
   /// No description provided for @online_zug_aktion.
   ///
   /// In de, this message translates to:
-  /// **'Die Spielleitung ist unterwegs …'**
+  /// **'Der Detektiv ist unterwegs …'**
   String get online_zug_aktion;
 
   /// No description provided for @online_wuerfel_titel.
@@ -5226,7 +5424,7 @@ abstract class L {
   /// No description provided for @online_tischruf_wartet.
   ///
   /// In de, this message translates to:
-  /// **'Pech. Die Spielleitung entscheidet, wie es weitergeht.'**
+  /// **'Pech. Der Detektiv entscheidet, wie es weitergeht.'**
   String get online_tischruf_wartet;
 
   /// No description provided for @online_fund_titel.
@@ -5238,7 +5436,7 @@ abstract class L {
   /// No description provided for @online_fund_wartet.
   ///
   /// In de, this message translates to:
-  /// **'Die Spielleitung liest den Fund.'**
+  /// **'Der Detektiv liest den Fund.'**
   String get online_fund_wartet;
 
   /// No description provided for @online_notizbuch_titel.
@@ -5286,7 +5484,7 @@ abstract class L {
   /// No description provided for @online_anklage_wartet.
   ///
   /// In de, this message translates to:
-  /// **'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.'**
+  /// **'Der Detektiv erhebt die Anklage gegen eine dieser Personen.'**
   String get online_anklage_wartet;
 
   /// No description provided for @online_aufloesung_titel.
@@ -5490,7 +5688,7 @@ abstract class L {
   /// Detektei: Text der Schnellstart-Akte
   ///
   /// In de, this message translates to:
-  /// **'Ein Geburtstag im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.'**
+  /// **'Ein Fest im Schlosskeller, ein Knall, dann ist es dunkel. Du ermittelst allein, Bots spielen die Gäste.'**
   String get erster_fall_text;
 
   /// Detektei: Knopf der Schnellstart-Akte
@@ -5654,6 +5852,1440 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Zeugen auf der Karte ansprechen. Kostet keine Zeit und zählt nicht in die Wertung.'**
   String get erzaehltiefe_hinweis;
+
+  /// Befragungen des Detektivs: Überschrift (Solo und am Tisch)
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Befragungen'**
+  String get party_befragung_titel;
+
+  /// Solo: Hinweis unter der Überschrift der Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe eine Frage an, dann hörst du die Antwort. Behauptungen können falsch sein.'**
+  String get party_befragung_hinweis;
+
+  /// Am Tisch: Hinweis über den Befragungskarten des Detektivs
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe die Frage an, die du am Tisch stellst. Die Antwort kennt nur die befragte Person.'**
+  String get party_befragung_hinweis_tisch;
+
+  /// Druckspiel: Hinweis über den Befragungskarten des Detektivs (nur zum Lesen)
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Befragungen stehen auch auf deinem Bogen. Stelle am Tisch eine der Fragen.'**
+  String get party_befragung_hinweis_druck;
+
+  /// Marke einer festen Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Pflicht'**
+  String get party_befragung_pflicht;
+
+  /// Überschrift der frei wählbaren Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Frei wählbar'**
+  String get party_befragung_frei_titel;
+
+  /// Freie Wahl: eine offen
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle noch eine Befragung frei.'**
+  String get party_befragung_frei_eine;
+
+  /// Freie Wahl: zwei offen
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle noch zwei Befragungen frei.'**
+  String get party_befragung_frei_zwei;
+
+  /// Freie Wahl: alle getroffen
+  ///
+  /// In de, this message translates to:
+  /// **'Deine freien Wahlen sind getroffen.'**
+  String get party_befragung_frei_fertig;
+
+  /// Gesperrte freie Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Keine freie Wahl mehr'**
+  String get party_befragung_vergeben;
+
+  /// Feld Thema einer Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Thema'**
+  String get party_befragung_thema;
+
+  /// Feld Fragen einer Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Fragen'**
+  String get party_befragung_fragen;
+
+  /// Feld Antwort einer Befragung (nur App-Rollen)
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort'**
+  String get party_befragung_antwort;
+
+  /// Antwort ohne Preisgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Nichts Neues. Mehr weiß diese Person nicht.'**
+  String get party_befragung_nichts;
+
+  /// Stempel einer erledigten Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Erledigt'**
+  String get party_befragung_erledigt;
+
+  /// Knopf: Die Person hat am Tisch geantwortet
+  ///
+  /// In de, this message translates to:
+  /// **'Beantwortet'**
+  String get party_befragung_beantwortet;
+
+  /// Knopf: Gerät an die befragte Person geben
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort zeigen'**
+  String get party_befragung_antwort_zeigen;
+
+  /// Verdeckter Hinweis bei einer Befragung am Tisch
+  ///
+  /// In de, this message translates to:
+  /// **'Gib das Gerät kurz an {name}.'**
+  String party_befragung_geraet(String name);
+
+  /// Solo: höchstens drei Paarungen ohne Antwort
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch aufgeschnappt'**
+  String get party_befragung_aufgeschnappt;
+
+  /// Am Tisch: Paarungen der Tischgespräche
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch in dieser Runde'**
+  String get party_befragung_tisch_titel;
+
+  /// Am Tisch: Hinweis zu den Paarungen
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Person führt ein Gespräch. Was sie sagt, steht auf ihrem Spickzettel.'**
+  String get party_befragung_tisch_hinweis;
+
+  /// Solo: alle Befragungen erledigt
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Befragungen geführt. Jetzt ermittelst du auf der Karte.'**
+  String get party_befragung_fertig;
+
+  /// Weiter ist gesperrt, bis die Befragungen erledigt sind
+  ///
+  /// In de, this message translates to:
+  /// **'Erst die Befragungen, dann geht es weiter.'**
+  String get party_befragung_offen;
+
+  /// Notizbuch: Antworten der Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Antworten aus deinen Befragungen'**
+  String get party_befragung_notizen;
+
+  /// Notizbuch: Wissen unbesetzter Gäste, das der Erzähler zum Rundenstart sprach (E-044)
+  ///
+  /// In de, this message translates to:
+  /// **'Vom Erzähler gehört'**
+  String get party_befragung_erzaehler_notizen;
+
+  /// Verdeckter Zettel je Person für die laufende Runde
+  ///
+  /// In de, this message translates to:
+  /// **'Mein Spickzettel'**
+  String get party_befragung_spickzettel;
+
+  /// Am Tisch: Hinweis zu den Spickzetteln
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe deinen Namen an. Nur du siehst deinen Zettel für diese Runde.'**
+  String get party_befragung_spickzettel_hinweis;
+
+  /// Spickzettel: eigenes Tischgespräch
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Tischgespräch'**
+  String get party_befragung_tisch_eigen;
+
+  /// Spickzettel: Stichpunkte des Tischgesprächs
+  ///
+  /// In de, this message translates to:
+  /// **'Stichpunkte'**
+  String get party_befragung_stichpunkte;
+
+  /// Spickzettel: wer die Rolle anspricht
+  ///
+  /// In de, this message translates to:
+  /// **'Wer dich anspricht'**
+  String get party_befragung_anspricht;
+
+  /// Spickzettel: niemand spricht die Rolle an
+  ///
+  /// In de, this message translates to:
+  /// **'In dieser Runde spricht dich niemand an.'**
+  String get party_befragung_niemand;
+
+  /// Spickzettel: eigene Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn der Detektiv dich befragt'**
+  String get party_befragung_dich;
+
+  /// Spickzettel: Antwort-Stichpunkte
+  ///
+  /// In de, this message translates to:
+  /// **'Das sagst du'**
+  String get party_befragung_sagen;
+
+  /// Spickzettel: Behauptung einer Lüge
+  ///
+  /// In de, this message translates to:
+  /// **'Behaupte: {text}'**
+  String party_befragung_behaupte(String text);
+
+  /// Spickzettel: feste Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv befragt dich in dieser Runde.'**
+  String get party_befragung_sicher;
+
+  /// Spickzettel: freie Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv kann dich in dieser Runde frei wählen.'**
+  String get party_befragung_vielleicht;
+
+  /// Spickzettel: freie Wahl ist vergeben
+  ///
+  /// In de, this message translates to:
+  /// **'In dieser Runde befragt dich der Detektiv nicht.'**
+  String get party_befragung_entfaellt;
+
+  /// Spickzettel: die gestellte Frage
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv fragt dich: {frage}'**
+  String party_befragung_fragt(String frage);
+
+  /// Rollenübergabe: nur die Notizen der ersten Runde
+  ///
+  /// In de, this message translates to:
+  /// **'Das ist dein Zettel für die erste Runde. Die nächsten Zettel siehst du in der Runde selbst.'**
+  String get party_befragung_runde_eins;
+
+  /// Online: öffentliche Liste der Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Wen der Detektiv befragt'**
+  String get party_befragung_oeffentlich;
+
+  /// Detektei: alter Abendstand wurde verworfen
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Abend stammt aus einer älteren Fassung der Akte. Er lässt sich nicht fortsetzen.'**
+  String get abend_fortsetzen_veraltet;
+
+  /// Einrichtung: Abschnitt mit Erzähler (reihum) bzw. eigenem Platz (online)
+  ///
+  /// In de, this message translates to:
+  /// **'Rollen am Tisch'**
+  String get abend_rollen_titel;
+
+  /// Einrichtung reihum: Feld für den Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Name des Erzählers (optional)'**
+  String get abend_erzaehler_feld;
+
+  /// Einrichtung reihum: was der Erzähler tut
+  ///
+  /// In de, this message translates to:
+  /// **'Der Erzähler liest vor und führt weiter. Er ermittelt nicht.'**
+  String get abend_erzaehler_hinweis;
+
+  /// Einrichtung reihum: ohne Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Ohne Namen liest, wer gerade das Gerät hält.'**
+  String get abend_erzaehler_leer;
+
+  /// Einrichtung online: Sitz des Gastgebers
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Platz'**
+  String get abend_platz_titel;
+
+  /// Sitz: Detektiv
+  ///
+  /// In de, this message translates to:
+  /// **'Detektiv'**
+  String get abend_platz_detektiv;
+
+  /// Sitz: Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler'**
+  String get abend_platz_erzaehler;
+
+  /// Einrichtung online: Gastgeber ermittelt
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst. Ein Gast kann vorlesen.'**
+  String get abend_platz_hinweis_detektiv;
+
+  /// Einrichtung online: Gastgeber liest vor
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest vor und führst weiter. Ein Gast ermittelt.'**
+  String get abend_platz_hinweis_erzaehler;
+
+  /// Startübersicht: Name des Erzählers
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler'**
+  String get abend_start_erzaehler;
+
+  /// Startübersicht online: Sitz des Gastgebers
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Platz'**
+  String get abend_start_platz;
+
+  /// Startübersicht: kein Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'keiner'**
+  String get abend_start_ohne;
+
+  /// Reihum: verdeckte Erzähltexte
+  ///
+  /// In de, this message translates to:
+  /// **'Erzählerpult'**
+  String get erzaehlerpult_titel;
+
+  /// Reihum: Übergabe an den Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Gib das Gerät an {name}.'**
+  String erzaehlerpult_geben(String name);
+
+  /// Reihum: nur der Erzähler sieht die Texte
+  ///
+  /// In de, this message translates to:
+  /// **'Nur {name} schaut hin und liest vor.'**
+  String erzaehlerpult_nur(String name);
+
+  /// Reihum: wie viele Texte warten
+  ///
+  /// In de, this message translates to:
+  /// **'Texte in diesem Abschnitt: {anzahl}'**
+  String erzaehlerpult_texte(int anzahl);
+
+  /// Reihum: Pult öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Ich bin {name}, zeig her'**
+  String erzaehlerpult_zeigen(String name);
+
+  /// Reihum: Pult schließen
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen, zudecken'**
+  String get erzaehlerpult_zudecken;
+
+  /// Karte: ein anderes Gerät liest vor
+  ///
+  /// In de, this message translates to:
+  /// **'Vorlesen'**
+  String get vorleser_titel;
+
+  /// Karte: wer vorliest
+  ///
+  /// In de, this message translates to:
+  /// **'{name} liest vor.'**
+  String vorleser_liest(String name);
+
+  /// Karte: zuhören
+  ///
+  /// In de, this message translates to:
+  /// **'Hört zu. Der Text steht nur dort.'**
+  String get vorleser_zuhoeren;
+
+  /// Name, wenn der Erzähler keinen Namen hat
+  ///
+  /// In de, this message translates to:
+  /// **'Der Erzähler'**
+  String get vorleser_erzaehler;
+
+  /// Gastgeber: der Erzähler ist weg, die Übernahme kommt
+  ///
+  /// In de, this message translates to:
+  /// **'{name} ist getrennt. Gleich liest du.'**
+  String vorleser_frist(String name);
+
+  /// Gastgeber: der Erzähler drückt Weiter
+  ///
+  /// In de, this message translates to:
+  /// **'{name} führt weiter.'**
+  String vorleser_fuehrt(String name);
+
+  /// Einrichtung reihum: Namen per Porträt tauschen
+  ///
+  /// In de, this message translates to:
+  /// **'Zwei Porträts antippen tauscht die Namen.'**
+  String get abend_tausch_hinweis;
+
+  /// Einrichtung reihum: Bildschirmleser-Beschriftung des Porträts
+  ///
+  /// In de, this message translates to:
+  /// **'Porträt {figur}: Namen tauschen'**
+  String abend_tausch_portraet(String figur);
+
+  /// Einrichtung online: Akte ohne Erzähler-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du führst den Abend als Detektiv.'**
+  String get abend_platz_hinweis_allein;
+
+  /// Lobby: Sitz eines Geräts
+  ///
+  /// In de, this message translates to:
+  /// **'Platz'**
+  String get online_lobby_platz;
+
+  /// Lobby: Figur eines Geräts
+  ///
+  /// In de, this message translates to:
+  /// **'Figur'**
+  String get online_lobby_figur;
+
+  /// Lobby: Gerät ohne Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Figur spielen'**
+  String get online_lobby_figur_spielen;
+
+  /// Lobby: Figur lost der Start
+  ///
+  /// In de, this message translates to:
+  /// **'Zufall'**
+  String get online_lobby_zufall;
+
+  /// Lobby: gewünschte Figur bzw. wer sie sich wünscht
+  ///
+  /// In de, this message translates to:
+  /// **'Wunsch: {name}'**
+  String online_lobby_wunsch(String name);
+
+  /// Lobby: Figur ist schon zugeteilt
+  ///
+  /// In de, this message translates to:
+  /// **'hat {name}'**
+  String online_lobby_vergeben(String name);
+
+  /// Lobby: Gerät, das den Raum hält
+  ///
+  /// In de, this message translates to:
+  /// **'Gastgeber'**
+  String get online_lobby_gastgeber;
+
+  /// Lobby: Karte zum Zuteilen
+  ///
+  /// In de, this message translates to:
+  /// **'Platz und Figur: {name}'**
+  String online_lobby_wahl_titel(String name);
+
+  /// Lobby: Bildschirmleser-Hinweis eines Platzes
+  ///
+  /// In de, this message translates to:
+  /// **'Platz und Figur wählen'**
+  String get online_lobby_wahl_hinweis;
+
+  /// Lobby: ohne Detektiv startet der Abend nicht
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle zuerst, wer ermittelt. Tippe dazu auf einen Platz.'**
+  String get online_lobby_detektiv_fehlt;
+
+  /// Lobby: Zuteilung aus der Gästeliste übernehmen
+  ///
+  /// In de, this message translates to:
+  /// **'Figuren aus der Gästeliste'**
+  String get online_lobby_gaesteliste;
+
+  /// Gast-Lobby: eigener Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Platz'**
+  String get online_gast_platz_titel;
+
+  /// Gast-Lobby: zugeteilte Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Figur'**
+  String get online_gast_figur_titel;
+
+  /// Gast-Lobby: Detektiv-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst heute und spielst keine Figur.'**
+  String get online_gast_detektiv_text;
+
+  /// Gast-Lobby: Erzähler-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest vor und führst durch den Abend.'**
+  String get online_gast_erzaehler_text;
+
+  /// Gast-Lobby: noch keine Figur zugeteilt
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Figur lost der Start.'**
+  String get online_gast_zufall_text;
+
+  /// Gast-Lobby: Wunschfigur
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Wunsch'**
+  String get online_gast_wunsch_titel;
+
+  /// Gast-Lobby: der Wunsch ist nur ein Hinweis
+  ///
+  /// In de, this message translates to:
+  /// **'Wer zuteilt, sieht deinen Wunsch.'**
+  String get online_gast_wunsch_hinweis;
+
+  /// Gast-Lobby: kein Wunsch
+  ///
+  /// In de, this message translates to:
+  /// **'Egal'**
+  String get online_gast_kein_wunsch;
+
+  /// Gast-Lobby: Detektiv oder Erzähler teilt zu
+  ///
+  /// In de, this message translates to:
+  /// **'Figuren verteilen'**
+  String get online_gast_verteilen_titel;
+
+  /// Raum lehnt den Start ab: Sitze unvollständig
+  ///
+  /// In de, this message translates to:
+  /// **'Es fehlt noch der Detektiv.'**
+  String get online_fehler_sitze;
+
+  /// Raum lehnt ab: nur der Detektiv-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Das darf nur der Detektiv.'**
+  String get online_fehler_nur_detektiv;
+
+  /// Raum lehnt ab: nur wer leitet
+  ///
+  /// In de, this message translates to:
+  /// **'Das darf nur, wer den Abend leitet.'**
+  String get online_fehler_nicht_leitung;
+
+  /// Gast: wer leitet, führt weiter
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get online_weiter;
+
+  /// Gast auf dem Erzähler-Sitz: Untertitel
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest vor und drückst „Weiter“.'**
+  String get online_erzaehler_hinweis;
+
+  /// Rollenphase für Detektiv und Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Alle lesen ihre Rolle. Danach geht es weiter.'**
+  String get online_sitz_rollen;
+
+  /// Gruppenwahl für Detektiv und Erzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Die Gäste wählen geheim. Du wählst nicht mit.'**
+  String get online_wahl_sitz;
+
+  /// Erzähler: was er zur Runde wissen darf
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Erzählerpaket'**
+  String get erzaehler_paket_titel;
+
+  /// Erzählerpaket: Tischgespräche
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch'**
+  String get erzaehler_paket_tisch;
+
+  /// Erzählerpaket: Befragungen des Detektivs
+  ///
+  /// In de, this message translates to:
+  /// **'Befragungen'**
+  String get erzaehler_paket_befragungen;
+
+  /// Erzählerpaket: Wissen der Figuren ohne Spieler
+  ///
+  /// In de, this message translates to:
+  /// **'Ungespielte Gäste'**
+  String get erzaehler_paket_npc;
+
+  /// Erzählerpaket: wer mit wem spricht
+  ///
+  /// In de, this message translates to:
+  /// **'{sprecher} mit {partner}'**
+  String erzaehler_paket_mit(String sprecher, String partner);
+
+  /// Erzählerpaket: feste Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'fest'**
+  String get erzaehler_paket_pflicht;
+
+  /// Erzählerpaket: Zahl der freien Befragungen
+  ///
+  /// In de, this message translates to:
+  /// **'Freie Wahlen in dieser Runde: {n}'**
+  String erzaehler_paket_frei(int n);
+
+  /// Erzählerpaket: Fragen einer Befragung
+  ///
+  /// In de, this message translates to:
+  /// **'Fragen'**
+  String get erzaehler_paket_fragen;
+
+  /// Erzählerpaket: Antwort in Stichpunkten
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort'**
+  String get erzaehler_paket_antwort;
+
+  /// Gastgeber als Erzähler: Marke des Pults
+  ///
+  /// In de, this message translates to:
+  /// **'Erzählerpult'**
+  String get erzaehler_pult_marke;
+
+  /// Gastgeber als Erzähler: Zuschauerkarte
+  ///
+  /// In de, this message translates to:
+  /// **'Was der Detektiv tut'**
+  String get erzaehler_zuschauer_titel;
+
+  /// Erzähler: der Detektiv entscheidet
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv wählt gerade.'**
+  String get erzaehler_detektiv_waehlt;
+
+  /// Erzähler: alle Entscheidungen getroffen
+  ///
+  /// In de, this message translates to:
+  /// **'Die Runde ist ermittelt. Du führst weiter.'**
+  String get erzaehler_detektiv_fertig;
+
+  /// Erzähler: Gespräche laufen
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv befragt den Tisch.'**
+  String get erzaehler_befragt;
+
+  /// Erzähler: Anklage steht aus
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv erhebt gleich die Anklage.'**
+  String get erzaehler_anklage_wartet;
+
+  /// Erzähler: wen der Detektiv angeklagt hat
+  ///
+  /// In de, this message translates to:
+  /// **'Angeklagt: {name}'**
+  String erzaehler_angeklagt(String name);
+
+  /// Gast-Detektiv: Optionen der Entscheidung
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle eine Spur. Die Karte zeigt das Ziel.'**
+  String get detektiv_gast_optionen;
+
+  /// Gast-Detektiv: Sofortkarte ausspielen
+  ///
+  /// In de, this message translates to:
+  /// **'Spielen: {titel}'**
+  String detektiv_gast_karte_spielen(String titel);
+
+  /// Gast-Detektiv: Karte für gründlich
+  ///
+  /// In de, this message translates to:
+  /// **'Gründlich mit Karte: {titel}'**
+  String detektiv_gast_karte_gruendlich(String titel);
+
+  /// Gast-Detektiv: Karte beim Tischruf
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Karte: {titel}'**
+  String detektiv_gast_karte_ruf(String titel);
+
+  /// Gast-Detektiv: der sichtbare Weg läuft
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist unterwegs.'**
+  String get detektiv_gast_unterwegs;
+
+  /// Gast-Detektiv: Anklage wählen
+  ///
+  /// In de, this message translates to:
+  /// **'Wen klagst du an?'**
+  String get detektiv_gast_anklage;
+
+  /// Gast-Detektiv: Funde und Antworten
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Notizbuch'**
+  String get detektiv_gast_notizen;
+
+  /// Übersicht der Sitze und ihrer Aufgaben je Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Wer macht was'**
+  String get rollen_uebersicht_titel;
+
+  /// Knopf zur Übersicht der Sitze
+  ///
+  /// In de, this message translates to:
+  /// **'Wer macht was?'**
+  String get rollen_uebersicht_oeffnen;
+
+  /// Übersicht: Untertitel
+  ///
+  /// In de, this message translates to:
+  /// **'Je Abschnitt eine Aufgabe für jeden Platz.'**
+  String get rollen_uebersicht_hinweis;
+
+  /// Übersicht: Spielweise Solo
+  ///
+  /// In de, this message translates to:
+  /// **'Allein'**
+  String get uebersicht_weise_solo;
+
+  /// Übersicht: Spielweise reihum
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Gerät'**
+  String get uebersicht_weise_reihum;
+
+  /// Übersicht: Spielweise online
+  ///
+  /// In de, this message translates to:
+  /// **'Eigene Geräte'**
+  String get uebersicht_weise_online;
+
+  /// Übersicht: Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Detektiv'**
+  String get uebersicht_sitz_detektiv;
+
+  /// Übersicht: Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler'**
+  String get uebersicht_sitz_erzaehler;
+
+  /// Übersicht: Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Rolle'**
+  String get uebersicht_sitz_rolle;
+
+  /// Übersicht: Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Assistenz'**
+  String get uebersicht_sitz_assistenz;
+
+  /// Übersicht: was der Detektiv tut
+  ///
+  /// In de, this message translates to:
+  /// **'Ermittelt und klagt an.'**
+  String get uebersicht_sitz_detektiv_kurz;
+
+  /// Übersicht: was der Erzähler tut
+  ///
+  /// In de, this message translates to:
+  /// **'Liest vor und führt weiter.'**
+  String get uebersicht_sitz_erzaehler_kurz;
+
+  /// Übersicht: was eine Rolle tut
+  ///
+  /// In de, this message translates to:
+  /// **'Spielt eine Figur mit Geheimnis.'**
+  String get uebersicht_sitz_rolle_kurz;
+
+  /// Übersicht: was die Assistenz tut
+  ///
+  /// In de, this message translates to:
+  /// **'Verfolgt den Abend und würfelt mit.'**
+  String get uebersicht_sitz_assistenz_kurz;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Rollen'**
+  String get uebersicht_phase_rollen;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Auftakt'**
+  String get uebersicht_phase_intro;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräche'**
+  String get uebersicht_phase_gespraeche;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Ermittlung'**
+  String get uebersicht_phase_entscheidungen;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppenwahl'**
+  String get uebersicht_phase_gruppenwahl;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Hinweis und Resümee'**
+  String get uebersicht_phase_resuemee;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Anklage'**
+  String get uebersicht_phase_anklage;
+
+  /// Übersicht: Abschnitt
+  ///
+  /// In de, this message translates to:
+  /// **'Finale und Auflösung'**
+  String get uebersicht_phase_finale;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Detektivkarte lesen'**
+  String get aufgabe_detektiv_rollen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, erste Notizen machen'**
+  String get aufgabe_detektiv_intro;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Drei bis fünf Personen befragen'**
+  String get aufgabe_detektiv_gespraeche;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Spuren auf der Karte wählen'**
+  String get aufgabe_detektiv_entscheidungen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Notizen ordnen, die Gruppe wählt'**
+  String get aufgabe_detektiv_gruppenwahl;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Hinweis prüfen, Verdacht schärfen'**
+  String get aufgabe_detektiv_resuemee;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Person anklagen'**
+  String get aufgabe_detektiv_anklage;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Auflösung lesen, Belohnung holen'**
+  String get aufgabe_detektiv_finale;
+
+  /// Aufgabe Solo
+  ///
+  /// In de, this message translates to:
+  /// **'Auftakt lesen'**
+  String get aufgabe_detektiv_solo_intro;
+
+  /// Aufgabe Solo
+  ///
+  /// In de, this message translates to:
+  /// **'Bots befragen, Antworten notieren'**
+  String get aufgabe_detektiv_solo_gespraeche;
+
+  /// Aufgabe Solo
+  ///
+  /// In de, this message translates to:
+  /// **'Hinweis und Resümee lesen'**
+  String get aufgabe_detektiv_solo_resuemee;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Warten, bis alle gelesen haben'**
+  String get aufgabe_erzaehler_rollen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Den Auftakt vorlesen'**
+  String get aufgabe_erzaehler_intro;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Rundenstart vorlesen, Gespräche anleiten'**
+  String get aufgabe_erzaehler_gespraeche;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Den Weg des Detektivs begleiten'**
+  String get aufgabe_erzaehler_entscheidungen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zur geheimen Wahl aufrufen'**
+  String get aufgabe_erzaehler_gruppenwahl;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Hinweis und Resümee vorlesen'**
+  String get aufgabe_erzaehler_resuemee;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Anklage aufrufen'**
+  String get aufgabe_erzaehler_anklage;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Finale und Auflösung vorlesen'**
+  String get aufgabe_erzaehler_finale;
+
+  /// Aufgabe reihum (Lesen am Pult)
+  ///
+  /// In de, this message translates to:
+  /// **'Pult öffnen, vorlesen, zudecken'**
+  String get aufgabe_erzaehler_reihum;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Eigene Rolle verdeckt lesen'**
+  String get aufgabe_rolle_rollen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, in die Figur finden'**
+  String get aufgabe_rolle_intro;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Tischgespräch führen, Befragung beantworten'**
+  String get aufgabe_rolle_gespraeche;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Mitraten, würfeln, wenn du dran bist'**
+  String get aufgabe_rolle_entscheidungen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Geheim A oder B wählen'**
+  String get aufgabe_rolle_gruppenwahl;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, eigene Spur schützen'**
+  String get aufgabe_rolle_resuemee;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Verteidigen oder verdächtigen'**
+  String get aufgabe_rolle_anklage;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Auflösung hören, Belohnung holen'**
+  String get aufgabe_rolle_finale;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Den Tisch kennenlernen'**
+  String get aufgabe_assistenz_rollen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören und mitfiebern'**
+  String get aufgabe_assistenz_intro;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Verfolgen, wer mit wem spricht'**
+  String get aufgabe_assistenz_gespraeche;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Würfeln, wenn du dran bist'**
+  String get aufgabe_assistenz_entscheidungen;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Den Stand der Wahl verfolgen'**
+  String get aufgabe_assistenz_gruppenwahl;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, mitraten'**
+  String get aufgabe_assistenz_resuemee;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Mitraten, wer es war'**
+  String get aufgabe_assistenz_anklage;
+
+  /// Aufgabe
+  ///
+  /// In de, this message translates to:
+  /// **'Auflösung lesen, Belohnung holen'**
+  String get aufgabe_assistenz_finale;
+
+  /// Erzählerpult: Erzähler-Begleiter öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Am eigenen Handy lesen'**
+  String get erzaehlerpult_handy;
+
+  /// Erzähler-Begleiter: Titel der Karte
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler am eigenen Handy'**
+  String get begleiter_titel;
+
+  /// Erzähler-Begleiter: wie der Erzähler beitritt
+  ///
+  /// In de, this message translates to:
+  /// **'{name} öffnet Mordakte, tippt in der Detektei auf „Beitreten“ und gibt diesen Code ein.'**
+  String begleiter_anleitung(String name);
+
+  /// Erzähler-Begleiter: was sich am Tisch-Gerät ändert
+  ///
+  /// In de, this message translates to:
+  /// **'Danach stehen die Texte nur auf dem Handy. Dieses Gerät zeigt, wer vorliest.'**
+  String get begleiter_hinweis;
+
+  /// Erzähler-Begleiter: verbunden
+  ///
+  /// In de, this message translates to:
+  /// **'{name} liest jetzt am eigenen Handy.'**
+  String begleiter_liest(String name);
+
+  /// Erzähler-Begleiter: Raum ließ sich nicht öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Dieses Gerät erreicht das Relais nicht. Lest am Pult weiter oder versucht es noch einmal.'**
+  String get begleiter_fehler;
+
+  /// Erzähler-Begleiter: erneut öffnen
+  ///
+  /// In de, this message translates to:
+  /// **'Noch einmal versuchen'**
+  String get begleiter_nochmal;
+
+  /// Erzähler-Begleiter: Karte schließen, Raum bleibt offen
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück zum Abend'**
+  String get begleiter_zurueck;
+
+  /// Erzähler-Begleiter: Raum schließen
+  ///
+  /// In de, this message translates to:
+  /// **'Wieder am Pult lesen'**
+  String get begleiter_beenden;
+
+  /// Vorleser-Karte am Tisch-Gerät, während der Erzähler am Handy liest
+  ///
+  /// In de, this message translates to:
+  /// **'Der Text steht auf dem Handy von {name}.'**
+  String begleiter_handy_hinweis(String name);
+
+  /// Lobby: Der Detektiv steht, aber der Gastgeber hat keinen Sitz (Detektiv oder Erzähler)
+  ///
+  /// In de, this message translates to:
+  /// **'Du brauchst selbst einen Platz. Tippe dazu auf deine Karte.'**
+  String get online_lobby_gastgeber_platz;
+
+  /// Druck: Die Datei entsteht beim ersten Tipp
+  ///
+  /// In de, this message translates to:
+  /// **'Die Datei wird erstellt …'**
+  String get druck_datei_laedt;
+
+  /// Druck im Browser: Der zweite Tipp teilt die fertige Datei
+  ///
+  /// In de, this message translates to:
+  /// **'Teilen: {datei}'**
+  String druck_datei_teilen(String datei);
+
+  /// Druck im Browser: Der zweite Tipp lädt die fertige Datei herunter
+  ///
+  /// In de, this message translates to:
+  /// **'Herunterladen: {datei}'**
+  String druck_datei_laden(String datei);
+
+  /// Druck: Erstellen oder Teilen der Datei ist gescheitert
+  ///
+  /// In de, this message translates to:
+  /// **'Das hat nicht geklappt. Versuch es bitte noch einmal.'**
+  String get druck_datei_fehler;
+
+  /// Druckfassung: Überschrift der Rollenhefte je Person
+  ///
+  /// In de, this message translates to:
+  /// **'Rollenhefte einzeln senden'**
+  String get druck_je_person;
+
+  /// Druckfassung: Hinweis zu den Rollenheften je Person
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Person bekommt nur ihr eigenes Heft. Die Hefte gelten nur mit diesem Fall-Code.'**
+  String get druck_je_person_hinweis;
+
+  /// Druckfassung: Rollenheft einer Person teilen
+  ///
+  /// In de, this message translates to:
+  /// **'Senden an {name}'**
+  String druck_senden_an(String name);
+
+  /// Rollenvergabe reihum: Erzählerheft ohne Druckspiel
+  ///
+  /// In de, this message translates to:
+  /// **'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.'**
+  String get druck_erzaehlerheft_hinweis;
+
+  /// Akte: Knopf zu Steckbriefen und Charakterübersicht
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbriefe & Übersicht'**
+  String get detektei_akte_steckbriefe;
+
+  /// Steckbrief-Seite: Titel
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbriefe & Übersicht'**
+  String get steckbrief_titel;
+
+  /// Steckbrief-Seite: Hinweis unter dem Titel
+  ///
+  /// In de, this message translates to:
+  /// **'Für die Wochen vor dem Abend: ohne Geheimnisse und ohne Fall-Code. Ihr dürft alles verschicken.'**
+  String get steckbrief_hinweis;
+
+  /// Steckbrief-Seite: Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'Wie viele seid ihr?'**
+  String get steckbrief_personen;
+
+  /// Steckbrief-Seite: Personenzahl noch offen
+  ///
+  /// In de, this message translates to:
+  /// **'Wissen wir noch nicht'**
+  String get steckbrief_personen_offen;
+
+  /// Steckbrief-Seite: Personenzahl steht fest
+  ///
+  /// In de, this message translates to:
+  /// **'Steht fest'**
+  String get steckbrief_personen_fest;
+
+  /// Steckbrief-Seite: gewählte Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'{anzahl} Personen am Tisch, dazu der Detektiv'**
+  String steckbrief_personen_wert(String anzahl);
+
+  /// Steckbrief-Seite: Dateien
+  ///
+  /// In de, this message translates to:
+  /// **'Zum Verschicken'**
+  String get steckbrief_dateien;
+
+  /// Steckbrief-Seite: Gästeliste
+  ///
+  /// In de, this message translates to:
+  /// **'Gästeliste'**
+  String get steckbrief_gaeste;
+
+  /// Steckbrief-Seite: Hinweis zur Gästeliste
+  ///
+  /// In de, this message translates to:
+  /// **'Tragt ein, wer welche Figur spielt. Am Abend stehen die Namen schon in der Einrichtung.'**
+  String get steckbrief_gaeste_hinweis;
+
+  /// Steckbrief-Seite: neuer Gast
+  ///
+  /// In de, this message translates to:
+  /// **'Gast eintragen'**
+  String get steckbrief_gast_neu;
+
+  /// Steckbrief-Seite: Name eines Gastes
+  ///
+  /// In de, this message translates to:
+  /// **'Name'**
+  String get steckbrief_gast_name;
+
+  /// Steckbrief-Seite: Gast ohne Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Noch keine Figur'**
+  String get steckbrief_gast_ohne;
+
+  /// Steckbrief-Seite: gewählte Figur fällt bei dieser Personenzahl weg
+  ///
+  /// In de, this message translates to:
+  /// **'Bei {anzahl} Personen nicht dabei'**
+  String steckbrief_gast_nicht_dabei(String anzahl);
+
+  /// Steckbrief-Seite: Gast löschen
+  ///
+  /// In de, this message translates to:
+  /// **'Gast entfernen'**
+  String get steckbrief_gast_entfernen;
+
+  /// Steckbrief-Seite: Steckbrief eines Gastes teilen
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbrief senden'**
+  String get steckbrief_senden;
+
+  /// Lobby des Gastgebers: Figuren der Gästeliste, die bei dieser Rollenzahl wegfallen (Figur und Gast)
+  ///
+  /// In de, this message translates to:
+  /// **'Bei {anzahl} Rollen nicht dabei: {figuren}.'**
+  String online_lobby_gaesteliste_weg(int anzahl, String figuren);
+
+  /// Gast, Akte ohne Erzähler-Sitz (Altakte): Der Gastgeber wählt eine Option (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung wählt gerade …'**
+  String get online_ermittlung_wartet_leitung;
+
+  /// Gast, Altakte: Abstecher läuft (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung erkundet einen Ort.'**
+  String get online_abstecher_leitung;
+
+  /// Gast, Altakte: Weg auf der Karte läuft (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung ist unterwegs …'**
+  String get online_zug_aktion_leitung;
+
+  /// Gast, Altakte: Tischruf nach Pech (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Pech. Die Spielleitung entscheidet, wie es weitergeht.'**
+  String get online_tischruf_wartet_leitung;
+
+  /// Gast, Altakte: Fund wird gelesen (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung liest den Fund.'**
+  String get online_fund_wartet_leitung;
+
+  /// Gast, Altakte: Anklage (Wortlaut wie vor M3)
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spielleitung erhebt die Anklage gegen eine dieser Personen.'**
+  String get online_anklage_wartet_leitung;
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt Detektiv-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du ermittelst jetzt.'**
+  String get online_platz_neu_detektiv;
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt Erzähler-Sitz
+  ///
+  /// In de, this message translates to:
+  /// **'Du liest jetzt vor.'**
+  String get online_platz_neu_erzaehler;
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt eine Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Du spielst jetzt {figur}.'**
+  String online_platz_neu_rolle(String figur);
+
+  /// Mitten im Abend wechselt der Platz dieses Geräts: jetzt ohne Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Du schaust jetzt zu.'**
+  String get online_platz_neu_assistenz;
+
+  /// Gastgeber: Der Gast auf dem Detektiv-Sitz ist getrennt
+  ///
+  /// In de, this message translates to:
+  /// **'{name} ermittelt und ist getrennt. Kommt {name} nicht zurück, gib den Detektiv-Sitz weiter.'**
+  String online_detektiv_weg(String name);
+
+  /// Gastgeber: Knopf, der den Detektiv-Sitz neu vergibt
+  ///
+  /// In de, this message translates to:
+  /// **'Detektiv-Sitz weitergeben'**
+  String get online_detektiv_weitergeben;
+
+  /// Gastgeber: Karteikarte zur Wahl des neuen Detektivs
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ermittelt weiter?'**
+  String get online_detektiv_wer;
+
+  /// Gastgeber: Wer den Sitz übernimmt, bekommt dessen Platz nicht mehr
+  ///
+  /// In de, this message translates to:
+  /// **'Wer übernimmt, tauscht den Platz mit {name}.'**
+  String online_detektiv_wer_hinweis(String name);
+
+  /// Gastgeber: übernimmt den Detektiv-Sitz selbst
+  ///
+  /// In de, this message translates to:
+  /// **'Ich ermittle selbst'**
+  String get online_detektiv_ich;
+
+  /// Gastgeber: Meldung nach dem Wechsel des Detektiv-Sitzes
+  ///
+  /// In de, this message translates to:
+  /// **'{name} ermittelt jetzt.'**
+  String online_detektiv_neu(String name);
+
+  /// Rundenuhr: Knopf, gibt fünf Minuten dazu
+  ///
+  /// In de, this message translates to:
+  /// **'Fünf Minuten dazu'**
+  String get party_runde_plus;
+
+  /// Rundenuhr: Knopf nach einer Pause
+  ///
+  /// In de, this message translates to:
+  /// **'Uhr weiterlaufen lassen'**
+  String get party_runde_weiterlaufen;
+
+  /// Rundenuhr: Marke, wenn die Uhr steht
+  ///
+  /// In de, this message translates to:
+  /// **'Angehalten'**
+  String get party_runde_angehalten;
+
+  /// Rundenuhr: wer sie stellt, auf Geräten ohne Knöpfe
+  ///
+  /// In de, this message translates to:
+  /// **'Die Uhr stellt {name}.'**
+  String party_runde_stellt(String name);
+
+  /// Diashow der Einleitung: zum nächsten Bild
+  ///
+  /// In de, this message translates to:
+  /// **'Nächstes Bild'**
+  String get party_intro_naechstes;
+
+  /// Diashow der Einleitung: Zähler und Beschriftung für den Bildschirmleser
+  ///
+  /// In de, this message translates to:
+  /// **'Bild {nr} von {anzahl}'**
+  String party_intro_bild(String nr, String anzahl);
+
+  /// Gast: Überschrift der gemeinsamen Rundenuhr
+  ///
+  /// In de, this message translates to:
+  /// **'Zeit für diese Runde'**
+  String get online_uhr_titel;
+
+  /// Gast, der leitet: Knopf der Rundenuhr
+  ///
+  /// In de, this message translates to:
+  /// **'Uhr starten'**
+  String get online_uhr_start;
+
+  /// Gast, der leitet: Knopf der Rundenuhr
+  ///
+  /// In de, this message translates to:
+  /// **'Uhr anhalten'**
+  String get online_uhr_pause;
+
+  /// Gast: Stempel, wenn die Rundenzeit um ist
+  ///
+  /// In de, this message translates to:
+  /// **'Die Zeit ist um.'**
+  String get online_uhr_um;
+
+  /// Gastgeber: Den Detektiv-Sitz übernimmt nur der Gastgeber oder ein Gerät ohne Figur (A-062)
+  ///
+  /// In de, this message translates to:
+  /// **'Wer eine Figur spielt, behält sie. Übernehmen kannst du selbst oder ein Platz ohne Figur.'**
+  String get online_detektiv_wer_figuren;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

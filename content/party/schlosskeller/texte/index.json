@@ -15,6 +15,10 @@
       "bereich": "erzaehler"
     },
     {
+      "datei": "erzaehler-npc-ziel.json",
+      "bereich": "erzaehler"
+    },
+    {
       "datei": "erzaehler-finale-ahmet.json",
       "bereich": "erzaehler"
     },
@@ -135,6 +139,22 @@
       "bereich": "gespraech"
     },
     {
+      "datei": "befragungen-r1.json",
+      "bereich": "befragung"
+    },
+    {
+      "datei": "befragungen-r2.json",
+      "bereich": "befragung"
+    },
+    {
+      "datei": "befragungen-r3.json",
+      "bereich": "befragung"
+    },
+    {
+      "datei": "befragung-kurz.json",
+      "bereich": "kurzfassung"
+    },
+    {
       "datei": "wahlen-kern.json",
       "bereich": "wahl"
     },
@@ -200,6 +220,14 @@
     },
     {
       "datei": "ui-druck-karten.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-befragung.json",
+      "bereich": "ui"
+    },
+    {
+      "datei": "ui-druck-steckbrief.json",
       "bereich": "ui"
     }
   ]

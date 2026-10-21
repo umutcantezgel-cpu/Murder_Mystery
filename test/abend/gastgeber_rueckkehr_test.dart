@@ -15,6 +15,7 @@ import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show Ablage, LokaleVerbindung, SpeicherAblage;
 
 import '../party_widgets/hilfe.dart' show akteDaten;
+import 'online_hilfe.dart' show befragungenImRaum;
 
 /// Schlosskeller mit Randgesprächen.
 PartyDaten get _daten => akteDaten('schlosskeller');
@@ -61,7 +62,10 @@ class _Dienst implements GastgeberDienst {
   PartyDaten get daten => _daten;
 
   @override
-  String get geburtstagskind => '';
+  String get detektivName => '';
+
+  @override
+  Sitz get sitz => Sitz.detektiv;
 
   @override
   int get minuten => 30;
@@ -106,6 +110,7 @@ SchlosskellerRaum _raum() {
         if (t['rolle'] != null && t['online'] == true) raum.nachricht(t['id'] as String, {'typ': 'rollenGelesen'});
       }
     }
+    if (s['phase'] == 'gespraeche') befragungenImRaum(raum);
     // Der Auftakt der ersten Runde ist ein Zug: Würfeln, Aktion, Fund.
     final zug = s['zug'] is Map ? _map(s['zug']) : null;
     switch (zug?['phase']) {

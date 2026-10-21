@@ -49,6 +49,9 @@ for d in packages/*/; do
   if grep -q 'sdk: flutter' "$d/pubspec.yaml"; then (cd "$d" && flutter test --concurrency=2); else (cd "$d" && dart test --concurrency=4); fi
 done
 
+schritt "Kanon-Tor (A-050): Schemas, Story-Bibel, Bildprompts, eingebetteter Kanon, Prüfsummen"
+bash tool/kanon_tor.sh --pruefen
+
 schritt "CI-Helfer"
 python3 -m unittest discover -s tool/ci/tests
 

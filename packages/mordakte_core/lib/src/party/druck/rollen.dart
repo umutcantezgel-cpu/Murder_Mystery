@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../befragung.dart';
 import '../besetzung.dart';
 import '../texte.dart';
 import 'modell.dart';
@@ -20,15 +21,36 @@ const _vorneHoehe = _kartenHoehe - _streifenHoehe;
 
 void rollenhefte(pw.Document doc, DruckKontext k) {
   for (final rolle in k.satz.besetzt) {
-    doc.addPage(_deckblatt(k, rolle));
-    doc.addPage(pw.MultiPage(
-      pageFormat: DruckStil.format,
-      margin: DruckStil.rand,
-      footer: (c) => k.stil.fuss(c, k.fallTitel),
-      build: (c) => _heft(k, rolle),
-    ));
+    rollenheft(doc, k, rolle);
   }
 }
+
+/// Das Heft einer Rolle: Deckblatt und Inhalt.
+void rollenheft(pw.Document doc, DruckKontext k, String rolle) {
+  doc.addPage(_deckblatt(k, rolle));
+  doc.addPage(pw.MultiPage(
+    pageFormat: DruckStil.format,
+    margin: DruckStil.rand,
+    footer: (c) => k.stil.fuss(c, k.fallTitel),
+    build: (c) => _heft(k, rolle),
+  ));
+}
+
+/// Je besetzter Rolle ein eigenes Rollenheft (A-059), in Besetzungsreihenfolge, damit
+/// jede Person nur ihr Heft bekommt. Der Dateiname trägt den Figurennamen
+/// (`10-rollenheft-<figur>.pdf`); jede Rolle hat in jedem Pfad genau ein Heft.
+Future<List<DruckDatei>> rollenheftDateien(DruckKontext k) async => [
+      for (final rolle in k.satz.besetzt) await rollenheftDatei(k, rolle),
+    ];
+
+/// Das Rollenheft von [rolle] als eigene Datei.
+Future<DruckDatei> rollenheftDatei(DruckKontext k, String rolle) => setzeDatei(
+      k,
+      '10-rollenheft-${dateiWort(k.figurName(rolle))}.pdf',
+      '${k.ui('ui.druck.rollen.heft')} · ${k.figurName(rolle)}',
+      (doc, k) => rollenheft(doc, k, rolle),
+      figur: rolle,
+    );
 
 /// Jede Fassung hat genau vier Seiten mit denselben Überschriften (E-036):
 /// Außenseite, Inhalt, Rundenwahl mit den Streifen A und B (E-039), Notizen. Eine Schriftgröße
@@ -162,8 +184,9 @@ List<pw.Widget> _heft(DruckKontext k, String rolle) {
   // Kernrollen: Das Ziel hängt am Pfad (Täterziel) und steht deshalb im
   // versiegelten Umschlag; die vier Kernhefte sehen gleich aus (E-033).
   if (fassung == null) w.addAll(_zusammen(k, () => k.stil.abschnitt(k.ui('ui.druck.rollen.ziel'), [d.ziel])));
+  final befragung = k.texte.besetzung.befragungsmodell;
   for (var r = 1; r <= 3; r++) {
-    w.addAll(_zusammen(k, () => _gespraechRunde(k, d, r, kopf: r == 1)));
+    w.addAll(_zusammen(k, () => befragung ? _tischRunde(k, d, r, kopf: r == 1) : _gespraechRunde(k, d, r, kopf: r == 1)));
   }
   w.addAll(_zusammen(k, () => k.stil.abschnitt(k.ui('ui.druck.rollen.besetzung'), [d.besetzung])));
   if (fassung != null) {
@@ -199,6 +222,57 @@ pw.Widget _gespraechRunde(DruckKontext k, Dossier d, int r, {bool kopf = false})
         ],
       ),
     );
+
+/// Modell befragung (A-051): je Runde das Tischgespräch mit Stichpunkten, wer dich
+/// anspricht und was du sagst, wenn der Detektiv dich befragt. Alles hängt nur an
+/// Rolle und Personenzahl, nie am Pfad.
+pw.Widget _tischRunde(DruckKontext k, Dossier d, int r, {bool kopf = false}) {
+  final b = d.befragungen[r];
+  final angesprochen = d.alsPartner[r] ?? const <(Gespraech, String)>[];
+  return pw.Padding(
+    padding: const pw.EdgeInsets.only(bottom: 8),
+    child: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        if (kopf) ...[
+          pw.Text(k.ui('ui.druck.rollen.tisch'), style: k.stil.ueberschrift(12.5)),
+          pw.SizedBox(height: 4),
+        ],
+        pw.Text(k.ui('ui.druck.rollen.runde', {'nr': '$r'}), style: k.stil.ueberschrift(11)),
+        pw.SizedBox(height: 3),
+        for (final (g, partner) in d.gespraeche[r] ?? const <(Gespraech, String)>[]) ...[
+          _feld(k, k.ui('ui.druck.rollen.partner'), _partner(k, partner)),
+          _feld(k, k.ui('ui.druck.rollen.thema'), g.thema),
+          _feld(k, k.ui('ui.druck.rollen.gespraechsziel'), g.ziel),
+          _feld(k, k.ui('ui.druck.rollen.stichpunkte'), _punkte(g.stichpunkte)),
+          pw.SizedBox(height: 3),
+        ],
+        if (angesprochen.isNotEmpty)
+          _feld(k, k.ui('ui.druck.rollen.angesprochen'), _punkte([
+            for (final (g, sprecher) in angesprochen) k.ui('ui.druck.befragung.zeile', {'name': k.figurName(sprecher), 'thema': g.thema}),
+          ])),
+        if (b != null) ...[
+          pw.SizedBox(height: 3),
+          pw.Text(k.ui('ui.druck.rollen.befragt'), style: k.stil.klein()),
+          pw.SizedBox(height: 2),
+          _feld(k, k.ui('ui.druck.rollen.thema'), b.thema),
+          _feld(k, k.ui('ui.druck.rollen.fragen'), _punkte(b.fragen)),
+          _feld(k, k.ui('ui.druck.rollen.sagen'), _antwort(k, b)),
+        ],
+      ],
+    ),
+  );
+}
+
+/// Was die Rolle in ihrer Befragung sagt: Beobachtungen, Behauptungen, eigene Würze.
+/// Je Karte ein Block (R17, E-044), getrennt durch eine Leerzeile wie in der App.
+String _antwort(DruckKontext k, BefragungText b) {
+  final karten = befragungsZettel(k.texte, b).kartenZeilen((x) => k.ui('ui.druck.rollen.behaupte', {'text': x}));
+  return karten.isEmpty ? k.ui('ui.druck.rollen.nichts') : [for (final z in karten) _punkte(z)].join('\n\n');
+}
+
+/// Stichpunkte untereinander, je mit Gedankenstrich.
+String _punkte(List<String> zeilen) => [for (final z in zeilen) '– $z'].join('\n');
 
 List<pw.Widget> _weissUndVerberge(DruckKontext k, Dossier d) => [
       ..._zusammen(k, () => k.stil.abschnitt(k.ui('ui.druck.rollen.weiss'), [for (final z in d.weiss) z.text])),

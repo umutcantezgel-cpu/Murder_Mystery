@@ -1,0 +1,55 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Titel, Intro, Bonus-Hinweis und Zwischenresümee (F4-BAUMEISTER-08).",
+  "eintraege": [
+    {
+      "id": "ui.titel.hinweis",
+      "text": "Das Geburtstagskind schaut beim Einrichten weg."
+    },
+    {
+      "id": "ui.titel.start",
+      "text": "Abend vorbereiten"
+    },
+    {
+      "id": "ui.intro.marke",
+      "text": "Geburtstag im Gewölbe"
+    },
+    {
+      "id": "ui.intro.titel",
+      "text": "Was vor Mitternacht geschah"
+    },
+    {
+      "id": "ui.intro.weiter",
+      "text": "Die erste Runde beginnt"
+    },
+    {
+      "id": "ui.resuemee.titel",
+      "text": "Zwischenresümee"
+    },
+    {
+      "id": "ui.resuemee.bonus_titel",
+      "text": "Was die Runde dem Geburtstagskind zuflüstert"
+    },
+    {
+      "id": "ui.resuemee.fach_gruppe",
+      "text": "Gruppenergebnis"
+    },
+    {
+      "id": "ui.resuemee.fach_rest",
+      "text": "Stand der Verdächtigen"
+    },
+    {
+      "id": "ui.resuemee.fach_lage",
+      "text": "Lage"
+    },
+    {
+      "id": "ui.resuemee.zur_anklage",
+      "text": "Zur Anklage"
+    },
+    {
+      "id": "ui.resuemee.naechste_runde",
+      "text": "Nächste Runde"
+    }
+  ]
+}

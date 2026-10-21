@@ -1,8 +1,17 @@
 {
   "settingId": "spuk_im_schlosskeller",
-  "hinweis": "Besetzungsreihenfolge (F1-ORCH-10). Gezählt werden Rollen ohne das Geburtstagskind (B-13). Bei N Rollen werden die Plätze 1 bis N besetzt; alle übrigen Gäste sind NPC-Gäste ohne Spieler (Weltmodell W1): Sie existieren in der Tatnacht, ihr Wissen erreicht den Detektiv über NPC-Karten oder den Erzähler.",
+  "hinweis": "Besetzungsreihenfolge (F1-ORCH-10). Gezählt werden Rollen ohne den Detektiv (B-13). Bei N Rollen werden die Plätze 1 bis N besetzt; alle übrigen Gäste sind NPC-Gäste ohne Spieler (Weltmodell W1): Sie existieren in der Tatnacht, ihr Wissen erreicht den Detektiv über den Erzähler oder als Fund. Gesprächsmodell „befragung“ (A-051): je Rolle und Runde ein Tischgespräch ohne den Detektiv, höchstens drei Gespräche je Rolle und Runde einschließlich einer Befragung, drei bis fünf Befragungen des Detektivs je Runde.",
   "minRollen": 4,
   "maxRollen": 20,
+  "gespraeche": {
+    "modell": "befragung",
+    "tischJeRolle": 1,
+    "lastRolle": 3,
+    "befragungenJeRunde": [
+      3,
+      5
+    ]
+  },
   "reihenfolge": [
     "ahmet",
     "fatma",
@@ -153,8 +162,8 @@
     "Die vier Kernverdächtigen sind immer besetzt (Plätze 1–4).",
     "Ab 5 Rollen unterscheiden sich Frauen- und Männerrollen höchstens um eine; bei 4 Rollen geben die Kernnamen 3 zu 1 vor.",
     "Jede Rolle darf von jeder Person gespielt werden, unabhängig vom eigenen Geschlecht.",
-    "Fehlt ein Gesprächspartner, übernimmt der erste besetzte Ersatzpartner aus ersatzpartner, sonst der Detektiv. Kernrollen sind immer besetzt und brauchen keinen Ersatz.",
-    "Unbesetzte Gäste sind NPC. Ihre Pflichtgespräch-Beobachtungen und ihre Antworten auf Befragungen des Detektivs kommen als NPC-Karte (App: aus dem Kanon, Druck: versiegelt je Fall-Code)."
+    "Fehlt ein Gesprächspartner, übernimmt der erste besetzte Ersatzpartner aus ersatzpartner mit freier Last, sonst die besetzte Rolle mit der kleinsten Last. Der Detektiv sitzt nicht am Tisch; er führt eigene Befragungen. Kernrollen sind immer besetzt und brauchen keinen Ersatz.",
+    "Unbesetzte Gäste sind NPC. Was der Detektiv von ihnen braucht, kommt über den Erzähler zum Rundenstart, auch bei Zielfiguren einer Option (E-044), oder als Fund (App: aus dem Kanon, Druck: versiegelt je Fall-Code)."
   ],
   "ersatzpartner": {
     "leyla": [

@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 9 bis 12.",
+  "hinweis": "Tischgespräche Runde 2, Besetzungsplätze 9 bis 12 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_murat_2_1",
@@ -9,141 +9,55 @@
       "runde": 2,
       "nr": 1,
       "partner": "tim",
-      "thema": "Wer wirkte komisch?",
-      "ziel": "Ich will prüfen, ob das Gegenüber bei dem bleibt, was es vorhin gesagt hat.",
-      "preisgabe": [
-        "beobachtung:b_marek_gesicht"
-      ],
-      "text": "Durch den Durchgang Richtung Kaminsaal flitzte im Dunkeln ein leuchtendes Gespenstergesicht an mir vorbei. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_murat_2_2",
-      "rolle": "murat",
-      "runde": 2,
-      "nr": 2,
-      "partner": "can",
-      "thema": "Cans Version von kurz vor zwölf",
-      "ziel": "Ich will prüfen, ob Cans Version von kurz vor zwölf noch stimmt.",
-      "preisgabe": [],
-      "text": "Can, du hast vorhin gesagt, wo du um kurz vor zwölf warst. Stimmt das wirklich?"
-    },
-    {
-      "id": "g_murat_2_3",
-      "rolle": "murat",
-      "runde": 2,
-      "nr": 3,
-      "partner": "leyla",
       "thema": "Am Buffet beim Knall",
-      "ziel": "Ich will prüfen, ob das Gegenüber am Buffet beim Knall dasselbe erzählt wie vorhin.",
+      "ziel": "Ich will prüfen, ob die Geschichten vom Buffet zusammenpassen.",
       "preisgabe": [],
-      "text": "Was war am Buffet los, als das Licht ausging? Wie passt das zu dem, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Was war am Buffet los im Dunkeln?",
+        "Passt das zu dem, was du sagst?"
+      ]
     },
     {
       "id": "g_zeynep_2_1",
       "rolle": "zeynep",
       "runde": 2,
       "nr": 1,
-      "partner": "murat",
-      "thema": "Das Gesicht, nochmal genau",
-      "ziel": "Ich will prüfen, ob das Gegenüber beim Gesicht bei seiner Aussage bleibt.",
-      "preisgabe": [
-        "beobachtung:b_zeynep_gesicht"
-      ],
-      "text": "Im Dunkeln lief ein leuchtendes Gesicht an mir vorbei, aus dem Durchgang in den Kaminsaal. Da passt etwas nicht zusammen, wenn du vorhin was anderes gesagt hast."
-    },
-    {
-      "id": "g_zeynep_2_2",
-      "rolle": "zeynep",
-      "runde": 2,
-      "nr": 2,
       "partner": "fatma",
-      "thema": "Kurz vor zwölf bei dir",
-      "ziel": "Ich will Fatmas Version von kurz vor zwölf auf die Probe stellen.",
+      "thema": "Kurz vor zwölf",
+      "ziel": "Ich will Geschichten von kurz vor zwölf prüfen.",
       "preisgabe": [],
-      "text": "Fatma, bei dir um kurz vor zwölf, das hast du vorhin erzählt. Stimmt das so?"
-    },
-    {
-      "id": "g_zeynep_2_3",
-      "rolle": "zeynep",
-      "runde": 2,
-      "nr": 3,
-      "partner": "selin",
-      "thema": "Das Gespräch mit Herrn Schneider",
-      "ziel": "Ich will wissen, wer vor dem Knall mit Herrn Schneider gesprochen hat.",
-      "preisgabe": [],
-      "text": "Hattest du vor dem Knall mit Herrn Schneider zu tun? Passt das zu dem, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Wo warst du kurz vor zwölf?",
+        "Stimmt das so, wie du es erzählst?"
+      ]
     },
     {
       "id": "g_baran_2_1",
       "rolle": "baran",
       "runde": 2,
       "nr": 1,
-      "partner": "serkan",
-      "thema": "Was war aus Richtung Theke?",
-      "ziel": "Ich will prüfen, ob das Gegenüber bei seiner Aussage zur Theke bleibt.",
-      "preisgabe": [
-        "beobachtung:b_baran_rufe"
-      ],
-      "text": "Von der Theke her kamen im Dunkeln zwei Rufe, „Hab ich dich!“ und „Stehen bleiben!“. Danach war da ein Scheppern. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_baran_2_2",
-      "rolle": "baran",
-      "runde": 2,
-      "nr": 2,
       "partner": "hakan",
       "thema": "Die Minuten nach dem Knall",
-      "ziel": "Ich will prüfen, ob das Gegenüber beim Knall und danach bei dem bleibt, was es erzählt hat.",
+      "ziel": "Ich will prüfen, ob die Geschichten nach dem Knall stimmen.",
       "preisgabe": [],
-      "text": "Was ist beim Knall am Buffet passiert? Stimmt das wirklich, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_baran_2_3",
-      "rolle": "baran",
-      "runde": 2,
-      "nr": 3,
-      "partner": "emine",
-      "thema": "Auffälliges beim Knall",
-      "ziel": "Ich will wissen, ob das Gegenüber beim Knall etwas Auffälliges gemacht hat.",
-      "preisgabe": [],
-      "text": "Hast du beim Knall irgendwas Auffälliges gemacht? Da passt was nicht zusammen, wenn du etwas anderes erzählt hast."
+      "stichpunkte": [
+        "Meine Musik lief bis zum Knall.",
+        "Was hast du danach gemacht?"
+      ]
     },
     {
       "id": "g_meryem_2_1",
       "rolle": "meryem",
       "runde": 2,
       "nr": 1,
-      "partner": "detective",
-      "thema": "Der Geruch nach Kerzenwachs",
-      "ziel": "Ich will wissen, ob das Geburtstagskind beim Scheppern etwas gehört hat, das zu meinem Geruch passt.",
-      "preisgabe": [
-        "beobachtung:b_hana_wachs"
-      ],
-      "text": "Nach dem Scheppern hat es bei mir nach frisch ausgegangenen Kerzen gerochen. Der Luftzug kam von der Theke her. Hast du dazu etwas gehört, oder passt das nicht zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_meryem_2_2",
-      "rolle": "meryem",
-      "runde": 2,
-      "nr": 2,
-      "partner": "ahmet",
-      "thema": "Der Ascheneimer, nochmal",
-      "ziel": "Ich will prüfen, ob Ahmet bei seiner Aussage bleibt.",
-      "preisgabe": [
-        "beobachtung:b_hana_umschlag"
-      ],
-      "text": "Ahmet, kurz nach zwölf stand ich am Kamin. Da hast du was Raschelndes in den Ascheneimer geworfen. Ist das dasselbe, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_meryem_2_3",
-      "rolle": "meryem",
-      "runde": 2,
-      "nr": 3,
-      "partner": "tim",
+      "partner": "johanna",
       "thema": "Der Kamin zieht nicht",
-      "ziel": "Ich will jemanden finden, der beim Kamin hilft, und prüfen, ob das Gegenüber bei seiner Aussage bleibt.",
+      "ziel": "Ich will jemanden finden, der beim Kamin hilft.",
       "preisgabe": [],
-      "text": "Holz kenn ich gut, Kaminzüge weniger. Der Kamin zieht nicht richtig. Passt das zu dem, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Holz kenn ich gut, Kaminzüge weniger.",
+        "Kannst du mir beim Kamin helfen?"
+      ]
     }
   ]
 }

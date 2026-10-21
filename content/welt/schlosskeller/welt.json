@@ -3,5 +3,7 @@
   "akte": "schlosskeller",
   "hinweis": "Kellergewölbe: alle Räume innen.",
   "aussen": [],
-  "kulisse": "keller"
+  "kulisse": "keller",
+  "geruechte": "geruechte.json",
+  "langfassung": "langfassung.json"
 }

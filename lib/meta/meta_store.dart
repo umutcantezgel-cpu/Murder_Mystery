@@ -5,7 +5,10 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart' show AbendErgebnis, KartenKatalog, TischVorrat, belohnungFuer, xpFuer;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'gaesteliste.dart';
 import 'progression.dart';
+
+export 'gaesteliste.dart';
 
 /// Bevorzugte Ausrüstung (wird in der Lobby automatisch gesetzt).
 class Loadout {
@@ -177,6 +180,9 @@ class MetaStore extends ChangeNotifier {
   final Map<String, AbendBelohnung> _belohnungen = {};
   bool _kartenAngelegt = false;
 
+  // Gästelisten je Akte (M5): wer welche Figur spielt, Personenzahl.
+  final Map<String, GaesteListe> _gaeste = {};
+
   /// Wie viele gebuchte Abende sich das Gerät für die Doppelbuchungssperre merkt.
   static const abendeMerken = 50;
 
@@ -226,6 +232,9 @@ class MetaStore extends ChangeNotifier {
   /// Wurde das Kartenkonto schon angelegt (Startset vergeben)?
   bool get kartenBereit => _kartenAngelegt;
 
+  /// Gästeliste der Akte [akte] (leer, wenn es keine gibt).
+  GaesteListe gaesteliste(String akte) => _gaeste[akte] ?? const GaesteListe();
+
   bool classUnlocked(String cls) => rank >= classUnlockRank(cls);
   bool hatUnlocked(String hat) => rank >= hatRank(hat);
   bool coatUnlocked(int coat) => rank >= coatRank(coat);
@@ -265,6 +274,18 @@ class MetaStore extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  /// Legt die Gästeliste der Akte [akte] ab; eine leere Liste löscht sie.
+  void setzeGaesteliste(String akte, GaesteListe liste) {
+    if (liste == gaesteliste(akte)) return;
+    if (liste.leer) {
+      _gaeste.remove(akte);
+    } else {
+      _gaeste[akte] = liste;
+    }
+    _put('gaeste', jsonEncode({for (final e in _gaeste.entries) e.key: e.value.toJson()}));
+    notifyListeners();
+  }
 
   // --- Sammelkarten schreiben ----------------------------------------------------
 
@@ -510,6 +531,7 @@ class MetaStore extends ChangeNotifier {
 
   void _read() {
     _leseKarten();
+    _leseGaeste();
     try {
       final n = _get('name');
       _name = (n == null || n.isEmpty) ? null : n;
@@ -607,6 +629,19 @@ class MetaStore extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Meta: Abende nicht lesbar ($e)');
+    }
+  }
+
+  void _leseGaeste() {
+    try {
+      final raw = _get('gaeste');
+      if (raw == null || raw.isEmpty) return;
+      for (final e in (jsonDecode(raw) as Map).entries) {
+        final liste = GaesteListe.ausJson(e.value);
+        if (!liste.leer) _gaeste[e.key as String] = liste;
+      }
+    } catch (e) {
+      debugPrint('Meta: Gästelisten nicht lesbar ($e)');
     }
   }
 

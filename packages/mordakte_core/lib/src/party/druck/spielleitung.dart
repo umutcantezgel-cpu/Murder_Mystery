@@ -1,12 +1,14 @@
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../besetzung.dart';
 import 'modell.dart';
 import 'satz.dart';
 import 'satz_stil.dart';
 
-// Spielleitungsheft ohne Lösung und Detektivbogen mit Ermittlungsbogen (F5-BAUMEISTER-01, Master 7.14).
-// Jeder Text ist ein Baustein (ui.druck.spielleitung.*, ui.druck.bogen.*), ein Erzähler- oder
+// Erzählerheft ohne Lösung (früher Spielleitungsheft, A-052, M5) und Detektivbogen mit
+// Ermittlungsbogen (F5-BAUMEISTER-01, Master 7.14). Jeder Text ist ein Baustein
+// (ui.druck.spielleitung.*, ui.druck.erzaehler.*, ui.druck.bogen.*), ein Erzähler- oder
 // Detektivtext über k.text oder ein Datum des Satzes. Keine Schrift unter 9 pt.
 
 /// Dateinummern des Satzes mit ihrem Baustein (Vorbereitung).
@@ -28,7 +30,14 @@ const _lagen = [
   ('klar', 'ui.druck.spielleitung.lage.klar'),
 ];
 
-void spielleitungsheft(pw.Document doc, DruckKontext k) {
+/// Erzählerheft (A-052): was der Erzähler am Tisch liest und weiß, nie die Lösung.
+/// Vorlesetexte mit der Dia-Nummer als Stichwort im Intro, je Runde die Befragungen
+/// des Detektivs mit ihren Antworten und alle Tischgespräche als Stichpunkte (aus
+/// dem Erzählerpaket, M2.1). Mit [druckspiel] kommen Vorbereitung, Fassungen,
+/// Entscheidungen, Auszählung, Umschläge, Resümee, Anklage und Anhang dazu (Abend
+/// auf Papier); ohne bleibt es beim Vorlesen und dem Tisch, den Rest zeigt die App
+/// (Abend am Bildschirm, Fallback ohne eigenes Erzählerhandy).
+void erzaehlerheft(pw.Document doc, DruckKontext k, {bool druckspiel = true}) {
   final heft = k.satz.spielleitung;
   final links = '${k.fallTitel} · ${k.ui('ui.druck.spielleitung.marke')}';
   doc.addPage(
@@ -37,12 +46,11 @@ void spielleitungsheft(pw.Document doc, DruckKontext k) {
       margin: DruckStil.rand,
       footer: (c) => _fuss(k, links, c),
       build: (_) => [
-        ..._deckblatt(k),
+        ..._deckblatt(k, druckspiel: druckspiel),
         pw.NewPage(),
-        ..._vorbereitung(k),
-        ..._ablauf(k, heft),
-        pw.NewPage(),
-        ..._anhang(k, heft),
+        if (druckspiel) ..._vorbereitung(k),
+        ..._ablauf(k, heft, druckspiel: druckspiel),
+        if (druckspiel) ...[pw.NewPage(), ..._anhang(k, heft)],
       ],
     ),
   );
@@ -65,6 +73,8 @@ void detektivbogen(pw.Document doc, DruckKontext k) {
         for (var r = 1; r <= 3; r++) ...[
           if (r > 1) pw.NewPage(),
           _titel(k, k.ui('ui.druck.bogen.runde', {'nr': '$r'})),
+          // Modell befragung: Wen du befragst und was du fragen kannst, nie eine Antwort.
+          if (k.satz.befragungen.isNotEmpty) ..._block(k, k.ui('ui.druck.bogen.befragungen'), _befragungen(k, r, 'ui.druck.bogen.befragungen_frei')),
           for (final b in k.satz.detektivbogen.where((b) => b.runde == r))
             ..._entscheidung(k, b),
         ],
@@ -76,9 +86,11 @@ void detektivbogen(pw.Document doc, DruckKontext k) {
   );
 }
 
-// Spielleitungsheft
+// Erzählerheft
 
-List<pw.Widget> _deckblatt(DruckKontext k) => [
+/// Deckblatt; den Fall-Code und das Auflösungsheft gibt es nur im Druckspiel.
+/// Stehen Antworten im Heft (Modell befragung), sagt ein Kasten, dass der Detektiv es nicht liest.
+List<pw.Widget> _deckblatt(DruckKontext k, {required bool druckspiel}) => [
   pw.SizedBox(height: 150),
   pw.Text(k.fallTitel, style: k.stil.titel(30)),
   pw.SizedBox(height: 10),
@@ -86,11 +98,13 @@ List<pw.Widget> _deckblatt(DruckKontext k) => [
   pw.SizedBox(height: 14),
   _linie(DruckStil.breite),
   pw.SizedBox(height: 18),
-  pw.Text(
-    k.ui('ui.druck.spielleitung.fallcode', {'code': k.satz.code.code}),
-    style: k.stil.text(13),
-  ),
-  pw.SizedBox(height: 4),
+  if (druckspiel) ...[
+    pw.Text(
+      k.ui('ui.druck.spielleitung.fallcode', {'code': k.satz.code.code}),
+      style: k.stil.text(13),
+    ),
+    pw.SizedBox(height: 4),
+  ],
   pw.Text(
     k.ui('ui.druck.spielleitung.personen', {'anzahl': '${k.satz.rollen}'}),
     style: k.stil.text(13),
@@ -98,7 +112,16 @@ List<pw.Widget> _deckblatt(DruckKontext k) => [
   pw.SizedBox(height: 22),
   pw.Text(k.ui('ui.druck.spielleitung.willkommen'), style: k.stil.text(12)),
   pw.SizedBox(height: 6),
-  pw.Text(k.ui('ui.druck.spielleitung.aufloesung'), style: k.stil.text(12)),
+  pw.Text(k.ui(druckspiel ? 'ui.druck.spielleitung.aufloesung' : 'ui.druck.erzaehler.app'), style: k.stil.text(12)),
+  if (k.satz.erzaehler.isNotEmpty) ...[
+    pw.SizedBox(height: 22),
+    pw.Container(
+      width: DruckStil.breite,
+      padding: const pw.EdgeInsets.all(12),
+      decoration: pw.BoxDecoration(border: pw.Border.all(color: DruckStil.tinte, width: 1.2)),
+      child: pw.Text(k.ui('ui.druck.erzaehler.nur_du'), style: k.stil.text(12)),
+    ),
+  ],
 ];
 
 List<pw.Widget> _vorbereitung(DruckKontext k) => [
@@ -130,34 +153,63 @@ List<pw.Widget> _vorbereitung(DruckKontext k) => [
 ];
 
 /// Jede Runde und die Anklage beginnen auf einer neuen Seite, damit keine Überschrift am Seitenende hängt.
-List<pw.Widget> _ablauf(DruckKontext k, Spielleitungsheft heft) => [
+/// Die Intro-Bausteine tragen ihre Dia-Nummer als Stichwort: die Nummer ihres Bildes
+/// in der Diashow der Akte (M4; ein Baustein ohne Bild ohne Stichwort), ohne Diashow
+/// ein Dia je Baustein (A-054).
+List<pw.Widget> _ablauf(DruckKontext k, Spielleitungsheft heft, {required bool druckspiel}) => [
   _titel(k, k.ui('ui.druck.spielleitung.ablauf')),
   _absatz(k, k.ui('ui.druck.spielleitung.ablauf.einleitung')),
-  // Die Kernrollen öffnen ihre Fassung, wenn die Spielleitung die Codes nennt (alphabetisch, ohne Namen).
-  ..._block(k, k.ui('ui.druck.spielleitung.fassungen.titel'), [
-    _absatz(k, k.ui('ui.druck.spielleitung.fassungen', {'codes': ([for (final f in k.satz.fassungen) f.code]..sort()).join(', ')})),
-  ]),
+  if (druckspiel)
+    // Die Kernrollen öffnen ihre Fassung, wenn der Erzähler die Codes nennt (alphabetisch, ohne Namen).
+    ..._block(k, k.ui('ui.druck.spielleitung.fassungen.titel'), [
+      _absatz(k, k.ui('ui.druck.spielleitung.fassungen', {'codes': ([for (final f in k.satz.fassungen) f.code]..sort()).join(', ')})),
+    ])
+  else
+    _absatz(k, k.ui('ui.druck.erzaehler.app_rest')),
   ..._block(k, k.ui('ui.druck.spielleitung.intro'), [
-    for (final b in heft.intro) _vorlesen(k, k.text(b)),
+    for (var i = 0; i < heft.intro.length; i++) _vorlesen(k, k.text(heft.intro[i]), dia: _dia(k, heft.intro[i], i)),
   ]),
-  for (var r = 1; r <= 3; r++) ...[pw.NewPage(), ..._runde(k, heft, r)],
-  pw.NewPage(),
-  ..._anklage(k, heft),
+  for (var r = 1; r <= 3; r++) ...[pw.NewPage(), ..._runde(k, heft, r, druckspiel: druckspiel)],
+  if (druckspiel) ...[pw.NewPage(), ..._anklage(k, heft)],
 ];
 
-List<pw.Widget> _runde(DruckKontext k, Spielleitungsheft heft, int r) => [
+/// Dia-Nummer (ab 1) des Intro-Bausteins [kennung] an Stelle [i].
+int? _dia(DruckKontext k, String kennung, int i) {
+  final d = k.diashow;
+  if (d == null) return i + 1;
+  final nr = d.nrFuer(kennung);
+  return nr == null ? null : nr + 1;
+}
+
+List<pw.Widget> _runde(DruckKontext k, Spielleitungsheft heft, int r, {required bool druckspiel}) => [
   _titel(k, k.ui('ui.druck.spielleitung.runde', {'nr': '$r'})),
   ..._block(k, k.ui('ui.druck.spielleitung.schritt.start'), [
     for (final b in heft.rundenStart[r]!) _vorlesen(k, k.text(b)),
   ]),
-  ..._block(k, k.ui('ui.druck.spielleitung.schritt.gespraeche'), [
-    _absatz(
-      k,
-      k.ui('ui.druck.spielleitung.gespraeche', {
-        'minuten': '${k.satz.rundendauerMinuten}',
-      }),
-    ),
-  ]),
+  if (k.satz.befragungen.isEmpty) ...[
+    if (druckspiel)
+      ..._block(k, k.ui('ui.druck.spielleitung.schritt.gespraeche'), [
+        _absatz(
+          k,
+          k.ui('ui.druck.spielleitung.gespraeche', {
+            'minuten': '${k.satz.rundendauerMinuten}',
+          }),
+        ),
+      ]),
+  ] else ...[
+    // Modell befragung (A-051): die Befragungen des Detektivs mit Fragen und Antworten,
+    // dann jedes Tischgespräch mit seinen Stichpunkten (Erzählerpaket, A-052).
+    ..._block(k, k.ui('ui.druck.spielleitung.schritt.befragungen'), [
+      if (druckspiel) _absatz(k, k.ui('ui.druck.spielleitung.befragungen', {'minuten': '${k.satz.rundendauerMinuten}'})),
+      ..._befragungen(k, r, 'ui.druck.spielleitung.befragungen_frei', antworten: true),
+    ]),
+    ..._block(k, k.ui('ui.druck.erzaehler.tisch'), _tisch(k, r)),
+  ],
+  if (druckspiel) ..._ablaufDruck(k, heft, r),
+];
+
+/// Was nur der Abend auf Papier braucht: Entscheidungen, Gruppenwahl mit Auszählung, Umschlag, Resümee.
+List<pw.Widget> _ablaufDruck(DruckKontext k, Spielleitungsheft heft, int r) => [
   ..._block(k, k.ui('ui.druck.spielleitung.schritt.entscheidung'), [
     _absatz(k, k.ui('ui.druck.spielleitung.entscheidung')),
   ]),
@@ -343,6 +395,40 @@ pw.Widget _lage(DruckKontext k, Map<String, String> lage) => pw.Padding(
     ],
   ),
 );
+
+/// Die Befragungen der Runde [r]: feste mit Thema und Fragen, dann wie viele
+/// freie Wahlen es gibt und unter wem ([frei] ist der Bausteinstamm der Zeile).
+/// Mit [antworten] (Erzählerheft) folgt jeder Befragung ihre Antwort aus dem
+/// Erzählerpaket, ohne Zeile ein eigener Satz über die Befragte (nicht die
+/// Du-Form des Rollenhefts); der Detektivbogen zeigt nie eine Antwort.
+List<pw.Widget> _befragungen(DruckKontext k, int r, String frei, {bool antworten = false}) {
+  final br = k.satz.befragungen[r]!;
+  final antwort = {
+    if (antworten)
+      for (final b in k.satz.erzaehler[r]?.befragungen ?? const []) b.rolle: b.antwort,
+  };
+  pw.Widget eintrag(String rolle) => _fach([
+        pw.Text(k.ui('ui.druck.befragung.zeile', {'name': k.figurName(rolle), 'thema': br.text(rolle).thema}), style: k.stil.ueberschrift(10.5)),
+        pw.Padding(
+          padding: const pw.EdgeInsets.only(left: 10, top: 1, bottom: 5),
+          child: pw.Text([for (final f in br.text(rolle).fragen) '– $f'].join('\n'), style: k.stil.text(10)),
+        ),
+        if (antwort[rolle] case final zeilen?) ...[
+          pw.Padding(padding: const pw.EdgeInsets.only(left: 10), child: _marke(k, k.ui('ui.druck.erzaehler.antwort'))),
+          pw.Padding(
+            padding: const pw.EdgeInsets.only(left: 10, top: 2, bottom: 6),
+            child: pw.Text(zeilen.isEmpty ? k.ui('ui.druck.erzaehler.nichts') : [for (final z in zeilen) '– $z'].join('\n'), style: k.stil.text(10)),
+          ),
+        ],
+      ]);
+  return [
+    for (final rolle in br.pflicht) eintrag(rolle),
+    if (br.freiWahlen > 0) ...[
+      _absatz(k, k.ui('${frei}_${br.freiWahlen}')),
+      for (final rolle in br.frei) eintrag(rolle),
+    ],
+  ];
+}
 
 // Detektivbogen
 
@@ -541,20 +627,47 @@ List<pw.Widget> _block(DruckKontext k, String label, List<pw.Widget> inhalt) =>
       pw.SizedBox(height: 8),
     ];
 
-/// Vorlesetext: links die Marke „Vorlesen“, rechts der Baustein wortgleich.
-pw.Widget _vorlesen(DruckKontext k, String text) => pw.Padding(
+/// Vorlesetext: links die Marke „Vorlesen“ (im Intro mit der Dia-Nummer als
+/// Stichwort darunter), rechts der Baustein wortgleich.
+pw.Widget _vorlesen(DruckKontext k, String text, {int? dia}) => pw.Padding(
   padding: const pw.EdgeInsets.only(bottom: 6),
   child: pw.Row(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
       pw.SizedBox(
         width: 72,
-        child: _marke(k, k.ui('ui.druck.spielleitung.vorlesen')),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            _marke(k, k.ui('ui.druck.spielleitung.vorlesen')),
+            if (dia != null) ...[
+              pw.SizedBox(height: 2),
+              pw.Text(k.ui('ui.druck.erzaehler.dia', {'nr': '$dia'}), style: k.stil.ueberschrift(11)),
+            ],
+          ],
+        ),
       ),
       pw.Expanded(child: pw.Text(text, style: k.stil.text(11))),
     ],
   ),
 );
+
+/// Die Tischgespräche der Runde [r] aus dem Erzählerpaket: wer mit wem worüber, darunter die Stichpunkte.
+List<pw.Widget> _tisch(DruckKontext k, int r) => [
+  for (final t in k.satz.erzaehler[r]?.tisch ?? const [])
+    _fach([
+      pw.Text(
+        k.ui('ui.druck.erzaehler.tisch_zeile', {'sprecher': k.figurName(t.sprecher), 'partner': _name(k, t.partner), 'thema': t.thema}),
+        style: k.stil.ueberschrift(10.5),
+      ),
+      pw.Padding(
+        padding: const pw.EdgeInsets.only(left: 10, top: 1, bottom: 5),
+        child: pw.Text([for (final z in t.stichpunkte) '– $z'].join('\n'), style: k.stil.text(10)),
+      ),
+    ]),
+];
+
+String _name(DruckKontext k, String id) => id == Besetzung.detektiv ? k.ui('ui.druck.rollen.detektiv') : k.figurName(id);
 
 pw.Widget _titel(DruckKontext k, String text) => pw.Padding(
   padding: const pw.EdgeInsets.only(top: 6, bottom: 6),

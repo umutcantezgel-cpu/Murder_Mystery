@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Gerüchte einer Akte",
+  "description": "content/welt/<akte>/geruechte.json: je Figur und Runde ein bis zwei Gerüchtzeilen für die Klassenfähigkeit Gerüchte (A-055). Reine Stimmung, auf allen Pfaden gleich, nie ein Fakt; Kartenformat R17 (höchstens acht Wörter je Zeile).",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eintrag": {
+      "type": "object",
+      "required": [
+        "figur",
+        "runde",
+        "zeilen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "figur": {
+          "$ref": "#/$defs/id"
+        },
+        "runde": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "zeilen": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "format",
+    "akte",
+    "geruechte"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "geruechte/1"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "geruechte": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/eintrag"
+      }
+    }
+  }
+}

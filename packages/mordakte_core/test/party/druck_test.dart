@@ -1,8 +1,10 @@
 // F5-TEST-02: Gebündelter Drucktest über alle Pfade und Personenzahlen (F-14, Master 7.14): acht Dateien in fester Reihenfolge und A4, neutrale Karten und Umschläge, Fassungen ohne verräterische Überschrift, nur die Täterfassung mit Tarnung (E-035), kein Auflösungsbaustein im Heft oder Bogen, Funde der Indizkarten wortgleich im PDF.
+// M5: alle acht Teile in einer Datei (druckAlles) und je Person ein Rollenheft, dessen Name nur die eigene Figur nennt (A-059).
 // Geprüft wird das fertige PDF (pdfinfo, pdftotext) über die Testhilfe; die Sätze sind deterministisch (kein Zufall, keine Zeit).
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:mordakte_core/src/party/druck/aufloesung.dart';
 import 'package:mordakte_core/src/party/druck/karten.dart';
 import 'package:mordakte_core/src/party/druck/rollen.dart';
 import 'package:mordakte_core/src/party/druck/satz.dart';
@@ -15,7 +17,7 @@ import 'kanon_hilfe.dart';
 
 /// Dateinamen in der Reihenfolge, in der druckDateien sie liefert.
 const _dateinamen = [
-  '00-spielleitung.pdf',
+  '00-erzaehlerheft.pdf',
   '01-detektivbogen.pdf',
   '10-rollenhefte.pdf',
   '11-fassungen.pdf',
@@ -31,7 +33,7 @@ const _personenzahlen = [4, 7, 12, 16, 20];
 /// Wörter, die auf keiner Karten- oder Umschlagseite stehen dürfen.
 const _verboten = ['Täter', 'Täterin', 'wahr', 'neutral', 'falsch', 'Gerücht'];
 
-/// Bausteine, die weder im Spielleitungsheft noch im Detektivbogen stehen dürfen.
+/// Bausteine, die weder im Erzählerheft noch im Detektivbogen stehen dürfen.
 final _aufloesungsPraefix = RegExp(r'^(finale|rueckblende|aufloesung)\.');
 
 final _buchstabe = RegExp(r'\p{L}', unicode: true);
@@ -159,7 +161,7 @@ void main() {
     }
   });
 
-  test('Spielleitungsheft und Detektivbogen tragen keinen Finale-, Rückblende- oder Auflösungsbaustein (alle Sätze)', () async {
+  test('Erzählerheft und Detektivbogen tragen keinen Finale-, Rückblende- oder Auflösungsbaustein (alle Sätze)', () async {
     final verboten = {
       for (final e in druckTexte.sammlung.bausteine.entries)
         if (_aufloesungsPraefix.hasMatch(e.key)) e.key: _kopf(e.value),
@@ -168,12 +170,66 @@ void main() {
     for (final s in saetze) {
       final k = druckKontext(pfad: s.pfad, n: s.n);
       final satz = '${s.pfad}/${s.n}';
-      for (final teil in <void Function(pw.Document, DruckKontext)>[spielleitungsheft, detektivbogen]) {
+      for (final teil in <void Function(pw.Document, DruckKontext)>[erzaehlerheft, detektivbogen]) {
         final text = flach(_rohText(await _bytes(k, teil)));
         for (final e in verboten.entries) {
           expect(text, isNot(contains(e.value)), reason: '$satz: Baustein ${e.key}');
         }
       }
+    }
+  });
+
+  for (final (pfad, n) in [('olli', 4), ('fatma', 12)]) {
+    test('Alles in einer Datei: A4, so viele Seiten wie die acht Teile zusammen, Text jedes Teils, neutraler Name ($pfad, $n Personen)', () async {
+      final k = druckKontext(pfad: pfad, n: n);
+      final alles = await druckAlles(k);
+      expect(alles.name, 'druckspiel-alles.pdf');
+      final woerter = alles.name.toLowerCase().split(RegExp(r'[-.]')).toSet();
+      expect(woerter.intersection(personenWoerter), isEmpty);
+      final b = pdfPruefen(alles.bytes);
+      expect(b.a4, isTrue);
+      final teile = await druckDateien(k);
+      expect(b.seiten, [for (final d in teile) pdfPruefen(d.bytes).seiten].reduce((a, c) => a + c));
+      // Ohne Seitenzahlen: In der einen Datei laufen sie über alle Teile.
+      String ohneSeiten(String t) => flach(t.replaceAll(RegExp(r'\d+ / \d+'), ''));
+      final text = ohneSeiten(_rohText(alles.bytes));
+      for (final teil in <void Function(pw.Document, DruckKontext)>[erzaehlerheft, detektivbogen, rollenhefte, fassungen, stimmkarten, indizkarten, umschlaege, aufloesungsheft]) {
+        expect(text, contains(_kopf(ohneSeiten(_rohText(await _bytes(k, teil))), 80)), reason: '$teil');
+      }
+    });
+  }
+
+  test('Rollenheft je Person: eine Datei je besetzter Rolle, A4, der Name nennt nur die eigene Figur, in allen Pfaden gleich (A-059)', () async {
+    final namen = <String, List<String>>{};
+    for (final p in kanon.pfade) {
+      final k = druckKontext(pfad: p, n: 7);
+      final dateien = await rollenheftDateien(k);
+      expect([for (final d in dateien) d.figur], k.satz.besetzt, reason: p);
+      for (final d in dateien) {
+        final eigen = dateiWort(k.figurName(d.figur!));
+        expect(d.name, '10-rollenheft-$eigen.pdf', reason: '$p ${d.figur}');
+        // Kein anderer Name, keine andere Kennung, kein Wort wie Täter oder Fassung im Dateinamen.
+        final woerter = d.name.toLowerCase().split(RegExp(r'[-.]')).toSet()..remove(eigen)..remove(d.figur);
+        expect(woerter.intersection(personenWoerter), isEmpty, reason: '$p ${d.name}');
+        expect(woerter.intersection({'taeter', 'taeterin', 'fassung', 'versiegelt'}), isEmpty, reason: '$p ${d.name}');
+        final b = pdfPruefen(d.bytes);
+        expect(b.a4, isTrue, reason: d.name);
+        expect(flach(b.text), contains(k.figurName(d.figur!)), reason: d.name);
+      }
+      namen[p] = [for (final d in dateien) d.name];
+    }
+    expect({for (final l in namen.values) l.join(',')}, hasLength(1), reason: 'Die Dateinamen hängen nicht am Pfad: $namen');
+  });
+
+  test('Rollenheft je Person: Heft der Person ist das Heft im Sammelheft (Pfad can, 5 Personen)', () async {
+    final k = druckKontext(pfad: 'can', n: 5);
+    // Ohne Seitenzahlen: Im Sammelheft laufen sie über alle Hefte.
+    String ohneSeiten(String t) => flach(t.replaceAll(RegExp(r'\d+ / \d+'), ''));
+    final sammel = ohneSeiten(_rohText(await _bytes(k, rollenhefte)));
+    final dateien = await rollenheftDateien(k);
+    expect(dateien, hasLength(5));
+    for (final d in dateien) {
+      expect(sammel, contains(ohneSeiten(_rohText(d.bytes))), reason: d.name);
     }
   });
 

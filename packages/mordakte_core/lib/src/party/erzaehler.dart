@@ -1,4 +1,5 @@
 import 'ablauf.dart';
+import 'besetzung.dart';
 import 'gruppenwahl.dart';
 import 'kanon/kanon.dart';
 
@@ -19,8 +20,27 @@ class Erzaehler {
     final lacher = [for (final l in (kanon.json['setting.json']!['lacher'] as List? ?? const [])) (l as Map).cast<String, Object?>()];
     return [
       'intro.start',
+      for (final t in introTeile) 'intro.$t',
       for (final l in lacher) 'intro.lacher.${l['id']}.${s.besetzung.istBesetzt(l['wer'] as String, s.einstellungen.rollen) ? 'besetzt' : 'npc'}',
       'intro.auftrag.${s.einstellungen.detektiv}',
+    ];
+  }
+
+  /// Weitere Intro-Bausteine direkt nach `intro.start` (`setting.introTeile`), etwa
+  /// der Stromausfall im Schlosskeller (K1). Ohne Liste bleibt es bei `intro.start`.
+  List<String> get introTeile => [for (final t in (kanon.json['setting.json']!['introTeile'] as List? ?? const [])) t as String];
+
+  /// Die Abschnitte des Intros in der Reihenfolge von [intro], je mit allen
+  /// Fassungen, aus denen [intro] eine wählt: Lacher besetzt oder `npc`,
+  /// Auftrag `m` oder `w`. Grundlage der Diashow (`diashow.dart`): ein Bild je
+  /// Abschnitt, gleich welche Fassung der Abend liest.
+  List<({String basis, List<String> fassungen})> get introAbschnitte {
+    final lacher = [for (final l in (kanon.json['setting.json']!['lacher'] as List? ?? const [])) (l as Map)['id'] as String];
+    return [
+      (basis: 'intro.start', fassungen: const ['intro.start']),
+      for (final t in introTeile) (basis: 'intro.$t', fassungen: ['intro.$t']),
+      for (final id in lacher) (basis: 'intro.lacher.$id', fassungen: ['intro.lacher.$id.besetzt', 'intro.lacher.$id.npc']),
+      (basis: 'intro.auftrag', fassungen: const ['intro.auftrag.m', 'intro.auftrag.w']),
     ];
   }
 
@@ -35,6 +55,8 @@ class Erzaehler {
   /// spricht der Erzähler zu Beginn der Runde, in der sie zuerst gebraucht
   /// werden – aber nur, wenn die Figur nicht besetzt ist. Die Auswahl hängt
   /// an Runde und Besetzung, nie am Pfad (S-1): Die Ketten aller Pfade zählen.
+  /// Im Modell befragung zählen auch Figuren, die Ziel einer Option sind
+  /// (E-044): Ihre Fundkarte zeigt nur die Fakten der Option, nicht ihr Wissen.
   List<String> npcWissen(int runde, {required bool Function(String figur) besetzt}) => [
         for (final f in npcPlan[runde]?.keys ?? const <String>[])
           if (!besetzt(f)) 'npc.$f.$runde',
@@ -48,6 +70,9 @@ class Erzaehler {
       for (final b in kanon.json['beobachtungen.json']!['beobachtungen'] as List) (b as Map)['id'] as String: b.cast<String, Object?>(),
     };
     final kern = kanon.kernverdaechtige.toSet();
+    // Modell legacy: Ziel-Figuren sprechen auf ihrer Karte selbst (E-035). Modell befragung: Der Erzähler
+    // spricht auch ihr Wissen, mit Namen, weil die Optionen sie ohnehin nennen (E-044).
+    final mitZielen = Besetzung(kanon).befragungsmodell;
     final es = [for (final e in kanon.entscheidungenJson['entscheidungen'] as List) (e as Map).cast<String, Object?>()]
       ..sort((a, b) => ((a['runde'] as int) * 10 + (a['nr'] as int)).compareTo((b['runde'] as int) * 10 + (b['nr'] as int)));
     final ziele = <String>{};
@@ -63,7 +88,7 @@ class Erzaehler {
           final x = beob[teile[1]];
           if (x == null || x['kanal'] != 'pflichtgespraech') continue;
           final wer = x['wer'] as String;
-          if (kern.contains(wer) || ziele.contains(wer)) continue;
+          if (kern.contains(wer) || (!mitZielen && ziele.contains(wer))) continue;
           gebraucht.putIfAbsent(teile[1], () => e['runde'] as int);
         }
       }
@@ -144,6 +169,7 @@ class Erzaehler {
     final enden = [for (final e in ((kanon.fall['enden'] as Map)['matrix'] as List)) (e as Map)['id'] as String];
     return [
       'intro.start',
+      for (final t in introTeile) 'intro.$t',
       for (final l in lacher) ...['intro.lacher.$l.besetzt', 'intro.lacher.$l.npc'],
       'intro.auftrag.m',
       'intro.auftrag.w',

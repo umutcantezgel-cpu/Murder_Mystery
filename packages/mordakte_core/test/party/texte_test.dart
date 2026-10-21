@@ -66,6 +66,8 @@ void main() {
     'dossier': 'texte-dossier',
     'taeter': 'texte-taeter',
     'gespraech': 'texte-gespraech',
+    'befragung': 'texte-befragung',
+    'kurzfassung': 'texte-kurzfassung',
     'wahl': 'texte-wahl',
   };
 
@@ -136,7 +138,7 @@ void main() {
     }
   });
 
-  test('Pflichtgespräche: Ersatzpartner bei kleiner Besetzung, P-1 wird erzwungen', () {
+  test('Tischgespräche: Ersatzpartner bei kleiner Besetzung, P-1 wird erzwungen', () {
     Map<String, Object?> g(String rolle, String partner, List<String> preisgabe) => {
           'id': 'g_${rolle}_1_1',
           'rolle': rolle,
@@ -146,14 +148,15 @@ void main() {
           'thema': 'Der Abend',
           'ziel': 'Herausfinden, wer wo war',
           'preisgabe': preisgabe,
-          'text': 'Wo warst du beim Knall?',
+          'stichpunkte': ['Wo warst du beim Knall?', 'Ich hab kaum was gesehen.'],
         };
     final gut = _probe(gespraeche: [
-      g('enes', 'leyla', ['beobachtung:b_damir_an_der_theke']),
+      g('hakan', 'leyla', ['beobachtung:b_pawel_schneider']),
     ]);
     expect(textVerweise(kanon, gut), isEmpty);
     final dossierLos = Texte(kanon, gut);
-    expect(dossierLos.besetzung.partner('leyla', 4, sprecher: 'enes'), Besetzung.detektiv);
+    // Im Modell befragung springt nie der Detektiv ein, sondern die erste andere besetzte Rolle.
+    expect(dossierLos.besetzung.partner('leyla', 4, sprecher: 'hakan'), 'ahmet');
     final schlecht = _probe(gespraeche: [
       g('enes', 'leyla', ['beobachtung:b_damir_ahmet_blieb', 'nebendelikt:nd_mietgeld', 'beobachtung:b_hana_wachs', 'luege:luege_ahmet_miete']),
     ]);
@@ -162,28 +165,31 @@ void main() {
     expect(f.where((x) => x.contains('nicht erlaubt')), hasLength(1));
     expect(f.where((x) => x.contains('gehört nicht zu')), hasLength(1));
     expect(f.where((x) => x.contains('nicht die Lüge')), hasLength(1));
+    // Ein Kettenglied gehört in die Befragung, nicht an den Tisch (A-051).
+    final kette = textVerweise(kanon, _probe(gespraeche: [g('enes', 'leyla', ['beobachtung:b_damir_an_der_theke'])]));
+    expect(kette, ['Gespräch g_enes_1_1: beobachtung:b_damir_an_der_theke ist ein Kettenglied und gehört in die Befragung']);
   });
 
   test('P-2: ein ersetzbarer Partner steht nicht im Text, eine Kernrolle darf', () {
-    Map<String, Object?> g(String partner, String text, int nr) => {
-          'id': 'g_enes_1_$nr',
-          'rolle': 'enes',
+    Map<String, Object?> g(String partner, String text, String rolle) => {
+          'id': 'g_${rolle}_1_1',
+          'rolle': rolle,
           'runde': 1,
-          'nr': nr,
+          'nr': 1,
           'partner': partner,
           'thema': 'Der Abend',
           'ziel': 'Wissen, wer wo war',
           'preisgabe': [],
-          'text': text,
+          'stichpunkte': [text, 'Ich hab nichts gesehen.'],
         };
     final f = textVerweise(
         kanon,
         _probe(gespraeche: [
-          g('leyla', 'Lejla, wo warst du beim Knall?', 1),
-          g('ahmet', 'Ahmet, wo warst du beim Knall?', 2),
-          g('tim', 'Wo warst du beim Knall?', 3),
+          g('leyla', 'Lejla, wo warst du beim Knall?', 'enes'),
+          g('ahmet', 'Ahmet, wo warst du beim Knall?', 'hakan'),
+          g('tim', 'Wo warst du beim Knall?', 'selin'),
         ]));
-    expect(f.where((x) => x.contains('(P-2)') && x.contains('g_enes_1_')), ['Gespräch g_enes_1_1: nennt den Partner Lejla, der ersetzt werden kann (P-2)']);
+    expect(f.where((x) => x.contains('(P-2)')), ['Gespräch g_enes_1_1: nennt den Partner Lejla, der ersetzt werden kann (P-2)']);
   });
 
   test('Gesprächsplan 4 bis 20: Höchstlast, Wunschpartner bleibt, nie mit sich selbst (V-19, E-028)', () {
@@ -207,23 +213,45 @@ void main() {
     }
   });
 
-  test('Rot-Probe: zu viele Gespräche mit einer Kernrolle werden gemeldet', () {
-    final t = _probe(gespraeche: [
-      for (final r in ['enes', 'selin', 'hakan', 'tugba'])
-        for (var nr = 1; nr <= 3; nr++)
-          {
-            'id': 'g_${r}_1_$nr',
-            'rolle': r,
-            'runde': 1,
-            'nr': nr,
-            'partner': 'ahmet',
-            'thema': 'Der Abend',
-            'ziel': 'Wissen, wer wo war',
-            'preisgabe': [],
-            'text': 'Wo warst du beim Knall?',
-          },
-    ]);
-    expect(Texte(kanon, t).lastVerstoesse().where((x) => x.startsWith('20 Rollen, Runde 1: ahmet')), isNotEmpty);
+  test('Rot-Probe (Modell legacy, Gewölbe): zu viele Gespräche mit einer Kernrolle werden gemeldet', () {
+    final g = Besetzung(ladeKanon('gewoelbe'));
+    expect(g.modell, GespraechsModell.legacy);
+    final wuensche = <GespraechsWunsch>[
+      for (final r in g.reihenfolge.skip(16))
+        for (var nr = 1; nr <= 3; nr++) (id: 'g_${r}_1_$nr', rolle: r, runde: 1, nr: nr, partner: 'adnan'),
+    ];
+    expect(g.lastVerstoesse(wuensche, g.gespraechsplan(wuensche, 20), 20).where((x) => x.startsWith('20 Rollen, Runde 1: adnan')), isNotEmpty);
+  });
+
+  test('Modell befragung: der Plan leitet überzählige Wünsche um, ein erzwungener Plan wird gemeldet', () {
+    final b = Texte(kanon, _sammlung()).besetzung;
+    final wuensche = <GespraechsWunsch>[
+      for (final r in ['enes', 'selin', 'hakan', 'tugba']) (id: 'g_${r}_1_1', rolle: r, runde: 1, nr: 1, partner: 'ahmet'),
+      (id: 'g_ahmet_1_1', rolle: 'ahmet', runde: 1, nr: 1, partner: 'fatma'),
+    ];
+    final plan = b.gespraechsplan(wuensche, 20);
+    expect(plan.values.where((p) => p == 'ahmet'), hasLength(1));
+    expect(plan.values, isNot(contains(Besetzung.detektiv)));
+    expect(b.lastVerstoesse(wuensche, plan, 20), isEmpty);
+    final erzwungen = {...plan, for (final w in wuensche) if (w.rolle != 'ahmet') w.id: 'ahmet'};
+    expect(b.lastVerstoesse(wuensche, erzwungen, 20), contains('20 Rollen, Runde 1: ahmet hat 5 Gespräche (höchstens 2)'));
+  });
+
+  test('Modell befragung: hat zuletzt nur der Sprecher selbst freie Last, tauscht der Plan', () {
+    final b = Texte(kanon, _sammlung()).besetzung;
+    // Vier Rollen, ein Ring ahmet → fatma → olli → ahmet; can wünscht sich ahmet, der schon vergeben ist.
+    final wuensche = <GespraechsWunsch>[
+      (id: 'a', rolle: 'ahmet', runde: 1, nr: 1, partner: 'fatma'),
+      (id: 'f', rolle: 'fatma', runde: 1, nr: 1, partner: 'olli'),
+      (id: 'o', rolle: 'olli', runde: 1, nr: 1, partner: 'ahmet'),
+      (id: 'c', rolle: 'can', runde: 1, nr: 1, partner: 'ahmet'),
+    ];
+    final plan = b.gespraechsplan(wuensche, 4);
+    expect(plan.values.toSet(), {'ahmet', 'fatma', 'olli', 'can'}, reason: '$plan');
+    for (final w in wuensche) {
+      expect(plan[w.id], isNot(w.rolle));
+    }
+    expect(b.lastVerstoesse(wuensche, plan, 4), isEmpty);
   });
 
   test('doppelte Kennungen und unbekannte Verweise werden gemeldet', () {

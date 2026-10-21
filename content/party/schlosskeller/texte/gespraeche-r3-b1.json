@@ -1,44 +1,24 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 3, Besetzungsplätze 1 bis 4.",
+  "hinweis": "Tischgespräche Runde 3, Besetzungsplätze 1 bis 4 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_ahmet_3_1",
       "rolle": "ahmet",
       "runde": 3,
       "nr": 1,
-      "partner": "leyla",
-      "thema": "Kannst du schweigen?",
-      "ziel": "Ich will die andere Person bitten, bis morgen still zu sein.",
-      "preisgabe": [
-        "luege:luege_ahmet_servietten"
-      ],
-      "text": "Ich halte zu dir, also halt du auch zu mir. Servietten, mehr hab ich hinter der Theke nicht gesucht."
-    },
-    {
-      "id": "g_ahmet_3_2",
-      "rolle": "ahmet",
-      "runde": 3,
-      "nr": 2,
       "partner": "aylin",
-      "thema": "Was ist mit dem Geld?",
-      "ziel": "Ich will die andere Person davon überzeugen, dass beim Geld alles seine Ordnung hat.",
+      "thema": "Bis zum Morgen",
+      "ziel": "Ich will, dass beim Geld niemand nachhakt.",
       "preisgabe": [
         "luege:luege_ahmet_miete"
       ],
-      "text": "Hundertfünfzig Euro, für die Miete, so war’s. Sag mir jetzt ehrlich, was du davon hältst."
-    },
-    {
-      "id": "g_ahmet_3_3",
-      "rolle": "ahmet",
-      "runde": 3,
-      "nr": 3,
-      "partner": "detective",
-      "thema": "Gemeinsam bis zum Ende",
-      "ziel": "Ich will das Geburtstagskind als Verbündeten gewinnen.",
-      "preisgabe": [],
-      "text": "Du ermittelst heute, ich bin der Organisator. Wir sitzen eh bis zum Morgen fest, also zieh mit mir an einem Strang."
+      "stichpunkte": [
+        "Das Geld war für die Miete.",
+        "Wir sitzen eh bis zum Morgen fest.",
+        "Hältst du zu mir?"
+      ]
     },
     {
       "id": "g_fatma_3_1",
@@ -47,74 +27,28 @@
       "nr": 1,
       "partner": "emine",
       "thema": "Bist du auf meiner Seite?",
-      "ziel": "Ich will die andere Person bitten, für mich einzustehen.",
+      "ziel": "Ich will jemanden finden, der zu mir hält.",
       "preisgabe": [
         "luege:luege_fatma_buffet"
       ],
-      "text": "Egal was kommt, ich steh zu dir. Die ganze Zeit stand ich beim Gebäck, links am Buffet."
-    },
-    {
-      "id": "g_fatma_3_2",
-      "rolle": "fatma",
-      "runde": 3,
-      "nr": 2,
-      "partner": "detective",
-      "thema": "Meine Tasche",
-      "ziel": "Ich will das Geburtstagskind davon abbringen, weiter nach der Tasche zu fragen.",
-      "preisgabe": [
-        "luege:luege_fatma_tasche"
-      ],
-      "text": "Was willst du eigentlich von meiner Tasche? Sag es mir jetzt klar. Da drin sind nur Bücher."
-    },
-    {
-      "id": "g_fatma_3_3",
-      "rolle": "fatma",
-      "runde": 3,
-      "nr": 3,
-      "partner": "tugba",
-      "thema": "Die Version merken",
-      "ziel": "Ich will, dass die andere Person meine Version festhält.",
-      "preisgabe": [
-        "luege:luege_fatma_buffet"
-      ],
-      "text": "Ich hab mich die ganze Zeit ans Gebäck gehalten, links am Buffet. Merk dir das genau."
+      "stichpunkte": [
+        "Egal was kommt, ich halte zu dir.",
+        "Ich war die ganze Zeit beim Gebäck."
+      ]
     },
     {
       "id": "g_olli_3_1",
       "rolle": "olli",
       "runde": 3,
       "nr": 1,
-      "partner": "kaan",
-      "thema": "Rückendeckung",
-      "ziel": "Ich will die andere Person bitten, bei meiner Version zu bleiben.",
-      "preisgabe": [
-        "luege:luege_olli_tafel"
-      ],
-      "text": "Halt mir den Rücken frei, ja? Am Tisch im Ost-Saal bin ich geblieben. Ich lass dich auch nicht hängen."
-    },
-    {
-      "id": "g_olli_3_2",
-      "rolle": "olli",
-      "runde": 3,
-      "nr": 2,
       "partner": "hakan",
       "thema": "Herr Schneider beim Geld",
-      "ziel": "Ich will wissen, wie Herr Schneider reagiert, wenn es ums Geld geht.",
+      "ziel": "Ich will wissen, wie Herr Schneider bei Ärger reagiert.",
       "preisgabe": [],
-      "text": "Sag mal ehrlich, wie reagiert Herr Schneider, wenn’s ums Geld geht?"
-    },
-    {
-      "id": "g_olli_3_3",
-      "rolle": "olli",
-      "runde": 3,
-      "nr": 3,
-      "partner": "detective",
-      "thema": "Vor der Anklage",
-      "ziel": "Ich will das Geburtstagskind davon abbringen, mich anzuklagen.",
-      "preisgabe": [
-        "luege:luege_olli_tafel"
-      ],
-      "text": "Bevor du gleich anklagst, will ich dir was sagen. Ich saß die ganze Zeit am Tisch im Ost-Saal."
+      "stichpunkte": [
+        "Wie reagiert Herr Schneider bei Geldfragen?",
+        "Ich pack gern mit an, wo es klemmt."
+      ]
     },
     {
       "id": "g_can_3_1",
@@ -123,35 +57,14 @@
       "nr": 1,
       "partner": "zeynep",
       "thema": "Halt zu mir",
-      "ziel": "Ich will die andere Person bitten, mich nicht zu verraten.",
+      "ziel": "Ich will, dass mich niemand verrät.",
       "preisgabe": [
         "luege:luege_can_toilette"
       ],
-      "text": "Die ganze Zeit war ich auf dem Klo im Turm. Bitte halt zu mir."
-    },
-    {
-      "id": "g_can_3_2",
-      "rolle": "can",
-      "runde": 3,
-      "nr": 2,
-      "partner": "tim",
-      "thema": "Wie viel hast du gesehen?",
-      "ziel": "Ich will vorsichtig herausfinden, wie viel die andere Person gesehen hat.",
-      "preisgabe": [
-        "luege:luege_can_maske"
-      ],
-      "text": "Welche Maske? Ich hab keine Maske. Jetzt legen wir unsere Versionen nebeneinander."
-    },
-    {
-      "id": "g_can_3_3",
-      "rolle": "can",
-      "runde": 3,
-      "nr": 3,
-      "partner": "murat",
-      "thema": "Was du gesehen hast",
-      "ziel": "Ich will herausfinden, ob die andere Person im Dunkeln etwas Auffälliges gesehen hat.",
-      "preisgabe": [],
-      "text": "Was war im Dunkeln bei dir los?"
+      "stichpunkte": [
+        "Ich war die ganze Zeit oben im Turm.",
+        "Bitte halt zu mir."
+      ]
     }
   ]
 }

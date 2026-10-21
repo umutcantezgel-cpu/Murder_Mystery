@@ -115,6 +115,44 @@ void main() {
     expect(find.text(_sammlung.wahlen['gw_ahmet_1']!.sabotage!), findsNothing);
   });
 
+  testWidgets('Modell befragung: Bei der Rollenübergabe stehen nur die Notizen der ersten Runde', (t) async {
+    final s = _sitzung();
+    await _zeige(t, s);
+    s.zeigeVerdeckt('emine');
+    await t.pump();
+    final d = s.dossier('emine');
+    final erste = <String>{};
+    for (final (g, _) in d.gespraeche[1]!) {
+      expect(find.text(g.ziel), findsWidgets);
+      for (final p in g.stichpunkte) {
+        expect(find.text(p), findsWidgets, reason: p);
+        erste.add(p);
+      }
+    }
+    final z = s.spickzettel('emine', 1);
+    for (final x in [...z.sagen, ...z.eigene, ...d.befragungen[1]!.fragen]) {
+      expect(find.text(x), findsWidgets, reason: x);
+      erste.add(x);
+    }
+    for (final x in z.behaupten) {
+      expect(find.text(s.ui('ui.befragung.behaupte', {'text': x})), findsOneWidget, reason: x);
+    }
+    for (final r in [2, 3]) {
+      for (final (g, _) in d.gespraeche[r]!) {
+        for (final p in g.stichpunkte.where((p) => !erste.contains(p))) {
+          expect(find.text(p), findsNothing, reason: 'Runde $r: $p');
+        }
+      }
+      for (final f in d.befragungen[r]!.fragen.where((f) => !erste.contains(f))) {
+        expect(find.text(f), findsNothing, reason: 'Runde $r: $f');
+      }
+    }
+    expect(find.text(s.ui('ui.rollen.gespraech_eroeffnung')), findsNothing, reason: 'Stichpunkte statt „So fängst du an“');
+    expect(find.text(s.ui('ui.befragung.dich')), findsOneWidget);
+    expect(find.text(s.ui('ui.befragung.anspricht')), findsOneWidget);
+    expect(find.text(s.ui('ui.befragung.runde_eins')), findsOneWidget);
+  });
+
   testWidgets('eine Lüge im Dossier zeigt Behauptung und Wahrheit', (t) async {
     final s = _sitzung();
     // Die erste Rolle mit einer Lüge im Dossier suchen.

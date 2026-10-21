@@ -56,8 +56,10 @@
       "ziel": [
         "figuren.json#detektiv.title"
       ],
-      "status": "übernommen",
-      "grund": []
+      "status": "angepasst",
+      "grund": [
+        "E-043"
+      ]
     },
     {
       "id": "J-005",
@@ -1152,7 +1154,8 @@
       "status": "angepasst",
       "grund": [
         "A-14",
-        "V-22"
+        "V-22",
+        "E-043"
       ]
     },
     {
@@ -2005,7 +2008,8 @@
       "status": "angepasst",
       "grund": [
         "A-19",
-        "V-22"
+        "V-22",
+        "E-043"
       ]
     },
     {
@@ -2433,7 +2437,8 @@
       "status": "angepasst",
       "grund": [
         "A-15",
-        "E-015"
+        "E-015",
+        "E-043"
       ]
     },
     {
@@ -2447,7 +2452,8 @@
       "status": "angepasst",
       "grund": [
         "A-15",
-        "V-11"
+        "V-11",
+        "E-043"
       ]
     },
     {
@@ -2598,7 +2604,8 @@
       "status": "angepasst",
       "grund": [
         "A-21",
-        "V-27"
+        "V-27",
+        "E-043"
       ]
     },
     {
@@ -2626,7 +2633,8 @@
       "status": "angepasst",
       "grund": [
         "A-21",
-        "V-22"
+        "V-22",
+        "E-043"
       ]
     },
     {
@@ -4366,8 +4374,10 @@
       "ziel": [
         "figuren.json#tugba.roleTitle"
       ],
-      "status": "übernommen",
-      "grund": []
+      "status": "angepasst",
+      "grund": [
+        "E-043"
+      ]
     },
     {
       "id": "J-339",
@@ -4483,7 +4493,8 @@
       "status": "angepasst",
       "grund": [
         "A-30",
-        "V-22"
+        "V-22",
+        "E-043"
       ]
     },
     {
@@ -4525,7 +4536,8 @@
       "status": "angepasst",
       "grund": [
         "A-09",
-        "V-09"
+        "V-09",
+        "E-043"
       ]
     },
     {
@@ -4568,7 +4580,8 @@
       "status": "angepasst",
       "grund": [
         "A-09",
-        "B-12"
+        "B-12",
+        "E-043"
       ]
     },
     {
@@ -4948,7 +4961,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "A-14"
+        "A-14",
+        "E-043"
       ]
     },
     {
@@ -5005,7 +5019,8 @@
       "status": "angepasst",
       "grund": [
         "A-14",
-        "V-22"
+        "V-22",
+        "E-043"
       ]
     },
     {
@@ -5257,7 +5272,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "A-19"
+        "A-19",
+        "E-043"
       ]
     },
     {
@@ -5454,7 +5470,8 @@
       "status": "angepasst",
       "grund": [
         "A-15",
-        "V-11"
+        "V-11",
+        "E-043"
       ]
     },
     {
@@ -5467,7 +5484,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "A-21"
+        "A-21",
+        "E-043"
       ]
     },
     {
@@ -5496,7 +5514,8 @@
       "status": "angepasst",
       "grund": [
         "A-21",
-        "V-27"
+        "V-27",
+        "E-043"
       ]
     },
     {
@@ -6097,7 +6116,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "A-30"
+        "A-30",
+        "E-043"
       ]
     },
     {
@@ -6481,7 +6501,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "B-01"
+        "B-01",
+        "E-043"
       ]
     },
     {
@@ -6492,8 +6513,10 @@
       "ziel": [
         "raeume.json#rooms.turmgang"
       ],
-      "status": "übernommen",
-      "grund": []
+      "status": "angepasst",
+      "grund": [
+        "E-043"
+      ]
     },
     {
       "id": "R-012",
@@ -6597,8 +6620,10 @@
       "ziel": [
         "setting.json#schauplatz"
       ],
-      "status": "übernommen",
-      "grund": []
+      "status": "angepasst",
+      "grund": [
+        "E-043"
+      ]
     },
     {
       "id": "S-003",
@@ -6636,8 +6661,10 @@
       "ziel": [
         "setting.json#empfang"
       ],
-      "status": "übernommen",
-      "grund": []
+      "status": "angepasst",
+      "grund": [
+        "E-043"
+      ]
     },
     {
       "id": "S-006",
@@ -6675,7 +6702,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "B-17"
+        "B-17",
+        "E-043"
       ]
     },
     {
@@ -6770,7 +6798,8 @@
       "status": "angepasst",
       "grund": [
         "B-05",
-        "V-10"
+        "V-10",
+        "E-043"
       ]
     },
     {
@@ -6814,7 +6843,8 @@
       ],
       "status": "angepasst",
       "grund": [
-        "B-01"
+        "B-01",
+        "E-043"
       ]
     },
     {
@@ -6828,7 +6858,8 @@
       "status": "angepasst",
       "grund": [
         "B-06",
-        "A-14"
+        "A-14",
+        "E-043"
       ]
     },
     {
@@ -7116,7 +7147,8 @@
       "status": "angepasst",
       "grund": [
         "B-09",
-        "E-019"
+        "E-019",
+        "E-043"
       ]
     },
     {

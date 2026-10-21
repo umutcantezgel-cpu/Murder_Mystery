@@ -1,112 +1,49 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "gespraech",
-  "hinweis": "Pflichtgespräche Runde 2, Besetzungsplätze 17 bis 20.",
+  "hinweis": "Tischgespräche Runde 2, Besetzungsplätze 17 bis 20 (A-051): je Rolle eines, Stichpunkte statt Prosa, ohne den Detektiv.",
   "eintraege": [
     {
       "id": "g_enes_2_1",
       "rolle": "enes",
       "runde": 2,
       "nr": 1,
-      "partner": "detective",
-      "thema": "Die Erinnerung an den Knall",
-      "ziel": "Ich will prüfen, ob meine Erinnerung an den Knall zu deiner passt, ohne dass es nach Verhör klingt.",
-      "preisgabe": [],
-      "text": "Es hat geknallt, und dann war es stockdunkel. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_enes_2_2",
-      "rolle": "enes",
-      "runde": 2,
-      "nr": 2,
-      "partner": "can",
-      "thema": "Die Theke ohne Can",
-      "ziel": "Ich will prüfen, ob Cans Erzählung zu meiner Beobachtung an der Theke passt.",
-      "preisgabe": [
-        "beobachtung:b_damir_an_der_theke"
-      ],
-      "text": "Can, um drei vor zwölf standen Ahmet, Fatma und Olli an der Theke, Herr Schneider am Ostende. Dich hab ich da nicht gesehen. Wie passt das zu dem, was du vorhin erzählt hast?"
-    },
-    {
-      "id": "g_enes_2_3",
-      "rolle": "enes",
-      "runde": 2,
-      "nr": 3,
       "partner": "tugba",
       "thema": "Bund und Außentor",
-      "ziel": "Ich will prüfen, ob das, was mein Gegenüber sagt, zur Lage passt, und das Teegeschirr bleibt außen vor.",
+      "ziel": "Ich will prüfen, ob die Geschichten zur Lage passen.",
       "preisgabe": [],
-      "text": "Der Schlüsselbund ist weg, und das Außentor ist zu. Stimmt das mit dem überein, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Der Bund ist weg, das Tor ist zu.",
+        "Passt das zu deiner Geschichte?"
+      ]
     },
     {
       "id": "g_selin_2_1",
       "rolle": "selin",
       "runde": 2,
       "nr": 1,
-      "partner": "detective",
-      "thema": "Die Schultern beim Knall",
-      "ziel": "Ich will prüfen, ob das Geburtstagskind danach dasselbe gehört hat wie ich.",
-      "preisgabe": [],
-      "text": "Ich zieh bei lauten Geräuschen oft die Schultern hoch. Stimmt das bei dir auch, oder hast du danach etwas anderes gehört?"
-    },
-    {
-      "id": "g_selin_2_2",
-      "rolle": "selin",
-      "runde": 2,
-      "nr": 2,
       "partner": "emine",
       "thema": "Die Rüstung im Turmgang",
-      "ziel": "Ich will prüfen, ob mein Gegenüber im Dunkeln etwas Ähnliches erlebt hat wie ich, und die Rüstung soll weg.",
+      "ziel": "Ich will, dass die Rüstung verschwindet.",
       "preisgabe": [],
-      "text": "Die Rüstung im Turmgang macht mir immer noch Gänsehaut. Passt das zu dem, was du vorhin gesagt hast?"
-    },
-    {
-      "id": "g_selin_2_3",
-      "rolle": "selin",
-      "runde": 2,
-      "nr": 3,
-      "partner": "murat",
-      "thema": "Das Gesicht im Kaminsaal",
-      "ziel": "Ich will wissen, ob mein Gegenüber das Gesicht bestätigt oder etwas anderes erzählt.",
-      "preisgabe": [
-        "beobachtung:b_selin_gesicht"
-      ],
-      "text": "Im Dunkeln hab ich ein leuchtendes Gesicht gesehen, das zur Bogentür im Kaminsaal huschte. Stimmt das mit dem überein, was du vorhin gesagt hast?"
+      "stichpunkte": [
+        "Die Rüstung im Turmgang macht mir Gänsehaut.",
+        "Findest du sie nicht auch unheimlich?"
+      ]
     },
     {
       "id": "g_hakan_2_1",
       "rolle": "hakan",
       "runde": 2,
       "nr": 1,
-      "partner": "detective",
-      "thema": "Passt das zum Licht?",
-      "ziel": "Ich will ruhig prüfen, was du zum Licht sagst, ohne Streit anzufangen.",
-      "preisgabe": [],
-      "text": "Kurz vor Mitternacht ging das Licht aus. Passt das zu dem, was du vorhin über das Licht gesagt hast?"
-    },
-    {
-      "id": "g_hakan_2_2",
-      "rolle": "hakan",
-      "runde": 2,
-      "nr": 2,
       "partner": "selin",
-      "thema": "Herr Schneider und seine Strenge",
-      "ziel": "Ich will prüfen, ob mein Gegenüber Herrn Schneider beim Geld anders erlebt hat, und sonst nichts Persönliches verraten.",
-      "preisgabe": [
-        "beobachtung:b_pawel_schneider"
-      ],
-      "text": "Wie findest du Herrn Schneider, wenn es ums Geld geht? Er muss jede Schadensmeldung an die Stiftung machen, deshalb ist er beim Geld so streng. Passt das zu dem, was du vorhin über ihn gesagt hast?"
-    },
-    {
-      "id": "g_hakan_2_3",
-      "rolle": "hakan",
-      "runde": 2,
-      "nr": 3,
-      "partner": "tugba",
-      "thema": "Was an der Theke zusammenpasst",
-      "ziel": "Ich will prüfen, ob die Erzählungen zur Theke zusammenpassen, und das ruhig klären.",
+      "thema": "Ruhig bleiben",
+      "ziel": "Ich will Streit vermeiden und hören, was du weißt.",
       "preisgabe": [],
-      "text": "Herr Schneider liegt bewusstlos im Vorratsraum. Passt das zu dem, was du vorhin über die Theke gesagt hast?"
+      "stichpunkte": [
+        "Lass uns ruhig über den Knall reden.",
+        "Wo warst du denn?"
+      ]
     },
     {
       "id": "g_tugba_2_1",
@@ -115,33 +52,12 @@
       "nr": 1,
       "partner": "serkan",
       "thema": "Genau festhalten",
-      "ziel": "Ich will prüfen, ob das, was mein Gegenüber sagt, zu meiner Liste passt, damit die Torte um halb eins kommt.",
+      "ziel": "Ich will prüfen, ob die Geschichten zu meiner Liste passen.",
       "preisgabe": [],
-      "text": "Ich schreib mir alles genau auf, damit die Torte um halb eins kommt. Passt das, was du vorhin gesagt hast, zu meiner Liste?"
-    },
-    {
-      "id": "g_tugba_2_2",
-      "rolle": "tugba",
-      "runde": 2,
-      "nr": 2,
-      "partner": "detective",
-      "thema": "Meine Notiz",
-      "ziel": "Ich will prüfen, ob deine Erzählung zu meiner Notiz passt, bevor die Torte um halb eins kommt.",
-      "preisgabe": [
-        "beobachtung:b_tugba_notiz"
-      ],
-      "text": "Ich hab notiert, wer für die Torte fehlt. Passt das noch zu dem, was du gesagt hast?"
-    },
-    {
-      "id": "g_tugba_2_3",
-      "rolle": "tugba",
-      "runde": 2,
-      "nr": 3,
-      "partner": "johanna",
-      "thema": "Was du zur Torte sagst",
-      "ziel": "Ich will prüfen, ob das, was mein Gegenüber über den Knall sagt, zu meiner Liste passt.",
-      "preisgabe": [],
-      "text": "Die Torte soll um halb eins stehen. Stimmt das wirklich, was du vorhin dazu gesagt hast?"
+      "stichpunkte": [
+        "Ich schreib mir alles genau auf.",
+        "Passt deine Geschichte zu meiner Liste?"
+      ]
     }
   ]
 }
