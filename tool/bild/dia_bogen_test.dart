@@ -4,6 +4,9 @@
 // Geprüft wird nur, was sich ohne Auge prüfen lässt: kein Überlauf, keine
 // Schrift im Bild (B6), im Bild nur die Figuren des Dias und der Prüfer ohne
 // Befund (R15: nichts Pfadabhängiges, B8).
+// Dazu ein Helligkeitsmaß je Bild (M7b): mittlere Luminanz der Szene im Abzug
+// und ihrer Mitte (dort steht die erste Figur), und Bild 2 groß und allein
+// unter build/m7b-belege/dia2.png für die Sichtprüfung (nicht einchecken).
 // Aufruf: flutter test tool/bild/dia_bogen_test.dart  (AKTE=<id> für eine andere Akte mit Diashow)
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -19,6 +22,7 @@ import 'package:mordakte/party/diashow_ansicht.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 import '../../test/party_widgets/hilfe.dart' show echteSchriften;
+import '../../test/party_widgets/luminanz.dart';
 
 void main() {
   setUpAll(echteSchriften);
@@ -77,14 +81,65 @@ void main() {
       expect({for (final n in s.figurenAnsicht().npcs) n.id}, soll, reason: 'Bild ${s.nr + 1}');
     }
     final grenze = t.renderObject<RenderRepaintBoundary>(find.byKey(bogen));
-    final png = await t.runAsync(() async {
+    final ursprung = t.getTopLeft(find.byKey(bogen));
+    // Szene je Bild: der Ausschnitt (ClipRect) um die GameView, ohne den Rand des Abzugs.
+    final szenen = [
+      for (var i = 0; i < show.dias.length; i++)
+        t.getRect(find.ancestor(of: find.byKey(const ValueKey('dia-szene')).at(i), matching: find.byType(ClipRect)).first).shift(-ursprung),
+    ];
+    final aus = await t.runAsync(() async {
       final bild = await grenze.toImage();
-      return (await bild.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+      final png = (await bild.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+      final roh = (await bild.toByteData())!;
+      final breite = bild.width, hoehe = bild.height;
+      bild.dispose();
+      return (png: png, roh: roh, breite: breite, hoehe: hoehe);
     });
     Directory('build/bild').createSync(recursive: true);
-    File('build/bild/dia_bogen_$fall.png').writeAsBytesSync(png!);
+    File('build/bild/dia_bogen_$fall.png').writeAsBytesSync(aus!.png);
     // ignore: avoid_print
     print('$fall: ${show.dias.length} Bilder → build/bild/dia_bogen_$fall.png');
+    for (final (i, r) in szenen.indexed) {
+      final ganz = mittlereLuminanz(aus.roh, aus.breite, aus.hoehe, r.deflate(r.shortestSide * 0.05));
+      final mitte = mittlereLuminanz(aus.roh, aus.breite, aus.hoehe, Rect.fromCenter(center: r.center, width: r.width * 0.4, height: r.height * 0.4));
+      expect(ganz, inInclusiveRange(0.0, 1.0));
+      // ignore: avoid_print
+      print('Bild ${i + 1} (${show.dias[i].stimmung.name}): Luminanz Szene ${ganz.toStringAsFixed(4)}, Mitte ${mitte.toStringAsFixed(4)}');
+    }
+
+    // Bild 2 groß und allein für die Sichtprüfung (M7b, nicht einchecken).
+    if (show.dias.length > 1) {
+      const gross = ValueKey('dia-2-gross');
+      t.view.physicalSize = const Size(940, 700);
+      await t.pumpWidget(MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        home: Scaffold(
+          backgroundColor: const Color(0xFF1B1712),
+          body: Center(
+            child: RepaintBoundary(
+              key: gross,
+              child: SizedBox(width: 900, child: DiashowAnsicht(daten: d, nr: 1, beschriftung: '2', testUhr: () => DiaSession.fahrtSekunden / 2)),
+            ),
+          ),
+        ),
+      ));
+      for (var i = 0; i < 12; i++) {
+        await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 120)));
+        await t.pump(const Duration(milliseconds: 120));
+      }
+      expect(t.takeException(), isNull);
+      final png = await t.runAsync(() async {
+        final bild = await t.renderObject<RenderRepaintBoundary>(find.byKey(gross)).toImage();
+        final png = (await bild.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+        bild.dispose();
+        return png;
+      });
+      Directory('build/m7b-belege').createSync(recursive: true);
+      File('build/m7b-belege/dia2.png').writeAsBytesSync(png!);
+      // ignore: avoid_print
+      print('Bild 2 groß → build/m7b-belege/dia2.png');
+    }
     await t.pumpWidget(const SizedBox.shrink());
   });
 }

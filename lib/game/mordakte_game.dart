@@ -1179,6 +1179,11 @@ class MordakteGame extends Game with KeyboardEvents {
   }
 
   String? _playerRoom;
+
+  /// Raum, in dem die eigene Figur zuletzt stand (nicht auf einer Tür): Vor
+  /// ihm schneidet der Renderer die Wände auf.
+  @visibleForTesting
+  String? get spielerRaum => _playerRoom;
   int _ackSeen = -1;
   double? _unackedSince;
   double _idleT = 0, _followT = 0;

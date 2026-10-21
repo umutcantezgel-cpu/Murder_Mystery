@@ -21,8 +21,14 @@ import 'karten_quelle.dart';
 /// rendert dieselben Bilder selbst, der Raum schickt nur die Nummer. Keine
 /// Hotspots, kein Glanz, kein Nebel; im Bild stehen nur die Figuren des Bildes
 /// (der Detektiv kommt als Fotoabzug dazu, `diashow_ansicht.dart`).
+///
+/// Der unsichtbare Detektiv steht immer am Ziel der Kamera (M7b): Der Renderer
+/// schneidet die Wände vor dem Raum des Detektivs auf, also vor dem Raum, auf
+/// den das Bild schaut. Sonst verdeckt etwa die Wand vor dem Vorratsraum Herrn
+/// Schneider in Bild 2.
 class DiaSession extends WeltSzene implements GefuehrteSzene {
   DiaSession(PartyDaten daten, this.diashow, {int nr = 0, this.testUhr}) : super(daten, _Einleitung()) {
+    _start = Offset(detektivX, detektivY);
     _zeige(nr);
     _timer = Timer.periodic(const Duration(milliseconds: 250), (_) => zeigeWelt());
   }
@@ -34,12 +40,18 @@ class DiaSession extends WeltSzene implements GefuehrteSzene {
   final double Function()? testUhr;
 
   late final Timer _timer;
+
+  /// Wo der Detektiv anfangs steht (sein Ermittlungsort).
+  late final Offset _start;
   final Stopwatch _seit = Stopwatch()..start();
   int _nr = 0;
   List<({String npc, double x, double y, bool liegt})> _stand = const [];
 
   /// Dauer einer langsamen Fahrt (Schwenk, heran, zurück).
   static const fahrtSekunden = 16.0;
+
+  /// Dunkelheit bei Notlicht ([DiaStimmung.notlicht]); der Stromausfall hat 0,8.
+  static const notlichtDunkel = 0.6;
 
   /// Laufendes Bild (ab 0).
   int get nr => _nr;
@@ -60,6 +72,8 @@ class DiaSession extends WeltSzene implements GefuehrteSzene {
       ..reset()
       ..start();
     _stand = _stellen(dia);
+    final z = ziel;
+    stelleDetektiv(z.dx, z.dy);
     zeigeFall();
   }
 
@@ -71,7 +85,8 @@ class DiaSession extends WeltSzene implements GefuehrteSzene {
     return (s / fahrtSekunden).clamp(0.0, 1.0);
   }
 
-  /// Ziel der Kamera in Kachelkoordinaten: der Ort oder die Mitte des Raums.
+  /// Ziel der Kamera in Kachelkoordinaten: der Ort oder die Mitte des Raums;
+  /// ohne beides der Ermittlungsort des Detektivs.
   Offset get ziel {
     final k = dia.kamera;
     final g = daten.kanon.graph;
@@ -81,7 +96,7 @@ class DiaSession extends WeltSzene implements GefuehrteSzene {
     if (k.raum case final raum?) {
       if (g.raeume[raum] case final r?) return Offset(r.x + r.b / 2, r.y + r.l / 2);
     }
-    return Offset(detektivX, detektivY);
+    return _start;
   }
 
   /// Stellt die Figuren eines Bildes: die erste genau aufs Ziel (oder den
@@ -136,14 +151,21 @@ class DiaSession extends WeltSzene implements GefuehrteSzene {
 
   static const _warm = Color(0xFFFFC27A);
   static const _kalt = Color(0xFFB8C6E0);
+  static const _notlicht = Color(0xFFD6E2F5);
 
   /// Licht der Stimmung: warm und hell am Abend und im Rückblick, nach dem
   /// Knall dunkel mit dem grünen Notausgangsschild und einem schwachen Schein
-  /// am Ort des Bildes (sonst wäre nichts zu sehen).
+  /// am Ort des Bildes (sonst wäre nichts zu sehen). Mit Notlicht ist es
+  /// heller, und ein kalter Kegel von oben leuchtet den Ort des Bildes aus,
+  /// dazu ein schwacher Schein von vorn auf die Figuren.
   @override
   SzenenLicht? get licht {
     final g = daten.kanon.graph;
     final z = ziel;
+    final notausgang = [
+      if (g.lichtquellen['licht_notausgang'] case final l?)
+        if (g.orte[l.ort] case final o?) SzenenLichtpunkt(o.x, o.y, z: 1.8, radius: l.radius, farbe: WeltSzene.lichtFarbe(l.farbe ?? '#3CFF8A')),
+    ];
     return switch (dia.stimmung) {
       DiaStimmung.feier || DiaStimmung.rueckblick => SzenenLicht(
           dunkel: dia.stimmung == DiaStimmung.rueckblick ? 0.36 : 0.3,
@@ -158,9 +180,17 @@ class DiaSession extends WeltSzene implements GefuehrteSzene {
           dunkel: 0.8,
           taschenlampe: false,
           punkte: [
-            if (g.lichtquellen['licht_notausgang'] case final l?)
-              if (g.orte[l.ort] case final o?) SzenenLichtpunkt(o.x, o.y, z: 1.8, radius: l.radius, farbe: WeltSzene.lichtFarbe(l.farbe ?? '#3CFF8A')),
+            ...notausgang,
             SzenenLichtpunkt(z.dx, z.dy, z: 1.4, radius: 2.6, farbe: _kalt, flackern: bewegungReduziert ? 0 : 0.15),
+          ],
+        ),
+      DiaStimmung.notlicht => SzenenLicht(
+          dunkel: notlichtDunkel,
+          taschenlampe: false,
+          punkte: [
+            ...notausgang,
+            SzenenLichtpunkt(z.dx, z.dy, z: 2.2, radius: 4.2, farbe: _notlicht, flackern: bewegungReduziert ? 0 : 0.06),
+            SzenenLichtpunkt(z.dx + 1.2, z.dy + 1.2, z: 1.2, radius: 2.4, farbe: _kalt),
           ],
         ),
     };
