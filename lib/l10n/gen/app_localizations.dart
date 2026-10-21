@@ -7352,6 +7352,204 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Länge'**
   String get abend_start_laenge;
+
+  /// Streifzug (M7b): Überschrift des Streifzugs durchs Schloss im langen Abend
+  ///
+  /// In de, this message translates to:
+  /// **'Streifzug'**
+  String get streifzug_titel;
+
+  /// Streifzug (M7b): Handlung an einer Figur am Treffpunkt
+  ///
+  /// In de, this message translates to:
+  /// **'Ansprechen'**
+  String get streifzug_ansprechen;
+
+  /// Streifzug (M7b): Restzeit der Rundenuhr in der Kopfzeile
+  ///
+  /// In de, this message translates to:
+  /// **'Noch {zeit}'**
+  String streifzug_uhr_rest(String zeit);
+
+  /// Streifzug (M7b): Weg zurück in den Keller sofort beenden
+  ///
+  /// In de, this message translates to:
+  /// **'Abkürzen'**
+  String get streifzug_abkuerzen;
+
+  /// Streifzug (M7b): Knopf: zurück in den Keller, dann die nächste Entscheidung
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Entscheidung'**
+  String get streifzug_zur_entscheidung;
+
+  /// Streifzug (M7b): Rundenstart schließen und losgehen
+  ///
+  /// In de, this message translates to:
+  /// **'Los geht’s'**
+  String get streifzug_los;
+
+  /// Streifzug (M7b): Offene Karte schließen
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück zur Karte'**
+  String get streifzug_zur_karte;
+
+  /// Streifzug (M7b): Erkundungskarte schließen
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter erkunden'**
+  String get streifzug_weiter_erkunden;
+
+  /// Streifzug (M7b): Hinweis: der Detektiv geht vor der Entscheidung zurück
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück in den Keller …'**
+  String get streifzug_rueckweg;
+
+  /// Streifzug (M7b): Hinweis: der Detektiv geht gerade zu einem Ziel
+  ///
+  /// In de, this message translates to:
+  /// **'Unterwegs …'**
+  String get streifzug_unterwegs;
+
+  /// Streifzug (M7b): Hinweis, wenn kein Treffpunkt mehr offen ist
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Befragungen dieser Runde sind geführt.'**
+  String get streifzug_befragungen_fertig;
+
+  /// Streifzug (M7b): Karte eines Treffpunkts, etwa „Triff Ahmet am Brunnen“
+  ///
+  /// In de, this message translates to:
+  /// **'Triff {name} {ort}'**
+  String streifzug_triff(String name, String ort);
+
+  /// Streifzug (M7b): Befragung gestellt, am Tisch noch nicht beantwortet
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort steht noch aus'**
+  String get streifzug_antwort_offen;
+
+  /// Streifzug (M7b): Befragung, die der Detektiv frei wählen kann
+  ///
+  /// In de, this message translates to:
+  /// **'Freie Wahl'**
+  String get streifzug_frei;
+
+  /// Streifzug (M7b): Hinweis in den Entscheidungen
+  ///
+  /// In de, this message translates to:
+  /// **'Die nächste Entscheidung wartet im Keller.'**
+  String get streifzug_entscheidung_wartet;
+
+  /// Streifzug (M7b): Reihum nach dem Deckel der freien Erkundung: Überschrift
+  ///
+  /// In de, this message translates to:
+  /// **'Zeit für den Tisch'**
+  String get streifzug_deckel_titel;
+
+  /// Streifzug (M7b): Reihum nach dem Deckel: Stichpunkt eins
+  ///
+  /// In de, this message translates to:
+  /// **'Genug erkundet in dieser Runde.'**
+  String get streifzug_deckel_1;
+
+  /// Streifzug (M7b): Reihum nach dem Deckel: Stichpunkt zwei
+  ///
+  /// In de, this message translates to:
+  /// **'Jetzt zählen Gruppe und Tisch.'**
+  String get streifzug_deckel_2;
+
+  /// Streifzug (M7b): Reihum nach dem Deckel: Stichpunkt drei
+  ///
+  /// In de, this message translates to:
+  /// **'Befragungen gehen weiter.'**
+  String get streifzug_deckel_3;
+
+  /// Streifzug (M7b): Karte eines Erkundungsorts
+  ///
+  /// In de, this message translates to:
+  /// **'Erkunde: {ort}'**
+  String streifzug_erkunde(String ort);
+
+  /// Streifzug (M7b): Reihum: Tischgespräche und Spickzettel
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch'**
+  String get streifzug_tisch;
+
+  /// Streifzug (M7b): Reihum: Zeile unter „Am Tisch“
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräche und Spickzettel'**
+  String get streifzug_tisch_unter;
+
+  /// Streifzug (M7b): Karte mit Erzähltext und Uhr der Runde
+  ///
+  /// In de, this message translates to:
+  /// **'Rundenstart'**
+  String get streifzug_rundenstart;
+
+  /// Streifzug (M7b): Zeile unter „Rundenstart“
+  ///
+  /// In de, this message translates to:
+  /// **'Erzähler und Uhr'**
+  String get streifzug_rundenstart_unter;
+
+  /// Streifzug (M7b): Impulskarte bei einer Befragung: worüber die Figur am Tisch spricht
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch jetzt'**
+  String get streifzug_impuls_titel;
+
+  /// Streifzug (M7b): Impulskarte ohne Tischgespräch der Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Gerade spricht niemand mit ihr am Tisch.'**
+  String get streifzug_impuls_leer;
+
+  /// Streifzug (M7b): Statuskarte der übrigen Gäste
+  ///
+  /// In de, this message translates to:
+  /// **'Streifzug läuft'**
+  String get streifzug_laeuft_titel;
+
+  /// Streifzug (M7b): Statuskarte der übrigen Gäste: Stichpunkt
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv streift durchs Schloss.'**
+  String get streifzug_laeuft_text;
+
+  /// Streifzug (M7b): Gast, der gerade befragt wird: wo der Detektiv ihn trifft
+  ///
+  /// In de, this message translates to:
+  /// **'Der Detektiv trifft dich {ort}.'**
+  String streifzug_trifft_dich(String ort);
+
+  /// Streifzug (M7b): Erzähler und Gäste: wen der Detektiv gerade trifft
+  ///
+  /// In de, this message translates to:
+  /// **'Trifft {name} {ort}.'**
+  String streifzug_trifft(String name, String ort);
+
+  /// Streifzug (M7b): Erzähler und Gäste: wo der Detektiv gerade ist
+  ///
+  /// In de, this message translates to:
+  /// **'Gerade: {ort}'**
+  String streifzug_ist(String ort);
+
+  /// Streifzug (M7b): Erzähler und Gäste: der Detektiv ist im Keller
+  ///
+  /// In de, this message translates to:
+  /// **'Im Keller'**
+  String get streifzug_im_keller;
+
+  /// Streifzug (M7b): Erzähler: Überschrift der Zuschauerkarte im langen Abend
+  ///
+  /// In de, this message translates to:
+  /// **'Streifzug des Detektivs'**
+  String get streifzug_zuschauer_titel;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

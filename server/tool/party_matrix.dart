@@ -3,7 +3,9 @@
 /// ohne Erzähler, Host = Detektiv + Gast = Erzähler). Lokal dazu ein Lauf mit dem
 /// langen Abend (M7b, eigene Raumart nur dieser Matrix): Die Uhr der Gespräche
 /// läuft in den Entscheidungen weiter und lässt sich dort stellen, jede Ansicht
-/// trägt `fassung: lang`. Kurz fehlen Uhr und Schlüssel dort wie bisher.
+/// trägt `fassung: lang`, und der Streifzug (Erkundung, Treffpunkte) nimmt nur
+/// Nachrichten vom Detektiv-Sitz; alle sehen, wen er wo trifft. Kurz fehlen
+/// Uhr, Streifzug und Schlüssel dort wie bisher.
 /// Vollständiger Abend, eigene Rollenansichten, Sitze, Vorleser-Sitz, Rechte,
 /// Reconnect, Würfelprüfung. Dazu je Akte ein Host-Wechsel nach dem Start: Der
 /// Gastgeber auf dem Detektiv-Sitz geht, der neue führt den Abend zu Ende. Zuletzt
@@ -205,7 +207,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     var befragt = 0;
     var steps = 0;
     // Rundenuhr und Diashow (M4): je einmal geprüft; dazu die Uhr im Streifzug (M7b).
-    var uhrGeprueft = false, diaGeprueft = false, streifzugGeprueft = false, uhrAbgeraeumt = false;
+    var uhrGeprueft = false, diaGeprueft = false, streifzugGeprueft = false, uhrAbgeraeumt = false, wegGeprueft = false;
     while (host.latest(Msg.abend)['phase'] != 'ende') {
       _require(++steps < 400, 'Partyabend erreicht das Ende nicht.');
       final s = host.latest(Msg.abend);
@@ -295,6 +297,36 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
           }
           _require(uhren.length == 1, 'Die Uhr ist nicht für alle gleich.');
           uhrGeprueft = true;
+        case 'gespraeche' when !wegGeprueft:
+          // Streifzug (M7b): Erkunden und Treffen nur vom Detektiv-Sitz und nur im langen
+          // Abend; alle sehen Stelle und Treffen, nur der Detektiv die Treffpunkte aller.
+          _stage = 'Streifzug';
+          wegGeprueft = true;
+          final andere = rollenC.first;
+          andere.send({'t': Msg.abendCmd, 'c': {'typ': 'erkunde', 'ort': 'ek_brunnen'}});
+          await andere.expect(Msg.error, where: (m) => m['key'] == (k.lang ? 'not_detective' : 'invalid'));
+          if (k.lang) {
+            await _command(host, detektivC, 'erkunde', {'ort': 'ek_brunnen'});
+            final privat = _map(_map((await _sicht(detektivC, host.latest(Msg.abend)['version'] as int))['privat'])['streifzug']);
+            final treffpunkte = _map(privat['treffpunkte']);
+            _require(treffpunkte.isNotEmpty, 'Streifzug: Der Detektiv-Sitz hat keine Treffpunkte.');
+            final befragung = treffpunkte.keys.first;
+            final nach = await _command(host, detektivC, 'treffen', {'befragung': befragung});
+            final treffen = <String>{};
+            for (final c in active) {
+              final v = await _sicht(c, nach['version'] as int);
+              final weg = _map(v['streifzug']);
+              _require((weg['erkundet'] as List).contains('ek_brunnen'), 'Streifzug: Erkundung fehlt in einer Ansicht.');
+              final t = _map(weg['treffpunkt']);
+              _require(t['ort'] == treffpunkte[befragung] && t['figur'] is String && t['anzeige'] is String, 'Streifzug: Treffpunkt fehlt oder weicht ab.');
+              treffen.add(jsonEncode(t));
+              _require(c == detektivC || !_map(v['privat']).containsKey('streifzug'), 'Streifzug: Treffpunkte aller an ein anderes Gerät.');
+              _require(!jsonEncode(weg).contains('"pfad"') && !jsonEncode(weg).contains('"salz"'), 'Streifzug: Pfad oder Salz in der Ansicht.');
+            }
+            _require(treffen.length == 1, 'Streifzug: Das Treffen ist nicht für alle gleich.');
+          } else {
+            _require(!s.containsKey('streifzug'), 'Kurzer Abend: Streifzug in der Ansicht.');
+          }
         case 'gespraeche':
           // Modell befragung (A-051): Der Detektiv-Sitz erledigt seine Befragungen.
           final privat = _map((await _sicht(detektivC, s['version'] as int))['privat']);
@@ -342,6 +374,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     _require(uhrGeprueft, 'Die Rundenuhr wurde nicht geprüft.');
     _require(streifzugGeprueft && uhrAbgeraeumt, 'Die Uhr im Streifzug wurde nicht geprüft.');
     _require(diaGeprueft, 'Die Diashow wurde nicht geprüft.');
+    _require(wegGeprueft, 'Der Streifzug wurde nicht geprüft.');
     final solution = _map(last['aufloesung']);
     final pfad = solution['pfad'] as String;
     final salz = solution['salz'] as String;
@@ -472,7 +505,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
       _require(rollen > 7 || notizen > 0, 'Der Detektiv bekam kein npc-Wissen als Notiz.');
     }
     await _health(url);
-    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, Reconnect, Würfel, Isolation, Health');
+    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, ${k.lang ? 'Streifzug' : 'ohne Streifzug'}, Reconnect, Würfel, Isolation, Health');
   } finally {
     for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
     await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));

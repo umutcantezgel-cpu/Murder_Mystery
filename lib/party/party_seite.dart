@@ -19,6 +19,7 @@ import 'bildschirme/resuemee.dart';
 import 'bildschirme/rollen.dart';
 import 'bildschirme/runde.dart';
 import 'bildschirme/solo_gespraeche.dart';
+import 'bildschirme/streifzug.dart';
 import 'bildschirme/titel.dart';
 import 'daten.dart';
 import 'party_stil.dart';
@@ -139,6 +140,8 @@ Widget bildschirm(PartySitzung s, {Widget? menu, VoidCallback? onEnde}) => switc
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
       PartyPhase.intro => IntroBildschirm(sitzung: s),
+      // Langer Abend (M7b): Gespräche und Entscheidungen werden zum Streifzug durchs Schloss.
+      PartyPhase.gespraeche || PartyPhase.entscheidungen when s.lang && s.daten.hat('langfassung') => StreifzugBildschirm(sitzung: s),
       // Modell befragung (A-051): Im Solo befragt der Detektiv die Bots; Altakten hören Sprechblasen.
       PartyPhase.gespraeche => s.solo
           ? (s.befragungsmodell ? BefragungBildschirm(sitzung: s) : SoloGespraecheBildschirm(sitzung: s))

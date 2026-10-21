@@ -4261,4 +4261,118 @@ class LDe extends L {
 
   @override
   String get abend_start_laenge => 'Länge';
+
+  @override
+  String get streifzug_titel => 'Streifzug';
+
+  @override
+  String get streifzug_ansprechen => 'Ansprechen';
+
+  @override
+  String streifzug_uhr_rest(String zeit) {
+    return 'Noch $zeit';
+  }
+
+  @override
+  String get streifzug_abkuerzen => 'Abkürzen';
+
+  @override
+  String get streifzug_zur_entscheidung => 'Zur Entscheidung';
+
+  @override
+  String get streifzug_los => 'Los geht’s';
+
+  @override
+  String get streifzug_zur_karte => 'Zurück zur Karte';
+
+  @override
+  String get streifzug_weiter_erkunden => 'Weiter erkunden';
+
+  @override
+  String get streifzug_rueckweg => 'Zurück in den Keller …';
+
+  @override
+  String get streifzug_unterwegs => 'Unterwegs …';
+
+  @override
+  String get streifzug_befragungen_fertig =>
+      'Alle Befragungen dieser Runde sind geführt.';
+
+  @override
+  String streifzug_triff(String name, String ort) {
+    return 'Triff $name $ort';
+  }
+
+  @override
+  String get streifzug_antwort_offen => 'Antwort steht noch aus';
+
+  @override
+  String get streifzug_frei => 'Freie Wahl';
+
+  @override
+  String get streifzug_entscheidung_wartet =>
+      'Die nächste Entscheidung wartet im Keller.';
+
+  @override
+  String get streifzug_deckel_titel => 'Zeit für den Tisch';
+
+  @override
+  String get streifzug_deckel_1 => 'Genug erkundet in dieser Runde.';
+
+  @override
+  String get streifzug_deckel_2 => 'Jetzt zählen Gruppe und Tisch.';
+
+  @override
+  String get streifzug_deckel_3 => 'Befragungen gehen weiter.';
+
+  @override
+  String streifzug_erkunde(String ort) {
+    return 'Erkunde: $ort';
+  }
+
+  @override
+  String get streifzug_tisch => 'Am Tisch';
+
+  @override
+  String get streifzug_tisch_unter => 'Gespräche und Spickzettel';
+
+  @override
+  String get streifzug_rundenstart => 'Rundenstart';
+
+  @override
+  String get streifzug_rundenstart_unter => 'Erzähler und Uhr';
+
+  @override
+  String get streifzug_impuls_titel => 'Am Tisch jetzt';
+
+  @override
+  String get streifzug_impuls_leer =>
+      'Gerade spricht niemand mit ihr am Tisch.';
+
+  @override
+  String get streifzug_laeuft_titel => 'Streifzug läuft';
+
+  @override
+  String get streifzug_laeuft_text => 'Der Detektiv streift durchs Schloss.';
+
+  @override
+  String streifzug_trifft_dich(String ort) {
+    return 'Der Detektiv trifft dich $ort.';
+  }
+
+  @override
+  String streifzug_trifft(String name, String ort) {
+    return 'Trifft $name $ort.';
+  }
+
+  @override
+  String streifzug_ist(String ort) {
+    return 'Gerade: $ort';
+  }
+
+  @override
+  String get streifzug_im_keller => 'Im Keller';
+
+  @override
+  String get streifzug_zuschauer_titel => 'Streifzug des Detektivs';
 }

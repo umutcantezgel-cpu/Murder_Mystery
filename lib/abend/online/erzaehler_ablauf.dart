@@ -14,6 +14,7 @@ import '../../party/runden_uhr.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_erzaehler.dart';
+import 'gast_streifzug.dart' show StreifzugZuschauer;
 import 'gastgeber_sitzung.dart';
 import 'online_teile.dart';
 
@@ -79,6 +80,11 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
           final privat = jMap(s.dienst.ansicht['privat']);
           final paket = privat['erzaehlerPaket'] is Map ? jMap(privat['erzaehlerPaket']) : null;
           final befragungen = jMaps(s.dienst.ansicht['befragungen']);
+          // Langer Abend (M7b): Der Erzähler sieht den Streifzug des Detektivs, nur lesend.
+          final weg = s.dienst.ansicht['streifzug'];
+          final streifzug = weg is Map
+              ? StreifzugZuschauer(daten: s.daten, weg: jMap(weg), uhrzeit: s.rundenUhrzeit, person: s.personAmTisch)
+              : null;
           return PartyRahmen(
             marke: anklage ? s.ui('ui.anklage.marke') : s.ui('ui.allgemein.runde', {'nr': '${s.runde}'}),
             titel: anklage ? s.ui('ui.anklage.titel') : s.rundenName,
@@ -95,8 +101,14 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
                       SitzungsUhr(sitzung: s, groesse: 240),
                       const SizedBox(height: MMass.s16),
                       _status(s.abschnittFertig ? l.erzaehler_detektiv_fertig : l.erzaehler_befragt),
+                      ?streifzug,
                       if (befragungen.isNotEmpty)
                         BefragungsStand(befragungen: befragungen, person: s.personAmTisch, erledigtText: l.party_befragung_erledigt),
+                    ],
+                  // Zwischen den Entscheidungen der Streifzug, während eines Zugs die Karte im Keller.
+                  PartyPhase.entscheidungen when streifzug != null && s.zug == null => [
+                      streifzug,
+                      _status(_ermittlung(l)),
                     ],
                   PartyPhase.entscheidungen => [
                       OnlineRegisterKopf(l.erzaehler_zuschauer_titel.toUpperCase()),

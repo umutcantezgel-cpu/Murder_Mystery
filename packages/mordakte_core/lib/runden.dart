@@ -12,6 +12,7 @@ export 'src/runden/raum/befragung_modul.dart';
 export 'src/runden/raum/dia_modul.dart';
 export 'src/runden/raum/sichtfelder.dart';
 export 'src/runden/raum/sitze_modul.dart';
+export 'src/runden/raum/streifzug_modul.dart';
 export 'src/runden/raum/uhr_modul.dart';
 export 'src/runden/runden_uhr.dart';
 export 'src/runden/sitze.dart';

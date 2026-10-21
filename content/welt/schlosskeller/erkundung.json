@@ -1,0 +1,219 @@
+{
+  "format": "erkundung/1",
+  "akte": "schlosskeller",
+  "hinweis": "Erkundung des langen Abends (M7b, Streifzug): fünfzehn Orte, die der Detektiv in den Runden frei besucht, und die Treffpunkte seiner Befragungen. Reine Stimmung aus Schloss, Nacht, Wetter und Alltag der Gäste, in allen Pfaden gleich, ohne Fallhinweis, Namen, Gegenstand, Sperrort, Zeitangabe oder Geburtstag (R15). Kartenformat R17: höchstens drei Stichpunkte zu je acht Wörtern. Ein November-Samstag, draußen kalt und windig. Varianten wählt der Samen der Welt, nie der Würfelstrom.",
+  "orte": [
+    {
+      "id": "ek_brunnen",
+      "ebene": "erdgeschoss",
+      "ziel": {"kachel": [25, 6]},
+      "titel": "Alter Brunnen",
+      "stichpunkte": [
+        "Moos bedeckt die runden Steine.",
+        "Tief unten glitzert schwarzes Wasser.",
+        "Ein Kiesel fällt lange, dann plätschert es."
+      ],
+      "varianten": [
+        [
+          "Moos bedeckt die runden Steine.",
+          "Das Wasser riecht nach Regen und Eisen.",
+          "Der Mond spiegelt sich ganz unten."
+        ]
+      ]
+    },
+    {
+      "id": "ek_einfahrtstor",
+      "ebene": "erdgeschoss",
+      "ziel": {"kachel": [23, 1]},
+      "titel": "Einfahrtstor",
+      "stichpunkte": [
+        "Schweres Holz, mit Eisen beschlagen.",
+        "Es bleibt verschlossen bis zum Morgen.",
+        "Dahinter rauscht leise die Landstraße."
+      ]
+    },
+    {
+      "id": "ek_hofbank",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_bank_hof_ost"},
+      "titel": "Steinbank im Schlosshof",
+      "stichpunkte": [
+        "Der Stein ist kalt und feucht.",
+        "Ringsum ragen die Mauern hoch auf.",
+        "Hier draußen hat kein Gerät Empfang."
+      ],
+      "varianten": [
+        [
+          "Der Stein ist kalt und feucht.",
+          "Wind fegt Laub über den Kies.",
+          "Über dem Hof ziehen schnelle Wolken."
+        ]
+      ]
+    },
+    {
+      "id": "ek_beet",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_beet_1"},
+      "titel": "Blumenbeet im Garten",
+      "stichpunkte": [
+        "Späte Astern, schwer vom Tau.",
+        "Die Erde duftet nach Herbst.",
+        "Unter den Blättern raschelt ein Igel."
+      ]
+    },
+    {
+      "id": "ek_gartenbank",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_bank_garten_4"},
+      "titel": "Gartenbank",
+      "stichpunkte": [
+        "Jemand hat eine Decke vergessen.",
+        "Von hier hört man das Fest kaum.",
+        "Die Hecken rauschen im Wind."
+      ],
+      "varianten": [
+        [
+          "Nasses Laub klebt auf dem Holz.",
+          "Die Hecken rauschen im Wind.",
+          "Über dem Garten funkeln ein paar Sterne."
+        ]
+      ]
+    },
+    {
+      "id": "ek_baum",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_baum_4"},
+      "titel": "Alte Linde",
+      "stichpunkte": [
+        "Der Stamm ist dicker als drei Arme.",
+        "Kahle Äste knarren im Wind.",
+        "Eine Eule ruft aus der Krone."
+      ]
+    },
+    {
+      "id": "ek_standuhr",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_standuhr"},
+      "titel": "Standuhr in der Halle",
+      "stichpunkte": [
+        "Das Pendel schwingt ruhig hin und her.",
+        "Ihr Ticken füllt die stille Halle.",
+        "Das Gehäuse ist aus dunkler Eiche."
+      ]
+    },
+    {
+      "id": "ek_buecherwand",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_regal_20"},
+      "titel": "Bücherwand",
+      "stichpunkte": [
+        "Ledereinbände mit goldenen Buchstaben.",
+        "Ein Band erzählt von Burgen der Gegend.",
+        "Auf den oberen Reihen liegt Staub."
+      ],
+      "varianten": [
+        [
+          "Ledereinbände mit goldenen Buchstaben.",
+          "Ein Kochbuch steht zwischen alten Chroniken.",
+          "Es riecht nach Papier und Leim."
+        ]
+      ]
+    },
+    {
+      "id": "ek_herd",
+      "ebene": "erdgeschoss",
+      "ziel": {"ding": "eg_herd_1"},
+      "titel": "Alter Herd",
+      "stichpunkte": [
+        "Gusseisen, blank geputzt.",
+        "Kupferpfannen hängen ordentlich an der Wand.",
+        "Es riecht nach Seife und Kräutern."
+      ]
+    },
+    {
+      "id": "ek_schreibtisch",
+      "ebene": "turm",
+      "ziel": {"ding": "turm_schreibtisch"},
+      "titel": "Schreibtisch im Turmzimmer",
+      "stichpunkte": [
+        "Vergilbte Pläne des alten Schlosses.",
+        "Ein Tintenfass, längst eingetrocknet.",
+        "Eine Lupe liegt auf einer Landkarte."
+      ]
+    },
+    {
+      "id": "ek_turmtruhe",
+      "ebene": "turm",
+      "ziel": {"ding": "turm_truhe"},
+      "titel": "Truhe im Turmzimmer",
+      "stichpunkte": [
+        "Schweres Eichenholz mit Eisenbändern.",
+        "Darin liegen gefaltete Wolldecken.",
+        "Es riecht nach Lavendel und Staub."
+      ]
+    },
+    {
+      "id": "ek_ausblick",
+      "ebene": "turm",
+      "ziel": {"kachel": [4, 12]},
+      "titel": "Ausblick vom Wehrgang",
+      "stichpunkte": [
+        "Unten liegen Parkplatz und Park.",
+        "Die Autos der Gäste glänzen im Mondlicht.",
+        "Auf der Landstraße fährt niemand."
+      ],
+      "varianten": [
+        [
+          "Unten liegen Parkplatz und Park.",
+          "Nebel kriecht zwischen die alten Bäume.",
+          "Weit hinten blinken die Lichter des Dorfes."
+        ]
+      ]
+    },
+    {
+      "id": "ek_wehrgang_ende",
+      "ebene": "turm",
+      "ziel": {"ort": "turm_ende_wehrgang"},
+      "titel": "Ende des Wehrgangs",
+      "stichpunkte": [
+        "Der Wind pfeift durch die Zinnen.",
+        "Über den Wäldern stehen klare Sterne.",
+        "Auch hier oben gibt es keinen Empfang."
+      ]
+    },
+    {
+      "id": "ek_windfang",
+      "ebene": "keller",
+      "ziel": {"ort": "im_windfang"},
+      "titel": "Windfang",
+      "stichpunkte": [
+        "Kalte Zugluft zieht unter dem Außentor durch.",
+        "Draußen fegt der Wind Laub über Stufen.",
+        "Ein Fußabtreter liegt schief vor der Tür."
+      ]
+    },
+    {
+      "id": "ek_gewoelbe",
+      "ebene": "keller",
+      "ziel": {"ort": "west_bank_sued"},
+      "titel": "Altes Gewölbe",
+      "stichpunkte": [
+        "Die Steine sind kühl und rau.",
+        "Feine Risse ziehen durch den alten Putz.",
+        "Ein Spinnennetz glänzt im warmen Licht."
+      ]
+    }
+  ],
+  "treffpunkte": [
+    {"id": "tp_brunnen", "ebene": "erdgeschoss", "ort": "eg_am_brunnen", "anzeige": "am Brunnen"},
+    {"id": "tp_hofbank", "ebene": "erdgeschoss", "ort": "eg_hof_bank", "anzeige": "an der Bank im Schlosshof"},
+    {"id": "tp_einfahrtstor", "ebene": "erdgeschoss", "ort": "eg_am_einfahrtstor", "anzeige": "am Einfahrtstor"},
+    {"id": "tp_gartenbeet", "ebene": "erdgeschoss", "ort": "eg_garten_beet", "anzeige": "am Blumenbeet im Garten"},
+    {"id": "tp_gartenbank", "ebene": "erdgeschoss", "ort": "eg_garten_bank", "anzeige": "an der Gartenbank"},
+    {"id": "tp_gartenpforte", "ebene": "erdgeschoss", "ort": "eg_garten_pforte", "anzeige": "an der Gartenpforte"},
+    {"id": "tp_kueche", "ebene": "erdgeschoss", "ort": "eg_kueche_tisch", "anzeige": "in der Küche"},
+    {"id": "tp_halle", "ebene": "erdgeschoss", "ort": "eg_halle_seitentuer", "anzeige": "in der Halle"},
+    {"id": "tp_turmzimmer", "ebene": "turm", "ort": "turm_beim_sessel", "anzeige": "im Turmzimmer"},
+    {"id": "tp_wehrgang", "ebene": "turm", "ort": "turm_an_der_zinne", "anzeige": "auf dem Wehrgang"}
+  ]
+}

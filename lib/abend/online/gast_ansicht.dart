@@ -17,6 +17,7 @@ import 'gast_dienst.dart';
 import 'gast_erzaehler.dart';
 import 'gast_ermittlung.dart';
 import 'gast_lobby.dart';
+import 'gast_streifzug.dart';
 import 'gast_uhr.dart';
 import 'online_teile.dart';
 
@@ -216,15 +217,18 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, rundenMarke, l.online_phase_intro, [GastDiashow(kontext: c)], mitErzaehlertext: false);
     case 'intro':
       return _abschnitt(c, rundenMarke, l.online_phase_intro, []);
+    // Langer Abend (M7b): Der Gast-Detektiv geht auf Streifzug (gast_streifzug.dart).
+    case 'gespraeche' || 'entscheidungen' when c.ermittelt && c.fassung.istLang && c.v['streifzug'] is Map:
+      return _abschnitt(c, rundenMarke, phase == 'gespraeche' ? l.online_phase_gespraeche : l.online_phase_entscheidungen, [gastDetektivStreifzug(c)]);
     // Der Gast auf dem Detektiv-Sitz ermittelt selbst (M3, gast_ermittlung.dart).
     case 'gespraeche' when c.ermittelt:
       return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [gastDetektivGespraeche(c)]);
     case 'gespraeche':
-      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [_gespraeche(c)]);
+      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [?gastStreifzugStatus(c), _gespraeche(c)]);
     case 'entscheidungen' when c.ermittelt:
       return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [GastErmittlung(key: ValueKey('ermittlung-${c.runde}'), kontext: c)]);
     case 'entscheidungen':
-      return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [_ermittlung(c)]);
+      return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [?gastStreifzugStatus(c), _ermittlung(c)]);
     case 'gruppenwahl':
       return _abschnitt(c, rundenMarke, l.online_phase_gruppenwahl, [GastGruppenwahl(key: ValueKey('wahl-${c.runde}'), kontext: c)]);
     case 'bonus':

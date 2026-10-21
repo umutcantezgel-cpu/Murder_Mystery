@@ -3335,5 +3335,173 @@
   "abend_start_laenge": "Länge",
   "@abend_start_laenge": {
     "description": "Startübersicht (M7b): geschätzte Länge des Abends"
+  },
+  "streifzug_titel": "Streifzug",
+  "@streifzug_titel": {
+    "description": "Streifzug (M7b): Überschrift des Streifzugs durchs Schloss im langen Abend"
+  },
+  "streifzug_ansprechen": "Ansprechen",
+  "@streifzug_ansprechen": {
+    "description": "Streifzug (M7b): Handlung an einer Figur am Treffpunkt"
+  },
+  "streifzug_uhr_rest": "Noch {zeit}",
+  "@streifzug_uhr_rest": {
+    "description": "Streifzug (M7b): Restzeit der Rundenuhr in der Kopfzeile",
+    "placeholders": {
+      "zeit": {
+        "type": "String"
+      }
+    }
+  },
+  "streifzug_abkuerzen": "Abkürzen",
+  "@streifzug_abkuerzen": {
+    "description": "Streifzug (M7b): Weg zurück in den Keller sofort beenden"
+  },
+  "streifzug_zur_entscheidung": "Zur Entscheidung",
+  "@streifzug_zur_entscheidung": {
+    "description": "Streifzug (M7b): Knopf: zurück in den Keller, dann die nächste Entscheidung"
+  },
+  "streifzug_los": "Los geht’s",
+  "@streifzug_los": {
+    "description": "Streifzug (M7b): Rundenstart schließen und losgehen"
+  },
+  "streifzug_zur_karte": "Zurück zur Karte",
+  "@streifzug_zur_karte": {
+    "description": "Streifzug (M7b): Offene Karte schließen"
+  },
+  "streifzug_weiter_erkunden": "Weiter erkunden",
+  "@streifzug_weiter_erkunden": {
+    "description": "Streifzug (M7b): Erkundungskarte schließen"
+  },
+  "streifzug_rueckweg": "Zurück in den Keller …",
+  "@streifzug_rueckweg": {
+    "description": "Streifzug (M7b): Hinweis: der Detektiv geht vor der Entscheidung zurück"
+  },
+  "streifzug_unterwegs": "Unterwegs …",
+  "@streifzug_unterwegs": {
+    "description": "Streifzug (M7b): Hinweis: der Detektiv geht gerade zu einem Ziel"
+  },
+  "streifzug_befragungen_fertig": "Alle Befragungen dieser Runde sind geführt.",
+  "@streifzug_befragungen_fertig": {
+    "description": "Streifzug (M7b): Hinweis, wenn kein Treffpunkt mehr offen ist"
+  },
+  "streifzug_triff": "Triff {name} {ort}",
+  "@streifzug_triff": {
+    "description": "Streifzug (M7b): Karte eines Treffpunkts, etwa „Triff Ahmet am Brunnen“",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "ort": {
+        "type": "String"
+      }
+    }
+  },
+  "streifzug_antwort_offen": "Antwort steht noch aus",
+  "@streifzug_antwort_offen": {
+    "description": "Streifzug (M7b): Befragung gestellt, am Tisch noch nicht beantwortet"
+  },
+  "streifzug_frei": "Freie Wahl",
+  "@streifzug_frei": {
+    "description": "Streifzug (M7b): Befragung, die der Detektiv frei wählen kann"
+  },
+  "streifzug_entscheidung_wartet": "Die nächste Entscheidung wartet im Keller.",
+  "@streifzug_entscheidung_wartet": {
+    "description": "Streifzug (M7b): Hinweis in den Entscheidungen"
+  },
+  "streifzug_deckel_titel": "Zeit für den Tisch",
+  "@streifzug_deckel_titel": {
+    "description": "Streifzug (M7b): Reihum nach dem Deckel der freien Erkundung: Überschrift"
+  },
+  "streifzug_deckel_1": "Genug erkundet in dieser Runde.",
+  "@streifzug_deckel_1": {
+    "description": "Streifzug (M7b): Reihum nach dem Deckel: Stichpunkt eins"
+  },
+  "streifzug_deckel_2": "Jetzt zählen Gruppe und Tisch.",
+  "@streifzug_deckel_2": {
+    "description": "Streifzug (M7b): Reihum nach dem Deckel: Stichpunkt zwei"
+  },
+  "streifzug_deckel_3": "Befragungen gehen weiter.",
+  "@streifzug_deckel_3": {
+    "description": "Streifzug (M7b): Reihum nach dem Deckel: Stichpunkt drei"
+  },
+  "streifzug_erkunde": "Erkunde: {ort}",
+  "@streifzug_erkunde": {
+    "description": "Streifzug (M7b): Karte eines Erkundungsorts",
+    "placeholders": {
+      "ort": {
+        "type": "String"
+      }
+    }
+  },
+  "streifzug_tisch": "Am Tisch",
+  "@streifzug_tisch": {
+    "description": "Streifzug (M7b): Reihum: Tischgespräche und Spickzettel"
+  },
+  "streifzug_tisch_unter": "Gespräche und Spickzettel",
+  "@streifzug_tisch_unter": {
+    "description": "Streifzug (M7b): Reihum: Zeile unter „Am Tisch“"
+  },
+  "streifzug_rundenstart": "Rundenstart",
+  "@streifzug_rundenstart": {
+    "description": "Streifzug (M7b): Karte mit Erzähltext und Uhr der Runde"
+  },
+  "streifzug_rundenstart_unter": "Erzähler und Uhr",
+  "@streifzug_rundenstart_unter": {
+    "description": "Streifzug (M7b): Zeile unter „Rundenstart“"
+  },
+  "streifzug_impuls_titel": "Am Tisch jetzt",
+  "@streifzug_impuls_titel": {
+    "description": "Streifzug (M7b): Impulskarte bei einer Befragung: worüber die Figur am Tisch spricht"
+  },
+  "streifzug_impuls_leer": "Gerade spricht niemand mit ihr am Tisch.",
+  "@streifzug_impuls_leer": {
+    "description": "Streifzug (M7b): Impulskarte ohne Tischgespräch der Figur"
+  },
+  "streifzug_laeuft_titel": "Streifzug läuft",
+  "@streifzug_laeuft_titel": {
+    "description": "Streifzug (M7b): Statuskarte der übrigen Gäste"
+  },
+  "streifzug_laeuft_text": "Der Detektiv streift durchs Schloss.",
+  "@streifzug_laeuft_text": {
+    "description": "Streifzug (M7b): Statuskarte der übrigen Gäste: Stichpunkt"
+  },
+  "streifzug_trifft_dich": "Der Detektiv trifft dich {ort}.",
+  "@streifzug_trifft_dich": {
+    "description": "Streifzug (M7b): Gast, der gerade befragt wird: wo der Detektiv ihn trifft",
+    "placeholders": {
+      "ort": {
+        "type": "String"
+      }
+    }
+  },
+  "streifzug_trifft": "Trifft {name} {ort}.",
+  "@streifzug_trifft": {
+    "description": "Streifzug (M7b): Erzähler und Gäste: wen der Detektiv gerade trifft",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "ort": {
+        "type": "String"
+      }
+    }
+  },
+  "streifzug_ist": "Gerade: {ort}",
+  "@streifzug_ist": {
+    "description": "Streifzug (M7b): Erzähler und Gäste: wo der Detektiv gerade ist",
+    "placeholders": {
+      "ort": {
+        "type": "String"
+      }
+    }
+  },
+  "streifzug_im_keller": "Im Keller",
+  "@streifzug_im_keller": {
+    "description": "Streifzug (M7b): Erzähler und Gäste: der Detektiv ist im Keller"
+  },
+  "streifzug_zuschauer_titel": "Streifzug des Detektivs",
+  "@streifzug_zuschauer_titel": {
+    "description": "Streifzug (M7b): Erzähler: Überschrift der Zuschauerkarte im langen Abend"
   }
 }

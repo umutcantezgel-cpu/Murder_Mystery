@@ -12,6 +12,7 @@ import '../../karten/katalog_laden.dart';
 import '../../netz/relay_einstellung.dart';
 import '../../party/daten.dart';
 import '../../party/sitzung.dart' show PartySitzung;
+import '../../party/streifzug_karte.dart' show StreifzugWelt;
 import 'ansicht.dart';
 
 /// Kennung des Gastgeberplatzes im Raum (der erste Platz führt den Abend).
@@ -119,7 +120,8 @@ class GastgeberDienst extends ChangeNotifier {
 
   // ------------------------------------------------------------- Aufbau
 
-  static AbendRaum _baue(String code, Map<String, Object?> meta, PartyDaten daten, String akte, KartenKatalog? katalog, List<AbstecherOrt> abstecher) =>
+  static AbendRaum _baue(String code, Map<String, Object?> meta, PartyDaten daten, String akte, KartenKatalog? katalog, List<AbstecherOrt> abstecher,
+          {Erkundung? erkundung}) =>
       SchlosskellerRaum(
         raumCode: code,
         kanon: daten.kanon,
@@ -136,7 +138,21 @@ class GastgeberDienst extends ChangeNotifier {
         diaAnzahl: daten.diashow?.dias.length ?? 0,
         // Fassung (M7b): lang nur aus der Meta und nur in Akten mit Langfassung.
         fassung: daten.hat('langfassung') ? Abendfassung.lesen(meta['fassung']) : Abendfassung.kurz,
+        // Streifzug (M7b): Erkundung und Treffpunkte nur im langen Abend.
+        erkundung: erkundung,
       );
+
+  /// Die Erkundung der Akte für den Streifzug, nur im langen Abend einer Akte
+  /// mit Langfassung; sonst und ohne Datei `null` (dann ohne Streifzug-Modul).
+  static Future<Erkundung?> _erkundungFuer(PartyDaten daten, String akte, Abendfassung fassung) async {
+    if (!fassung.istLang || !daten.hat('langfassung')) return null;
+    try {
+      return await StreifzugWelt.ladeErkundung(rootBundle, akte);
+    } catch (e) {
+      debugPrint('ONLINE erkundung fehlt: $e');
+      return null;
+    }
+  }
 
   /// Erzeugt Schlüssel, Raumcode und Raum neu. Das Relais ist noch nicht
   /// verbunden: [oeffnen] tut das.
@@ -179,8 +195,9 @@ class GastgeberDienst extends ChangeNotifier {
       'stimme': stimme,
       if (fassung.istLang) 'fassung': fassung.name,
     };
+    final erkundung = await _erkundungFuer(daten, akteId, fassung);
     final host = await RelayHost.neu(
-      fabrik: (c, m) => _baue(c, m, daten, akteId, katalog, abstecher),
+      fabrik: (c, m) => _baue(c, m, daten, akteId, katalog, abstecher, erkundung: erkundung),
       meta: meta,
       relay: relay ?? relayFuerSeite(),
       akte: akteId,
@@ -234,9 +251,12 @@ class GastgeberDienst extends ChangeNotifier {
       final daten = results[0] as PartyDaten;
       final abstecher = results[1] as List<AbstecherOrt>;
       final katalog = results[2] as KartenKatalog?;
+      // Der lange Abend (Meta `fassung`) braucht die Erkundung, bevor der Raum entsteht.
+      final gemerkt = d['meta'] is Map ? (d['meta'] as Map).cast<String, Object?>() : const <String, Object?>{};
+      final erkundung = await _erkundungFuer(daten, akte, Abendfassung.lesen(gemerkt['fassung']));
       final host = await RelayHost.wiederherstellen(
         ablage: ablage,
-        fabrik: (c, m) => _baue(c, m, daten, akte, katalog, abstecher),
+        fabrik: (c, m) => _baue(c, m, daten, akte, katalog, abstecher, erkundung: erkundung),
         relay: relay ?? relayFuerSeite(),
         inhalt: results[3] as String,
         log: log,

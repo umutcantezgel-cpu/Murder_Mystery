@@ -91,8 +91,10 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   // Diashow zur Einleitung (M4) liegt neben dem Kanon unter content/welt/.
   final dia = File('${Directory(dir).parent.parent.path}/welt/schlosskeller/diashow.json');
   final dias = dia.existsSync() ? Diashow.ausJson((jsonDecode(dia.readAsStringSync()) as Map).cast<String, Object?>()).dias.length : 0;
+  // Streifzug (M7b): Der lange Abend bringt die Erkundung aus welt.json mit.
+  final erkundung = fassung.istLang ? ladeErkundung('${Directory(dir).parent.parent.path}/welt/schlosskeller') : null;
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
-    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung,
+    raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung, erkundung: erkundung,
     // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
     gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
@@ -100,6 +102,16 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   ));
 }
 
+
+/// Die Erkundung einer Akte aus ihrem Welt-Ordner ([weltDir], `welt.json` →
+/// `erkundung`), sonst `null`.
+Erkundung? ladeErkundung(String weltDir) {
+  final welt = File('$weltDir/welt.json');
+  if (!welt.existsSync()) return null;
+  final datei = (jsonDecode(welt.readAsStringSync()) as Map)['erkundung'];
+  if (datei is! String) return null;
+  return Erkundung.ausJson((jsonDecode(File('$weltDir/$datei').readAsStringSync()) as Map).cast<String, Object?>());
+}
 
 /// Fabriken für alle Akten aus `content/party/akten.json` (ein Spiel, viele
 /// Akten). [partyDir] ist der Schlosskeller-Ordner; daneben liegen die übrigen

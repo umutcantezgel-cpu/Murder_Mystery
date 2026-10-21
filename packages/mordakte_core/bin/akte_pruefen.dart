@@ -139,6 +139,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _geruechte(b, kanon, roh, wurzel, fall);
   _steckbriefe(b, kanon, texte, ordner, wurzel, fall);
   _langfassung(b, kanon, wurzel, fall);
+  _erkundung(b, kanon, roh, wurzel, fall);
   _diashow(b, kanon, sammlung, wurzel, fall);
 }
 
@@ -421,6 +422,37 @@ void _langfassung(Befunde b, Kanon kanon, String wurzel, String fall) {
   if (j['akte'] != fall) b.add('Langfassung', ['$genannt: akte ${j['akte']} statt $fall']);
   final regeln = _lies('$wurzel/content/party/textregeln.json');
   b.add('Langfassung', pruefeEbenen(WeltEbenen.ausJson(j, kanon), ton: Textpruefer(regeln), regeln: regeln));
+}
+
+// ---------------------------------------------------------------- Erkundung
+
+/// Erkundung des langen Abends (M7b, Streifzug), nur wenn welt.json
+/// `erkundung` nennt: Datei und Langfassung müssen es dann geben, danach
+/// Schema und pruefeErkundung mit den Tonregeln. Geschützt sind wie bei den
+/// Gerüchten zusätzlich Täterfassungen, Finale und Auflösung.
+void _erkundung(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, String fall) {
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final w = welt.existsSync() ? _lies(welt.path) : const <String, Object?>{};
+  final genannt = w['erkundung'];
+  if (genannt is! String) return;
+  final datei = File('$wurzel/content/welt/$fall/$genannt');
+  final lang = w['langfassung'];
+  if (!datei.existsSync() || lang is! String) {
+    b.add('Erkundung', [!datei.existsSync() ? 'welt.json nennt $genannt, die Datei fehlt' : 'welt.json nennt $genannt ohne langfassung']);
+    return;
+  }
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/erkundung.schema.json')).pruefe(j);
+  b.add('Erkundung', [for (final f in schema) '$genannt: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Erkundung', ['$genannt: akte ${j['akte']} statt $fall']);
+  final ebenen = WeltEbenen.ausJson(_lies('$wurzel/content/welt/$fall/$lang'), kanon);
+  final geschuetzt = [
+    for (final d in sammlung.dateien.entries)
+      if (RegExp(r'texte/(taeter-|erzaehler-finale|erzaehler-aufloesung)').hasMatch(d.key)) ..._alleTexte(d.value),
+  ];
+  final regeln = _lies('$wurzel/content/party/textregeln.json');
+  b.add('Erkundung', pruefeErkundung(Erkundung.ausJson(j), ebenen, ton: Textpruefer(regeln), regeln: regeln, geschuetzt: geschuetzt));
 }
 
 // ---------------------------------------------------------------- Steckbriefe

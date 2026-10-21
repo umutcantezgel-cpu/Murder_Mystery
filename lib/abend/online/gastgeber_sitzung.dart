@@ -251,6 +251,8 @@ class GastgeberSitzung extends PartySitzung {
 
   void _abgleichen() {
     if (_entsorgt) return;
+    // Was der Raum schon kennt, ist nicht mehr unterwegs.
+    _erkundetUnterwegs.removeAll(jTexte(_streifzug['erkundet']));
     _fristPruefen();
     _aktionPruefen();
     // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
@@ -336,6 +338,41 @@ class GastgeberSitzung extends PartySitzung {
   void befragungErledigt(String id) => _senden([
         {'typ': 'erledigt', 'id': id},
       ]);
+
+  // ------------------------------------------------------------- Streifzug
+
+  /// Streifzug des langen Abends (M7b): Der Raum hält Erkundung und Treffen
+  /// (`streifzug`); das Gastgebergerät meldet nur, was der Detektiv tut.
+  Map<String, Object?> get _streifzug => jMap(dienst.ansicht['streifzug']);
+
+  /// Erkundungen, die schon gemeldet, aber noch nicht in der Ansicht sind.
+  final Set<String> _erkundetUnterwegs = {};
+
+  @override
+  Set<String> get erkundet => {...jTexte(_streifzug['erkundet']), ..._erkundetUnterwegs};
+
+  @override
+  void erkunden(String ort) {
+    if (!streifzugLaeuft || erkundet.contains(ort)) return;
+    _erkundetUnterwegs.add(ort);
+    _senden([
+      {'typ': 'erkunde', 'ort': ort},
+    ]);
+    notifyListeners();
+  }
+
+  @override
+  void streifzugTreffen(String befragung) => _senden([
+        {'typ': 'treffen', 'befragung': befragung},
+      ]);
+
+  /// Die Treffpunkte zieht der Raum aus dem Samen der Welt (privat beim
+  /// Detektiv); fehlen sie, gilt derselbe Samen dieses Geräts.
+  @override
+  Map<String, String> streifzugTreffpunkte(Erkundung erkundung) {
+    final t = jMap(jMap(jMap(dienst.ansicht['privat'])['streifzug'])['treffpunkte']);
+    return t.isEmpty ? super.streifzugTreffpunkte(erkundung) : {for (final e in t.entries) e.key: jText(e.value)};
+  }
 
   // ---------------------------------------------------------------- Lesen
 

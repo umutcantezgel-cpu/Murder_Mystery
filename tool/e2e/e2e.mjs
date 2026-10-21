@@ -1,9 +1,11 @@
 // E2E-Läufe des Partymodus gegen die gebaute Web-Fassung (F4-BAUMEISTER-07).
-// Aufruf in tool/e2e: node e2e.mjs [--nur feld=wert,...] [--parallel 1|2] [--negativtest]
+// Aufruf in tool/e2e: node e2e.mjs [--nur feld=wert,...] [--parallel 1|2] [--negativtest] [--lang]
 //   --nur          nur passende Läufe; Felder: pfad, ende, n, skript, fotos (0|1), semantik (0|1)
 //   --parallel     gleichzeitige Seiten, höchstens 2 (Vorgabe 2)
 //   --negativtest  prüft eine Kopie des ersten gewählten Laufs, deren Ende-Erwartung
 //                  vertauscht ist; die Kopie muss als Fehler gemeldet werden
+//   --lang         der lange Abend (M7b, `fassung=lang`): Gespräche und Entscheidungen als
+//                  Streifzug; je Runde die Fotostellen streifzug, treffpunkt und erkundung
 // Ausgabe: tool/e2e/fotos/e2e/ (Fotos je Lauf, bericht.json, bericht.md).
 // Rückgabewert 0 nur, wenn alle Läufe bestanden (bei --negativtest: der Fehler ist erkannt).
 
@@ -29,11 +31,14 @@ const OHNE_FOTOS = { takt: 40, zeitraffer: 240, zeitlimitMin: 3 };
  */
 const SEMANTIK = { takt: 400, zeitraffer: 240, zeitlimitMin: 3 };
 
-/** Parameter eines Laufs. */
+/** Parameter eines Laufs. Der lange Abend (Streifzug) braucht mehr Zeit: Wege, Treffpunkte, Erkundung. */
 function parameter(lauf) {
-  if (lauf.semantik) return SEMANTIK;
-  return lauf.fotos ? MIT_FOTOS : OHNE_FOTOS;
+  const p = lauf.semantik ? SEMANTIK : lauf.fotos ? MIT_FOTOS : OHNE_FOTOS;
+  return lauf.lang ? { ...p, zeitlimitMin: p.zeitlimitMin * 2 } : p;
 }
+
+/** Fotostellen des Streifzugs je Runde im langen Abend (skript.dart, lang-Pfad). */
+const STREIFZUG_FOTOS = ['streifzug', 'treffpunkt', 'erkundung'];
 
 const RUNDE = ['gespraeche', 'entscheidungen', 'gruppenwahl', 'bonus', 'resuemee'];
 /** Phasen ab der Einrichtung in Reihenfolge. Der Titel meldet keine Phase, nur eine Fotostelle. */
@@ -76,7 +81,8 @@ const zahl = (x) => (x == null ? null : Number.isFinite(Number(x)) ? Number(x) :
 /** Abschnitt, zu dem eine Fotostelle gehört. */
 function fotoGruppe(name) {
   if (Object.hasOwn(FESTE_FOTOS, name)) return FESTE_FOTOS[name];
-  if (/^gespraeche_r\d+$/.test(name)) return 'gespraeche';
+  // Langer Abend (M7b): Rundenstart, Streifzug, Treffpunkt und Erkundung gehören zu den Gesprächen.
+  if (/^(gespraeche|streifzug|treffpunkt|erkundung)_r\d+$/.test(name)) return 'gespraeche';
   if (/^(fund|endgueltig|ziel|aktion|wurf|pech|auftakt)_/.test(name) || /^entscheidungen_fertig_r\d+$/.test(name)) return 'entscheidungen';
   if (/^(wahl_verdeckt|wahl_taeter|gruppenwahl)_r\d+$/.test(name)) return 'gruppenwahl';
   if (/^bonus_r\d+$/.test(name)) return 'bonus';
@@ -100,7 +106,8 @@ function adresse(lauf, port) {
   const p = parameter(lauf);
   const semantik = lauf.semantik ? '&semantik=1' : '';
   return `http://127.0.0.1:${port}/?party=schlosskeller&pfad=${lauf.pfad}&n=${lauf.n}&skript=${lauf.skript}` +
-    `&takt=${p.takt}&zeitraffer=${p.zeitraffer}&fotos=${lauf.fotos ? 1 : 0}${lauf.fotos ? '&fotopause=2000' : ''}${semantik}`;
+    `&takt=${p.takt}&zeitraffer=${p.zeitraffer}&fotos=${lauf.fotos ? 1 : 0}${lauf.fotos ? '&fotopause=2000' : ''}${semantik}` +
+    `${lauf.lang ? '&fassung=lang' : ''}`;
 }
 
 /** Erzählertexte der Runden, die Täterfassungen (je Pfad, die ersten 40 Zeichen des Feldes tarnung)
@@ -193,6 +200,31 @@ function pruefeSemantik(lauf, texte, daten) {
   return f;
 }
 
+/**
+ * Streifzug (M7b): Im langen Abend kommt je Runde nach dem Rundenstart (`gespraeche_r<n>`) genau
+ * einmal `streifzug_r<n>`, `treffpunkt_r<n>` und `erkundung_r<n>`, alle vor den Entscheidungen der
+ * Runde. Im kurzen Abend gibt es keine davon.
+ */
+function pruefeStreifzug(lauf, fotostellen) {
+  const f = [];
+  for (const r of [1, 2, 3]) {
+    const start = fotostellen.indexOf(`gespraeche_r${r}`);
+    const fertig = fotostellen.indexOf(`entscheidungen_fertig_r${r}`);
+    for (const art of STREIFZUG_FOTOS) {
+      const name = `${art}_r${r}`;
+      const zahl = fotostellen.filter((x) => x === name).length;
+      if (!lauf.lang) {
+        if (zahl) f.push(`Streifzug: ${name} im kurzen Abend`);
+        continue;
+      }
+      if (zahl !== 1) f.push(`Streifzug: ${name} ${zahl}-mal statt einmal`);
+      const i = fotostellen.indexOf(name);
+      if (i >= 0 && (i < start || (fertig >= 0 && i > fertig))) f.push(`Streifzug: ${name} außerhalb der Runde ${r}`);
+    }
+  }
+  return f;
+}
+
 /** Alle Prüfungen eines Laufs; liefert die Fehlermeldungen (leer heißt bestanden). */
 function pruefe(lauf, b, daten) {
   const f = [];
@@ -210,6 +242,7 @@ function pruefe(lauf, b, daten) {
   if (!gleich(ohneTitel, PHASEN)) f.push(`Phasenfolge weicht ab: ${ohneTitel.join(' > ')}`);
   const gruppen = kollabiere(b.fotostellen.map(fotoGruppe));
   if (!gleich(gruppen, ['titel', ...PHASEN])) f.push(`Fotostellen weichen ab: ${gruppen.join(' > ')}`);
+  f.push(...pruefeStreifzug(lauf, b.fotostellen));
   for (const x of b.konsole) f.push(`Konsole: ${x}`);
   for (const x of b.technik) f.push(`Technik: ${x}`);
   const fremd = [...new Set(b.fremd)];
@@ -354,13 +387,14 @@ function parseFilter(text) {
 }
 
 function parseArgs(argv) {
-  const o = { nur: null, parallel: 2, negativtest: false };
+  const o = { nur: null, parallel: 2, negativtest: false, lang: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--nur') o.nur = parseFilter(argv[++i]);
     else if (a.startsWith('--nur=')) o.nur = parseFilter(a.slice('--nur='.length));
     else if (a === '--parallel') o.parallel = Number(argv[++i]);
     else if (a === '--negativtest') o.negativtest = true;
+    else if (a === '--lang') o.lang = true;
     else throw new Error(`Unbekannte Option: ${a}`);
   }
   if (![1, 2].includes(o.parallel)) throw new Error('--parallel muss 1 oder 2 sein');
@@ -419,7 +453,7 @@ async function main() {
   if (!fs.existsSync(path.join(build, 'index.html'))) {
     throw new Error('Web-Build fehlt (build/web). Bauen mit: flutter build web --release --no-web-resources-cdn -o build/web');
   }
-  let laeufe = alleLaeufe().filter((l) => !optionen.nur || passt(l, optionen.nur));
+  let laeufe = alleLaeufe().filter((l) => !optionen.nur || passt(l, optionen.nur)).map((l) => ({ ...l, lang: optionen.lang }));
   if (laeufe.length === 0) throw new Error('Kein Lauf passt zum Filter.');
   if (optionen.negativtest) {
     const kopie = structuredClone(laeufe[0]);
