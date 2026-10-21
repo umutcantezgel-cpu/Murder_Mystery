@@ -108,6 +108,16 @@ void main() {
       expect(_befunde(_mit((_, d) => d['figuren'] = ['tugba'], nr: 1)), [contains('schneider liegt, steht aber nicht im Bild')]);
     });
 
+    test('Notlicht (M7b): nur mit Figuren im Bild; Schema kennt die Stimmung, unbekannte nicht', () {
+      expect(Diashow.ausJson(_roh).dias[1].stimmung, DiaStimmung.notlicht, reason: 'Bild 2: Herr Schneider im Vorratsraum');
+      expect(Diashow.ausJson(_roh).dias[5].stimmung, DiaStimmung.stromausfall, reason: 'Bild 6 bleibt im Dunkel');
+      expect(_befunde(_mit((_, d) => d..['figuren'] = <String>[]..['liegt'] = <String>[], nr: 1)), [contains('Notlicht ohne Figur')]);
+      expect(_befunde(_mit((_, d) => d..['figuren'] = <String>[]..['liegt'] = <String>[]..['stimmung'] = 'stromausfall', nr: 1)), isEmpty);
+      final falsch = _mit((_, d) => d['stimmung'] = 'flutlicht', nr: 1);
+      expect(schema.pruefe(falsch), isNotEmpty);
+      expect(() => Diashow.ausJson(falsch), throwsFormatException);
+    });
+
     test('R15: Sperrort, Ziel-Raum und pfadabhängige Spur nur, wenn der Baustein sie nennt', () {
       // Der Jackenständer ist Fundort und Ziel-Ort; das Intro nennt den Ostsaal nicht.
       expect(_befunde(_mit((_, d) => (d['kamera'] as Map)['ort'] = 'am_jackenstaender')), [contains('Sperrort')]);

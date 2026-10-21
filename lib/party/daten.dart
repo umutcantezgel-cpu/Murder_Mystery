@@ -36,7 +36,14 @@ class PartyDaten {
   /// Akten mit dem Zusatz `diashow`; `null`: Die Einleitung bleibt wie bisher.
   final Diashow? diashow;
 
-  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow)
+  /// Vorspiel und Morgen des langen Abends (`content/welt/<fall>/vorspiel_morgen.json`,
+  /// M7b), nur bei Akten mit dem Zusatz `langfassung`, wenn `welt.json` die
+  /// Datei unter `vorspielMorgen` nennt; `null`: kein Rundgang (kurze Akten,
+  /// Tests ohne Datei). Gespielt wird er nur im langen Abend.
+  final VorspielMorgen? vorspielMorgen;
+
+  PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow,
+      this.vorspielMorgen)
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
 
   /// Hat die Akte den Zusatz [faehigkeit] (`AkteInfo.hat`)?
@@ -61,6 +68,7 @@ class PartyDaten {
     AkteInfo? akte,
     Map<String, Object?>? geruechte,
     Map<String, Object?>? diashow,
+    Map<String, Object?>? vorspielMorgen,
   }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
@@ -79,6 +87,7 @@ class PartyDaten {
       akte,
       geruechte == null ? null : Geruechte.ausJson(geruechte),
       diashow == null ? null : Diashow.ausJson(diashow),
+      vorspielMorgen == null ? null : VorspielMorgen.ausJson(vorspielMorgen),
     );
   }
 
@@ -122,8 +131,24 @@ class PartyDaten {
         diashow = null;
       }
     }
+    // Vorspiel und Morgen (M7b) nur mit dem Zusatz langfassung und nur, wenn welt.json die Datei nennt.
+    Map<String, Object?>? vorspielMorgen;
+    if ((akte?.hat('langfassung') ?? false) && welt?['vorspielMorgen'] is String) {
+      try {
+        vorspielMorgen = jsonDecode(await bundle.loadString('content/welt/$fall/${welt!['vorspielMorgen']}')) as Map<String, Object?>;
+      } catch (_) {
+        vorspielMorgen = null;
+      }
+    }
     return PartyDaten.aus(eigen.lies, vorlage,
-        fall: fall, basis: basis?.lies, welt: welt, erzaehlung: erzaehlung, akte: akte, geruechte: geruechte, diashow: diashow);
+        fall: fall,
+        basis: basis?.lies,
+        welt: welt,
+        erzaehlung: erzaehlung,
+        akte: akte,
+        geruechte: geruechte,
+        diashow: diashow,
+        vorspielMorgen: vorspielMorgen);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

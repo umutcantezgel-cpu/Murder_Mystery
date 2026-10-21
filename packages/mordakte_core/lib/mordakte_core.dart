@@ -30,6 +30,7 @@ export 'src/party/beweise.dart';
 export 'src/party/szenario_export.dart';
 export 'src/welt/ebenen.dart';
 export 'src/welt/erkundung.dart';
+export 'src/welt/vorspiel_morgen.dart';
 export 'src/party/bibel.dart';
 export 'src/party/farbe.dart';
 export 'src/party/herkunft.dart';

@@ -256,6 +256,19 @@ class AbendKarte extends WeltSzene implements SzenenEbenen, GefuehrteSzene {
     _setze(kellerEbene, kellerStart, ort: ermittlungsOrt);
   }
 
+  /// Setzt den Detektiv sofort auf [ebene] an [p] (Kurzblende ohne Weg); ein
+  /// laufender geführter Weg endet dabei, ohne anzukommen. Für Unterklassen,
+  /// die ihn an einen Ort bringen müssen, zu dem gerade kein Weg führt (M7b,
+  /// Vorspiel und Morgen). Mit [ort] ist er dort angekommen.
+  @protected
+  void springe(String ebene, (double, double) p, {String? ort}) {
+    if (entsorgt || !_jeEbene.containsKey(ebene)) return;
+    final l = _lauf;
+    _lauf = null;
+    l?.beenden(false);
+    _setze(ebene, p, ort: ort);
+  }
+
   /// Beendet einen laufenden geführten Weg sofort am Ziel (Kurzblende).
   void abkuerzen() {
     final l = _lauf;

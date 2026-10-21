@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mordakte_core/mordakte_core.dart' show Befragungsplan, PartyPhase, erzaehlerPaket;
+import 'package:mordakte_core/mordakte_core.dart' show Befragungsplan, PartyPhase, RundgangTeil, erzaehlerPaket;
 import 'package:mordakte_core/runden.dart' show AbendRaum, PartyRaumFehler, RundenZugPhase, Sitz, UhrAktion, istSuche;
 import 'package:mordakte_netz/mordakte_netz.dart' show RelayHost, RelayParameter;
 
@@ -163,6 +163,19 @@ class BegleiterRaum implements AbendRaum {
         if (nr is! int || nr < 0 || nr >= d.dias.length) throw const PartyRaumFehler('invalid');
         sitzung.diaSetzen(nr);
         _version++;
+      // Vorspiel (M7b): Der Erzähler führt am Handy durch den Rundgang, wie online, wer leitet.
+      case 'rundgang':
+        if (sitzung.rundgang != RundgangTeil.vorspiel) throw const PartyRaumFehler('invalid_phase');
+        final ueberspringen = inhalt['ueberspringen'], station = inhalt['station'];
+        if (ueberspringen != null) {
+          if (ueberspringen != true || station != null) throw const PartyRaumFehler('invalid');
+          sitzung.rundgangUeberspringen();
+        } else {
+          if (station is! int) throw const PartyRaumFehler('invalid');
+          if (station != sitzung.rundgangStation) throw const PartyRaumFehler('stale');
+          sitzung.rundgangWeiter();
+        }
+        _version++;
       case 'uhr':
         final aktion = UhrAktion.lesen(inhalt['aktion']);
         final minuten = inhalt['minuten'], zeit = inhalt['zeit'];
@@ -225,9 +238,12 @@ class BegleiterRaum implements AbendRaum {
       // lang auch in den Entscheidungen (M7b).
       if (s.phase == PartyPhase.intro && s.diashow != null) 'dia': s.dia,
       if (s.uhrInPhase) 'uhr': s.uhr.toJson(),
+      // Vorspiel (M7b) wie im Online-Raum: Station und Karte für alle, der Vorlesetext privat.
+      ...?_rundgang(s),
       'privat': {
         'spieler': id,
         'vorleser': true,
+        if (s.rundgang == RundgangTeil.vorspiel) 'rundgangText': ?s.rundgangText?.vorlesen,
         'erzaehler': [
           for (final k in s.erzaehler)
             if (s.hatText(k)) s.text(k),
@@ -266,6 +282,24 @@ class BegleiterRaum implements AbendRaum {
         },
       },
       if (s.phase == PartyPhase.anklage) 'verdaechtige': [...s.kernverdaechtige],
+    };
+  }
+
+  /// Das laufende Vorspiel mit dem Schlüssel des Online-Raums (`rundgang`):
+  /// Teil, Station, Zahl, Uhrzeit und Karte nach R17, nie der Vorlesetext. Den
+  /// Morgen liest das Gerät selbst vor (ab dem Finale lesen alle).
+  Map<String, Object?>? _rundgang(PartySitzung s) {
+    final st = s.rundgangAktuell, text = s.rundgangText;
+    if (s.rundgang != RundgangTeil.vorspiel || st == null || text == null) return null;
+    return {
+      'rundgang': {
+        'teil': RundgangTeil.vorspiel.name,
+        'station': s.rundgangStation,
+        'anzahl': s.rundgangStationen.length,
+        'id': st.id,
+        'zeit': '${st.zeit}',
+        'karte': text.karteJson(),
+      },
     };
   }
 

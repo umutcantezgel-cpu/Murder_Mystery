@@ -1,7 +1,8 @@
 // M7a: Welt-Ebenen des langen Abends (A-056, K1). Alle Ebenen sind erreichbar,
-// Portale führen in beide Richtungen, das Außentor bleibt in den Runden zu, die
-// Hoftür im kurzen Abend und von der Sperre (18:50) bis 00:15; im Vorspiel steht
-// sie offen wie im Kanon (Lieferung um 18:30). Der Kanon-Keller bleibt unberührt.
+// Portale führen in beide Richtungen, Außentor und Einfahrtstor bleiben in den
+// Runden zu, die Hoftür im kurzen Abend und von der Sperre (18:50) bis 00:15; im
+// Vorspiel stehen Hoftür und Einfahrtstor offen wie im Kanon (Lieferung um
+// 18:30 über den Schlosshof). Der Kanon-Keller bleibt unberührt.
 import 'dart:convert';
 
 import 'package:mordakte_core/mordakte_core.dart';
@@ -24,6 +25,14 @@ Iterable<Uhrzeit> get _nacht sync* {
   }
   yield welt.zeiten.morgen.plus(-1);
 }
+
+/// Das Einfahrtstor zwischen Schlosshof und Parkplatz (nicht im Kanon-Raster).
+Portal get _einfahrtstor => welt.portale.singleWhere((p) => p.seiteAuf('erdgeschoss') != null && p.seiteAuf('aussen') != null);
+
+/// Text eines Eintrags der Kanon-Zeitleiste.
+String _zeitleistenText(String id) => (leseJson('$repoWurzel/content/party/schlosskeller/zeitleiste.json')['eintraege'] as List)
+    .cast<Map>()
+    .singleWhere((e) => e['id'] == id)['text'] as String;
 
 /// Das Portal, dessen Kellerseite auf der Kanon-Tür [tuer] liegt.
 Portal _portalAn(String tuer) {
@@ -120,9 +129,44 @@ void main() {
       expect(welt.erreichbar(lage, von: ('erdgeschoss', b.ankunft))[kellerEbene], contains(hof.seiteAuf(kellerEbene)!.ankunft), reason: '$lage');
     }
     final gesperrt = WeltLage(lang: true, uhr: welt.zeiten.sperre);
-    expect(welt.offen(hof.offen, gesperrt), isFalse, reason: 'Um 18:50 schließt Herr Schneider Hoftür und Außentor');
+    expect(welt.offen(hof.offen, gesperrt), isFalse, reason: 'Um 18:50 schließt Herr Schneider Hoftür, Einfahrtstor und Außentor');
     expect(welt.offen(_portalAn('aussentor').offen, gesperrt), isFalse);
+    expect(welt.offen(_einfahrtstor.offen, gesperrt), isFalse);
     expect(welt.raster(kellerEbene, gesperrt).isLockedDoor(hoftuer.x, hoftuer.y), isTrue);
+  });
+
+  test('Einfahrtstor: im Vorspiel bis zur Sperre und am Morgen offen, in allen Lagen der Runden zu', () {
+    // K1: Um 18:50 schließt Herr Schneider Hoftür, Einfahrtstor und Außentor ab;
+    // die Kollegin kommt um sieben mit dem Torschlüssel.
+    expect(_zeitleistenText('z_forderung'), contains('Hoftür, Einfahrtstor und Außentor ab'));
+    final tor = _einfahrtstor;
+    expect(tor.offen, Oeffnung.vorspielMorgen);
+    final hof = tor.seiteAuf('erdgeschoss')!, parkplatz = tor.seiteAuf('aussen')!;
+    for (final uhr in [Uhrzeit.parse('18:00'), Uhrzeit.parse('18:30'), welt.zeiten.sperre.plus(-1), welt.zeiten.morgen, Uhrzeit.parse('08:30')]) {
+      final lage = WeltLage(lang: true, uhr: uhr);
+      expect(welt.offen(tor.offen, lage), isTrue, reason: '$lage');
+      // Durch das Tor in beide Richtungen: vom Parkplatz in den Hof und zurück.
+      expect(welt.erreichbar(lage, von: ('aussen', parkplatz.ankunft))['erdgeschoss'], contains(hof.ankunft), reason: '$lage');
+      expect(welt.erreichbar(lage, von: ('erdgeschoss', hof.ankunft))['aussen'], contains(parkplatz.ankunft), reason: '$lage');
+      final tor0 = hof.kacheln.first;
+      expect(welt.raster('erdgeschoss', lage).isLockedDoor(tor0.x, tor0.y), isFalse, reason: 'Torkachel im Hof $lage');
+    }
+    for (final uhr in [welt.zeiten.sperre, ..._nacht]) {
+      final lage = WeltLage(lang: true, uhr: uhr);
+      expect(welt.offen(tor.offen, lage), isFalse, reason: '$lage');
+      expect(welt.erreichbar(lage, von: ('erdgeschoss', hof.ankunft))['aussen'], isEmpty, reason: '$lage');
+      final tor0 = hof.kacheln.first;
+      expect(welt.raster('erdgeschoss', lage).isLockedDoor(tor0.x, tor0.y), isTrue, reason: 'Torkachel im Hof $lage');
+    }
+    for (final uhr in ['18:00', '18:30', '23:30', '01:15', '07:00']) {
+      expect(welt.offen(tor.offen, WeltLage.um(uhr, lang: false)), isFalse, reason: 'kurzer Abend $uhr');
+    }
+    // Im Vorspiel führt der Rundgang vom Parkplatz durch den Hof bis in den Keller.
+    final vorspiel = WeltLage.um('18:00');
+    final mitte = welt.ebenen['aussen']!.graph.orte['aussen_parkplatz_mitte']!;
+    final vomParkplatz = welt.erreichbareRaeume(vorspiel, von: ('aussen', Pt(mitte.x.floor(), mitte.y.floor())));
+    expect(vomParkplatz['erdgeschoss'], {'eg_hof', 'eg_garten'});
+    expect(vomParkplatz[kellerEbene], isNotEmpty);
   });
 
   test('Turm: Toilette immer, Turmzimmer und Wehrgang erst mit dem Ersatzschlüssel', () {

@@ -20,6 +20,9 @@
 //     Erreichbarkeit, Außentor in den Runden zu, Hoftür erst mit dem Ersatzschlüssel, keine Kanon-Kennung, Ton)
 //   Diashow     nur mit content/welt/<akte>/diashow.json (Zusatz diashow in akten.json): Schema und pruefeDiashow (M4: ein Bild je
 //     Abschnitt des Intros, 20–60 Wörter je Baustein, nur bekannte Orte und Figuren, keine Fallhinweise, kein Text)
+//   Vorspiel/Morgen nur mit content/welt/<akte>/vorspiel_morgen.json (in welt.json als vorspielMorgen genannt, nur mit Langfassung
+//     und Zusatz langfassung): Schema und pruefeVorspielMorgen (M7b: Stationen erreichbar in ihrer Lage, Tore der Zeitleiste, R17,
+//     keine Fallhinweise, Fünf-Wort-Regel, Morgen ende-neutral oder je Ende, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -141,6 +144,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _langfassung(b, kanon, wurzel, fall);
   _erkundung(b, kanon, roh, wurzel, fall);
   _diashow(b, kanon, sammlung, wurzel, fall);
+  _vorspielMorgen(b, kanon, texte, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -792,3 +796,42 @@ List<String> _abend(Kanon kanon, Ermittlung erm, Texte texte, String pfad, int n
 }
 
 bool _gleich(Set<String> a, Set<String> b) => a.length == b.length && a.containsAll(b);
+
+// ---------------------------------------------------------------- Vorspiel und Morgen
+
+/// Vorspiel und Morgen des langen Abends (M7b), nur wenn welt.json
+/// `vorspielMorgen` nennt: Die Datei muss es dann geben, dazu die Langfassung
+/// (Ebenen) und den Zusatz `langfassung` in akten.json (ohne langen Abend gibt
+/// es keinen Rundgang). Danach Schema und pruefeVorspielMorgen mit Tonregeln;
+/// geschützt sind Dossiers, Täterfassungen, Finale und Auflösung.
+void _vorspielMorgen(Befunde b, Kanon kanon, Texte texte, String wurzel, String fall) {
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final weltJson = welt.existsSync() ? _lies(welt.path) : const <String, Object?>{};
+  final genannt = weltJson['vorspielMorgen'];
+  if (genannt is! String) return;
+  final datei = File('$wurzel/content/welt/$fall/$genannt');
+  if (!datei.existsSync()) {
+    b.add('Vorspiel/Morgen', ['welt.json nennt $genannt, die Datei fehlt']);
+    return;
+  }
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  if (!((akte?['faehigkeiten'] as List?) ?? const []).contains('langfassung')) {
+    b.add('Vorspiel/Morgen', ['$genannt ohne Zusatz langfassung in akten.json']);
+  }
+  final lang = weltJson['langfassung'];
+  if (lang is! String || !File('$wurzel/content/welt/$fall/$lang').existsSync()) {
+    b.add('Vorspiel/Morgen', ['$genannt braucht die Langfassung (welt.json: langfassung)']);
+    return;
+  }
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/welt/vorspiel_morgen.schema.json')).pruefe(j);
+  b.add('Vorspiel/Morgen', [for (final f in schema) '$genannt: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Vorspiel/Morgen', ['$genannt: akte ${j['akte']} statt $fall']);
+  final regeln = _lies('$wurzel/content/party/textregeln.json');
+  final ebenen = WeltEbenen.ausJson(_lies('$wurzel/content/welt/$fall/$lang'), kanon);
+  b.add('Vorspiel/Morgen', pruefeVorspielMorgen(VorspielMorgen.ausJson(j), ebenen, ton: Textpruefer(regeln), regeln: regeln, geschuetzt: steckbriefGeschuetzt(texte)));
+}

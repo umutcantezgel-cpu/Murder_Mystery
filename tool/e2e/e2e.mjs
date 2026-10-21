@@ -65,6 +65,9 @@ const FESTE_FOTOS = {
   dossier: 'rollen',
   dossier_taeter: 'rollen',
   intro: 'intro',
+  // Langer Abend (M7b): Vorspiel vor der Diashow, Morgen vor dem Schlussbild.
+  vorspiel: 'intro',
+  morgen: 'ende',
   anklage: 'anklage',
   finale: 'finale',
   ende: 'ende',

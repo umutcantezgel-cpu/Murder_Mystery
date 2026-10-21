@@ -47,7 +47,10 @@
 /// nichts Neues. Im kurzen Abend fehlen Uhr (`invalid_phase`) und Schlüssel in
 /// den Entscheidungen wie bisher. Dazu der Streifzug (Erkundung, Treffpunkte):
 /// nur vom Detektiv-Sitz, alle sehen dasselbe Treffen, die Treffpunkte aller
-/// nur der Detektiv; kurz ist `erkunde` ungültig und der Schlüssel fehlt.
+/// nur der Detektiv; kurz ist `erkunde` ungültig und der Schlüssel fehlt. Lang
+/// laufen auch Vorspiel und Morgen (M7b): Alle sehen dieselbe Station, den
+/// Vorlesetext nur der Vorleser, weiter schaltet nur, wer leitet (auch über den
+/// Neustart des Gastgebers).
 library;
 
 import 'dart:async';
@@ -59,7 +62,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/io.dart';
 import 'package:mordakte_netz/mordakte_netz.dart';
-import 'package:mordakte_server/party.dart' show ladeErkundung, resolvePartyDir;
+import 'package:mordakte_server/party.dart' show ladeErkundung, ladeVorspielMorgen, resolvePartyDir;
 
 String _stage = 'Vorbereitung';
 
@@ -315,9 +318,11 @@ Future<void> _lauf({
         // Wie die App: Rundendauer aus der Meta, Diashow der Akte (M4).
         rundenMinuten: 20,
         diaAnzahl: _diaAnzahl,
-        // Wie die App (M7b): die Fassung aus der Meta, nur bei lang geschrieben; lang mit dem Streifzug.
+        // Wie die App (M7b): die Fassung aus der Meta, nur bei lang geschrieben; lang mit dem Streifzug,
+        // dazu Vorspiel und Morgen der Akte (der Raum nimmt sie nur im langen Abend).
         fassung: Abendfassung.lesen(meta['fassung']),
         erkundung: Abendfassung.lesen(meta['fassung']).istLang ? _erkundung : null,
+        rundgang: _vorspielMorgen,
       );
   var host = await RelayHost.neu(
     fabrik: fabrik,
@@ -482,12 +487,18 @@ Future<void> _lauf({
     var hostNeustart = false;
     var neuverbindungB = false;
     var schritte = 0;
-    while (hostPlatz.latest['phase'] != 'ende') {
+    // Vorspiel und Morgen (M7b): nur im langen Abend; im Ende läuft dann noch der Morgen.
+    final rundgaenge = <String>{};
+    final rundgangTexte = <String>{};
+    while (hostPlatz.latest['phase'] != 'ende' || hostPlatz.latest['rundgang'] is Map) {
       _require(++schritte < 500, 'Abend erreicht das Ende nicht.');
       final s = hostPlatz.latest;
       _stage = 'Phase ${s['phase']}';
       _meldung('Phase ${s['phase']} Runde ${s['runde']} v${s['version']}');
       switch (s['phase']) {
+        case 'intro' || 'ende' when s['rundgang'] is Map:
+          rundgaenge.add(_map(s['rundgang'])['teil'] as String);
+          rundgangTexte.addAll(await _imFenster('Rundgang', () => _rundgang(hostPlatz, leitPlatz, rolle, plaetze, vorleserPlatz)));
         case 'entscheidungen':
           if (!streifzugGeprueft) {
             streifzugGeprueft = true;
@@ -594,6 +605,7 @@ Future<void> _lauf({
     _require(neuverbindungB, 'App-Neustart-Prüfung wurde nicht erreicht.');
     _require(hostNetz && hostNeustart, 'Gastgeber-Prüfungen (Netzabbruch, Neustart) wurden nicht erreicht.');
     _require(attrappe == null || neuverbindungA, 'Netzabbruch-Prüfung wurde nicht erreicht.');
+    _require(k.lang ? rundgaenge.containsAll(['vorspiel', 'morgen']) : rundgaenge.isEmpty, 'Vorspiel und Morgen nur im langen Abend und dort ganz.');
 
     _stage = 'Ende abwarten';
     await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
@@ -637,6 +649,14 @@ Future<void> _lauf({
         if (!['lobby', 'finale', 'aufloesung', 'ende'].contains(v['phase'])) ...(_map(v['privat'])['erzaehler'] as List).cast<String>(),
     };
     _require(vorgelesen.isNotEmpty, 'Der Vorleser bekam keinen Erzähltext.');
+    // Vorspiel und Morgen (M7b): Den Vorlesetext einer Station sieht nur der Vorleser, auch am Morgen.
+    for (final p in [hostPlatz, ...plaetze].where((p) => p != vorleserPlatz)) {
+      for (final view in p.inbox) {
+        final text = jsonEncode(view);
+        _require(!_map(view['privat']).containsKey('rundgangText') && rundgangTexte.every((t) => !text.contains(jsonEncode(t))),
+            'Vorlesetext des Rundgangs an ${p.name}, der nicht vorliest.');
+      }
+    }
     final npcTexte = {for (final e in texte.sammlung.bausteine.entries) if (e.key.startsWith('npc.')) e.value};
     // Nie beim Erzähler oder Detektiv: verbirgt, Tatwissen und Tarnung irgendeiner Rolle.
     final rollenGeheim = <String>{
@@ -850,7 +870,7 @@ Future<void> _lauf({
     _require(host.statistik.groessteAnsichtZeichen < 200 * 1024, 'Ansicht nahe an der Nutzlastgrenze.');
 
     final st = host.statistik;
-    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
+    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen${k.lang ? ' · Vorspiel und Morgen' : ''} · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
         'Mithörer ${lauscher.sitzUmschlaege} Umschläge ohne Klartext, $gesendet Einspielungen abgewehrt · '
         'Befehle ${st.befehleAusgefuehrt} (davon ${st.befehleWiederholt} Wiederholungen erkannt) · '
         'Gastgeber-Spitze ${ergebnis.sendungenSpitze}/s, gezählte Frames Spitze ${ergebnis.zugestelltSpitze}/s'
@@ -972,6 +992,39 @@ final int _diaAnzahl = () {
   final datei = File('${Directory(resolvePartyDir(null)).parent.parent.path}/welt/schlosskeller/diashow.json');
   return Diashow.ausJson((jsonDecode(datei.readAsStringSync()) as Map).cast<String, Object?>()).dias.length;
 }();
+
+/// Vorspiel und Morgen des Schlosskellers (`content/welt/schlosskeller/vorspiel_morgen.json`), wie in der App.
+final VorspielMorgen? _vorspielMorgen = ladeVorspielMorgen('${Directory(resolvePartyDir(null)).parent.parent.path}/welt/schlosskeller');
+
+/// Vorspiel oder Morgen (M7b) über das Relais: Eine Rolle darf nicht schalten,
+/// ein veralteter Schritt ist `stale`; je Station sehen alle dieselbe Karte, den
+/// Vorlesetext nur [vorleser] (privat). Liefert die vorgelesenen Texte.
+Future<Set<String>> _rundgang(_Platz host, _Platz leiter, _Platz rolle, List<_Platz> plaetze, _Platz vorleser) async {
+  final texte = <String>{};
+  final teil = _map(host.latest['rundgang'])['teil'];
+  await _erwarteFehler(rolle, {'typ': 'rundgang', 'station': 0}, 'not_host');
+  await _erwarteFehler(leiter, {'typ': 'rundgang', 'station': (_map(host.latest['rundgang'])['station'] as int) + 1}, 'stale');
+  for (var i = 0; i < 12; i++) {
+    final g = host.latest['rundgang'];
+    if (g is! Map || g['teil'] != teil) break;
+    await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+    final alle = [host, ...plaetze];
+    _require({for (final p in alle) jsonEncode(p.latest['rundgang'])}.length == 1, 'Die Station ist nicht für alle gleich.');
+    for (final p in alle) {
+      final privat = _map(p.latest['privat']);
+      if (p == vorleser) {
+        _require(privat['rundgangText'] is String, 'Der Vorleser bekam den Vorlesetext der Station nicht.');
+        texte.add(privat['rundgangText'] as String);
+      } else {
+        _require(!privat.containsKey('rundgangText'), 'Vorlesetext der Station an ${p.name}, der nicht vorliest.');
+      }
+    }
+    if (teil == 'vorspiel') _require(host.latest['kannWeiter'] != true, 'Während des Vorspiels geht es nicht weiter in die Runden.');
+    await _befehl(host, leiter, 'rundgang', {'station': g['station']});
+  }
+  _require(host.latest['rundgang'] == null, 'Der Rundgang endet nicht.');
+  return texte;
+}
 
 /// Diashow (M4): Den Zähler `dia` sehen alle gleich; schalten darf nur, wer
 /// leitet. Eine Rolle bekommt `not_host`, ein Bild außerhalb `invalid`.

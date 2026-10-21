@@ -19,6 +19,8 @@ const raumOeffentlicheSchluessel = <String>{
   'fassung',
   // Streifzug (M7b, `raum/streifzug_modul.dart`): Stelle des Detektivs, erkundete Orte, laufendes Treffen; nur lang, rein kosmetisch.
   'streifzug',
+  // Vorspiel und Morgen (M7b, `raum/rundgang_modul.dart`): Station und Karte nach R17, nie der Vorlesetext.
+  'rundgang',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der

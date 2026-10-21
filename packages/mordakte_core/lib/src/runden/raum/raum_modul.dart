@@ -15,6 +15,10 @@ abstract class RaumKontext {
   /// Gerät auf dem Erzähler-Sitz; `null` ohne Erzähler.
   String? get erzaehler;
 
+  /// Gerät, das gerade leitet und vorliest (Erzähler, sonst Detektiv, sonst
+  /// Gastgeber, siehe `SchlosskellerRaum.vorleser`); vor dem Start niemand.
+  String? get vorleser;
+
   /// Laufende Partie; null vor dem Start. Nur lesen, Änderungen nie hier.
   RundenPartie? get partie;
 
@@ -60,6 +64,10 @@ abstract class RaumModul {
 
   /// Zusätzliche Bedingung für „Weiter“.
   bool darfWeiter(RaumKontext k) => true;
+
+  /// Hält das Modul den Abend nach dem Ende noch offen (der Morgen im langen
+  /// Abend, M7b)? Dann gilt der Raum noch nicht als beendet.
+  bool haeltOffen(RaumKontext k) => false;
 
   /// Nach dem Start (Partie und Rollen stehen fest).
   void beimStart(RaumKontext k) {}

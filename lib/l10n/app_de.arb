@@ -3254,6 +3254,75 @@
       }
     }
   },
+  "rundgang_vorspiel": "Vorspiel",
+  "@rundgang_vorspiel": {
+    "description": "Langer Abend (M7b): Marke des Rundgangs vor dem Abend (Unterzustand der Einleitung)"
+  },
+  "rundgang_morgen": "Der Morgen",
+  "@rundgang_morgen": {
+    "description": "Langer Abend (M7b): Marke des Rundgangs nach der Auflösung (Unterzustand des Endes)"
+  },
+  "rundgang_marke": "{teil} · {uhrzeit}",
+  "@rundgang_marke": {
+    "description": "Langer Abend (M7b): Marke über der Station, Rundgang und Uhrzeit der Station",
+    "placeholders": {
+      "teil": {
+        "type": "String"
+      },
+      "uhrzeit": {
+        "type": "String"
+      }
+    }
+  },
+  "rundgang_station": "Station {nr} von {anzahl}",
+  "@rundgang_station": {
+    "description": "Langer Abend (M7b): Zähler der Stationen eines Rundgangs",
+    "placeholders": {
+      "nr": {
+        "type": "String"
+      },
+      "anzahl": {
+        "type": "String"
+      }
+    }
+  },
+  "rundgang_weiter": "Nächste Station",
+  "@rundgang_weiter": {
+    "description": "Langer Abend (M7b): zur nächsten Station des Rundgangs"
+  },
+  "rundgang_zur_einleitung": "Weiter zur Einleitung",
+  "@rundgang_zur_einleitung": {
+    "description": "Langer Abend (M7b): letzte Station des Vorspiels, danach Diashow und Einleitung"
+  },
+  "rundgang_zum_schluss": "Weiter zum Schluss",
+  "@rundgang_zum_schluss": {
+    "description": "Langer Abend (M7b): letzte Station des Morgens, danach die geschlossene Akte"
+  },
+  "rundgang_ueberspringen": "Rundgang überspringen",
+  "@rundgang_ueberspringen": {
+    "description": "Langer Abend (M7b): den Rest von Vorspiel oder Morgen überspringen"
+  },
+  "rundgang_fuehrt": "{name} führt durch den Rundgang.",
+  "@rundgang_fuehrt": {
+    "description": "Langer Abend (M7b): Fuß des Rundgangs auf Geräten, die nicht weiterschalten",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "rundgang_laeuft_vorspiel": "Das Vorspiel läuft.",
+  "@rundgang_laeuft_vorspiel": {
+    "description": "Langer Abend (M7b): Gast sieht, dass der Rundgang vor dem Abend läuft"
+  },
+  "rundgang_laeuft_morgen": "Der Morgen läuft.",
+  "@rundgang_laeuft_morgen": {
+    "description": "Langer Abend (M7b): Gast sieht, dass der Rundgang am Morgen läuft"
+  },
+  "rundgang_karte_semantik": "Karte des Rundgangs. Der Detektiv geht zur Station.",
+  "@rundgang_karte_semantik": {
+    "description": "Langer Abend (M7b): Beschriftung der Karte für den Bildschirmleser"
+  },
   "online_uhr_titel": "Zeit für diese Runde",
   "@online_uhr_titel": {
     "description": "Gast: Überschrift der gemeinsamen Rundenuhr"

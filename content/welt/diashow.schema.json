@@ -76,7 +76,8 @@
           "enum": [
             "feier",
             "stromausfall",
-            "rueckblick"
+            "rueckblick",
+            "notlicht"
           ]
         }
       }

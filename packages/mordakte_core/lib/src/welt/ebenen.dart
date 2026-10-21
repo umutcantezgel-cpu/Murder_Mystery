@@ -41,7 +41,9 @@ const raumHoechstSumme = 75;
 /// - [nachErsatzschluessel]: nur im langen Abend, ab dem Ersatzschlüssel
 ///   (00:15) bis in den Morgen; davor und im kurzen Abend zu.
 /// - [vorspielMorgen]: nur im langen Abend, im Vorspiel vor der Sperre (18:50)
-///   und am Morgen ab sieben; in den Runden nie.
+///   und am Morgen ab sieben; in den Runden nie. So Außentor und Einfahrtstor:
+///   Um 18:50 schließt Herr Schneider beide ab, erst die Kollegin öffnet sie
+///   um sieben mit dem Torschlüssel.
 /// - [nieInRunden]: nur im langen Abend und erst am Morgen ab sieben
 ///   (Torschlüssel der Kollegin); im Vorspiel und in den Runden zu.
 /// - [vorspielNachErsatzschluessel]: nur im langen Abend, im Vorspiel vor der
@@ -82,7 +84,7 @@ class WeltLage {
 class WeltZeiten {
   const WeltZeiten({required this.sperre, required this.ersatzschluessel, required this.morgen});
 
-  /// Herr Schneider schließt Hoftür und Außentor ab (18:50).
+  /// Herr Schneider schließt Hoftür, Einfahrtstor und Außentor ab (18:50).
   final Uhrzeit sperre;
 
   /// Der Ersatzschlüssel öffnet Hoftür, Turm und Seitentür (00:15).

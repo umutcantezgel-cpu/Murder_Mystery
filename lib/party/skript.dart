@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
+import 'bildschirme/rundgang.dart';
 import 'sitzung.dart';
 import 'streifzug_steuerung.dart';
 
@@ -25,7 +26,9 @@ import 'streifzug_steuerung.dart';
 ///   dieser Figur beginnen und je Schritt die erste Wahl nehmen; liegt `bis`
 ///   hinter den Entscheidungen, wird es zu Ende geführt (Nachspiel)
 /// - `fassung=lang`: der lange Abend (M7b), nur in Akten mit Langfassung;
-///   sonst und ohne Angabe der kurze
+///   sonst und ohne Angabe der kurze. Mit Skript geht er Vorspiel und Morgen
+///   Station für Station ab (Fotostellen `vorspiel` und `morgen` in der Mitte
+///   des Rundgangs); `bis=` überspringt sie
 ///
 /// Im Modell befragung erledigt das Skript die Befragungen jeder Runde selbst
 /// (erste Frage, feste und so viele freie wie erlaubt). Im langen Abend geht
@@ -137,7 +140,8 @@ class PartySkript {
     if (_laeuft) return;
     _laeuft = true;
     try {
-      while (sitzung.phase != PartyPhase.ende) {
+      // Im langen Abend läuft im Ende noch der Morgen (M7b), dann erst das Schlussbild.
+      while (sitzung.phase != PartyPhase.ende || sitzung.rundgang != null) {
         await _schritt();
         await _warte();
       }
@@ -160,6 +164,8 @@ class PartySkript {
         s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s));
         if (dev.dauerSekunden != null) s.rundendauer = Duration(seconds: dev.dauerSekunden!);
         if (dev.zeitraffer != null) s.zeitraffer = dev.zeitraffer!;
+      case PartyPhase.intro || PartyPhase.ende when s.rundgang != null:
+        await _rundgang();
       case PartyPhase.rollen:
         await _foto('rollen');
         s.zeigeVerdeckt(s.besetzt.last);
@@ -237,6 +243,27 @@ class PartySkript {
         await _foto('${s.phase.name}${s.runde > 0 ? '_r${s.runde}' : ''}');
         befragungenErledigen(s);
         s.weiter();
+    }
+  }
+
+  /// Geht den laufenden Rundgang (Vorspiel oder Morgen, M7b) Station für
+  /// Station ab: Je Station wartet das Skript, bis der Detektiv angekommen ist
+  /// (höchstens 20 s, die Karte geht sichtbar), in der Mitte des Rundgangs ist
+  /// die Fotostelle `vorspiel` bzw. `morgen`.
+  Future<void> _rundgang() async {
+    final s = sitzung;
+    final teil = s.rundgang;
+    if (teil == null) return;
+    final mitte = s.rundgangStationen.length ~/ 2;
+    while (s.rundgang == teil) {
+      final nr = s.rundgangStation;
+      await _warte();
+      for (var i = 0; i < 400 && (RundgangBildschirm.letzteKarte.value?.laeuft ?? false); i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      }
+      if (nr == mitte) await _foto(teil.name);
+      if (s.rundgang != teil || s.rundgangStation != nr) continue;
+      s.rundgangWeiter();
     }
   }
 
@@ -329,6 +356,11 @@ class PartySkript {
           if (s.angeklagt == null) s.anklagen(s.spiel.pfad);
           s.weiter();
         default:
+          // Langer Abend (M7b): Das Vorspiel überspringt der Standbild-Einstieg.
+          if (s.rundgang != null) {
+            s.rundgangUeberspringen();
+            continue;
+          }
           befragungenErledigen(s);
           s.weiter();
       }

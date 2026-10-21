@@ -18,6 +18,7 @@ import 'bildschirme/karte.dart';
 import 'bildschirme/resuemee.dart';
 import 'bildschirme/rollen.dart';
 import 'bildschirme/runde.dart';
+import 'bildschirme/rundgang.dart';
 import 'bildschirme/solo_gespraeche.dart';
 import 'bildschirme/streifzug.dart';
 import 'bildschirme/titel.dart';
@@ -125,7 +126,8 @@ class PartyAblauf extends StatelessWidget {
         builder: (context, _) => AnimatedSwitcher(
           duration: MBewegung.ruhig(context) ? Duration.zero : const Duration(milliseconds: 350),
           child: KeyedSubtree(
-            key: ValueKey('${s.phase.name}-${s.runde}'),
+            // Vorspiel und Morgen (M7b) blenden wie ein eigener Abschnitt über; kurz bleibt der Schlüssel gleich.
+            key: ValueKey('${s.phase.name}-${s.runde}${s.rundgang == null ? '' : '-${s.rundgang!.name}'}'),
             child: ersatz?.call(s) ?? bildschirm(s, menu: menu, onEnde: onEnde),
           ),
         ),
@@ -139,6 +141,8 @@ Widget bildschirm(PartySitzung s, {Widget? menu, VoidCallback? onEnde}) => switc
       PartyPhase.titel => TitelBildschirm(sitzung: s, menu: menu),
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
+      // Langer Abend (M7b): erst das Vorspiel, dann die Diashow der Einleitung.
+      PartyPhase.intro when s.rundgang != null => RundgangBildschirm(sitzung: s),
       PartyPhase.intro => IntroBildschirm(sitzung: s),
       // Langer Abend (M7b): Gespräche und Entscheidungen werden zum Streifzug durchs Schloss.
       PartyPhase.gespraeche || PartyPhase.entscheidungen when s.lang && s.daten.hat('langfassung') => StreifzugBildschirm(sitzung: s),
@@ -151,6 +155,8 @@ Widget bildschirm(PartySitzung s, {Widget? menu, VoidCallback? onEnde}) => switc
       PartyPhase.bonus || PartyPhase.resuemee => ResuemeeBildschirm(sitzung: s),
       PartyPhase.anklage => AnklageBildschirm(sitzung: s),
       PartyPhase.finale => FinaleBildschirm(sitzung: s),
+      // Langer Abend (M7b): nach der Auflösung der Morgen, dann das Schlussbild.
+      PartyPhase.ende when s.rundgang != null => RundgangBildschirm(sitzung: s),
       PartyPhase.aufloesung || PartyPhase.ende => AufloesungBildschirm(sitzung: s, onEnde: onEnde),
     };
 

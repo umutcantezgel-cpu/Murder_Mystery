@@ -48,6 +48,11 @@ enum DiaStimmung {
   /// Nach dem Knall: dunkel, nur Kerzen und das grüne Notausgangsschild.
   stromausfall,
 
+  /// Nach dem Knall, aber mit kaltem Notlicht am Ort des Bildes, so hell, dass
+  /// man erkennt, wer dort liegt oder steht (M7b, Dia 2: Herr Schneider im
+  /// Vorratsraum). Nur mit Figuren im Bild.
+  notlicht,
+
   /// Rückblick auf einen Lacher früher am Abend: warm und sepiagetönt.
   rueckblick,
 }
@@ -151,7 +156,8 @@ List<String> _worte(String text) => [for (final m in _wortRe.allMatches(text)) m
 /// - Die Kamera schaut auf genau einen bekannten Ort oder Raum, mit Zoom
 ///   zwischen [DiaKamera.zoomMin] und [DiaKamera.zoomMax]; im Bild stehen nur
 ///   bekannte Personen, jede einmal, höchstens [diaFigurenMax]; liegen darf nur
-///   das Opfer, und nur, wenn es im Bild steht.
+///   das Opfer, und nur, wenn es im Bild steht. Notlicht
+///   ([DiaStimmung.notlicht]) nur mit Figuren im Bild: Es leuchtet sie aus.
 /// - Keine Fallhinweise (R15): Ein Sperrort (Fundort eines Gegenstands,
 ///   Ziel-Ort einer Entscheidung, Ort eines Lachers) oder ein Ziel-Raum ist
 ///   Kameraziel nur, wenn der Baustein seinen Raum nennt oder das Bild den
@@ -242,6 +248,7 @@ List<String> pruefeDiashow(Diashow d, Kanon kanon, String? Function(String kennu
     }
 
     // Figuren
+    if (dia.stimmung == DiaStimmung.notlicht && dia.figuren.isEmpty) befunde.add('$wo: Notlicht ohne Figur im Bild (dann stromausfall)');
     if (dia.figuren.length > diaFigurenMax) befunde.add('$wo: ${dia.figuren.length} Figuren (höchstens $diaFigurenMax)');
     if (dia.figuren.toSet().length != dia.figuren.length) befunde.add('$wo: eine Figur steht doppelt im Bild');
     for (final f in dia.liegt) {

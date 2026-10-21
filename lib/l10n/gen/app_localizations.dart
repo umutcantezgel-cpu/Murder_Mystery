@@ -7257,6 +7257,78 @@ abstract class L {
   /// **'Bild {nr} von {anzahl}'**
   String party_intro_bild(String nr, String anzahl);
 
+  /// Langer Abend (M7b): Marke des Rundgangs vor dem Abend (Unterzustand der Einleitung)
+  ///
+  /// In de, this message translates to:
+  /// **'Vorspiel'**
+  String get rundgang_vorspiel;
+
+  /// Langer Abend (M7b): Marke des Rundgangs nach der Auflösung (Unterzustand des Endes)
+  ///
+  /// In de, this message translates to:
+  /// **'Der Morgen'**
+  String get rundgang_morgen;
+
+  /// Langer Abend (M7b): Marke über der Station, Rundgang und Uhrzeit der Station
+  ///
+  /// In de, this message translates to:
+  /// **'{teil} · {uhrzeit}'**
+  String rundgang_marke(String teil, String uhrzeit);
+
+  /// Langer Abend (M7b): Zähler der Stationen eines Rundgangs
+  ///
+  /// In de, this message translates to:
+  /// **'Station {nr} von {anzahl}'**
+  String rundgang_station(String nr, String anzahl);
+
+  /// Langer Abend (M7b): zur nächsten Station des Rundgangs
+  ///
+  /// In de, this message translates to:
+  /// **'Nächste Station'**
+  String get rundgang_weiter;
+
+  /// Langer Abend (M7b): letzte Station des Vorspiels, danach Diashow und Einleitung
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter zur Einleitung'**
+  String get rundgang_zur_einleitung;
+
+  /// Langer Abend (M7b): letzte Station des Morgens, danach die geschlossene Akte
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter zum Schluss'**
+  String get rundgang_zum_schluss;
+
+  /// Langer Abend (M7b): den Rest von Vorspiel oder Morgen überspringen
+  ///
+  /// In de, this message translates to:
+  /// **'Rundgang überspringen'**
+  String get rundgang_ueberspringen;
+
+  /// Langer Abend (M7b): Fuß des Rundgangs auf Geräten, die nicht weiterschalten
+  ///
+  /// In de, this message translates to:
+  /// **'{name} führt durch den Rundgang.'**
+  String rundgang_fuehrt(String name);
+
+  /// Langer Abend (M7b): Gast sieht, dass der Rundgang vor dem Abend läuft
+  ///
+  /// In de, this message translates to:
+  /// **'Das Vorspiel läuft.'**
+  String get rundgang_laeuft_vorspiel;
+
+  /// Langer Abend (M7b): Gast sieht, dass der Rundgang am Morgen läuft
+  ///
+  /// In de, this message translates to:
+  /// **'Der Morgen läuft.'**
+  String get rundgang_laeuft_morgen;
+
+  /// Langer Abend (M7b): Beschriftung der Karte für den Bildschirmleser
+  ///
+  /// In de, this message translates to:
+  /// **'Karte des Rundgangs. Der Detektiv geht zur Station.'**
+  String get rundgang_karte_semantik;
+
   /// Gast: Überschrift der gemeinsamen Rundenuhr
   ///
   /// In de, this message translates to:

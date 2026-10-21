@@ -140,6 +140,8 @@ class GastgeberDienst extends ChangeNotifier {
         fassung: daten.hat('langfassung') ? Abendfassung.lesen(meta['fassung']) : Abendfassung.kurz,
         // Streifzug (M7b): Erkundung und Treffpunkte nur im langen Abend.
         erkundung: erkundung,
+        // Vorspiel und Morgen (M7b): der Rundgang der Akte; der Raum nimmt ihn nur im langen Abend.
+        rundgang: daten.vorspielMorgen,
       );
 
   /// Die Erkundung der Akte für den Streifzug, nur im langen Abend einer Akte

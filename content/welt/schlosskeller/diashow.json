@@ -1,7 +1,7 @@
 {
   "format": "diashow/1",
   "akte": "schlosskeller",
-  "hinweis": "Diashow zur Einleitung (M4): je Abschnitt des Intros ein Bild aus der Spielgrafik, in der Reihenfolge von Erzaehler.intro. Reine Regie, kein Text: Die Kamera schaut auf einen Ort, im Bild stehen nur Figuren, die der Baustein nennt, der Lacher des Bildes, im Auftrag der Detektiv und sonst Gäste ohne Verdacht (R15). Gerendert in der App (dia_session.dart), ohne fremde Dienste.",
+  "hinweis": "Diashow zur Einleitung (M4): je Abschnitt des Intros ein Bild aus der Spielgrafik, in der Reihenfolge von Erzaehler.intro. Reine Regie, kein Text: Die Kamera schaut auf einen Ort, im Bild stehen nur Figuren, die der Baustein nennt, der Lacher des Bildes, im Auftrag der Detektiv und sonst Gäste ohne Verdacht (R15). Gerendert in der App (dia_session.dart), ohne fremde Dienste. Das Bild zum Stromausfall hat kaltes Notlicht (notlicht), damit Herr Schneider im Vorratsraum zu erkennen ist; das Bild zum Auftrag bleibt im Dunkel des Stromausfalls.",
   "dias": [
     {
       "baustein": "intro.start",
@@ -31,7 +31,7 @@
       "liegt": [
         "schneider"
       ],
-      "stimmung": "stromausfall"
+      "stimmung": "notlicht"
     },
     {
       "baustein": "intro.lacher.lacher_ruestung",

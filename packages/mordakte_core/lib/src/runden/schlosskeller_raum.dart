@@ -13,14 +13,16 @@ import '../party/texte.dart';
 import '../karten/abstecher.dart';
 import '../karten/karte.dart';
 import '../karten/vorrat.dart';
-import '../welt/erkundung.dart';
 import '../util/rng.dart';
+import '../welt/erkundung.dart';
+import '../welt/vorspiel_morgen.dart';
 import 'abend_raum.dart';
 import 'bots.dart';
 import 'partie.dart';
 import 'raum/befragung_modul.dart';
 import 'raum/dia_modul.dart';
 import 'raum/raum_modul.dart';
+import 'raum/rundgang_modul.dart';
 import 'raum/sichtfelder.dart';
 import 'raum/sitze_modul.dart';
 import 'raum/streifzug_modul.dart';
@@ -81,9 +83,11 @@ class _Teilnehmer {
 /// Fassung (M7b): Im langen Abend ([fassung], aus der Meta des Gastgebers)
 /// deckt die Rundenuhr den ganzen Streifzug ab, Gespräche und Entscheidungen;
 /// alle sehen öffentlich `fassung: lang`. Mit der Erkundung der Akte kommt der
-/// Streifzug dazu ([StreifzugModul]: Erkundung und Treffpunkte). Kurze Abende
-/// tragen keinen der Schlüssel und bleiben bytegleich. Partie, Würfel und
-/// Wertung kennen die Fassung nicht.
+/// Streifzug dazu ([StreifzugModul]: Erkundung und Treffpunkte). Mit Vorspiel
+/// und Morgen der Akte (`rundgang`) laufen im langen Abend vor der Diashow das
+/// Vorspiel und nach der Auflösung der Morgen ([RundgangModul]); der Abend ist
+/// erst nach dem Morgen beendet. Kurze Abende tragen keinen der Schlüssel und
+/// bleiben bytegleich. Partie, Würfel und Wertung kennen die Fassung nicht.
 ///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
@@ -111,6 +115,7 @@ class SchlosskellerRaum implements AbendRaum {
     this.diaAnzahl = 0,
     this.fassung = Abendfassung.kurz,
     Erkundung? erkundung,
+    VorspielMorgen? rundgang,
     List<RaumModul> module = const [],
   }) : _module = List.unmodifiable([
          // Die Lobby (Sitze, Rollenzahl, Figurenwahl) gehört zu jedem Raum; [_sitze] liest ihren Plan.
@@ -122,6 +127,8 @@ class SchlosskellerRaum implements AbendRaum {
          if (diaAnzahl > 0) DiaModul(anzahl: diaAnzahl),
          // Der lange Abend wird zum Streifzug (M7b): Erkundung und Treffpunkte, rein kosmetisch.
          if (fassung.istLang && erkundung != null) StreifzugModul(erkundung: erkundung, weltSamen: weltSamenAus(salz)),
+         // Vorspiel und Morgen (M7b) nur im langen Abend und nur mit Inhalt der Akte.
+         if (fassung.istLang && rundgang != null) RundgangModul(rundgang),
          ...module,
        ]), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
@@ -200,8 +207,11 @@ class SchlosskellerRaum implements AbendRaum {
   int get maxSpieler => _maxRollen + sitzPlaetze + assistenzPlaetze;
   @override
   bool get vorStart => _partie == null;
+  /// Beendet ist der Abend im Ende, im langen Abend erst nach dem Morgen
+  /// ([RaumModul.haeltOffen]): So räumt der Server den Raum nicht ab, während
+  /// alle noch draußen herumgehen.
   @override
-  bool get beendet => _partie?.phase == PartyPhase.ende;
+  bool get beendet => _partie?.phase == PartyPhase.ende && !_module.any((m) => m.haeltOffen(_kontext));
   @override
   List<String> get spielerIds => List.unmodifiable(_teilnehmer.keys);
 
@@ -822,6 +832,8 @@ class _Kontext extends RaumKontext {
   String? get detektiv => _r.ermittler;
   @override
   String? get erzaehler => _r.erzaehlerGeraet;
+  @override
+  String? get vorleser => _r.vorleser;
   @override
   RundenPartie? get partie => _r._partie;
   @override

@@ -6,5 +6,6 @@
   "kulisse": "keller",
   "geruechte": "geruechte.json",
   "langfassung": "langfassung.json",
-  "erkundung": "erkundung.json"
+  "erkundung": "erkundung.json",
+  "vorspielMorgen": "vorspiel_morgen.json"
 }
