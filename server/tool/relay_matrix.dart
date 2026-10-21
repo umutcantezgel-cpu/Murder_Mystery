@@ -870,7 +870,7 @@ Future<void> _lauf({
     _require(host.statistik.groessteAnsichtZeichen < 200 * 1024, 'Ansicht nahe an der Nutzlastgrenze.');
 
     final st = host.statistik;
-    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen${k.lang ? ' · Vorspiel und Morgen' : ''} · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
+    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen${k.lang ? ' · Streifzug, Vorspiel und Morgen' : ''} · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
         'Mithörer ${lauscher.sitzUmschlaege} Umschläge ohne Klartext, $gesendet Einspielungen abgewehrt · '
         'Befehle ${st.befehleAusgefuehrt} (davon ${st.befehleWiederholt} Wiederholungen erkannt) · '
         'Gastgeber-Spitze ${ergebnis.sendungenSpitze}/s, gezählte Frames Spitze ${ergebnis.zugestelltSpitze}/s'
