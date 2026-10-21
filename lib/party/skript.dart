@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
 import 'sitzung.dart';
+import 'streifzug_steuerung.dart';
 
 /// Entwickler-Einstieg des Partymodus (F4-ORCH-02):
 /// `?party=schlosskeller&pfad=ahmet&n=7&detektiv=w&skript=best,a,richtig&dauer=20&takt=700&zeitraffer=60`.
@@ -27,7 +28,10 @@ import 'sitzung.dart';
 ///   sonst und ohne Angabe der kurze
 ///
 /// Im Modell befragung erledigt das Skript die Befragungen jeder Runde selbst
-/// (erste Frage, feste und so viele freie wie erlaubt).
+/// (erste Frage, feste und so viele freie wie erlaubt). Im langen Abend geht
+/// es dafür über den Streifzug: je Befragung zum Treffpunkt, über die Runden
+/// verteilt zu allen Erkundungsorten, vor jeder Entscheidung zurück in den
+/// Keller (Fotostellen `streifzug_r<n>`, `treffpunkt_r<n>`, `erkundung_r<n>`).
 class PartyDev {
   final String fall;
   final String? code;
@@ -168,6 +172,11 @@ class PartySkript {
         await _foto('dossier_taeter');
         s.verdecken();
         s.weiter();
+      // Langer Abend (M7b): Gespräche und Entscheidungen über den Streifzug.
+      case PartyPhase.gespraeche when s.streifzugLaeuft:
+        await _streifzugGespraeche();
+      case PartyPhase.entscheidungen when s.streifzugLaeuft:
+        await _streifzugEntscheiden();
       case PartyPhase.entscheidungen:
         await _entscheiden();
       case PartyPhase.gruppenwahl:
@@ -324,6 +333,133 @@ class PartySkript {
           s.weiter();
       }
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Streifzug (Langer Abend M7b)
+
+  /// Fotostellen des Streifzugs, die je Runde schon gemeldet sind.
+  final _streifzugFotos = <String>{};
+
+  /// Erkundungsorte, zu denen das Skript schon aufgebrochen ist (ein abgelöster Weg zählt nicht noch einmal).
+  final _erkundungVersucht = <String>{};
+
+  /// Seit wann der laufende geführte Weg dauert (abkürzen nach [_wegFrist]).
+  DateTime? _wegSeit;
+
+  /// So lange läuft ein Weg sichtbar, dann kürzt das Skript ihn ab.
+  static const _wegFrist = Duration(milliseconds: 1500);
+
+  /// Je Runde gehen fünf der fünfzehn Erkundungsorte: drei in den Gesprächen,
+  /// zwei zwischen den Entscheidungen (reihum genau der Deckel).
+  static const _erkundungenGespraeche = 3, _erkundungenJeRunde = 5;
+
+  /// Die Kennungen der Erkundungsorte in Dateireihenfolge (aus der Welt des Bildschirms).
+  List<String> get _erkundungsOrte => sitzung.streifzug.orte;
+
+  /// Erkundungsorte der laufenden Runde: in den Gesprächen die ersten drei, in den Entscheidungen die übrigen zwei.
+  List<String> _erkundungsPlan({required bool gespraeche}) {
+    final r = sitzung.runde;
+    final alle = _erkundungsOrte;
+    final runde = [for (var i = (r - 1) * _erkundungenJeRunde; i < r * _erkundungenJeRunde && i < alle.length; i++) alle[i]];
+    return gespraeche ? runde.take(_erkundungenGespraeche).toList() : runde.skip(_erkundungenGespraeche).toList();
+  }
+
+  Future<void> _fotoEinmal(String name) async {
+    if (_streifzugFotos.add(name)) await _foto(name);
+  }
+
+  /// Läuft ein geführter Weg? Dann nach [_wegFrist] abkürzen und `true`.
+  bool _unterwegs() {
+    final st = sitzung.streifzug;
+    if (st.unterwegs == null && st.modus != StreifzugModus.rueckweg) {
+      _wegSeit = null;
+      return false;
+    }
+    final seit = _wegSeit ??= DateTime.now();
+    if (DateTime.now().difference(seit) >= _wegFrist) st.abkuerzen();
+    return true;
+  }
+
+  /// Eine offene Karte des Streifzugs bearbeiten: Befragung führen, Erkundung lesen, dann zudecken.
+  Future<void> _karteBearbeiten(String offen) async {
+    final s = sitzung;
+    final r = s.runde;
+    if (offen.startsWith('treff:')) {
+      await _fotoEinmal('treffpunkt_r$r');
+      final id = offen.substring('treff:'.length);
+      final k = s.befragungen.where((k) => k.id == id).firstOrNull;
+      if (k != null && !k.erledigt) {
+        if (!k.gefragt) s.befragen(k.id, 0);
+        if (k.mensch) s.befragungErledigt(k.id);
+      }
+    } else if (offen.startsWith('erkunde:')) {
+      await _fotoEinmal('erkundung_r$r');
+    }
+    s.streifzug.schliessen();
+  }
+
+  Future<void> _streifzugGespraeche() async {
+    final s = sitzung;
+    final st = s.streifzug;
+    final r = s.runde;
+    if (!st.bereit || _unterwegs()) return;
+    final offen = st.offen;
+    if (offen == 'start') {
+      // Rundenstart mit Erzähltext und Uhrzeit: dieselbe Fotostelle wie im kurzen Abend.
+      await _fotoEinmal('gespraeche_r$r');
+      st.schliessen();
+      return;
+    }
+    if (offen != null) return _karteBearbeiten(offen);
+    await _fotoEinmal('gespraeche_r$r');
+    await _fotoEinmal('streifzug_r$r');
+    var frei = s.befragungenFrei;
+    for (final k in s.befragungen) {
+      if (k.erledigt) continue;
+      if (!k.pflicht && !k.gefragt) {
+        if (frei <= 0 || !k.waehlbar) continue;
+        frei--;
+      }
+      if (st.gehe('treff:${k.id}')) return;
+      // Ohne Weg zum Treffpunkt (sollte nie sein): die Befragung wie am Tisch führen.
+      if (!k.gefragt) s.befragen(k.id, 0);
+      if (k.mensch) s.befragungErledigt(k.id);
+      return;
+    }
+    if (await _naechsteErkundung(gespraeche: true)) return;
+    s.weiter();
+  }
+
+  /// Bricht zum nächsten geplanten Erkundungsort der Runde auf; `false`, wenn keiner mehr offen ist.
+  Future<bool> _naechsteErkundung({required bool gespraeche}) async {
+    final s = sitzung;
+    if (!s.erkundungFrei) return false;
+    for (final id in _erkundungsPlan(gespraeche: gespraeche)) {
+      if (s.erkundet.contains(id) || _erkundungVersucht.contains(id)) continue;
+      if (s.streifzug.gehe('erkunde:$id')) {
+        _erkundungVersucht.add(id);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<void> _streifzugEntscheiden() async {
+    final s = sitzung;
+    final st = s.streifzug;
+    if (!st.bereit || _unterwegs()) return;
+    if (st.modus == StreifzugModus.entscheidung) return _entscheiden();
+    final offen = st.offen;
+    if (offen != null) return _karteBearbeiten(offen);
+    final entscheidung = s.laufendeEntscheidung != null || s.zug != null;
+    // Zwischen den Entscheidungen frei erkunden, dann zurück in den Keller.
+    if (await _naechsteErkundung(gespraeche: false)) return;
+    if (entscheidung) {
+      st.zurEntscheidung();
+      return;
+    }
+    return _entscheiden();
   }
 
   Future<void> _entscheiden() async {

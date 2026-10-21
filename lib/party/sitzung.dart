@@ -9,6 +9,7 @@ import 'daten.dart';
 import 'erzaehler_begleitung.dart';
 import 'runden_texte.dart';
 import 'stand/befragung_stand.dart';
+import 'streifzug_steuerung.dart';
 
 /// Ein Partyabend in der App (F4-ORCH-02). Hält den Spielzustand ([Spiel]),
 /// Einstellungen, Spielernamen, die verdeckte Einzelansicht, die laufende
@@ -406,6 +407,62 @@ class PartySitzung extends ChangeNotifier {
 
   /// Läuft der lange Abend?
   bool get lang => _fassung.istLang;
+
+  // ---------------------------------------------------------------------------
+  // Streifzug (Langer Abend M7b): Gespräche und Entscheidungen als Gang durchs
+  // Schloss. Erkundung und Treffpunkte sind reine Stimmung: keine
+  // Nachtminuten, kein Würfel, kein Kern-Aufruf.
+
+  StreifzugSteuerung? _streifzug;
+
+  /// Bedienung des Streifzugs auf diesem Gerät (Bildschirm, Skript, Tests).
+  StreifzugSteuerung get streifzug => _streifzug ??= StreifzugSteuerung();
+
+  /// Läuft gerade der Streifzug (langer Abend, Gespräche oder Entscheidungen)?
+  bool get streifzugLaeuft => lang && (phase == PartyPhase.gespraeche || phase == PartyPhase.entscheidungen);
+
+  final List<({int runde, String ort})> _erkundet = [];
+
+  /// Orte, die der Detektiv an diesem Abend erkundet hat (Erkundung, M7b).
+  Set<String> get erkundet => {for (final e in _erkundet) e.ort};
+
+  /// Erkundungen in Runde [r] (ohne Angabe: der laufenden).
+  int erkundetInRunde([int? r]) => _erkundet.where((e) => e.runde == (r ?? runde)).length;
+
+  /// Darf der Detektiv gerade frei erkunden? Reihum höchstens
+  /// [streifzugDeckelReihum] Orte je Runde, danach gehört die Zeit dem Tisch;
+  /// solo und online ohne Deckel.
+  bool get erkundungFrei => solo || online || erkundetInRunde() < streifzugDeckelReihum;
+
+  /// Der Detektiv hat den Erkundungsort [ort] besucht. Nur im Streifzug, jeder
+  /// Ort einmal; kosmetisch, im Journal nur beim langen Abend.
+  void erkunden(String ort) {
+    if (!streifzugLaeuft) throw StateError('Erkunden gibt es nur im Streifzug des langen Abends');
+    if (erkundet.contains(ort)) return;
+    if (!erkundungFrei) throw StateError('Reihum ist die Zeit für den Tisch');
+    _erkundet.add((runde: runde, ort: ort));
+    _merke('erkundet', {'ort': ort});
+    notifyListeners();
+  }
+
+  /// Der Detektiv geht zur Befragung [befragung] an ihren Treffpunkt. An einem
+  /// Gerät nur Anzeige; online meldet der Gastgeber es dem Raum.
+  void streifzugTreffen(String befragung) {}
+
+  /// Treffpunkte der Befragungen dieser Runde (Befragung → Treffpunkt) aus dem
+  /// Samen der Welt ([weltSamen], [Erkundung.treffpunkteFuer]).
+  Map<String, String> streifzugTreffpunkte(Erkundung erkundung) => {
+        for (final e in erkundung.treffpunkteFuer(weltSamen, [for (final k in befragungen) k.id]).entries) e.key: e.value.id,
+      };
+
+  /// Stichpunkte eines Erkundungsorts an diesem Abend (Variante aus dem Samen der Welt).
+  List<String> erkundungsPunkte(ErkundungsOrt ort) => ort.stichpunkteFuer(weltSamen);
+
+  @override
+  void dispose() {
+    _streifzug?.dispose();
+    super.dispose();
+  }
 
   // ---------------------------------------------------------------------------
   // Rundenuhr und Diashow (Langer Abend M4)
@@ -1086,6 +1143,8 @@ class PartySitzung extends ChangeNotifier {
         befragen(text('id')!, b['frage'] as int);
       case 'befragtFertig':
         befragungErledigt(text('id')!);
+      case 'erkundet':
+        erkunden(text('ort')!);
       case 'weiter':
         weiter();
       case 'an':

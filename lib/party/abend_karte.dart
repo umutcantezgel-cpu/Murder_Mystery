@@ -232,6 +232,15 @@ class AbendKarte extends WeltSzene implements SzenenEbenen, GefuehrteSzene {
     return _laufe(ebene, (o.x, o.y), ort: ort)?.fertig.future ?? Future.value(false);
   }
 
+  /// Läuft wie [laufeZu] zu einer Stelle ([punkt], Kachelkoordinaten) auf
+  /// [ebene], die kein Ort des Raumgraphen ist (Erkundung des Streifzugs: eine
+  /// Einrichtung oder Kachel). Am Ziel meldet [onAnkunft] die Kennung [ziel].
+  /// Unbekannte Ebene: [ArgumentError].
+  Future<bool> laufeZuPunkt(String ebene, (double, double) punkt, {required String ziel}) {
+    if (!welt.ebenen.containsKey(ebene)) throw ArgumentError('Ebene $ebene unbekannt');
+    return _laufe(ebene, punkt, ort: ziel)?.fertig.future ?? Future.value(false);
+  }
+
   /// Bringt den Detektiv zurück an seinen Ermittlungsort im Keller ([kellerStart]),
   /// vor jeder Entscheidung. Führt kein offener Weg dorthin (ein Portal ist in
   /// der Lage zu), steht er nach einer Kurzblende dort. Endet immer.
