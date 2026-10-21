@@ -19,7 +19,10 @@ import 'streifzug_steuerung.dart';
 /// - `takt`: Pause zwischen zwei Schritten in Millisekunden
 /// - `zeitraffer`: Spielsekunden je echter Sekunde in der Rückblende
 /// - `fotos=0`: Fotostellen nur melden, ohne auf den Fotografen zu warten
+/// - `fotonur=vorspiel,morgen`: nur an Fotostellen mit diesen Anfängen auf den
+///   Fotografen warten, die übrigen nur melden
 /// - `fotopause`: Wartezeit an einer Fotostelle in Millisekunden (Vorgabe 1200)
+/// - `salz`: Salz des Abends (Würfel), für zwei Läufe desselben Abends; sonst Zufall
 /// - `bis=<phase>` (ohne Skript): bis zu diesem Abschnitt vorspielen (beste Wahl, alle A, richtige Anklage)
 /// - `at=x,y`: Detektiv auf der Karte an diese Stelle setzen; `zoom`: Zoom der Karte
 /// - `gespraech=<figur>[,<schritte>]` (mit `bis`): in Runde 1 ein Randgespräch mit
@@ -46,7 +49,13 @@ class PartyDev {
   final int takt;
   final double? zeitraffer;
   final bool fotos;
+
+  /// Nur an Fotostellen mit diesen Anfängen auf den Fotografen warten (`fotonur=`); `null`: an allen.
+  final List<String>? fotoNur;
   final int fotopause;
+
+  /// Salz des Abends (`salz=`); `null`: Zufall wie im Spiel.
+  final String? salz;
   final PartyPhase? bis;
   final (double, double)? at;
   final double? zoom;
@@ -67,7 +76,9 @@ class PartyDev {
     this.takt = 700,
     this.zeitraffer,
     this.fotos = true,
+    this.fotoNur,
     this.fotopause = 1200,
+    this.salz,
     this.bis,
     this.at,
     this.zoom,
@@ -91,7 +102,9 @@ class PartyDev {
       takt: int.tryParse(q['takt'] ?? '') ?? 700,
       zeitraffer: double.tryParse(q['zeitraffer'] ?? ''),
       fotos: q['fotos'] != '0',
+      fotoNur: q['fotonur']?.split(',').where((x) => x.isNotEmpty).toList(),
       fotopause: int.tryParse(q['fotopause'] ?? '') ?? 1200,
+      salz: (q['salz'] ?? '').isEmpty ? null : q['salz'],
       bis: PartyPhase.values.where((p) => p.name == q['bis']).firstOrNull,
       at: switch ((q['at'] ?? '').split(',').map(double.tryParse).toList()) {
         [final double x, final double y] => (x, y),
@@ -106,6 +119,9 @@ class PartyDev {
 
   /// Fassung für die Sitzung [s]: lang nur, wenn die Akte eine Langfassung hat.
   Abendfassung fassungFuer(PartySitzung s) => s.daten.hat('langfassung') ? fassung : Abendfassung.kurz;
+
+  /// Wartet das Skript an der Fotostelle [name] auf den Fotografen?
+  bool fotoMitPause(String name) => fotos && (fotoNur?.any(name.startsWith) ?? true);
 
   /// Fall-Code aus `code` oder `pfad`.
   String? fallCode(Kanon kanon) => code ?? (pfad == null ? null : FallCode.fuerPfad(pfad!, kanon.pfade).code);
@@ -133,7 +149,25 @@ class PartySkript {
   Future<void> _foto(String name) async {
     await SchedulerBinding.instance.endOfFrame;
     debugPrint('PARTY foto=$name');
-    await Future<void>.delayed(Duration(milliseconds: dev.fotos && dev.takt < dev.fotopause ? dev.fotopause : dev.takt));
+    await Future<void>.delayed(Duration(milliseconds: dev.fotoMitPause(name) && dev.takt < dev.fotopause ? dev.fotopause : dev.takt));
+  }
+
+  /// Kennung des Abends für den Vergleich zweier Läufe (kurz gegen lang, M7b):
+  /// FNV-Hash über Würfe, Wahlen, bekannte Fakten, Nachtminuten, Marken,
+  /// Qualitäten und Abstecher. Gleiches Salz und gleiche Wahlen ergeben in
+  /// beiden Fassungen dieselbe Kennung; sie verrät keinen Inhalt.
+  static String abendKennung(PartySitzung s) {
+    final sp = s.spiel;
+    final teile = [
+      for (final w in s.wuerfe) w.zeile,
+      for (final e in (sp.gewaehlt.entries.toList()..sort((a, b) => a.key.compareTo(b.key)))) '${e.key}=${e.value}',
+      ...(sp.bekannteFakten().toList()..sort()),
+      'nacht=${s.restMinuten}/${s.reserveMinuten}',
+      'marken=${s.marken}',
+      for (final e in (sp.qualitaeten.entries.toList()..sort((a, b) => a.key.compareTo(b.key)))) 'q${e.key}=${e.value.name}',
+      for (final e in (s.abstecherErgebnis.entries.toList()..sort((a, b) => a.key.compareTo(b.key)))) 'a:${e.key}=${e.value.name}',
+    ];
+    return Rng.hashString(teile.join('|')).toRadixString(16).padLeft(8, '0');
   }
 
   Future<void> starten() async {
@@ -147,7 +181,9 @@ class PartySkript {
       }
       await _foto('ende');
       final s = sitzung.spiel;
-      debugPrint('PARTY fertig pfad=${s.pfad} ende=${s.ende.id} punkte=${s.punkte} rollen=${s.einstellungen.rollen}');
+      // Nach `rollen=` Würfe, Nachtminuten und die Kennung des Abends: zwei Läufe mit gleichem Salz vergleichbar.
+      debugPrint('PARTY fertig pfad=${s.pfad} ende=${s.ende.id} punkte=${s.punkte} rollen=${s.einstellungen.rollen} '
+          'wuerfe=${sitzung.wuerfe.length} nacht=${sitzung.restMinuten} abend=${abendKennung(sitzung)}');
     } catch (e, st) {
       debugPrint('PARTY fehler $e\n$st');
     }
@@ -247,20 +283,23 @@ class PartySkript {
   }
 
   /// Geht den laufenden Rundgang (Vorspiel oder Morgen, M7b) Station für
-  /// Station ab: Je Station wartet das Skript, bis der Detektiv angekommen ist
-  /// (höchstens 20 s, die Karte geht sichtbar), in der Mitte des Rundgangs ist
-  /// die Fotostelle `vorspiel` bzw. `morgen`.
+  /// Station ab: Je Station geht der Detektiv sichtbar los; wie im Streifzug
+  /// kürzt das Skript den Weg nach [_wegFrist] ab, dann steht er an der
+  /// Station. In der Mitte des Rundgangs ist die Fotostelle `vorspiel` bzw.
+  /// `morgen`.
   Future<void> _rundgang() async {
     final s = sitzung;
     final teil = s.rundgang;
     if (teil == null) return;
     final mitte = s.rundgangStationen.length ~/ 2;
+    const schritt = Duration(milliseconds: 50);
     while (s.rundgang == teil) {
       final nr = s.rundgangStation;
       await _warte();
-      for (var i = 0; i < 400 && (RundgangBildschirm.letzteKarte.value?.laeuft ?? false); i++) {
-        await Future<void>.delayed(const Duration(milliseconds: 50));
+      for (var i = 0; i * schritt.inMilliseconds < _wegFrist.inMilliseconds && (RundgangBildschirm.letzteKarte.value?.laeuft ?? false); i++) {
+        await Future<void>.delayed(schritt);
       }
+      RundgangBildschirm.letzteKarte.value?.abkuerzen();
       if (nr == mitte) await _foto(teil.name);
       if (s.rundgang != teil || s.rundgangStation != nr) continue;
       s.rundgangWeiter();

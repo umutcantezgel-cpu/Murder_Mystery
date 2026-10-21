@@ -46,7 +46,8 @@ jobs:
   gate:
     name: Prüfen (Analyse, Tests, Web-Build, Browser-Proben)
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    # Rund 30 min bis M7a; die Browserprobe des langen Abends (tool/e2e/lang.mjs) kostet rund 9 min mehr.
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
         with:
@@ -98,6 +99,7 @@ jobs:
           path: |
             tool/e2e/fotos/e2e/bericht.json
             tool/e2e/fotos/e2e/bericht.md
+            tool/e2e/fotos/lang/bericht.json
           if-no-files-found: ignore
           retention-days: 7
       - name: Browser-Fotos bei Fehlern sichern

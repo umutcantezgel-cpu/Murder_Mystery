@@ -8,10 +8,12 @@
 //                  Streifzug; je Runde die Fotostellen streifzug, treffpunkt und erkundung
 // Ausgabe: tool/e2e/fotos/e2e/ (Fotos je Lauf, bericht.json, bericht.md).
 // Rückgabewert 0 nur, wenn alle Läufe bestanden (bei --negativtest: der Fehler ist erkannt).
+// Als Modul liefert die Datei Lauf und Prüfungen für andere Proben (lang.mjs).
 
 import { starteBrowser } from './browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { starteServer } from './server.mjs';
 import { alleLaeufe, PFADE } from './laeufe.mjs';
 
@@ -31,18 +33,21 @@ const OHNE_FOTOS = { takt: 40, zeitraffer: 240, zeitlimitMin: 3 };
  */
 const SEMANTIK = { takt: 400, zeitraffer: 240, zeitlimitMin: 3 };
 
-/** Parameter eines Laufs. Der lange Abend (Streifzug) braucht mehr Zeit: Wege, Treffpunkte, Erkundung. */
+/**
+ * Parameter eines Laufs. Der lange Abend (Streifzug) braucht mehr Zeit: Wege, Treffpunkte, Erkundung.
+ * Ein Lauf kann einzelne Werte vorgeben (`lauf.parameter`: takt, zeitraffer, zeitlimitMin, fotopause).
+ */
 function parameter(lauf) {
   const p = lauf.semantik ? SEMANTIK : lauf.fotos ? MIT_FOTOS : OHNE_FOTOS;
-  return lauf.lang ? { ...p, zeitlimitMin: p.zeitlimitMin * 2 } : p;
+  return { fotopause: 2000, ...(lauf.lang ? { ...p, zeitlimitMin: p.zeitlimitMin * 2 } : p), ...lauf.parameter };
 }
 
 /** Fotostellen des Streifzugs je Runde im langen Abend (skript.dart, lang-Pfad). */
-const STREIFZUG_FOTOS = ['streifzug', 'treffpunkt', 'erkundung'];
+export const STREIFZUG_FOTOS = ['streifzug', 'treffpunkt', 'erkundung'];
 
 const RUNDE = ['gespraeche', 'entscheidungen', 'gruppenwahl', 'bonus', 'resuemee'];
 /** Phasen ab der Einrichtung in Reihenfolge. Der Titel meldet keine Phase, nur eine Fotostelle. */
-const PHASEN = ['einrichtung', 'rollen', 'intro', ...RUNDE, ...RUNDE, ...RUNDE, 'anklage', 'finale', 'aufloesung', 'ende'];
+export const PHASEN = ['einrichtung', 'rollen', 'intro', ...RUNDE, ...RUNDE, ...RUNDE, 'anklage', 'finale', 'aufloesung', 'ende'];
 
 /** Rundenuhr im Bild je Runde (fall.json, Feld uhrzeit). */
 const UHRZEIT = { 1: '00:30', 2: '01:15', 3: '02:00' };
@@ -58,7 +63,7 @@ const TAUSCH = {
 const FILTER_FELDER = ['pfad', 'ende', 'n', 'skript', 'fotos', 'semantik'];
 
 /** Fotostellen, die fest einem Abschnitt gehören (Namen wie in skript.dart). */
-const FESTE_FOTOS = {
+export const FESTE_FOTOS = {
   titel: 'titel',
   einrichtung: 'einrichtung',
   rollen: 'rollen',
@@ -77,12 +82,12 @@ const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
 const norm = (text) => String(text).normalize('NFC').replace(/\s+/g, ' ').trim();
 const kurz = (text) => norm(text).slice(0, 300);
 const lesJson = (datei) => JSON.parse(fs.readFileSync(datei, 'utf8'));
-const kollabiere = (liste) => liste.filter((x, i) => i === 0 || x !== liste[i - 1]);
+export const kollabiere = (liste) => liste.filter((x, i) => i === 0 || x !== liste[i - 1]);
 const gleich = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
 const zahl = (x) => (x == null ? null : Number.isFinite(Number(x)) ? Number(x) : x);
 
 /** Abschnitt, zu dem eine Fotostelle gehört. */
-function fotoGruppe(name) {
+export function fotoGruppe(name) {
   if (Object.hasOwn(FESTE_FOTOS, name)) return FESTE_FOTOS[name];
   // Langer Abend (M7b): Rundenstart, Streifzug, Treffpunkt und Erkundung gehören zu den Gesprächen.
   if (/^(gespraeche|streifzug|treffpunkt|erkundung)_r\d+$/.test(name)) return 'gespraeche';
@@ -109,13 +114,14 @@ function adresse(lauf, port) {
   const p = parameter(lauf);
   const semantik = lauf.semantik ? '&semantik=1' : '';
   return `http://127.0.0.1:${port}/?party=schlosskeller&pfad=${lauf.pfad}&n=${lauf.n}&skript=${lauf.skript}` +
-    `&takt=${p.takt}&zeitraffer=${p.zeitraffer}&fotos=${lauf.fotos ? 1 : 0}${lauf.fotos ? '&fotopause=2000' : ''}${semantik}` +
+    `&takt=${p.takt}&zeitraffer=${p.zeitraffer}&fotos=${lauf.fotos ? 1 : 0}${lauf.fotos ? `&fotopause=${p.fotopause}` : ''}${semantik}` +
+    `${lauf.fotoNur ? `&fotonur=${lauf.fotoNur.join(',')}` : ''}${lauf.salz ? `&salz=${encodeURIComponent(lauf.salz)}` : ''}` +
     `${lauf.lang ? '&fassung=lang' : ''}`;
 }
 
 /** Erzählertexte der Runden, die Täterfassungen (je Pfad, die ersten 40 Zeichen des Feldes tarnung)
  * und die heimliche Wahl B der Täterrolle je Runde (die ersten 40 Zeichen von `sabotage`). */
-function ladeDaten() {
+export function ladeDaten() {
   const runden = lesJson(path.join(texteOrdner, 'erzaehler-runden.json')).eintraege;
   const runde = {};
   for (const r of [1, 2, 3]) {
@@ -229,7 +235,7 @@ function pruefeStreifzug(lauf, fotostellen) {
 }
 
 /** Alle Prüfungen eines Laufs; liefert die Fehlermeldungen (leer heißt bestanden). */
-function pruefe(lauf, b, daten) {
+export function pruefe(lauf, b, daten) {
   const f = [];
   if (b.abbruch) f.push(b.abbruch);
   for (const x of b.parteiFehler) f.push(`PARTY fehler: ${x}`);
@@ -260,11 +266,17 @@ async function warteBis(versprechen, ms) {
   clearTimeout(timer);
 }
 
-/** Ein Lauf in einem eigenen Browser-Kontext (Ansicht 1280×800). */
-async function fuehreLauf(browser, lauf, daten, port) {
+/**
+ * Ein Lauf in einem eigenen Browser-Kontext (Ansicht 1280×800, ein Lauf kann `lauf.ansicht` vorgeben).
+ * Fotos unter [aus]/<pfad>_<ende>_n<n>[_lang]; das Ergebnis trägt dazu den Ordner der Fotos. Weitere
+ * Vorgaben eines Laufs: `salz` (Würfel des Abends), `fotoNur` (Anfänge der Fotostellen, an denen
+ * das Skript auf den Fotografen wartet und fotografiert wird; die übrigen nur gemeldet) und `ruhig`
+ * (Browser mit „Bewegung reduzieren“: Wege und Kartenaktionen enden mit einer Kurzblende).
+ */
+export async function fuehreLauf(browser, lauf, daten, port, aus = ausgabe) {
   const beginn = Date.now();
   const p = parameter(lauf);
-  const ordner = path.join(ausgabe, `${lauf.pfad}_${lauf.ende}_n${lauf.n}${lauf.negativtest ? '_negativtest' : ''}`);
+  const ordner = path.join(aus, `${lauf.pfad}_${lauf.ende}_n${lauf.n}${lauf.lang ? '_lang' : ''}${lauf.negativtest ? '_negativtest' : ''}`);
   const b = {
     fertig: null,
     phasen: [],
@@ -282,7 +294,11 @@ async function fuehreLauf(browser, lauf, daten, port) {
     fs.mkdirSync(ordner, { recursive: true });
   }
 
-  const kontext = await browser.newContext({ locale: 'de-DE', viewport: { width: 1280, height: 800 } });
+  const kontext = await browser.newContext({
+    locale: 'de-DE',
+    viewport: lauf.ansicht ?? { width: 1280, height: 800 },
+    ...(lauf.ruhig ? { reducedMotion: 'reduce' } : {}),
+  });
   let beenden;
   const beendet = new Promise((ok) => { beenden = ok; });
   const zeitlimit = setTimeout(() => {
@@ -299,12 +315,12 @@ async function fuehreLauf(browser, lauf, daten, port) {
     // Fotos nacheinander: 200 ms nach der Meldung, nie zwei gleichzeitig.
     const fotoStellen = (name) => {
       b.fotostellen.push(name);
-      if (!lauf.fotos) return;
+      if (!lauf.fotos || (lauf.fotoNur && !lauf.fotoNur.some((x) => name.startsWith(x)))) return;
       const datei = path.join(ordner, `${String(b.fotostellen.length).padStart(3, '0')}_${name}.png`);
       fotoKette = fotoKette
         .then(() => sleep(200))
         .then(() => seite.screenshot({ path: datei, timeout: 20_000 }))
-        .then(() => { b.fotos.push(path.relative(ausgabe, datei)); })
+        .then(() => { b.fotos.push(path.relative(aus, datei)); })
         .catch((e) => { b.technik.push(`Foto ${name}: ${kurz(e.message)}`); });
     };
 
@@ -325,7 +341,8 @@ async function fuehreLauf(browser, lauf, daten, port) {
       } else if ((t = /^PARTY foto=(\S+)/.exec(zeile))) {
         fotoStellen(t[1]);
       } else if ((t = /^PARTY fertig pfad=(\S+) ende=(\S+) punkte=(\S+) rollen=(\S+)/.exec(zeile))) {
-        b.fertig = { pfad: t[1], ende: t[2], punkte: t[3], rollen: t[4] };
+        // Dahinter (seit M7b): wuerfe=, nacht= und abend= (Kennung des Abends, PartySkript.abendKennung).
+        b.fertig = { pfad: t[1], ende: t[2], punkte: t[3], rollen: t[4], zeile };
         beenden();
       } else if (zeile.startsWith('PARTY fehler')) {
         b.parteiFehler.push(kurz(text));
@@ -353,12 +370,15 @@ async function fuehreLauf(browser, lauf, daten, port) {
     ende: lauf.ende,
     n: lauf.n,
     skript: lauf.skript,
+    lang: lauf.lang === true,
     semantik: lauf.semantik,
     negativtest: lauf.negativtest === true,
     ok,
     ende_ist: b.fertig?.ende ?? null,
     punkte: zahl(b.fertig?.punkte),
+    fertig: b.fertig?.zeile ?? null,
     dauer_s: Math.round((Date.now() - beginn) / 100) / 10,
+    ordner,
     fehler,
     fremd: [...new Set(b.fremd)],
     fotos: b.fotos,
@@ -503,7 +523,10 @@ async function main() {
   process.exitCode = bestanden === ergebnisse.length ? 0 : 1;
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exitCode = 2;
-});
+// Nur als Programm laufen, nicht beim Import (lang.mjs nutzt Lauf und Prüfungen).
+if (process.argv[1] && import.meta.url === pathToFileURL(fs.realpathSync(process.argv[1])).href) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exitCode = 2;
+  });
+}

@@ -174,8 +174,8 @@ const _nah = 1.5;
 /// Spielt einen Abend der Kombination [c] in der Fassung [fassung] und hält
 /// fest, was der Vergleich und die Prüfungen des langen Abends brauchen.
 class _Abend {
-  _Abend(this.c, this.fassung) {
-    s = PartySitzung(_daten, salz: c.salz);
+  _Abend(this.c, this.fassung, {String? salz}) {
+    s = PartySitzung(_daten, salz: salz ?? c.salz);
     if (c.gemischt) s.kartenAnlegen(abstecher: _abstecher);
     s.einrichten(
       rollen: c.besetzung.n,
@@ -567,6 +567,8 @@ Map<String, Object?> _ergebnis(PartySitzung s) => {
       'bausteine': [...s.spiel.bausteine],
       'notizen': [for (final k in s.befragungsNotizen) (k.id, k.frage)],
       'erzaehlerNotizen': s.erzaehlerNotizen,
+      // Die Kennung, mit der die Browser-Lane (tool/e2e/lang.mjs) kurz und lang vergleicht.
+      'kennung': PartySkript.abendKennung(s),
     };
 
 Future<_Abend> _spiele(_Kombi c, Abendfassung f) async {
@@ -668,8 +670,9 @@ void main() {
     });
 
     /// Spielt den Abend mit dem Entwickler-Skript über die echten Bildschirme
-    /// (PartyAblauf: Rundgang, Diashow, Streifzug, Kartentisch) bis `PARTY fertig`.
-    Future<PartySitzung> skript(WidgetTester t, Abendfassung f) async {
+    /// (PartyAblauf: Rundgang, Diashow, Streifzug, Kartentisch) bis `PARTY
+    /// fertig`; liefert die Sitzung und die Zeile `PARTY fertig`.
+    Future<(PartySitzung, String)> skript(WidgetTester t, Abendfassung f) async {
       final s = PartySitzung(_daten, salz: 'lang_invarianz:skript');
       s.abendzeit = () => t.binding.clock.now().millisecondsSinceEpoch;
       final zeilen = <String>[];
@@ -700,7 +703,7 @@ void main() {
       expect(zeilen.where((z) => z.startsWith('PARTY fertig pfad=fatma')), hasLength(1), reason: '${f.name}: Der Abend läuft durch');
       await t.pumpWidget(const SizedBox());
       await t.pump(const Duration(seconds: 2));
-      return s;
+      return (s, zeilen.singleWhere((z) => z.startsWith('PARTY fertig')));
     }
 
     testWidgets('Skript kurz und lang (4 Personen reihum, erste Optionen, Gruppe gemischt): derselbe Abend', (t) async {
@@ -708,14 +711,29 @@ void main() {
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.resetPhysicalSize);
       addTearDown(t.view.resetDevicePixelRatio);
-      final kurz = await skript(t, Abendfassung.kurz);
-      final lang = await skript(t, Abendfassung.lang);
+      final (kurz, kurzFertig) = await skript(t, Abendfassung.kurz);
+      final (lang, langFertig) = await skript(t, Abendfassung.lang);
       addTearDown(kurz.dispose);
       addTearDown(lang.dispose);
       expect([kurz.lang, lang.lang], [false, true]);
       expect(_befehle(lang, 'erkundet'), hasLength(erkundungAnzahl), reason: 'Der lange Abend ging über den Streifzug');
       expect(_befehle(lang, 'rundgang'), isNotEmpty, reason: 'und über Vorspiel und Morgen');
       expect(_ergebnis(lang), equals(_ergebnis(kurz)));
+      // Die Zeile, die die Browser-Lane vergleicht: gleich, mit Würfen, Nachtminuten und Kennung.
+      expect(langFertig, kurzFertig);
+      expect(
+          kurzFertig,
+          'PARTY fertig pfad=fatma ende=${kurz.ende.id} punkte=${kurz.spiel.punkte} rollen=4 '
+          'wuerfe=${kurz.wuerfe.length} nacht=${kurz.restMinuten} abend=${PartySkript.abendKennung(kurz)}');
+    });
+
+    test('Entwicklerroute: Salz und Fotostellen mit Pause aus der Adresse', () {
+      final dev = PartyDev.ausUrl({'party': 'schlosskeller', 'salz': 'abc', 'fotonur': 'vorspiel,streifzug', 'fassung': 'lang'})!;
+      expect([dev.salz, dev.fotoNur, dev.fassung], ['abc', ['vorspiel', 'streifzug'], Abendfassung.lang]);
+      expect([for (final n in ['vorspiel', 'streifzug_r2', 'intro', 'treffpunkt_r1']) dev.fotoMitPause(n)], [true, true, false, false]);
+      final ohne = PartyDev.ausUrl({'party': 'schlosskeller', 'salz': ''})!;
+      expect([ohne.salz, ohne.fotoNur, ohne.fotoMitPause('intro')], [null, null, true]);
+      expect(PartyDev.ausUrl({'party': '', 'fotos': '0', 'fotonur': 'vorspiel'})!.fotoMitPause('vorspiel'), isFalse);
     });
   });
 
@@ -724,5 +742,17 @@ void main() {
     final a = await _spiele(_Kombi(p, _besetzungen.first, _Spielweise.besteRichtig), Abendfassung.lang);
     final b = await _spiele(_Kombi(p, _besetzungen.first, _Spielweise.schwachRichtig), Abendfassung.lang);
     expect(_ergebnis(b.s), isNot(equals(_ergebnis(a.s))));
+    expect(PartySkript.abendKennung(b.s), isNot(PartySkript.abendKennung(a.s)));
+  });
+
+  test('Gegenprobe: die Kennung des Abends sieht andere Würfe', () async {
+    // Gleiche Wahlen, anderes Salz: nur die Würfe unterscheiden sich.
+    final c = _Kombi(pfade.first, _besetzungen.first, _Spielweise.besteRichtig);
+    final a = await _spiele(c, Abendfassung.kurz);
+    final b = _Abend(c, Abendfassung.kurz, salz: '${c.salz}:anders');
+    addTearDown(b.s.dispose);
+    await b.spielen();
+    expect([for (final w in b.s.wuerfe) w.zeile], isNot([for (final w in a.s.wuerfe) w.zeile]));
+    expect(PartySkript.abendKennung(b.s), isNot(PartySkript.abendKennung(a.s)));
   });
 }

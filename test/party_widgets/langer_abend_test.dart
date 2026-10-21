@@ -74,6 +74,8 @@ void main() {
 
     // Zeitlinie: Rundgang-Stationen, Wechsel des Streifzugs (mit Stelle), Ankünfte und Wahlen.
     final stationen = <String>[];
+    // Uhr des Tests beim Erreichen jeder Station (Rundgang, Station).
+    final stationsZeit = <(RundgangTeil, DateTime)>[];
     final zeitlinie = <String>[];
     final ankuenfte = <int, Set<String>>{};
     final befragt = <int, Set<String>>{};
@@ -83,7 +85,10 @@ void main() {
     s.addListener(() {
       if (s.rundgang case final teil?) {
         final station = '${teil.name}:${s.rundgangStation}';
-        if (station != letzteStation) stationen.add(station);
+        if (station != letzteStation) {
+          stationen.add(station);
+          stationsZeit.add((teil, t.binding.clock.now()));
+        }
         letzteStation = station;
       }
       if (s.streifzugLaeuft && s.phase == PartyPhase.gespraeche) {
@@ -168,6 +173,13 @@ void main() {
     ]);
     final befehle = (s.abendstand['befehle'] as List).cast<Map>();
     expect(befehle.where((b) => b['b'] == 'rundgang' && b['ueberspringen'] == true), isEmpty);
+    // Wie im Streifzug geht jeder Weg sichtbar los und wird nach höchstens 1,5 s
+    // abgekürzt: Von Station zu Station vergehen höchstens Weg, Takt und Bild.
+    for (var i = 1; i < stationsZeit.length; i++) {
+      final (teil, zeit) = stationsZeit[i];
+      if (stationsZeit[i - 1].$1 != teil) continue;
+      expect(zeit.difference(stationsZeit[i - 1].$2), lessThanOrEqualTo(const Duration(milliseconds: 2000)), reason: '${stationen[i]}: Weg nicht abgekürzt');
+    }
 
     // Jede erledigte Befragung am Treffpunkt angetroffen, in jeder Runde.
     for (var r = 1; r <= 3; r++) {

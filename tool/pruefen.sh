@@ -3,7 +3,8 @@
 #   schnell: Pakete auflösen, Analyse, Kern-Tests (Kanon, Logik, Partymodus)
 #   alles:   dazu Szenario-Validator, Server-Smoke, Online-Matrizen, Flutter-Tests, Web-Build ohne CDN
 #   ci:      wie alles, aber ohne die langsamen Matrizen (stattdessen Party-Matrix mit 4 Clients)
-#            und dazu die schnellen Browser-Proben (Konfiguration, Start, Runden, Solo bei 320 px)
+#            und dazu die schnellen Browser-Proben (Konfiguration, Start, Runden, Solo bei 320 px,
+#            langer Abend kurz gegen lang)
 #   e2e:     alles plus alle 84 Party-Durchläufe (tool/e2e) gegen den Web-Build
 # Zum Schluss läuft immer der Secret-Scan.
 set -euo pipefail
@@ -102,13 +103,13 @@ if [ "$STUFE" != "schnell" ]; then
 fi
 
 if [ "$STUFE" = "ci" ]; then
-  schritt "Browser-Proben (Konfiguration, App-Start, Runden, Solo bei 320 px)"
-  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs --nur320)
+  schritt "Browser-Proben (Konfiguration, App-Start, Runden, Solo bei 320 px, langer Abend kurz gegen lang)"
+  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs --nur320 && node lang.mjs)
 fi
 
 if [ "$STUFE" = "e2e" ]; then
   schritt "Automatisierte Durchläufe"
-  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs && node abbrechen.mjs && npm test)
+  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs && node lang.mjs && node abbrechen.mjs && npm test)
 fi
 
 schritt "Secret-Scan"

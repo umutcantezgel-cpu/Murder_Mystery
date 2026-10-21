@@ -48,7 +48,7 @@ class _PartySeiteState extends State<PartySeite> {
     super.initState();
     final dev = widget.dev;
     _laden = PartyDaten.laden(rootBundle, fall: dev?.fall ?? 'schlosskeller').then((d) {
-      final s = _sitzung = PartySitzung(d);
+      final s = _sitzung = PartySitzung(d, salz: dev?.salz);
       if (dev != null) {
         PartySitzung.protokoll = true;
         debugPrint('PARTY geladen fall=${d.fall}');
