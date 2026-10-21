@@ -1726,11 +1726,7 @@ class MordakteGame extends Game with KeyboardEvents {
     final room = _hasPos ? _grid?.roomAtPos(_px, _py) : null;
     final outdoor = room?.outdoor ?? false;
     final wk = _weather?.kind ?? 'none';
-    final want = switch (wk) {
-      'dust' => outdoor ? 1.0 : 0.55,
-      'neon' => outdoor ? 1.0 : 0.35,
-      _ => outdoor ? 1.0 : 0.0,
-    };
+    final want = wetterZiel(wk, draussen: outdoor, tag: _weather != null && (_ext?.licht?.tag ?? false));
     final camBefore = _lastCamForWeather;
     _lastCamForWeather = _cam;
     final pan = camBefore == null ? Offset.zero : (_cam - camBefore) * _zoom;
@@ -1981,10 +1977,29 @@ class MordakteGame extends Game with KeyboardEvents {
   /// ([SzenenLicht.tag], Morgen im langen Abend, M7b) der Tag-Modus ohne
   /// Dunkelheitsebene und Mondlicht, nur ein leichter Schleier aus dem Grunddunkel
   /// und keine Taschenlampe.
+  ///
+  /// [laternen]: Glühen der leuchtenden Requisiten (Laternen) und der Laternen
+  /// der Kulisse; tagsüber aus (Morgen im langen Abend, M7b), nachts wie bisher.
   @visibleForTesting
-  static ({LightMode mode, double darkness, double dayTint, bool taschenlampe}) szenenLichtModus(SzenenLicht l) => l.tag
-      ? (mode: LightMode.day, darkness: 0, dayTint: (l.dunkel * 0.2).clamp(0.0, 0.15), taschenlampe: false)
-      : (mode: LightMode.night, darkness: l.dunkel.clamp(0.0, 1.0), dayTint: 0, taschenlampe: l.taschenlampe);
+  static ({LightMode mode, double darkness, double dayTint, bool taschenlampe, bool laternen}) szenenLichtModus(SzenenLicht l) => l.tag
+      ? (mode: LightMode.day, darkness: 0, dayTint: (l.dunkel * 0.2).clamp(0.0, 0.15), taschenlampe: false, laternen: false)
+      : (mode: LightMode.night, darkness: l.dunkel.clamp(0.0, 1.0), dayTint: 0, taschenlampe: l.taschenlampe, laternen: true);
+
+  /// Zahl der glühenden Laternen (Requisiten und Kulisse) im letzten Bild mit
+  /// eigenem Licht der Szene (Tests).
+  @visibleForTesting
+  int laternenGezeichnet = 0;
+
+  /// Wie dicht das Wetter einer Szene ([art], `theme.weather`) fällt (0 bis 1):
+  /// draußen voll, drinnen Staub und Neon schwächer, sonst nichts. Tagsüber
+  /// ([tag], Morgen im langen Abend, M7b) wirbelt kaum noch Staub; alles
+  /// andere bleibt, wie es war.
+  @visibleForTesting
+  static double wetterZiel(String art, {required bool draussen, bool tag = false}) => switch (art) {
+        'dust' => (draussen ? 1.0 : 0.55) * (tag ? 0.3 : 1.0),
+        'neon' => draussen ? 1.0 : 0.35,
+        _ => draussen ? 1.0 : 0.0,
+      };
 
   void _renderSzenenLicht(Canvas canvas, Rect view, StaticScene scene, SzenenLicht l, Rect cull, double t) {
     final modus = szenenLichtModus(l);
@@ -1993,7 +2008,9 @@ class MordakteGame extends Game with KeyboardEvents {
       lights.add(SceneLight(_px, _py, Tuning.nightLightRadius, cone: _pf));
       lights.add(SceneLight(_px, _py, 1.2, strength: 0.75));
     }
-    final glows = _glows(scene, cull, t);
+    // Tagsüber sind Laternen und das Glühen der Kulisse aus (M7b); die Lichtpunkte der Szene bleiben.
+    final glows = modus.laternen ? _glows(scene, cull, t) : <GlowLight>[];
+    laternenGezeichnet = glows.length;
     for (final p in l.punkte) {
       final seed = (p.x * 3 + p.y * 7).round();
       final fl = 1 - p.flackern * 0.3 * (0.5 + 0.5 * math.sin(t * 7 + seed) * math.sin(t * 4.1 + seed * 2));
