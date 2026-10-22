@@ -2,12 +2,17 @@
 // Aufruf (im Paketordner):
 //   dart run bin/party_druck.dart [--fall schlosskeller] [--code XXXXX | --pfad <ahmet|fatma|olli|can>] [--n 12] [--detektiv w] [--dauer 30] [--alles] [--aus ordner]
 //   dart run bin/party_druck.dart --steckbriefe [--fall schlosskeller] [--n 12] [--detektiv w] [--aus ordner]
+//   dart run bin/party_druck.dart --paket [--n 12] [--code XXXXX] [--aus ordner] [--portraets ordner]
 // Ohne Code und Pfad entsteht ein Zufallsfall. Der Pfad ist nur für Testläufe
 // des Erzählers gedacht; im Ordnernamen steht nur der Code. --alles setzt die acht
 // Teile in eine Datei. --steckbriefe braucht keinen Fall-Code: Übersicht, alle
 // Steckbriefe in einer Datei und je Figur ein Steckbrief (ohne --n alle Figuren).
+// --paket setzt das festliche Druckpaket für den Abend am Bildschirm (nur Akten mit
+// Steckbriefen): vier Ordner nach Empfängern und ZIP-Archive in build/paket/. Die
+// Porträts kommen aus build/druck/portraets/ (flutter test tool/bild/druck_portraets_test.dart).
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/party_druck.dart';
@@ -18,8 +23,14 @@ Future<void> main(List<String> args) async {
     return i >= 0 && i + 1 < args.length ? args[i + 1] : null;
   }
 
-  var d = Directory.current;
+  // Repo-Wurzel: der erste Ordner aufwärts mit content/party; am Dateisystemende ein Fehler.
+  var d = Directory.current.absolute;
   while (!Directory('${d.path}/content/party').existsSync()) {
+    if (d.parent.path == d.path) {
+      stderr.writeln('Kein Mordakte-Repo gefunden: Rufe das Werkzeug im Repo auf (etwa in packages/mordakte_core).');
+      exitCode = 2;
+      return;
+    }
     d = d.parent;
   }
   final wurzel = d.path;
@@ -49,6 +60,11 @@ Future<void> main(List<String> args) async {
       File('${aus.path}/${f.name}').writeAsBytesSync(f.bytes);
       stdout.writeln('${f.name.padRight(40)} ${(f.bytes.length / 1024).toStringAsFixed(0).padLeft(6)} KB');
     }
+  }
+
+  if (args.contains('--paket')) {
+    await paket(wurzel, fall, kanon, texte, stil, wert);
+    return;
   }
 
   if (args.contains('--steckbriefe')) {
@@ -82,4 +98,75 @@ Future<void> main(List<String> args) async {
   final k = DruckKontext(kanon, texte, satz, stil, diashow: diashow);
   schreibe(aus, args.contains('--alles') ? [await druckAlles(k)] : await druckDateien(k));
   stdout.writeln('Druckspiel ${code.code} für $rollen Rollen und den Detektiv in ${aus.path}');
+}
+
+/// Das Druckpaket für den Veranstalter (`--paket`): Ordner, Dateien und ZIP-Archive.
+Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckStil stil, String? Function(String) wert) async {
+  final datei = File('$wurzel/content/party/$fall/steckbriefe.json');
+  if (!datei.existsSync()) {
+    stderr.writeln('Akte $fall hat keine Steckbriefe (steckbriefe.json fehlt); ein Paket gibt es nur für den Schlosskeller.');
+    exitCode = 2;
+    return;
+  }
+  final besetzung = Besetzung(kanon);
+  final n = int.parse(wert('n') ?? '12');
+  if (n < besetzung.minRollen || n > besetzung.maxRollen) {
+    stderr.writeln('--n muss zwischen ${besetzung.minRollen} und ${besetzung.maxRollen} liegen.');
+    exitCode = 2;
+    return;
+  }
+  final c = wert('code');
+  final code = c == null ? FallCode.zufall(Rng(DateTime.now().microsecondsSinceEpoch & 0x7fffffff)) : (FallCode.lesen(c) ?? (throw ArgumentError('ungültiger Fall-Code $c')));
+  Uint8List schrift(String name) => File('$wurzel/assets/fonts/$name').readAsBytesSync();
+  final fest = FestStil(
+    titel: schrift('PlayfairDisplay-Variabel.ttf'),
+    text: schrift('Lora-Variabel.ttf'),
+    kursiv: schrift('Lora-Kursiv-Variabel.ttf'),
+    hand: schrift('Caveat-Variabel.ttf'),
+    maschine: schrift('SpecialElite-Regular.ttf'),
+    funktion: schrift('Inter-Regular.ttf'),
+    funktionStark: schrift('Inter-SemiBold.ttf'),
+  );
+  final ordner = Directory(wert('portraets') ?? '$wurzel/build/druck/portraets');
+  final portraets = <String, Uint8List>{
+    if (ordner.existsSync())
+      for (final f in ordner.listSync().whereType<File>())
+        if (f.path.endsWith('.png')) f.uri.pathSegments.last.replaceAll('.png', ''): f.readAsBytesSync(),
+  };
+  final dia = File('$wurzel/content/welt/$fall/diashow.json');
+  final diashow = dia.existsSync() ? Diashow.ausJson(jsonDecode(dia.readAsStringSync()) as Map<String, Object?>) : null;
+  final satz = DruckSatz.aus(kanon, texte, code, rollen: n, detektiv: 'w');
+  final k = PaketKontext(
+    DruckKontext(kanon, texte, satz, stil, diashow: diashow),
+    steckbriefe: Steckbriefe.ausJson(jsonDecode(datei.readAsStringSync()) as Map<String, Object?>),
+    stil: fest,
+    portraets: portraets,
+  );
+  final fehlen = k.fehlendePortraets();
+  if (fehlen.isNotEmpty) {
+    stderr
+      ..writeln('Achtung: Porträts fehlen (${fehlen.join(', ')}) in ${ordner.path}.')
+      ..writeln('Erzeugen im Repo-Wurzelordner mit: flutter test tool/bild/druck_portraets_test.dart')
+      ..writeln('Bis dahin stehen in den Heften Schattenrisse statt Porträts.');
+  }
+  final name = '$fall-n$n-${code.code}';
+  final basis = Directory(wert('aus') ?? '$wurzel/build/paket');
+  final ziel = Directory('${basis.path}/$name');
+  if (ziel.existsSync()) ziel.deleteSync(recursive: true);
+  final dateien = await paketDateien(k);
+  final alle = <String, Uint8List>{};
+  for (final o in paketOrdner) {
+    final inhalt = {for (final p in dateien.where((p) => p.ordner == o)) p.datei.name: p.datei.bytes};
+    Directory('${ziel.path}/$o').createSync(recursive: true);
+    for (final e in inhalt.entries) {
+      File('${ziel.path}/$o/${e.key}').writeAsBytesSync(e.value);
+      alle['$name/$o/${e.key}'] = e.value;
+      stdout.writeln('${'$o/${e.key}'.padRight(64)}${(e.value.length / 1024).toStringAsFixed(0).padLeft(6)} KB');
+    }
+    File('${ziel.path}/$o.zip').writeAsBytesSync(zipArchiv({for (final e in inhalt.entries) '$o/${e.key}': e.value}));
+  }
+  File('${basis.path}/$name.zip').writeAsBytesSync(zipArchiv(alle));
+  stdout
+    ..writeln('Druckpaket für $n Personen, Fall-Code ${code.code}: ${ziel.path}')
+    ..writeln('Archiv: ${basis.path}/$name.zip (je Ordner eine ZIP im Paketordner)');
 }
