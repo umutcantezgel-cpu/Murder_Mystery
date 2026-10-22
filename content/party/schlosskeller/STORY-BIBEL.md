@@ -180,7 +180,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Bläst mit der Pfeife ein paar Seifenblasen und tippt aufs Handy
 - **Look:**
   - Haut: #d9a983
-  - Haar: #4a3222
+  - Haar: #4b3123
   - Kopf: detektivhut
   - Statur: normal
   - Schnitt: suit
@@ -231,8 +231,8 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Merkmal: Blaues Stoffarmband am Handgelenk, Handy in der Hand (ab 0:05, vorher im Handykorb)
   - Ruhe-Animation: Dreht am blauen Stoffarmband und streicht sich nervös durch den Bart
 - **Look:**
-  - Haut: #d9a983
-  - Haar: #1a1412
+  - Haut: #d9aa83
+  - Haar: #1b1212
   - Kopf: none
   - Statur: slim
   - Schnitt: suit
@@ -309,7 +309,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Reibt sich den Nacken, wechselt das Standbein und schaut auf seine Hände
 - **Look:**
   - Haut: #f1d3bc
-  - Haar: #7a5638
+  - Haar: #7a5639
   - Kopf: none
   - Statur: broad
   - Schnitt: suit
@@ -346,7 +346,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Zieht an den Kapuzenbändern und wippt auf den Zehenspitzen
 - **Look:**
   - Haut: #d9a983
-  - Haar: #1a1412
+  - Haar: #191412
   - Kopf: none
   - Statur: slim
   - Schnitt: suit
@@ -444,7 +444,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Klopft prüfend gegen Kabelkanäle und schüttelt den Kopf
 - **Look:**
   - Haut: #e6be9e
-  - Haar: #4a3222
+  - Haar: #493222
   - Kopf: none
   - Statur: normal
   - Schnitt: suit
@@ -473,7 +473,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Hebt das Handy, wischt durch Fotos und zoomt hinein
 - **Look:**
   - Haut: #f1d3bc
-  - Haar: #c9a86a
+  - Haar: #c9a76a
   - Kopf: none
   - Statur: slim
   - Schnitt: suit
@@ -502,7 +502,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Zählt die Warmhaltebehälter durch und schaut auf die Uhr
 - **Look:**
   - Haut: #d9a983
-  - Haar: #2b1d14
+  - Haar: #2a1c14
   - Kopf: none
   - Statur: broad
   - Schnitt: suit
@@ -531,7 +531,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Kaut Kaugummi, wippt auf den Absätzen und behält Can im Blick
 - **Look:**
   - Haut: #c69270
-  - Haar: #2b1d14
+  - Haar: #2a1c14
   - Kopf: cap
   - Statur: small
   - Schnitt: suit
@@ -561,7 +561,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Wippt im Takt und dreht am Lautstärkerad der Box
 - **Look:**
   - Haut: #a87655
-  - Haar: #1a1412
+  - Haar: #1a1512
   - Kopf: none
   - Statur: tall
   - Schnitt: suit
@@ -617,7 +617,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Rüttelt am Riegel des Außentors und leuchtet aufs Schloss
 - **Look:**
   - Haut: #c69270
-  - Haar: #2b1d14
+  - Haar: #2a1d14
   - Kopf: cap
   - Statur: broad
   - Schnitt: suit
@@ -673,7 +673,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Streicht mit dem Daumen über die Schramme an der Bogentür
 - **Look:**
   - Haut: #e6be9e
-  - Haar: #c9a86a
+  - Haar: #caa96a
   - Kopf: none
   - Statur: normal
   - Schnitt: suit
@@ -703,7 +703,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Betrachtet ihre Ringe durch die Lupe und schaut zur Theke
 - **Look:**
   - Haut: #c69270
-  - Haar: #1a1412
+  - Haar: #191412
   - Kopf: none
   - Statur: tall
   - Schnitt: dress
@@ -730,7 +730,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Merkmal: Hält ein schmales Teeglas auf einer Untertasse
   - Ruhe-Animation: Poliert Teegläser mit einem weißen Tuch und prüft den Teekocher
 - **Look:**
-  - Haut: #d9a983
+  - Haut: #daa983
   - Haar: #4a3222
   - Kopf: none
   - Statur: slim
@@ -787,7 +787,7 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
   - Ruhe-Animation: Nimmt einen langsamen Schluck Tee und beobachtet die Gruppe
 - **Look:**
   - Haut: #a87655
-  - Haar: #2b1d14
+  - Haar: #2a1d14
   - Kopf: none
   - Statur: normal
   - Schnitt: suit

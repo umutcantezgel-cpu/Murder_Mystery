@@ -32,7 +32,7 @@
     "nieVerdaechtig": true,
     "look": {
       "haut": "#d9a983",
-      "haar": "#4a3222",
+      "haar": "#4b3123",
       "kopf": "detektivhut",
       "statur": "normal",
       "schnitt": "suit"
@@ -137,8 +137,8 @@
         "zusatzindiz": "Rote Wachstropfen auf dem leeren Umschlag im Ascheneimer am Kamin; eine Ecke fehlt."
       },
       "look": {
-        "haut": "#d9a983",
-        "haar": "#1a1412",
+        "haut": "#d9aa83",
+        "haar": "#1b1212",
         "kopf": "none",
         "statur": "slim",
         "schnitt": "suit"
@@ -272,7 +272,7 @@
       },
       "look": {
         "haut": "#f1d3bc",
-        "haar": "#7a5638",
+        "haar": "#7a5639",
         "kopf": "none",
         "statur": "broad",
         "schnitt": "suit"
@@ -341,7 +341,7 @@
       },
       "look": {
         "haut": "#d9a983",
-        "haar": "#1a1412",
+        "haar": "#191412",
         "kopf": "none",
         "statur": "slim",
         "schnitt": "suit"
@@ -482,7 +482,7 @@
       "luegen": [],
       "look": {
         "haut": "#e6be9e",
-        "haar": "#4a3222",
+        "haar": "#493222",
         "kopf": "none",
         "statur": "normal",
         "schnitt": "suit"
@@ -531,7 +531,7 @@
       "luegen": [],
       "look": {
         "haut": "#f1d3bc",
-        "haar": "#c9a86a",
+        "haar": "#c9a76a",
         "kopf": "none",
         "statur": "slim",
         "schnitt": "suit"
@@ -580,7 +580,7 @@
       "luegen": [],
       "look": {
         "haut": "#d9a983",
-        "haar": "#2b1d14",
+        "haar": "#2a1c14",
         "kopf": "none",
         "statur": "broad",
         "schnitt": "suit"
@@ -628,7 +628,7 @@
       "luegen": [],
       "look": {
         "haut": "#c69270",
-        "haar": "#2b1d14",
+        "haar": "#2a1c14",
         "kopf": "cap",
         "statur": "small",
         "schnitt": "suit"
@@ -670,7 +670,7 @@
       "luegen": [],
       "look": {
         "haut": "#a87655",
-        "haar": "#1a1412",
+        "haar": "#1a1512",
         "kopf": "none",
         "statur": "tall",
         "schnitt": "suit"
@@ -758,7 +758,7 @@
       "luegen": [],
       "look": {
         "haut": "#c69270",
-        "haar": "#2b1d14",
+        "haar": "#2a1d14",
         "kopf": "cap",
         "statur": "broad",
         "schnitt": "suit"
@@ -852,7 +852,7 @@
       "luegen": [],
       "look": {
         "haut": "#e6be9e",
-        "haar": "#c9a86a",
+        "haar": "#caa96a",
         "kopf": "none",
         "statur": "normal",
         "schnitt": "suit"
@@ -898,7 +898,7 @@
       "luegen": [],
       "look": {
         "haut": "#c69270",
-        "haar": "#1a1412",
+        "haar": "#191412",
         "kopf": "none",
         "statur": "tall",
         "schnitt": "dress"
@@ -943,7 +943,7 @@
       "loyalitaet": null,
       "luegen": [],
       "look": {
-        "haut": "#d9a983",
+        "haut": "#daa983",
         "haar": "#4a3222",
         "kopf": "none",
         "statur": "slim",
@@ -1036,7 +1036,7 @@
       "luegen": [],
       "look": {
         "haut": "#a87655",
-        "haar": "#2b1d14",
+        "haar": "#2a1d14",
         "kopf": "none",
         "statur": "normal",
         "schnitt": "suit"
