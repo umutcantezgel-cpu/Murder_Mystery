@@ -1,0 +1,431 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Bausteine des festlichen Druckpakets für den Abend am Bildschirm: Steckbriefe, Rollenhefte, Detektivbogen, Erzählerheft und Veranstalter-Blatt. Nur in dieser Akte; die geteilten ui-Dateien bleiben unverändert.",
+  "eintraege": [
+    {
+      "id": "ui.druck.fest.spoilerfrei",
+      "text": "Spoilerfrei – darf jeder lesen"
+    },
+    {
+      "id": "ui.druck.fest.geheim",
+      "text": "Nur für dich – nicht weitergeben"
+    },
+    {
+      "id": "ui.druck.fest.seite",
+      "text": "Seite {nr} von {von}"
+    },
+    {
+      "id": "ui.druck.fest.jahre",
+      "text": "{alter} Jahre"
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.titel",
+      "text": "Wer ist dabei?"
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.personen",
+      "text": "{anzahl} Personen und der Detektiv"
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.detektiv",
+      "text": "Ermittelt in dieser Nacht. Spielbar als Detektivin oder als Detektiv."
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.weiter",
+      "text": "So geht es weiter"
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.schritt1",
+      "text": "Sucht euch eine Figur aus und sagt sie der Person, die einlädt."
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.schritt2",
+      "text": "Ihr bekommt euren Steckbrief mit Kostümtipp und Auftritt."
+    },
+    {
+      "id": "ui.druck.fest.uebersicht.schritt3",
+      "text": "Euer Rollenheft gibt es erst am Abend, ungelesen im Umschlag."
+    },
+    {
+      "id": "ui.druck.fest.heft.titel",
+      "text": "Rollenheft"
+    },
+    {
+      "id": "ui.druck.fest.heft.lesen",
+      "text": "Lies vor dem Spiel alles bis „Wen du kennst“. Die Seiten der Runden öffnest du erst, wenn die Runde beginnt."
+    },
+    {
+      "id": "ui.druck.fest.heft.inhalt",
+      "text": "In diesem Heft"
+    },
+    {
+      "id": "ui.druck.fest.wer",
+      "text": "Wer du bist"
+    },
+    {
+      "id": "ui.druck.fest.ziel",
+      "text": "Dein Ziel"
+    },
+    {
+      "id": "ui.druck.fest.weiss",
+      "text": "Was du weißt"
+    },
+    {
+      "id": "ui.druck.fest.verbirgst",
+      "text": "Was du verbirgst"
+    },
+    {
+      "id": "ui.druck.fest.rundenwahl",
+      "text": "Deine Rundenwahl"
+    },
+    {
+      "id": "ui.druck.fest.rundenwahl.hinweis",
+      "text": "In jeder Runde wählst du geheim zwischen A und B. Die App fragt dich am Ende der Runde danach."
+    },
+    {
+      "id": "ui.druck.fest.kennst",
+      "text": "Wen du kennst"
+    },
+    {
+      "id": "ui.druck.fest.kennst.hinweis",
+      "text": "Diese Personen sind heute dabei. Hier steht nur, was alle wissen dürfen."
+    },
+    {
+      "id": "ui.druck.fest.runde",
+      "text": "Runde {nr}"
+    },
+    {
+      "id": "ui.druck.fest.runde.erst",
+      "text": "Erst lesen, wenn Runde {nr} beginnt"
+    },
+    {
+      "id": "ui.druck.fest.tisch",
+      "text": "Dein Tischgespräch"
+    },
+    {
+      "id": "ui.druck.fest.mit",
+      "text": "mit {name}"
+    },
+    {
+      "id": "ui.druck.fest.runde.notizen",
+      "text": "Deine Notizen zu Runde {nr}"
+    },
+    {
+      "id": "ui.druck.fest.notizen",
+      "text": "Notizen"
+    },
+    {
+      "id": "ui.druck.fest.notizen.hinweis",
+      "text": "Wer hat was gesagt? Was passt nicht zusammen?"
+    },
+    {
+      "id": "ui.druck.fest.bogen.titel",
+      "text": "Detektivbogen"
+    },
+    {
+      "id": "ui.druck.fest.bogen.nur.w",
+      "text": "Nur für die Detektivin"
+    },
+    {
+      "id": "ui.druck.fest.bogen.nur.m",
+      "text": "Nur für den Detektiv"
+    },
+    {
+      "id": "ui.druck.fest.bogen.hinweis",
+      "text": "Hier stehen nur Fragen, nie Antworten. Was wirklich geschah, findest du am Abend selbst heraus."
+    },
+    {
+      "id": "ui.druck.fest.bogen.app",
+      "text": "Deine Entscheidungen triffst du in der App. Kreuze hier an, was du gewählt hast, und notiere, was du erfährst."
+    },
+    {
+      "id": "ui.druck.fest.bogen.notiz",
+      "text": "Notiz"
+    },
+    {
+      "id": "ui.druck.fest.erzaehler.titel",
+      "text": "Erzählerheft"
+    },
+    {
+      "id": "ui.druck.fest.erzaehler.nur",
+      "text": "Nur für die Erzählerin oder den Erzähler"
+    },
+    {
+      "id": "ui.druck.fest.erzaehler.inhalt",
+      "text": "Einleitung und drei Runden"
+    },
+    {
+      "id": "ui.druck.fest.bogen.auftrag",
+      "text": "Dein Auftrag"
+    },
+    {
+      "id": "ui.druck.fest.erzaehler.fuer.w",
+      "text": "Ermittelt eine Detektivin, lies:"
+    },
+    {
+      "id": "ui.druck.fest.erzaehler.fuer.m",
+      "text": "Ermittelt ein Detektiv, lies:"
+    },
+    {
+      "id": "ui.druck.paket.marke",
+      "text": "Für die Person, die einlädt"
+    },
+    {
+      "id": "ui.druck.paket.titel",
+      "text": "Euer Abend im Schlosskeller"
+    },
+    {
+      "id": "ui.druck.paket.willkommen",
+      "text": "Schön, dass ihr euch auf diesen Krimiabend einlasst! In diesem Paket steckt alles, was ihr ausdrucken könnt. Dieses Blatt verrät nichts über den Fall."
+    },
+    {
+      "id": "ui.druck.paket.code.titel",
+      "text": "Euer Fall-Code"
+    },
+    {
+      "id": "ui.druck.paket.code.anleitung",
+      "text": "In der App bei der Einrichtung unter Fall-Code eingeben – nur so passen die Hefte zum Abend."
+    },
+    {
+      "id": "ui.druck.paket.code.schritt",
+      "text": "Tippt dort auf „Code eingeben“ statt auf „Zufall“."
+    },
+    {
+      "id": "ui.druck.paket.code.neutral",
+      "text": "Der Code allein verrät niemandem etwas über den Fall."
+    },
+    {
+      "id": "ui.druck.paket.besetzung.titel",
+      "text": "Besetzung bei {anzahl} Personen"
+    },
+    {
+      "id": "ui.druck.paket.besetzung.hinweis",
+      "text": "Dazu kommen die Detektivin oder der Detektiv und, wenn ihr mögt, eine Person, die erzählt und nicht mitspielt."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.titel",
+      "text": "So läuft der Abend"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.einrichtung",
+      "text": "Einrichtung"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.einrichtung.text",
+      "text": "Wer erzählt, richtet die App ein: Personen, Fall-Code, kurzer oder langer Abend. Der Detektiv schaut dabei weg."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.figuren",
+      "text": "Figuren wählen"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.figuren.text",
+      "text": "Jede Person spielt die Figur aus ihrem Steckbrief. Tragt die Zuteilung in der App ein."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.rollen",
+      "text": "Rollen lesen"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.rollen.text",
+      "text": "Jede Person bekommt ihr Rollenheft und liest still bis „Wen du kennst“."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.vorspiel",
+      "text": "Vorspiel"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.vorspiel.text",
+      "text": "Nur am langen Abend: Die Clique kommt am Schloss an und sieht sich um."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.einleitung",
+      "text": "Einleitung"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.einleitung.text",
+      "text": "Die Erzählerin oder der Erzähler liest vor, die App zeigt die Bilder dazu."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.runden",
+      "text": "Drei Runden"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.runden.text",
+      "text": "Gespräche am Tisch, Befragungen und Entscheidungen. Danach wählt ihr geheim und hört ein kurzes Resümee."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.aufloesung",
+      "text": "Anklage und Auflösung"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.aufloesung.text",
+      "text": "Der Detektiv klagt eine Person an. Danach erzählt die App, was wirklich geschah."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.morgen",
+      "text": "Morgen"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.morgen.text",
+      "text": "Nur am langen Abend: Der Morgen danach rundet die Geschichte ab."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.ca",
+      "text": "ca. {minuten} Min."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.schritt",
+      "text": "Schritt"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.runden_zeile",
+      "text": "3 × {minuten}"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.gesamt",
+      "text": "Insgesamt"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.fussnote",
+      "text": "Figuren wählen und Rollen lesen gehören zur Einrichtung. Alle Zeiten in Minuten."
+    },
+    {
+      "id": "ui.druck.paket.fassung.kurz",
+      "text": "Kurzer Abend"
+    },
+    {
+      "id": "ui.druck.paket.fassung.lang",
+      "text": "Langer Abend"
+    },
+    {
+      "id": "ui.druck.paket.fassung.dauer",
+      "text": "ca. {minuten} Minuten, Runden zu {runde} Minuten"
+    },
+    {
+      "id": "ui.druck.paket.fassung.hinweis",
+      "text": "Kurz oder lang wählt ihr in der Einrichtung. Die Hefte passen zu beiden."
+    },
+    {
+      "id": "ui.druck.paket.gaeste.titel",
+      "text": "Gästeliste zum Ausfüllen"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.hinweis",
+      "text": "Tragt ein, wer welche Figur spielt. So wisst ihr, wer welches Heft bekommt."
+    },
+    {
+      "id": "ui.druck.paket.gaeste.figur",
+      "text": "Figur"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.name",
+      "text": "Gast"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.steckbrief",
+      "text": "Steckbrief verschickt"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.heft",
+      "text": "Heft übergeben"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.detektiv",
+      "text": "Detektivin oder Detektiv"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.erzaehler",
+      "text": "Erzählerin oder Erzähler"
+    },
+    {
+      "id": "ui.druck.paket.gaeste.optional",
+      "text": "wenn ihr mögt"
+    },
+    {
+      "id": "ui.druck.paket.check.titel",
+      "text": "Checkliste"
+    },
+    {
+      "id": "ui.druck.paket.check.handys",
+      "text": "Alle Handys geladen, die App ist überall installiert"
+    },
+    {
+      "id": "ui.druck.paket.check.drucke",
+      "text": "Steckbriefe, Rollenhefte und Detektivbogen ausgedruckt"
+    },
+    {
+      "id": "ui.druck.paket.check.umschlaege",
+      "text": "Jedes Rollenheft in einem Umschlag, außen der Name der Figur"
+    },
+    {
+      "id": "ui.druck.paket.check.erzaehler",
+      "text": "Das Erzählerheft liegt bei der Person, die erzählt"
+    },
+    {
+      "id": "ui.druck.paket.check.stifte",
+      "text": "Stifte für alle, die mitschreiben wollen"
+    },
+    {
+      "id": "ui.druck.paket.check.kostueme",
+      "text": "Kostüme und kleine Requisiten nach den Steckbriefen"
+    },
+    {
+      "id": "ui.druck.paket.check.ecke",
+      "text": "Eine ruhige Ecke zum Lesen der Hefte"
+    },
+    {
+      "id": "ui.druck.paket.dateien.titel",
+      "text": "Welche Datei an wen"
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner1",
+      "text": "An alle"
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner1.text",
+      "text": "Charakterübersicht und Steckbriefe. Schickt sie vorab an alle Gäste. Sie verraten nichts über den Fall."
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner2",
+      "text": "Veranstalter"
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner2.text",
+      "text": "Dieses Blatt mit dem Fall-Code. Nur für euch, die einladen."
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner3",
+      "text": "Je Person, ungelesen weitergeben"
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner3.text",
+      "text": "Die Rollenhefte und die Detektivbogen. Gebt jedes Heft erst nach der Figurenwahl aus, ungelesen und am besten im Umschlag."
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner4",
+      "text": "Nur Erzähler"
+    },
+    {
+      "id": "ui.druck.paket.dateien.ordner4.text",
+      "text": "Das Erzählerheft. Nur die Person, die erzählt, liest es."
+    },
+    {
+      "id": "ui.druck.paket.dateien.warnung",
+      "text": "Wer mitspielt, öffnet Ordner 3 und 4 nicht. Spielt ihr alle mit, druckt die Hefte ungelesen aus."
+    },
+    {
+      "id": "ui.druck.paket.dateien.detektiv",
+      "text": "Den Steckbrief und den Detektivbogen gibt es zweimal: für eine Detektivin und für einen Detektiv. Nehmt den passenden."
+    },
+    {
+      "id": "ui.druck.paket.viel_spass",
+      "text": "Viel Spaß im Schlosskeller!"
+    },
+    {
+      "id": "ui.druck.paket.datei",
+      "text": "Veranstalter-Blatt"
+    }
+  ]
+}

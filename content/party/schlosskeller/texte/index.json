@@ -229,6 +229,10 @@
     {
       "datei": "ui-druck-steckbrief.json",
       "bereich": "ui"
+    },
+    {
+      "datei": "ui-druck-paket.json",
+      "bereich": "ui"
     }
   ]
 }
