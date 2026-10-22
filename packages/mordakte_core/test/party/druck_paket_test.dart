@@ -3,6 +3,12 @@
 // kein Überlauf (sonst bricht der Satz ab), Ordner 1 und 2 spoilerfrei wie die
 // Steckbriefe (K3), jedes Rollenheft ohne geheime Fünf-Wort-Folgen anderer Rollen, die
 // vier Kernhefte gleich lang und gleich gebaut, gleiche Eingaben ⇒ gleiche Bytes.
+// Die Datei setzt das ganze Paket zweimal und dazu die Kernhefte aller Pfade: wie die
+// anderen schweren Kerntests mit eigenem Zeitlimit (im vollen Kernlauf teilen sich vier
+// Prozesse die Kerne; 30 s reichten dort nicht).
+@Timeout(Duration(minutes: 2))
+library;
+
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -427,11 +433,14 @@ void main() {
 
   test('andere Pfade: Täterheft und Unschuldsheft gleich lang, jede Kernrolle findet ihre Fassung', () async {
     for (final pfad in kanon.pfade) {
-      final kp = _kontext(pfad: pfad);
+      // Jedes Heft nur einmal setzen; der Fall aus setUpAll ([_pfad]) bringt seine Größen schon mit.
+      // Doppelt gesetzt lief der Test im vollen Kernlauf (vier Prozesse) über 30 s.
+      final kp = pfad == _pfad ? k : _kontext(pfad: pfad);
       for (final rolle in kanon.kernverdaechtige) {
-        final t = flach(_text((await festRollenheftDatei(kp, rolle)).bytes));
+        final heft = (await festRollenheftDatei(kp, rolle)).bytes;
+        final t = flach(_text(heft));
         expect(t.contains(flach(kp.ui('ui.druck.fassung.taeter'))), rolle == pfad, reason: '$pfad/$rolle');
-        expect(pdfPruefen((await festRollenheftDatei(kp, rolle)).bytes).seiten, rollenheftSeiten, reason: '$pfad/$rolle');
+        expect(pdfPruefen(heft).seiten, rollenheftSeiten, reason: '$pfad/$rolle');
       }
     }
   });
