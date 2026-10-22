@@ -6,8 +6,15 @@ import 'package:mordakte/game/scene/figur_rig.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 
 /// Der Detektiv als Detektivin (`w`) oder Detektiv (`m`): Aussehen aus dem Kanon, dazu das
-/// Geschlecht für die Darstellung. `m` zeichnet genau die Figur des Spiels.
-LookDef detektivLook(Map<String, Object?> detektiv, String g) => LookDef.fromJson({...renderLook(detektiv), 'gender': g});
+/// Geschlecht für die Darstellung. `m` zeichnet genau die Figur des Spiels (das Spiel kennt
+/// nur diese eine Detektivfigur). Die Detektivin trägt dieselbe Kleidung, Hut und Brille;
+/// ihre Haarfarbe weicht nur im Blaukanal um eins ab ([detektivinHaar]), damit der Zeichner
+/// (Frisur aus dem Hash des Aussehens) lange Haare unter dem Hut zeigt: erkennbar eine Frau.
+LookDef detektivLook(Map<String, Object?> detektiv, String g) =>
+    LookDef.fromJson({...renderLook(detektiv), 'gender': g, if (g == 'w') 'hair': detektivinHaar});
+
+/// Haarfarbe der Detektivin im Druck (Kanon: `#4b3123`), siehe [detektivLook].
+const detektivinHaar = '#4b3122';
 
 /// Trägt die Büste eine Krawatte? (Wie [PortraitPainter]: Männer im Anzugschnitt, außer jede vierte Variante.)
 bool krawatte(FigurAussehen a) => !a.kleid && !a.weiblich && a.variante % 4 != 1;

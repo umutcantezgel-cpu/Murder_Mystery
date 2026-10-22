@@ -168,6 +168,10 @@
       "text": "Ermittelt ein Detektiv, lies:"
     },
     {
+      "id": "ui.druck.paket.fuss",
+      "text": "Für die Person, die einlädt – spoilerfrei"
+    },
+    {
       "id": "ui.druck.paket.marke",
       "text": "Für die Person, die einlädt"
     },
