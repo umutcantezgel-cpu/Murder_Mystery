@@ -256,10 +256,13 @@ void main() {
       k.ui('ui.druck.paket.dateien.warnung'),
       k.ui('ui.druck.paket.gaeste.detektiv'),
       k.ui('ui.druck.paket.gaeste.erzaehler'),
+      k.ui('ui.druck.paket.fuss'),
       for (final id in k.druck.satz.besetzt) kanon.figur(id)!['name'] as String,
     ]) {
       expect(t, contains(flach(teil)), reason: teil);
     }
+    // Das Blatt mit dem Fall-Code ist nicht für alle: kein „darf jeder lesen“ im Fuß.
+    expect(t, isNot(contains(flach(k.ui('ui.druck.fest.spoilerfrei')))));
   });
 
   test('jedes Rollenheft: eigenes Dossier vollständig, keine geheime Fünf-Wort-Folge einer anderen Rolle', () {
@@ -289,6 +292,18 @@ void main() {
       final funde = [for (final f in fuenfWortFolgen(t)) if (fremd[f] case final x?) '„$f“ von $x'];
       expect(funde, isEmpty, reason: '$rolle:\n${funde.join('\n')}');
     }
+  });
+
+  test('Wen du kennst: Aussprache und Alter stehen je in einer eigenen Zeile, „Jahre“ bricht nie allein um', () {
+    final rolle = k.druck.satz.besetzt.first;
+    final name = dateiWort(kanon.figur(rolle)!['name'] as String);
+    final zeilen = {for (final z in _text(datei('3-je-person-ungelesen-weitergeben', 'rollenheft-$name.pdf').bytes).split('\n')) z.trim()};
+    for (final x in k.druck.satz.besetzt.where((x) => x != rolle)) {
+      for (final t in festZeilenTeile(k, festFigur(k, x, uebersicht: true))) {
+        expect(zeilen, contains(t), reason: '$rolle kennt $x');
+      }
+    }
+    expect(zeilen, isNot(contains(k.ui('ui.druck.steckbrief.alter', {'alter': ''}).trim())));
   });
 
   test('Kernhefte: gleich viele Seiten, gleiche Überschriften, die Fassung steht im Heft, kein Umschlag-Code', () {

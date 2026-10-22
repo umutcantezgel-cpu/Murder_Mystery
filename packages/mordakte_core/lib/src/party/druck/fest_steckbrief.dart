@@ -18,11 +18,14 @@ import 'steckbrief.dart';
 SteckbriefFigur festFigur(PaketKontext k, String id, {String detektiv = 'w', bool uebersicht = false}) =>
     steckbriefFigur(k.steckbrief(detektiv), id, uebersicht: uebersicht);
 
-/// „Sprich: … · 27 Jahre“ (leer beim Detektiv).
-String festZeile(PaketKontext k, SteckbriefFigur f) => [
+/// „Sprich: …“ und „27 Jahre“ (leer beim Detektiv).
+List<String> festZeilenTeile(PaketKontext k, SteckbriefFigur f) => [
       if (f.aussprache.isNotEmpty) k.ui('ui.druck.steckbrief.aussprache', {'aussprache': f.aussprache}),
       if (f.alter != null) k.ui('ui.druck.steckbrief.alter', {'alter': '${f.alter}'}),
-    ].join('  ·  ');
+    ];
+
+/// „Sprich: … · 27 Jahre“ (leer beim Detektiv).
+String festZeile(PaketKontext k, SteckbriefFigur f) => festZeilenTeile(k, f).join('  ·  ');
 
 // ---------------------------------------------------------------- Steckbrief
 
@@ -379,9 +382,10 @@ double _fotoFuer(double hoehe) => min(_kartenFoto, hoehe * 0.5);
 
 pw.Widget _kurzInhalt(PaketKontext k, SteckbriefFigur f, double g, {required double foto, double neigung = 0, bool satz = true, double name = 19}) {
   final s = k.stil;
-  final zeile = festZeile(k, f);
-  // Kleine Karten (schmales Porträt): Rolle unter dem Bild über die ganze Breite.
+  // Kleine Karten (schmales Porträt): Rolle unter dem Bild über die ganze Breite,
+  // Aussprache und Alter je in einer eigenen Zeile (sonst bräche „Jahre“ allein um).
   final kompakt = foto < 60;
+  final zeilen = kompakt ? festZeilenTeile(k, f) : [festZeile(k, f)].where((z) => z.isNotEmpty);
   final rolle = pw.Text(f.titel.toUpperCase(), style: s.marke(7.5, FestStil.stempelrot));
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -397,7 +401,7 @@ pw.Widget _kurzInhalt(PaketKontext k, SteckbriefFigur f, double g, {required dou
               children: [
                 if (!kompakt) ...[rolle, pw.SizedBox(height: 1)],
                 pw.Text(f.name, style: s.titel(name)),
-                if (zeile.isNotEmpty) pw.Text(zeile, style: s.klein(kompakt ? 7 : 7.5)),
+                for (final z in zeilen) pw.Text(z, style: s.klein(kompakt ? 7 : 7.5)),
               ],
             ),
           ),

@@ -24,7 +24,8 @@ void veranstalterBlatt(pw.Document doc, PaketKontext k) {
   final theme = k.stil.seite(
     falltitel: k.fallTitel,
     marke: k.ui('ui.druck.paket.datei'),
-    fuss: k.ui('ui.druck.fest.spoilerfrei'),
+    // Nicht „darf jeder lesen“: Das Blatt trägt den Fall-Code und bleibt bei denen, die einladen.
+    fuss: k.ui('ui.druck.paket.fuss'),
     seitenzahl: k.seite,
   );
   doc
