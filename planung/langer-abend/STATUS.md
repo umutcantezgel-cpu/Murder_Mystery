@@ -1,6 +1,6 @@
 # Langer Abend & Begleiter · STATUS
 
-Plan: [PLAN.md](PLAN.md). Branch: `claude/beautiful-dijkstra-z79u0t` (einziger Push-Branch).
+Plan: [PLAN.md](PLAN.md). Branch: `claude/brave-allen-of7gx8` (einziger Push-Branch; PR #45 mit M0–M7a ist nach `main` gemergt).
 Bei Wiederaufnahme zuerst diese Datei und `git log --oneline -15` lesen, dann den ersten offenen Meilenstein fortsetzen.
 Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `planung/finalisierung-schlosskeller/ENTSCHEIDUNGSLOG.md`.
 
@@ -15,13 +15,16 @@ Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `p
 | M4 | Diashow, Rundenuhr | fertig: 6 Dias aus der Spielgrafik zur Einleitung (Vorleser liest, alle sehen das Bild), gemeinsame Rundenuhr mit Zeit vom Transport, Erzählerheft mit Dia-Nummern |
 | M5 | Steckbriefe, PDFs, Teilen | fertig: Steckbriefe und Charakterübersicht (K3), Gästeliste, Erzählerheft mit allen Stichpunkten, Rollenheft je Person, Alles-PDF, Teilen über das System |
 | M6 | Klassenfähigkeiten, Erklärungen | fertig: fünf Fähigkeiten auf der Karte (pfadgleich, invariant), Gerüchte mit Prüfer, Klassenzeile, Profil, Detektivkarte; online reist die Klasse mit dem Detektiv-Sitz |
-| M7 | Langer Abend: Ebenen, Fassung, Streifzug, Vorspiel und Morgen | M7a fertig: Erdgeschoss, Turm, Hof und Garten, Außen als Ebenen mit Portalen und Öffnungszeiten nach Kanon (Vorschau, noch nicht im Abend); M7b offen |
+| M7 | Langer Abend: Ebenen, Fassung, Streifzug, Vorspiel und Morgen | fertig: M7a Ebenen mit Portalen; M7b Fassung kurz/lang mit „ca. X Min.“ (kurz 15 Min. ≈ 100, lang 20 Min. ≈ 120), Streifzug mit 15 Erkundungsorten und Befragungen an Treffpunkten, Rückweg in den Keller vor jeder Entscheidung, Vorspiel 18:00 und Morgen 07:00 mit Rundgang und Tageslicht, Einfahrtstor im Vorspiel und am Morgen offen (18:50 schließt Schneider Hoftür, Einfahrtstor und Außentor), Dia 2 heller mit Schneider im Bild, `lang_invarianz_test` 48 Kombinationen; Gegenprüfung (W2) offen |
 | M8 | Lebendige NPCs | offen |
 | M9 | Mehrspieler-Bewegung | offen |
 | M10 | CYOA-Ausbau | offen |
 | M11 | Doku, e2e, Gegenprüfung, Release | offen |
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-22 Abschluss auf Wunsch des Besitzers: M7b und Druckpaket auf `claude/brave-allen-of7gx8`. Lokal grün belegt: die Lanes einzeln (Kern 739 +1, Netz 52, App 594 nach A; Lanes B1/B2, Zusammenführung mit `pruefen.sh schnell`, App-Tests, Matrizen, `akte_pruefen` 5×0), `lang_invarianz_test` 48/48, Drucktests 122 + Porträt-Tests 5. Das volle Tor (`pruefen.sh ci`) fährt die CI dieses Branches; die geplante Gegenprüfung W2 und die Sichtprüfung des Pakets sind nicht gelaufen.
+- 2026-10-22 Druckpaket für den Abend: `dart run bin/party_druck.dart --paket --n 12 [--code X]` (aus `packages/mordakte_core`, vorher `flutter test tool/bild/druck_portraets_test.dart` für die Porträts) erzeugt `build/paket/schlosskeller-n<N>-<CODE>/` mit 1-an-alle (Charakterübersicht, Steckbriefe), 2-veranstalter (Fall-Code, Ablauf, Gästeliste), 3-je-person-ungelesen-weitergeben (Rollenheft je Figur, Detektivbögen), 4-nur-erzaehler (Erzählerheft) und ZIPs. PDFs nie committen (Fall-Code).
 
 - 2026-10-20 Welle D zusammengeführt (Nachschliff C, M4, M7a, gemeinsame Gegenprüfung, Sitz-Fix A-062): `pruefen.sh schnell` grün (Kern 727 +1 übersprungen, Netz 51, Krimidinner 67, Klang 4), App 563/563, Party- und Relais-Matrix grün (inkl. Ausfall des Gast-Detektivs), `akte_pruefen` 5×0; CI-Lauf 99 grün.
 - 2026-10-19 M3 + M5 zusammengeführt (je Gegenprüfung mit Korrekturen): `pruefen.sh schnell` grün (Kern 681 +1 übersprungen, Krimidinner 67, Klang 4, Netz 50, Kanon-Tor aktuell), App `flutter test` 522/522, Party-Matrix (3 Sitz-Konstellationen, Host-Wechsel in 5 Akten) und Relais-Matrix (3 Läufe) grün, `akte_pruefen` alle 5 Akten 0 Befunde.

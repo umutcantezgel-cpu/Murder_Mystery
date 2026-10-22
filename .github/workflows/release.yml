@@ -9,7 +9,7 @@ name: Prüfen und Builds
 # Die 84 Party-E2E-Läufe (e2e_voll) laufen nur auf Wunsch (workflow_dispatch) und wöchentlich.
 on:
   push:
-    branches: [main, 'claude/ecstatic-lamport-w4jlzn', 'claude/beautiful-meitner-fh1mkq', 'claude/beautiful-dijkstra-z79u0t']
+    branches: [main, 'claude/ecstatic-lamport-w4jlzn', 'claude/beautiful-meitner-fh1mkq', 'claude/beautiful-dijkstra-z79u0t', 'claude/brave-allen-of7gx8']
     paths-ignore: ['planung/**']
   workflow_dispatch:
     inputs:
@@ -409,7 +409,7 @@ jobs:
 
           # Der Arbeitsbranch des langen Abends liefert nur Vorabversionen (nie „latest“).
           vorab=false
-          if [ "$GITHUB_REF_NAME" = "claude/beautiful-dijkstra-z79u0t" ]; then vorab=true; fi
+          if [ "$GITHUB_REF_NAME" = "claude/beautiful-dijkstra-z79u0t" ] || [ "$GITHUB_REF_NAME" = "claude/brave-allen-of7gx8" ]; then vorab=true; fi
 
           assets=(release/mordakte.apk release/SHA256SUMS.txt)
           if [ -f release/mordakte-ios-unsigned.ipa ]; then assets+=(release/mordakte-ios-unsigned.ipa); fi
