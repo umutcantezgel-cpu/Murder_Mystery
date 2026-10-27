@@ -1277,3 +1277,13 @@ Behzads Zusatzindizien werden ersetzt, wo sie nicht nur im eigenen Pfad entstehe
 - **Anlass:** Prüfung des Nachschliffs M3: Vergab der Gastgeber den Sitz eines getrennten Gast-Detektivs an einen Figur-Spieler, tauschten beide die Plätze. Eine Täterrolle konnte so ermitteln, und der Rückkehrer bekam das Dossier samt Tatwissen seines Nachfolgers (Probe mit Ahmets Spielerin).
 - **Entscheidung (Besitzer):** Den Sitz übernehmen nur der Gastgeber selbst oder ein Gerät ohne Figur (Assistenz). Figur-Spieler werden weder angeboten noch vom Raum angenommen (`invalid`). Der Sitzplan bleibt eine Permutation.
 - **Folge:** `SchlosskellerRaum._detektivNeu`, `GastgeberSitzung.detektivKandidaten` und die Karteikarte „Wer ermittelt weiter?“ folgen der Regel; `sitze_test`, `gastgeber_sitz_test` und beide Server-Matrizen prüfen sie (Party-Server mit Assistenz-Platz bei zwanzig Figuren, Relais mit dem Gastgeber).
+
+## E-046 · Einstimmung und Erzählerakte (A-063)
+- **Anlass:** Wunsch des Besitzers: eine Vorgeschichte von etwa fünf Minuten vor der ersten Phase, eine Vorstellung jeder Figur durch den Erzähler und ein eigenes Dokument für den Erzähler mit Hintergründen und Beziehungen.
+- **Entscheidung (Besitzer):** Nur Schlosskeller. Die Erzählerakte enthält alles außer dem Täter. Vorgeschichte und Vorstellung sind öffentlich und pfadgleich; sie laufen als Unterzustand des Intros und gehen nie in die Bausteine des Spiels.
+- **Folge:** neue Kerndateien `einstimmung.dart`, `erzaehlerakte.dart`, `pfadwissen.dart`, Raummodul `einstimmung_modul.dart`, Texte `erzaehler-vorgeschichte.json` und `erzaehler-vorstellung.json`, Datei `erzaehlerakte.json`, Druck `erzaehlerakte.pdf` im Ordner `4-nur-erzaehler`. Die übrigen Akten bleiben bitgleich.
+
+## E-047 · „Dein Moment“ statt A/B-Gruppenwahl im App-Abend (A-064 bis A-066)
+- **Anlass:** Befund: Nur die Entscheidungen und die Anklage des Detektivs wirkten; die A/B-Wahl wählte nur einen von drei festen Sätzen, der Würfel verschob nur verfallende Minuten, Nochmal und Umweg waren gleich, persönliche Ziele wurden nie gewertet (E-013 versprach es).
+- **Entscheidung (Besitzer):** „Weg ändern, Wahrheit fest“ und „Würfel bleibt, Spieler formen ihn“. Einzelheiten in `planung/finale/SPEZIFIKATION.md`.
+- **Folge:** Die gepinnte Beweis-Teilmenge bleibt unberührt; die Schicht ist ein optionaler Parameter. Ohne sie bleiben Golden k12 und der 9.216-Beweis gültig. Neue Beweise T-W, T-L, T-B, T-P, T-G, T-K und ein eigener Golden `einfluss_soll.g.dart`. Das Druckspiel bleibt bei den Papierstreifen A/B (E-036, E-039). Falsche Bonus-Hinweise kommen im App-Abend mit Schicht nicht mehr vor; Täuschung kommt von den Spielern.
