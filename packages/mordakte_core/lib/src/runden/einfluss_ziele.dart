@@ -431,6 +431,9 @@ Iterable<ZielWert> zielAtome(ZielBedingung b) sync* {
         {for (var i = 0; i < fakten.length && i < 4; i++) if (maske & (1 << i) != 0) fakten[i]},
   ];
   final leisten = [0, 2, 3, 4, 6];
+  // Rest nach Runde 3: dazu das Budget der dritten Runde ohne Folgen (Grund + höchster Übertrag), das ein
+  // Abend mit Erfolgen und Helfen erreicht.
+  final reste = [0, 9, 10, 30, r.zahlen.rundenMinuten + r.zahlen.uebertragHoechstens];
   final betroffen = {for (final a in atome) if (a.figur case final f?) f == 'ich' ? ich : f};
 
   var erreichbar = false, verfehlbar = false;
@@ -439,7 +442,7 @@ Iterable<ZielWert> zielAtome(ZielBedingung b) sync* {
       for (final sichtbar in sichtbarAuswahl) {
         for (final zh in wenn(arten.contains(WertArt.zusammenhalt), leisten, 0)) {
           for (final sp in wenn(arten.contains(WertArt.spuk), leisten, 0)) {
-            for (final rest in wenn(arten.contains(WertArt.rest), [0, 9, 10, 30], 0)) {
+            for (final rest in wenn(arten.contains(WertArt.rest), reste, 0)) {
               for (final fremd in wenn(arten.any((a) => {WertArt.ertappt, WertArt.geruecht, WertArt.gestanden, WertArt.auspackRunde}.contains(a)), [0, 1, 2, 3], 0)) {
                 // fremd: 0 nichts; 1 Gerücht über die Betroffenen in Runde 1; 2 Betroffene ertappt; 3 Betroffene packen in Runde 2 aus.
                 final runden = <int, Map<String, EinflussZug>>{};

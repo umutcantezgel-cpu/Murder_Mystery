@@ -101,14 +101,22 @@ void main() {
     });
 
     test('Ertappt, Gerüchte, Rest: erst am Ende sicher erreicht, vorher sofort verloren', () {
-      expect(_stand('tim', 2, _p(runden: 3)), ZielStand.offen);
-      expect(_stand('tim', 2, _p(runden: 1, ertappt: {'tim': 1})), ZielStand.verloren);
-      expect(_stand('tim', 2, _p(runden: 3, angeklagt: 'olli', rest: 3)), ZielStand.erreicht);
+      // „Nie ertappt“ als Fixture (kein Stern der Akte nutzt das Atom nach der Abstimmung, E-048).
+      final nieErtappt = EinflussZiel('tim', 2, 'nie_ertappt', zielBedingung({'hoechstens': ['ertappt:ich', 0]}, _r));
+      expect(_ziele.stand(nieErtappt, _p(runden: 3)), ZielStand.offen);
+      expect(_ziele.stand(nieErtappt, _p(runden: 1, ertappt: {'tim': 1})), ZielStand.verloren);
+      expect(_ziele.stand(nieErtappt, _p(runden: 3, angeklagt: 'olli', rest: 3)), ZielStand.erreicht);
       expect(_stand('enes', 1, _p(runden: 1, zuege: {1: [_z('can', ZugArt.zeigen, 'enes')]})), ZielStand.verloren);
       expect(_stand('enes', 1, _p(runden: 2)), ZielStand.offen);
-      expect(_stand('serkan', 2, _p(runden: 2, rest: 30)), ZielStand.offen);
-      expect(_stand('serkan', 2, _p(runden: 3, rest: 12)), ZielStand.erreicht);
-      expect(_stand('serkan', 2, _p(runden: 3, rest: 9)), ZielStand.verloren);
+      expect(_stand('serkan', 2, _p(runden: 2, rest: 50)), ZielStand.offen);
+      expect(_stand('serkan', 2, _p(runden: 3, rest: 40)), ZielStand.erreicht);
+      expect(_stand('serkan', 2, _p(runden: 3, rest: 39)), ZielStand.verloren);
+    });
+
+    test('Nie ablenken: verloren mit dem ersten Ablenken, erreicht nach drei Runden ohne', () {
+      expect(_stand('tim', 2, _p(runden: 2)), ZielStand.offen);
+      expect(_stand('tim', 2, _p(runden: 1, zuege: {1: [_z('tim', ZugArt.ablenken)]})), ZielStand.verloren);
+      expect(_stand('tim', 2, _p(runden: 3, zuege: {1: [_z('tim', ZugArt.helfen)], 2: [_z('tim', ZugArt.zeigen, 'enes')]})), ZielStand.erreicht);
     });
 
     test('Leisten steigen nur: Grenzen gelten sofort, Mindeststände, solange sie erreichbar sind', () {
@@ -140,7 +148,7 @@ void main() {
       expect(p.fertig, isTrue);
       expect(_ziele.sterne('leyla', p), 2);
       expect(_ziele.sterne('johanna', p), 2);
-      expect(_ziele.sterne('tim', p), 1, reason: 'Kurzschluss sichtbar, nie ertappt');
+      expect(_ziele.sterne('tim', p), 1, reason: 'Kurzschluss sichtbar, nie abgelenkt');
       expect(_ziele.sterne('olli', p), 1, reason: 'Türschaden geheim, aber angeklagt');
       final alle = _ziele.alleSterne(p);
       expect(alle, {'ahmet': 2, 'fatma': 2, 'olli': 1, 'can': 2, 'leyla': 2, 'emine': 2, 'tim': 1, 'johanna': 2});

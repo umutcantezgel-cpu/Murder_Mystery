@@ -53,7 +53,7 @@ void main() {
         expect(WuerfelRegel.gesamt(basis, extra, boden: -2, deckel: 3), _r.zahlen.suchModifikator(basis, tisch: extra));
       }
     }
-    expect([_p.rundenzeit, _p.modBoden, _p.modDeckel, _p.umwegBonus, _p.uebertragHoechstens, _p.minutenBoden, _p.zoegert, _p.mauert], [45, -2, 3, 1, 15, 42, 3, 3]);
+    expect([_p.rundenzeit, _p.modBoden, _p.modDeckel, _p.umwegBonus, _p.uebertragHoechstens, _p.minutenBoden, _p.zoegert, _p.mauert], [45, -2, 3, 1, 5, 42, 3, 3]);
     expect(_p.schlechtesterPflichtzug, 14);
     expect(_p.minutenBoden, greaterThanOrEqualTo(3 * _p.schlechtesterPflichtzug), reason: 'Boden 42 deckt drei schlechteste Pflichtzüge');
     const neutral = ZugParameter();
@@ -101,7 +101,7 @@ void main() {
     }
   });
 
-  test('Rundenbudget mit Schicht: Übertrag ≤ 15 ab Runde 2, Änderungen, Boden 42; ohne Schicht 45', () {
+  test('Rundenbudget mit Schicht: Übertrag ≤ 5 ab Runde 2, Änderungen, Boden 42; ohne Schicht 45', () {
     final ohne = Zugschicht(_erm, const FesterWuerfel.erfolg())..setzePfad('ahmet');
     final mit = Zugschicht(_erm, const FesterWuerfel.erfolg(), p: _p)..setzePfad('ahmet');
     for (final (runde, zusatz) in [(1, -16), (2, 14), (3, -3)]) {
@@ -109,7 +109,7 @@ void main() {
       mit.beginneRunde(runde, zusatzMinuten: zusatz);
       expect(ohne.rest, 45);
       final vorher = mit.restJeRunde.isEmpty ? 0 : mit.restJeRunde.last;
-      final soll = runde == 1 ? 45 + zusatz : 45 + (vorher > 15 ? 15 : vorher) + zusatz;
+      final soll = runde == 1 ? 45 + zusatz : 45 + (vorher > 5 ? 5 : vorher) + zusatz;
       expect(mit.rest, soll < 42 ? 42 : soll, reason: 'Runde $runde');
       for (final z in [ohne, mit]) {
         if (runde == 1) z.auftakt();

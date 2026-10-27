@@ -140,7 +140,7 @@ void main() {
       'einfluss.ereignis.flackerlicht',
       'einfluss.wieder',
     ]);
-    expect(p.restMinuten, (45 + (rest1 > 15 ? 15 : rest1) - 8 - 3).clamp(42, 99), reason: 'Übertrag ≤ 15, Ablenken −8, Flackerlicht −3, Boden 42');
+    expect(p.restMinuten, (45 + (rest1 > 5 ? 5 : rest1) - 8 - 3).clamp(42, 99), reason: 'Übertrag ≤ 5, Ablenken −8, Flackerlicht −3, Boden 42');
     expect(p.tisch('e2_1_bauchtasche'), 1, reason: 'n = 5: ein Zeigen auf can');
     _bis(p, PartyPhase.bonus, 2);
     expect(p.spiel.qualitaeten.containsKey(2), isFalse);
@@ -175,14 +175,14 @@ void main() {
     expect(p.zug!.einfluss!.randnotizen, isEmpty);
   });
 
-  test('Nachfragen nach Runde 3: je volle 10 Restminuten eine (höchstens 2), zeigen fehlende Randnotizen', () {
+  test('Nachfragen nach Runde 3: je volle 25 Restminuten eine (höchstens 2), zeigen fehlende Randnotizen', () {
     final p = _partie(rollen: 6, pfad: 'ahmet', quelle: const FesterWuerfel.erfolg(), salz: 'nachfrage');
     _bis(p, PartyPhase.resuemee, 3, pfad: 'ahmet');
     expect(p.nachfragenOffen, 0, reason: 'erst vor der Anklage');
     p.weiter();
     expect(p.phase, PartyPhase.anklage);
     final rest = p.restJeRunde[2];
-    final soll = (rest ~/ 10).clamp(0, 2) + (p.einfluss!.stand.ausgeloest.contains('erinnerung') ? 1 : 0);
+    final soll = (rest ~/ 25).clamp(0, 2) + (p.einfluss!.stand.ausgeloest.contains('erinnerung') ? 1 : 0);
     expect(p.nachfragenOffen, soll);
     expect(soll, greaterThan(0), reason: 'immer Erfolg lässt Minuten übrig');
     final optionen = p.nachfrageOptionen;

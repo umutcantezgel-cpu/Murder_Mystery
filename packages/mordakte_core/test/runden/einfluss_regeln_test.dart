@@ -109,13 +109,21 @@ void main() {
       expect(z.suchModifikator(1, tisch: 1, umweg: 1), 3);
     });
 
-    test('Budget (§3.7): Grund + Übertrag ≤ 15 ab Runde 2 + Änderung, Boden 42', () {
+    test('Budget (§3.7): Grund + Übertrag ≤ 5 ab Runde 2 + Änderung, Boden 42', () {
       final z = _r.zahlen;
       expect(z.rundenBudget(runde: 1, restVorher: 30, aenderung: 0), 45);
-      expect(z.rundenBudget(runde: 2, restVorher: 30, aenderung: 0), 60);
+      expect(z.rundenBudget(runde: 2, restVorher: 30, aenderung: 0), 50);
       expect(z.rundenBudget(runde: 2, restVorher: 4, aenderung: 9), 58);
       expect(z.rundenBudget(runde: 3, restVorher: 0, aenderung: -8), 42);
       expect(z.rundenBudget(runde: 1, restVorher: 0, aenderung: -16), 42);
+    });
+
+    test('Leistenzuwachs (§3.8, abgestimmt): Zusammenhalt +2 ab 5K ≥ 2·n_eff, +1 ab 5K ≥ n_eff; Spuk +2 ab 2L ≥ n_eff, +1 ab 4L ≥ n_eff', () {
+      final z = _r.zahlen;
+      expect([for (final k in [0, 1, 2, 3]) z.zuwachs(Leiste.zusammenhalt, k, 4)], [0, 1, 2, 2], reason: 'n = 4 zählt als n_eff = 5');
+      expect([for (final k in [2, 3, 4, 5]) z.zuwachs(Leiste.zusammenhalt, k, 12)], [0, 1, 1, 2]);
+      expect([for (final k in [3, 4, 7, 8]) z.zuwachs(Leiste.zusammenhalt, k, 20)], [0, 1, 1, 2]);
+      expect([for (final l in [2, 3, 5, 6]) z.zuwachs(Leiste.spuk, l, 12)], [0, 1, 1, 2]);
     });
   });
 
@@ -213,12 +221,13 @@ void main() {
       expect(f2.kerzenschein, isTrue);
       expect(s.kerzenscheinNehmen(), isTrue);
       expect(s.kerzenscheinNehmen(), isFalse);
-      expect(s.nachfragen(25), 2);
+      expect([s.nachfragen(0), s.nachfragen(24), s.nachfragen(25), s.nachfragen(49), s.nachfragen(50), s.nachfragen(90)], [0, 0, 1, 1, 2, 2],
+          reason: 'je volle 25 Restminuten eine, höchstens 2');
       _setze(s, 3, alle);
       final f3 = s.auswerten(3);
       expect([for (final e in f3.ereignisse) e.id], ['erinnerung']);
       expect(s.zusammenhalt, 6);
-      expect([s.nachfragen(25), s.nachfragen(15), s.nachfragen(9)], [3, 2, 1]);
+      expect([s.nachfragen(50), s.nachfragen(25), s.nachfragen(9)], [3, 2, 1]);
       expect(s.tischbonus, 1);
       expect(s.morgen, MorgenVariante.warm);
       expect(() => s.auswerten(4), throwsStateError);

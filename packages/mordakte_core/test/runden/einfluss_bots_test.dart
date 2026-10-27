@@ -94,12 +94,16 @@ void main() {
       }
     });
 
-    test('Feste Auspack-Runden: Hana in Runde 1 immer, Aylin in Runde 3 und Azra in Runde 2 etwa 68 %', () {
-      expect(_anteile(_zuege('meryem', 1, _lage()))[ZugArt.auspacken], 100);
-      _ungefaehr(_anteile(_zuege('meryem', 1, _lage(gestanden: {'meryem'}))), {ZugArt.helfen: 60, ZugArt.zeigen: 20, ZugArt.lauschen: 20}, 'meryem gestanden');
+    test('Feste Auspack-Runden: Hana in Runde 1 etwa 58 %, Aylin in Runde 3 30 %, Azra in Runde 2 etwa 68 %', () {
+      // 50 % fest, sonst die 15 % Auspack-Gewicht: 50 + 50 · 0,15 = 57,5; der Rest nach den Gewichten.
+      _ungefaehr(_anteile(_zuege('meryem', 1, _lage())), {ZugArt.auspacken: 57.5, ZugArt.helfen: 27.5, ZugArt.zeigen: 7.5, ZugArt.lauschen: 7.5}, 'meryem r1');
+      // Wer schon gestanden hat, hilft statt auszupacken: 55 + 15.
+      _ungefaehr(_anteile(_zuege('meryem', 1, _lage(gestanden: {'meryem'}))), {ZugArt.helfen: 70, ZugArt.zeigen: 15, ZugArt.lauschen: 15}, 'meryem gestanden');
+      // 30 % fest, sonst die Gewichte ohne Auspacken.
+      _ungefaehr(_anteile(_zuege('aylin', 3, _lage())), {ZugArt.auspacken: 30, ZugArt.helfen: 31.5, ZugArt.zeigen: 10.5, ZugArt.lauschen: 28}, 'aylin r3');
+      _ungefaehr(_anteile(_zuege('aylin', 1, _lage())), {ZugArt.helfen: 45, ZugArt.zeigen: 15, ZugArt.lauschen: 40}, 'aylin r1');
+      expect({for (final z in _zuege('aylin', 1, _lage())) if (z.art == ZugArt.zeigen) z.ziel}, {'ahmet'}, reason: 'Aylin zeigt nur auf Ahmet');
       // 60 % fest, sonst die 20 % Auspack-Gewicht: 60 + 40 · 0,2 = 68.
-      _ungefaehr(_anteile(_zuege('aylin', 3, _lage())), {ZugArt.auspacken: 68, ZugArt.helfen: 16, ZugArt.lauschen: 16}, 'aylin r3');
-      _ungefaehr(_anteile(_zuege('aylin', 1, _lage())), {ZugArt.auspacken: 20, ZugArt.helfen: 40, ZugArt.lauschen: 40}, 'aylin r1');
       _ungefaehr(_anteile(_zuege('dilara', 2, _lage())), {ZugArt.auspacken: 68, ZugArt.helfen: 16, ZugArt.decken: 4, ZugArt.zeigen: 4, ZugArt.lauschen: 8}, 'dilara r2');
     });
 
@@ -110,6 +114,11 @@ void main() {
       final vier = _r.figuren.take(4).toList();
       final ersatz = {for (final z in _zuege('fatma', 2, _lage(besetzt: vier))) if (z.art == ZugArt.lauschen) z.ziel};
       expect(ersatz, {'ahmet', 'olli', 'can'}, reason: 'Emine ist unbesetzt: Ersatz aus dem Strom');
+      expect({for (final z in _zuege('dilara', 2, _lage())) if (z.art == ZugArt.decken) z.ziel}, {'fatma'});
+      expect({for (final z in _zuege('tim', 2, _lage())) if (z.art == ZugArt.zeigen) z.ziel}, {'enes'});
+      final ohneDamir = {for (final z in _zuege('tim', 2, _lage(besetzt: _r.figuren.take(7).toList()))) if (z.art == ZugArt.zeigen) z.ziel};
+      expect(ohneDamir, isNotEmpty);
+      expect(ohneDamir.contains('enes') || ohneDamir.contains('tim'), isFalse, reason: 'Damir ist unbesetzt: Ersatz aus dem Strom, nie auf sich selbst');
       final ohneGeruecht = {for (final z in _zuege('murat', 2, _lage())) if (z.art == ZugArt.zeigen) z.ziel};
       expect(ohneGeruecht, {'ahmet', 'fatma', 'olli', 'can'}, reason: 'ohne Gerücht eine gezogene Kernfigur');
       final beredet = _lage(geruechte: [
