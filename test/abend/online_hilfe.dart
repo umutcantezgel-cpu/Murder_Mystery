@@ -185,7 +185,8 @@ void schritt(SchlosskellerRaum raum, Ermittlung erm, String pfad, {void Function
 /// Der Detektiv-Sitz eines Gastes trägt die Klasse [klasse]. Mit [diaAnzahl]
 /// zeigt die Einleitung eine Diashow mit so vielen Bildern (M4). Mit [fassung]
 /// lang und [erkundung] läuft der Streifzug (M7b), mit [rundgang] dazu Vorspiel
-/// und Morgen.
+/// und Morgen. Mit [einstimmung] beginnt die Einleitung mit Vorgeschichte und
+/// Vorstellung (A-063).
 ///
 /// Mit [ohneFigur] sitzen 23 Geräte am Tisch und spielen alle zwanzig Rollen;
 /// das letzte Gerät, Greta (`g22`), bleibt ohne Figur (Assistenz).
@@ -199,6 +200,7 @@ SchlosskellerRaum sitzRaum({
   Abendfassung fassung = Abendfassung.kurz,
   Erkundung? erkundung,
   VorspielMorgen? rundgang,
+  Einstimmung? einstimmung,
 }) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
@@ -214,6 +216,7 @@ SchlosskellerRaum sitzRaum({
     // Streifzug (M7b): nur lang und nur mit der Erkundung der Akte.
     erkundung: erkundung,
     rundgang: rundgang,
+    einstimmung: einstimmung,
   );
   final plaetze = [
     ('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora'),
@@ -240,6 +243,11 @@ void spieleBisSitz(SchlosskellerRaum raum, String phase, {required String detekt
   for (var i = 0; i < 400; i++) {
     final s = raum.zustandFuer(detektiv);
     if (s['phase'] == phase && (!ersteEntscheidung || (s['entscheidung'] is Map && s['zug'] == null))) return;
+    // Einstimmung (A-063): Vorgeschichte und Vorstellung überspringt, wer leitet.
+    if (s['einstimmung'] is Map) {
+      raum.nachricht(leiter, {'typ': 'einstimmung', 'ueberspringen': true});
+      continue;
+    }
     // Langer Abend (M7b): Vorspiel und Morgen überspringt, wer leitet.
     if (s['rundgang'] is Map) {
       raum.nachricht(leiter, {'typ': 'rundgang', 'ueberspringen': true});

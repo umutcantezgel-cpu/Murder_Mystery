@@ -38,7 +38,8 @@ class AkteInfo {
   final int? maxRollen;
 
   /// Freigeschaltete Zusätze der Akte (`faehigkeiten` in `akten.json`), etwa
-  /// `druckspiel`, `steckbriefe`, `erzaehler`, `diashow`, `langfassung`, `klassen`.
+  /// `druckspiel`, `steckbriefe`, `erzaehler`, `diashow`, `langfassung`, `klassen`,
+  /// `einstimmung`, `erzaehlerakte` und `einfluss` (Finale Schlosskeller).
   final Set<String> faehigkeiten;
 
   /// Hat die Akte den Zusatz [faehigkeit]?
@@ -46,6 +47,12 @@ class AkteInfo {
 
   /// Gibt es zu dieser Akte eine Druckmappe?
   bool get druckbar => hat('druckspiel');
+
+  /// Vorgeschichte und Vorstellung vor der Einleitung (A-063)?
+  bool get mitEinstimmung => hat('einstimmung');
+
+  /// Eine Erzählerakte für den Erzähler-Platz (A-063)?
+  bool get mitErzaehlerakte => hat('erzaehlerakte');
 
   /// Zwei Buchstaben für das Siegel, falls der Stil kein Kürzel kennt.
   String get kuerzel {

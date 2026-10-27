@@ -16,12 +16,14 @@ import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/bildschirme/runde.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/erzaehler_begleitung.dart';
+import 'package:mordakte/party/party_seite.dart' show bildschirm;
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, RundenZugPhase, Tischruf;
 import 'package:mordakte_netz/io.dart' show PhoenixAttrappe;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, LokaleVerbindung, RelayGast, RelayParameter, SpeicherAblage;
 
+import '../party_widgets/erzaehl_hilfe.dart';
 import '../party_widgets/hilfe.dart' show diashowDaten, partyDaten, spieleBis, spieleZug, testAbendzeit;
 import 'online_hilfe.dart';
 
@@ -494,6 +496,54 @@ void main() {
     mia.geaendert();
     await tester.pump();
     expect(find.text(l.online_verdaechtige_titel.toUpperCase()), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Einstimmung am Handy (A-063): Schritt öffentlich, Text privat; das Handy schaltet weiter und überspringt; das Gerät zeigt, wer liest', (tester) async {
+    final s = erzaehlSitzung(rollen: 4, erzaehler: 'Mia', namen: const {'ahmet': 'Ben'}, detektivName: 'Ada');
+    final ohne = BegleiterRaum('ABCDEF', erzaehlSitzung(rollen: 4, erzaehler: 'Mia', einstimmung: false)..weiter());
+    ohne.beitreten('e1', 'Mia');
+    expect(ohne.zustandFuer('e1').containsKey('einstimmung'), isFalse, reason: 'Ohne Einstimmung bleibt die Ansicht wie bisher');
+    expect(ohne.zustandFuer('e1').containsKey('rollen'), isFalse);
+    final raum = ProtokollRaum(BegleiterRaum('ABCDEF', s));
+    raum.beitreten(BegleiterRaum.tisch, 'Ada');
+    raum.beitreten('e1', 'Mia');
+    expect(() => raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 0}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'invalid_phase')));
+    s.weiter();
+    var v = raum.zustandFuer('e1');
+    final e = _map(v['einstimmung']);
+    expect([e['teil'], e['schritt'], e['anzahl'], e['nr'], e['kennung'], v['rollen']], ['vorgeschichte', 0, s.einstimmungAnzahl, 1, s.einstimmung!.kennung, 4]);
+    expect(_map(v['privat'])['einstimmungText'], s.text(s.einstimmung!.kennung));
+    expect(v['kannWeiter'], isFalse, reason: 'Erst die Einstimmung');
+    expect(() => raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 5}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'stale')));
+    expect(() => raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 'x'}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'invalid')));
+    raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 0});
+    expect(s.einstimmungNr, 1);
+    raum.nachricht('e1', {'typ': 'einstimmung', 'ueberspringen': true});
+    expect(s.einstimmung!.kennung, Einstimmung.start);
+    // Die Gastseite am Handy: Text und Knöpfe; die Erzählerakte liegt bereit.
+    final mia = LiveGast(raum, spielerId: 'e1', daten: erzaehlDaten);
+    raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': s.einstimmungNr});
+    expect(s.einstimmung!.figur, 'ahmet');
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia));
+    expect(find.byKey(const ValueKey('gast-einstimmung-vorlesetext')), findsOneWidget);
+    expect(find.text(s.text('vorstellung.ahmet')), findsOneWidget);
+    expect(find.text(l.einstimmung_gespielt_von('Ben')), findsOneWidget);
+    expect(find.byKey(const ValueKey('gast-einstimmung-weiter')), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const ValueKey('erzaehlerakte-knopf')));
+    expect(find.byKey(const ValueKey('erzaehlerakte-knopf')), findsOneWidget);
+    // Das Gerät am Tisch: liest der Erzähler am Handy, steht dort nur, wer liest.
+    final schein = _Schein()..liest = true;
+    s.begleitung = schein;
+    expect(s.istVorleser, isFalse);
+    await zeigeImThema(tester, (c) => Scaffold(body: ListenableBuilder(listenable: s, builder: (_, _) => bildschirm(s))));
+    expect(find.byKey(const ValueKey('vorleser-karte')), findsOneWidget);
+    expect(find.text(s.text('vorstellung.ahmet')), findsNothing);
+    s.begleitung = null;
+    // Fertig: ab jetzt ohne Einstimmung in der Ansicht, Weiter wieder frei.
+    raum.nachricht('e1', {'typ': 'einstimmung', 'ueberspringen': true});
+    v = raum.zustandFuer('e1');
+    expect([v.containsKey('einstimmung'), _map(v['privat']).containsKey('einstimmungText'), v['kannWeiter']], [false, false, true]);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

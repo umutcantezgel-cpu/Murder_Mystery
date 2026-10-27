@@ -11,6 +11,7 @@ import 'bildschirme/anklage.dart';
 import 'bildschirme/aufloesung.dart';
 import 'bildschirme/befragung.dart';
 import 'bildschirme/einrichtung.dart';
+import 'bildschirme/einstimmung.dart';
 import 'bildschirme/finale.dart';
 import 'bildschirme/gruppenwahl.dart';
 import 'bildschirme/intro.dart';
@@ -60,7 +61,7 @@ class _PartySeiteState extends State<PartySeite> {
           PartySkript.vorspielenMitGespraech(s, dev, dev.bis!);
           debugPrint('PARTY foto=${dev.bis!.name}');
         } else if (dev.rollen != null) {
-          s.einrichten(rollen: dev.rollen!, detektiv: dev.detektiv, code: dev.fallCode(d.kanon), fassung: dev.fassungFuer(s));
+          s.einrichten(rollen: dev.rollen!, detektiv: dev.detektiv, code: dev.fallCode(d.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s));
           if (dev.dauerSekunden != null) s.rundendauer = Duration(seconds: dev.dauerSekunden!);
         }
       }
@@ -127,7 +128,7 @@ class PartyAblauf extends StatelessWidget {
           duration: MBewegung.ruhig(context) ? Duration.zero : const Duration(milliseconds: 350),
           child: KeyedSubtree(
             // Vorspiel und Morgen (M7b) blenden wie ein eigener Abschnitt über; kurz bleibt der Schlüssel gleich.
-            key: ValueKey('${s.phase.name}-${s.runde}${s.rundgang == null ? '' : '-${s.rundgang!.name}'}'),
+            key: ValueKey('${s.phase.name}-${s.runde}${s.rundgang == null ? '' : '-${s.rundgang!.name}'}${s.einstimmung == null ? '' : '-einstimmung'}'),
             child: ersatz?.call(s) ?? bildschirm(s, menu: menu, onEnde: onEnde),
           ),
         ),
@@ -141,6 +142,8 @@ Widget bildschirm(PartySitzung s, {Widget? menu, VoidCallback? onEnde}) => switc
       PartyPhase.titel => TitelBildschirm(sitzung: s, menu: menu),
       PartyPhase.einrichtung => EinrichtungBildschirm(sitzung: s),
       PartyPhase.rollen => RollenBildschirm(sitzung: s),
+      // Einstimmung (A-063): Vorgeschichte und Vorstellung vor Vorspiel und Diashow.
+      PartyPhase.intro when s.einstimmung != null => EinstimmungBildschirm(sitzung: s),
       // Langer Abend (M7b): erst das Vorspiel, dann die Diashow der Einleitung.
       PartyPhase.intro when s.rundgang != null => RundgangBildschirm(sitzung: s),
       PartyPhase.intro => IntroBildschirm(sitzung: s),

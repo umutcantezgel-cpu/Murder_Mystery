@@ -515,6 +515,61 @@ class GastgeberSitzung extends PartySitzung {
     ]);
   }
 
+  // ------------------------------------------------ Einstimmung (A-063)
+
+  /// Schritt, Zahl und Kennung der Einstimmung hält der Raum (Ansicht
+  /// `einstimmung`, für alle gleich); den Text liest dieses Gerät aus der Akte.
+  Map<String, Object?>? get _einstimmungAnsicht => dienst.ansicht['einstimmung'] is Map ? jMap(dienst.ansicht['einstimmung']) : null;
+
+  @override
+  bool get mitEinstimmung => dienst.raum.einstimmung != null;
+
+  @override
+  EinstimmungSchritt? get einstimmung {
+    final a = _einstimmungAnsicht;
+    final teil = EinstimmungTeil.values.where((t) => t.name == a?['teil']).firstOrNull;
+    if (a == null || teil == null || phase != PartyPhase.intro) return null;
+    final figur = a['figur'];
+    return EinstimmungSchritt(teil: teil, kennung: jText(a['kennung']), figur: figur is String ? figur : null, nr: jZahl(a['nr'], 1), von: jZahl(a['von'], 1));
+  }
+
+  @override
+  List<EinstimmungSchritt> get einstimmungSchritte => switch (dienst.raum.einstimmung) {
+        final e? when eingerichtet => e.schritte(rollen: einstellungen.rollen, detektiv: einstellungen.detektiv),
+        _ => const [],
+      };
+
+  @override
+  int get einstimmungNr => jZahl(_einstimmungAnsicht?['schritt']);
+
+  @override
+  int get einstimmungAnzahl => jZahl(_einstimmungAnsicht?['anzahl']);
+
+  /// Wie der Rundgang: Durch die Einstimmung führt sofort, wer laut Raum leitet.
+  @override
+  bool get einstimmungSteuerbar => dienst.raum.vorleser == _ich;
+
+  @override
+  void einstimmungWeiter() {
+    if (einstimmung == null || !einstimmungSteuerbar) return;
+    _senden([
+      {'typ': 'einstimmung', 'schritt': einstimmungNr},
+    ]);
+  }
+
+  @override
+  void einstimmungUeberspringen() {
+    if (einstimmung == null || !einstimmungSteuerbar) return;
+    _senden([
+      {'typ': 'einstimmung', 'ueberspringen': true},
+    ]);
+  }
+
+  /// Die Erzählerakte gehört online dem Erzähler-Sitz, solange er nicht ermittelt;
+  /// nie ab dem Finale (A-063).
+  @override
+  bool get erzaehlerakteSichtbar => daten.erzaehlerakte != null && !nachFinale && sitz == Sitz.erzaehler && !istDetektiv;
+
   @override
   void bestaetigen({bool gruendlich = false, String? karte}) {
     final z = vorschlag ?? (throw StateError('kein Vorschlag'));

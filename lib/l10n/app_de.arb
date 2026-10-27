@@ -3323,6 +3323,178 @@
   "@rundgang_karte_semantik": {
     "description": "Langer Abend (M7b): Beschriftung der Karte für den Bildschirmleser"
   },
+  "einstimmung_vorgeschichte": "Vorgeschichte",
+  "@einstimmung_vorgeschichte": {
+    "description": "Einstimmung (A-063): Name des ersten Teils im Kapitelzähler"
+  },
+  "einstimmung_vorstellung": "Vorstellung",
+  "@einstimmung_vorstellung": {
+    "description": "Einstimmung (A-063): Name des zweiten Teils im Kapitelzähler"
+  },
+  "einstimmung_zaehler": "{teil} · {nr} von {von}",
+  "@einstimmung_zaehler": {
+    "description": "Einstimmung (A-063): Kapitelzähler über dem Titel, etwa „Vorgeschichte · 3 von 7“",
+    "placeholders": {
+      "teil": {
+        "type": "String"
+      },
+      "nr": {
+        "type": "String"
+      },
+      "von": {
+        "type": "String"
+      }
+    }
+  },
+  "einstimmung_weiter": "Weiter",
+  "@einstimmung_weiter": {
+    "description": "Einstimmung (A-063): zum nächsten Schritt"
+  },
+  "einstimmung_zum_vorspiel": "Weiter zum Vorspiel",
+  "@einstimmung_zum_vorspiel": {
+    "description": "Einstimmung (A-063): letzter Schritt im langen Abend, danach das Vorspiel"
+  },
+  "einstimmung_ueberspringen_vorgeschichte": "Vorgeschichte überspringen",
+  "@einstimmung_ueberspringen_vorgeschichte": {
+    "description": "Einstimmung (A-063): den Rest der Vorgeschichte überspringen"
+  },
+  "einstimmung_ueberspringen_vorstellung": "Vorstellung überspringen",
+  "@einstimmung_ueberspringen_vorstellung": {
+    "description": "Einstimmung (A-063): den Rest der Vorstellung überspringen"
+  },
+  "einstimmung_gespielt_von": "gespielt von {name}",
+  "@einstimmung_gespielt_von": {
+    "description": "Einstimmung (A-063): unter der Vorstellungskarte, wer die Figur am Tisch spielt (nie im Vorlesetext)",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "einstimmung_app_spielt": "Die App spielt {name}",
+  "@einstimmung_app_spielt": {
+    "description": "Einstimmung (A-063): unter der Vorstellungskarte im Solo oder bei einer Rolle ohne Gerät",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "einstimmung_du_bist_dran": "Du bist dran",
+  "@einstimmung_du_bist_dran": {
+    "description": "Einstimmung (A-063): Gast, dessen Figur gerade vorgestellt wird"
+  },
+  "einstimmung_fuehrt": "{name} führt durch die Einstimmung.",
+  "@einstimmung_fuehrt": {
+    "description": "Einstimmung (A-063): Fuß auf Geräten, die nicht weiterschalten",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "einstimmung_laeuft": "Die Einstimmung läuft.",
+  "@einstimmung_laeuft": {
+    "description": "Einstimmung (A-063): Gast sieht, dass Vorgeschichte oder Vorstellung läuft"
+  },
+  "abend_einstimmung_titel": "Einstimmung",
+  "@abend_einstimmung_titel": {
+    "description": "Assistent (A-063): Überschrift des Schalters für Vorgeschichte und Vorstellung"
+  },
+  "abend_einstimmung_schalter": "Vorgeschichte und Vorstellung",
+  "@abend_einstimmung_schalter": {
+    "description": "Assistent (A-063): Schalter für die Einstimmung vor dem Auftakt"
+  },
+  "abend_einstimmung_hinweis": "Vor dem Auftakt: erst die Vorgeschichte, dann wird jede Figur vorgestellt.",
+  "@abend_einstimmung_hinweis": {
+    "description": "Assistent (A-063): Erklärung unter dem Schalter"
+  },
+  "abend_einstimmung_dauer": "Dauert etwa {minuten} Minuten.",
+  "@abend_einstimmung_dauer": {
+    "description": "Assistent (A-063): Dauer der Einstimmung bei der gewählten Personenzahl",
+    "placeholders": {
+      "minuten": {
+        "type": "int"
+      }
+    }
+  },
+  "abend_start_einstimmung": "Einstimmung",
+  "@abend_start_einstimmung": {
+    "description": "Assistent (A-063): Zeile der Startübersicht"
+  },
+  "abend_einstimmung_an": "Vorgeschichte und Vorstellung",
+  "@abend_einstimmung_an": {
+    "description": "Assistent (A-063): Startübersicht, Einstimmung eingeschaltet"
+  },
+  "abend_einstimmung_aus": "Direkt zum Auftakt",
+  "@abend_einstimmung_aus": {
+    "description": "Assistent (A-063): Startübersicht, ohne Einstimmung"
+  },
+  "uebersicht_phase_einstimmung": "Einstimmung",
+  "@uebersicht_phase_einstimmung": {
+    "description": "Wer macht was (A-063): Abschnitt Vorgeschichte und Vorstellung"
+  },
+  "aufgabe_detektiv_einstimmung": "Zuhören, die Gäste kennenlernen",
+  "@aufgabe_detektiv_einstimmung": {
+    "description": "Wer macht was (A-063): Detektiv in der Einstimmung"
+  },
+  "aufgabe_erzaehler_einstimmung": "Vorgeschichte lesen, Figuren vorstellen",
+  "@aufgabe_erzaehler_einstimmung": {
+    "description": "Wer macht was (A-063): Erzähler in der Einstimmung"
+  },
+  "aufgabe_rolle_einstimmung": "Zuhören, die anderen Figuren kennenlernen",
+  "@aufgabe_rolle_einstimmung": {
+    "description": "Wer macht was (A-063): Rolle in der Einstimmung"
+  },
+  "aufgabe_assistenz_einstimmung": "Zuhören und die Runde kennenlernen",
+  "@aufgabe_assistenz_einstimmung": {
+    "description": "Wer macht was (A-063): Assistenz in der Einstimmung"
+  },
+  "erzaehlerakte_titel": "Erzählerakte",
+  "@erzaehlerakte_titel": {
+    "description": "Erzählerakte (A-063): Knopf und Titel, nur auf dem Erzähler-Platz"
+  },
+  "erzaehlerakte_eintrag": "Hintergründe und Netz aller Figuren",
+  "@erzaehlerakte_eintrag": {
+    "description": "Erzählerakte (A-063): Zeile unter dem Eintrag in der Rollenphase"
+  },
+  "erzaehlerakte_fuer": "Für {name}",
+  "@erzaehlerakte_fuer": {
+    "description": "Erzählerakte (A-063): Eintrag in der Rollenphase, für wen sie ist",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "erzaehlerakte_reiter_figuren": "Figuren",
+  "@erzaehlerakte_reiter_figuren": {
+    "description": "Erzählerakte (A-063): Reiter mit allen Figuren"
+  },
+  "erzaehlerakte_reiter_netz": "Netz",
+  "@erzaehlerakte_reiter_netz": {
+    "description": "Erzählerakte (A-063): Reiter mit dem Beziehungsnetz"
+  },
+  "erzaehlerakte_netz_tipp": "Tipp auf eine Figur zeigt ihre Bindungen.",
+  "@erzaehlerakte_netz_tipp": {
+    "description": "Erzählerakte (A-063): Hinweis unter dem Netz"
+  },
+  "erzaehlerakte_netz_alle": "Alle Bindungen",
+  "@erzaehlerakte_netz_alle": {
+    "description": "Erzählerakte (A-063): Auswahl im Netz aufheben"
+  },
+  "erzaehlerakte_figur_semantik": "{name}, {anzahl} Bindungen",
+  "@erzaehlerakte_figur_semantik": {
+    "description": "Erzählerakte (A-063): Bildschirmleser für eine Figur im Netz",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "anzahl": {
+        "type": "int"
+      }
+    }
+  },
   "online_uhr_titel": "Zeit für diese Runde",
   "@online_uhr_titel": {
     "description": "Gast: Überschrift der gemeinsamen Rundenuhr"

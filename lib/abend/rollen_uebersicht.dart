@@ -8,8 +8,14 @@ import '../stil/stil.dart';
 import 'einrichtung/abend_neu_seite.dart' show Spielweise;
 
 /// Abschnitte des Abends, wie die Übersicht sie zusammenfasst (Bonus und
-/// Resümee bzw. Finale und Auflösung gehören zusammen).
-enum UebersichtPhase { rollen, intro, gespraeche, entscheidungen, gruppenwahl, resuemee, anklage, finale }
+/// Resümee bzw. Finale und Auflösung gehören zusammen). Die Einstimmung
+/// (Vorgeschichte und Vorstellung, A-063) zeigt sie nur bei Abenden, die eine
+/// haben ([uebersichtPhasen]).
+enum UebersichtPhase { rollen, einstimmung, intro, gespraeche, entscheidungen, gruppenwahl, resuemee, anklage, finale }
+
+/// Die Abschnitte, die die Übersicht zeigt: ohne Einstimmung ([mitEinstimmung]) wie bisher.
+List<UebersichtPhase> uebersichtPhasen({bool mitEinstimmung = false}) =>
+    [for (final p in UebersichtPhase.values) if (mitEinstimmung || p != UebersichtPhase.einstimmung) p];
 
 /// Die Sitze eines Abends je Spielweise (Langer Abend M3): Solo ermittelt nur
 /// der Detektiv (Bots spielen die Rollen, nie ein Erzähler); an einem Gerät
@@ -33,6 +39,7 @@ String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase) {
   return switch (sitz) {
     Sitz.detektiv => switch (phase) {
         UebersichtPhase.rollen => l.aufgabe_detektiv_rollen,
+        UebersichtPhase.einstimmung => l.aufgabe_detektiv_einstimmung,
         UebersichtPhase.intro => solo ? l.aufgabe_detektiv_solo_intro : l.aufgabe_detektiv_intro,
         UebersichtPhase.gespraeche => solo ? l.aufgabe_detektiv_solo_gespraeche : l.aufgabe_detektiv_gespraeche,
         UebersichtPhase.entscheidungen => l.aufgabe_detektiv_entscheidungen,
@@ -44,7 +51,8 @@ String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase) {
     Sitz.erzaehler => switch (phase) {
         UebersichtPhase.rollen => l.aufgabe_erzaehler_rollen,
         // An einem Gerät liest der Erzähler am verdeckten Pult.
-        UebersichtPhase.intro || UebersichtPhase.resuemee when reihum => l.aufgabe_erzaehler_reihum,
+        UebersichtPhase.einstimmung || UebersichtPhase.intro || UebersichtPhase.resuemee when reihum => l.aufgabe_erzaehler_reihum,
+        UebersichtPhase.einstimmung => l.aufgabe_erzaehler_einstimmung,
         UebersichtPhase.intro => l.aufgabe_erzaehler_intro,
         UebersichtPhase.gespraeche => l.aufgabe_erzaehler_gespraeche,
         UebersichtPhase.entscheidungen => l.aufgabe_erzaehler_entscheidungen,
@@ -55,6 +63,7 @@ String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase) {
       },
     Sitz.rolle => switch (phase) {
         UebersichtPhase.rollen => l.aufgabe_rolle_rollen,
+        UebersichtPhase.einstimmung => l.aufgabe_rolle_einstimmung,
         UebersichtPhase.intro => l.aufgabe_rolle_intro,
         UebersichtPhase.gespraeche => l.aufgabe_rolle_gespraeche,
         UebersichtPhase.entscheidungen => l.aufgabe_rolle_entscheidungen,
@@ -65,6 +74,7 @@ String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase) {
       },
     Sitz.assistenz => switch (phase) {
         UebersichtPhase.rollen => l.aufgabe_assistenz_rollen,
+        UebersichtPhase.einstimmung => l.aufgabe_assistenz_einstimmung,
         UebersichtPhase.intro => l.aufgabe_assistenz_intro,
         UebersichtPhase.gespraeche => l.aufgabe_assistenz_gespraeche,
         UebersichtPhase.entscheidungen => l.aufgabe_assistenz_entscheidungen,
@@ -78,6 +88,7 @@ String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase) {
 
 String _phase(L l, UebersichtPhase p) => switch (p) {
       UebersichtPhase.rollen => l.uebersicht_phase_rollen,
+      UebersichtPhase.einstimmung => l.uebersicht_phase_einstimmung,
       UebersichtPhase.intro => l.uebersicht_phase_intro,
       UebersichtPhase.gespraeche => l.uebersicht_phase_gespraeche,
       UebersichtPhase.entscheidungen => l.uebersicht_phase_entscheidungen,
@@ -99,12 +110,16 @@ String _phase(L l, UebersichtPhase p) => switch (p) {
 /// dem Abendmenü ([zeigeRollenUebersicht]). Der eigene Sitz ([hervorheben])
 /// steht oben und offen. Ohne Erzähler-Sitz der Akte ([mitErzaehler]) fehlt
 /// der Erzähler; der Detektiv heißt, wie die Akte ihn nennt ([detektivWort]).
+/// Mit Einstimmung ([mitEinstimmung], A-063) kommt ihr Abschnitt dazu.
 class RollenUebersicht extends StatefulWidget {
-  const RollenUebersicht({super.key, this.weise = Spielweise.eigene, this.hervorheben, this.mitErzaehler = true, this.detektivWort});
+  const RollenUebersicht({super.key, this.weise = Spielweise.eigene, this.hervorheben, this.mitErzaehler = true, this.detektivWort, this.mitEinstimmung = false});
 
   final Spielweise weise;
   final Sitz? hervorheben;
   final bool mitErzaehler;
+
+  /// Spielt der Abend Vorgeschichte und Vorstellung?
+  final bool mitEinstimmung;
 
   /// Bezeichnung des Detektiv-Sitzes in dieser Akte (Noir „Inspektor“); sonst „Detektiv“.
   final String? detektivWort;
@@ -146,6 +161,7 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
           _SitzKarte(
             weise: _weise,
             sitz: s,
+            phasen: uebersichtPhasen(mitEinstimmung: widget.mitEinstimmung),
             detektivWort: widget.detektivWort,
             offen: _offen.contains(s),
             onTap: () => setState(() => _offen.contains(s) ? _offen.remove(s) : _offen.add(s)),
@@ -158,10 +174,11 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
 /// Ein Sitz als aufklappbare Karteikarte: Name und was er tut; offen je
 /// Abschnitt seine Aufgabe.
 class _SitzKarte extends StatelessWidget {
-  const _SitzKarte({required this.weise, required this.sitz, required this.offen, required this.onTap, this.detektivWort});
+  const _SitzKarte({required this.weise, required this.sitz, required this.phasen, required this.offen, required this.onTap, this.detektivWort});
 
   final Spielweise weise;
   final Sitz sitz;
+  final List<UebersichtPhase> phasen;
   final String? detektivWort;
   final bool offen;
   final VoidCallback onTap;
@@ -207,7 +224,7 @@ class _SitzKarte extends StatelessWidget {
               ),
               if (offen) ...[
                 const SizedBox(height: MMass.s8),
-                for (final p in UebersichtPhase.values)
+                for (final p in phasen)
                   Padding(
                     padding: const EdgeInsets.only(top: MMass.s4),
                     child: Column(
@@ -234,6 +251,7 @@ Future<void> zeigeRollenUebersicht(
   Sitz? hervorheben,
   bool mitErzaehler = true,
   String? detektivWort,
+  bool mitEinstimmung = false,
 }) {
   Klang.instanz.spiele('blatt', laut: 0.7);
   final l = L.of(context);
@@ -242,14 +260,14 @@ Future<void> zeigeRollenUebersicht(
     barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (c) => MKarteikartenDialog(
       titel: l.rollen_uebersicht_titel,
-      inhalt: RollenUebersicht(weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort),
+      inhalt: RollenUebersicht(weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort, mitEinstimmung: mitEinstimmung),
       aktionen: [MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(c).pop())],
     ),
   );
 }
 
-/// Knopf „Wer macht was?“ (leise), der die Übersicht öffnet; [mitErzaehler]
-/// und [detektivWort] wie bei [RollenUebersicht].
+/// Knopf „Wer macht was?“ (leise), der die Übersicht öffnet; [mitErzaehler],
+/// [detektivWort] und [mitEinstimmung] wie bei [RollenUebersicht].
 class RollenUebersichtKnopf extends StatelessWidget {
   const RollenUebersichtKnopf({
     super.key,
@@ -258,6 +276,7 @@ class RollenUebersichtKnopf extends StatelessWidget {
     this.art = MKnopfArt.leise,
     this.mitErzaehler = true,
     this.detektivWort,
+    this.mitEinstimmung = false,
   });
 
   final Spielweise weise;
@@ -265,6 +284,7 @@ class RollenUebersichtKnopf extends StatelessWidget {
   final MKnopfArt art;
   final bool mitErzaehler;
   final String? detektivWort;
+  final bool mitEinstimmung;
 
   @override
   Widget build(BuildContext context) => MKnopf(
@@ -272,6 +292,7 @@ class RollenUebersichtKnopf extends StatelessWidget {
         text: L.of(context).rollen_uebersicht_oeffnen,
         art: art,
         icon: Icons.groups_outlined,
-        onPressed: () => zeigeRollenUebersicht(context, weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort),
+        onPressed: () =>
+            zeigeRollenUebersicht(context, weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort, mitEinstimmung: mitEinstimmung),
       );
 }
