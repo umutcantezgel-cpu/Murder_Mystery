@@ -7,6 +7,7 @@ import 'package:mordakte_core/runden.dart' show RundenZugPhase;
 import '../../game/game_view.dart';
 import '../../l10n/lookup.dart';
 import '../../party/erzaehler_ausgabe.dart';
+import '../../party/erzaehlerakte_ansicht.dart';
 import '../../party/karte_session.dart';
 import '../../party/klasse_wirkung.dart';
 import '../../party/party_stil.dart';
@@ -95,6 +96,11 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
               children: [
                 ErzaehlerFeld(sitzung: s, kennungen: s.erzaehler),
                 const SizedBox(height: MMass.s16),
+                // Die Erzählerakte (A-063) liegt am Pult des Erzähler-Sitzes bereit.
+                if (s.erzaehlerakteSichtbar) ...[
+                  Align(alignment: Alignment.centerLeft, child: ErzaehlerakteKnopf(sitzung: s)),
+                  const SizedBox(height: MMass.s16),
+                ],
                 ...switch (s.phase) {
                   PartyPhase.gespraeche => [
                       // Die gemeinsame Rundenuhr (M4): Wer leitet, stellt sie hier.

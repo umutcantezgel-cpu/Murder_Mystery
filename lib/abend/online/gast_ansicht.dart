@@ -14,6 +14,7 @@ import 'ansicht.dart';
 import 'gast_befragung.dart';
 import 'gast_diashow.dart';
 import 'gast_dienst.dart';
+import 'gast_einstimmung.dart';
 import 'gast_erzaehler.dart';
 import 'gast_ermittlung.dart';
 import 'gast_lobby.dart';
@@ -213,6 +214,10 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return gastLobby(c, marke);
     case 'rollen':
       return _rollen(c);
+    // Einstimmung (A-063): Vorgeschichte und Vorstellung vor Vorspiel und Diashow (gast_einstimmung.dart).
+    case 'intro' when gastEinstimmungSchritt(c) != null:
+      return _abschnitt(c, rundenMarke, gastEinstimmungTitel(c, gastEinstimmungSchritt(c)!), [GastEinstimmung(kontext: c)],
+          mitErzaehlertext: false, vorleserKarte: false, weiter: false, aktionen: gastEinstimmungAktionen(c));
     // Langer Abend (M7b): erst das Vorspiel, dann die Diashow (gast_rundgang.dart).
     case 'intro' when gastRundgang(c) != null:
       return _abschnitt(c, rundenMarke, l.rundgang_vorspiel, [GastRundgang(kontext: c)],

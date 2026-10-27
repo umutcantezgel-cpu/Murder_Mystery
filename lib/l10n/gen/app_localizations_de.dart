@@ -4249,6 +4249,123 @@ class LDe extends L {
       'Karte des Rundgangs. Der Detektiv geht zur Station.';
 
   @override
+  String get einstimmung_vorgeschichte => 'Vorgeschichte';
+
+  @override
+  String get einstimmung_vorstellung => 'Vorstellung';
+
+  @override
+  String einstimmung_zaehler(String teil, String nr, String von) {
+    return '$teil · $nr von $von';
+  }
+
+  @override
+  String get einstimmung_weiter => 'Weiter';
+
+  @override
+  String get einstimmung_zum_vorspiel => 'Weiter zum Vorspiel';
+
+  @override
+  String get einstimmung_ueberspringen_vorgeschichte =>
+      'Vorgeschichte überspringen';
+
+  @override
+  String get einstimmung_ueberspringen_vorstellung =>
+      'Vorstellung überspringen';
+
+  @override
+  String einstimmung_gespielt_von(String name) {
+    return 'gespielt von $name';
+  }
+
+  @override
+  String einstimmung_app_spielt(String name) {
+    return 'Die App spielt $name';
+  }
+
+  @override
+  String get einstimmung_du_bist_dran => 'Du bist dran';
+
+  @override
+  String einstimmung_fuehrt(String name) {
+    return '$name führt durch die Einstimmung.';
+  }
+
+  @override
+  String get einstimmung_laeuft => 'Die Einstimmung läuft.';
+
+  @override
+  String get abend_einstimmung_titel => 'Einstimmung';
+
+  @override
+  String get abend_einstimmung_schalter => 'Vorgeschichte und Vorstellung';
+
+  @override
+  String get abend_einstimmung_hinweis =>
+      'Vor dem Auftakt: erst die Vorgeschichte, dann wird jede Figur vorgestellt.';
+
+  @override
+  String abend_einstimmung_dauer(int minuten) {
+    return 'Dauert etwa $minuten Minuten.';
+  }
+
+  @override
+  String get abend_start_einstimmung => 'Einstimmung';
+
+  @override
+  String get abend_einstimmung_an => 'Vorgeschichte und Vorstellung';
+
+  @override
+  String get abend_einstimmung_aus => 'Direkt zum Auftakt';
+
+  @override
+  String get uebersicht_phase_einstimmung => 'Einstimmung';
+
+  @override
+  String get aufgabe_detektiv_einstimmung => 'Zuhören, die Gäste kennenlernen';
+
+  @override
+  String get aufgabe_erzaehler_einstimmung =>
+      'Vorgeschichte lesen, Figuren vorstellen';
+
+  @override
+  String get aufgabe_rolle_einstimmung =>
+      'Zuhören, die anderen Figuren kennenlernen';
+
+  @override
+  String get aufgabe_assistenz_einstimmung =>
+      'Zuhören und die Runde kennenlernen';
+
+  @override
+  String get erzaehlerakte_titel => 'Erzählerakte';
+
+  @override
+  String get erzaehlerakte_eintrag => 'Hintergründe und Netz aller Figuren';
+
+  @override
+  String erzaehlerakte_fuer(String name) {
+    return 'Für $name';
+  }
+
+  @override
+  String get erzaehlerakte_reiter_figuren => 'Figuren';
+
+  @override
+  String get erzaehlerakte_reiter_netz => 'Netz';
+
+  @override
+  String get erzaehlerakte_netz_tipp =>
+      'Tipp auf eine Figur zeigt ihre Bindungen.';
+
+  @override
+  String get erzaehlerakte_netz_alle => 'Alle Bindungen';
+
+  @override
+  String erzaehlerakte_figur_semantik(String name, int anzahl) {
+    return '$name, $anzahl Bindungen';
+  }
+
+  @override
   String get online_uhr_titel => 'Zeit für diese Runde';
 
   @override

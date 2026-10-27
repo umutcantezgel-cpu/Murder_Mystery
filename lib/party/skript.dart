@@ -32,6 +32,10 @@ import 'streifzug_steuerung.dart';
 ///   sonst und ohne Angabe der kurze. Mit Skript geht er Vorspiel und Morgen
 ///   Station für Station ab (Fotostellen `vorspiel` und `morgen` in der Mitte
 ///   des Rundgangs); `bis=` überspringt sie
+/// - `einstimmung=1`: Vorgeschichte und Vorstellung (A-063), nur in Akten mit
+///   Einstimmung. Mit Skript geht es sie Schritt für Schritt durch
+///   (Fotostellen `vorgeschichte` und `vorstellung` am ersten Schritt jedes
+///   Teils); `bis=` überspringt sie
 ///
 /// Im Modell befragung erledigt das Skript die Befragungen jeder Runde selbst
 /// (erste Frage, feste und so viele freie wie erlaubt). Im langen Abend geht
@@ -65,6 +69,9 @@ class PartyDev {
   /// Kurzer oder langer Abend (`fassung=lang`).
   final Abendfassung fassung;
 
+  /// Vorgeschichte und Vorstellung (`einstimmung=1`, A-063).
+  final bool einstimmung;
+
   const PartyDev({
     this.fall = 'schlosskeller',
     this.code,
@@ -85,6 +92,7 @@ class PartyDev {
     this.gespraech,
     this.gespraechSchritte = 0,
     this.fassung = Abendfassung.kurz,
+    this.einstimmung = false,
   });
 
   /// Aus den URL-Parametern; `null` ohne `party=`.
@@ -114,11 +122,15 @@ class PartyDev {
       gespraech: q['gespraech']?.split(',').first,
       gespraechSchritte: int.tryParse(q['gespraech']?.split(',').elementAtOrNull(1) ?? '') ?? 0,
       fassung: Abendfassung.lesen(q['fassung']),
+      einstimmung: q['einstimmung'] == '1',
     );
   }
 
   /// Fassung für die Sitzung [s]: lang nur, wenn die Akte eine Langfassung hat.
   Abendfassung fassungFuer(PartySitzung s) => s.daten.hat('langfassung') ? fassung : Abendfassung.kurz;
+
+  /// Einstimmung für die Sitzung [s]: nur, wenn die Akte eine hat.
+  bool einstimmungFuer(PartySitzung s) => einstimmung && s.daten.einstimmung != null;
 
   /// Wartet das Skript an der Fotostelle [name] auf den Fotografen?
   bool fotoMitPause(String name) => fotos && (fotoNur?.any(name.startsWith) ?? true);
@@ -197,9 +209,11 @@ class PartySkript {
         s.zurEinrichtung();
       case PartyPhase.einrichtung:
         await _foto('einrichtung');
-        s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s));
+        s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s));
         if (dev.dauerSekunden != null) s.rundendauer = Duration(seconds: dev.dauerSekunden!);
         if (dev.zeitraffer != null) s.zeitraffer = dev.zeitraffer!;
+      case PartyPhase.intro when s.einstimmung != null:
+        await _einstimmung();
       case PartyPhase.intro || PartyPhase.ende when s.rundgang != null:
         await _rundgang();
       case PartyPhase.rollen:
@@ -306,6 +320,19 @@ class PartySkript {
     }
   }
 
+  /// Geht die Einstimmung (A-063) Schritt für Schritt durch. Am ersten Schritt
+  /// jedes Teils ist eine Fotostelle (`vorgeschichte`, `vorstellung`).
+  Future<void> _einstimmung() async {
+    final s = sitzung;
+    while (s.einstimmung != null) {
+      final e = s.einstimmung!;
+      if (e.nr == 1) await _foto(e.teil.name);
+      await _warte();
+      if (s.einstimmung != e) continue;
+      s.einstimmungWeiter();
+    }
+  }
+
   /// Erledigt die Befragungen der laufenden Runde (Modell befragung, A-051): jede
   /// feste und so viele freie, wie die Runde erlaubt, je mit der ersten Frage.
   /// Reihum ist die Person danach beantwortet. Ohne Befragungen geschieht nichts.
@@ -361,7 +388,7 @@ class PartySkript {
         case PartyPhase.titel:
           s.zurEinrichtung();
         case PartyPhase.einrichtung:
-          s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s));
+          s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s));
         case PartyPhase.entscheidungen:
           // Nur der explizite Standbild-Einstieg überspringt das Rendering.
           // Der vollständige E2E-Lauf unten wartet auf echte Kartenaktionen.
@@ -395,7 +422,11 @@ class PartySkript {
           if (s.angeklagt == null) s.anklagen(s.spiel.pfad);
           s.weiter();
         default:
-          // Langer Abend (M7b): Das Vorspiel überspringt der Standbild-Einstieg.
+          // Einstimmung (A-063) und Vorspiel (M7b) überspringt der Standbild-Einstieg.
+          if (s.einstimmung != null) {
+            s.einstimmungUeberspringen();
+            continue;
+          }
           if (s.rundgang != null) {
             s.rundgangUeberspringen();
             continue;

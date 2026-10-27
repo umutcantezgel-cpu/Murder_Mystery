@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../klang/klang.dart';
 import '../../l10n/gen/app_localizations_de.dart';
 import '../../stil/stil.dart';
+import '../erzaehlerakte_ansicht.dart';
 import '../sitzung.dart';
 
 /// Wie die übrigen Partybildschirme deutsch, auch ohne Lokalisierung im Baum.
@@ -81,23 +82,29 @@ class ErzaehlerpultZu extends StatelessWidget {
   }
 }
 
-/// Unter den offenen Texten des Pults: zudecken, sobald alles gelesen ist.
+/// Unter den offenen Texten des Pults: zudecken, sobald alles gelesen ist. Am
+/// offenen Pult liegt auch die Erzählerakte (A-063, [ErzaehlerakteKnopf]).
 class ErzaehlerpultZudecken extends StatelessWidget {
   const ErzaehlerpultZudecken({super.key, required this.sitzung});
 
   final PartySitzung sitzung;
 
   @override
-  Widget build(BuildContext context) => Align(
-        alignment: Alignment.centerLeft,
-        child: MKnopf(
-          key: const ValueKey('erzaehlerpult-zudecken'),
-          text: _de.erzaehlerpult_zudecken,
-          art: MKnopfArt.zweit,
-          icon: Icons.visibility_off_outlined,
-          onPressed: sitzung.pultSchliessen,
-        ),
-      );
+  Widget build(BuildContext context) {
+    final zudecken = MKnopf(
+      key: const ValueKey('erzaehlerpult-zudecken'),
+      text: _de.erzaehlerpult_zudecken,
+      art: MKnopfArt.zweit,
+      icon: Icons.visibility_off_outlined,
+      onPressed: sitzung.pultSchliessen,
+    );
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: sitzung.erzaehlerakteSichtbar
+          ? Wrap(spacing: MMass.s8, runSpacing: MMass.s8, children: [zudecken, ErzaehlerakteKnopf(sitzung: sitzung)])
+          : zudecken,
+    );
+  }
 }
 
 /// Karte für ein Gerät, das gerade nicht vorliest (Vorleser-Sitz, M3): wer

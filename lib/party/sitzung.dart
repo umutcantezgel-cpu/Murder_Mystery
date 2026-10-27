@@ -553,6 +553,8 @@ class PartySitzung extends ChangeNotifier {
       _ => null,
     };
     if (teil == null || vorspielMorgen == null || _rundgangFertig.contains(teil)) return null;
+    // Das Vorspiel wartet, bis die Einstimmung fertig ist (A-063).
+    if (teil == RundgangTeil.vorspiel && einstimmung != null) return null;
     return teil;
   }
 
@@ -603,6 +605,59 @@ class PartySitzung extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ---------------------------------------------------------------------------
+  // Einstimmung (Finale Schlosskeller, A-063): Vorgeschichte und Vorstellung zu
+  // Beginn der Einleitung, vor Vorspiel und Diashow. Ein Unterzustand von
+  // `PartyPhase.intro` wie der Rundgang; nichts davon berührt Partie, Würfel,
+  // Nachtminuten, Punkte oder Ende, und kein Text geht in `spiel.bausteine`.
+
+  EinstimmungLauf? _einstimmung;
+
+  /// Spielt dieser Abend eine Einstimmung ([einrichten] mit `einstimmung: true`)?
+  bool get mitEinstimmung => _einstimmung != null;
+
+  /// Der laufende Schritt der Einstimmung (in der Einleitung, bis sie fertig
+  /// ist), sonst `null`. Solange er steht, geht es nicht weiter ([kannWeiter]),
+  /// und das Vorspiel wartet ([rundgang]).
+  EinstimmungSchritt? get einstimmung => phase == PartyPhase.intro ? _einstimmung?.aktuell : null;
+
+  /// Alle Schritte der Einstimmung dieses Abends (leer ohne).
+  List<EinstimmungSchritt> get einstimmungSchritte => _einstimmung?.schritte ?? const [];
+
+  /// Nummer des laufenden Schritts (ab 0) und Zahl der Schritte.
+  int get einstimmungNr => _einstimmung?.schritt ?? 0;
+  int get einstimmungAnzahl => einstimmungSchritte.length;
+
+  /// Führt dieses Gerät durch die Einstimmung? An einem Gerät immer; online, wer leitet.
+  bool get einstimmungSteuerbar => leitet;
+
+  /// Zum nächsten Schritt; nach dem letzten ist die Einstimmung fertig, und es
+  /// geht zum Vorspiel (langer Abend) bzw. zur Diashow. Das Journal merkt den Schritt.
+  void einstimmungWeiter() {
+    final lauf = _einstimmung;
+    if (einstimmung == null || lauf == null) throw StateError('Gerade läuft keine Einstimmung.');
+    final nr = lauf.schritt;
+    lauf.weiter(nr);
+    _merke('einstimmung', {'schritt': nr});
+    notifyListeners();
+  }
+
+  /// Überspringt den Rest des laufenden Teils: aus der Vorgeschichte zur
+  /// Vorstellung, aus der Vorstellung ans Ende.
+  void einstimmungUeberspringen() {
+    final lauf = _einstimmung;
+    if (einstimmung == null || lauf == null) throw StateError('Gerade läuft keine Einstimmung.');
+    lauf.ueberspringen();
+    _merke('einstimmung', {'ueberspringen': true});
+    notifyListeners();
+  }
+
+  /// Darf dieses Gerät die Erzählerakte zeigen (A-063)? Nur dem Erzähler-Platz:
+  /// an einem Gerät dem Erzähler am Tisch (über Rollenphase und offenes Pult,
+  /// [erzaehlerAmPult]), online dem Erzähler-Sitz. Nie im Solo, nie ab dem
+  /// Finale, nie in Akten ohne Erzählerakte.
+  bool get erzaehlerakteSichtbar => daten.erzaehlerakte != null && erzaehlerAmPult;
+
   /// Spielsekunden je echter Sekunde in der Rückblende.
   double zeitraffer = 25;
 
@@ -624,7 +679,9 @@ class PartySitzung extends ChangeNotifier {
   /// Tisch; im Solo gibt es keinen. [geburtstagskind] ist der frühere Name von
   /// [detektivName] und gilt nur, wenn dieser fehlt. [fassung] lang gibt es nur
   /// in Akten mit dem Zusatz `langfassung` und nicht im Druckspiel; das Journal
-  /// merkt sie nur bei lang, kurze Abende bleiben bytegleich.
+  /// merkt sie nur bei lang, kurze Abende bleiben bytegleich. [einstimmung]
+  /// (Vorgeschichte und Vorstellung, A-063) nur in Akten mit Einstimmung; das
+  /// Journal merkt sie nur, wenn sie an ist.
   void einrichten({
     required int rollen,
     required String detektiv,
@@ -636,6 +693,7 @@ class PartySitzung extends ChangeNotifier {
     String detektivName = '',
     String erzaehlerName = '',
     Abendfassung fassung = Abendfassung.kurz,
+    bool einstimmung = false,
     @Deprecated('detektivName') String? geburtstagskind,
   }) {
     if (solo && druck) throw ArgumentError('Solo ist kein Druckspiel');
@@ -643,6 +701,7 @@ class PartySitzung extends ChangeNotifier {
     if (fassung.istLang && druck) throw ArgumentError('Das Druckspiel ist ein kurzer Abend');
     if (solo && erzaehlerName.trim().isNotEmpty) throw ArgumentError('Im Solo gibt es keinen Erzähler');
     if (erzaehlerName.trim().isNotEmpty && !daten.mitErzaehlerSitz) throw ArgumentError('Diese Akte hat keinen Erzähler-Sitz');
+    if (einstimmung && daten.einstimmung == null) throw ArgumentError('Diese Akte hat keine Einstimmung');
     final detektivname = detektivName.trim().isEmpty ? (geburtstagskind ?? '') : detektivName;
     if (phase == PartyPhase.titel) _weiter();
     final c = (code == null ? null : FallCode.lesen(code)) ?? zufallsCode();
@@ -670,6 +729,7 @@ class PartySitzung extends ChangeNotifier {
     _pult = false;
     rundendauer = Duration(minutes: rundendauerMinuten);
     _fassung = fassung;
+    _einstimmung = einstimmung ? EinstimmungLauf(daten.einstimmung!.schritte(rollen: rollen, detektiv: detektiv)) : null;
     _merke('einrichten', {
       'rollen': rollen,
       'detektiv': detektiv,
@@ -682,6 +742,8 @@ class PartySitzung extends ChangeNotifier {
       if (this.erzaehlerName.isNotEmpty) 'erzaehler': this.erzaehlerName,
       // Nur der lange Abend steht im Journal; kurze Abende bleiben bytegleich wie vor M7b.
       if (fassung.istLang) 'fassung': fassung.name,
+      // Nur eine eingeschaltete Einstimmung steht im Journal (A-063); alte Stände bleiben, wie sie waren.
+      if (einstimmung) 'einstimmung': true,
     });
     _melde();
     notifyListeners();
@@ -878,7 +940,8 @@ class PartySitzung extends ChangeNotifier {
   bool get kannWeiter {
     // Ein offenes Randgespräch endet erst mit „Gespräch beenden“.
     if (_gespraech != null) return false;
-    // Erst das Vorspiel, dann die Einleitung (langer Abend, M7b).
+    // Erst die Einstimmung (A-063), dann das Vorspiel, dann die Einleitung (langer Abend, M7b).
+    if (einstimmung != null) return false;
     if (rundgang != null) return false;
     if (solo && phase == PartyPhase.gespraeche && soloGespraeche.any((g) => !_soloGelesen.contains(g.id))) return false;
     if (phase == PartyPhase.gespraeche && !befragungenFertig) return false;
@@ -1208,6 +1271,8 @@ class PartySitzung extends ChangeNotifier {
           erzaehlerName: text('erzaehler') ?? '',
           // Abende ohne den Schlüssel (kurz, vor M7b) bleiben kurz.
           fassung: Abendfassung.lesen(b['fassung']),
+          // Abende ohne den Schlüssel spielen ohne Einstimmung (A-063).
+          einstimmung: b['einstimmung'] == true,
         );
       case 'zeigen':
         zeigeVerdeckt(text('rolle')!);
@@ -1252,6 +1317,13 @@ class PartySitzung extends ChangeNotifier {
         randgespraechWaehlen(g.wahlen[b['nr'] as int]);
       case 'gespraechEnde':
         randgespraechBeenden();
+      case 'einstimmung':
+        if (b['ueberspringen'] == true) {
+          einstimmungUeberspringen();
+        } else {
+          if (b['schritt'] != einstimmungNr) throw StateError('Einstimmung an Schritt ${b['schritt']} nicht möglich');
+          einstimmungWeiter();
+        }
       case 'rundgang':
         if (b['ueberspringen'] == true) {
           rundgangUeberspringen();

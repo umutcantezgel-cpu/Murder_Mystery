@@ -7329,6 +7329,198 @@ abstract class L {
   /// **'Karte des Rundgangs. Der Detektiv geht zur Station.'**
   String get rundgang_karte_semantik;
 
+  /// Einstimmung (A-063): Name des ersten Teils im Kapitelzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte'**
+  String get einstimmung_vorgeschichte;
+
+  /// Einstimmung (A-063): Name des zweiten Teils im Kapitelzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Vorstellung'**
+  String get einstimmung_vorstellung;
+
+  /// Einstimmung (A-063): Kapitelzähler über dem Titel, etwa „Vorgeschichte · 3 von 7“
+  ///
+  /// In de, this message translates to:
+  /// **'{teil} · {nr} von {von}'**
+  String einstimmung_zaehler(String teil, String nr, String von);
+
+  /// Einstimmung (A-063): zum nächsten Schritt
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get einstimmung_weiter;
+
+  /// Einstimmung (A-063): letzter Schritt im langen Abend, danach das Vorspiel
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter zum Vorspiel'**
+  String get einstimmung_zum_vorspiel;
+
+  /// Einstimmung (A-063): den Rest der Vorgeschichte überspringen
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte überspringen'**
+  String get einstimmung_ueberspringen_vorgeschichte;
+
+  /// Einstimmung (A-063): den Rest der Vorstellung überspringen
+  ///
+  /// In de, this message translates to:
+  /// **'Vorstellung überspringen'**
+  String get einstimmung_ueberspringen_vorstellung;
+
+  /// Einstimmung (A-063): unter der Vorstellungskarte, wer die Figur am Tisch spielt (nie im Vorlesetext)
+  ///
+  /// In de, this message translates to:
+  /// **'gespielt von {name}'**
+  String einstimmung_gespielt_von(String name);
+
+  /// Einstimmung (A-063): unter der Vorstellungskarte im Solo oder bei einer Rolle ohne Gerät
+  ///
+  /// In de, this message translates to:
+  /// **'Die App spielt {name}'**
+  String einstimmung_app_spielt(String name);
+
+  /// Einstimmung (A-063): Gast, dessen Figur gerade vorgestellt wird
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist dran'**
+  String get einstimmung_du_bist_dran;
+
+  /// Einstimmung (A-063): Fuß auf Geräten, die nicht weiterschalten
+  ///
+  /// In de, this message translates to:
+  /// **'{name} führt durch die Einstimmung.'**
+  String einstimmung_fuehrt(String name);
+
+  /// Einstimmung (A-063): Gast sieht, dass Vorgeschichte oder Vorstellung läuft
+  ///
+  /// In de, this message translates to:
+  /// **'Die Einstimmung läuft.'**
+  String get einstimmung_laeuft;
+
+  /// Assistent (A-063): Überschrift des Schalters für Vorgeschichte und Vorstellung
+  ///
+  /// In de, this message translates to:
+  /// **'Einstimmung'**
+  String get abend_einstimmung_titel;
+
+  /// Assistent (A-063): Schalter für die Einstimmung vor dem Auftakt
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte und Vorstellung'**
+  String get abend_einstimmung_schalter;
+
+  /// Assistent (A-063): Erklärung unter dem Schalter
+  ///
+  /// In de, this message translates to:
+  /// **'Vor dem Auftakt: erst die Vorgeschichte, dann wird jede Figur vorgestellt.'**
+  String get abend_einstimmung_hinweis;
+
+  /// Assistent (A-063): Dauer der Einstimmung bei der gewählten Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'Dauert etwa {minuten} Minuten.'**
+  String abend_einstimmung_dauer(int minuten);
+
+  /// Assistent (A-063): Zeile der Startübersicht
+  ///
+  /// In de, this message translates to:
+  /// **'Einstimmung'**
+  String get abend_start_einstimmung;
+
+  /// Assistent (A-063): Startübersicht, Einstimmung eingeschaltet
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte und Vorstellung'**
+  String get abend_einstimmung_an;
+
+  /// Assistent (A-063): Startübersicht, ohne Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Direkt zum Auftakt'**
+  String get abend_einstimmung_aus;
+
+  /// Wer macht was (A-063): Abschnitt Vorgeschichte und Vorstellung
+  ///
+  /// In de, this message translates to:
+  /// **'Einstimmung'**
+  String get uebersicht_phase_einstimmung;
+
+  /// Wer macht was (A-063): Detektiv in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, die Gäste kennenlernen'**
+  String get aufgabe_detektiv_einstimmung;
+
+  /// Wer macht was (A-063): Erzähler in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte lesen, Figuren vorstellen'**
+  String get aufgabe_erzaehler_einstimmung;
+
+  /// Wer macht was (A-063): Rolle in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, die anderen Figuren kennenlernen'**
+  String get aufgabe_rolle_einstimmung;
+
+  /// Wer macht was (A-063): Assistenz in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören und die Runde kennenlernen'**
+  String get aufgabe_assistenz_einstimmung;
+
+  /// Erzählerakte (A-063): Knopf und Titel, nur auf dem Erzähler-Platz
+  ///
+  /// In de, this message translates to:
+  /// **'Erzählerakte'**
+  String get erzaehlerakte_titel;
+
+  /// Erzählerakte (A-063): Zeile unter dem Eintrag in der Rollenphase
+  ///
+  /// In de, this message translates to:
+  /// **'Hintergründe und Netz aller Figuren'**
+  String get erzaehlerakte_eintrag;
+
+  /// Erzählerakte (A-063): Eintrag in der Rollenphase, für wen sie ist
+  ///
+  /// In de, this message translates to:
+  /// **'Für {name}'**
+  String erzaehlerakte_fuer(String name);
+
+  /// Erzählerakte (A-063): Reiter mit allen Figuren
+  ///
+  /// In de, this message translates to:
+  /// **'Figuren'**
+  String get erzaehlerakte_reiter_figuren;
+
+  /// Erzählerakte (A-063): Reiter mit dem Beziehungsnetz
+  ///
+  /// In de, this message translates to:
+  /// **'Netz'**
+  String get erzaehlerakte_reiter_netz;
+
+  /// Erzählerakte (A-063): Hinweis unter dem Netz
+  ///
+  /// In de, this message translates to:
+  /// **'Tipp auf eine Figur zeigt ihre Bindungen.'**
+  String get erzaehlerakte_netz_tipp;
+
+  /// Erzählerakte (A-063): Auswahl im Netz aufheben
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Bindungen'**
+  String get erzaehlerakte_netz_alle;
+
+  /// Erzählerakte (A-063): Bildschirmleser für eine Figur im Netz
+  ///
+  /// In de, this message translates to:
+  /// **'{name}, {anzahl} Bindungen'**
+  String erzaehlerakte_figur_semantik(String name, int anzahl);
+
   /// Gast: Überschrift der gemeinsamen Rundenuhr
   ///
   /// In de, this message translates to:

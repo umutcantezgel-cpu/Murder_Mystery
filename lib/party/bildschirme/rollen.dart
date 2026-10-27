@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import '../../klang/klang.dart';
 import '../../stil/stil.dart';
 import '../druck_tafel.dart';
+import '../erzaehlerakte_ansicht.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 import 'detektiv_karte.dart';
@@ -102,6 +103,11 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
           // Die Karte des Detektivs (M6): Einweisung, Regeln, Klasse, Befragungen.
           DetektivKarteEintrag(sitzung: s),
           const SizedBox(height: 16),
+          // Erzählerakte (A-063): nur reihum mit Erzähler am Tisch, verdeckt wie ein Dossier.
+          if (s.erzaehlerakteSichtbar) ...[
+            ErzaehlerakteEintrag(sitzung: s),
+            const SizedBox(height: 16),
+          ],
           if (s.einstellungen.druck) ...[
             DruckTafel(sitzung: s),
             const SizedBox(height: 16),

@@ -93,9 +93,15 @@ void main() {
     final s = _halter(tester).sitzung!;
     expect(s.phase, PartyPhase.rollen);
     s.weiter();
-    s.weiter();
+    // Mit der Einstimmung (A-063, Vorgabe an) steht der Abend in der Einleitung einen Schritt weiter.
+    if (s.einstimmung != null) {
+      s.einstimmungWeiter();
+    } else {
+      s.weiter();
+    }
     await _warten(tester);
     final phase = s.phase;
+    final schritt = s.einstimmungNr;
     final code = s.fallCode.code;
     expect(phase.index, greaterThan(PartyPhase.rollen.index));
     final roh = await _ablage(tester);
@@ -113,6 +119,7 @@ void main() {
     final weiter = _halter(tester).sitzung;
     expect(weiter, isNotNull, reason: 'Der Abend ist wieder da');
     expect(weiter!.phase, phase);
+    expect(weiter.einstimmungNr, schritt, reason: 'Auch mitten in der Einstimmung');
     expect(weiter.solo, isTrue);
     expect(weiter.fallCode.code, code, reason: 'Derselbe Fall');
     expect(find.byType(DetekteiSeite), findsNothing);

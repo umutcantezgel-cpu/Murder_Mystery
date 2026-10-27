@@ -20,7 +20,11 @@ import 'package:mordakte/karten/katalog_laden.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
-import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, PartyPhase;
+import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, PartyPhase, abendEinstimmungMinuten, abendMinutenCa;
+import 'package:mordakte/party/sitzung.dart';
+
+import '../party_widgets/erzaehl_hilfe.dart' show erzaehlDaten;
+import '../party_widgets/hilfe.dart' show partyDaten;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -229,10 +233,12 @@ void main() {
       await tippen(tester, 'Weiter');
       await tippen(tester, 'Ein Gerät reihum');
       await tippen(tester, 'Weiter');
+      // Die Zeiten des Abends ohne Einstimmung (A-063); mit ihr prüft „Einstimmung“ unten.
+      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte..setzeEinstimmung(false);
+      await tester.pump();
       expect(find.byType(FassungAbschnitt), findsOneWidget);
       expect(find.text('Kurzer Abend · ca. 100 Min.'), findsOneWidget);
       expect(find.text('Langer Abend · ca. 120 Min.'), findsOneWidget);
-      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
       expect([werte.fassung, werte.minuten, werte.minutenOptionen], [Abendfassung.kurz, 15, [10, 15, 20]]);
       await tester.ensureVisible(find.byKey(const ValueKey('abend-ca')));
       expect(find.text('Ganzer Abend: ca. 100 Min.'), findsOneWidget);
@@ -296,10 +302,70 @@ void main() {
       await tippen(tester, 'Weiter');
       await tippen(tester, 'Jeder am eigenen Gerät');
       await tippen(tester, 'Weiter');
+      tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte.setzeEinstimmung(false);
+      await tester.pump();
       expect(find.byType(FassungAbschnitt), findsOneWidget);
       expect(find.text('Langer Abend · ca. 120 Min.'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();
+    });
+
+    testWidgets('Einstimmung (A-063): Schalter an, Schätzung mit Vorgeschichte und Vorstellung, Zeile im Start, an bis in den Abend', (tester) async {
+      final state = await oeffnen(tester);
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
+      expect(find.byType(EinstimmungAbschnitt), findsOneWidget);
+      expect([werte.hatEinstimmung, werte.einstimmung, werte.einstimmungAn, werte.einstimmungRollen], [true, true, true, werte.rollen], reason: 'Vorgabe an');
+      final mit = abendMinutenCa(Abendfassung.kurz, 15, einstimmungRollen: werte.rollen), ohne = abendMinutenCa(Abendfassung.kurz, 15);
+      expect(mit, greaterThan(ohne));
+      await tester.ensureVisible(find.byKey(const ValueKey('einstimmung-dauer')));
+      expect(find.text('Dauert etwa ${abendEinstimmungMinuten(werte.rollen).round()} Minuten.'), findsOneWidget);
+      expect(find.text('Kurzer Abend · ca. $mit Min.'), findsOneWidget);
+      await tester.ensureVisible(find.byKey(const ValueKey('abend-ca')));
+      expect(ca(tester), mit);
+      // Mehr Personen, längere Vorstellung.
+      werte.setzeRollen(20);
+      await tester.pump();
+      expect(ca(tester), abendMinutenCa(Abendfassung.kurz, 15, einstimmungRollen: 20));
+      werte.setzeRollen(7);
+      await tester.pump();
+      // Aus: die Zeiten wie ohne Einstimmung.
+      await tester.ensureVisible(find.byKey(const ValueKey('einstimmung-schalter')));
+      await tippen(tester, 'Vorgeschichte und Vorstellung');
+      expect([werte.einstimmung, werte.einstimmungAn], [false, false]);
+      expect(find.byKey(const ValueKey('einstimmung-dauer')), findsNothing);
+      await tester.ensureVisible(find.byKey(const ValueKey('abend-ca')));
+      expect(ca(tester), ohne);
+      await tester.ensureVisible(find.byKey(const ValueKey('einstimmung-schalter')));
+      await tippen(tester, 'Vorgeschichte und Vorstellung');
+      expect(werte.einstimmungAn, isTrue);
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(feld('Einstimmung', 'Vorgeschichte und Vorstellung'), isTrue);
+      expect(feld('Länge', 'ca. $mit Min.'), isTrue);
+      await tippen(tester, 'Abend beginnen');
+      final s = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
+      expect(s.mitEinstimmung, isTrue);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    test('Einstimmung im Druckspiel: Vorgabe aus, bleibt aber schaltbar; ohne Akte mit Einstimmung kein Schalter', () {
+      final werte = EinrichtungsWerte(PartySitzung(erzaehlDaten));
+      expect(werte.einstimmungAn, isTrue);
+      werte.setzeSpielart(Spielart.druck);
+      expect([werte.druck, werte.einstimmung, werte.einstimmungAn, werte.einstimmungRollen], [true, false, false, null]);
+      werte.setzeEinstimmung(true);
+      expect(werte.einstimmungAn, isTrue, reason: 'Wer ihn umlegt, entscheidet');
+      werte.setzeSpielart(Spielart.bildschirm);
+      expect(werte.einstimmungAn, isTrue);
+      final ohne = EinrichtungsWerte(PartySitzung(partyDaten));
+      expect([ohne.hatEinstimmung, ohne.einstimmungAn, ohne.einstimmungRollen], [false, false, null]);
+      werte.dispose();
+      ohne.dispose();
     });
 
     testWidgets('Altakte (Gewölbe): keine Fassungswahl, keine Schätzung, Rundendauer wie bisher', (tester) async {
@@ -309,8 +375,10 @@ void main() {
       await tippen(tester, 'Ein Gerät reihum');
       await tippen(tester, 'Weiter');
       expect(find.byType(FassungAbschnitt), findsNothing);
+      expect(find.byType(EinstimmungAbschnitt), findsNothing, reason: 'Ohne Einstimmung kein Schalter');
       final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
       expect([werte.langfassung, werte.minuten, werte.minutenOptionen, werte.abendMinutenCa], [false, 30, [20, 30, 45, 60], null]);
+      expect([werte.hatEinstimmung, werte.einstimmungAn], [false, false]);
       await tester.ensureVisible(find.text('60 Minuten'));
       for (final m in [20, 30, 45, 60]) {
         expect(find.text('$m Minuten'), findsOneWidget);

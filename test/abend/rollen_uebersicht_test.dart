@@ -55,6 +55,25 @@ void main() {
     }
   });
 
+  testWidgets('Einstimmung (A-063): nur bei Abenden mit Vorgeschichte und Vorstellung ein eigener Abschnitt', (tester) async {
+    expect(uebersichtPhasen(), isNot(contains(UebersichtPhase.einstimmung)));
+    expect(uebersichtPhasen(mitEinstimmung: true), UebersichtPhase.values);
+    expect(aufgabe(l, Spielweise.reihum, Sitz.erzaehler, UebersichtPhase.einstimmung), l.aufgabe_erzaehler_reihum, reason: 'Reihum am Pult');
+    expect(aufgabe(l, Spielweise.eigene, Sitz.erzaehler, UebersichtPhase.einstimmung), l.aufgabe_erzaehler_einstimmung);
+    for (final mit in [false, true]) {
+      await zeigeImThema(
+        tester,
+        (c) => Scaffold(body: Center(child: Builder(builder: (c) => RollenUebersichtKnopf(hervorheben: Sitz.rolle, mitEinstimmung: mit)))),
+      );
+      await tester.tap(find.byKey(const ValueKey('wer-macht-was')));
+      await tester.pumpAndSettle();
+      expect(find.text(l.uebersicht_phase_einstimmung.toUpperCase()), mit ? findsOneWidget : findsNothing, reason: '$mit');
+      expect(find.text(l.aufgabe_rolle_einstimmung), mit ? findsOneWidget : findsNothing, reason: '$mit');
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    }
+  });
+
   testWidgets('Altakten (ohne Erzähler-Sitz): kein Erzähler-Platz, der Detektiv heißt wie in der Akte', (tester) async {
     expect(sitzeBei(Spielweise.reihum, mitErzaehler: false), [Sitz.detektiv, Sitz.rolle]);
     expect(sitzeBei(Spielweise.eigene, mitErzaehler: false), [Sitz.detektiv, Sitz.rolle, Sitz.assistenz]);
