@@ -494,3 +494,7 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       oder 3 (die Sätze der Runden 2 und 3 setzen ein früheres Geflüster voraus). Ohne Schicht unverändert (T-N).
       `einfluss_soll.g.dart` nach E-048 neu erzeugt (vor der ersten Zusammenführung nach `main`); einzige Ursache
       gegengeprüft: mit zurückgenommener Änderung passt die alte Liste.
+  34. §3.10 Auflösung mit Schicht: `aufloesung.gruppe.N` zählt die Runden mit Zusammenhalt-Zuwachs ≥ 1 (Flüstern wahr
+      oder neutral; angesagt als „Der Zusammenhalt wächst“), nicht nur die wahren. Damit nie „in keiner der drei Runden“
+      bei einer Leiste über 0 und `einfluss.tischbonus.plus` nur mit N ≥ 2. Ohne Schicht unverändert (T-N).
+      `einfluss_soll.g.dart` nach E-048 neu erzeugt, einzige Ursache gegengeprüft.

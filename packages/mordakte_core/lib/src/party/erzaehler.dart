@@ -204,9 +204,10 @@ class Erzaehler {
       ];
 
   /// Auflösung: erst jetzt, wie oft die Gruppe zusammengehalten hat, dann je Rolle. Mit Zusatzschicht
-  /// zählt eine Runde ohne Geflüster nicht als zusammengehalten.
+  /// zählt jede Runde, in der der Zusammenhalt wuchs (Flüstern wahr oder neutral, „Der Zusammenhalt
+  /// wächst“); eine Runde ohne Geflüster nicht.
   List<String> aufloesung(Spiel s) => [
-        'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (s.qualitaeten[r] case final q? when Gruppenwahl.zusammengehalten(q)) r].length}',
+        'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (s.qualitaeten[r] case final q? when s.zusatz != null || Gruppenwahl.zusammengehalten(q)) r].length}',
         for (final r in s.besetzt) aufloesungRolle(r, s.pfad),
       ];
 

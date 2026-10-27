@@ -149,8 +149,9 @@ void main() {
     expect(p.spiel.bausteine.where((b) => b == 'resuemee.gruppe.2'), isEmpty);
     // Nie eine Gruppenwahl.
     _bis(p, PartyPhase.ende, 3);
+    // Mit Schicht zählt jede Runde mit Zuwachs an Zusammenhalt (Flüstern wahr oder neutral, Änderung 34).
     expect(p.spiel.bausteine.where((b) => b.startsWith('aufloesung.gruppe.')).single,
-        'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (p.spiel.qualitaeten[r] == Qualitaet.wahr) r].length}');
+        'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (p.einfluss!.stand.folgenVon(r)!.zusammenhaltZuwachs >= 1) r].length}');
     // „Änderungen“ 7: einfluss.wieder nie in den Folgen, nur im Zwischenresümee einer Runde mit verzögerten Funden.
     expect(p.spiel.bausteine.where((b) => b == 'einfluss.wieder'),
         hasLength([for (var r = 1; r <= 3; r++) if (p.einfluss!.nachgereichtIn(r)) r].length));
@@ -181,6 +182,21 @@ void main() {
     }
     _bis(p, PartyPhase.resuemee, 3);
     expect(p.spiel.bausteine.where((b) => b.startsWith('resuemee.gruppe.')), ['resuemee.gruppe.1', 'resuemee.gruppe.3']);
+  });
+
+  test('Auflösung: jede Runde mit wachsendem Zusammenhalt zählt; nie „keiner“ bei Zusammenhalt, Tischbonus plus nur ab zwei', () {
+    for (var i = 0; i < 40; i++) {
+      final pfad = kanon.pfade[i % kanon.pfade.length];
+      final p = RundenPartie(kanon, quelle: SalzWuerfel('gruppe$i'), ermittlung: _erm, einfluss: _r, salz: 'gruppe$i')
+        ..einrichten(Einstellungen(rollen: 4 + i % 17, detektiv: 'w', code: FallCode.fuerPfad(pfad, kanon.pfade)));
+      _bis(p, PartyPhase.ende, 3, pfad: pfad);
+      final e = p.einfluss!.stand;
+      final gewachsen = [for (var r = 1; r <= 3; r++) if (e.folgenVon(r)!.zusammenhaltZuwachs >= 1) r].length;
+      final gruppe = int.parse(p.spiel.bausteine.singleWhere((b) => b.startsWith('aufloesung.gruppe.')).split('.').last);
+      expect(gruppe, gewachsen, reason: 'Salz gruppe$i');
+      if (e.zusammenhalt > 0) expect(gruppe, greaterThan(0), reason: 'Salz gruppe$i: Leiste ${e.zusammenhalt}');
+      if (p.spiel.bausteine.contains('einfluss.tischbonus.plus')) expect(gruppe, greaterThanOrEqualTo(2), reason: 'Salz gruppe$i');
+    }
   });
 
   test('Randnotizen: Auspacken zeigt sie, ein Zusatzfund nimmt die erste noch nicht gezeigte', () {
