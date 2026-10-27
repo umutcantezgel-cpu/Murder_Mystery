@@ -3,6 +3,7 @@
 //   dart run bin/party_druck.dart [--fall schlosskeller] [--code XXXXX | --pfad <ahmet|fatma|olli|can>] [--n 12] [--detektiv w] [--dauer 30] [--alles] [--aus ordner]
 //   dart run bin/party_druck.dart --steckbriefe [--fall schlosskeller] [--n 12] [--detektiv w] [--aus ordner]
 //   dart run bin/party_druck.dart --paket [--n 12] [--code XXXXX] [--aus ordner] [--portraets ordner]
+//   dart run bin/party_druck.dart --erzaehlerakte [--fall schlosskeller] [--personen 8] [--aus ordner] [--portraets ordner]
 // Ohne Code und Pfad entsteht ein Zufallsfall. Der Pfad ist nur für Testläufe
 // des Erzählers gedacht; im Ordnernamen steht nur der Code. --alles setzt die acht
 // Teile in eine Datei. --steckbriefe braucht keinen Fall-Code: Übersicht, alle
@@ -10,12 +11,17 @@
 // --paket setzt das festliche Druckpaket für den Abend am Bildschirm (nur Akten mit
 // Steckbriefen): vier Ordner nach Empfängern und ZIP-Archive in build/paket/. Die
 // Porträts kommen aus build/druck/portraets/ (flutter test tool/bild/druck_portraets_test.dart).
+// Hat die Akte eine Erzählerakte (erzaehlerakte.json, A-063), liegt sie im Paket in
+// Ordner 4. --erzaehlerakte setzt nur sie, ohne Fall-Code: Sie ist in allen Pfaden
+// gleich und hängt nur an der Personenzahl (erst die besetzten Figuren). Mit der
+// Fähigkeit einfluss stehen dort die zwei Sterne je Figur, sonst ihr persönliches Ziel.
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/party_druck.dart';
+import 'package:mordakte_core/runden.dart' show EinflussRegeln, EinflussZielQuelle;
 
 Future<void> main(List<String> args) async {
   String? wert(String name) {
@@ -60,6 +66,11 @@ Future<void> main(List<String> args) async {
       File('${aus.path}/${f.name}').writeAsBytesSync(f.bytes);
       stdout.writeln('${f.name.padRight(40)} ${(f.bytes.length / 1024).toStringAsFixed(0).padLeft(6)} KB');
     }
+  }
+
+  if (args.contains('--erzaehlerakte')) {
+    await erzaehlerakte(wurzel, fall, kanon, texte, wert);
+    return;
   }
 
   if (args.contains('--paket')) {
@@ -117,22 +128,9 @@ Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckSt
   }
   final c = wert('code');
   final code = c == null ? FallCode.zufall(Rng(DateTime.now().microsecondsSinceEpoch & 0x7fffffff)) : (FallCode.lesen(c) ?? (throw ArgumentError('ungültiger Fall-Code $c')));
-  Uint8List schrift(String name) => File('$wurzel/assets/fonts/$name').readAsBytesSync();
-  final fest = FestStil(
-    titel: schrift('PlayfairDisplay-Variabel.ttf'),
-    text: schrift('Lora-Variabel.ttf'),
-    kursiv: schrift('Lora-Kursiv-Variabel.ttf'),
-    hand: schrift('Caveat-Variabel.ttf'),
-    maschine: schrift('SpecialElite-Regular.ttf'),
-    funktion: schrift('Inter-Regular.ttf'),
-    funktionStark: schrift('Inter-SemiBold.ttf'),
-  );
-  final ordner = Directory(wert('portraets') ?? '$wurzel/build/druck/portraets');
-  final portraets = <String, Uint8List>{
-    if (ordner.existsSync())
-      for (final f in ordner.listSync().whereType<File>())
-        if (f.path.endsWith('.png')) f.uri.pathSegments.last.replaceAll('.png', ''): f.readAsBytesSync(),
-  };
+  final fest = festStil(wurzel);
+  final ordner = portraetOrdner(wurzel, wert);
+  final portraets = portraetsAus(ordner);
   final dia = File('$wurzel/content/welt/$fall/diashow.json');
   final diashow = dia.existsSync() ? Diashow.ausJson(jsonDecode(dia.readAsStringSync()) as Map<String, Object?>) : null;
   final satz = DruckSatz.aus(kanon, texte, code, rollen: n, detektiv: 'w');
@@ -141,6 +139,7 @@ Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckSt
     steckbriefe: Steckbriefe.ausJson(jsonDecode(datei.readAsStringSync()) as Map<String, Object?>),
     stil: fest,
     portraets: portraets,
+    erzaehlerakte: erzaehlerakteAus(wurzel, fall, kanon, texte),
   );
   final fehlen = k.fehlendePortraets();
   if (fehlen.isNotEmpty) {
@@ -170,3 +169,83 @@ Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckSt
     ..writeln('Druckpaket für $n Personen, Fall-Code ${code.code}: ${ziel.path}')
     ..writeln('Archiv: ${basis.path}/$name.zip (je Ordner eine ZIP im Paketordner)');
 }
+
+/// Nur die Erzählerakte (`--erzaehlerakte`): ohne Fall-Code, für `--personen` Personen.
+Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte, String? Function(String) wert) async {
+  final akte = erzaehlerakteAus(wurzel, fall, kanon, texte);
+  if (akte == null) {
+    stderr.writeln('Akte $fall hat keine Erzählerakte (content/party/$fall/erzaehlerakte.json fehlt).');
+    exitCode = 2;
+    return;
+  }
+  final besetzung = Besetzung(kanon);
+  final n = int.parse(wert('personen') ?? wert('n') ?? '8');
+  if (n < besetzung.minRollen || n > besetzung.maxRollen) {
+    stderr.writeln('--personen muss zwischen ${besetzung.minRollen} und ${besetzung.maxRollen} liegen.');
+    exitCode = 2;
+    return;
+  }
+  final ordner = portraetOrdner(wurzel, wert);
+  final portraets = portraetsAus(ordner);
+  final fehlen = [for (final id in besetzung.besetzt(n)) if (!portraets.containsKey(id)) id];
+  if (fehlen.isNotEmpty) {
+    stderr
+      ..writeln('Achtung: Porträts fehlen (${fehlen.join(', ')}) in ${ordner.path}.')
+      ..writeln('Erzeugen im Repo-Wurzelordner mit: flutter test tool/bild/druck_portraets_test.dart')
+      ..writeln('Bis dahin stehen in der Akte keine Porträts.');
+  }
+  final k = ErzaehlerakteKontext(kanon, texte, akte, stil: festStil(wurzel), rollen: n, portraets: FestPortraets(portraets));
+  final d = await festErzaehlerakteDatei(k);
+  final aus = Directory(wert('aus') ?? '$wurzel/build/druck/$fall-erzaehlerakte-n$n')..createSync(recursive: true);
+  File('${aus.path}/${d.name}').writeAsBytesSync(d.bytes);
+  stdout
+    ..writeln('${d.name.padRight(40)} ${(d.bytes.length / 1024).toStringAsFixed(0).padLeft(6)} KB')
+    ..writeln('Erzählerakte für $n Personen in ${aus.path}');
+}
+
+/// Die Erzählerakte der Akte, wenn es `erzaehlerakte.json` gibt; sonst null. Die
+/// Ziele kommen mit der Fähigkeit `einfluss` aus den Sternen der Schicht
+/// (`content/party/zusatz/<akte>/einfluss.json`), sonst aus dem Kanon.
+Erzaehlerakte? erzaehlerakteAus(String wurzel, String fall, Kanon kanon, Texte texte) {
+  final datei = File('$wurzel/content/party/$fall/erzaehlerakte.json');
+  if (!datei.existsSync()) return null;
+  final einfluss = File('$wurzel/content/party/zusatz/$fall/einfluss.json');
+  final ziele = faehigkeiten(wurzel, fall).contains('einfluss') && einfluss.existsSync()
+      ? EinflussZielQuelle(EinflussRegeln.ausJson(jsonDecode(einfluss.readAsStringSync()) as Map<String, Object?>, Ermittlung(kanon)), texte)
+      : null;
+  return Erzaehlerakte.ausJson(jsonDecode(datei.readAsStringSync()) as Map<String, Object?>, kanon, ziele: ziele);
+}
+
+/// Fähigkeiten der Akte aus `content/party/akten.json` (leer ohne Eintrag).
+List<Object?> faehigkeiten(String wurzel, String fall) {
+  final datei = File('$wurzel/content/party/akten.json');
+  if (!datei.existsSync()) return const [];
+  for (final a in (jsonDecode(datei.readAsStringSync()) as Map)['akten'] as List) {
+    if ((a as Map)['id'] == fall) return (a['faehigkeiten'] as List?) ?? const [];
+  }
+  return const [];
+}
+
+/// Der festliche Stil mit den Schriften aus `assets/fonts`.
+FestStil festStil(String wurzel) {
+  Uint8List schrift(String name) => File('$wurzel/assets/fonts/$name').readAsBytesSync();
+  return FestStil(
+    titel: schrift('PlayfairDisplay-Variabel.ttf'),
+    text: schrift('Lora-Variabel.ttf'),
+    kursiv: schrift('Lora-Kursiv-Variabel.ttf'),
+    hand: schrift('Caveat-Variabel.ttf'),
+    maschine: schrift('SpecialElite-Regular.ttf'),
+    funktion: schrift('Inter-Regular.ttf'),
+    funktionStark: schrift('Inter-SemiBold.ttf'),
+  );
+}
+
+/// Ordner der Porträts: `--portraets` oder build/druck/portraets.
+Directory portraetOrdner(String wurzel, String? Function(String) wert) => Directory(wert('portraets') ?? '$wurzel/build/druck/portraets');
+
+/// Porträts als PNG aus [ordner] (Dateiname ohne `.png` ist der Schlüssel).
+Map<String, Uint8List> portraetsAus(Directory ordner) => {
+      if (ordner.existsSync())
+        for (final f in ordner.listSync().whereType<File>())
+          if (f.path.endsWith('.png')) f.uri.pathSegments.last.replaceAll('.png', ''): f.readAsBytesSync(),
+    };

@@ -84,6 +84,38 @@
       "text": "Zu Beginn"
     },
     {
+      "id": "ui.druck.spielleitung.vorgeschichte",
+      "text": "Vorgeschichte"
+    },
+    {
+      "id": "ui.druck.spielleitung.vorgeschichte.hinweis",
+      "text": "Lies die Teile nacheinander vor. Die Kapiteltitel sind nur für dich."
+    },
+    {
+      "id": "ui.druck.spielleitung.vorstellung",
+      "text": "Vorstellung"
+    },
+    {
+      "id": "ui.druck.spielleitung.vorstellung.hinweis",
+      "text": "Lies jede Vorstellung vor und trag ein, wer die Figur spielt. Wer genannt wird, steht kurz auf."
+    },
+    {
+      "id": "ui.druck.spielleitung.gespielt",
+      "text": "gespielt von:"
+    },
+    {
+      "id": "ui.druck.spielleitung.vorstellung.npc",
+      "text": "Für alle Gäste ohne Spieler"
+    },
+    {
+      "id": "ui.druck.spielleitung.vorstellung.detektiv",
+      "text": "Zum Schluss der Detektiv"
+    },
+    {
+      "id": "ui.druck.spielleitung.ohne_moment",
+      "text": "Diese Druckfassung läuft ohne „Dein Moment“ aus der App. In jeder Runde wählt ihr wie gewohnt mit den Papierstreifen A und B."
+    },
+    {
       "id": "ui.druck.spielleitung.runde",
       "text": "Runde {nr} von 3"
     },

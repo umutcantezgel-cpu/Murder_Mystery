@@ -2,6 +2,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../besetzung.dart';
+import '../einstimmung.dart';
 import 'fest_steckbrief.dart';
 import 'modell.dart';
 import 'paket.dart';
@@ -14,7 +15,8 @@ import 'satz_fest.dart';
 //   Detektivbogen: Auftrag, Regeln, je Runde die Befragungen (nur Fragen) und die
 //   Entscheidungen zum Ankreuzen, Ermittlungsbogen, Anklage. Nie eine Antwort.
 //   Erzählerheft: Vorlesetexte mit Dia-Nummer, je Runde Rundenstart, Befragungen mit
-//   Antworten und alle Tischgespräche (Erzählerpaket). Nie die Lösung.
+//   Antworten und alle Tischgespräche (Erzählerpaket). Nie die Lösung. Hat die Akte
+//   eine Einstimmung (A-063), stehen Vorgeschichte und Vorstellung vor dem Intro.
 
 // ---------------------------------------------------------------- Detektivbogen
 
@@ -353,6 +355,8 @@ void festErzaehlerheft(pw.Document doc, PaketKontext k) {
     pw.MultiPage(
       pageTheme: theme,
       build: (c) => [
+        // Einstimmung (A-063) nur in Akten mit Vorgeschichte; das Intro beginnt danach auf einer neuen Seite.
+        if (Einstimmung.aus(k.kanon) case final e?) ...[..._einstimmung(k, e), pw.NewPage()],
         _rundenKopf(k, k.ui('ui.druck.spielleitung.intro')),
         for (var i = 0; i < heft.intro.length; i++) _introStueck(k, heft.intro[i], i),
         // Die Runden laufen ohne erzwungenen Seitenwechsel weiter (keine halb leeren Seiten);
@@ -375,6 +379,119 @@ void festErzaehlerheft(pw.Document doc, PaketKontext k) {
           ],
         ],
       ],
+    ),
+  );
+}
+
+/// Vorgeschichte (Kapiteltitel, nicht vorgelesen, und Vorlesetext je Teil) und
+/// Vorstellung: der Auftakt, je besetzte Figur in Besetzungsreihenfolge Porträt,
+/// Name, Rolle, „gespielt von“ und Text, der Sammelblock für Gäste ohne Spieler
+/// und beide Fassungen für den Detektiv nebeneinander.
+List<pw.Widget> _einstimmung(PaketKontext k, Einstimmung e) {
+  final s = k.stil;
+  final schritte = e.schritte(rollen: k.rollen, detektiv: 'w');
+  final vor = [for (final x in schritte) if (x.teil == EinstimmungTeil.vorgeschichte) x];
+  final vorstellung = [for (final x in schritte) if (x.teil == EinstimmungTeil.vorstellung) x];
+  pw.Widget hinweis(String kennung) =>
+      pw.Padding(padding: const pw.EdgeInsets.only(bottom: 8), child: pw.Text(k.ui(kennung), style: s.kursiv(11, FestStil.tinteLeise)));
+  return [
+    _rundenKopf(k, k.ui('ui.druck.spielleitung.vorgeschichte')),
+    hinweis('ui.druck.spielleitung.vorgeschichte.hinweis'),
+    for (final x in vor)
+      pw.Inseparable(
+        child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+          s.kopfzeile(k.text(x.titel!), g: 13.5, abstand: 4),
+          _vorlesen(k, k.text(x.kennung)),
+        ]),
+      ),
+    if (vorstellung.isNotEmpty) ...[
+      pw.SizedBox(height: 14),
+      pw.Inseparable(
+        child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+          _rundenKopf(k, k.ui('ui.druck.spielleitung.vorstellung')),
+          hinweis('ui.druck.spielleitung.vorstellung.hinweis'),
+          _vorstellung(k, vorstellung.first),
+        ]),
+      ),
+      for (final x in vorstellung.skip(1)) _vorstellung(k, x),
+    ],
+  ];
+}
+
+/// Ein Schritt der Vorstellung (siehe [_einstimmung]).
+pw.Widget _vorstellung(PaketKontext k, EinstimmungSchritt x) {
+  final s = k.stil;
+  final figur = x.figur;
+  if (figur == Besetzung.detektiv) {
+    return pw.Inseparable(
+      child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        s.feldmarke(k.ui('ui.druck.spielleitung.vorstellung.detektiv'), farbe: FestStil.stempelrot),
+        _beideFassungen(k, (g) => k.text(Einstimmung.detektivKennung(g)), null),
+      ]),
+    );
+  }
+  if (figur == null) {
+    final npc = x.kennung == Einstimmung.npc;
+    return pw.Inseparable(
+      child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        if (npc) s.feldmarke(k.ui('ui.druck.spielleitung.vorstellung.npc'), farbe: FestStil.stempelrot),
+        _vorlesen(k, k.text(x.kennung)),
+      ]),
+    );
+  }
+  return pw.Inseparable(
+    child: pw.Padding(
+      padding: const pw.EdgeInsets.only(top: 4),
+      child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        pw.Row(
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
+          children: [
+            s.medaillon(k.bild(figur, klein: true), 34, ring: k.farbe(figur)),
+            pw.SizedBox(width: 10),
+            pw.Expanded(
+              child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
+                pw.Text(k.figurName(figur), style: s.titel(15)),
+                pw.Text(k.druck.figurTitel(figur), style: s.kursiv(10.5, FestStil.tinteLeise)),
+              ]),
+            ),
+            pw.Text(k.ui('ui.druck.spielleitung.gespielt'), style: s.hand(15)),
+            pw.SizedBox(width: 6),
+            pw.Container(width: 140, height: 0.8, color: FestStil.tinte),
+          ],
+        ),
+        pw.SizedBox(height: 5),
+        _vorlesen(k, k.text(x.kennung)),
+      ]),
+    ),
+  );
+}
+
+/// Beide Fassungen eines Vorlesetextes nebeneinander (Detektivin und Detektiv),
+/// mit der Marke „Vorlesen“ und, wenn es eine gibt, der Dia-Nummer [dia].
+pw.Widget _beideFassungen(PaketKontext k, String Function(String g) text, int? dia) {
+  final s = k.stil;
+  return pw.Padding(
+    padding: const pw.EdgeInsets.only(bottom: 8),
+    child: s.feld(
+      pw.Row(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          _vorlesenMarke(k, dia),
+          for (final (j, g) in ['w', 'm'].indexed) ...[
+            if (j > 0) pw.SizedBox(width: 14),
+            pw.Expanded(
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(k.ui('ui.druck.fest.erzaehler.fuer.$g'), style: s.hand(14)),
+                  pw.Text(text(g), style: s.text(10.5)),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+      innen: const pw.EdgeInsets.fromLTRB(12, 7, 12, 7),
     ),
   );
 }
@@ -422,31 +539,7 @@ pw.Widget _introStueck(PaketKontext k, String kennung, int i) {
   final dia = _dia(k, kennung, i);
   if (!RegExp(r'^intro\.auftrag\.[mw]$').hasMatch(kennung)) return _vorlesen(k, k.text(kennung), dia: dia);
   final basis = kennung.substring(0, kennung.length - 1);
-  final s = k.stil;
-  return pw.Padding(
-    padding: const pw.EdgeInsets.only(bottom: 8),
-    child: s.feld(
-      pw.Row(
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        children: [
-          _vorlesenMarke(k, dia),
-          for (final (j, g) in ['w', 'm'].indexed) ...[
-            if (j > 0) pw.SizedBox(width: 14),
-            pw.Expanded(
-              child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text(k.ui('ui.druck.fest.erzaehler.fuer.$g'), style: s.hand(14)),
-                  pw.Text(k.text('$basis$g'), style: s.text(10.5)),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
-      innen: const pw.EdgeInsets.fromLTRB(12, 7, 12, 7),
-    ),
-  );
+  return _beideFassungen(k, (g) => k.text('$basis$g'), dia);
 }
 
 int? _dia(PaketKontext k, String kennung, int i) {
