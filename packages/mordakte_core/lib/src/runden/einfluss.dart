@@ -819,6 +819,9 @@ class EinflussStand {
   final List<EinflussFolgen> _folgen = [];
   final Set<String> _ausgeloest = {};
   final Map<String, int> _gestanden = {};
+
+  /// Zugarten, die eine Rolle nur einmal am Abend spielen darf und schon gespielt hat.
+  final Map<String, Set<ZugArt>> _einmal = {};
   final Map<String, int> _ertappt = {};
   final Map<int, List<String>> _erfolge = {};
   int _zusammenhalt = 0, _spuk = 0, _nachfragenBonus = 0;
@@ -872,7 +875,7 @@ class EinflussStand {
         if (ziel == null || !besetzt.contains(ziel)) throw ArgumentError('${zug.art.name} braucht eine besetzte Figur');
         if (r.ziel == ZielRegel.andere && ziel == zug.rolle) throw ArgumentError('${zug.art.name} nie auf sich selbst');
     }
-    if (r.einmal && _gestanden.containsKey(zug.rolle)) throw ArgumentError('${zug.art.name} nur einmal am Abend');
+    if (r.einmal && (_einmal[zug.rolle]?.contains(zug.art) ?? false)) throw ArgumentError('${zug.art.name} nur einmal am Abend');
     if (zug.art == ZugArt.auspacken && !regeln.auspacken.containsKey(zug.rolle)) throw ArgumentError('${zug.rolle} hat nichts zum Auspacken');
   }
 
@@ -882,13 +885,16 @@ class EinflussStand {
   /// Haben alle besetzten Rollen in [runde] gezogen (auch ausdrücklich abgewartet)?
   bool vollstaendig(int runde) => besetzt.every((r) => _zuege[runde]?.containsKey(r) ?? false);
 
+  /// Folgen von [runde], solange sie ausgewertet ist, sonst `null`.
+  EinflussFolgen? folgenVon(int runde) => runde >= 1 && runde <= _folgen.length ? _folgen[runde - 1] : null;
+
   /// Tischwert T der Option [optionId] in [runde] (0, solange die Runde nicht ausgewertet ist).
-  int tisch(int runde, String optionId) => runde <= _folgen.length ? (_folgen[runde - 1].tisch[optionId] ?? 0) : 0;
+  int tisch(int runde, String optionId) => folgenVon(runde)?.tisch[optionId] ?? 0;
 
   /// Rollen, die in [runde] eine Figur im Bezug von [optionId] gedeckt haben, in Besetzungsreihenfolge.
   List<String> decker(int runde, String optionId) {
     final b = regeln.bezug[optionId] ?? const [];
-    final z = runde <= _folgen.length ? _folgen[runde - 1].zuege : const <String, EinflussZug>{};
+    final z = folgenVon(runde)?.zuege ?? const <String, EinflussZug>{};
     return [for (final r in besetzt) if (z[r] case final x? when x.art == ZugArt.decken && b.contains(x.ziel)) r];
   }
 
@@ -999,6 +1005,7 @@ class EinflussStand {
     final auspacken = <AuspackenLieferung>[];
     final ablenker = <String>[];
     for (final x in liste) {
+      if (regel(x)?.einmal ?? false) (_einmal[x.rolle] ??= {}).add(x.art);
       if (x.art == ZugArt.auspacken) {
         final q = regeln.auspacken[x.rolle]!;
         _gestanden[x.rolle] = runde;
