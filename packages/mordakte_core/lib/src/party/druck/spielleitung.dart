@@ -186,7 +186,7 @@ List<pw.Widget> _ablauf(DruckKontext k, Spielleitungsheft heft, {required bool d
 List<pw.Widget> _einstimmung(DruckKontext k, Einstimmung e) {
   final schritte = e.schritte(rollen: k.satz.rollen, detektiv: k.satz.detektiv);
   pw.Widget schritt(EinstimmungSchritt x) => switch (x.figur) {
-        null when x.teil == EinstimmungTeil.vorgeschichte => _fach([_unterlabel(k, k.text(x.titel!)), _vorlesen(k, k.text(x.kennung))]),
+        null when x.teil == EinstimmungTeil.vorgeschichte => _fach([_unterlabel(k, k.text(x.titel)), _vorlesen(k, k.text(x.kennung))]),
         null when x.kennung == Einstimmung.npc => _fach([_unterlabel(k, k.ui('ui.druck.spielleitung.vorstellung.npc')), _vorlesen(k, k.text(x.kennung))]),
         null => _vorlesen(k, k.text(x.kennung)),
         Besetzung.detektiv => _fach([_unterlabel(k, k.ui('ui.druck.spielleitung.vorstellung.detektiv')), _vorlesen(k, k.text(x.kennung))]),

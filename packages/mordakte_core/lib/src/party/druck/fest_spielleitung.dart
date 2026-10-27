@@ -400,7 +400,7 @@ List<pw.Widget> _einstimmung(PaketKontext k, Einstimmung e) {
     for (final x in vor)
       pw.Inseparable(
         child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
-          s.kopfzeile(k.text(x.titel!), g: 13.5, abstand: 4),
+          s.kopfzeile(k.text(x.titel), g: 13.5, abstand: 4),
           _vorlesen(k, k.text(x.kennung)),
         ]),
       ),
