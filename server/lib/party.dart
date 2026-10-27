@@ -86,11 +86,22 @@ String resolvePartyDir(String? fromEnv) {
 /// Streifzug sowie Vorspiel und Morgen; solange der Morgen läuft, gilt der Raum
 /// nicht als beendet ([SchlosskellerRaum.beendet]). [einstimmung] schaltet
 /// Vorgeschichte und Vorstellung ein (A-063), nur wenn die Akte eine
-/// Vorgeschichte hat; sonst bleibt der Raum wie bisher.
-RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Abendfassung.kurz, bool einstimmung = false}) {
-  Map<String, Object?> lesen(String path) => (jsonDecode(File('$dir/$path').readAsStringSync()) as Map).cast<String, Object?>();
-  final kanon = Kanon.lade(lesen);
-  final texte = Texte(kanon, Textsammlung.lade(lesen));
+/// Vorgeschichte hat; sonst bleibt der Raum wie bisher. [einfluss] schaltet
+/// „Dein Moment“ ein (Finale §3), nur wenn die Akte die Fähigkeit `einfluss`
+/// hat ([ladeEinfluss]); sonst bleibt der Raum wie bisher.
+///
+/// [lesen] liest die Dateien relativ zu [dir] (Vorgabe: das Dateisystem); die
+/// Matrizen geben damit Probe-Inhalt hinein, solange die Akte ihn nicht hat.
+RuntimeFactory loadSchlosskellerFactory(
+  String dir, {
+  Abendfassung fassung = Abendfassung.kurz,
+  bool einstimmung = false,
+  bool einfluss = false,
+  KanonLeser? lesen,
+}) {
+  final lies = lesen ?? (String path) => (jsonDecode(File('$dir/$path').readAsStringSync()) as Map).cast<String, Object?>();
+  final kanon = Kanon.lade(lies);
+  final texte = Texte(kanon, Textsammlung.lade(lies));
   final zufall = Random.secure();
   // Diashow zur Einleitung (M4) liegt neben dem Kanon unter content/welt/.
   final dia = File('${Directory(dir).parent.parent.path}/welt/schlosskeller/diashow.json');
@@ -100,9 +111,10 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   final erkundung = fassung.istLang ? ladeErkundung(weltDir) : null;
   final rundgang = fassung.istLang ? ladeVorspielMorgen(weltDir) : null;
   final vorgeschichte = einstimmung ? Einstimmung.aus(kanon) : null;
+  final regeln = einfluss ? ladeEinfluss(lies, kanon, akte: 'schlosskeller') : null;
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
     raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung, erkundung: erkundung, rundgang: rundgang,
-    einstimmung: vorgeschichte,
+    einstimmung: vorgeschichte, einfluss: regeln,
     // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
     gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),
@@ -110,6 +122,17 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   ));
 }
 
+
+/// Regeln von „Dein Moment“ der Akte [akte] (Finale §3.13): `zusatz/<akte>/einfluss.json` neben dem Akten-Ordner,
+/// gelesen über [lesen] relativ zum Akten-Ordner (`../`), nur wenn `akten.json` der Akte die Fähigkeit
+/// `einfluss` gibt; sonst `null`. Fehlt die Datei trotz Fähigkeit, ist das ein Fehler der Bereitstellung.
+EinflussRegeln? ladeEinfluss(KanonLeser lesen, Kanon kanon, {required String akte}) {
+  final akten = lesen('../akten.json')['akten'] as List;
+  final eintrag = akten.cast<Map>().where((a) => a['id'] == akte).firstOrNull;
+  final faehigkeiten = (eintrag?['faehigkeiten'] as List?) ?? const [];
+  if (!faehigkeiten.contains('einfluss')) return null;
+  return EinflussRegeln.ausJson(lesen('../zusatz/$akte/einfluss.json'), Ermittlung(kanon));
+}
 
 /// Die Erkundung einer Akte aus ihrem Welt-Ordner ([weltDir], `welt.json` →
 /// `erkundung`), sonst `null`.

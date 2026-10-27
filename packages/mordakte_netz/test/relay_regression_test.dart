@@ -269,11 +269,11 @@ void main() {
       expect(a.host.raum.spielerIds, isNot(contains(spielerIdVon(ergebnis.cid))));
     });
 
-    test('Geräte mit Version 2 (ohne Sitze) und 3 (ohne Rundenuhr und Diashow) werden abgewiesen', () async {
-      expect(protokollVersion, 4);
+    test('Geräte mit Version 2 (ohne Sitze), 3 (ohne Rundenuhr und Diashow) und 4 (ohne Einstimmung und Dein Moment) werden abgewiesen', () async {
+      expect(protokollVersion, 5);
       final a = await Abend.starten();
       addTearDown(a.schliessen);
-      for (final alt in [2, 3]) {
+      for (final alt in [2, 3, 4]) {
         final ergebnis = await rohesHallo(a, {'t': 'hallo', 'name': 'Alt', 'proto': alt, 'app': 'roh', 'r': 'r-v$alt', 'inhalt': 'test'});
         expect(ergebnis.antwort, {'t': 'zu', 'grund': 'proto', 'r': 'r-v$alt'});
         expect(a.host.raum.spielerIds, isNot(contains(spielerIdVon(ergebnis.cid))));
