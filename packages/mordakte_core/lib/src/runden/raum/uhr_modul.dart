@@ -25,8 +25,8 @@ import 'raum_modul.dart';
 /// Langer Abend ([lang], M7b): Die Uhr deckt den ganzen Streifzug einer Runde
 /// ab. Sie bleibt beim Übergang in die Entscheidungen stehen, wie sie ist, ist
 /// dort öffentlich und nimmt `uhr`-Nachrichten an; erst die Gruppenwahl räumt
-/// sie ab. Im kurzen Abend bleibt alles wie bisher (`invalid_phase` außerhalb
-/// der Gespräche).
+/// sie ab (mit Einfluss-Schicht, ohne Gruppenwahl, der Bonus). Im kurzen Abend
+/// bleibt alles wie bisher (`invalid_phase` außerhalb der Gespräche).
 class UhrModul extends RaumModul {
   UhrModul({this.minuten = 30, this.lang = false}) {
     if (minuten < 1 || minuten > RundenUhr.hoechstStart) throw ArgumentError.value(minuten, 'minuten');

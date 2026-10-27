@@ -19,9 +19,11 @@ import '../welt/erkundung.dart';
 import '../welt/vorspiel_morgen.dart';
 import 'abend_raum.dart';
 import 'bots.dart';
+import 'einfluss.dart' show EinflussRegeln;
 import 'partie.dart';
 import 'raum/befragung_modul.dart';
 import 'raum/dia_modul.dart';
+import 'raum/einfluss_raum.dart';
 import 'raum/einstimmung_modul.dart';
 import 'raum/raum_modul.dart';
 import 'raum/rundgang_modul.dart';
@@ -96,6 +98,15 @@ class _Teilnehmer {
 /// Beginn der Einleitung Vorgeschichte und Vorstellung ([EinstimmungModul]),
 /// vor Vorspiel und Diashow. Ohne bleibt jede Ansicht bytegleich.
 ///
+/// Einfluss-Schicht „Dein Moment“ (Finale §3, A-064): Mit [einfluss]
+/// (eingeschaltet in der Meta des Gastgebers, `einfluss: true`, nur in Akten mit
+/// der Fähigkeit) zieht in den Gesprächen jede besetzte Rolle geheim einen Zug
+/// (`zug`), der Leitende kann den letzten Aufruf geben (`letzterAufruf`), nach
+/// Runde 3 fragt der Detektiv nach (`nachfrage`); die Gruppenwahl entfällt
+/// ([EinflussRaum]). Alle sehen öffentlich `einfluss`, jede Rolle privat
+/// `moment`, der Erzähler `einflussTafel`, ab dem Finale `aufloesung.einfluss`.
+/// Ohne Schicht bleibt jede Ansicht bytegleich und `zug` ist `invalid`.
+///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
 /// privaten Teil. Alle sehen öffentlich nur `erzaehlerLiest` und
@@ -124,6 +135,7 @@ class SchlosskellerRaum implements AbendRaum {
     Erkundung? erkundung,
     VorspielMorgen? rundgang,
     this.einstimmung,
+    this.einfluss,
     List<RaumModul> module = const [],
   }) : _module = List.unmodifiable(() {
          // Einstimmung (A-063) nur, wenn eingeschaltet; das Vorspiel wartet auf sie.
@@ -146,6 +158,7 @@ class SchlosskellerRaum implements AbendRaum {
        }()), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
     if (salz.isEmpty || !gastgeberSitz.vergeben) throw const PartyRaumFehler('invalid_setup');
+    if (einfluss != null && einfluss!.akte != akte) throw const PartyRaumFehler('invalid_setup');
   }
 
   /// Kennung der Akte (Ordner unter `content/party/`).
@@ -166,6 +179,13 @@ class SchlosskellerRaum implements AbendRaum {
   /// Einstimmung der Akte (Vorgeschichte und Vorstellung, A-063), wenn sie
   /// eingeschaltet ist; sonst `null` und der Abend wie bisher.
   final Einstimmung? einstimmung;
+
+  /// Regeln der Einfluss-Schicht „Dein Moment“ (Finale §3), wenn sie
+  /// eingeschaltet ist; sonst `null` und der Abend wie bisher.
+  final EinflussRegeln? einfluss;
+
+  /// Raumseite der Schicht (letzter Aufruf, Bots je Runde, Ansichten); `null` ohne Schicht.
+  late final EinflussRaum? _moment = einfluss == null ? null : EinflussRaum(einfluss!);
 
   /// Gastgebergerät als Autorität (Relais-Modus): Die Leitung wandert nie zu
   /// einem anderen Gerät, sonst bekäme ein Gast Salz und Täterpfad.
@@ -435,6 +455,10 @@ class SchlosskellerRaum implements AbendRaum {
       'stimme' => {'kooperativ'},
       'anklage' => {'person'},
       'detektivNeu' => {'spieler'},
+      // Einfluss-Schicht (Finale §3.14): nur mit Schicht, sonst unbekannt (`invalid`).
+      'zug' when einfluss != null => {'art', 'ziel', 'tipp'},
+      'letzterAufruf' when einfluss != null => <String>{},
+      'nachfrage' when einfluss != null => {'option'},
       _ => _modulFuer(typ)?.nachrichten[typ] ?? (throw const PartyRaumFehler('invalid')),
     };
     if (inhalt.keys.any((k) => k != 'typ' && k != 'revision' && k != abendZeitFeld && !erlaubt.contains(k))) {
@@ -460,7 +484,16 @@ class SchlosskellerRaum implements AbendRaum {
         m.nachricht(_kontext, id, typ, inhalt);
       } else {
         final p = _partie ?? (throw const PartyRaumFehler('not_started'));
-        if (typ == 'rollenGelesen') {
+        if (typ == 'zug') {
+          // Nur Geräte mit Figur, nur in den Gesprächen, änderbar bis zu den Folgen.
+          _moment!.zug(p, t.rolle, inhalt);
+        } else if (typ == 'letzterAufruf') {
+          _darfLeiten(id);
+          _moment!.letzterAufruf(p, inhalt);
+        } else if (typ == 'nachfrage') {
+          _nurDetektiv(id);
+          _moment!.nachfrage(p, inhalt);
+        } else if (typ == 'rollenGelesen') {
           if (p.phase != PartyPhase.rollen || t.rolle == null) throw const PartyRaumFehler('invalid_phase');
           t.gelesen = true;
         } else if (typ == 'stimme') {
@@ -509,9 +542,21 @@ class SchlosskellerRaum implements AbendRaum {
           switch (typ) {
             case 'weiter':
               if (!_kannWeiter) throw const PartyRaumFehler('not_ready');
+              // Mit Schicht: aus den Gesprächen erst, wenn alle Menschen gezogen haben oder die Frist
+              // nach dem letzten Aufruf (Abendzeit dieser Nachricht) um ist; wer fehlt, hat abgewartet.
+              final m = _moment;
+              final moment = m != null && p.phase == PartyPhase.gespraeche ? m : null;
+              if (moment != null) {
+                if (!moment.darfWeiter(p, _menschSpielt, zeit: zeit as int?)) throw const PartyRaumFehler('not_ready');
+                moment.vorFolgen(p, _menschSpielt);
+              }
+              final runde = p.runde;
               final ab = p.spiel.bausteine.length;
               p.weiter();
               _erzaehlerAb = ab;
+              moment?.nachFolgen(p, runde);
+              // Verzögerte Funde (Umweg, mauert) kommen mit dem Zwischenresümee ins Notizbuch.
+              if (m != null) _funde.addAll(m.nachgereicht(p));
               if (p.phase == PartyPhase.gruppenwahl) {
                 _stimmen.clear();
                 _botStimmen();
@@ -578,7 +623,8 @@ class SchlosskellerRaum implements AbendRaum {
       throw const PartyRaumFehler('invalid');
     }
     final vorrat = TischVorrat.aus([for (final w in (wunsch as List?) ?? const []) w as String], _katalog);
-    final p = RundenPartie(_kanon, quelle: SalzWuerfel(_salz), vorrat: vorrat, abstecher: _abstecher);
+    // Mit Einfluss-Schicht ziehen Bots und Ertappt aus dem Salz des Raums (Finale §3.11).
+    final p = RundenPartie(_kanon, quelle: SalzWuerfel(_salz), vorrat: vorrat, abstecher: _abstecher, einfluss: einfluss);
     p.einrichten(Einstellungen(rollen: rollen, detektiv: detektiv as String, code: _fallCode));
     // Zuerst die Zuteilung der Lobby, der Rest wie bisher gemischt in
     // Beitrittsreihenfolge; Detektiv- und Erzähler-Sitz bekommen keine Figur,
@@ -631,10 +677,14 @@ class SchlosskellerRaum implements AbendRaum {
     return v;
   }
 
+  /// Spielt ein Mensch [rolle] (ein Gerät, das nicht aufgegeben hat)? Sonst zieht und spricht die App sie.
+  bool _menschSpielt(String rolle) => _teilnehmer.values.any((t) => !t.aufgegeben && t.rolle == rolle);
+
   bool get _kannWeiter {
     final p = _partie;
     if (p == null || !p.kannWeiter) return false;
     if (!_module.every((m) => m.darfWeiter(_kontext))) return false;
+    if (_moment case final m? when !m.darfWeiter(p, _menschSpielt, ansicht: true)) return false;
     return p.phase != PartyPhase.rollen || !_teilnehmer.values.any((t) => !t.aufgegeben && t.rolle != null && !t.gelesen);
   }
 
@@ -758,6 +808,8 @@ class SchlosskellerRaum implements AbendRaum {
           'phase': zug.phase.name, 'aktion': zug.aktion, 'ruf': zug.ruf?.name,
           'wurf': zug.wurf?.toJson(), 'funde': [for (final f in zug.funde) f.text],
           if (zug.istAbstecher) ...{'abstecher': zug.abstecher, 'nebenfund': zug.nebenfund},
+          // Einfluss-Schicht: Tischwert, „Die Spur verwischt“, Kennzeichen des Fundes, Zeile „Tisch“.
+          if (_moment case final m?) ...m.zugFelder(p, zug),
           if (zug.phase == RundenZugPhase.wurf) ...{
             'werkzeug': _wurfWerkzeug, 'marke': _wurfMarke,
             'mod': p.vorschau(werkzeug: _wurfWerkzeug, marke: _wurfMarke).mod,
@@ -777,6 +829,8 @@ class SchlosskellerRaum implements AbendRaum {
         ],
         if (p.phase == PartyPhase.anklage) 'verdaechtige': [..._kanon.kernverdaechtige],
       },
+      // Einfluss-Schicht (Finale §3.12): öffentlich nie wer was spielte, nie Zählwerte oder Tipps.
+      if (_moment case final m?) 'einfluss': m.oeffentlich(p),
       'privat': <String, Object?>{
         'spieler': id, 'detektiv': id == ermittler,
         if (p != null && vorleserSitz && id == vorleser) ...{'vorleser': true, 'erzaehler': fenster},
@@ -806,13 +860,18 @@ class SchlosskellerRaum implements AbendRaum {
               'a': w.a, 'b': w.sabotage ?? w.b,
             },
           },
+          // „Dein Moment“: eigener Zug, erlaubte Züge, Sterne, private Nachrichten, Lauschergebnis.
+          if (_moment case final m?) 'moment': m.moment(p, rolle!),
         },
+        // Zug-Tafel der laufenden Runde nur beim Erzähler-Sitz (§3.12).
+        if (p != null && id == _erzaehler && _moment != null) 'einflussTafel': ?_moment.tafel(p),
       },
       if (nachFinale) 'aufloesung': {
         'pfad': p.spiel.pfad, 'fallCode': _fallCode.code, 'salz': _salz,
         'punkte': p.spiel.punkte, 'ende': p.spiel.ende.id,
         'seifenblasen': p.seifenblasenBilanz,
         'abstecherFunde': [...p.abstecherFunde]..sort(),
+        if (_moment case final m?) 'einfluss': m.aufloesung(p),
       },
     };
     final privat = ansicht['privat']! as Map<String, Object?>;
@@ -864,7 +923,7 @@ class _Kontext extends RaumKontext {
   @override
   String? rolleVon(String id) => _r._teilnehmer[id]?.rolle;
   @override
-  bool menschSpielt(String rolle) => _r._teilnehmer.values.any((t) => !t.aufgegeben && t.rolle == rolle);
+  bool menschSpielt(String rolle) => _r._menschSpielt(rolle);
   @override
   void nurHost(String id) => _r._nurHost(id);
   @override

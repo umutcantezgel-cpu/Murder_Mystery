@@ -41,3 +41,28 @@ Map<String, String> fixtureTexte(EinflussRegeln r) {
   }
   return aus;
 }
+
+/// Texte des Schlosskellers mit den Fixture-Texten des Bereichs `einfluss` als zusätzlicher Datei, solange
+/// die Akte selbst keine Einfluss-Texte hat (danach gelten ihre echten). Für Raum und Ansichten.
+Texte einflussTexte() {
+  final ordner = '$repoWurzel/content/party/schlosskeller';
+  final index = leseJson('$ordner/texte/index.json');
+  final dateien = index['dateien'] as List;
+  final echt = dateien.any((d) => (d as Map)['bereich'] == 'einfluss');
+  final probe = {
+    'settingId': kanon.settingId,
+    'bereich': 'einfluss',
+    'hinweis': 'Fixture',
+    'eintraege': [for (final e in fixtureTexte(einflussRegeln).entries) {'id': e.key, 'text': e.value}],
+  };
+  return Texte(
+    kanon,
+    Textsammlung.lade((p) {
+      if (p == 'texte/index.json' && !echt) {
+        return {...index, 'dateien': [...dateien, {'datei': 'einfluss-probe.json', 'bereich': 'einfluss'}]};
+      }
+      if (p == 'texte/einfluss-probe.json') return probe;
+      return leseJson('$ordner/$p');
+    }),
+  );
+}
