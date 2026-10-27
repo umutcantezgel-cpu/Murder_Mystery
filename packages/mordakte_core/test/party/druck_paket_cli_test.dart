@@ -114,6 +114,34 @@ void main() {
     expect(int.parse(RegExp(r'Pages:\s+(\d+)').firstMatch(info)!.group(1)!), greaterThanOrEqualTo(3 + kanon.figuren.length));
   }, timeout: const Timeout(Duration(minutes: 3)));
 
+  test('--erzaehlerakte: Ziele des Kanons wie im Druckspiel, mit --dein-moment die zwei Sterne', () async {
+    final repo = _repo(Directory('${tmp.path}/repo'), akte: true);
+    final texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
+    String flach(String s) => s.replaceAll(RegExp(r'\s+'), ' ').replaceAll('- ', '').trim();
+    Future<String> akteText(List<String> extra, String aus) async {
+      final r = await Process.run(
+        Platform.resolvedExecutable,
+        ['--packages=$pakete', skript, '--erzaehlerakte', '--personen', '8', ...extra, '--aus', aus],
+        workingDirectory: repo.path,
+      );
+      expect(r.exitCode, 0, reason: '${r.stdout}\n${r.stderr}');
+      return flach(Process.runSync('pdftotext', ['-raw', '$aus/erzaehlerakte.pdf', '-']).stdout as String);
+    }
+
+    final ziel = flach(kanon.figur('leyla')!['persoenlichesZiel'] as String);
+    final sterne = [for (final nr in [1, 2]) flach(texte.einflussText('einfluss.ziel.leyla.$nr', figur: 'leyla'))];
+    final ohne = await akteText(const [], '${tmp.path}/ohne');
+    expect(ohne, contains(ziel), reason: 'Das Druckspiel läuft ohne „Dein Moment“');
+    for (final s in sterne) {
+      expect(ohne, isNot(contains(s)));
+    }
+    final mit = await akteText(const ['--dein-moment'], '${tmp.path}/mit');
+    expect(mit, isNot(contains(ziel)));
+    for (final s in sterne) {
+      expect(mit, contains(s));
+    }
+  }, timeout: const Timeout(Duration(minutes: 3)));
+
   test('--erzaehlerakte ohne erzaehlerakte.json oder mit falscher Personenzahl: Abbruch mit Meldung', () async {
     final ohne = _repo(Directory('${tmp.path}/ohne'), akte: false);
     final r = await Process.run(

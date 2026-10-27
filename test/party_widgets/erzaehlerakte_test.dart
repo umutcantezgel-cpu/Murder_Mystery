@@ -3,7 +3,8 @@
 // das Gerät an …“) und das offene Pult; nie im Solo, nie ohne Erzähler, nie ab
 // dem Finale. Reiter „Figuren“ (besetzte zuerst, dann ohne Spieler) und „Netz“
 // (Ring mit Herrn Schneider in der Mitte, öffentlich durchgezogen, heimlich
-// gestrichelt, antippbar). Die Ziele kommen mit der Schicht aus ihren Sternen.
+// gestrichelt, antippbar). Die Ziele kommen mit der Schicht aus ihren Sternen;
+// an einem Abend ohne „Dein Moment“ sind es die Ziele des Kanons.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
@@ -40,6 +41,13 @@ void main() {
       expect(f.ziele.length, 2, reason: '${f.figur}: zwei Sterne');
     }
     expect(a.netz, isNotEmpty);
+    expect(erzaehlDaten.erzaehlerakteFuer(einfluss: true), same(a));
+    // Ein Abend ohne „Dein Moment“: das persönliche Ziel des Kanons, kein Stern (Finale §2, §3.1).
+    final kanon = erzaehlDaten.erzaehlerakteFuer(einfluss: false)!;
+    for (final f in kanon.figuren) {
+      final ziel = erzaehlDaten.kanon.figur(f.figur)!['persoenlichesZiel'] as String;
+      expect([for (final z in f.ziele) (z.id, z.text)], [('persoenlichesZiel', ziel)], reason: f.figur);
+    }
     expect(partyDaten.erzaehlerakte, isNull, reason: 'Ohne Eintrag in akten.json');
     expect(rundgangDaten.erzaehlerakte, isNull, reason: 'Ohne Datei');
     for (final fall in ['gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm']) {
@@ -89,12 +97,17 @@ void main() {
     // Aufklappen: alle Abschnitte, Bindungen als Chips.
     await t.tap(find.byKey(const ValueKey('akte-figur-ahmet')));
     await t.pump();
-    final ahmet = erzaehlDaten.erzaehlerakte!.figur('ahmet')!;
+    // Der Abend spielt „Dein Moment“ nicht: Die Akte nennt das Ziel des Kanons.
+    expect(s.einfluss, isFalse);
+    final ahmet = erzaehlDaten.erzaehlerakteFuer(einfluss: false)!.figur('ahmet')!;
     for (final k in ['hintergrund', 'bindungen', 'zu_schneider', 'motiv', 'geheimnis', 'nebendelikt', 'ziele', 'stimme']) {
       expect(find.text(s.ui('ui.druck.akte.$k')), findsWidgets, reason: k);
     }
     expect(find.text(ahmet.motiv!), findsOneWidget);
-    expect(find.text(ahmet.ziele.first.text), findsOneWidget);
+    expect(find.text(erzaehlDaten.kanon.figur('ahmet')!['persoenlichesZiel'] as String), findsOneWidget);
+    for (final stern in erzaehlDaten.erzaehlerakte!.figur('ahmet')!.ziele) {
+      expect(find.text(stern.text), findsNothing, reason: 'Kein Stern ohne die Schicht');
+    }
     final kante = erzaehlDaten.erzaehlerakte!.kantenVon('ahmet').first;
     expect(find.byKey(ValueKey('bindung-ahmet-${kante.anderer('ahmet')}-${kante.sichtbar}')), findsOneWidget);
     // Netz: Ring mit Herrn Schneider in der Mitte, Knoten antippbar.
@@ -164,7 +177,7 @@ void main() {
     final s = erzaehlSitzung(rollen: 20, erzaehler: 'Mia', einstimmung: false);
     await _zeige(
       t,
-      ErzaehlerakteSeite(daten: s.daten, besetzt: s.besetzt, spieler: (f) => s.namen[f]),
+      ErzaehlerakteSeite(daten: s.daten, besetzt: s.besetzt, einfluss: s.einfluss, spieler: (f) => s.namen[f]),
       groesse: const Size(320, 640),
       schrift: 2,
     );

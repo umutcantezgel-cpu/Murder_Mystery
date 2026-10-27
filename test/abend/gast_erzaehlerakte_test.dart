@@ -5,12 +5,13 @@
 // in Menü und Pult seiner Sitzung; als Detektiv nicht.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mordakte/abend/online/gast_erzaehler.dart' show gastErzaehlerakteErlaubt;
+import 'package:mordakte/abend/online/gast_erzaehler.dart' show gastErzaehlerakteErlaubt, gastMitMoment;
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/erzaehlerakte_ansicht.dart';
 import 'package:mordakte_core/runden.dart' show SchlosskellerRaum, Sitz;
 
+import '../party_widgets/einfluss_hilfe.dart' show einflussDaten;
 import '../party_widgets/erzaehl_hilfe.dart';
 import '../party_widgets/hilfe.dart' show partyDaten, rahmen;
 import 'online_hilfe.dart';
@@ -46,11 +47,21 @@ void main() {
     final seite = t.widget<ErzaehlerakteSeite>(find.byType(ErzaehlerakteSeite));
     expect(seite.besetzt, raum.partieFuerGastgeber!.spiel.besetzt);
     expect(seite.spieler!('ahmet'), isNotEmpty, reason: 'Wer die Figur spielt, steht in der Akte');
+    expect(seite.einfluss, isFalse, reason: 'Ohne „Dein Moment“ die Ziele des Kanons');
     expect(find.text(l.erzaehlerakte_reiter_netz), findsOneWidget);
     await t.tap(find.byKey(const ValueKey('erzaehlerakte-schliessen')));
     await t.pumpAndSettle();
     expect(find.byType(ErzaehlerakteSeite), findsNothing);
     await t.pumpWidget(const SizedBox.shrink());
+  });
+
+  test('Mit „Dein Moment“ im Raum zeigt die Erzählerakte des Gastes die Sterne, sonst die Ziele des Kanons', () {
+    final mit = sitzRaum(erzaehler: 'g2', daten: einflussDaten, einfluss: einflussDaten.einfluss);
+    spieleBisSitz(mit, 'rollen', detektiv: 'gastgeber', leiter: 'g2');
+    expect(gastMitMoment(LiveGast(mit, spielerId: 'g2', daten: einflussDaten)), isTrue);
+    final ohne = sitzRaum(erzaehler: 'g2', daten: einflussDaten);
+    spieleBisSitz(ohne, 'rollen', detektiv: 'gastgeber', leiter: 'g2');
+    expect(gastMitMoment(LiveGast(ohne, spielerId: 'g2', daten: einflussDaten)), isFalse);
   });
 
   testWidgets('Ab dem Finale ist sie weg und schließt sich selbst; in der Lobby gibt es sie noch nicht', (t) async {

@@ -2,8 +2,8 @@
 // Aufruf (im Paketordner):
 //   dart run bin/party_druck.dart [--fall schlosskeller] [--code XXXXX | --pfad <ahmet|fatma|olli|can>] [--n 12] [--detektiv w] [--dauer 30] [--alles] [--aus ordner]
 //   dart run bin/party_druck.dart --steckbriefe [--fall schlosskeller] [--n 12] [--detektiv w] [--aus ordner]
-//   dart run bin/party_druck.dart --paket [--n 12] [--code XXXXX] [--aus ordner] [--portraets ordner]
-//   dart run bin/party_druck.dart --erzaehlerakte [--fall schlosskeller] [--personen 8] [--aus ordner] [--portraets ordner]
+//   dart run bin/party_druck.dart --paket [--n 12] [--code XXXXX] [--dein-moment] [--aus ordner] [--portraets ordner]
+//   dart run bin/party_druck.dart --erzaehlerakte [--fall schlosskeller] [--personen 8] [--dein-moment] [--aus ordner] [--portraets ordner]
 // Ohne Code und Pfad entsteht ein Zufallsfall. Der Pfad ist nur für Testläufe
 // des Erzählers gedacht; im Ordnernamen steht nur der Code. --alles setzt die acht
 // Teile in eine Datei. --steckbriefe braucht keinen Fall-Code: Übersicht, alle
@@ -13,8 +13,10 @@
 // Porträts kommen aus build/druck/portraets/ (flutter test tool/bild/druck_portraets_test.dart).
 // Hat die Akte eine Erzählerakte (erzaehlerakte.json, A-063), liegt sie im Paket in
 // Ordner 4. --erzaehlerakte setzt nur sie, ohne Fall-Code: Sie ist in allen Pfaden
-// gleich und hängt nur an der Personenzahl (erst die besetzten Figuren). Mit der
-// Fähigkeit einfluss stehen dort die zwei Sterne je Figur, sonst ihr persönliches Ziel.
+// gleich und hängt nur an der Personenzahl (erst die besetzten Figuren). Je Figur steht
+// ihr persönliches Ziel: Das Druckspiel läuft immer ohne „Dein Moment“ (Finale §3.1).
+// Mit --dein-moment (nur Akten mit der Fähigkeit einfluss) stehen dort die zwei Sterne
+// je Figur, für einen Abend am Bildschirm mit der Schicht.
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -68,13 +70,21 @@ Future<void> main(List<String> args) async {
     }
   }
 
+  // Sterne von „Dein Moment“ in der Erzählerakte nur auf Wunsch; das Druckspiel bleibt ohne Schicht.
+  final deinMoment = args.contains('--dein-moment');
+  if (deinMoment && !faehigkeiten(wurzel, fall).contains('einfluss')) {
+    stderr.writeln('Akte $fall kennt „Dein Moment“ nicht (Fähigkeit einfluss fehlt); --dein-moment geht nicht.');
+    exitCode = 2;
+    return;
+  }
+
   if (args.contains('--erzaehlerakte')) {
-    await erzaehlerakte(wurzel, fall, kanon, texte, wert);
+    await erzaehlerakte(wurzel, fall, kanon, texte, wert, deinMoment: deinMoment);
     return;
   }
 
   if (args.contains('--paket')) {
-    await paket(wurzel, fall, kanon, texte, stil, wert);
+    await paket(wurzel, fall, kanon, texte, stil, wert, deinMoment: deinMoment);
     return;
   }
 
@@ -112,7 +122,7 @@ Future<void> main(List<String> args) async {
 }
 
 /// Das Druckpaket für den Veranstalter (`--paket`): Ordner, Dateien und ZIP-Archive.
-Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckStil stil, String? Function(String) wert) async {
+Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckStil stil, String? Function(String) wert, {bool deinMoment = false}) async {
   final datei = File('$wurzel/content/party/$fall/steckbriefe.json');
   if (!datei.existsSync()) {
     stderr.writeln('Akte $fall hat keine Steckbriefe (steckbriefe.json fehlt); ein Paket gibt es nur für den Schlosskeller.');
@@ -139,7 +149,7 @@ Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckSt
     steckbriefe: Steckbriefe.ausJson(jsonDecode(datei.readAsStringSync()) as Map<String, Object?>),
     stil: fest,
     portraets: portraets,
-    erzaehlerakte: erzaehlerakteAus(wurzel, fall, kanon, texte),
+    erzaehlerakte: erzaehlerakteAus(wurzel, fall, kanon, texte, deinMoment: deinMoment),
   );
   final fehlen = k.fehlendePortraets();
   if (fehlen.isNotEmpty) {
@@ -171,8 +181,8 @@ Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckSt
 }
 
 /// Nur die Erzählerakte (`--erzaehlerakte`): ohne Fall-Code, für `--personen` Personen.
-Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte, String? Function(String) wert) async {
-  final akte = erzaehlerakteAus(wurzel, fall, kanon, texte);
+Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte, String? Function(String) wert, {bool deinMoment = false}) async {
+  final akte = erzaehlerakteAus(wurzel, fall, kanon, texte, deinMoment: deinMoment);
   if (akte == null) {
     stderr.writeln('Akte $fall hat keine Erzählerakte (content/party/$fall/erzaehlerakte.json fehlt).');
     exitCode = 2;
@@ -204,13 +214,14 @@ Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte,
 }
 
 /// Die Erzählerakte der Akte, wenn es `erzaehlerakte.json` gibt; sonst null. Die
-/// Ziele kommen mit der Fähigkeit `einfluss` aus den Sternen der Schicht
-/// (`content/party/zusatz/<akte>/einfluss.json`), sonst aus dem Kanon.
-Erzaehlerakte? erzaehlerakteAus(String wurzel, String fall, Kanon kanon, Texte texte) {
+/// Ziele kommen aus dem Kanon (`persoenlichesZiel`, Druckspiel ohne Schicht); mit
+/// [deinMoment] und der Fähigkeit `einfluss` aus den Sternen der Schicht
+/// (`content/party/zusatz/<akte>/einfluss.json`).
+Erzaehlerakte? erzaehlerakteAus(String wurzel, String fall, Kanon kanon, Texte texte, {bool deinMoment = false}) {
   final datei = File('$wurzel/content/party/$fall/erzaehlerakte.json');
   if (!datei.existsSync()) return null;
   final einfluss = File('$wurzel/content/party/zusatz/$fall/einfluss.json');
-  final ziele = faehigkeiten(wurzel, fall).contains('einfluss') && einfluss.existsSync()
+  final ziele = deinMoment && faehigkeiten(wurzel, fall).contains('einfluss') && einfluss.existsSync()
       ? EinflussZielQuelle(EinflussRegeln.ausJson(jsonDecode(einfluss.readAsStringSync()) as Map<String, Object?>, Ermittlung(kanon)), texte)
       : null;
   return Erzaehlerakte.ausJson(jsonDecode(datei.readAsStringSync()) as Map<String, Object?>, kanon, ziele: ziele);

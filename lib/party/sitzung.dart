@@ -1338,6 +1338,10 @@ class PartySitzung extends ChangeNotifier {
   /// Zug-Tafel am offenen Erzählerpult, online beim Erzähler-Sitz.
   TafelSicht? get einflussTafel => pultOffen ? TafelSicht.ausJson(einflussTafelRoh) : null;
 
+  /// Zug-Tafel für das Erzähler-Handy reihum (Begleiter): dieselbe wie am
+  /// offenen Pult, nur an dieses eine Handy; ohne Erzähler am Tisch `null`.
+  Map<String, Object?>? get einflussTafelBegleiter => erzaehlerAmPult ? einflussTafelRoh : null;
+
   /// `aufloesung.einfluss` (erst nach dem Finale), sonst `null`.
   @protected
   Map<String, Object?>? get einflussAufloesungRoh => einfluss && nachFinale ? _raumSeite.aufloesung(_partie) : null;

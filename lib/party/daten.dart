@@ -49,15 +49,25 @@ class PartyDaten {
 
   /// Erzählerakte (A-063, `erzaehlerakte.json`), nur bei Akten mit dem Zusatz
   /// `erzaehlerakte`; `null` sonst. Sichtbar nur dem Erzähler-Platz
-  /// (`erzaehlerakte_ansicht.dart`), nie Teil des Spielzustands.
+  /// (`erzaehlerakte_ansicht.dart`), nie Teil des Spielzustands. Kennt die Akte
+  /// „Dein Moment“, stehen hier die Sterne als Ziele; welche Fassung ein Abend
+  /// zeigt, sagt [erzaehlerakteFuer].
   final Erzaehlerakte? erzaehlerakte;
+
+  /// Dieselbe Akte mit den Zielen des Kanons (`persoenlichesZiel`) für Abende
+  /// ohne die Schicht; ohne Sterne dieselbe wie [erzaehlerakte].
+  final Erzaehlerakte? _erzaehlerakteKanon;
+
+  /// Die Erzählerakte des Abends (Finale §2, §3.1): mit „Dein Moment“ die
+  /// Sterne der Schicht, sonst die Ziele des Kanons, wie Rollenkarte und Dossier.
+  Erzaehlerakte? erzaehlerakteFuer({required bool einfluss}) => einfluss ? erzaehlerakte : (_erzaehlerakteKanon ?? erzaehlerakte);
 
   /// Steckbriefe der Akte (`steckbriefe.json`), nur geladen, wenn die
   /// Einstimmung sie für die Vorstellungskarten braucht; sonst `null`.
   final Steckbriefe? steckbriefe;
 
   PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow,
-      this.vorspielMorgen, this.einfluss, {this.erzaehlerakte, this.steckbriefe})
+      this.vorspielMorgen, this.einfluss, {this.erzaehlerakte, this._erzaehlerakteKanon, this.steckbriefe})
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
 
   /// Einstimmung der Akte (Vorgeschichte und Vorstellung, A-063), nur mit dem
@@ -100,6 +110,7 @@ class PartyDaten {
     final karte = PartyKarte(kanon);
     final szenario = ScenarioDef.fromJson(partySzenarioJson(kanon, vorlage, id: 'party_$fall', welt: welt));
     final regeln = einfluss == null ? null : EinflussRegeln.ausJson(einfluss, karte.ermittlung);
+    final akteKanon = erzaehlerakte == null ? null : Erzaehlerakte.ausJson(erzaehlerakte, kanon);
     return PartyDaten._(
       fall,
       kanon,
@@ -113,17 +124,19 @@ class PartyDaten {
       diashow == null ? null : Diashow.ausJson(diashow),
       vorspielMorgen == null ? null : VorspielMorgen.ausJson(vorspielMorgen),
       regeln,
-      erzaehlerakte: _erzaehlerakte(erzaehlerakte, regeln ?? (erzaehlerZiele == null ? null : EinflussRegeln.ausJson(erzaehlerZiele, karte.ermittlung)), kanon, texte),
+      erzaehlerakte: _erzaehlerakte(erzaehlerakte, regeln ?? (erzaehlerZiele == null ? null : EinflussRegeln.ausJson(erzaehlerZiele, karte.ermittlung)), kanon, texte) ?? akteKanon,
+      erzaehlerakteKanon: akteKanon,
       steckbriefe: steckbriefe == null ? null : Steckbriefe.ausJson(steckbriefe),
     );
   }
 
-  /// Die Erzählerakte aus Datei und Kanon. Mit [regeln] (`einfluss.json` der
-  /// Akte; in Tests auch ohne die Schicht über `erzaehlerZiele`) zeigt sie die
-  /// Sterne der Einfluss-Schicht, sonst die Ziele des Kanons.
+  /// Die Erzählerakte mit den Sternen der Einfluss-Schicht aus Datei und Kanon,
+  /// wenn es [regeln] gibt (`einfluss.json` der Akte; in Tests auch ohne die
+  /// Schicht über `erzaehlerZiele`); sonst `null` (dann gilt die Fassung mit den
+  /// Zielen des Kanons).
   static Erzaehlerakte? _erzaehlerakte(Map<String, Object?>? json, EinflussRegeln? regeln, Kanon kanon, Texte texte) {
-    if (json == null) return null;
-    return Erzaehlerakte.ausJson(json, kanon, ziele: regeln == null ? null : EinflussZielQuelle(regeln, texte));
+    if (json == null || regeln == null) return null;
+    return Erzaehlerakte.ausJson(json, kanon, ziele: EinflussZielQuelle(regeln, texte));
   }
 
   /// Lädt alle Dateien einer Akte aus den Assets (`content/party/<fall>/`).

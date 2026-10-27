@@ -318,8 +318,14 @@ bool gastErzaehlerakteErlaubt(GastDienst d) {
   return spielerAusAnsicht(v).where((s) => s.id == d.spielerId).firstOrNull?.sitz == Sitz.erzaehler;
 }
 
+/// Spielt der Abend dieses Gastes „Dein Moment“? Online trägt die Ansicht dann
+/// `einfluss` (ab den Rollen); am Erzähler-Handy reihum sagt es der Begleiter
+/// privat (`deinMoment`), ohne die öffentliche Lage zu schicken.
+bool gastMitMoment(GastDienst d) => d.ansicht['einfluss'] is Map || jMap(d.ansicht['privat'])['deinMoment'] == true;
+
 /// Öffnet die Erzählerakte für den Gast auf dem Erzähler-Sitz: besetzt sind die
-/// Figuren der Rollenzahl des Raums, gespielt von den Gästen mit Figur. Sie
+/// Figuren der Rollenzahl des Raums, gespielt von den Gästen mit Figur. Mit
+/// „Dein Moment“ stehen die Sterne als Ziele, sonst die des Kanons. Sie
 /// schließt sich, sobald sie nicht mehr gilt (Finale, Sitz gewechselt).
 Future<void> gastErzaehlerakteZeigen(GastKontext c) {
   final d = c.daten!;
@@ -330,6 +336,7 @@ Future<void> gastErzaehlerakteZeigen(GastKontext c) {
     c.context,
     daten: d,
     besetzt: n >= b.minRollen && n <= b.maxRollen ? b.besetzt(n) : [for (final r in b.reihenfolge) if (spieler.any((s) => s.rolle == r)) r],
+    einfluss: gastMitMoment(c.dienst),
     spieler: (f) => spieler.where((s) => s.rolle == f).firstOrNull?.name,
     wache: c.dienst,
     erlaubt: () => gastErzaehlerakteErlaubt(c.dienst),

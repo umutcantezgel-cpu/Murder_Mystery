@@ -17,7 +17,7 @@ final _de = LDe();
 
 /// Erzählerakte (Finale Schlosskeller, A-063): Hintergründe aller Figuren und
 /// ihr Beziehungsnetz, nur für die Person, die erzählt. Pfadgleich; die Akte
-/// kommt lokal aus der Akte des Geräts ([PartyDaten.erzaehlerakte]), online
+/// kommt lokal aus der Akte des Geräts ([PartyDaten.erzaehlerakteFuer]), online
 /// garantiert die Inhaltskennung dieselbe Fassung. Nie übertragen.
 ///
 /// Sichtbar nur dem Erzähler-Platz: reihum über die Rollenphase
@@ -35,9 +35,13 @@ final _de = LDe();
 ///   durchgezogen, heimliche gestrichelt. Ein Tipp auf eine Figur hebt ihre
 ///   Bindungen hervor.
 class ErzaehlerakteAnsicht extends StatefulWidget {
-  const ErzaehlerakteAnsicht({super.key, required this.daten, required this.besetzt, this.spieler, this.reiter = 0});
+  const ErzaehlerakteAnsicht({super.key, required this.daten, required this.besetzt, required this.einfluss, this.spieler, this.reiter = 0});
 
   final PartyDaten daten;
+
+  /// Spielt der Abend „Dein Moment“? Dann stehen die Sterne als Ziele, sonst die
+  /// Ziele des Kanons ([PartyDaten.erzaehlerakteFuer]).
+  final bool einfluss;
 
   /// Besetzte Figuren des Abends in Besetzungsreihenfolge.
   final List<String> besetzt;
@@ -57,7 +61,7 @@ class _ErzaehlerakteAnsichtState extends State<ErzaehlerakteAnsicht> {
 
   @override
   Widget build(BuildContext context) {
-    final akte = widget.daten.erzaehlerakte;
+    final akte = widget.daten.erzaehlerakteFuer(einfluss: widget.einfluss);
     if (akte == null) return const SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -675,11 +679,13 @@ class NetzMaler extends CustomPainter {
 
 /// Öffnet die Erzählerakte als ganze Seite über dem Abend. [wache] und
 /// [erlaubt]: Ändert sich der Abend so, dass sie nicht mehr gilt (Finale, Sitz
-/// gewechselt), schließt sie sich selbst.
+/// gewechselt), schließt sie sich selbst. [einfluss]: Spielt der Abend „Dein
+/// Moment“ (Sterne als Ziele)?
 Future<void> zeigeErzaehlerakte(
   BuildContext context, {
   required PartyDaten daten,
   required List<String> besetzt,
+  required bool einfluss,
   String? Function(String figur)? spieler,
   Listenable? wache,
   bool Function()? erlaubt,
@@ -688,17 +694,18 @@ Future<void> zeigeErzaehlerakte(
   return Navigator.of(context).push<void>(
     MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (_) => ErzaehlerakteSeite(daten: daten, besetzt: besetzt, spieler: spieler, wache: wache, erlaubt: erlaubt),
+      builder: (_) => ErzaehlerakteSeite(daten: daten, besetzt: besetzt, einfluss: einfluss, spieler: spieler, wache: wache, erlaubt: erlaubt),
     ),
   );
 }
 
 /// Die Erzählerakte als eigene Seite mit „Schließen“.
 class ErzaehlerakteSeite extends StatefulWidget {
-  const ErzaehlerakteSeite({super.key, required this.daten, required this.besetzt, this.spieler, this.wache, this.erlaubt});
+  const ErzaehlerakteSeite({super.key, required this.daten, required this.besetzt, required this.einfluss, this.spieler, this.wache, this.erlaubt});
 
   final PartyDaten daten;
   final List<String> besetzt;
+  final bool einfluss;
   final String? Function(String figur)? spieler;
   final Listenable? wache;
   final bool Function()? erlaubt;
@@ -744,7 +751,7 @@ class _ErzaehlerakteSeiteState extends State<ErzaehlerakteSeite> {
               onPressed: () => Navigator.of(context).maybePop(),
             ),
           ],
-          child: ErzaehlerakteAnsicht(daten: widget.daten, besetzt: widget.besetzt, spieler: widget.spieler),
+          child: ErzaehlerakteAnsicht(daten: widget.daten, besetzt: widget.besetzt, einfluss: widget.einfluss, spieler: widget.spieler),
         ),
       );
 }
@@ -777,6 +784,7 @@ Future<void> erzaehlerakteZeigen(BuildContext context, PartySitzung s) => zeigeE
       context,
       daten: s.daten,
       besetzt: s.besetzt,
+      einfluss: s.einfluss,
       spieler: (f) => s.solo ? null : s.namen[f],
       wache: s,
       erlaubt: () => s.erzaehlerakteSichtbar,

@@ -55,7 +55,7 @@ PartyDaten get _daten => _gesamt ??= () {
     }();
 
 /// Langer Abend reihum mit Erzählerin Mia, fünf Rollen, Pfad ahmet.
-PartySitzung _abend({bool einstimmung = true, Abendfassung fassung = Abendfassung.lang}) => PartySitzung(_daten, salz: 'einstimmung-moment')
+PartySitzung _abend({bool einstimmung = true, Abendfassung fassung = Abendfassung.lang, bool einfluss = true}) => PartySitzung(_daten, salz: 'einstimmung-moment')
   ..einrichten(
     rollen: 5,
     detektiv: 'w',
@@ -64,7 +64,7 @@ PartySitzung _abend({bool einstimmung = true, Abendfassung fassung = Abendfassun
     namen: const {'ahmet': 'Ben', 'fatma': 'Cleo'},
     fassung: fassung,
     einstimmung: einstimmung,
-    einfluss: true,
+    einfluss: einfluss,
   );
 
 Map<String, Object?> _einrichten(PartySitzung s) =>
@@ -179,8 +179,8 @@ void main() {
   });
 
   test('Die Erzählerakte nennt als Ziele die Sterne von „Dein Moment“, wie die Rollen sie sehen', () {
-    final akte = _daten.erzaehlerakte!;
     final s = _abend();
+    final akte = _daten.erzaehlerakteFuer(einfluss: s.einfluss)!;
     einflussBis(s, PartyPhase.gespraeche);
     expect(s.erzaehlerakteSichtbar, isTrue);
     for (final r in s.besetzt) {
@@ -194,6 +194,37 @@ void main() {
       expect(f.ziele.map((z) => z.text), isNot(contains(_daten.kanon.figur(f.figur)?['persoenlichesZiel'])), reason: f.figur);
     }
     s.dispose();
+  });
+
+  testWidgets('Ohne „Dein Moment“ nennt die Erzählerakte die Ziele des Kanons, wie Rollenkarte und Dossier', (t) async {
+    final s = _abend(einfluss: false, fassung: Abendfassung.kurz, einstimmung: false);
+    addTearDown(s.dispose);
+    expect([s.einfluss, s.erzaehlerakteSichtbar], [false, true]);
+    final ziel = _daten.kanon.figur('leyla')!['persoenlichesZiel'] as String;
+    expect([for (final z in _daten.erzaehlerakteFuer(einfluss: s.einfluss)!.figur('leyla')!.ziele) z.text], [ziel]);
+    final sterne = [for (final z in _daten.erzaehlerakte!.figur('leyla')!.ziele) z.text];
+    expect(sterne, hasLength(2));
+    t.view.physicalSize = const Size(390, 844);
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.resetPhysicalSize);
+    addTearDown(t.view.resetDevicePixelRatio);
+    await t.pumpWidget(rahmen(MediaQuery(
+      data: const MediaQueryData(disableAnimations: true, size: Size(390, 844)),
+      child: Builder(builder: (c) => TextButton(onPressed: () => erzaehlerakteZeigen(c, s), child: const Text('akte'))),
+    )));
+    await t.tap(find.text('akte'));
+    await t.pumpAndSettle();
+    final liste = find.descendant(of: find.byKey(const ValueKey('erzaehlerakte-figuren')), matching: find.byType(Scrollable)).first;
+    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-leyla')), 300, scrollable: liste);
+    await t.ensureVisible(find.byKey(const ValueKey('akte-figur-leyla')));
+    await t.pump();
+    await t.tap(find.byKey(const ValueKey('akte-figur-leyla')));
+    await t.pump();
+    expect(find.text(ziel, skipOffstage: false), findsOneWidget);
+    for (final stern in sterne) {
+      expect(find.text(stern, skipOffstage: false), findsNothing, reason: stern);
+    }
+    expect(t.takeException(), isNull);
   });
 
   testWidgets('Am Gerät: Einstimmung, Vorspiel, Diashow, Runde 1 mit Moment-Liste; die Erzählerakte zeigt die Sterne', (t) async {

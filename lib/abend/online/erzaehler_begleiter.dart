@@ -25,6 +25,7 @@ final _de = LDe();
 /// Die Ansicht des Erzählers hat die Form eines Erzähler-Sitzes im
 /// Online-Abend (`SchlosskellerRaum`), damit sein Handy die gewohnte Gastseite
 /// zeigt: die Erzähltexte des Schritts, sein pfadfreies Erzählerpaket (A-052),
+/// mit „Dein Moment“ die Zug-Tafel der Runde (wie am offenen Pult),
 /// wen der Detektiv befragt, die Ermittlung, wie sie am Tisch offen liegt
 /// (Frage, Optionen, Zug, Nachtzeit, Marken, Funde, Würfe, Verdächtige), und
 /// „Weiter“, sobald der Abschnitt fertig ist. Nie Dossier, Tarnung,
@@ -260,6 +261,9 @@ class BegleiterRaum implements AbendRaum {
         'vorleser': true,
         if (s.rundgang == RundgangTeil.vorspiel) 'rundgangText': ?s.rundgangText?.vorlesen,
         if (s.einstimmung case final e?) 'einstimmungText': s.text(e.kennung),
+        // „Dein Moment“ (Finale §3.12): Die Zug-Tafel der Runde sieht nur dieses Handy, wie das offene
+        // Pult; dazu, dass der Abend die Schicht spielt (Sterne in der Erzählerakte).
+        if (s.einfluss) ...{'deinMoment': true, 'einflussTafel': ?s.einflussTafelBegleiter},
         'erzaehler': [
           for (final k in s.erzaehler)
             if (s.hatText(k)) s.text(k),

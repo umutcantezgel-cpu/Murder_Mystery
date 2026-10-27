@@ -1,7 +1,9 @@
 // Testhilfe für Einstimmung und Erzählerakte (Finale Schlosskeller, A-063):
 // der Schlosskeller wie in der App, mit Eintrag in akten.json (Zusätze samt
 // einstimmung, erzaehlerakte, einfluss), Diashow, Vorspiel und Morgen,
-// Steckbriefen, Erzählerakte und den Sternen der Einfluss-Schicht als Ziele.
+// Steckbriefen, Erzählerakte und den Sternen der Einfluss-Schicht als Ziele
+// (`PartyDaten.erzaehlerakteFuer(einfluss: true)`). Die Abende hier spielen ohne
+// die Schicht; ihre Erzählerakte nennt die Ziele des Kanons.
 import 'dart:convert';
 import 'dart:io';
 

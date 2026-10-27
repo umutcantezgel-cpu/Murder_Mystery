@@ -479,3 +479,11 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   29. §3.8 Fledermaus: nur negatives T doppelt (Deckel −2); kein Zusatz-Randnotiz-Bonus, weil jeder Vorrat eine ID hat
       (§3.5 Vorschlag). Ein Zusatzfund ist immer eine Randnotiz; Texte `einfluss.ereignis.fledermaus` und `.karte`
       angepasst.
+  30. §2 Erzählerakte folgt dem Abend: Die App zeigt die Sterne von „Dein Moment“ nur an Abenden mit der Schicht
+      (`PartyDaten.erzaehlerakteFuer(einfluss:)`; reihum, Pult, Gastgeber nach `PartySitzung.einfluss`, Gäste nach
+      `einfluss` in der Ansicht, das Erzähler-Handy reihum nach privat `deinMoment`), sonst `persoenlichesZiel` wie
+      Rollenkarte und Dossier. Der Druck (`--paket`, `--erzaehlerakte`) nennt standardmäßig `persoenlichesZiel`
+      (Druckspiel ohne Schicht, §3.1); `--dein-moment` setzt die Sterne (nur mit Fähigkeit `einfluss`).
+  31. §3.12 Erzähler-Handy reihum: Mit der Schicht schickt der Begleiter-Raum nur diesem Handy privat `einflussTafel`
+      (dieselbe Tafel wie am offenen Pult). Das Pult schließt, sobald das Gerät an eine Person geht (verdeckte Ansicht,
+      Zwischenstufe des Moments, „Zur Ermittlung“ nach den Folgen).
