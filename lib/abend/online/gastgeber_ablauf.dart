@@ -236,6 +236,7 @@ class _Menue extends StatelessWidget {
                 mitErzaehler: sitzung.daten.mitErzaehlerSitz,
                 detektivWort: detektivBezeichnung(l, sitzung.daten),
                 mitEinstimmung: sitzung.mitEinstimmung,
+                einfluss: sitzung.einfluss,
               ),
             ),
             const SizedBox(height: MMass.s16),

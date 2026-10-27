@@ -144,6 +144,8 @@ class GastgeberDienst extends ChangeNotifier {
         rundgang: daten.vorspielMorgen,
         // Einstimmung (A-063): nur, wenn die Meta sie einschaltet und die Akte eine hat.
         einstimmung: meta['einstimmung'] == true ? daten.einstimmung : null,
+        // „Dein Moment“ (Finale §3): nur aus der Meta und nur in Akten mit Regeln; sonst wie bisher.
+        einfluss: meta['einfluss'] == true ? daten.einfluss : null,
       );
 
   /// Die Erkundung der Akte für den Streifzug, nur im langen Abend einer Akte
@@ -167,7 +169,8 @@ class GastgeberDienst extends ChangeNotifier {
   /// [einstimmung] (Vorgeschichte und Vorstellung, A-063) nur in Akten mit
   /// Einstimmung; die Meta trägt `einstimmung: true` nur, wenn sie an ist.
   /// Alle Einstellungen liegen in [meta], damit [wiederherstellen] denselben
-  /// Abend aufbauen kann.
+  /// Abend aufbauen kann. [einfluss] schaltet „Dein Moment“ ein (nur Akten mit
+  /// Regeln, Meta `einfluss: true`, nur wenn an).
   static Future<GastgeberDienst> neu({
     required PartyDaten daten,
     required String akteId,
@@ -183,11 +186,13 @@ class GastgeberDienst extends ChangeNotifier {
     bool stimme = false,
     Abendfassung fassung = Abendfassung.kurz,
     bool einstimmung = false,
+    bool einfluss = false,
     RelayParameter? relay,
     void Function(String)? log,
   }) async {
     if (!sitz.vergeben) throw ArgumentError.value(sitz, 'sitz', 'Detektiv oder Erzähler');
     if (einstimmung && daten.einstimmung == null) throw ArgumentError.value(einstimmung, 'einstimmung', 'Diese Akte hat keine Einstimmung');
+    if (einfluss && daten.einfluss == null) throw ArgumentError.value(einfluss, 'einfluss', 'Diese Akte hat kein Dein Moment');
     if (fassung.istLang && !daten.hat('langfassung')) throw ArgumentError.value(fassung, 'fassung', 'Diese Akte hat keinen langen Abend');
     final zufall = math.Random.secure();
     final salz = [for (var i = 0; i < 32; i++) zufall.nextInt(256).toRadixString(16).padLeft(2, '0')].join();
@@ -203,6 +208,7 @@ class GastgeberDienst extends ChangeNotifier {
       'stimme': stimme,
       if (fassung.istLang) 'fassung': fassung.name,
       if (einstimmung) 'einstimmung': true,
+      if (einfluss) 'einfluss': true,
     };
     final erkundung = await _erkundungFuer(daten, akteId, fassung);
     final host = await RelayHost.neu(

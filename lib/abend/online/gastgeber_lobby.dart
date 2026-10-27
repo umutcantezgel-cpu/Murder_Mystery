@@ -314,6 +314,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
             mitErzaehler: d.daten.mitErzaehlerSitz,
             detektivWort: detektivBezeichnung(l, d.daten),
             mitEinstimmung: d.raum.einstimmung != null,
+            einfluss: d.raum.einfluss != null,
           ),
         ),
         if (vorschlag.isNotEmpty) ...[

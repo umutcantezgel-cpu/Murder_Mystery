@@ -186,7 +186,7 @@ void schritt(SchlosskellerRaum raum, Ermittlung erm, String pfad, {void Function
 /// zeigt die Einleitung eine Diashow mit so vielen Bildern (M4). Mit [fassung]
 /// lang und [erkundung] läuft der Streifzug (M7b), mit [rundgang] dazu Vorspiel
 /// und Morgen. Mit [einstimmung] beginnt die Einleitung mit Vorgeschichte und
-/// Vorstellung (A-063).
+/// Vorstellung (A-063). Mit [einfluss] spielt der Raum „Dein Moment“ (Finale §3).
 ///
 /// Mit [ohneFigur] sitzen 23 Geräte am Tisch und spielen alle zwanzig Rollen;
 /// das letzte Gerät, Greta (`g22`), bleibt ohne Figur (Assistenz).
@@ -201,6 +201,7 @@ SchlosskellerRaum sitzRaum({
   Erkundung? erkundung,
   VorspielMorgen? rundgang,
   Einstimmung? einstimmung,
+  EinflussRegeln? einfluss,
 }) {
   final d = daten ?? akteDaten('schlosskeller');
   final raum = SchlosskellerRaum(
@@ -217,6 +218,7 @@ SchlosskellerRaum sitzRaum({
     erkundung: erkundung,
     rundgang: rundgang,
     einstimmung: einstimmung,
+    einfluss: einfluss,
   );
   final plaetze = [
     ('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora'),

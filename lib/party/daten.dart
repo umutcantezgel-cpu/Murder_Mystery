@@ -43,6 +43,10 @@ class PartyDaten {
   /// Tests ohne Datei). Gespielt wird er nur im langen Abend.
   final VorspielMorgen? vorspielMorgen;
 
+  /// Regeln von „Dein Moment“ (Finale §3, `content/party/zusatz/<fall>/einfluss.json`), nur bei Akten
+  /// mit dem Zusatz `einfluss`; `null`: Die Akte kennt die Schicht nicht, jeder Abend bleibt wie bisher.
+  final EinflussRegeln? einfluss;
+
   /// Erzählerakte (A-063, `erzaehlerakte.json`), nur bei Akten mit dem Zusatz
   /// `erzaehlerakte`; `null` sonst. Sichtbar nur dem Erzähler-Platz
   /// (`erzaehlerakte_ansicht.dart`), nie Teil des Spielzustands.
@@ -53,7 +57,7 @@ class PartyDaten {
   final Steckbriefe? steckbriefe;
 
   PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow,
-      this.vorspielMorgen, {this.erzaehlerakte, this.steckbriefe})
+      this.vorspielMorgen, this.einfluss, {this.erzaehlerakte, this.steckbriefe})
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
 
   /// Einstimmung der Akte (Vorgeschichte und Vorstellung, A-063), nur mit dem
@@ -84,6 +88,7 @@ class PartyDaten {
     Map<String, Object?>? geruechte,
     Map<String, Object?>? diashow,
     Map<String, Object?>? vorspielMorgen,
+    Map<String, Object?>? einfluss,
     Map<String, Object?>? erzaehlerakte,
     Map<String, Object?>? erzaehlerZiele,
     Map<String, Object?>? steckbriefe,
@@ -94,6 +99,7 @@ class PartyDaten {
     final texte = Texte(kanon, sammlung);
     final karte = PartyKarte(kanon);
     final szenario = ScenarioDef.fromJson(partySzenarioJson(kanon, vorlage, id: 'party_$fall', welt: welt));
+    final regeln = einfluss == null ? null : EinflussRegeln.ausJson(einfluss, karte.ermittlung);
     return PartyDaten._(
       fall,
       kanon,
@@ -106,17 +112,18 @@ class PartyDaten {
       geruechte == null ? null : Geruechte.ausJson(geruechte),
       diashow == null ? null : Diashow.ausJson(diashow),
       vorspielMorgen == null ? null : VorspielMorgen.ausJson(vorspielMorgen),
-      erzaehlerakte: _erzaehlerakte(erzaehlerakte, erzaehlerZiele, kanon, texte, karte),
+      regeln,
+      erzaehlerakte: _erzaehlerakte(erzaehlerakte, regeln ?? (erzaehlerZiele == null ? null : EinflussRegeln.ausJson(erzaehlerZiele, karte.ermittlung)), kanon, texte),
       steckbriefe: steckbriefe == null ? null : Steckbriefe.ausJson(steckbriefe),
     );
   }
 
-  /// Die Erzählerakte aus Datei und Kanon. Mit [ziele] (`einfluss.json` der
-  /// Akte) zeigt sie die Sterne der Einfluss-Schicht, sonst die Ziele des Kanons.
-  static Erzaehlerakte? _erzaehlerakte(Map<String, Object?>? json, Map<String, Object?>? ziele, Kanon kanon, Texte texte, PartyKarte karte) {
+  /// Die Erzählerakte aus Datei und Kanon. Mit [regeln] (`einfluss.json` der
+  /// Akte; in Tests auch ohne die Schicht über `erzaehlerZiele`) zeigt sie die
+  /// Sterne der Einfluss-Schicht, sonst die Ziele des Kanons.
+  static Erzaehlerakte? _erzaehlerakte(Map<String, Object?>? json, EinflussRegeln? regeln, Kanon kanon, Texte texte) {
     if (json == null) return null;
-    final quelle = ziele == null ? null : EinflussZielQuelle(EinflussRegeln.ausJson(ziele, karte.ermittlung), texte);
-    return Erzaehlerakte.ausJson(json, kanon, ziele: quelle);
+    return Erzaehlerakte.ausJson(json, kanon, ziele: regeln == null ? null : EinflussZielQuelle(regeln, texte));
   }
 
   /// Lädt alle Dateien einer Akte aus den Assets (`content/party/<fall>/`).
@@ -168,6 +175,11 @@ class PartyDaten {
         vorspielMorgen = null;
       }
     }
+    // „Dein Moment“ (Finale §3) nur mit dem Zusatz einfluss; die Datei liegt neben den Abstechern.
+    // Ihre Sterne sind zugleich die Ziele der Erzählerakte.
+    final einfluss = (akte?.hat('einfluss') ?? false)
+        ? jsonDecode(await bundle.loadString('content/party/zusatz/$fall/einfluss.json')) as Map<String, Object?>
+        : null;
     final erzaehlteil = await _erzaehlteil(bundle, fall, akte);
     return PartyDaten.aus(eigen.lies, vorlage,
         fall: fall,
@@ -178,16 +190,16 @@ class PartyDaten {
         geruechte: geruechte,
         diashow: diashow,
         vorspielMorgen: vorspielMorgen,
+        einfluss: einfluss,
         erzaehlerakte: erzaehlteil.akte,
-        erzaehlerZiele: erzaehlteil.ziele,
         steckbriefe: erzaehlteil.steckbriefe);
   }
 
   /// Erzählteil der Akte (A-063): die Erzählerakte nur mit dem Zusatz
-  /// `erzaehlerakte`, ihre Ziele mit dem Zusatz `einfluss` aus den Sternen
-  /// (`content/party/zusatz/<fall>/einfluss.json`), die Steckbriefe nur für die
+  /// `erzaehlerakte` (ihre Ziele mit dem Zusatz `einfluss` aus den Sternen der
+  /// Regeln, die [laden] ohnehin liest), die Steckbriefe nur für die
   /// Vorstellungskarten der Einstimmung. Fehlt eine Datei, bleibt ihr Teil leer.
-  static Future<({Map<String, Object?>? akte, Map<String, Object?>? ziele, Map<String, Object?>? steckbriefe})> _erzaehlteil(
+  static Future<({Map<String, Object?>? akte, Map<String, Object?>? steckbriefe})> _erzaehlteil(
       AssetBundle bundle, String fall, AkteInfo? akte) async {
     Future<Map<String, Object?>?> json(String pfad) async {
       try {
@@ -200,7 +212,6 @@ class PartyDaten {
     final mitAkte = akte?.mitErzaehlerakte ?? false;
     return (
       akte: mitAkte ? await json('content/party/$fall/erzaehlerakte.json') : null,
-      ziele: mitAkte && (akte?.hat('einfluss') ?? false) ? await json('content/party/zusatz/$fall/einfluss.json') : null,
       steckbriefe: (akte?.mitEinstimmung ?? false) && (akte?.hat('steckbriefe') ?? false) ? await json('content/party/$fall/steckbriefe.json') : null,
     );
   }

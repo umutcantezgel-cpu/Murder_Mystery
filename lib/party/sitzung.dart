@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 
 import 'daten.dart';
+import 'einfluss_sicht.dart';
 import 'erzaehler_begleitung.dart';
 import 'runden_texte.dart';
 import 'stand/befragung_stand.dart';
@@ -694,9 +695,11 @@ class PartySitzung extends ChangeNotifier {
     String erzaehlerName = '',
     Abendfassung fassung = Abendfassung.kurz,
     bool einstimmung = false,
+    bool einfluss = false,
     @Deprecated('detektivName') String? geburtstagskind,
   }) {
     if (solo && druck) throw ArgumentError('Solo ist kein Druckspiel');
+    _einflussPruefen(einfluss: einfluss, druck: druck);
     if (fassung.istLang && !daten.hat('langfassung')) throw ArgumentError('Diese Akte hat keinen langen Abend');
     if (fassung.istLang && druck) throw ArgumentError('Das Druckspiel ist ein kurzer Abend');
     if (solo && erzaehlerName.trim().isNotEmpty) throw ArgumentError('Im Solo gibt es keinen Erzähler');
@@ -711,6 +714,7 @@ class PartySitzung extends ChangeNotifier {
       final papier = Spiel(daten.kanon, ermittlung: daten.karte.ermittlung)..einrichten(einstellung);
       _druckSpiel = papier;
     } else {
+      if (einfluss) _einflussPartie();
       _partie.einrichten(einstellung);
     }
     _code = c;
@@ -744,6 +748,8 @@ class PartySitzung extends ChangeNotifier {
       if (fassung.istLang) 'fassung': fassung.name,
       // Nur eine eingeschaltete Einstimmung steht im Journal (A-063); alte Stände bleiben, wie sie waren.
       if (einstimmung) 'einstimmung': true,
+      // „Dein Moment“ nur, wenn er an ist; Stände ohne den Eintrag laufen ohne Schicht.
+      if (einfluss) 'einfluss': true,
     });
     _melde();
     notifyListeners();
@@ -772,6 +778,7 @@ class PartySitzung extends ChangeNotifier {
   /// Ansicht schließen; der Bildschirm ist danach wieder neutral.
   void verdecken() {
     _verdeckt = null;
+    _momentRolle = null;
     _merke('verdecken');
     notifyListeners();
   }
@@ -945,6 +952,8 @@ class PartySitzung extends ChangeNotifier {
     if (rundgang != null) return false;
     if (solo && phase == PartyPhase.gespraeche && soloGespraeche.any((g) => !_soloGelesen.contains(g.id))) return false;
     if (phase == PartyPhase.gespraeche && !befragungenFertig) return false;
+    // „Dein Moment“: aus den Gesprächen erst, wenn alle Menschen am Tisch gezogen haben.
+    if (phase == PartyPhase.gespraeche && !momentFertig) return false;
     return mitWuerfel ? _partie.kannWeiter && _vorschlag == null : switch (phase) {
         PartyPhase.titel => true,
         PartyPhase.einrichtung => false,
@@ -966,11 +975,13 @@ class PartySitzung extends ChangeNotifier {
   void _weiter() {
     if (!kannWeiter) throw StateError('Der aktuelle Abschnitt ist noch nicht abgeschlossen.');
     final vorher = spiel.bausteine.length;
+    final folgenRunde = _einflussVorFolgen();
     if (mitWuerfel) {
       _partie.weiter();
     } else {
       spiel.weiter();
     }
+    _einflussNachFolgen(folgenRunde);
     _erzaehlerAb = vorher;
     _verdeckt = null;
     // Neue Texte liegen wieder zugedeckt im Pult, bis der Erzähler hinschaut.
@@ -1153,6 +1164,188 @@ class PartySitzung extends ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
+  // „Dein Moment“ (Finale §3): Jede besetzte Rolle zieht in den Gesprächen
+  // geheim einen Zug. Reihum in der verdeckten Einzelansicht ([momentZeigen]),
+  // im Solo ziehen die Bots. Aus den Gesprächen geht es erst, wenn alle Menschen
+  // gezogen haben; zu Beginn der Ermittlung liest der Vorleser die Folgen. Was
+  // die Schicht zeigt, kommt aus denselben Ansichten wie online ([EinflussRaum]).
+
+  /// Raumseite der Schicht an diesem Gerät: baut die Ansichten aus der Partie,
+  /// merkt die Bots je Runde und ihre Reaktionsblasen. Online liest der Gastgeber
+  /// die Ansichten des Raums.
+  EinflussRaum? _einflussRaum;
+
+  /// Raumseite für die Ansichten (an einem Gerät die eigene, sonst eine leere).
+  EinflussRaum get _raumSeite => _einflussRaum ??= EinflussRaum(_partie.einfluss!.regeln);
+
+  /// Spielt der Abend „Dein Moment“?
+  bool get einfluss => mitWuerfel && _partie.einfluss != null;
+
+  /// Die Schicht der Partie (Züge, Folgen, Ziele), sonst `null`.
+  EinflussAbend? get einflussAbend => mitWuerfel ? _partie.einfluss : null;
+
+  void _einflussPruefen({required bool einfluss, required bool druck}) {
+    if (!einfluss) return;
+    if (druck) throw ArgumentError('Das Druckspiel bleibt ohne Dein Moment');
+    if (daten.einfluss == null) throw ArgumentError('Diese Akte hat kein Dein Moment');
+  }
+
+  /// Baut die Partie mit den Regeln der Akte neu (vor ihrer Einrichtung); Deck und
+  /// Erkundungsorte bleiben. Bots und Ertappt ziehen aus dem Salz des Abends.
+  void _einflussPartie() {
+    final r = daten.einfluss!;
+    _partie = RundenPartie(daten.kanon,
+        quelle: _quelle, ermittlung: daten.karte.ermittlung, vorrat: _partie.vorrat, abstecher: _partie.abstecherOrte, einfluss: r, salz: _salz);
+    _einflussRaum = EinflussRaum(r);
+  }
+
+  /// Vor dem Wechsel aus den Gesprächen: Wer fehlt, zieht als Bot (an einem
+  /// Gerät nur im Solo). Liefert die Runde der Folgen, sonst `null`.
+  int? _einflussVorFolgen() {
+    if (!einfluss || phase != PartyPhase.gespraeche) return null;
+    _raumSeite.vorFolgen(_partie, (_) => !solo);
+    return runde;
+  }
+
+  void _einflussNachFolgen(int? runde) {
+    if (runde == null) return;
+    _raumSeite.nachFolgen(_partie, runde);
+  }
+
+  /// Öffentlich `einfluss` (wie im Raum); `null` ohne Schicht.
+  @protected
+  Map<String, Object?>? get einflussOeffentlich => einfluss ? _raumSeite.oeffentlich(_partie) : null;
+
+  /// Öffentliche Lage der Schicht: Leisten, Folgen, Tischwerte, Funde, Nachfragen.
+  EinflussLage? get einflussLage {
+    final j = einflussOeffentlich;
+    return j == null ? null : EinflussLage.ausJson(j);
+  }
+
+  /// Rollen mit Menschen, die ihren Moment in dieser Runde noch nicht gezogen
+  /// haben (reihum alle besetzten, im Solo keine).
+  List<String> get momentOffen {
+    final e = einflussAbend;
+    if (e == null || solo || phase != PartyPhase.gespraeche) return const [];
+    return [for (final r in besetzt) if (e.stand.zug(runde, r) == null) r];
+  }
+
+  /// Hat [rolle] in dieser Runde schon gezogen?
+  bool momentGezogen(String rolle) => einflussAbend?.stand.zug(runde, rolle) != null;
+
+  /// Dürfen die Gespräche enden? Ohne Schicht immer; sonst, wenn alle Menschen gezogen haben.
+  bool get momentFertig => !einfluss || phase != PartyPhase.gespraeche || momentOffen.isEmpty;
+
+  String? _momentRolle;
+
+  /// Rolle, deren Moment gerade verdeckt offen ist, sonst `null`.
+  String? get momentAnsicht => _verdeckt != null && _verdeckt == _momentRolle && phase == PartyPhase.gespraeche ? _verdeckt : null;
+
+  /// „Ich bin `Name`, zeig her“ für den Moment: die verdeckte Ansicht von [rolle].
+  void momentZeigen(String rolle) {
+    if (!einfluss || phase != PartyPhase.gespraeche) throw StateError('Kein Moment in diesem Abschnitt');
+    _momentRolle = rolle;
+    zeigeVerdeckt(rolle);
+  }
+
+  /// Privat `moment` von [rolle] (nur verdeckt oder nach dem Finale).
+  MomentSicht momentSicht(String rolle) {
+    _nurVerdeckt(rolle);
+    if (!einfluss) throw StateError('Ohne Dein Moment gibt es keinen Moment');
+    return MomentSicht.ausJson(_raumSeite.moment(_partie, rolle));
+  }
+
+  /// Der geheime Zug von [rolle] in dieser Runde (nur verdeckt). Danach ist der
+  /// Bildschirm zugedeckt; bis zu den Folgen lässt er sich ändern.
+  void momentZug(String rolle, ZugArt art, {String? ziel, String? tipp}) {
+    if (phase != PartyPhase.gespraeche) throw StateError('Ein Zug geht nur in den Gesprächen.');
+    _nurVerdeckt(rolle);
+    _partie.zugSetzen(rolle, art, ziel: ziel, tipp: tipp);
+    _verdeckt = null;
+    _momentRolle = null;
+    _merke('moment', {'rolle': rolle, 'art': art.name, 'ziel': ziel, 'tipp': tipp});
+    notifyListeners();
+  }
+
+  /// Zwei Sterne von [rolle] mit Live-Stand (nur verdeckt oder nach dem Finale).
+  List<SternSicht> zielStaende(String rolle) {
+    _nurVerdeckt(rolle);
+    final e = einflussAbend;
+    if (e == null) return const [];
+    return [for (final z in e.zielStaende(rolle)) SternSicht(nr: z.ziel.nr, schluessel: z.ziel.schluessel, stand: z.stand)];
+  }
+
+  /// Runde, deren Folgen an diesem Gerät gelesen sind (nicht im Journal: nach dem Fortsetzen liegen sie wieder offen).
+  int _folgenGelesen = 0;
+
+  /// Liegen die Folgen der Runde noch offen (zu Beginn der Ermittlung, bis der Vorleser sie gelesen hat)?
+  bool get folgenOffen => einfluss && phase == PartyPhase.entscheidungen && _folgenGelesen != runde && einflussAbend?.stand.folgenVon(runde) != null;
+
+  /// Die Folgen sind vorgelesen; die Ermittlung beginnt.
+  void folgenGelesen() {
+    if (_folgenGelesen == runde) return;
+    _folgenGelesen = runde;
+    notifyListeners();
+  }
+
+  /// Tischwert der Option [optionId] in dieser Runde (Abzeichen), `null` ohne Schicht.
+  int? tischwert(String optionId) => einfluss ? _partie.tisch(optionId) : null;
+
+  /// Zeile „Tisch“ der Chancenvorschau beim Wurf einer Pflichtsuche, sonst `null`.
+  ({int tisch, int umweg})? get tischVorschau {
+    final z = zug;
+    if (!einfluss || z == null || z.phase != RundenZugPhase.wurf) return null;
+    return _partie.tischVorschau();
+  }
+
+  /// Wortlaut einer Randnotiz (Beobachtung) und wer sie gemacht hat.
+  ({String? wer, String text})? randnotiz(String id) {
+    final b = spiel.ermittlung.beobachtungJson(id);
+    final t = b?['text'];
+    return t is String ? (wer: b?['wer'] as String?, text: t) : null;
+  }
+
+  /// Nachfragen nach Runde 3, vor der Anklage (§3.5); ohne Schicht 0.
+  int get nachfragenOffen => einfluss ? _partie.nachfragenOffen : 0;
+
+  /// Gewählte Optionen mit noch verborgener Randnotiz.
+  List<String> get nachfrageOptionen => einfluss ? _partie.nachfrageOptionen : const [];
+
+  /// Eine Nachfrage zu [optionId]: zeigt deren nächste Randnotiz (öffentlich in [einflussLage]).
+  void nachfrage(String optionId) {
+    _partie.nachfrage(optionId);
+    _merke('nachfrage', {'option': optionId});
+    notifyListeners();
+  }
+
+  /// Funde, die bis zum Zwischenresümee warteten (Umweg, „mauert“), sobald es sie zeigt.
+  Map<String, List<Aufdeckung>> get nachgereicht {
+    final e = einflussAbend;
+    if (e == null) return const {};
+    return {for (var r = 1; r <= runde; r++) ...e.nachgereicht(r)};
+  }
+
+  /// Zug-Tafel der laufenden Runde für den Erzähler (privat), sonst `null`.
+  @protected
+  Map<String, Object?>? get einflussTafelRoh => einfluss ? _raumSeite.tafel(_partie) : null;
+
+  /// Zug-Tafel am offenen Erzählerpult, online beim Erzähler-Sitz.
+  TafelSicht? get einflussTafel => pultOffen ? TafelSicht.ausJson(einflussTafelRoh) : null;
+
+  /// `aufloesung.einfluss` (erst nach dem Finale), sonst `null`.
+  @protected
+  Map<String, Object?>? get einflussAufloesungRoh => einfluss && nachFinale ? _raumSeite.aufloesung(_partie) : null;
+
+  /// Protokoll der Nacht, Sterne, Tipps und Auszeichnungen (erst nach dem Finale).
+  AufloesungSicht? get einflussAufloesung => AufloesungSicht.ausJson(einflussAufloesungRoh);
+
+  /// Online: Abendzeit des letzten Aufrufs im Moment, sonst `null`. An einem Gerät gibt es keinen.
+  int? get momentAufruf => null;
+
+  /// Online: den letzten Aufruf geben (wer leitet). An einem Gerät nichts.
+  void letzterAufruf() {}
+
+  // ---------------------------------------------------------------------------
   // Anklage, Finale, Auflösung
 
   List<String> get kernverdaechtige => kanon.kernverdaechtige;
@@ -1193,11 +1386,15 @@ class PartySitzung extends ChangeNotifier {
 
   /// Formatversion des Abendstands. Version 2 (A-051): Befragungen als Befehle
   /// `befragt` und `befragtFertig`; ein Stand der Version 1 einer Akte mit dem
-  /// Modell befragung stammt aus der alten Fassung und wird verworfen.
-  static const abendstandFormat = 'abendstand/2';
+  /// Modell befragung stammt aus der alten Fassung und wird verworfen. Version 3
+  /// (Finale §3.14): „Dein Moment“ mit `einrichten {einfluss: true}` und den
+  /// Befehlen `moment` und `nachfrage`; Stände ohne den Eintrag laufen ohne Schicht.
+  /// Ebenfalls in Version 3: die Einstimmung (A-063) mit `einrichten {einstimmung:
+  /// true}` und dem Befehl `einstimmung`; Stände ohne den Eintrag spielen ohne sie.
+  static const abendstandFormat = 'abendstand/3';
 
   /// Formate, die [fortsetzen] noch liest.
-  static const abendstandFormate = {'abendstand/1', abendstandFormat};
+  static const abendstandFormate = {'abendstand/1', 'abendstand/2', abendstandFormat};
 
   /// Der Abend zum Ablegen (JSON): Akte, Salz und alle Befehle seit dem Anlegen.
   Map<String, Object?> get abendstand => {
@@ -1273,6 +1470,8 @@ class PartySitzung extends ChangeNotifier {
           fassung: Abendfassung.lesen(b['fassung']),
           // Abende ohne den Schlüssel spielen ohne Einstimmung (A-063).
           einstimmung: b['einstimmung'] == true,
+          // Stände ohne den Schlüssel (vor abendstand/3 oder ohne Schicht) bleiben ohne „Dein Moment“.
+          einfluss: b['einfluss'] == true,
         );
       case 'zeigen':
         zeigeVerdeckt(text('rolle')!);
@@ -1306,6 +1505,11 @@ class PartySitzung extends ChangeNotifier {
         fundGelesen();
       case 'stimme':
         stimme(text('rolle')!, kooperativ: b['kooperativ'] == true);
+      case 'moment':
+        momentZug(text('rolle')!, ZugArt.lesen(b['art']) ?? (throw FormatException('unbekannte Zugart ${b['art']}')),
+            ziel: text('ziel'), tipp: text('tipp'));
+      case 'nachfrage':
+        nachfrage(text('option')!);
       case 'anklage':
         anklagen(text('person')!);
       case 'tiefe':

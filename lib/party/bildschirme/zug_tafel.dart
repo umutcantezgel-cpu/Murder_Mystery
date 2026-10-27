@@ -12,6 +12,7 @@ import '../../stil/stil.dart';
 import '../karten_figur.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'moment.dart' show momentTexte;
 
 /// Öffentliche Würfelbühne: Chancen vor dem Wurf, Wort und Symbol danach.
 /// Weder Bild noch Animation ermitteln das Ergebnis; allein der Zugkern würfelt.
@@ -146,6 +147,19 @@ class _Chancenzettel extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: eng ? _engeZeile(stufe, zeile) : _zeile(stufe, zeile),
+              ),
+            // „Dein Moment“ (Finale §3.4): Zeile „Tisch“ mit dem Tischwert und dem Bonus nach einem Umweg.
+            if (s.tischVorschau case final t? when t.tisch != 0 || t.umweg != 0)
+              Padding(
+                key: const ValueKey('chance-tisch'),
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  [
+                    if (t.tisch != 0) '${momentTexte(context).einfluss_tisch} ${t.tisch > 0 ? '+' : '-'}${t.tisch.abs()}',
+                    if (t.umweg != 0) '${momentTexte(context).einfluss_umweg} +${t.umweg}',
+                  ].join(' · '),
+                  style: zeile.copyWith(fontWeight: FontWeight.bold),
+                ),
               ),
           ],
         ),
@@ -377,7 +391,8 @@ class TischrufTafel extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           MGanzwortText(s.ui('ui.zug.tischruf'), style: MPapierSchrift.ueberschrift),
           const SizedBox(height: 8),
-          Text(s.ui('ui.zug.pech_szene'), style: MPapierSchrift.text),
+          // „Dein Moment“ (Finale §3.4): Die Spur verwischt; der Tisch ruft nochmal oder einen Umweg.
+          Text(s.ui(s.einfluss && s.zug!.verwischt ? 'einfluss.verwischt' : 'ui.zug.pech_szene'), style: MPapierSchrift.text),
           if (s.hatKarten) ...[
             const SizedBox(height: 12),
             MKartenablage(
@@ -396,8 +411,10 @@ class TischrufTafel extends StatelessWidget {
           ],
           const SizedBox(height: 16),
           MKnopf(text: s.ui('ui.zug.nochmal'), onPressed: () => s.tischruf(Tischruf.nochmal)),
+          if (s.einfluss) Padding(padding: const EdgeInsets.only(top: 4), child: Text(s.ui('einfluss.tischruf.nochmal'), style: MPapierSchrift.leise)),
           const SizedBox(height: 8),
           MKnopf(text: s.ui('ui.zug.umweg_knopf'), art: MKnopfArt.zweit, onPressed: () => s.tischruf(Tischruf.umweg)),
+          if (s.einfluss) Padding(padding: const EdgeInsets.only(top: 4), child: Text(s.ui('einfluss.tischruf.umweg'), style: MPapierSchrift.leise)),
         ]),
       ),
     ]);

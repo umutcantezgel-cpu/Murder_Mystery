@@ -63,7 +63,21 @@ class AnsichtsKartenQuelle implements KartenQuelle {
       aktion: jZahl(z['aktion']),
       ruf: Tischruf.values.where((r) => r.name == z['ruf']).firstOrNull,
       abstecher: z['abstecher'] is String ? z['abstecher'] as String : null,
+      // „Dein Moment“ (Finale §3.4): Tischwert, verwischte Spur und Kennzeichen des Fundes.
+      tisch: z['tisch'] is int ? z['tisch'] as int : null,
+      verwischt: z['verwischt'] == true,
+      einfluss: _einflussFund(z['einfluss']),
     );
+  }
+
+  /// Kennzeichen des Fundes aus der Ansicht, sonst `null` (ohne Schicht oder unlesbar).
+  static EinflussFund? _einflussFund(Object? j) {
+    if (j is! Map) return null;
+    try {
+      return EinflussFund.ausJson(j.cast<String, Object?>());
+    } on FormatException {
+      return null;
+    }
   }
 
   @override

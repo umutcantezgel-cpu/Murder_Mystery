@@ -146,6 +146,7 @@ class _AbendSeiteState extends State<AbendSeite> {
                       mitErzaehler: s.daten.mitErzaehlerSitz,
                       detektivWort: s.hatText('ui.allgemein.detektiv') ? s.text('ui.allgemein.detektiv') : null,
                       mitEinstimmung: s.mitEinstimmung,
+                      einfluss: s.einfluss,
                     ),
                   ),
                   Expanded(

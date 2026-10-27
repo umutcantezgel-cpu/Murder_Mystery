@@ -13,9 +13,12 @@ import 'einrichtung/abend_neu_seite.dart' show Spielweise;
 /// haben ([uebersichtPhasen]).
 enum UebersichtPhase { rollen, einstimmung, intro, gespraeche, entscheidungen, gruppenwahl, resuemee, anklage, finale }
 
-/// Die Abschnitte, die die Übersicht zeigt: ohne Einstimmung ([mitEinstimmung]) wie bisher.
-List<UebersichtPhase> uebersichtPhasen({bool mitEinstimmung = false}) =>
-    [for (final p in UebersichtPhase.values) if (mitEinstimmung || p != UebersichtPhase.einstimmung) p];
+/// Die Abschnitte, die die Übersicht zeigt: ohne Einstimmung ([mitEinstimmung]) wie bisher. Mit
+/// „Dein Moment“ ([einfluss], Finale §3) entfällt die Gruppenwahl (`entscheidungen → bonus`).
+List<UebersichtPhase> uebersichtPhasen({bool mitEinstimmung = false, bool einfluss = false}) => [
+      for (final p in UebersichtPhase.values)
+        if ((mitEinstimmung || p != UebersichtPhase.einstimmung) && !(einfluss && p == UebersichtPhase.gruppenwahl)) p,
+    ];
 
 /// Die Sitze eines Abends je Spielweise (Langer Abend M3): Solo ermittelt nur
 /// der Detektiv (Bots spielen die Rollen, nie ein Erzähler); an einem Gerät
@@ -32,10 +35,24 @@ List<Sitz> sitzeBei(Spielweise weise, {bool mitErzaehler = true}) => switch (wei
 /// Der Sitzzeitplan: die aktive Aufgabe von [sitz] im Abschnitt [phase] bei
 /// [weise], höchstens acht Wörter (R17). Jeder Sitz hat in jedem Abschnitt eine
 /// (Beleg: `rollen_uebersicht_test`). Den kurzen und den langen Abend trennt die
-/// Übersicht noch nicht; der lange kommt mit M7.
-String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase) {
+/// Übersicht noch nicht; der lange kommt mit M7. Mit [einfluss] („Dein Moment“,
+/// Finale §3) ziehen die Rollen in den Gesprächen ihren Moment, der Detektiv
+/// liest Tischwerte und ruft nach Pech, der Erzähler liest die Folgen vor.
+String aufgabe(L l, Spielweise weise, Sitz sitz, UebersichtPhase phase, {bool einfluss = false}) {
   final solo = weise == Spielweise.solo;
   final reihum = weise == Spielweise.reihum;
+  if (einfluss) {
+    switch ((sitz, phase)) {
+      case (Sitz.rolle, UebersichtPhase.gespraeche):
+        return l.aufgabe_rolle_moment;
+      case (Sitz.detektiv, UebersichtPhase.entscheidungen):
+        return l.aufgabe_detektiv_tischwerte;
+      case (Sitz.erzaehler, UebersichtPhase.entscheidungen):
+        return l.aufgabe_erzaehler_folgen;
+      default:
+        break;
+    }
+  }
   return switch (sitz) {
     Sitz.detektiv => switch (phase) {
         UebersichtPhase.rollen => l.aufgabe_detektiv_rollen,
@@ -112,7 +129,15 @@ String _phase(L l, UebersichtPhase p) => switch (p) {
 /// der Erzähler; der Detektiv heißt, wie die Akte ihn nennt ([detektivWort]).
 /// Mit Einstimmung ([mitEinstimmung], A-063) kommt ihr Abschnitt dazu.
 class RollenUebersicht extends StatefulWidget {
-  const RollenUebersicht({super.key, this.weise = Spielweise.eigene, this.hervorheben, this.mitErzaehler = true, this.detektivWort, this.mitEinstimmung = false});
+  const RollenUebersicht({
+    super.key,
+    this.weise = Spielweise.eigene,
+    this.hervorheben,
+    this.mitErzaehler = true,
+    this.detektivWort,
+    this.mitEinstimmung = false,
+    this.einfluss = false,
+  });
 
   final Spielweise weise;
   final Sitz? hervorheben;
@@ -120,6 +145,9 @@ class RollenUebersicht extends StatefulWidget {
 
   /// Spielt der Abend Vorgeschichte und Vorstellung?
   final bool mitEinstimmung;
+
+  /// Spielt der Abend „Dein Moment“ (Aufgaben je Sitz, [aufgabe])?
+  final bool einfluss;
 
   /// Bezeichnung des Detektiv-Sitzes in dieser Akte (Noir „Inspektor“); sonst „Detektiv“.
   final String? detektivWort;
@@ -161,7 +189,8 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
           _SitzKarte(
             weise: _weise,
             sitz: s,
-            phasen: uebersichtPhasen(mitEinstimmung: widget.mitEinstimmung),
+            phasen: uebersichtPhasen(mitEinstimmung: widget.mitEinstimmung, einfluss: widget.einfluss),
+            einfluss: widget.einfluss,
             detektivWort: widget.detektivWort,
             offen: _offen.contains(s),
             onTap: () => setState(() => _offen.contains(s) ? _offen.remove(s) : _offen.add(s)),
@@ -174,11 +203,12 @@ class _RollenUebersichtState extends State<RollenUebersicht> {
 /// Ein Sitz als aufklappbare Karteikarte: Name und was er tut; offen je
 /// Abschnitt seine Aufgabe.
 class _SitzKarte extends StatelessWidget {
-  const _SitzKarte({required this.weise, required this.sitz, required this.phasen, required this.offen, required this.onTap, this.detektivWort});
+  const _SitzKarte({required this.weise, required this.sitz, required this.phasen, required this.offen, required this.onTap, this.detektivWort, this.einfluss = false});
 
   final Spielweise weise;
   final Sitz sitz;
   final List<UebersichtPhase> phasen;
+  final bool einfluss;
   final String? detektivWort;
   final bool offen;
   final VoidCallback onTap;
@@ -231,7 +261,7 @@ class _SitzKarte extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(_phase(l, p).toUpperCase(), style: MPapierSchrift.marke),
-                        Text(aufgabe(l, weise, sitz, p), style: MPapierSchrift.text),
+                        Text(aufgabe(l, weise, sitz, p, einfluss: einfluss), style: MPapierSchrift.text),
                       ],
                     ),
                   ),
@@ -252,6 +282,7 @@ Future<void> zeigeRollenUebersicht(
   bool mitErzaehler = true,
   String? detektivWort,
   bool mitEinstimmung = false,
+  bool einfluss = false,
 }) {
   Klang.instanz.spiele('blatt', laut: 0.7);
   final l = L.of(context);
@@ -260,7 +291,14 @@ Future<void> zeigeRollenUebersicht(
     barrierColor: Colors.black.withValues(alpha: 0.6),
     builder: (c) => MKarteikartenDialog(
       titel: l.rollen_uebersicht_titel,
-      inhalt: RollenUebersicht(weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort, mitEinstimmung: mitEinstimmung),
+      inhalt: RollenUebersicht(
+        weise: weise,
+        hervorheben: hervorheben,
+        mitErzaehler: mitErzaehler,
+        detektivWort: detektivWort,
+        mitEinstimmung: mitEinstimmung,
+        einfluss: einfluss,
+      ),
       aktionen: [MKnopf(text: l.common_close, art: MKnopfArt.zweit, onPressed: () => Navigator.of(c).pop())],
     ),
   );
@@ -277,6 +315,7 @@ class RollenUebersichtKnopf extends StatelessWidget {
     this.mitErzaehler = true,
     this.detektivWort,
     this.mitEinstimmung = false,
+    this.einfluss = false,
   });
 
   final Spielweise weise;
@@ -286,13 +325,23 @@ class RollenUebersichtKnopf extends StatelessWidget {
   final String? detektivWort;
   final bool mitEinstimmung;
 
+  /// Spielt der Abend „Dein Moment“?
+  final bool einfluss;
+
   @override
   Widget build(BuildContext context) => MKnopf(
         key: const ValueKey('wer-macht-was'),
         text: L.of(context).rollen_uebersicht_oeffnen,
         art: art,
         icon: Icons.groups_outlined,
-        onPressed: () =>
-            zeigeRollenUebersicht(context, weise: weise, hervorheben: hervorheben, mitErzaehler: mitErzaehler, detektivWort: detektivWort, mitEinstimmung: mitEinstimmung),
+        onPressed: () => zeigeRollenUebersicht(
+          context,
+          weise: weise,
+          hervorheben: hervorheben,
+          mitErzaehler: mitErzaehler,
+          detektivWort: detektivWort,
+          mitEinstimmung: mitEinstimmung,
+          einfluss: einfluss,
+        ),
       );
 }
