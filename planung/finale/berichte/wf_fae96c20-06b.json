@@ -169,5 +169,261 @@
     "Ins Paket A gehören auch Felder, die das Paket B betreffen: Der Hintergrund von Herrn Schneider nennt Pawel (Sommerjob, schweigt über die Schäden, die Herr Schneider aus eigener Tasche bezahlt), so wie FAKTENBLATT §2.2. Den Satz 'Mit Ahmet, Fatma, Olli und Can gerät er in dieser Nacht je auf eigene Weise aneinander' habe ich bewusst ausgewogen gehalten. Das Netz liegt nicht in dieser Datei. Der Integrator führt es aus netz.json zusammen."
    ]
   }
+ },
+ {
+  "agent": "schreiben:akte-b",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehlerakte-b.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/erzaehlerakte_gesamt_probe.json"
+   ],
+   "pruefer_sauber": true,
+   "eintraege": 10,
+   "worte": 1655,
+   "offene_fragen": [
+    "Einige kleine Farbdetails stehen nicht im FAKTENBLATT: Lejla saß bei Serkan in der ersten Reihe, Zeynep singt im Morgengrauen unter der Dusche, Wojtek lernte Olli beim Umzug zwischen dem dritten und vierten Stock kennen, Aylin hebt sogar den Beleg vom Bäcker auf, Aylin leiht Pawel Ordner. Es sind keine Fallfakten. Sollen sie ins FAKTENBLATT oder wieder raus?",
+    "Die zuSchneider-Texte von Baran, Hana, Serkan und Tugba nennen Abend-Konflikte, die öffentlich und pfadgleich sind: Musik und Box, Ruß, die früh abgeschlossenen Tore, die Torte im Vorratsraum. Das ist Motiv-Wissen in eigenen Worten. Für die Erzählerakte ist das erlaubt, aber nicht für die Einstimmung. Bitte bestätigen.",
+    "Bei Damir lautet zuSchneider „stellt ihn zur Rede, unter vier Augen“. Das ist aus der heimlichen Netzkante abgeleitet und steht so nicht wörtlich im Kanon.",
+    "Bei Azra nennt zuSchneider ausdrücklich „die Vitrine im Turmgang“. Das stammt aus ihrem Motiv und ist pfadgleich. Bitte prüfen, ob das in der Erzählerakte gewollt ist.",
+    "Bewusst weggelassen: Die Dossier-Zeilen bei Azra („Olli nicht ohne Not belasten“) und bei Damir („Ahmet nicht ohne Not belasten“) hängen an pfadabhängigen Beobachtungen. Ebenso fehlen b_hana_umschlag und b_wojtek_vorbei, weil sie zu nah an Versteck und Abend liegen. Die Hintergründe verweisen stattdessen nur auf die Felder „Motiv“ und „Geheimnis“, ohne deren Inhalt zu wiederholen.",
+    "Geprüft: nur die Datei mit „--modus akte --teil“, Ergebnis 0 FEHLER und 0 WARNUNG, Satzschnitt 10,7. Zusätzlich eine Zusammenführung aus erzaehlerakte-a.json, erzaehlerakte-b.json und netz.json ohne „--teil“, ebenfalls 0 FEHLER und 0 WARNUNG. Offen: Die Prüfung der zusammengesetzten toJson() mit den Kanonfeldern macht erst der Kernprüfer pruefeErzaehlerakte."
+   ]
+  }
+ },
+ {
+  "agent": "pruefen:vorgeschichte",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehler-vorgeschichte.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/ui-einstimmung-titel.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/einstimmung_kern/pruefe_vorgeschichte.dart"
+   ],
+   "behoben": [
+    "Schon vor der Nachbesserung war die Mechanik sauber: Entwurfsprüfer 0 FEHLER, 0 WARNUNG; echter Kernprüfer pruefeEinstimmung aus finale/n1 0 Befunde. Alle folgenden Befunde stammen aus der Prüfung nach Bedeutung.",
+    "Can wurde zu deutlich auf den Streich hin erzählt. „Can hat angekündigt, den ganzen Abend zu filmen. Daraus soll ein Video werden, über das alle noch lange lachen“ stand direkt vor „Für Mitternacht stehen Torte und ein Spiel im Plan“. Zusammen deutete das auf einen geplanten Spaß bei der Torte, also Cans Nebendelikt. Außerdem widerspricht „den ganzen Abend“ dem Handykorb ab 23:55. Neu: „Can will aus dem Abend ein Video für alle machen.“ Der Satz über Mitternacht steht jetzt vor Olli und Can.",
+    "Olli wurde auf seinen Türschaden hin erzählt. „Für den Aufbau gemeldet, und zwar für alles gleichzeitig“ deutete auf Überladen und Ungeschick, also auf den Türschaden. Neu: „Olli hat sich als Erster für den Aufbau gemeldet.“",
+    "Ahmet stand im Block clique im Mittelpunkt. Er hatte zwei Anekdoten, „Der Radlehrer von damals“ war ein dritter versteckter Verweis, und Fatma und Olli hingen an ihm. Neu: Jede Kernfigur ist mit jeder anderen verbunden (Radfahren, Schulbank, Fatma eine Klasse darunter, Can filmt Ollis Spiele, Fatma gestaltet Cans Vorschaubilder) und wird im Block genau zweimal genannt. Ahmet steht nur noch einmal als Subjekt.",
+    "Der Block eigenarten wiederholte fast wortgleich die Vorstellungs-Entwürfe, die man wenige Minuten später hört. Zum Beispiel stand dort „Wo es etwas anzupacken gibt, ist Olli längst da“, in der Vorstellung steht „Wo etwas anzupacken ist, steht Olli schon bereit“. Dasselbe galt für Fatmas Farben und Meinung und für Can mit dem Handy. Der Block erzählt jetzt nur Gewohnheiten der ganzen Clique als „ungeschriebene Gesetze“, ohne Namen. Die Nennungen bleiben ausgewogen: Ahmet 3, Fatma 3, Olli 3, Can 3.",
+    "„Das Buffet ist bestellt“ berührte Ahmets Motiv, die viel zu große Essensbestellung. Neu: „Das Buffet ist geplant“. Aus demselben Grund steht „zu viel gegessen“ nicht mehr im Text; neu: „zu laut gelacht und zu spät aufgeräumt“.",
+    "„gewachsen“ enthält die Spoiler-Silbe „wachs“, die FAKTENBLATT §7 als Falle nennt; der Prüfer übersieht sie, weil das Wort nicht damit beginnt. Neu: „sondern über viele Jahre, Stück für Stück“. Der Kapiteltitel heißt jetzt „Wie die Clique entstand“ statt „Wie die Clique wuchs“.",
+    "Doppelung mit dem Vorspiel vermieden: Das Vorspiel beginnt mit „Ein Samstag im November, kurz nach sechs“. Darum steht in heute jetzt „Heute ist Samstag …“ und „früh dunkel und kalt“. Der Ausklang mit „Westwind“ und „Hört ihr es schon singen?“ bleibt.",
+    "Logikfehler im Block keller: „Blieb nur die Frage, wohin …“ stand nach dem Versand der Einladung. Neu ohne Zeitfolge: „Wo aber feiert eine so große Clique? In kein Wohnzimmer passen so viele Leute.“ Der Satz „Ahmet hat den Keller organisiert.“ bleibt wortgleich und ohne Zusatz zum Wie.",
+    "Schiefes Bild im Block schloss beim Vorlesen: „dass ein ausgestreckter Arm nicht hindurchreicht“ heißt jetzt „Die Mauern sind dicker, als ein Arm lang ist.“ Dazu ein doppeltes „dann“ im Block einladung geglättet.",
+    "Kapiteltitel angepasst: eigenarten heißt „Ungeschriebene Gesetze“, heute heißt „Auf dem Weg“. Der Hinweistext der Datei erklärt die neue Verteilung der Namen.",
+    "Endstand: Je Block 90–98 Wörter, gesamt 656, Satzschnitt 10,9. Entwurfsprüfer 0 FEHLER, 0 WARNUNG für beide Dateien. Echter Kernprüfer pruefeEinstimmung (Worktree finale/n1, mit Textprüfer und Vorspiel, über das Hilfsskript im Scratchpad) 0 Befunde. Ein absichtlich eingebauter Fehler wurde vom Hilfsskript erkannt, die Prüfung greift also. Nichts unter content/, lib/, packages/, test/ oder tool/ geändert."
+   ],
+   "offen": [
+    "FAKTENBLATT §4.7 und §6 (Tabelle der Nennungen) passen nicht mehr zum Entwurf. Die Zahl der Nennungen stimmt weiter (je drei), aber die Verteilung ist anders: Ahmet clique×2 und keller; Fatma clique×2 und einladung; Olli und Can je clique×2 und heute. Eigenarten nennt keine Figur. Das Faktenblatt habe ich nicht geändert. Wer es betreut, sollte das nachtragen.",
+    "Neu erfundene Gewohnheiten der ganzen Clique, die nicht im Faktenblatt stehen: Alle reden gleichzeitig; wer als Letzter kommt, bekommt Applaus; es wird zu spät aufgeräumt; Geschichten werden beim Erzählen besser. Sie sind harmlos und keiner Figur zugeordnet, sollten aber im Faktenblatt als [N] eingetragen werden.",
+    "Starke Wortgleichheit zwischen vorgeschichte.schneider und schneider.hintergrund in erzaehlerakte-a.json, zum Beispiel „Krümel und Matsch an den Schuhen“, „Kommen Schulklassen, führt er sie durch …“, „Gelernt hat er Gärtner“, „Feste mag er trotzdem“. Das verstößt gegen keine Regel und verrät nichts, denn es sind öffentliche Eigenschaften und die Akte liest nur der Erzähler. Die Akte könnte aber anders formuliert werden, damit der Erzähler nicht zweimal dasselbe liest.",
+    "Der Kernprüfer lief mit den Vorstellungs- und Netz-Platzhaltern aus einstimmung_hilfe.dart, nicht mit vorstellung-a/-b.json und dem echten netz.json. Für die Vorgeschichte spielt das keine Rolle. Die Gesamtprüfung aller Texte der Einstimmung bleibt aber Sache des Integrators.",
+    "Die Reihenfolge der Teile ist die aus dem Auftrag. Das Feld setting.vorgeschichte in setting.json und die Übernahme nach texte/ui-erzaehler.json macht der Integrator."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "pruefen:vorstellung-a",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-a.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/vorstellung_a_kern/pruefe_kern.dart"
+   ],
+   "behoben": [
+    "vorstellung.start: „euch kennt es noch nicht“ passte nicht zum Kanon. Emine war laut netz.json mit ihrer Schulklasse schon im Schloss, und Ahmet hat den Keller organisiert. Neu: „aber noch nie euch alle auf einmal. Zeit, dass es euch kennenlernt.“ Der Text hat jetzt 34 von höchstens 35 Wörtern.",
+    "vorstellung.ahmet: Die Pointe „Hätten die alten Mauern Hände, sie hätten längst auch eine“ verband Ahmet über das Wort „längst“ mit früheren Absprachen mit dem Schloss. Das liegt nahe am heimlichen Gefallen beim Keller. Dazu fiel das warnende „Vorsicht dabei“ weg. Neue Pointe: „Schlaue Gäste winken deshalb lieber schon von Weitem.“ Sie hat nichts mit dem Schloss zu tun.",
+    "vorstellung.fatma: Die Pointe „Für Grau allein kennt sie zwanzig Wörter“ folgte direkt auf das taubengraue Kopftuch und wirkte damit wie ein Witz über das Kopftuch (TON §7). Eine Pointe über alte Mauern hätte dagegen auf ihr Motiv gezeigt (alte Münzbilder, Vitrine). Neu und ohne Bezug auf eine Farbe: „Wer etwas nur hübsch nennt, bekommt von ihr gleich eine kleine Farbenlehre dazu.“ Das Kopftuch bleibt als bloße Kleidung aus dem Steckbrief stehen.",
+    "vorstellung.olli: „Die Geschichte hat mehr Stockwerke als das ganze Schloss“ verband Tragen, Stockwerke und Schloss. Das liegt nahe an seinem Nebendelikt, denn er hat die Behälter durch den Turm getragen und dabei die Bogentür geschrammt (FAKTENBLATT §6: nicht „Tragen“). Neu: „Die Geschichte dauert meistens länger als der Umzug selbst.“ Außerdem fiel „meistens im grauen Pulli“ weg. Die Ärmel dieses Pullis tragen in Ollis Pfad den Schlüsselbeweis. So nennt keine der vier Kernfiguren ein Kleidungsstück, an dem ein Beweis hängt: Ahmet ohne Jacke, Fatma ohne Mantel, Can ohne Kapuze, Olli ohne Weste und Pulli.",
+    "vorstellung.zeynep: „der minzgrüne Pulli ist weit“ erinnerte an Cans weiten Pulli, in dessen Bauchtasche die Maske steckt (Option e2_1_bauchtasche mit Bezug can und zeynep). Neu: „dazu trägt sie einen minzgrünen Pulli“. Außerdem kam „zählt“ in zwei Texten direkt hintereinander vor (Marek, dann Zeynep). Neue Pointe: „Sogar das Teetrinken wird bei ihr zum Wettrennen.“",
+    "vorstellung.tim: Lejla und Tim gaben beide „gute Ratschläge“, dieselbe Wendung in zwei Vorstellungen. Neu: „Tipps verteilt er großzügig, ob man fragt oder nicht.“ Die Verbindung zu Olli liest sich jetzt flüssiger: „…, und seitdem schrauben die zwei zusammen.“",
+    "vorstellung.johanna: „stellt sie ihn vor eine alte Mauer“ klang beim Vorlesen nach „an die Wand stellen“, also nach einer Hinrichtung. Neu: „Notfalls fotografiert sie ihn eben von hinten und nennt es Kunst.“ Der Text zeigt bewusst keinen Spuk-Schatten im Bild, denn alles Sichtbare am Spuk würde auf die Leuchtmaske weisen.",
+    "vorstellung.emine: „brav“ ergänzt, damit die Echo-Pointe beim lauten Lesen klarer wird.",
+    "hinweis: Das Feld ist auf dem neuen Stand. Es hält die gleiche Bauart der vier Kernfiguren fest, dass ihre Pointen nicht im Schloss spielen, und listet alle bewusst weggelassenen Merkmale: Ollis Pulli, die Märkte aus Ahmets Alltag, Zeyneps Kopfhörer und weiten Pulli. Dazu der Satz „Kopftuch nur Kleidung, nie Pointe“.",
+    "Prüfungen nach den Änderungen: Der Entwurfsprüfer (--modus vorlesen --netz netz.json) meldet 0 FEHLER und 0 WARNUNG, Satzschnitt 10,3. Die Wortzahlen liegen für start bei 34, für die Kernfiguren bei 52, 59, 50 und 53, für die übrigen zwischen 53 und 63. Der echte Kernprüfer pruefeEinstimmung (Worktree finale/n1) lief über alle Einstimmungs-Entwürfe mit dem echten netz.json, dazu eine Zusatzprüfung für Regel 14 (Kernfiguren nennen keine andere Kernfigur). Ergebnis: 0 Befunde. Eine Probe mit absichtlich eingebauten Fehlern zeigte, dass Fünf-Wort-Regel, Sperrwörter und Regel 14 wirklich anschlagen."
+   ],
+   "offen": [
+    "Fatmas taubengraues Kopftuch bleibt ihr einziges sichtbares Kleidungsmerkmal neben dem Rollkragen. Mantel, Ring und Tasche sind Beweisstücke und fallen weg. Nach TON §7 ist das als Kleidung erlaubt und hängt an keiner Pointe mehr. Ein Sensitivitätsleser sollte das trotzdem kurz bestätigen.",
+    "Joanna: „Wer sich drücken will, hat keine Chance“ erinnert schwach daran, dass Ahmet sie bittet, das Streitfoto zu löschen. Das gilt in allen vier Pfaden (f_foto_streit), unterscheidet also keinen Pfad, und Joanna nennt Ahmet nicht. Ich habe den Satz stehen lassen, weil er der natürlichste Witz für eine Fotografin ist.",
+    "Fatma: „studiert Kommunikationsdesign, schon im letzten Semester“ ist wörtlich der öffentliche Alltag, deutet aber auf eine Abschlussarbeit hin. Ihr Thema, alte Münzbilder, ist geheim. Ich halte das für unbedenklich und habe es nicht geändert.",
+    "Das Netz lässt öffentlich zu, dass Fatma, Olli und Can Ahmet nennen. Nur Regel 14 aus der SPEZIFIKATION verbietet das. pruefeEinstimmung im Branch finale/n1 prüft Regel 14 nicht: Eine eingebaute Nennung von Ahmet im Text von Fatma blieb ohne Befund und fiel nur meiner Zusatzprüfung auf. Diese Regel muss also noch in den Kernprüfer, sonst ist sie nicht erzwungen. Am Kern habe ich nichts geändert.",
+    "Außerhalb dieses Pakets: ui-einstimmung-titel.json enthält zusätzlich ui.einstimmung.titel.vorstellung. Einstimmung.titel() im Kern kennt aber nur die Teile der Vorgeschichte, der Schlüssel bliebe also ungenutzt. Das sollte der Integrator klären. Die Datei habe ich nicht geändert, sie und erzaehler-vorgeschichte.json bearbeitet gerade ein anderer Agent.",
+    "Der Kernlauf nutzt den Inhalt aus dem Worktree finale/n1. Er ist mit content/party/schlosskeller und dem Vorspiel im Hauptrepo identisch (mit diff -rq geprüft)."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "pruefen:vorstellung-b",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-b.json"
+   ],
+   "behoben": [
+    "vorstellung.aylin: Die Ledermappe ist gestrichen. Nach gegenstaende.json (quittung_aylin, 'in Aylins Ledermappe') ist sie der verdeckte Fundort des Quittungszettels. Der Satz 'drückt eine schwarze Ledermappe fest an die Brust' hätte auf Ahmets Miete gezeigt und Ahmet hervorgehoben. Als Erkennungsmerkmal steht jetzt die taubenblaue Strickjacke über der weißen Bluse aus dem Steckbrief.",
+    "vorstellung.aylin: Die Pointe 'Klickt er dreimal, ist irgendwo ein Komma verrutscht' klang nach einem Rechenfehler, also nach Geld oder Belegen. Sie heißt jetzt 'steht irgendwo ein Stuhl schief' und meint nur Ordnung.",
+    "vorstellung.selin: 'Alte Rüstungen findet sie unheimlich' ist ersetzt durch 'Bei lauten Geräuschen zuckt sie zusammen' (Steckbrief). Die Rüstung ist Suchstelle in Runde drei (e3_1_turmgang, Bezug can/selin) und im Can-Pfad der Fundort des Bunds (ruestungshelm). Laut FAKTENBLATT §1.2 gehört keine Suchstelle in die Einstimmung, und die Rüstung kommt ohnehin im Intro. Neu ist der Witz 'ausgerechnet mit Zeynep, und die ist laut und früh wach'.",
+    "vorstellung.detektiv.m/.w: 'Um Mitternacht wirst du die blinde Kuh' widersprach z_tortenplan, denn die Augenbinde gibt es schon um fünf vor zwölf. Es heißt jetzt 'Beim Mitternachtsspiel wirst du die blinde Kuh'.",
+    "vorstellung.detektiv.m/.w: Der Schlusssatz 'Danach nennen dich alle nur noch den Detektiv/die Detektivin' nahm die Pointe aus intro.auftrag vorweg und deutete die Tat an. Er ist gestrichen. Die m/w-Fassungen unterscheiden sich jetzt über den Kostümvergleich 'Wie ein echter Detektiv / Wie eine echte Detektivin hörst du genau hin und fragst nach' (Steckbrief).",
+    "vorstellung.detektiv.m/.w: 'aus deiner Pfeife steigen nur Seifenblasen' war ein Witz, der Rauch voraussetzt. Nach TON §6 heißt es jetzt 'deine Pfeife bläst Seifenblasen'.",
+    "vorstellung.hakan: Die Pointe 'Wer sich in der Pause zankte, landete zuerst bei Pawel und nur selten bei Serkan' zielte auf Verletzungen nach Streit. Das ist in einem Fall mit Schlag heikel. Neu ist 'Wer mit ihm einen Streit klärt, weiß danach oft nicht mehr, worum es ging'. Zeitgleich wie im FAKTENBLATT heißt es jetzt 'Schon an der Gesamtschule war er Streitschlichter, als Serkan dort Schulsanitäter war'.",
+    "vorstellung.serkan: Der Schlusssatz 'bevor er Hallo gesagt hat' war beim Hören mehrdeutig (wer ist er?) und wiederholte den Eröffnungswitz. Neu ist der Spuk-Haken 'Mitnehmen würde er jeden, nur das Schloss passt leider in kein Auto.'",
+    "vorstellung.dilara: 'Manche Händler packen schon ein' klang nach Einpacken von Wertsachen, und Fatmas ausgebeulte Tasche ist ein Indiz. Es heißt jetzt 'Manche Händler stöhnen schon'.",
+    "vorstellung.enes: Den holprigen Nebensatz 'wie das Glas schon wieder voll ist' gibt es nicht mehr. Er heißt jetzt 'wie er das Glas schon wieder nachfüllt'.",
+    "vorstellung.kaan: 'für die Mappe' heißt jetzt 'für seine Mappe' (klarer; kein Anklang an eine andere Mappe).",
+    "hinweis: Die Angabe, Pawel nenne Aylin, war falsch (der Text nannte Aylin nie) und ist korrigiert. Ergänzt sind die weggelassenen Fundorte und Suchstellen (Ledermappe, Rüstung), das Verbot von Geld-, Zahlen- und Verletzungspointen und die Regeln für die Detektiv-Fassungen.",
+    "Prüfungen nach den Korrekturen: Der Entwurfsprüfer (--modus vorlesen --netz netz.json) meldet FEHLER=0 und WARNUNG=0 bei einem Satzschnitt von 10,8. Der echte Kernprüfer pruefeEinstimmung aus dem Worktree finale/n1 (Hilfsskript vorstellung_a_kern/pruefe_kern.dart, mit Vorgeschichte, Vorstellung A und B, Kapiteltiteln und netz.json) meldet 0 Befunde. Wortzahlen: Figuren 56–68, npc 31, Detektiv je 64."
+   ],
+   "offen": [
+    "Nicht in dieser Datei: erzaehlerakte-a.json detektiv.hintergrund schreibt 'Dass er um Mitternacht die blinde Kuh wird'. Die Augenbinde gibt es aber schon um fünf vor zwölf (z_tortenplan). Vorschlag: 'beim Mitternachtsspiel'.",
+    "Nicht in dieser Datei: erzaehlerakte-b.json hakan.hintergrund behält den Witz 'Serkan als Schulsanitäter dank ihm zum Glück weniger' mit Verletzungsanklang. Er wird nicht vorgelesen; bitte nach Ermessen glätten.",
+    "FAKTENBLATT §5 (Sibel) erlaubt die Angst vor Rüstungen als Eigenart, §1.2 sperrt die Rüstung als Suchstelle. Die Vorstellung folgt jetzt der strengeren Regel. Ob die Erzählerakte (selin.hintergrund 'Alte Rüstungen …') das auch soll, sollte der Integrator entscheiden. Dort ist es unkritisch, weil die Erzählerakte nicht öffentlich ist.",
+    "vorstellung.hakan hat 68 Wörter und liegt damit nahe an der Obergrenze von 70. Kleine spätere Ergänzungen sprengen die Spanne.",
+    "Hanas Satz 'von Holz versteht sie mehr als alle anderen hier' ist ein öffentlicher Vorlauf zum Kamin-Lacher im Intro. Das ist gewollt und nicht pfadabhängig; es steht hier nur zur Kenntnis.",
+    "Herr Schneider kommt in Paket B nur bei Tugba vor (öffentliche Kante Ablaufplan, laut FAKTENBLATT vor dem Abend). Emine in Paket A könnte ihn über ihre öffentliche Kante auch nennen, tut es aber nicht. Das ist kein Fehler; es steht hier nur zum Abgleich mit Paket A."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "pruefen:akte-a",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehlerakte-a.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/akte_a_pruefung/kern_gesamt_a.dart"
+   ],
+   "behoben": [
+    "Ausgangslage: Das Entwurfsprüfwerkzeug (--modus akte --teil) meldete schon vor den Änderungen 0 FEHLER und 0 WARNUNG. Mein Hilfsskript setzt einleitung, schneider, detektiv und figuren aus erzaehlerakte-a.json mit erzaehlerakte-b.json und netz.json zusammen und lässt den echten Kernprüfer pruefeErzaehlerakte aus dem Worktree finale/n1 darüber laufen (Ton-Prüfer eingeschaltet, echter hinweis). Ergebnis: 0 Befunde bei 20 Figuren und 45 Kanten.",
+    "schneider.hintergrund: Der Satz „Er übersteht sie mit einer Beule …“ war mehrdeutig. „sie“ ließ sich auf Ahmet, Fatma, Olli und Can beziehen, also so lesen, als hätten alle vier ihn angegriffen. Er heißt jetzt „Die Nacht übersteht er mit einer Beule und einer Lücke in der Erinnerung, und bald ist er wieder grantig.“",
+    "schneider.hintergrund: Der Text war fast wortgleich mit vorgeschichte.schneider, die laut vorgelesen wird. Neu geschrieben: Er verweist für das Öffentliche auf die Vorgeschichte und erzählt dann, was der Erzähler braucht: die Sorge um das anvertraute Schloss, die Meldepflicht für Schäden, kleine Schäden zahlt er heimlich selbst (das weiß Pawel), den Ablaufplan mit Tugba (Faktenblatt) und dieselbe ausgewogene Zeile zu allen vier Kernfiguren. Neu ist nichts, was nur auf eine Kernfigur zeigt, also weder der Keller-Gefallen noch die Liste Tür, Parkplatz, Musik, Vitrine noch die Kapuze aus seiner Erinnerung.",
+    "detektiv.hintergrund: Statt „hier steht kurz ‚er‘“ steht jetzt eine Fassung ganz ohne Pronomen, die für Detektiv und Detektivin gilt (Änderung 16, TON §3: Bausteine geschlechtsneutral). „Trenchcoat“ ist geblieben, „Mantel“ kommt nicht vor. 76 Wörter.",
+    "einleitung: „kommt nur durch die Spieler selbst ans Licht“ stimmte nicht, denn auch Ermittlung und Auspacken decken auf. Neu: „kommt nur im Spiel ans Licht, nie durch dich.“ Es bleiben vier Sätze, und die Einleitung sagt weiter, dass der Täter nicht in der Akte steht.",
+    "Gleich zwielichtig: Bei Can stand „für Mitternacht eine eigene Überraschung“. Als einzige der vier Kernfiguren war sein Geheimnis damit auf die Tatzeit gelegt. Jetzt steht dort „für diesen Abend“, so wie bei Fatma und Olli „an diesem Abend“. Dasselbe bei Zeynep („für diesen Abend Hilfe zugesagt“).",
+    "Gleiche Gestalt: Die zuSchneider-Texte von Fatma, Olli und Can haben jetzt alle drei denselben Satzbau: „Vor dem Abend hatte X mit Herrn Schneider nichts zu tun, weder offen noch heimlich. Wie sie am Abend aneinandergeraten, steht unter Motiv.“ Vorher hießen sie unterschiedlich: „Vor diesem Samstag … die beiden“, „Bis zu diesem Abend …“, „gab es … nichts“. Tim und Joanna sagen nun ebenfalls „Vor dem Abend“.",
+    "Sprache: Bei Olli stand „handelt sich einen Schaden ein“, was „erleidet einen Schaden“ bedeutet. Jetzt „richtet … einen Schaden an“. Fatmas holpriger Satz „peinlich werden soll ihr nichts davon“ heißt jetzt „Aufsehen um ihre Person ist ihr ein Graus“. Cans „vorher verraten darf ihn keiner“ heißt jetzt „ein Witz, der vorher herauskommt, ist keiner mehr“.",
+    "murat.zuSchneider: Der schiefe Satz „Heimlich ist es Herrn Schneiders reservierter Platz“ ist ersetzt durch „Der Platz ist aber für Herrn Schneider reserviert, und den Ärger darüber tragen die beiden unter sich aus.“ Wer am Telefon zugesagt hat, bleibt offen, wie im Faktenblatt.",
+    "zeynep.zuSchneider: Das Satzbruchstück „Vor dem Abend keine Verbindung.“ ist jetzt ein ganzer Satz. Ihr dritter Stimme-Punkt ist jetzt ihr Kanon-Satz aus dem Steckbrief, „Los, Leute, mehr Einsatz!“.",
+    "Pointen nicht doppeln: Mehrere Witze der laut vorgelesenen vorstellung-a.json standen fast wortgleich auch in der Akte. Umformuliert sind Lejla („Ratschläge … Nachschlag“, „Jeden fragt sie nach seinem Lieblingsgericht“), Emine („das hört man nach dem ersten Satz“, „Thermoskanne … immer dabei“), Tim („seitdem schrauben die beiden zusammen“), Joanna („Wer sich drücken will …“), Marek („Ständig zählt er nach … zweimal“) und Zeynep („Can ist ihr großer Bruder, aber lauter ist sie“, „Aus allem macht sie einen Wettkampf“). Gleich bleiben nur Kanonfakten wie Alter, Alltag und Steckbrief-Merkmale.",
+    "Bei Tims Stimme steht jetzt „Ratschläge“ statt „Tipps“, damit es nicht mit dem Einfluss-Spielbegriff „Tipp: Wer war's?“ verwechselt wird.",
+    "Schlussprüfung: Das Entwurfsprüfwerkzeug meldet für erzaehlerakte-a.json allein und für a und b zusammen mit --netz netz.json je 0 FEHLER und 0 WARNUNG (a: Satzschnitt 10,8). pruefeErzaehlerakte meldet für die zusammengesetzte Akte 0 Befunde. Die Wortspannen sind eingehalten: Schneider 133, Detektiv 76, Figuren 101 bis 127, zuSchneider höchstens 36, alle Stimme-Punkte höchstens 8."
+   ],
+   "offen": [
+    "Ungleichheit, die der Kanon vorgibt: Ahmet ist die einzige Kernfigur mit einer heimlichen Verbindung zu Herrn Schneider schon vor dem Abend, weil er den Keller umsonst bekommen hat (setting.anlass, opfer.motiveAndConflict). Seine zuSchneider-Zeile ist darum länger (33 Wörter, die anderen 23). Das Motiv in der App sagt dasselbe. Ausgleichen ließe sich das nur mit einer Kanon-Änderung.",
+    "Ungleichheit, die der Kanon vorgibt: In Paket A tragen Lejla und Joanna je ein Geheimnis über Ahmet (Abschnitt Geheimnis, Kanon). Tim und Marek haben das leuchtende Gesicht als Geheimnis, und Emine hat Fatma. Die Hintergründe verweisen nur neutral auf „Geheimnis“ und verstärken nichts. Bei der Zusammenführung bitte darauf achten, dass die Kernfigur-Einträge in Paket B (Azra, Wojtek) genauso neutral bleiben.",
+    "Zwischen Akte und vorstellung-a.json gibt es noch wörtliche Fünf-Wort-Treffer, aber nur bei Kanonfakten: Alter, Alltagstext, „seit der fünften Klasse ihre beste Freundin“ und die Stimme-Punkte nach dem Steckbrief. Gegen keine Regel, so gewollt.",
+    "Gemeinsamer Scratchpad: Mein erstes Hilfsskript /tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/akte_kern/pruefe_akte_kern.dart hat ein anderer Agent mit einem gleichnamigen eigenen Skript überschrieben. Ich habe dessen Datei nicht angefasst. Meine Prüfung läuft jetzt mit /tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/akte_a_pruefung/kern_gesamt_a.dart (Aufruf im Worktree-Paket mit --packages=.dart_tool/package_config.json).",
+    "Das Feld hinweis ist unverändert. Es ist von der Wortsperre ausgenommen, der Kern prüft es aber auf Fünf-Wort-Folgen, und dabei war es ohne Treffer. Den endgültigen hinweis-Text setzt der Integrator."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "pruefen:akte-b",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehlerakte-b.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/akte_kern/pruefe_akte_kern.dart",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/akte_kern/erzaehlerakte-gesamt.json"
+   ],
+   "behoben": [
+    "Serkan zuSchneider: Den Satz „Als Fahrer passt es Serkan aber gar nicht, dass Herr Schneider die Tore schon früh abschließt“ habe ich ersetzt. Er erfand einen Ärger, den Motiv und Faktenblatt nicht kennen (laut Kanon findet Serkan das Tor erst um 23:56 verschlossen), und lenkte über das frühe Abschließen den Blick auf Ollis Türkonflikt. Neu: „Serkan und Herr Schneider haben keine Vorgeschichte, und auch am Abend geraten sie nicht aneinander. Für einen Fahrer sind verschlossene Tore trotzdem ein Ärgernis.“ Das ist öffentlich durch Vorspiel und Intro gedeckt.",
+    "Azra hintergrund: Die Andeutung „hat eine dieser Erzählungen an diesem Abend Folgen, die sie nicht wollte“ ist entschärft. Im Fatma-Pfad liest sich „Folgen“ wie ein Hinweis auf die Tat. Neu: „hat sie mit einer dieser Geschichten eine Freundin neugierig gemacht. Wovon sie erzählt hat, steht unter Motiv, was sie später sieht, unter Geheimnis.“ Aus „als Anstifterin“ wurde „dass sie jemanden auf dumme Gedanken gebracht hat, soll keiner glauben“.",
+    "Azra zuSchneider: Die schiefe Fügung „Heimlich fällt Herrn Schneider am Abend auf … Er findet das seltsam“ ist geglättet zu „Am Abend wundert sich Herr Schneider, wie lange Azra vor der Vitrine im Turmgang steht.“",
+    "Sibel zuSchneider: Die erfundene Absage „Er denkt nicht daran, denn die Rüstung war vor ihm da“ ist gestrichen. Sie behauptete einen Kontakt, den das Faktenblatt ausschließt („keine Verbindung“). Neu: „…weder vorher noch am Abend. Dürfte sie ihm einen Wunsch sagen, dann diesen: Die Rüstung im Turmgang darf gern weg.“ Das ist durch ihr Kanon-Ziel gedeckt.",
+    "Hana hintergrund: „Lange Reden sind nicht ihr Ding“ widersprach Steckbrief und Stimme („Erzähl gern von deinem Wald“). Es heißt jetzt „Vom Wald erzählt sie gern, sonst packt sie lieber an, als lange zu reden.“ Dazu kommt die Pointe „von Kaminen leider weniger“. Aus „Was sie nach dem Knall bemerkt“ wurde, wie bei den anderen Figuren, „Was sie in der Nacht bemerkt“. Das doppelte „peinlich“ ist durch „Zu verbergen hat sie nichts, höchstens ein paar Rußflecken im Gesicht“ ersetzt.",
+    "Baran hintergrund: Den unklaren Satz „Die Box hat er selbst eingestellt und trägt sie überallhin“ habe ich ersetzt durch „Die Box nimmt er überallhin mit, so wie andere ihren Hund.“",
+    "Wojtek: Der holprige Einstieg „Kaum eine Mauer entgeht Wojtek ungemessen“ heißt jetzt „An keiner alten Mauer geht Wojtek vorbei, ohne sie auszumessen.“ Im zuSchneider ist die Zeitform korrigiert: „Vorher kannten sie sich aber nicht.“",
+    "Aylin zuSchneider: Aus „Heimlich fragt Aylin Herrn Schneider dann“ wurde „Dann fragt Aylin ihn direkt nach einem Beleg, sachlich wie immer und ohne Zuhörer“. Das liegt näher am Kanon („fragte … direkt“).",
+    "Serkan hintergrund: Aus „Sanitätsdienst“ wurde „Schulsanitätsdienst“, wie im Faktenblatt.",
+    "Tugba hintergrund: Ein Satz mit genau 25 Wörtern ist zur besseren Vorlesbarkeit in zwei Sätze geteilt.",
+    "Kontrolle: Der Entwurfsprüfer meldet für erzaehlerakte-b.json (--modus akte --teil --netz netz.json) 0 FEHLER und 0 WARNUNG, Satzschnitt 10,9, alle Hintergründe 111–134 Wörter, zuSchneider ≤35, Stimme je 3 Punkte ≤8 Wörter. Die aus a, b und netz.json zusammengesetzte Akte (20 Figuren, 45 Kanten) ist im echten Kernprüfer pruefeErzaehlerakte (Worktree finale/n1) samt Schema schema-akte/erzaehlerakte.schema.json gegen den aktuellen Kanon sauber: Schema 0, Befunde 0. Der Entwurfsprüfer ohne --teil meldet für diese Akte ebenfalls 0/0. Mit eingeschleusten Fehlern (Täter, Pfad, Wein, vierter Stimmpunkt) schlägt der Kernprüfer an; das Prüfskript funktioniert also."
+   ],
+   "offen": [
+    "Keine harten Befunde mehr in erzaehlerakte-b.json.",
+    "Zur Einordnung beim Querabgleich: In B werden die Kernfiguren unterschiedlich oft genannt. Wojtek nennt Olli dreimal, Baran nennt Can einmal, Azra nennt Fatma einmal (dazu „eine Freundin“), und Ahmet kommt nur indirekt bei Aylin vor (Geld ohne Beleg). Das folgt den Loyalitäten und Motiven im Kanon. Zusammen mit Paket A bekommt jede Kernfigur eine Bezugsfigur mit etwa drei Nennungen und eine Nebenfigur mit etwa einer. Ich habe es darum nicht weiter angeglichen.",
+    "Erfundene, harmlose Kleinigkeiten, die das Faktenblatt nicht nennt (bitte beim Querabgleich bestätigen oder dort eintragen): Damir wird „unter vier Augen“ zur Rede gestellt. Zeynep „singt im Morgengrauen unter der Dusche“. Wojtek lernte Olli „zwischen dem dritten und dem vierten Stock“ kennen. Hana stapelt Tim „im Herbst Brennholz vor die Tür“. Aylin „hält im Treppenhaus Ordnung“."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "rotes-team",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehler-vorgeschichte.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-a.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-b.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/netz.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/rotes_team_vorher/ (Sicherung der vier Dateien vor den Änderungen)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/rotes_team_fix.py (Skript mit den genauen Ersetzungen)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/rotes_team/erzaehlerakte-gesamt.json (zusammengesetzte Erzählerakte für die Kernprüfung)"
+   ],
+   "behoben": [
+    "vorgeschichte.heute: „Olli hat sich als Erster für den Aufbau gemeldet“ wird zu „Olli will überall mit anpacken.“ Mit „Aufbau, als Erster“ stand Olli zu Zeit und Ort des Tragens um 18:30–18:35. Das deutete vorab auf den Türschaden an der Bogentür. Im Olli-Pfad wäre es eine Brücke zum Schlüsselbeweis gewesen (Holzsplitter und Kalk im Wachs am Fuß des Kerzenständers). Jetzt steht nur noch die Eigenart aus dem Steckbrief da.",
+    "vorgeschichte.heute: „Can will aus dem Abend ein Video für alle machen“ wird zu „Can will die lustigsten Momente filmen.“ Der alte Satz kündigte einen geplanten Lacher des Abends an, also den Streich. Außerdem hatten nur Olli und Can Vorhaben für den Abend, Ahmet und Fatma dagegen fertige Beiträge. Jetzt haben alle vier je einen Beitrag aus ihrer öffentlichen Rolle: Keller, Karte, Anpacken, Filmen.",
+    "vorgeschichte.einladung: „Jemand aus der Clique hat den Ablauf geplant“ wird zu „Bald gab es auch einen Ablaufplan, bis auf die Minute genau.“ Tugba hat Platz 20 und ist meist nicht besetzt. Dann fiel das anonyme „Jemand“ beim Zuhören auf Ahmet, „den Organisator“, zurück. Er hätte als Herr des Mitternachtsplans gewirkt.",
+    "vorgeschichte.keller: „Gesehen hat den Sänger noch niemand, man hört ihn nur“ wird zu „Wer da singt, weiß bis heute keiner.“ Der Gegensatz gesehen/gehört bereitete das leuchtende Gesicht als falschen Geist vor, also Cans Streich. Damit der Block heute die Wortzahl hält, kam ein neutraler Satz dazu (dasselbe alte Lieblingslied in mehreren Autos). Die Blöcke haben jetzt 88 und 89 Wörter, gesamt 650.",
+    "vorstellung.detektiv.m und .w: „Die alten Mauern ahnen es schon: Beim Mitternachtsspiel wirst du die blinde Kuh“ wird zu „Die alten Mauern mögen dich jetzt schon, denn sie erzählen gern, und du hörst gern zu.“ Der alte Satz nahm das Ereignis von 23:55 vorweg (Augenbinde) und stellte das Ziel von Cans Streich heraus. Er widersprach außerdem FAKTENBLATT §4.5 und dem Detektiv-Text der Erzählerakte A („kommt erst am Abend heraus“).",
+    "vorstellung.tim und Netzkante olli–tim: „schrauben zusammen“ heißt jetzt „schrauben … an alten Fahrrädern“. Olli war die einzige Kernfigur, die über Tim (Hobby-Elektriker, Kurzschluss) in die Nähe des Stromausfalls rückte. Daraus wäre eine einseitige falsche Fährte geworden, Olli als Helfer beim Ausfall.",
+    "Netzkante olli–kaan: „Umzugskumpel: Olli schleppt, Wojtek plant, wie alles hineinpasst“ wird zu „Kumpel, seit sie sich bei einem Umzug kennengelernt haben.“ Der alte Text beschrieb fast wörtlich, wie Olli und Wojtek die Warmhaltebehälter durch die Bogentür trugen (der Türschaden). Der neue passt zur Erzählerakte B (kennengelernt bei einem Umzug).",
+    "Die Hinweis-Felder der drei Textdateien sind an die Änderungen angepasst. Sie erklären jetzt, warum Aufbau, Video, blinde Kuh und das anonyme „Jemand“ fehlen.",
+    "Gleichgewicht nach den Änderungen, Nennungen: In der Vorgeschichte stehen Ahmet, Fatma, Olli und Can je dreimal (Verhältnis 1,0). In den Vorstellungen hat jede Kernfigur ihren eigenen Text und wird von genau einer anderen Figur genannt, über eine warme Verbindung: Lejla (Cousine) nennt Ahmet, Emine (Freundin) Fatma, Tim (Berufsschule und Fahrräder) Olli, Zeynep (Schwester) Can. Keine Vorstellung einer Kernfigur nennt eine andere Kernfigur. Im Netz hat jede Kernfigur fünf öffentliche Kanten und eine heimliche Kante zu Herrn Schneider.",
+    "Gleichgewicht nach den Änderungen, Tonlage: Ahmet ist tüchtig und warm, verteilt aber gern Aufgaben. Fatma ist sanft und kreativ, mit einer kleinen Farbenlehre. Olli ist gutmütig und erzählt gern lange Umzugsgeschichten. Can ist quirlig und albern und wiederholt seine Witze lauter. Keine Kernfigur bekommt einen abwertenden oder verdächtigen Zug.",
+    "Gegenprobe mit STORY-BIBEL je Pfad, nach den Änderungen ohne Brücke. Ahmet-Pfad: kein Wort zu Jacke, Jackenständer, Umschlag oder Ascheneimer; der Pflichtsatz „Ahmet hat den Keller organisiert“ verrät nichts, was die Handschrift auf der Umschlagecke nicht schon zeigt. Fatma-Pfad: kein Ring, keine Tasche, kein Mantel, keine Brottasche, keine Münzen. Olli-Pfad: keine Weste, kein Ärmel, kein Handschuh, kein Eiskübel, keine Tür, kein Tragen mehr. Can-Pfad: kein Gesicht, keine Maske, keine Kapuze, keine Rüstung, keine Ankündigung der blinden Kuh.",
+    "Prüfwerkzeug pruefe.dart erneut gelaufen: Vorgeschichte, vorstellung-a und vorstellung-b (Modus vorlesen, mit --netz) und netz.json (Modus akte) haben je 0 FEHLER und 0 WARNUNG. Echter Kernprüfer pruefeEinstimmung aus dem Worktree finale/n1, mit Regel 14: 0 Befunde. Echter pruefeErzaehlerakte auf der zusammengesetzten Akte (A, B, netz.json) mit Schema: 0 Befunde, 20 Figuren, 45 Kanten."
+   ],
+   "offen": [
+    "Heimliche Kante can–schneider „Sprang ihm beim Streich in die Arme und wurde gepackt“ (steht nur in der Erzählerakte): Sie ist die einzige Kernkante mit Körperkontakt im Moment der Tat. Die anderen drei sind Drohungen vor dem Abend. Das ist ein bekanntes Ungleichgewicht im Kanon (PLAN: Can hat vor dem Abend keinen Konflikt mit Schneider), und roleSecret sagt dasselbe. Nicht geändert, weil die Kante heimlich ist und nicht zum öffentlichen Auftrag gehört.",
+    "FAKTENBLATT §4.3, §4.7 und §6 nennen als Beiträge noch „Aufbau“ und „Video“. Die Erzählerakte A schreibt bei Olli „Heute hat er sich für den Aufbau gemeldet“ und bei Can „Heute will er den ganzen Abend filmen …“. Das widerspricht den neuen öffentlichen Texten nicht und ist nur für den Erzähler. Beim Querabgleich sollte der Wortlaut trotzdem angeglichen werden. Nicht geändert, weil es nicht zu meinem Auftrag gehört.",
+    "Bewusst stehen gelassen, weil es öffentlicher Kanon ist (Steckbrief, Alltag, Silhouette, Pflichtsatz §1): Ollis „anpacken / Umzug / breit gebaut“, Cans „filmt / sitzt nie still“, Ahmets „Keller organisiert“, dazu dreimal „Hand“ in seiner Vorstellung (Handschlag aus dem Steckbrief). Jede dieser drei Kernfiguren hat damit eine Rollen-Nähe zum eigenen Nebendelikt. Fatmas öffentliche Texte haben keine (Kommunikationsdesign, Einladungskarte). Das liegt am Kanon. Ausgleichen ließe es sich nur, indem man bei Fatma einen Hinweis ergänzt, und das ist nicht gewollt. Ein Mensch sollte entscheiden, ob Fatma dadurch zu sauber wirkt.",
+    "Nebenfiguren mit leichter Sachnähe, belassen, weil sie keine Kernfigur nennen und die Verbindung nur mit Geheimwissen trägt: Aylin macht die Steuer für Mareks Catering (Brücke zu Ahmets zu großer Essensbestellung). Azra hat „Trödel, Feilschen, Lupe“ (Münzen). Hana hat „von Holz versteht sie mehr“ (Splitter). Marek „zählt nach, ob genug für alle da ist“. Quietschende Türen in keller und bei Hana kommen aus der öffentlichen Atmosphäre (setting, intro.start).",
+    "Die Hinweis-Felder von vorstellung-a und vorstellung-b zählen die weggelassenen Beweisstücke auf (Fatmas Ring, Ollis Ärmel, Aylins Ledermappe als Fundort, Rüstung als Suchstelle). Der Prüfer liest sie nicht, und sie werden nicht vorgelesen. Übernimmt sie der Integrator wörtlich nach content/…/erzaehler-vorstellung.json, landen sie im ausgelieferten Inhalt. Der enthält zwar ohnehin die Täterdateien, die Liste sollte beim Einspielen trotzdem gekürzt werden.",
+    "Der Detektiv hat in der Vorstellung weiter die Fassungen .m und .w, wie §1 es verlangt. Die neutrale Detektiv-Fassung nach Änderung 16 gilt nur für die Erzählerakte."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "querabgleich",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehler-vorgeschichte.json (geändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/ui-einstimmung-titel.json (geändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-b.json (geändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-a.json (geprüft, unverändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehlerakte-a.json (geprüft, unverändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehlerakte-b.json (geprüft, unverändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/netz.json (geprüft, unverändert)",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/FAKTENBLATT.md (Maßstab, unverändert)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/querabgleich/alle_pruefen.sh (alle Prüfer in einem Lauf: Entwurfsprüfer, pruefeEinstimmung samt Regel 14, pruefeErzaehlerakte samt Schema)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/querabgleich/erzaehlerakte-gesamt.json (zusammengesetzte Erzählerakte aus a, b und netz)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/querabgleich/wiederholung_fein.py (Wortfolgen-Echos zwischen Vorgeschichte, Vorstellungen, Intro und Vorspiel)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/querabgleich/steckbriefsatz.py (wörtliche Steckbrief-Sätze in der Einstimmung)",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/querabgleich/netzabgleich.py (Netz gegen die Tabelle im Faktenblatt, Namen in der Akte gegen die Kanten)"
+   ],
+   "behoben": [
+    "Herrn Schneiders Geschichte: In erzaehlerakte-a, schneider.hintergrund, steht: „Was alle wissen, erzählt die Vorgeschichte: … wohnt im nahen Dorf.“ In der Vorgeschichte stand das aber nicht. vorgeschichte.schneider ergänzt nach FAKTENBLATT §2.1 und §4.7: „Er ist einundsechzig, wohnt im nahen Dorf und ist offiziell Schlossverwalter …“",
+    "Echo aus dem Intro in vorgeschichte.schloss: „Ein Stück vor der Stadt … steht ein altes Schloss“ wiederholte intro.start („Ein altes Schloss, etwas abgelegen vor der Stadt“). Neu: „Wo die Stadt aufhört und die Wälder anfangen, an einer stillen Landstraße, steht ein Schloss.“",
+    "Echo aus dem Intro in vorgeschichte.keller: „Unter dem Schlossturm liegt ein weiter Gewölbekeller“ wiederholte intro.start („Gewölbekeller unter dem Schlossturm“). Neu: „Tief unter dem Turm …“. Den Kapiteltitel ui.einstimmung.titel.keller entsprechend von „Unter dem Schlossturm“ auf „Tief unter dem Turm“ geändert.",
+    "Echos in vorgeschichte.heute: „Das Buffet ist geplant“ wiederholte intro.start („Das Buffet ist eröffnet“), „früh dunkel und kalt“ lag sehr nah am Vorspiel („Es ist dunkel, kalt und windig“). Neu: „Draußen wird es früh Nacht und bitterkalt, und der Wind kommt von Westen. Der Ablauf steht, und fürs Buffet ist alles geplant.“",
+    "vorstellung.baran wiederholte mit „Der Wind in den Lichtschächten“ vorgeschichte.keller. Neu: „Der Wind im alten Gemäuer spielt eigene Lieder …“",
+    "vorstellung.selin wiederholte mit „das bei Westwind singt“ den Dorfspruch aus vorgeschichte.schloss und zitierte den Steckbrief-Satz wörtlich. FAKTENBLATT §7 erlaubt Steckbrief-Sätze nur sinngemäß, weil die Karte sie zeigt. Neu: „Und heute singt auch noch das Schloss. Da fragt sie bestimmt oft, ob die anderen das auch gehört haben.“",
+    "vorstellung.meryem zitierte den Steckbrief-Satz wörtlich („ist es nie so laut“, FAKTENBLATT §7). Neu: „Im Wald, sagt sie, hat man wenigstens seine Ruhe.“",
+    "vorstellung.detektiv.m und .w zitierten den Steckbrief-Satz „Erzähl mir mehr davon“ wörtlich. Neu: „Wer dir etwas erzählt, wird garantiert um mehr gebeten.“ Außerdem geprüft: Die Ankündigung „du wirst die blinde Kuh“ widersprach FAKTENBLATT §4.5, der Erzählerakte (detektiv: „kommt erst am Abend heraus“) und dem Ton-Leitfaden („Vor dem Finale weiß er nur, was der Detektiv weiß“). Ein paralleler Agent hatte sie schon entfernt. Der Endstand ist widerspruchsfrei.",
+    "vorstellung.tugba hatte denselben Satzbau wie vorstellung.fatma („Zum … trägt sie ein … Kopftuch“). Neu: „Sie ist siebenundzwanzig und Projektleiterin, mit rostorangem Jackett, goldfarbenem Kopftuch und schmaler Metallbrille.“",
+    "Den Hinweis in erzaehler-vorgeschichte.json und vorstellung-b.json um die Begründung ergänzt: kein Echo aus dem Intro, Steckbrief-Sätze nur sinngemäß.",
+    "Ohne Widerspruch geprüft: Alter, Berufe und Rollentitel aller 20 Figuren in Vorstellung, Erzählerakte und Kanon. Alle Kanten in netz.json stimmen in Paar, Art und Sichtbarkeit mit der Tabelle im FAKTENBLATT §3.2 überein (45 Kanten, 37 öffentlich, 8 heimlich). Jede Bekanntschaft, die eine Vorstellung oder die Erzählerakte nennt, hat eine Kante. Schule und Klassen, Straße, Verein, Uni, Wohnung, Erste-Hilfe-Kurs (Serkan als Ausbilder) und Spieleabende sind überall gleich erzählt. Herrn Schneiders Geschichte ist überall gleich: einundsechzig, fünfundzwanzig Jahre, gelernter Gärtner, Führungen für Schulklassen, Ablaufplan mit Tugba, Sommerjob von Pawel. zuSchneider passt bei allen Figuren zum Faktenblatt. Jede der vier Kernfiguren wird in der Vorgeschichte dreimal genannt. Es gibt keine Kennwörter und keine Kanontexte, die widersprechen (Gerüchte, Dossiers, Gespräche).",
+    "Vollständig: 20 Vorstellungen plus start, npc, detektiv.m und detektiv.w. Erzählerakte mit einleitung, schneider, detektiv und 20 Figuren. Prüflauf auf dem Endstand: Entwurfsprüfer auf allen 7 Dateien und auf der zusammengesetzten Akte je 0 FEHLER und 0 WARNUNG. pruefeEinstimmung (Worktree finale/n1) samt Regel 14: 0 Befunde. pruefeErzaehlerakte samt Schema: 0 und 0, 20 Figuren, 45 Kanten. Nichts unter content/, lib/, packages/, test/ oder tool/ geändert, kein Commit."
+   ],
+   "offen": [
+    "Während meines Abgleichs hat ein paralleler Agent erzaehler-vorgeschichte.json, vorstellung-a.json, vorstellung-b.json und netz.json geändert (16:34:47 und 16:36:41). Ich habe nur auf dem jeweils neuesten Stand nachgebessert, mit satzgenauen Ersetzungen. Um 16:39 waren alle meine Änderungen noch vorhanden. Wenn alle Agenten fertig sind, bitte einmal neu prüfen: bash /tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/querabgleich/alle_pruefen.sh",
+    "Fünf heimliche Bezüge zu Herrn Schneider haben keine Netzkante: Lejla (Genehmigung fürs Essen), Joanna (Streitfoto), Aylin (Quittung über null Euro Miete), Wojtek (Möbelwachs) und Azra (Vitrine). Sie stehen nur in zuSchneider. Das Faktenblatt legt das Netz auf 45 Kanten fest, davon 12 bei Schneider. Das ist kein Widerspruch, aber der Ring zeigt diese Bezüge nicht. Ob sie ergänzt werden, entscheidet der Besitzer; die Grenze von 60 Kanten ließe es zu.",
+    "vorstellung.start enthält den Satz „Wer genannt wird, steht kurz auf.“ Laut SPEZIFIKATION §1 zeigt die App genau diesen Hinweis außerhalb des ErzaehlerFelds, er stünde dann doppelt auf dem Bildschirm. Das entscheidet der Integrator oder der App-Agent (A-N).",
+    "Olli-Beitrag in der Wortwahl: Die Vorgeschichte sagt jetzt „Olli will überall mit anpacken“; der parallele Agent hat „Aufbau“ gestrichen, weil es auf das Tragen am frühen Abend zeigt. erzaehlerakte-a sagt bei Olli noch „Heute hat er sich für den Aufbau gemeldet“, und FAKTENBLATT §4.7 und §6 nennen „Aufbau“. In der Sache widerspricht sich nichts; das Faktenblatt sollte bei Gelegenheit nachgezogen werden.",
+    "Bewusst belassen: der Rückgriff auf den Dorfspruch („Bei Westwind singt das Schloss“ → „Hört ihr es schon singen?“ → „Und heute singt auch noch das Schloss“) sowie Formeln wie „an der Gesamtschule“ und Altersangaben nach demselben Muster. Die Erzählerakte wird nicht vorgelesen und übernimmt einzelne Wendungen aus Vorgeschichte und Vorstellungen, etwa „bis auf die Minute“, „bei jedem Punkt geseufzt“, Barans Satz zum Vereinsfest und Sibels Westwind-Satz. Wenn gewünscht, lässt sich das glätten.",
+    "Kleine Stilpunkte, optional: Die Erzählerakte beim Detektiv formuliert „eingeladen von jemandem, den kein Text nennt“, das ist Meta-Sprache; inhaltlich stimmt es mit FAKTENBLATT §4.6. Lejla (voller Teller trotz Nein) und Damir (Tee wird nachgefüllt) haben dieselbe Pointenidee in anderem Wortlaut.",
+    "Außerhalb dieser Entwürfe: Der Kanonrest „Mein Bruder hat morgen Geburtstag.“ (Can in content/welt/schlosskeller/geruechte.json) wird laut PLAN Schritt 4 vom Integrator behoben."
+   ],
+   "pruefer_sauber": true
+  }
  }
 ]
