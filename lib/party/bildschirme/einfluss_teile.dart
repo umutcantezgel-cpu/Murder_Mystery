@@ -253,6 +253,8 @@ class FolgenTafel extends StatelessWidget {
           MGanzwortText(l.einfluss_folgen_titel, style: MPapierSchrift.ueberschrift),
           const SizedBox(height: MMass.s12),
           ErzaehlerFeld(sitzung: s, kennungen: s.erzaehler),
+          // Am offenen Erzählerpult: wer in dieser Runde was spielte (nur für den Erzähler).
+          if (s.einflussTafel case final t?) ...[const SizedBox(height: MMass.s12), ZugTafelAnsicht(tafel: t, darstellung: d)],
           if (folgen != null && folgen.blasen.isNotEmpty) ...[const SizedBox(height: MMass.s12), BotBlasen(blasen: folgen.blasen, darstellung: d)],
           if (lage != null) ...[const SizedBox(height: MMass.s12), LeistenAnzeige(zusammenhalt: lage.zusammenhalt, spuk: lage.spuk, hoechstens: _hoechstens(s))],
           const SizedBox(height: MMass.s12),

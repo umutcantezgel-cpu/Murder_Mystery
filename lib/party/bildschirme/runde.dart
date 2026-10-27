@@ -76,8 +76,10 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
             const SizedBox(height: 24),
             ErzaehlerFeld(sitzung: s, kennungen: s.erzaehler),
             const SizedBox(height: 28),
-            // „Dein Moment“: reihum die Liste, online wer leitet den letzten Aufruf.
+            // „Dein Moment“: reihum die Liste, online wer leitet den letzten Aufruf; am offenen
+            // Erzählerpult die Zug-Tafel der Runde.
             if (s.einfluss) ...[s.online ? MomentAufruf(sitzung: s) : MomentListe(sitzung: s), const SizedBox(height: 28)],
+            if (s.einflussTafel case final t? when !s.online) ...[ZugTafelAnsicht(tafel: t, darstellung: EinflussDarstellung.sitzung(s)), const SizedBox(height: 28)],
             if (s.befragungsmodell) ..._befragungsmodell() else _gespraeche(),
           ],
         ),

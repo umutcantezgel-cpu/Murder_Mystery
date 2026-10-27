@@ -4,6 +4,7 @@
 // Countdown geht es weiter. Ein echter Raum mit Schicht, Gäste über LiveGast.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/party/bildschirme/moment.dart' show momentTexte;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
@@ -16,7 +17,7 @@ Map<String, Object?> _map(Object? v) => (v as Map).cast<String, Object?>();
 /// Ein gestarteter Raum mit Schicht: Anna (Gastgeberin, Detektiv), Ben (`g1`,
 /// Erzähler), Cleo (`g2`) und Dora (`g3`) mit Figuren; vier Rollen, zwei davon
 /// spielt die App.
-SchlosskellerRaum _raum({bool einfluss = true}) {
+SchlosskellerRaum _raum({bool einfluss = true, bool gastgeberErzaehler = false}) {
   final d = einflussDaten;
   final raum = SchlosskellerRaum(
     raumCode: 'ABCDEF',
@@ -25,12 +26,13 @@ SchlosskellerRaum _raum({bool einfluss = true}) {
     fallCode: FallCode.fuerPfad('ahmet', d.kanon.pfade),
     salz: 'salz-moment',
     festerGastgeber: true,
+    gastgeberSitz: gastgeberErzaehler ? Sitz.erzaehler : Sitz.detektiv,
     einfluss: einfluss ? d.einfluss : null,
   );
   for (final (id, name) in [('gastgeber', 'Anna'), ('g1', 'Ben'), ('g2', 'Cleo'), ('g3', 'Dora')]) {
     raum.beitreten(id, name);
   }
-  raum.nachricht('gastgeber', {'typ': 'sitz', 'spieler': 'g1', 'sitz': 'erzaehler'});
+  raum.nachricht('gastgeber', {'typ': 'sitz', 'spieler': 'g1', 'sitz': gastgeberErzaehler ? 'detektiv' : 'erzaehler'});
   for (final id in ['g1', 'g2', 'g3', 'gastgeber']) {
     raum.nachricht(id, {'typ': 'bereit', 'wert': true});
   }
@@ -41,48 +43,48 @@ SchlosskellerRaum _raum({bool einfluss = true}) {
 String _rolle(SchlosskellerRaum raum, String id) => _map(raum.zustandFuer(id)['privat'])['rolle'] as String;
 
 /// Bis zu den Gesprächen von Runde [runde]; in jeder Runde davor ziehen die Gäste [zuege] (Gerät → Zug).
-void _bisGespraeche(SchlosskellerRaum raum, int runde, {Map<String, Map<String, Object?>> Function(SchlosskellerRaum)? zuege}) {
+void _bisGespraeche(SchlosskellerRaum raum, int runde, {Map<String, Map<String, Object?>> Function(SchlosskellerRaum)? zuege, String leiter = 'g1', String detektiv = 'gastgeber'}) {
   for (var i = 0; i < 400; i++) {
     final s = raum.zustandFuer('gastgeber');
     if (s['phase'] == 'gespraeche' && s['runde'] == runde) return;
     if (s['phase'] == 'gespraeche') {
-      befragungenImRaum(raum);
+      befragungenImRaum(raum, detektiv: detektiv);
       if (raum.einfluss != null) {
         for (final e in (zuege?.call(raum) ?? {for (final g in ['g2', 'g3']) g: {'art': 'helfen'}}).entries) {
           raum.nachricht(e.key, {'typ': 'zug', ...e.value});
         }
       }
-      raum.nachricht('g1', {'typ': 'weiter'});
+      raum.nachricht(leiter, {'typ': 'weiter'});
       continue;
     }
     if (s['phase'] == 'rollen') {
       for (final g in ['g2', 'g3']) {
         raum.nachricht(g, {'typ': 'rollenGelesen'});
       }
-      raum.nachricht('g1', {'typ': 'weiter'});
+      raum.nachricht(leiter, {'typ': 'weiter'});
       continue;
     }
     if (s['phase'] == 'entscheidungen') {
       if (s['zug'] case final Map z) {
         switch (z['phase']) {
           case 'aktion':
-            raum.nachricht('gastgeber', {'typ': 'aktionFertig', 'aktion': z['aktion']});
+            raum.nachricht(detektiv, {'typ': 'aktionFertig', 'aktion': z['aktion']});
           case 'wurf':
             raum.nachricht(s['wuerfelPate'] as String, {'typ': 'wurf'});
           case 'tischruf':
-            raum.nachricht('gastgeber', {'typ': 'tischruf', 'ruf': 'umweg'});
+            raum.nachricht(detektiv, {'typ': 'tischruf', 'ruf': 'umweg'});
           case 'fund':
-            raum.nachricht('gastgeber', {'typ': 'fundGelesen'});
+            raum.nachricht(detektiv, {'typ': 'fundGelesen'});
         }
         continue;
       }
       if (s['entscheidung'] case final Map e) {
         final erm = raum.partieFuerGastgeber!.spiel.ermittlung;
-        raum.nachricht('gastgeber', {'typ': 'wahl', 'option': erm.entscheidung(e['id'] as String).optionen.first.id});
+        raum.nachricht(detektiv, {'typ': 'wahl', 'option': erm.entscheidung(e['id'] as String).optionen.first.id});
         continue;
       }
     }
-    raum.nachricht('g1', {'typ': 'weiter'});
+    raum.nachricht(leiter, {'typ': 'weiter'});
   }
   fail('Gespräche von Runde $runde nicht erreicht');
 }
@@ -207,5 +209,28 @@ void main() {
     await zeigeImThema(t, (_) => gastSeiteLive(ben));
     expect(find.byKey(const ValueKey('gast-moment-aufruf')), findsNothing);
     expect(find.byKey(const ValueKey('zug-tafel-erzaehler')), findsNothing);
+  });
+
+  test('Gastgeber als Erzähler: Lage, Zug-Tafel und letzter Aufruf aus dem Raum', () async {
+    final raum = _raum(gastgeberErzaehler: true);
+    _bisGespraeche(raum, 1, leiter: 'gastgeber', detektiv: 'g1');
+    befragungenImRaum(raum, detektiv: 'g1');
+    final s = GastgeberSitzung(SitzDienst(raum, daten: einflussDaten));
+    addTearDown(s.dispose);
+    expect(s.einfluss, isTrue);
+    expect(s.leitet, isTrue);
+    expect(s.momentOffen, unorderedEquals([_rolle(raum, 'g2'), _rolle(raum, 'g3')]));
+    raum.nachricht('g2', {'typ': 'zug', 'art': 'helfen'});
+    expect(s.momentOffen, [_rolle(raum, 'g3')]);
+    expect(s.momentGezogen(_rolle(raum, 'g2')), isTrue);
+    expect(s.kannWeiter, isFalse, reason: 'Dora fehlt noch');
+    // Die Zug-Tafel kommt privat vom Raum: der Erzähler sieht, wer was spielte.
+    expect([for (final z in s.einflussTafel!.zuege) (z.rolle, z.art)], [(_rolle(raum, 'g2'), ZugArt.helfen)]);
+    expect(() => s.momentZeigen(_rolle(raum, 'g3')), throwsStateError, reason: 'Online ziehen die Gäste');
+    s.letzterAufruf();
+    await pumpEventQueue();
+    expect(s.momentAufruf, isNotNull);
+    expect(s.momentFertig, isFalse, reason: 'Die Frist läuft noch');
+    expect(s.einflussLage!.aufruf, s.momentAufruf);
   });
 }

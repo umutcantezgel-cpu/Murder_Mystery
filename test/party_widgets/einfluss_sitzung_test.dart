@@ -114,6 +114,21 @@ void main() {
     });
   });
 
+  test('Zug-Tafel nur am offenen Erzählerpult', () {
+    final s = PartySitzung(einflussDaten, salz: 'pult');
+    s.einrichten(rollen: 4, detektiv: 'w', code: FallCode.fuerPfad('ahmet', einflussDaten.kanon.pfade).code, erzaehlerName: 'Ella', einfluss: true);
+    einflussBis(s, PartyPhase.gespraeche);
+    s.momentZeigen('fatma');
+    s.momentZug('fatma', ZugArt.helfen);
+    expect(s.einflussTafel, isNull, reason: 'Pult zu');
+    s.pultZeigen();
+    final t = s.einflussTafel!;
+    expect(t.ausgewertet, isFalse);
+    expect([for (final z in t.zuege) (z.rolle, z.art)], [('fatma', ZugArt.helfen)]);
+    s.pultSchliessen();
+    expect(s.einflussTafel, isNull);
+  });
+
   test('Solo: Die Bots ziehen, bis zu drei raunen', () {
     final s = einflussSitzung(rollen: 7, solo: true);
     einflussBis(s, PartyPhase.gespraeche);

@@ -916,7 +916,8 @@ Widget _ermittlung(GastKontext c) {
             titel: l.online_fund_titel,
             art: PapierArt.karteikarte,
             reissnagel: true,
-            kinder: [for (final f in funde) _punkt(f), if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text)],
+            // „Dein Moment“: Randnotizen und Ertappt sind öffentlich.
+            kinder: [for (final f in funde) _punkt(f), if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text), ?gastFundZusatz(c, z)],
           ));
         } else {
           kinder.add(_notiz(neu ? l.online_fund_wartet : l.online_fund_wartet_leitung));
@@ -934,7 +935,7 @@ Widget _ermittlung(GastKontext c) {
         const SizedBox(height: MMass.s12),
         Text(l.online_optionen_titel.toUpperCase(), style: MPapierSchrift.marke),
         const SizedBox(height: MMass.s8),
-        for (final o in optionen) _punkt(jText(o['text'])),
+        for (final o in optionen) ...[_punkt(jText(o['text'])), ?gastAbzeichen(c, jText(o['id']))],
         const SizedBox(height: MMass.s8),
         Row(
           children: [
