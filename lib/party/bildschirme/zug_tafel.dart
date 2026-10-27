@@ -155,7 +155,8 @@ class _Chancenzettel extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 6),
                 child: Text(
                   [
-                    if (t.tisch != 0) '${momentTexte(context).einfluss_tisch} ${t.tisch > 0 ? '+' : '-'}${t.tisch.abs()}',
+                    // Echtes Minuszeichen (U+2212): Alle Schriften der App führen es (Änderungen 11).
+                    if (t.tisch != 0) '${momentTexte(context).einfluss_tisch} ${t.tisch > 0 ? '+' : '\u2212'}${t.tisch.abs()}',
                     if (t.umweg != 0) '${momentTexte(context).einfluss_umweg} +${t.umweg}',
                   ].join(' · '),
                   style: zeile.copyWith(fontWeight: FontWeight.bold),

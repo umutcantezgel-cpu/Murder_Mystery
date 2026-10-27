@@ -1091,7 +1091,8 @@ class _GastWuerfelState extends State<GastWuerfel> {
         if (jMap(z['tischVorschau']) case final t when jZahl(t['tisch']) != 0 || jZahl(t['umweg']) != 0)
           Text(
             [
-              if (jZahl(t['tisch']) != 0) '${l.einfluss_tisch} ${jZahl(t['tisch']) > 0 ? '+' : '-'}${jZahl(t['tisch']).abs()}',
+              // Echtes Minuszeichen (U+2212): Alle Schriften der App führen es (Änderungen 11).
+              if (jZahl(t['tisch']) != 0) '${l.einfluss_tisch} ${jZahl(t['tisch']) > 0 ? '+' : '\u2212'}${jZahl(t['tisch']).abs()}',
               if (jZahl(t['umweg']) != 0) '${l.einfluss_umweg} +${jZahl(t['umweg'])}',
             ].join(' · '),
             key: const ValueKey('gast-chance-tisch'),

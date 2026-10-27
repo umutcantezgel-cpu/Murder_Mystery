@@ -502,3 +502,6 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       Stern, keine Erfahrung als Spürnase). Wirkt erst nach dem Finale, R13 und „pfadblind“ bleiben; die Tipp-Karte ist
       für alle gleich. `einfluss.preis.stern` ohne Herrn Schneiders Beifall (der Stern kann an den unentdeckten Täter
       gehen). `einfluss_soll.g.dart` nach E-048 neu erzeugt, einzige Ursache gegengeprüft.
+  36. Zu Punkt 11 geprüft (fc-query über `assets/fonts`): Alle neun Schriften der App führen U+2212 (Caveat, Courier
+      Prime, Inter Regular/SemiBold/Bold, Lora, Lora Kursiv, Playfair Display, Special Elite). Die Karten nutzen das
+      echte Minuszeichen, auch die Zeile „Tisch“ der Chancenvorschau am Gerät und beim Gast.

@@ -287,6 +287,23 @@ void main() {
       expect(find.text(faktWortlaut(s.spiel.ermittlung, 'f_nd_fatma')), findsOneWidget);
     });
 
+    testWidgets('Suche mit Störung: Chancenzeile „Tisch“ mit echtem Minuszeichen', (t) async {
+      final s = einflussSitzung(wuerfel: const FesterWuerfel.erfolg(), salz: 'stoerung');
+      einflussBis(s, PartyPhase.gespraeche, runde: 2);
+      alleZiehen(s, plan: (s, r) => r == 'ahmet' || r == 'fatma' ? (art: ZugArt.decken, ziel: 'ahmet', tipp: null) : (art: ZugArt.helfen, ziel: null, tipp: null));
+      einflussBis(s, PartyPhase.entscheidungen, runde: 2);
+      s.folgenGelesen();
+      expect(s.tischwert('e2_1_ascheneimer'), -2);
+      s.schlageVor('e2_1_ascheneimer');
+      s.bestaetigen();
+      s.aktionFertig(s.zug!.aktion);
+      expect(s.tischVorschau?.tisch, -2);
+      await t.pumpWidget(rahmen(SingleChildScrollView(child: WuerfelTafel(sitzung: s))));
+      final l = momentTexte(t.element(find.byType(WuerfelTafel)));
+      expect(find.text('${l.einfluss_tisch} \u22122'), findsOneWidget, reason: 'U+2212, alle App-Schriften führen es');
+      expect(find.textContaining('${l.einfluss_tisch} -'), findsNothing);
+    });
+
     testWidgets('Pech: Die Spur verwischt, Tischruf-Knöpfe mit Wirkungstext', (t) async {
       final s = einflussSitzung(wuerfel: const FesterWuerfel.pech());
       einflussBis(s, PartyPhase.entscheidungen, runde: 2);
