@@ -61,37 +61,9 @@ String _text(Uint8List bytes) {
   }
 }
 
-/// Fünf-Wort-Folgen aus Texten, die nur in einem Teil der Pfade gelten (wie steckbrief_test).
-Map<String, String> _pfadwissen() {
-  final neutral = {
-    for (final b in kanon.beobachtungen)
-      if (b['pfade'] == 'alle') ...fuenfWortFolgen(b['text'] as String),
-    for (final z in kanon.zeitleiste)
-      if (z['pfade'] == 'alle') ...fuenfWortFolgen(z['text'] as String),
-    for (final g in kanon.gegenstaende)
-      if (g['beschreibung'] is String) ...fuenfWortFolgen(g['beschreibung'] as String),
-  };
-  final q = <String, String>{};
-  void add(String wo, String text) {
-    for (final f in fuenfWortFolgen(text)) {
-      if (!neutral.contains(f)) q.putIfAbsent(f, () => wo);
-    }
-  }
-
-  for (final b in kanon.beobachtungen) {
-    if (b['pfade'] != 'alle') add('Beobachtung ${b['id']}', b['text'] as String);
-    if (b['pfade'] != 'alle' && b['duText'] is String) add('Beobachtung ${b['id']} (du)', b['duText'] as String);
-  }
-  for (final p in kanon.pfade) {
-    for (final e in kanon.json['tatmatrix/$p.json']!['ereignisse'] as List) {
-      if ((e as Map)['text'] is String) add('Ereignis ${e['id']}', e['text'] as String);
-    }
-  }
-  return q;
-}
-
 /// Was nie in Ordner 1 und 2 steht: geheime Felder, Dossiers, Täterfassungen, Finale,
-/// Auflösung und Pfadwissen als Fünf-Wort-Folgen, ausgenommen die erlaubten Quellen.
+/// Auflösung und Pfadwissen ([pfadwissenVerboten], wie spoiler_test) als Fünf-Wort-Folgen,
+/// ausgenommen die erlaubten Quellen.
 Map<String, String> _verboten(PaketKontext k) {
   final erlaubt = {
     for (final id in [Besetzung.detektiv, for (final f in kanon.figuren) f['id'] as String])
@@ -101,7 +73,7 @@ Map<String, String> _verboten(PaketKontext k) {
     for (final e in {
       for (final e in {...steckbriefGeschuetzt(druckTexte), ...geheimeFelder(kanon)}.entries)
         for (final f in fuenfWortFolgen(e.value)) f: e.key,
-      ..._pfadwissen(),
+      ...pfadwissenVerboten(kanon),
     }.entries)
       if (!erlaubt.contains(e.key)) e.key: e.value,
   };

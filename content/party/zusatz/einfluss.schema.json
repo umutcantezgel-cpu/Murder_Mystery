@@ -1,0 +1,602 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Einfluss-Schicht einer Akte",
+  "description": "content/party/zusatz/<akte>/einfluss.json („Dein Moment“, planung/finale/SPEZIFIKATION.md §3.13): Zahlen, Zugarten, Bezug und Randnotizen je Option, Auspacken je Figur, Ereignisse, Bots und Ziele. Statisch, öffentlich, in allen Pfaden gleich. Verweise prüft EinflussRegeln.ausJson, den Inhalt pruefeEinfluss.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "zahl": {
+      "type": "integer"
+    },
+    "positiv": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nichtNegativ": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "prozent": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "runde": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "zugart": {
+      "enum": [
+        "zeigen",
+        "decken",
+        "helfen",
+        "auspacken",
+        "ablenken",
+        "lauschen"
+      ]
+    },
+    "figuren": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "notizen": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "schwelle": {
+      "type": "object",
+      "required": [
+        "zuwachs",
+        "faktor",
+        "gegen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zuwachs": {
+          "$ref": "#/$defs/positiv"
+        },
+        "faktor": {
+          "$ref": "#/$defs/positiv"
+        },
+        "gegen": {
+          "$ref": "#/$defs/positiv"
+        }
+      }
+    },
+    "schwellen": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/schwelle"
+      }
+    },
+    "art": {
+      "type": "object",
+      "required": [
+        "id",
+        "ziel"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/zugart"
+        },
+        "ziel": {
+          "enum": [
+            "keins",
+            "andere",
+            "jede"
+          ]
+        },
+        "tisch": {
+          "$ref": "#/$defs/zahl"
+        },
+        "minuten": {
+          "$ref": "#/$defs/zahl"
+        },
+        "zusammenhalt": {
+          "$ref": "#/$defs/zahl"
+        },
+        "spuk": {
+          "$ref": "#/$defs/nichtNegativ"
+        },
+        "einmal": {
+          "type": "boolean"
+        }
+      }
+    },
+    "auspacken": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fakt": {
+          "$ref": "#/$defs/id"
+        },
+        "notiz": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "ereignis": {
+      "type": "object",
+      "required": [
+        "id",
+        "leiste",
+        "stufe"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "leiste": {
+          "enum": [
+            "zusammenhalt",
+            "spuk"
+          ]
+        },
+        "stufe": {
+          "$ref": "#/$defs/positiv"
+        },
+        "minuten": {
+          "$ref": "#/$defs/zahl"
+        },
+        "nachfragen": {
+          "$ref": "#/$defs/nichtNegativ"
+        },
+        "wirkung": {
+          "enum": [
+            "kerzenschein",
+            "fledermaus"
+          ]
+        },
+        "morgen": {
+          "enum": [
+            "warm",
+            "chaotisch",
+            "gemischt"
+          ]
+        }
+      }
+    },
+    "bot": {
+      "type": "object",
+      "required": [
+        "gewichte"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "gewichte": {
+          "type": "object",
+          "required": [
+            "helfen",
+            "decken",
+            "zeigen",
+            "ablenken",
+            "lauschen"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "helfen": {
+              "$ref": "#/$defs/prozent"
+            },
+            "decken": {
+              "$ref": "#/$defs/prozent"
+            },
+            "zeigen": {
+              "$ref": "#/$defs/prozent"
+            },
+            "ablenken": {
+              "$ref": "#/$defs/prozent"
+            },
+            "lauschen": {
+              "$ref": "#/$defs/prozent"
+            },
+            "auspacken": {
+              "$ref": "#/$defs/prozent"
+            }
+          }
+        },
+        "decken": {
+          "$ref": "#/$defs/id"
+        },
+        "lauschen": {
+          "$ref": "#/$defs/id"
+        },
+        "zeigen": {
+          "$ref": "#/$defs/id"
+        },
+        "auspacken": {
+          "type": "object",
+          "required": [
+            "runde",
+            "chance"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "runde": {
+              "$ref": "#/$defs/runde"
+            },
+            "chance": {
+              "$ref": "#/$defs/prozent"
+            }
+          }
+        }
+      }
+    },
+    "bedingung": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "alle"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "alle": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "eine"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "eine": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "nicht"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "nicht": {
+              "$ref": "#/$defs/bedingung"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "mind"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "mind": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "hoechstens"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "hoechstens": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "gleich"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "gleich": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        }
+      ]
+    },
+    "ziel": {
+      "type": "object",
+      "required": [
+        "id",
+        "bedingung"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "bedingung": {
+          "$ref": "#/$defs/bedingung"
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "format",
+    "akte",
+    "zahlen",
+    "arten",
+    "bezug",
+    "randnotizen",
+    "auspacken",
+    "ereignisse",
+    "bots",
+    "ziele"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "einfluss/1"
+    },
+    "akte": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "zahlen": {
+      "type": "object",
+      "required": [
+        "tisch",
+        "wuerfel",
+        "befragung",
+        "minuten",
+        "leisten",
+        "nachfragen",
+        "ende",
+        "fluestern",
+        "tippRunde"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tisch": {
+          "type": "object",
+          "required": [
+            "teiler",
+            "deckel"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "teiler": {
+              "$ref": "#/$defs/positiv"
+            },
+            "deckel": {
+              "$ref": "#/$defs/positiv"
+            }
+          }
+        },
+        "wuerfel": {
+          "type": "object",
+          "required": [
+            "modBoden",
+            "modDeckel",
+            "umwegBonus"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "modBoden": {
+              "type": "integer",
+              "maximum": 0
+            },
+            "modDeckel": {
+              "$ref": "#/$defs/nichtNegativ"
+            },
+            "umwegBonus": {
+              "$ref": "#/$defs/nichtNegativ"
+            }
+          }
+        },
+        "befragung": {
+          "type": "object",
+          "required": [
+            "redseligAb",
+            "zoegertMinuten",
+            "mauertMinuten"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "redseligAb": {
+              "$ref": "#/$defs/positiv"
+            },
+            "zoegertMinuten": {
+              "$ref": "#/$defs/nichtNegativ"
+            },
+            "mauertMinuten": {
+              "$ref": "#/$defs/nichtNegativ"
+            }
+          }
+        },
+        "minuten": {
+          "type": "object",
+          "required": [
+            "runde",
+            "uebertragHoechstens",
+            "boden",
+            "helfenHoechstens",
+            "ablenkenHoechstens"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "runde": {
+              "$ref": "#/$defs/positiv"
+            },
+            "uebertragHoechstens": {
+              "$ref": "#/$defs/nichtNegativ"
+            },
+            "boden": {
+              "$ref": "#/$defs/nichtNegativ"
+            },
+            "helfenHoechstens": {
+              "$ref": "#/$defs/nichtNegativ"
+            },
+            "ablenkenHoechstens": {
+              "$ref": "#/$defs/nichtNegativ"
+            }
+          }
+        },
+        "leisten": {
+          "type": "object",
+          "required": [
+            "hoechstens",
+            "nMindestens",
+            "zusammenhalt",
+            "spuk"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "hoechstens": {
+              "$ref": "#/$defs/positiv"
+            },
+            "nMindestens": {
+              "$ref": "#/$defs/positiv"
+            },
+            "zusammenhalt": {
+              "$ref": "#/$defs/schwellen"
+            },
+            "spuk": {
+              "$ref": "#/$defs/schwellen"
+            }
+          }
+        },
+        "nachfragen": {
+          "type": "object",
+          "required": [
+            "jeMinuten",
+            "hoechstens"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "jeMinuten": {
+              "$ref": "#/$defs/positiv"
+            },
+            "hoechstens": {
+              "$ref": "#/$defs/nichtNegativ"
+            }
+          }
+        },
+        "ende": {
+          "type": "object",
+          "required": [
+            "endwertHoechstens",
+            "tischbonusAb"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "endwertHoechstens": {
+              "$ref": "#/$defs/positiv"
+            },
+            "tischbonusAb": {
+              "$ref": "#/$defs/positiv"
+            }
+          }
+        },
+        "fluestern": {
+          "type": "object",
+          "required": [
+            "wahrAb",
+            "neutralAb"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "wahrAb": {
+              "$ref": "#/$defs/positiv"
+            },
+            "neutralAb": {
+              "$ref": "#/$defs/positiv"
+            }
+          }
+        },
+        "tippRunde": {
+          "$ref": "#/$defs/runde"
+        }
+      }
+    },
+    "arten": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/art"
+      }
+    },
+    "bezug": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/figuren"
+      }
+    },
+    "randnotizen": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/notizen"
+      }
+    },
+    "auspacken": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/auspacken"
+      }
+    },
+    "ereignisse": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ereignis"
+      }
+    },
+    "bots": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/bot"
+      }
+    },
+    "ziele": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "$ref": "#/$defs/ziel"
+        }
+      }
+    }
+  }
+}

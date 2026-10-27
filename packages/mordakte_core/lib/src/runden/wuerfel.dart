@@ -37,6 +37,15 @@ class WuerfelRegel {
     return m > modMax ? modMax : m;
   }
 
+  /// Modifikator mit Zuschlag der Einfluss-Schicht (Finale §3.4): [basis] nach K-07 plus [extra]
+  /// (Tischwert und Umweg-Bonus), begrenzt auf [boden]..[deckel]. Ohne Zuschlag (`extra == 0`) genau
+  /// [basis] – so bleibt jeder Wurf ohne Schicht unverändert (Golden-Schutz).
+  static int gesamt(int basis, int extra, {required int boden, required int deckel}) {
+    if (extra == 0) return basis;
+    final m = basis + extra;
+    return m < boden ? boden : (m > deckel ? deckel : m);
+  }
+
   /// Chancen vor dem Wurf in Sechsunddreißigsteln (WÜ-2). Mit [garantie] (dritter
   /// Anlauf oder zwei Pech in Folge) ist Pech ausgeschlossen und zählt als Teilerfolg.
   static Map<Stufe, int> chancen36(int mod, {bool garantie = false}) {

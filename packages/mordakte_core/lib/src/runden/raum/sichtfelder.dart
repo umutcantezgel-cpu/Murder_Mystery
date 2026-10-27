@@ -21,6 +21,8 @@ const raumOeffentlicheSchluessel = <String>{
   'streifzug',
   // Vorspiel und Morgen (M7b, `raum/rundgang_modul.dart`): Station und Karte nach R17, nie der Vorlesetext.
   'rundgang',
+  // Einstimmung (A-063, `raum/einstimmung_modul.dart`): Teil, Schritt, Kennung und vorgestellte Figur, nie der Vorlesetext.
+  'einstimmung',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der

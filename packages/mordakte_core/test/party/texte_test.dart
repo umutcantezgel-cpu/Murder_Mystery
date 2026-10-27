@@ -63,6 +63,7 @@ void main() {
     'erzaehler': 'texte-bausteine',
     'detektiv': 'texte-bausteine',
     'ui': 'texte-bausteine',
+    'einfluss': 'texte-bausteine',
     'dossier': 'texte-dossier',
     'taeter': 'texte-taeter',
     'gespraech': 'texte-gespraech',

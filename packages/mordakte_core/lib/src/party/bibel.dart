@@ -28,6 +28,8 @@ const _settingLabels = {
   'brandschutz': 'Brandschutz',
   'ton': 'Ton',
   'introTeile': 'Weitere Intro-Teile',
+  'vorgeschichte': 'Vorgeschichte (Teile)',
+  'vorstellung': 'Vorstellungsrunde',
 };
 
 const _optikLabels = {
@@ -251,7 +253,7 @@ class _Bibel {
           _unterpunkt('$x');
         }
       } else {
-        _punkt('**$label:** $v');
+        _punkt('**$label:** ${v is bool ? _ja(v) : v}');
       }
     }
     _z();

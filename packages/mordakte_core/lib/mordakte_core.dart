@@ -49,8 +49,12 @@ export 'src/party/befragung.dart';
 export 'src/party/erzaehler_paket.dart';
 export 'src/party/diashow.dart';
 export 'src/party/steckbriefe.dart';
+export 'src/party/pfadwissen.dart';
 export 'src/party/textpruefer.dart';
 export 'src/party/fassung.dart';
+// Einstimmung und Erzählerakte (Finale Schlosskeller, A-063)
+export 'src/party/einstimmung.dart';
+export 'src/party/erzaehlerakte.dart';
 export 'src/erzaehlung/erzaehlung.dart';
 export 'src/erzaehlung/pruefer.dart';
 export 'src/party/karte.dart';

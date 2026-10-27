@@ -23,6 +23,9 @@ class AbendErgebnis {
   /// lassen das leer: Sie bekommen die Karte ihrer eigenen Rolle.
   final Set<String> tischFiguren;
 
+  /// Erfahrung aus der Einfluss-Schicht (Finale §3.10), nur bei Gästen eines Abends mit Schicht.
+  final EinflussErfahrung? einfluss;
+
   const AbendErgebnis({
     required this.akte,
     required this.salz,
@@ -33,7 +36,11 @@ class AbendErgebnis {
     required this.ende,
     this.abstecherFunde = const {},
     this.tischFiguren = const {},
+    this.einfluss,
   });
+
+  /// Erfahrungspunkte des Abends ([xpFuer] mit [einfluss]).
+  int get xp => xpFuer(ende, einfluss: einfluss);
 }
 
 /// Belohnung eines Abends: eine reine Funktion, deterministisch aus dem eigenen
@@ -88,10 +95,25 @@ List<String> belohnungFuer(AbendErgebnis e, KartenKatalog katalog, Set<String> b
   return neu;
 }
 
-/// XP je Ende (Rang-Fortschritt der Detektei).
-int xpFuer(String ende) => switch (ende) {
+/// Was die Einfluss-Schicht einer Rolle am Abend einbrachte (Finale §3.10): erreichte Sterne, Stern des
+/// Abends, Spürnase. Nur mit Schicht; der Detektiv bekommt keine (er zählt über das verschobene Ende).
+class EinflussErfahrung {
+  final int sterne;
+  final bool sternDesAbends;
+  final bool spuernase;
+  const EinflussErfahrung({required this.sterne, this.sternDesAbends = false, this.spuernase = false});
+
+  /// +15 je Stern, +25 Stern des Abends, +10 Spürnase.
+  int get xp => 15 * sterne + (sternDesAbends ? 25 : 0) + (spuernase ? 10 : 0);
+}
+
+/// XP je Ende (Rang-Fortschritt der Detektei); mit [einfluss] (Gast eines Abends mit Einfluss-Schicht)
+/// kommt dessen Erfahrung dazu. Ohne [einfluss] wie bisher.
+int xpFuer(String ende, {EinflussErfahrung? einfluss}) =>
+    switch (ende) {
       'ende_meister' => 300,
       'ende_teilerfolg' => 200,
       'ende_justizirrtum' => 120,
       _ => 80,
-    };
+    } +
+    (einfluss?.xp ?? 0);
