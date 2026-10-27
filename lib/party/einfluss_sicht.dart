@@ -195,6 +195,7 @@ class EinflussLage {
   const EinflussLage({
     required this.runde,
     this.gezogen,
+    this.offen,
     this.aufruf,
     this.zusammenhalt = 0,
     this.spuk = 0,
@@ -213,6 +214,10 @@ class EinflussLage {
 
   /// In den Gesprächen: Rollen, die schon gezogen haben; sonst `null`.
   final List<String>? gezogen;
+
+  /// In den Gesprächen: Rollen mit Menschen, auf deren Zug der Raum noch wartet (wer aufgab, zieht als
+  /// Bot und fehlt hier); sonst `null`.
+  final List<String>? offen;
 
   /// Abendzeit (ms) des letzten Aufrufs in den laufenden Gesprächen.
   final int? aufruf;
@@ -244,6 +249,7 @@ class EinflussLage {
     return EinflussLage(
       runde: _zahl(m['runde']),
       gezogen: m['gezogen'] is List ? _texte(m['gezogen']) : null,
+      offen: m['offen'] is List ? _texte(m['offen']) : null,
       aufruf: m['aufruf'] is int ? m['aufruf'] as int : null,
       zusammenhalt: _zahl(leisten['zusammenhalt']),
       spuk: _zahl(leisten['spuk']),

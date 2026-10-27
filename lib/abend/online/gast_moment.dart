@@ -40,15 +40,12 @@ EinflussDarstellung? gastDarstellung(GastKontext c) {
   );
 }
 
-/// Rollen, die ein Mensch spielt (Plätze mit Figur), in der Reihenfolge der Plätze.
-List<String> _menschen(GastKontext c) => [for (final s in c.spieler) ?s.rolle];
-
-/// Menschen, die in den laufenden Gesprächen noch nicht gezogen haben.
+/// Menschen, auf deren Zug der Raum in den laufenden Gesprächen noch wartet (`einfluss.offen`; wer
+/// aufgab, zieht als Bot und fehlt dort).
 List<String> gastMomentOffen(GastKontext c) {
-  final lage = gastEinflussLage(c);
-  final g = lage?.gezogen;
-  if (c.phase != 'gespraeche' || g == null) return const [];
-  return [for (final r in _menschen(c)) if (!g.contains(r)) r];
+  final o = gastEinflussLage(c)?.offen;
+  if (c.phase != 'gespraeche' || o == null) return const [];
+  return o;
 }
 
 /// Restzeit des letzten Aufrufs in Millisekunden (Abendzeit des Gastgebers), sonst `null`.

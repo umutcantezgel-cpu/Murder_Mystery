@@ -1218,7 +1218,7 @@ class PartySitzung extends ChangeNotifier {
 
   /// Öffentlich `einfluss` (wie im Raum); `null` ohne Schicht.
   @protected
-  Map<String, Object?>? get einflussOeffentlich => einfluss ? _raumSeite.oeffentlich(_partie) : null;
+  Map<String, Object?>? get einflussOeffentlich => einfluss ? _raumSeite.oeffentlich(_partie, mensch: (_) => !solo) : null;
 
   /// Öffentliche Lage der Schicht: Leisten, Folgen, Tischwerte, Funde, Nachfragen.
   EinflussLage? get einflussLage {

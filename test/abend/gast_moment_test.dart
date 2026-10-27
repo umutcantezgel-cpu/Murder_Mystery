@@ -233,4 +233,30 @@ void main() {
     expect(s.momentFertig, isFalse, reason: 'Die Frist läuft noch');
     expect(s.einflussLage!.aufruf, s.momentAufruf);
   });
+
+  test('Wer den Abend verlässt, zieht als Bot: Der Gastgeber wartet nicht auf ihn, ein getrenntes Gerät bleibt offen', () async {
+    final raum = _raum(gastgeberErzaehler: true);
+    _bisGespraeche(raum, 1, leiter: 'gastgeber', detektiv: 'g1');
+    befragungenImRaum(raum, detektiv: 'g1');
+    final s = GastgeberSitzung(SitzDienst(raum, daten: einflussDaten));
+    addTearDown(s.dispose);
+    final cleo = LiveGast(raum, spielerId: 'g2', daten: einflussDaten);
+    final dora = _rolle(raum, 'g3');
+    raum.nachricht('g2', {'typ': 'zug', 'art': 'helfen'});
+    // Dora ist nur getrennt: Auf sie wartet der Raum noch.
+    raum.verbunden('g3', false);
+    expect(s.momentOffen, [dora]);
+    expect([s.momentFertig, s.kannWeiter, raum.zustandFuer('gastgeber')['kannWeiter']], [false, false, false]);
+    expect(_map(cleo.ansicht['einfluss'])['offen'], [dora], reason: 'Gäste lesen dieselbe Liste (gastMomentOffen)');
+    // Dora verlässt den Abend: Ihre Figur zieht als Bot, niemand muss den letzten Aufruf geben.
+    raum.verlassen('g3');
+    expect(raum.zustandFuer('gastgeber')['kannWeiter'], isTrue);
+    expect(s.momentOffen, isEmpty);
+    expect([s.momentFertig, s.kannWeiter], [true, true]);
+    expect(_map(raum.zustandFuer('g2')['einfluss'])['offen'], isEmpty, reason: 'Für alle Geräte gleich');
+    s.weiter();
+    await pumpEventQueue();
+    expect(raum.zustandFuer('gastgeber')['phase'], 'entscheidungen');
+    expect(raum.partieFuerGastgeber!.einfluss!.stand.folgenVon(1)!.zuege[dora]!.art, isNot(ZugArt.abgewartet), reason: 'Der Bot zog für Dora');
+  });
 }

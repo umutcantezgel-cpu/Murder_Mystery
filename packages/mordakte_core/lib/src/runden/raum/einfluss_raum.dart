@@ -124,11 +124,12 @@ class EinflussRaum {
       };
 
   /// Öffentlich `einfluss`, für alle Geräte gleich: Runde; in den Gesprächen, wer schon gezogen hat (nur
-  /// Rollen, nie was) und den letzten Aufruf; Leisten und Ereignisse; je ausgewertete Runde die Folgen
+  /// Rollen, nie was), auf wen der Raum noch wartet (`offen`: Rollen mit Menschen nach [mensch] ohne Zug;
+  /// ohne [mensch] alle besetzten) und den letzten Aufruf; Leisten und Ereignisse; je ausgewertete Runde die Folgen
   /// (Gerüchte als Bausteine, Geständnisse, Ablenker, Zuwachs, Minuten, Tischwerte, Blasen); die Tischwerte
   /// der laufenden Runde; die Kennzeichen jeder aufgedeckten Entscheidung (verwischt, verzögert, ertappt,
   /// Randnotizen, Befragung); gezeigte Randnotizen; Nachfragen. In der Lobby nur die Runde 0.
-  Map<String, Object?> oeffentlich(RundenPartie? p) {
+  Map<String, Object?> oeffentlich(RundenPartie? p, {bool Function(String rolle)? mensch}) {
     if (p == null) return const {'runde': 0};
     final e = p.einfluss!;
     final s = e.stand;
@@ -138,6 +139,7 @@ class EinflussRaum {
       'runde': r,
       if (p.phase == PartyPhase.gespraeche) ...{
         'gezogen': [for (final b in s.besetzt) if (s.zug(r, b) != null) b],
+        'offen': [for (final b in s.besetzt) if ((mensch?.call(b) ?? true) && s.zug(r, b) == null) b],
         'aufruf': ?_aufruf,
       },
       'leisten': {'zusammenhalt': s.zusammenhalt, 'spuk': s.spuk},

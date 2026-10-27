@@ -330,12 +330,13 @@ class GastgeberSitzung extends PartySitzung {
     return a is Map && a['einfluss'] is Map ? jMap(a['einfluss']) : null;
   }
 
-  /// Rollen mit Menschen, die ihren Moment noch nicht gezogen haben (aus `einfluss.gezogen`).
+  /// Rollen mit Menschen, auf deren Moment der Raum noch wartet (`einfluss.offen`); wer den Abend
+  /// verlassen hat, zieht als Bot und fehlt dort.
   @override
   List<String> get momentOffen {
-    final g = einflussLage?.gezogen;
-    if (phase != PartyPhase.gespraeche || g == null) return const [];
-    return [for (final r in menschenRollen) if (!g.contains(r)) r];
+    final o = einflussLage?.offen;
+    if (phase != PartyPhase.gespraeche || o == null) return const [];
+    return o;
   }
 
   @override

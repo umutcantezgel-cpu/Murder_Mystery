@@ -830,7 +830,8 @@ class SchlosskellerRaum implements AbendRaum {
         if (p.phase == PartyPhase.anklage) 'verdaechtige': [..._kanon.kernverdaechtige],
       },
       // Einfluss-Schicht (Finale §3.12): öffentlich nie wer was spielte, nie Zählwerte oder Tipps.
-      if (_moment case final m?) 'einfluss': m.oeffentlich(p),
+      // Wer aufgegeben hat, zieht als Bot: Auf ihn wartet `offen` nicht mehr.
+      if (_moment case final m?) 'einfluss': m.oeffentlich(p, mensch: _menschSpielt),
       'privat': <String, Object?>{
         'spieler': id, 'detektiv': id == ermittler,
         if (p != null && vorleserSitz && id == vorleser) ...{'vorleser': true, 'erzaehler': fenster},
