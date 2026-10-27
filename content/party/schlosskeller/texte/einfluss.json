@@ -629,7 +629,7 @@
     },
     {
       "id": "einfluss.ablenken.leyla",
-      "text": "Lejla hört jemanden niesen und beginnt sofort mit der Beratung. Bald kennt jeder drei Hausmittel gegen Schnupfen, ob er will oder nicht. Am Ende niest nur noch Lejla."
+      "text": "Lejla hört jemanden niesen und beginnt sofort mit der Beratung. Bald kennt jeder drei Hausmittel gegen Schnupfen, auch wer kerngesund ist. Am Ende niest nur noch Lejla."
     },
     {
       "id": "einfluss.ablenken.emine",
@@ -853,7 +853,7 @@
     },
     {
       "id": "einfluss.bot.ahmet.ertappt",
-      "text": "Erwischt, ich lass halt keinen hängen!"
+      "text": "Erwischt, ich hatte alles im Griff!"
     },
     {
       "id": "einfluss.bot.ahmet.geruecht",
@@ -869,7 +869,7 @@
     },
     {
       "id": "einfluss.bot.fatma.ertappt",
-      "text": "Erwischt, ich wollte nur nett sein!"
+      "text": "Erwischt, ich bin ganz rot geworden!"
     },
     {
       "id": "einfluss.bot.fatma.geruecht",
@@ -885,7 +885,7 @@
     },
     {
       "id": "einfluss.bot.olli.ertappt",
-      "text": "Erwischt, ich steh eben zu Kumpels!"
+      "text": "Erwischt, ich trag das mit Fassung!"
     },
     {
       "id": "einfluss.bot.olli.geruecht",
