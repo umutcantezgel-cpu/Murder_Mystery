@@ -51,13 +51,15 @@ class ResuemeeBildschirm extends StatelessWidget {
       );
 
   /// Drei Fächer in fester Reihenfolge: Gruppenergebnis, Stand, Lage. Ein
-  /// Erzählerfeld liest alle drei nacheinander vor; der Bericht zeigt sie.
+  /// Erzählerfeld liest alle drei nacheinander vor; der Bericht zeigt sie. Ein
+  /// leeres Fach fehlt: Mit „Dein Moment“ gibt es kein Gruppenergebnis, wenn
+  /// niemand flüsterte (Finale §3.8).
   Widget _resuemee(BuildContext context) {
     final faecher = [
       ('ui.resuemee.fach_gruppe', _bausteinVon('resuemee.gruppe.')),
       ('ui.resuemee.fach_rest', _bausteinVon('resuemee.rest.')),
       ('ui.resuemee.fach_lage', _bausteinVon('resuemee.lage.')),
-    ];
+    ].where((f) => f.$2.isNotEmpty).toList();
     // „Dein Moment“ (Finale „Änderungen“ 7): Kommen wartende Funde jetzt dazu, steht `einfluss.wieder` vorn.
     final wieder = [for (final k in sitzung.erzaehler) if (k == 'einfluss.wieder') k];
     final kennungen = [...wieder, for (final (_, k) in faecher) ...k];

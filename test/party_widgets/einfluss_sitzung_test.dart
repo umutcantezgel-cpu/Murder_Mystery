@@ -339,6 +339,21 @@ void main() {
     expect(find.byKey(const ValueKey('leiste-spuk')), findsOneWidget);
   });
 
+  testWidgets('Resümee ohne Geflüster: kein leeres Fach „Gruppenergebnis“', (t) async {
+    final s = einflussSitzung(rollen: 4, salz: 'still');
+    einflussBis(s, PartyPhase.gespraeche);
+    // Alle zeigen: kein Zuwachs an Zusammenhalt, niemand flüstert.
+    alleZiehen(s, plan: (s, r) => (art: ZugArt.zeigen, ziel: r == 'ahmet' ? 'fatma' : 'ahmet', tipp: null));
+    einflussBis(s, PartyPhase.resuemee);
+    expect(s.einflussLage!.folgenVon(1)!.zuwachsZusammenhalt, 0);
+    expect(s.erzaehler.where((k) => k.startsWith('resuemee.gruppe.')), isEmpty);
+    await t.pumpWidget(rahmen(ResuemeeBildschirm(sitzung: s)));
+    await t.pump();
+    expect(find.text(s.ui('ui.resuemee.fach_gruppe')), findsNothing);
+    expect(find.text(s.ui('ui.resuemee.fach_rest')), findsOneWidget);
+    expect(find.text(s.ui('ui.resuemee.fach_lage')), findsOneWidget);
+  });
+
   testWidgets('Auflösung: Protokoll der Nacht, Sterne, Tipps, Preise, Endwert', (t) async {
     final s = einflussSitzung();
     einflussBis(s, PartyPhase.aufloesung);
