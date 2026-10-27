@@ -1147,7 +1147,6 @@ class PartySitzung extends ChangeNotifier {
   void _einflussNachFolgen(int? runde) {
     if (runde == null) return;
     _raumSeite.nachFolgen(_partie, runde);
-    _folgenGelesen = false;
   }
 
   /// Öffentlich `einfluss` (wie im Raum); `null` ohne Schicht.
@@ -1213,15 +1212,16 @@ class PartySitzung extends ChangeNotifier {
     return [for (final z in e.zielStaende(rolle)) SternSicht(nr: z.ziel.nr, schluessel: z.ziel.schluessel, stand: z.stand)];
   }
 
-  bool _folgenGelesen = false;
+  /// Runde, deren Folgen an diesem Gerät gelesen sind (nicht im Journal: nach dem Fortsetzen liegen sie wieder offen).
+  int _folgenGelesen = 0;
 
   /// Liegen die Folgen der Runde noch offen (zu Beginn der Ermittlung, bis der Vorleser sie gelesen hat)?
-  bool get folgenOffen => einfluss && phase == PartyPhase.entscheidungen && !_folgenGelesen && einflussAbend?.stand.folgenVon(runde) != null;
+  bool get folgenOffen => einfluss && phase == PartyPhase.entscheidungen && _folgenGelesen != runde && einflussAbend?.stand.folgenVon(runde) != null;
 
   /// Die Folgen sind vorgelesen; die Ermittlung beginnt.
   void folgenGelesen() {
-    if (_folgenGelesen) return;
-    _folgenGelesen = true;
+    if (_folgenGelesen == runde) return;
+    _folgenGelesen = runde;
     notifyListeners();
   }
 

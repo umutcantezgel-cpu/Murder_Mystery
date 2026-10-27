@@ -6,6 +6,8 @@ import 'package:mordakte_core/runden.dart' show RundenZugPhase;
 
 import '../../game/game_view.dart';
 import '../../l10n/lookup.dart';
+import '../../party/bildschirme/einfluss_teile.dart' show MomentAufruf, ZugTafelAnsicht;
+import '../../party/bildschirme/moment.dart' show EinflussDarstellung;
 import '../../party/erzaehler_ausgabe.dart';
 import '../../party/karte_session.dart';
 import '../../party/klasse_wirkung.dart';
@@ -101,6 +103,8 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
                       SitzungsUhr(sitzung: s, groesse: 240),
                       const SizedBox(height: MMass.s16),
                       _status(s.abschnittFertig ? l.erzaehler_detektiv_fertig : l.erzaehler_befragt),
+                      // „Dein Moment“ (Finale §3): wer noch zieht, und der letzte Aufruf.
+                      if (s.einfluss) ...[MomentAufruf(sitzung: s), const SizedBox(height: MMass.s16)],
                       ?streifzug,
                       if (befragungen.isNotEmpty)
                         BefragungsStand(befragungen: befragungen, person: s.personAmTisch, erledigtText: l.party_befragung_erledigt),
@@ -127,6 +131,11 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
                     ],
                   _ => const <Widget>[],
                 },
+                // „Dein Moment“ (Finale §3.12): Die Zug-Tafel der Runde sieht nur der Erzähler.
+                if (s.einflussTafel case final t?) ...[
+                  ZugTafelAnsicht(tafel: t, darstellung: EinflussDarstellung.sitzung(s)),
+                  const SizedBox(height: MMass.s16),
+                ],
                 if (paket != null && !anklage)
                   ErzaehlerPaketAnsicht(
                     key: ValueKey('pult-paket-${s.runde}'),
