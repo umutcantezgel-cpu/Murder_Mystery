@@ -1,6 +1,9 @@
 // Echter Solo-Abend von der Detektei bis zum Ende, ohne Entwicklerroute oder PartySkript.
 // Je Runde drei bis fünf Befragungen der Bots (Modell befragung, A-051): Antwort erst nach
 // der Frage. Nur Befragungskarten fotografieren, keine Dossiers oder Auflösung.
+// Der Assistent schaltet im Schlosskeller Vorgeschichte und Vorstellung (A-063) und „Dein
+// Moment“ (Finale §3) an: Die Einstimmung steht vor der Einleitung, die Bots ziehen ihren
+// Moment, zu Beginn jeder Ermittlung stehen die Folgen, die Gruppenwahl entfällt.
 // Aufruf: node tool/e2e/solo.mjs [--nur320]
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -115,6 +118,14 @@ try {
     await page.getByText(text('ui.solo.rollen_start'), { exact: true }).waitFor();
     assert.equal(await page.getByText(text('ui.rollen.verbirgt_titel'), { exact: true }).count(), 0);
     await click('ui.rollen.weiter');
+    // Einstimmung (A-063): erst die Vorgeschichte, dann die Vorstellung; der Detektiv überspringt beide.
+    stage = `${width} px · Einstimmung`;
+    await button('einstimmung_ueberspringen_vorgeschichte').waitFor({ timeout: 30000 });
+    await photo('vorgeschichte', 'Vorgeschichte vor der Einleitung');
+    await click('einstimmung_ueberspringen_vorgeschichte');
+    await photo('vorstellung', 'Vorstellung der Gäste');
+    await click('einstimmung_ueberspringen_vorstellung');
+    assert.equal(await button('einstimmung_ueberspringen_vorstellung').count(), 0, 'Die Einstimmung endet nicht');
     await click('ui.intro.weiter');
     let questions = 0;
     let decisions = 0;
@@ -135,6 +146,11 @@ try {
       });
       assert(runde.fragen >= 3 && runde.fragen <= 5, `Runde ${round}: ${runde.fragen} Befragungen statt drei bis fünf`);
       await click('ui.runde.weiter');
+      // „Dein Moment“: Die Bots haben gezogen; zu Beginn der Ermittlung stehen die Folgen.
+      stage = `${width} px · Runde ${round} · Folgen`;
+      await button('einfluss_folgen_weiter').waitFor({ timeout: 30000 });
+      if (round === 1) await photo('folgen', 'Folgen des Moments vor der Ermittlung');
+      await click('einfluss_folgen_weiter');
       if (round === 1) {
         stage = `${width} px · Auftaktwurf`;
         await click('ui.zug.werfen'); rolls++;
@@ -159,11 +175,12 @@ try {
           assert(attempt < 7, 'Zug erreicht keinen Fund');
         }
       }
-      stage = `${width} px · Runde ${round} · geheime Bot-Wahl`;
-      await click('ui.karte.zur_gruppenwahl');
-      await page.getByText(text('ui.solo.gruppenwahl'), { exact: true }).waitFor();
-      await click('ui.allgemein.weiter'); // Gruppenwahl → Bonus
-      await click('ui.allgemein.weiter'); // Bonus → Resümee
+      // Mit „Dein Moment“ entfällt die Gruppenwahl: von der Ermittlung direkt zum Flüstern.
+      stage = `${width} px · Runde ${round} · Flüstern`;
+      assert.equal(await button('ui.karte.zur_gruppenwahl').count(), 0, 'Gruppenwahl trotz Dein Moment');
+      await click('ui.allgemein.weiter'); // Ermittlung → Flüstern
+      assert.equal(await page.getByText(text('ui.solo.gruppenwahl'), { exact: true }).count(), 0, 'Gruppenwahl trotz Dein Moment');
+      await click('ui.allgemein.weiter'); // Flüstern → Resümee
       await click(round < 3 ? 'ui.resuemee.naechste_runde' : 'ui.resuemee.zur_anklage');
     }
     stage = `${width} px · Anklage und Ende`;
@@ -182,7 +199,7 @@ try {
     assert.equal(decisions, 9);
     assert(rolls >= 3, 'Würfel wurden umgangen');
     assert.equal(errors.length, 0, 'Konsole oder fremde Netzaufrufe');
-    console.log(`SOLO OK · ${width} px · ${questions} Befragungen · 9 echte Kartenentscheidungen · ${rolls} sichtbare Würfe · 3 Bot-Wahlen · Ende erreicht`);
+    console.log(`SOLO OK · ${width} px · Einstimmung · ${questions} Befragungen · 9 echte Kartenentscheidungen · ${rolls} sichtbare Würfe · 3 Folgen von „Dein Moment“ · Ende erreicht`);
     await page.close();
   }
   const sheet = await browser.newPage({ viewport: { width: 1220, height: 960 }, locale: 'de-DE' });
