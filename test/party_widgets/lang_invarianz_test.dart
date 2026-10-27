@@ -64,6 +64,8 @@ final PartyDaten _daten = PartyDaten.aus(
   geruechte: _json('$_weltOrdner/${_weltJson['geruechte']}'),
   diashow: _json('$_weltOrdner/diashow.json'),
   vorspielMorgen: _json('$_weltOrdner/${_weltJson['vorspielMorgen']}'),
+  // „Dein Moment“ (Finale §3): Die Regeln liegen bereit, gespielt wird die Schicht nur mit einfluss: true.
+  einfluss: _json('content/party/zusatz/schlosskeller/einfluss.json'),
 );
 
 /// Welt-Ebenen und Szenarien je Ebene wie [AbendKarte.ladeWelt], die
@@ -174,7 +176,7 @@ const _nah = 1.5;
 /// Spielt einen Abend der Kombination [c] in der Fassung [fassung] und hält
 /// fest, was der Vergleich und die Prüfungen des langen Abends brauchen.
 class _Abend {
-  _Abend(this.c, this.fassung, {String? salz}) {
+  _Abend(this.c, this.fassung, {String? salz, this.einfluss = false}) {
     s = PartySitzung(_daten, salz: salz ?? c.salz);
     if (c.gemischt) s.kartenAnlegen(abstecher: _abstecher);
     s.einrichten(
@@ -184,8 +186,12 @@ class _Abend {
       code: FallCode.fuerPfad(c.pfad, _daten.kanon.pfade).code,
       rundendauerMinuten: c.minuten(fassung),
       fassung: fassung,
+      einfluss: einfluss,
     );
   }
+
+  /// Spielt der Abend „Dein Moment“ (Finale §3)?
+  final bool einfluss;
 
   final _Kombi c;
   final Abendfassung fassung;
@@ -253,6 +259,7 @@ class _Abend {
             }
           }
           befragungen[s.runde] = [for (final k in s.befragungen) (k.id, k.pflicht, k.frage, k.erledigt)];
+          if (einfluss) _moment();
           s.weiter();
         case PartyPhase.entscheidungen:
           // Lang läuft die Rundenuhr im ganzen Streifzug weiter, kurz nur in den Gesprächen.
@@ -284,6 +291,25 @@ class _Abend {
       }
     }
     throw StateError('Abend endet nicht (Phase ${s.phase})');
+  }
+
+  // -------------------------------------------------------------- Dein Moment
+
+  /// „Dein Moment“: Reihum zieht jede Person verdeckt; Art, Ziel und Tipp aus dem
+  /// festen Zufall der Kombination. Im Solo ziehen die Bots.
+  void _moment() {
+    for (final r in [...s.momentOffen]) {
+      s.momentZeigen(r);
+      final m = s.momentSicht(r);
+      final art = m.arten[c._zufall('zug:$r:${s.runde}', m.arten.length)];
+      final ziele = m.ziele[art] ?? const <String>[];
+      s.momentZug(
+        r,
+        art,
+        ziel: ziele.isEmpty ? null : ziele[c._zufall('ziel:$r:${s.runde}', ziele.length)],
+        tipp: m.tipps.isEmpty ? null : m.tipps[c._zufall('tipp:$r', m.tipps.length)],
+      );
+    }
   }
 
   // -------------------------------------------------------------- Befragungen
@@ -571,11 +597,26 @@ Map<String, Object?> _ergebnis(PartySitzung s) => {
       'kennung': PartySkript.abendKennung(s),
     };
 
-Future<_Abend> _spiele(_Kombi c, Abendfassung f) async {
-  final a = _Abend(c, f);
+Future<_Abend> _spiele(_Kombi c, Abendfassung f, {bool einfluss = false}) async {
+  final a = _Abend(c, f, einfluss: einfluss);
   addTearDown(a.s.dispose);
   await a.spielen();
   return a;
+}
+
+/// Was „Dein Moment“ am Abend bewirkte: Folgen je Runde, Kennzeichen der Funde,
+/// Randnotizen, Nachfragen, Sterne, Auszeichnungen und Endwert.
+Map<String, Object?> _einflussErgebnis(PartySitzung s) {
+  final e = s.einflussAbend!;
+  return {
+    'folgen': [for (var r = 1; r <= 3; r++) e.stand.folgenVon(r)?.toJson()],
+    'einflussFunde': {for (final f in e.funde.entries) f.key: f.value.toJson()},
+    'randnotizen': e.randnotizen,
+    'nachfragen': [for (final n in e.nachfragen) (n.option, n.notiz)],
+    'sterne': e.sterne(),
+    'auszeichnungen': e.auszeichnungen().toJson(),
+    'endwert': s.spiel.endwert,
+  };
 }
 
 /// Befehle des Journals mit dem Namen [b].
@@ -654,6 +695,29 @@ void main() {
         addTearDown(weiter.dispose);
         expect([weiter.lang, weiter.phase, weiter.rundgang, weiter.erkundet], [true, PartyPhase.ende, null, orte]);
         expect(_ergebnis(weiter), equals(soll));
+      });
+    }
+  });
+
+  // Finale §3: Auch mit „Dein Moment“ endet lang wie kurz – Züge, Folgen, Tischwerte,
+  // Funde, Sterne und Endwert; reihum ziehen alle verdeckt, im Solo die Bots.
+  group('Mit „Dein Moment“ (${kombis.length} Kombinationen)', () {
+    for (final c in kombis) {
+      test('$c: lang endet wie kurz', () async {
+        final kurz = await _spiele(c, Abendfassung.kurz, einfluss: true);
+        final lang = await _spiele(c, Abendfassung.lang, einfluss: true);
+        expect([kurz.s.einfluss, lang.s.einfluss, kurz.s.phase, lang.s.phase], [true, true, PartyPhase.ende, PartyPhase.ende]);
+        final soll = {..._ergebnis(kurz.s), ..._einflussErgebnis(kurz.s)};
+        expect(soll['bausteine'], contains('einfluss.folgen.start.1'));
+        expect(soll['qualitaeten'], isNot(contains(isNull)));
+        expect({..._ergebnis(lang.s), ..._einflussErgebnis(lang.s)}, equals(soll));
+        // Reihum zieht jede Person je Runde verdeckt; im Solo die Bots ohne Befehl.
+        expect(_befehle(kurz.s, 'moment'), hasLength(c.besetzung.solo ? 0 : 3 * c.besetzung.n));
+        expect(_befehle(kurz.s, 'einrichten').single['einfluss'], isTrue);
+        // Das Journal des langen Abends spielt denselben Abend mit Schicht nach.
+        final weiter = PartySitzung.fortsetzen(_daten, lang.s.abendstand, abstecher: _abstecher);
+        addTearDown(weiter.dispose);
+        expect({..._ergebnis(weiter), ..._einflussErgebnis(weiter)}, equals(soll));
       });
     }
   });
