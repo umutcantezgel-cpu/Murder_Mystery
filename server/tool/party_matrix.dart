@@ -12,6 +12,12 @@
 /// Reconnect, Würfelprüfung. Dazu je Akte ein Host-Wechsel nach dem Start: Der
 /// Gastgeber auf dem Detektiv-Sitz geht, der neue führt den Abend zu Ende. Zuletzt
 /// fällt ein Gast-Detektiv aus, und der Gastgeber vergibt seinen Sitz neu.
+/// Finale Schlosskeller (lokal, eigene Raumarten nur dieser Matrix, Probe-Inhalt
+/// solange die Akte keinen hat, `probe_inhalt.dart`): ein Lauf mit „Dein Moment“
+/// (menschliche Züge inkl. Lauschen und Ändern, Rechte, letzter Aufruf, Bot-Ersatz
+/// für einen Gast, der geht, Nachfragen; Lauschergebnis nur beim Lauscher, Zug-Tafel
+/// nur beim Erzähler, öffentlich nie, was gespielt wurde, keine Gruppenwahl) und ein
+/// Lauf mit Einstimmung (alle sehen denselben Schritt, den Text nur der Vorleser).
 /// Lokal: dart run tool/party_matrix.dart [--clients=4]
 /// Öffentlich: `dart run tool/party_matrix.dart --url=wss://<freigegebener-host>/ws`
 library;
@@ -28,6 +34,7 @@ import 'package:mordakte_server/runtime.dart';
 import 'package:mordakte_server/scenarios.dart';
 import 'package:mordakte_server/server.dart';
 
+import 'probe_inhalt.dart';
 import 'smoke.dart' show Client;
 
 String _stage = 'Vorbereitung';
@@ -106,19 +113,30 @@ Future<void> _health(Uri url) async {
 }
 
 /// Sitze eines Laufs (M3): Client 0 öffnet den Raum, Client 1 ist der Gast mit Sitz;
-/// [lang]: der lange Abend (M7b).
-typedef _Konstellation = ({String name, String hostSitz, String? gastSitz, bool lang});
+/// [lang]: der lange Abend (M7b); [einfluss]: „Dein Moment“; [einstimmung]: Vorgeschichte und Vorstellung.
+typedef _Konstellation = ({String name, String hostSitz, String? gastSitz, bool lang, bool einfluss, bool einstimmung});
 
 const _konstellationen = <_Konstellation>[
-  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false),
-  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null, lang: false),
-  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false),
-  (name: 'Langer Abend: Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: true),
+  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false, einfluss: false, einstimmung: false),
+  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null, lang: false, einfluss: false, einstimmung: false),
+  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false, einfluss: false, einstimmung: false),
+  (name: 'Langer Abend: Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: true, einfluss: false, einstimmung: false),
+  (name: 'Dein Moment: Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false, einfluss: true, einstimmung: false),
+  (name: 'Einstimmung: Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false, einfluss: false, einstimmung: true),
 ];
 
 /// Raumart des langen Abends, nur am lokalen Server dieser Matrix (Server-Räume
 /// des Produktionsservers haben keine Meta und spielen kurz).
 const _langAbend = 'schlosskeller~lang';
+
+/// Raumarten mit „Dein Moment“ bzw. Einstimmung, nur am lokalen Server dieser Matrix.
+const _einflussAbend = 'schlosskeller~einfluss', _einstimmungAbend = 'schlosskeller~einstimmung';
+
+/// Raumart einer Konstellation.
+String _raumart(_Konstellation k) => k.lang ? _langAbend : (k.einfluss ? _einflussAbend : (k.einstimmung ? _einstimmungAbend : 'schlosskeller'));
+
+/// Nur am lokalen Server dieser Matrix (eigene Raumart).
+bool _nurLokal(_Konstellation k) => k.lang || k.einfluss || k.einstimmung;
 
 /// Ansicht von [c], die [wo] erfüllt: schon empfangen (auch wenn `_command` sie
 /// verbraucht hat), sonst die nächste.
@@ -136,6 +154,145 @@ Future<Map<String, dynamic>> _sicht(Client c, int version) async {
   return c.expect(Msg.abend, where: (m) => (m['version'] as int) >= version, timeout: const Duration(seconds: 10));
 }
 
+/// Erwartet den festen Fehlerschlüssel [key], wenn [c] den Befehl [typ] mit [daten] schickt.
+Future<void> _abgelehnt(Client c, String typ, String key, [Map<String, Object?> daten = const {}]) async {
+  c.send({'t': Msg.abendCmd, 'c': {'typ': typ, ...daten}});
+  await c.expect(Msg.error, where: (m) => m['key'] == key);
+}
+
+/// Geht die Einstimmung ab (A-063): Eine Rolle darf nicht schalten, ein veralteter
+/// Schritt ist `stale`, Weiter wartet; je Schritt sehen alle dieselbe Ansicht, den
+/// Vorlesetext nur [vorleser] (privat). In der Vorstellung überspringt der Leiter
+/// einmal den Rest. Liefert die vorgelesenen Texte.
+Future<Set<String>> _einstimmung(Client host, Client leiter, Client rolle, List<Client> alle, Client vorleser) async {
+  final texte = <String>{};
+  await _abgelehnt(rolle, 'einstimmung', 'not_host', {'schritt': 0});
+  final erste = _map(host.latest(Msg.abend)['einstimmung'])['schritt'] as int;
+  await _abgelehnt(leiter, 'einstimmung', 'stale', {'schritt': erste + 1});
+  await _abgelehnt(leiter, 'weiter', 'not_ready');
+  var uebersprungen = false;
+  for (var i = 0; i < 80; i++) {
+    final s = host.latest(Msg.abend);
+    final e = s['einstimmung'];
+    if (e is! Map) break;
+    final ansichten = <String>{};
+    for (final c in alle) {
+      final v = await _sicht(c, s['version'] as int);
+      _require(v['einstimmung'] is Map, 'Einstimmung fehlt bei einem Gerät.');
+      _require(_map(v['einstimmung']).keys.toSet().difference({'teil', 'schritt', 'anzahl', 'nr', 'von', 'kennung', 'figur'}).isEmpty,
+          'Unbekanntes Feld in der Einstimmung.');
+      ansichten.add(jsonEncode(v['einstimmung']));
+      final privat = _map(v['privat']);
+      if (c.playerId == vorleser.playerId) {
+        _require(privat['einstimmungText'] is String, 'Der Vorleser bekam den Text der Einstimmung nicht.');
+        texte.add(privat['einstimmungText'] as String);
+      } else {
+        _require(!privat.containsKey('einstimmungText'), 'Text der Einstimmung an ein Gerät, das nicht vorliest.');
+      }
+    }
+    _require(ansichten.length == 1, 'Der Schritt der Einstimmung ist nicht für alle gleich.');
+    _require(s['kannWeiter'] != true, 'Während der Einstimmung geht es weiter.');
+    if (e['teil'] == 'vorstellung' && e['nr'] == 2 && !uebersprungen) {
+      uebersprungen = true;
+      await _command(host, leiter, 'einstimmung', {'ueberspringen': true});
+    } else {
+      await _command(host, leiter, 'einstimmung', {'schritt': e['schritt']});
+    }
+  }
+  _require(host.latest(Msg.abend)['einstimmung'] == null && uebersprungen, 'Die Einstimmung endet nicht oder überspringt nicht.');
+  return texte;
+}
+
+/// Ablauf von „Dein Moment“ über die Runden eines Laufs.
+class _Moment {
+  Client? lauscher, gegangen;
+  String? belauscht, rolleGegangen;
+  bool aufrufGeprueft = false;
+  final Set<int> runden = {};
+}
+
+/// „Dein Moment“ in den Gesprächen (Finale §3.2, §3.14), nachdem der Detektiv befragt hat: Detektiv und
+/// Erzähler ziehen nicht (`invalid`), Weiter wartet auf die Menschen (`not_ready`). Runde 1: der erste
+/// Gast lauscht beim zweiten (erst helfen, dann geändert). Runde 2: der letzte Gast geht (Bot-Ersatz).
+/// Runde 3: letzter Aufruf; Weiter wartet die Frist, bis der säumige Gast zieht. Danach zeigt jede
+/// Ansicht dieselbe öffentliche Ansicht (wer gezogen hat, nie was), nur der Erzähler die Tafel.
+Future<void> _moment(Client host, Client leiter, Client detektiv, Client? erzaehler, List<Client> rollen, List<Client> active, _Moment m) async {
+  final runde = host.latest(Msg.abend)['runde'] as int;
+  _stage = 'Dein Moment Runde $runde';
+  m.runden.add(runde);
+  for (final ohne in [detektiv, ?erzaehler]) {
+    await _abgelehnt(ohne, 'zug', 'invalid', {'art': 'helfen'});
+  }
+  if (runde == 2 && rollen.length >= 2 && m.gegangen == null) {
+    // Bot-Ersatz: Der Gast geht; nach der Frist des Transports zieht seine Rolle als Bot.
+    final weg = rollen.last;
+    m.gegangen = weg;
+    m.rolleGegangen = _map(weg.latest(Msg.abend)['privat'])['rolle'] as String;
+    weg.send({'t': Msg.leave});
+    await host.expect(Msg.abend, where: (v) => _list(v['spieler']).any((t) => t['id'] == weg.playerId && t['online'] == false));
+    rollen.remove(weg);
+    active.remove(weg);
+  }
+  if (rollen.isNotEmpty) await _abgelehnt(leiter, 'weiter', 'not_ready');
+  final saeumig = runde == 3 && !m.aufrufGeprueft && rollen.isNotEmpty ? rollen.last : null;
+  final zuege = <String, Map<String, Object?>>{};
+  for (final (i, c) in rollen.indexed) {
+    final v = await _sicht(c, host.latest(Msg.abend)['version'] as int);
+    final privat = _map(v['privat']);
+    final moment = _map(privat['moment']);
+    _require(moment['offen'] == true && moment['runde'] == runde, 'Der Moment ist für einen Gast nicht offen.');
+    if (c == saeumig) continue;
+    final arten = [for (final a in (moment['arten'] as List).cast<String>()) if (a != 'lauschen') a];
+    final ziele = _map(moment['ziele']);
+    Map<String, Object?> zug;
+    if (runde == 1 && i == 0 && rollen.length >= 2) {
+      m.lauscher = c;
+      m.belauscht = _map((await _sicht(rollen[1], 0))['privat'])['rolle'] as String;
+      await _command(host, c, 'zug', {'art': 'helfen'});
+      zug = {'art': 'lauschen', 'ziel': m.belauscht};
+    } else {
+      final art = arten[(i + runde) % arten.length];
+      final moegliche = (ziele[art] as List?)?.cast<String>();
+      zug = {'art': art, if (moegliche != null) 'ziel': moegliche[(i + runde) % moegliche.length]};
+    }
+    if (moment['tipps'] case final List t) zug['tipp'] = t[i % t.length];
+    await _command(host, c, 'zug', zug);
+    zuege[privat['rolle'] as String] = zug;
+  }
+  if (saeumig != null) {
+    // Letzter Aufruf: Die Abendzeit stempelt der Server; vor der Frist geht es nicht weiter.
+    m.aufrufGeprueft = true;
+    await _abgelehnt(saeumig, 'letzterAufruf', 'not_host');
+    final nach = await _command(host, leiter, 'letzterAufruf', {'zeit': 1});
+    final aufruf = _map(nach['einfluss'])['aufruf'];
+    _require(aufruf is int && aufruf > 1, 'Letzter Aufruf ohne die Zeit des Servers.');
+    await _abgelehnt(leiter, 'weiter', 'not_ready');
+    final privat = _map((await _sicht(saeumig, 0))['privat']);
+    final zug = {'art': 'helfen', if (_map(privat['moment'])['tipps'] case final List t) 'tipp': t.first};
+    await _command(host, saeumig, 'zug', zug);
+    zuege[privat['rolle'] as String] = zug;
+  }
+  // Alle sehen dieselbe öffentliche Ansicht (wer gezogen hat, nie was); die Tafel hat nur der Erzähler.
+  final version = host.latest(Msg.abend)['version'] as int;
+  final listen = <String>{};
+  for (final c in active) {
+    final v = await _sicht(c, version);
+    final e = _map(v['einfluss']);
+    _require((e['gezogen'] as List).toSet().containsAll(zuege.keys), 'Wer gezogen hat, fehlt in einer Ansicht.');
+    listen.add(jsonEncode(e));
+    final tafel = _map(v['privat'])['einflussTafel'];
+    _require((tafel != null) == (c == erzaehler), 'Zug-Tafel am falschen Sitz.');
+    if (tafel is Map) {
+      final zeilen = {for (final z in _list(tafel['zuege'])) z['rolle']: z};
+      for (final z in zuege.entries) {
+        _require(zeilen[z.key]?['art'] == z.value['art'] && zeilen[z.key]?['ziel'] == z.value['ziel'], 'Die Tafel zeigt einen Zug falsch.');
+      }
+      _require(!_keys(tafel).contains('tipp'), 'Tipp auf der Tafel.');
+    }
+  }
+  _require(listen.length == 1, 'Die öffentliche Ansicht des Moments ist nicht für alle gleich.');
+}
+
 Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
   final all = <Client>[];
   final active = <Client>[];
@@ -148,7 +305,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     }
     final host = active.first;
     _stage = 'Partyraum erstellen und beitreten';
-    host.send({'t': Msg.create, 'abend': k.lang ? _langAbend : 'schlosskeller'});
+    host.send({'t': Msg.create, 'abend': _raumart(k)});
     final room = await host.expect(Msg.room);
     final code = room['code'] as String;
     _require(room['abend'] == 'schlosskeller', 'Falsche Raumart beim Erstellen.');
@@ -250,6 +407,10 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     // Vorspiel und Morgen (M7b): nur im langen Abend, je ganz abgegangen.
     final rundgaenge = <String>{};
     final vorgelesenRundgang = <String>{};
+    // Finale: Einstimmung (nur ihr Lauf) und „Dein Moment“ (nur sein Lauf).
+    final vorgelesenEinstimmung = <String>{};
+    final moment = _Moment();
+    var nachfragen = 0;
     // Im langen Abend läuft im Ende noch der Morgen; erst danach ist der Abend vorbei.
     while (host.latest(Msg.abend)['phase'] != 'ende' || host.latest(Msg.abend)['rundgang'] is Map) {
       _require(++steps < 400, 'Partyabend erreicht das Ende nicht.');
@@ -314,6 +475,10 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
           } else {
             await _command(host, leiterC, 'weiter');
           }
+        case 'intro' when s['einstimmung'] is Map:
+          // Einstimmung (A-063): vor Diashow und Intro, den Text liest nur der Vorleser.
+          _stage = 'Einstimmung';
+          vorgelesenEinstimmung.addAll(await _einstimmung(host, leiterC, rollenC.first, active, wer(vorleser)));
         case 'intro' when s['dia'] is int && !diaGeprueft:
           // Diashow (M4): Den Zähler sehen alle; schalten darf nur, wer leitet.
           _stage = 'Diashow';
@@ -392,9 +557,11 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
               if (k['mensch'] == true) await _command(host, detektivC, 'erledigt', {'id': k['id']});
             }
           }
+          // „Dein Moment“ (Finale §3.2): Die Gäste mit Figur ziehen, bevor es weitergeht.
+          if (k.einfluss) await _moment(host, leiterC, detektivC, erzaehlerC, rollenC, active, moment);
           await _command(host, leiterC, 'weiter');
-        case 'gruppenwahl' when !uhrAbgeraeumt:
-          // Nach dem Streifzug gibt es keine Uhr mehr, kurz wie lang.
+        case 'gruppenwahl' || 'bonus' when !uhrAbgeraeumt && (s['phase'] == 'gruppenwahl' || k.einfluss):
+          // Nach dem Streifzug gibt es keine Uhr mehr, kurz wie lang; mit „Dein Moment“ folgt der Bonus direkt.
           _stage = 'Uhr nach dem Streifzug';
           uhrAbgeraeumt = true;
           _require(!s.containsKey('uhr'), 'Uhr in der Gruppenwahl.');
@@ -406,6 +573,14 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
             if (_map(state['privat'])['hatGestimmt'] == false) await _command(host, c, 'stimme', {'kooperativ': count.isEven});
           }
           await _command(host, leiterC, 'weiter');
+        case 'anklage' when k.einfluss && (_map(_map(s['einfluss'])['nachfragen'])['offen'] as int) > 0 &&
+              (_map(_map(s['einfluss'])['nachfragen'])['optionen'] as List).isNotEmpty:
+          // Nachfragen (Finale §3.5): nur der Detektiv-Sitz, je eine Randnotiz einer gewählten Option.
+          _stage = 'Nachfrage';
+          final option = (_map(_map(s['einfluss'])['nachfragen'])['optionen'] as List).first;
+          if (nachfragen == 0 && rollenC.isNotEmpty) await _abgelehnt(rollenC.first, 'nachfrage', 'not_detective', {'option': option});
+          await _command(host, detektivC, 'nachfrage', {'option': option});
+          nachfragen++;
         case 'anklage':
           await _command(host, detektivC, 'anklage', {'person': (s['verdaechtige'] as List).first});
           await _command(host, leiterC, 'weiter');
@@ -417,6 +592,23 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
     for (final c in active.skip(1)) {
       await c.expect(Msg.abend, where: (s) => s['phase'] == 'ende' && s['version'] == last['version']);
     }
+    if (k.einfluss) {
+      // „Dein Moment“: drei Momente, Gruppenwahl entfallen, Auflösung mit Protokoll der Nacht.
+      _stage = 'Dein Moment: Auflösung';
+      _require(moment.runden.length == 3, 'Nicht jede Runde hatte ihren Moment.');
+      _require(rollenC.isEmpty || moment.aufrufGeprueft, 'Der letzte Aufruf wurde nicht geprüft.');
+      final ein = _map(_map(last['aufloesung'])['einfluss']);
+      final protokoll = _list(ein['protokoll']);
+      _require(protokoll.length == 3 && ein['endwert'] is int && ein['sterne'] is Map, 'Auflösung ohne Protokoll der Nacht, Sterne oder Endwert.');
+      if (moment.rolleGegangen case final weg?) {
+        final runde2 = {for (final z in _list(protokoll[1]['zuege'])) z['rolle']: z};
+        _require(runde2[weg]?['bot'] == true, 'Bot-Ersatz: Der gegangene Gast zog nicht als Bot.');
+      }
+      final gestellt = (_map(last['einfluss'])['nachgefragt'] as List?) ?? const [];
+      _require(gestellt.length == nachfragen, 'Nachfragen fehlen in der Ansicht.');
+      _require(all.every((c) => !c.inbox.any((m) => m['t'] == Msg.abend && m['phase'] == 'gruppenwahl')), 'Mit „Dein Moment“ gab es eine Gruppenwahl.');
+    }
+    _require(k.einstimmung == vorgelesenEinstimmung.isNotEmpty, 'Einstimmung nur in ihrem Lauf und dort ganz.');
     _require(forgedDiceChecked, 'Manipulationsprüfung wurde nicht erreicht.');
     _require(uhrGeprueft, 'Die Rundenuhr wurde nicht geprüft.');
     _require(streifzugGeprueft && uhrAbgeraeumt, 'Die Uhr im Streifzug wurde nicht geprüft.');
@@ -450,7 +642,7 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
       ],
     };
     final vorgelesen = <String>{};
-    var spickzettel = 0, erzaehlerAnsichten = 0, notizen = 0, auflosungFuerAlle = 0;
+    var spickzettel = 0, erzaehlerAnsichten = 0, notizen = 0, auflosungFuerAlle = 0, lauschAnsichten = 0;
     for (final c in all.where((c) => c != outsider)) {
       for (final view in c.inbox.where((m) => m['t'] == Msg.abend)) {
         final private = _map(view['privat']);
@@ -483,6 +675,20 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
           // Ab dem Finale sehen alle die Auflösungstexte (öffentlich, für alle gleich).
           _require(view['erzaehler'] is List, 'Nach dem Finale fehlt der öffentliche Erzähltext.');
           auflosungFuerAlle++;
+        }
+        // „Dein Moment“ (Finale §3.12): öffentlich nie, was gespielt wurde, keine Zählwerte oder Tipps; das
+        // Lauschergebnis nur beim Lauscher, die Tafel nur beim Erzähler, `moment` nur an Geräten mit Figur.
+        _require(k.einfluss || (!view.containsKey('einfluss') && !private.containsKey('moment') && !private.containsKey('einflussTafel')),
+            'Schlüssel von „Dein Moment“ ohne Schicht.');
+        if (k.einfluss && !nachFinale) {
+          _require(_keys(view['einfluss']).toSet().intersection({'art', 'tipp', 'tipps', 'summeZusammenhalt', 'summeSpuk', 'wertung', 'zuege', 'tafel'}).isEmpty,
+              'Der Moment verrät vor dem Finale, was gespielt wurde.');
+          _require(!private.containsKey('einflussTafel') || istErzaehler, 'Zug-Tafel an ein Gerät ohne Erzähler-Sitz.');
+          _require(private.containsKey('moment') == (private['rolle'] != null), 'Moment am falschen Gerät.');
+          if (private['moment'] case final Map m when m.containsKey('gelauscht')) {
+            _require(c == moment.lauscher, 'Lauschergebnis an ein Gerät, das nicht lauschte.');
+            lauschAnsichten++;
+          }
         }
         // Das Erzählerpaket bekommt nur der Erzähler, die npc-Notizen nur der Detektiv, die Klasse Detektiv und Gastgeber.
         _require(private.containsKey('erzaehlerPaket') == (istErzaehler && !lobby), 'Erzählerpaket am falschen Sitz.');
@@ -542,8 +748,12 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
         final text = jsonEncode(view);
         _require(vorgelesenRundgang.every((t) => !text.contains(jsonEncode(t))), 'Vorlesetext des Rundgangs an ein Gerät, das nicht vorliest.');
         _require(!_map(view['privat']).containsKey('rundgangText'), 'Vorlesetext des Rundgangs an ein Gerät, das nicht vorliest.');
+        // Einstimmung (A-063): ebenso nur beim Vorleser.
+        _require(vorgelesenEinstimmung.every((t) => !text.contains(jsonEncode(t))) && !_map(view['privat']).containsKey('einstimmungText'),
+            'Text der Einstimmung an ein Gerät, das nicht vorliest.');
       }
     }
+    _require(moment.lauscher == null || lauschAnsichten > 0, 'Der Lauscher bekam sein Lauschergebnis nicht.');
     // Kein Gerät außer dem Vorleser sieht vor dem Finale einen vorgelesenen Text (die Notizen des Detektivs ausgenommen).
     for (final c in all.where((c) => c != outsider && c.playerId != vorleser.playerId)) {
       for (final view in c.inbox.where((m) => m['t'] == Msg.abend && !['finale', 'aufloesung', 'ende'].contains(m['phase']))) {
@@ -561,7 +771,12 @@ Future<void> _batch(Uri url, int count, Texte texte, _Konstellation k) async {
       _require(rollen > 7 || notizen > 0, 'Der Detektiv bekam kein npc-Wissen als Notiz.');
     }
     await _health(url);
-    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend${k.lang ? ' mit Vorspiel und Morgen' : ''}, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, ${k.lang ? 'Streifzug' : 'ohne Streifzug'}, Reconnect, Würfel, Isolation, Health');
+    final finale = [
+      if (k.einfluss) 'Dein Moment (Züge, Lauschen nur beim Lauscher, Tafel nur beim Erzähler, letzter Aufruf, '
+          '${moment.gegangen == null ? 'ohne Bot-Ersatz' : 'Bot-Ersatz'}, $nachfragen Nachfragen, ohne Gruppenwahl)',
+      if (k.einstimmung) 'Einstimmung (${vorgelesenEinstimmung.length} Texte nur beim Vorleser)',
+    ];
+    print('PARTY-ONLINE OK · ${k.name} · $count Clients in einem Raum · $rollen Rollen · vollständiger Abend${k.lang ? ' mit Vorspiel und Morgen' : ''}, eigene Karten, Sitze, Vorleser, Rechte, Uhr, Diashow, ${k.lang ? 'Streifzug' : 'ohne Streifzug'}, Reconnect, Würfel, Isolation, Health${finale.map((f) => ', $f').join()}');
   } finally {
     for (final c in all) { if (!c.closed.isCompleted) c.send({'t': Msg.leave}); }
     await Future.wait(all.where((c) => !c.closed.isCompleted).map((c) => c.close().timeout(const Duration(seconds: 5))));
@@ -862,6 +1077,9 @@ Future<void> main(List<String> args) async {
           'schlosskeller': loadSchlosskellerFactory(partyDir),
           // Nur diese Matrix: der lange Abend als eigene Raumart (M7b).
           _langAbend: loadSchlosskellerFactory(partyDir, fassung: Abendfassung.lang),
+          // Nur diese Matrix (Finale): „Dein Moment“ und Einstimmung, mit Probe-Inhalt, solange die Akte keinen hat.
+          _einflussAbend: loadSchlosskellerFactory(partyDir, einfluss: true, lesen: probeLeser(partyDir, einfluss: true)),
+          _einstimmungAbend: loadSchlosskellerFactory(partyDir, einstimmung: true, lesen: probeLeser(partyDir, einstimmung: true)),
         },
         log: (message) { if (message.contains('Fehler')) runtimeErrors++; },
       );
@@ -877,7 +1095,7 @@ Future<void> main(List<String> args) async {
     await _health(url);
     final counts = single == null ? [for (var n = 4; n <= 20; n++) n] : [single];
     // Je Laststufe alle drei Sitz-Konstellationen (M3), lokal dazu der lange Abend (M7b).
-    final konstellationen = [for (final k in _konstellationen) if (remote == null || !k.lang) k];
+    final konstellationen = [for (final k in _konstellationen) if (remote == null || !_nurLokal(k)) k];
     for (final n in counts) {
       for (final k in konstellationen) { await _batch(url, n, texte, k); }
     }

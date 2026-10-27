@@ -891,6 +891,26 @@ class EinflussStand {
   /// Gesetzter Zug von [rolle] in [runde], sonst `null`.
   EinflussZug? zug(int runde, String rolle) => _zuege[runde]?[rolle];
 
+  /// Zugarten, die [rolle] im Moment wählen darf (§3.2, ohne abgewartet): ohne schon gespielte
+  /// Einmal-Arten und ohne Auspacken, wenn sie nichts auszupacken hat. Gleiche Prüfung wie [pruefeZug].
+  List<ZugArt> erlaubteArten(String rolle) {
+    if (!besetzt.contains(rolle)) throw ArgumentError('Rolle $rolle ist nicht besetzt');
+    return [
+      for (final a in ZugArt.waehlbar)
+        if (!(regeln.arten[a]!.einmal && (_einmal[rolle]?.contains(a) ?? false)) &&
+            (a != ZugArt.auspacken || regeln.auspacken.containsKey(rolle)) &&
+            (regeln.arten[a]!.ziel == ZielRegel.keins || erlaubteZiele(rolle, a).isNotEmpty))
+          a,
+    ];
+  }
+
+  /// Ziele, die [rolle] mit [art] treffen darf, in Besetzungsreihenfolge; leer für Arten ohne Ziel.
+  List<String> erlaubteZiele(String rolle, ZugArt art) => switch (regeln.arten[art]?.ziel) {
+        ZielRegel.andere => [for (final b in besetzt) if (b != rolle) b],
+        ZielRegel.jede => [...besetzt],
+        _ => const [],
+      };
+
   /// Haben alle besetzten Rollen in [runde] gezogen (auch ausdrücklich abgewartet)?
   bool vollstaendig(int runde) => besetzt.every((r) => _zuege[runde]?.containsKey(r) ?? false);
 
@@ -1215,6 +1235,70 @@ Auszeichnungen auszeichnen(NachtProtokoll p, EinflussRegeln r, {required Map<Str
     treueSeele: meiste((z) => z.art == ZugArt.decken && z.ziel != z.rolle ? 1 : 0),
     wertung: Map.unmodifiable(wertung),
   );
+}
+
+/// Reaktionsblase eines Bots nach den Folgen (§3.11): Text `einfluss.bot.<figur>.<anlass>`.
+class BotBlase {
+  final String figur;
+
+  /// Einer der [botAnlaesse].
+  final String anlass;
+  const BotBlase(this.figur, this.anlass);
+
+  /// Text-Schlüssel der Blase (Karte, höchstens acht Wörter).
+  String get schluessel => 'einfluss.bot.$figur.$anlass';
+
+  Map<String, Object?> toJson() => {'figur': figur, 'anlass': anlass};
+
+  @override
+  bool operator ==(Object other) => other is BotBlase && other.figur == figur && other.anlass == anlass;
+
+  @override
+  int get hashCode => Object.hash(figur, anlass);
+
+  @override
+  String toString() => 'BotBlase($schluessel)';
+}
+
+/// Höchstens so viele Reaktionsblasen je Folgen (§3.11).
+const botBlasenHoechstens = 3;
+
+/// Reaktionsblasen der Bots zu den Folgen [f] (§3.11). Anlässe nur aus Öffentlichem, je Figur der erste in
+/// der Reihenfolge von [botAnlaesse]: seit den letzten Folgen ertappt ([ertappt]), ein Gerücht über sie,
+/// ihr Freund (aus den Bot-Daten) hat ausgepackt, sie hat abgelenkt. Nur Rollen, für die [istBot] gilt.
+/// Sind es mehr als [botBlasenHoechstens], entscheidet der Strom `blasen:<salz>:<runde>`; die Ausgabe
+/// steht in Besetzungsreihenfolge. Gleiche Eingaben, gleiche Blasen.
+List<BotBlase> botBlasen(
+  EinflussRegeln r,
+  EinflussFolgen f, {
+  required String salz,
+  required bool Function(String rolle) istBot,
+  Iterable<String> ertappt = const [],
+}) {
+  final gefasst = ertappt.toSet();
+  final gestanden = {for (final a in f.auspacken) a.figur};
+  final alle = <BotBlase>[];
+  for (final rolle in r.figuren) {
+    if (!f.zuege.containsKey(rolle) || !istBot(rolle)) continue;
+    final freund = r.bots[rolle]?.freund;
+    final anlass = <String, bool>{
+      'ertappt': gefasst.contains(rolle),
+      'geruecht': f.geruechte.any((g) => g.figur == rolle),
+      'freund_gestanden': freund != null && freund != rolle && gestanden.contains(freund),
+      'ablenken': f.ablenker.contains(rolle),
+    };
+    for (final a in botAnlaesse) {
+      if (anlass[a] ?? false) {
+        alle.add(BotBlase(rolle, a));
+        break;
+      }
+    }
+  }
+  if (alle.length <= botBlasenHoechstens) return List.unmodifiable(alle);
+  final gezogen = [...alle];
+  Rng(Rng.hashString('blasen:$salz:${f.runde}')).shuffle(gezogen);
+  final wahl = gezogen.take(botBlasenHoechstens).toSet();
+  return List.unmodifiable([for (final b in alle) if (wahl.contains(b)) b]);
 }
 
 /// Seed-Text des Bot-Stroms (§3.11), getrennt vom Stimmen- und Würfelstrom.

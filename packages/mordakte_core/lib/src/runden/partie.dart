@@ -58,7 +58,9 @@ class RundenZug {
 
   /// Ein Zug, wie ihn ein Gerät aus der Ansicht des Raums kennt (Langer Abend
   /// M3, Gast-Detektiv): nur lesend für die Karte, ohne Wurf und Funde. Er
-  /// verändert keine Partie; die Partie erzeugt ihre Züge selbst.
+  /// verändert keine Partie; die Partie erzeugt ihre Züge selbst. Mit
+  /// Einfluss-Schicht trägt die Ansicht `zug` dazu `tisch`, `verwischt` und
+  /// `einfluss` ([EinflussFund.ausJson]); ohne bleiben sie leer.
   const RundenZug.ansicht({
     required String id,
     String? option,
@@ -67,7 +69,13 @@ class RundenZug {
     required int aktion,
     Tischruf? ruf,
     String? abstecher,
-  }) : this._(id: id, option: option, suche: suche, phase: phase, aktion: aktion, ruf: ruf, abstecher: abstecher);
+    int? tisch,
+    bool verwischt = false,
+    EinflussFund? einfluss,
+  }) : this._(
+          id: id, option: option, suche: suche, phase: phase, aktion: aktion, ruf: ruf, abstecher: abstecher,
+          tisch: tisch, verwischt: verwischt, einfluss: einfluss,
+        );
 
   bool get istAuftakt => option == null && abstecher == null;
   bool get istAbstecher => abstecher != null;

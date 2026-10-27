@@ -15,6 +15,7 @@ export 'src/runden/abend_raum.dart';
 export 'src/runden/raum/raum_modul.dart';
 export 'src/runden/raum/befragung_modul.dart';
 export 'src/runden/raum/dia_modul.dart';
+export 'src/runden/raum/einfluss_raum.dart';
 export 'src/runden/raum/einstimmung_modul.dart';
 export 'src/runden/raum/rundgang_modul.dart';
 export 'src/runden/raum/sichtfelder.dart';

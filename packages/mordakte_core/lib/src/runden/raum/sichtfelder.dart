@@ -23,6 +23,9 @@ const raumOeffentlicheSchluessel = <String>{
   'rundgang',
   // Einstimmung (A-063, `raum/einstimmung_modul.dart`): Teil, Schritt, Kennung und vorgestellte Figur, nie der Vorlesetext.
   'einstimmung',
+  // Einfluss-Schicht „Dein Moment“ (Finale §3.12, `raum/einfluss_raum.dart`): wer schon gezogen hat (nie was),
+  // Leisten, Ereignisse, Gerüchte als Bausteine, Tischwerte, Kennzeichen der Funde; nie Zählwerte oder Tipps.
+  'einfluss',
 };
 
 /// Schlüssel, die erst ab dem Finale dazukommen dürfen: die Auflösung und der
