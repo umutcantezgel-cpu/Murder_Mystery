@@ -22,19 +22,26 @@ import 'raum_modul.dart';
 ///   ([darfWeiter]); solange der Morgen läuft, ist der Abend nicht beendet
 ///   ([haeltOffen]: Der Server räumt den Raum erst danach ab).
 ///
+/// - Mit [wartet] wartet der Rundgang auf etwas, das vorher läuft (die
+///   Einstimmung vor dem Vorspiel, A-063): Solange es gilt, läuft er nicht.
+///
 /// Das Modul ändert nie die Partie: kein Würfel, keine Nachtminuten, keine
 /// Wertung.
 class RundgangModul extends RaumModul {
-  RundgangModul(this.inhalt);
+  RundgangModul(this.inhalt, {this.wartet});
 
   /// Vorspiel und Morgen der Akte.
   final VorspielMorgen inhalt;
 
+  /// Läuft vorher noch etwas? Ohne Rückruf beginnt der Rundgang sofort.
+  final bool Function(RaumKontext k)? wartet;
+
   final Set<RundgangTeil> _fertig = {};
   int _station = 0;
 
-  /// Laufender Rundgang in der Phase von [k], sonst `null`.
+  /// Laufender Rundgang in der Phase von [k], sonst `null` (auch solange er [wartet]).
   RundgangTeil? laufend(RaumKontext k) {
+    if (wartet?.call(k) ?? false) return null;
     final teil = switch (k.phase) {
       PartyPhase.intro => RundgangTeil.vorspiel,
       PartyPhase.ende => RundgangTeil.morgen,
