@@ -300,7 +300,7 @@ void main() {
       expect(p.zug!.funde, isNotEmpty);
     });
 
-    test('Fledermaus: negatives T doppelt, jeder Erfolg zwei Randnotizen', () {
+    test('Fledermaus: negatives T doppelt, Erfolg bringt eine Randnotiz', () {
       final p = partie('olli', const FesterWuerfel.erfolg(), salz: 'fledermaus');
       bisGespraeche(p, 1, 'olli');
       for (var runde = 1; runde <= 2; runde++) {
@@ -314,7 +314,7 @@ void main() {
       final f2 = p.einfluss!.stand.folgenVon(2)!;
       expect(f2.fledermaus, isTrue);
       expect(p.tisch('e2_2_tasche'), -2, reason: 'v = −1, T = −1, doppelt −2');
-      // e2_1 zuerst (Kanon-Reihenfolge), dann e2_2_tasche mit Erfolg und zwei Randnotizen (Vorrat hat eine).
+      // e2_1 zuerst (Kanon-Reihenfolge), dann e2_2_tasche mit Erfolg und einer Randnotiz (Änderung 29).
       p.waehle('e2_1_ascheneimer');
       zugBisFund(p);
       expect(p.zug!.einfluss!.randnotizen, ['b_hana_umschlag']);

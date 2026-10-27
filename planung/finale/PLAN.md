@@ -250,7 +250,7 @@
   - Zusammenhalt 4 „Kerzenschein“: die nächste Suche ignoriert negatives T.
   - Zusammenhalt 6 „Herr Schneider erinnert sich“: +1 Nachfrage.
   - Spuk 2 „Flackerlicht“: −3 Min.
-  - Spuk 4 „Die Fledermaus“: negatives T zählt doppelt (Deckel −2); jeder Erfolg bringt 2 Randnotizen.
+  - Spuk 4 „Die Fledermaus“: negatives T zählt doppelt (Deckel −2); kein Zusatz-Randnotiz-Bonus (Spezifikation „Änderungen“ 29).
   - Spuk 6 „Herrn Schneider platzt der Kragen“: −5 Min., chaotischer Morgen.
 - Ereignistexte nennen nie einen Fallgegenstand und nie eine Suchstelle (R15).
 - **Flüstern:**

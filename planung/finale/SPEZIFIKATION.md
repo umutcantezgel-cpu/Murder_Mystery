@@ -475,3 +475,7 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       `streit`); Quellen sind Motiv, Geheimnis und Nebendelikt, in allen Pfaden gleich.
   28. **Lauschen:** `einfluss.privat.gelauscht` „Gelauscht: @figur spielt @zug auf @ziel“, `.ohne_ziel` ohne „auf @ziel“,
       `.abgewartet` „Gelauscht: @figur hat diese Runde abgewartet“.
+- 2026-10-27 (Behebung der Befunde aus der Prüfung nach der App-Zusammenführung):
+  29. §3.8 Fledermaus: nur negatives T doppelt (Deckel −2); kein Zusatz-Randnotiz-Bonus, weil jeder Vorrat eine ID hat
+      (§3.5 Vorschlag). Ein Zusatzfund ist immer eine Randnotiz; Texte `einfluss.ereignis.fledermaus` und `.karte`
+      angepasst.

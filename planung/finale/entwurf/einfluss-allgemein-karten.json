@@ -43,7 +43,7 @@
     { "id": "einfluss.ereignis.kerzenschein.karte", "text": "Nächste Suche: Störung zählt nicht" },
     { "id": "einfluss.ereignis.erinnerung.karte", "text": "Eine zusätzliche Nachfrage vor der Anklage" },
     { "id": "einfluss.ereignis.flackerlicht.karte", "text": "−3 Nachtminuten in dieser Runde" },
-    { "id": "einfluss.ereignis.fledermaus.karte", "text": "Diese Runde: Störung doppelt, Erfolg bringt 2 Randnotizen" },
+    { "id": "einfluss.ereignis.fledermaus.karte", "text": "Diese Runde: Störung zählt doppelt" },
     { "id": "einfluss.ereignis.kragen.karte", "text": "−5 Nachtminuten, der Morgen wird chaotisch" },
 
     { "id": "einfluss.abzeichen.plus1", "text": "Rückendeckung +1" },

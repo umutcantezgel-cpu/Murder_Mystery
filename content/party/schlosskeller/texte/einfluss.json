@@ -157,7 +157,7 @@
     },
     {
       "id": "einfluss.ereignis.fledermaus.karte",
-      "text": "Diese Runde: Störung doppelt, Erfolg bringt 2 Randnotizen"
+      "text": "Diese Runde: Störung zählt doppelt"
     },
     {
       "id": "einfluss.ereignis.fledermaus.titel",
@@ -309,7 +309,7 @@
     },
     {
       "id": "einfluss.ereignis.fledermaus",
-      "text": "Eine Fledermaus flattert durch einen Lichtschacht herein und zieht fiepend Kreise unter der Gewölbedecke. Alle ducken sich, und jemand taucht ganz unter eine Bank ab. In dieser Runde wiegt jede Störung doppelt, doch jeder Erfolg bringt zwei Randnotizen."
+      "text": "Eine Fledermaus flattert durch einen Lichtschacht herein und zieht fiepend Kreise unter der Gewölbedecke. Alle ducken sich, und jemand taucht ganz unter eine Bank ab. In dieser Runde wiegt jede Störung doppelt."
     },
     {
       "id": "einfluss.ereignis.kragen",

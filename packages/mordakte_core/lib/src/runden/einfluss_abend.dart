@@ -271,7 +271,8 @@ class EinflussAbend implements SpielZusatz {
       var notizen = const <String>[];
       String? ertappt, ziel;
       if (k.zusatzfund) {
-        notizen = _ziehe(optionId, stand.folgenVon(runde)!.fledermaus ? 2 : 1);
+        // Ein Zusatzfund ist eine Randnotiz, auch mit Fledermaus (Änderung 29: jeder Vorrat hat eine).
+        notizen = _ziehe(optionId, 1);
         ertappt = ertapptAuswahl(salz: salz, entscheidung: entscheidung, decker: stand.decker(runde, optionId));
         if (ertappt != null) {
           stand.ertapptMelden(ertappt);

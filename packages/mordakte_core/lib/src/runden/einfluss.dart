@@ -50,7 +50,7 @@ enum EreignisWirkung {
   /// Die nächste Suche ignoriert negatives T.
   kerzenschein,
 
-  /// Diese Runde zählt negatives T doppelt (Deckel); jeder Erfolg bringt zwei Randnotizen.
+  /// Diese Runde zählt negatives T doppelt (Deckel).
   fledermaus,
 }
 
