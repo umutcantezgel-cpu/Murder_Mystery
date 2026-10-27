@@ -402,3 +402,23 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   `einfluss.preis.*` nur `@figur`, `einfluss.privat.gelauscht` `@figur` und `@ziel` plus `@zug` (Kurzname der Zugart aus
   `einfluss.zug.<art>.titel`). Entwürfe der Inhalte entstehen in `planung/finale/entwurf/` und werden vom Integrator in
   `content/party/schlosskeller/texte/einfluss.json` zusammengeführt.
+- 2026-10-27 (Entscheidungen nach der Inhaltsprüfung „Dein Moment“):
+  1. **Lauschen ohne Ziel/abgewartet:** neue Kartenschlüssel `einfluss.privat.gelauscht.ohne_ziel` (`@figur`, `@zug`) und
+     `einfluss.privat.gelauscht.abgewartet` (`@figur`); `einfluss.privat.gelauscht` nur bei Zügen mit Ziel.
+  2. **Kragen erzwingt den chaotischen Morgen** (Vorrang vor der Regel in §3.10).
+  3. **Ereignistitel:** neue Kartenschlüssel `einfluss.ereignis.<id>.titel` (≤3 Wörter). Die ID `kerzenschein` bleibt
+     intern; Titel ohne das Wort „Kerze“ (z. B. „Goldener Schein“).
+  4. `einfluss.leiste.<leiste>.1|2` = Zuwachs +1 bzw. +2 in dieser Runde; `einfluss.leiste.ruhig` = kein Zuwachs.
+  5. `einfluss.folgen.start.<r>` = Eröffnung in Runde r (1–3).
+  6. **Tipp:** neuer Kartenschlüssel `einfluss.tipp.p1` (verdeckt bis zur Auflösung, ohne Einfluss auf die Anklage).
+  7. `einfluss.wieder` steht im Zwischenresümee, wenn verzögerte Fakten (Umweg, Mauert) sichtbar werden.
+  8. **R15-Prüfung der Einfluss-Texte:** gesperrt sind Fallgegenstände, Suchstellen, Indizorte, Lacher und Sperrorte –
+     **nicht** Figurennamen (auch nicht Herr Schneider, R23) und nicht die Spielbegriffe „Spuk“, „Schlossgeist“, „Spur“,
+     „Geheimnis“. R15 gilt für `einfluss.geruecht.*`, `einfluss.ereignis.*`, `einfluss.ablenken.*`, `einfluss.folgen.*`,
+     `einfluss.leiste.*`, `einfluss.bot.*`; **nicht** für `einfluss.auspacken.*` (nennt seine Quelle, §3.6) und nicht für
+     Texte nach dem Finale (`einfluss.epilog.*`, `einfluss.preis.*`, `einfluss.morgen.*`, `einfluss.tischbonus.*`).
+  9. **Gleiche Gestalt der Kern-Geständnisse:** Die vier `einfluss.auspacken.<kern>` nennen keine Uhrzeit (Fatmas
+     „zwanzig vor zwölf“ entfällt). `einfluss.ablenken.fatma` ohne Gelbtöne (gelbe Fasern sind ein Fallgegenstand).
+  10. Bezug-Ungleichgewicht der Randfiguren-Geständnisse (Ahmet und Can je vier, Fatma zwei, Olli ein bis zwei) folgt
+      aus den pfadgleichen Beobachtungen des Kanons und verrät keinen Pfad; bleibt so (in FUER-DEN-NUTZER notieren).
+  11. Minuszeichen auf Karten: U+2212 nur, wenn die App-Schriften es enthalten; sonst ASCII „-“.
