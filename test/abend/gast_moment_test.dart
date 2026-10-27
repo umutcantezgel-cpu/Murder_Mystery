@@ -4,7 +4,9 @@
 // Countdown geht es weiter. Ein echter Raum mit Schicht, Gäste über LiveGast.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/abend/online/erzaehler_ablauf.dart' show ErzaehlerPultOnline;
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/moment.dart' show momentTexte;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
@@ -258,5 +260,26 @@ void main() {
     await pumpEventQueue();
     expect(raum.zustandFuer('gastgeber')['phase'], 'entscheidungen');
     expect(raum.partieFuerGastgeber!.einfluss!.stand.folgenVon(1)!.zuege[dora]!.art, isNot(ZugArt.abgewartet), reason: 'Der Bot zog für Dora');
+  });
+
+  testWidgets('Pult der Gastgeberin: Wer noch zieht, steht mit Namen da; nach den Befragungen kein „befragt den Tisch“', (t) async {
+    final raum = _raum(gastgeberErzaehler: true);
+    _bisGespraeche(raum, 1, leiter: 'gastgeber', detektiv: 'g1');
+    befragungenImRaum(raum, detektiv: 'g1');
+    final s = GastgeberSitzung(SitzDienst(raum, daten: einflussDaten));
+    addTearDown(s.dispose);
+    await zeigeImThema(t, (_) => ErzaehlerPultOnline(sitzung: s), ruhig: true);
+    final l = momentTexte(t.element(find.byType(ErzaehlerPultOnline)));
+    for (final (g, name) in [('g2', 'Cleo'), ('g3', 'Dora')]) {
+      expect(find.text('$name: ${l.moment_offen}'), findsOneWidget, reason: g);
+    }
+    expect(find.text(l.moment_zeile(l.moment_offen)), findsNothing, reason: 'Nie ohne Namen');
+    expect(find.text(LDe().erzaehler_befragt), findsNothing, reason: 'Die Befragungen sind durch, es fehlen nur Züge');
+    raum.nachricht('g2', {'typ': 'zug', 'art': 'helfen'});
+    s.notifyListeners();
+    await t.pump();
+    expect(find.text('Cleo: ${l.moment_offen}'), findsNothing);
+    expect(find.text('Dora: ${l.moment_offen}'), findsOneWidget);
+    await t.pumpWidget(const SizedBox.shrink());
   });
 }

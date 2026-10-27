@@ -571,7 +571,8 @@ class _MomentAufrufState extends State<MomentAufruf> {
           if (offen.isEmpty)
             Text(l.moment_alle, style: MPapierSchrift.leise)
           else ...[
-            for (final r in offen) Text(l.moment_zeile(l.moment_offen), key: ValueKey('moment-offen-$r'), style: MPapierSchrift.leise),
+            // Wer noch fehlt, mit dem Namen am Tisch (wie auf der Gastseite): So weiß, wer leitet, wen er anspricht.
+            for (final r in offen) Text('${s.personAmTisch(r)}: ${l.moment_offen}', key: ValueKey('moment-offen-$r'), style: MPapierSchrift.leise),
             const SizedBox(height: MMass.s8),
             if (rest == null) ...[
               Text(l.moment_aufruf_hinweis, style: MPapierSchrift.text),

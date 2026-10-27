@@ -83,6 +83,8 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
           final privat = jMap(s.dienst.ansicht['privat']);
           final paket = privat['erzaehlerPaket'] is Map ? jMap(privat['erzaehlerPaket']) : null;
           final befragungen = jMaps(s.dienst.ansicht['befragungen']);
+          // „Dein Moment“: Sind die Befragungen durch, fehlen nur noch Züge; dann steht der Moment-Kasten allein.
+          final nurMoment = s.einfluss && befragungen.every((b) => b['erledigt'] == true);
           // Langer Abend (M7b): Der Erzähler sieht den Streifzug des Detektivs, nur lesend.
           final weg = s.dienst.ansicht['streifzug'];
           final streifzug = weg is Map
@@ -108,7 +110,7 @@ class _ErzaehlerPultOnlineState extends State<ErzaehlerPultOnline> {
                       // Die gemeinsame Rundenuhr (M4): Wer leitet, stellt sie hier.
                       SitzungsUhr(sitzung: s, groesse: 240),
                       const SizedBox(height: MMass.s16),
-                      _status(s.abschnittFertig ? l.erzaehler_detektiv_fertig : l.erzaehler_befragt),
+                      if (s.abschnittFertig) _status(l.erzaehler_detektiv_fertig) else if (!nurMoment) _status(l.erzaehler_befragt),
                       // „Dein Moment“ (Finale §3): wer noch zieht, und der letzte Aufruf.
                       if (s.einfluss) ...[MomentAufruf(sitzung: s), const SizedBox(height: MMass.s16)],
                       ?streifzug,
