@@ -1,0 +1,15 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "ui",
+  "hinweis": "Entwurf: Kapiteltitel der Einstimmung (SPEZIFIKATION §1), höchstens vier Wörter, nicht vorgelesen. Ziel: texte/ui-erzaehler.json. Je Teil aus setting.vorgeschichte ein Titel, dazu die Vorstellung.",
+  "eintraege": [
+    { "id": "ui.einstimmung.titel.schloss", "text": "Das alte Schloss" },
+    { "id": "ui.einstimmung.titel.schneider", "text": "Herr Schneider" },
+    { "id": "ui.einstimmung.titel.clique", "text": "Wie die Clique wuchs" },
+    { "id": "ui.einstimmung.titel.einladung", "text": "Die Einladung" },
+    { "id": "ui.einstimmung.titel.keller", "text": "Unter dem Schlossturm" },
+    { "id": "ui.einstimmung.titel.eigenarten", "text": "Typisch Clique" },
+    { "id": "ui.einstimmung.titel.heute", "text": "Heute Abend" },
+    { "id": "ui.einstimmung.titel.vorstellung", "text": "Wer heute mitfeiert" }
+  ]
+}

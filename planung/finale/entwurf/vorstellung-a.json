@@ -1,0 +1,51 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "erzaehler",
+  "hinweis": "Vorstellungsrunde, Paket A: vorstellung.start und vorstellung.<figurId> für die Besetzungsplätze eins bis zehn (ahmet bis zeynep). Dritte Person, nur Öffentliches (Name, Alter, Rolle, Alltag, Steckbrief), je ein Erkennungsmerkmal, eine Eigenart und ein Schmunzel-Haken. Der eigene Name fällt vor jedem anderen Namen, damit die richtige Person aufsteht. Namensregel: Die vier Kernfiguren und Joanna nennen niemanden; Lejla nennt Ahmet, Emine Fatma, Tim Olli, Marek Lejla, Zeynep Can, jeweils über eine öffentliche Netzkante. Bewusst weggelassen, weil Beweisstücken nahe: Fatmas Mantel, Ring und Tasche, Ollis Weste, Cans gelbe Kapuze, Ahmets Jacke, Tims Stirnlampe, Mareks Autoschlüssel, Joannas Handyhalter.",
+  "eintraege": [
+    {
+      "id": "vorstellung.start",
+      "text": "Das alte Schloss hat schon viele Gäste gesehen, aber euch kennt es noch nicht. Zeit, das zu ändern. Wer genannt wird, steht kurz auf. Klatschen ist erlaubt, das Pfeifen übernimmt der Wind."
+    },
+    {
+      "id": "vorstellung.ahmet",
+      "text": "Brille, kurzer Bart, ein blaues Armband am Handgelenk: Das ist Ahmet, siebenundzwanzig und der Organisator. Beruflich plant er Stadtfeste, und so redet er auch, schnell und voller Ideen. Jeden Gast begrüßt er mit Handschlag. Vorsicht dabei: Wer ihm die Hand gibt, hat danach meistens eine Aufgabe. Hätten die alten Mauern Hände, sie hätten längst auch eine."
+    },
+    {
+      "id": "vorstellung.fatma",
+      "text": "Fatma hat für jede schöne Farbe ein Lob übrig, und für jedes Muster gleich noch eins. Sie ist sechsundzwanzig und studiert Kommunikationsdesign, schon im letzten Semester. Zum dunklen Rollkragen trägt sie ein taubengraues Kopftuch. Sie spricht leise, lächelt viel und fragt gern, was die anderen meinen. Für Grau allein kennt sie mindestens zwanzig Wörter, und sie benutzt sie alle."
+    },
+    {
+      "id": "vorstellung.olli",
+      "text": "Wo etwas anzupacken ist, steht Olli schon bereit. Achtundzwanzig ist er, breit gebaut, meistens im grauen Pulli, und von Beruf Lagerlogistiker. Bei jedem Umzug im Freundeskreis hilft er mit, ruhig und gutmütig wie immer. Wer ihn nach dem letzten Umzug fragt, sollte sich besser setzen. Die Geschichte hat mehr Stockwerke als das ganze Schloss."
+    },
+    {
+      "id": "vorstellung.can",
+      "text": "Can muss niemand ans Aufstehen erinnern, er sitzt ohnehin nie lange still. Er ist fünfundzwanzig, macht eine Ausbildung zum Mediengestalter und dreht nebenbei lustige Kurzvideos. Bunte Turnschuhe, federnder Schritt, und sobald etwas Komisches passiert, filmt er schon. Witze reißt er auch, wenn keiner lacht. Dann kommt derselbe Witz eben noch einmal, nur lauter."
+    },
+    {
+      "id": "vorstellung.leyla",
+      "text": "In der Apotheke gibt Lejla gute Ratschläge, heute gibt sie Nachschlag. Sie ist fünfundzwanzig, hat das Buffet geplant und steht in türkiser Latzschürze bereit, den Holzlöffel in der Hand. Ahmet ist ihr Cousin, Tür an Tür sind die beiden groß geworden. Jeden fragt sie nach seinem Lieblingsgericht. Wer Nein sagt, hat trotzdem gleich einen vollen Teller."
+    },
+    {
+      "id": "vorstellung.emine",
+      "text": "Emine ist Grundschullehrerin, und das hört man nach dem ersten Satz. Sie ist sechsundzwanzig, spricht ruhig und lobt jede gute Idee, als gäbe es dafür ein Fleißkärtchen. Ihre silberne Thermoskanne voller Tee ist immer dabei. Fatma ist seit der fünften Klasse ihre beste Freundin. Bittet Emine um Ruhe, antwortet sogar das Echo im Gewölbe der Reihe nach."
+    },
+    {
+      "id": "vorstellung.tim",
+      "text": "Tim kann fast alles reparieren, vom Fahrrad bis zum Rasenmäher. Er ist siebenundzwanzig, Mechatroniker und trägt ein rot-schwarz kariertes Hemd zur derben Arbeitshose. Gute Ratschläge gibt er gern, auch ungefragt. Olli kennt er von der Berufsschule, seitdem schrauben die zwei zusammen. Und sein liebstes Bastelprojekt? Das ist immer das nächste."
+    },
+    {
+      "id": "vorstellung.johanna",
+      "text": "Bitte lächeln, Joanna ist da. Die Fotografin des Abends ist vierundzwanzig, studiert Medienwissenschaft und fotografiert nebenbei Hochzeiten. In ihrer violetten Strickjacke ist sie ständig in Bewegung und ruft alle zum Gruppenbild zusammen. Die Bilder kommen ins gemeinsame Album der Clique. Wer sich drücken will, hat keine Chance. Notfalls stellt sie ihn vor eine alte Mauer und nennt es Kunst."
+    },
+    {
+      "id": "vorstellung.murat",
+      "text": "Dass heute niemand hungrig bleibt, liegt auch an Marek. Der Achtundzwanzigjährige führt mit seiner Schwester einen kleinen Catering-Betrieb, und das Essen stammt von den beiden. Das Buffet hat er mit Lejla geplant. Man erkennt ihn an der dunkelbraunen Lederjacke und dem weißen Rollkragen. Ständig zählt er nach, ob genug für alle da ist. Lob fürs Essen nimmt er gern entgegen, am liebsten zweimal."
+    },
+    {
+      "id": "vorstellung.zeynep",
+      "text": "Zeynep feuert alle an wie beim Training, und aus allem macht sie einen Wettkampf. Sie ist dreiundzwanzig, studiert Sport und trainiert eine Mädchenmannschaft im Fußball. Die Kappe sitzt verkehrt herum, der minzgrüne Pulli ist weit. Can ist ihr großer Bruder, aber lauter ist sie. Sogar beim Teetrinken zählt sie mit, wer zuerst fertig ist."
+    }
+  ]
+}
