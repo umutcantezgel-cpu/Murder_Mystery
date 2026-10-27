@@ -9,8 +9,8 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 | Stufe | Inhalt | Stand |
 |---|---|---|
 | 0 | Branch, CI-Trigger, Werkzeug, Basislauf, Entscheidungen | fertig |
-| 1 | Inhalte: Faktenblatt, Vorgeschichte, Vorstellungen, Erzählerakte, Einfluss-Texte (Entwürfe in `entwurf/`) | pausiert: Einfluss-Texte fertig und geprüft; Faktenblatt, Netz, Vorgeschichte, Vorstellung A/B, Erzählerakte A geschrieben; offen: Erzählerakte B, Prüfung je Entwurf, Querabgleich, Rotes Team |
-| 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung | pausiert: `finale/n1` (a1210cf), `finale/e1a` (0c4d694), `finale/e1b` (ffb2e5b, enthält e1a) fertig, je grün und Golden unverändert, auf origin gesichert; offen: Zusammenführung in den Arbeitsbranch |
+| 1 | Inhalte: Faktenblatt, Vorgeschichte, Vorstellungen, Erzählerakte, Einfluss-Texte (Entwürfe in `entwurf/`) | fertig: alle Entwürfe geschrieben und geprüft (Berichte in `berichte/`) |
+| 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung, Abstimmung | fertig: zusammengeführt in f057a49 (Kern 957 grün, akte_pruefen 5 × 0, Golden k12 und Schnappschuss unverändert) |
 | 3 | Inhalte einspielen (`setting.json`, Texte, `erzaehlerakte.json`, `einfluss.json`, `akten.json`), `kanon_tor` | offen |
 | 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | offen |
 | 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | offen |
@@ -24,6 +24,10 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 - Entscheidungen nach der Inhaltsprüfung stehen in SPEZIFIKATION „Änderungen“ (Punkte 1–11).
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-27 Kern zusammengeführt und abgestimmt (`finale/zusammen` 9d64599, `finale/abstimmung` db86db2, Arbeitsbranch f057a49):
+  `pruefen.sh schnell` grün (Kern 955 +1 übersprungen, Netz 52, Krimidinner 67, Klang 4), nach der Abstimmung Kern 957; Ziele 23–82 %,
+  Nachfragen Ø 1,1–1,3, Meister je Pfad gleich. Golden k12 und `andere_akten_soll.g.dart` unverändert.
 
 - 2026-10-27 Kern-Agenten fertig: N1, E1a, E1b je „alles grün“, Golden k12 unverändert, Schnappschuss
   `andere_akten_soll.g.dart` vor der Schicht erzeugt (E1a). Einzelheiten in `berichte/wf_cc821ccf-a7c.json`.

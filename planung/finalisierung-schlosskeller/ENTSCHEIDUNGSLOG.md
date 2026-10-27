@@ -1287,3 +1287,8 @@ Behzads Zusatzindizien werden ersetzt, wo sie nicht nur im eigenen Pfad entstehe
 - **Anlass:** Befund: Nur die Entscheidungen und die Anklage des Detektivs wirkten; die A/B-Wahl wählte nur einen von drei festen Sätzen, der Würfel verschob nur verfallende Minuten, Nochmal und Umweg waren gleich, persönliche Ziele wurden nie gewertet (E-013 versprach es).
 - **Entscheidung (Besitzer):** „Weg ändern, Wahrheit fest“ und „Würfel bleibt, Spieler formen ihn“. Einzelheiten in `planung/finale/SPEZIFIKATION.md`.
 - **Folge:** Die gepinnte Beweis-Teilmenge bleibt unberührt; die Schicht ist ein optionaler Parameter. Ohne sie bleiben Golden k12 und der 9.216-Beweis gültig. Neue Beweise T-W, T-L, T-B, T-P, T-G, T-K und ein eigener Golden `einfluss_soll.g.dart`. Das Druckspiel bleibt bei den Papierstreifen A/B (E-036, E-039). Falsche Bonus-Hinweise kommen im App-Abend mit Schicht nicht mehr vor; Täuschung kommt von den Spielern.
+
+## E-048 · Abstimmung der Einfluss-Schicht vor der ersten Veröffentlichung (A-064 bis A-066)
+- **Anlass:** Simulation am Bot-Tisch (`party_simulate --einfluss`): ab Runde 2 zu viele Minuten (immer zwei Nachfragen), Ziele zwischen 6 und 100 %, Zusammenhalt und Tischbonus +1 fast nie.
+- **Entscheidung (Umsetzung, Rahmen vom Besitzer):** Übertrag höchstens 5, eine Nachfrage je 25 Restminuten, mildere Schwellen für den Zusammenhalt, fünf Ziele und mehrere Bot-Gewichte angepasst (SPEZIFIKATION „Änderungen“ 20–23).
+- **Folge:** Der Vergleichsstand `einfluss_soll.g.dart` war nie auf `main`. Er wurde neu erzeugt und darf bis zur ersten Zusammenführung nach `main` noch einmal neu erzeugt werden; danach gilt „nie neu schreiben“ wie für alle Golden-Dateien. Golden k12 und der Schnappschuss der anderen Akten bleiben unverändert.

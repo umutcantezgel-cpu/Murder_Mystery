@@ -445,3 +445,19 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       `einfluss_soll.g.dart` war nie auf `main` und wird nach der Abstimmung einmalig neu erzeugt (E-048).
   19. **Schnappschuss:** Der Schlüssel `schlosskeller` in `andere_akten_soll.g.dart` darf nur nach bewusst geänderten
       Schlosskeller-Inhalten neu erzeugt werden (mit Begründung im Prüfjournal); die vier anderen Akten nie.
+- 2026-10-27 (Abstimmung am Bot-Tisch, `finale/abstimmung` db86db2, E-048) – ersetzt die Startwerte:
+  20. §3.5 Nachfragen: je volle **25** Restminuten eine Nachfrage (höchstens 2). §3.7 Übertrag **min(5, Rest)**; kein
+      Verfall außer über 5 hinaus. §3.8 Zusammenhalt-Zuwachs: **+2 wenn 5K ≥ 2·n_eff, +1 wenn 5K ≥ n_eff**.
+  21. §3.9 Ziele geändert: tim Stern II „Lenk an diesem Abend nie ab“ (statt nie ertappt – war unverfehlbar);
+      serkan Stern II „Lass am Ende mindestens vierzig Nachtminuten übrig“; enes Stern II und tugba Stern II
+      „Bring den Zusammenhalt auf mindestens fünf“; hakan Stern II „Halte den Spuk bei höchstens zwei“.
+  22. §3.11 Bots: emine 25/50 fatma/0/0/15 + 10 auspacken; johanna 25/20 ahmet/0/0/45 ahmet + 10; kaan 25/50 olli/0/0/15
+      + 10; hakan 70/0/0/0/20 + 10; meryem auspacken in Runde 1 mit 50 %, sonst 55/0/15/0/15 + 15; aylin 45/0/15 ahmet/0/40
+      ahmet, auspacken in Runde 3 mit 30 %; selin 45/20 ich/0/10/25; tugba 70/0/15/15/0; tim zeigt fest auf enes; dilara
+      deckt fatma.
+  23. Ergebnis (1.000 Salze): alle 40 Sterne 23–82 %; Nachfragen Ø 1,1–1,3; Tischbonus −1/0/+1 bei n = 4: 18/61/22,
+      n = 7: 19/51/30, n = 12: 30/41/29, n = 20: 3/12/86 (hilfsbereite Besetzung ab Rolle 13 – am echten Tisch prüfen);
+      Meister je Pfad (zufälliger Detektiv) gleich, Spanne höchstens 13 pp; bestes Spiel immer Meister.
+  24. Noch offen aus der Zusammenführung: Punkt 7 (`einfluss.wieder` im Zwischenresümee statt als letzter Folgen-Baustein)
+      ist nicht umgesetzt. Er wird beim Einspielen der Inhalte umgesetzt; `einfluss_soll.g.dart` darf bis zur ersten
+      Zusammenführung nach `main` neu erzeugt werden (E-048).
