@@ -137,6 +137,13 @@ void main() {
       expect(_anteile(can)[ZugArt.zeigen], closeTo(57.5, 4));
       expect({for (final z in can) if (z.art == ZugArt.zeigen) z.ziel}, contains('olli'));
       expect(_anteile(_zuege('ahmet', 2, _lage(sichtbar: {'f_nd_ahmet_umschlag'})))[ZugArt.decken], isNull, reason: 'kein Selbst-Decken');
+      // Auch der zweite Fakt des Geheimnisses zählt (Aylin bzw. Zeynep haben ausgepackt).
+      expect(_anteile(_zuege('ahmet', 2, _lage(sichtbar: {'f_nd_ahmet_quittung'})))[ZugArt.decken], isNull, reason: 'erfundene Miete bekannt');
+      expect(_anteile(_zuege('can', 2, _lage(sichtbar: {'f_nd_can_zeynep'})))[ZugArt.decken], isNull, reason: 'Streich bekannt');
+      expect(_r.geheimFakten['ahmet'], {'f_nd_ahmet_umschlag', 'f_nd_ahmet_quittung'});
+      expect(_r.geheimFakten['can'], {'f_nd_can_maske', 'f_nd_can_zeynep'});
+      expect(_r.geheimFakten['tim'], {'f_kurzschluss'});
+      expect(_r.geheimFakten['murat'], isEmpty);
       expect(_anteile(_zuege('ahmet', 2, _lage(gestanden: {'ahmet'})))[ZugArt.decken], isNull);
       final ertappt = _anteile(_zuege('leyla', 2, _lage(ertappt: {'leyla'})));
       expect(ertappt[ZugArt.decken], isNull);

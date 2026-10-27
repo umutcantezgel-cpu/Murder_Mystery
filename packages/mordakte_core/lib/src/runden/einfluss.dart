@@ -287,6 +287,10 @@ class EinflussRegeln {
   /// Vorrat an Randnotizen je Option (§3.5), Beobachtungs-Kennungen.
   final Map<String, List<String>> randnotizen;
   final Map<String, AuspackenQuelle> auspacken;
+
+  /// Fakten, die das eigene Geheimnis einer Figur öffentlich machen (§3.11 „Geheimnis bekannt“): der
+  /// Auspack-Fakt und jeder Nebendelikt-Fakt der Figur. Statisch aus dem Kanon, in allen Fassungen gleich.
+  final Map<String, Set<String>> geheimFakten;
   final List<EinflussEreignis> ereignisse;
   final Map<String, BotPersona> bots;
 
@@ -311,6 +315,7 @@ class EinflussRegeln {
     required this.bezug,
     required this.randnotizen,
     required this.auspacken,
+    required this.geheimFakten,
     required this.ereignisse,
     required this.bots,
     required this.ziele,
@@ -538,6 +543,14 @@ class EinflussRegeln {
       bezug: bezug,
       randnotizen: randnotizen,
       auspacken: Map.unmodifiable(auspacken),
+      geheimFakten: Map.unmodifiable({
+        for (final f in figuren)
+          f: Set<String>.unmodifiable({
+            ?auspacken[f]?.fakt,
+            for (final x in erm.fakten.values)
+              if (x.typ == 'nebendelikt' && x.personen.contains(f)) x.id,
+          }),
+      }),
       ereignisse: List.unmodifiable(ereignisse),
       bots: Map.unmodifiable(bots),
       ziele: Map.unmodifiable(ziele),
@@ -1371,8 +1384,8 @@ EinflussZug botZug(EinflussRegeln r, {required String salz, required String roll
         ziel = x;
       }
     }
-    final fakt = r.auspacken[rolle]?.fakt;
-    if (art == ZugArt.decken && ziel == rolle && (gestanden || (fakt != null && lage.sichtbar.contains(fakt)))) art = ZugArt.helfen;
+    final geheim = r.geheimFakten[rolle] ?? const <String>{};
+    if (art == ZugArt.decken && ziel == rolle && (gestanden || geheim.any(lage.sichtbar.contains))) art = ZugArt.helfen;
     if (art == ZugArt.decken && lage.ertappt.contains(rolle)) art = ZugArt.helfen;
   }
   if (art == ZugArt.helfen || art == ZugArt.auspacken || art == ZugArt.ablenken) ziel = null;

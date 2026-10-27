@@ -487,3 +487,6 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   31. §3.12 Erzähler-Handy reihum: Mit der Schicht schickt der Begleiter-Raum nur diesem Handy privat `einflussTafel`
       (dieselbe Tafel wie am offenen Pult). Das Pult schließt, sobald das Gerät an eine Person geht (verdeckte Ansicht,
       Zwischenstufe des Moments, „Zur Ermittlung“ nach den Folgen).
+  32. §3.11 „Eigenes Geheimnis bekannt“: Das Geheimnis einer Figur machen der Auspack-Fakt und jeder Nebendelikt-Fakt
+      der Figur öffentlich (`EinflussRegeln.geheimFakten`, statisch aus dem Kanon): Ahmet f_nd_ahmet_umschlag und
+      f_nd_ahmet_quittung, Can f_nd_can_maske und f_nd_can_zeynep. `einfluss_soll.g.dart` bleibt gleich.
