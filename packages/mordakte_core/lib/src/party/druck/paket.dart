@@ -5,9 +5,11 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../besetzung.dart';
+import '../erzaehlerakte.dart';
 import '../kanon/kanon.dart';
 import '../steckbriefe.dart';
 import '../texte.dart';
+import 'fest_erzaehlerakte.dart';
 import 'fest_rollenheft.dart';
 import 'fest_spielleitung.dart';
 import 'fest_steckbrief.dart';
@@ -23,37 +25,20 @@ import 'veranstalter.dart';
 /// Die vier Ordner des Pakets in fester Reihenfolge.
 const paketOrdner = ['1-an-alle', '2-veranstalter', '3-je-person-ungelesen-weitergeben', '4-nur-erzaehler'];
 
-/// Alles, was das Paket zum Setzen braucht: der Druckkontext des Falls (Code,
-/// Personenzahl, Satz), die Steckbriefe der Akte, der festliche Stil und die
-/// Porträts als PNG (Schlüssel: Figur oder `detektiv-w`/`detektiv-m`). Die
-/// Porträts gehen als JPEG in die PDFs: groß für Fotoabzüge, klein (240 px) für
-/// Karten und Listen; so bleiben die Dateien klein genug zum Verschicken.
-class PaketKontext {
-  PaketKontext(this.druck, {required this.steckbriefe, required this.stil, Map<String, Uint8List> portraets = const {}})
-      : _png = portraets;
+/// Porträts als PNG (Schlüssel: Figur oder `detektiv-w`/`detektiv-m`). Sie gehen
+/// als JPEG in die PDFs: groß für Fotoabzüge, klein (240 px) für Karten und
+/// Listen; so bleiben die Dateien klein genug zum Verschicken. Jedes Bild wird
+/// nur einmal umgerechnet.
+class FestPortraets {
+  FestPortraets(Map<String, Uint8List> png) : _png = png;
 
-  final DruckKontext druck;
-  final Steckbriefe steckbriefe;
-  final FestStil stil;
   final Map<String, Uint8List> _png;
   final Map<String, pw.MemoryImage> _gross = {}, _klein = {};
 
-  Kanon get kanon => druck.kanon;
-  Texte get texte => druck.texte;
-  int get rollen => druck.satz.rollen;
-  String get code => druck.satz.code.code;
+  bool hat(String schluessel) => _png.containsKey(schluessel);
 
-  /// Falltitel und Untertitel aus `fall.json`.
-  String get fallTitel => druck.fallTitel;
-  String get untertitel => (kanon.fall['untertitel'] ?? '') as String;
-
-  String ui(String kennung, [Map<String, String> werte = const {}]) => druck.ui(kennung, werte);
-  String text(String kennung) => druck.text(kennung);
-
-  /// Porträt einer Figur oder des Detektivs ([detektiv] `w`/`m`), mit [klein] in
-  /// 240 px; null, wenn keins vorliegt.
-  pw.ImageProvider? bild(String id, {String detektiv = 'w', bool klein = false}) {
-    final schluessel = id == Besetzung.detektiv ? 'detektiv-$detektiv' : id;
+  /// Porträt zu [schluessel], mit [klein] in 240 px; null, wenn keins vorliegt.
+  pw.ImageProvider? bild(String schluessel, {bool klein = false}) {
     final png = _png[schluessel];
     if (png == null) return null;
     return (klein ? _klein : _gross)[schluessel] ??= pw.MemoryImage(_jpeg(png, klein ? 240 : null));
@@ -69,11 +54,53 @@ class PaketKontext {
     }
     return img.encodeJpg(b, quality: 90);
   }
+}
+
+/// Alles, was das Paket zum Setzen braucht: der Druckkontext des Falls (Code,
+/// Personenzahl, Satz), die Steckbriefe der Akte, der festliche Stil, die
+/// Porträts ([FestPortraets]) und, wenn die Akte eine hat, die Erzählerakte
+/// ([erzaehlerakte], A-063; ihre Datei hängt nie am Satz oder am Code).
+class PaketKontext {
+  PaketKontext(this.druck, {required this.steckbriefe, required this.stil, Map<String, Uint8List> portraets = const {}, this.erzaehlerakte})
+      : _bilder = FestPortraets(portraets);
+
+  final DruckKontext druck;
+  final Steckbriefe steckbriefe;
+  final FestStil stil;
+  final FestPortraets _bilder;
+
+  /// Erzählerakte der Akte (zusammengesetzt aus Datei und Kanon, Ziele über
+  /// eine [ZielQuelle]); null ohne `erzaehlerakte.json`.
+  final Erzaehlerakte? erzaehlerakte;
+
+  /// Kontext der Erzählerakte: dieselben Texte, Porträts und Personen, aber kein
+  /// Satz und kein Fall-Code. Null ohne [erzaehlerakte].
+  late final ErzaehlerakteKontext? akte = switch (erzaehlerakte) {
+    final a? => ErzaehlerakteKontext(kanon, texte, a, stil: stil, rollen: rollen, portraets: _bilder),
+    null => null,
+  };
+
+  Kanon get kanon => druck.kanon;
+  Texte get texte => druck.texte;
+  int get rollen => druck.satz.rollen;
+  String get code => druck.satz.code.code;
+
+  /// Falltitel und Untertitel aus `fall.json`.
+  String get fallTitel => druck.fallTitel;
+  String get untertitel => (kanon.fall['untertitel'] ?? '') as String;
+
+  String ui(String kennung, [Map<String, String> werte = const {}]) => druck.ui(kennung, werte);
+  String text(String kennung) => druck.text(kennung);
+
+  /// Porträt einer Figur oder des Detektivs ([detektiv] `w`/`m`), mit [klein] in
+  /// 240 px; null, wenn keins vorliegt.
+  pw.ImageProvider? bild(String id, {String detektiv = 'w', bool klein = false}) =>
+      _bilder.bild(id == Besetzung.detektiv ? 'detektiv-$detektiv' : id, klein: klein);
 
   /// Welche Porträts fehlen für das Paket (besetzte Figuren, Detektivin, Detektiv)?
   List<String> fehlendePortraets() => [
         for (final id in [...druck.satz.besetzt, 'detektiv-w', 'detektiv-m'])
-          if (!_png.containsKey(id)) id,
+          if (!_bilder.hat(id)) id,
       ];
 
   /// Steckbriefkontext (spoilerfreie Angaben) für Detektivin `w` oder Detektiv `m`.
@@ -99,13 +126,15 @@ typedef PaketDatei = ({String ordner, DruckDatei datei});
 /// Dateiname einer Figur: ihr Name ohne Umlaute (`lejla`, `joanna`).
 String paketName(PaketKontext k, String id) => dateiWort(k.figurName(id));
 
-/// Alle Dateien des Pakets, Ordner für Ordner (siehe [paketOrdner]).
+/// Alle Dateien des Pakets, Ordner für Ordner (siehe [paketOrdner]); die
+/// Erzählerakte liegt nur in Ordner 4, wenn die Akte eine hat.
 Future<List<PaketDatei>> paketDateien(PaketKontext k) async => [
       for (final d in await anAlleDateien(k)) (ordner: paketOrdner[0], datei: d),
       (ordner: paketOrdner[1], datei: await veranstalterDatei(k)),
       for (final id in k.druck.satz.besetzt) (ordner: paketOrdner[2], datei: await festRollenheftDatei(k, id)),
       for (final g in ['w', 'm']) (ordner: paketOrdner[2], datei: await festDetektivbogenDatei(k, g)),
       (ordner: paketOrdner[3], datei: await festErzaehlerheftDatei(k)),
+      if (k.akte case final a?) (ordner: paketOrdner[3], datei: await festErzaehlerakteDatei(a)),
     ];
 
 /// Ordner 1: Übersicht, alle Steckbriefe in einer Datei, je Figur ein Steckbrief,
