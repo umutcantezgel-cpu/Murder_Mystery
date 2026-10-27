@@ -23,6 +23,66 @@
 - **„Weg ändern, Wahrheit fest“:** Der Fall-Code legt Täter und Wahrheit fest. Mit gutem Spiel bleibt der Fall lösbar. Die Spieler verändern Spuren, Würfel, Zeit, Gerüchte, Ereignisse und Ziele und bestimmen das Ende mit.
 - **„Würfel bleibt, Spieler formen ihn“.**
 
+## Fortsetzung nach der Pause (Stand 2026-10-27, 15:39 UTC)
+
+**Erreicht:**
+- Stufe 0 ist fertig, der CI-Lauf 105 auf `claude/schlosskeller-finale` ist grün.
+- Kern-Branches, je grün, Golden k12 unverändert, auf `origin` gesichert:
+  - `finale/n1` (a1210cf): Kern und Raum für Einstimmung und Erzählerakte. 843 Kern-Tests, beide Server-Matrizen, `akte_pruefen` 5 × 0.
+  - `finale/e1a`: Schnappschuss der anderen Akten (`andere_akten_soll.g.dart`), Regeln, Daten, Prüfer und Textbereich `einfluss`.
+  - `finale/e1b` (ffb2e5b, baut auf e1a auf): Haken in Würfel, Zugschicht, Partie und Ende; Beweise T-W/L/B/P/G/K; Golden `einfluss_soll.g.dart`; `party_simulate --einfluss`.
+- Entwürfe (`planung/finale/entwurf/`):
+  - Fertig geprüft: alle Einfluss-Texte.
+  - Geschrieben, aber noch nicht geprüft: Faktenblatt, Netz, Vorgeschichte (666 Wörter), Vorstellung A/B, Erzählerakte A.
+- Die Berichte aller Agenten liegen in `planung/finale/berichte/`.
+
+**Nächste Schritte, der Reihe nach:**
+1. **Parallel A, Erzähl-Inhalte:** Workflow `inhalt-erzaehlung` per `resumeFromRunId wf_fae96c20-06b` fortsetzen. Fertige Agenten kommen aus dem Cache. Neu laufen: „Erzählerakte B“, die Prüfung je Entwurf, der Querabgleich und das Rote Team. Die Prüf-Prompts bekommen vorher die Entscheidungen unten.
+2. **Parallel B, Kern zusammenführen:** Workflow `kern-finale` per `resumeFromRunId wf_cc821ccf-a7c` fortsetzen. Damit läuft nur der Integrator: Er führt `finale/n1` und `finale/e1b` in den Arbeitsbranch zusammen, erzeugt mit `kanon_tor` neu und lässt `pruefen.sh schnell` laufen. Abweichungen der Agenten trägt er unter „Änderungen“ in der Spezifikation ein.
+3. **Abstimmung der Zahlen** (neu vorgezogen, ein Agent, Simulation mit `party_simulate --einfluss`). Befund aus E1b:
+   - Ab Runde 2 gibt es zu viele Minuten, deshalb fast immer 2 Nachfragen.
+   - Ziele sind unausgewogen. Bei Hana (Stern II), Tugba und Damir (Stern II) gelingen sie fast nie, viele „packt nie aus“-Ziele gelingen zu 100 %.
+   - Zusammenhalt ≥ 4 wird selten erreicht.
+
+   Zielbänder: jedes Ziel am Bot-Tisch 20–85 %, Nachfragen im Schnitt 0,5–1,5, Tischbonus +1 bei n ≤ 12 in mindestens 5 %. Die Meister-Quote je Pfad soll innerhalb ±15 pp bleiben. Stellschrauben: Übertrag, Nachfrage-Schwelle, Schwellen der Leisten, Bot-Gewichte, Zielzahlen.
+
+   `einfluss_soll.g.dart` war nie auf `main`. Er wird einmalig nach der Abstimmung neu erzeugt; das wird als E-048 begründet.
+4. **Stufe 3, Inhalte einspielen** (ein Integrator):
+   - Entwürfe nach `content/` übertragen: `setting.json`, `texte/erzaehler-vorgeschichte.json`, `erzaehler-vorstellung.json`, Titel, `texte/einfluss.json`, `erzaehlerakte.json` mit Netz, `index.json` 58 → 61. Danach `textpruefer_test` anpassen.
+   - In `akten.json` die Fähigkeiten `einstimmung`, `erzaehlerakte` und `einfluss` setzen.
+   - Die echten Prüfer laufen lassen (`akte_pruefen` 5 × 0) und Texte nachbessern.
+   - `kanon_tor` laufen lassen.
+   - Den Schlüssel `schlosskeller` im Schnappschuss nur neu erzeugen, wenn bewusst geänderte Schlosskeller-Inhalte das verlangen. Die anderen vier Akten nie.
+   - Kanon-Rest „Geburtstag“ in `content/welt/schlosskeller/geruechte.json` beheben.
+5. **Stufe 4, App, Netz und Druck** (Workflow, Worktrees, je höchstens 2 parallel):
+   - Zuerst E2 und N2 parallel:
+     - E2: Raum, Server, Matrizen und Protokoll 5 für die Einfluss-Schicht, dazu die Kern-Hilfen für Bot-Blasen, die private Nachricht „ertappt“ und die Felder in `RundenZug.ansicht`.
+     - N2: Druck `erzaehlerakte.pdf`, Erzählerheft-Abschnitte und CLI.
+   - Danach A-N und A-E parallel:
+     - A-N: App für Einstimmung und Erzählerakte, offline und online, mit Erzähler-Handy.
+     - A-E: App für „Dein Moment“, offline und online, mit `abendstand/3`.
+   - Am Ende führt der Integrator alles zusammen.
+6. **Stufe 5:** Prüf-Workflow mit Code-Review (Korrektheit, Fairness, Pfadverrat), Doku und Browserproben. Danach **Stufe 6:** `pruefen.sh ci`, Push, CI grün. Vor einer Zusammenführung nach `main` frage ich nach.
+
+**Entscheidungen zu den gemeldeten Abweichungen** (kommen in die Spezifikation unter „Änderungen“):
+- **Fünf-Wort-Ausnahmen:**
+  - Die Erzählerakte prüft aus dem Kanon gezogene Felder (Motiv, Geheimnis, Nebendelikt, Loyalitätsgrund, Ziele) nicht auf Fünf-Wort-Folgen. Sie gelten in allen Pfaden.
+  - Die Einstimmung nimmt öffentliche Kanontexte (`alltag`, `dossier.wer`) aus.
+  - Das Feld `hinweis` ist von der Wortsperre ausgenommen.
+- **Annahmen von N1 übernommen:**
+  - `vorstellung.start`, `.npc` und `.detektiv.*` nennen keine nicht immer besetzte Figur.
+  - Herr Schneider ist erlaubt.
+  - Die Wortsperre für Geld und Ähnliches gilt nur in der Vorgeschichte.
+  - Das Netz hat 35–60 Kanten.
+- **Strenger als bisher:** Vorstellungen der vier Kernfiguren nennen keine andere Kernfigur; der Prüfer erzwingt das. Genitive von Figurennamen wie „Fatmas“ sind keine Kennwörter.
+- **R15** prüft ganze Wörter, keine Teilwörter, damit „Tisch“ nicht über „Buffettisch“ anschlägt. Figurennamen und Spielbegriffe sind frei (siehe „Änderungen“ Punkt 8).
+- **Erzählerakte:** Für den Detektiv gibt es eine neutrale Fassung, keine Trennung nach m/w. Je Paar gibt es eine Kante; der heimliche Teil steht im Loyalitätsfeld.
+- **Lauschen ohne Ziel oder bei „abgewartet“:** eigene Schlüssel, siehe „Änderungen“ Punkt 1.
+- **Nur in `FUER-DEN-NUTZER` vermerken** (kein Eingriff):
+  - Ungleichgewichte im Kanon: Can hat keinen Konflikt mit Schneider vor dem Abend, Ahmet hat zwei loyale Figuren.
+  - `vorrat_tuer` quietscht in `raeume.json` nicht, wohl aber laut `can.motiveAndConflict`. `raeume.json` wird wegen der Wahrnehmungsbeweise nicht geändert.
+  - Sensibilitätshinweise zu Fatmas Steckbrief.
+
 ## Leitprinzipien
 
 - **Gating:** Neue Fähigkeiten in `content/party/akten.json` (`einstimmung`, `erzaehlerakte`, `einfluss`), nur für den Schlosskeller.

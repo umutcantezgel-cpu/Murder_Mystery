@@ -422,3 +422,26 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   10. Bezug-Ungleichgewicht der Randfiguren-Geständnisse (Ahmet und Can je vier, Fatma zwei, Olli ein bis zwei) folgt
       aus den pfadgleichen Beobachtungen des Kanons und verrät keinen Pfad; bleibt so (in FUER-DEN-NUTZER notieren).
   11. Minuszeichen auf Karten: U+2212 nur, wenn die App-Schriften es enthalten; sonst ASCII „-“.
+- 2026-10-27 (Entscheidungen zu den Abweichungen der Kern- und Inhalts-Agenten):
+  12. **Fünf-Wort-Ausnahmen:** `pruefeErzaehlerakte` prüft die aus dem Kanon gezogenen Felder (Name, Alltag, Motiv,
+      Geheimnis, Nebendelikt, Loyalitätsgrund, Ziele) nicht auf Fünf-Wort-Folgen – sie gelten in allen Pfaden, stehen
+      aber wörtlich in Auflösung und Finale. `pruefeEinstimmung` nimmt öffentliche Kanontexte (`figuren.alltag`,
+      `dossier.wer`) von der Regel gegen Geheimfelder und Pfadwissen aus; gegen Intro, Vorspiel und Zeitleiste ab 18:00
+      gilt sie ohne Ausnahme. Das Feld `hinweis` ist von der Wortsperre der Erzählerakte ausgenommen.
+  13. **Übernommene Annahmen aus N1:** `vorstellung.start` nennt nur immer besetzte Figuren; `vorstellung.npc` und
+      `vorstellung.detektiv.*` nennen keine Figur; Herr Schneider ist überall erlaubt; die Wortsperre Geld, Miete,
+      Gefallen, Streich, Münzen, Schatulle, Türschaden, Steckdose gilt nur in der Vorgeschichte; `stimme` bei Schneider
+      und Detektiv 2–3 Punkte; das Netz hat 35–60 Kanten; kein „Geburtstag“.
+  14. **Strenger:** Die Vorstellungen der vier Kernfiguren nennen keine andere Kernfigur (Prüfer erzwingt es).
+      Genitive von Figurennamen („Fatmas“) sind keine Kennwörter. „Mantel“ bleibt Kennwort (Detektiv: „Trenchcoat“).
+  15. **R15** vergleicht ganze Wörter (kein Teilwort-Treffer wie „Tisch“ in „Buffettisch“); Figurennamen und die
+      Spielbegriffe aus Punkt 8 sind frei.
+  16. **Erzählerakte:** eine neutrale Detektiv-Fassung (keine m/w-Trennung); je Figurenpaar eine Kante, der heimliche
+      Teil einer Loyalität steht im Loyalitätsfeld. `f_foto_streit` gilt in allen Pfaden (Johanna liefert Fakt und Notiz).
+  17. **Bots:** Auslegungen aus E1a gelten (Restgewicht von aylin/dilara als Auspack-Gewicht; Override-Reihenfolge
+      Freund beredet, mehrere tuscheln, Geheimnis bekannt, nach Ertappt; Ersatz = helfen).
+  18. **Abstimmung der Zahlen** vor dem Einspielen der Inhalte (Zielbänder: jedes Ziel am Bot-Tisch 20–85 %,
+      Nachfragen im Schnitt 0,5–1,5, Tischbonus +1 bei n ≤ 12 in ≥ 5 %, Meister-Quote je Pfad ±15 pp). Der Golden
+      `einfluss_soll.g.dart` war nie auf `main` und wird nach der Abstimmung einmalig neu erzeugt (E-048).
+  19. **Schnappschuss:** Der Schlüssel `schlosskeller` in `andere_akten_soll.g.dart` darf nur nach bewusst geänderten
+      Schlosskeller-Inhalten neu erzeugt werden (mit Begründung im Prüfjournal); die vier anderen Akten nie.
