@@ -282,4 +282,48 @@ void main() {
     expect(find.text('Dora: ${l.moment_offen}'), findsOneWidget);
     await t.pumpWidget(const SizedBox.shrink());
   });
+
+  testWidgets('Nach der Ermittlung lesen Gäste mit „Dein Moment“ vom Flüstern, nicht von der Gruppenwahl', (t) async {
+    for (final einfluss in [true, false]) {
+      final raum = _raum(einfluss: einfluss);
+      _bisGespraeche(raum, 1);
+      befragungenImRaum(raum);
+      if (einfluss) {
+        for (final g in ['g2', 'g3']) {
+          raum.nachricht(g, {'typ': 'zug', 'art': 'helfen'});
+        }
+      }
+      raum.nachricht('g1', {'typ': 'weiter'});
+      // Alle drei Entscheidungen der Runde, bis die Ermittlung fertig ist.
+      final erm = raum.partieFuerGastgeber!.spiel.ermittlung;
+      for (var i = 0; i < 60; i++) {
+        final v = raum.zustandFuer('gastgeber');
+        if (v['zug'] case final Map z) {
+          switch (z['phase']) {
+            case 'aktion':
+              raum.nachricht('gastgeber', {'typ': 'aktionFertig', 'aktion': z['aktion']});
+            case 'wurf':
+              raum.nachricht(v['wuerfelPate'] as String, {'typ': 'wurf'});
+            case 'tischruf':
+              raum.nachricht('gastgeber', {'typ': 'tischruf', 'ruf': 'umweg'});
+            case 'fund':
+              raum.nachricht('gastgeber', {'typ': 'fundGelesen'});
+          }
+          continue;
+        }
+        if (v['entscheidung'] case final Map e) {
+          raum.nachricht('gastgeber', {'typ': 'wahl', 'option': erm.entscheidung(e['id'] as String).optionen.first.id});
+          continue;
+        }
+        break;
+      }
+      expect(raum.zustandFuer('g2')['phase'], 'entscheidungen');
+      final cleo = LiveGast(raum, spielerId: 'g2', daten: einflussDaten);
+      await zeigeImThema(t, (_) => gastSeiteLive(cleo));
+      final l = LDe();
+      expect(find.text(l.online_ermittlung_fertig_moment), einfluss ? findsOneWidget : findsNothing, reason: 'einfluss $einfluss');
+      expect(find.text(l.online_ermittlung_fertig), einfluss ? findsNothing : findsOneWidget, reason: 'einfluss $einfluss');
+      await t.pumpWidget(const SizedBox.shrink());
+    }
+  });
 }

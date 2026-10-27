@@ -1807,6 +1807,10 @@
   "online_optionen_titel": "Zur Wahl stehen",
   "online_ermittlung_wartet": "Der Detektiv wählt gerade …",
   "online_ermittlung_fertig": "Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.",
+  "online_ermittlung_fertig_moment": "Die Ermittlung dieser Runde ist abgeschlossen. Gleich zeigt sich, ob die Runde dem Detektiv etwas zuflüstert.",
+  "@online_ermittlung_fertig_moment": {
+    "description": "Dein Moment (Finale §3.1): Nach der Ermittlung kommt das Flüstern statt der Gruppenwahl"
+  },
   "online_nachtzeit": "Nachtzeit: {min} Min.",
   "@online_nachtzeit": {
     "placeholders": {

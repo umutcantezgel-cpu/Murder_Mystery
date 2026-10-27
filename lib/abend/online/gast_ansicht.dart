@@ -953,7 +953,8 @@ Widget _ermittlung(GastKontext c) {
       ],
     ));
   } else {
-    kinder.add(_notiz(l.online_ermittlung_fertig));
+    // „Dein Moment“ (Finale §3.1): ohne Gruppenwahl geht es direkt zum Flüstern.
+    kinder.add(_notiz(c.v['einfluss'] is Map ? l.online_ermittlung_fertig_moment : l.online_ermittlung_fertig));
   }
 
   // „Dein Moment“: ausgepackte Fakten zählen wie ein Fund (§3.6).

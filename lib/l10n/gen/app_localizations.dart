@@ -5307,6 +5307,12 @@ abstract class L {
   /// **'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.'**
   String get online_ermittlung_fertig;
 
+  /// Dein Moment (Finale §3.1): Nach der Ermittlung kommt das Flüstern statt der Gruppenwahl
+  ///
+  /// In de, this message translates to:
+  /// **'Die Ermittlung dieser Runde ist abgeschlossen. Gleich zeigt sich, ob die Runde dem Detektiv etwas zuflüstert.'**
+  String get online_ermittlung_fertig_moment;
+
   /// No description provided for @online_nachtzeit.
   ///
   /// In de, this message translates to:

@@ -3073,6 +3073,10 @@ class LDe extends L {
       'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.';
 
   @override
+  String get online_ermittlung_fertig_moment =>
+      'Die Ermittlung dieser Runde ist abgeschlossen. Gleich zeigt sich, ob die Runde dem Detektiv etwas zuflüstert.';
+
+  @override
   String online_nachtzeit(int min) {
     return 'Nachtzeit: $min Min.';
   }
