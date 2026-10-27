@@ -387,4 +387,18 @@ App) · A-065 Würfel von Spielern geformt (K-06/K-07/K-15 Nachträge) · A-066 
 E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `ERZAEHLREGELN.md` · K-27 ff. in `SPIELKERN.md`.
 
 ## Änderungen
-(leer)
+- 2026-10-27 (Ergänzung §3.13): **Textart je Schlüssel im Bereich `einfluss`.** Vorlesetexte (Vorleseregeln:
+  keine Ziffern, Klammern, Abkürzungen; Sätze ≤25 Wörter): `einfluss.folgen.*`, `einfluss.auspacken.*` (20–45 Wörter),
+  `einfluss.ablenken.*` (15–35 Wörter), `einfluss.geruecht.*`, `einfluss.leiste.*`, `einfluss.ereignis.<id>` (ohne
+  `.karte`, 20–50 Wörter), `einfluss.wieder`, `einfluss.fluestern.still`, `einfluss.ertappt`, `einfluss.ertappt.selbst`,
+  `einfluss.verwischt`, `einfluss.tischbonus.*`, `einfluss.preis.*`, `einfluss.morgen.*` (20–50 Wörter),
+  `einfluss.epilog.*` (≤30 Wörter). **Karten** (R17, je Schlüssel genau ein Stichpunkt ≤8 Wörter, keine Prosa):
+  `einfluss.zug.*`, `einfluss.tipp.*`, `einfluss.ereignis.<id>.karte`, `einfluss.abzeichen.*`, `einfluss.befragung.*`,
+  `einfluss.tischruf.*`, `einfluss.nachfrage.*`, `einfluss.privat.*`, `einfluss.ziel.*`, `einfluss.bot.*`.
+  Zugarten für `einfluss.zug.<art>`: zeigen, decken, helfen, auspacken, ablenken, lauschen; `.wahl` nur bei zeigen,
+  decken, lauschen. Ereignis-IDs: tee, kerzenschein, erinnerung, flackerlicht, fledermaus, kragen. Platzhalter `@figur`
+  (Anzeigename der handelnden/genannten Figur) und `@ziel` (Anzeigename des Ziels); `einfluss.ertappt` nutzt beide,
+  `einfluss.ertappt.selbst` nur `@figur`, `einfluss.geruecht.*` nur `@figur` (die beredete Figur),
+  `einfluss.preis.*` nur `@figur`, `einfluss.privat.gelauscht` `@figur` und `@ziel` plus `@zug` (Kurzname der Zugart aus
+  `einfluss.zug.<art>.titel`). Entwürfe der Inhalte entstehen in `planung/finale/entwurf/` und werden vom Integrator in
+  `content/party/schlosskeller/texte/einfluss.json` zusammengeführt.
