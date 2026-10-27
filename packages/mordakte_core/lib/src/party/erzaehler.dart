@@ -122,12 +122,14 @@ class Erzaehler {
   /// und Stimmenzahl bleiben bis zur Auflösung verborgen (E-025). Mit Zusatzschicht
   /// zählen die sichtbaren Fakten, und das Gruppenfach fehlt, wenn niemand flüsterte.
   /// Kommen verzögerte Funde (Umweg, „mauert“) jetzt dazu, steht vorn `einfluss.wieder`
-  /// (Finale „Änderungen“ 7).
+  /// (Finale „Änderungen“ 7). Mit Zusatzschicht nimmt das erste Geflüster des Abends den Satz
+  /// von Runde 1: Die späteren Sätze setzen ein früheres Geflüster voraus („Auch diesmal“).
   List<String> resuemee(Spiel s) {
     final fakten = s.sichtbareFakten(s.runde);
+    final erstes = s.zusatz != null && !s.qualitaeten.keys.any((r) => r < s.runde);
     return [
       if (s.zusatz?.nachgereichtIn(s.runde) ?? false) 'einfluss.wieder',
-      if (s.zusatz == null || s.qualitaeten.containsKey(s.runde)) 'resuemee.gruppe.${s.runde}',
+      if (s.zusatz == null || s.qualitaeten.containsKey(s.runde)) 'resuemee.gruppe.${erstes ? 1 : s.runde}',
       restSchluessel(s.ermittlung.restmenge(fakten)),
       'resuemee.lage.${s.runde}.${lageStufe(s, fakten)}',
     ];

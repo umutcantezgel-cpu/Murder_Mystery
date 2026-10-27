@@ -490,3 +490,7 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   32. §3.11 „Eigenes Geheimnis bekannt“: Das Geheimnis einer Figur machen der Auspack-Fakt und jeder Nebendelikt-Fakt
       der Figur öffentlich (`EinflussRegeln.geheimFakten`, statisch aus dem Kanon): Ahmet f_nd_ahmet_umschlag und
       f_nd_ahmet_quittung, Can f_nd_can_maske und f_nd_can_zeynep. `einfluss_soll.g.dart` bleibt gleich.
+  33. §3.8/§3.13 Zwischenresümee mit Schicht: Das erste Geflüster des Abends nimmt `resuemee.gruppe.1`, auch in Runde 2
+      oder 3 (die Sätze der Runden 2 und 3 setzen ein früheres Geflüster voraus). Ohne Schicht unverändert (T-N).
+      `einfluss_soll.g.dart` nach E-048 neu erzeugt (vor der ersten Zusammenführung nach `main`); einzige Ursache
+      gegengeprüft: mit zurückgenommener Änderung passt die alte Liste.

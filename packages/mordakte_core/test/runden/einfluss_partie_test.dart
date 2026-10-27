@@ -156,6 +156,33 @@ void main() {
         hasLength([for (var r = 1; r <= 3; r++) if (p.einfluss!.nachgereichtIn(r)) r].length));
   });
 
+  test('Erstes Geflüster nach einer stillen Runde: der Satz von Runde 1, kein „Auch diesmal“', () {
+    final p = _partie(rollen: 5, salz: 'erstes');
+    _bis(p, PartyPhase.gespraeche, 1);
+    // Runde 1: alle zeigen → kein Zuwachs, still.
+    for (final r in p.spiel.besetzt) {
+      p.zugSetzen(r, ZugArt.zeigen, ziel: r == 'ahmet' ? 'fatma' : 'ahmet');
+    }
+    _bis(p, PartyPhase.resuemee, 1);
+    expect(p.spiel.qualitaeten.containsKey(1), isFalse);
+    expect(p.spiel.bausteine.where((b) => b.startsWith('resuemee.gruppe.')), isEmpty);
+    // Runde 2: alle helfen → das erste Geflüster des Abends.
+    _bis(p, PartyPhase.gespraeche, 2);
+    for (final r in p.spiel.besetzt) {
+      p.zugSetzen(r, ZugArt.helfen);
+    }
+    _bis(p, PartyPhase.resuemee, 2);
+    expect(p.spiel.qualitaeten.containsKey(2), isTrue);
+    expect(p.spiel.bausteine.where((b) => b.startsWith('resuemee.gruppe.')), ['resuemee.gruppe.1']);
+    // Runde 3: wieder Geflüster → jetzt der Satz von Runde 3 („noch“).
+    _bis(p, PartyPhase.gespraeche, 3);
+    for (final r in p.spiel.besetzt) {
+      p.zugSetzen(r, ZugArt.helfen);
+    }
+    _bis(p, PartyPhase.resuemee, 3);
+    expect(p.spiel.bausteine.where((b) => b.startsWith('resuemee.gruppe.')), ['resuemee.gruppe.1', 'resuemee.gruppe.3']);
+  });
+
   test('Randnotizen: Auspacken zeigt sie, ein Zusatzfund nimmt die erste noch nicht gezeigte', () {
     final p = _partie(rollen: 8, pfad: 'can', quelle: const FesterWuerfel.erfolg(), salz: 'notizen');
     _bis(p, PartyPhase.gespraeche, 1, pfad: 'can');
