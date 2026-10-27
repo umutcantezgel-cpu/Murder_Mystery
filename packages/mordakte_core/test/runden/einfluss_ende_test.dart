@@ -28,6 +28,8 @@ class _FesterBonus implements SpielZusatz {
   bool get ueberspringeGruppenwahl => false;
   @override
   Qualitaet? bonusQualitaet(int runde) => null;
+  @override
+  bool nachgereichtIn(int runde) => false;
 }
 
 Ermittlung get _erm => einflussErmittlung;

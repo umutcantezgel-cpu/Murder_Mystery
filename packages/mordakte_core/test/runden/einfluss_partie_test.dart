@@ -113,7 +113,7 @@ void main() {
     }
     var vorher = p.spiel.bausteine.length;
     p.weiter();
-    expect(p.spiel.bausteine.sublist(vorher), ['einfluss.folgen.start.1', 'einfluss.leiste.zusammenhalt.2', 'einfluss.ereignis.tee', 'einfluss.wieder']);
+    expect(p.spiel.bausteine.sublist(vorher), ['einfluss.folgen.start.1', 'einfluss.leiste.zusammenhalt.2', 'einfluss.ereignis.tee']);
     expect(p.restMinuten, 45 + 9 + 5, reason: 'Helfen +9 (Deckel), Tee +5');
     _bis(p, PartyPhase.bonus, 1);
     expect(p.spiel.qualitaeten[1], Qualitaet.wahr);
@@ -138,7 +138,6 @@ void main() {
       einflussBaustein('einfluss.geruecht.leise', figur: 'can'),
       'einfluss.leiste.spuk.2',
       'einfluss.ereignis.flackerlicht',
-      'einfluss.wieder',
     ]);
     expect(p.restMinuten, (45 + (rest1 > 5 ? 5 : rest1) - 8 - 3).clamp(42, 99), reason: 'Übertrag ≤ 5, Ablenken −8, Flackerlicht −3, Boden 42');
     expect(p.tisch('e2_1_bauchtasche'), 1, reason: 'n = 5: ein Zeigen auf can');
@@ -152,6 +151,9 @@ void main() {
     _bis(p, PartyPhase.ende, 3);
     expect(p.spiel.bausteine.where((b) => b.startsWith('aufloesung.gruppe.')).single,
         'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (p.spiel.qualitaeten[r] == Qualitaet.wahr) r].length}');
+    // „Änderungen“ 7: einfluss.wieder nie in den Folgen, nur im Zwischenresümee einer Runde mit verzögerten Funden.
+    expect(p.spiel.bausteine.where((b) => b == 'einfluss.wieder'),
+        hasLength([for (var r = 1; r <= 3; r++) if (p.einfluss!.nachgereichtIn(r)) r].length));
   });
 
   test('Randnotizen: Auspacken zeigt sie, ein Zusatzfund nimmt die erste noch nicht gezeigte', () {

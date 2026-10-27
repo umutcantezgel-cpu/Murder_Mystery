@@ -13,12 +13,19 @@ const _akten = ['schlosskeller', 'gewoelbe', 'ravensmoor', 'nachtexpress', 'blue
 
 void main() {
   group('Kanon und Einstimmung.aus', () {
-    test('Keine Akte hat heute eine Einstimmung; der Katalog bleibt ohne vorgeschichte.* und vorstellung.*', () {
+    test('Nur der Schlosskeller hat eine Einstimmung; die anderen Akten bleiben ohne vorgeschichte.* und vorstellung.*', () {
       for (final a in _akten) {
         final k = ladeKanon(a);
-        expect([k.vorgeschichte, k.vorstellung, Einstimmung.aus(k)], [null, false, null], reason: a);
-        expect(Erzaehler(k).katalog().where((x) => x.startsWith('vorgeschichte.') || x.startsWith('vorstellung.')), isEmpty, reason: a);
+        final katalog = Erzaehler(k).katalog().where((x) => x.startsWith('vorgeschichte.') || x.startsWith('vorstellung.'));
+        if (a == 'schlosskeller') {
+          expect([k.vorgeschichte, k.vorstellung], [fixtureTeile, true], reason: a);
+          expect(katalog, Einstimmung.aus(k)!.katalog(), reason: a);
+        } else {
+          expect([k.vorgeschichte, k.vorstellung, Einstimmung.aus(k)], [null, false, null], reason: a);
+          expect(katalog, isEmpty, reason: a);
+        }
       }
+      expect([ohneEinstimmungKanon.vorgeschichte, ohneEinstimmungKanon.vorstellung, Einstimmung.aus(ohneEinstimmungKanon)], [null, false, null]);
     });
 
     test('Setting mit Vorgeschichte: Teile und Vorstellung sind im Kanon lesbar', () {
@@ -62,7 +69,7 @@ void main() {
           ], reason: '$n $g');
           expect([for (final x in vorst) x.figur], [null, ...reihe.take(n), if (n < 20) null, Besetzung.detektiv]);
           expect([for (final x in vorst) x.nr], [for (var i = 1; i <= vorst.length; i++) i]);
-          expect(vorst.every((x) => x.von == vorst.length && x.titel == null), isTrue);
+          expect(vorst.every((x) => x.von == vorst.length && x.titel == Einstimmung.vorstellungTitel), isTrue, reason: 'ein Titel für die ganze Vorstellung');
           expect(s.take(vor.length), vor, reason: 'Die Vorgeschichte kommt zuerst');
         }
       }
@@ -85,8 +92,10 @@ void main() {
         'vorstellung.detektiv.m',
         'vorstellung.detektiv.w',
       ]);
-      expect(e.titel(), [for (final t in fixtureTeile) 'ui.einstimmung.titel.$t']);
-      final alt = Erzaehler(kanon).katalog();
+      expect(e.titel(), [for (final t in fixtureTeile) 'ui.einstimmung.titel.$t', 'ui.einstimmung.titel.vorstellung']);
+      final k = kanonMit(setting: settingMitEinstimmung(vorstellung: false));
+      expect(Einstimmung.aus(k)!.titel(), [for (final t in fixtureTeile) 'ui.einstimmung.titel.$t'], reason: 'ohne Vorstellung kein Titel dafür');
+      final alt = Erzaehler(ohneEinstimmungKanon).katalog();
       expect(Erzaehler(einstimmungKanon).katalog(), [...alt, ...e.katalog()]);
       // Jede Kennung jedes Abends steht im Katalog.
       final katalog = e.katalog().toSet();
@@ -98,11 +107,13 @@ void main() {
     test('Textsammlung: Die Texte der Einstimmung gehören zum Katalog; ohne sie meldet die Lückenliste genau sie', () {
       final t = einstimmungTexteMit();
       expect(textVerweise(einstimmungKanon, t.sammlung), isEmpty);
-      final ohne = textLuecken(einstimmungKanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
+      final ohne = textLuecken(einstimmungKanon, sammlungOhneEinstimmung());
       expect(ohne, [for (final k in e.katalog()) 'Erzähler-Baustein $k fehlt']);
       expect(textLuecken(einstimmungKanon, t.sammlung), isEmpty);
       // Ohne Einstimmung im Setting gehören die Texte nicht zum Katalog.
-      expect(textVerweise(kanon, t.sammlung).where((x) => x.contains('gehört nicht zum Erzähler-Katalog')), hasLength(e.katalog().length));
+      expect(textVerweise(ohneEinstimmungKanon, t.sammlung).where((x) => x.contains('gehört nicht zum Erzähler-Katalog')), hasLength(e.katalog().length));
+      // Die echten Texte des Schlosskellers sind vollständig.
+      expect(textLuecken(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p'))), isEmpty);
     });
 
     test('toJson und Gleichheit', () {

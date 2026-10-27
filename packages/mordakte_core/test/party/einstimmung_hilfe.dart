@@ -1,8 +1,8 @@
-// Fixtures für Einstimmung und Erzählerakte (A-063): Die echten Inhalte schreibt
-// ein anderes Team. Hier entstehen im Test erzeugte, neutrale Platzhaltertexte,
-// die alle Regeln der Prüfer erfüllen: ein Setting mit Vorgeschichte, die Texte
-// der Einstimmung als zusätzliche Dateien der Textsammlung und eine gültige
-// Erzählerakte aus figuren.json. Kein Text hier gehört in den Kanon.
+// Fixtures für Einstimmung und Erzählerakte (A-063): neutrale, im Test erzeugte
+// Platzhaltertexte, die alle Regeln der Prüfer erfüllen: ein Setting mit
+// Vorgeschichte, die Texte der Einstimmung als Dateien der Textsammlung (sie
+// ersetzen die echten Texte des Schlosskellers) und eine gültige Erzählerakte aus
+// figuren.json. Die echten Inhalte prüft akte_pruefen. Kein Text hier gehört in den Kanon.
 import 'package:mordakte_core/mordakte_core.dart';
 
 import 'kanon_hilfe.dart';
@@ -56,6 +56,7 @@ const _titel = {
   'keller': 'Das Gewölbe',
   'eigenarten': 'Eigenarten',
   'heute': 'Heute',
+  'vorstellung': 'Die Gäste',
 };
 
 /// Zusätzliche Sätze einzelner Vorstellungen: Sie nennen eine Figur mit
@@ -70,6 +71,10 @@ const _bindung = {
 Map<String, Object?> settingMitEinstimmung({List<String> teile = fixtureTeile, bool vorstellung = true}) =>
     {...leseJson('$repoWurzel/content/party/schlosskeller/setting.json'), 'vorgeschichte': teile, 'vorstellung': vorstellung};
 
+/// Setting des Schlosskellers ohne Einstimmung (wie vor A-063).
+Map<String, Object?> settingOhneEinstimmung() =>
+    {...leseJson('$repoWurzel/content/party/schlosskeller/setting.json')}..remove('vorgeschichte')..remove('vorstellung');
+
 /// Kanon des Schlosskellers mit anderem [setting] und anderen Dateien ([ersatz]).
 Kanon kanonMit({Map<String, Object?>? setting, Map<String, Map<String, Object?>> ersatz = const {}}) => Kanon.lade((p) {
       if (p == 'setting.json' && setting != null) return setting;
@@ -80,6 +85,40 @@ Kanon? _fixtureKanon;
 
 /// Kanon mit Vorgeschichte und Vorstellung (einmal je Testdatei).
 Kanon get einstimmungKanon => _fixtureKanon ??= kanonMit(setting: settingMitEinstimmung());
+
+Kanon? _ohneKanon;
+
+/// Kanon des Schlosskellers ohne Einstimmung (einmal je Testdatei).
+Kanon get ohneEinstimmungKanon => _ohneKanon ??= kanonMit(setting: settingOhneEinstimmung());
+
+/// Ist [id] eine Kennung der Einstimmung (Block, Vorstellung, Kapiteltitel)?
+bool istEinstimmungsText(String id) => id.startsWith('vorgeschichte.') || id.startsWith('vorstellung.') || id.startsWith('ui.einstimmung.');
+
+/// Textsammlung des Schlosskellers ohne die Texte der Einstimmung (wie vor A-063).
+Textsammlung sammlungOhneEinstimmung() => Textsammlung.lade((p) {
+      final j = leseJson('$repoWurzel/content/party/schlosskeller/$p');
+      if (p == 'texte/index.json') {
+        return {
+          ...j,
+          'dateien': [
+            for (final d in j['dateien'] as List)
+              if (!(d as Map)['datei'].toString().startsWith('erzaehler-vor')) d,
+          ],
+        };
+      }
+      return _ohneEinstimmung(j);
+    });
+
+/// Eine Textdatei ohne Einträge der Einstimmung.
+Map<String, Object?> _ohneEinstimmung(Map<String, Object?> j) => j['eintraege'] is! List
+    ? j
+    : {
+        ...j,
+        'eintraege': [
+          for (final e in j['eintraege'] as List)
+            if (!((e as Map)['id'] is String && istEinstimmungsText(e['id'] as String))) e,
+        ],
+      };
 
 /// Die Texte der Einstimmung (Kennung → Text): alle Blöcke, Vorstellungen und Kapiteltitel.
 Map<String, String> einstimmungTexte() {
@@ -112,9 +151,10 @@ Map<String, String> einstimmungTexte() {
   return t;
 }
 
-/// Textsammlung des Schlosskellers mit [texte] als zusätzlichen Dateien:
-/// `erzaehler-vorgeschichte.json`, `erzaehler-vorstellung.json` (Bereich
-/// erzaehler) und `ui-einstimmung.json` (Bereich ui).
+/// Textsammlung des Schlosskellers mit [texte] statt der echten Texte der
+/// Einstimmung: `erzaehler-vorgeschichte.json`, `erzaehler-vorstellung.json`
+/// (Bereich erzaehler) und `ui-einstimmung.json` (Bereich ui, Kapiteltitel; die
+/// echten Titel in `ui-erzaehler.json` fallen weg).
 Textsammlung sammlungMit(Map<String, String> texte) {
   Map<String, Object?> datei(String bereich, bool Function(String) passt) => {
         'settingId': kanon.settingId,
@@ -133,13 +173,14 @@ Textsammlung sammlungMit(Map<String, String> texte) {
   return Textsammlung.lade((p) {
     if (zusatz[p] case final z?) return z;
     final j = leseJson('$repoWurzel/content/party/schlosskeller/$p');
-    if (p != 'texte/index.json') return j;
+    if (p != 'texte/index.json') return _ohneEinstimmung(j);
+    final da = {for (final d in j['dateien'] as List) (d as Map)['datei']};
     return {
       ...j,
       'dateien': [
         ...(j['dateien'] as List),
         for (final (d, b) in [('erzaehler-vorgeschichte.json', 'erzaehler'), ('erzaehler-vorstellung.json', 'erzaehler'), ('ui-einstimmung.json', 'ui')])
-          {'datei': d, 'bereich': b},
+          if (!da.contains(d)) {'datei': d, 'bereich': b},
       ],
     };
   });

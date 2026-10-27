@@ -47,5 +47,15 @@
   "ton": "Grusel mit Humor: quietschende Türen, Zugluft, flackerndes Licht, verpatzte Streiche. Herr Schneider überlebt immer; der Schlag ist nur Schatten und Geräusch.",
   "introTeile": [
     "ausfall"
-  ]
+  ],
+  "vorgeschichte": [
+    "schloss",
+    "schneider",
+    "clique",
+    "einladung",
+    "keller",
+    "eigenarten",
+    "heute"
+  ],
+  "vorstellung": true
 }

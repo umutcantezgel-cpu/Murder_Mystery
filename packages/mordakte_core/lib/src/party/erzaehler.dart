@@ -121,9 +121,12 @@ class Erzaehler {
   /// Gruppenergebnis nennt nur, dass die Runde etwas zugeflüstert hat; Qualität
   /// und Stimmenzahl bleiben bis zur Auflösung verborgen (E-025). Mit Zusatzschicht
   /// zählen die sichtbaren Fakten, und das Gruppenfach fehlt, wenn niemand flüsterte.
+  /// Kommen verzögerte Funde (Umweg, „mauert“) jetzt dazu, steht vorn `einfluss.wieder`
+  /// (Finale „Änderungen“ 7).
   List<String> resuemee(Spiel s) {
     final fakten = s.sichtbareFakten(s.runde);
     return [
+      if (s.zusatz?.nachgereichtIn(s.runde) ?? false) 'einfluss.wieder',
       if (s.zusatz == null || s.qualitaeten.containsKey(s.runde)) 'resuemee.gruppe.${s.runde}',
       restSchluessel(s.ermittlung.restmenge(fakten)),
       'resuemee.lage.${s.runde}.${lageStufe(s, fakten)}',
@@ -132,7 +135,8 @@ class Erzaehler {
 
   /// Folgen einer Runde mit Einfluss-Schicht (Finale §3.1, §3.8, §3.13), vorgelesen zu Beginn der
   /// Ermittlung: Auftakt, Auspacken und Ablenken mit Namen, Gerüchte anonym über die beredete Figur,
-  /// Leisten, Ereignisse, zurück zur Ermittlung. Nur öffentliche Eingaben.
+  /// Leisten, Ereignisse. Nur öffentliche Eingaben. `einfluss.wieder` steht nicht hier, sondern im
+  /// Zwischenresümee, wenn verzögerte Funde sichtbar werden ([resuemee], „Änderungen“ 7).
   List<String> einflussFolgen({
     required int runde,
     required List<String> auspacken,
@@ -152,7 +156,6 @@ class Erzaehler {
         if (spukZuwachs > 0) 'einfluss.leiste.spuk.$spukZuwachs',
         if (zusammenhaltZuwachs <= 0 && spukZuwachs <= 0) 'einfluss.leiste.ruhig',
         for (final e in ereignisse) 'einfluss.ereignis.$e',
-        'einfluss.wieder',
       ];
 
   /// Ende der Auflösung mit Einfluss-Schicht (Finale §3.10): Epilog je besetzter Rolle (Stern erreicht

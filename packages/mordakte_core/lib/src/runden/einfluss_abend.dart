@@ -110,6 +110,9 @@ class EinflussAbend implements SpielZusatz {
 
   bool _freigegeben(int runde) => spiel.runde > runde || spiel.phase.index >= PartyPhase.resuemee.index;
 
+  @override
+  bool nachgereichtIn(int runde) => _verzoegert.any((e) => _erm.entscheidung(e).runde == runde);
+
   // ------------------------------------------------------------- SpielZusatz
 
   @override

@@ -156,6 +156,15 @@ void main() {
     expect(g, contains('ui.einstimmung.titel.heute: 5 Wörter statt höchstens 4'));
   });
 
+  test('Kapiteltitel der Vorstellung: Pflicht und höchstens vier Wörter; kein Teil der Vorgeschichte heißt vorstellung', () {
+    final texte = einstimmungTexte()..remove(Einstimmung.vorstellungTitel);
+    final f = pruefeEinstimmung(Einstimmung.aus(einstimmungKanon)!, Texte(einstimmungKanon, sammlungMit(texte)), netz: fixtureNetz, vorspiel: _vorspiel);
+    expect(f, ['Kapiteltitel ui.einstimmung.titel.vorstellung fehlt']);
+    expect(_pruefe(aenderung: {Einstimmung.vorstellungTitel: 'Wer heute hier alles mitfeiert'}), ['ui.einstimmung.titel.vorstellung: 5 Wörter statt höchstens 4']);
+    final k = kanonMit(setting: settingMitEinstimmung(teile: [...fixtureTeile.take(6), 'vorstellung']));
+    expect(_pruefe(k: k), contains('Vorgeschichte: Der Teil vorstellung teilt sich den Kapiteltitel mit der Vorstellung'));
+  });
+
   test('Ohne Vorstellung prüft der Prüfer nur die Vorgeschichte', () {
     final k = kanonMit(setting: settingMitEinstimmung(vorstellung: false));
     final f = pruefeEinstimmung(Einstimmung.aus(k)!, einstimmungTexteMit(k: k, aenderung: {'vorstellung.ahmet': 'Ahmet mit 27.'}), ton: _ton);

@@ -47,8 +47,12 @@ class EinstimmungSchritt {
   /// Nummer im Teil (ab 1) und Zahl der Schritte des Teils („Vorgeschichte · 3 von 7“).
   final int nr, von;
 
-  /// Kapiteltitel (nicht vorgelesen), nur in der Vorgeschichte.
-  String? get titel => teil == EinstimmungTeil.vorgeschichte ? Einstimmung.titelKennung(kennung.substring('vorgeschichte.'.length)) : null;
+  /// Kapiteltitel (nicht vorgelesen): je Teil der Vorgeschichte ein eigener, für die ganze
+  /// Vorstellung derselbe ([Einstimmung.vorstellungTitel]).
+  String get titel => switch (teil) {
+        EinstimmungTeil.vorgeschichte => Einstimmung.titelKennung(kennung.substring('vorgeschichte.'.length)),
+        EinstimmungTeil.vorstellung => Einstimmung.vorstellungTitel,
+      };
 
   Map<String, Object?> toJson() => {'teil': teil.name, 'kennung': kennung, 'figur': ?figur, 'nr': nr, 'von': von};
 
@@ -89,6 +93,9 @@ class Einstimmung {
   static String detektivKennung(String g) => 'vorstellung.detektiv.$g';
   static String titelKennung(String teil) => 'ui.einstimmung.titel.$teil';
 
+  /// Kapiteltitel der Vorstellungsrunde. Kein Teil der Vorgeschichte darf deshalb `vorstellung` heißen.
+  static const vorstellungTitel = 'ui.einstimmung.titel.vorstellung';
+
   /// Schritte eines Abends mit [rollen] Rollen und Detektiv [detektiv] (`m`
   /// oder `w`): alle Blöcke der Vorgeschichte, dann `vorstellung.start`, die
   /// besetzten Figuren in Besetzungsreihenfolge, `vorstellung.npc` für
@@ -124,8 +131,9 @@ class Einstimmung {
         ],
       ];
 
-  /// Kapiteltitel der Vorgeschichte (Oberfläche, nicht vorgelesen).
-  List<String> titel() => [for (final t in teile) titelKennung(t)];
+  /// Kapiteltitel (Oberfläche, nicht vorgelesen): je Teil der Vorgeschichte, dann (mit
+  /// Vorstellung) der Titel der Vorstellungsrunde.
+  List<String> titel() => [for (final t in teile) titelKennung(t), if (vorstellung) vorstellungTitel];
 }
 
 /// Gemeinsame Zustandsmaschine der Einstimmung (App, Raum, Replay): Schritt für
@@ -184,7 +192,8 @@ const _vorgeschichteAnfaenge = ['gefallen', 'streich'];
 ///   [vorgeschichteWorteMin]–[vorgeschichteWorteMax] Wörtern, gesamt
 ///   [vorgeschichteGesamtMin]–[vorgeschichteGesamtMax]; Vorstellung je Figur und
 ///   Detektiv [vorstellungWorteMin]–[vorstellungWorteMax], Start und Sammelblock
-///   höchstens [vorstellungKurzWorte]; Kapiteltitel höchstens [einstimmungTitelWorte].
+///   höchstens [vorstellungKurzWorte]; Kapiteltitel (je Teil und für die Vorstellung)
+///   höchstens [einstimmungTitelWorte]; kein Teil heißt `vorstellung`.
 /// - Namen: Die Vorgeschichte nennt nur Figuren, die immer besetzt sind, und
 ///   Herrn Schneider, nie den Detektiv; jede der immer besetzten mindestens
 ///   einmal, die meistgenannte höchstens doppelt so oft wie die seltenste.
@@ -238,6 +247,9 @@ List<String> pruefeEinstimmung(Einstimmung e, Texte texte, {List<NetzKante> netz
   // Größen
   if (e.teile.length < vorgeschichteTeileMin || e.teile.length > vorgeschichteTeileMax) {
     f.add('Vorgeschichte: ${e.teile.length} Teile statt $vorgeschichteTeileMin bis $vorgeschichteTeileMax');
+  }
+  if (e.teile.contains(EinstimmungTeil.vorstellung.name)) {
+    f.add('Vorgeschichte: Der Teil ${EinstimmungTeil.vorstellung.name} teilt sich den Kapiteltitel mit der Vorstellung');
   }
   var gesamt = 0;
   for (final t in e.teile) {

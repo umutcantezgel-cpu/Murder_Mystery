@@ -275,6 +275,12 @@ void main() {
       expect(p.fakten, containsAll(_erm.faktenVon('e2_1_ascheneimer', 'fatma')));
       expect(p.einfluss!.nachgereicht(2).keys, ['e2_1']);
       expect(p.einfluss!.nachgereicht(2)['e2_1']!.map((a) => a.fakt), _erm.aufdecken('e2_1_ascheneimer', 'fatma').map((a) => a.fakt));
+      // „Änderungen“ 7: Der Erzähler sagt die nachgereichten Funde vorn im Zwischenresümee an, nicht in den Folgen.
+      final resuemee = p.spiel.erzaehler.resuemee(p.spiel);
+      expect(resuemee.first, 'einfluss.wieder');
+      expect(p.spiel.bausteine.sublist(p.spiel.bausteine.length - resuemee.length), resuemee);
+      expect([p.einfluss!.nachgereichtIn(1), p.einfluss!.nachgereichtIn(2)], [false, true]);
+      expect(p.spiel.bausteine.where((b) => b == 'einfluss.wieder'), hasLength(1));
     });
 
     test('Pech → Nochmal → Erfolg: Zusatzfund und Ertappt bleiben möglich', () {

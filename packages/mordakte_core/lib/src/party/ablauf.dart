@@ -42,6 +42,11 @@ abstract interface class SpielZusatz {
 
   /// Güte des Hinweises im Bonus von [runde]; `null`, wenn niemand etwas zuflüstert.
   Qualitaet? bonusQualitaet(int runde);
+
+  /// Werden im Zwischenresümee von [runde] Funde sichtbar, die bis dahin warteten (Umweg, „mauert“)?
+  /// Dann liest der Erzähler dort `einfluss.wieder` (Finale „Änderungen“ 7). Hängt nur an der
+  /// Verzögerung, nie daran, ob der Fund im Pfad Fakten trägt.
+  bool nachgereichtIn(int runde);
 }
 
 /// Der Spielablauf als reiner Zustandsautomat. Alle Story-Texte kommen als

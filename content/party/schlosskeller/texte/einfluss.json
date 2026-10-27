@@ -1,0 +1,1175 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "einfluss",
+  "hinweis": "Texte der Einfluss-Schicht „Dein Moment“ (A-064, SPEZIFIKATION §3.13): Zugkarten, Folgen, Ermittlung, private Karten, Ziele, Epiloge, Auszeichnungen, Morgen und Bot-Blasen. Karten nach R17, Vorlesetexte nach den Vorleseregeln; Platzhalter @figur, @ziel, @zug.",
+  "eintraege": [
+    {
+      "id": "einfluss.zug.zeigen.titel",
+      "text": "Zeigen"
+    },
+    {
+      "id": "einfluss.zug.zeigen.p1",
+      "text": "Diese Runde: +1 Tischstimme, wo die Figur vorkommt"
+    },
+    {
+      "id": "einfluss.zug.zeigen.p2",
+      "text": "Alle hören ein Gerücht, anonym bis zur Auflösung"
+    },
+    {
+      "id": "einfluss.zug.zeigen.p3",
+      "text": "Der Spuk wächst ein wenig"
+    },
+    {
+      "id": "einfluss.zug.zeigen.wahl",
+      "text": "Auf wen zeigst du?"
+    },
+    {
+      "id": "einfluss.zug.decken.titel",
+      "text": "Decken"
+    },
+    {
+      "id": "einfluss.zug.decken.p1",
+      "text": "Diese Runde: −1 Tischstimme, wo die Figur vorkommt"
+    },
+    {
+      "id": "einfluss.zug.decken.p2",
+      "text": "Die Figur erfährt nur: Jemand hält zu dir"
+    },
+    {
+      "id": "einfluss.zug.decken.p3",
+      "text": "Gelingt dort eine Suche, fliegst du vielleicht auf"
+    },
+    {
+      "id": "einfluss.zug.decken.wahl",
+      "text": "Wen deckst du – auch dich selbst?"
+    },
+    {
+      "id": "einfluss.zug.helfen.titel",
+      "text": "Helfen"
+    },
+    {
+      "id": "einfluss.zug.helfen.p1",
+      "text": "+3 Nachtminuten für die Ermittlung"
+    },
+    {
+      "id": "einfluss.zug.helfen.p2",
+      "text": "Höchstens +9 je Runde, egal wie viele helfen"
+    },
+    {
+      "id": "einfluss.zug.helfen.p3",
+      "text": "Anonym bis zur Auflösung, stärkt den Zusammenhalt"
+    },
+    {
+      "id": "einfluss.zug.auspacken.titel",
+      "text": "Auspacken"
+    },
+    {
+      "id": "einfluss.zug.auspacken.p1",
+      "text": "Dein Geheimnis kommt offen zu den Funden"
+    },
+    {
+      "id": "einfluss.zug.auspacken.p2",
+      "text": "Alle hören es, mit deinem Namen"
+    },
+    {
+      "id": "einfluss.zug.auspacken.p3",
+      "text": "Nur einmal am Abend, Zusammenhalt wächst doppelt"
+    },
+    {
+      "id": "einfluss.zug.ablenken.titel",
+      "text": "Ablenken"
+    },
+    {
+      "id": "einfluss.zug.ablenken.p1",
+      "text": "−4 Nachtminuten, höchstens −8 je Runde"
+    },
+    {
+      "id": "einfluss.zug.ablenken.p2",
+      "text": "Alle erleben deinen Auftritt, mit deinem Namen"
+    },
+    {
+      "id": "einfluss.zug.ablenken.p3",
+      "text": "Spuk wächst doppelt, Zusammenhalt sinkt"
+    },
+    {
+      "id": "einfluss.zug.lauschen.titel",
+      "text": "Lauschen"
+    },
+    {
+      "id": "einfluss.zug.lauschen.p1",
+      "text": "Du erfährst Zug und Ziel dieser Figur"
+    },
+    {
+      "id": "einfluss.zug.lauschen.p2",
+      "text": "Gilt nur für ihren Zug dieser Runde"
+    },
+    {
+      "id": "einfluss.zug.lauschen.p3",
+      "text": "Bleibt geheim bis zur Auflösung"
+    },
+    {
+      "id": "einfluss.zug.lauschen.wahl",
+      "text": "Bei wem lauschst du?"
+    },
+    {
+      "id": "einfluss.tipp.titel",
+      "text": "Geheimer Tipp"
+    },
+    {
+      "id": "einfluss.tipp.p1",
+      "text": "Verdeckt bis zur Auflösung, ändert die Anklage nicht"
+    },
+    {
+      "id": "einfluss.tipp.wahl",
+      "text": "Wer war's?"
+    },
+    {
+      "id": "einfluss.ereignis.tee.karte",
+      "text": "+5 Nachtminuten in dieser Runde"
+    },
+    {
+      "id": "einfluss.ereignis.tee.titel",
+      "text": "Tee für alle"
+    },
+    {
+      "id": "einfluss.ereignis.kerzenschein.karte",
+      "text": "Nächste Suche: Störung zählt nicht"
+    },
+    {
+      "id": "einfluss.ereignis.kerzenschein.titel",
+      "text": "Goldener Schein"
+    },
+    {
+      "id": "einfluss.ereignis.erinnerung.karte",
+      "text": "Eine zusätzliche Nachfrage vor der Anklage"
+    },
+    {
+      "id": "einfluss.ereignis.erinnerung.titel",
+      "text": "Schneider erinnert sich"
+    },
+    {
+      "id": "einfluss.ereignis.flackerlicht.karte",
+      "text": "−3 Nachtminuten in dieser Runde"
+    },
+    {
+      "id": "einfluss.ereignis.flackerlicht.titel",
+      "text": "Flackerlicht"
+    },
+    {
+      "id": "einfluss.ereignis.fledermaus.karte",
+      "text": "Diese Runde: Störung doppelt, Erfolg bringt 2 Randnotizen"
+    },
+    {
+      "id": "einfluss.ereignis.fledermaus.titel",
+      "text": "Die Fledermaus"
+    },
+    {
+      "id": "einfluss.ereignis.kragen.karte",
+      "text": "−5 Nachtminuten, der Morgen wird chaotisch"
+    },
+    {
+      "id": "einfluss.ereignis.kragen.titel",
+      "text": "Geplatzter Kragen"
+    },
+    {
+      "id": "einfluss.abzeichen.plus1",
+      "text": "Rückendeckung +1"
+    },
+    {
+      "id": "einfluss.abzeichen.plus2",
+      "text": "Volle Rückendeckung +2"
+    },
+    {
+      "id": "einfluss.abzeichen.minus1",
+      "text": "Störung −1"
+    },
+    {
+      "id": "einfluss.abzeichen.minus2",
+      "text": "Starke Störung −2"
+    },
+    {
+      "id": "einfluss.befragung.redselig",
+      "text": "Redselig: eine Randnotiz obendrauf"
+    },
+    {
+      "id": "einfluss.befragung.zoegert",
+      "text": "Zögert: kostet 3 Minuten extra"
+    },
+    {
+      "id": "einfluss.befragung.mauert",
+      "text": "Mauert: 3 Minuten extra, Fakten erst im Zwischenresümee"
+    },
+    {
+      "id": "einfluss.tischruf.nochmal",
+      "text": "Nochmal: 3 Minuten, gleiche Stelle, gleicher Tischwert"
+    },
+    {
+      "id": "einfluss.tischruf.umweg",
+      "text": "Umweg: 3 Minuten, +1, ignoriert Störung, Fakten später"
+    },
+    {
+      "id": "einfluss.nachfrage.titel",
+      "text": "Nachfrage"
+    },
+    {
+      "id": "einfluss.nachfrage.p1",
+      "text": "Zeigt eine noch verborgene Randnotiz einer gewählten Option"
+    },
+    {
+      "id": "einfluss.privat.haelt_zu_dir",
+      "text": "Jemand hält zu dir"
+    },
+    {
+      "id": "einfluss.privat.mehrere_halten",
+      "text": "Mehrere halten zu dir"
+    },
+    {
+      "id": "einfluss.privat.gelauscht",
+      "text": "Gelauscht: @figur spielt @zug auf @ziel"
+    },
+    {
+      "id": "einfluss.privat.gelauscht.ohne_ziel",
+      "text": "Gelauscht: @figur spielt @zug"
+    },
+    {
+      "id": "einfluss.privat.gelauscht.abgewartet",
+      "text": "Gelauscht: @figur hat diese Runde abgewartet"
+    },
+    {
+      "id": "einfluss.privat.wirkte",
+      "text": "Dein Zug hat etwas bewegt"
+    },
+    {
+      "id": "einfluss.privat.ohne_folgen",
+      "text": "Diesmal bewegte deine Stimme keinen Tischwert"
+    },
+    {
+      "id": "einfluss.privat.ertappt",
+      "text": "Ertappt: Alle wissen jetzt von deinem Decken"
+    },
+    {
+      "id": "einfluss.folgen.start.1",
+      "text": "Das Gewölbe hat mitgehört. Jetzt weht durch die Lichtschächte herein, was ihr im Stillen ausgeheckt habt. Spitzt die Ohren."
+    },
+    {
+      "id": "einfluss.folgen.start.2",
+      "text": "Ein Wispern wandert durch den Keller, von Stein zu Stein. Jetzt erfahrt ihr, was euer Moment bewirkt hat."
+    },
+    {
+      "id": "einfluss.folgen.start.3",
+      "text": "Ein kalter Hauch fährt euch in den Nacken, und irgendwo kichert es. Ein letztes Mal kommt heraus, was eure Züge angerichtet haben."
+    },
+    {
+      "id": "einfluss.ablenken.schluss",
+      "text": "Bis wieder Ruhe einkehrt, hat die Nacht ein paar kostbare Minuten verschluckt. Herr Schneider tippt vielsagend auf seine Armbanduhr."
+    },
+    {
+      "id": "einfluss.geruecht.leise",
+      "text": "Ganz leise, kaum lauter als der Wind, fällt ein Name: @figur. Wer ihn geflüstert hat, bleibt im Dunkeln."
+    },
+    {
+      "id": "einfluss.geruecht.laut",
+      "text": "Das Tuscheln schwillt an. Gleich mehrere Stimmen raunen denselben Namen in die Runde: @figur. Wer damit angefangen hat, weiß nur das Gemäuer."
+    },
+    {
+      "id": "einfluss.leiste.zusammenhalt.1",
+      "text": "Ihr rückt auf den Bänken ein Stück näher zusammen. Der Zusammenhalt wächst."
+    },
+    {
+      "id": "einfluss.leiste.zusammenhalt.2",
+      "text": "Ihr rückt so eng zusammen, dass nicht einmal die Zugluft zwischen euch passt. Der Zusammenhalt wächst kräftig."
+    },
+    {
+      "id": "einfluss.leiste.spuk.1",
+      "text": "Ein schrilles Pfeifen hallt von den Wänden, und alle ziehen die Schultern hoch. Der Spuk wird stärker."
+    },
+    {
+      "id": "einfluss.leiste.spuk.2",
+      "text": "Die alten Mauern ächzen, und allen läuft ein Schauer über den Rücken. Der Spuk legt kräftig zu."
+    },
+    {
+      "id": "einfluss.leiste.ruhig",
+      "text": "Einen Atemzug lang ist es ganz still im Gewölbe. Weder Spuk noch Zusammenhalt rühren sich."
+    },
+    {
+      "id": "einfluss.ereignis.tee",
+      "text": "Der große Teekocher blubbert und schnaubt so laut, dass jemand ihm höflich „Gesundheit!“ wünscht und die ganze Runde losprustet. Gleich darauf gibt es frischen Tee für alle, und für einen Moment wird es richtig gemütlich. Die kleine Pause schenkt euch fünf Nachtminuten."
+    },
+    {
+      "id": "einfluss.ereignis.kerzenschein",
+      "text": "Jemand dreht das grelle Deckenlicht herunter. Ein warmer, goldener Schein legt sich über das Gewölbe, und plötzlich reden alle ganz sanft. Irgendwer summt ein Schlaflied, alle summen schief mit. Bei der nächsten Suche zählt keine Störung."
+    },
+    {
+      "id": "einfluss.ereignis.erinnerung",
+      "text": "Herr Schneider schnippt mit den Fingern: „Jetzt fällt es mir wieder ein!“ Alle beugen sich vor. „Ich habe heute noch gar nicht geschimpft.“ Das Gewölbe lacht mit ihm. Danach ist er hellwach und gesprächig: Vor der Anklage darfst du ein zusätzliches Mal nachfragen."
+    },
+    {
+      "id": "einfluss.ereignis.flackerlicht",
+      "text": "Das Licht flackert, als hätte das Gewölbe Schluckauf. An, aus, an, aus. Im fahlen Notlicht seht ihr kaum die eigene Nasenspitze. Als es wieder hell ist, tun alle so, als hätte niemand gequiekt. Drei Nachtminuten sind verflogen."
+    },
+    {
+      "id": "einfluss.ereignis.fledermaus",
+      "text": "Eine Fledermaus flattert durch einen Lichtschacht herein und zieht fiepend Kreise unter der Gewölbedecke. Alle ducken sich, und jemand taucht ganz unter eine Bank ab. In dieser Runde wiegt jede Störung doppelt, doch jeder Erfolg bringt zwei Randnotizen."
+    },
+    {
+      "id": "einfluss.ereignis.kragen",
+      "text": "Herrn Schneider platzt der Kragen: „Jetzt ist Schluss mit dem Zirkus!“ Er baut sich vor euch auf und trägt die Hausordnung vor, Absatz für Absatz. Bei Absatz zwölf gähnt jemand, und schon geht es zurück zu Absatz eins. Fünf Nachtminuten sind dahin, und der Morgen wird chaotisch."
+    },
+    {
+      "id": "einfluss.wieder",
+      "text": "Was vorhin noch auf sich warten ließ, liegt jetzt offen vor dir. Das Gewölbe behält nichts für sich."
+    },
+    {
+      "id": "einfluss.fluestern.still",
+      "text": "Diesmal flüstert dir niemand etwas zu. Nur der Wind seufzt leise im Gemäuer."
+    },
+    {
+      "id": "einfluss.ertappt",
+      "text": "Ertappt! @figur hat @ziel gedeckt. Ein Räuspern, ein schiefer Blick, und schon weiß es die ganze Runde."
+    },
+    {
+      "id": "einfluss.ertappt.selbst",
+      "text": "Ertappt! @figur hat sich selbst gedeckt. Die Wände haben Augen, und jetzt grinst die ganze Runde."
+    },
+    {
+      "id": "einfluss.verwischt",
+      "text": "So ein Pech, die Spur verwischt. Verloren ist sie nicht. Ruft gemeinsam: nochmal an derselben Stelle oder lieber ein Umweg? Beides kostet drei Minuten."
+    },
+    {
+      "id": "einfluss.tischbonus.plus",
+      "text": "Ihr habt in dieser Nacht fest zusammengehalten. Dafür legt euch das Schloss einen Punkt obendrauf."
+    },
+    {
+      "id": "einfluss.tischbonus.minus",
+      "text": "Der Spuk war heute stärker als eure Nerven. Das kostet euch einen Punkt."
+    },
+    {
+      "id": "einfluss.preis.stern",
+      "text": "Der Stern des Abends geht an @figur! Das Gewölbe verneigt sich, und sogar Herr Schneider klatscht. Zweimal. Für seine Verhältnisse ist das tosender Beifall."
+    },
+    {
+      "id": "einfluss.preis.spuernase",
+      "text": "Eine Spürnase der Nacht ist @figur. Richtig getippt, ganz ohne Hut und Lupe!"
+    },
+    {
+      "id": "einfluss.preis.schlossgeist",
+      "text": "Zum Schlossgeist der Nacht wird @figur ernannt. Niemand hat so viel Wirbel gemacht. Die Fledermäuse bitten um ein Autogramm."
+    },
+    {
+      "id": "einfluss.preis.treue_seele",
+      "text": "Die Treue Seele des Abends ist @figur. Wer so fest zu anderen hält, bekommt den wärmsten Platz auf der Bank."
+    },
+    {
+      "id": "einfluss.morgen.warm",
+      "text": "Als das erste graue Licht durch die Lichtschächte fällt, schläft die halbe Runde aneinandergelehnt auf den Bänken. Herr Schneider kocht eine letzte Kanne Tee. Er brummt, so eine Clique habe er lange nicht erlebt. Aus seinem Mund ist das fast eine Liebeserklärung."
+    },
+    {
+      "id": "einfluss.morgen.chaotisch",
+      "text": "Der Morgen findet euch zerzaust und übernächtigt zwischen verrutschten Bänken. Herr Schneider prüft mit finsterer Miene, ob das Gewölbe noch steht. Ihr schwört, nächstes Mal ganz brav zu feiern. Keiner glaubt es, am wenigsten ihr selbst."
+    },
+    {
+      "id": "einfluss.morgen.gemischt",
+      "text": "Der Morgen kriecht grau und leise ins Gewölbe. Ein paar von euch lachen schon wieder, andere starren müde in ihren Tee. Herr Schneider brummt etwas zwischen Dank und Drohung. Es war eine Nacht voller Wärme und Spuk, und genau so werdet ihr sie erzählen."
+    },
+    {
+      "id": "einfluss.ziel.ahmet.1",
+      "text": "Halte die erfundene Miete bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.ahmet.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.fatma.1",
+      "text": "Halte die mitgenommene Schatulle bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.fatma.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.olli.1",
+      "text": "Halte den verdeckten Türschaden bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.olli.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.can.1",
+      "text": "Halte den heimlichen Streich bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.can.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.leyla.1",
+      "text": "Decke Ahmet in mindestens zwei Runden"
+    },
+    {
+      "id": "einfluss.ziel.leyla.2",
+      "text": "Bewahre Ahmet vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.emine.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.emine.2",
+      "text": "Bewahre Fatma vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.tim.1",
+      "text": "Halte den Kurzschluss bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.tim.2",
+      "text": "Lenk an diesem Abend nie ab"
+    },
+    {
+      "id": "einfluss.ziel.johanna.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.johanna.2",
+      "text": "Lausche mindestens einmal bei Ahmet"
+    },
+    {
+      "id": "einfluss.ziel.murat.1",
+      "text": "Halte den Spuk bei höchstens drei"
+    },
+    {
+      "id": "einfluss.ziel.murat.2",
+      "text": "Bring ans Licht, wer als Gespenst herumlief"
+    },
+    {
+      "id": "einfluss.ziel.zeynep.1",
+      "text": "Decke Can in mindestens zwei Runden"
+    },
+    {
+      "id": "einfluss.ziel.zeynep.2",
+      "text": "Bewahre Can vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.baran.1",
+      "text": "Lenk in mindestens einer Runde ab"
+    },
+    {
+      "id": "einfluss.ziel.baran.2",
+      "text": "Halte den Spuk bei höchstens drei"
+    },
+    {
+      "id": "einfluss.ziel.meryem.1",
+      "text": "Pack spätestens in Runde zwei aus"
+    },
+    {
+      "id": "einfluss.ziel.meryem.2",
+      "text": "Bring den Zusammenhalt auf mindestens vier"
+    },
+    {
+      "id": "einfluss.ziel.serkan.1",
+      "text": "Hilf in mindestens zwei Runden"
+    },
+    {
+      "id": "einfluss.ziel.serkan.2",
+      "text": "Lass am Ende mindestens vierzig Nachtminuten übrig"
+    },
+    {
+      "id": "einfluss.ziel.aylin.1",
+      "text": "Bring Ahmets erfundene Miete ans Licht"
+    },
+    {
+      "id": "einfluss.ziel.aylin.2",
+      "text": "Zeig an diesem Abend nie auf Ahmet"
+    },
+    {
+      "id": "einfluss.ziel.kaan.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.kaan.2",
+      "text": "Bewahre Olli vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.dilara.1",
+      "text": "Pack spätestens in Runde zwei aus"
+    },
+    {
+      "id": "einfluss.ziel.dilara.2",
+      "text": "Decke Fatma an diesem Abend nie"
+    },
+    {
+      "id": "einfluss.ziel.enes.1",
+      "text": "Bleib den ganzen Abend frei von Gerüchten"
+    },
+    {
+      "id": "einfluss.ziel.enes.2",
+      "text": "Bring den Zusammenhalt auf mindestens fünf"
+    },
+    {
+      "id": "einfluss.ziel.selin.1",
+      "text": "Halte den Spuk bei höchstens zwei"
+    },
+    {
+      "id": "einfluss.ziel.selin.2",
+      "text": "Lenk an diesem Abend nie ab"
+    },
+    {
+      "id": "einfluss.ziel.hakan.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.hakan.2",
+      "text": "Halte den Spuk bei höchstens zwei"
+    },
+    {
+      "id": "einfluss.ziel.tugba.1",
+      "text": "Hilf in jeder Runde"
+    },
+    {
+      "id": "einfluss.ziel.tugba.2",
+      "text": "Bring den Zusammenhalt auf mindestens fünf"
+    },
+    {
+      "id": "einfluss.auspacken.ahmet",
+      "text": "Ahmet steht auf und bittet um Ruhe. „Der leere Umschlag mit der Aufschrift ‚Miete Schlosskeller‘ ist von mir. Ich habe von allen hundertfünfzig Euro eingesammelt, obwohl der Keller umsonst war.“ Du schreibst jedes Wort mit."
+    },
+    {
+      "id": "einfluss.auspacken.fatma",
+      "text": "Fatma steht auf und bittet um Ruhe. „Die Münzschatulle liegt hier in meiner Tasche, zwischen Skizzenblock und Stiften. Ich habe sie aus der Vitrine genommen, um die Reliefs abzuzeichnen.“ Du schreibst jedes Wort mit."
+    },
+    {
+      "id": "einfluss.auspacken.olli",
+      "text": "Olli steht auf und bittet um Ruhe. „Mein Arbeitshandschuh steckt in der Westentasche, an den Fingerkuppen klebt Möbelwachs. Ich habe den Beschlag der Bogentür ausgerissen und die Schramme damit zugerieben.“ Du schreibst jedes Wort mit."
+    },
+    {
+      "id": "einfluss.auspacken.can",
+      "text": "Can steht auf und bittet um Ruhe. „Die Leuchtmaske steckt zusammengefaltet hier in der Bauchtasche meines Pullis. Ich habe im dunklen Vorratsraum gewartet, um dich als blinde Kuh zu erschrecken.“ Du schreibst jedes Wort mit."
+    },
+    {
+      "id": "einfluss.auspacken.leyla",
+      "text": "Lejla knetet die Ecke ihrer Schürze, bevor sie spricht. „Ahmet ist mein Cousin, und trotzdem sage ich es. Um drei vor zwölf ist er hinter die Theke geschlüpft, mit einem dicken Umschlag in der Hand.“"
+    },
+    {
+      "id": "einfluss.auspacken.emine",
+      "text": "Emine hält ihre Thermoskanne mit beiden Händen fest. „Um zwanzig vor zwölf habe ich im Turmgang beobachtet, wie Fatma an der Vitrine die Münzschatulle herausnahm.“ Leiser fügt sie hinzu: „Sie ist meine beste Freundin.“"
+    },
+    {
+      "id": "einfluss.auspacken.tim",
+      "text": "Tim reibt sich verlegen den Nacken. „Ich sag es lieber selbst, bevor es jemand anders tut. Der Kurzschluss kam von meiner alten Mehrfachsteckdose.“ Er sieht aus, als wolle er das Ding nie wieder anfassen."
+    },
+    {
+      "id": "einfluss.auspacken.johanna",
+      "text": "Joanna hält ihr Handy hoch, damit alle es sehen. Das Foto ist von neun vor zwölf. Darauf sieht man Herrn Schneider und Ahmet mitten im Streit an der Theke. Ahmet hat einen dicken Umschlag in der Hand. Scharf ist es auch noch, leider."
+    },
+    {
+      "id": "einfluss.auspacken.murat",
+      "text": "Marek ist immer noch ein bisschen blass um die Nase. „Ein leuchtendes Gespenstergesicht ist im Dunkeln an mir vorbeigerannt. Es lief durch den Durchgang zum Kaminsaal. Ich glaube nicht an Gespenster. Eigentlich.“"
+    },
+    {
+      "id": "einfluss.auspacken.zeynep",
+      "text": "Zeynep hört sogar auf, Kaugummi zu kauen. „Can ist mein Bruder, aber Foulspiel gibt es bei mir nicht. Er hat mit seiner Leuchtmaske im dunklen Vorratsraum gewartet. Auf die blinde Kuh, also auf dich.“"
+    },
+    {
+      "id": "einfluss.auspacken.baran",
+      "text": "Baran dreht seine Musikbox leiser. „Ich höre genau hin, das ist mein Fach. Aus Richtung Theke rief es zuerst ‚Hab ich dich!‘ und kurz darauf ‚Stehen bleiben!‘ Danach kam das Scheppern.“"
+    },
+    {
+      "id": "einfluss.auspacken.meryem",
+      "text": "Hana wischt sich die Hände an der Arbeitshose ab. „Als Försterin achte ich auf jedes Rascheln. Kurz nach zwölf hat Ahmet etwas in den Ascheneimer geworfen, drüben beim Kamin. Es hat ordentlich geraschelt.“"
+    },
+    {
+      "id": "einfluss.auspacken.serkan",
+      "text": "Serkan spricht ruhig, wie bei einem Einsatz. „Ich stand am Außentor, schon kurz vor zwölf und noch eine Weile danach. Das Tor war abgeschlossen. Hinaus ist niemand, darauf kannst du dich verlassen.“"
+    },
+    {
+      "id": "einfluss.auspacken.aylin",
+      "text": "Aylin legt einen Zettel aus ihrer Ledermappe auf den Tisch. Es ist Herrn Schneiders Quittung: Miete null Euro, mit Unterschrift. „Ahmet hat trotzdem von allen hundertfünfzig Euro eingesammelt. Ich hebe eben jeden Beleg auf.“"
+    },
+    {
+      "id": "einfluss.auspacken.kaan",
+      "text": "Wojtek zieht verlegen den Bleistift hinter dem Ohr hervor. „Die Bogentür hat Olli schon am Abend beschädigt. Das Möbelwachs für die Schramme stammt von mir, und die Idee leider auch.“"
+    },
+    {
+      "id": "einfluss.auspacken.dilara",
+      "text": "Azra tippt auf die kleine Lupe an ihrer Kette. „Auf dem Flohmarkt lernt man, genau hinzusehen. Fatmas Tasche war um Viertel vor zwölf auffällig ausgebeult.“"
+    },
+    {
+      "id": "einfluss.auspacken.enes",
+      "text": "Damir drückt dir ungefragt ein Glas Tee in die Hand. „An der Theke waren um drei vor zwölf Ahmet, Fatma und Olli. Herr Schneider stand am Ostende. Can konnte ich nicht sehen.“"
+    },
+    {
+      "id": "einfluss.auspacken.selin",
+      "text": "Sibel zieht den Schal bis übers Kinn. „Ein leuchtendes Gesicht ist im Dunkeln quer durch den Kaminsaal gehuscht, bis zur Bogentür. Ich habe nicht geschrien. Fast nicht.“"
+    },
+    {
+      "id": "einfluss.auspacken.hakan",
+      "text": "Pawel stellt seine Teetasse ab und spricht ruhig und sachlich. „Ich hatte mal einen Ferienjob bei der Schlossstiftung. Herr Schneider muss der Stiftung jeden Schaden melden. Deshalb versteht er bei Geld keinen Spaß.“"
+    },
+    {
+      "id": "einfluss.auspacken.tugba",
+      "text": "Tugba klappt ihr Notizbuch auf, aber nur einen Spalt. „Um drei vor zwölf habe ich aufgeschrieben, wer bei der Torte fehlt. Und dahinter, wo jeder angeblich gerade steckt.“"
+    },
+    {
+      "id": "einfluss.ablenken.ahmet",
+      "text": "Ahmet ruft alle zusammen und verteilt Aufgaben, die keiner braucht. Drei Leute zählen Bänke, zwei sortieren Teebeutel nach Farbe. Als alle fertig sind, hat er schon neue."
+    },
+    {
+      "id": "einfluss.ablenken.fatma",
+      "text": "Fatma entdeckt an der Gewölbedecke ein verblasstes Muster und fragt jeden nach seiner Meinung. Ist das nun Salbeigrün oder Moosgrün? Nach der Abstimmung ist es plötzlich doch Türkis."
+    },
+    {
+      "id": "einfluss.ablenken.olli",
+      "text": "Olli zeigt, wie man im Lager richtig stapelt. Alle bauen mit, bis aus Pappbechern eine Pyramide bis unter die Decke wächst. Dann pustet jemand, und alles beginnt von vorn."
+    },
+    {
+      "id": "einfluss.ablenken.can",
+      "text": "Can erzählt einen Witz, der so schlecht ist, dass alle ihn verbessern wollen. Die fünfte Fassung ist noch schlechter. Trotzdem erzählt er sie für ein Video gleich zweimal."
+    },
+    {
+      "id": "einfluss.ablenken.leyla",
+      "text": "Lejla hört jemanden niesen und beginnt sofort mit der Beratung. Bald kennt jeder drei Hausmittel gegen Schnupfen, ob er will oder nicht. Am Ende niest nur noch Lejla."
+    },
+    {
+      "id": "einfluss.ablenken.emine",
+      "text": "Emine ruft wie vor ihrer Klasse: „Alle mal herhören!“ Sofort stehen alle in Zweierreihen und warten brav. Bis jemand fragt, worauf eigentlich, ist eine ganze Weile vergangen."
+    },
+    {
+      "id": "einfluss.ablenken.tim",
+      "text": "Tim hört eine Bank quietschen und will sie sofort reparieren. Er zerlegt sie in Einzelteile und hat am Ende eine Schraube übrig. Die Bank quietscht jetzt in einem anderen Ton."
+    },
+    {
+      "id": "einfluss.ablenken.johanna",
+      "text": "Joanna ruft alle zum Gruppenbild zusammen. Mal stimmt das Licht nicht, mal blinzelt jemand, mal niest jemand. Beim neunten Versuch lächeln alle, nur nicht ganz freiwillig."
+    },
+    {
+      "id": "einfluss.ablenken.murat",
+      "text": "Marek zeigt, wie man Häppchen kunstvoll rollt und faltet. Jeder muss selbst eins bauen und probieren. Lecker sind alle, nur sehen sie aus wie moderne Kunst."
+    },
+    {
+      "id": "einfluss.ablenken.zeynep",
+      "text": "Zeynep findet, ihr seid alle viel zu schlapp. Sie ruft eine kurze Trainingseinheit aus, mit Kniebeugen und lauter Anfeuerung. Danach sind alle hellwach und ziemlich außer Atem."
+    },
+    {
+      "id": "einfluss.ablenken.baran",
+      "text": "Baran will für Stimmung sorgen und fragt jeden nach seinem Lieblingslied. Die Wünsche reichen bald bis zum Morgen. Am Ende summen alle durcheinander, und keiner erkennt sein eigenes Lied."
+    },
+    {
+      "id": "einfluss.ablenken.meryem",
+      "text": "Hana zählt auf, welche Tiere jetzt draußen im Wald wach sind. Bei jedem Tier macht sie das Geräusch nach. Beim Waldkauz machen alle mit, und zwar ziemlich laut."
+    },
+    {
+      "id": "einfluss.ablenken.serkan",
+      "text": "Serkan will jetzt schon klären, wer nachher bei wem mitfährt. Er verteilt Plätze, tauscht sie und fängt zweimal von vorn an. Am Ende wollen trotzdem alle vorne sitzen."
+    },
+    {
+      "id": "einfluss.ablenken.aylin",
+      "text": "Aylin findet, beim Spielen wird viel zu ungenau gezählt. Sie führt eine Punktetabelle mit Spalten und Zwischensummen ein. Bis alles stimmt, will niemand weiterspielen."
+    },
+    {
+      "id": "einfluss.ablenken.kaan",
+      "text": "Wojtek erklärt mit Kennerblick, dass das Gewölbe schief ist. Alle müssen peilen, schätzen, nachmessen. Ergebnis: Das Gewölbe ist gerade, nur Wojtek stand schief."
+    },
+    {
+      "id": "einfluss.ablenken.dilara",
+      "text": "Azra fängt aus Spaß an zu feilschen und bietet zwei Kekse für einen Platz auf der Bank. Bald handelt die halbe Gruppe mit Keksen. Am Ende kostet ein Sitzplatz sieben Kekse und ein Kompliment."
+    },
+    {
+      "id": "einfluss.ablenken.enes",
+      "text": "Damir ruft eine Teepause aus. Jeder bekommt Tee, ob er will oder nicht, und muss sagen, wie es schmeckt. Wer nur „gut“ sagt, muss genauer werden."
+    },
+    {
+      "id": "einfluss.ablenken.selin",
+      "text": "Sibel hört ein Heulen in den Lichtschächten und bittet alle, ganz still zu sein. Alle halten den Atem an. Es ist der Wind. Dann noch einmal. Wieder der Wind."
+    },
+    {
+      "id": "einfluss.ablenken.hakan",
+      "text": "Pawel findet, die Frage nach der bequemsten Bank muss fair geklärt werden. Er hört alle Seiten an, wägt ab und vertagt die Sache. Als er fertig ist, sitzt längst ein anderer darauf."
+    },
+    {
+      "id": "einfluss.ablenken.tugba",
+      "text": "Tugba findet, die Stimmung braucht dringend ein schnelles Spiel. Sie erklärt die Regeln, dann die Ausnahmen, dann die Ausnahmen der Ausnahmen. Gespielt wird am Ende gar nicht."
+    },
+    {
+      "id": "einfluss.epilog.ahmet.erreicht",
+      "text": "Ahmet atmet zum ersten Mal seit Mitternacht tief durch. Es ist glimpflicher ausgegangen, als er befürchtet hat. Beim Frühstück verteilt er schon wieder Aufgaben."
+    },
+    {
+      "id": "einfluss.epilog.ahmet.verfehlt",
+      "text": "Ahmet hat heute gelernt, dass sich nicht alles organisieren lässt. Beim Frühstück plant er trotzdem das nächste Treffen, diesmal mit ehrlichen Preisen."
+    },
+    {
+      "id": "einfluss.epilog.fatma.erreicht",
+      "text": "Fatma lehnt sich endlich wieder entspannt zurück. So schlimm wie befürchtet ist es für sie nicht gekommen. Am Morgen skizziert sie schon wieder Muster."
+    },
+    {
+      "id": "einfluss.epilog.fatma.verfehlt",
+      "text": "Fatma weiß jetzt, dass sich nicht alles leise regeln lässt. Am Morgen zeichnet sie wieder, aber nur Dinge, die ihr gehören."
+    },
+    {
+      "id": "einfluss.epilog.olli.erreicht",
+      "text": "Olli streckt erleichtert die Beine aus. Die Nacht war halb so wild wie befürchtet. Beim Aufräumen packt er schon wieder überall mit an."
+    },
+    {
+      "id": "einfluss.epilog.olli.verfehlt",
+      "text": "Olli sieht jetzt ein, dass er nicht alles allein stemmen kann. Beim Aufräumen plant er schon die Reparatur der Bogentür, diesmal mit Erlaubnis."
+    },
+    {
+      "id": "einfluss.epilog.can.erreicht",
+      "text": "Can sitzt zum ersten Mal an diesem Abend ganz still. Das Ende der Nacht war besser als befürchtet. Beim Frühstück filmt er schon wieder alle."
+    },
+    {
+      "id": "einfluss.epilog.can.verfehlt",
+      "text": "Can hat begriffen, dass sich nicht alles einfach weglachen lässt. Beim Frühstück reißt er trotzdem Witze, diesmal ganz ohne Verkleidung."
+    },
+    {
+      "id": "einfluss.epilog.leyla.erreicht",
+      "text": "Lejla hat in dieser Nacht zu ihrem Cousin gehalten, so gut es ging. Am Morgen schiebt sie Ahmet die größte Portion hin. Er isst alles auf, ganz ohne Widerrede."
+    },
+    {
+      "id": "einfluss.epilog.leyla.verfehlt",
+      "text": "Diese Nacht liegt Lejla schwer im Magen. Am Morgen verordnet sie Ahmet Kamillentee und ein ernstes Gespräch. Den Tee trinkt er sofort."
+    },
+    {
+      "id": "einfluss.epilog.emine.erreicht",
+      "text": "Emine schenkt Fatma am Morgen als Erste Tee ein. Für sie war die Nacht eine Prüfung in Freundschaft. Ihre eigene Note: bestanden."
+    },
+    {
+      "id": "einfluss.epilog.emine.verfehlt",
+      "text": "Emine gibt dieser Nacht keine gute Note. Am Morgen sitzt sie trotzdem neben Fatma. Manche Freundschaften überstehen auch ein schlechtes Zeugnis."
+    },
+    {
+      "id": "einfluss.epilog.tim.erreicht",
+      "text": "Tim ist mit sich zufrieden. Am Morgen bietet er an, den Toaster zu verbessern. Alle rufen gleichzeitig nein, und er nimmt es sportlich."
+    },
+    {
+      "id": "einfluss.epilog.tim.verfehlt",
+      "text": "Tim verspricht feierlich, seine alte Mehrfachsteckdose zu entsorgen. Beim Aufräumen sieht man ihn trotzdem nachdenklich ein Kabel betrachten."
+    },
+    {
+      "id": "einfluss.epilog.johanna.erreicht",
+      "text": "Joanna hat in dieser Nacht mehr beobachtet als fotografiert. Am Morgen macht sie trotzdem das schönste Bild des Abends: alle müde, alle zusammen."
+    },
+    {
+      "id": "einfluss.epilog.johanna.verfehlt",
+      "text": "Joanna findet, diese Nacht ist ziemlich unscharf geworden. Am Morgen ruft sie trotzdem alle zum Gruppenbild. Sogar Herr Schneider lächelt, wenn auch nur sehr kurz."
+    },
+    {
+      "id": "einfluss.epilog.murat.erreicht",
+      "text": "Marek packt am Morgen die leeren Platten ein und ist zufrieden. Die Nacht war wie ein großes Catering: anstrengend, laut, aber satt geworden sind alle."
+    },
+    {
+      "id": "einfluss.epilog.murat.verfehlt",
+      "text": "Für Marek war die Nacht wie ein Menü ohne Nachtisch. Beim Abschied erzählt er jedem, wie unheimlich alles war. Er übertreibt dabei nur ein kleines bisschen."
+    },
+    {
+      "id": "einfluss.epilog.zeynep.erreicht",
+      "text": "Zeynep legt Can am Morgen den Arm um die Schultern wie nach einem harten Spiel. Für sie zählt nur eins: Die Mannschaft hält zusammen."
+    },
+    {
+      "id": "einfluss.epilog.zeynep.verfehlt",
+      "text": "Zeynep wertet die Nacht aus wie ein verlorenes Spiel: Fehler ansprechen, Kopf hoch, weitermachen. Danach lässt sie Can zur Sicherheit noch zehn Liegestütze machen."
+    },
+    {
+      "id": "einfluss.epilog.baran.erreicht",
+      "text": "Baran legt zum Frühstück ein ruhiges Lied auf, ganz leise. Herr Schneider nickt im Takt. Baran hält das für den größten Erfolg seiner Laufbahn."
+    },
+    {
+      "id": "einfluss.epilog.baran.verfehlt",
+      "text": "Dieser Nacht fehlte für Baran der richtige Rhythmus. Am Morgen sucht er ein passendes Lied dazu. Er findet keins, und das sagt eigentlich alles."
+    },
+    {
+      "id": "einfluss.epilog.meryem.erreicht",
+      "text": "Hana bringt Herrn Schneider am Morgen einen Lappen für die rußige Wand. Er brummt, aber es klingt fast freundlich. Sie nimmt das als Versöhnung."
+    },
+    {
+      "id": "einfluss.epilog.meryem.verfehlt",
+      "text": "Hana hätte in dieser Nacht mehr frische Luft gebraucht. Beim Aufräumen erklärt ihr Herr Schneider zum dritten Mal, wo die Kaminklappe sitzt. Diesmal hört sie genau zu."
+    },
+    {
+      "id": "einfluss.epilog.serkan.erreicht",
+      "text": "Serkan fährt am Morgen alle sicher nach Hause, auf dem kürzesten Weg. Im Rückspiegel sieht er müde, zufriedene Gesichter. Mehr braucht er nicht."
+    },
+    {
+      "id": "einfluss.epilog.serkan.verfehlt",
+      "text": "Serkan fährt am Morgen alle nach Hause, nur später als gedacht. Er bleibt gelassen wie immer. Nur sein Plan, wer mit wem fährt, ist ein einziges Durcheinander."
+    },
+    {
+      "id": "einfluss.epilog.aylin.erreicht",
+      "text": "Aylin heftet am Morgen ihren Beleg sorgfältig ab. Für sie ist die Nacht damit sauber verbucht. Mehr Glück braucht eine Steuerfachangestellte nicht."
+    },
+    {
+      "id": "einfluss.epilog.aylin.verfehlt",
+      "text": "Für Aylin ist diese Nacht nicht ordentlich verbucht. Am Morgen legt sie einen Ordner für das nächste Treffen an. Aufschrift: Offene Posten."
+    },
+    {
+      "id": "einfluss.epilog.kaan.erreicht",
+      "text": "Wojtek misst am Morgen zum Spaß noch den Frühstückstisch aus. Sein Fazit: Eine gute Freundschaft ist stabiler als jedes alte Gewölbe."
+    },
+    {
+      "id": "einfluss.epilog.kaan.verfehlt",
+      "text": "Wojtek hat gelernt, dass man eine Schramme besser zeigt als verdeckt. Am Morgen zeichnet er Olli schon die neue Bogentür, mit Bauanleitung."
+    },
+    {
+      "id": "einfluss.epilog.dilara.erreicht",
+      "text": "Azra hat gezeigt, dass sie mehr sieht als alten Trödel. Am Morgen schätzt sie den Wert der Nacht: unbezahlbar und unverkäuflich."
+    },
+    {
+      "id": "einfluss.epilog.dilara.verfehlt",
+      "text": "Azra vergleicht die Nacht mit einem Flohmarkt im Regen: viel Gedränge, wenig Fundstücke. Zum Abschied feilscht sie trotzdem um den letzten Keks. Und gewinnt."
+    },
+    {
+      "id": "einfluss.epilog.enes.erreicht",
+      "text": "Damir schenkt am Morgen den letzten Tee aus. Herr Schneider nimmt ein Glas und sagt tatsächlich danke. Für Damir ist das ein kleines Wunder."
+    },
+    {
+      "id": "einfluss.epilog.enes.verfehlt",
+      "text": "Damir hat sich die Nacht ruhiger vorgestellt. Am Morgen kocht er trotzdem Tee für alle, auch für die, die nein sagen. Gerade für die."
+    },
+    {
+      "id": "einfluss.epilog.selin.erreicht",
+      "text": "Sibel ist stolz: Die zweite Hälfte der Nacht hat sie ganz ohne Schrei überstanden. Am Tisch sitzt sie trotzdem mit dem Rücken zur Wand. Sicher ist sicher."
+    },
+    {
+      "id": "einfluss.epilog.selin.verfehlt",
+      "text": "Sibel hat in dieser Nacht mehr gezittert als im ganzen Studium. Am Morgen erklärt sie trotzdem jedem, wie nützlich Fledermäuse sind. Nur bitte nicht so nah."
+    },
+    {
+      "id": "einfluss.epilog.hakan.erreicht",
+      "text": "Pawel hat in dieser Nacht mehr geschlichtet als sonst in einem ganzen Jahr. Beim Frühstück reicht Herr Schneider ihm wortlos die Butter. Pawel wertet das als Friedensvertrag."
+    },
+    {
+      "id": "einfluss.epilog.hakan.verfehlt",
+      "text": "Pawel findet, diese Nacht war kaum zu schlichten. Am Morgen entwirft er trotzdem Regeln für das nächste Treffen. Regel eins: Alles wird vor Mitternacht besprochen."
+    },
+    {
+      "id": "einfluss.epilog.tugba.erreicht",
+      "text": "Tugba hakt am Morgen den letzten Punkt ihres Ablaufplans ab. Nicht alles lief nach Plan, aber genug. Fürs nächste Treffen plant sie einen Puffer für Gespenster ein."
+    },
+    {
+      "id": "einfluss.epilog.tugba.verfehlt",
+      "text": "Tugba sieht auf ihren Ablaufplan und streicht ihn ganz langsam durch. Beim Frühstück schreibt sie einen neuen. Erster Punkt: nichts planen."
+    },
+    {
+      "id": "einfluss.bot.ahmet.ertappt",
+      "text": "Erwischt, ich lass halt keinen hängen!"
+    },
+    {
+      "id": "einfluss.bot.ahmet.geruecht",
+      "text": "Statt zu tuscheln, meldet euch lieber bei mir!"
+    },
+    {
+      "id": "einfluss.bot.ahmet.freund_gestanden",
+      "text": "Puh, das muss ich erst mal sortieren."
+    },
+    {
+      "id": "einfluss.bot.ahmet.ablenken",
+      "text": "Was denn, jeder braucht doch eine Aufgabe!"
+    },
+    {
+      "id": "einfluss.bot.fatma.ertappt",
+      "text": "Erwischt, ich wollte nur nett sein!"
+    },
+    {
+      "id": "einfluss.bot.fatma.geruecht",
+      "text": "Statt zu tuscheln, sagt mir lieber eure Meinung!"
+    },
+    {
+      "id": "einfluss.bot.fatma.freund_gestanden",
+      "text": "Puh, da fehlen mir glatt die Farben."
+    },
+    {
+      "id": "einfluss.bot.fatma.ablenken",
+      "text": "Was denn, die Farbe war wirklich wichtig!"
+    },
+    {
+      "id": "einfluss.bot.olli.ertappt",
+      "text": "Erwischt, ich steh eben zu Kumpels!"
+    },
+    {
+      "id": "einfluss.bot.olli.geruecht",
+      "text": "Statt zu tuscheln, packt lieber mal mit an!"
+    },
+    {
+      "id": "einfluss.bot.olli.freund_gestanden",
+      "text": "Puh, das wiegt ja schwerer als Klaviere."
+    },
+    {
+      "id": "einfluss.bot.olli.ablenken",
+      "text": "Was denn, die Pyramide war echt stabil!"
+    },
+    {
+      "id": "einfluss.bot.can.ertappt",
+      "text": "Erwischt, ich dreh die Szene nochmal!"
+    },
+    {
+      "id": "einfluss.bot.can.geruecht",
+      "text": "Statt zu tuscheln, sagt es lauter, ich filme!"
+    },
+    {
+      "id": "einfluss.bot.can.freund_gestanden",
+      "text": "Puh, und ich hab das nicht gefilmt."
+    },
+    {
+      "id": "einfluss.bot.can.ablenken",
+      "text": "Was denn, der Witz war wirklich spitze!"
+    },
+    {
+      "id": "einfluss.bot.leyla.ertappt",
+      "text": "Dagegen hilft leider auch keine Salbe."
+    },
+    {
+      "id": "einfluss.bot.leyla.geruecht",
+      "text": "Wer tuschelt, hat bestimmt nur Hunger."
+    },
+    {
+      "id": "einfluss.bot.leyla.freund_gestanden",
+      "text": "Mutig, dafür kriegst du die größte Portion!"
+    },
+    {
+      "id": "einfluss.bot.leyla.ablenken",
+      "text": "Gegen Schnupfen hilft Kamillentee, glaubt mir!"
+    },
+    {
+      "id": "einfluss.bot.emine.ertappt",
+      "text": "Oje, das gibt einen Eintrag ins Klassenbuch."
+    },
+    {
+      "id": "einfluss.bot.emine.geruecht",
+      "text": "Psst, wer etwas sagen will, meldet sich!"
+    },
+    {
+      "id": "einfluss.bot.emine.freund_gestanden",
+      "text": "Sehr gut, dafür gibt es ein Bienchen!"
+    },
+    {
+      "id": "einfluss.bot.emine.ablenken",
+      "text": "Glaubt mir, Zweierreihen beruhigen ungemein."
+    },
+    {
+      "id": "einfluss.bot.tim.ertappt",
+      "text": "Hoppla, da war wohl eine Schraube locker."
+    },
+    {
+      "id": "einfluss.bot.tim.geruecht",
+      "text": "Lass mal, das Gerede schau ich mir an."
+    },
+    {
+      "id": "einfluss.bot.tim.freund_gestanden",
+      "text": "Hut ab, das war mutiger als jedes Bastelprojekt!"
+    },
+    {
+      "id": "einfluss.bot.tim.ablenken",
+      "text": "Die Bank quietscht jetzt in Dur, Fortschritt!"
+    },
+    {
+      "id": "einfluss.bot.johanna.ertappt",
+      "text": "Oh nein, ausgerechnet ich im Mittelpunkt!"
+    },
+    {
+      "id": "einfluss.bot.johanna.geruecht",
+      "text": "Ihr tuschelt über mich, dann bitte lächeln!"
+    },
+    {
+      "id": "einfluss.bot.johanna.freund_gestanden",
+      "text": "So ehrlich, da heul ich wie auf Hochzeiten!"
+    },
+    {
+      "id": "einfluss.bot.johanna.ablenken",
+      "text": "Neunter Versuch, und jetzt lächeln fast alle!"
+    },
+    {
+      "id": "einfluss.bot.murat.ertappt",
+      "text": "Herrje, das darf meine Schwester nie erfahren!"
+    },
+    {
+      "id": "einfluss.bot.murat.geruecht",
+      "text": "Man redet über mich, hoffentlich über die Häppchen!"
+    },
+    {
+      "id": "einfluss.bot.murat.freund_gestanden",
+      "text": "Respekt, das war ehrlicher als jede Speisekarte!"
+    },
+    {
+      "id": "einfluss.bot.murat.ablenken",
+      "text": "Sieht komisch aus, schmeckt aber hervorragend!"
+    },
+    {
+      "id": "einfluss.bot.zeynep.ertappt",
+      "text": "Klares Foul, ich geh freiwillig vom Platz."
+    },
+    {
+      "id": "einfluss.bot.zeynep.geruecht",
+      "text": "Wer von der Bank tuschelt, kommt aufs Feld!"
+    },
+    {
+      "id": "einfluss.bot.zeynep.freund_gestanden",
+      "text": "Stark, so spielt eine echte Mannschaft!"
+    },
+    {
+      "id": "einfluss.bot.zeynep.ablenken",
+      "text": "Kniebeugen machen wach, also los, mehr Einsatz!"
+    },
+    {
+      "id": "einfluss.bot.baran.ertappt",
+      "text": "Ups, da hab ich den Takt verpasst."
+    },
+    {
+      "id": "einfluss.bot.baran.geruecht",
+      "text": "Wenn ihr tuschelt, leg ich was Lauteres auf!"
+    },
+    {
+      "id": "einfluss.bot.baran.freund_gestanden",
+      "text": "Dafür schreib ich glatt ein eigenes Lied."
+    },
+    {
+      "id": "einfluss.bot.baran.ablenken",
+      "text": "Das war kein Durcheinander, das war ein Chor!"
+    },
+    {
+      "id": "einfluss.bot.meryem.ertappt",
+      "text": "Verflixt, im Wald hätte mich keiner gesehen."
+    },
+    {
+      "id": "einfluss.bot.meryem.geruecht",
+      "text": "Dieses Raunen klingt wie Wildschweine im Unterholz."
+    },
+    {
+      "id": "einfluss.bot.meryem.freund_gestanden",
+      "text": "Bravo, ehrlich wächst am längsten!"
+    },
+    {
+      "id": "einfluss.bot.meryem.ablenken",
+      "text": "Der Waldkauz war doch täuschend echt, oder?"
+    },
+    {
+      "id": "einfluss.bot.serkan.ertappt",
+      "text": "Ruhig bleiben, alles im grünen Bereich."
+    },
+    {
+      "id": "einfluss.bot.serkan.geruecht",
+      "text": "Wer über mich tuschelt, fährt nachher hinten."
+    },
+    {
+      "id": "einfluss.bot.serkan.freund_gestanden",
+      "text": "Gut so, dann fährt es sich leichter heim."
+    },
+    {
+      "id": "einfluss.bot.serkan.ablenken",
+      "text": "Wer wo sitzt, klären wir besser jetzt."
+    },
+    {
+      "id": "einfluss.bot.aylin.ertappt",
+      "text": "Peinlich, das verbuche ich unter Sonstiges."
+    },
+    {
+      "id": "einfluss.bot.aylin.geruecht",
+      "text": "Gerüchte bitte schriftlich und in doppelter Ausführung."
+    },
+    {
+      "id": "einfluss.bot.aylin.freund_gestanden",
+      "text": "Vorbildlich, das hefte ich gleich ordentlich ab!"
+    },
+    {
+      "id": "einfluss.bot.aylin.ablenken",
+      "text": "Ohne Punktetabelle weiß doch keiner Bescheid."
+    },
+    {
+      "id": "einfluss.bot.kaan.ertappt",
+      "text": "Na gut, statisch war das nicht ganz sauber."
+    },
+    {
+      "id": "einfluss.bot.kaan.geruecht",
+      "text": "Diese alten Mauern haben wirklich Ohren."
+    },
+    {
+      "id": "einfluss.bot.kaan.freund_gestanden",
+      "text": "Respekt, das trägt besser als jedes Gewölbe."
+    },
+    {
+      "id": "einfluss.bot.kaan.ablenken",
+      "text": "Okay, ich stand schief, das Gewölbe aber auch."
+    },
+    {
+      "id": "einfluss.bot.dilara.ertappt",
+      "text": "Na toll, das war ein glatter Fehlkauf."
+    },
+    {
+      "id": "einfluss.bot.dilara.geruecht",
+      "text": "Gerüchte über mich, was bietet ihr dafür?"
+    },
+    {
+      "id": "einfluss.bot.dilara.freund_gestanden",
+      "text": "Ehrliche Ware, das ist ein echter Fund!"
+    },
+    {
+      "id": "einfluss.bot.dilara.ablenken",
+      "text": "Zwei Kekse für einen Platz sind fair!"
+    },
+    {
+      "id": "einfluss.bot.enes.ertappt",
+      "text": "Ertappt wie im Kindergarten, nur ohne Mittagsschlaf."
+    },
+    {
+      "id": "einfluss.bot.enes.geruecht",
+      "text": "Getuschel über mich, dann setz ich Tee auf."
+    },
+    {
+      "id": "einfluss.bot.enes.freund_gestanden",
+      "text": "Gut gemacht, und jetzt erst mal tief durchatmen!"
+    },
+    {
+      "id": "einfluss.bot.enes.ablenken",
+      "text": "Eine Teepause ist kein Trubel, sondern Pflicht."
+    },
+    {
+      "id": "einfluss.bot.selin.ertappt",
+      "text": "Huch, mein Herz rutscht gerade in den Schal!"
+    },
+    {
+      "id": "einfluss.bot.selin.geruecht",
+      "text": "Habt ihr gerade auch meinen Namen gehört?"
+    },
+    {
+      "id": "einfluss.bot.selin.freund_gestanden",
+      "text": "Wow, das hätte ich mich nie getraut!"
+    },
+    {
+      "id": "einfluss.bot.selin.ablenken",
+      "text": "Das war wirklich der Wind, diesmal bestimmt."
+    },
+    {
+      "id": "einfluss.bot.hakan.ertappt",
+      "text": "Zugegeben, ich plädiere auf gute Absicht."
+    },
+    {
+      "id": "einfluss.bot.hakan.geruecht",
+      "text": "Einspruch, das ist reines Hörensagen!"
+    },
+    {
+      "id": "einfluss.bot.hakan.freund_gestanden",
+      "text": "Vernünftig, das klären wir jetzt in Ruhe."
+    },
+    {
+      "id": "einfluss.bot.hakan.ablenken",
+      "text": "Die Sitzfrage ist hiermit offiziell vertagt."
+    },
+    {
+      "id": "einfluss.bot.tugba.ertappt",
+      "text": "Mist, das steht so in keinem Plan."
+    },
+    {
+      "id": "einfluss.bot.tugba.geruecht",
+      "text": "Getuschel war erst für später eingeplant!"
+    },
+    {
+      "id": "einfluss.bot.tugba.freund_gestanden",
+      "text": "Perfekt, das liegt genau im Zeitplan!"
+    },
+    {
+      "id": "einfluss.bot.tugba.ablenken",
+      "text": "Das Spiel war schnell, nur das Erklären nicht."
+    }
+  ]
+}

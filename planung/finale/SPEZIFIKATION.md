@@ -461,3 +461,17 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   24. Noch offen aus der Zusammenführung: Punkt 7 (`einfluss.wieder` im Zwischenresümee statt als letzter Folgen-Baustein)
       ist nicht umgesetzt. Er wird beim Einspielen der Inhalte umgesetzt; `einfluss_soll.g.dart` darf bis zur ersten
       Zusammenführung nach `main` neu erzeugt werden (E-048).
+- 2026-10-27 (Stufe 3, Inhalte eingespielt):
+  25. **Kapiteltitel der Vorstellung:** `ui.einstimmung.titel.vorstellung` („Wer heute mitfeiert“) gilt für alle Schritte
+      der Vorstellungsrunde (`Einstimmung.vorstellungTitel`; `EinstimmungSchritt.titel` ist nie mehr `null`;
+      `Einstimmung.titel()` hängt ihn mit Vorstellung an). `pruefeEinstimmung` prüft ihn wie die Teiltitel und meldet einen
+      Teil der Vorgeschichte mit der ID `vorstellung`.
+  26. **Punkt 7/24 umgesetzt:** `SpielZusatz.nachgereichtIn(runde)` (pfadfrei, hängt nur an Umweg oder „mauert“, nie daran,
+      ob der Fund im Pfad Fakten trägt); `Erzaehler.resuemee` setzt `einfluss.wieder` dann an den Anfang des
+      Zwischenresümees; `einflussFolgen` endet mit den Ereignissen. `einfluss_soll.g.dart` wurde nach E-048 neu erzeugt;
+      mit zurückgenommener Änderung passt die alte Liste weiterhin (einzige Ursache geprüft).
+  27. **Netz 50 Kanten:** die fünf heimlichen Bezüge zu Herrn Schneider aus dem Querabgleich sind Kanten (Lejla Genehmigung
+      fürs Essen `streit`, Joanna Streitfoto `arbeit`, Aylin Quittung `schuld`, Wojtek Möbelwachs `schuld`, Azra Vitrine
+      `streit`); Quellen sind Motiv, Geheimnis und Nebendelikt, in allen Pfaden gleich.
+  28. **Lauschen:** `einfluss.privat.gelauscht` „Gelauscht: @figur spielt @zug auf @ziel“, `.ohne_ziel` ohne „auf @ziel“,
+      `.abgewartet` „Gelauscht: @figur hat diese Runde abgewartet“.

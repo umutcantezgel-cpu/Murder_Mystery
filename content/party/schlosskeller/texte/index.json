@@ -233,6 +233,18 @@
     {
       "datei": "ui-druck-paket.json",
       "bereich": "ui"
+    },
+    {
+      "datei": "erzaehler-vorgeschichte.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "erzaehler-vorstellung.json",
+      "bereich": "erzaehler"
+    },
+    {
+      "datei": "einfluss.json",
+      "bereich": "einfluss"
     }
   ]
 }

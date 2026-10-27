@@ -488,9 +488,17 @@ void main() {
           {'id': 'ui.falsch', 'text': 'Nicht hier'},
         ],
       };
+      // Die Probe ersetzt die echten Einfluss-Texte (sonst gälten deren Kennungen zuerst).
       final sammlung = Textsammlung.lade((p) {
         if (p == 'texte/index.json') {
-          return {...index, 'dateien': [...index['dateien'] as List, {'datei': 'einfluss-probe.json', 'bereich': 'einfluss'}]};
+          return {
+            ...index,
+            'dateien': [
+              for (final d in index['dateien'] as List)
+                if ((d as Map)['bereich'] != 'einfluss') d,
+              {'datei': 'einfluss-probe.json', 'bereich': 'einfluss'},
+            ],
+          };
         }
         if (p == 'texte/einfluss-probe.json') return probe;
         return leseJson('$ordner/$p');

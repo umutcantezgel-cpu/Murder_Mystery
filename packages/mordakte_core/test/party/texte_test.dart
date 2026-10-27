@@ -276,6 +276,8 @@ void main() {
 
   test('Lückenliste nennt fehlende Teile (Vollständigkeit prüft das F3-Tor)', () {
     final l = textLuecken(kanon, _sammlung());
-    expect(l.where((x) => x.startsWith('Erzähler-Baustein')), hasLength(Erzaehler(kanon).katalog().length - _sammlung().bausteine.keys.where((k) => !k.startsWith('detektiv.') && !k.startsWith('ermittlungsbogen.') && !k.startsWith('ui.')).length));
+    // Einfluss-Texte gehören zum Einfluss-Katalog (pruefeEinfluss), nicht zum Erzähler.
+    bool erzaehler(String k) => !k.startsWith('detektiv.') && !k.startsWith('ermittlungsbogen.') && !k.startsWith('ui.') && !k.startsWith('einfluss.');
+    expect(l.where((x) => x.startsWith('Erzähler-Baustein')), hasLength(Erzaehler(kanon).katalog().length - _sammlung().bausteine.keys.where(erzaehler).length));
   });
 }
