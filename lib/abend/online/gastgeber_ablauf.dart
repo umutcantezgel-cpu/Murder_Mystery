@@ -229,6 +229,7 @@ class _Menue extends StatelessWidget {
                 art: MKnopfArt.zweit,
                 mitErzaehler: sitzung.daten.mitErzaehlerSitz,
                 detektivWort: detektivBezeichnung(l, sitzung.daten),
+                einfluss: sitzung.einfluss,
               ),
             ),
             const SizedBox(height: MMass.s16),

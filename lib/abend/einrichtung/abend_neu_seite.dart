@@ -286,6 +286,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         minuten: g.werte.minuten,
         stimme: g.werte.stimme,
         fassung: g.werte.langfassung ? g.werte.fassung : Abendfassung.kurz,
+        einfluss: g.werte.einflussAn,
       );
       if (!mounted) {
         await dienst.schliessen();
@@ -415,6 +416,7 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                   final s? when s.hatText('ui.allgemein.detektiv') => s.text('ui.allgemein.detektiv'),
                   _ => null,
                 },
+                einfluss: _geladen?.werte.einflussAn ?? false,
               ),
             ),
           ],
@@ -459,6 +461,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                   if (_weise != Spielweise.solo) (l.abend_start_dauer, l.common_minutes(g.werte.minuten)),
                   // Kurzer oder langer Abend und seine Länge (M7b), nur Akten mit Langfassung.
                   if (g.werte.langfassung) (l.abend_start_fassung, g.werte.fassung.istLang ? l.abend_fassung_lang : l.abend_fassung_kurz),
+                  // „Dein Moment“ (Finale §3), nur Akten mit Regeln.
+                  if (g.werte.einflussMoeglich) (l.abend_start_moment, g.werte.einflussAn ? l.abend_moment_an : l.abend_moment_aus),
                   if (g.werte.abendMinutenCa case final ca? when _weise != Spielweise.solo) (l.abend_start_laenge, l.abend_ca_minuten(ca)),
                   // Rollen am Tisch (M3): reihum der Erzähler, online der eigene Platz.
                   if (g.werte.mitErzaehler && _weise == Spielweise.reihum)

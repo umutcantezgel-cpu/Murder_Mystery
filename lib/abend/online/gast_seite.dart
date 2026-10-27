@@ -248,7 +248,7 @@ class GastFuss extends StatelessWidget {
             icon: Icons.badge_outlined,
             onPressed: () => zeigeDetektivKarte(context, karte),
           ),
-        RollenUebersichtKnopf(hervorheben: c.ich?.sitz, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort),
+        RollenUebersichtKnopf(hervorheben: c.ich?.sitz, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort, einfluss: c.v['einfluss'] is Map),
         MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: onVerlassen),
       ],
     );

@@ -309,7 +309,7 @@ class _GastgeberLobbySeiteState extends State<GastgeberLobbySeite> {
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: RollenUebersichtKnopf(hervorheben: ich?.sitz, mitErzaehler: d.daten.mitErzaehlerSitz, detektivWort: detektivBezeichnung(l, d.daten)),
+          child: RollenUebersichtKnopf(hervorheben: ich?.sitz, mitErzaehler: d.daten.mitErzaehlerSitz, detektivWort: detektivBezeichnung(l, d.daten), einfluss: d.raum.einfluss != null),
         ),
         if (vorschlag.isNotEmpty) ...[
           const SizedBox(height: MMass.s8),

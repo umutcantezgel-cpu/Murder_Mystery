@@ -7,6 +7,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mordakte/abend/einrichtung/abend_neu_seite.dart' show Spielweise;
+import 'package:mordakte/abend/einrichtung/abschnitte.dart';
+import 'package:mordakte/abend/rollen_uebersicht.dart';
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/anklage.dart';
 import 'package:mordakte/party/bildschirme/aufloesung.dart';
 import 'package:mordakte/party/bildschirme/einfluss_teile.dart';
@@ -324,5 +328,51 @@ void main() {
     expect(s.verdeckt, isNull);
     expect(find.byType(MomentBildschirm), findsNothing);
     expect(find.text(momentTexte(t.element(find.byType(RundeBildschirm))).moment_zeile('fertig')), findsOneWidget);
+  });
+
+  group('Einrichtung', () {
+    testWidgets('Schalter „Dein Moment“: an bei Akten mit Regeln, aus im Druckspiel', (t) async {
+      final s = PartySitzung(einflussDaten, salz: 'einrichtung');
+      final w = EinrichtungsWerte(s);
+      addTearDown(w.dispose);
+      expect((w.einflussMoeglich, w.einfluss, w.einflussAn), (true, true, true));
+      await t.pumpWidget(rahmen(SingleChildScrollView(child: EinrichtungsAbschnitte(werte: w))));
+      expect(find.byType(MomentAbschnitt), findsOneWidget);
+      await t.ensureVisible(find.byKey(const ValueKey('moment-schalter')));
+      await t.tap(find.byKey(const ValueKey('moment-schalter')));
+      await t.pump();
+      expect(w.einflussAn, isFalse);
+      await t.tap(find.byKey(const ValueKey('moment-schalter')));
+      await t.pump();
+      expect(w.einflussAn, isTrue);
+      // Im Druckspiel nie: Papierstreifen A/B bleiben.
+      w.setzeSpielart(Spielart.druck);
+      await t.pump();
+      expect(w.einflussAn, isFalse);
+      expect(find.byType(MomentAbschnitt), findsNothing);
+      w.setzeSpielart(Spielart.bildschirm);
+      w.starten();
+      expect(s.einfluss, isTrue);
+    });
+
+    test('Akte ohne Regeln: kein Schalter, Abend ohne Schicht', () {
+      final s = PartySitzung(partyDaten, salz: 'ohne');
+      final w = EinrichtungsWerte(s);
+      expect(w.einflussMoeglich, isFalse);
+      expect(w.einflussAn, isFalse);
+      w.starten();
+      expect(s.einfluss, isFalse);
+      expect(() => PartySitzung(partyDaten).einrichten(rollen: 4, detektiv: 'w', einfluss: true), throwsArgumentError);
+      w.dispose();
+    });
+
+    test('Wer macht was: Aufgaben mit „Dein Moment“', () {
+      final l = LDe();
+      expect(aufgabe(l, Spielweise.reihum, Sitz.rolle, UebersichtPhase.gespraeche, einfluss: true), l.aufgabe_rolle_moment);
+      expect(aufgabe(l, Spielweise.eigene, Sitz.detektiv, UebersichtPhase.entscheidungen, einfluss: true), l.aufgabe_detektiv_tischwerte);
+      expect(aufgabe(l, Spielweise.eigene, Sitz.erzaehler, UebersichtPhase.entscheidungen, einfluss: true), l.aufgabe_erzaehler_folgen);
+      // Ohne Schicht wie bisher.
+      expect(aufgabe(l, Spielweise.reihum, Sitz.rolle, UebersichtPhase.gespraeche), l.aufgabe_rolle_gespraeche);
+    });
   });
 }
