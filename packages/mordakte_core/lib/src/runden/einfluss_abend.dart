@@ -62,6 +62,36 @@ class EinflussFund {
         'verzoegert': verzoegert,
         'befragung': ?befragung?.name,
       };
+
+  /// Kennzeichen aus der Ansicht des Raums ([toJson]); [FormatException] bei falscher Form.
+  factory EinflussFund.ausJson(Map<String, Object?> j) {
+    final tisch = j['tisch'], notizen = j['randnotizen'] ?? const <Object?>[];
+    final ertappt = j['ertappt'], ziel = j['ertapptZiel'], befragung = j['befragung'];
+    if (tisch is! int || notizen is! List || notizen.any((n) => n is! String) || (ertappt != null && ertappt is! String) ||
+        (ziel != null && ziel is! String) || (befragung != null && befragung is! String)) {
+      throw const FormatException('EinflussFund: tisch, randnotizen, ertappt, ertapptZiel, befragung');
+    }
+    final lage = befragung == null ? null : BefragungsLage.values.where((l) => l.name == befragung).firstOrNull;
+    if (befragung != null && lage == null) throw FormatException('EinflussFund: unbekannte Befragungslage $befragung');
+    return EinflussFund(
+      tisch: tisch,
+      randnotizen: List.unmodifiable(notizen.cast<String>()),
+      ertappt: ertappt as String?,
+      ertapptZiel: ziel as String?,
+      verwischt: j['verwischt'] == true,
+      verzoegert: j['verzoegert'] == true,
+      befragung: lage,
+    );
+  }
+}
+
+/// Wortlaut eines Fakts, wie ihn eine Fundkarte zeigt (Beobachtung oder was die Spur zeigt). Für Fakten aus
+/// dem Auspacken (§3.6), die es in jeder Fassung des Falls gibt; so liest ein Gerät sie aus seiner Akte.
+String faktWortlaut(Ermittlung erm, String faktId) {
+  final f = erm.fakten[faktId] ?? (throw ArgumentError('unbekannter Fakt $faktId'));
+  final quelle = f.beobachtung != null ? erm.beobachtungJson(f.beobachtung!) : erm.spurJson(f.spur!);
+  final text = quelle?[f.beobachtung != null ? 'text' : 'zeigt'];
+  return text is String ? text : throw ArgumentError('Fakt $faktId ohne Wortlaut');
 }
 
 /// Die Schicht eines Abends: Züge, Folgen, Tischwerte, Randnotizen, Verzögerungen, Ertappte, Nachfragen,
@@ -90,6 +120,9 @@ class EinflussAbend implements SpielZusatz {
   final List<String> _randnotizen = [];
   final Map<String, EinflussFund> _funde = {};
   final List<({String option, String notiz})> _nachfragen = [];
+
+  /// Ertappte in der Reihenfolge der Suchen.
+  final List<({int runde, String rolle, String entscheidung})> _ertappt = [];
 
   /// Gezeigte Randnotizen in Reihenfolge (Auspacken, Zusatzfunde, Redselig, Nachfragen).
   List<String> get randnotizen => List.unmodifiable(_randnotizen);
@@ -240,6 +273,7 @@ class EinflussAbend implements SpielZusatz {
         if (ertappt != null) {
           stand.ertapptMelden(ertappt);
           ziel = stand.zug(runde, ertappt)!.ziel;
+          _ertappt.add((runde: runde, rolle: ertappt, entscheidung: entscheidung));
         }
       }
       fund = EinflussFund(
@@ -321,6 +355,37 @@ class EinflussAbend implements SpielZusatz {
   List<ZielStand> zielStand(String rolle) {
     final p = protokoll();
     return [for (final z in ziele.von(rolle)) ziele.stand(z, p)];
+  }
+
+  /// Live-Stand der zwei Sterne von [rolle] mit dem Ziel (Kennung, Nummer, Text-Schlüssel), privat
+  /// jederzeit (§3.9): offen, erreicht oder verloren.
+  List<({EinflussZiel ziel, ZielStand stand})> zielStaende(String rolle) {
+    final p = protokoll();
+    return [for (final z in ziele.von(rolle)) (ziel: z, stand: ziele.stand(z, p))];
+  }
+
+  // ------------------------------------------------------------- Privat und Blasen (§3.11, §3.12)
+
+  /// Rollen, die in den Suchen von [runde] ertappt wurden, in der Reihenfolge der Suchen.
+  List<String> ertapptIn(int runde) => [for (final e in _ertappt) if (e.runde == runde) e.rolle];
+
+  /// Private Nachrichten an [rolle] in Reihenfolge (§3.12): je ausgewertete Runde zuerst die aus den Folgen
+  /// („hält zu dir“, Lauschergebnis, „Dein Zug wirkte …“), danach „ertappt“ ([PrivatArt.ertappt]) für jede
+  /// Suche dieser Runde, in der die Rolle öffentlich genannt wurde. Nur für diese Rolle bestimmt.
+  List<({int runde, PrivatNachricht nachricht})> privatFuer(String rolle) => [
+        for (final f in stand.folgen) ...[
+          for (final n in f.privat[rolle] ?? const <PrivatNachricht>[]) (runde: f.runde, nachricht: n),
+          for (final e in _ertappt)
+            if (e.runde == f.runde && e.rolle == rolle) (runde: f.runde, nachricht: const PrivatNachricht(PrivatArt.ertappt)),
+        ],
+      ];
+
+  /// Reaktionsblasen der Bots zu den Folgen von [runde] (§3.11, [botBlasen]); Anlass „ertappt“ aus den Suchen
+  /// der Runde davor. Wer ein Bot ist, sagt der Aufrufer ([istBot]): an einem Gerät die Rollen ohne
+  /// Spieler, online die Rollen, die beim Wechsel ohne Menschen waren.
+  List<BotBlase> blasen(int runde, {required bool Function(String rolle) istBot}) {
+    final f = stand.folgenVon(runde) ?? (throw StateError('Runde $runde ist nicht ausgewertet'));
+    return botBlasen(regeln, f, salz: salz, istBot: istBot, ertappt: ertapptIn(runde - 1));
   }
 
   /// Erreichte Sterne je besetzter Rolle (nach der Anklage endgültig).
