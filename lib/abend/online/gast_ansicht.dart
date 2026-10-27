@@ -241,8 +241,9 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, rundenMarke, l.online_phase_gruppenwahl, [GastGruppenwahl(key: ValueKey('wahl-${c.runde}'), kontext: c)]);
     case 'bonus':
       return _abschnitt(c, rundenMarke, l.online_phase_bonus, []);
+    // „Dein Moment“: im Zwischenresümee die Leisten und Gerüchte der Runde für alle.
     case 'resuemee':
-      return _abschnitt(c, rundenMarke, l.online_phase_resuemee, []);
+      return _abschnitt(c, rundenMarke, l.online_phase_resuemee, [?gastEinflussWirkungen(c)]);
     case 'anklage' when c.ermittelt:
       return _abschnitt(c, marke, l.online_phase_anklage, [GastAnklage(kontext: c)]);
     case 'anklage':
