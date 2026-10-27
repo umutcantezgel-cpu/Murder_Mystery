@@ -199,10 +199,10 @@ class _HeimlicherZugState extends State<HeimlicherZug> {
         ],
         LayoutBuilder(
           builder: (context, box) {
-            // Zwei Spalten, solange eine Kachel bei dieser Schrift mindestens 150 Punkte breit bleibt.
+            // Zwei Spalten, solange eine Kachel bei dieser Schrift mindestens 120 Punkte breit bleibt.
             final skala = MediaQuery.textScalerOf(context).scale(10) / 10;
             const abstand = MMass.s8;
-            final spalten = (box.maxWidth - abstand) / 2 / skala >= 150 ? 2 : 1;
+            final spalten = (box.maxWidth - abstand) / 2 / skala >= 120 ? 2 : 1;
             final breite = (box.maxWidth - abstand * (spalten - 1)) / spalten;
             return Wrap(
               spacing: abstand,
@@ -227,7 +227,8 @@ class _HeimlicherZugState extends State<HeimlicherZug> {
         ),
         if (a != null && _brauchtZiel(a)) ...[
           const SizedBox(height: MMass.s16),
-          MomentKopf(d.text('einfluss.zug.${a.name}.wahl')),
+          Text(d.text('einfluss.zug.${a.name}.wahl'), style: MPapierSchrift.ueberschrift.copyWith(fontSize: 18)),
+          const SizedBox(height: MMass.s8),
           _FigurenWahl(
             praefix: 'ziel',
             figuren: m.ziele[a]!,
