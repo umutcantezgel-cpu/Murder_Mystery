@@ -47,7 +47,8 @@ jobs:
     name: Prüfen (Analyse, Tests, Web-Build, Browser-Proben)
     runs-on: ubuntu-24.04
     # Rund 30 min bis M7a; die Browserprobe des langen Abends (tool/e2e/lang.mjs) kostet rund 9 min mehr.
-    timeout-minutes: 50
+    # Mit Einstimmung und „Dein Moment“ (A-063/A-064) rund 75 min, die Solo-Probe allein etwa 17 min (A-067).
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
