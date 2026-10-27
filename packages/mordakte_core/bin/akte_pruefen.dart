@@ -23,6 +23,10 @@
 //   Vorspiel/Morgen nur mit content/welt/<akte>/vorspiel_morgen.json (in welt.json als vorspielMorgen genannt, nur mit Langfassung
 //     und Zusatz langfassung): Schema und pruefeVorspielMorgen (M7b: Stationen erreichbar in ihrer Lage, Tore der Zeitleiste, R17,
 //     keine Fallhinweise, Fünf-Wort-Regel, Morgen ende-neutral oder je Ende, Ton)
+//   Einstimmung nur mit setting.vorgeschichte (A-063): pruefeEinstimmung (Größen, Namen und öffentliche Kanten der Erzählerakte,
+//     Ausgewogenheit, Fünf-Wort-Regel, verbotene Wörter, Ziffern; den Ton prüft schon Texte)
+//   Erzählerakte nur mit erzaehlerakte.json (Zusatz erzaehlerakte in akten.json): Schema und pruefeErzaehlerakte (Vollständigkeit,
+//     Größen, Netzregeln, pfadfrei, verbotene Wörter, Ton)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -145,6 +149,8 @@ void _pruefeAlles(String fall, Befunde b) {
   _erkundung(b, kanon, roh, wurzel, fall);
   _diashow(b, kanon, sammlung, wurzel, fall);
   _vorspielMorgen(b, kanon, texte, wurzel, fall);
+  _einstimmung(b, kanon, texte, ordner, wurzel, fall);
+  _erzaehlerakte(b, kanon, texte, ordner, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -160,6 +166,11 @@ void _schema(Befunde b, Kanon kanon, Textsammlung sammlung, String schemaOrdner,
   final steckbriefe = File('$ordner/steckbriefe.json');
   if (steckbriefe.existsSync()) {
     b.add('Schema', [for (final f in schema('steckbriefe').pruefe(_lies(steckbriefe.path))) 'steckbriefe.json: $f']);
+  }
+  // Die Erzählerakte (A-063) liegt wie die Steckbriefe neben dem Kanon.
+  final erzaehlerakte = File('$ordner/erzaehlerakte.json');
+  if (erzaehlerakte.existsSync()) {
+    b.add('Schema', [for (final f in schema('erzaehlerakte').pruefe(_lies(erzaehlerakte.path))) 'erzaehlerakte.json: $f']);
   }
   b.add('Schema', [for (final f in schema('texte-index').pruefe(sammlung.index)) 'texte/index.json: $f']);
   for (final d in sammlung.dateien.entries.where((d) => d.key != 'texte/index.json')) {
@@ -291,9 +302,6 @@ void _karte(Befunde b, Kanon kanon, PartyKarte karte, String wurzel) {
 
 // ---------------------------------------------------------------- Texte
 
-/// Beschreibt ein Text den Schlag als Handlung? (TON §1: nur Schatten und Geräusch.)
-final _schlagVerb = RegExp(r'\b(schlägst|schlägt|schlage|schlug|schlugen|zugeschlagen|zuschlagen|zuzuschlagen|niedergeschlagen)\b', caseSensitive: false);
-
 /// Wörter, die eine Qualität des Hinweises verraten (Rahmen darf sie nicht nennen).
 final _verraetRe = RegExp(r'(?<!\p{L})(wahr|falsch|gelogen|lüge|gerücht|sicher|richtig)\p{L}*|(?<!\p{L})genau\s+gemerkt\p{L}*', unicode: true);
 
@@ -333,7 +341,7 @@ void _texte(Befunde b, Kanon kanon, Textsammlung sammlung, Texte texte, String w
   // Kein Spielertext beschreibt den Schlag als Handlung (TON §1).
   for (final d in sammlung.dateien.entries) {
     for (final t in _alleTexte(d.value)) {
-      final m = _schlagVerb.firstMatch(t);
+      final m = schlagVerbRe.firstMatch(t);
       if (m != null) b.add('Texte', ['${d.key}: Schlag als Handlung („${m[0]}“): ${t.length > 80 ? '${t.substring(0, 77)}…' : t}']);
     }
   }
@@ -480,6 +488,59 @@ void _steckbriefe(Befunde b, Kanon kanon, Texte texte, String ordner, String wur
   if (j['settingId'] != kanon.settingId) b.add('Steckbriefe', ['steckbriefe.json: settingId ${j['settingId']} statt ${kanon.settingId}']);
   final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
   b.add('Steckbriefe', pruefeSteckbriefe(Steckbriefe.ausJson(j), kanon, ton: ton, geschuetzt: steckbriefGeschuetzt(texte)));
+}
+
+// ---------------------------------------------------------------- Einstimmung und Erzählerakte
+
+/// Fähigkeiten der Akte aus `content/party/akten.json`.
+List<Object?> _faehigkeiten(String wurzel, String fall) {
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  return (akte?['faehigkeiten'] as List?) ?? const [];
+}
+
+/// Die Erzählerakte der Akte, wenn es die Datei gibt und ihr Schema stimmt; sonst `null`.
+Erzaehlerakte? _erzaehlerakteAus(Kanon kanon, String ordner, String wurzel) {
+  final datei = File('$ordner/erzaehlerakte.json');
+  if (!datei.existsSync()) return null;
+  final j = _lies(datei.path);
+  if (SchemaPruefer(_lies('$wurzel/content/party/schema-akte/erzaehlerakte.schema.json')).pruefe(j).isNotEmpty) return null;
+  return Erzaehlerakte.ausJson(j, kanon);
+}
+
+/// Einstimmung (A-063), nur wenn setting.json eine Vorgeschichte nennt:
+/// pruefeEinstimmung mit den Kanten der Erzählerakte und dem Vorspiel der Akte.
+/// Den Ton der Texte prüft schon [_texte] (alle Bausteine, Erzähler als Vorlesetext).
+void _einstimmung(Befunde b, Kanon kanon, Texte texte, String ordner, String wurzel, String fall) {
+  final e = Einstimmung.aus(kanon);
+  if (e == null) return;
+  VorspielMorgen? vorspiel;
+  final welt = File('$wurzel/content/welt/$fall/welt.json');
+  final genannt = welt.existsSync() ? _lies(welt.path)['vorspielMorgen'] : null;
+  if (genannt is String && File('$wurzel/content/welt/$fall/$genannt').existsSync()) {
+    try {
+      vorspiel = VorspielMorgen.ausJson(_lies('$wurzel/content/welt/$fall/$genannt'));
+    } on Object {
+      vorspiel = null; // meldet [_vorspielMorgen]
+    }
+  }
+  b.add('Einstimmung', pruefeEinstimmung(e, texte, netz: _erzaehlerakteAus(kanon, ordner, wurzel)?.netz ?? const [], vorspiel: vorspiel));
+}
+
+/// Erzählerakte (A-063): Datei und Zusatz `erzaehlerakte` in akten.json gehören
+/// zusammen, dann pruefeErzaehlerakte mit den Tonregeln. Das Schema prüft [_schema].
+void _erzaehlerakte(Befunde b, Kanon kanon, Texte texte, String ordner, String wurzel, String fall) {
+  final datei = File('$ordner/erzaehlerakte.json');
+  final faehig = _faehigkeiten(wurzel, fall).contains('erzaehlerakte');
+  if (datei.existsSync() != faehig) {
+    b.add('Erzählerakte', [faehig ? 'akten.json nennt erzaehlerakte, erzaehlerakte.json fehlt' : 'erzaehlerakte.json ohne Zusatz erzaehlerakte in akten.json']);
+  }
+  final akte = _erzaehlerakteAus(kanon, ordner, wurzel);
+  if (akte == null) return;
+  final ton = Textpruefer(_lies('$wurzel/content/party/textregeln.json'));
+  b.add('Erzählerakte', pruefeErzaehlerakte(akte, texte, ton: ton));
 }
 
 // ---------------------------------------------------------------- Diashow

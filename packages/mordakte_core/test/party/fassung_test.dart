@@ -42,6 +42,34 @@ void main() {
     }
   });
 
+  test('mit Einstimmung (A-063): Vorgeschichte 5 plus Vorstellung 2/4/6 Minuten; ohne bleiben die alten Werte', () {
+    expect(abendVorgeschichteMinuten, 5.0);
+    expect([for (final n in [4, 8, 9, 14, 15, 20]) abendEinstimmungMinuten(n)], [7.0, 7.0, 9.0, 9.0, 11.0, 11.0]);
+    for (final f in Abendfassung.values) {
+      for (final m in [10, 15, 20, 25, 30, 40]) {
+        expect(abendMinutenGenau(f, m, einstimmungRollen: null), abendMinutenGenau(f, m));
+        expect(abendMinutenCa(f, m, einstimmungRollen: null), abendMinutenCa(f, m));
+        for (var n = 4; n <= 20; n++) {
+          expect(abendMinutenGenau(f, m, einstimmungRollen: n), closeTo(abendMinutenGenau(f, m) + abendEinstimmungMinuten(n), 1e-9));
+        }
+      }
+    }
+    // Die alten Anzeigen bleiben: kurz 85/100/115, lang 120/135/150/180.
+    expect([for (final m in Abendfassung.kurz.minutenOptionen) abendMinutenCa(Abendfassung.kurz, m)], [85, 100, 115]);
+    expect([for (final m in Abendfassung.lang.minutenOptionen) abendMinutenCa(Abendfassung.lang, m)], [120, 135, 150, 180]);
+    // Jede lange Schätzung bleibt über jeder kurzen, bei gleicher Rollenzahl (genau und gerundet).
+    for (var n = 4; n <= 20; n++) {
+      for (final k in Abendfassung.kurz.minutenOptionen) {
+        for (final l in Abendfassung.lang.minutenOptionen) {
+          expect(abendMinutenGenau(Abendfassung.lang, l, einstimmungRollen: n), greaterThan(abendMinutenGenau(Abendfassung.kurz, k, einstimmungRollen: n)),
+              reason: '$n Rollen: lang $l gegen kurz $k');
+          expect(abendMinutenCa(Abendfassung.lang, l, einstimmungRollen: n), greaterThan(abendMinutenCa(Abendfassung.kurz, k, einstimmungRollen: n)),
+              reason: '$n Rollen: lang $l gegen kurz $k');
+        }
+      }
+    }
+  });
+
   test('Lesen und Schreiben: nur „lang“ ist lang, alles andere kurz', () {
     for (final f in Abendfassung.values) {
       expect(Abendfassung.lesen(f.name), f);

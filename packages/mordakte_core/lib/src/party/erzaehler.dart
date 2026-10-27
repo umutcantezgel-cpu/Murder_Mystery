@@ -1,5 +1,6 @@
 import 'ablauf.dart';
 import 'besetzung.dart';
+import 'einstimmung.dart';
 import 'gruppenwahl.dart';
 import 'kanon/kanon.dart';
 
@@ -153,7 +154,8 @@ class Erzaehler {
     return kanon.eigenesVerhalten(r, pfad) ? 'aufloesung.$r.unschuldig.$pfad' : 'aufloesung.$r.unschuldig';
   }
 
-  /// Alle Kennungen, die der Erzähler je wählen kann (Katalog für F3).
+  /// Alle Kennungen, die der Erzähler je wählen kann (Katalog für F3), mit der
+  /// Einstimmung, wenn die Akte eine hat (`vorgeschichte.*`, `vorstellung.*`).
   List<String> katalog() {
     final kern = kanon.kernverdaechtige;
     final lacher = [for (final l in (kanon.json['setting.json']!['lacher'] as List? ?? const [])) (l as Map)['id'] as String];
@@ -194,6 +196,8 @@ class Erzaehler {
             if (kanon.eigenesVerhalten(r, p)) 'aufloesung.$r.unschuldig.$p',
         ] else
           'aufloesung.$r',
+      // Einstimmung (A-063): nur in Akten mit Vorgeschichte, sonst bleibt der Katalog, wie er ist.
+      ...?Einstimmung.aus(kanon)?.katalog(),
     ];
   }
 }

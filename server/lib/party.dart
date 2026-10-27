@@ -84,8 +84,10 @@ String resolvePartyDir(String? fromEnv) {
 /// Server-Räume haben keine Meta: Sie spielen den kurzen Abend. [fassung] lang
 /// nutzt nur die Party-Matrix für ihren Lauf mit dem langen Abend (M7b), mit
 /// Streifzug sowie Vorspiel und Morgen; solange der Morgen läuft, gilt der Raum
-/// nicht als beendet ([SchlosskellerRaum.beendet]).
-RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Abendfassung.kurz}) {
+/// nicht als beendet ([SchlosskellerRaum.beendet]). [einstimmung] schaltet
+/// Vorgeschichte und Vorstellung ein (A-063), nur wenn die Akte eine
+/// Vorgeschichte hat; sonst bleibt der Raum wie bisher.
+RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Abendfassung.kurz, bool einstimmung = false}) {
   Map<String, Object?> lesen(String path) => (jsonDecode(File('$dir/$path').readAsStringSync()) as Map).cast<String, Object?>();
   final kanon = Kanon.lade(lesen);
   final texte = Texte(kanon, Textsammlung.lade(lesen));
@@ -97,8 +99,10 @@ RuntimeFactory loadSchlosskellerFactory(String dir, {Abendfassung fassung = Aben
   final weltDir = '${Directory(dir).parent.parent.path}/welt/schlosskeller';
   final erkundung = fassung.istLang ? ladeErkundung(weltDir) : null;
   final rundgang = fassung.istLang ? ladeVorspielMorgen(weltDir) : null;
+  final vorgeschichte = einstimmung ? Einstimmung.aus(kanon) : null;
   return (roomCode) => SchlosskellerRuntime(SchlosskellerRaum(
     raumCode: roomCode, kanon: kanon, texte: texte, diaAnzahl: dias, fassung: fassung, erkundung: erkundung, rundgang: rundgang,
+    einstimmung: vorgeschichte,
     // Wer den Raum öffnet, sitzt zuerst auf dem Detektiv-Sitz; `sitz` ändert es in der Lobby.
     gastgeberSitz: Sitz.detektiv,
     fallCode: FallCode.zufall(Rng(zufall.nextInt(1 << 32))),

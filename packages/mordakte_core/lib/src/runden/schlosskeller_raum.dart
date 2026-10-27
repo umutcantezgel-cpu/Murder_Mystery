@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 
 import '../party/ablauf.dart';
 import '../party/befragung.dart';
+import '../party/einstimmung.dart';
 import '../party/entscheidungen.dart';
 import '../party/erzaehler_paket.dart';
 import '../party/fall_code.dart';
@@ -21,6 +22,7 @@ import 'bots.dart';
 import 'partie.dart';
 import 'raum/befragung_modul.dart';
 import 'raum/dia_modul.dart';
+import 'raum/einstimmung_modul.dart';
 import 'raum/raum_modul.dart';
 import 'raum/rundgang_modul.dart';
 import 'raum/sichtfelder.dart';
@@ -89,6 +91,11 @@ class _Teilnehmer {
 /// erst nach dem Morgen beendet. Kurze Abende tragen keinen der Schlüssel und
 /// bleiben bytegleich. Partie, Würfel und Wertung kennen die Fassung nicht.
 ///
+/// Einstimmung (A-063): Mit [einstimmung] (eingeschaltet in der Meta des
+/// Gastgebers, `einstimmung: true`, nur in Akten mit Vorgeschichte) laufen zu
+/// Beginn der Einleitung Vorgeschichte und Vorstellung ([EinstimmungModul]),
+/// vor Vorspiel und Diashow. Ohne bleibt jede Ansicht bytegleich.
+///
 /// Vorleser-Sitz (nur Akten mit [vorleserSitz]): Erzähltext geht vor dem
 /// Finale nur an ein Gerät, an das, das leitet ([vorleser]), und zwar im
 /// privaten Teil. Alle sehen öffentlich nur `erzaehlerLiest` und
@@ -116,21 +123,27 @@ class SchlosskellerRaum implements AbendRaum {
     this.fassung = Abendfassung.kurz,
     Erkundung? erkundung,
     VorspielMorgen? rundgang,
+    this.einstimmung,
     List<RaumModul> module = const [],
-  }) : _module = List.unmodifiable([
-         // Die Lobby (Sitze, Rollenzahl, Figurenwahl) gehört zu jedem Raum; [_sitze] liest ihren Plan.
-         SitzeModul(),
-         // Das Gesprächsmodell der Akte bringt sein Modul selbst mit (A-051); Altakten bleiben ohne.
-         if (texte.besetzung.befragungsmodell) BefragungModul(),
-         // Die Gesprächszeit läuft für alle gleich (M4); die Diashow nur in Akten, die eine haben.
-         UhrModul(minuten: rundenMinuten.clamp(1, RundenUhr.hoechstStart), lang: fassung.istLang),
-         if (diaAnzahl > 0) DiaModul(anzahl: diaAnzahl),
-         // Der lange Abend wird zum Streifzug (M7b): Erkundung und Treffpunkte, rein kosmetisch.
-         if (fassung.istLang && erkundung != null) StreifzugModul(erkundung: erkundung, weltSamen: weltSamenAus(salz)),
-         // Vorspiel und Morgen (M7b) nur im langen Abend und nur mit Inhalt der Akte.
-         if (fassung.istLang && rundgang != null) RundgangModul(rundgang),
-         ...module,
-       ]), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
+  }) : _module = List.unmodifiable(() {
+         // Einstimmung (A-063) nur, wenn eingeschaltet; das Vorspiel wartet auf sie.
+         final einstimmungModul = einstimmung == null ? null : EinstimmungModul(einstimmung);
+         return [
+           // Die Lobby (Sitze, Rollenzahl, Figurenwahl) gehört zu jedem Raum; [_sitze] liest ihren Plan.
+           SitzeModul(),
+           // Das Gesprächsmodell der Akte bringt sein Modul selbst mit (A-051); Altakten bleiben ohne.
+           if (texte.besetzung.befragungsmodell) BefragungModul(),
+           // Die Gesprächszeit läuft für alle gleich (M4); die Diashow nur in Akten, die eine haben.
+           UhrModul(minuten: rundenMinuten.clamp(1, RundenUhr.hoechstStart), lang: fassung.istLang),
+           if (diaAnzahl > 0) DiaModul(anzahl: diaAnzahl),
+           // Der lange Abend wird zum Streifzug (M7b): Erkundung und Treffpunkte, rein kosmetisch.
+           if (fassung.istLang && erkundung != null) StreifzugModul(erkundung: erkundung, weltSamen: weltSamenAus(salz)),
+           ?einstimmungModul,
+           // Vorspiel und Morgen (M7b) nur im langen Abend und nur mit Inhalt der Akte.
+           if (fassung.istLang && rundgang != null) RundgangModul(rundgang, wartet: einstimmungModul?.laeuft),
+           ...module,
+         ];
+       }()), _katalog = katalog ?? KartenKatalog(const []), _abstecher = abstecher, _kanon = kanon, _texte = texte, _fallCode = fallCode, _salz = salz,
        wuerfelZusage = sha256.convert(utf8.encode(salz)).toString() {
     if (salz.isEmpty || !gastgeberSitz.vergeben) throw const PartyRaumFehler('invalid_setup');
   }
@@ -149,6 +162,10 @@ class SchlosskellerRaum implements AbendRaum {
   /// Kurzer oder langer Abend (M7b). Lang lebt die Rundenuhr über Gespräche
   /// und Entscheidungen ([UhrModul.lang]); sonst ändert sie nichts am Abend.
   final Abendfassung fassung;
+
+  /// Einstimmung der Akte (Vorgeschichte und Vorstellung, A-063), wenn sie
+  /// eingeschaltet ist; sonst `null` und der Abend wie bisher.
+  final Einstimmung? einstimmung;
 
   /// Gastgebergerät als Autorität (Relais-Modus): Die Leitung wandert nie zu
   /// einem anderen Gerät, sonst bekäme ein Gast Salz und Täterpfad.

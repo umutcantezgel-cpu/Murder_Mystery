@@ -3,11 +3,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:mordakte_core/mordakte_core.dart' show schlagVerbRe;
 import 'package:test/test.dart';
 
 import 'kanon_hilfe.dart';
-
-final _schlagVerb = RegExp(r'\b(schlägst|schlägt|schlage|schlug|schlugen|zugeschlagen|zuschlagen|zuzuschlagen|niedergeschlagen)\b', caseSensitive: false);
 
 Iterable<String> _texte(Object? o) sync* {
   if (o is String) yield o;
@@ -26,7 +25,7 @@ Iterable<String> _texte(Object? o) sync* {
 List<String> _treffer(Map<String, Object?> dateien) => [
       for (final e in dateien.entries)
         for (final t in _texte(e.value))
-          if (_schlagVerb.hasMatch(t)) '${e.key}: ${_schlagVerb.firstMatch(t)![0]}',
+          if (schlagVerbRe.hasMatch(t)) '${e.key}: ${schlagVerbRe.firstMatch(t)![0]}',
     ];
 
 void main() {
