@@ -29,7 +29,8 @@
 //     Größen, Netzregeln, pfadfrei, verbotene Wörter, Ton)
 //   Einfluss    nur mit Zusatz einfluss in akten.json: content/party/zusatz/<akte>/einfluss.json gegen das Schema und
 //     pruefeEinfluss (Finale §3: Bezug ausgewogen, Quellen in allen Pfaden, Ziele erreichbar und verfehlbar und für die
-//     Kernfiguren gleich geformt, alle Text-Schlüssel, Karten nach R17, Platzhalter, Ereignisse ohne Fallbezug)
+//     Kernfiguren gleich geformt, Kragen mit chaotischem Morgen, alle Text-Schlüssel, Karten nach R17, Ereignistitel,
+//     Platzhalter, R15 nach ganzen Wörtern für Gerüchte, Ereignisse, Ablenken, Folgen, Leisten und Bot-Blasen)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -598,7 +599,7 @@ void _einfluss(Befunde b, Kanon kanon, Ermittlung erm, Textsammlung sammlung, St
     j,
     erm,
     texte: {for (final e in sammlung.bausteine.entries) if (e.key.startsWith('einfluss.')) e.key: e.value},
-    r15: PfadgleichRegeln(kanon, art: 'einen Ereignistext'),
+    r15: PfadgleichRegeln(kanon, art: 'einen Einfluss-Text'),
   ));
 }
 

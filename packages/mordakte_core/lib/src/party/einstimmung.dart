@@ -190,7 +190,8 @@ const _vorgeschichteAnfaenge = ['gefallen', 'streich'];
 ///   einmal, die meistgenannte höchstens doppelt so oft wie die seltenste.
 ///   `vorstellung.start` nennt nur immer besetzte Figuren. `vorstellung.<f>`
 ///   nennt f und sonst nur Figuren mit kleinerem Besetzungsplatz, mit denen f
-///   eine öffentliche Kante im Netz [netz] (Erzählerakte) hat.
+///   eine öffentliche Kante im Netz [netz] (Erzählerakte) hat; die Vorstellung
+///   einer Kernfigur nennt keine andere Kernfigur („Änderungen“ 14).
 ///   Sammelblock und Detektiv nennen keine Figur. Herr Schneider ist immer erlaubt.
 /// - Fünf-Wort-Regel: keine Folge aus den geheimen Feldern ([geheimeFelder]),
 ///   aus Dossiers, Täterfassungen, Finale und Auflösung ([steckbriefGeschuetzt])
@@ -208,6 +209,7 @@ List<String> pruefeEinstimmung(Einstimmung e, Texte texte, {List<NetzKante> netz
   final b = e.besetzung;
   final platz = {for (final (i, r) in b.reihenfolge.indexed) r: i + 1};
   final immer = b.besetzt(b.minRollen);
+  final kern = kanon.kernverdaechtige.toSet();
   final namen = {
     for (final x in kanon.figuren)
       x['id'] as String: [namensMuster(x['name'] as String), if (x['vollerName'] is String) namensMuster(x['vollerName'] as String)],
@@ -310,7 +312,9 @@ List<String> pruefeEinstimmung(Einstimmung e, Texte texte, {List<NetzKante> netz
       if (nennungen(figur, x) == 0) f.add('$k: nennt ${name(figur)} nicht');
       for (final g in genannt(x)) {
         if (g == figur) continue;
-        if (platz[g]! > platz[figur]!) {
+        if (kern.contains(figur) && kern.contains(g)) {
+          f.add('$k: nennt ${name(g)}, die Vorstellung einer Kernfigur nennt keine andere Kernfigur');
+        } else if (platz[g]! > platz[figur]!) {
           f.add('$k: nennt ${name(g)} (Platz ${platz[g]}), die vielleicht noch nicht vorgestellt ist');
         } else if (!netz.any((n) => n.verbindet(figur, g) && n.oeffentlich)) {
           f.add('$k: nennt ${name(g)}, das Paar $figur–$g ist keine öffentliche Kante');

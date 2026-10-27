@@ -176,6 +176,28 @@ void main() {
       expect(f.geruechte.single.toJson(), {'figur': 'can', 'laut': false});
     });
 
+    test('Lauschen („Änderungen“ 1): Schlüssel mit Ziel, ohne Ziel und bei abgewartet; Inhalt wie bisher', () {
+      final s = _stand(6);
+      _setze(s, 1, [
+        _z('ahmet', ZugArt.lauschen, 'fatma'),
+        _z('fatma', ZugArt.helfen),
+        _z('olli', ZugArt.lauschen, 'can'),
+        _z('leyla', ZugArt.lauschen, 'emine'),
+        _z('emine', ZugArt.decken, 'fatma'),
+      ]);
+      final f = s.auswerten(1);
+      PrivatNachricht gelauscht(String rolle) => f.privat[rolle]!.singleWhere((n) => n.art == PrivatArt.gelauscht);
+      expect(gelauscht('ahmet').schluessel, 'einfluss.privat.gelauscht.ohne_ziel');
+      expect(gelauscht('olli').schluessel, 'einfluss.privat.gelauscht.abgewartet');
+      expect(gelauscht('leyla').schluessel, 'einfluss.privat.gelauscht');
+      expect([for (final r in ['ahmet', 'olli', 'leyla']) gelauscht(r).toJson()], [
+        {'art': 'gelauscht', 'figur': 'fatma', 'zug': 'helfen'},
+        {'art': 'gelauscht', 'figur': 'can', 'zug': 'abgewartet'},
+        {'art': 'gelauscht', 'figur': 'emine', 'zug': 'decken', 'ziel': 'fatma'},
+      ]);
+      expect(const PrivatNachricht(PrivatArt.wirkte).schluessel, 'einfluss.privat.wirkte');
+    });
+
     test('Helfen: Deckel +9, Zusammenhalt +2 → Tee, Kerzenschein, Erinnerung; Flüstern wahr; Nachfragen', () {
       final s = _stand(5);
       final alle = [for (final r in s.besetzt) _z(r, ZugArt.helfen)];
@@ -235,6 +257,39 @@ void main() {
       expect(s.tischbonus, -1);
       expect(s.morgen, MorgenVariante.chaotisch);
       expect(s.ausgeloest, {'flackerlicht', 'fledermaus', 'kragen'});
+    });
+
+    test('Kragen erzwingt den chaotischen Morgen, auch bei hohem Zusammenhalt („Änderungen“ 2)', () {
+      final s = _stand(5); // ahmet, fatma, olli, can, leyla
+      _setze(s, 1, [
+        _z('ahmet', ZugArt.auspacken),
+        _z('fatma', ZugArt.helfen),
+        _z('olli', ZugArt.zeigen, 'can'),
+        _z('can', ZugArt.zeigen, 'olli'),
+        _z('leyla', ZugArt.zeigen, 'ahmet'),
+      ]);
+      s.auswerten(1);
+      _setze(s, 2, [
+        _z('ahmet', ZugArt.zeigen, 'can'),
+        _z('fatma', ZugArt.auspacken),
+        _z('olli', ZugArt.helfen),
+        _z('can', ZugArt.zeigen, 'olli'),
+        _z('leyla', ZugArt.zeigen, 'ahmet'),
+      ]);
+      s.auswerten(2);
+      _setze(s, 3, [
+        _z('ahmet', ZugArt.zeigen, 'can'),
+        _z('fatma', ZugArt.zeigen, 'olli'),
+        _z('olli', ZugArt.auspacken),
+        _z('can', ZugArt.zeigen, 'olli'),
+        _z('leyla', ZugArt.helfen),
+      ]);
+      final f3 = s.auswerten(3);
+      expect([s.zusammenhalt, s.spuk], [6, 6]);
+      expect([for (final e in f3.ereignisse) e.id], ['erinnerung', 'kragen']);
+      expect(morgenAus(_r.zahlen, zusammenhalt: 6, spuk: 6), MorgenVariante.gemischt, reason: 'ohne Kragen wäre der Morgen gemischt');
+      expect(s.morgen, MorgenVariante.chaotisch);
+      expect(s.tischbonus, 0);
     });
 
     test('Auspacken einmal am Abend: Fakt und Notiz öffentlich mit Namen, danach gesperrt', () {
@@ -371,11 +426,14 @@ void main() {
     test('Katalog: alle Pflichtschlüssel, eindeutig, Ereignisse aus den Daten', () {
       final k = einflussKatalog(_r);
       expect(k.toSet(), hasLength(k.length));
-      expect(k, hasLength(283));
+      // 283 aus §3.13 und der Textart, dazu „Änderungen“ 1 (2 Lausch-Karten), 3 (6 Ereignistitel), 6 (Tipp-Karte).
+      expect(k, hasLength(292));
       expect(k, containsAll([
         'einfluss.zug.zeigen.wahl', 'einfluss.zug.decken.wahl', 'einfluss.zug.lauschen.wahl', 'einfluss.tipp.wahl',
         'einfluss.ereignis.fledermaus', 'einfluss.ereignis.fledermaus.karte', 'einfluss.privat.ohne_folgen',
         'einfluss.ziel.hakan.2', 'einfluss.epilog.tugba.verfehlt', 'einfluss.bot.can.freund_gestanden', 'einfluss.preis.treue_seele',
+        'einfluss.privat.gelauscht', 'einfluss.privat.gelauscht.ohne_ziel', 'einfluss.privat.gelauscht.abgewartet', 'einfluss.tipp.p1',
+        for (final e in _r.ereignisse) 'einfluss.ereignis.${e.id}.titel',
       ]));
       expect(k.where((x) => x.startsWith('einfluss.zug.') && x.endsWith('.wahl')), hasLength(3));
     });
@@ -388,7 +446,8 @@ void main() {
         'einfluss.morgen.warm', 'einfluss.epilog.can.erreicht',
       ];
       const karten = [
-        'einfluss.zug.zeigen.titel', 'einfluss.tipp.titel', 'einfluss.ereignis.tee.karte', 'einfluss.abzeichen.minus2',
+        'einfluss.zug.zeigen.titel', 'einfluss.tipp.titel', 'einfluss.tipp.p1', 'einfluss.ereignis.tee.karte',
+        'einfluss.ereignis.kerzenschein.titel', 'einfluss.privat.gelauscht.abgewartet', 'einfluss.abzeichen.minus2',
         'einfluss.befragung.mauert', 'einfluss.tischruf.umweg', 'einfluss.nachfrage.p1', 'einfluss.privat.ertappt',
         'einfluss.ziel.ahmet.1', 'einfluss.bot.olli.geruecht', 'intro.start', 'ui.weiter',
       ];
@@ -402,7 +461,7 @@ void main() {
       // wieder, Flüstern, Ertappt 2, Verwischt, Tischbonus 2, Preise 4, Morgen 3, Epiloge 40), der Rest Karten.
       final k = einflussKatalog(_r);
       expect(k.where(einflussVorlesetext), hasLength(111));
-      expect(k.where((x) => !einflussVorlesetext(x)), hasLength(172));
+      expect(k.where((x) => !einflussVorlesetext(x)), hasLength(181));
     });
 
     test('Bereich einfluss: Textsammlung, Verweise, Vorlesen in textQuellen, Platzhalter mit Anzeigenamen', () {
@@ -415,6 +474,7 @@ void main() {
         'eintraege': [
           {'id': 'einfluss.ertappt', 'text': '@figur hielt zu @ziel.'},
           {'id': 'einfluss.privat.gelauscht', 'text': '@figur: @zug bei @ziel'},
+          {'id': 'einfluss.privat.gelauscht.abgewartet', 'text': '@figur hat abgewartet'},
           {'id': 'einfluss.zug.decken.titel', 'text': 'Decken'},
           {'id': 'ui.falsch', 'text': 'Nicht hier'},
         ],
@@ -429,10 +489,18 @@ void main() {
       expect(sammlung.bausteine['einfluss.ertappt'], '@figur hielt zu @ziel.');
       expect(textVerweise(kanon, sammlung), ['texte/einfluss-probe.json: ui.falsch ist kein Einfluss-Schlüssel']);
       final quellen = {for (final q in textQuellen(kanon, sammlung)) if (q.ort.startsWith('texte/einfluss-probe.json#')) q.ort.split('#').last: q.vorlesen};
-      expect(quellen, {'einfluss.ertappt': true, 'einfluss.privat.gelauscht': false, 'einfluss.zug.decken.titel': false, 'ui.falsch': false});
+      expect(quellen, {
+        'einfluss.ertappt': true,
+        'einfluss.privat.gelauscht': false,
+        'einfluss.privat.gelauscht.abgewartet': false,
+        'einfluss.zug.decken.titel': false,
+        'ui.falsch': false,
+      });
       final texte = Texte(kanon, sammlung);
       expect(texte.einflussText('einfluss.ertappt', figur: 'meryem', ziel: 'kaan'), 'Hana hielt zu Wojtek.');
       expect(texte.einflussText('einfluss.privat.gelauscht', figur: 'murat', ziel: 'johanna', zug: 'decken'), 'Marek: Decken bei Joanna');
+      // Abgewartet hat keinen Kurznamen; der Text trägt kein @zug („Änderungen“ 1).
+      expect(texte.einflussText('einfluss.privat.gelauscht.abgewartet', figur: 'murat', zug: 'abgewartet'), 'Marek hat abgewartet');
       expect(() => texte.einflussText('einfluss.ertappt', figur: 'niemand'), throwsArgumentError);
     });
   });

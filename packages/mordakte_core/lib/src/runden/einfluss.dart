@@ -74,6 +74,9 @@ enum PrivatArt {
   const PrivatArt(this.schluessel);
 }
 
+/// Lauschergebnis ohne Ziel und bei abgewartet („Änderungen“ 1): `einfluss.privat.gelauscht.<variante>`.
+const lauschOhneZiel = 'ohne_ziel', lauschAbgewartet = 'abgewartet';
+
 /// Anlässe der Reaktionsblasen der Bots (`einfluss.bot.<figur>.<anlass>`, §3.11).
 const botAnlaesse = ['ertappt', 'geruecht', 'freund_gestanden', 'ablenken'];
 
@@ -574,7 +577,13 @@ class PrivatNachricht {
   final String? ziel;
   const PrivatNachricht(this.art, {this.figur, this.zug, this.ziel});
 
-  String get schluessel => 'einfluss.privat.${art.schluessel}';
+  /// Text-Schlüssel (§3.13, „Änderungen“ 1): Lauschen bei einem Zug ohne Ziel `….gelauscht.ohne_ziel`
+  /// (`@figur`, `@zug`), bei abgewartet `….gelauscht.abgewartet` (`@figur`), sonst `einfluss.privat.<art>`.
+  String get schluessel => switch (art) {
+        PrivatArt.gelauscht when zug == ZugArt.abgewartet => 'einfluss.privat.gelauscht.$lauschAbgewartet',
+        PrivatArt.gelauscht when ziel == null => 'einfluss.privat.gelauscht.$lauschOhneZiel',
+        _ => 'einfluss.privat.${art.schluessel}',
+      };
 
   Map<String, Object?> toJson() => {'art': art.schluessel, 'figur': ?figur, 'zug': ?zug?.name, 'ziel': ?ziel};
 }
@@ -1263,8 +1272,9 @@ EinflussZug botZug(EinflussRegeln r, {required String salz, required String roll
   }
   if ((art == ZugArt.lauschen || art == ZugArt.zeigen) && ziel == null) art = ZugArt.helfen;
 
-  // Übersteuerungen (§3.11), die frühere Regel gewinnt: Freund beredet → decken; „Mehrere tuscheln über
-  // mich“ → halb zeigen; eigenes Geheimnis bekannt → kein Selbst-Decken; nach Ertappt kein Decken.
+  // Übersteuerungen (§3.11, „Änderungen“ 17) in dieser Reihenfolge, die spätere Regel gewinnt: Freund
+  // beredet → decken; „Mehrere tuscheln über mich“ → halb zeigen; eigenes Geheimnis bekannt → kein
+  // Selbst-Decken; nach Ertappt kein Decken. Ersatz ist jeweils helfen.
   if (art != ZugArt.auspacken) {
     if (freund != null && lage.zuletzt.any((g) => g.figur == freund)) {
       art = ZugArt.decken;
@@ -1300,6 +1310,7 @@ List<String> einflussKatalog(EinflussRegeln r) {
       if (zielArten.contains(a)) 'einfluss.zug.${a.name}.wahl',
     ],
     'einfluss.tipp.titel',
+    'einfluss.tipp.p1',
     'einfluss.tipp.wahl',
     for (var i = 1; i <= 3; i++) 'einfluss.folgen.start.$i',
     for (final f in r.figuren) 'einfluss.auspacken.$f',
@@ -1312,7 +1323,7 @@ List<String> einflussKatalog(EinflussRegeln r) {
     'einfluss.leiste.spuk.1',
     'einfluss.leiste.spuk.2',
     'einfluss.leiste.ruhig',
-    for (final e in r.ereignisse) ...['einfluss.ereignis.${e.id}', 'einfluss.ereignis.${e.id}.karte'],
+    for (final e in r.ereignisse) ...['einfluss.ereignis.${e.id}', 'einfluss.ereignis.${e.id}.karte', 'einfluss.ereignis.${e.id}.titel'],
     'einfluss.wieder',
     'einfluss.fluestern.still',
     for (final a in const ['plus1', 'plus2', 'minus1', 'minus2']) 'einfluss.abzeichen.$a',
@@ -1325,6 +1336,7 @@ List<String> einflussKatalog(EinflussRegeln r) {
     'einfluss.nachfrage.titel',
     'einfluss.nachfrage.p1',
     for (final p in PrivatArt.values) 'einfluss.privat.${p.schluessel}',
+    for (final v in const [lauschOhneZiel, lauschAbgewartet]) 'einfluss.privat.gelauscht.$v',
     for (final f in r.figuren) ...['einfluss.ziel.$f.1', 'einfluss.ziel.$f.2'],
     for (final f in r.figuren) ...['einfluss.epilog.$f.erreicht', 'einfluss.epilog.$f.verfehlt'],
     'einfluss.tischbonus.plus',

@@ -45,6 +45,18 @@ void main() {
     expect(f, contains('vorstellung.tim: nennt Fatma, das Paar tim–fatma ist keine öffentliche Kante'));
   });
 
+  test('Fehlerprobe: Kernfigur nennt eine andere Kernfigur, auch über eine öffentliche Kante („Änderungen“ 14)', () {
+    expect(fixtureNetz.any((k) => k.verbindet('fatma', 'ahmet') && k.oeffentlich), isTrue);
+    final f = _pruefe(aenderung: {'vorstellung.fatma': '${_text('vorstellung.fatma')} Mit Ahmet plant sie gern.'});
+    expect(f.where((x) => x.startsWith('vorstellung.fatma:')), ['vorstellung.fatma: nennt Ahmet, die Vorstellung einer Kernfigur nennt keine andere Kernfigur'],
+        reason: f.join('\n'));
+  });
+
+  test('Genitive von Figurennamen sind keine Kennwörter („Änderungen“ 14)', () {
+    final f = _pruefe(aenderung: {'vorstellung.emine': '${_text('vorstellung.emine')} Fatmas Lachen erkennt sie sofort.'});
+    expect(f, isEmpty, reason: f.join('\n'));
+  });
+
   test('Fehlerprobe: eine Vorstellung ohne den eigenen Namen, Sammelblock und Detektiv mit Namen', () {
     final f = _pruefe(aenderung: {
       'vorstellung.olli': _text('vorstellung.olli').replaceAll('Olli', 'Er'),

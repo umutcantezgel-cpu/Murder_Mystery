@@ -301,12 +301,13 @@ class Texte {
 
   /// Text der Einfluss-Schicht (Bereich `einfluss`, Finale §3.13) mit Platzhaltern: `@figur` und `@ziel`
   /// werden zum Anzeigenamen der Figur, `@zug` zum Kurznamen der Zugart (`einfluss.zug.<art>.titel`).
+  /// Den Kurznamen sucht nur ein Text, der `@zug` trägt (abgewartet hat keinen, „Änderungen“ 1).
   String einflussText(String kennung, {String? figur, String? ziel, String? zug}) {
     var t = baustein(kennung);
     String name(String id) => _anzeigenamen[id] ?? (throw ArgumentError('unbekannte Figur $id'));
     if (figur != null) t = t.replaceAll('@figur', name(figur));
     if (ziel != null) t = t.replaceAll('@ziel', name(ziel));
-    if (zug != null) t = t.replaceAll('@zug', baustein('einfluss.zug.$zug.titel'));
+    if (zug != null && t.contains('@zug')) t = t.replaceAll('@zug', baustein('einfluss.zug.$zug.titel'));
     return t;
   }
 
@@ -593,15 +594,16 @@ List<String> textLuecken(Kanon kanon, Textsammlung t) {
 }
 
 /// Liest der Erzähler den Einfluss-Text [kennung] vor (Finale §3.13, „Änderungen“)? Vorlesetexte sind
-/// Folgen, Auspacken, Ablenken, Gerüchte, Leisten, Ereignisse (ohne `.karte`), `wieder`, Flüstern, Ertappt,
-/// Verwischt, Tischbonus, Preise, Morgen und Epiloge; alles andere sind Handy-Karten nach R17.
+/// Folgen, Auspacken, Ablenken, Gerüchte, Leisten, Ereignisse (`einfluss.ereignis.<id>`, ohne `.karte` und
+/// `.titel`), `wieder`, Flüstern, Ertappt, Verwischt, Tischbonus, Preise, Morgen und Epiloge; alles andere
+/// sind Handy-Karten nach R17.
 bool einflussVorlesetext(String kennung) {
   final t = kennung.split('.');
   if (t.length < 2 || t.first != 'einfluss') return false;
   return switch (t[1]) {
     'folgen' || 'auspacken' || 'ablenken' || 'geruecht' || 'leiste' || 'wieder' || 'fluestern' || 'ertappt' || 'verwischt' ||
     'tischbonus' || 'preis' || 'morgen' || 'epilog' => true,
-    'ereignis' => t.last != 'karte',
+    'ereignis' => t.length == 3,
     _ => false,
   };
 }

@@ -22,14 +22,16 @@ EinflussRegeln get einflussRegeln => _regeln ??= EinflussRegeln.ausJson(einfluss
 /// Ein neutraler Satz ohne Fallbezug und ohne Ort (11 Wörter), für Fixture-Texte.
 const fixtureSatz = 'Ringsum wird es kurz still, und alle halten den Atem an.';
 
-/// Fixture-Texte für jeden Schlüssel aus [einflussKatalog]: Karten ein Stichpunkt, Vorlesetexte zwei
-/// Sätze (22 Wörter), Epiloge ein Satz; Platzhalter, wo der Schlüssel sie verlangt.
+/// Fixture-Texte für jeden Schlüssel aus [einflussKatalog]: Karten ein Stichpunkt, Ereignistitel drei
+/// Wörter, Vorlesetexte zwei Sätze (22 Wörter), Epiloge ein Satz; Platzhalter, wo der Schlüssel sie verlangt.
 Map<String, String> fixtureTexte(EinflussRegeln r) {
   final aus = <String, String>{};
   for (final k in einflussKatalog(r)) {
     final platz = einflussPlatzhalter(k);
     final vorne = [for (final p in ['figur', 'ziel', 'zug']) if (platz.contains(p)) '@$p'].join(' und ');
-    if (!einflussVorlesetext(k)) {
+    if (k.startsWith('einfluss.ereignis.') && k.endsWith('.titel')) {
+      aus[k] = 'Kurz und klar';
+    } else if (!einflussVorlesetext(k)) {
       aus[k] = vorne.isEmpty ? 'Kurz und klar für alle' : 'Nur $vorne für alle';
     } else if (k.startsWith('einfluss.epilog.')) {
       aus[k] = fixtureSatz;
