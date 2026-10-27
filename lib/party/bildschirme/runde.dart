@@ -9,6 +9,8 @@ import '../runden_uhr.dart';
 import '../sitzung.dart';
 import '../stand/befragung_stand.dart';
 import 'befragung.dart';
+import 'einfluss_teile.dart';
+import 'moment.dart';
 import 'spickzettel.dart';
 
 /// Rundenzentrale (F4-BAUMEISTER-03, Master 7.6 Schritt 5): Erzählertext zum
@@ -49,6 +51,8 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
 
   @override
   Widget build(BuildContext context) {
+    // „Dein Moment“ (Finale §3): Die verdeckte Ansicht einer Person geht vor.
+    if (s.momentAnsicht case final r?) return MomentBildschirm(sitzung: s, rolle: r);
     if (s.befragungsmodell) {
       final v = s.verdeckt;
       if (v != null) return _spickzettel(v);
@@ -72,6 +76,8 @@ class _RundeBildschirmState extends State<RundeBildschirm> {
             const SizedBox(height: 24),
             ErzaehlerFeld(sitzung: s, kennungen: s.erzaehler),
             const SizedBox(height: 28),
+            // „Dein Moment“: reihum die Liste, online wer leitet den letzten Aufruf.
+            if (s.einfluss) ...[s.online ? MomentAufruf(sitzung: s) : MomentListe(sitzung: s), const SizedBox(height: 28)],
             if (s.befragungsmodell) ..._befragungsmodell() else _gespraeche(),
           ],
         ),

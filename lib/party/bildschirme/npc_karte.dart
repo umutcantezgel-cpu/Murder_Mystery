@@ -5,6 +5,8 @@ import '../../l10n/gen/app_localizations_de.dart';
 import '../../stil/mappe/abend2_bausteine.dart';
 import '../../stil/stil.dart';
 import '../sitzung.dart';
+import 'einfluss_teile.dart' show EinflussFundZusatz;
+import 'moment.dart' show EinflussDarstellung;
 
 final _de = LDe();
 
@@ -47,6 +49,11 @@ class FundKarte extends StatelessWidget {
             Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
             const SizedBox(height: 10),
             for (final f in funde) Padding(padding: const EdgeInsets.only(bottom: 10), child: Text(f.text, style: MPapierSchrift.maschine)),
+          ],
+          // „Dein Moment“ (Finale §3.4): Randnotizen, Ertappt, Lage der Befragung.
+          if (sitzung.zug?.einfluss case final e? when sitzung.zug?.id == ziel.entscheidung) ...[
+            const SizedBox(height: 10),
+            EinflussFundZusatz(fund: e, ermittlung: sitzung.spiel.ermittlung, darstellung: EinflussDarstellung.sitzung(sitzung)),
           ],
           const SizedBox(height: 10),
           Align(alignment: Alignment.centerRight, child: MKnopf(text: sitzung.ui('ui.karte.gelesen'), onPressed: onGelesen)),

@@ -3401,6 +3401,350 @@
   "@abend_start_fassung": {
     "description": "Startübersicht (M7b): kurzer oder langer Abend"
   },
+  "abend_moment_titel": "Dein Moment",
+  "@abend_moment_titel": {
+    "description": "Dein Moment (Finale §3): Assistent: Überschrift des Schalters"
+  },
+  "abend_moment_schalter": "Heimliche Züge in jeder Runde",
+  "@abend_moment_schalter": {
+    "description": "Dein Moment (Finale §3): Assistent: Beschriftung des Schalters"
+  },
+  "abend_moment_hinweis": "Jede Rolle zieht geheim und formt Würfel, Zeit und Gerüchte. Aus: Gruppenwahl wie bisher.",
+  "@abend_moment_hinweis": {
+    "description": "Dein Moment (Finale §3): Assistent: Hinweis unter dem Schalter"
+  },
+  "abend_start_moment": "Dein Moment",
+  "@abend_start_moment": {
+    "description": "Dein Moment (Finale §3): Startübersicht: Feldname"
+  },
+  "abend_moment_an": "an",
+  "@abend_moment_an": {
+    "description": "Dein Moment (Finale §3): Startübersicht: Wert an"
+  },
+  "abend_moment_aus": "aus",
+  "@abend_moment_aus": {
+    "description": "Dein Moment (Finale §3): Startübersicht: Wert aus"
+  },
+  "aufgabe_rolle_moment": "Gespräch führen, geheim deinen Moment ziehen",
+  "@aufgabe_rolle_moment": {
+    "description": "Dein Moment (Finale §3): Wer macht was: Rolle in den Gesprächen mit Schicht (höchstens acht Wörter)"
+  },
+  "aufgabe_detektiv_tischwerte": "Tischwerte lesen, nach Pech gemeinsam rufen",
+  "@aufgabe_detektiv_tischwerte": {
+    "description": "Dein Moment (Finale §3): Wer macht was: Detektiv in der Ermittlung mit Schicht"
+  },
+  "aufgabe_erzaehler_folgen": "Zu Beginn der Ermittlung die Folgen vorlesen",
+  "@aufgabe_erzaehler_folgen": {
+    "description": "Dein Moment (Finale §3): Wer macht was: Erzähler in der Ermittlung mit Schicht"
+  },
+  "moment_titel": "Dein Moment",
+  "@moment_titel": {
+    "description": "Dein Moment (Finale §3): Überschrift der Liste und der verdeckten Ansicht"
+  },
+  "moment_hinweis": "Reihum zieht jede Person geheim einen Zug. Erst dann geht es weiter.",
+  "@moment_hinweis": {
+    "description": "Dein Moment (Finale §3): Hinweis über der Liste am Tisch"
+  },
+  "moment_zeile": "Dein Moment: {zustand}",
+  "@moment_zeile": {
+    "description": "Dein Moment (Finale §3): Zeile je Person in der Liste",
+    "placeholders": {
+      "zustand": {
+        "type": "String"
+      }
+    }
+  },
+  "moment_offen": "offen",
+  "@moment_offen": {
+    "description": "Dein Moment (Finale §3): Zustand: noch nicht gezogen"
+  },
+  "moment_fertig": "fertig",
+  "@moment_fertig": {
+    "description": "Dein Moment (Finale §3): Zustand: gezogen"
+  },
+  "moment_alle": "Alle haben ihren Moment gezogen.",
+  "@moment_alle": {
+    "description": "Dein Moment (Finale §3): Liste: alle fertig"
+  },
+  "moment_solo": "Die Rollen der App ziehen ihren Moment selbst.",
+  "@moment_solo": {
+    "description": "Dein Moment (Finale §3): Solo: Hinweis statt Liste"
+  },
+  "moment_weitergeben": "Gib das Gerät an {name}.",
+  "@moment_weitergeben": {
+    "description": "Dein Moment (Finale §3): Zwischenstufe: Gerät weitergeben",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moment_zeig_her": "Ich bin {name}, zeig her",
+  "@moment_zeig_her": {
+    "description": "Dein Moment (Finale §3): Zwischenstufe: Knopf",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moment_zurueck": "Zurück",
+  "@moment_zurueck": {
+    "description": "Dein Moment (Finale §3): Zwischenstufe: Abbruch"
+  },
+  "moment_erfahren": "Was du erfahren hast",
+  "@moment_erfahren": {
+    "description": "Dein Moment (Finale §3): Abschnitt mit den privaten Nachrichten der Vorrunde"
+  },
+  "moment_nichts": "Diesmal hast du nichts erfahren.",
+  "@moment_nichts": {
+    "description": "Dein Moment (Finale §3): Keine privaten Nachrichten"
+  },
+  "moment_ziele": "Deine Ziele",
+  "@moment_ziele": {
+    "description": "Dein Moment (Finale §3): Abschnitt mit den zwei Sternen"
+  },
+  "moment_stern": "Stern {nr}",
+  "@moment_stern": {
+    "description": "Dein Moment (Finale §3): Kopf einer Sternkarte",
+    "placeholders": {
+      "nr": {
+        "type": "int"
+      }
+    }
+  },
+  "moment_stand_offen": "offen",
+  "@moment_stand_offen": {
+    "description": "Dein Moment (Finale §3): Stand eines Sterns"
+  },
+  "moment_stand_erreicht": "erreicht",
+  "@moment_stand_erreicht": {
+    "description": "Dein Moment (Finale §3): Stand eines Sterns"
+  },
+  "moment_stand_verloren": "verloren",
+  "@moment_stand_verloren": {
+    "description": "Dein Moment (Finale §3): Stand eines Sterns"
+  },
+  "moment_zug_waehlen": "Dein Zug",
+  "@moment_zug_waehlen": {
+    "description": "Dein Moment (Finale §3): Abschnitt mit dem Raster der Züge"
+  },
+  "moment_einmal": "Schon gespielt",
+  "@moment_einmal": {
+    "description": "Dein Moment (Finale §3): Ausgegraute Kachel eines Einmal-Zugs"
+  },
+  "moment_gesperrt": "Gerade nicht möglich",
+  "@moment_gesperrt": {
+    "description": "Dein Moment (Finale §3): Ausgegraute Kachel ohne erlaubtes Ziel"
+  },
+  "moment_ich_selbst": "Ich selbst",
+  "@moment_ich_selbst": {
+    "description": "Dein Moment (Finale §3): Zielwahl beim Decken: sich selbst"
+  },
+  "moment_keine_ahnung": "Keine Ahnung",
+  "@moment_keine_ahnung": {
+    "description": "Dein Moment (Finale §3): Tipp: niemand"
+  },
+  "moment_bestaetigen": "Das ist mein Zug",
+  "@moment_bestaetigen": {
+    "description": "Dein Moment (Finale §3): Knopf: Zug bestätigen und zudecken"
+  },
+  "moment_wie_letzte": "Wie letzte Runde",
+  "@moment_wie_letzte": {
+    "description": "Dein Moment (Finale §3): Kachel: denselben Zug wie in der Runde davor"
+  },
+  "moment_zug_auf": "{zug} auf {name}",
+  "@moment_zug_auf": {
+    "description": "Dein Moment (Finale §3): Kurzform eines Zugs mit Ziel",
+    "placeholders": {
+      "zug": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moment_dein_zug": "Gezogen: {zug}",
+  "@moment_dein_zug": {
+    "description": "Dein Moment (Finale §3): Zug steht schon, lässt sich bis zu den Folgen ändern",
+    "placeholders": {
+      "zug": {
+        "type": "String"
+      }
+    }
+  },
+  "moment_abgewartet": "abgewartet",
+  "@moment_abgewartet": {
+    "description": "Dein Moment (Finale §3): Protokoll: kein Zug"
+  },
+  "moment_erklaerung_1": "Jede Runde ziehst du geheim einen Zug",
+  "@moment_erklaerung_1": {
+    "description": "Dein Moment (Finale §3): Dossier: erster Stichpunkt (R17)"
+  },
+  "moment_erklaerung_2": "Er formt Würfel, Zeit und Gerüchte",
+  "@moment_erklaerung_2": {
+    "description": "Dein Moment (Finale §3): Dossier: zweiter Stichpunkt (R17)"
+  },
+  "moment_erklaerung_3": "Zwei Sterne sind deine geheimen Ziele",
+  "@moment_erklaerung_3": {
+    "description": "Dein Moment (Finale §3): Dossier: dritter Stichpunkt (R17)"
+  },
+  "moment_gezogen_online": "Dein Zug steht. Bis zu den Folgen kannst du ihn ändern.",
+  "@moment_gezogen_online": {
+    "description": "Dein Moment (Finale §3): Gast: nach dem Senden"
+  },
+  "moment_aufruf_knopf": "Letzter Aufruf",
+  "@moment_aufruf_knopf": {
+    "description": "Dein Moment (Finale §3): Wer leitet: Knopf, wenn noch nicht alle gezogen haben"
+  },
+  "moment_aufruf_hinweis": "Noch nicht alle haben ihren Moment gezogen.",
+  "@moment_aufruf_hinweis": {
+    "description": "Dein Moment (Finale §3): Wer leitet: Hinweis über dem Knopf"
+  },
+  "moment_aufruf_laeuft": "Letzter Aufruf: noch {sekunden} Sekunden",
+  "@moment_aufruf_laeuft": {
+    "description": "Dein Moment (Finale §3): Countdown nach dem letzten Aufruf",
+    "placeholders": {
+      "sekunden": {
+        "type": "int"
+      }
+    }
+  },
+  "moment_aufruf_vorbei": "Wer jetzt nicht gezogen hat, wartet diese Runde ab.",
+  "@moment_aufruf_vorbei": {
+    "description": "Dein Moment (Finale §3): Nach dem Countdown"
+  },
+  "moment_warten": "Alle ziehen gerade ihren Moment.",
+  "@moment_warten": {
+    "description": "Dein Moment (Finale §3): Hinweis für Sitze ohne Figur"
+  },
+  "einfluss_folgen_titel": "Die Folgen eures Moments",
+  "@einfluss_folgen_titel": {
+    "description": "Dein Moment (Finale §3): Zu Beginn der Ermittlung"
+  },
+  "einfluss_folgen_weiter": "Zur Ermittlung",
+  "@einfluss_folgen_weiter": {
+    "description": "Dein Moment (Finale §3): Knopf nach den Folgen"
+  },
+  "einfluss_blasen_titel": "Am Tisch geraunt",
+  "@einfluss_blasen_titel": {
+    "description": "Dein Moment (Finale §3): Solo: Reaktionen der Rollen der App"
+  },
+  "einfluss_tisch": "Tisch",
+  "@einfluss_tisch": {
+    "description": "Dein Moment (Finale §3): Chancenvorschau: Zeile Tischwert"
+  },
+  "einfluss_umweg": "Umweg",
+  "@einfluss_umweg": {
+    "description": "Dein Moment (Finale §3): Chancenvorschau: Bonus nach einem Umweg"
+  },
+  "einfluss_randnotiz": "Randnotiz",
+  "@einfluss_randnotiz": {
+    "description": "Dein Moment (Finale §3): Fundkarte und Notizbuch: Kopf einer Randnotiz"
+  },
+  "einfluss_leisten_titel": "Stimmung am Tisch",
+  "@einfluss_leisten_titel": {
+    "description": "Dein Moment (Finale §3): Leisten Zusammenhalt und Spuk"
+  },
+  "einfluss_zusammenhalt": "Zusammenhalt",
+  "@einfluss_zusammenhalt": {
+    "description": "Dein Moment (Finale §3): Name der Leiste"
+  },
+  "einfluss_spuk": "Spuk",
+  "@einfluss_spuk": {
+    "description": "Dein Moment (Finale §3): Name der Leiste"
+  },
+  "einfluss_leiste_stand": "{wert} von {max}",
+  "@einfluss_leiste_stand": {
+    "description": "Dein Moment (Finale §3): Stand einer Leiste",
+    "placeholders": {
+      "wert": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "einfluss_ereignisse_titel": "Was in dieser Runde geschah",
+  "@einfluss_ereignisse_titel": {
+    "description": "Dein Moment (Finale §3): Resümee: Ereignisse"
+  },
+  "einfluss_nachgereicht_titel": "Jetzt sichtbar",
+  "@einfluss_nachgereicht_titel": {
+    "description": "Dein Moment (Finale §3): Resümee: Funde, die bis jetzt warteten"
+  },
+  "einfluss_nachfrage_offen": "Offene Nachfragen: {n}",
+  "@einfluss_nachfrage_offen": {
+    "description": "Dein Moment (Finale §3): Anklage: Zahl der Nachfragen",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "einfluss_nachfrage_waehlen": "Zu welcher Wahl fragst du nach?",
+  "@einfluss_nachfrage_waehlen": {
+    "description": "Dein Moment (Finale §3): Anklage: Auswahl der Option"
+  },
+  "einfluss_nachfrage_knopf": "Nachfragen",
+  "@einfluss_nachfrage_knopf": {
+    "description": "Dein Moment (Finale §3): Anklage: Knopf"
+  },
+  "einfluss_protokoll_titel": "Protokoll der Nacht",
+  "@einfluss_protokoll_titel": {
+    "description": "Dein Moment (Finale §3): Auflösung: alle Züge"
+  },
+  "einfluss_runde": "Runde {nr}",
+  "@einfluss_runde": {
+    "description": "Dein Moment (Finale §3): Auflösung: Kopf einer Runde",
+    "placeholders": {
+      "nr": {
+        "type": "int"
+      }
+    }
+  },
+  "einfluss_bot": "App",
+  "@einfluss_bot": {
+    "description": "Dein Moment (Finale §3): Auflösung: Zug der App für eine Rolle ohne Mensch"
+  },
+  "einfluss_sterne_titel": "Sterne der Nacht",
+  "@einfluss_sterne_titel": {
+    "description": "Dein Moment (Finale §3): Auflösung: Sterne je Figur"
+  },
+  "einfluss_tipps_titel": "Geheime Tipps",
+  "@einfluss_tipps_titel": {
+    "description": "Dein Moment (Finale §3): Auflösung: Tipps aus Runde drei"
+  },
+  "einfluss_punkte": "Punkte",
+  "@einfluss_punkte": {
+    "description": "Dein Moment (Finale §3): Auflösung: Feldname"
+  },
+  "einfluss_tischbonus": "Tischbonus",
+  "@einfluss_tischbonus": {
+    "description": "Dein Moment (Finale §3): Auflösung: Feldname"
+  },
+  "einfluss_endwert": "Endwert",
+  "@einfluss_endwert": {
+    "description": "Dein Moment (Finale §3): Auflösung: Feldname"
+  },
+  "einfluss_tafel_titel": "Züge dieser Runde",
+  "@einfluss_tafel_titel": {
+    "description": "Dein Moment (Finale §3): Erzähler: Zug-Tafel"
+  },
+  "einfluss_tafel_hinweis": "Nur für dich. Nie vorlesen.",
+  "@einfluss_tafel_hinweis": {
+    "description": "Dein Moment (Finale §3): Erzähler: Hinweis zur Zug-Tafel"
+  },
+  "einfluss_tafel_leer": "Noch hat niemand gezogen.",
+  "@einfluss_tafel_leer": {
+    "description": "Dein Moment (Finale §3): Erzähler: Zug-Tafel ohne Züge"
+  },
+  "einfluss_verzoegert": "Die Fakten kommen im Zwischenresümee.",
+  "@einfluss_verzoegert": {
+    "description": "Dein Moment (Finale §3): Fundkarte nach einem Umweg, die Fakten warten"
+  },
   "abend_start_laenge": "Länge",
   "@abend_start_laenge": {
     "description": "Startübersicht (M7b): geschätzte Länge des Abends"

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:mordakte_core/runden.dart' show EinflussRegeln;
 
 import '../detektei/akten.dart';
 
@@ -42,8 +43,12 @@ class PartyDaten {
   /// Tests ohne Datei). Gespielt wird er nur im langen Abend.
   final VorspielMorgen? vorspielMorgen;
 
+  /// Regeln von „Dein Moment“ (Finale §3, `content/party/zusatz/<fall>/einfluss.json`), nur bei Akten
+  /// mit dem Zusatz `einfluss`; `null`: Die Akte kennt die Schicht nicht, jeder Abend bleibt wie bisher.
+  final EinflussRegeln? einfluss;
+
   PartyDaten._(this.fall, this.kanon, this.texte, this.karte, this.szenario, this.npcKennung, this.erzaehlung, this.akte, this.geruechte, this.diashow,
-      this.vorspielMorgen)
+      this.vorspielMorgen, this.einfluss)
       : kanonKennung = {for (final e in npcKennung.entries) e.value: e.key};
 
   /// Hat die Akte den Zusatz [faehigkeit] (`AkteInfo.hat`)?
@@ -69,6 +74,7 @@ class PartyDaten {
     Map<String, Object?>? geruechte,
     Map<String, Object?>? diashow,
     Map<String, Object?>? vorspielMorgen,
+    Map<String, Object?>? einfluss,
   }) {
     final kanon = Kanon.lade(lies);
     final sammlung = Textsammlung.lade(lies);
@@ -88,6 +94,7 @@ class PartyDaten {
       geruechte == null ? null : Geruechte.ausJson(geruechte),
       diashow == null ? null : Diashow.ausJson(diashow),
       vorspielMorgen == null ? null : VorspielMorgen.ausJson(vorspielMorgen),
+      einfluss == null ? null : EinflussRegeln.ausJson(einfluss, karte.ermittlung),
     );
   }
 
@@ -140,6 +147,10 @@ class PartyDaten {
         vorspielMorgen = null;
       }
     }
+    // „Dein Moment“ (Finale §3) nur mit dem Zusatz einfluss; die Datei liegt neben den Abstechern.
+    final einfluss = (akte?.hat('einfluss') ?? false)
+        ? jsonDecode(await bundle.loadString('content/party/zusatz/$fall/einfluss.json')) as Map<String, Object?>
+        : null;
     return PartyDaten.aus(eigen.lies, vorlage,
         fall: fall,
         basis: basis?.lies,
@@ -148,7 +159,8 @@ class PartyDaten {
         akte: akte,
         geruechte: geruechte,
         diashow: diashow,
-        vorspielMorgen: vorspielMorgen);
+        vorspielMorgen: vorspielMorgen,
+        einfluss: einfluss);
   }
 
   static Future<_Ordner> _ordner(AssetBundle bundle, String basis, {bool nurTexte = false}) async {

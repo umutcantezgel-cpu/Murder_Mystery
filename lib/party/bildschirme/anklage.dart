@@ -6,6 +6,8 @@ import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'einfluss_teile.dart' show NachfrageTafel;
+import 'moment.dart' show EinflussDarstellung;
 
 final _de = LDe();
 
@@ -54,6 +56,19 @@ class _AnklageBildschirmState extends State<AnklageBildschirm> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ErzaehlerFeld(sitzung: s, kennungen: s.erzaehler),
+                // „Dein Moment“ (Finale §3.5): Nachfragen nach Runde drei, vor der Anklage.
+                if (s.einflussLage case final lage?)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: NachfrageTafel(
+                      offen: angeklagt == null ? s.nachfragenOffen : 0,
+                      optionen: s.nachfrageOptionen,
+                      nachgefragt: lage.nachgefragt,
+                      ermittlung: s.spiel.ermittlung,
+                      darstellung: EinflussDarstellung.sitzung(s),
+                      onNachfrage: s.detektivAmGeraet && angeklagt == null ? s.nachfrage : null,
+                    ),
+                  ),
                 const SizedBox(height: 8),
                 Text(hinweis, style: context.schrift.leise),
                 const SizedBox(height: 10),

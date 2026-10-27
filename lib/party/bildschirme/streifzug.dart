@@ -20,7 +20,9 @@ import '../stand/befragung_stand.dart';
 import '../streifzug_karte.dart';
 import '../streifzug_steuerung.dart';
 import 'befragung.dart';
+import 'einfluss_teile.dart';
 import 'karte.dart';
+import 'moment.dart';
 import 'spickzettel.dart';
 
 final _de = LDe();
@@ -177,6 +179,11 @@ class SitzungsStreifzug implements StreifzugAbend {
           SitzungsUhr(sitzung: s, groesse: 240),
           const SizedBox(height: 20),
           ErzaehlerFeld(sitzung: s, kennungen: s.erzaehler),
+          // „Dein Moment“ in den Gesprächen: reihum die Liste, online der letzte Aufruf.
+          if (s.einfluss && s.phase == PartyPhase.gespraeche) ...[
+            const SizedBox(height: 20),
+            s.online ? MomentAufruf(sitzung: s) : MomentListe(sitzung: s),
+          ],
         ],
       );
 }
@@ -516,6 +523,8 @@ class _StreifzugAnsichtState extends State<StreifzugAnsicht> implements Streifzu
   Widget build(BuildContext context) {
     final l = streifzugTexte(context);
     if (a.reihum && widget.vollbild) {
+      // „Dein Moment“ (Finale §3): Die verdeckte Ansicht einer Person geht vor.
+      if (s.momentAnsicht case final r?) return MomentBildschirm(sitzung: s, rolle: r);
       final v = s.verdeckt;
       if (v != null) return _spickzettel(v);
       final vorbereitet = _vorbereitet;
