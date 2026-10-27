@@ -4595,6 +4595,11 @@ class LDe extends L {
   String get einfluss_randnotiz => 'Randnotiz';
 
   @override
+  String einfluss_ausgepackt(String name) {
+    return 'Ausgepackt: $name';
+  }
+
+  @override
   String get einfluss_leisten_titel => 'Stimmung am Tisch';
 
   @override

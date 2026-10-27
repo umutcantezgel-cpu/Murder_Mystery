@@ -1120,8 +1120,10 @@ class PartySitzung extends ChangeNotifier {
 
   final Map<String, List<Aufdeckung>> _funde = {};
 
-  /// Alle bisherigen Funde je Entscheidung (Notizbuch des Detektivs).
-  Map<String, List<Aufdeckung>> get funde => Map.unmodifiable(_funde);
+  /// Alle bisherigen Funde je Entscheidung (Notizbuch des Detektivs). Mit „Dein
+  /// Moment“ kommen verzögerte Funde (Umweg, „mauert“) ab dem Zwischenresümee
+  /// ihrer Runde dazu, wie online ([nachgereicht]).
+  Map<String, List<Aufdeckung>> get funde => Map.unmodifiable({..._funde, ...nachgereicht});
 
   ({String entscheidung, KartenZiel ziel, List<Aufdeckung> funde})? _letzterFund;
 

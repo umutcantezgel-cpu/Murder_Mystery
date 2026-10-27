@@ -7917,6 +7917,12 @@ abstract class L {
   /// **'Randnotiz'**
   String get einfluss_randnotiz;
 
+  /// Dein Moment (Finale §3.6): Notizbuch: Kopf eines ausgepackten Fakts, mit dem Namen am Tisch
+  ///
+  /// In de, this message translates to:
+  /// **'Ausgepackt: {name}'**
+  String einfluss_ausgepackt(String name);
+
   /// Dein Moment (Finale §3): Leisten Zusammenhalt und Spuk
   ///
   /// In de, this message translates to:

@@ -547,7 +547,8 @@ class _Notizbuch extends StatelessWidget {
     final npc = jTexte(c.privat['erzaehlerNotizen']);
     final oben = {for (final k in s?.befragungen ?? const <BefragungKarte>[]) k.id};
     final antworten = [for (final k in s?.befragungsNotizen ?? const <BefragungKarte>[]) if (!oben.contains(k.id)) k];
-    if (funde.isEmpty && npc.isEmpty && antworten.isEmpty) return const SizedBox.shrink();
+    final ausgepackt = gastAusgepackt(c);
+    if (funde.isEmpty && npc.isEmpty && antworten.isEmpty && ausgepackt == null) return const SizedBox.shrink();
     String frage(String id) {
       try {
         return c.daten?.karte.ermittlung.entscheidung(id).frage ?? '';
@@ -568,6 +569,8 @@ class _Notizbuch extends StatelessWidget {
         for (final f in jTexte(e.value)) _punkt(f),
         const SizedBox(height: MMass.s8),
       ],
+      // „Dein Moment“: ausgepackte Fakten zählen wie ein Fund (§3.6).
+      ?ausgepackt,
       for (final n in npc) Padding(padding: const EdgeInsets.only(bottom: MMass.s8), child: MGanzeWorte(n, stil: MPapierSchrift.kursiv, minimum: 10)),
     ], art: PapierArt.notiz);
   }

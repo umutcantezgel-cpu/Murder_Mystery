@@ -3815,6 +3815,15 @@
   "@einfluss_randnotiz": {
     "description": "Dein Moment (Finale §3): Fundkarte und Notizbuch: Kopf einer Randnotiz"
   },
+  "einfluss_ausgepackt": "Ausgepackt: {name}",
+  "@einfluss_ausgepackt": {
+    "description": "Dein Moment (Finale §3.6): Notizbuch: Kopf eines ausgepackten Fakts, mit dem Namen am Tisch",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "einfluss_leisten_titel": "Stimmung am Tisch",
   "@einfluss_leisten_titel": {
     "description": "Dein Moment (Finale §3): Leisten Zusammenhalt und Spuk"

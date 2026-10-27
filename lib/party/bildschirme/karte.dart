@@ -661,6 +661,12 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
         },
       );
 
+  /// Stehen Einträge von „Dein Moment“ im Notizbuch (ausgepackte Fakten, Randnotizen)?
+  bool get _einflussNotizen {
+    final lage = s.einflussLage;
+    return lage != null && (lage.randnotizen.isNotEmpty || AusgepacktListe.eintraege(lage.folgen, s.spiel.ermittlung).isNotEmpty);
+  }
+
   /// Das Notizbuch: ein Notizblock mit den gehörten Sprechblasen bzw. den
   /// Antworten aus den Befragungen, den Funden je Entscheidung und dem Würfelprotokoll.
   Future<void> _notizbuch() => showDialog<void>(
@@ -674,7 +680,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty && s.erzaehlerNotizen.isEmpty)
+              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty && s.erzaehlerNotizen.isEmpty && !_einflussNotizen)
                 Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
               // Modell befragung (A-051): die Antworten, die die App auf die Fragen des Detektivs gab.
               if (s.befragungsNotizen.isNotEmpty) ...[
@@ -708,6 +714,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 for (final a in f.value) Padding(padding: const EdgeInsets.only(top: 4, bottom: 8), child: Text(a.text, style: MPapierSchrift.text)),
                 const SizedBox(height: 4),
               ],
+              // „Dein Moment“: ausgepackte Fakten (§3.6), sie zählen wie ein Fund.
+              if (s.einflussLage case final lage?) AusgepacktListe(folgen: lage.folgen, ermittlung: s.spiel.ermittlung, darstellung: EinflussDarstellung.sitzung(s)),
               // „Dein Moment“: gezeigte Randnotizen (Auspacken, Zusatzfunde, Nachfragen).
               if (s.einflussLage case final lage? when lage.randnotizen.isNotEmpty) ...[
                 const SizedBox(height: 8),

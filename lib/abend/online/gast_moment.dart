@@ -308,6 +308,16 @@ Widget? gastEinflussTafel(GastKontext c) {
   return Padding(padding: const EdgeInsets.only(bottom: MMass.s16), child: ZugTafelAnsicht(tafel: t, darstellung: d));
 }
 
+/// Ausgepackte Fakten für das Notizbuch (§3.6), aus `einfluss.folgen[].gestanden`; `null`, solange keiner
+/// ausgepackt wurde oder die Akte lädt.
+Widget? gastAusgepackt(GastKontext c) {
+  final lage = gastEinflussLage(c);
+  final d = gastDarstellung(c);
+  final erm = c.daten?.karte.ermittlung;
+  if (lage == null || d == null || erm == null || AusgepacktListe.eintraege(lage.folgen, erm).isEmpty) return null;
+  return AusgepacktListe(folgen: lage.folgen, ermittlung: erm, darstellung: d);
+}
+
 /// Die Wirkungen der Schicht für den Gast-Detektiv in der Ermittlung: Leisten und die Gerüchte der Runde.
 Widget? gastEinflussWirkungen(GastKontext c) {
   final lage = gastEinflussLage(c);

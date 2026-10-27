@@ -248,6 +248,45 @@ void main() {
       expect(s.einflussAbend!.privatFuer('ahmet').map((n) => n.nachricht.art), contains(PrivatArt.ertappt));
     });
 
+    test('„Mauert“: Die verzögerten Funde stehen ab dem Zwischenresümee im Notizbuch, bis zur Anklage', () {
+      final s = einflussSitzung(pfad: 'fatma', wuerfel: const FesterWuerfel.erfolg(), salz: 'mauert');
+      einflussBis(s, PartyPhase.gespraeche);
+      // Ahmet und Fatma decken Ahmet: T(e1_1_damir) = −2 bei n = 4.
+      alleZiehen(s, plan: (s, r) => r == 'ahmet' || r == 'fatma' ? (art: ZugArt.decken, ziel: 'ahmet', tipp: null) : (art: ZugArt.helfen, ziel: null, tipp: null));
+      einflussBis(s, PartyPhase.entscheidungen);
+      s.folgenGelesen();
+      expect(s.tischwert('e1_1_damir'), -2);
+      s.schlageVor('e1_1_damir');
+      s.bestaetigen();
+      s.aktionFertig(s.zug!.aktion);
+      expect(s.zug!.einfluss!.befragung, BefragungsLage.mauert);
+      s.fundGelesen();
+      expect(s.funde['e1_1'], isEmpty, reason: 'Die Fakten warten auf das Zwischenresümee');
+      einflussBis(s, PartyPhase.resuemee);
+      final nach = [for (final a in s.nachgereicht['e1_1']!) a.text];
+      expect(nach, isNotEmpty);
+      expect([for (final a in s.funde['e1_1']!) a.text], nach);
+      einflussBis(s, PartyPhase.anklage);
+      expect([for (final a in s.funde['e1_1']!) a.text], nach, reason: 'Zur Anklage stehen sie noch im Notizbuch');
+      expect(s.funde.keys.first, 'e1_1', reason: 'Die Reihenfolge der Entscheidungen bleibt');
+    });
+
+    testWidgets('Ausgepackte Fakten stehen mit Namen im Notizbuch', (t) async {
+      final s = einflussSitzung(salz: 'auspacken');
+      einflussBis(s, PartyPhase.gespraeche);
+      alleZiehen(s, plan: (s, r) => r == 'fatma' ? (art: ZugArt.auspacken, ziel: null, tipp: null) : planZug(s, r));
+      einflussBis(s, PartyPhase.entscheidungen);
+      s.folgenGelesen();
+      final lage = s.einflussLage!;
+      final d = EinflussDarstellung.sitzung(s);
+      final e = AusgepacktListe.eintraege(lage.folgen, s.spiel.ermittlung);
+      expect([for (final x in e) (x.figur, x.fakt)], [('fatma', 'f_nd_fatma')]);
+      await t.pumpWidget(rahmen(SingleChildScrollView(child: AusgepacktListe(folgen: lage.folgen, ermittlung: s.spiel.ermittlung, darstellung: d))));
+      final l = momentTexte(t.element(find.byType(AusgepacktListe)));
+      expect(find.text(l.einfluss_ausgepackt(d.name('fatma'))), findsOneWidget);
+      expect(find.text(faktWortlaut(s.spiel.ermittlung, 'f_nd_fatma')), findsOneWidget);
+    });
+
     testWidgets('Pech: Die Spur verwischt, Tischruf-Knöpfe mit Wirkungstext', (t) async {
       final s = einflussSitzung(wuerfel: const FesterWuerfel.pech());
       einflussBis(s, PartyPhase.entscheidungen, runde: 2);

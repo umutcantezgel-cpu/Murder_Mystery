@@ -956,7 +956,9 @@ Widget _ermittlung(GastKontext c) {
     kinder.add(_notiz(l.online_ermittlung_fertig));
   }
 
-  if (notizbuch.isNotEmpty) {
+  // „Dein Moment“: ausgepackte Fakten zählen wie ein Fund (§3.6).
+  final ausgepackt = gastAusgepackt(c);
+  if (notizbuch.isNotEmpty || ausgepackt != null) {
     kinder.add(_Block(
       titel: l.online_notizbuch_titel,
       art: PapierArt.notiz,
@@ -972,6 +974,7 @@ Widget _ermittlung(GastKontext c) {
               ],
             ),
           ),
+        ?ausgepackt,
       ],
     ));
   }

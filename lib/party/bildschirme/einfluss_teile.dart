@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Ermittlung, PartyPhase;
-import 'package:mordakte_core/runden.dart' show BefragungsLage, EinflussFund, momentAufrufFrist, tippKeiner;
+import 'package:mordakte_core/runden.dart' show BefragungsLage, EinflussFund, faktWortlaut, momentAufrufFrist, tippKeiner;
 
 import '../../l10n/gen/app_localizations.dart';
 import '../../stil/mappe/abend2_bausteine.dart';
@@ -87,6 +87,60 @@ class RandnotizAnsicht extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Ausgepackte Fakten im Notizbuch (§3.6): Sie zählen für die Regeln wie ein
+/// Fund und bleiben nach dem Vorlesen der Folgen stehen, je Fakt mit dem Namen
+/// am Tisch. Leer, solange niemand einen Fakt ausgepackt hat.
+class AusgepacktListe extends StatelessWidget {
+  const AusgepacktListe({super.key, required this.folgen, required this.ermittlung, required this.darstellung});
+
+  final List<FolgenSicht> folgen;
+  final Ermittlung ermittlung;
+  final EinflussDarstellung darstellung;
+
+  /// Figur und Wortlaut je ausgepacktem Fakt, in der Reihenfolge der Runden.
+  static List<({String figur, String fakt, String text})> eintraege(List<FolgenSicht> folgen, Ermittlung ermittlung) => [
+        for (final f in folgen)
+          for (final g in f.gestanden)
+            if (g.fakt case final id?)
+              if (_wortlaut(ermittlung, id) case final text?) (figur: g.figur, fakt: id, text: text),
+      ];
+
+  static String? _wortlaut(Ermittlung erm, String id) {
+    try {
+      return faktWortlaut(erm, id);
+    } on ArgumentError {
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final liste = eintraege(folgen, ermittlung);
+    if (liste.isEmpty) return const SizedBox.shrink();
+    final l = momentTexte(context);
+    return Column(
+      key: const ValueKey('ausgepackt-liste'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final e in liste)
+          Padding(
+            key: ValueKey('ausgepackt-${e.figur}-${e.fakt}'),
+            padding: const EdgeInsets.only(bottom: MMass.s8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(l.einfluss_ausgepackt(darstellung.name(e.figur)), style: MPapierSchrift.leise),
+                Text(e.text, style: MPapierSchrift.text),
+              ],
+            ),
+          ),
+      ],
     );
   }
 }
