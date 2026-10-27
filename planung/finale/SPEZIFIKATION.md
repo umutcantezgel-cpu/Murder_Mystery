@@ -498,3 +498,7 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       oder neutral; angesagt als „Der Zusammenhalt wächst“), nicht nur die wahren. Damit nie „in keiner der drei Runden“
       bei einer Leiste über 0 und `einfluss.tischbonus.plus` nur mit N ≥ 2. Ohne Schicht unverändert (T-N).
       `einfluss_soll.g.dart` nach E-048 neu erzeugt, einzige Ursache gegengeprüft.
+  35. §3.10 Spürnasen: Tipp richtig, die Täterrolle zählt nicht (sie kennt ihre Tat; keine +2 in der Wertung für den
+      Stern, keine Erfahrung als Spürnase). Wirkt erst nach dem Finale, R13 und „pfadblind“ bleiben; die Tipp-Karte ist
+      für alle gleich. `einfluss.preis.stern` ohne Herrn Schneiders Beifall (der Stern kann an den unentdeckten Täter
+      gehen). `einfluss_soll.g.dart` nach E-048 neu erzeugt, einzige Ursache gegengeprüft.

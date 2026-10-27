@@ -1172,7 +1172,7 @@ class Auszeichnungen {
   /// Stern des Abends (immer vergeben, sobald jemand besetzt ist).
   final String? stern;
 
-  /// Wer richtig getippt hat, in Besetzungsreihenfolge.
+  /// Wer richtig getippt hat, in Besetzungsreihenfolge, ohne die Rolle der Auflösung (sie kennt ihre Tat).
   final List<String> spuernasen;
 
   /// Meiste Spuk-Gewichte bzw. meiste Deckungen für andere; ohne solche Züge niemand.
@@ -1203,9 +1203,10 @@ int gestuetzteErfolge(NachtProtokoll p, EinflussRegeln r, String rolle) {
 /// Rolle (`einfluss_ziele.dart`); Spürnasen gibt es erst mit der Auflösung im Protokoll.
 Auszeichnungen auszeichnen(NachtProtokoll p, EinflussRegeln r, {required Map<String, int> sterne}) {
   final tipps = p.tipps(r.zahlen.tippRunde);
+  // Die Rolle der Auflösung kennt ihre Tat: Ihr Tipp auf sich selbst macht sie nicht zur Spürnase (Änderung 35).
   final spuernasen = [
     for (final rolle in p.besetzt)
-      if (p.aufloesung != null && tipps[rolle] == p.aufloesung) rolle,
+      if (p.aufloesung != null && rolle != p.aufloesung && tipps[rolle] == p.aufloesung) rolle,
   ];
   final wertung = <String, int>{};
   for (final rolle in p.besetzt) {

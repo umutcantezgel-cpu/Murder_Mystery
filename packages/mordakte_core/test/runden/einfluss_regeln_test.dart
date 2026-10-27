@@ -376,7 +376,7 @@ void main() {
   });
 
   group('Auszeichnungen (§3.10)', () {
-    NachtProtokoll protokoll({Map<String, int> ertappt = const {}, String? aufloesung = 'fatma'}) => NachtProtokoll(
+    NachtProtokoll protokoll({Map<String, int> ertappt = const {}, String? aufloesung = 'fatma', String tippFatma = 'olli'}) => NachtProtokoll(
           besetzt: const ['ahmet', 'fatma', 'olli', 'can', 'leyla'],
           zuege: {
             1: {
@@ -395,7 +395,7 @@ void main() {
             },
             3: {
               'ahmet': _z('ahmet', ZugArt.helfen, null, 'fatma'),
-              'fatma': _z('fatma', ZugArt.decken, 'olli', 'olli'),
+              'fatma': _z('fatma', ZugArt.decken, 'olli', tippFatma),
               'olli': _z('olli', ZugArt.zeigen, 'ahmet', tippKeiner),
               'can': _z('can', ZugArt.helfen, null, 'ahmet'),
               'leyla': _z('leyla', ZugArt.helfen, null, 'fatma'),
@@ -418,6 +418,12 @@ void main() {
         'stern': 'ahmet', 'spuernasen': ['ahmet', 'leyla'], 'schlossgeist': 'olli', 'treueSeele': 'fatma',
         'wertung': {'ahmet': 7, 'fatma': 6, 'olli': 0, 'can': 4, 'leyla': 2},
       });
+    });
+
+    test('Die Täterrolle tippt auf sich selbst: keine Spürnase, keine zwei Punkte für den Stern', () {
+      final a = auszeichnen(protokoll(tippFatma: 'fatma'), _r, sterne: const {'ahmet': 1, 'fatma': 2, 'can': 1});
+      expect(a.spuernasen, ['ahmet', 'leyla']);
+      expect(a.wertung['fatma'], 6, reason: '3 · 2 Sterne, ohne Spürnase');
     });
 
     test('Ohne Auflösung keine Spürnasen; Gleichstand: weniger Ertappt, dann Besetzungsreihenfolge', () {

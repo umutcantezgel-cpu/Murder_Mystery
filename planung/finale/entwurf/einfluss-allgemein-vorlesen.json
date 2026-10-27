@@ -35,7 +35,7 @@
     { "id": "einfluss.tischbonus.plus", "text": "Ihr habt in dieser Nacht fest zusammengehalten. Dafür legt euch das Schloss einen Punkt obendrauf." },
     { "id": "einfluss.tischbonus.minus", "text": "Der Spuk war heute stärker als eure Nerven. Das kostet euch einen Punkt." },
 
-    { "id": "einfluss.preis.stern", "text": "Der Stern des Abends geht an @figur! Das Gewölbe verneigt sich, und sogar Herr Schneider klatscht. Zweimal. Für seine Verhältnisse ist das tosender Beifall." },
+    { "id": "einfluss.preis.stern", "text": "Der Stern des Abends geht an @figur! Das Gewölbe verneigt sich, und die ganze Runde klatscht laut Beifall." },
     { "id": "einfluss.preis.spuernase", "text": "Eine Spürnase der Nacht ist @figur. Richtig getippt, ganz ohne Hut und Lupe!" },
     { "id": "einfluss.preis.schlossgeist", "text": "Zum Schlossgeist der Nacht wird @figur ernannt. Niemand hat so viel Wirbel gemacht. Die Fledermäuse bitten um ein Autogramm." },
     { "id": "einfluss.preis.treue_seele", "text": "Die Treue Seele des Abends ist @figur. Wer so fest zu anderen hält, bekommt den wärmsten Platz auf der Bank." },

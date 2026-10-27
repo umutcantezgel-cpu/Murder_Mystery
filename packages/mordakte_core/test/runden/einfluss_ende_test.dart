@@ -184,7 +184,7 @@ void main() {
       expect(prot.aufloesung, 'can');
       expect(prot.rest, p.restJeRunde[2]);
       final a = e.auszeichnungen();
-      expect(a.spuernasen, [for (final r in p.spiel.besetzt) if (e.stand.tipps[r] == 'can') r]);
+      expect(a.spuernasen, [for (final r in p.spiel.besetzt) if (r != 'can' && e.stand.tipps[r] == 'can') r], reason: 'Die Täterrolle zählt nicht');
       for (final r in p.spiel.besetzt) {
         final xp = EinflussErfahrung(sterne: e.sterne()[r]!, sternDesAbends: a.stern == r, spuernase: a.spuernasen.contains(r));
         expect(xp.xp, 15 * e.sterne()[r]! + (a.stern == r ? 25 : 0) + (a.spuernasen.contains(r) ? 10 : 0));
