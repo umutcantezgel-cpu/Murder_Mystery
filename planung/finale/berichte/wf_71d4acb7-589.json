@@ -1,0 +1,224 @@
+[
+ {
+  "agent": "schreiben:allgemein",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-allgemein-vorlesen.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-allgemein-karten.json"
+   ],
+   "pruefer_sauber": true,
+   "eintraege": 83,
+   "offene_fragen": [
+    "Prüfstand: Beide Dateien laufen im Prüfwerkzeug ohne FEHLER und ohne WARNUNG durch. Vorlesen: 31 Einträge, Satzschnitt 8,0, kein Satz über 17 Wörter. Karten: 52 Einträge, alle mit genau einem Stichpunkt zu höchstens 8 Wörtern. Außerhalb von planung/finale/entwurf/ ist nichts geändert, es gibt keinen Commit. Hinweis: dart liegt nicht im PATH; aufgerufen wurde /home/user/Murder_Mystery/.werkzeug/flutter/bin/dart.",
+    "Was setzt die Engine in einfluss.privat.gelauscht („Gelauscht: @figur wählt @zug, Ziel @ziel“) für @ziel ein, wenn der belauschte Zug kein Ziel hat (Helfen, Auspacken, Ablenken)? Und was erscheint bei „abgewartet“? Vorschlag: „niemand“ einsetzen oder eigene Schlüssel wie einfluss.privat.gelauscht.ohne_ziel und .abgewartet anlegen.",
+    "Kragen: §3.8 sagt „Morgen-Variante chaotisch“, §3.10 aber nur chaotisch bei Spuk ≥ 4 und Zusammenhalt < 4. Karte und Vorlesetext sagen fest „der Morgen wird chaotisch“. Erzwingt Kragen den chaotischen Morgen? Falls nicht, Text auf „droht chaotisch zu werden“ ändern.",
+    "Für die Ereignisse gibt es keinen Titel-Schlüssel. Die .karte-Texte nennen darum nur die Wirkung. Vorschlag: einfluss.ereignis.<id>.titel ergänzen. Der Plan-Name „Kerzenschein“ enthält „Kerze“ (steht in spoilerWoerter und erinnert an den Kerzenständer). Der Vorlesetext meidet das Wort und spricht von einem „warmen, goldenen Schein“. Eventuell umbenennen, etwa in „Goldener Schein“ oder „Dämmerlicht“.",
+    "einfluss.leiste.zusammenhalt.1/.2 und spuk.1/.2 habe ich als Zuwachs +1 bzw. +2 gelesen; die .2-Texte sagen „wächst kräftig“. Falls es nur Varianten ohne Stärke sind, müssen die .2-Texte entschärft werden.",
+    "einfluss.folgen.start.1–3 sind rundenneutral geschrieben, also in jeder Reihenfolge oder Runde nutzbar. Bitte bestätigen, ob sie fest an Runde 1–3 hängen sollen.",
+    "Karten nutzen Ziffern und das Minuszeichen U+2212, z. B. „−1 Tischstimme“, „Störung −2“. Laut TON-LEITFADEN §4 sind Ziffern auf Karten erlaubt. Bitte bestätigen, dass die App das Zeichen sauber darstellt, sonst ASCII-Bindestrich nehmen.",
+    "Gewollte Treffer aus der spoilerWoerter-Liste, alle außerhalb von Ereignissen und Gerüchten: „Spur“ in einfluss.wieder und einfluss.verwischt (Spezifikation: „Die Spur verwischt“) sowie „Geheimnis“ in einfluss.zug.auspacken.p1 (Spezifikation §3.2).",
+    "Herr Schneider kommt in einfluss.ereignis.tee, .erinnerung und .kragen, in preis.stern und in allen drei morgen-Texten vor. Das ist laut figuren.json zulässig: Er ist ab 0:01:30 wach und sitzt in den Runden dabei. Bei „erinnerung“ fällt ihm nur ein, dass seine Brille auf der Nase sitzt; zur Tat sagt er nichts.",
+    "Die allgemeinen Texte nennen keine Figur, nur die Platzhalter @figur und @ziel. Ich habe keine Raumnamen, keine Gegenstände, keine Suchstellen oder Lacher und weder die Wörter „Tür“, „Tisch“ und „Hand“ noch Wörter mit „Gespenst“ oder „Leucht“ verwendet. „Tisch“ steht nur in Karten als Spielbegriff (Tischstimme, Tischwert). Vermieden habe ich auch die Raumwort-Endungen, z. B. „Sturm“ oder „Traum“."
+   ]
+  }
+ },
+ {
+  "agent": "schreiben:figuren",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-figuren-vorlesen.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-figuren-karten.json"
+   ],
+   "pruefer_sauber": true,
+   "eintraege": 120,
+   "offene_fragen": [
+    "Prüfer-Lauf: pruefe.dart meldet FEHLER=0 und WARNUNG=0 im Modus vorlesen (80 Einträge, Satzschnitt 8,9 Wörter) und im Modus karte (40 Einträge, Satzschnitt 6,1). Dart ist nicht im PATH: Ich habe ihn mit PATH=/home/user/Murder_Mystery/.werkzeug/flutter/bin aufgerufen.",
+    "Der Prüfer kontrolliert die Wortspannen je Schlüssel nicht. Das habe ich mit einem eigenen Skript erledigt: /tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/figuren_check/check.py. Ergebnis: auspacken 28 bis 44 Wörter, ablenken 24 bis 32, Epiloge 18 bis 28, Karten höchstens 8 Wörter. Mein Skript meldet noch zwei Treffer. Beide sind bewusst stehen geblieben, weil sie keine R15-Verstöße sind: „Musikbox“ (Baran) ist laut Auftrag erlaubt, und „Herr Schneider“ (Pawel, Gag mit der Bank) ist kein R15-Begriff.",
+    "Bei den vier Kernfiguren ist die Form gleich und zum Teil wortgleich. Auspacken: je 35 Wörter in vier Sätzen (Einleitung, Gegenstand, Geständnis, ‚Du schreibst jedes Wort mit.‘). Ablenken: je 28 Wörter. Epilog erreicht: je 28 Wörter in gleicher Form. Epilog verfehlt: je 23 Wörter. Zielkarte Stern I: je 8 Wörter, Muster ‚Halte … bis zur Anklage geheim‘. Zielkarte Stern II: wortgleich ‚Du wirst am Ende nicht angeklagt‘.",
+    "Aus den Spurtexten der Kernfiguren habe ich zwei Details weggelassen, damit die vier Texte gleich aussehen und nichts Richtung Tat deutet: bei Can ‚Farbe noch leicht klebrig‘, bei Olli ‚weißer Kalk‘ und ‚Wojteks Möbelwachs‘. Olli sagt dafür ‚beim Tragen‘; das stammt aus der Zeitleiste, die in allen Pfaden gilt. Bitte bestätigen, dass die gekürzte Quelle reicht.",
+    "Johanna: f_foto_streit kommt in allen vier Pfaden vor (Spur spur_foto_streit, entstehtWenn immer). Ihr Text liefert also Fakt und Randnotiz.",
+    "Emine und Wojtek nennen in ihrem Text auch, wo der Gegenstand jetzt ist (Schatulle in Fatmas Tasche, Handschuh in Ollis Westentasche). Das steht so im Fakt f_nd_fatma bzw. f_nd_olli, den ihr Auspacken liefert.",
+    "Um 5-Wort-Treffer zu vermeiden, habe ich mehrere Beobachtungen umformuliert, ohne den Inhalt zu ändern. Beispiele: Serkan ‚schon kurz vor zwölf und noch eine Weile danach‘ statt ‚bis nach zwölf‘. Baran ‚Kurz darauf hieß es Stehen bleiben‘, ohne Herrn Schneider als Rufer zu nennen. Damir ‚Can konnte ich nicht sehen‘. Bitte prüfen, ob der Sinn genau genug erhalten ist.",
+    "Die Leisten Spuk und Zusammenhalt steigen laut §3.8 nur. Deshalb heißt ‚endet bei höchstens drei‘ auf den Karten ‚Halte den Spuk bei höchstens drei‘ und ‚endet bei mindestens vier‘ heißt ‚Bring den Zusammenhalt auf mindestens vier‘. Falls die Leisten doch sinken können, müssen die Kartentexte angepasst werden.",
+    "Die Karten von Aylin (Stern I) und Marek (Stern II) heißen nur ‚… ans Licht‘, ohne ‚bis zur Anklage‘, sonst wären es mehr als acht Wörter. Tims Stern II lautet ‚Lass dich beim Decken nie ertappen‘, weil Ertappt nur beim Decken vorkommt. Bitte bestätigen.",
+    "Bei Ahmet steht die Aufschrift im Vorlesetext in verschachtelten Anführungszeichen: ‚Miete Schlosskeller‘ innerhalb von „…“. Bitte prüfen, ob die Stimme das richtig vorliest.",
+    "Die Epiloge ‚erreicht‘ sind so geschrieben, dass sie zu Stern I wie zu Stern II passen und auch dann stimmen, wenn die Figur der Täter ist. Die Epiloge ‚verfehlt‘ nennen das Geheimnis höchstens dann, wenn es nach Stern I ohnehin bekannt ist. Pfadfreiheit bitte beim Zusammenführen noch einmal gegen die Auflösungstexte prüfen.",
+    "Herr Schneider kommt in einigen Gags und Epilogen vor (Bank bei Pawel, Butter, Tee, Kaminklappe). Er ist kein R15-Begriff, aber er ist das Opfer. Bitte im Ton prüfen."
+   ]
+  }
+ },
+ {
+  "agent": "schreiben:bots",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-bots-karten.json"
+   ],
+   "pruefer_sauber": true,
+   "eintraege": 80,
+   "offene_fragen": [
+    "Prüfwerkzeug: 'dart' liegt nicht im PATH, ich habe /home/user/Murder_Mystery/.werkzeug/flutter/bin/dart genommen. Ergebnis im Modus karte (der richtige Modus für einfluss.bot.*): 80 Felder, 0 FEHLER, 0 WARNUNG. Gegenprobe im strengeren Modus vorlesen ebenfalls 0/0. Dazu ein Selbsttest: alle 80 Schlüssel vorhanden, keine Altnamen, keine Raumwort-Endungen, keine Sperr- oder Kennwörter. Der einzige Treffer war falsch positiv: 'schreib' wurde als 'schrei' erkannt.",
+    "Die Blasen enthalten keine Namen und keine Platzhalter. Damit passen sie zu jedem Auslöser, auch wenn 'nahestehend' im Code anders gelöst wird, etwa in beide Richtungen der Loyalität (Ahmet hätte dann Lejla und Joanna). Zwei freund_gestanden-Blasen sprechen die Person an, die ausgepackt hat, mit 'du': Lejla 'Mutig! Dafür kriegst du die größte Portion.' und Damir 'Ehrlich ist gut. Ich koch dir einen Tee.' Soll das bleiben?",
+    "Ich bin davon ausgegangen, dass R15 auch für Bot-Blasen gilt, obwohl die Spezifikation das nur für Gerüchte, Ereignisse und Ablenken-Gags nennt. Deshalb fehlen bewusst: bei Sibel die Rüstung, bei Hana der Kamin, bei Olli das Verlaufen (alles Lacher), bei Lejla Buffet und Theke, bei Tugba Torte und Notizbuch, bei Joanna Foto und Handy, bei Aylin Beleg und Geld, bei Serkan Weste und Tor, bei Tim alles mit Strom. Dazu jede Anspielung auf das eigene Geheimnis oder Nebendelikt. Ist das so gewollt, oder darf die Figurenfarbe stärker durchkommen?",
+    "Die vier Kernfiguren haben je Anlass dieselbe Form und Wortzahl. ertappt: 'Erwischt! Ich …' mit 6 Wörtern. geruecht: 'Wer tuschelt da? …' mit 8. freund_gestanden: 'Ausgepackt? Puh, …' mit 7. ablenken: 'Was denn? …' mit 7. Bei freund_gestanden reagieren die vier nur überrumpelt und ohne Vorwurf. Ein Satz wie 'Das war nicht abgesprochen' würde die geheime Absprache aus der Loyalität verraten (Lejla und Joanna gegenüber Ahmet). Eine Gegenlesung der Ausgewogenheit durch die Prüfgruppe wäre gut.",
+    "Mehrere Blasen nehmen den Steckbrief-Satz der Figur ganz oder teilweise auf: Tim 'Lass mal, das schau ich mir an', Sibel 'Habt ihr das auch gehört?', Zeynep 'Los, Leute, mehr Einsatz!', dazu das 'in Ruhe klären' bei Pawel. Das ist Absicht, der Prüfer meldet nichts. Soll es bleiben?",
+    "Die ertappt-Blasen gibt es auch für Figuren, deren Bot laut §3.11 nie deckt (murat, baran, serkan, aylin, enes, hakan, tugba), damit alle 80 Schlüssel vollständig sind. Bei murat greift höchstens der Override 'Freund beredet', und murat hat keine Loyalität. Diese Blasen erscheinen also vermutlich nie. Wie soll der Integrator damit umgehen?",
+    "Die ablenken-Blasen sind auf die Gags im parallelen Entwurf einfluss-figuren-vorlesen.json abgestimmt: Tims Bank quietscht in einem anderen Ton, Wojtek stand schief, Joanna braucht neun Versuche, Azra feilscht um Kekse. Ändern sich diese Gags, müssen die Blasen mitgezogen werden. Nicht committet, nichts außerhalb von planung/finale/entwurf/ geändert."
+   ]
+  }
+ },
+ {
+  "agent": "pruefen:allgemein",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-allgemein-karten.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-allgemein-vorlesen.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/r15/r15.dart"
+   ],
+   "behoben": [
+    "Vollständigkeit geprüft: Karten 52 von 52 Schlüsseln, Vorlesetexte 31 von 31. Keine fehlenden, überzähligen oder doppelten Kennungen. Platzhalter genau nach „Änderungen“. Keine Kollision mit anderen Entwürfen oder der Textsammlung.",
+    "einfluss.folgen.start.3: „streicht“ (Beiname „streich“, zeigt auf Cans Streich) und „Schlossgeist“ (Beiname „geist“, zeigt auf die Leuchtmaske und das Gespenstergesicht in Schneiders Erinnerung) entfernt. Neuer Text mit 20 Wörtern.",
+    "einfluss.folgen.start.1: „angerichtet“ zu „ausgeheckt“ (leichterer Ton).",
+    "einfluss.ereignis.tee: Gag „Guten Abend, Schlossgeist!“ entfernt (geist zeigt auf die Maske). Herumgereichte Tassen und ein zufriedener Herr Schneider entfernt: Das liegt nah an Damirs heimlichem Teegeschirr-Konflikt (FAKTENBLATT §2.2 [H]). Neuer gemeinsamer Lacher „Gesundheit!“ an den Teekocher.",
+    "einfluss.ereignis.kragen: „Hausordnung der Stiftung“ entfernt (Stiftung ist im Kern-R15 ein Beiname für Mietgeld und Gefallen), ebenso „Schluss mit dem Spuk“. Neu: „Schluss mit dem Zirkus“ und als gemeinsamer Lacher ein Gähnen bei Absatz zwölf, Zahl ausgeschrieben.",
+    "einfluss.ereignis.erinnerung: Der Brillen-Gag lachte über das verwirrte Opfer mit Gedächtnislücke nach dem Schlag (TON §1: Komik nie auf Kosten einer Person). Jetzt ein selbstironischer Satz („Ich habe heute noch gar nicht geschimpft.“) und das Gewölbe lacht mit ihm. Dazu „einmal mehr“ zu „ein zusätzliches Mal“.",
+    "einfluss.ereignis.flackerlicht: „klammert sich an den falschen Nachbarn“ spielte auf den Kern der Alibis an (wer im Dunkeln neben wem kauerte). Das Flackern ist jetzt spukig („als hätte das Gewölbe Schluckauf“) statt elektrisch und deutet nicht mehr auf Tims Kurzschluss. Neuer Lacher: „als hätte niemand gequiekt“.",
+    "einfluss.ereignis.fledermaus: „Alle ducken sich“ glich dem Verhalten beim Knall (Emine und Azra duckten sich) und heißt jetzt „ziehen die Köpfe ein“.",
+    "einfluss.ereignis.kerzenschein: Die Wendung „rückt auf den Bänken zusammen“ stand schon in einfluss.leiste.zusammenhalt.1, beide werden in denselben Folgen gelesen. Ersetzt. Weiterhin kein Wort „Kerze“.",
+    "einfluss.ertappt.selbst: „Ganz unauffällig, dachte @figur“ ließ den Erzähler Gedanken kennen (TON §2). Jetzt in der Stimme des Schlosses: „Die alten Mauern haben es gesehen…“.",
+    "einfluss.leiste.zusammenhalt.2, Karten befragung.zoegert, befragung.mauert und ereignis.erinnerung.karte: „mehr“ ersetzt. Der Kern-R15 wertet es als Teilwort von „Mehrfachsteckdose“.",
+    "einfluss.verwischt: Kosten nach §3.4 ergänzt („Beides kostet drei Minuten.“).",
+    "einfluss.morgen.warm: „das erste Tageslicht“ um sieben im November geändert zu „das erste graue Licht“.",
+    "Karten zeigen.p1 und decken.p1: „dieser Runde“ fehlte (§3.2). Jetzt „Diese Runde: +1 bzw. −1 Tischstimme, wo die Figur vorkommt“.",
+    "Karten zeigen.p2, helfen.p3 und lauschen.p3: „anonym“ und „Niemand merkt“ waren falsch, denn das Protokoll der Nacht zeigt alle Züge bei der Auflösung (§3.10, §3.12). Jetzt jeweils „bis zur Auflösung“.",
+    "Karte privat.gelauscht: „@figur wählt @zug, Ziel @ziel“ brach bei Zügen ohne Ziel (helfen, auspacken, ablenken). Jetzt „Gelauscht bei @figur: @zug @ziel“, damit die Zeile auch mit leerem @ziel lesbar bleibt.",
+    "Karte tipp.titel: drei Wörter auf zwei gekürzt („Geheimer Tipp“), passend zu den anderen Titeln.",
+    "Karte nachfrage.p1: „fehlende Randnotiz“ zu „noch verborgene Randnotiz“ (§3.5: noch nicht gezeigt).",
+    "Hinweis-Felder beider Dateien ergänzt: Begriffe Störung und Rückendeckung, Regel für @ziel, Liste der Umwege.",
+    "Prüfung nach Bedeutung: Kein Text nennt oder bevorzugt eine Kernfigur. Alle Platzhaltertexte sind für jede Figur gleich, die Morgen-Texte sind pfadneutral und alle Wirkungstexte entsprechen §3.2 bis §3.8. Auspacken-Inhalte und Ziele stehen nicht in diesen Dateien."
+   ],
+   "offen": [
+    "Die strenge Kern-R15-Prüfung (PfadgleichRegeln aus karten/geruechte.dart, nachgebaut in r15.dart) meldet noch Wörter, die die Spezifikation selbst vorgibt. „Spuk“ ist der Name der Leiste (leiste.spuk.*, leiste.ruhig, tischbonus.minus, morgen.gemischt, Karten zeigen.p3 und ablenken.p3). „Schlossgeist“ ist der Name des Preises. „Schneider“ steht in den Ereignissen erinnerung und kragen (laut §3.5 heißt das Ereignis „Herr Schneider erinnert sich“), in preis.stern und in den Morgen-Texten. „Spur“ ist der Zustand aus §3.4 (verwischt, wieder). Prüft ein künftiges einfluss_pruefung diese Texte mit PfadgleichRegeln, braucht es Ausnahmen für diese Wörter.",
+    "privat.gelauscht: Bei Zügen ohne Ziel muss die App das leere @ziel samt Leerraum am Ende kürzen. Für einen belauschten Spieler mit Zug „abgewartet“ gibt es keinen Kurznamen @zug. Das muss die Spezifikation entscheiden, etwa mit privat.ohne_folgen oder einem neuen Schlüssel.",
+    "tischruf.umweg: „Kein Zusatzfund, kein Ertappt“ (§3.4) passt nicht mehr in acht Wörter und steht nicht auf der Karte.",
+    "Tipp: Die Spezifikation kennt nur titel und wahl. Dass der Tipp bis zur Auflösung verdeckt bleibt und die Anklage nicht beeinflusst, steht auf keiner Karte. Vorschlag: einen Schlüssel einfluss.tipp.p1 ergänzen.",
+    "einfluss.wieder: Wann der Text gelesen wird, legt die Spezifikation nicht fest. Angenommen: wenn zurückgehaltene Fakten nach Umweg oder Mauert bzw. eine verwischte Spur sichtbar werden. Der Integrator sollte das bestätigen.",
+    "Nebenbefund außerhalb des Auftrags: TON-LEITFADEN §1 und §3 sprechen noch von „Geburtstagsabend“ und „Geburtstagskind“, obwohl die Story jetzt ein Wiedersehen ohne Geburtstag ist. Die Texte hier folgen der Story."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "pruefen:bots",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-bots-karten.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/bots_check/check.py"
+   ],
+   "behoben": [
+    "(1) Vollständigkeit geprüft: Alle 80 Schlüssel einfluss.bot.<fig>.<anlass> sind da, mit Figuren-IDs (leyla, johanna, murat …) und den Anlässen ertappt, geruecht, freund_gestanden, ablenken nach §3.11/§3.13. Es gibt keine doppelten, fehlenden oder zusätzlichen Schlüssel, und keine andere Entwurfsdatei verwendet einfluss.bot.*.",
+    "(2) Prüfwerkzeug im Modus karte: Vor und nach den Änderungen 0 FEHLER und 0 WARNUNG. Zwischendurch zählte das Werkzeug die neue Baran-Blase „wird's“ als zwei Wörter, also 9; die Blase ist umformuliert und hat jetzt 8 Wörter.",
+    "R15/Indizort: olli.freund_gestanden „…mehr als Umzugskisten“ geändert in „…mehr als Klaviere“. Grund: „bei den Getränkekisten“ ist ein Ort in raeume.json.",
+    "R15/Lacher: fatma.ertappt „Ich wollte nur nett sein“ war eine Entschuldigung im Ton des Lacher-Zitats „Ich wollte nur aufs Klo!“ und klang stärker nach Ausrede als die drei anderen. Neu: „Erwischt! Ich seh eben überall Schönes.“",
+    "Die Fatma-Blase „Ich seh alles in Pastell“ habe ich verworfen, bevor sie in die Datei kam: Pastellrosa ist Sibels Farbe.",
+    "Spoiler/Gleichgewicht der Kernfiguren: fatma.freund_gestanden „jetzt werd ich ganz blass“ war ein körperliches Schuldzeichen, die drei anderen Kernfiguren hatten keins. Neu: „Ausgepackt? Puh, da fehlen mir die Farben.“",
+    "fatma.geruecht „Sag es mir lieber direkt“ klang abwehrend und war der einzige Kern-Text ohne Witz. Neu: „Wer tuschelt da? Das Muster gefällt mir nicht.“",
+    "Länge der Kern-Texte: can.ablenken hatte 32 Zeichen, die anderen drei bis zu 43 (gut 25 Prozent Abstand). Neu: „Was denn? Der Witz war wirklich spitze.“ mit 39 Zeichen. Jetzt gilt je Anlass dieselbe Form und Wortzahl (6/8/7/7), und die Zeichenzahl liegt innerhalb von ±20 Prozent.",
+    "Ton/Alkohol: murat.freund_gestanden „Darauf erst mal eine Runde Häppchen!“ spielte mit einer Trinkformel. Neu: „Respekt! Das war ehrlicher als jede Speisekarte.“",
+    "Wiederholung: Damir hatte dreimal Tee. enes.freund_gestanden heißt jetzt „Gut gemacht! Und jetzt erst mal tief durchatmen.“ (Erzieher-Stimme).",
+    "Witz/Lesbarkeit: johanna.freund_gestanden (verdrehte Hochzeitslogik) jetzt „So ehrlich! Da heul ich wie auf Hochzeiten.“",
+    "Witz/Lesbarkeit: baran.ablenken jetzt „Keiner wollte das Lied? Wird trotzdem ein Klassiker.“",
+    "Witz/Lesbarkeit: kaan.ablenken „Das Gewölbe trotzdem.“ (unklar) jetzt „Das Gewölbe aber auch.“",
+    "Grammatik: selin.freund_gestanden jetzt „Ausgepackt? Das hätte ich mich nie getraut.“",
+    "(3) R15 maschinell: Eigene Prüfung gegen 126 Wortstämme aus gegenstaende.json, entscheidungen.json (Fragen und Optionen), setting.json (Lacher) und raeume.json (Räume, Türen, Einrichtung, Orte, Lichtquellen). Übrig sind 10 Fehltreffer: Gerüchte/Gerüche, Mittelpunkt und Mittagsschlaf/Mitte, wach/Wachs, fährt/Fährte, Farbe/„nachleuchtende Farbe“. Eine zusätzliche grep-Suche nach Spoilerwörtern (Geld, Miete, Streich, Maske, Kerze, Torte, Kapuze, Foto, Beleg, Theke, Kamin, Vitrine …) fand nichts.",
+    "(4) Spoiler nach Bedeutung, mit STORY-BIBEL und FAKTENBLATT geprüft: Keine Blase nennt oder umschreibt die Tat, ein Nebendelikt, ein Geheimnis, die Kapuze oder gelbe Fasern (Can), Ring oder Tasche (Fatma), Weste oder Handschuh (Olli) oder Umschlag und Theke (Ahmet). Die Bot-Blasen sind pfadunabhängig verdrahtet, ein Pfadleck ist also nur über den Wortlaut möglich, und der ist sauber. Die vier Ablenken-Blasen der Kernfiguren passen inhaltlich zu einfluss.ablenken.<fig> in einfluss-figuren-vorlesen.json."
+   ],
+   "offen": [
+    "(5) Ziele und Wirkungstexte aus §3.2–§3.9 kommen in dieser Datei nicht vor, dazu gibt es also nichts zu prüfen.",
+    "Bewusst gelassen: aylin.geruecht „Gerüchte bitte schriftlich und in doppelter Ausführung“ und aylin.freund_gestanden „Das hefte ich gleich ordentlich ab“. Das ist Büro-Humor aus Aylins öffentlichem Alltag („hebt jeden Beleg auf“). Kein Fallgegenstand wird genannt; mit etwas Phantasie erinnert es an den Quittungsblock mit Durchschlägen. Wer streng sein will, ersetzt es zum Beispiel durch „Gerüchte bitte nur schriftlich und mit Stempel.“",
+    "Bewusst gelassen: tugba.* mit „Plan“, „eingeplant“ und „Zeitplan“ (ihr öffentlicher Satz „Laut Plan …“) sowie can.* mit „filmen“ (öffentlicher Satz). Weder Notizbuch, Ablaufplan noch Handy wird genannt.",
+    "Hinweis zu einer anderen Datei, nicht von mir geändert: In einfluss-figuren-vorlesen.json nennt einfluss.ablenken.fatma die Farben „Ocker oder Senfgelb … Bernstein“. Gelbe Fasern sind ein Fallgegenstand, der Can zugeordnet ist; ich empfehle dort einen Farbton ohne Gelb. Die Bot-Blase fatma.ablenken („Die Farbe war wirklich wichtig.“) passt danach weiter.",
+    "Ebenfalls dort: einfluss.ablenken.hakan endet mit „Inzwischen sitzt Herr Schneider drauf“. Bitte prüfen, ob Herr Schneider während der Ermittlungsrunden so im Saal sitzen kann.",
+    "Ohne Wirkung: Acht Bots ziehen nie „decken“ (murat, baran, meryem, serkan, aylin, enes, hakan, tugba). Ihre ertappt-Blasen erscheinen im Solo also nie, sind aber laut Spezifikation verlangt und deshalb vorhanden.",
+    "Kein git commit gemacht; außerhalb von planung/finale/entwurf/ wurde nichts geändert."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "pruefen:figuren",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-figuren-vorlesen.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-figuren-karten.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/figuren_r15/r15.dart",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/figuren_r15/vollstaendig.py"
+   ],
+   "behoben": [
+    "Vollständigkeit geprüft: alle 80 Vorleseschlüssel (auspacken, ablenken, epilog.erreicht/verfehlt je 20 Figuren) und 40 Zielschlüssel (einfluss.ziel.<fig>.1|2) vorhanden, Namen exakt nach §3.13, keine Doppelten, auch nicht mit den übrigen Entwürfen im Ordner.",
+    "auspacken.olli: Das „beim Tragen“ stammte aus dem Geheimfeld motiveAndConflict und nicht aus der Spur. Jetzt steht dort nur der Inhalt von spur_weste_moebelwachs (Beschlag ausgerissen, Schramme mit Möbelwachs zugerieben). Wojtek wird nicht mehr genannt, denn er kann unbesetzt sein, und die Kernfiguren sollen nur von sich selbst reden.",
+    "auspacken.ahmet: Mein eigener Zusatz „Miete“ hätte eine Fünf-Wort-Folge aus erzaehler-aufloesung ergeben (Prüfer-FEHLER). Er ist zurückgenommen.",
+    "auspacken.emine: Das zusätzliche Detail „Scheibe angehoben“ stammte aus spur_vitrine_leer und ist entfernt. Teetasse ist zu Thermoskanne geworden (Steckbrief). Die wörtliche Übernahme aus dem Auflösungstext ist umformuliert.",
+    "auspacken.zeynep: „zieht die Kappe tiefer ins Gesicht“ passte nicht, denn laut Steckbrief trägt sie die Kappe verkehrt herum. Jetzt hört sie auf, Kaugummi zu kauen.",
+    "auspacken.kaan: „verschrammt“ ist zu „beschädigt“ geworden (Quelle). Die wörtlichen Übernahmen aus dem Dossier (Prüfer-WARNUNG) sind umformuliert.",
+    "auspacken.baran: „auch bei lauter Musik“ spielte auf sein Geheimnis an (Box, laute Musik) und ist entfernt. auspacken.hakan: „im Sommer“ (Geheimfeld) ist zu „Ferienjob“ geworden, wie im Beleg der Beobachtung. auspacken.enes: Becher ist zu Glas Tee geworden (Steckbrief).",
+    "Kernfiguren beim Auspacken in gleicher Form (Einleitung, Fund, Geständnis, Schlusssatz) mit 35, 34, 35 und 35 Wörtern (Spanne 3 %). Keine nennt eine andere Figur, keine deutet Schuld an der Tat an oder schließt sie aus.",
+    "Ablenken auf R15 geprüft, mit der echten Kernklasse PfadgleichRegeln (Namen ausgeblendet). Behobene Treffer: „Hände“ bei Ahmet und Emine (Suchstelle Fatmas Hände), „Zahl“ bei Marek, „Liste“ bei Baran, „Strichliste/unterschreiben“ bei Aylin (Anspielung auf Quittung und Namensliste), „beweisen“ und „Maßband“ bei Wojtek, „Streit“ und Schneider bei Pawel (Anspielung auf den Streit Schneider–Olli), „Auto“ bei Serkan, „Gebäck/steigen“ bei Azra, „Glas“ bei Damir (Glassplitter), „mehr“ und „Erst“ bei Joanna, „Musikbox“ bei Baran. Danach null Treffer.",
+    "Ablenken ohne Geheimnis neu geschrieben: Olli (Bänke umrücken spielte auf das Tragen beim Türschaden an, jetzt Becherpyramide), Lejla (Essen-Teller spielte auf Ahmets zu große Essensbestellung an, jetzt Hausmittel als Apothekerin), Tugba („Zeitplan“ lag am Ablaufplan/Notizbuch, jetzt Regelerklärung), Marek (jetzt Häppchenkunst). Kerngags je drei Sätze mit 27, 28, 29 und 28 Wörtern (Spanne 7 %).",
+    "Epiloge pfadrobust für jede Sternkombination: lejla.erreicht („atmet auf“ war falsch, wenn nur Stern I erreicht ist) und zeynep.erreicht (Abklatschen war bei angeklagtem Can schief, jetzt Arm um die Schultern). kaan.erreicht („kühlt seinen Finger“ spielte auf Ollis Geheimnis mit dem Eis vom Eiskübel und auf eine Verletzung an) ist ersetzt. selin.verfehlt (Rüstung: Suchstelle, Versteck im Can-Pfad, ihr geheimes Ziel) ist ersetzt. olli.erreicht (Stühle schleppen spielte aufs Tragen an) ist ersetzt. fatma.verfehlt (Münzbilder aus ihrem Motiv) ist ersetzt. can.verfehlt (Schreck) ist umformuliert. „Umweg“ (Spielbegriff) und „Liste“ bei Serkan sind ersetzt, dazu Brötchen, Becher und „bewiesen“.",
+    "Kern-Epiloge gleichförmig: erreicht 28, 28, 30 und 28 Wörter, verfehlt 22, 22, 23 und 21 Wörter (vorher 21 % Spanne, jetzt 10 %). Die verfehlt-Zeilen nennen das eigene Nebendelikt nur, weil es bei null Sternen sicher bekannt ist. leyla.erreicht hatte 31 Wörter und hat jetzt 29. „Beim Frühstück“ steht seltener (vorher 14-mal, jetzt 12-mal).",
+    "Ziel-Karten in Du-Form: Stern II der Kernfiguren war „Du wirst am Ende nicht angeklagt“ und las sich wie eine Zusage. Jetzt heißt er wortgleich „Lass dich am Ende nicht anklagen“. Die Ziele „X wird am Ende nicht angeklagt“ (Lejla, Emine, Zeynep, Wojtek) standen in der dritten Person und heißen jetzt „Bewahre X vor der Anklage“. „Über dich wird nie getuschelt“ heißt jetzt „Bleib den ganzen Abend frei von Gerüchten“ (Begriff wie auf der Zeigen-Karte). „Pack … nicht aus“ heißt jetzt „Pack … nie aus“, passend zu §3.9 und den übrigen nie-Zielen. Alle 40 Ziele entsprechen inhaltlich Stern I und II aus §3.9.",
+    "Hinweistexte beider Dateien auf die neuen Regeln und Zahlen angepasst.",
+    "Prüfwerkzeug pruefe.dart am Ende: vorlesen FEHLER=0, WARNUNG=0 (Satzschnitt 8,9); karte FEHLER=0, WARNUNG=0. Pfadwort-Suche (Wachs, Jacke, Brottasche, Eis, Helm, Rüstung, Ring, Messing, Leuchtfarbe, Splitter, Kalk, Fasern, Kapuze, Kerzenständer, Schlüsselbund, Ost-Saal, Buffettisch): kein Treffer in Auspacken, Ablenken oder Epilogen."
+   ],
+   "offen": [
+    "Die Kern-Epiloge (.erreicht) sagen „Ganz so schlimm wie befürchtet ist es … nicht gekommen“. Das passt auch zum Täter, dessen Nebendelikt geheim blieb, der aber richtig angeklagt wurde. Für diesen Fall klingt es etwas milde, ist aber pfadneutral und in allen vier Pfaden gleich. Der Integrator sollte es zusammen mit dem Auflösungstext je Rolle gegenlesen (den durfte ich nicht als Quelle nutzen).",
+    "Fatma gesteht mit Uhrzeit (zwanzig vor zwölf, steht so in spur_schatulle_da), Ahmet, Olli und Can ohne Uhrzeit. Ollis Uhrzeit habe ich weggelassen, damit die Längen gleich bleiben. Wenn R13/R22 auch gleiche Zeitangaben verlangt, muss Fatmas Uhrzeit ebenfalls raus.",
+    "Einige Epiloge nennen pfadgleiche Fallgegenstände oder Lacher: Mehrfachsteckdose und Bogentür nur bei .verfehlt, wo sie sicher bekannt sind; Kamin, Beleg und Ablaufplan als öffentliche Rolle der Figur. R15 gilt laut Auftrag nur für Gerüchte, Ereignisse und Ablenken. Wenn der künftige Kernprüfer auch Epiloge mit PfadgleichRegeln prüft, müssen diese Zeilen umgeschrieben werden.",
+    "Die Auspacken-Texte nennen ihrer Natur nach Fallgegenstände und Suchstellen (Quelle nach §3.6). Wenn der Kernprüfer R15 auf alle Folgen-Texte anwendet, braucht einfluss.auspacken.* eine Ausnahme.",
+    "Fünf der sechzehn Auspacken-Texte der Nebenfiguren belasten Ahmet (Lejla, Joanna, Hana, Aylin, Damir), dazu kommen nur zwei für Can und zwei für Fatma. Das gibt die Tabelle in §3.6 so vor und ist kein Textfehler. Die Ausgewogenheit sollte aber der Spielkern- oder Spezifikationsbesitzer prüfen."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "spielgefuehl",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-allgemein-vorlesen.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-allgemein-karten.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-figuren-vorlesen.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-figuren-karten.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/einfluss-bots-karten.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/spielgefuehl/backup_vorher/",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/spielgefuehl/ersetze.py"
+   ],
+   "behoben": [
+    "Bot-Blasen (einfluss-bots-karten.json): 64 von 80 Blasen hatten zwei Sätze (zum Beispiel „Erwischt! Ich …“). Der Kernprüfer im Worktree (einfluss_pruefung.dart, _satzEndeRe) hätte das als Prosa abgelehnt (R17). Alle 80 Blasen sind jetzt genau ein Satz mit höchstens acht Wörtern. Die vier Kernfiguren haben je Anlass weiter dieselbe Form und Wortzahl: ertappt „Erwischt, ich …!“ mit 6 Wörtern, geruecht „Statt zu tuscheln, …!“ mit 8, freund_gestanden „Puh, …“ mit 7, ablenken „Was denn, …!“ mit 7.",
+    "Die Ablenken-Blasen passten nicht zum vorgelesenen Gag. Bei Olli ging es um Bänke statt um die Becherpyramide, bei Marek ums Zählen statt um die Häppchen, bei Lejla ums Essen statt um Hausmittel, bei Baran um ein ungewolltes Lied statt um den Chor und bei Aylin um eine Strichliste statt um die Punktetabelle. Die Strichliste traf zudem den R15-Umweg „liste“. Alle fünf sind korrigiert.",
+    "Drei Bot-Blasen berührten Wörter aus dem, was die Figur verbirgt (R15-Prüfung mit Figurenbezug): Olli „trag“, Marek „Essen“, Baran „Musik“. Alle drei sind umformuliert.",
+    "Auspacken (20 Texte): Laut §3.2 und §3.12 ist Auspacken öffentlich mit Namen, die Karte sagt „Alle hören es“. Der Vorlesetext sagte dagegen 20-mal „nimmt dich beiseite und spricht leise“. Jetzt sprechen alle vor der Runde, und jede Nebenfigur hat einen eigenen Einstieg. Die vier Kernfiguren haben wortgleich „steht auf und bittet um Ruhe“ und 34 bis 35 Wörter.",
+    "Auspacken mit Wissen, das die Figur nicht haben kann: Wojtek nannte den Handschuh in Ollis Westentasche, Emine sagte, die Schatulle stecke jetzt in Fatmas Tasche. Beides steht nicht in b_wojtek_tuer und b_emine_schatulle und ist entfernt. Dazu zwei Fünf-Wort-Warnungen aus Dossier-verbirgt bei Emine und Wojtek behoben.",
+    "Marek, Ziel-Karte Stern II: „Bring Cans Streich ans Licht“ verriet seinem Spieler Cans Streich. Das ist [H], laut FAKTENBLATT nie auf Karten, und Mareks Dossier sagt, er ist im Dunkeln nicht sicher, wer es war. Neu: „Bring ans Licht, wer als Gespenst herumlief“. Die Bedingung (f_nd_can_maske oder f_nd_can_zeynep) bleibt gleich. Barans „Halte den Spuk unter vier“ heißt jetzt wie bei Marek und Pawel „bei höchstens drei“ (gleicher Wert).",
+    "einfluss.ablenken.schluss hatte 12 Wörter. Die Wortspanne 15–35 des Kernprüfers (Präfix einfluss.ablenken.) gilt auch für diesen Schlüssel. Jetzt 19 Wörter mit Herrn Schneiders Tick (tippt auf die Armbanduhr). Außerdem ist „Bis alle wieder sitzen“ ersetzt, das passte nicht zu jedem Gag.",
+    "Wiederholungen beim Vorlesen innerhalb einer Runde: folgen.start.2 (Gewölbedecke und raunt, beides auch in Gerücht und Fledermaus), leiste.spuk.1 (Lichtschächte wie start.1, „ziehen“ wie in der Fledermaus), spuk.2 („wächst kräftig“ wie beim Zusammenhalt), fledermaus („Köpfe ein“), fluestern.still („summt“ wie in kerzenschein), ertappt.selbst („alte Mauern“ wie in spuk.2). „Hört gut zu“ in start.1 klang wie runde.1.start und heißt jetzt „Spitzt die Ohren“. start.3 kündigt die letzte Runde an.",
+    "R15-Umweg, den ich selbst eingeführt hatte: „streicht“ (start.3) trägt den Umweg „streich“. Ersetzt durch „fährt“.",
+    "Ereignis kragen: Das Ende mit „doch“ war unklar und eine Variante mit „er“ mehrdeutig. Jetzt endet es mit „schon geht es zurück zu Absatz eins“, das begründet auch die verlorenen Minuten, 47 Wörter. morgen.chaotisch: „zählt nach, ob das Gewölbe noch steht“ heißt jetzt „prüft …“.",
+    "einfluss.wieder sprach von einer „verwischten Spur“, gilt aber für jede Verzögerung bis zum Zwischenresümee, also auch für Befragung „Mauert“. Jetzt allgemein formuliert.",
+    "Treue Seele (die letzte Tasse Tee) stieß mit morgen.warm (letzte Kanne Tee) und Damirs Epilog zusammen und bekommt jetzt den wärmsten Platz auf der Bank. Lejlas Epilog „fast ein Liebesbeweis“ stieß mit morgen.warm („fast eine Liebeserklärung“) zusammen und ist geändert.",
+    "Epiloge: Die vier Kernfiguren hatten zwei wortgleiche Sätze („lehnt sich zum ersten Mal in dieser Nacht zurück. Ganz so schlimm wie befürchtet …“), viermal hintereinander vorgelesen ein Kehrreim. Jetzt gleiche Form (Erleichterung, weniger schlimm als befürchtet, alte Gewohnheit) mit eigenem Wortlaut, 23–25 bzw. 20–23 Wörter. Das „X findet, diese Nacht …“ der Verfehlt-Zeilen (8-mal) ist auf 2 verringert.",
+    "privat.ohne_folgen: „Dein Zug blieb diesmal ohne Folgen“ stimmte nicht, denn ein Gerücht entsteht trotzdem. Jetzt genau: „Diesmal bewegte deine Stimme keinen Tischwert“, das lehrt auch, dass mehrere Stimmen nötig sind (m(n)). tischruf.umweg „+1 ohne Störung“ war mehrdeutig und heißt jetzt „+1, ignoriert Störung“.",
+    "Hinweise aller geänderten Dateien sind nachgeführt: öffentliches Auspacken, ein Satz je Bot-Blase, die Marek-Regel, die Verteilung der Bilder und die R23-Frage zu Herrn Schneider.",
+    "Kontrolle: Alle 283 Schlüssel aus §3.13 sind vorhanden, keiner zu viel. Platzhalter je Schlüssel stimmen mit dem Kernprüfer überein, die Wortspannen auch. Jede Karte hat höchstens 8 Wörter und einen Satz. Die Dateiaufteilung Vorlesen/Karte stimmt mit einflussVorlesetext() überein. Alle Fakten der Auspacken-Texte sind gegen die Spuren und Beobachtungen (pfade alle) und die Uhrzeiten geprüft."
+   ],
+   "offen": [
+    "Kernprüfer: pruefeEinfluss wendet PfadgleichRegeln.r15 auf einfluss.ereignis.* an (Worktree wf_cc821ccf-a7c-2, einfluss_pruefung.dart Zeile 167, akte_pruefen.dart Zeile 540). sperrregeln sperrt dort alle Figurennamen samt Schneider. Damit fallen ereignis.erinnerung („Herr Schneider schnippt …“) und ereignis.kragen („Herrn Schneider platzt der Kragen“) durch, obwohl R23 Figuren ausdrücklich erlaubt und PLAN und SPEZIFIKATION die Ereignisse nach Herrn Schneider benennen. Empfehlung: Namen vor dem r15-Aufruf neutralisieren, wie es scratchpad/figuren_r15/r15.dart tut. Sonst müsste der Integrator auf „der Verwalter“ umstellen, was gegen die FAKTENBLATT-Regel „im Text heißt er immer Herr Schneider“ verstößt.",
+    "Lauschen bei einer Figur, die abgewartet hat: Der Kern schickt PrivatNachricht(gelauscht, zug: abgewartet). Für @zug gibt es aber keinen Text (einfluss.zug.abgewartet.titel steht nicht im Katalog). Kern oder App müssen das abfangen, etwa mit einem eigenen Text „hat abgewartet“ oder mit privat.ohne_folgen.",
+    "einfluss.wieder ist noch nirgends im Kern verdrahtet. Der Entwurf nimmt an, dass der Text im Zwischenresümee steht, wenn verzögerte Fakten (Umweg oder Mauert) sichtbar werden. Bitte beim Einbau bestätigen.",
+    "Marek Stern II: Die Karte nennt Can und den Streich nicht mehr, die Bedingung bleibt unverändert. Wer die „bewusste Gegenspieler“-Absicht aus dem PLAN (Marek gegen Can und Zeynep) ausdrücklich auf der Karte will, muss das gegen die [H]-Regel des FAKTENBLATTs abwägen.",
+    "Zwei R15-Treffer der Bruchstück-Prüfung sind bewusst geblieben. Es sind falsche Treffer in Steckbrief-Sätzen: Tim „schau ich mir an“ („schau“ wie in Schauvitrine) und Zeynep „mehr Einsatz“ („mehr“ wie in Mehrfachsteckdose). Der Kernprüfer wendet r15 nicht auf Bot-Karten an.",
+    "Die vier Kern-Epiloge und Kern-Bot-Blasen sind in Form und Länge gleich (±3 Wörter), im Wortlaut aber nicht. Falls der künftige Kernprüfer für Epiloge Wortgleichheit außer Namen und Gewohnheit verlangt, gilt das nicht mehr. Die SPEZIFIKATION verlangt das bisher nicht."
+   ],
+   "pruefer_sauber": true
+  }
+ }
+]

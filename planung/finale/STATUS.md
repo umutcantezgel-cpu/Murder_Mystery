@@ -9,14 +9,24 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 | Stufe | Inhalt | Stand |
 |---|---|---|
 | 0 | Branch, CI-Trigger, Werkzeug, Basislauf, Entscheidungen | fertig |
-| 1 | Inhalte: Faktenblatt, Vorgeschichte, Vorstellungen, Erzählerakte, Einfluss-Texte (Entwürfe in `entwurf/`) | läuft |
-| 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung | läuft |
+| 1 | Inhalte: Faktenblatt, Vorgeschichte, Vorstellungen, Erzählerakte, Einfluss-Texte (Entwürfe in `entwurf/`) | pausiert: Einfluss-Texte fertig und geprüft; Faktenblatt, Netz, Vorgeschichte, Vorstellung A/B, Erzählerakte A geschrieben; offen: Erzählerakte B, Prüfung je Entwurf, Querabgleich, Rotes Team |
+| 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung | pausiert: `finale/n1` (a1210cf), `finale/e1a` (0c4d694), `finale/e1b` (ffb2e5b, enthält e1a) fertig, je grün und Golden unverändert, auf origin gesichert; offen: Zusammenführung in den Arbeitsbranch |
 | 3 | Inhalte einspielen (`setting.json`, Texte, `erzaehlerakte.json`, `einfluss.json`, `akten.json`), `kanon_tor` | offen |
 | 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | offen |
 | 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | offen |
 | 6 | `pruefen.sh ci`, Push, CI grün | offen |
 
+## Wiederaufnahme nach der Pause (Besitzerwunsch: zwei Stunden Pause, sobald die laufenden Agenten fertig sind)
+
+- Workflows wurden nach den laufenden Agenten gestoppt (Erzähl-Inhalte `wf_fae96c20-06b`, Kern `wf_cc821ccf-a7c`).
+  Ergebnisse der fertigen Agenten liegen in `berichte/`. Fortsetzen mit `resumeFromRunId` (gleiche Session) oder neu
+  aufsetzen: Erzähl-Inhalte ab „schreiben:akte-b“ und den Prüfungen; Kern ab „zusammenfuehren“.
+- Entscheidungen nach der Inhaltsprüfung stehen in SPEZIFIKATION „Änderungen“ (Punkte 1–11).
+
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-27 Kern-Agenten fertig: N1, E1a, E1b je „alles grün“, Golden k12 unverändert, Schnappschuss
+  `andere_akten_soll.g.dart` vor der Schicht erzeugt (E1a). Einzelheiten in `berichte/wf_cc821ccf-a7c.json`.
 
 - 2026-10-27 Basislauf auf `ca53adf` (`bash tool/pruefen.sh schnell`): grün. Krimidinner 67, Kern 793 (+1 übersprungen),
   Klang 4, Netz 52, Kanon-Tor aktuell.

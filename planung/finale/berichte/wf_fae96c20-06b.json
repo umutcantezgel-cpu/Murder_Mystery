@@ -1,0 +1,173 @@
+[
+ {
+  "agent": "pruefwerkzeug",
+  "ergebnis": {
+   "dateien": [
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/pruefe.dart",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/LIESMICH.md",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/probe.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/probe_karte.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/probe_akte.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/probe_netz_gueltig.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/entwurf_pruefer/probe_sauber.json"
+   ],
+   "pruefer_sauber": true,
+   "offene_fragen": [
+    "Das Werkzeug läuft (dart analyze ohne Befund, etwa 2 s je Lauf); dart liegt unter /home/user/Murder_Mystery/.werkzeug/flutter/bin/cache/dart-sdk/bin und muss gegebenenfalls in den PATH. Testergebnisse: Der Selbsttest mit erzaehler-intro.json (vorlesen) endet mit 3 FEHLER und 3 WARNUNG, also mit Exit 1. Der Grund: Kanon-Geheimtexte wiederholen das Intro wörtlich, nämlich die Finale-Rückblenden („… und das grüne Notausgangsschild leuchten“) sowie motiveAndConflict von Sibel (Rüstung) und Hana (Kamin, darum nur WARNUNG, weil die Folge auch pfadneutral vorkommt). Treffer des Intros gegen sich selbst sind ausgenommen. probe.json: 37 FEHLER und 5 WARNUNG, jede absichtlich eingebaute Regelverletzung wird gemeldet. probe_karte.json: 7 FEHLER. probe_akte.json: 45 FEHLER und 3 WARNUNG. probe_netz_gueltig.json und probe_sauber.json (mit --netz): je 0 Befunde. Frage: Sollen Fünf-Wort-Treffer, die nur entstehen, weil ein Geheimtext öffentliche Intro-Sätze zitiert, gar nicht gemeldet werden? Derzeit sind sie FEHLER, sobald die Folge außer im eigenen geprüften Text nirgends öffentlich steht.",
+    "Schweregrade, die ich über die Aufgabe hinaus festgelegt habe (Tabelle in LIESMICH.md). Geheimfelder: im Modus vorlesen und in der Einstimmung FEHLER, in karte und akte nur WARNUNG. Wiederholungen aus Intro oder Vorspiel/Morgen: FEHLER nur für vorgeschichte.*/vorstellung.* (SPEZIFIKATION §1), sonst WARNUNG. Fünf-Wort-Treffer, die auch in einem öffentlichen Kanontext stehen (Beobachtung/Zeitleiste „alle“, Gegenstandsbeschreibung, Intro, Vorspiel), sind außerhalb der Einstimmung nur WARNUNG. Treffer aus killerProfile/innocentProfile und aus Täter-, Finale- und Auflösungstexten sind sonst immer FEHLER. Bitte bestätigen oder schärfen.",
+    "Zusätzlich eingebaut, weil SPEZIFIKATION §1 und §2 es verlangen: Namens- und Ausgewogenheitsregeln der Einstimmung, Wortspannen je Kennung, Geld-/Miete-/Streich-Wörter, Spoiler-, Kenn- und Urteilswörter, die Prüfung, dass die Paare aus dossier.wer öffentliche Netzkanten sind, Schema-Felder der Erzählerakte, das Verbot der JSON-Schlüssel ziel/weiss/verbirgt, Blut und Schlagverb, R15 für einfluss.ereignis.* sowie die Optionen --netz, --teil, --kurz und --ersetzt.",
+    "Die Pfadwissen-Hilfen (_pfadwissen, _pfadneutral, _verboten) sind wortgleich aus spoiler_test.dart kopiert. Sobald es party/pfadwissen.dart im Kern gibt, sollte pruefe.dart pfadwissenVerboten(kanon) importieren, damit die beiden Fassungen nicht auseinanderlaufen.",
+    "Zur Kenntnis, Dateien anderer Agenten nur gelesen, nicht geändert: planung/finale/entwurf/netz.json, einfluss-allgemein-*.json und einfluss-figuren-karten.json sind sauber. einfluss-figuren-vorlesen.json meldete beim ersten Lauf FEHLER=2, WARNUNG=4, beim zweiten Lauf nur einen FEHLER: einfluss.auspacken.johanna übernimmt Fünf-Wort-Folgen aus Dossier johanna.verbirgt[0] („streitet herr schneider mit ahmet“). Die übrigen Befunde des ersten Laufs habe ich nicht gesehen; die Datei wurde zwischen den Läufen vermutlich weiter bearbeitet."
+   ],
+   "eintraege": 10,
+   "worte": 348
+  }
+ },
+ {
+  "agent": "faktenblatt",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/FAKTENBLATT.md",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/netz.json"
+   ],
+   "eintraege": 45,
+   "worte": 8250,
+   "pruefer_sauber": true,
+   "offene_fragen": [
+    "Wichtig für den Kern: Mehrere Kanonfelder, die die Erzählerakte beim Laden selbst zieht, teilen Fünf-Wort-Folgen mit taeter-*.json und erzaehler-aufloesung.json. Beispiele: fatma.persoenlichesZiel „Die Schatulle soll zurück, ohne dass es alle erfahren“, can.persoenlichesZiel „Der Streich soll nicht herauskommen“, ahmet.persoenlichesZiel „… dass die Miete erfunden war“ und mehrere Texte aus nebendelikt. Prüft pruefeErzaehlerakte die Fünf-Wort-Regel auf dem zusammengesetzten toJson(), meldet es diese Kanonfelder selbst als Fehler. Ausnahme für Kanonfelder vorsehen oder nur die Autorentexte prüfen?",
+    "„Mantel“ ist ein Kennwort, es stammt aus dem Beweisstück „Glassplitter an Fatmas Mantel“. Damit ist das Wort in vorstellung.detektiv.m/w gesperrt, obwohl detektiv.wer im Kanon „Mantel“ sagt. Das Faktenblatt empfiehlt „heller Trenchcoat“. Soll der Prüfer stattdessen eine Ausnahme bekommen?",
+    "Der Entwurfsprüfer erlaubt Genitive von Namen wie „Fatmas“, „Ahmets“, „Tugbas“ und „Joannas“, obwohl kennwoerter() sie aus den Namen der Beweisstücke ableitet. Der echte pruefeEinstimmung sollte das genauso regeln. Bis dahin empfiehlt das Faktenblatt „von Fatma“.",
+    "Entscheidung „eine Kante je Paar“: Bei den Loyalitäten zu einer Kernfigur (Lejla, Joanna, Emine, Wojtek, Zeynep) ist die Kante öffentlich und harmlos. Der heimliche Teil steht nur im Loyalitätsfeld der Erzählerakte. Bestätigen oder doppelte Kanten (eine öffentliche und eine heimliche) zulassen?",
+    "Strengere Regel als die Spezifikation: Die Vorstellungen der vier Kernfiguren nennen keine andere Kernfigur. Grund: Ahmet könnte sonst dreimal genannt werden. Sollen der Prüfer und die Vorstellungs-Autoren das übernehmen?",
+    "Pawels Ferienjob bei der Stiftung ist als heimlich eingestuft, weil wahlen-b5 ihn als Preisgabe behandelt. Im Feld motiveAndConflict steht er offen. Bestätigen?",
+    "Leyla.motiveAndConflict: Ob Herr Schneider die Genehmigung fürs Essen am Nachmittag am Telefon oder vor Ort sehen wollte, bleibt offen. Ebenso offen bleibt, wer Marek am Telefon das Parken erlaubt hat. Beides ist bewusst nicht erfunden."
+   ]
+  }
+ },
+ {
+  "agent": "faktenpruefung",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/FAKTENBLATT.md",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/netz.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/faktenblatt/FAKTENBLATT_vor_pruefung.md",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/faktenblatt/netz_vor_pruefung.json",
+    "/tmp/claude-0/-home-user-Murder-Mystery/9a76cba6-6b0e-5e53-a786-5921a8dfd58f/scratchpad/faktenblatt/kanten_oeffentlich_r3.json"
+   ],
+   "behoben": [
+    "netz ahmet–schneider: Der Text „…; droht, es allen zu sagen“ las sich so, als drohe Ahmet. Neu: „…; Herr Schneider droht, es aufzudecken.“ Die Art ist jetzt streit statt gefallen, damit alle vier Kernkanten zu Schneider gleich aussehen. Mit gefallen hätte der Ring Ahmet freundlicher gezeichnet.",
+    "netz fatma–dilara (öffentlich): „beide lieben alte Muster“ deutete auf Fatmas geheimes Motiv (alte Münzbilder, Hinweis von Azra). Neu: „Lernen oft zusammen in der Unibibliothek; Azra bringt immer Kekse mit.“",
+    "netz ahmet–olli: Die Kante war die dritte Stelle, an der Olli etwas trägt. Das Tragen führt am Abend zu seinem Nebendelikt. Neu: „Gleiche Klasse; teilten sich jahrelang eine Schulbank.“",
+    "netz tim–schneider: „Überhörte seine Warnung“ widerspricht dem Kanon. Tim wurde gewarnt und machte trotzdem weiter (z_steckdose). Neu: „Ignorierte …; so kam der Kurzschluss.“ Das Faktenblatt sagt jetzt „missachtete Warnung“ statt „überhörte Warnung“.",
+    "netz hakan–schneider und Faktenblatt §2.2/§3.2: „Ferienjob“ geändert in „Sommerjob“. Der Kanon sagt „im Sommer gejobbt“, und Pawel ist Rechtsreferendar.",
+    "netz murat–schneider und enes–schneider: das bloße „Schneider“ und das mehrdeutige „seinem Platz“ ersetzt durch „Herr Schneider“, wie es die Regel des Faktenblatts verlangt. Gleiches im Faktenblatt §2.2 bei Marek.",
+    "netz aylin–baran: Die einzige Streit-Kante zwischen zwei Spielerfiguren verband die beiden kurdischen Figuren (TON §7, Sensibilität). Jetzt freundschaft: „Necken sich gern: Aylin liebt Ordnung, Baran laute Musik.“ §5 Baran und Aylin sind angepasst.",
+    "netz serkan–selin und §3.1/§5: Das Klischee „er bringt die Ängstliche bis vor die Tür“ ist entfernt. Neu: „Sibel erzählt Serkan auf jeder Heimfahrt von ihren Lieblingspflanzen.“",
+    "§2.1: Laut Faktenblatt kam Herr Schneider zu Fuß, laut Kanon hat er einen reservierten Parkplatz im Hof (Mareks Nebendelikt). Neu: Er wohnt im nahen Dorf und hat seinen Parkplatz im Hof [T]. Wie er herkommt, bleibt offen.",
+    "§5 Ahmet, zuSchneider: „öffentlich: Keller mit ihm ausgemacht“ widersprach §4.2/§6 (kein Schneider, kein Wie) und deutete auf den Gefallen. Jetzt gibt es öffentlich keine Verbindung, nur „Ahmet hat den Keller organisiert“.",
+    "§1.2: Der Jackenständer ist eine Suchstelle für den Bund in e3_1, wie Rüstung, Theke und Buffettische. Nur er war für die Einstimmung frei. Jetzt ist er [T]. Wendeltreppe und Toiletten sind ebenfalls [T], weil die Toilette zu einem Lacher und zu Abendaussagen gehört.",
+    "§1.4: Der Adventsmarkt war nur „nicht zusammen mit Ahmet“ gesperrt. Jetzt ist er in der Einstimmung ganz gesperrt. Ahmets öffentlicher Beruf ist das Planen von Märkten, also wäre der Gefallen auch so zu erkennen.",
+    "§4.7 keller: Genannt waren Buffetsaal und Ostsaal, also zwei der drei Suchräume für den Bund, nicht aber der Turmgang. Neu: Raumnamen nur alle zusammen oder gar keinen.",
+    "§4.3/§4.7/§6 Olli: Sein Beitrag heißt jetzt „Aufbau“ statt „Tragen“. Das Tragen der Warmhaltebehälter ist der Anlass seines Nebendelikts.",
+    "§5 Olli, zuSchneider: Der zusätzliche Hinweis auf den lauten Streit um 23:00 ist entfernt. Er steht schon im Kanon-Motiv, und so haben die vier Kernfiguren dieselbe Form.",
+    "§6: falsche Eigenaussagen korrigiert. (a) „Keine Kante nennt die Sekunden nach dem Knall“ stimmte nicht, denn die Can-Kante ist z_zusammenstoss; das ist jetzt als Ungleichheit aus dem Kanon vermerkt. (b) „Dossier-Zeilen ab dem Knall gelten nicht in allen Pfaden“ stimmte so nicht, denn z_umschlag gilt in allen Pfaden. (c) „Einträge der Kernfiguren nennen keine Mitwisser“ stimmte nicht; die vier Einträge nennen Personen aus dem Kanon (Lejla, Azra und Emine, Wojtek, Zeynep).",
+    "§6/§3.2 Nennungen in Vorstellungen: Bei 8–9 Rollen fiel Ahmet zweimal (Lejla und Joanna), Can gar nicht. Neue Regel: Nur Lejla, Emine, Tim und Zeynep nennen je eine Kernfigur, Joanna, Baran, Wojtek und Azra keine. Die Tabelle trägt jetzt diese Empfehlungen.",
+    "§4.6: „kommt mit allen anderen an“ passte nicht dazu, dass Marek erst um 18:30 mit dem Lieferwagen kommt (v_lieferung). Korrigiert.",
+    "§3.1 Herbstabend: „Die Runde ist auseinander“ passte nicht zu den laufenden Treffen der kleinen Kreise (Spieleabende, WG, Heimfahrten). Klargestellt: Nur die ganze Clique war lange nicht zusammen.",
+    "Kleinigkeiten: In §0 fehlte motiveAndConflict bei den Feldern, die die Erzählerakte selbst zieht. §1.1: Vom Wehrgang sieht man jetzt auch die Stadt, passend zum Gerücht von Joanna. Die Spalte „Herkunft“ heißt jetzt „Quelle“, damit sie nicht mit dem verbotenen Feld herkunft verwechselt wird. Erklärt ist auch, was „Ö mit [T: Abend]“ bedeutet (Baran und Hana zu Schneider). Faktenblatt-Tabelle und netz.json sind per Skript abgeglichen: 45 von 45 gleich.",
+    "Prüfwerkzeug: netz.json mit --modus akte ergibt FEHLER=0, WARNUNG=0 (45 Kanten, 37 öffentlich, 8 heimlich, je Kernfigur 6). Die 37 öffentlichen Kantentexte habe ich zusätzlich unter den Einstimmungsregeln geprüft (vorlesen): Es gibt nur die erwarteten Größen- und Namensmeldungen der Probe, keinen Treffer bei Spoiler-, Kenn-, Urteils- oder Geldwörtern, keinen Raumwort-Treffer und keine Fünf-Wort-Folge.",
+    "Geburtstag-Reste in FAKTENBLATT.md und netz.json: keine. Das Wort steht nur in der Verbotsliste in §7."
+   ],
+   "offen": [
+    "Ungleichheit aus dem Kanon: Olli, Ahmet und Fatma haben ihren Schneider-Konflikt vor dem Knall (18:50, 23:51, 23:56). Cans einziger Konflikt ist der Zusammenstoß 13 Sekunden nach dem Knall (pfade alle). Die Kante zeigt nur, was sein roleSecret ohnehin zeigt. Echten Ausgleich gibt es nur mit einer Kanon-Änderung, etwa einem früheren Can–Schneider-Konflikt.",
+    "Ungleichheit aus dem Kanon: Ahmet hat zwei loyale Nebenfiguren (Lejla, Joanna), die anderen Kernfiguren je eine. In Fatmas heimlichem Eintrag stehen zwei Personen (Azra aus dem Motiv, Emine über die Loyalität). Das Faktenblatt fügt nichts hinzu.",
+    "Die Nennregel für Vorstellungen (Kernfigur höchstens einmal, Joanna, Baran, Wojtek und Azra nennen keine) ist nur eine Empfehlung. Der Entwurfsprüfer und das geplante pruefeEinstimmung erzwingen sie nicht. Vorschlag für den Kern: eine Prüfung „je Besetzung n jede Kernfigur ≤1 Nennung in vorstellung.*“. Bleibt auch so: Bei kleinen Runden fehlen Fatma (n<6), Olli (n<7) und Can (n<10), weil die Besetzungsreihenfolge sie spät bringt.",
+    "Geburtstag-Reste im Kanon, außerhalb meines Schreibbereichs: content/welt/schlosskeller/geruechte.json (can, Runde 2: „Mein Bruder hat morgen Geburtstag.“), raeume.json-Ort und ermittlungsOrt „geburtstagsplatz“ (nur als Kennung), TON-LEITFADEN §1/§3 („Geburtstagsabend“, „Geburtstagskind“), FUER-DEN-NUTZER („Geburtstags-Planerin“, „Geburtstagskind“).",
+    "Widerspruch im Kanon: raeume.json vorrat_tuer hat quietscht=false, can.motiveAndConflict sagt aber, die Tür zum Vorratsraum quietscht auf. Das Faktenblatt folgt motiveAndConflict. Klären muss der Kanon-Integrator.",
+    "Sensibilität im Kanon, nicht hier änderbar: Fatmas Steckbrief (Kopftuch, „spricht leise, lächelt viel“) kann als Klischee gelesen werden. FUER-DEN-NUTZER behandelt Fatmas Kopftuch bereits. Im Netz gibt es außerdem Paare gleicher Herkunft (Zeynep–Sibel–Serkan, Joanna–Marek, Joanna–Wojtek). Sie sind weder Motiv noch Pointe, also kein Verstoß gegen TON §7, aber ein Sensibilitätsleser sollte draufschauen.",
+    "Bleibt bewusst: Jeder öffentliche Beitrag der Kernfiguren stammt aus ihrer Kanonrolle und liegt dadurch nah an ihrem Geheimnis. Ahmets „Keller organisiert“ schreibt die Spezifikation vor. Cans „filmt lustige Momente“ ist Kanon-Steckbrief. Ganz neutral wird das nur mit einer Änderung von Spezifikation oder Steckbrief.",
+    "Nicht geprüft, weil der Kern fehlt: die zusammengesetzte Erzählerakte (toJson mit Kanonfeldern) gegen die 5-Wort-Regel aus pfadwissenVerboten. Das macht erst pruefeErzaehlerakte."
+   ],
+   "pruefer_sauber": true
+  }
+ },
+ {
+  "agent": "schreiben:vorgeschichte",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehler-vorgeschichte.json",
+    "/home/user/Murder_Mystery/planung/finale/entwurf/ui-einstimmung-titel.json"
+   ],
+   "eintraege": 15,
+   "worte": 666,
+   "pruefer_sauber": true,
+   "offene_fragen": [
+    "Prüfer-Ergebnis (Modus vorlesen): beide Dateien 0 FEHLER, 0 WARNUNG. Vorgeschichte: 7 Blöcke mit den Teil-IDs aus der Spezifikation (schloss, schneider, clique, einladung, keller, eigenarten, heute). Wörter je Block: 100, 95, 97, 94, 93, 92, 96. Gesamt 666 Wörter, im Schnitt 10,7 Wörter je Satz. Nennungen: Ahmet, Fatma, Olli und Can je dreimal, Herr Schneider einmal. Der Detektiv kommt nicht vor, die anderen 16 Figuren werden nicht genannt. Der Titel-Entwurf hat 8 Einträge, jeder Titel höchstens 4 Wörter. Insgesamt sind es 15 Einträge.",
+    "Neu erfunden ist ein kleiner Wetter-Rückgriff: Im Block 'heute' kommt der Wind 'von Westen', passend zu 'Bei Westwind singt das Schloss' aus dem FAKTENBLATT. Der Block endet mit 'Hört ihr es singen?'. Das Faktenblatt nennt keine Windrichtung. Falls der Story-Prüfer das nicht will, reicht 'kalt und windig'.",
+    "Ebenfalls neu, aber ohne Folgen für den Fall: Die Clique-Bräuche im Block 'eigenarten' sind erfunden. Es wird zu viel gegessen. Beim Spielen gewinnt, wer behauptet, die Regeln nicht zu kennen. Beim Abschied wird schon das nächste Treffen geplant. Bitte gegen das Faktenblatt-Prinzip 'Was hier fehlt, wird nicht erfunden' abwägen.",
+    "Der Name 'Blinde Kuh' fehlt absichtlich. Es heißt nur 'Für Mitternacht stehen Torte und ein Spiel im Plan.' So verrät der Text nichts, was im Intro steht, und nichts über die Rolle des Detektivs. Soll der Spielname doch genannt werden?",
+    "Im Block 'keller' steht 'Ahmet hat den Keller organisiert.' als eigener Satz, ohne Herrn Schneider und ohne ein Wort dazu, wie. Raumnamen fehlen ganz (Regel 'alle oder keinen'), ebenso der Kamin und Herr Schneider. Absichtlich drin sind die quietschenden Türen und der fehlende Handyempfang als Stimmung, aber nicht im selben Satz wie eine Kernfigur.",
+    "Damit Fatma nicht in die Nähe der Vitrine rückt, steht bei ihr nur 'Farben' und nicht 'Muster'. Olli 'meldet sich für den Aufbau' und 'packt an', nie 'trägt'. Ein Satz über Ahmet macht ihn mit 'Der Radlehrer von damals' eindeutig, ohne eine vierte Namensnennung.",
+    "Der Titel-Entwurf hat bewusst dieselbe Kopfzeile wie das Ziel texte/ui-erzaehler.json (settingId, bereich 'ui', hinweis) plus 'eintraege'. Die Aufgabe nannte nur 'eintraege'. Wenn der Integrator nur 'eintraege' übernimmt, stört das nicht. Titel: 'Das alte Schloss', 'Herr Schneider', 'Wie die Clique wuchs', 'Die Einladung', 'Unter dem Schlossturm', 'Typisch Clique', 'Heute Abend', 'Wer heute mitfeiert' (für die Vorstellung)."
+   ]
+  }
+ },
+ {
+  "agent": "schreiben:vorstellung-a",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-a.json"
+   ],
+   "eintraege": 11,
+   "worte": 593,
+   "pruefer_sauber": true,
+   "offene_fragen": [
+    "Prüfer: pruefe.dart --modus vorlesen --netz planung/finale/entwurf/netz.json meldet FEHLER=0, WARNUNG=0, Satzschnitt 10,4. Wortzahlen: vorstellung.start 32; ahmet 56, fatma 59, olli 54, can 53, leyla 56, emine 57, tim 50, johanna 59, murat 63, zeynep 54.",
+    "Namensregel umgesetzt wie in FAKTENBLATT §6: Die vier Kernfiguren und Joanna nennen niemanden. Lejla nennt Ahmet, Emine nennt Fatma, Tim nennt Olli, Zeynep nennt Can, Marek nennt Lejla. Joanna wäre für Marek erlaubt, ist aber nicht genannt. In jedem Text fällt der eigene Name vor jedem anderen Namen, damit beim Satz ‚Wer genannt wird, steht kurz auf‘ nicht die falsche Person aufsteht. Bitte bestätigen, dass die Pakete B bis D dieselbe Reihenfolge einhalten.",
+    "Bewusst weggelassen, obwohl öffentlich (Steckbrief oder dossier.wer), weil die Stücke Beweisen nahe sind: Fatmas Mantel (Kennwort), Ring und Tasche; Cans gelbe Kapuze (gelbe_fasern liegen in allen Pfaden); Ollis Weste (Arbeitshandschuh); Tims Stirnlampe; Mareks Autoschlüssel; Joannas Handyhalter mit Leuchte. Stattdessen stehen dort Rollkragen und Kopftuch (Fatma), grauer Pulli und breiter Bau (Olli), bunte Turnschuhe und federnder Schritt (Can). Die Porträts zeigen die weggelassenen Stücke weiterhin. Ist das so gewollt?",
+    "Sensibilität nach TON §7: Bei Fatma steht ‚taubengraues Kopftuch‘ neutral als Kleidung, gleich danach folgt ein Witz über ihre zwanzig Wörter für Grau. Der Witz zielt auf ihren Sinn für Farben als Designerin, nicht auf das Kopftuch. Ein Sensibilitätsleser sollte das bestätigen. Die Ausweichlösung wäre, das Kopftuch wegzulassen. Dann bliebe nur der dunkle Rollkragen als Merkmal.",
+    "Die Beiträge der Kernfiguren zum Abend (Keller, Einladungskarte, Aufbau, Video) fehlen in allen vier Vorstellungen. Sie stehen in der Vorgeschichte. Bei Ahmet steht nur ‚plant beruflich Stadtfeste‘, ohne ‚Märkte‘, damit Organisator, Märkte und Keller zusammen nicht auf den Gefallen hindeuten (FAKTENBLATT §1.4). Die Gewichtung ist symmetrisch: Jede Kernfigur hat Alter, Beruf, Merkmal, eine Eigenart und eine Pointe und kommt auf 53 bis 59 Wörter.",
+    "Die Pointe bei Can spielt mit der Regel fürs Aufstehen: ‚Can muss niemand ans Aufstehen erinnern …‘. Das trägt nur, wenn der Hinweis zum Aufstehen am Tisch auch wirklich gilt. Im Solo-Modus (‚Die App spielt …‘) passt der Satz trotzdem, ist aber weniger witzig. Bitte entscheiden.",
+    "Die öffentliche Kante Emine–Schneider (Führung mit ihrer Schulklasse) ist nicht genutzt, damit Herr Schneider in den Vorstellungen nicht vorkommt. Bei Bedarf lässt sie sich nachtragen.",
+    "Nach Bedeutung entschärft, obwohl der Prüfer nichts gemeldet hatte: Fatma ‚findet, was im Raum steckt‘ klang nach ihrem Nebendelikt, Emine ‚behält alle im Blick‘ nach einer Zeugin, und Tim ‚repariert Dinge, die nicht kaputt waren‘ nach dem Kurzschluss. Bei Fatma steht außerdem ‚zwanzig‘ statt ‚zwölf‘, damit nichts an Mitternacht erinnert. Eine Prüfung durch einen Menschen auf Pfadverrat nach Bedeutung bleibt trotzdem nötig."
+   ]
+  }
+ },
+ {
+  "agent": "schreiben:vorstellung-b",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/vorstellung-b.json"
+   ],
+   "pruefer_sauber": true,
+   "eintraege": 13,
+   "worte": 782,
+   "offene_fragen": [
+    "Detektiv als blinde Kuh: Laut FAKTENBLATT §4.5 erfährt der Detektiv erst am Abend, dass er die blinde Kuh wird. Die Aufgabe verlangt die blinde Kuh aber in der Vorstellung. Gelöst habe ich das mit einem Augenzwinkern über das Schloss: „Die alten Mauern ahnen es schon: Um Mitternacht wirst du die blinde Kuh.“ Bitte bestätigen, oder weicher fassen, zum Beispiel „ahnen schon, wer um Mitternacht die blinde Kuh wird“.",
+    "Tugba nennt Herrn Schneider über die öffentliche Kante tugba–schneider: Er musste den Ablaufplan mit ihr durchgehen und hat bei jedem Punkt geseufzt. Diese Kante trägt im Faktenblatt kein [T: Abend]. Die Namensregel der Spezifikation spricht nur von Figuren, und der Entwurfsprüfer übergeht Schneider. Soll der künftige Kernprüfer pruefeEinstimmung Schneider in Vorstellungen erlauben? Paket A nutzt die Kante Emine–Schneider nicht.",
+    "Grenzfälle nach Bedeutung, die das Werkzeug nicht findet und ein Mensch prüfen sollte: Bei Aylin stehen die Ledermappe (öffentlich laut dossier.wer, die visualSpecs verbinden sie mit Belegen) und der Buchhalterwitz „ist irgendwo ein Komma verrutscht“, ohne Geld oder Miete. Bei Sibel steht die Angst vor alten Rüstungen. Das Faktenblatt erlaubt sie als Eigenart, im Text steht sie ohne Turmgang, Vitrine und den Lacher. Bei Azra steht die Lupe an der silbernen Kette (Steckbrief), ohne Münzen und ohne Ringe.",
+    "Barans Pulli heißt im Text „dunkelgrau“ wie im Steckbrief und nicht „anthrazitfarben“ wie im Dossier. So entsteht keine Fünf-Wort-Folge aus den visualSpecs.",
+    "Git-Stand: Jemand hat eine Zwischenfassung dieser Datei bereits eingecheckt (Commit 65d663c „Finale: Entwürfe der Inhalte (Zwischenstand)“). Die endgültige, geprüfte Fassung liegt nur im Arbeitsbaum und weicht in acht Zeilen davon ab. Ich habe nicht committet, wie vorgegeben."
+   ]
+  }
+ },
+ {
+  "agent": "schreiben:akte-a",
+  "ergebnis": {
+   "dateien": [
+    "/home/user/Murder_Mystery/planung/finale/entwurf/erzaehlerakte-a.json"
+   ],
+   "eintraege": 13,
+   "worte": 1925,
+   "pruefer_sauber": true,
+   "offene_fragen": [
+    "Ahmets zuSchneider hat 33 Wörter, Fatma, Olli und Can nur 22 bis 24. Nur Ahmet hat laut Kanon schon vor dem Abend eine heimliche Verbindung zu Herrn Schneider, die Abmachung um den Keller. Sonst sind alle vier gleich gebaut: Vorher-Satz, dann 'Wie sie am Abend aneinandergeraten, steht unter Motiv.' Die vier Hintergründe haben 121 bis 125 Wörter und je einen Heimlich-Satz gleicher Gestalt: Kategorie plus stilles Ausbügeln, Verweis auf Motiv und Nebendelikt, eine Vertrauensperson (Lejla, Emine, Wojtek, Zeynep), ein Antriebssatz. Dazu hat jede Kernfigur genau einen ausweichenden Stimme-Punkt. Ein Mensch sollte das Gleichgewicht trotzdem gegenlesen.",
+    "Die Spezifikation sieht für den Detektiv nur einen Hintergrund vor, ohne Fassung m/w. Ich habe geschrieben: 'Ob Detektiv oder Detektivin, entscheidet der Tisch; hier steht kurz „er“.' Soll das Schema hier eine m- und eine w-Fassung erlauben?",
+    "Der Entwurfsprüfer prüft das Feld 'hinweis' nicht. Der Muster-hinweis aus SPEZIFIKATION §2 enthält genau die verbotenen Wörter (Täter, Pfad, Tatwissen, Tarnung, Fall-Code). pruefeErzaehlerakte sollte 'hinweis' ebenfalls ausnehmen, oder der Integrator übernimmt meinen neutralen hinweis.",
+    "Die Hintergründe verweisen mit Namen auf die Abschnitte der Ansicht ('steht unter Motiv', 'Geheimnis und Loyalität erzählen mehr', 'das Nebendelikt erzählt, warum'). Wenn erzaehlerakte_ansicht.dart oder der Druck diese Abschnitte anders nennt, müssen die Verweise mitziehen.",
+    "Kleine Ausschmückungen ohne neue Fakten, die das Faktenblatt nicht wörtlich trägt: Can 'als Knirps', Lejla und Ahmet 'halten zusammen wie Geschwister', Tim 'manchmal auch, was noch heil ist', Olli 'Patzer inklusive', Joanna 'hat schlechte Karten', Emine 'hinter seinem Brummen eine Menge Wissen', Zeynep 'die lauteste' Stimme im Gewölbe. Der Story-Prüfer sollte sie bestätigen.",
+    "Ins Paket A gehören auch Felder, die das Paket B betreffen: Der Hintergrund von Herrn Schneider nennt Pawel (Sommerjob, schweigt über die Schäden, die Herr Schneider aus eigener Tasche bezahlt), so wie FAKTENBLATT §2.2. Den Satz 'Mit Ahmet, Fatma, Olli und Can gerät er in dieser Nacht je auf eigene Weise aneinander' habe ich bewusst ausgewogen gehalten. Das Netz liegt nicht in dieser Datei. Der Integrator führt es aus netz.json zusammen."
+   ]
+  }
+ }
+]
