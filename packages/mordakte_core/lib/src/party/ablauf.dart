@@ -20,6 +20,30 @@ class Einstellungen {
   const Einstellungen({required this.rollen, required this.detektiv, required this.code, this.druck = false, this.rundendauerMinuten = 30});
 }
 
+/// Zusatzschicht über dem Ablauf (Finale §3.14), etwa die Einfluss-Schicht „Dein Moment“. Ohne sie
+/// ([Spiel.zusatz] ist `null`) läuft jeder Abschnitt wie heute.
+abstract interface class SpielZusatz {
+  /// Fakten, die der Detektiv bis einschließlich Runde [bis] sieht: Funde ohne die bis zum
+  /// Zwischenresümee verzögerten, dazu, was die Schicht selbst liefert. Teilmenge der Fakten des Pfads.
+  Set<String> sichtbar(Spiel s, int bis);
+
+  /// Fakten, die bis einschließlich Runde [bis] über die Schicht selbst kamen (vor jeder Entscheidung
+  /// dieser Runde sichtbar); Grundlage der Geklärt-Regel.
+  Set<String> geliefert(int bis);
+
+  /// Bausteine, die nach dem Wechsel aus [von] in die Phase von [s] hinter die eigenen kommen.
+  List<String> nachWechsel(Spiel s, PartyPhase von);
+
+  /// Verschiebung des Endes (Finale §3.10).
+  int get tischbonus;
+
+  /// Mit Schicht folgt auf die Entscheidungen direkt der Bonus.
+  bool get ueberspringeGruppenwahl;
+
+  /// Güte des Hinweises im Bonus von [runde]; `null`, wenn niemand etwas zuflüstert.
+  Qualitaet? bonusQualitaet(int runde);
+}
+
 /// Der Spielablauf als reiner Zustandsautomat. Alle Story-Texte kommen als
 /// Baustein-Kennungen aus dem Erzähler; nichts wird erzeugt (Master 7.12).
 class Spiel {
@@ -40,6 +64,9 @@ class Spiel {
 
   /// Alle bisher ausgegebenen Bausteine in Reihenfolge.
   final List<String> bausteine = [];
+
+  /// Zusatzschicht (Finale §3.14); `null`: alles wie heute.
+  SpielZusatz? zusatz;
 
   Spiel(this.kanon, {Ermittlung? ermittlung})
       : ermittlung = ermittlung ?? Ermittlung(kanon),
@@ -70,8 +97,15 @@ class Spiel {
     phase = PartyPhase.rollen;
   }
 
-  /// Zum nächsten Abschnitt, sobald der aktuelle erledigt ist.
+  /// Zum nächsten Abschnitt, sobald der aktuelle erledigt ist. Eine [zusatz]-Schicht hängt danach ihre
+  /// Bausteine an ([SpielZusatz.nachWechsel]).
   void weiter() {
+    final von = phase;
+    _weiter();
+    if (zusatz case final z?) bausteine.addAll(z.nachWechsel(this, von));
+  }
+
+  void _weiter() {
     switch (phase) {
       case PartyPhase.titel:
         phase = PartyPhase.einrichtung;
@@ -89,7 +123,14 @@ class Spiel {
       case PartyPhase.entscheidungen:
         final offen = [for (final e in ermittlung.runde(runde)) if (!gewaehlt.containsKey(e.id)) e.id];
         if (offen.isNotEmpty) throw StateError('offene Entscheidungen: $offen');
-        phase = PartyPhase.gruppenwahl;
+        if (zusatz case final z? when z.ueberspringeGruppenwahl) {
+          // Finale §3.1: Mit Schicht flüstert der Tisch je nach Zusammenhalt; keine Gruppenwahl.
+          if (z.bonusQualitaet(runde) case final q?) qualitaeten[runde] = q;
+          phase = PartyPhase.bonus;
+          bausteine.addAll(erzaehler.bonus(this));
+        } else {
+          phase = PartyPhase.gruppenwahl;
+        }
       case PartyPhase.gruppenwahl:
         if (!qualitaeten.containsKey(runde)) throw StateError('Gruppenwahl fehlt');
         phase = PartyPhase.bonus;
@@ -161,9 +202,35 @@ class Spiel {
           if (ermittlung.entscheidung(e.key).runde <= bis) ...ermittlung.faktenVon(e.value, pfad),
       };
 
-  Set<String> restmenge([int bis = 3]) => ermittlung.restmenge(bekannteFakten(bis));
+  /// Fakten, die der Detektiv bis einschließlich Runde [bis] sieht; ohne [zusatz] genau [bekannteFakten].
+  Set<String> sichtbareFakten([int bis = 3]) => zusatz?.sichtbar(this, bis) ?? bekannteFakten(bis);
 
-  int get punkte => [for (final e in gewaehlt.entries) if (ermittlung.istRichtig(e.key, e.value, pfad)) e].length;
+  Set<String> restmenge([int bis = 3]) => ermittlung.restmenge(sichtbareFakten(bis));
 
-  EndeRegel get ende => enden.ende(punkte, angeklagt == pfad);
+  /// Geklärt-Regel (Finale §3.10, nur mit [zusatz]): Alle Fakten, die die richtige Option im Pfad liefern
+  /// würde, kamen schon vor dem Öffnen der Entscheidung über die Schicht. Hebt Punkte nur an.
+  bool geklaert(String entscheidungId) {
+    final z = zusatz;
+    if (z == null) return false;
+    final e = ermittlung.entscheidung(entscheidungId);
+    final soll = ermittlung.faktenVon(e.richtig[pfad]!, pfad);
+    return soll.isNotEmpty && z.geliefert(e.runde).containsAll(soll);
+  }
+
+  int get punkte => [
+        for (final e in gewaehlt.entries)
+          if (ermittlung.istRichtig(e.key, e.value, pfad) || geklaert(e.key)) e,
+      ].length;
+
+  /// Wert für die Endenmatrix: ohne [zusatz] die Punkte, mit ihr Punkte + Tischbonus in 0 … 9 (Finale §3.10).
+  int get endwert {
+    final z = zusatz;
+    if (z == null) return punkte;
+    final w = punkte + z.tischbonus;
+    final hoechstens = ermittlung.entscheidungen.length;
+    return w < 0 ? 0 : (w > hoechstens ? hoechstens : w);
+  }
+
+  /// Ende nach der Matrix; richtig oder falsch bestimmt allein die Anklage.
+  EndeRegel get ende => enden.ende(endwert, angeklagt == pfad);
 }

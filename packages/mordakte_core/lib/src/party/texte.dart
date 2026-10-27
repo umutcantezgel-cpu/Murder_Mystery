@@ -149,7 +149,8 @@ class Textsammlung {
       for (final e in (d.value['eintraege'] as List? ?? const [])) {
         final m = e as Map;
         switch (d.value['bereich']) {
-          case 'erzaehler' || 'detektiv' || 'ui':
+          // `einfluss`: Texte der Einfluss-Schicht (Finale §3.13), nur in Akten mit der Fähigkeit.
+          case 'erzaehler' || 'detektiv' || 'ui' || 'einfluss':
             if (merke(m['id'] as String, d.key)) bausteine[m['id'] as String] = m['text'] as String;
           case 'dossier':
             if (merke('dossier.${m['rolle']}', d.key)) dossiers[m['rolle'] as String] = DossierRoh(m);
@@ -284,10 +285,29 @@ class Texte {
   /// (`hinweis.<id>`) stehen in `bonus.json`, alles andere in der Textsammlung.
   /// Unbekannte Kennungen sind ein Fehler: Die App erzeugt keinen Text (F-11).
   String baustein(String kennung) {
+    // Einfluss-Bausteine mit Figuren (`einflussBaustein`, Finale §3.13): `<kennung>@<figur>[@<ziel>]`.
+    if (kennung.startsWith('einfluss.') && kennung.contains('@')) {
+      final t = kennung.split('@');
+      if (t.length > 3) throw ArgumentError('unbekannter Baustein $kennung');
+      return einflussText(t[0], figur: t[1], ziel: t.length > 2 ? t[2] : null);
+    }
     if (kennung.startsWith('hinweis.')) {
       return _hinweise[kennung.substring('hinweis.'.length)] ?? (throw ArgumentError('unbekannter Hinweis $kennung'));
     }
     return sammlung.bausteine[kennung] ?? (throw ArgumentError('unbekannter Baustein $kennung'));
+  }
+
+  late final Map<String, String> _anzeigenamen = {for (final f in kanon.figuren) f['id'] as String: f['name'] as String};
+
+  /// Text der Einfluss-Schicht (Bereich `einfluss`, Finale §3.13) mit Platzhaltern: `@figur` und `@ziel`
+  /// werden zum Anzeigenamen der Figur, `@zug` zum Kurznamen der Zugart (`einfluss.zug.<art>.titel`).
+  String einflussText(String kennung, {String? figur, String? ziel, String? zug}) {
+    var t = baustein(kennung);
+    String name(String id) => _anzeigenamen[id] ?? (throw ArgumentError('unbekannte Figur $id'));
+    if (figur != null) t = t.replaceAll('@figur', name(figur));
+    if (ziel != null) t = t.replaceAll('@ziel', name(ziel));
+    if (zug != null) t = t.replaceAll('@zug', baustein('einfluss.zug.$zug.titel'));
+    return t;
   }
 
   (String, String) _teile(String ref) {
@@ -404,6 +424,7 @@ List<String> textVerweise(Kanon kanon, Textsammlung t) {
       if (bereich == 'erzaehler' && !katalog.contains(id)) f.add('${d.key}: $id gehört nicht zum Erzähler-Katalog');
       if (bereich == 'detektiv' && !(id!.startsWith('detektiv.') || id.startsWith('ermittlungsbogen.'))) f.add('${d.key}: $id ist kein Detektiv-Schlüssel');
       if (bereich == 'ui' && !id!.startsWith('ui.')) f.add('${d.key}: $id ist kein Oberflächen-Schlüssel');
+      if (bereich == 'einfluss' && !id!.startsWith('einfluss.')) f.add('${d.key}: $id ist kein Einfluss-Schlüssel');
     }
   }
 
@@ -569,6 +590,20 @@ List<String> textLuecken(Kanon kanon, Textsammlung t) {
     if (!t.bausteine.keys.any((k) => k.startsWith('detektiv.$g.'))) f.add('Detektiv-Bogen $g fehlt');
   }
   return f;
+}
+
+/// Liest der Erzähler den Einfluss-Text [kennung] vor (Finale §3.13, „Änderungen“)? Vorlesetexte sind
+/// Folgen, Auspacken, Ablenken, Gerüchte, Leisten, Ereignisse (ohne `.karte`), `wieder`, Flüstern, Ertappt,
+/// Verwischt, Tischbonus, Preise, Morgen und Epiloge; alles andere sind Handy-Karten nach R17.
+bool einflussVorlesetext(String kennung) {
+  final t = kennung.split('.');
+  if (t.length < 2 || t.first != 'einfluss') return false;
+  return switch (t[1]) {
+    'folgen' || 'auspacken' || 'ablenken' || 'geruecht' || 'leiste' || 'wieder' || 'fluestern' || 'ertappt' || 'verwischt' ||
+    'tischbonus' || 'preis' || 'morgen' || 'epilog' => true,
+    'ereignis' => t.last != 'karte',
+    _ => false,
+  };
 }
 
 final _wortRe = RegExp(r'[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*', unicode: true);

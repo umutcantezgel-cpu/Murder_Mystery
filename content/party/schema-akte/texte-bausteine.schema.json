@@ -63,7 +63,8 @@
       "enum": [
         "erzaehler",
         "detektiv",
-        "ui"
+        "ui",
+        "einfluss"
       ]
     },
     "hinweis": {

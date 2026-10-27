@@ -5,6 +5,11 @@ export 'src/runden/wuerfel.dart';
 export 'src/runden/zugschicht.dart';
 export 'src/runden/partie.dart';
 export 'src/runden/bots.dart';
+// Einfluss-Schicht „Dein Moment“ (Finale §3): Regeln, Ziele, Prüfer; ohne Schicht unbenutzt.
+export 'src/runden/einfluss.dart';
+export 'src/runden/einfluss_ziele.dart';
+export 'src/runden/einfluss_pruefung.dart';
+export 'src/runden/einfluss_abend.dart';
 export 'src/runden/schlosskeller_raum.dart';
 export 'src/runden/abend_raum.dart';
 export 'src/runden/raum/raum_modul.dart';

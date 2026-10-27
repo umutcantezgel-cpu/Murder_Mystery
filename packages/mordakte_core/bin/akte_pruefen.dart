@@ -27,6 +27,9 @@
 //     Ausgewogenheit, Fünf-Wort-Regel, verbotene Wörter, Ziffern; den Ton prüft schon Texte)
 //   Erzählerakte nur mit erzaehlerakte.json (Zusatz erzaehlerakte in akten.json): Schema und pruefeErzaehlerakte (Vollständigkeit,
 //     Größen, Netzregeln, pfadfrei, verbotene Wörter, Ton)
+//   Einfluss    nur mit Zusatz einfluss in akten.json: content/party/zusatz/<akte>/einfluss.json gegen das Schema und
+//     pruefeEinfluss (Finale §3: Bezug ausgewogen, Quellen in allen Pfaden, Ziele erreichbar und verfehlbar und für die
+//     Kernfiguren gleich geformt, alle Text-Schlüssel, Karten nach R17, Platzhalter, Ereignisse ohne Fallbezug)
 //
 // Fehlende Oberflächentexte (ui.*) kommen wie in der App aus dem Schlosskeller.
 import 'dart:convert';
@@ -95,6 +98,7 @@ const _schemaJeBereich = {
   'erzaehler': 'texte-bausteine',
   'detektiv': 'texte-bausteine',
   'ui': 'texte-bausteine',
+  'einfluss': 'texte-bausteine',
   'dossier': 'texte-dossier',
   'taeter': 'texte-taeter',
   'gespraech': 'texte-gespraech',
@@ -151,6 +155,7 @@ void _pruefeAlles(String fall, Befunde b) {
   _vorspielMorgen(b, kanon, texte, wurzel, fall);
   _einstimmung(b, kanon, texte, ordner, wurzel, fall);
   _erzaehlerakte(b, kanon, texte, ordner, wurzel, fall);
+  _einfluss(b, kanon, erm, sammlung, wurzel, fall);
 }
 
 // ---------------------------------------------------------------- Schema
@@ -565,6 +570,36 @@ void _diashow(Befunde b, Kanon kanon, Textsammlung sammlung, String wurzel, Stri
   if (schema.isNotEmpty) return;
   if (j['akte'] != fall) b.add('Diashow', ['diashow.json: akte ${j['akte']} statt $fall']);
   b.add('Diashow', pruefeDiashow(Diashow.ausJson(j), kanon, (k) => sammlung.bausteine[k]));
+}
+
+// ---------------------------------------------------------------- Einfluss
+
+/// Einfluss-Schicht „Dein Moment“ (Finale §3), nur wenn die Akte die Fähigkeit `einfluss` hat: Dann muss
+/// `content/party/zusatz/<akte>/einfluss.json` da sein, danach Schema und pruefeEinfluss (Daten, Ausgewogenheit,
+/// pfadgleiche Quellen, Ziele, Text-Schlüssel, Kartenformat, Platzhalter, R15 der Ereignisse). Die Daten
+/// dürfen vor der Fähigkeit liegen; den Ton der Texte prüft wie bei allen Bausteinen [_texte].
+void _einfluss(Befunde b, Kanon kanon, Ermittlung erm, Textsammlung sammlung, String wurzel, String fall) {
+  final akte = [
+    for (final a in _lies('$wurzel/content/party/akten.json')['akten'] as List)
+      if ((a as Map)['id'] == fall) a,
+  ].firstOrNull;
+  if (!((akte?['faehigkeiten'] as List?) ?? const []).contains('einfluss')) return;
+  final datei = File('$wurzel/content/party/zusatz/$fall/einfluss.json');
+  if (!datei.existsSync()) {
+    b.add('Einfluss', ['akten.json nennt einfluss, content/party/zusatz/$fall/einfluss.json fehlt']);
+    return;
+  }
+  final j = _lies(datei.path);
+  final schema = SchemaPruefer(_lies('$wurzel/content/party/zusatz/einfluss.schema.json')).pruefe(j);
+  b.add('Einfluss', [for (final f in schema) 'einfluss.json: $f']);
+  if (schema.isNotEmpty) return;
+  if (j['akte'] != fall) b.add('Einfluss', ['einfluss.json: akte ${j['akte']} statt $fall']);
+  b.add('Einfluss', pruefeEinfluss(
+    j,
+    erm,
+    texte: {for (final e in sammlung.bausteine.entries) if (e.key.startsWith('einfluss.')) e.key: e.value},
+    r15: PfadgleichRegeln(kanon, art: 'einen Ereignistext'),
+  ));
 }
 
 // ---------------------------------------------------------------- Besetzung

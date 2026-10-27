@@ -19,6 +19,23 @@ class ZugParameter {
   /// Höchstens eingelöste Marken je Wissensziel (K-07).
   final int markenJeZiel;
 
+  /// Grenzen des Suchmodifikators mit Tischwert (Finale §3.4). Ohne Tischwert und Umweg-Bonus gilt
+  /// der Grundwert nach K-07 unverändert ([WuerfelRegel.gesamt]).
+  final int modBoden;
+  final int modDeckel;
+
+  /// Bonus im Anlauf direkt nach einem Umweg (Finale §3.4); 0 = wie heute.
+  final int umwegBonus;
+
+  /// Rundenbudget mit Einfluss-Schicht (Finale §3.7): Übertrag aus der Vorrunde höchstens und Boden
+  /// (3 × 14, K-12). Gilt nur, wenn [Zugschicht.beginneRunde] Zusatzminuten bekommt.
+  final int uebertragHoechstens;
+  final int minutenBoden;
+
+  /// Befragung mit Tischwert (Finale §3.4): Zusatzminuten bei T = −1 („zögert“) und T ≤ −2 („mauert“).
+  final int zoegert;
+  final int mauert;
+
   const ZugParameter({
     this.rundenzeit = 45,
     this.pflicht = 6,
@@ -31,6 +48,13 @@ class ZugParameter {
     this.abstecherPechZeit = 3,
     this.markenMax = 3,
     this.markenJeZiel = 2,
+    this.modBoden = 0,
+    this.modDeckel = WuerfelRegel.modMax,
+    this.umwegBonus = 0,
+    this.uebertragHoechstens = 0,
+    this.minutenBoden = 0,
+    this.zoegert = 0,
+    this.mauert = 0,
   });
 
   /// Schlechteste Kosten eines Pflichtzugs: 6 + 2 + 3 + 3 = 14 (K-11).
@@ -58,16 +82,49 @@ enum Tischruf { nochmal, umweg }
 bool istSuche(Entscheidung e) =>
     e.optionen.any((o) => o.ziel.keys.any((k) => k == 'gegenstand' || k == 'raum' || k == 'ort'));
 
+/// Kennzeichen einer abgeschlossenen Pflichtsuche (Finale §3.4). Ohne Einfluss-Schicht ist [tisch] 0 und
+/// niemand liest sie; kein Wurf ändert sich dadurch.
+class SuchKennzeichen {
+  /// Tischwert der gewählten Option, mit dem die Suche begann.
+  final int tisch;
+
+  /// Letzte Stufe (Erfolg oder Teilerfolg; die Rundenschranke zählt als Teilerfolg).
+  final Stufe stufe;
+
+  /// Mindestens ein Pech: „Die Spur verwischt“.
+  final bool verwischt;
+
+  /// Mindestens ein Umweg: kein Zusatzfund, kein Ertappt, Fakten erst im Zwischenresümee.
+  final bool umweg;
+
+  const SuchKennzeichen({required this.tisch, required this.stufe, required this.verwischt, required this.umweg});
+
+  /// Erfolg ohne Umweg: Zusatzfund, und wer im Bezug deckte, kann ertappt werden.
+  bool get zusatzfund => stufe == Stufe.erfolg && !umweg;
+  bool get ertapptMoeglich => zusatzfund;
+
+  /// Die Fakten kommen erst im Zwischenresümee.
+  bool get verzoegert => umweg;
+}
+
 /// Zustand einer laufenden Untersuchung (Pflichtzug mit Wurf).
 class _Untersuchung {
   final String id;
   final String option;
   final bool gruendlich;
+
+  /// Tischwert der Option (Finale §3.4); 0 ohne Schicht.
+  final int tisch;
   int anlauf = 1;
   int pechFolge = 0;
   int marken = 0;
   bool wartetAufTischruf = false;
-  _Untersuchung(this.id, this.option, this.gruendlich);
+  bool verwischt = false;
+  bool umweg = false;
+
+  /// Der nächste Anlauf folgt direkt auf einen Umweg.
+  bool nachUmweg = false;
+  _Untersuchung(this.id, this.option, this.gruendlich, this.tisch);
 }
 
 /// Die Zugschicht „Würfel stark“ über dem Kanon 1.0 (A-4, WÜ-1…6).
@@ -94,6 +151,9 @@ class Zugschicht {
 
   final List<Wurf> wuerfe = [];
   final List<String> ereignisse = [];
+
+  /// Kennzeichen jeder abgeschlossenen Pflichtsuche (Finale §3.4).
+  final Map<String, SuchKennzeichen> kennzeichen = {};
 
   int runde = 0;
   int rest = 0;
@@ -125,12 +185,22 @@ class Zugschicht {
   /// Schlechteste Kosten aller offenen Pflichtzüge (Reserve-Regel, K-12).
   int get reserveBedarf => offen.length * p.schlechtesterPflichtzug;
 
-  void beginneRunde(int r) {
+  /// Beginnt Runde [r] mit [ZugParameter.rundenzeit] Nachtminuten. Mit [zusatzMinuten] (Einfluss-Schicht,
+  /// Finale §3.7) kommen der Übertrag aus der Vorrunde (höchstens [ZugParameter.uebertragHoechstens]) und
+  /// die Änderungen der Folgen dazu; das Budget fällt dann nie unter [ZugParameter.minutenBoden].
+  void beginneRunde(int r, {int? zusatzMinuten}) {
     if (_lauf != null) throw StateError('Untersuchung ${_lauf!.id} läuft noch');
     if (offen.isNotEmpty) throw StateError('Runde $runde hat offene Pflichtzüge: $offen');
     if (r != runde + 1) throw StateError('Runde $r folgt nicht auf Runde $runde');
     runde = r;
-    rest = p.rundenzeit;
+    if (zusatzMinuten == null) {
+      rest = p.rundenzeit;
+    } else {
+      final vorher = restJeRunde.isEmpty ? 0 : restJeRunde.last;
+      final uebertrag = r < 2 || vorher <= 0 ? 0 : (vorher < p.uebertragHoechstens ? vorher : p.uebertragHoechstens);
+      final budget = p.rundenzeit + uebertrag + zusatzMinuten;
+      rest = budget < p.minutenBoden ? p.minutenBoden : budget;
+    }
     offen = [for (final e in ermittlung.runde(r)) e.id];
     ereignisse.add('runde:$r');
   }
@@ -203,19 +273,45 @@ class Zugschicht {
   /// Wird eine gewünschte Marke eingelöst? Nur aus dem Bestand, höchstens [ZugParameter.markenMax]
   /// je Partie und [ZugParameter.markenJeZiel] je Wissensziel, und nur, wenn sie wirkt (Modifikator
   /// ohne Marke unter dem Deckel +2), damit keine Marke verfällt.
-  bool _markeWirkt({required bool werkzeug, required bool gruendlich, required int markenAmZiel}) =>
+  /// Mit Tischwert ([extra] ≠ 0) zählt der Modifikator in den Grenzen der Schicht: Eine Marke, die am
+  /// Deckel nichts mehr ändert, bleibt im Bestand. Ohne Tischwert genau die Regel von K-07.
+  bool _markeWirkt({required bool werkzeug, required bool gruendlich, required int markenAmZiel, int extra = 0}) =>
       markeVerfuegbar &&
       markenAmZiel < p.markenJeZiel &&
-      WuerfelRegel.modifikator(werkzeug: werkzeug, gruendlich: gruendlich, marke: false) < WuerfelRegel.modMax;
+      _mod(werkzeug: werkzeug, gruendlich: gruendlich, marke: true, extra: extra) >
+          _mod(werkzeug: werkzeug, gruendlich: gruendlich, marke: false, extra: extra);
+
+  /// Modifikator nach K-07 mit dem Zuschlag [extra] der Einfluss-Schicht ([WuerfelRegel.gesamt]).
+  int _mod({required bool werkzeug, required bool gruendlich, required bool marke, int extra = 0}) => WuerfelRegel.gesamt(
+        WuerfelRegel.modifikator(werkzeug: werkzeug, gruendlich: gruendlich, marke: marke),
+        extra,
+        boden: p.modBoden,
+        deckel: p.modDeckel,
+      );
+
+  /// Zuschlag des nächsten Anlaufs (Finale §3.4): Tischwert, direkt nach einem Umweg ohne negatives T
+  /// und mit [ZugParameter.umwegBonus]. Ohne Schicht 0.
+  int _extra(_Untersuchung u) {
+    final a = _anteil(u);
+    return a.tisch + a.umweg;
+  }
+
+  ({int tisch, int umweg}) _anteil(_Untersuchung u) =>
+      (tisch: u.nachUmweg && u.tisch < 0 ? 0 : u.tisch, umweg: u.nachUmweg ? p.umwegBonus : 0);
 
   Wurf _werfen(String id, int anlauf,
-      {required bool werkzeug, required bool gruendlich, required bool marke, required bool garantie, required int markenAmZiel}) {
-    final m = marke && _markeWirkt(werkzeug: werkzeug, gruendlich: gruendlich, markenAmZiel: markenAmZiel);
+      {required bool werkzeug,
+      required bool gruendlich,
+      required bool marke,
+      required bool garantie,
+      required int markenAmZiel,
+      int extra = 0}) {
+    final m = marke && _markeWirkt(werkzeug: werkzeug, gruendlich: gruendlich, markenAmZiel: markenAmZiel, extra: extra);
     if (m) {
       markenBestand--;
       markenEingeloest++;
     }
-    final mod = WuerfelRegel.modifikator(werkzeug: werkzeug, gruendlich: gruendlich, marke: m);
+    final mod = _mod(werkzeug: werkzeug, gruendlich: gruendlich, marke: m, extra: extra);
     final w = Wurf.werfen(quelle, id, anlauf, mod, garantie: garantie);
     wuerfe.add(w);
     return w;
@@ -223,7 +319,11 @@ class Zugschicht {
 
   /// Öffnet die nächste Pflichtentscheidung der Runde in Kanon-Reihenfolge und
   /// wählt endgültig [option] (Wahl vor Wurf). Gibt zurück, ob gewürfelt wird.
-  bool waehle(String option, {bool gruendlich = false, bool gratis = false}) {
+  ///
+  /// [tisch] ist der Tischwert der Option (Einfluss-Schicht, Finale §3.4): Bei einer Suche formt er jeden
+  /// Anlauf ([WuerfelRegel.gesamt]); eine Befragung kostet bei T = −1 [ZugParameter.zoegert] und bei
+  /// T ≤ −2 [ZugParameter.mauert] Minuten mehr. Ohne Schicht 0: alles wie heute.
+  bool waehle(String option, {bool gruendlich = false, bool gratis = false, int tisch = 0}) {
     if (_lauf != null) throw StateError('Untersuchung ${_lauf!.id} läuft noch');
     if (offen.isEmpty) throw StateError('keine Pflichtentscheidung offen');
     final id = offen.first;
@@ -241,11 +341,16 @@ class Zugschicht {
     // Mit der Gründlich-Karte kostet „gründlich“ keine Nachtminuten (+2 bleibt).
     rest -= p.pflicht + (gruendlich && !gratis ? p.gruendlich : 0);
     if (!istSuche(e)) {
+      if (tisch <= -2) {
+        rest -= p.mauert;
+      } else if (tisch == -1) {
+        rest -= p.zoegert;
+      }
       _decke(id);
       ereignisse.add('$option:B');
       return false;
     }
-    _lauf = _Untersuchung(id, option, gruendlich);
+    _lauf = _Untersuchung(id, option, gruendlich, tisch);
     return true;
   }
 
@@ -260,23 +365,24 @@ class Zugschicht {
         gruendlich: u.gruendlich,
         marke: marke,
         garantie: u.anlauf >= 3 || u.pechFolge >= 2,
-        markenAmZiel: u.marken);
+        markenAmZiel: u.marken,
+        extra: _extra(u));
     u.marken += markenEingeloest - vorher;
+    u.nachUmweg = false;
     ereignisse.add('${u.option}:${u.anlauf}${w.stufe.kurz}');
     switch (w.stufe) {
       case Stufe.pech:
         _pech();
         u.pechFolge++;
+        u.verwischt = true;
         if (u.pechFolge > maxPechFolge) maxPechFolge = u.pechFolge;
         u.wartetAufTischruf = true;
       case Stufe.erfolg:
         erfolgeMitZusatz++;
         rest += p.erfolgGewinn;
-        _decke(u.id);
-        _lauf = null;
+        _schliesse(u, Stufe.erfolg);
       case Stufe.teilerfolg:
-        _decke(u.id);
-        _lauf = null;
+        _schliesse(u, Stufe.teilerfolg);
     }
     return w;
   }
@@ -287,13 +393,16 @@ class Zugschicht {
     final u = _lauf ?? (throw StateError('keine Untersuchung offen'));
     if (!u.wartetAufTischruf) throw StateError('kein Pech offen');
     u.anlauf++;
+    if (ruf == Tischruf.umweg) {
+      u.umweg = true;
+      u.nachUmweg = true;
+    }
     ereignisse.add('${u.option}:ruf:${ruf.name}');
     // Nochmal-/Umweg-Karte: dieser Gang kostet keine Nachtminuten.
     final zusatz = gratis ? 0 : (ruf == Tischruf.umweg ? p.umweg : (u.anlauf == 2 ? p.zweit : p.dritt));
     u.wartetAufTischruf = false;
     if (rest - zusatz < 0) {
-      _decke(u.id);
-      _lauf = null;
+      _schliesse(u, Stufe.teilerfolg);
       ereignisse.add('${u.option}:schranke');
       return false;
     }
@@ -306,13 +415,27 @@ class Zugschicht {
   ({int mod, bool garantie, bool markeWirkt, Map<Stufe, int> prozent}) vorschau({bool werkzeug = false, bool marke = false}) {
     final u = _lauf ?? (throw StateError('keine Untersuchung offen'));
     final garantie = u.anlauf >= 3 || u.pechFolge >= 2;
-    final m = marke && _markeWirkt(werkzeug: werkzeug, gruendlich: u.gruendlich, markenAmZiel: u.marken);
-    final mod = WuerfelRegel.modifikator(werkzeug: werkzeug, gruendlich: u.gruendlich, marke: m);
+    final extra = _extra(u);
+    final m = marke && _markeWirkt(werkzeug: werkzeug, gruendlich: u.gruendlich, markenAmZiel: u.marken, extra: extra);
+    final mod = _mod(werkzeug: werkzeug, gruendlich: u.gruendlich, marke: m, extra: extra);
     return (mod: mod, garantie: garantie, markeWirkt: m, prozent: WuerfelRegel.chancenProzent(mod, garantie: garantie));
   }
 
+  /// Anteil des Tisches am nächsten Anlauf (Zeile „Tisch“ der Chancenvorschau, Finale §3.4): wirksamer
+  /// Tischwert (direkt nach einem Umweg ohne negatives T) und Umweg-Bonus. Ohne Schicht beides 0.
+  ({int tisch, int umweg}) tischAnteil() => _anteil(_lauf ?? (throw StateError('keine Untersuchung offen')));
+
+  /// Pech in der laufenden Untersuchung: „Die Spur verwischt“ (Finale §3.4).
+  bool get verwischt => _lauf?.verwischt ?? false;
+
   bool get untersuchungOffen => _lauf != null;
   bool get wartetAufTischruf => _lauf?.wartetAufTischruf ?? false;
+
+  void _schliesse(_Untersuchung u, Stufe stufe) {
+    kennzeichen[u.id] = SuchKennzeichen(tisch: u.tisch, stufe: stufe, verwischt: u.verwischt, umweg: u.umweg);
+    _decke(u.id);
+    _lauf = null;
+  }
 
   void _decke(String id) {
     aufgedeckt.add(id);
