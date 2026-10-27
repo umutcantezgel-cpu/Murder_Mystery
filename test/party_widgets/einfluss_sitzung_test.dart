@@ -129,6 +129,47 @@ void main() {
     expect(s.einflussTafel, isNull);
   });
 
+  testWidgets('Offenes Pult: Geht das Gerät für den Moment weiter, ist die Zug-Tafel zu', (t) async {
+    final s = PartySitzung(einflussDaten, salz: 'pult');
+    s.einrichten(rollen: 4, detektiv: 'w', code: FallCode.fuerPfad('ahmet', einflussDaten.kanon.pfade).code, erzaehlerName: 'Ella', einfluss: true);
+    einflussBis(s, PartyPhase.gespraeche);
+    // Der Erzähler liest den Auftakt am Pult und deckt nicht zu.
+    s.pultZeigen();
+    s.momentZeigen('fatma');
+    expect(s.pultOffen, isFalse, reason: 'Das Gerät ist bei Fatma');
+    s.momentZug('fatma', ZugArt.helfen);
+    expect(s.pultOffen, isFalse);
+    expect(s.einflussTafel, isNull);
+    await t.pumpWidget(rahmen(PartyAblauf(sitzung: s)));
+    await t.pumpAndSettle();
+    expect(find.byType(RundeBildschirm), findsOneWidget);
+    expect(find.byType(ZugTafelAnsicht), findsNothing, reason: 'Wer das Gerät als Nächste bekommt, sieht keine Züge');
+    // Schon die Zwischenstufe der Liste deckt das Pult zu.
+    s.pultZeigen();
+    await t.pumpAndSettle();
+    expect(find.byType(ZugTafelAnsicht), findsOneWidget);
+    await t.ensureVisible(find.byKey(const ValueKey('moment-olli')));
+    await t.tap(find.byKey(const ValueKey('moment-olli')));
+    await t.pumpAndSettle();
+    expect(s.pultOffen, isFalse);
+    expect(find.byType(ZugTafelAnsicht), findsNothing);
+    await t.tap(find.text(momentTexte(t.element(find.byType(RundeBildschirm))).moment_zurueck));
+    await t.pumpAndSettle();
+    // Erneut aufgedeckt steht Fatmas Zug wieder da.
+    s.pultZeigen();
+    expect([for (final z in s.einflussTafel!.zuege) (z.rolle, z.art)], [('fatma', ZugArt.helfen)]);
+    // Die Folgen liest der Erzähler am Pult; „Zur Ermittlung“ gibt das Gerät an den Detektiv und deckt zu.
+    alleZiehen(s);
+    PartySkript.befragungenErledigen(s);
+    s.weiter();
+    expect(s.folgenOffen, isTrue);
+    s.pultZeigen();
+    expect(s.einflussTafel, isNotNull);
+    s.folgenGelesen();
+    expect(s.pultOffen, isFalse);
+    expect(s.einflussTafel, isNull);
+  });
+
   test('Solo: Die Bots ziehen, bis zu drei raunen', () {
     final s = einflussSitzung(rollen: 7, solo: true);
     einflussBis(s, PartyPhase.gespraeche);

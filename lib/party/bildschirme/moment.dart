@@ -593,6 +593,8 @@ class MomentListe extends StatelessWidget {
   /// Zwischenstufe: Das Gerät geht an diese Person; erst ihr Knopf öffnet den Moment.
   Future<void> _weitergeben(BuildContext context, String rolle) async {
     final s = sitzung;
+    // Das Gerät geht schon während der Zwischenstufe weiter: Die Zug-Tafel am Pult ist zu (Finale §3.12).
+    s.pultSchliessen();
     final l = momentTexte(context);
     final name = s.spielerName(rolle);
     final ja = await showDialog<bool>(

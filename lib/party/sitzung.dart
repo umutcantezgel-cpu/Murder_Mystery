@@ -771,6 +771,8 @@ class PartySitzung extends ChangeNotifier {
     if (solo && !nachFinale) throw StateError('Bot-Dossiers bleiben verdeckt');
     if (!besetzt.contains(rolle)) throw ArgumentError('$rolle ist nicht besetzt');
     _verdeckt = rolle;
+    // Das Gerät geht an eine Person: Das Pult des Erzählers (Zug-Tafel, Erzählerakte) ist zu (Finale §3.12).
+    _pult = false;
     _merke('zeigen', {'rolle': rolle});
     notifyListeners();
   }
@@ -1281,10 +1283,12 @@ class PartySitzung extends ChangeNotifier {
   /// Liegen die Folgen der Runde noch offen (zu Beginn der Ermittlung, bis der Vorleser sie gelesen hat)?
   bool get folgenOffen => einfluss && phase == PartyPhase.entscheidungen && _folgenGelesen != runde && einflussAbend?.stand.folgenVon(runde) != null;
 
-  /// Die Folgen sind vorgelesen; die Ermittlung beginnt.
+  /// Die Folgen sind vorgelesen; die Ermittlung beginnt. Das Gerät geht an den
+  /// Detektiv: Das Pult mit der Zug-Tafel ist zu (Finale §3.12).
   void folgenGelesen() {
     if (_folgenGelesen == runde) return;
     _folgenGelesen = runde;
+    _pult = false;
     notifyListeners();
   }
 
