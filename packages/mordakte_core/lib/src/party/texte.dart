@@ -285,6 +285,12 @@ class Texte {
   /// (`hinweis.<id>`) stehen in `bonus.json`, alles andere in der Textsammlung.
   /// Unbekannte Kennungen sind ein Fehler: Die App erzeugt keinen Text (F-11).
   String baustein(String kennung) {
+    // Einfluss-Bausteine mit Figuren (`einflussBaustein`, Finale §3.13): `<kennung>@<figur>[@<ziel>]`.
+    if (kennung.startsWith('einfluss.') && kennung.contains('@')) {
+      final t = kennung.split('@');
+      if (t.length > 3) throw ArgumentError('unbekannter Baustein $kennung');
+      return einflussText(t[0], figur: t[1], ziel: t.length > 2 ? t[2] : null);
+    }
     if (kennung.startsWith('hinweis.')) {
       return _hinweise[kennung.substring('hinweis.'.length)] ?? (throw ArgumentError('unbekannter Hinweis $kennung'));
     }

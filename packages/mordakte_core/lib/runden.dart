@@ -9,6 +9,7 @@ export 'src/runden/bots.dart';
 export 'src/runden/einfluss.dart';
 export 'src/runden/einfluss_ziele.dart';
 export 'src/runden/einfluss_pruefung.dart';
+export 'src/runden/einfluss_abend.dart';
 export 'src/runden/schlosskeller_raum.dart';
 export 'src/runden/abend_raum.dart';
 export 'src/runden/raum/raum_modul.dart';
