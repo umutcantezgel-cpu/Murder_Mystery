@@ -19,9 +19,13 @@ library;
 /// eines Geräts, öffentlich `erzaehlerLiest` und `bausteinZahl`). Version 4
 /// (Langer Abend M4): gemeinsame Rundenuhr (`uhr`, die Abendzeit `zeit` setzt
 /// der Gastgeber in jeden Befehl, `pong` trägt seine Uhr als `ht`) und Diashow
-/// der Einleitung (`dia`). Ein Gerät mit älterer Version kennt das nicht und
-/// wird abgewiesen.
-const protokollVersion = 4;
+/// der Einleitung (`dia`). Version 5 (Finale Schlosskeller): Einstimmung
+/// (`einstimmung`, Ansicht `einstimmung`, privat `einstimmungText`) und „Dein
+/// Moment“ (`zug`, `letzterAufruf`, `nachfrage`; Ansicht `einfluss`, privat
+/// `moment` und `einflussTafel`, `aufloesung.einfluss`), beide über die Meta
+/// des Gastgebers (`einstimmung: true`, `einfluss: true`). Ein Gerät mit älterer
+/// Version kennt das nicht und wird abgewiesen.
+const protokollVersion = 5;
 
 /// Presence-Schlüssel des Gastgebers auf allen seinen Themen.
 const hostPresenceKey = 'h';

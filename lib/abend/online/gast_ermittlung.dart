@@ -19,6 +19,7 @@ import 'gast_ansicht.dart' show GastKontext, GastWuerfel;
 import 'gast_befragung.dart';
 import 'gast_karte_session.dart';
 import 'gast_lese_sitzung.dart';
+import 'gast_moment.dart';
 import 'online_teile.dart';
 
 /// Der Gast auf dem Detektiv-Sitz (Langer Abend M3): ermittelt am eigenen
@@ -202,6 +203,8 @@ class _GastErmittlungState extends State<GastErmittlung> {
           ],
         ),
         const SizedBox(height: MMass.s16),
+        // „Dein Moment“: Der Detektiv sieht nur Wirkungen (Leisten, Gerüchte der Runde).
+        ?gastEinflussWirkungen(c),
         if (z != null) ..._zugTeile(z, offen) else if (e != null) ..._frage(e, offen) else ..._fertig(offen),
         _Notizbuch(kontext: c),
       ],
@@ -227,7 +230,7 @@ class _GastErmittlungState extends State<GastErmittlung> {
         [
           Text(l.detektiv_gast_optionen, style: MPapierSchrift.leise),
           const SizedBox(height: MMass.s8),
-          for (final o in optionen)
+          for (final o in optionen) ...[
             _Wahl(
               key: ValueKey('option-${o['id']}'),
               text: jText(o['text']),
@@ -237,6 +240,9 @@ class _GastErmittlungState extends State<GastErmittlung> {
                 _karte?.markiert = _option;
               }),
             ),
+            // „Dein Moment“ (Finale §3.3): Tischwert als Abzeichen an der Option.
+            ?gastAbzeichen(c, jText(o['id'])),
+          ],
           if (_option != null) ...[
             const SizedBox(height: MMass.s12),
             Text(s.ui('ui.karte.endgueltig'), style: MPapierSchrift.text),
@@ -371,7 +377,9 @@ class _GastErmittlungState extends State<GastErmittlung> {
         return [
           if (wurf != null) _wurf(wurf),
           _blatt(s.ui('ui.zug.tischruf'), [
-            Text(s.ui('ui.zug.pech_szene'), style: MPapierSchrift.text),
+            if (z['verwischt'] != true) Text(s.ui('ui.zug.pech_szene'), style: MPapierSchrift.text),
+            // „Dein Moment“ (Finale §3.4): Die Spur verwischt; die Wirkung beider Rufe.
+            ...gastTischrufWirkung(c, z),
             const SizedBox(height: MMass.s12),
             for (final k in karten)
               Padding(
@@ -415,6 +423,8 @@ class _GastErmittlungState extends State<GastErmittlung> {
           _blatt(c.l.online_fund_titel, [
             for (final f in funde) _punkt(f),
             if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text),
+            // „Dein Moment“ (Finale §3.4): Randnotizen, Ertappt, Lage der Befragung.
+            ?gastFundZusatz(c, z),
             const SizedBox(height: MMass.s12),
             MKnopf(
               key: const ValueKey('fund-gelesen'),
@@ -484,7 +494,9 @@ class _GastAnklageState extends State<GastAnklage> {
     final verdaechtige = jTexte(c.v['verdaechtige']);
     final fertig = _gesendet || c.v['kannWeiter'] == true;
     final markiert = _markiert;
-    return _blatt(c.l.detektiv_gast_anklage, [
+    // „Dein Moment“ (Finale §3.5): Nachfragen nach Runde drei, vor der Anklage.
+    final nachfragen = gastNachfragen(c, offen: !fertig);
+    final anklage = _blatt(c.l.detektiv_gast_anklage, [
       Text(s.ui(fertig && markiert != null ? 'ui.anklage.angeklagt' : 'ui.anklage.hinweis', {'name': markiert == null ? '' : c.figurName(markiert)}),
           style: MPapierSchrift.leise),
       const SizedBox(height: MMass.s12),
@@ -508,6 +520,8 @@ class _GastAnklageState extends State<GastAnklage> {
         ),
       ],
     ], hervorgehoben: true);
+    if (nachfragen == null) return anklage;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: [nachfragen, anklage]);
   }
 }
 
@@ -533,7 +547,8 @@ class _Notizbuch extends StatelessWidget {
     final npc = jTexte(c.privat['erzaehlerNotizen']);
     final oben = {for (final k in s?.befragungen ?? const <BefragungKarte>[]) k.id};
     final antworten = [for (final k in s?.befragungsNotizen ?? const <BefragungKarte>[]) if (!oben.contains(k.id)) k];
-    if (funde.isEmpty && npc.isEmpty && antworten.isEmpty) return const SizedBox.shrink();
+    final ausgepackt = gastAusgepackt(c);
+    if (funde.isEmpty && npc.isEmpty && antworten.isEmpty && ausgepackt == null) return const SizedBox.shrink();
     String frage(String id) {
       try {
         return c.daten?.karte.ermittlung.entscheidung(id).frage ?? '';
@@ -554,6 +569,8 @@ class _Notizbuch extends StatelessWidget {
         for (final f in jTexte(e.value)) _punkt(f),
         const SizedBox(height: MMass.s8),
       ],
+      // „Dein Moment“: ausgepackte Fakten zählen wie ein Fund (§3.6).
+      ?ausgepackt,
       for (final n in npc) Padding(padding: const EdgeInsets.only(bottom: MMass.s8), child: MGanzeWorte(n, stil: MPapierSchrift.kursiv, minimum: 10)),
     ], art: PapierArt.notiz);
   }

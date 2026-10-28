@@ -1,0 +1,107 @@
+{
+  "format": "erzaehlerakte/1",
+  "settingId": "spuk_im_schlosskeller",
+  "hinweis": "Entwurf Erzählerakte, Paket B (SPEZIFIKATION §2): nur die Figuren der Besetzungsplätze elf bis zwanzig. Nur für die Person, die erzählt (A-063). Gilt für jeden Ausgang des Falls gleich. Motiv, Geheimnis, Nebendelikt, Loyalität und Ziele zieht die App aus figuren.json; der Hintergrund ordnet sie nur ein. Grundlage: FAKTENBLATT.md und netz.json.",
+  "figuren": [
+    {
+      "figur": "baran",
+      "hintergrund": "Wo Freunde feiern, steht Baran mit seiner kleinen Musikbox in der Ecke und hat für jeden Wunsch das passende Lied. Sechsundzwanzig ist er und studiert Tontechnik. Für die Kurzvideos von Can mischt er den Ton, und beim Vereinsfest tanzen die Mädchen aus der Mannschaft von Zeynep zu seinen Liedern. Mit Aylin neckt er sich, seit sie sich kennen: Sie bittet um Ruhe, er dreht ein bisschen lauter. Die Box nimmt er überallhin mit, so wie andere ihren Hund. Was keiner weiß: In dieser Nacht spielt die Box eine Rolle, über die er lieber schweigt. Motiv und Geheimnis erzählen, warum. Gute Stimmung ist ihm das Wichtigste, und seine Box gibt er so schnell nicht her.",
+      "zuSchneider": "Bis zur Feier sind sich die beiden nie begegnet. Am Abend wird Herrn Schneider die Musik zu laut, und Barans Box gerät in Gefahr. Wie es weitergeht, steht unter Motiv.",
+      "stimme": [
+        "Wippt beim Reden im Takt",
+        "Fragt jeden nach dem Lieblingslied",
+        "„Noch ein Wunsch? Hab ich dabei.“"
+      ]
+    },
+    {
+      "figur": "meryem",
+      "hintergrund": "Hana kennt ihr Revier Baum für Baum. Die Fünfundzwanzigjährige ist Försterin, und von Holz versteht sie mehr als alle anderen in der Clique, von Kaminen leider weniger. Tim hält ihre Motorsäge am Laufen, dafür stapelt sie ihm im Herbst Brennholz vor die Tür. Sibel nimmt sie mit in den Wald und zeigt ihr Pflanzen, an denen andere achtlos vorbeilaufen. Vom Wald erzählt sie gern, sonst packt sie lieber an, als lange zu reden. Über die eigenen Missgeschicke lacht sie zuerst, und heute Abend beschert ihr ausgerechnet der Kamin eines. Wie das kommt, erzählt das Motiv. Zu verbergen hat sie nichts, höchstens ein paar Rußflecken im Gesicht. Was sie in der Nacht bemerkt, steht unter Geheimnis. Ihr liegt daran, dass alle es warm haben und der Ärger mit Herrn Schneider schnell aus der Welt ist.",
+      "zuSchneider": "Kennengelernt haben sich die beiden erst an diesem Abend, und gleich ungünstig: Herr Schneider ärgert sich über Ruß an der Kaminwand. Hana ist das furchtbar peinlich, sie will sich unbedingt entschuldigen.",
+      "stimme": [
+        "Erzählt vom Wald, packt sofort mit an",
+        "Lacht als Erste über sich selbst",
+        "„Im Wald ist es nie so laut.“"
+      ]
+    },
+    {
+      "figur": "serkan",
+      "hintergrund": "Serkan ist neunundzwanzig, Rettungssanitäter und heute der Fahrdienst der Clique. Schon an der Gesamtschule gehörte er zum Schulsanitätsdienst, während Pawel als Streitschlichter unterwegs war. Inzwischen gibt er selbst Erste-Hilfe-Kurse, und in einem davon saß Lejla in der ersten Reihe. Spielt die Mannschaft von Zeynep, steht er als Sanitäter am Spielfeldrand. Sibel bringt er nach jedem Fest heim und lernt unterwegs mehr über seltene Pflanzen, als er je wissen wollte. Bevor jemand richtig angekommen ist, weiß Serkan schon, wer mit wem heimfährt. Hektik bringt ihn nicht aus der Ruhe, ein Gast ohne Mitfahrgelegenheit schon eher. Zu verbergen hat er nichts. Wo er die Minuten um Mitternacht verbringt, steht unter Geheimnis. Sein Wunsch ist einfach: alle heil heimbringen, und zwar bald.",
+      "zuSchneider": "Serkan und Herr Schneider haben keine Vorgeschichte, und auch am Abend geraten sie nicht aneinander. Für einen Fahrer sind verschlossene Tore trotzdem ein Ärgernis. Mehr dazu unter Motiv.",
+      "stimme": [
+        "Ruhig, auch wenn alle durcheinanderrufen",
+        "Fragt jeden, wann er heimwill",
+        "„Wer fährt nachher mit wem?“"
+      ]
+    },
+    {
+      "figur": "aylin",
+      "hintergrund": "Belege hebt Aylin auf, alle, sogar den vom Bäcker. Mit vierundzwanzig ist sie Steuerfachangestellte, und für den Catering-Betrieb von Marek macht sie die Steuer, ohne dass ihr ein Posten entgeht. Pawel wohnt im selben Haus: Sie hält im Treppenhaus Ordnung, er den Frieden. Baran neckt sie, wo er nur kann, und sie kontert mit trockenen Bemerkungen. Ordnung ist für sie keine Kleinlichkeit, sondern eine Frage der Fairness. Genau deshalb wurmt sie an diesem Abend etwas im Stillen: Für die Feier hat sie Geld gegeben und keinen Beleg bekommen. Also hakt sie nach, und was dabei herauskommt, erzählen Motiv und Geheimnis. Vorführen will sie niemanden, schon gar nicht vor der ganzen Gruppe. Sie will nur zurück, was ihr gehört.",
+      "zuSchneider": "Bis zu diesem Abend kannten sich die beiden nicht. Dann fragt Aylin ihn direkt nach einem Beleg, sachlich wie immer und ohne Zuhörer. Was er ihr aufschreibt, steht unter Geheimnis.",
+      "stimme": [
+        "Sachlich, knapp, sitzt sehr gerade",
+        "Klickt beim Nachdenken mit dem Kugelschreiber",
+        "Fragt bei jeder Zahl nach dem Beleg"
+      ]
+    },
+    {
+      "figur": "kaan",
+      "hintergrund": "An keiner alten Mauer geht Wojtek vorbei, ohne sie auszumessen. Siebenundzwanzig Jahre alt, Architekturstudent, Maßband und Bleistift immer griffbereit: So kennt ihn die Clique. Mit Azra zieht er durch die Stadt und skizziert alte Fassaden: Er misst, sie erzählt die Geschichte dazu. Joanna fotografiert seine Hausmodelle für die Mappe. Olli hat er bei einem Umzug im Freundeskreis kennengelernt, irgendwo zwischen dem dritten und dem vierten Stock. Seitdem ist Olli sein Kumpel vom Tragen. Für ein Gewölbe wie dieses würde Wojtek jede Vorlesung sausen lassen. Was keiner wissen soll: Ein Rat, den Olli an diesem Abend befolgt, stammt von ihm. Nebendelikt und Loyalität erzählen, worum es geht. Was ihn bewegt? Alte Mauern und die Treue zu seinem Kumpel.",
+      "zuSchneider": "Eigentlich wären die beiden ein gutes Gespann, denn beide lieben alte Mauern. Vorher kannten sie sich aber nicht. Heimlich soll ein Rat von Wojtek am Abend eine Schramme vor Herrn Schneider verbergen. Mehr unter Nebendelikt.",
+      "stimme": [
+        "Klopft bewundernd auf alte Mauern",
+        "Misst lieber nach, statt zu schätzen",
+        "Erklärt, wie man früher gebaut hat"
+      ]
+    },
+    {
+      "figur": "dilara",
+      "hintergrund": "Jedes Wochenende stöbert Azra, sechsundzwanzig und Studentin der Kunstgeschichte, auf Flohmärkten. Ums Feilschen geht es ihr dabei mehr als um die Ware. Für die Spieleabende von Tugba findet sie dort die Deko, je schräger, desto besser. In der Unibibliothek lernt sie oft mit Fatma, und eine Dose Kekse hat sie immer dabei. Mit Wojtek skizziert sie alte Fassaden, er mit dem Maßband, sie mit den Geschichten dazu. Ihr Steckenpferd sind alte Münzen, und davon erzählt sie gern und lange. Heimlich hat sie mit einer dieser Geschichten eine Freundin neugierig gemacht. Wovon sie erzählt hat, steht unter Motiv, was sie später sieht, unter Geheimnis. Alte Dinge und ihre Geschichten liebt sie, doch dass sie jemanden auf dumme Gedanken gebracht hat, soll keiner glauben.",
+      "zuSchneider": "Vor dem Abend kannten sich die beiden nicht. Am Abend wundert sich Herr Schneider, wie lange Azra vor der Vitrine im Turmgang steht. Mehr unter Motiv.",
+      "stimme": [
+        "Erzählt zu jedem Ding eine Geschichte",
+        "Feilscht aus Spaß um alles",
+        "Mustert Dinge gern durch ihre Lupe"
+      ]
+    },
+    {
+      "figur": "enes",
+      "hintergrund": "Ein leeres Teeglas hält Damir für ein Versehen, das man sofort beheben muss. Als Erzieher betreut der Fünfundzwanzigjährige nachmittags Kinder aus der Klasse von Emine, und die beiden tauschen sich oft über die kleine Rasselbande aus. Bei den Spieleabenden von Tugba steht er seit Jahren am Teekocher. Wird es laut, bleibt er freundlich und schenkt einfach nach. Zuhören kann er so gut, dass man ihm mehr erzählt, als man vorhatte. Hinter den Kulissen gerät er am Abend wegen des Geschirrs mit Herrn Schneider aneinander, und davon soll keiner erfahren. Was er in der Nacht beobachtet, steht unter Geheimnis. Am Herzen liegt ihm, dass sich alle wohlfühlen und niemand über ihn tuschelt.",
+      "zuSchneider": "Zwischen den beiden gab es vorher nichts. Am Abend nimmt Damir für seinen Tee ungefragt das Geschirr des Schlosses, und Herr Schneider stellt ihn zur Rede, unter vier Augen. Mehr unter Motiv.",
+      "stimme": [
+        "Schenkt nach, bevor jemand fragt",
+        "Hört aufmerksam zu, bleibt freundlich",
+        "„Noch ein Glas Tee? Ich bestehe darauf.“"
+      ]
+    },
+    {
+      "figur": "selin",
+      "hintergrund": "Spinnen, Schlangen und nasse Waldböden schrecken Sibel nicht, schließlich studiert sie Biologie. Alte Rüstungen dagegen machen ihr mit ihren dreiundzwanzig Jahren noch richtig Angst. Mit Zeynep teilt sie sich eine Wohnung: Zeynep singt schon im Morgengrauen unter der Dusche, Sibel schläft gern lange. Hana nimmt sie mit in den Wald, und gemeinsam suchen sie seltene Pflanzen. Nach jedem Fest fährt Serkan sie heim, und unterwegs hält sie ihm kleine Vorträge über ihre Lieblinge. Bei lauten Geräuschen zuckt sie zusammen und zieht den Schal bis übers Kinn. In einem Schloss, das bei Westwind singt, hat sie es also nicht leicht. Was sie am Abend erschreckt, steht unter Motiv, was sie in der Nacht sieht, unter Geheimnis. Am liebsten wäre ihr ein ruhiger Abend ohne Schreckmomente.",
+      "zuSchneider": "Mit Herrn Schneider hat Sibel nichts zu schaffen, weder vorher noch am Abend. Dürfte sie ihm einen Wunsch sagen, dann diesen: Die Rüstung im Turmgang darf gern weg.",
+      "stimme": [
+        "Leise, zuckt bei jedem Knarren",
+        "Schwärmt von seltenen Pflanzen",
+        "„Habt ihr das auch gehört?“"
+      ]
+    },
+    {
+      "figur": "hakan",
+      "hintergrund": "Als Streitschlichter der Gesamtschule hatte Pawel immer zu tun, Serkan als Schulsanitäter dank ihm zum Glück weniger. Heute ist er dreißig und Rechtsreferendar. Mit Aylin wohnt er im selben Haus; sie leiht ihm Ordner, er ihr ein offenes Ohr. Bei den Spieleabenden von Tugba greift er ein, sobald um ihren Ablaufplan gestritten wird. Reden überlässt er gern anderen, er hört zu und trinkt seinen Tee in kleinen Schlucken. Im Sommer hat er bei der Stiftung gejobbt. Dabei hat er Herrn Schneider von einer Seite kennengelernt, die sonst keiner sieht. Was er weiß, steht unter Geheimnis, und wie er am Abend als Schlichter abblitzt, unter Motiv. Ihn treibt sein Sinn für Gerechtigkeit, und dazu gehört, auch einen Brummbären in Schutz zu nehmen.",
+      "zuSchneider": "Heimlich kennt Pawel ihn aus einem Sommerjob bei der Stiftung, besser als alle anderen hier. Er weiß, warum Herr Schneider beim Geld so genau ist, und hält zu ihm. Mehr unter Geheimnis.",
+      "stimme": [
+        "Spricht ruhig, wägt jedes Wort ab",
+        "Schlichtet, bevor es laut wird",
+        "„Lasst uns das in Ruhe klären.“"
+      ]
+    },
+    {
+      "figur": "tugba",
+      "hintergrund": "Ohne Ablaufplan läuft bei Tugba gar nichts, nicht einmal ein gemütliches Kaffeetrinken. Beruflich leitet sie mit siebenundzwanzig schon Projekte. Seit Jahren lädt sie zu Spieleabenden ein. Damir kocht dort den Tee, Azra bringt Deko vom Flohmarkt, und Pawel schlichtet, wenn um den Plan gestritten wird. So ist sie zur Planerin der Clique geworden. Auch für dieses Wiedersehen hat sie den Ablauf geschrieben, bis auf die Minute, samt ihrem Mitternachtsspiel „Blinde Kuh“. Die Einladung ging mit ihrem Plan im Anhang an alle. Verspätungen nimmt sie persönlich, gute Laune verbreitet sie trotzdem. Zu verbergen hat sie nichts. Was sie kurz vor Mitternacht notiert, steht unter Geheimnis. Ihr Antrieb ist klar: Der Abend soll gelingen, und die Torte kommt auf den Tisch, komme, was wolle.",
+      "zuSchneider": "Schon vor dem Abend ist sie mit Herrn Schneider den Ablaufplan durchgegangen, Punkt für Punkt, und er hat bei jedem geseufzt. Dass die Torte im Vorratsraum kühlen darf, hat sie ihm mühsam abgerungen.",
+      "stimme": [
+        "Ruft alle zum nächsten Programmpunkt",
+        "Gute Laune, aber streng mit der Zeit",
+        "„Laut Plan geht es jetzt weiter!“"
+      ]
+    }
+  ]
+}

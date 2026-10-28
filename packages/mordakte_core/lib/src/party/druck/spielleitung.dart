@@ -2,6 +2,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../besetzung.dart';
+import '../einstimmung.dart';
 import 'modell.dart';
 import 'satz.dart';
 import 'satz_stil.dart';
@@ -36,7 +37,9 @@ const _lagen = [
 /// dem Erzählerpaket, M2.1). Mit [druckspiel] kommen Vorbereitung, Fassungen,
 /// Entscheidungen, Auszählung, Umschläge, Resümee, Anklage und Anhang dazu (Abend
 /// auf Papier); ohne bleibt es beim Vorlesen und dem Tisch, den Rest zeigt die App
-/// (Abend am Bildschirm, Fallback ohne eigenes Erzählerhandy).
+/// (Abend am Bildschirm, Fallback ohne eigenes Erzählerhandy). Hat die Akte eine
+/// Einstimmung (A-063), stehen Vorgeschichte und Vorstellung vor dem Intro, und das
+/// Druckspiel sagt in der Vorbereitung, dass es ohne „Dein Moment“ läuft.
 void erzaehlerheft(pw.Document doc, DruckKontext k, {bool druckspiel = true}) {
   final heft = k.satz.spielleitung;
   final links = '${k.fallTitel} · ${k.ui('ui.druck.spielleitung.marke')}';
@@ -127,6 +130,8 @@ List<pw.Widget> _deckblatt(DruckKontext k, {required bool druckspiel}) => [
 List<pw.Widget> _vorbereitung(DruckKontext k) => [
   _titel(k, k.ui('ui.druck.spielleitung.vorbereitung')),
   _absatz(k, k.ui('ui.druck.spielleitung.vorbereitung.einleitung')),
+  // Akten mit Einstimmung spielen in der App mit „Dein Moment“; die Druckfassung bleibt bei den Streifen A und B.
+  if (Einstimmung.aus(k.kanon) != null) _absatz(k, k.ui('ui.druck.spielleitung.ohne_moment')),
   pw.Table(
     border: pw.TableBorder(
       horizontalInside: pw.BorderSide(color: DruckStil.linie, width: 0.5),
@@ -166,12 +171,54 @@ List<pw.Widget> _ablauf(DruckKontext k, Spielleitungsheft heft, {required bool d
     ])
   else
     _absatz(k, k.ui('ui.druck.erzaehler.app_rest')),
+  if (Einstimmung.aus(k.kanon) case final e?) ..._einstimmung(k, e),
   ..._block(k, k.ui('ui.druck.spielleitung.intro'), [
     for (var i = 0; i < heft.intro.length; i++) _vorlesen(k, k.text(heft.intro[i]), dia: _dia(k, heft.intro[i], i)),
   ]),
   for (var r = 1; r <= 3; r++) ...[pw.NewPage(), ..._runde(k, heft, r, druckspiel: druckspiel)],
   if (druckspiel) ...[pw.NewPage(), ..._anklage(k, heft)],
 ];
+
+/// Einstimmung (A-063) vor dem Intro: die Teile der Vorgeschichte mit Kapiteltitel
+/// (nicht vorgelesen) und Vorlesetext, dann die Vorstellung – Auftakt, je besetzte
+/// Figur in Besetzungsreihenfolge Name, Rolle, „gespielt von“ und Text, der
+/// Sammelblock für Gäste ohne Spieler und der Detektiv dieses Abends.
+List<pw.Widget> _einstimmung(DruckKontext k, Einstimmung e) {
+  final schritte = e.schritte(rollen: k.satz.rollen, detektiv: k.satz.detektiv);
+  pw.Widget schritt(EinstimmungSchritt x) => switch (x.figur) {
+        null when x.teil == EinstimmungTeil.vorgeschichte => _fach([_unterlabel(k, k.text(x.titel)), _vorlesen(k, k.text(x.kennung))]),
+        null when x.kennung == Einstimmung.npc => _fach([_unterlabel(k, k.ui('ui.druck.spielleitung.vorstellung.npc')), _vorlesen(k, k.text(x.kennung))]),
+        null => _vorlesen(k, k.text(x.kennung)),
+        Besetzung.detektiv => _fach([_unterlabel(k, k.ui('ui.druck.spielleitung.vorstellung.detektiv')), _vorlesen(k, k.text(x.kennung))]),
+        final f => _fach([
+            pw.Row(
+              crossAxisAlignment: pw.CrossAxisAlignment.end,
+              children: [
+                pw.Text(k.figurName(f), style: k.stil.ueberschrift(11)),
+                pw.SizedBox(width: 6),
+                pw.Expanded(child: pw.Text(k.figurTitel(f), style: k.stil.text(10))),
+                pw.Text(k.ui('ui.druck.spielleitung.gespielt'), style: k.stil.klein(10)),
+                pw.SizedBox(width: 6),
+                _linie(150),
+              ],
+            ),
+            pw.SizedBox(height: 4),
+            _vorlesen(k, k.text(x.kennung)),
+          ]),
+      };
+  // Marke, Hinweis und erster Schritt eines Teils bleiben zusammen.
+  List<pw.Widget> teil(String marke, String hinweis, List<EinstimmungSchritt> l) => _block(k, k.ui(marke), [
+        _fach([_absatz(k, k.ui(hinweis)), if (l.isNotEmpty) schritt(l.first)]),
+        for (final x in l.skip(1)) schritt(x),
+      ]);
+  final vorstellung = [for (final x in schritte) if (x.teil == EinstimmungTeil.vorstellung) x];
+  return [
+    ...teil('ui.druck.spielleitung.vorgeschichte', 'ui.druck.spielleitung.vorgeschichte.hinweis', [
+      for (final x in schritte) if (x.teil == EinstimmungTeil.vorgeschichte) x,
+    ]),
+    if (vorstellung.isNotEmpty) ...teil('ui.druck.spielleitung.vorstellung', 'ui.druck.spielleitung.vorstellung.hinweis', vorstellung),
+  ];
+}
 
 /// Dia-Nummer (ab 1) des Intro-Bausteins [kennung] an Stelle [i].
 int? _dia(DruckKontext k, String kennung, int i) {

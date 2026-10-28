@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:mordakte_core/mordakte_core.dart';
-import 'package:mordakte_core/runden.dart' show AbendErgebnis, KartenKatalog, TischVorrat, belohnungFuer, xpFuer;
+import 'package:mordakte_core/runden.dart' show AbendErgebnis, KartenKatalog, TischVorrat, belohnungFuer;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'gaesteliste.dart';
@@ -344,7 +344,8 @@ class MetaStore extends ChangeNotifier {
   }
 
   /// Verbucht einen beendeten Abend genau einmal (Schlüssel: [abendId]): Karten
-  /// nach [belohnungFuer], Erfahrungspunkte nach [xpFuer] zum bestehenden
+  /// nach [belohnungFuer], Erfahrungspunkte nach [AbendErgebnis.xp] (`xpFuer`
+  /// mit der Erfahrung aus „Dein Moment“, Finale §3.10) zum bestehenden
   /// Fortschritt, Stand der Akte. Ein zweiter Aufruf mit derselben Kennung
   /// schreibt nichts gut und liefert die zuerst berechnete Belohnung (oder, nach
   /// einem Neustart, eine leere mit [AbendBelohnung.schonVerbucht]).
@@ -383,7 +384,7 @@ class MetaStore extends ChangeNotifier {
         _besitz[id] = b.copyWith(n: b.n + 1);
       }
     }
-    final xp = xpFuer(ergebnis.ende);
+    final xp = ergebnis.xp;
     _xp += xp;
 
     final alt = _akten[ergebnis.akte] ?? const AkteStand();

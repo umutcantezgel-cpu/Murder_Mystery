@@ -3,7 +3,7 @@
 Verbindlich für alle Autoren, Prüfer und Bausteine. Vorbild für Bewährtes ist das Stilblatt des früheren Laufs (`krimidinner/spuk-im-gewoelbe/10_kanon/K8-STILBLATT.md`). Wo dieser Leitfaden abweicht, gilt dieser Leitfaden. Der Textprüfer (`test/party/textpruefer_test.dart`) setzt die messbaren Regeln automatisch durch.
 
 ## 1. Grundton: Grusel mit Humor
-- Es wird ein Geburtstagsabend, an dem man sich gruselt und lacht, kein Horrorfilm.
+- Es wird ein Wiedersehen der Clique, an dem man sich gruselt und lacht, kein Horrorfilm.
 - Grusel entsteht durch Geräusche, Licht und Pausen: quietschende Türen, Zugluft, flackerndes Licht, Wind in den Lichtschächten. Er entsteht nie durch Verletzungen.
 - Der Schlag gegen Herrn Schneider wird nur angedeutet, als Schatten und Geräusch („ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden“). Es gibt kein Blut, keine Wunde, keine Beschreibung von Schmerz.
 - Herr Schneider überlebt immer. Er ist kurz bewusstlos, wacht wieder auf, hat eine Beule und eine Gedächtnislücke für die Sekunden vor dem Schlag. Er wird versorgt und ist bald wieder grantig.
@@ -18,8 +18,8 @@ Verbindlich für alle Autoren, Prüfer und Bausteine. Vorbild für Bewährtes is
 - **Nachtrag A-052 (2026-10-18):** Gibt es am Tisch einen Erzähler als eigene Person, kennt sie alle Gesprächsstichpunkte aller Rollen und den gezogenen Bonus-Hinweis, nie seine Qualität und nie den Täter. Ihre Vorlesetexte bleiben wortgleich und ohne Pfadwissen.
 
 ## 3. Anrede
-- Die ganze Runde heißt „ihr“, das Geburtstagskind als Detektiv „du“. Dossiers sprechen die einzelne Spielerin oder den einzelnen Spieler mit „du“ an. Gesprächseröffnungen und Wahltexte sind Sätze, die die Rolle selbst sagt oder denkt, also in der Ich-Form; ihr Gegenüber reden sie mit „du“ an (E-028).
-- In der dritten Person heißt es „das Geburtstagskind“. Bausteine sind geschlechtsneutral. Wo es nicht anders geht, gibt es m- und w-Fassung (nur Detektiv-Bogen).
+- Die ganze Runde heißt „ihr“, der Detektiv als Gast der Clique „du“ (A-061). Dossiers sprechen die einzelne Spielerin oder den einzelnen Spieler mit „du“ an. Gesprächseröffnungen und Wahltexte sind Sätze, die die Rolle selbst sagt oder denkt, also in der Ich-Form; ihr Gegenüber reden sie mit „du“ an (E-028).
+- In der dritten Person heißt es „der Detektiv“. Bausteine sind geschlechtsneutral. Wo es nicht anders geht, gibt es m- und w-Fassung (nur Detektiv-Bogen).
 - Niemand wird gesiezt, auch Herr Schneider nicht. Er duzt alle, die Gruppe sagt „Herr Schneider“ und duzt ihn trotzdem, so wie es in der Gruppe üblich ist.
 
 ## 4. Sprache und Lesbarkeit (messbar)

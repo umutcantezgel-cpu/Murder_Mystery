@@ -5,6 +5,8 @@ import '../party/kanon/kanon.dart';
 import '../karten/abstecher.dart';
 import '../karten/karte.dart';
 import '../karten/vorrat.dart';
+import 'einfluss.dart';
+import 'einfluss_abend.dart';
 import 'wuerfel.dart';
 import 'zugschicht.dart';
 
@@ -32,6 +34,12 @@ class RundenZug {
   /// Nebenfund eines Abstechers (Stimmung, nie ein Fakt).
   final String? nebenfund;
 
+  /// Nur mit Einfluss-Schicht (Finale §3.3, §3.4): Tischwert der Option, „Die Spur verwischt“ nach
+  /// einem Pech und die Kennzeichen des Fundes (Randnotizen, Ertappt, Verzögerung, Befragungslage).
+  final int? tisch;
+  final bool verwischt;
+  final EinflussFund? einfluss;
+
   const RundenZug._({
     required this.id,
     required this.option,
@@ -43,11 +51,16 @@ class RundenZug {
     this.funde = const [],
     this.abstecher,
     this.nebenfund,
+    this.tisch,
+    this.verwischt = false,
+    this.einfluss,
   });
 
   /// Ein Zug, wie ihn ein Gerät aus der Ansicht des Raums kennt (Langer Abend
   /// M3, Gast-Detektiv): nur lesend für die Karte, ohne Wurf und Funde. Er
-  /// verändert keine Partie; die Partie erzeugt ihre Züge selbst.
+  /// verändert keine Partie; die Partie erzeugt ihre Züge selbst. Mit
+  /// Einfluss-Schicht trägt die Ansicht `zug` dazu `tisch`, `verwischt` und
+  /// `einfluss` ([EinflussFund.ausJson]); ohne bleiben sie leer.
   const RundenZug.ansicht({
     required String id,
     String? option,
@@ -56,7 +69,13 @@ class RundenZug {
     required int aktion,
     Tischruf? ruf,
     String? abstecher,
-  }) : this._(id: id, option: option, suche: suche, phase: phase, aktion: aktion, ruf: ruf, abstecher: abstecher);
+    int? tisch,
+    bool verwischt = false,
+    EinflussFund? einfluss,
+  }) : this._(
+          id: id, option: option, suche: suche, phase: phase, aktion: aktion, ruf: ruf, abstecher: abstecher,
+          tisch: tisch, verwischt: verwischt, einfluss: einfluss,
+        );
 
   bool get istAuftakt => option == null && abstecher == null;
   bool get istAbstecher => abstecher != null;
@@ -75,23 +94,47 @@ class RundenZug {
 /// Weder Spiel noch Controller dürfen als Online-Zustand serialisiert werden:
 /// dafür ist eine separate, spielerbezogene Projektion erforderlich.
 class RundenPartie {
+  /// Mit [einfluss] spielt der Abend die Einfluss-Schicht „Dein Moment“ (Finale §3); sie braucht ein
+  /// [salz] (sonst das Salz eines [SalzWuerfel]s) für Bots und Ertappt. Ohne [einfluss] alles wie heute.
   factory RundenPartie(
     Kanon kanon, {
     required WuerfelQuelle quelle,
     Ermittlung? ermittlung,
     TischVorrat? vorrat,
     List<AbstecherOrt> abstecher = const [],
+    EinflussRegeln? einfluss,
+    String? salz,
   }) {
     final spiel = Spiel(kanon, ermittlung: ermittlung);
-    return RundenPartie._(spiel, Zugschicht(spiel.ermittlung, quelle), vorrat ?? TischVorrat.leer(), List.unmodifiable(abstecher));
+    String? einflussSalz;
+    if (einfluss != null) {
+      for (final e in spiel.ermittlung.entscheidungen) {
+        for (final o in e.optionen) {
+          if (!einfluss.bezug.containsKey(o.id)) throw ArgumentError('Einfluss-Regeln ohne Option ${o.id}');
+        }
+      }
+      einflussSalz = salz ?? (quelle is SalzWuerfel ? quelle.salz : null);
+      if (einflussSalz == null || einflussSalz.isEmpty) throw ArgumentError('Die Einfluss-Schicht braucht ein Salz.');
+    }
+    final p = einfluss == null ? const ZugParameter() : einflussZugParameter(einfluss.zahlen);
+    return RundenPartie._(
+      spiel, Zugschicht(spiel.ermittlung, quelle, p: p), vorrat ?? TischVorrat.leer(), List.unmodifiable(abstecher),
+      einfluss, einflussSalz,
+    );
   }
 
-  RundenPartie._(this.spiel, this._zuege, this.vorrat, this.abstecherOrte);
+  RundenPartie._(this.spiel, this._zuege, this.vorrat, this.abstecherOrte, this._regeln, this._salz);
 
   final Spiel spiel;
   final Zugschicht _zuege;
   RundenZug? _zug;
   int _aktionsNummer = 0;
+  final EinflussRegeln? _regeln;
+  final String? _salz;
+  EinflussAbend? _einfluss;
+
+  /// Die Einfluss-Schicht des Abends (ab [einrichten]); `null` ohne Schicht.
+  EinflussAbend? get einfluss => _einfluss;
 
   /// Karten des Tisches (höchstens 3, siehe [TischVorrat]); Bots haben keine.
   final TischVorrat vorrat;
@@ -113,7 +156,9 @@ class RundenPartie {
   int get seifenblasenBilanz => _zuege.seifenblasenBilanz;
   List<Wurf> get wuerfe => List.unmodifiable(_zuege.wuerfe);
   List<int> get restJeRunde => List.unmodifiable(_zuege.restJeRunde);
-  Set<String> get fakten => Set.unmodifiable(spiel.bekannteFakten());
+
+  /// Fakten, die der Detektiv sieht (mit Einfluss-Schicht ohne die bis zum Zwischenresümee verzögerten).
+  Set<String> get fakten => Set.unmodifiable(spiel.sichtbareFakten());
 
   Entscheidung? get naechsteEntscheidung {
     if (phase != PartyPhase.entscheidungen || _zug != null || _zuege.offen.isEmpty) return null;
@@ -132,14 +177,20 @@ class RundenPartie {
     if (einstellungen.druck) throw ArgumentError('Das Druckspiel bleibt ohne Würfel und verwendet Spiel.');
     spiel.einrichten(einstellungen);
     _zuege.setzePfad(spiel.pfad);
+    if (_regeln case final r?) {
+      final e = EinflussAbend(r, spiel, salz: _salz!, restJeRunde: () => _zuege.restJeRunde);
+      _einfluss = e;
+      spiel.zusatz = e;
+    }
   }
 
+  /// Mit Einfluss-Schicht: Folgen beim Wechsel in die Ermittlung, deren Minuten ins Rundenbudget.
   void weiter() {
     if (!kannWeiter) throw StateError('Der aktuelle Abschnitt ist noch nicht abgeschlossen.');
     if (phase == PartyPhase.entscheidungen) _zuege.beendeRunde();
     spiel.weiter();
     if (phase == PartyPhase.entscheidungen) {
-      _zuege.beginneRunde(runde);
+      _zuege.beginneRunde(runde, zusatzMinuten: _einfluss?.stand.folgenVon(runde)?.minuten);
       if (runde == 1) {
         // Der erste, nichtwertende Suchwurf kostet keine Nachtminuten (K-03).
         _zug = RundenZug._(
@@ -164,13 +215,46 @@ class RundenPartie {
       if (!gruendlich) throw const KartenFehler('card_wrong_moment');
       vorrat.pruefe(karte, {KartenArt.gruendlich});
     }
-    _zuege.waehle(option, gruendlich: gruendlich, gratis: karte != null);
+    final ein = _einfluss;
+    _zuege.waehle(option, gruendlich: gruendlich, gratis: karte != null, tisch: ein?.tischFuerWahl(option, suche: suche) ?? 0);
+    if (suche) ein?.sucheGewaehlt();
     if (karte != null) vorrat.verbrauche(karte);
     _zug = RundenZug._(
       id: e.id, option: option, suche: suche,
       phase: RundenZugPhase.aktion, aktion: ++_aktionsNummer,
+      tisch: ein?.tisch(option),
     );
   }
+
+  /// Tischwert der Option [optionId] in der laufenden Runde (Abzeichen vor der Wahl, Finale §3.3);
+  /// `null` ohne Einfluss-Schicht.
+  int? tisch(String optionId) => _einfluss?.tisch(optionId);
+
+  /// Zug einer besetzten Rolle im Moment dieser Runde (Finale §3.2): nur in den Gesprächen, änderbar bis
+  /// zu den Folgen; [tipp] nur in der Tipp-Runde. Wer beim Wechsel in die Ermittlung keinen Zug hat,
+  /// zieht als Bot; wer bewusst nichts tut, setzt [ZugArt.abgewartet].
+  void zugSetzen(String rolle, ZugArt art, {String? ziel, String? tipp}) {
+    final e = _einfluss ?? (throw StateError('Ohne Einfluss-Schicht gibt es keinen Moment.'));
+    e.zugSetzen(EinflussZug(rolle, art, ziel: ziel, tipp: tipp));
+  }
+
+  /// Zeile „Tisch“ der Chancenvorschau (Finale §3.4): wirksamer Tischwert und Umweg-Bonus des nächsten
+  /// Anlaufs einer Pflichtsuche; `null` ohne Schicht, beim Auftakt und bei Abstechern.
+  ({int tisch, int umweg})? tischVorschau() {
+    final z = _erwarte(RundenZugPhase.wurf);
+    if (_einfluss == null || z.istAuftakt || z.istAbstecher) return null;
+    return _zuege.tischAnteil();
+  }
+
+  /// Nachfragen nach Runde 3, vor der Anklage (Finale §3.5); ohne Schicht 0.
+  int get nachfragenOffen => _einfluss?.nachfragenOffen ?? 0;
+
+  /// Gewählte Optionen, zu denen eine Nachfrage noch eine Randnotiz zeigt.
+  List<String> get nachfrageOptionen => _einfluss?.nachfrageOptionen ?? const [];
+
+  /// Eine Nachfrage: zeigt die nächste Randnotiz von [optionId].
+  String nachfrage(String optionId) =>
+      (_einfluss ?? (throw StateError('Ohne Einfluss-Schicht gibt es keine Nachfragen.'))).nachfrage(optionId);
 
   /// Liefert false für einen veralteten/doppelten Kartenrückruf, ohne Wirkung.
   bool aktionFertig(int aktion) {
@@ -204,13 +288,13 @@ class RundenPartie {
   /// [karte] (Art werkzeug) ist die Quelle in der Welt für +1 (K-07); der
   /// Deckel +2 bleibt. Sie wird erst mit dem Wurf verbraucht, und nur, wenn sie
   /// wirkt: Liegt der Wurf auch ohne sie schon beim Deckel, bleibt die Ladung
-  /// (wie bei der Marke).
+  /// (wie bei der Marke; mit Tischwert zählt der Deckel der Schicht).
   Wurf wuerfeln({bool werkzeug = false, bool marke = false, String? karte}) {
     final z = _erwarte(RundenZugPhase.wurf);
     if (karte != null) {
       if (z.istAuftakt) throw const KartenFehler('card_wrong_moment');
       vorrat.pruefe(karte, {KartenArt.werkzeug});
-      if (vorschau().mod >= WuerfelRegel.modMax) {
+      if (vorschau(werkzeug: true).mod <= vorschau().mod) {
         karte = null;
       } else {
         werkzeug = true;
@@ -237,7 +321,7 @@ class RundenPartie {
       // Der Auftakt hat keine wertende Entscheidung und keine Kanon-Funde.
       _setzePhase(RundenZugPhase.fund, wurf: w);
     } else if (w.stufe == Stufe.pech) {
-      _setzePhase(RundenZugPhase.tischruf, wurf: w);
+      _setzePhase(RundenZugPhase.tischruf, wurf: w, verwischt: _einfluss != null);
     } else {
       _aufdecken(wurf: w);
     }
@@ -257,7 +341,7 @@ class RundenPartie {
       _zug = RundenZug._(
         id: z.id, option: z.option, suche: z.suche,
         phase: RundenZugPhase.aktion, aktion: ++_aktionsNummer,
-        ruf: ruf, wurf: z.wurf,
+        ruf: ruf, wurf: z.wurf, tisch: z.tisch, verwischt: z.verwischt,
       );
     } else {
       // Rundenschranke: Das Wissen bleibt auch ohne weitere Nachtzeit erreichbar.
@@ -327,22 +411,28 @@ class RundenPartie {
     return z;
   }
 
+  /// Deckt die gewählte Option auf. Mit Einfluss-Schicht wertet sie den Zug aus (Finale §3.4); verzögerte
+  /// Funde zeigt die Fundkarte nicht, sie kommen im Zwischenresümee ([EinflussAbend.nachgereicht]).
   void _aufdecken({Wurf? wurf}) {
     final z = _zug!;
     final funde = spiel.waehle(z.id, z.option!);
+    final ein = _einfluss?.aufdecken(z.id, z.option!, suche: z.suche, kennzeichen: _zuege.kennzeichen[z.id], funde: funde);
     _zug = RundenZug._(
       id: z.id, option: z.option, suche: z.suche,
       phase: RundenZugPhase.fund, aktion: z.aktion,
-      ruf: z.ruf, wurf: wurf ?? z.wurf, funde: List.unmodifiable(funde),
+      ruf: z.ruf, wurf: wurf ?? z.wurf,
+      funde: ein != null && ein.verzoegert ? const [] : List.unmodifiable(funde),
+      tisch: z.tisch, verwischt: z.verwischt, einfluss: ein,
     );
   }
 
-  void _setzePhase(RundenZugPhase phase, {Wurf? wurf}) {
+  void _setzePhase(RundenZugPhase phase, {Wurf? wurf, bool? verwischt}) {
     final z = _zug!;
     _zug = RundenZug._(
       id: z.id, option: z.option, suche: z.suche, phase: phase,
       aktion: z.aktion, ruf: z.ruf, wurf: wurf ?? z.wurf, funde: z.funde,
       abstecher: z.abstecher, nebenfund: z.nebenfund,
+      tisch: z.tisch, verwischt: verwischt ?? z.verwischt, einfluss: z.einfluss,
     );
   }
 }

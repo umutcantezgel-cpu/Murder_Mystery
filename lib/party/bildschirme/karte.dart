@@ -16,7 +16,9 @@ import '../klasse_wirkung.dart';
 import '../sitzung.dart';
 import 'abstecher.dart';
 import 'befragung.dart';
+import 'einfluss_teile.dart';
 import 'gespraech_szene.dart';
+import 'moment.dart' show EinflussDarstellung, MomentKopf, momentTexte;
 import 'npc_karte.dart';
 import 'solo_gespraeche.dart';
 import 'zug_tafel.dart';
@@ -238,6 +240,8 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               )),
               // Online führt vielleicht ein anderes Gerät weiter: Fertig ist die Runde trotzdem.
               if (s.abschnittFertig && e == null && fund == null && vorschlag == null && _abstecher == null) _abgedeckt(_fertig()),
+              // „Dein Moment“ (Finale §3.1): Zu Beginn der Ermittlung liest der Vorleser die Folgen.
+              if (s.folgenOffen) _abgedeckt(FolgenTafel(sitzung: s)),
             ],
           ));
         },
@@ -508,6 +512,11 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           Container(height: 1, color: MRoh.tinte.withValues(alpha: 0.3)),
           const SizedBox(height: 10),
           MGanzwortText(o.text, style: MPapierSchrift.ueberschrift),
+          // Tischwert der Option als Abzeichen (Finale §3.3).
+          if (s.tischwert(o.id) case final t? when t != 0) ...[
+            const SizedBox(height: 8),
+            Align(alignment: Alignment.centerLeft, child: TischAbzeichen(tisch: t, darstellung: EinflussDarstellung.sitzung(s))),
+          ],
           const SizedBox(height: 10),
           Text(s.ui('ui.karte.endgueltig'), style: MPapierSchrift.text),
           if (s.mitWuerfel) ...[
@@ -582,7 +591,11 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
               MGanzwortText(_de.vorleser_fuehrt(s.vorleserName.trim().isEmpty ? _de.vorleser_erzaehler : s.vorleserName.trim()), style: MPapierSchrift.leise),
               const SizedBox(height: 6),
             ],
-            Align(alignment: Alignment.centerRight, child: MKnopf(text: s.ui('ui.karte.zur_gruppenwahl'), onPressed: s.kannWeiter ? s.weiter : null)),
+            // Mit „Dein Moment“ gibt es keine Gruppenwahl: Es geht zum Flüstern weiter.
+            Align(
+              alignment: Alignment.centerRight,
+              child: MKnopf(text: s.ui(s.einfluss ? 'ui.allgemein.weiter' : 'ui.karte.zur_gruppenwahl'), onPressed: s.kannWeiter ? s.weiter : null),
+            ),
           ],
         ),
       );
@@ -617,13 +630,25 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                             ),
                           ),
                         Expanded(
-                          child: MKnopf(
-                            text: optionen[i].text,
-                            art: MKnopfArt.zweit,
-                            onPressed: () {
-                              Navigator.of(c).pop();
-                              s.schlageVor(optionen[i].id);
-                            },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              MKnopf(
+                                text: optionen[i].text,
+                                art: MKnopfArt.zweit,
+                                onPressed: () {
+                                  Navigator.of(c).pop();
+                                  s.schlageVor(optionen[i].id);
+                                },
+                              ),
+                              // Tischwert der Option als Abzeichen am Knopf (Finale §3.3).
+                              if (s.tischwert(optionen[i].id) case final t? when t != 0)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Align(alignment: Alignment.centerLeft, child: TischAbzeichen(tisch: t, darstellung: EinflussDarstellung.sitzung(s))),
+                                ),
+                            ],
                           ),
                         ),
                       ],
@@ -635,6 +660,12 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
           );
         },
       );
+
+  /// Stehen Einträge von „Dein Moment“ im Notizbuch (ausgepackte Fakten, Randnotizen)?
+  bool get _einflussNotizen {
+    final lage = s.einflussLage;
+    return lage != null && (lage.randnotizen.isNotEmpty || AusgepacktListe.eintraege(lage.folgen, s.spiel.ermittlung).isNotEmpty);
+  }
 
   /// Das Notizbuch: ein Notizblock mit den gehörten Sprechblasen bzw. den
   /// Antworten aus den Befragungen, den Funden je Entscheidung und dem Würfelprotokoll.
@@ -649,7 +680,7 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty && s.erzaehlerNotizen.isEmpty)
+              if (s.funde.isEmpty && s.soloNotizen.isEmpty && s.befragungsNotizen.isEmpty && s.erzaehlerNotizen.isEmpty && !_einflussNotizen)
                 Text(s.ui('ui.karte.notizbuch_leer'), style: MPapierSchrift.leise),
               // Modell befragung (A-051): die Antworten, die die App auf die Fragen des Detektivs gab.
               if (s.befragungsNotizen.isNotEmpty) ...[
@@ -682,6 +713,14 @@ class _KartenBildschirmState extends State<KartenBildschirm> {
                 Text(s.spiel.ermittlung.entscheidung(f.key).frage, style: MPapierSchrift.zwischentitel.copyWith(color: MRoh.stempelRot)),
                 for (final a in f.value) Padding(padding: const EdgeInsets.only(top: 4, bottom: 8), child: Text(a.text, style: MPapierSchrift.text)),
                 const SizedBox(height: 4),
+              ],
+              // „Dein Moment“: ausgepackte Fakten (§3.6), sie zählen wie ein Fund.
+              if (s.einflussLage case final lage?) AusgepacktListe(folgen: lage.folgen, ermittlung: s.spiel.ermittlung, darstellung: EinflussDarstellung.sitzung(s)),
+              // „Dein Moment“: gezeigte Randnotizen (Auspacken, Zusatzfunde, Nachfragen).
+              if (s.einflussLage case final lage? when lage.randnotizen.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                MomentKopf(momentTexte(c).einfluss_randnotiz),
+                for (final n in lage.randnotizen) RandnotizAnsicht(id: n, ermittlung: s.spiel.ermittlung, darstellung: EinflussDarstellung.sitzung(s)),
               ],
               if (s.mitWuerfel) ...[
                 const SizedBox(height: 12),

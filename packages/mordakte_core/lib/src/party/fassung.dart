@@ -52,6 +52,14 @@ const abendEinrichtungMinuten = 10.0,
 /// Runden eines Abends.
 const abendRunden = 3;
 
+/// Vorgeschichte der Einstimmung in Minuten (A-063, SPEZIFIKATION §1).
+const abendVorgeschichteMinuten = 5.0;
+
+/// Einstimmung bei [rollen] Rollen in Minuten: die Vorgeschichte
+/// ([abendVorgeschichteMinuten]) und die Vorstellung, bis 8 Rollen 2, bis 14
+/// Rollen 4, darüber 6 Minuten.
+double abendEinstimmungMinuten(int rollen) => abendVorgeschichteMinuten + (rollen <= 8 ? 2 : rollen <= 14 ? 4 : 6);
+
 /// Geschätzte Länge eines Abends in Minuten, ungerundet (K-18).
 ///
 /// K-18 schätzt den Abend als Einrichtung 10 + Einleitung 4 + drei Runden zu je
@@ -61,9 +69,11 @@ const abendRunden = 3;
 /// - Lang deckt die Uhr den ganzen Streifzug ab, also auch die Gerätezeit der
 ///   Entscheidungen; Vorspiel (8) und Morgen (6) kommen dazu:
 ///   `10 + 8 + 4 + 3 · (m + 5 + 2) + 10 + 6 = 59 + 3 · m`.
-double abendMinutenGenau(Abendfassung f, int rundenMinuten) {
+/// - Mit Einstimmung bei [einstimmungRollen] Rollen kommt
+///   [abendEinstimmungMinuten] dazu; ohne (`null`) bleibt es bei den Werten oben.
+double abendMinutenGenau(Abendfassung f, int rundenMinuten, {int? einstimmungRollen}) {
   final m = rundenMinuten.toDouble();
-  return switch (f) {
+  final basis = switch (f) {
     Abendfassung.kurz => abendEinrichtungMinuten +
         abendIntroMinuten +
         abendRunden * (m + abendGeraetMinuten + abendWahlMinuten + abendResuemeeMinuten) +
@@ -75,10 +85,12 @@ double abendMinutenGenau(Abendfassung f, int rundenMinuten) {
         abendFinaleMinuten +
         abendMorgenMinuten,
   };
+  return einstimmungRollen == null ? basis : basis + abendEinstimmungMinuten(einstimmungRollen);
 }
 
 /// Geschätzte Länge eines Abends für die Anzeige „ca. X Min.“, gerundet auf
 /// fünf Minuten ([abendMinutenGenau]): kurz 85/100/115, lang 120/135/150/180
 /// für die Rundendauern der Fassung. Jede lange Schätzung liegt über jeder
-/// kurzen.
-int abendMinutenCa(Abendfassung f, int rundenMinuten) => (abendMinutenGenau(f, rundenMinuten) / 5).round() * 5;
+/// kurzen, auch mit Einstimmung bei gleicher Rollenzahl ([einstimmungRollen]).
+int abendMinutenCa(Abendfassung f, int rundenMinuten, {int? einstimmungRollen}) =>
+    (abendMinutenGenau(f, rundenMinuten, einstimmungRollen: einstimmungRollen) / 5).round() * 5;

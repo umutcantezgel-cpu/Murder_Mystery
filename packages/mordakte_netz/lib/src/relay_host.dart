@@ -22,7 +22,12 @@ import 'verbindung.dart' show LetzterWert;
 
 /// Baut einen frischen Raum für [raumCode]; [meta] sind die Geheimnisse des
 /// Raums (z. B. Salz und Fall-Code), die der Gastgeber mit dem Protokoll
-/// ablegt, damit ein Neustart denselben Abend wiederherstellt.
+/// ablegt, damit ein Neustart denselben Abend wiederherstellt. Dazu die
+/// Einstellungen des Abends, die den Raum formen: Sitz des Gastgebers,
+/// Fassung (`fassung: lang`), Einstimmung (`einstimmung: true`, A-063) und
+/// „Dein Moment“ (`einfluss: true`, Finale §3). Der Gastgeber reicht die Meta
+/// unverändert durch, auch nach der Wiederherstellung; Gäste sehen sie nie, nur
+/// die Ansicht des Raums (`einstimmung`, `einfluss`).
 typedef RaumFabrik = AbendRaum Function(String raumCode, Map<String, Object?> meta);
 
 /// Zähler für Messung und Fehlersuche.

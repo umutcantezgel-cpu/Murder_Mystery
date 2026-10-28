@@ -1,0 +1,103 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "erzaehler",
+  "hinweis": "Vorstellungsrunde der Einstimmung (A-063, SPEZIFIKATION §1): Start, je besetzte Figur ein Block in der dritten Person mit öffentlichem Wissen, Sammelblock für Gäste ohne Spieler, Detektiv als „du“. Vorleseregeln.",
+  "eintraege": [
+    {
+      "id": "vorstellung.start",
+      "text": "Das alte Schloss hat schon viele Gäste gesehen, aber noch nie euch alle auf einmal. Zeit, dass es euch kennenlernt. Wer genannt wird, steht kurz auf. Klatschen ist erlaubt, das Pfeifen übernimmt der Wind."
+    },
+    {
+      "id": "vorstellung.ahmet",
+      "text": "Brille, kurzer Bart, ein blaues Armband am Handgelenk: Das ist Ahmet, siebenundzwanzig und der Organisator. Beruflich plant er Stadtfeste, und so redet er auch, schnell und voller Ideen. Jeden Gast begrüßt er mit Handschlag. Wer ihm die Hand gibt, hat danach meistens eine Aufgabe. Schlaue Gäste winken deshalb lieber schon von Weitem."
+    },
+    {
+      "id": "vorstellung.fatma",
+      "text": "Fatma hat für jede schöne Farbe ein Lob übrig, und für jedes Muster gleich noch eins. Sie ist sechsundzwanzig und studiert Kommunikationsdesign, schon im letzten Semester. Zum dunklen Rollkragen trägt sie ein taubengraues Kopftuch. Sie spricht leise, lächelt viel und fragt gern, was die anderen meinen. Wer etwas nur hübsch nennt, bekommt von ihr gleich eine kleine Farbenlehre dazu."
+    },
+    {
+      "id": "vorstellung.olli",
+      "text": "Wo etwas anzupacken ist, steht Olli schon bereit. Achtundzwanzig ist er, breit gebaut und von Beruf Lagerlogistiker. Bei jedem Umzug im Freundeskreis hilft er mit, ruhig und gutmütig wie immer. Wer ihn nach dem letzten Umzug fragt, sollte sich besser setzen. Die Geschichte dauert meistens länger als der Umzug selbst."
+    },
+    {
+      "id": "vorstellung.can",
+      "text": "Can muss niemand ans Aufstehen erinnern, er sitzt ohnehin nie lange still. Er ist fünfundzwanzig, macht eine Ausbildung zum Mediengestalter und dreht nebenbei lustige Kurzvideos. Bunte Turnschuhe, federnder Schritt, und sobald etwas Komisches passiert, filmt er schon. Witze reißt er auch, wenn keiner lacht. Dann kommt derselbe Witz eben noch einmal, nur lauter."
+    },
+    {
+      "id": "vorstellung.leyla",
+      "text": "In der Apotheke gibt Lejla gute Ratschläge, heute gibt sie Nachschlag. Sie ist fünfundzwanzig, hat das Buffet geplant und steht in türkiser Latzschürze bereit, den Holzlöffel in der Hand. Ahmet ist ihr Cousin, Tür an Tür sind die beiden groß geworden. Jeden fragt sie nach seinem Lieblingsgericht. Wer Nein sagt, hat trotzdem gleich einen vollen Teller."
+    },
+    {
+      "id": "vorstellung.emine",
+      "text": "Emine ist Grundschullehrerin, und das hört man nach dem ersten Satz. Sie ist sechsundzwanzig, spricht ruhig und lobt jede gute Idee, als gäbe es dafür ein Fleißkärtchen. Ihre silberne Thermoskanne voller Tee ist immer dabei. Fatma ist seit der fünften Klasse ihre beste Freundin. Bittet Emine um Ruhe, antwortet sogar das Echo im Gewölbe brav der Reihe nach."
+    },
+    {
+      "id": "vorstellung.tim",
+      "text": "Tim kann fast alles reparieren, vom Fahrrad bis zum Rasenmäher. Er ist siebenundzwanzig, Mechatroniker und trägt ein rot-schwarz kariertes Hemd zur derben Arbeitshose. Tipps verteilt er großzügig, ob man fragt oder nicht. Olli kennt er von der Berufsschule, und seitdem schrauben die zwei zusammen an alten Fahrrädern. Und sein liebstes Bastelprojekt? Das ist immer das nächste."
+    },
+    {
+      "id": "vorstellung.johanna",
+      "text": "Bitte lächeln, Joanna ist da. Die Fotografin des Abends ist vierundzwanzig, studiert Medienwissenschaft und fotografiert nebenbei Hochzeiten. In ihrer violetten Strickjacke ist sie ständig in Bewegung und ruft alle zum Gruppenbild zusammen. Die Bilder kommen ins gemeinsame Album der Clique. Wer sich drücken will, hat keine Chance. Notfalls fotografiert sie ihn eben von hinten und nennt es Kunst."
+    },
+    {
+      "id": "vorstellung.murat",
+      "text": "Dass heute niemand hungrig bleibt, liegt auch an Marek. Der Achtundzwanzigjährige führt mit seiner Schwester einen kleinen Catering-Betrieb, und das Essen stammt von den beiden. Das Buffet hat er mit Lejla geplant. Man erkennt ihn an der dunkelbraunen Lederjacke und dem weißen Rollkragen. Ständig zählt er nach, ob genug für alle da ist. Lob fürs Essen nimmt er gern entgegen, am liebsten zweimal."
+    },
+    {
+      "id": "vorstellung.zeynep",
+      "text": "Zeynep feuert alle an wie beim Training, und aus allem macht sie einen Wettkampf. Sie ist dreiundzwanzig, studiert Sport und trainiert eine Mädchenmannschaft im Fußball. Die Kappe sitzt verkehrt herum, dazu trägt sie einen minzgrünen Pulli. Can ist ihr großer Bruder, aber lauter ist sie. Sogar das Teetrinken wird bei ihr zum Wettrennen."
+    },
+    {
+      "id": "vorstellung.baran",
+      "text": "Wer einen Musikwunsch hat, ist bei Baran richtig. Er ist sechsundzwanzig, studiert Tontechnik und legt bei Freunden auf. Unter dem Arm klemmt eine kleine Musikbox, am dunkelgrauen Kapuzenpulli baumeln neongrüne Kordeln. Beim Vereinsfest tanzen die Mädchen aus der Mannschaft von Zeynep zu seinen Liedern. Heute hat er allerdings Konkurrenz. Der Wind im alten Gemäuer spielt eigene Lieder und nimmt keine Wünsche an."
+    },
+    {
+      "id": "vorstellung.meryem",
+      "text": "Hana ist Försterin, und von Holz versteht sie mehr als alle anderen hier. Sie ist fünfundzwanzig und kommt in Jeanshemd und schweren Schnürstiefeln. Wo es praktisch wird, packt sie zu, und über sich selbst lacht sie am lautesten. Tim repariert ihre Motorsäge, dafür bekommt er Brennholz. Im Wald, sagt sie, hat man wenigstens seine Ruhe. Zur Antwort lässt das Schloss eine Tür quietschen."
+    },
+    {
+      "id": "vorstellung.serkan",
+      "text": "Kaum ist jemand angekommen, fragt Serkan schon, wann er heimwill. Er ist neunundzwanzig, Rettungssanitäter und heute der Fahrdienst für alle. Erkennbar ist er an der stahlblauen Steppweste und der dunklen Kappe. Lejla kennt ihn aus seinem Erste-Hilfe-Kurs, dort war er ihr Ausbilder. Wird es hektisch, bleibt er ruhig und plant weiter. Mitnehmen würde er jeden, nur das Schloss passt leider in kein Auto."
+    },
+    {
+      "id": "vorstellung.aylin",
+      "text": "Ordnung ist für Aylin das halbe Leben, die andere Hälfte vermutlich auch. Die Vierundzwanzigjährige ist Steuerfachangestellte und trägt eine taubenblaue Strickjacke über der weißen Bluse. Marek vertraut ihr die Steuer seines Catering-Betriebs an. Mit Baran neckt sie sich gern: Er liebt laute Musik, sie die Stille. Klickt ihr Kugelschreiber, denkt sie nach. Klickt er dreimal, steht irgendwo ein Stuhl schief."
+    },
+    {
+      "id": "vorstellung.kaan",
+      "text": "Vorsicht, Wojtek misst nach. Der Architekturstudent ist siebenundzwanzig und hat immer ein Maßband dabei. Hinter dem Ohr klemmt ein Zimmermannsbleistift, auf der Nase sitzt eine Brille. Laut bewundert er alte Mauern und erklärt jedem, wie man früher gebaut hat. Joanna fotografiert seine Hausmodelle für seine Mappe. Die Gewölbe hier hören ihm jedenfalls gern zu. Endlich einer, der ihr Alter zu schätzen weiß."
+    },
+    {
+      "id": "vorstellung.dilara",
+      "text": "Für Azra hat jeder Trödel eine Geschichte, und die meisten kennt sie schon. Die Studentin der Kunstgeschichte ist sechsundzwanzig und stöbert jedes Wochenende auf Flohmärkten. Man erkennt sie am pflaumenfarbenen Samtkleid und an der kleinen Lupe an einer silbernen Kette. Feilschen ist für sie ein Sport. Manche Händler stöhnen schon, wenn sie Azra kommen sehen. Alte Fassaden skizziert sie mit Wojtek: Er misst, sie erzählt."
+    },
+    {
+      "id": "vorstellung.enes",
+      "text": "Ein Glas Tee lehnt man bei Damir besser nicht ab, er besteht nämlich darauf. Der Erzieher ist fünfundzwanzig und trägt eine schwarze Schürze über dem weißen Hemd, die Ärmel hochgekrempelt. Nachmittags betreut er Kinder aus der Klasse von Emine. Er hört so aufmerksam zu, dass man gar nicht merkt, wie er das Glas schon wieder nachfüllt."
+    },
+    {
+      "id": "vorstellung.selin",
+      "text": "Sibel studiert Biologie und fürchtet sich vor gar nichts. Na ja, fast nichts: Bei lauten Geräuschen zuckt sie zusammen. Dreiundzwanzig ist sie, und ihren weißen Fransenschal zieht sie gern bis übers Kinn. Eine Wohnung teilt sie sich ausgerechnet mit Zeynep, und die ist laut und früh wach. Und heute singt auch noch das Schloss. Da fragt sie bestimmt oft, ob die anderen das auch gehört haben."
+    },
+    {
+      "id": "vorstellung.hakan",
+      "text": "Wenn es in der Clique knirscht, sitzt Pawel schon dazwischen, ruhig und aufrecht. Der Dreißigjährige macht gerade seine Ausbildung zum Juristen. Die Teetasse hat er fast immer in der Hand, die schokobraune Steppjacke fast immer an. Schon an der Gesamtschule war er Streitschlichter, als Serkan dort Schulsanitäter war. Zuhören kann er besser als reden. Wer mit ihm einen Streit klärt, weiß danach oft nicht mehr, worum es ging."
+    },
+    {
+      "id": "vorstellung.tugba",
+      "text": "Laut Plan ist jetzt Tugba dran, und der Plan stammt natürlich von ihr. Sie ist siebenundzwanzig und Projektleiterin, mit rostorangem Jackett, goldfarbenem Kopftuch und schmaler Metallbrille. Bei ihren Spieleabenden kocht Damir den Tee, und Pawel schlichtet, wenn um den Ablauf gestritten wird. Den Plan für heute musste Herr Schneider mit ihr durchgehen. Er hat bei jedem Punkt geseufzt."
+    },
+    {
+      "id": "vorstellung.npc",
+      "text": "Wer heute ohne Spielerin oder Spieler dabei ist, isst trotzdem mit, lacht mit und antwortet, wenn man fragt. Das Schloss zählt jeden Gast mit, gespielt oder nicht."
+    },
+    {
+      "id": "vorstellung.detektiv.m",
+      "text": "Bleibt noch jemand: du. Als Gast der Clique kennst du viele von früheren Festen, das Schloss aber noch nicht. Du kommst im hellen Trenchcoat und mit kariertem Hut, und deine Pfeife bläst Seifenblasen. Wie ein echter Detektiv hörst du genau hin und fragst nach. Wer dir etwas erzählt, wird garantiert um mehr gebeten. Die alten Mauern mögen dich jetzt schon, denn sie erzählen gern, und du hörst gern zu."
+    },
+    {
+      "id": "vorstellung.detektiv.w",
+      "text": "Bleibt noch jemand: du. Als Gast der Clique kennst du viele von früheren Festen, das Schloss aber noch nicht. Du kommst im hellen Trenchcoat und mit kariertem Hut, und deine Pfeife bläst Seifenblasen. Wie eine echte Detektivin hörst du genau hin und fragst nach. Wer dir etwas erzählt, wird garantiert um mehr gebeten. Die alten Mauern mögen dich jetzt schon, denn sie erzählen gern, und du hörst gern zu."
+    }
+  ]
+}

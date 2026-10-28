@@ -1,0 +1,106 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "einfluss",
+  "hinweis": "Entwurf: Reaktionsblasen der Bots im Solospiel (SPEZIFIKATION §3.11, §3.13, Änderungen 2026-10-27), Schlüssel einfluss.bot.<fig>.<anlass>, Anlass ∈ ertappt (die Figur wurde beim Decken ertappt, auch beim Selbst-Decken), geruecht (über die Figur wird getuschelt), freund_gestanden (bei Figuren mit Loyalität hat die nahestehende Figur ausgepackt, sonst irgendwer aus der Clique), ablenken (die Figur hat gerade für Trubel gesorgt; jede Blase greift den Gag aus einfluss.ablenken.<fig> auf). Karten nach R17: je Schlüssel genau ein Stichpunkt mit höchstens acht Wörtern und genau ein Satz (der Kernprüfer meldet ein Satzende mitten in der Karte als Prosa), Ich-Form in der Stimme der Figur (figuren.json, steckbriefe.json), ohne Platzhalter und ohne Namen, damit jede Blase zu jedem Auslöser passt. Keine Blase verrät ein Geheimnis, kommentiert die Tat oder nennt einen Fallgegenstand, eine Suchstelle, einen Indizort, einen Lacher oder einen Sperrort (R15). Die vier Kernfiguren haben je Anlass dieselbe Form und Wortzahl (R13, R22): ertappt „Erwischt, ich …!“ mit sechs Wörtern, geruecht „Statt zu tuscheln, …!“ mit acht, freund_gestanden „Puh, …“ mit sieben, ablenken „Was denn, …!“ mit sieben.",
+  "eintraege": [
+    { "id": "einfluss.bot.ahmet.ertappt", "text": "Erwischt, ich lass halt keinen hängen!" },
+    { "id": "einfluss.bot.ahmet.geruecht", "text": "Statt zu tuscheln, meldet euch lieber bei mir!" },
+    { "id": "einfluss.bot.ahmet.freund_gestanden", "text": "Puh, das muss ich erst mal sortieren." },
+    { "id": "einfluss.bot.ahmet.ablenken", "text": "Was denn, jeder braucht doch eine Aufgabe!" },
+
+    { "id": "einfluss.bot.fatma.ertappt", "text": "Erwischt, ich wollte nur nett sein!" },
+    { "id": "einfluss.bot.fatma.geruecht", "text": "Statt zu tuscheln, sagt mir lieber eure Meinung!" },
+    { "id": "einfluss.bot.fatma.freund_gestanden", "text": "Puh, da fehlen mir glatt die Farben." },
+    { "id": "einfluss.bot.fatma.ablenken", "text": "Was denn, die Farbe war wirklich wichtig!" },
+
+    { "id": "einfluss.bot.olli.ertappt", "text": "Erwischt, ich steh eben zu Kumpels!" },
+    { "id": "einfluss.bot.olli.geruecht", "text": "Statt zu tuscheln, packt lieber mal mit an!" },
+    { "id": "einfluss.bot.olli.freund_gestanden", "text": "Puh, das wiegt ja schwerer als Klaviere." },
+    { "id": "einfluss.bot.olli.ablenken", "text": "Was denn, die Pyramide war echt stabil!" },
+
+    { "id": "einfluss.bot.can.ertappt", "text": "Erwischt, ich dreh die Szene nochmal!" },
+    { "id": "einfluss.bot.can.geruecht", "text": "Statt zu tuscheln, sagt es lauter, ich filme!" },
+    { "id": "einfluss.bot.can.freund_gestanden", "text": "Puh, und ich hab das nicht gefilmt." },
+    { "id": "einfluss.bot.can.ablenken", "text": "Was denn, der Witz war wirklich spitze!" },
+
+    { "id": "einfluss.bot.leyla.ertappt", "text": "Dagegen hilft leider auch keine Salbe." },
+    { "id": "einfluss.bot.leyla.geruecht", "text": "Wer tuschelt, hat bestimmt nur Hunger." },
+    { "id": "einfluss.bot.leyla.freund_gestanden", "text": "Mutig, dafür kriegst du die größte Portion!" },
+    { "id": "einfluss.bot.leyla.ablenken", "text": "Gegen Schnupfen hilft Kamillentee, glaubt mir!" },
+
+    { "id": "einfluss.bot.emine.ertappt", "text": "Oje, das gibt einen Eintrag ins Klassenbuch." },
+    { "id": "einfluss.bot.emine.geruecht", "text": "Psst, wer etwas sagen will, meldet sich!" },
+    { "id": "einfluss.bot.emine.freund_gestanden", "text": "Sehr gut, dafür gibt es ein Bienchen!" },
+    { "id": "einfluss.bot.emine.ablenken", "text": "Glaubt mir, Zweierreihen beruhigen ungemein." },
+
+    { "id": "einfluss.bot.tim.ertappt", "text": "Hoppla, da war wohl eine Schraube locker." },
+    { "id": "einfluss.bot.tim.geruecht", "text": "Lass mal, das Gerede schau ich mir an." },
+    { "id": "einfluss.bot.tim.freund_gestanden", "text": "Hut ab, das war mutiger als jedes Bastelprojekt!" },
+    { "id": "einfluss.bot.tim.ablenken", "text": "Die Bank quietscht jetzt in Dur, Fortschritt!" },
+
+    { "id": "einfluss.bot.johanna.ertappt", "text": "Oh nein, ausgerechnet ich im Mittelpunkt!" },
+    { "id": "einfluss.bot.johanna.geruecht", "text": "Ihr tuschelt über mich, dann bitte lächeln!" },
+    { "id": "einfluss.bot.johanna.freund_gestanden", "text": "So ehrlich, da heul ich wie auf Hochzeiten!" },
+    { "id": "einfluss.bot.johanna.ablenken", "text": "Neunter Versuch, und jetzt lächeln fast alle!" },
+
+    { "id": "einfluss.bot.murat.ertappt", "text": "Herrje, das darf meine Schwester nie erfahren!" },
+    { "id": "einfluss.bot.murat.geruecht", "text": "Man redet über mich, hoffentlich über die Häppchen!" },
+    { "id": "einfluss.bot.murat.freund_gestanden", "text": "Respekt, das war ehrlicher als jede Speisekarte!" },
+    { "id": "einfluss.bot.murat.ablenken", "text": "Sieht komisch aus, schmeckt aber hervorragend!" },
+
+    { "id": "einfluss.bot.zeynep.ertappt", "text": "Klares Foul, ich geh freiwillig vom Platz." },
+    { "id": "einfluss.bot.zeynep.geruecht", "text": "Wer von der Bank tuschelt, kommt aufs Feld!" },
+    { "id": "einfluss.bot.zeynep.freund_gestanden", "text": "Stark, so spielt eine echte Mannschaft!" },
+    { "id": "einfluss.bot.zeynep.ablenken", "text": "Kniebeugen machen wach, also los, mehr Einsatz!" },
+
+    { "id": "einfluss.bot.baran.ertappt", "text": "Ups, da hab ich den Takt verpasst." },
+    { "id": "einfluss.bot.baran.geruecht", "text": "Wenn ihr tuschelt, leg ich was Lauteres auf!" },
+    { "id": "einfluss.bot.baran.freund_gestanden", "text": "Dafür schreib ich glatt ein eigenes Lied." },
+    { "id": "einfluss.bot.baran.ablenken", "text": "Das war kein Durcheinander, das war ein Chor!" },
+
+    { "id": "einfluss.bot.meryem.ertappt", "text": "Verflixt, im Wald hätte mich keiner gesehen." },
+    { "id": "einfluss.bot.meryem.geruecht", "text": "Dieses Raunen klingt wie Wildschweine im Unterholz." },
+    { "id": "einfluss.bot.meryem.freund_gestanden", "text": "Bravo, ehrlich wächst am längsten!" },
+    { "id": "einfluss.bot.meryem.ablenken", "text": "Der Waldkauz war doch täuschend echt, oder?" },
+
+    { "id": "einfluss.bot.serkan.ertappt", "text": "Ruhig bleiben, alles im grünen Bereich." },
+    { "id": "einfluss.bot.serkan.geruecht", "text": "Wer über mich tuschelt, fährt nachher hinten." },
+    { "id": "einfluss.bot.serkan.freund_gestanden", "text": "Gut so, dann fährt es sich leichter heim." },
+    { "id": "einfluss.bot.serkan.ablenken", "text": "Wer wo sitzt, klären wir besser jetzt." },
+
+    { "id": "einfluss.bot.aylin.ertappt", "text": "Peinlich, das verbuche ich unter Sonstiges." },
+    { "id": "einfluss.bot.aylin.geruecht", "text": "Gerüchte bitte schriftlich und in doppelter Ausführung." },
+    { "id": "einfluss.bot.aylin.freund_gestanden", "text": "Vorbildlich, das hefte ich gleich ordentlich ab!" },
+    { "id": "einfluss.bot.aylin.ablenken", "text": "Ohne Punktetabelle weiß doch keiner Bescheid." },
+
+    { "id": "einfluss.bot.kaan.ertappt", "text": "Na gut, statisch war das nicht ganz sauber." },
+    { "id": "einfluss.bot.kaan.geruecht", "text": "Diese alten Mauern haben wirklich Ohren." },
+    { "id": "einfluss.bot.kaan.freund_gestanden", "text": "Respekt, das trägt besser als jedes Gewölbe." },
+    { "id": "einfluss.bot.kaan.ablenken", "text": "Okay, ich stand schief, das Gewölbe aber auch." },
+
+    { "id": "einfluss.bot.dilara.ertappt", "text": "Na toll, das war ein glatter Fehlkauf." },
+    { "id": "einfluss.bot.dilara.geruecht", "text": "Gerüchte über mich, was bietet ihr dafür?" },
+    { "id": "einfluss.bot.dilara.freund_gestanden", "text": "Ehrliche Ware, das ist ein echter Fund!" },
+    { "id": "einfluss.bot.dilara.ablenken", "text": "Zwei Kekse für einen Platz sind fair!" },
+
+    { "id": "einfluss.bot.enes.ertappt", "text": "Ertappt wie im Kindergarten, nur ohne Mittagsschlaf." },
+    { "id": "einfluss.bot.enes.geruecht", "text": "Getuschel über mich, dann setz ich Tee auf." },
+    { "id": "einfluss.bot.enes.freund_gestanden", "text": "Gut gemacht, und jetzt erst mal tief durchatmen!" },
+    { "id": "einfluss.bot.enes.ablenken", "text": "Eine Teepause ist kein Trubel, sondern Pflicht." },
+
+    { "id": "einfluss.bot.selin.ertappt", "text": "Huch, mein Herz rutscht gerade in den Schal!" },
+    { "id": "einfluss.bot.selin.geruecht", "text": "Habt ihr gerade auch meinen Namen gehört?" },
+    { "id": "einfluss.bot.selin.freund_gestanden", "text": "Wow, das hätte ich mich nie getraut!" },
+    { "id": "einfluss.bot.selin.ablenken", "text": "Das war wirklich der Wind, diesmal bestimmt." },
+
+    { "id": "einfluss.bot.hakan.ertappt", "text": "Zugegeben, ich plädiere auf gute Absicht." },
+    { "id": "einfluss.bot.hakan.geruecht", "text": "Einspruch, das ist reines Hörensagen!" },
+    { "id": "einfluss.bot.hakan.freund_gestanden", "text": "Vernünftig, das klären wir jetzt in Ruhe." },
+    { "id": "einfluss.bot.hakan.ablenken", "text": "Die Sitzfrage ist hiermit offiziell vertagt." },
+
+    { "id": "einfluss.bot.tugba.ertappt", "text": "Mist, das steht so in keinem Plan." },
+    { "id": "einfluss.bot.tugba.geruecht", "text": "Getuschel war erst für später eingeplant!" },
+    { "id": "einfluss.bot.tugba.freund_gestanden", "text": "Perfekt, das liegt genau im Zeitplan!" },
+    { "id": "einfluss.bot.tugba.ablenken", "text": "Das Spiel war schnell, nur das Erklären nicht." }
+  ]
+}

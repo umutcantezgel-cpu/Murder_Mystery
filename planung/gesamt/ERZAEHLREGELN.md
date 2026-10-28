@@ -54,6 +54,17 @@ Gespräche mit Wahl bringen Mehrfachauswahl-Dialoge, Ereignisketten und Epiloge 
 - **R16 · Der Tisch entscheidet.** Gruppenszenen entscheidet die Mehrheit, bei Gleichstand die Reihenfolge in der Datei. Kein Zufall. Folgen sind nur erzählend (Flags, Posen, Licht, Klang, Auftragsetappen), nie Nachtminuten, Würfel, Bonus, Gruppenwahl oder Fakten.
 - **R17 · Kartenformat.** Was Spieler auf dem Handy lesen, ist eine Karte mit höchstens drei Stichpunkten zu je höchstens acht Wörtern und höchstens einer einzeiligen Wahl. Prosa gibt es nur in Vorlesetexten des Erzählers.
 
+## Einstimmung und Einfluss (A-063, A-064)
+
+- **R18 · Einstimmung.** Vorgeschichte und Vorstellung sind öffentlich und pfadgleich. Die Vorgeschichte erzählt nur die Zeit vor dem Abend und nennt nur die vier immer besetzten Kernfiguren und Herrn Schneider, ausgewogen. Eine Vorstellung nennt außer der eigenen Figur nur Figuren mit kleinerem Besetzungsplatz über öffentliche Beziehungen. Kein Geheimnis, kein Ereignis des Abends, keine Fünf-Wort-Folge aus Geheim- oder Pfadwissen.
+- **R19 · Geltung.** R4 und R16 gelten für Dialoge und Gruppenszenen. Für die Einfluss-Schicht gelten R19 bis R25: Sie darf Tischwerte auf Würfeln (−2 bis +2), Nachtminuten, den Zeitpunkt der Sichtbarkeit von Fakten, wahre pfadfreie Nebendelikte und Beobachtungen, Gerüchte, Leisten und das Ende um höchstens einen Endwert-Punkt bewegen.
+- **R20 · Wahrheit fest.** Kein Zug ändert Pfad, Täter oder die Wahrheit eines Fakts. Kein Fund wird gelöscht; Verzögerungen enden spätestens im Zwischenresümee derselben Runde.
+- **R21 · Pfadblind.** Was vor dem Finale sichtbar ist, hängt nur von Zügen, Salz-Würfeln und statischen öffentlichen Eigenschaften ab, nie vom Pfad.
+- **R22 · Gleiche Gestalt.** Alle Rollen haben denselben Zugkatalog und dieselbe Zielform; die Täterrolle hat keine Sonderzüge und fällt nie auf. Bots sehen nur Öffentliches.
+- **R23 · Gerüchte und Ereignisse.** Sie nennen nur Figuren und Züge, nie einen Fallgegenstand, eine Suchstelle oder einen Indizort (R15 gilt).
+- **R24 · Ziele.** Ziele sind pfadfrei, maschinell prüfbar, erreichbar und verfehlbar; jeder sieht nur den eigenen Stand.
+- **R25 · Kartenformat.** Zugkarten, Zielkarten und private Nachrichten folgen R17.
+
 ## Prüfungen
 
 - **Prüfer:** erreichbare Knoten, keine Sackgassen, keine verwaisten Flags, Grenzen der Gestalt (R3) und Tonregeln.

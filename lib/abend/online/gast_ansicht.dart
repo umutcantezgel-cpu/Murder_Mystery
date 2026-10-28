@@ -14,9 +14,11 @@ import 'ansicht.dart';
 import 'gast_befragung.dart';
 import 'gast_diashow.dart';
 import 'gast_dienst.dart';
+import 'gast_einstimmung.dart';
 import 'gast_erzaehler.dart';
 import 'gast_ermittlung.dart';
 import 'gast_lobby.dart';
+import 'gast_moment.dart';
 import 'gast_rundgang.dart';
 import 'gast_streifzug.dart';
 import 'gast_uhr.dart';
@@ -213,6 +215,10 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return gastLobby(c, marke);
     case 'rollen':
       return _rollen(c);
+    // Einstimmung (A-063): Vorgeschichte und Vorstellung vor Vorspiel und Diashow (gast_einstimmung.dart).
+    case 'intro' when gastEinstimmungSchritt(c) != null:
+      return _abschnitt(c, rundenMarke, gastEinstimmungTitel(c, gastEinstimmungSchritt(c)!), [GastEinstimmung(kontext: c)],
+          mitErzaehlertext: false, vorleserKarte: false, weiter: false, aktionen: gastEinstimmungAktionen(c));
     // Langer Abend (M7b): erst das Vorspiel, dann die Diashow (gast_rundgang.dart).
     case 'intro' when gastRundgang(c) != null:
       return _abschnitt(c, rundenMarke, l.rundgang_vorspiel, [GastRundgang(kontext: c)],
@@ -224,12 +230,14 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, rundenMarke, l.online_phase_intro, []);
     // Langer Abend (M7b): Der Gast-Detektiv geht auf Streifzug (gast_streifzug.dart).
     case 'gespraeche' || 'entscheidungen' when c.ermittelt && c.fassung.istLang && c.v['streifzug'] is Map:
-      return _abschnitt(c, rundenMarke, phase == 'gespraeche' ? l.online_phase_gespraeche : l.online_phase_entscheidungen, [gastDetektivStreifzug(c)]);
+      return _abschnitt(c, rundenMarke, phase == 'gespraeche' ? l.online_phase_gespraeche : l.online_phase_entscheidungen, [?gastMomentAufruf(c), gastDetektivStreifzug(c)]);
     // Der Gast auf dem Detektiv-Sitz ermittelt selbst (M3, gast_ermittlung.dart).
+    // „Dein Moment“ (Finale §3): wer leitet, gibt den letzten Aufruf; wer eine Figur spielt, zieht.
     case 'gespraeche' when c.ermittelt:
-      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [gastDetektivGespraeche(c)]);
+      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [?gastMomentAufruf(c), gastDetektivGespraeche(c)]);
     case 'gespraeche':
-      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche, [?gastStreifzugStatus(c), _gespraeche(c)]);
+      return _abschnitt(c, rundenMarke, l.online_phase_gespraeche,
+          [?gastStreifzugStatus(c), ?gastMomentAufruf(c), ?gastMomentKarte(c), ?gastMomentHinweis(c), _gespraeche(c)]);
     case 'entscheidungen' when c.ermittelt:
       return _abschnitt(c, rundenMarke, l.online_phase_entscheidungen, [GastErmittlung(key: ValueKey('ermittlung-${c.runde}'), kontext: c)]);
     case 'entscheidungen':
@@ -238,8 +246,9 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
       return _abschnitt(c, rundenMarke, l.online_phase_gruppenwahl, [GastGruppenwahl(key: ValueKey('wahl-${c.runde}'), kontext: c)]);
     case 'bonus':
       return _abschnitt(c, rundenMarke, l.online_phase_bonus, []);
+    // „Dein Moment“: im Zwischenresümee die Leisten und Gerüchte der Runde für alle.
     case 'resuemee':
-      return _abschnitt(c, rundenMarke, l.online_phase_resuemee, []);
+      return _abschnitt(c, rundenMarke, l.online_phase_resuemee, [?gastEinflussWirkungen(c)]);
     case 'anklage' when c.ermittelt:
       return _abschnitt(c, marke, l.online_phase_anklage, [GastAnklage(kontext: c)]);
     case 'anklage':
@@ -247,7 +256,7 @@ GastSeiteninhalt baueGastSeite(GastKontext c) {
     case 'finale':
       return _abschnitt(c, marke, l.online_phase_finale, [], aktionen: _belohnungOhneGastgeber(c));
     case 'aufloesung':
-      return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c)], aktionen: _belohnungOhneGastgeber(c));
+      return _abschnitt(c, marke, l.online_phase_aufloesung, [_aufloesung(c), ?gastEinflussAufloesung(c)], aktionen: _belohnungOhneGastgeber(c));
     // Langer Abend (M7b): nach der Auflösung der Morgen, dann das Schlussbild.
     case 'ende' when gastRundgang(c) != null:
       return _abschnitt(c, marke, l.rundgang_morgen, [GastRundgang(kontext: c)],
@@ -537,6 +546,8 @@ GastSeiteninhalt _abschnitt(GastKontext c, String marke, String titel, List<Widg
         ),
       ...spezifisch,
       if (c.sitz == Sitz.erzaehler) ...gastErzaehlerTeile(c),
+      // „Dein Moment“: Die Zug-Tafel der Runde sieht nur der Erzähler-Sitz.
+      if (c.sitz == Sitz.erzaehler) ?gastEinflussTafel(c),
       if (spezifisch.isEmpty && c.erzaehlerTexte.isEmpty && !liestAnderswo && !c.leitet) _notiz(l.online_warten_spielleitung),
       _meineRolle(c),
       _tisch(c),
@@ -553,7 +564,8 @@ List<Widget> gastWeiter(GastKontext c) => [
           key: const ValueKey('gast-weiter'),
           text: c.l.online_weiter,
           icon: Icons.arrow_forward_rounded,
-          onPressed: c.verbunden && c.v['kannWeiter'] == true ? () => c.befehl({'typ': 'weiter'}) : null,
+          // „Dein Moment“: Während des letzten Aufrufs wartet „Weiter“ auf den Countdown.
+          onPressed: c.verbunden && c.v['kannWeiter'] == true && !gastMomentWartet(c) ? () => c.befehl({'typ': 'weiter'}) : null,
         ),
     ];
 
@@ -661,6 +673,8 @@ class DossierAnsicht extends StatelessWidget {
             },
           ),
           _dossierAbschnitt(l.online_dossier_ziel, [Text(jText(d['ziel']), style: MPapierSchrift.text)]),
+          // „Dein Moment“ (Finale §3.9): die zwei Sterne und eine kurze Erklärung.
+          if (gastZiele(c) case final z?) _dossierAbschnitt(l.moment_ziele, [z]),
           _dossierAbschnitt(l.online_dossier_weiss, _zeilen(jTexte(d['weiss']))),
           _dossierAbschnitt(l.online_dossier_verbirgt, [
             if (tarnung.isNotEmpty) ...[
@@ -908,7 +922,8 @@ Widget _ermittlung(GastKontext c) {
             titel: l.online_fund_titel,
             art: PapierArt.karteikarte,
             reissnagel: true,
-            kinder: [for (final f in funde) _punkt(f), if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text)],
+            // „Dein Moment“: Randnotizen und Ertappt sind öffentlich.
+            kinder: [for (final f in funde) _punkt(f), if (neben.isNotEmpty) Text(neben, style: MPapierSchrift.text), ?gastFundZusatz(c, z)],
           ));
         } else {
           kinder.add(_notiz(neu ? l.online_fund_wartet : l.online_fund_wartet_leitung));
@@ -926,7 +941,7 @@ Widget _ermittlung(GastKontext c) {
         const SizedBox(height: MMass.s12),
         Text(l.online_optionen_titel.toUpperCase(), style: MPapierSchrift.marke),
         const SizedBox(height: MMass.s8),
-        for (final o in optionen) _punkt(jText(o['text'])),
+        for (final o in optionen) ...[_punkt(jText(o['text'])), ?gastAbzeichen(c, jText(o['id']))],
         const SizedBox(height: MMass.s8),
         Row(
           children: [
@@ -938,10 +953,13 @@ Widget _ermittlung(GastKontext c) {
       ],
     ));
   } else {
-    kinder.add(_notiz(l.online_ermittlung_fertig));
+    // „Dein Moment“ (Finale §3.1): ohne Gruppenwahl geht es direkt zum Flüstern.
+    kinder.add(_notiz(c.v['einfluss'] is Map ? l.online_ermittlung_fertig_moment : l.online_ermittlung_fertig));
   }
 
-  if (notizbuch.isNotEmpty) {
+  // „Dein Moment“: ausgepackte Fakten zählen wie ein Fund (§3.6).
+  final ausgepackt = gastAusgepackt(c);
+  if (notizbuch.isNotEmpty || ausgepackt != null) {
     kinder.add(_Block(
       titel: l.online_notizbuch_titel,
       art: PapierArt.notiz,
@@ -957,6 +975,7 @@ Widget _ermittlung(GastKontext c) {
               ],
             ),
           ),
+        ?ausgepackt,
       ],
     ));
   }
@@ -1068,6 +1087,17 @@ class _GastWuerfelState extends State<GastWuerfel> {
         Text(_meinWurf ? l.online_wuerfel_du : l.online_wuerfelt(pate), key: const ValueKey('wuerfel-pate'), style: MPapierSchrift.ueberschrift),
         const SizedBox(height: MMass.s12),
         Text(l.online_chancen(jZahl(z['mod'])), style: MPapierSchrift.leise),
+        // „Dein Moment“ (Finale §3.4): Zeile „Tisch“ der Chancenvorschau.
+        if (jMap(z['tischVorschau']) case final t when jZahl(t['tisch']) != 0 || jZahl(t['umweg']) != 0)
+          Text(
+            [
+              // Echtes Minuszeichen (U+2212): Alle Schriften der App führen es (Änderungen 11).
+              if (jZahl(t['tisch']) != 0) '${l.einfluss_tisch} ${jZahl(t['tisch']) > 0 ? '+' : '\u2212'}${jZahl(t['tisch']).abs()}',
+              if (jZahl(t['umweg']) != 0) '${l.einfluss_umweg} +${jZahl(t['umweg'])}',
+            ].join(' · '),
+            key: const ValueKey('gast-chance-tisch'),
+            style: MPapierSchrift.maschine,
+          ),
         const SizedBox(height: MMass.s8),
         for (final stufe in ['erfolg', 'teilerfolg', 'pech'])
           Padding(
@@ -1314,6 +1344,7 @@ GastSeiteninhalt _ende(GastKontext c, String marke) {
     kinder: [
       _erzaehler(c),
       _aufloesung(c),
+      ?gastEinflussAufloesung(c),
       _meineRolle(c),
       _tisch(c),
     ],

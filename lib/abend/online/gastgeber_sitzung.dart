@@ -6,6 +6,7 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler;
 
+import '../../party/einfluss_sicht.dart';
 import '../../party/karten_aktion.dart';
 import '../../party/sitzung.dart';
 import '../../party/stand/befragung_stand.dart';
@@ -255,6 +256,7 @@ class GastgeberSitzung extends PartySitzung {
     _erkundetUnterwegs.removeAll(jTexte(_streifzug['erkundet']));
     _fristPruefen();
     _aktionPruefen();
+    _aufrufPruefen();
     // Antworten der App bleiben im Notizbuch, auch wenn die Ansicht sie nach den Gesprächen nicht mehr trägt.
     final vorher = _notizen.length;
     for (final k in befragungen) {
@@ -308,6 +310,87 @@ class GastgeberSitzung extends PartySitzung {
         debugPrint('ONLINE notizen schreiben $e');
       }
     }());
+  }
+
+  // ------------------------------------------- „Dein Moment“ (Finale §3)
+
+  /// Öffentlich `einfluss` des Raums (mit letztem Aufruf und Reaktionsblasen der Bots).
+  @override
+  Map<String, Object?>? get einflussOeffentlich => einfluss && dienst.ansicht['einfluss'] is Map ? jMap(dienst.ansicht['einfluss']) : null;
+
+  Map<String, Object?> get _privat => jMap(dienst.ansicht['privat']);
+
+  /// Die Zug-Tafel schickt der Raum nur dem Erzähler-Sitz.
+  @override
+  TafelSicht? get einflussTafel => TafelSicht.ausJson(_privat['einflussTafel']);
+
+  @override
+  Map<String, Object?>? get einflussAufloesungRoh {
+    final a = dienst.ansicht['aufloesung'];
+    return a is Map && a['einfluss'] is Map ? jMap(a['einfluss']) : null;
+  }
+
+  /// Rollen mit Menschen, auf deren Moment der Raum noch wartet (`einfluss.offen`); wer den Abend
+  /// verlassen hat, zieht als Bot und fehlt dort.
+  @override
+  List<String> get momentOffen {
+    final o = einflussLage?.offen;
+    if (phase != PartyPhase.gespraeche || o == null) return const [];
+    return o;
+  }
+
+  @override
+  bool momentGezogen(String rolle) => einflussLage?.gezogen?.contains(rolle) ?? false;
+
+  @override
+  int? get momentAufruf => einfluss && phase == PartyPhase.gespraeche ? einflussLage?.aufruf : null;
+
+  /// Weiter aus den Gesprächen, wenn alle Menschen gezogen haben oder der letzte Aufruf abgelaufen ist (wie im Raum).
+  @override
+  bool get momentFertig {
+    if (super.momentFertig) return true;
+    final a = momentAufruf;
+    return a != null && abendzeit() - a >= momentAufrufFrist;
+  }
+
+  /// Den Moment ziehen die Gäste an ihren Geräten; der Gastgeber spielt keine Figur.
+  @override
+  void momentZeigen(String rolle) => throw StateError('Online ziehen die Gäste an ihren Geräten.');
+
+  @override
+  void momentZug(String rolle, ZugArt art, {String? ziel, String? tipp}) => throw StateError('Online ziehen die Gäste an ihren Geräten.');
+
+  /// Letzter Aufruf (wer leitet), Nachricht `letzterAufruf`; die Abendzeit setzt der Transport.
+  @override
+  void letzterAufruf() {
+    if (!leitet || momentAufruf != null) return;
+    _senden([
+      {'typ': 'letzterAufruf'},
+    ]);
+  }
+
+  @override
+  void nachfrage(String optionId) => _senden([
+        {'typ': 'nachfrage', 'option': optionId},
+      ]);
+
+  Timer? _aufrufUhr;
+
+  /// Läuft der letzte Aufruf, meldet sich die Sitzung zu seinem Ende: Dann ist „Weiter“ frei.
+  void _aufrufPruefen() {
+    final a = momentAufruf;
+    if (a == null) {
+      _aufrufUhr?.cancel();
+      _aufrufUhr = null;
+      return;
+    }
+    if (_aufrufUhr != null) return;
+    final rest = a + momentAufrufFrist - abendzeit();
+    if (rest <= 0) return;
+    _aufrufUhr = Timer(Duration(milliseconds: rest + 20), () {
+      _aufrufUhr = null;
+      if (!_entsorgt) notifyListeners();
+    });
   }
 
   // ------------------------------------------------------------ Befragungen
@@ -515,6 +598,61 @@ class GastgeberSitzung extends PartySitzung {
     ]);
   }
 
+  // ------------------------------------------------ Einstimmung (A-063)
+
+  /// Schritt, Zahl und Kennung der Einstimmung hält der Raum (Ansicht
+  /// `einstimmung`, für alle gleich); den Text liest dieses Gerät aus der Akte.
+  Map<String, Object?>? get _einstimmungAnsicht => dienst.ansicht['einstimmung'] is Map ? jMap(dienst.ansicht['einstimmung']) : null;
+
+  @override
+  bool get mitEinstimmung => dienst.raum.einstimmung != null;
+
+  @override
+  EinstimmungSchritt? get einstimmung {
+    final a = _einstimmungAnsicht;
+    final teil = EinstimmungTeil.values.where((t) => t.name == a?['teil']).firstOrNull;
+    if (a == null || teil == null || phase != PartyPhase.intro) return null;
+    final figur = a['figur'];
+    return EinstimmungSchritt(teil: teil, kennung: jText(a['kennung']), figur: figur is String ? figur : null, nr: jZahl(a['nr'], 1), von: jZahl(a['von'], 1));
+  }
+
+  @override
+  List<EinstimmungSchritt> get einstimmungSchritte => switch (dienst.raum.einstimmung) {
+        final e? when eingerichtet => e.schritte(rollen: einstellungen.rollen, detektiv: einstellungen.detektiv),
+        _ => const [],
+      };
+
+  @override
+  int get einstimmungNr => jZahl(_einstimmungAnsicht?['schritt']);
+
+  @override
+  int get einstimmungAnzahl => jZahl(_einstimmungAnsicht?['anzahl']);
+
+  /// Wie der Rundgang: Durch die Einstimmung führt sofort, wer laut Raum leitet.
+  @override
+  bool get einstimmungSteuerbar => dienst.raum.vorleser == _ich;
+
+  @override
+  void einstimmungWeiter() {
+    if (einstimmung == null || !einstimmungSteuerbar) return;
+    _senden([
+      {'typ': 'einstimmung', 'schritt': einstimmungNr},
+    ]);
+  }
+
+  @override
+  void einstimmungUeberspringen() {
+    if (einstimmung == null || !einstimmungSteuerbar) return;
+    _senden([
+      {'typ': 'einstimmung', 'ueberspringen': true},
+    ]);
+  }
+
+  /// Die Erzählerakte gehört online dem Erzähler-Sitz, solange er nicht ermittelt;
+  /// nie ab dem Finale (A-063).
+  @override
+  bool get erzaehlerakteSichtbar => daten.erzaehlerakte != null && !nachFinale && sitz == Sitz.erzaehler && !istDetektiv;
+
   @override
   void bestaetigen({bool gruendlich = false, String? karte}) {
     final z = vorschlag ?? (throw StateError('kein Vorschlag'));
@@ -593,6 +731,8 @@ class GastgeberSitzung extends PartySitzung {
     _fristUhr = null;
     _aktionsUhr?.cancel();
     _aktionsUhr = null;
+    _aufrufUhr?.cancel();
+    _aufrufUhr = null;
     unawaited(_hoerer?.cancel());
     _hoerer = null;
     // Ist der Abend vorbei, ist er auch abgelegt zu Ende; sonst bleibt der Stand

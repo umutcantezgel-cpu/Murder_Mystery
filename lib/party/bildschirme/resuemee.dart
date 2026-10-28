@@ -6,6 +6,7 @@ import '../../stil/stil.dart';
 import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
+import 'einfluss_teile.dart' show EinflussResuemee;
 import 'erzaehlerpult.dart' show ErzaehlerpultZudecken;
 
 /// Bonus-Hinweis (Phase bonus) und Zwischenresümee (Phase resuemee), Master 7.6
@@ -50,14 +51,18 @@ class ResuemeeBildschirm extends StatelessWidget {
       );
 
   /// Drei Fächer in fester Reihenfolge: Gruppenergebnis, Stand, Lage. Ein
-  /// Erzählerfeld liest alle drei nacheinander vor; der Bericht zeigt sie.
+  /// Erzählerfeld liest alle drei nacheinander vor; der Bericht zeigt sie. Ein
+  /// leeres Fach fehlt: Mit „Dein Moment“ gibt es kein Gruppenergebnis, wenn
+  /// niemand flüsterte (Finale §3.8).
   Widget _resuemee(BuildContext context) {
     final faecher = [
       ('ui.resuemee.fach_gruppe', _bausteinVon('resuemee.gruppe.')),
       ('ui.resuemee.fach_rest', _bausteinVon('resuemee.rest.')),
       ('ui.resuemee.fach_lage', _bausteinVon('resuemee.lage.')),
-    ];
-    final kennungen = [for (final (_, k) in faecher) ...k];
+    ].where((f) => f.$2.isNotEmpty).toList();
+    // „Dein Moment“ (Finale „Änderungen“ 7): Kommen wartende Funde jetzt dazu, steht `einfluss.wieder` vorn.
+    final wieder = [for (final k in sitzung.erzaehler) if (k == 'einfluss.wieder') k];
+    final kennungen = [...wieder, for (final (_, k) in faecher) ...k];
     return PartyRahmen(
       marke: _runde,
       titel: sitzung.ui('ui.resuemee.titel'),
@@ -80,6 +85,7 @@ class ResuemeeBildschirm extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   MBlattKopf(zeile: sitzung.rundenName),
+                  for (final k in wieder) Padding(padding: const EdgeInsets.only(bottom: 20), child: Text(sitzung.text(k), style: MPapierSchrift.erzaehler)),
                   for (var i = 0; i < faecher.length; i++) _fach(i, faecher[i].$1, faecher[i].$2),
                 ],
               ),
@@ -88,6 +94,8 @@ class ResuemeeBildschirm extends StatelessWidget {
               const SizedBox(height: 12),
               ErzaehlerpultZudecken(sitzung: sitzung),
             ],
+            // „Dein Moment“ (Finale §3.8): Leisten, Ereignisse und nachgereichte Funde für alle.
+            if (sitzung.einfluss) ...[const SizedBox(height: 12), EinflussResuemee(sitzung: sitzung)],
           ],
         ),
       ),

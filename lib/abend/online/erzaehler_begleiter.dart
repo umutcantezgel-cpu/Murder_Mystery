@@ -25,6 +25,7 @@ final _de = LDe();
 /// Die Ansicht des Erzählers hat die Form eines Erzähler-Sitzes im
 /// Online-Abend (`SchlosskellerRaum`), damit sein Handy die gewohnte Gastseite
 /// zeigt: die Erzähltexte des Schritts, sein pfadfreies Erzählerpaket (A-052),
+/// mit „Dein Moment“ die Zug-Tafel der Runde (wie am offenen Pult),
 /// wen der Detektiv befragt, die Ermittlung, wie sie am Tisch offen liegt
 /// (Frage, Optionen, Zug, Nachtzeit, Marken, Funde, Würfe, Verdächtige), und
 /// „Weiter“, sobald der Abschnitt fertig ist. Nie Dossier, Tarnung,
@@ -163,6 +164,19 @@ class BegleiterRaum implements AbendRaum {
         if (nr is! int || nr < 0 || nr >= d.dias.length) throw const PartyRaumFehler('invalid');
         sitzung.diaSetzen(nr);
         _version++;
+      // Einstimmung (A-063): Der Erzähler liest am Handy und schaltet weiter, wie online, wer leitet.
+      case 'einstimmung':
+        if (sitzung.einstimmung == null) throw const PartyRaumFehler('invalid_phase');
+        final ueberspringen = inhalt['ueberspringen'], schritt = inhalt['schritt'];
+        if (ueberspringen != null) {
+          if (ueberspringen != true || schritt != null) throw const PartyRaumFehler('invalid');
+          sitzung.einstimmungUeberspringen();
+        } else {
+          if (schritt is! int) throw const PartyRaumFehler('invalid');
+          if (schritt != sitzung.einstimmungNr) throw const PartyRaumFehler('stale');
+          sitzung.einstimmungWeiter();
+        }
+        _version++;
       // Vorspiel (M7b): Der Erzähler führt am Handy durch den Rundgang, wie online, wer leitet.
       case 'rundgang':
         if (sitzung.rundgang != RundgangTeil.vorspiel) throw const PartyRaumFehler('invalid_phase');
@@ -240,10 +254,16 @@ class BegleiterRaum implements AbendRaum {
       if (s.uhrInPhase) 'uhr': s.uhr.toJson(),
       // Vorspiel (M7b) wie im Online-Raum: Station und Karte für alle, der Vorlesetext privat.
       ...?_rundgang(s),
+      // Einstimmung (A-063) wie im Online-Raum: Schritt und Kennung für alle, der Text privat.
+      ...?_einstimmung(s),
       'privat': {
         'spieler': id,
         'vorleser': true,
         if (s.rundgang == RundgangTeil.vorspiel) 'rundgangText': ?s.rundgangText?.vorlesen,
+        if (s.einstimmung case final e?) 'einstimmungText': s.text(e.kennung),
+        // „Dein Moment“ (Finale §3.12): Die Zug-Tafel der Runde sieht nur dieses Handy, wie das offene
+        // Pult; dazu, dass der Abend die Schicht spielt (Sterne in der Erzählerakte).
+        if (s.einfluss) ...{'deinMoment': true, 'einflussTafel': ?s.einflussTafelBegleiter},
         'erzaehler': [
           for (final k in s.erzaehler)
             if (s.hatText(k)) s.text(k),
@@ -299,6 +319,26 @@ class BegleiterRaum implements AbendRaum {
         'id': st.id,
         'zeit': '${st.zeit}',
         'karte': text.karteJson(),
+      },
+    };
+  }
+
+  /// Die laufende Einstimmung mit dem Schlüssel des Online-Raums (`einstimmung`):
+  /// Teil, Schritt, Zahl, Nummer im Teil, Kennung und Figur, nie der Text.
+  /// Dazu die Rollenzahl (öffentlich wie im Raum) für die Erzählerakte am Handy.
+  Map<String, Object?>? _einstimmung(PartySitzung s) {
+    final e = s.einstimmung;
+    if (e == null) return null;
+    return {
+      'rollen': s.einstellungen.rollen,
+      'einstimmung': {
+        'teil': e.teil.name,
+        'schritt': s.einstimmungNr,
+        'anzahl': s.einstimmungAnzahl,
+        'nr': e.nr,
+        'von': e.von,
+        'kennung': e.kennung,
+        'figur': ?e.figur,
       },
     };
   }

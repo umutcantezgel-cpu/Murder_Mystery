@@ -6,9 +6,11 @@ import 'package:mordakte_core/mordakte_core.dart';
 import '../../klang/klang.dart';
 import '../../stil/stil.dart';
 import '../druck_tafel.dart';
+import '../erzaehlerakte_ansicht.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 import 'detektiv_karte.dart';
+import 'moment.dart' show EinflussDarstellung, MomentErklaerung, ZielKarten, momentTexte;
 import 'spickzettel.dart';
 
 /// Verdeckte Rollenvergabe und Dossier (F4-BAUMEISTER-02, Master 7.6 Schritt 3, 7.11).
@@ -102,6 +104,11 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
           // Die Karte des Detektivs (M6): Einweisung, Regeln, Klasse, Befragungen.
           DetektivKarteEintrag(sitzung: s),
           const SizedBox(height: 16),
+          // Erzählerakte (A-063): nur reihum mit Erzähler am Tisch, verdeckt wie ein Dossier.
+          if (s.erzaehlerakteSichtbar) ...[
+            ErzaehlerakteEintrag(sitzung: s),
+            const SizedBox(height: 16),
+          ],
           if (s.einstellungen.druck) ...[
             DruckTafel(sitzung: s),
             const SizedBox(height: 16),
@@ -209,7 +216,12 @@ class _RollenBildschirmState extends State<RollenBildschirm> {
               Text(s.ui('ui.befragung.runde_eins'), style: MPapierSchrift.leise),
             ] else
               _abschnitt(s.ui('ui.rollen.gespraeche_titel'), _gespraeche(d)),
-            _abschnitt(s.ui('ui.rollen.wahl_titel'), _wahlen(d)),
+            // „Dein Moment“ (Finale §3.9): statt der Rundenwahl die zwei Sterne und eine kurze Erklärung.
+            if (s.einfluss) ...[
+              _abschnitt(momentTexte(context).moment_ziele, [ZielKarten(sterne: s.zielStaende(rolle), darstellung: EinflussDarstellung.sitzung(s))]),
+              _abschnitt(momentTexte(context).moment_titel, [const MomentErklaerung()]),
+            ] else
+              _abschnitt(s.ui('ui.rollen.wahl_titel'), _wahlen(d)),
             _abschnitt(s.ui('ui.rollen.besetzung_titel'), [Text(d.besetzung, style: MPapierSchrift.leise)]),
           ],
         ),

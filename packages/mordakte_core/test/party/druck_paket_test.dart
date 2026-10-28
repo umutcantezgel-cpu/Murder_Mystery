@@ -3,10 +3,13 @@
 // kein Überlauf (sonst bricht der Satz ab), Ordner 1 und 2 spoilerfrei wie die
 // Steckbriefe (K3), jedes Rollenheft ohne geheime Fünf-Wort-Folgen anderer Rollen, die
 // vier Kernhefte gleich lang und gleich gebaut, gleiche Eingaben ⇒ gleiche Bytes.
-// Die Datei setzt das ganze Paket zweimal und dazu die Kernhefte aller Pfade: wie die
-// anderen schweren Kerntests mit eigenem Zeitlimit (im vollen Kernlauf teilen sich vier
-// Prozesse die Kerne; 30 s reichten dort nicht).
-@Timeout(Duration(minutes: 2))
+// Finale (A-063): Das Erzählerheft beginnt mit Vorgeschichte und Vorstellung, Ordner 4
+// trägt die Erzählerakte – in allen Pfaden dieselbe Datei, ohne Pfadwissen und Code. Bis
+// die echten Inhalte da sind, laufen Einstimmung und Erzählerakte mit den Fixtures.
+// Die Datei setzt das ganze Paket zweimal und dazu die Kernhefte und Erzählerakten aller
+// Pfade: wie die anderen schweren Kerntests mit eigenem Zeitlimit (im vollen Kernlauf
+// teilen sich vier Prozesse die Kerne; 30 s reichten dort nicht).
+@Timeout(Duration(minutes: 3))
 library;
 
 import 'dart:io';
@@ -15,8 +18,10 @@ import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/party_druck.dart';
+import 'package:mordakte_core/runden.dart' show EinflussRegeln, EinflussZiele, EinflussZielQuelle;
 import 'package:test/test.dart';
 
+import '../runden/einfluss_hilfe.dart' show einflussJson;
 import 'druck_hilfe.dart';
 import 'kanon_hilfe.dart';
 
@@ -42,12 +47,40 @@ Map<String, Uint8List> _portraets() => {
 
 const _pfad = 'fatma';
 
-PaketKontext _kontext({Map<String, Uint8List>? portraets, String pfad = _pfad, int n = 12}) => PaketKontext(
-      druckKontext(pfad: pfad, n: n, diashow: Diashow.ausJson(leseJson('$repoWurzel/content/welt/schlosskeller/diashow.json'))),
+/// Paket für Pfad [pfad] und [n] Personen, mit Einstimmung (echt oder Fixture) und,
+/// mit [akte], der Erzählerakte (echt oder Fixture, Ziele aus [ziele] oder dem Kanon).
+PaketKontext _kontext({Map<String, Uint8List>? portraets, String pfad = _pfad, int n = 12, bool akte = true, ZielQuelle? ziele}) => PaketKontext(
+      druckKontextMit(druckKanonEinstimmung, druckTexteEinstimmung,
+          pfad: pfad, n: n, diashow: Diashow.ausJson(leseJson('$repoWurzel/content/welt/schlosskeller/diashow.json'))),
       steckbriefe: Steckbriefe.ausJson(leseJson('$repoWurzel/content/party/schlosskeller/steckbriefe.json')),
       stil: festStil,
       portraets: portraets ?? _portraets(),
+      erzaehlerakte: akte ? Erzaehlerakte.ausJson(erzaehlerakteDaten(), druckKanonEinstimmung, ziele: ziele) : null,
     );
+
+/// Text einer PDF je Seite in Satzreihenfolge, flach.
+List<String> _seiten(Uint8List bytes) => [for (final s in _text(bytes).split('\f')) flach(s)];
+
+/// Die Figurenseiten der Erzählerakte in ihrer Reihenfolge: Figur und ob die Seite
+/// sie als besetzt kennzeichnet. Eine Figurenseite trägt die Marke „Heute gespielt“
+/// oder „Ohne Spieler“ in Großbuchstaben; ihre Figur ist der erste Name darauf
+/// (die Registerlasche steht in Großbuchstaben).
+List<({String figur, bool besetzt, String text})> _figurenSeiten(PaketKontext k, Uint8List akte) {
+  final besetzt = k.ui('ui.druck.akte.besetzt').toUpperCase(), ohne = k.ui('ui.druck.akte.ohne').toUpperCase();
+  final namen = {for (final f in kanon.figuren) f['id'] as String: namensMuster(f['name'] as String)};
+  return [
+    for (final seite in _seiten(akte))
+      if (seite.contains(besetzt) || seite.contains(ohne))
+        (
+          figur: (namen.entries.map((e) => (e.key, e.value.firstMatch(seite)?.start)).where((x) => x.$2 != null).toList()
+                ..sort((a, b) => a.$2!.compareTo(b.$2!)))
+              .first
+              .$1,
+          besetzt: seite.contains(besetzt),
+          text: seite,
+        ),
+  ];
+}
 
 /// Text einer PDF in Satzreihenfolge (-raw: so, wie er gesetzt wurde; Spalten und die
 /// Registerlasche laufen nicht ineinander).
@@ -61,37 +94,9 @@ String _text(Uint8List bytes) {
   }
 }
 
-/// Fünf-Wort-Folgen aus Texten, die nur in einem Teil der Pfade gelten (wie steckbrief_test).
-Map<String, String> _pfadwissen() {
-  final neutral = {
-    for (final b in kanon.beobachtungen)
-      if (b['pfade'] == 'alle') ...fuenfWortFolgen(b['text'] as String),
-    for (final z in kanon.zeitleiste)
-      if (z['pfade'] == 'alle') ...fuenfWortFolgen(z['text'] as String),
-    for (final g in kanon.gegenstaende)
-      if (g['beschreibung'] is String) ...fuenfWortFolgen(g['beschreibung'] as String),
-  };
-  final q = <String, String>{};
-  void add(String wo, String text) {
-    for (final f in fuenfWortFolgen(text)) {
-      if (!neutral.contains(f)) q.putIfAbsent(f, () => wo);
-    }
-  }
-
-  for (final b in kanon.beobachtungen) {
-    if (b['pfade'] != 'alle') add('Beobachtung ${b['id']}', b['text'] as String);
-    if (b['pfade'] != 'alle' && b['duText'] is String) add('Beobachtung ${b['id']} (du)', b['duText'] as String);
-  }
-  for (final p in kanon.pfade) {
-    for (final e in kanon.json['tatmatrix/$p.json']!['ereignisse'] as List) {
-      if ((e as Map)['text'] is String) add('Ereignis ${e['id']}', e['text'] as String);
-    }
-  }
-  return q;
-}
-
 /// Was nie in Ordner 1 und 2 steht: geheime Felder, Dossiers, Täterfassungen, Finale,
-/// Auflösung und Pfadwissen als Fünf-Wort-Folgen, ausgenommen die erlaubten Quellen.
+/// Auflösung und Pfadwissen ([pfadwissenVerboten], wie spoiler_test) als Fünf-Wort-Folgen,
+/// ausgenommen die erlaubten Quellen.
 Map<String, String> _verboten(PaketKontext k) {
   final erlaubt = {
     for (final id in [Besetzung.detektiv, for (final f in kanon.figuren) f['id'] as String])
@@ -101,7 +106,7 @@ Map<String, String> _verboten(PaketKontext k) {
     for (final e in {
       for (final e in {...steckbriefGeschuetzt(druckTexte), ...geheimeFelder(kanon)}.entries)
         for (final f in fuenfWortFolgen(e.value)) f: e.key,
-      ..._pfadwissen(),
+      ...pfadwissenVerboten(kanon),
     }.entries)
       if (!erlaubt.contains(e.key)) e.key: e.value,
   };
@@ -165,7 +170,7 @@ void main() {
       '1-an-alle': {'charakteruebersicht.pdf', 'steckbriefe-alle.pdf', for (final n in namen) 'steckbrief-$n.pdf', 'steckbrief-detektivin.pdf', 'steckbrief-detektiv.pdf'},
       '2-veranstalter': {'veranstalter.pdf'},
       '3-je-person-ungelesen-weitergeben': {for (final n in namen) 'rollenheft-$n.pdf', 'detektivbogen-detektivin.pdf', 'detektivbogen-detektiv.pdf'},
-      '4-nur-erzaehler': {'erzaehlerheft.pdf'},
+      '4-nur-erzaehler': {'erzaehlerheft.pdf', 'erzaehlerakte.pdf'},
     };
     expect(paketOrdner, soll.keys.toList());
     for (final o in paketOrdner) {
@@ -193,6 +198,8 @@ void main() {
     }
     expect(seiten('3-je-person-ungelesen-weitergeben', 'detektivbogen-detektivin.pdf'), seiten('3-je-person-ungelesen-weitergeben', 'detektivbogen-detektiv.pdf'));
     expect(seiten('4-nur-erzaehler', 'erzaehlerheft.pdf'), greaterThanOrEqualTo(6));
+    // Deckblatt, Herr Schneider und der Detektiv, Netz, je Figur mindestens eine Seite.
+    expect(seiten('4-nur-erzaehler', 'erzaehlerakte.pdf'), greaterThanOrEqualTo(3 + kanon.figuren.length));
   });
 
   test('Steckbriefe zeigen jede Angabe; die Übersicht genau die zwölf und den Detektiv', () {
@@ -252,13 +259,21 @@ void main() {
       expect(t, contains(z));
     }
     expect(flach(_text(datei('2-veranstalter', 'veranstalter.pdf').bytes)).replaceAll(' ', ''), contains(k.code));
+    // Mit Einstimmung (A-063): Vorgeschichte 5 Minuten, Vorstellung je nach Personenzahl; die Summe zählt beides mit.
+    final vorstellung = (abendEinstimmungMinuten(12) - abendVorgeschichteMinuten).round();
+    expect(vorstellung, 4);
+    expect(t, contains(flach('${k.ui('ui.druck.paket.ablauf.vorgeschichte')} ${k.ui('ui.druck.paket.ablauf.vorgeschichte.text')} 5 5')));
+    expect(t, contains(flach('${k.ui('ui.druck.paket.ablauf.vorstellung')} ${k.ui('ui.druck.paket.ablauf.vorstellung.text')} $vorstellung $vorstellung')));
+    expect(t.indexOf(flach(k.ui('ui.druck.paket.ablauf.rollen.text'))), lessThan(t.indexOf(flach(k.ui('ui.druck.paket.ablauf.vorgeschichte.text')))));
+    expect(t.indexOf(flach(k.ui('ui.druck.paket.ablauf.vorstellung.text'))), lessThan(t.indexOf(flach(k.ui('ui.druck.paket.ablauf.vorspiel.text')))));
     for (final teil in [
       k.ui('ui.druck.paket.code.anleitung'),
-      k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.kurz, Abendfassung.kurz.standardMinuten)}'}),
-      k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.lang, Abendfassung.lang.standardMinuten)}'}),
+      k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.kurz, Abendfassung.kurz.standardMinuten, einstimmungRollen: 12)}'}),
+      k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.lang, Abendfassung.lang.standardMinuten, einstimmungRollen: 12)}'}),
       for (final s in ['einrichtung', 'figuren', 'rollen', 'einleitung', 'runden', 'aufloesung']) k.ui('ui.druck.paket.ablauf.$s'),
-      for (final c in ['handys', 'drucke', 'umschlaege', 'erzaehler', 'stifte', 'kostueme', 'ecke']) k.ui('ui.druck.paket.check.$c'),
-      for (var n = 1; n <= 4; n++) k.ui('ui.druck.paket.dateien.ordner$n.text'),
+      for (final c in ['handys', 'drucke', 'umschlaege', 'erzaehler.akte', 'stifte', 'kostueme', 'ecke']) k.ui('ui.druck.paket.check.$c'),
+      for (var n = 1; n <= 3; n++) k.ui('ui.druck.paket.dateien.ordner$n.text'),
+      k.ui('ui.druck.paket.dateien.ordner4.text.akte'),
       k.ui('ui.druck.paket.dateien.warnung'),
       k.ui('ui.druck.paket.gaeste.detektiv'),
       k.ui('ui.druck.paket.gaeste.erzaehler'),
@@ -400,9 +415,11 @@ void main() {
           for (final e in (d.value['eintraege'] as List? ?? const []))
             if ((e as Map)['text'] is String) ...fuenfWortFolgen(e['text'] as String),
     };
-    // Erlaubt ist, was das Erzählerpaket ohnehin enthält: Vorlesetexte, Tisch, Befragungen.
+    // Erlaubt ist, was das Erzählerpaket ohnehin enthält: Vorlesetexte, Tisch, Befragungen,
+    // dazu die Einstimmung (ihre Texte prüft pruefeEinstimmung).
     final erlaubt = {
       for (final b in [...heft.intro, 'intro.auftrag.w', 'intro.auftrag.m', ...heft.rundenStart.values.expand((x) => x)]) ...fuenfWortFolgen(k.text(b)),
+      for (final b in [...Einstimmung.aus(k.kanon)!.katalog(), ...Einstimmung.aus(k.kanon)!.titel()]) ...fuenfWortFolgen(k.text(b)),
       for (final p in k.druck.satz.erzaehler.values) ...[
         for (final ti in p.tisch) for (final z in [ti.thema, ...ti.stichpunkte]) ...fuenfWortFolgen(z),
         for (final b in p.befragungen) for (final z in [b.thema, ...b.fragen, ...b.antwort]) ...fuenfWortFolgen(z),
@@ -458,5 +475,188 @@ void main() {
         expect(pdfPruefen(heft).seiten, rollenheftSeiten, reason: '$pfad/$rolle');
       }
     }
+  });
+
+  test('Erzählerheft: Vorgeschichte und Vorstellung vor dem Intro, in Reihenfolge, beide Detektiv-Fassungen', () {
+    final t = text['4-nur-erzaehler/erzaehlerheft.pdf']!;
+    final e = Einstimmung.aus(k.kanon)!;
+    final schritte = e.schritte(rollen: 12, detektiv: 'w');
+    final intro = t.indexOf(flach(k.text(k.druck.satz.spielleitung.intro.first)));
+    expect(intro, greaterThan(0));
+    // Reihenfolge: jeder Text nach dem vorigen, alle vor dem Intro.
+    var bis = t.indexOf(flach(k.ui('ui.druck.spielleitung.vorgeschichte')));
+    expect(bis, greaterThanOrEqualTo(0));
+    for (final x in schritte.where((x) => x.figur != Besetzung.detektiv)) {
+      final i = t.indexOf(flach(k.text(x.kennung)), bis);
+      expect(i, greaterThan(bis), reason: x.kennung);
+      bis = i;
+    }
+    expect(bis, lessThan(intro));
+    // Die Vorgeschichte vollständig mit ihren Kapiteltiteln.
+    expect(schritte.where((x) => x.teil == EinstimmungTeil.vorgeschichte), hasLength(e.teile.length));
+    for (final teil in e.teile) {
+      expect(t, contains(flach(k.text(Einstimmung.titelKennung(teil)))), reason: teil);
+    }
+    // Vorgestellt werden genau die besetzten Figuren, in Besetzungsreihenfolge; die übrigen im Sammelblock.
+    final vorgestellt = [for (final x in schritte) if (x.figur case final f? when f != Besetzung.detektiv) f];
+    expect(vorgestellt, Besetzung(k.kanon).besetzt(12));
+    for (final f in Besetzung(k.kanon).npc(12)) {
+      expect(t, isNot(contains(flach(k.text(Einstimmung.figurKennung(f))))), reason: f);
+    }
+    expect(t, contains(flach(k.text(Einstimmung.npc))));
+    expect(t, contains(flach(k.ui('ui.druck.spielleitung.vorstellung.npc')).toUpperCase()));
+    expect(RegExp(RegExp.escape(flach(k.ui('ui.druck.spielleitung.gespielt')))).allMatches(t), hasLength(12));
+    for (final f in vorgestellt) {
+      expect(t, contains(flach(k.druck.figurTitel(f))), reason: f);
+    }
+    // Zum Schluss beide Fassungen für den Detektiv nebeneinander, je mit ihrer Anweisung.
+    final det = t.indexOf(flach(k.ui('ui.druck.spielleitung.vorstellung.detektiv')).toUpperCase(), bis);
+    expect(det, allOf(greaterThan(bis), lessThan(intro)));
+    final abschnitt = t.substring(det, intro);
+    final (w, m) = (flach(k.text(Einstimmung.detektivKennung('w'))), flach(k.text(Einstimmung.detektivKennung('m'))));
+    expect(abschnitt.indexOf(flach(k.ui('ui.druck.fest.erzaehler.fuer.w'))), allOf(greaterThanOrEqualTo(0), lessThan(abschnitt.indexOf(w))));
+    expect(abschnitt.indexOf(flach(k.ui('ui.druck.fest.erzaehler.fuer.m'))), allOf(greaterThan(abschnitt.indexOf(w)), lessThan(abschnitt.lastIndexOf(m))));
+    expect(RegExp(RegExp.escape(w)).allMatches(abschnitt).length + (w == m ? 0 : RegExp(RegExp.escape(m)).allMatches(abschnitt).length), 2);
+  });
+
+  test('Erzählerakte: Deckblatt ohne Code, Netz mit Legende, je Figur eine Seite – erst die besetzten, dann die ohne Spieler', () {
+    final bytes = datei('4-nur-erzaehler', 'erzaehlerakte.pdf').bytes;
+    final t = text['4-nur-erzaehler/erzaehlerakte.pdf']!;
+    final akte = k.erzaehlerakte!;
+    final seiten = _seiten(bytes);
+    expect(seiten.first, contains(flach(k.ui('ui.druck.akte.nur')).toUpperCase()));
+    expect(seiten.first, contains(flach(akte.einleitung)));
+    expect(t, isNot(contains(flach(akte.hinweis))));
+    for (final teil in [
+      akte.schneider.hintergrund,
+      akte.detektiv.hintergrund,
+      ...akte.schneider.stimme,
+      ...akte.detektiv.stimme,
+      k.ui('ui.druck.akte.netz.titel'),
+      k.ui('ui.druck.akte.netz.oeffentlich'),
+      k.ui('ui.druck.akte.netz.heimlich'),
+    ]) {
+      expect(t, contains(flach(teil)), reason: teil);
+    }
+    final reihe = Besetzung(k.kanon);
+    final soll = [...reihe.besetzt(12), ...reihe.npc(12)];
+    final figuren = _figurenSeiten(k, bytes);
+    expect([for (final s in figuren) s.figur], soll, reason: 'eine Seite je Figur, erst die besetzten');
+    for (final s in figuren) {
+      final f = akte.figur(s.figur)!;
+      expect(s.besetzt, reihe.besetzt(12).contains(s.figur), reason: s.figur);
+      for (final teil in [
+        f.hintergrund,
+        f.zuSchneider,
+        ?f.motiv,
+        ?f.geheimnis,
+        ?f.nebendelikt,
+        ?f.loyalitaet?.grund,
+        for (final z in f.ziele) z.text,
+        ...f.stimme,
+        for (final x in akte.kantenVon(s.figur)) x.text,
+      ]) {
+        expect(s.text, contains(flach(teil)), reason: '${s.figur}: $teil');
+      }
+      final heimlich = akte.kantenVon(s.figur).where((x) => !x.oeffentlich).length;
+      expect(RegExp(RegExp.escape(flach(k.ui('ui.druck.akte.netz.heimlich')).toUpperCase())).allMatches(s.text), hasLength(heimlich), reason: s.figur);
+    }
+    // Netz: alle Figuren mit ihrer Nummer in der Legende.
+    final netz = seiten.indexWhere((s) => s.contains(flach(k.ui('ui.druck.akte.netz.titel'))));
+    final legende = seiten.sublist(netz).takeWhile((s) => !s.contains(k.ui('ui.druck.akte.besetzt').toUpperCase())).join(' ');
+    for (final (i, f) in reihe.reihenfolge.indexed) {
+      expect(legende, contains('${i + 1} ${kanon.figur(f)!['name']}'), reason: f);
+    }
+  });
+
+  test('Erzählerakte: in allen vier Pfaden dieselbe Datei, ohne Pfadwissen und ohne Fall-Code', () async {
+    final ref = datei('4-nur-erzaehler', 'erzaehlerakte.pdf').bytes;
+    final t = text['4-nur-erzaehler/erzaehlerakte.pdf']!;
+    final codes = [for (final p in kanon.pfade) FallCode.fuerPfad(p, kanon.pfade).code];
+    for (final pfad in kanon.pfade.where((p) => p != _pfad)) {
+      final kp = _kontext(pfad: pfad);
+      expect(kp.code, isNot(k.code));
+      final d = await festErzaehlerakteDatei(kp.akte!);
+      expect(flach(_text(d.bytes)), t, reason: pfad);
+      expect(d.bytes, ref, reason: pfad);
+    }
+    for (final c in codes) {
+      expect(RegExp('(?<![A-Z])$c(?![A-Z0-9])').hasMatch(t), isFalse, reason: c);
+    }
+    // Pfadwissen (wie spoiler_test) als Fünf-Wort-Folgen; ausgenommen die aus dem Kanon gezogenen
+    // Felder, die in allen Pfaden gelten („Änderungen“ 12).
+    final verboten = pfadwissenVerboten(kanon);
+    expect(verboten, isNotEmpty);
+    final gezogen = {
+      for (final f in k.erzaehlerakte!.figuren)
+        for (final s in [f.name, ?f.vollerName, f.rolle, f.alltag, ?f.motiv, ?f.geheimnis, ?f.nebendelikt, ?f.loyalitaet?.grund, for (final z in f.ziele) z.text])
+          ...fuenfWortFolgen(s),
+    };
+    final funde = [
+      for (final f in fuenfWortFolgen(t))
+        if (verboten[f] case final q? when !gezogen.contains(f)) '„$f“ aus $q',
+    ];
+    expect(funde, isEmpty, reason: funde.join('\n'));
+  });
+
+  test('Erzählerakte: Ziele über die ZielQuelle – ohne Schicht das persönliche Ziel, mit Einfluss die zwei Sterne', () async {
+    // Ohne Schicht (Paket aus setUpAll): persoenlichesZiel aus dem Kanon.
+    final ohne = _figurenSeiten(k, datei('4-nur-erzaehler', 'erzaehlerakte.pdf').bytes);
+    for (final s in ohne) {
+      final ziel = kanon.figur(s.figur)!['persoenlichesZiel'];
+      if (ziel is String && ziel.trim().isNotEmpty) expect(s.text, contains(flach(ziel)), reason: s.figur);
+    }
+    // Mit der Einfluss-Schicht: die zwei Sterne aus einfluss.json mit ihren Kartentexten.
+    final ordner = '$repoWurzel/content/party/schlosskeller';
+    final index = leseJson('$ordner/texte/index.json');
+    final regeln = EinflussRegeln.ausJson(einflussJson(), Ermittlung(k.kanon));
+    final probe = {
+      'settingId': kanon.settingId,
+      'bereich': 'einfluss',
+      'hinweis': 'Fixture',
+      'eintraege': [
+        for (final f in regeln.figuren)
+          for (final nr in [1, 2]) {'id': 'einfluss.ziel.$f.$nr', 'text': 'Stern $nr von @figur bleibt im Blick'},
+      ],
+    };
+    final texte = Texte(
+      k.kanon,
+      Textsammlung.lade((p) {
+        if (p == 'texte/index.json') {
+          return {
+            ...index,
+            'dateien': [...index['dateien'] as List, {'datei': 'einfluss-ziele-probe.json', 'bereich': 'einfluss'}],
+          };
+        }
+        if (p == 'texte/einfluss-ziele-probe.json') return probe;
+        return leseJson('$ordner/$p');
+      }),
+    );
+    final akte = Erzaehlerakte.ausJson(erzaehlerakteDaten(), k.kanon, ziele: EinflussZielQuelle(regeln, texte));
+    final mit = await festErzaehlerakteDatei(ErzaehlerakteKontext(k.kanon, texte, akte, stil: festStil, rollen: 12));
+    final sterne = EinflussZiele.aus(regeln);
+    final seiten = _figurenSeiten(k, mit.bytes);
+    expect(seiten, hasLength(kanon.figuren.length));
+    for (final s in seiten) {
+      final soll = [for (final z in sterne.von(s.figur)) texte.einflussText(z.schluessel, figur: s.figur)];
+      expect(soll, hasLength(2), reason: s.figur);
+      expect([for (final z in akte.figur(s.figur)!.ziele) z.text], soll, reason: s.figur);
+      for (final z in soll) {
+        expect(s.text, contains(flach(z)), reason: '${s.figur}: $z');
+      }
+      final ziel = kanon.figur(s.figur)!['persoenlichesZiel'];
+      if (ziel is String && ziel.trim().isNotEmpty) expect(s.text, isNot(contains(flach(ziel))), reason: s.figur);
+    }
+  });
+
+  test('ohne Erzählerakte: Ordner 4 nur mit dem Erzählerheft, das Veranstalter-Blatt nennt nur das Heft', () async {
+    final ohne = _kontext(akte: false);
+    expect(ohne.akte, isNull);
+    expect(k.akte, isNotNull);
+    final v = flach(_text((await veranstalterDatei(ohne)).bytes));
+    expect(v, contains(flach(k.ui('ui.druck.paket.dateien.ordner4.text'))));
+    expect(v, isNot(contains(flach(k.ui('ui.druck.paket.dateien.ordner4.text.akte')))));
+    expect(v, contains(flach(k.ui('ui.druck.paket.check.erzaehler'))));
+    expect(pdfPruefen((await veranstalterDatei(ohne)).bytes).seiten, 3);
   });
 }

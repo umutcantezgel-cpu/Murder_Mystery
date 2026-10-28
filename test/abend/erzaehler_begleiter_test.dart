@@ -11,17 +11,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/abend/online/ansicht.dart' show inhaltsKennung;
 import 'package:mordakte/abend/online/erzaehler_begleiter.dart';
+import 'package:mordakte/abend/online/gast_erzaehler.dart' show gastMitMoment;
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/bildschirme/runde.dart';
+import 'package:mordakte/party/bildschirme/einfluss_teile.dart' show ZugTafelAnsicht;
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/erzaehler_begleitung.dart';
+import 'package:mordakte/party/party_seite.dart' show bildschirm;
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
-import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, RundenZugPhase, Tischruf;
+import 'package:mordakte_core/runden.dart' show PartyRaumFehler, ProtokollRaum, RundenZugPhase, Tischruf, ZugArt;
 import 'package:mordakte_netz/io.dart' show PhoenixAttrappe;
 import 'package:mordakte_netz/mordakte_netz.dart' show AbendFehler, LokaleVerbindung, RelayGast, RelayParameter, SpeicherAblage;
 
+import '../party_widgets/einfluss_hilfe.dart' show einflussBis, einflussDaten;
+import '../party_widgets/erzaehl_hilfe.dart';
 import '../party_widgets/hilfe.dart' show diashowDaten, partyDaten, spieleBis, spieleZug, testAbendzeit;
 import 'online_hilfe.dart';
 
@@ -494,6 +499,82 @@ void main() {
     mia.geaendert();
     await tester.pump();
     expect(find.text(l.online_verdaechtige_titel.toUpperCase()), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Einstimmung am Handy (A-063): Schritt öffentlich, Text privat; das Handy schaltet weiter und überspringt; das Gerät zeigt, wer liest', (tester) async {
+    final s = erzaehlSitzung(rollen: 4, erzaehler: 'Mia', namen: const {'ahmet': 'Ben'}, detektivName: 'Ada');
+    final ohne = BegleiterRaum('ABCDEF', erzaehlSitzung(rollen: 4, erzaehler: 'Mia', einstimmung: false)..weiter());
+    ohne.beitreten('e1', 'Mia');
+    expect(ohne.zustandFuer('e1').containsKey('einstimmung'), isFalse, reason: 'Ohne Einstimmung bleibt die Ansicht wie bisher');
+    expect(ohne.zustandFuer('e1').containsKey('rollen'), isFalse);
+    final raum = ProtokollRaum(BegleiterRaum('ABCDEF', s));
+    raum.beitreten(BegleiterRaum.tisch, 'Ada');
+    raum.beitreten('e1', 'Mia');
+    expect(() => raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 0}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'invalid_phase')));
+    s.weiter();
+    var v = raum.zustandFuer('e1');
+    final e = _map(v['einstimmung']);
+    expect([e['teil'], e['schritt'], e['anzahl'], e['nr'], e['kennung'], v['rollen']], ['vorgeschichte', 0, s.einstimmungAnzahl, 1, s.einstimmung!.kennung, 4]);
+    expect(_map(v['privat'])['einstimmungText'], s.text(s.einstimmung!.kennung));
+    expect(v['kannWeiter'], isFalse, reason: 'Erst die Einstimmung');
+    expect(() => raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 5}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'stale')));
+    expect(() => raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 'x'}), throwsA(isA<PartyRaumFehler>().having((e) => e.code, 'code', 'invalid')));
+    raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': 0});
+    expect(s.einstimmungNr, 1);
+    raum.nachricht('e1', {'typ': 'einstimmung', 'ueberspringen': true});
+    expect(s.einstimmung!.kennung, Einstimmung.start);
+    // Die Gastseite am Handy: Text und Knöpfe; die Erzählerakte liegt bereit.
+    final mia = LiveGast(raum, spielerId: 'e1', daten: erzaehlDaten);
+    raum.nachricht('e1', {'typ': 'einstimmung', 'schritt': s.einstimmungNr});
+    expect(s.einstimmung!.figur, 'ahmet');
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia));
+    expect(find.byKey(const ValueKey('gast-einstimmung-vorlesetext')), findsOneWidget);
+    expect(find.text(s.text('vorstellung.ahmet')), findsOneWidget);
+    expect(find.text(l.einstimmung_gespielt_von('Ben')), findsOneWidget);
+    expect(find.byKey(const ValueKey('gast-einstimmung-weiter')), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const ValueKey('erzaehlerakte-knopf')));
+    expect(find.byKey(const ValueKey('erzaehlerakte-knopf')), findsOneWidget);
+    // Das Gerät am Tisch: liest der Erzähler am Handy, steht dort nur, wer liest.
+    final schein = _Schein()..liest = true;
+    s.begleitung = schein;
+    expect(s.istVorleser, isFalse);
+    await zeigeImThema(tester, (c) => Scaffold(body: ListenableBuilder(listenable: s, builder: (_, _) => bildschirm(s))));
+    expect(find.byKey(const ValueKey('vorleser-karte')), findsOneWidget);
+    expect(find.text(s.text('vorstellung.ahmet')), findsNothing);
+    s.begleitung = null;
+    // Fertig: ab jetzt ohne Einstimmung in der Ansicht, Weiter wieder frei.
+    raum.nachricht('e1', {'typ': 'einstimmung', 'ueberspringen': true});
+    v = raum.zustandFuer('e1');
+    expect([v.containsKey('einstimmung'), _map(v['privat']).containsKey('einstimmungText'), v['kannWeiter']], [false, false, true]);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('„Dein Moment“ am Handy (Finale §3.12): die Zug-Tafel der Runde wie am offenen Pult, nur für dieses Handy', (tester) async {
+    final s = PartySitzung(einflussDaten, salz: 'begleiter-moment')
+      ..einrichten(rollen: 4, detektiv: 'w', code: FallCode.fuerPfad('ahmet', einflussDaten.kanon.pfade).code, erzaehlerName: 'Mia', einfluss: true);
+    final raum = ProtokollRaum(BegleiterRaum('ABCDEF', s));
+    raum.beitreten(BegleiterRaum.tisch, 'Ada');
+    raum.beitreten('e1', 'Mia');
+    expect(_map(raum.zustandFuer('e1')['privat'])['deinMoment'], isTrue);
+    expect(_map(raum.zustandFuer('e1')['privat']).containsKey('einflussTafel'), isFalse, reason: 'Vor Runde 1 keine Tafel');
+    expect(_map(raum.zustandFuer(BegleiterRaum.tisch)['privat']).containsKey('einflussTafel'), isFalse, reason: 'Nie am Tischplatz');
+    einflussBis(s, PartyPhase.gespraeche);
+    s.momentZeigen('fatma');
+    s.momentZug('fatma', ZugArt.helfen);
+    final privat = _map(raum.zustandFuer('e1')['privat']);
+    expect([for (final z in (_map(privat['einflussTafel'])['zuege'] as List)) (_map(z)['rolle'], _map(z)['art'])], [('fatma', 'helfen')]);
+    expect(s.pultOffen, isFalse, reason: 'Das Gerät zeigt die Tafel nur am offenen Pult');
+    expect(jsonEncode(raum.zustandFuer(BegleiterRaum.tisch)).contains('einflussTafel'), isFalse);
+    final mia = LiveGast(raum, spielerId: 'e1', daten: einflussDaten);
+    expect(gastMitMoment(mia), isTrue, reason: 'Die Erzählerakte am Handy nennt die Sterne');
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia));
+    expect(find.byType(ZugTafelAnsicht), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    // Ohne die Schicht bleibt die Ansicht wie bisher.
+    final ohne = BegleiterRaum('ABCDEF', _sitzung()..weiter());
+    ohne.beitreten('e1', 'Mia');
+    expect(_map(ohne.zustandFuer('e1')['privat']).keys, isNot(anyOf(contains('deinMoment'), contains('einflussTafel'))));
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

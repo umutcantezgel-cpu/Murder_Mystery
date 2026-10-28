@@ -55,6 +55,46 @@ void main() {
     }
   });
 
+  testWidgets('Einstimmung (A-063): nur bei Abenden mit Vorgeschichte und Vorstellung ein eigener Abschnitt', (tester) async {
+    expect(uebersichtPhasen(), isNot(contains(UebersichtPhase.einstimmung)));
+    expect(uebersichtPhasen(mitEinstimmung: true), UebersichtPhase.values);
+    expect(aufgabe(l, Spielweise.reihum, Sitz.erzaehler, UebersichtPhase.einstimmung), l.aufgabe_erzaehler_reihum, reason: 'Reihum am Pult');
+    expect(aufgabe(l, Spielweise.eigene, Sitz.erzaehler, UebersichtPhase.einstimmung), l.aufgabe_erzaehler_einstimmung);
+    for (final mit in [false, true]) {
+      await zeigeImThema(
+        tester,
+        (c) => Scaffold(body: Center(child: Builder(builder: (c) => RollenUebersichtKnopf(hervorheben: Sitz.rolle, mitEinstimmung: mit)))),
+      );
+      await tester.tap(find.byKey(const ValueKey('wer-macht-was')));
+      await tester.pumpAndSettle();
+      expect(find.text(l.uebersicht_phase_einstimmung.toUpperCase()), mit ? findsOneWidget : findsNothing, reason: '$mit');
+      expect(find.text(l.aufgabe_rolle_einstimmung), mit ? findsOneWidget : findsNothing, reason: '$mit');
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    }
+  });
+
+  testWidgets('Einstimmung und „Dein Moment“ zusammen: Einstimmung als Abschnitt, keine Gruppenwahl, die Rolle zieht ihren Moment', (tester) async {
+    expect(uebersichtPhasen(einfluss: true), isNot(contains(UebersichtPhase.gruppenwahl)));
+    expect(uebersichtPhasen(mitEinstimmung: true, einfluss: true), [
+      for (final p in UebersichtPhase.values)
+        if (p != UebersichtPhase.gruppenwahl) p,
+    ]);
+    await zeigeImThema(
+      tester,
+      (c) => Scaffold(body: Center(child: Builder(builder: (c) => const RollenUebersichtKnopf(hervorheben: Sitz.rolle, mitEinstimmung: true, einfluss: true)))),
+    );
+    await tester.tap(find.byKey(const ValueKey('wer-macht-was')));
+    await tester.pumpAndSettle();
+    expect(find.text(l.uebersicht_phase_einstimmung.toUpperCase()), findsOneWidget);
+    expect(find.text(l.aufgabe_rolle_einstimmung), findsOneWidget);
+    expect(find.text(l.uebersicht_phase_gruppenwahl.toUpperCase()), findsNothing);
+    expect(find.text(l.aufgabe_rolle_gruppenwahl), findsNothing);
+    expect(find.text(l.aufgabe_rolle_moment), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('Altakten (ohne Erzähler-Sitz): kein Erzähler-Platz, der Detektiv heißt wie in der Akte', (tester) async {
     expect(sitzeBei(Spielweise.reihum, mitErzaehler: false), [Sitz.detektiv, Sitz.rolle]);
     expect(sitzeBei(Spielweise.eigene, mitErzaehler: false), [Sitz.detektiv, Sitz.rolle, Sitz.assistenz]);

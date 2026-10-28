@@ -1,0 +1,59 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "erzaehler",
+  "hinweis": "Vorstellungsrunde, Paket B: vorstellung.<figurId> für die Besetzungsplätze elf bis zwanzig (baran bis tugba), dazu vorstellung.npc und vorstellung.detektiv.m/.w. Dritte Person, nur Öffentliches (Name, Alter, Rolle, Alltag, Steckbrief), je ein Erkennungsmerkmal, eine Eigenart und ein Schmunzel-Haken. Der eigene Name fällt vor jedem anderen Namen. Namensregel über öffentliche Netzkanten zu kleineren Plätzen: Baran nennt Zeynep (nicht Can), Hana Tim, Serkan Lejla, Aylin Marek und Baran, Wojtek Joanna (nicht Olli), Azra Wojtek (nicht Fatma), Damir Emine, Sibel Zeynep, Pawel Serkan, Tugba Damir und Pawel; Tugba nennt außerdem Herrn Schneider über die öffentliche Kante Ablaufplan. Keine Vorstellung nennt eine Kernfigur. Bewusst weggelassen, weil Beweisstücken, Fundorten, Suchstellen, Abendgeschehen oder Geheimnissen nahe: Barans Kopfhörer, Hanas Ruß und der Kamin, Serkans Klemmbrett und Taschenlampe, Aylins Ledermappe (Fundort des Quittungszettels), Belege, Rollentitel und kerzengerade Haltung, Wojteks Pflaster und Werkzeugtasche, Azras Münzwissen und Ringe, Damirs Teegeschirr, Sibels Angst vor Rüstungen (die Rüstung ist Suchstelle der dritten Runde; ihre Schreckhaftigkeit zeigt sich über laute Geräusche, die Rüstung kommt erst im Intro), Pawels Sommerjob, Tugbas Notizbuch und die Torte. Keine Pointe über Geld, Zahlen oder Verletzungen. Der Detektiv wird nicht als blinde Kuh angekündigt (FAKTENBLATT §4.5: das erfährt er erst am Abend; die Augenbinde gehört zum Abendgeschehen), sondern nur als Gast, dem die alten Mauern gern erzählen, ohne Vorgriff auf intro.auftrag; das Wort Detektiv oder Detektivin steht nur im Vergleich mit dem Kostüm. Im Text steht „Trenchcoat“ statt des Kennworts für den Mantel, und die Pfeife bläst Seifenblasen (TON §6). Steckbrief-Sätze stehen nur sinngemäß im Text (FAKTENBLATT §7), weil die Karte sie zeigt; kein Echo aus Vorgeschichte oder Intro (Lichtschächte, Westwind-Spruch, gleicher Satzbau bei Kleidung).",
+  "eintraege": [
+    {
+      "id": "vorstellung.baran",
+      "text": "Wer einen Musikwunsch hat, ist bei Baran richtig. Er ist sechsundzwanzig, studiert Tontechnik und legt bei Freunden auf. Unter dem Arm klemmt eine kleine Musikbox, am dunkelgrauen Kapuzenpulli baumeln neongrüne Kordeln. Beim Vereinsfest tanzen die Mädchen aus der Mannschaft von Zeynep zu seinen Liedern. Heute hat er allerdings Konkurrenz. Der Wind im alten Gemäuer spielt eigene Lieder und nimmt keine Wünsche an."
+    },
+    {
+      "id": "vorstellung.meryem",
+      "text": "Hana ist Försterin, und von Holz versteht sie mehr als alle anderen hier. Sie ist fünfundzwanzig und kommt in Jeanshemd und schweren Schnürstiefeln. Wo es praktisch wird, packt sie zu, und über sich selbst lacht sie am lautesten. Tim repariert ihre Motorsäge, dafür bekommt er Brennholz. Im Wald, sagt sie, hat man wenigstens seine Ruhe. Zur Antwort lässt das Schloss eine Tür quietschen."
+    },
+    {
+      "id": "vorstellung.serkan",
+      "text": "Kaum ist jemand angekommen, fragt Serkan schon, wann er heimwill. Er ist neunundzwanzig, Rettungssanitäter und heute der Fahrdienst für alle. Erkennbar ist er an der stahlblauen Steppweste und der dunklen Kappe. Lejla kennt ihn aus seinem Erste-Hilfe-Kurs, dort war er ihr Ausbilder. Wird es hektisch, bleibt er ruhig und plant weiter. Mitnehmen würde er jeden, nur das Schloss passt leider in kein Auto."
+    },
+    {
+      "id": "vorstellung.aylin",
+      "text": "Ordnung ist für Aylin das halbe Leben, die andere Hälfte vermutlich auch. Die Vierundzwanzigjährige ist Steuerfachangestellte und trägt eine taubenblaue Strickjacke über der weißen Bluse. Marek vertraut ihr die Steuer seines Catering-Betriebs an. Mit Baran neckt sie sich gern: Er liebt laute Musik, sie die Stille. Klickt ihr Kugelschreiber, denkt sie nach. Klickt er dreimal, steht irgendwo ein Stuhl schief."
+    },
+    {
+      "id": "vorstellung.kaan",
+      "text": "Vorsicht, Wojtek misst nach. Der Architekturstudent ist siebenundzwanzig und hat immer ein Maßband dabei. Hinter dem Ohr klemmt ein Zimmermannsbleistift, auf der Nase sitzt eine Brille. Laut bewundert er alte Mauern und erklärt jedem, wie man früher gebaut hat. Joanna fotografiert seine Hausmodelle für seine Mappe. Die Gewölbe hier hören ihm jedenfalls gern zu. Endlich einer, der ihr Alter zu schätzen weiß."
+    },
+    {
+      "id": "vorstellung.dilara",
+      "text": "Für Azra hat jeder Trödel eine Geschichte, und die meisten kennt sie schon. Die Studentin der Kunstgeschichte ist sechsundzwanzig und stöbert jedes Wochenende auf Flohmärkten. Man erkennt sie am pflaumenfarbenen Samtkleid und an der kleinen Lupe an einer silbernen Kette. Feilschen ist für sie ein Sport. Manche Händler stöhnen schon, wenn sie Azra kommen sehen. Alte Fassaden skizziert sie mit Wojtek: Er misst, sie erzählt."
+    },
+    {
+      "id": "vorstellung.enes",
+      "text": "Ein Glas Tee lehnt man bei Damir besser nicht ab, er besteht nämlich darauf. Der Erzieher ist fünfundzwanzig und trägt eine schwarze Schürze über dem weißen Hemd, die Ärmel hochgekrempelt. Nachmittags betreut er Kinder aus der Klasse von Emine. Er hört so aufmerksam zu, dass man gar nicht merkt, wie er das Glas schon wieder nachfüllt."
+    },
+    {
+      "id": "vorstellung.selin",
+      "text": "Sibel studiert Biologie und fürchtet sich vor gar nichts. Na ja, fast nichts: Bei lauten Geräuschen zuckt sie zusammen. Dreiundzwanzig ist sie, und ihren weißen Fransenschal zieht sie gern bis übers Kinn. Eine Wohnung teilt sie sich ausgerechnet mit Zeynep, und die ist laut und früh wach. Und heute singt auch noch das Schloss. Da fragt sie bestimmt oft, ob die anderen das auch gehört haben."
+    },
+    {
+      "id": "vorstellung.hakan",
+      "text": "Wenn es in der Clique knirscht, sitzt Pawel schon dazwischen, ruhig und aufrecht. Der Dreißigjährige macht gerade seine Ausbildung zum Juristen. Die Teetasse hat er fast immer in der Hand, die schokobraune Steppjacke fast immer an. Schon an der Gesamtschule war er Streitschlichter, als Serkan dort Schulsanitäter war. Zuhören kann er besser als reden. Wer mit ihm einen Streit klärt, weiß danach oft nicht mehr, worum es ging."
+    },
+    {
+      "id": "vorstellung.tugba",
+      "text": "Laut Plan ist jetzt Tugba dran, und der Plan stammt natürlich von ihr. Sie ist siebenundzwanzig und Projektleiterin, mit rostorangem Jackett, goldfarbenem Kopftuch und schmaler Metallbrille. Bei ihren Spieleabenden kocht Damir den Tee, und Pawel schlichtet, wenn um den Ablauf gestritten wird. Den Plan für heute musste Herr Schneider mit ihr durchgehen. Er hat bei jedem Punkt geseufzt."
+    },
+    {
+      "id": "vorstellung.npc",
+      "text": "Wer heute ohne Spielerin oder Spieler dabei ist, isst trotzdem mit, lacht mit und antwortet, wenn man fragt. Das Schloss zählt jeden Gast mit, gespielt oder nicht."
+    },
+    {
+      "id": "vorstellung.detektiv.m",
+      "text": "Bleibt noch jemand: du. Als Gast der Clique kennst du viele von früheren Festen, das Schloss aber noch nicht. Du kommst im hellen Trenchcoat und mit kariertem Hut, und deine Pfeife bläst Seifenblasen. Wie ein echter Detektiv hörst du genau hin und fragst nach. Wer dir etwas erzählt, wird garantiert um mehr gebeten. Die alten Mauern mögen dich jetzt schon, denn sie erzählen gern, und du hörst gern zu."
+    },
+    {
+      "id": "vorstellung.detektiv.w",
+      "text": "Bleibt noch jemand: du. Als Gast der Clique kennst du viele von früheren Festen, das Schloss aber noch nicht. Du kommst im hellen Trenchcoat und mit kariertem Hut, und deine Pfeife bläst Seifenblasen. Wie eine echte Detektivin hörst du genau hin und fragst nach. Wer dir etwas erzählt, wird garantiert um mehr gebeten. Die alten Mauern mögen dich jetzt schon, denn sie erzählen gern, und du hörst gern zu."
+    }
+  ]
+}

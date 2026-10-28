@@ -3,6 +3,7 @@ import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../l10n/lookup.dart';
 import '../../party/bildschirme/detektiv_karte.dart';
+import '../../party/erzaehlerakte_ansicht.dart';
 import '../../party/party_stil.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
@@ -40,6 +41,11 @@ class GastgeberRollenWarten extends StatelessWidget {
                 // Nur auf dem Detektiv-Sitz: seine Detektivkarte (M6.4).
                 if (s.istDetektiv) ...[
                   DetektivKarteEintrag(sitzung: s),
+                  const SizedBox(height: MMass.s16),
+                ],
+                // Auf dem Erzähler-Sitz: die Erzählerakte (A-063).
+                if (s.erzaehlerakteSichtbar) ...[
+                  Align(alignment: Alignment.centerLeft, child: ErzaehlerakteKnopf(sitzung: s)),
                   const SizedBox(height: MMass.s16),
                 ],
                 OnlineWarteNotiz(

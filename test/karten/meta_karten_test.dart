@@ -154,6 +154,24 @@ void main() {
     expect(m.xp, 800);
   });
 
+  test('verbucheAbend: mit „Dein Moment“ zählt die Erfahrung aus Sternen, Stern des Abends und Spürnase (Finale §3.10)', () {
+    final m = MetaStore.memory();
+    const moment = AbendErgebnis(
+      akte: 'schlosskeller',
+      salz: 'salz-moment',
+      spielerId: 'cleo',
+      rolle: 'fatma',
+      pfad: 'ahmet',
+      anklageRichtig: true,
+      ende: 'ende_meister',
+      einfluss: EinflussErfahrung(sterne: 2, sternDesAbends: true, spuernase: true),
+    );
+    final b = m.verbucheAbend(abendId: 'moment', ergebnis: moment, katalog: katalog);
+    expect(b.xp, 300 + 2 * 15 + 25 + 10);
+    expect(b.xp, moment.xp);
+    expect(m.xp, 365);
+  });
+
   test('verbucheAbend ist idempotent für dieselbe Abend-Kennung', () {
     final m = MetaStore.memory();
     final erst = m.verbucheAbend(abendId: 'doppelt', ergebnis: rollenAbend, katalog: katalog);

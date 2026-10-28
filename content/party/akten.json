@@ -1,5 +1,5 @@
 {
-  "hinweis": "Kampagne „Mordakte“: alle Akten eines einzigen Spiels in Spielreihenfolge. Jede Akte ist ein Bündel im Party-Kanonformat unter content/party/<id>/. Eine Akte steht erst hier, wenn ihre Lösbarkeitsprüfung grün ist. „faehigkeiten“ schaltet Zusätze je Akte frei (druckspiel, steckbriefe, erzaehler, diashow, langfassung, klassen); ohne Eintrag gilt der Grundabend.",
+  "hinweis": "Kampagne „Mordakte“: alle Akten eines einzigen Spiels in Spielreihenfolge. Jede Akte ist ein Bündel im Party-Kanonformat unter content/party/<id>/. Eine Akte steht erst hier, wenn ihre Lösbarkeitsprüfung grün ist. „faehigkeiten“ schaltet Zusätze je Akte frei (druckspiel, steckbriefe, erzaehler, diashow, langfassung, klassen, einstimmung, erzaehlerakte, einfluss); ohne Eintrag gilt der Grundabend.",
   "akten": [
     {
       "id": "schlosskeller",
@@ -13,9 +13,12 @@
         "steckbriefe",
         "klassen",
         "diashow",
-        "langfassung"
+        "langfassung",
+        "einstimmung",
+        "erzaehlerakte",
+        "einfluss"
       ],
-      "inhalt": "eb69a22dfae4b794"
+      "inhalt": "9ec93f19cea38312"
     },
     {
       "id": "gewoelbe",

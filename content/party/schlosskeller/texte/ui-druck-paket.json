@@ -236,6 +236,22 @@
       "text": "Jede Person bekommt ihr Rollenheft und liest still bis „Wen du kennst“."
     },
     {
+      "id": "ui.druck.paket.ablauf.vorgeschichte",
+      "text": "Vorgeschichte"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.vorgeschichte.text",
+      "text": "Wer erzählt, liest vor, wie die Clique zu diesem Abend kam. Die App zeigt die Kapitel."
+    },
+    {
+      "id": "ui.druck.paket.ablauf.vorstellung",
+      "text": "Vorstellung"
+    },
+    {
+      "id": "ui.druck.paket.ablauf.vorstellung.text",
+      "text": "Jede Figur wird kurz vorgestellt. Wer genannt wird, steht kurz auf."
+    },
+    {
       "id": "ui.druck.paket.ablauf.vorspiel",
       "text": "Vorspiel"
     },
@@ -368,6 +384,10 @@
       "text": "Das Erzählerheft liegt bei der Person, die erzählt"
     },
     {
+      "id": "ui.druck.paket.check.erzaehler.akte",
+      "text": "Erzählerheft und Erzählerakte liegen bei der Person, die erzählt"
+    },
+    {
       "id": "ui.druck.paket.check.stifte",
       "text": "Stifte für alle, die mitschreiben wollen"
     },
@@ -416,6 +436,10 @@
       "text": "Das Erzählerheft. Nur die Person, die erzählt, liest es."
     },
     {
+      "id": "ui.druck.paket.dateien.ordner4.text.akte",
+      "text": "Das Erzählerheft und die Erzählerakte. Nur die Person, die erzählt, liest sie."
+    },
+    {
       "id": "ui.druck.paket.dateien.warnung",
       "text": "Wer mitspielt, öffnet Ordner 3 und 4 nicht. Spielt ihr alle mit, druckt die Hefte ungelesen aus."
     },
@@ -430,6 +454,166 @@
     {
       "id": "ui.druck.paket.datei",
       "text": "Veranstalter-Blatt"
+    },
+    {
+      "id": "ui.druck.akte.titel",
+      "text": "Erzählerakte"
+    },
+    {
+      "id": "ui.druck.akte.nur",
+      "text": "Nur für dich als Erzähler"
+    },
+    {
+      "id": "ui.druck.akte.fuss",
+      "text": "Nur für die Person, die erzählt – nicht weitergeben"
+    },
+    {
+      "id": "ui.druck.akte.personen",
+      "text": "{anzahl} Personen und der Detektiv"
+    },
+    {
+      "id": "ui.druck.akte.inhalt",
+      "text": "Darin stehen {opfer}, der Detektiv, das Netz der Gäste und jede Figur: erst die gespielten, dann die ohne Spieler."
+    },
+    {
+      "id": "ui.druck.akte.hinweis",
+      "text": "Lies die Akte vor dem Abend in Ruhe. Sie bleibt bei dir, und was darin steht, gilt an jedem Abend gleich."
+    },
+    {
+      "id": "ui.druck.akte.detektiv",
+      "text": "Detektivin oder Detektiv"
+    },
+    {
+      "id": "ui.druck.akte.besetzt",
+      "text": "Heute gespielt"
+    },
+    {
+      "id": "ui.druck.akte.ohne",
+      "text": "Ohne Spieler"
+    },
+    {
+      "id": "ui.druck.akte.alltag",
+      "text": "Im Alltag"
+    },
+    {
+      "id": "ui.druck.akte.hintergrund",
+      "text": "Hintergrund"
+    },
+    {
+      "id": "ui.druck.akte.bindungen",
+      "text": "Bindungen"
+    },
+    {
+      "id": "ui.druck.akte.zu_schneider",
+      "text": "Zu Herrn Schneider"
+    },
+    {
+      "id": "ui.druck.akte.motiv",
+      "text": "Motiv"
+    },
+    {
+      "id": "ui.druck.akte.geheimnis",
+      "text": "Geheimnis"
+    },
+    {
+      "id": "ui.druck.akte.nebendelikt",
+      "text": "Nebendelikt"
+    },
+    {
+      "id": "ui.druck.akte.loyalitaet",
+      "text": "Loyalität"
+    },
+    {
+      "id": "ui.druck.akte.loyalitaet.zu",
+      "text": "Hält zu {name}"
+    },
+    {
+      "id": "ui.druck.akte.ziele",
+      "text": "Ziele"
+    },
+    {
+      "id": "ui.druck.akte.stimme",
+      "text": "Stimme"
+    },
+    {
+      "id": "ui.druck.akte.netz.titel",
+      "text": "Wer mit wem"
+    },
+    {
+      "id": "ui.druck.akte.netz.hinweis",
+      "text": "In der Mitte steht {opfer}, im Kreis die Gäste mit ihrer Nummer. Dieselbe Nummer steht in der Legende und auf jeder Figurenseite."
+    },
+    {
+      "id": "ui.druck.akte.netz.oeffentlich",
+      "text": "am Tisch bekannt"
+    },
+    {
+      "id": "ui.druck.akte.netz.heimlich",
+      "text": "nur dir bekannt"
+    },
+    {
+      "id": "ui.druck.akte.legende.titel",
+      "text": "Legende"
+    },
+    {
+      "id": "ui.druck.akte.legende.nr",
+      "text": "Nr."
+    },
+    {
+      "id": "ui.druck.akte.legende.figur",
+      "text": "Figur"
+    },
+    {
+      "id": "ui.druck.akte.legende.bindungen",
+      "text": "Verbunden mit"
+    },
+    {
+      "id": "ui.druck.akte.legende.eintrag",
+      "text": "{nr} {name} ({art})"
+    },
+    {
+      "id": "ui.druck.akte.legende.mitte",
+      "text": "{name} ({art})"
+    },
+    {
+      "id": "ui.druck.akte.art.familie",
+      "text": "Familie"
+    },
+    {
+      "id": "ui.druck.akte.art.freundschaft",
+      "text": "Freundschaft"
+    },
+    {
+      "id": "ui.druck.akte.art.schule",
+      "text": "Schule"
+    },
+    {
+      "id": "ui.druck.akte.art.studium",
+      "text": "Studium"
+    },
+    {
+      "id": "ui.druck.akte.art.arbeit",
+      "text": "Arbeit"
+    },
+    {
+      "id": "ui.druck.akte.art.nachbarschaft",
+      "text": "Nachbarschaft"
+    },
+    {
+      "id": "ui.druck.akte.art.verein",
+      "text": "Verein"
+    },
+    {
+      "id": "ui.druck.akte.art.gefallen",
+      "text": "Gefallen"
+    },
+    {
+      "id": "ui.druck.akte.art.schuld",
+      "text": "Schuld"
+    },
+    {
+      "id": "ui.druck.akte.art.streit",
+      "text": "Streit"
     }
   ]
 }

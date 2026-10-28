@@ -3073,6 +3073,10 @@ class LDe extends L {
       'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.';
 
   @override
+  String get online_ermittlung_fertig_moment =>
+      'Die Ermittlung dieser Runde ist abgeschlossen. Gleich zeigt sich, ob die Runde dem Detektiv etwas zuflüstert.';
+
+  @override
   String online_nachtzeit(int min) {
     return 'Nachtzeit: $min Min.';
   }
@@ -4249,6 +4253,123 @@ class LDe extends L {
       'Karte des Rundgangs. Der Detektiv geht zur Station.';
 
   @override
+  String get einstimmung_vorgeschichte => 'Vorgeschichte';
+
+  @override
+  String get einstimmung_vorstellung => 'Vorstellung';
+
+  @override
+  String einstimmung_zaehler(String teil, String nr, String von) {
+    return '$teil · $nr von $von';
+  }
+
+  @override
+  String get einstimmung_weiter => 'Weiter';
+
+  @override
+  String get einstimmung_zum_vorspiel => 'Weiter zum Vorspiel';
+
+  @override
+  String get einstimmung_ueberspringen_vorgeschichte =>
+      'Vorgeschichte überspringen';
+
+  @override
+  String get einstimmung_ueberspringen_vorstellung =>
+      'Vorstellung überspringen';
+
+  @override
+  String einstimmung_gespielt_von(String name) {
+    return 'gespielt von $name';
+  }
+
+  @override
+  String einstimmung_app_spielt(String name) {
+    return 'Die App spielt $name';
+  }
+
+  @override
+  String get einstimmung_du_bist_dran => 'Du bist dran';
+
+  @override
+  String einstimmung_fuehrt(String name) {
+    return '$name führt durch die Einstimmung.';
+  }
+
+  @override
+  String get einstimmung_laeuft => 'Die Einstimmung läuft.';
+
+  @override
+  String get abend_einstimmung_titel => 'Einstimmung';
+
+  @override
+  String get abend_einstimmung_schalter => 'Vorgeschichte und Vorstellung';
+
+  @override
+  String get abend_einstimmung_hinweis =>
+      'Vor dem Auftakt: erst die Vorgeschichte, dann wird jede Figur vorgestellt.';
+
+  @override
+  String abend_einstimmung_dauer(int minuten) {
+    return 'Dauert etwa $minuten Minuten.';
+  }
+
+  @override
+  String get abend_start_einstimmung => 'Einstimmung';
+
+  @override
+  String get abend_einstimmung_an => 'Vorgeschichte und Vorstellung';
+
+  @override
+  String get abend_einstimmung_aus => 'Direkt zum Auftakt';
+
+  @override
+  String get uebersicht_phase_einstimmung => 'Einstimmung';
+
+  @override
+  String get aufgabe_detektiv_einstimmung => 'Zuhören, die Gäste kennenlernen';
+
+  @override
+  String get aufgabe_erzaehler_einstimmung =>
+      'Vorgeschichte lesen, Figuren vorstellen';
+
+  @override
+  String get aufgabe_rolle_einstimmung =>
+      'Zuhören, die anderen Figuren kennenlernen';
+
+  @override
+  String get aufgabe_assistenz_einstimmung =>
+      'Zuhören und die Runde kennenlernen';
+
+  @override
+  String get erzaehlerakte_titel => 'Erzählerakte';
+
+  @override
+  String get erzaehlerakte_eintrag => 'Hintergründe und Netz aller Figuren';
+
+  @override
+  String erzaehlerakte_fuer(String name) {
+    return 'Für $name';
+  }
+
+  @override
+  String get erzaehlerakte_reiter_figuren => 'Figuren';
+
+  @override
+  String get erzaehlerakte_reiter_netz => 'Netz';
+
+  @override
+  String get erzaehlerakte_netz_tipp =>
+      'Tipp auf eine Figur zeigt ihre Bindungen.';
+
+  @override
+  String get erzaehlerakte_netz_alle => 'Alle Bindungen';
+
+  @override
+  String erzaehlerakte_figur_semantik(String name, int anzahl) {
+    return '$name, $anzahl Bindungen';
+  }
+
+  @override
   String get online_uhr_titel => 'Zeit für diese Runde';
 
   @override
@@ -4301,6 +4422,255 @@ class LDe extends L {
 
   @override
   String get abend_start_fassung => 'Abend';
+
+  @override
+  String get abend_moment_titel => 'Dein Moment';
+
+  @override
+  String get abend_moment_schalter => 'Heimliche Züge in jeder Runde';
+
+  @override
+  String get abend_moment_hinweis =>
+      'Jede Rolle zieht geheim und formt Würfel, Zeit und Gerüchte. Aus: Gruppenwahl wie bisher.';
+
+  @override
+  String get abend_start_moment => 'Dein Moment';
+
+  @override
+  String get abend_moment_an => 'an';
+
+  @override
+  String get abend_moment_aus => 'aus';
+
+  @override
+  String get aufgabe_rolle_moment =>
+      'Gespräch führen, geheim deinen Moment ziehen';
+
+  @override
+  String get aufgabe_detektiv_tischwerte =>
+      'Tischwerte lesen, nach Pech gemeinsam rufen';
+
+  @override
+  String get aufgabe_erzaehler_folgen =>
+      'Zu Beginn der Ermittlung die Folgen vorlesen';
+
+  @override
+  String get moment_titel => 'Dein Moment';
+
+  @override
+  String get moment_hinweis =>
+      'Reihum zieht jede Person geheim einen Zug. Erst dann geht es weiter.';
+
+  @override
+  String moment_zeile(String zustand) {
+    return 'Dein Moment: $zustand';
+  }
+
+  @override
+  String get moment_offen => 'offen';
+
+  @override
+  String get moment_fertig => 'fertig';
+
+  @override
+  String get moment_alle => 'Alle haben ihren Moment gezogen.';
+
+  @override
+  String get moment_solo => 'Die Rollen der App ziehen ihren Moment selbst.';
+
+  @override
+  String moment_weitergeben(String name) {
+    return 'Gib das Gerät an $name.';
+  }
+
+  @override
+  String moment_zeig_her(String name) {
+    return 'Ich bin $name, zeig her';
+  }
+
+  @override
+  String get moment_zurueck => 'Zurück';
+
+  @override
+  String get moment_erfahren => 'Was du erfahren hast';
+
+  @override
+  String get moment_nichts => 'Diesmal hast du nichts erfahren.';
+
+  @override
+  String get moment_ziele => 'Deine Ziele';
+
+  @override
+  String moment_stern(int nr) {
+    return 'Stern $nr';
+  }
+
+  @override
+  String get moment_stand_offen => 'offen';
+
+  @override
+  String get moment_stand_erreicht => 'erreicht';
+
+  @override
+  String get moment_stand_verloren => 'verloren';
+
+  @override
+  String get moment_zug_waehlen => 'Dein Zug';
+
+  @override
+  String get moment_einmal => 'Schon gespielt';
+
+  @override
+  String get moment_gesperrt => 'Gerade nicht möglich';
+
+  @override
+  String get moment_ich_selbst => 'Ich selbst';
+
+  @override
+  String get moment_keine_ahnung => 'Keine Ahnung';
+
+  @override
+  String get moment_bestaetigen => 'Das ist mein Zug';
+
+  @override
+  String get moment_wie_letzte => 'Wie letzte Runde';
+
+  @override
+  String moment_zug_auf(String zug, String name) {
+    return '$zug auf $name';
+  }
+
+  @override
+  String moment_dein_zug(String zug) {
+    return 'Gezogen: $zug';
+  }
+
+  @override
+  String get moment_abgewartet => 'abgewartet';
+
+  @override
+  String get moment_erklaerung_1 => 'Jede Runde ziehst du geheim einen Zug';
+
+  @override
+  String get moment_erklaerung_2 => 'Er formt Würfel, Zeit und Gerüchte';
+
+  @override
+  String get moment_erklaerung_3 => 'Zwei Sterne sind deine geheimen Ziele';
+
+  @override
+  String get moment_gezogen_online =>
+      'Dein Zug steht. Bis zu den Folgen kannst du ihn ändern.';
+
+  @override
+  String get moment_aufruf_knopf => 'Letzter Aufruf';
+
+  @override
+  String get moment_aufruf_hinweis =>
+      'Noch nicht alle haben ihren Moment gezogen.';
+
+  @override
+  String moment_aufruf_laeuft(int sekunden) {
+    return 'Letzter Aufruf: noch $sekunden Sekunden';
+  }
+
+  @override
+  String get moment_aufruf_vorbei =>
+      'Wer jetzt nicht gezogen hat, wartet diese Runde ab.';
+
+  @override
+  String get moment_warten => 'Alle ziehen gerade ihren Moment.';
+
+  @override
+  String get einfluss_folgen_titel => 'Die Folgen eures Moments';
+
+  @override
+  String get einfluss_folgen_weiter => 'Zur Ermittlung';
+
+  @override
+  String get einfluss_blasen_titel => 'Am Tisch geraunt';
+
+  @override
+  String get einfluss_tisch => 'Tisch';
+
+  @override
+  String get einfluss_umweg => 'Umweg';
+
+  @override
+  String get einfluss_randnotiz => 'Randnotiz';
+
+  @override
+  String einfluss_ausgepackt(String name) {
+    return 'Ausgepackt: $name';
+  }
+
+  @override
+  String get einfluss_leisten_titel => 'Stimmung am Tisch';
+
+  @override
+  String get einfluss_zusammenhalt => 'Zusammenhalt';
+
+  @override
+  String get einfluss_spuk => 'Spuk';
+
+  @override
+  String einfluss_leiste_stand(int wert, int max) {
+    return '$wert von $max';
+  }
+
+  @override
+  String get einfluss_ereignisse_titel => 'Was in dieser Runde geschah';
+
+  @override
+  String get einfluss_nachgereicht_titel => 'Jetzt sichtbar';
+
+  @override
+  String einfluss_nachfrage_offen(int n) {
+    return 'Offene Nachfragen: $n';
+  }
+
+  @override
+  String get einfluss_nachfrage_waehlen => 'Zu welcher Wahl fragst du nach?';
+
+  @override
+  String get einfluss_nachfrage_knopf => 'Nachfragen';
+
+  @override
+  String get einfluss_protokoll_titel => 'Protokoll der Nacht';
+
+  @override
+  String einfluss_runde(int nr) {
+    return 'Runde $nr';
+  }
+
+  @override
+  String get einfluss_bot => 'App';
+
+  @override
+  String get einfluss_sterne_titel => 'Sterne der Nacht';
+
+  @override
+  String get einfluss_tipps_titel => 'Geheime Tipps';
+
+  @override
+  String get einfluss_punkte => 'Punkte';
+
+  @override
+  String get einfluss_tischbonus => 'Tischbonus';
+
+  @override
+  String get einfluss_endwert => 'Endwert';
+
+  @override
+  String get einfluss_tafel_titel => 'Züge dieser Runde';
+
+  @override
+  String get einfluss_tafel_hinweis => 'Nur für dich. Nie vorlesen.';
+
+  @override
+  String get einfluss_tafel_leer => 'Noch hat niemand gezogen.';
+
+  @override
+  String get einfluss_verzoegert => 'Die Fakten kommen im Zwischenresümee.';
 
   @override
   String get abend_start_laenge => 'Länge';

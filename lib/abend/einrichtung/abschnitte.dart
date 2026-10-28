@@ -201,8 +201,31 @@ class EinrichtungsWerte extends ChangeNotifier {
   List<int> get minutenOptionen => langfassung ? fassung.minutenOptionen : einrichtungMinuten;
 
   /// Geschätzte Länge des ganzen Abends in Minuten („ca. X Min.“, K-18), nur
-  /// bei [langfassung]; sonst `null` (Altakten zeigen keine Schätzung).
-  int? get abendMinutenCa => langfassung ? kern.abendMinutenCa(fassung, minuten) : null;
+  /// bei [langfassung]; sonst `null` (Altakten zeigen keine Schätzung). Mit
+  /// Einstimmung kommt ihre Dauer bei [rollen] Rollen dazu ([einstimmungRollen]).
+  int? get abendMinutenCa => langfassung ? kern.abendMinutenCa(fassung, minuten, einstimmungRollen: einstimmungRollen) : null;
+
+  // Einstimmung (A-063): Vorgeschichte und Vorstellung vor dem Auftakt.
+
+  /// Hat die Akte eine Einstimmung (Zusatz `einstimmung`)?
+  bool get hatEinstimmung => sitzung.daten.einstimmung != null;
+
+  bool? _einstimmung;
+
+  /// Schalter „Vorgeschichte und Vorstellung“: Vorgabe an, im Druckspiel aus,
+  /// bis jemand ihn umlegt.
+  bool get einstimmung => _einstimmung ?? !druck;
+
+  /// Spielt der Abend die Einstimmung (Akte mit Einstimmung und Schalter an)?
+  bool get einstimmungAn => hatEinstimmung && einstimmung;
+
+  /// Rollenzahl für die Zeitschätzung der Einstimmung (`null`: ohne).
+  int? get einstimmungRollen => einstimmungAn ? rollen : null;
+
+  void setzeEinstimmung(bool wert) {
+    _einstimmung = wert;
+    notifyListeners();
+  }
 
   void setzeMinuten(int wert) {
     minuten = wert;
@@ -221,6 +244,22 @@ class EinrichtungsWerte extends ChangeNotifier {
 
   /// Hat die Akte Gespräche mit Zeugen?
   bool get hatGespraeche => sitzung.daten.erzaehlung != null;
+
+  // „Dein Moment“ (Finale §3): Standard an bei Akten mit Regeln, nie im Druckspiel.
+
+  /// Kennt die Akte „Dein Moment“ (Zusatz `einfluss` mit Regeln)?
+  bool get einflussMoeglich => sitzung.daten.einfluss != null;
+
+  /// Gewünscht (Schalter); wirksam nur mit [einflussMoeglich] und ohne Druckspiel ([einflussAn]).
+  late bool einfluss = einflussMoeglich;
+
+  /// Spielt der Abend „Dein Moment“?
+  bool get einflussAn => einflussMoeglich && einfluss && !druck;
+
+  void setzeEinfluss(bool wert) {
+    einfluss = wert;
+    notifyListeners();
+  }
 
   /// Richtet den Abend ein und setzt danach Erzählerstimme und Erzähltiefe.
   /// [druckErzwingen] stellt eine Druckfassung ein (Druckmappe einer Akte).
@@ -244,6 +283,8 @@ class EinrichtungsWerte extends ChangeNotifier {
       detektivName: detektivName.text.trim(),
       erzaehlerName: mitErzaehler ? erzaehlerName.text.trim() : '',
       fassung: langfassung && !druck && !druckErzwingen ? fassung : Abendfassung.kurz,
+      einstimmung: einstimmungAn,
+      einfluss: einflussAn && !druckErzwingen,
     );
     s.stimmeAn = stimme;
     s.erzaehltiefe = erzaehltiefe;
@@ -350,6 +391,10 @@ class EinrichtungsAbschnitte extends StatelessWidget {
               if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
               // Kurzer oder langer Abend (M7b): nur Akten mit Langfassung, auch im Solo und online.
               if (werte.langfassung && !werte.druck) FassungAbschnitt(werte: werte),
+              // Vorgeschichte und Vorstellung (A-063): nur Akten mit Einstimmung, auch im Solo und online.
+              if (werte.hatEinstimmung) EinstimmungAbschnitt(werte: werte),
+              // „Dein Moment“ (Finale §3): nur Akten mit Regeln, nie im Druckspiel.
+              if (werte.einflussMoeglich && !werte.druck) MomentAbschnitt(werte: werte),
               if (!werte.solo) DauerAbschnitt(werte: werte),
               // Online richtet der Raum den Abend ein; dort gilt die Vorgabe.
               if (werte.hatGespraeche && !online) ErzaehltiefeAbschnitt(werte: werte),
@@ -743,7 +788,7 @@ class FassungAbschnitt extends _Abschnitt {
     final l = _texte(context);
     String name(Abendfassung f) => f.istLang ? l.abend_fassung_lang : l.abend_fassung_kurz;
     String beschriftung(Abendfassung f) =>
-        werte.solo ? name(f) : l.abend_fassung_mit_dauer(name(f), kern.abendMinutenCa(f, f.standardMinuten));
+        werte.solo ? name(f) : l.abend_fassung_mit_dauer(name(f), kern.abendMinutenCa(f, f.standardMinuten, einstimmungRollen: werte.einstimmungRollen));
     return EinrichtungsTafel(
       ueberschrift: l.abend_fassung_titel,
       kinder: [
@@ -784,6 +829,70 @@ class DauerAbschnitt extends _Abschnitt {
           const SizedBox(height: MMass.s8),
           Text(_texte(context).abend_dauer_ca(ca), key: const ValueKey('abend-ca'), style: MPapierSchrift.leise),
           if (werte.fassung.istLang) Text(_texte(context).abend_dauer_lang_hinweis, key: const ValueKey('dauer-lang-hinweis'), style: MPapierSchrift.leise),
+        ],
+      ],
+    );
+  }
+}
+
+/// Einstimmung (A-063): Schalter „Vorgeschichte und Vorstellung“, nur in Akten
+/// mit Einstimmung. Darunter, wie lange sie bei der gewählten Personenzahl
+/// dauert ([abendEinstimmungMinuten]); die Schätzung des ganzen Abends
+/// ([DauerAbschnitt]) rechnet sie mit.
+class EinstimmungAbschnitt extends _Abschnitt {
+  const EinstimmungAbschnitt({super.key, required super.werte});
+
+  @override
+  Widget baue(BuildContext context) {
+    final l = _texte(context);
+    final titel = l.abend_einstimmung_schalter;
+    void umschalten() => werte.setzeEinstimmung(!werte.einstimmung);
+    return EinrichtungsTafel(
+      ueberschrift: l.abend_einstimmung_titel,
+      kinder: [
+        Semantics(
+          toggled: werte.einstimmung,
+          label: titel,
+          hint: l.abend_einstimmung_hinweis,
+          onTap: umschalten,
+          excludeSemantics: true,
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              key: const ValueKey('einstimmung-schalter'),
+              onTap: umschalten,
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: MRoh.tinte.withValues(alpha: 0.06),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: MMass.s4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(titel, style: MPapierSchrift.text),
+                          const SizedBox(height: 2),
+                          Text(l.abend_einstimmung_hinweis, style: MPapierSchrift.leise),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: MMass.s12),
+                    MSchalter(wert: werte.einstimmung, onChanged: werte.setzeEinstimmung, symbolAn: Icons.auto_stories_outlined, symbolAus: Icons.close_rounded),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (werte.einstimmung) ...[
+          const SizedBox(height: MMass.s8),
+          Text(
+            l.abend_einstimmung_dauer(abendEinstimmungMinuten(werte.rollen).round()),
+            key: const ValueKey('einstimmung-dauer'),
+            style: MPapierSchrift.leise,
+          ),
         ],
       ],
     );
@@ -860,6 +969,59 @@ class StimmeAbschnitt extends _Abschnitt {
                     ),
                     const SizedBox(width: MMass.s12),
                     MSchalter(wert: werte.stimme, onChanged: werte.setzeStimme, symbolAn: Icons.volume_up, symbolAus: Icons.volume_off),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// „Dein Moment“ an oder aus (Finale §3): Formularzeile mit Messing-Kippschalter
+/// wie die Erzählerstimme; aus spielt der Tisch die Gruppenwahl wie bisher.
+class MomentAbschnitt extends _Abschnitt {
+  const MomentAbschnitt({super.key, required super.werte});
+
+  @override
+  Widget baue(BuildContext context) {
+    final l = _texte(context);
+    void umschalten() => werte.setzeEinfluss(!werte.einfluss);
+    return EinrichtungsTafel(
+      ueberschrift: l.abend_moment_titel,
+      kinder: [
+        Semantics(
+          toggled: werte.einfluss,
+          label: l.abend_moment_schalter,
+          hint: l.abend_moment_hinweis,
+          onTap: umschalten,
+          excludeSemantics: true,
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              key: const ValueKey('moment-schalter'),
+              onTap: umschalten,
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: MRoh.tinte.withValues(alpha: 0.06),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: MMass.s4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(l.abend_moment_schalter, style: MPapierSchrift.text),
+                          const SizedBox(height: 2),
+                          Text(l.abend_moment_hinweis, style: MPapierSchrift.leise),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: MMass.s12),
+                    MSchalter(wert: werte.einfluss, onChanged: werte.setzeEinfluss, symbolAn: Icons.auto_awesome_rounded, symbolAus: Icons.block_rounded),
                   ],
                 ),
               ),

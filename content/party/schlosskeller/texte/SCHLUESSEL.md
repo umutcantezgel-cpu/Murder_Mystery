@@ -35,8 +35,15 @@ Diese Datei ist die Anleitung für alle Autorinnen und Autoren. Der Lader ist `p
 | `befragung-kurz.json` | kurzfassung | je Preisgabe einer Befragung (`quelle`: `beobachtung:<id>` oder `luege:<id>`) eine Karte: `antwort[]` und bei Beobachtungen `du[]` (E-044) |
 | `wahlen-kern.json`, `wahlen-b2.json` bis `-b5.json` | wahl | `gw_<rolle>_<runde>` mit `a`, `b`, bei Kernrollen `sabotage` |
 | `ui.json` | ui | `ui.*` (F4) |
+| `erzaehler-vorgeschichte.json` | erzaehler | `vorgeschichte.<teil>` je Teil aus `setting.vorgeschichte` (Einstimmung, A-063) |
+| `erzaehler-vorstellung.json` | erzaehler | `vorstellung.start`, `vorstellung.<figur>` (20), `vorstellung.npc`, `vorstellung.detektiv.m` und `.w` (A-063) |
+| `ui-erzaehler.json` | ui | dazu die Kapiteltitel `ui.einstimmung.titel.<teil>` und `ui.einstimmung.titel.vorstellung` (nicht vorgelesen) |
+| `einfluss.json` | einfluss | Einfluss-Schicht „Dein Moment“ (A-064): alle Kennungen aus `einflussKatalog` – Zugkarten, Tipp, Folgen, Auspacken, Ablenken, Gerüchte, Leisten, Ereignisse, Ermittlung, private Karten, Ziele, Epiloge, Ende, Bot-Blasen |
 
-Die Kennungen der Erzählerbausteine kommen aus `Erzaehler.katalog()`; andere Kennungen sind dort verboten.
+Die Kennungen der Erzählerbausteine kommen aus `Erzaehler.katalog()`; andere Kennungen sind dort verboten. Die
+Kennungen `einfluss.*` kommen aus `einflussKatalog` (`pruefeEinfluss`); Karten folgen R17, Vorlesetexte
+(`einflussVorlesetext`) den Vorleseregeln. Die Erzählerakte (`erzaehlerakte.json`, A-063) liegt neben dem Kanon,
+nicht in der Textsammlung.
 
 ## Sichtbarkeit
 Wer was sieht, vor dem Finale. „Tisch“ heißt: alle am Tisch, auch auf jedem Gerät. Der Erzähler ist ein eigener,
@@ -59,6 +66,14 @@ Erzählerpaket (`packages/mordakte_core/lib/src/party/erzaehler_paket.dart`).
 | gezogener Bonus-Hinweis | ja, vorgelesen | ja | ja | ja |
 | Bonus-Katalog, Qualität der Hinweise | nein | nein | nein | nein |
 | Begründungen der Entscheidungen, Täterpfad, Fall-Code, Salz | nein | nein | nein | nein |
+| Einstimmung: `vorgeschichte.*`, `vorstellung.*` (öffentlich, vorgelesen vor dem Intro) | ja | ja | ja | ja |
+| Erzählerakte (`erzaehlerakte.json`: Hintergründe, Netz, Motiv, Geheimnis, Nebendelikt, Loyalität, Ziele) | nein | nein | nein | ja, nur der Erzähler-Platz, nie ab dem Finale |
+| Einfluss, öffentlich: Zugkarten, Tipp-Karte, Abzeichen, Befragung, Tischruf, Nachfrage, Ereigniskarten und -titel | ja | ja | ja | ja |
+| Einfluss, vorgelesen: Folgen, Auspacken und Ablenken (mit Namen), Gerüchte (anonym), Leisten, Ereignisse, `einfluss.wieder`, Flüstern, Ertappt, Verwischt | ja | ja | ja | ja |
+| Einfluss, privat: `einfluss.privat.*` (hält zu dir, gelauscht, wirkte, ertappt), eigener Zielstand `einfluss.ziel.<figur>.*` | nein | ja, die eigene | nein | Ziele ja (Erzählerakte) |
+| Einfluss, wer wie zog (Zug-Tafel), Tipps | nein | nein | nein | Zug-Tafel der laufenden Runde ja, Tipps nein |
+| Einfluss nach dem Finale: `einfluss.epilog.*`, `.tischbonus.*`, `.preis.*`, `.morgen.*` | ja, vorgelesen | ja | ja | ja |
+| Einfluss im Solospiel: `einfluss.bot.<figur>.<anlass>` (Blasen der Bots) | ja | ja | ja | ja |
 
 - **Erst in der Auflösung:** die Begründungen der Entscheidungen (`entscheidungen.json`, `begruendung` je Pfad) und die Qualität der Hinweise. Vorher verrieten sie den Pfad.
 - **Was der Detektiv findet:** Fundtexte (`zeigt` und `harmlos` der Spuren in `gegenstaende.json`) und Ergebnisse der Entscheidungen erscheinen, sobald eine Entscheidung sie aufdeckt. Ab dann gehören sie zum Wissen des Detektivs und dürfen am Tisch stehen. Fundtexte sind unpersönlich, ohne „du“, und verneinen nichts („kein Messing“ schlösse jemanden aus).

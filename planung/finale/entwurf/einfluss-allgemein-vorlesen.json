@@ -1,0 +1,47 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "einfluss",
+  "hinweis": "Entwurf: allgemeine Vorlesetexte der Schicht „Dein Moment“ (Vorleseregeln: keine Ziffern, Klammern, Abkürzungen; Sätze höchstens fünfundzwanzig Wörter). Erzähler sagt „ihr“ zur Gruppe und „du“ zum Detektiv und kennt keine Gedanken der Gäste. Platzhalter: @figur, @ziel. Nennt nie einen Fallgegenstand, eine Suchstelle, einen Indizort, einen Lacher oder einen Sperrort (R15, R23), keine Kernfigur und keinen Umweg dorthin (kein Geist, Gespenst, Leuchten, Schreck, Streich, keine Stiftung, kein Strom); „Spuk“ steht nur als Name der Leiste, „Schlossgeist“ nur als Name des Preises. Ereignisse und Morgen je zwanzig bis fünfzig Wörter. Die Folgen einer Runde werden hintereinander gelesen (Start, Auspacken, Ablenken mit Schluss, Gerüchte, Leisten, Ereignisse); Bilder und Verben sind darum so verteilt, dass sich die Texte einer Runde möglichst nicht doppeln (Start und Leiste nie beide mit Lichtschächten, „ziehen“ nicht in Leiste und Fledermaus, „wächst kräftig“ nur beim Zusammenhalt). einfluss.wieder gilt für jede Verzögerung bis zum Zwischenresümee (Umweg und Mauert) und nennt darum keine Spur. Die Ereignisse erinnerung und kragen nennen Herrn Schneider, wie es R23 erlaubt und ihre Namen in PLAN und SPEZIFIKATION verlangen; der Kernprüfer prüft Ereignistexte derzeit mit PfadgleichRegeln, die auch Figurennamen sperren (offen für den Integrator).",
+  "eintraege": [
+    { "id": "einfluss.folgen.start.1", "text": "Das Gewölbe hat mitgehört. Jetzt weht durch die Lichtschächte herein, was ihr im Stillen ausgeheckt habt. Spitzt die Ohren." },
+    { "id": "einfluss.folgen.start.2", "text": "Ein Wispern wandert durch den Keller, von Stein zu Stein. Jetzt erfahrt ihr, was euer Moment bewirkt hat." },
+    { "id": "einfluss.folgen.start.3", "text": "Ein kalter Hauch fährt euch in den Nacken, und irgendwo kichert es. Ein letztes Mal kommt heraus, was eure Züge angerichtet haben." },
+
+    { "id": "einfluss.ablenken.schluss", "text": "Bis wieder Ruhe einkehrt, hat die Nacht ein paar kostbare Minuten verschluckt. Herr Schneider tippt vielsagend auf seine Armbanduhr." },
+
+    { "id": "einfluss.geruecht.leise", "text": "Ganz leise, kaum lauter als der Wind, fällt ein Name: @figur. Wer ihn geflüstert hat, bleibt im Dunkeln." },
+    { "id": "einfluss.geruecht.laut", "text": "Das Tuscheln schwillt an. Gleich mehrere Stimmen raunen denselben Namen in die Runde: @figur. Wer damit angefangen hat, weiß nur das Gemäuer." },
+
+    { "id": "einfluss.leiste.zusammenhalt.1", "text": "Ihr rückt auf den Bänken ein Stück näher zusammen. Der Zusammenhalt wächst." },
+    { "id": "einfluss.leiste.zusammenhalt.2", "text": "Ihr rückt so eng zusammen, dass nicht einmal die Zugluft zwischen euch passt. Der Zusammenhalt wächst kräftig." },
+    { "id": "einfluss.leiste.spuk.1", "text": "Ein schrilles Pfeifen hallt von den Wänden, und alle ziehen die Schultern hoch. Der Spuk wird stärker." },
+    { "id": "einfluss.leiste.spuk.2", "text": "Die alten Mauern ächzen, und allen läuft ein Schauer über den Rücken. Der Spuk legt kräftig zu." },
+    { "id": "einfluss.leiste.ruhig", "text": "Einen Atemzug lang ist es ganz still im Gewölbe. Weder Spuk noch Zusammenhalt rühren sich." },
+
+    { "id": "einfluss.ereignis.tee", "text": "Der große Teekocher blubbert und schnaubt so laut, dass jemand ihm höflich „Gesundheit!“ wünscht und die ganze Runde losprustet. Gleich darauf gibt es frischen Tee für alle, und für einen Moment wird es richtig gemütlich. Die kleine Pause schenkt euch fünf Nachtminuten." },
+    { "id": "einfluss.ereignis.kerzenschein", "text": "Jemand dreht das grelle Deckenlicht herunter. Ein warmer, goldener Schein legt sich über das Gewölbe, und plötzlich reden alle ganz sanft. Irgendwer summt ein Schlaflied, alle summen schief mit. Bei der nächsten Suche zählt keine Störung." },
+    { "id": "einfluss.ereignis.erinnerung", "text": "Herr Schneider schnippt mit den Fingern: „Jetzt fällt es mir wieder ein!“ Alle beugen sich vor. „Ich habe heute noch gar nicht geschimpft.“ Das Gewölbe lacht mit ihm. Danach ist er hellwach und gesprächig: Vor der Anklage darfst du ein zusätzliches Mal nachfragen." },
+    { "id": "einfluss.ereignis.flackerlicht", "text": "Das Licht flackert, als hätte das Gewölbe Schluckauf. An, aus, an, aus. Im fahlen Notlicht seht ihr kaum die eigene Nasenspitze. Als es wieder hell ist, tun alle so, als hätte niemand gequiekt. Drei Nachtminuten sind verflogen." },
+    { "id": "einfluss.ereignis.fledermaus", "text": "Eine Fledermaus flattert durch einen Lichtschacht herein und zieht fiepend Kreise unter der Gewölbedecke. Alle ducken sich, und jemand taucht ganz unter eine Bank ab. In dieser Runde wiegt jede Störung doppelt." },
+    { "id": "einfluss.ereignis.kragen", "text": "Herrn Schneider platzt der Kragen: „Jetzt ist Schluss mit dem Zirkus!“ Er baut sich vor euch auf und trägt die Hausordnung vor, Absatz für Absatz. Bei Absatz zwölf gähnt jemand, und schon geht es zurück zu Absatz eins. Fünf Nachtminuten sind dahin, und der Morgen wird chaotisch." },
+
+    { "id": "einfluss.wieder", "text": "Was vorhin noch auf sich warten ließ, liegt jetzt offen vor dir. Das Gewölbe behält nichts für sich." },
+    { "id": "einfluss.fluestern.still", "text": "Diesmal flüstert dir niemand etwas zu. Nur der Wind seufzt leise im Gemäuer." },
+
+    { "id": "einfluss.ertappt", "text": "Ertappt! @figur hat @ziel gedeckt. Ein Räuspern, ein schiefer Blick, und schon weiß es die ganze Runde." },
+    { "id": "einfluss.ertappt.selbst", "text": "Ertappt! @figur hat sich selbst gedeckt. Die Wände haben Augen, und jetzt grinst die ganze Runde." },
+    { "id": "einfluss.verwischt", "text": "So ein Pech, die Spur verwischt. Verloren ist sie nicht. Ruft gemeinsam: nochmal an derselben Stelle oder lieber ein Umweg? Beides kostet drei Minuten." },
+
+    { "id": "einfluss.tischbonus.plus", "text": "Ihr habt in dieser Nacht fest zusammengehalten. Dafür legt euch das Schloss einen Punkt obendrauf." },
+    { "id": "einfluss.tischbonus.minus", "text": "Der Spuk war heute stärker als eure Nerven. Das kostet euch einen Punkt." },
+
+    { "id": "einfluss.preis.stern", "text": "Der Stern des Abends geht an @figur! Das Gewölbe verneigt sich, und die ganze Runde klatscht laut Beifall." },
+    { "id": "einfluss.preis.spuernase", "text": "Eine Spürnase der Nacht ist @figur. Richtig getippt, ganz ohne Hut und Lupe!" },
+    { "id": "einfluss.preis.schlossgeist", "text": "Zum Schlossgeist der Nacht wird @figur ernannt. Niemand hat so viel Wirbel gemacht. Die Fledermäuse bitten um ein Autogramm." },
+    { "id": "einfluss.preis.treue_seele", "text": "Die Treue Seele des Abends ist @figur. Wer so fest zu anderen hält, bekommt den wärmsten Platz auf der Bank." },
+
+    { "id": "einfluss.morgen.warm", "text": "Als das erste graue Licht durch die Lichtschächte fällt, rückt ihr auf den Bänken eng zusammen, müde und durchgefroren. Herr Schneider kocht eine letzte Kanne Tee und stellt sie brummend in eure Mitte. Bei ihm ist das schon eine Umarmung." },
+    { "id": "einfluss.morgen.chaotisch", "text": "Der Morgen findet euch zerzaust und übernächtigt zwischen verrutschten Bänken. Herr Schneider prüft mit finsterer Miene, ob das Gewölbe noch steht. Ihr schwört, nächstes Mal ganz brav zu feiern. Keiner glaubt es, am wenigsten ihr selbst." },
+    { "id": "einfluss.morgen.gemischt", "text": "Der Morgen kriecht grau und leise ins Gewölbe. Ein paar von euch lachen schon wieder, andere starren müde in ihren Tee. Herr Schneider brummt etwas zwischen Dank und Drohung. Es war eine Nacht voller Wärme und Spuk, und genau so werdet ihr sie erzählen." }
+  ]
+}

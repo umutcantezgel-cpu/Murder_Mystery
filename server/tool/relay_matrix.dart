@@ -51,6 +51,15 @@
 /// laufen auch Vorspiel und Morgen (M7b): Alle sehen dieselbe Station, den
 /// Vorlesetext nur der Vorleser, weiter schaltet nur, wer leitet (auch über den
 /// Neustart des Gastgebers).
+///
+/// Finale Schlosskeller (Protokoll 5): Je ein Lauf mit „Dein Moment“ (Meta
+/// `einfluss: true`) und mit Einstimmung (Meta `einstimmung: true`), mit
+/// Probe-Inhalt, solange die Akte keinen hat (`probe_inhalt.dart`). Moment:
+/// menschliche Züge inkl. Lauschen und Ändern, Rechte, letzter Aufruf, ein Gast
+/// geht und seine Rolle zieht als Bot, Nachfragen, keine Gruppenwahl; das
+/// Lauschergebnis nur beim Lauscher, die Zug-Tafel nur beim Erzähler, öffentlich
+/// nie, was gespielt wurde; Neustart des Gastgebers spielt die Züge wieder ein.
+/// Einstimmung: alle sehen denselben Schritt, den Text nur der Vorleser.
 library;
 
 import 'dart:async';
@@ -62,7 +71,9 @@ import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/runden.dart';
 import 'package:mordakte_netz/io.dart';
 import 'package:mordakte_netz/mordakte_netz.dart';
-import 'package:mordakte_server/party.dart' show ladeErkundung, ladeVorspielMorgen, resolvePartyDir;
+import 'package:mordakte_server/party.dart' show ladeEinfluss, ladeErkundung, ladeVorspielMorgen, resolvePartyDir;
+
+import 'probe_inhalt.dart';
 
 String _stage = 'Vorbereitung';
 
@@ -271,16 +282,154 @@ class _Hochstapler {
   }
 }
 
-/// Sitze eines Laufs: Gastgeber und Gast1 (der erste Gast); [lang]: der lange Abend (M7b).
-typedef _Konstellation = ({String name, String hostSitz, String? gastSitz, bool lang});
+/// Sitze eines Laufs: Gastgeber und Gast1 (der erste Gast); [lang]: der lange Abend (M7b);
+/// [einfluss]: „Dein Moment“ (Meta `einfluss`); [einstimmung]: Vorgeschichte und Vorstellung (Meta `einstimmung`).
+typedef _Konstellation = ({String name, String hostSitz, String? gastSitz, bool lang, bool einfluss, bool einstimmung});
 
 const _konstellationen = <_Konstellation>[
-  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false),
-  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null, lang: false),
-  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false),
+  (name: 'Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false, einfluss: false, einstimmung: false),
+  (name: 'Host = Detektiv ohne Erzähler', hostSitz: 'detektiv', gastSitz: null, lang: false, einfluss: false, einstimmung: false),
+  (name: 'Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false, einfluss: false, einstimmung: false),
   // Langer Abend: Der Gast-Erzähler stellt die Uhr auch in den Entscheidungen.
-  (name: 'Langer Abend: Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: true),
+  (name: 'Langer Abend: Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: true, einfluss: false, einstimmung: false),
+  // Finale: Der Gastgeber erzählt und sieht die Zug-Tafel; der Gast-Erzähler liest die Einstimmung.
+  (name: 'Dein Moment: Host = Erzähler + Gast = Detektiv', hostSitz: 'erzaehler', gastSitz: 'detektiv', lang: false, einfluss: true, einstimmung: false),
+  (name: 'Einstimmung: Host = Detektiv + Gast = Erzähler', hostSitz: 'detektiv', gastSitz: 'erzaehler', lang: false, einfluss: false, einstimmung: true),
 ];
+
+/// Inhalt eines Laufs: Kanon und Texte, mit Schicht deren Regeln, mit Einstimmung ihre Teile.
+typedef _Inhalt = ({Kanon kanon, Texte texte, EinflussRegeln? regeln, Einstimmung? einstimmung});
+
+/// Inhalt der Akte für [k]; Läufe mit Moment oder Einstimmung lesen mit Probe-Inhalt, solange die Akte keinen hat.
+_Inhalt _inhalt(String partyDir, _Konstellation k) {
+  final lesen = probeLeser(partyDir, einstimmung: k.einstimmung, einfluss: k.einfluss);
+  final kanon = Kanon.lade(lesen);
+  return (
+    kanon: kanon,
+    texte: Texte(kanon, Textsammlung.lade(lesen)),
+    regeln: k.einfluss ? ladeEinfluss(lesen, kanon, akte: 'schlosskeller') : null,
+    einstimmung: k.einstimmung ? Einstimmung.aus(kanon) : null,
+  );
+}
+
+/// Ablauf von „Dein Moment“ über die Runden eines Laufs.
+class _Moment {
+  _Platz? lauscher, gegangen;
+  String? rolleGegangen;
+  bool aufrufGeprueft = false;
+  final Set<int> runden = {};
+}
+
+/// Einstimmung (A-063) über das Relais: Eine Rolle darf nicht schalten, ein
+/// veralteter Schritt ist `stale`, Weiter wartet; je Schritt sehen alle dieselbe
+/// Ansicht, den Vorlesetext nur [vorleser]. In der Vorstellung überspringt der
+/// Leiter einmal den Rest. Liefert die vorgelesenen Texte.
+Future<Set<String>> _einstimmung(_Platz host, _Platz leiter, _Platz rolle, List<_Platz> plaetze, _Platz vorleser) async {
+  final texte = <String>{};
+  await _erwarteFehler(rolle, {'typ': 'einstimmung', 'schritt': 0}, 'not_host');
+  await _erwarteFehler(leiter, {'typ': 'einstimmung', 'schritt': (_map(host.latest['einstimmung'])['schritt'] as int) + 1}, 'stale');
+  await _erwarteFehler(leiter, {'typ': 'weiter'}, 'not_ready');
+  var uebersprungen = false;
+  for (var i = 0; i < 80; i++) {
+    final e = host.latest['einstimmung'];
+    if (e is! Map) break;
+    await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+    final alle = [host, ...plaetze];
+    _require({for (final p in alle) jsonEncode(p.latest['einstimmung'])}.length == 1, 'Der Schritt der Einstimmung ist nicht für alle gleich.');
+    for (final p in alle) {
+      final privat = _map(p.latest['privat']);
+      if (p == vorleser) {
+        _require(privat['einstimmungText'] is String, 'Der Vorleser bekam den Text der Einstimmung nicht.');
+        texte.add(privat['einstimmungText'] as String);
+      } else {
+        _require(!privat.containsKey('einstimmungText'), 'Text der Einstimmung an ${p.name}, der nicht vorliest.');
+      }
+    }
+    _require(host.latest['kannWeiter'] != true, 'Während der Einstimmung geht es weiter.');
+    if (e['teil'] == 'vorstellung' && e['nr'] == 2 && !uebersprungen) {
+      uebersprungen = true;
+      await _befehl(host, leiter, 'einstimmung', {'ueberspringen': true});
+    } else {
+      await _befehl(host, leiter, 'einstimmung', {'schritt': e['schritt']});
+    }
+  }
+  _require(host.latest['einstimmung'] == null && uebersprungen, 'Die Einstimmung endet nicht oder überspringt nicht.');
+  return texte;
+}
+
+/// „Dein Moment“ über das Relais (Finale §3.2, §3.14), nachdem der Detektiv befragt hat: Detektiv und
+/// Erzähler ziehen nicht (`invalid`), Weiter wartet auf die Menschen (`not_ready`). Runde 1: der erste
+/// Gast mit Figur lauscht beim zweiten (erst helfen, dann geändert). Runde 2: der letzte geht (`tschuess`),
+/// seine Rolle zieht als Bot. Runde 3: letzter Aufruf mit der Zeit des Gastgebers; vor der Frist geht es
+/// nicht weiter, bis der säumige Gast zieht. Danach sehen alle dieselbe Liste, wer gezogen hat (nie was),
+/// und nur der Erzähler die Tafel.
+Future<void> _moment(_Platz host, _Platz leiter, _Platz detektiv, _Platz? erzaehler, List<_Platz> rollen, List<_Platz> plaetze, _Moment m) async {
+  final runde = host.latest['runde'] as int;
+  _stage = 'Dein Moment Runde $runde';
+  m.runden.add(runde);
+  for (final ohne in [detektiv, ?erzaehler]) {
+    await _erwarteFehler(ohne, {'typ': 'zug', 'art': 'helfen'}, 'invalid');
+  }
+  if (runde == 2 && rollen.length >= 2 && m.gegangen == null) {
+    final weg = rollen.last;
+    m.gegangen = weg;
+    m.rolleGegangen = _map(weg.latest['privat'])['rolle'] as String;
+    await weg.verb.verlassen();
+    await _bis(() => _list(host.latest['spieler']).any((t) => t['id'] == weg.pid && t['online'] == false) ? true : null, 'Gast ist gegangen');
+    rollen.remove(weg);
+    plaetze.remove(weg);
+  }
+  if (rollen.isNotEmpty) await _erwarteFehler(leiter, {'typ': 'weiter'}, 'not_ready');
+  final saeumig = runde == 3 && !m.aufrufGeprueft && rollen.isNotEmpty ? rollen.last : null;
+  final zuege = <String, Map<String, Object?>>{};
+  await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+  for (final (i, p) in rollen.indexed) {
+    final privat = _map(p.latest['privat']);
+    final moment = _map(privat['moment']);
+    _require(moment['offen'] == true && moment['runde'] == runde, 'Der Moment ist für ${p.name} nicht offen.');
+    if (p == saeumig) continue;
+    final arten = [for (final a in (moment['arten'] as List).cast<String>()) if (a != 'lauschen') a];
+    final ziele = _map(moment['ziele']);
+    Map<String, Object?> zug;
+    if (runde == 1 && i == 0 && rollen.length >= 2) {
+      m.lauscher = p;
+      await _befehl(host, p, 'zug', {'art': 'helfen'});
+      zug = {'art': 'lauschen', 'ziel': _map(rollen[1].latest['privat'])['rolle']};
+    } else {
+      final art = arten[(i + runde) % arten.length];
+      final moegliche = (ziele[art] as List?)?.cast<String>();
+      zug = {'art': art, if (moegliche != null) 'ziel': moegliche[(i + runde) % moegliche.length]};
+    }
+    if (moment['tipps'] case final List t) zug['tipp'] = t[i % t.length];
+    await _befehl(host, p, 'zug', zug);
+    zuege[privat['rolle'] as String] = zug;
+  }
+  if (saeumig != null) {
+    m.aufrufGeprueft = true;
+    await _erwarteFehler(saeumig, {'typ': 'letzterAufruf'}, 'not_host');
+    await _befehl(host, leiter, 'letzterAufruf', {'zeit': 1});
+    final aufruf = _map(host.latest['einfluss'])['aufruf'];
+    _require(aufruf is int && aufruf > 1, 'Letzter Aufruf ohne die Zeit des Gastgebers.');
+    await _erwarteFehler(leiter, {'typ': 'weiter'}, 'not_ready');
+    final privat = _map(saeumig.latest['privat']);
+    final zug = {'art': 'helfen', if (_map(privat['moment'])['tipps'] case final List t) 'tipp': t.first};
+    await _befehl(host, saeumig, 'zug', zug);
+    zuege[privat['rolle'] as String] = zug;
+  }
+  await _konvergenz(host, plaetze, timeout: const Duration(seconds: 40));
+  for (final p in [host, ...plaetze]) {
+    _require((_map(p.latest['einfluss'])['gezogen'] as List).toSet().containsAll(zuege.keys), 'Wer gezogen hat, fehlt bei ${p.name}.');
+    final tafel = _map(p.latest['privat'])['einflussTafel'];
+    _require((tafel != null) == (p == erzaehler), 'Zug-Tafel am falschen Sitz (${p.name}).');
+    if (tafel is Map) {
+      final zeilen = {for (final z in _list(tafel['zuege'])) z['rolle']: z};
+      for (final z in zuege.entries) {
+        _require(zeilen[z.key]?['art'] == z.value['art'] && zeilen[z.key]?['ziel'] == z.value['ziel'], 'Die Tafel zeigt einen Zug falsch.');
+      }
+      _require(!_keys(tafel).contains('tipp'), 'Tipp auf der Tafel.');
+    }
+  }
+}
 
 class _Ergebnis {
   int sendungenSpitze = 0;
@@ -292,10 +441,10 @@ Future<void> _lauf({
   required int n,
   required RelayParameter relay,
   required PhoenixAttrappe? attrappe,
-  required Kanon kanon,
-  required Texte texte,
+  required _Inhalt inhalt,
   required _Konstellation k,
 }) async {
+  final kanon = inhalt.kanon, texte = inhalt.texte;
   final minRollen = kanon.besetzungJson['minRollen'] as int;
   final maxRollen = kanon.besetzungJson['maxRollen'] as int;
   final rollen = (n - (k.gastSitz == null ? 0 : 1)).clamp(minRollen, maxRollen);
@@ -323,10 +472,16 @@ Future<void> _lauf({
         fassung: Abendfassung.lesen(meta['fassung']),
         erkundung: Abendfassung.lesen(meta['fassung']).istLang ? _erkundung : null,
         rundgang: _vorspielMorgen,
+        // Wie die App (Finale): Einstimmung und „Dein Moment“ aus der Meta, nur wenn eingeschaltet.
+        einstimmung: meta['einstimmung'] == true ? inhalt.einstimmung : null,
+        einfluss: meta['einfluss'] == true ? inhalt.regeln : null,
       );
   var host = await RelayHost.neu(
     fabrik: fabrik,
-    meta: {'salz': salz, 'fallCode': fallCode.code, 'sitz': k.hostSitz, if (k.lang) 'fassung': 'lang'},
+    meta: {
+      'salz': salz, 'fallCode': fallCode.code, 'sitz': k.hostSitz, if (k.lang) 'fassung': 'lang',
+      if (k.einstimmung) 'einstimmung': true, if (k.einfluss) 'einfluss': true,
+    },
     relay: relay,
     akte: 'schlosskeller',
     inhalt: 'matrix',
@@ -490,6 +645,10 @@ Future<void> _lauf({
     // Vorspiel und Morgen (M7b): nur im langen Abend; im Ende läuft dann noch der Morgen.
     final rundgaenge = <String>{};
     final rundgangTexte = <String>{};
+    // Finale: Einstimmung (nur ihr Lauf) und „Dein Moment“ (nur sein Lauf).
+    final einstimmungTexte = <String>{};
+    final moment = _Moment();
+    var nachfragen = 0;
     while (hostPlatz.latest['phase'] != 'ende' || hostPlatz.latest['rundgang'] is Map) {
       _require(++schritte < 500, 'Abend erreicht das Ende nicht.');
       final s = hostPlatz.latest;
@@ -499,6 +658,29 @@ Future<void> _lauf({
         case 'intro' || 'ende' when s['rundgang'] is Map:
           rundgaenge.add(_map(s['rundgang'])['teil'] as String);
           rundgangTexte.addAll(await _imFenster('Rundgang', () => _rundgang(hostPlatz, leitPlatz, rolle, plaetze, vorleserPlatz)));
+        case 'intro' when s['einstimmung'] is Map:
+          _stage = 'Einstimmung';
+          einstimmungTexte.addAll(await _einstimmung(hostPlatz, leitPlatz, rolle, plaetze, vorleserPlatz));
+        case 'bonus' when k.einfluss && (!uhrAbgeraeumt || !neuverbindungB):
+          // Mit „Dein Moment“ folgt auf die Entscheidungen der Bonus; Uhr und App-Neustart prüfen hier.
+          if (!uhrAbgeraeumt) {
+            uhrAbgeraeumt = true;
+            _require(!s.containsKey('uhr'), 'Uhr im Bonus.');
+            await _erwarteFehler(leitPlatz, {'typ': 'uhr', 'aktion': 'pause'}, 'invalid_phase');
+          }
+          if (!neuverbindungB) {
+            neuverbindungB = true;
+            await _imFenster('Neustart Gast-App',
+                () => _appNeustart(plaetze[min(2, n - 1)], gaeste, ablagen, relay, code, min(2, n - 1), hostPlatz, phase: 'bonus'));
+          }
+          await _befehl(hostPlatz, leitPlatz, 'weiter');
+        case 'anklage' when k.einfluss && (_map(_map(s['einfluss'])['nachfragen'])['offen'] as int) > 0 &&
+              (_map(_map(s['einfluss'])['nachfragen'])['optionen'] as List).isNotEmpty:
+          // Nachfragen (Finale §3.5): nur der Detektiv-Sitz.
+          final option = (_map(_map(s['einfluss'])['nachfragen'])['optionen'] as List).first;
+          if (nachfragen == 0) await _erwarteFehler(rolle, {'typ': 'nachfrage', 'option': option}, 'not_detective');
+          await _befehl(hostPlatz, detektivPlatz, 'nachfrage', {'option': option});
+          nachfragen++;
         case 'entscheidungen':
           if (!streifzugGeprueft) {
             streifzugGeprueft = true;
@@ -551,6 +733,8 @@ Future<void> _lauf({
           await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
           befragungenGesehen += await _befragungen(hostPlatz, detektivPlatz);
           await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
+          // „Dein Moment“ (Finale §3.2): Die Gäste mit Figur ziehen, bevor es weitergeht.
+          if (k.einfluss) await _imFenster('Dein Moment', () => _moment(hostPlatz, leitPlatz, detektivPlatz, erzaehlerPlatz, rollenPlaetze, plaetze, moment));
           await _befehl(hostPlatz, leitPlatz, 'weiter');
         case 'gruppenwahl':
           if (!uhrAbgeraeumt) {
@@ -606,9 +790,26 @@ Future<void> _lauf({
     _require(hostNetz && hostNeustart, 'Gastgeber-Prüfungen (Netzabbruch, Neustart) wurden nicht erreicht.');
     _require(attrappe == null || neuverbindungA, 'Netzabbruch-Prüfung wurde nicht erreicht.');
     _require(k.lang ? rundgaenge.containsAll(['vorspiel', 'morgen']) : rundgaenge.isEmpty, 'Vorspiel und Morgen nur im langen Abend und dort ganz.');
+    _require(k.einstimmung == einstimmungTexte.isNotEmpty, 'Einstimmung nur in ihrem Lauf und dort ganz.');
 
     _stage = 'Ende abwarten';
     await _konvergenz(hostPlatz, plaetze, timeout: const Duration(seconds: 40));
+    if (k.einfluss) {
+      // „Dein Moment“: drei Momente, keine Gruppenwahl, Auflösung mit Protokoll der Nacht.
+      _stage = 'Dein Moment: Auflösung';
+      final letzte = hostPlatz.latest;
+      _require(moment.runden.length == 3, 'Nicht jede Runde hatte ihren Moment.');
+      _require(rollenPlaetze.isEmpty || moment.aufrufGeprueft, 'Der letzte Aufruf wurde nicht geprüft.');
+      final ein = _map(_map(letzte['aufloesung'])['einfluss']);
+      final protokoll = _list(ein['protokoll']);
+      _require(protokoll.length == 3 && ein['endwert'] is int && ein['sterne'] is Map, 'Auflösung ohne Protokoll der Nacht, Sterne oder Endwert.');
+      if (moment.rolleGegangen case final weg?) {
+        final runde2 = {for (final z in _list(protokoll[1]['zuege'])) z['rolle']: z};
+        _require(runde2[weg]?['bot'] == true, 'Bot-Ersatz: Der gegangene Gast zog nicht als Bot.');
+      }
+      _require(((_map(letzte['einfluss'])['nachgefragt'] as List?) ?? const []).length == nachfragen, 'Nachfragen fehlen in der Ansicht.');
+      _require([hostPlatz, ...plaetze].every((p) => !p.inbox.any((v) => v['phase'] == 'gruppenwahl')), 'Mit „Dein Moment“ gab es eine Gruppenwahl.');
+    }
     final letzte = hostPlatz.latest;
     _require(letzte['phase'] == 'ende', 'Abend endete nicht.');
     final loesung = _map(letzte['aufloesung']);
@@ -640,6 +841,7 @@ Future<void> _lauf({
     var verglichen = 0;
     var notizen = 0;
     var auflosungFuerAlle = 0;
+    var lauschAnsichten = 0;
     final hostOhnePrivat = <Object?, String>{
       for (final v in hostPlatz.inbox) v['version']: jsonEncode(Map<String, Object?>.of(v)..remove('privat')),
     };
@@ -696,6 +898,24 @@ Future<void> _lauf({
           _require(privat['klasse'] == (istDetektiv || p == hostPlatz ? klasse : null), 'Klasse am falschen Gerät (${p.name}).');
           _require(privat['detektiv'] == istDetektiv, 'Detektiv-Merkmal am falschen Gerät (${p.name}).');
         }
+        // Finale: ohne Schicht keine ihrer Schlüssel; mit ihr öffentlich nie, was gespielt wurde, das
+        // Lauschergebnis nur beim Lauscher, die Tafel nur beim Erzähler. Den Text der Einstimmung nur der Vorleser.
+        _require(k.einfluss || (!view.containsKey('einfluss') && !privat.containsKey('moment') && !privat.containsKey('einflussTafel')),
+            'Schlüssel von „Dein Moment“ ohne Schicht (${p.name}).');
+        if (k.einfluss && !nachFinale) {
+          _require(_keys(view['einfluss']).toSet().intersection({'art', 'tipp', 'tipps', 'summeZusammenhalt', 'summeSpuk', 'wertung', 'zuege', 'tafel'}).isEmpty,
+              'Der Moment verrät vor dem Finale, was gespielt wurde (${p.name}).');
+          _require(!privat.containsKey('einflussTafel') || istErzaehler, 'Zug-Tafel bei ${p.name} ohne Erzähler-Sitz.');
+          if (privat['moment'] case final Map m when m.containsKey('gelauscht')) {
+            _require(p == moment.lauscher, 'Lauschergebnis bei ${p.name}, der nicht lauschte.');
+            lauschAnsichten++;
+          }
+        }
+        if (p != vorleserPlatz) {
+          final text = jsonEncode(view);
+          _require(!privat.containsKey('einstimmungText') && einstimmungTexte.every((t) => !text.contains(jsonEncode(t))),
+              'Text der Einstimmung bei ${p.name}, der nicht vorliest.');
+        }
         if (privat['erzaehlerNotizen'] case final List n) {
           _require(npcTexte.containsAll(n), 'Notiz des Detektivs ist kein npc-Wissen.');
           notizen += n.length;
@@ -709,6 +929,7 @@ Future<void> _lauf({
       }
     }
     _require(auflosungFuerAlle > 0, 'Keine Ansicht nach dem Finale geprüft.');
+    _require(moment.lauscher == null || lauschAnsichten > 0, 'Der Lauscher bekam sein Lauschergebnis nicht.');
     _require(rollen > 7 || notizen > 0, 'Der Detektiv bekam kein npc-Wissen als Notiz.');
     for (final p in plaetze) {
       final eigeneRolle = rollenIds[p];
@@ -854,6 +1075,8 @@ Future<void> _lauf({
     final gastVerworfenVorher = gaeste.fold<int>(0, (s, g) => s + g.verworfen);
     final ansichtenVorher = [for (final p in plaetze) p.inbox.length];
     final hostVersion = hostPlatz.version;
+    // Das Thema eines gegangenen Gastes („Dein Moment“, Bot-Ersatz) hört niemand mehr ab: dort nicht einspielen.
+    if (moment.gegangen case final weg?) lauscher.umschlaege.remove(sitzThema(code, (weg.verb as RelayGast).cid));
     final gesendet = await lauscher.wiedereinspielen();
     // Jede eingespielte Nachricht erreicht Gastgeber und Gast und wird von beiden verworfen
     // (mit --erzwinge verwirft schon die Attrappe einen Teil: dann genügt mindestens eine).
@@ -861,7 +1084,7 @@ Future<void> _lauf({
     await _bis(() => gaeste.fold<int>(0, (s, g) => s + g.verworfen) - gastVerworfenVorher >= (_erzwinge ? 1 : gesendet) ? true : null, 'Gäste verwerfen alle Einspielungen');
     await Future<void>.delayed(const Duration(milliseconds: 500));
     _require(host.statistik.befehleAusgefuehrt == vorEinspielen, 'Wiedereingespielter Befehl wurde ausgeführt.');
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < plaetze.length; i++) {
       _require(plaetze[i].inbox.length == ansichtenVorher[i], 'Wiedereingespielte Ansicht wurde angenommen (${plaetze[i].name}).');
     }
     _require(hostPlatz.version == hostVersion, 'Wiedereinspielung veränderte den Raum.');
@@ -870,7 +1093,12 @@ Future<void> _lauf({
     _require(host.statistik.groessteAnsichtZeichen < 200 * 1024, 'Ansicht nahe an der Nutzlastgrenze.');
 
     final st = host.statistik;
-    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen${k.lang ? ' · Streifzug, Vorspiel und Morgen' : ''} · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
+    final finale = [
+      if (k.einfluss) ' · Dein Moment (Lauschen nur beim Lauscher, Tafel nur beim Erzähler, letzter Aufruf, '
+          '${moment.gegangen == null ? 'ohne Bot-Ersatz' : 'Bot-Ersatz'}, $nachfragen Nachfragen, ohne Gruppenwahl)',
+      if (k.einstimmung) ' · Einstimmung (${einstimmungTexte.length} Texte nur beim Vorleser)',
+    ].join();
+    print('RELAIS-ONLINE OK · ${k.name} · $n Gäste + Gastgeber · $rollen Rollen${k.lang ? ' · Streifzug, Vorspiel und Morgen' : ''}$finale · $ansichtenGesamt Gast-Ansichten geprüft, $geprueft Dossiers · '
         'Mithörer ${lauscher.sitzUmschlaege} Umschläge ohne Klartext, $gesendet Einspielungen abgewehrt · '
         'Befehle ${st.befehleAusgefuehrt} (davon ${st.befehleWiederholt} Wiederholungen erkannt) · '
         'Gastgeber-Spitze ${ergebnis.sendungenSpitze}/s, gezählte Frames Spitze ${ergebnis.zugestelltSpitze}/s'
@@ -1199,7 +1427,8 @@ Future<void> _netzabbruch(PhoenixAttrappe attrappe, String code, _Platz p, _Plat
 
 /// App-Neustart: Der Gast schließt ohne abzumelden und tritt mit demselben
 /// gespeicherten Schlüssel erneut bei (Wiederverbindungs-Token).
-Future<void> _appNeustart(_Platz p, List<RelayGast> gaeste, List<SpeicherAblage> ablagen, RelayParameter relay, String code, int index, _Platz host) async {
+Future<void> _appNeustart(_Platz p, List<RelayGast> gaeste, List<SpeicherAblage> ablagen, RelayParameter relay, String code, int index, _Platz host,
+    {String phase = 'gruppenwahl'}) async {
   _stage = 'App-Neustart ${p.name}';
   _meldung(_stage);
   final alt = p.verb as RelayGast;
@@ -1220,7 +1449,7 @@ Future<void> _appNeustart(_Platz p, List<RelayGast> gaeste, List<SpeicherAblage>
   gaeste[index] = neu;
   p.ersetze(neu);
   _require(neu.spielerId == idVorher, 'App-Neustart: andere Spieler-ID.');
-  await _bis(() => p.inbox.isNotEmpty && p.latest['phase'] == 'gruppenwahl' ? true : null, 'Ansicht nach App-Neustart');
+  await _bis(() => p.inbox.isNotEmpty && p.latest['phase'] == phase ? true : null, 'Ansicht nach App-Neustart');
   _require(jsonEncode(_map(p.latest['privat'])['dossier']) == rolleVorher, 'App-Neustart: Rolle oder Dossier hat sich geändert.');
   await _bis(() => _list(host.latest['spieler']).firstWhere((s) => s['id'] == idVorher)['online'] == true ? true : null, 'Gast wieder online');
 }
@@ -1401,6 +1630,11 @@ Future<void> main(List<String> args) async {
     Map<String, Object?> lesen(String p) => (jsonDecode(File('$partyDir/$p').readAsStringSync()) as Map).cast<String, Object?>();
     final kanon = Kanon.lade(lesen);
     final texte = Texte(kanon, Textsammlung.lade(lesen));
+    // Inhalt je Lauf: ohne Finale-Schichten die Akte selbst, sonst mit Probe-Inhalt, solange sie ihn nicht hat.
+    final inhalte = <_Konstellation, _Inhalt>{
+      for (final k in _konstellationen)
+        k: k.einfluss || k.einstimmung ? _inhalt(partyDir, k) : (kanon: kanon, texte: texte, regeln: null, einstimmung: null),
+    };
 
     final RelayParameter relay;
     if (lokal) {
@@ -1419,7 +1653,7 @@ Future<void> main(List<String> args) async {
         attrappe?.zaehlerZuruecksetzen();
         _fenster.clear();
         final t = Stopwatch()..start();
-        await _lauf(n: n, relay: relay, attrappe: attrappe, kanon: kanon, texte: texte, k: k)
+        await _lauf(n: n, relay: relay, attrappe: attrappe, inhalt: inhalte[k]!, k: k)
             .timeout(const Duration(minutes: 8), onTimeout: () => throw StateError('Zeitüberschreitung des ganzen Laufs'));
         laeufe++;
         print('  ($n Gäste, ${k.name}: ${t.elapsed.inSeconds} s)');

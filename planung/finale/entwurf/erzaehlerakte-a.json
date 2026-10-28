@@ -1,0 +1,124 @@
+{
+  "format": "erzaehlerakte/1",
+  "settingId": "spuk_im_schlosskeller",
+  "hinweis": "Entwurf Erzählerakte, Paket A (SPEZIFIKATION §2): einleitung, schneider, detektiv und die Figuren der Besetzungsplätze eins bis zehn. Nur für die Person, die erzählt (A-063). Gilt für jeden Ausgang des Falls gleich. Motiv, Geheimnis, Nebendelikt, Loyalität und Ziele zieht die App aus figuren.json; der Hintergrund ordnet sie nur ein. Grundlage: FAKTENBLATT.md und netz.json.",
+  "einleitung": "Diese Akte ist nur für dich, die Person, die heute erzählt. Sie zeigt, wer die Gäste sind, was sie verbindet und was jeder mit sich herumträgt, damit du Gäste ohne Spieler glaubhaft sprechen kannst. Wer der Täter ist, steht nicht darin; das zeigt erst das Finale. Lies nichts davon laut vor: Was die Figuren verbergen, kommt nur im Spiel ans Licht, nie durch dich.",
+  "schneider": {
+    "hintergrund": "Was alle über Herrn Schneider wissen, erzählt die Vorgeschichte: einundsechzig, seit fünfundzwanzig Jahren Schlossverwalter, gelernter Gärtner, wohnt im nahen Dorf. Er duzt alle, macht wenig Worte und mag Feste, ohne es je zuzugeben. Hinter der knappen Art steckt Sorge: Die Stiftung hat ihm das Schloss anvertraut, und er behandelt es, als wäre es sein eigenes. Jeden Schaden muss er melden. Kleinere begleicht er heimlich oft aus eigener Kasse, darum rechnet er so genau. Pawel weiß das aus einem Sommerjob und schweigt. Vor dem Abend ist er mit Tugba den Ablaufplan durchgegangen und hat bei jedem Punkt geseufzt. Mit Ahmet, Fatma, Olli und Can gerät er in dieser Nacht aneinander, mit jedem auf eigene Weise. Die Nacht übersteht er mit einer Beule und einer Lücke in der Erinnerung, und bald ist er wieder grantig.",
+    "stimme": [
+      "Brummt, wo andere Danke sagen",
+      "Kurze Sätze, duzt alle",
+      "„Das Schloss war vor euch da.“"
+    ]
+  },
+  "detektiv": {
+    "hintergrund": "Ob Detektiv oder Detektivin, entscheidet der Tisch. Wer ermittelt, ist Gast der Clique, eingeladen von jemandem, den kein Text nennt. Viele Gesichter sind von früheren Festen vertraut, das Schloss aber ist neu. Erkennungszeichen sind der helle Trenchcoat, der karierte Hut und die Pfeife voller Seifenblasen. Die Art: genau zuhören, alles aufschreiben, freundlich und hartnäckig nachfragen. Dass ausgerechnet dieser Gast um Mitternacht die blinde Kuh wird, kommt erst am Abend heraus. Verdacht fällt nie auf diese Rolle.",
+    "stimme": [
+      "Kopf schief, Stift immer bereit",
+      "Fragt freundlich nach, gibt nie auf",
+      "„Erzähl mir mehr davon.“"
+    ]
+  },
+  "figuren": [
+    {
+      "figur": "ahmet",
+      "hintergrund": "Ahmet ist siebenundzwanzig und plant in einer Agentur Stadtfeste und Märkte. Groß geworden ist er mit seiner Cousine Lejla, im selben Haus, Tür an Tür. In derselben Straße wohnte die Familie von Can, und dem Kleinen hat er geduldig das Radfahren beigebracht. An der Gesamtschule teilte er sich jahrelang eine Bank mit Olli, Fatma ging eine Klasse darunter. Joanna fotografiert die Feste, die seine Agentur plant. Für heute hat er den Keller organisiert, mehr weiß die Clique nicht. Heimlich hat er sich beim Essen gründlich verschätzt und will das ausbügeln, ohne dass es jemand merkt. Den Rest erzählen Motiv und Nebendelikt. Lejla weiß von seiner Klemme und hält zu ihm. Was ihn antreibt, ist der Ehrgeiz, dass alles klappt, und der Stolz, keinen Fehler zuzugeben.",
+      "zuSchneider": "Die Clique weiß nur, dass Ahmet den Keller organisiert hat. Heimlich kennen sich die beiden schon vorher, denn der Keller kam über Herrn Schneider zustande. Wie sie am Abend aneinandergeraten, steht unter Motiv.",
+      "stimme": [
+        "Schnell, voller Ideen, mit Handschlag",
+        "Verteilt Aufgaben mitten im Satz",
+        "Lenkt heikle Fragen aufs Programm"
+      ]
+    },
+    {
+      "figur": "fatma",
+      "hintergrund": "Fatma ist sechsundzwanzig und studiert Kommunikationsdesign im letzten Semester. Seit der fünften Klasse ist Emine ihre beste Freundin, und an der Gesamtschule gingen beide eine Klasse unter Ahmet. In der Unibibliothek lernt sie oft mit Azra, die immer Kekse mitbringt. Für die Kurzvideos von Can gestaltet sie die Vorschaubilder. Bei jedem ihrer Umzüge hat Olli die schwersten Kisten getragen. Die Einladungskarte für heute stammt von ihr, und an den Farben hat sie jeder erkannt. Heimlich führt ihre Abschlussarbeit sie an diesem Abend zu einem Stück Schlossgeschichte, das sie nur ausleihen will. Was daraus wird, erzählen Motiv und Nebendelikt. Emine bekommt es mit und hält zu ihr. Sie treibt die Liebe zu schönen alten Dingen, und Aufsehen um ihre Person ist ihr ein Graus.",
+      "zuSchneider": "Vor dem Abend hatte Fatma mit Herrn Schneider nichts zu tun, weder offen noch heimlich. Wie sie am Abend aneinandergeraten, steht unter Motiv.",
+      "stimme": [
+        "Leise, mit Lob für jede Farbe",
+        "Fragt gern zurück: Was meinst du?",
+        "Wird bei heiklen Fragen noch leiser"
+      ]
+    },
+    {
+      "figur": "olli",
+      "hintergrund": "Olli heißt eigentlich Olliver, ist achtundzwanzig und arbeitet als Lagerlogistiker. An der Gesamtschule saß er jahrelang neben Ahmet. Tim hat er an der Berufsschule kennengelernt, seitdem schrauben die beiden zusammen. Im Sportverein steht er auf dem Platz, und Can filmt jedes Spiel, Patzer inklusive. Bei Umzügen im Freundeskreis packt er immer mit an. So wurde Wojtek zu seinem Kumpel vom Tragen, und die schwersten Kisten von Fatma hat er auch geschleppt. Heute hat er sich für den Aufbau gemeldet. Heimlich richtet er an diesem Abend früh einen Schaden an, den er allein wiedergutmachen will. Wie es dazu kommt, steht unter Motiv und Nebendelikt. Wojtek weiß davon und hält zu ihm. Ihn treibt die Hilfsbereitschaft, und Ärger regelt er lieber unter vier Augen.",
+      "zuSchneider": "Vor dem Abend hatte Olli mit Herrn Schneider nichts zu tun, weder offen noch heimlich. Wie sie am Abend aneinandergeraten, steht unter Motiv.",
+      "stimme": [
+        "Ruhig, gutmütig, packt beim Reden mit an",
+        "Erzählt gern vom letzten Umzug",
+        "Will Heikles lieber allein klären"
+      ]
+    },
+    {
+      "figur": "can",
+      "hintergrund": "Can ist fünfundzwanzig, macht eine Ausbildung zum Mediengestalter und dreht lustige Kurzvideos. In derselben Straße wie Ahmet ist er aufgewachsen, und von ihm hat er als Knirps das Radfahren gelernt. Zeynep ist seine Schwester, zwei Jahre jünger und noch lauter als er. Für seine Videos gestaltet Fatma die Vorschaubilder, Baran mischt den Ton. Im Sportverein filmt er die Spiele von Olli. Heute will er den ganzen Abend filmen, damit ein Video entsteht, über das alle noch lange lachen. Heimlich hat er sich für diesen Abend eine eigene Überraschung ausgedacht, von der die Gäste nichts ahnen sollen. Einzelheiten stehen unter Motiv und Nebendelikt. Eingeweiht ist Zeynep, und sie hält zu ihm. Ihn treibt die Lust auf den großen Lacher, und ein Witz, der vorher herauskommt, ist keiner mehr.",
+      "zuSchneider": "Vor dem Abend hatte Can mit Herrn Schneider nichts zu tun, weder offen noch heimlich. Wie sie am Abend aneinandergeraten, steht unter Motiv.",
+      "stimme": [
+        "Schnell, albern, nie lange still",
+        "Filmt mitten im Gespräch",
+        "Rettet heikle Momente mit einem Witz"
+      ]
+    },
+    {
+      "figur": "leyla",
+      "hintergrund": "Lejla ist fünfundzwanzig und Apothekerin, gewohnt, genau hinzusehen und dabei freundlich zu bleiben. Mit Ahmet ist sie im selben Haus groß geworden, Tür an Tür, und die beiden halten zusammen wie Geschwister. Für heute hat sie das Buffet geplant, zusammen mit Marek, der mit seiner Schwester kocht und liefert. Serkan kennt sie aus seinem Erste-Hilfe-Kurs. Sie merkt sich, wer was gern isst, und keiner verlässt ihr Buffet hungrig. Heimlich weiß sie, dass ihr Cousin sich beim Essen übernommen hat. Sie hat ihm versprochen, darüber zu schweigen, und hält Wort, auch wenn es ihr schwerfällt. Was sie in der Nacht beobachtet, steht unter Geheimnis. Was sie antreibt? Alle sollen satt und zufrieden sein, und auf sie ist Verlass.",
+      "zuSchneider": "Vor dem Abend hatten die beiden einmal miteinander zu tun, heimlich und unerfreulich. Am Nachmittag verlangte Herr Schneider eine Genehmigung für das Essen, das die Clique mitbringt. Ob am Telefon oder vor Ort, bleibt offen.",
+      "stimme": [
+        "Bietet jedem etwas vom Buffet an",
+        "Fragt nach dem Lieblingsgericht",
+        "Herzlich, aber bestimmt wie in der Apotheke"
+      ]
+    },
+    {
+      "figur": "emine",
+      "hintergrund": "Emine ist sechsundzwanzig und Grundschullehrerin, und das legt sie auch nach Schulschluss nicht ab. Sie spricht ruhig, lobt gute Ideen und sorgt dafür, dass alle nacheinander reden. Ohne ihre silberne Thermoskanne geht sie nirgends hin. Fatma ist seit der fünften Klasse ihre beste Freundin, die beiden haben die ganze Gesamtschule zusammen durchgestanden. Damir betreut nachmittags Kinder aus ihrer Klasse. Heimlich bekommt sie an diesem Abend etwas mit, das ihre Freundin lieber für sich behalten hätte. Sie schweigt, weil sie Fatmas Wort glaubt. Geheimnis und Loyalität erzählen den Rest. Ein Versprechen ist für sie ein Versprechen, und Fatma lässt sie nicht hängen.",
+      "zuSchneider": "Sie kennt ihn schon: Herr Schneider hat sie einmal mit ihrer Schulklasse durchs Schloss geführt und zu jedem Gewölbe etwas erzählt. Seitdem weiß sie, dass hinter seinem Brummen eine Menge Wissen steckt.",
+      "stimme": [
+        "Ruhig und deutlich wie vor der Klasse",
+        "Lobt jede gute Idee",
+        "Schenkt Tee aus der Thermoskanne nach"
+      ]
+    },
+    {
+      "figur": "tim",
+      "hintergrund": "Tim ist siebenundzwanzig und Mechatroniker. Was kaputt ist, nimmt er sich selbst vor, und manchmal auch, was noch heil ist. Seit der Berufsschule sind er und Olli ein eingespieltes Schraubergespann. Für Hana repariert er die Motorsäge, sie bringt ihm dafür Brennholz. Hinter seinem Ohr klemmt immer ein Spannungsprüfer-Schraubenzieher. Ratschläge verteilt er ungefragt, und über die eigenen Witze lacht er am lautesten. Heimlich hält er an diesem Abend eine Warnung von Herrn Schneider für übertrieben, und das bekommt das ganze Gewölbe zu spüren. Die Einzelheiten stehen unter Motiv und Nebendelikt. Was er danach im Dunkeln bemerkt, steht unter Geheimnis. Sein Bastlerstolz treibt ihn an, und genau der macht ihm hinterher zu schaffen.",
+      "zuSchneider": "Vor dem Abend hatten die beiden nichts miteinander zu tun. Am Abend warnt Herr Schneider ihn vor etwas, das Tim besser zu wissen glaubt. Mehr dazu unter Motiv.",
+      "stimme": [
+        "Gibt ungefragt Ratschläge zu allem",
+        "Lacht am lautesten über eigene Witze",
+        "„Lass mal, das schau ich mir an.“"
+      ]
+    },
+    {
+      "figur": "johanna",
+      "hintergrund": "Joanna ist vierundzwanzig, studiert Medienwissenschaft und fotografiert nebenbei Hochzeiten. Heute macht sie die Bilder fürs gemeinsame Album der Clique. Ein Gruppenbild, auf dem jemand fehlt, gilt für sie nicht. Die Stadtfeste von Ahmets Agentur hält sie im Bild fest. Auf Hochzeiten läuft sie ständig Marek über den Weg: Sie fotografiert, er kocht. Für die Mappe von Wojtek setzt sie seine Hausmodelle ins rechte Licht. Still steht sie nie, die violette Strickjacke flattert hinterher. Heimlich landet an diesem Abend ein Bild auf ihrem Handy, das jemand gern wieder los wäre. Gebeten wurde sie, es zu löschen, und sie will Wort halten, ohne jemanden anzulügen. Geheimnis und Loyalität erzählen mehr. Ihr geht es um gute Bilder und um Freunde, die sich auf sie verlassen können.",
+      "zuSchneider": "Vor dem Abend hatten die beiden nichts miteinander zu tun. Dass Herr Schneider an diesem Abend auf einem ihrer Bilder landet, steht unter Geheimnis.",
+      "stimme": [
+        "Ruft alle zum Gruppenbild zusammen",
+        "Ständig in Bewegung, Handy in der Hand",
+        "Schwärmt von schönen Hochzeiten"
+      ]
+    },
+    {
+      "figur": "murat",
+      "hintergrund": "Marek ist achtundzwanzig und führt mit seiner Schwester einen kleinen Catering-Betrieb. Das Essen für heute kommt von den beiden, und nach der Lieferung ist er eingeladen mitzufeiern. Zur Clique gehört er im erweiterten Kreis, über Lejla und Joanna. Mit Lejla hat er das Buffet geplant. Joanna trifft er auf fast jeder Hochzeit, sie mit dem Handy, er am Herd. Aylin macht die Steuer für seinen Betrieb. Die Portionen zählt er lieber einmal zu oft, und Lob für sein Essen kann er nie oft genug hören. Heimlich bringt ihm sein Lieferwagen Ärger ein; das Nebendelikt erzählt, warum. Was er in der Nacht sieht, steht unter Geheimnis. Stolz ist er auf sein Essen und auf den Betrieb mit seiner Schwester.",
+      "zuSchneider": "Vorab hatte jemand Marek am Telefon zugesagt, er dürfe im Schlosshof parken; wer, bleibt offen. Der Platz ist aber für Herrn Schneider reserviert, und den Ärger darüber tragen die beiden unter sich aus. Mehr unter Nebendelikt.",
+      "stimme": [
+        "Zählt nach, ob genug für alle da ist",
+        "Hört Lob fürs Essen gern zweimal",
+        "Erzählt vom Betrieb mit der Schwester"
+      ]
+    },
+    {
+      "figur": "zeynep",
+      "hintergrund": "Zeynep ist dreiundzwanzig, studiert Sport und trainiert eine Mädchenmannschaft im Fußball. Can ist zwei Jahre älter, doch wer von beiden lauter ist, hört man sofort. Mit Sibel teilt sie eine Wohnung: sie selbst laut und früh wach, Sibel leise. Ihr Team spielt im Sportverein, wo Serkan als Sanitäter am Spielfeldrand steht. Beim Vereinsfest legt Baran auf, und ihre Mädchen tanzen. Jede Kleinigkeit wird bei ihr zum Wettkampf, notfalls das Abräumen der Teller. Heimlich hat sie ihrem Bruder für diesen Abend Hilfe zugesagt, und als die Nacht anders verläuft als geplant, fühlt sie sich mitverantwortlich. Nebendelikt und Loyalität erzählen mehr. Gewinnen will sie immer, und ihrem Bruder hält sie den Rücken frei.",
+      "zuSchneider": "Vor dem Abend hatten die beiden nichts miteinander zu tun. Am Abend kennt Herr Schneider sie nur als eine von vielen Stimmen im Gewölbe, allerdings als die lauteste.",
+      "stimme": [
+        "Laut und voller Schwung wie beim Training",
+        "Macht aus allem einen Wettkampf",
+        "„Los, Leute, mehr Einsatz!“"
+      ]
+    }
+  ]
+}

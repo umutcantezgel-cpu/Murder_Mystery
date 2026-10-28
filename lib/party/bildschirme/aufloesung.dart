@@ -10,6 +10,8 @@ import '../erzaehler_ausgabe.dart';
 import '../party_stil.dart';
 import '../sitzung.dart';
 import '../teilen.dart';
+import 'einfluss_teile.dart' show EinflussAufloesungAnsicht;
+import 'moment.dart' show EinflussDarstellung;
 
 final _de = LDe();
 
@@ -46,6 +48,11 @@ class AufloesungBildschirm extends StatelessWidget {
             if (s.nachspiel case final n when n.isNotEmpty) ...[
               const SizedBox(height: 12),
               _Nachspiel(sitzung: s, saetze: n),
+            ],
+            // „Dein Moment“ (Finale §3.10): Protokoll der Nacht, Sterne, Tipps, Tischbonus und Endwert.
+            if (s.einflussAufloesung case final a?) ...[
+              const SizedBox(height: 12),
+              EinflussAufloesungAnsicht(aufloesung: a, darstellung: EinflussDarstellung.sitzung(s), punkte: s.spiel.punkte),
             ],
           ],
         ),

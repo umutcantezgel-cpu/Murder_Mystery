@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "ui",
-  "hinweis": "Erzählerfeld und Erzählerstimme (F4-BAUMEISTER-05, Master 7.12).",
+  "hinweis": "Erzählerfeld und Erzählerstimme (F4-BAUMEISTER-05, Master 7.12); Kapiteltitel der Einstimmung (A-063).",
   "eintraege": [
     {
       "id": "ui.erzaehler.stimme",
@@ -22,6 +22,38 @@
     {
       "id": "ui.erzaehler.keine_stimme",
       "text": "Auf diesem Gerät gibt es keine deutsche Stimme. Der Text steht trotzdem da."
+    },
+    {
+      "id": "ui.einstimmung.titel.schloss",
+      "text": "Das alte Schloss"
+    },
+    {
+      "id": "ui.einstimmung.titel.schneider",
+      "text": "Herr Schneider"
+    },
+    {
+      "id": "ui.einstimmung.titel.clique",
+      "text": "Wie die Clique entstand"
+    },
+    {
+      "id": "ui.einstimmung.titel.einladung",
+      "text": "Die Einladung"
+    },
+    {
+      "id": "ui.einstimmung.titel.keller",
+      "text": "Tief unter dem Turm"
+    },
+    {
+      "id": "ui.einstimmung.titel.eigenarten",
+      "text": "Ungeschriebene Gesetze"
+    },
+    {
+      "id": "ui.einstimmung.titel.heute",
+      "text": "Auf dem Weg"
+    },
+    {
+      "id": "ui.einstimmung.titel.vorstellung",
+      "text": "Wer heute mitfeiert"
     }
   ]
 }

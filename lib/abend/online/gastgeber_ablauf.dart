@@ -9,6 +9,7 @@ import '../../app/router.dart';
 import '../../l10n/lookup.dart';
 import '../../netz/relay_einstellung.dart';
 import '../../party/bildschirme/detektiv_karte.dart';
+import '../../party/erzaehlerakte_ansicht.dart';
 import '../../party/party_seite.dart';
 import '../../party/party_stil.dart' show PartyFussHinweis;
 import '../../party/sitzung.dart';
@@ -222,6 +223,11 @@ class _Menue extends StatelessWidget {
               ),
               const SizedBox(height: MMass.s16),
             ],
+            // Nur auf dem Erzähler-Sitz und nur bis zum Finale: die Erzählerakte (A-063).
+            if (sitzung.erzaehlerakteSichtbar) ...[
+              Align(alignment: Alignment.centerLeft, child: ErzaehlerakteKnopf(sitzung: sitzung)),
+              const SizedBox(height: MMass.s16),
+            ],
             Align(
               alignment: Alignment.centerLeft,
               child: RollenUebersichtKnopf(
@@ -229,6 +235,8 @@ class _Menue extends StatelessWidget {
                 art: MKnopfArt.zweit,
                 mitErzaehler: sitzung.daten.mitErzaehlerSitz,
                 detektivWort: detektivBezeichnung(l, sitzung.daten),
+                mitEinstimmung: sitzung.mitEinstimmung,
+                einfluss: sitzung.einfluss,
               ),
             ),
             const SizedBox(height: MMass.s16),

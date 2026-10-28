@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Enden;
-import 'package:mordakte_core/runden.dart' show AbendErgebnis, Sitz;
+import 'package:mordakte_core/runden.dart' show AbendErgebnis, EinflussErfahrung, Sitz;
 import 'package:mordakte_netz/mordakte_netz.dart' show VerbindungsStatus;
 import 'package:provider/provider.dart';
 
@@ -11,6 +11,7 @@ import '../../app/router.dart';
 import '../../l10n/lookup.dart';
 import '../../meta/meta_store.dart';
 import '../../party/bildschirme/detektiv_karte.dart' show zeigeDetektivKarte;
+import '../../party/einfluss_sicht.dart' show AufloesungSicht;
 import '../../stil/mappe/online_bausteine.dart' show mOnlineStempelGruen;
 import '../../stil/stil.dart';
 import '../abend_halter.dart';
@@ -132,6 +133,8 @@ class _GastSeiteState extends State<GastSeite> {
     // Der Detektiv-Sitz bekommt die Karte seiner Klasse (M6.4): die des Sitzes, sonst die eigene.
     final klasse = privat['detektiv'] == true ? jText(privat['klasse'], context.read<MetaStore?>()?.loadout.cls ?? '') : '';
     final zusage = jText(v['wuerfelZusage']);
+    // „Dein Moment“ (Finale §3.10): Sterne, Stern des Abends und Spürnase zählen für Gäste mit Figur.
+    final ein = AufloesungSicht.ausJson(a['einfluss']);
     final ergebnis = AbendErgebnis(
       akte: jText(v['akte'], daten.fall),
       salz: jText(a['salz']),
@@ -141,6 +144,9 @@ class _GastSeiteState extends State<GastSeite> {
       anklageRichtig: regel.richtig,
       ende: regel.id,
       abstecherFunde: jTexte(a['abstecherFunde']).toSet(),
+      einfluss: ein == null || rolle.isEmpty
+          ? null
+          : EinflussErfahrung(sterne: ein.sterne[rolle] ?? 0, sternDesAbends: ein.stern == rolle, spuernase: ein.spuernasen.contains(rolle)),
     );
     _aufgeben = true;
     _abendHalter.beende(AbendAbschluss(
@@ -242,7 +248,7 @@ class GastFuss extends StatelessWidget {
             icon: Icons.badge_outlined,
             onPressed: () => zeigeDetektivKarte(context, karte),
           ),
-        RollenUebersichtKnopf(hervorheben: c.ich?.sitz, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort),
+        RollenUebersichtKnopf(hervorheben: c.ich?.sitz, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort, einfluss: c.v['einfluss'] is Map),
         MKnopf(text: l.online_verlassen, art: MKnopfArt.leise, icon: Icons.logout_rounded, onPressed: onVerlassen),
       ],
     );

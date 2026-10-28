@@ -1,0 +1,35 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "erzaehler",
+  "hinweis": "Entwurf: Vorgeschichte der Einstimmung (SPEZIFIKATION §1, FAKTENBLATT §4.7), vor der Vorstellung vorgelesen. Sieben Blöcke vorgeschichte.<teil> in der Reihenfolge schloss, schneider, clique, einladung, keller, eigenarten, heute; je fünfundachtzig bis hundert Wörter, zusammen etwa fünf Minuten. Erzählt nur die Zeit vor dem Abend und endet kurz vor der Ankunft, die das Vorspiel erzählt. Namen nur Ahmet, Fatma, Olli, Can je dreimal und Herr Schneider; nie der Detektiv, nie die übrigen Gäste. Jede Kernfigur hat genau einen Beitrag aus ihrer öffentlichen Rolle (Keller, Einladungskarte, Anpacken, Filmen), ohne Ort, Uhrzeit oder Handgriff des Abends; „Aufbau“ und „als Erster“ entfallen, weil sie auf das Tragen am frühen Abend zeigen. Den Ablaufplan nennt die Vorgeschichte ohne Person, damit er nicht Ahmet zufällt. Im Block clique ist jede Kernfigur mit jeder anderen verbunden und zweimal genannt, damit keine im Mittelpunkt steht; eigenarten erzählt nur Gewohnheiten der ganzen Clique, weil die Eigenarten der vier schon in ihren Vorstellungen stehen. Der Spuk ist nur zu hören, ohne Gegensatz „gesehen/gehört“, damit nichts auf ein Gesicht im Dunkeln vorausweist. Kein Echo aus intro.start (Lage vor der Stadt, Gewölbekeller unter dem Schlossturm, Buffet), weil das Intro gleich danach folgt. Vorleseregeln: keine Ziffern, Klammern, Abkürzungen.",
+  "eintraege": [
+    {
+      "id": "vorgeschichte.schloss",
+      "text": "Lehnt euch zurück, denn diese Geschichte beginnt lange vor heute Abend. Wo die Stadt aufhört und die Wälder anfangen, an einer stillen Landstraße, steht ein Schloss. Es hat schon ein paar hundert Jahre auf dem Buckel. Seine Gewölbe sind sogar noch älter, denn man hat das Schloss auf die Keller einer kleinen Burg gesetzt. Die Mauern sind dicker, als ein Arm lang ist. Die letzte Schlossherrin hat alles einer Stiftung vermacht, damit hier Menschen zusammenkommen. Seitdem gibt es Führungen und Konzerte, und im Sommer wird im Garten geheiratet. Im Dorf erzählt man sich: Bei Westwind singt das Schloss."
+    },
+    {
+      "id": "vorgeschichte.schneider",
+      "text": "Seit fünfundzwanzig Jahren kümmert sich Herr Schneider um Schloss, Park und Garten. Er ist einundsechzig, wohnt im nahen Dorf und ist offiziell Schlossverwalter, aber fast alle nennen ihn einfach den Hausmeister. Gelernt hat er Gärtner, und die Astern im Garten pflanzt er bis heute selbst. Kommen Schulklassen, führt er sie durch jedes Gewölbe und weiß zu jeder Mauer eine Geschichte. Sonst macht er nicht viele Worte. Er brummt über Lärm, Krümel und Matsch an den Schuhen. Dauert ihm etwas zu lange, tippt er auf seine Armbanduhr. Danke sagt er selten. Feste mag er trotzdem, auch wenn er das nie zugeben würde."
+    },
+    {
+      "id": "vorgeschichte.clique",
+      "text": "Die Clique ist nicht an einem Abend entstanden, sondern über viele Jahre, Stück für Stück. Ein paar von ihnen kommen aus derselben Straße. Dort hat Ahmet dem kleinen Can das Radfahren beigebracht, mit viel Geduld und noch mehr Gelächter. An der Gesamtschule saß Olli jahrelang neben Ahmet, und eine Klasse darunter ging Fatma. Inzwischen filmt Can im Sportverein die Spiele von Olli, und für alle seine Videos gestaltet Fatma die Vorschaubilder. Nach und nach kamen andere dazu: von der Uni, aus der Berufsschule, von Spieleabenden und sogar aus einem Erste-Hilfe-Kurs. Jeder brachte jemanden mit, und keiner ging wieder."
+    },
+    {
+      "id": "vorgeschichte.einladung",
+      "text": "Früher traf sich die ganze Clique jeden November zu einem großen Herbstabend. Dann kamen Studium, Arbeit und Umzüge dazwischen. In kleinen Runden sah man sich weiter, doch alle zusammen waren lange nicht mehr. Diesen Sommer stand fest: Der Herbstabend kommt zurück. Bald gab es auch einen Ablaufplan, bis auf die Minute genau. Fatma hat die Einladungskarte gestaltet, und an den Farben sah jeder sofort, von wem sie war. Verschickt wurde alles als Nachricht, der Plan gleich dazu. Zurück kamen schnelle Antworten, und fast jede klang gleich: Endlich wieder alle zusammen!"
+    },
+    {
+      "id": "vorgeschichte.keller",
+      "text": "Wo aber feiert eine so große Clique? In kein Wohnzimmer passen so viele Leute. Ahmet hat den Keller organisiert. Tief unter dem Turm liegt ein weiter Gewölbekeller, mehrere Gewölbe hintereinander, durch niedrige Gänge verbunden. Dort stehen lange Tafeln und Wandbänke, und es gibt Platz für ein Buffet. Hier unten versteht man, was das Dorf meint. Der Wind summt in den Lichtschächten eine Melodie, die keiner kennt. Schwere Türen quietschen, als wollten sie mitreden. Wer da singt, weiß bis heute keiner. Und die Handys? Die haben hier unten keinen Empfang."
+    },
+    {
+      "id": "vorgeschichte.eigenarten",
+      "text": "Wenn diese Clique zusammenkommt, gelten ein paar ungeschriebene Gesetze. Erstens: Alle reden gleichzeitig, und trotzdem bekommt jeder alles mit. Zweitens: Wer als Letzter kommt, wird mit Applaus begrüßt. Drittens: Es wird zu laut gelacht und zu spät aufgeräumt. Viertens: Beim Spielen gewinnt immer jemand, der vorher behauptet hat, die Regeln nicht zu kennen. Fünftens: Jede alte Geschichte wird noch einmal erzählt, und jedes Mal wird sie ein bisschen besser. Und zum Schluss will keiner als Erster nach Hause, auch wenn alle schon gähnen. Beim Abschied wird dann schon das nächste Treffen geplant."
+    },
+    {
+      "id": "vorgeschichte.heute",
+      "text": "Heute ist Samstag, und es ist endlich so weit: das große Wiedersehen. Draußen wird es früh Nacht und bitterkalt, und der Wind kommt von Westen. Der Ablauf steht, und fürs Buffet ist alles geplant. Für Mitternacht stehen sogar Torte und ein Spiel im Plan. Olli will überall mit anpacken. Can will die lustigsten Momente filmen. Jetzt sitzen die meisten schon in den Autos und fahren aus der Stadt hinaus. In mehreren Autos läuft dasselbe alte Lieblingslied. Am Ende der Landstraße wartet das alte Schloss. Hört ihr es schon singen?"
+    }
+  ]
+}

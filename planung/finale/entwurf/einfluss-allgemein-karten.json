@@ -1,0 +1,71 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "einfluss",
+  "hinweis": "Entwurf: allgemeine Karten der Schicht „Dein Moment“ (R17, je Schlüssel genau ein Stichpunkt mit höchstens acht Wörtern, keine Prosa). Wirkungen nach SPEZIFIKATION §3.2, §3.4, §3.5, §3.8, §3.12; „Störung“ heißt auf allen Karten negativer Tischwert, „Rückendeckung“ positiver. Ziffern sind auf Karten erlaubt (TON-LEITFADEN §4). Platzhalter: @figur, @ziel, @zug (Kurzname aus einfluss.zug.<art>.titel); in einfluss.privat.gelauscht steht @ziel am Ende, damit die Zeile bei Zügen ohne Ziel (helfen, auspacken, ablenken) mit leerem @ziel lesbar bleibt. Nennt keinen Fallgegenstand, keine Suchstelle, keinen Indizort, keinen Lacher, keinen Sperrort.",
+  "eintraege": [
+    { "id": "einfluss.zug.zeigen.titel", "text": "Zeigen" },
+    { "id": "einfluss.zug.zeigen.p1", "text": "Diese Runde: +1 Tischstimme, wo die Figur vorkommt" },
+    { "id": "einfluss.zug.zeigen.p2", "text": "Alle hören ein Gerücht, anonym bis zur Auflösung" },
+    { "id": "einfluss.zug.zeigen.p3", "text": "Der Spuk wächst ein wenig" },
+    { "id": "einfluss.zug.zeigen.wahl", "text": "Auf wen zeigst du?" },
+
+    { "id": "einfluss.zug.decken.titel", "text": "Decken" },
+    { "id": "einfluss.zug.decken.p1", "text": "Diese Runde: −1 Tischstimme, wo die Figur vorkommt" },
+    { "id": "einfluss.zug.decken.p2", "text": "Die Figur erfährt nur: Jemand hält zu dir" },
+    { "id": "einfluss.zug.decken.p3", "text": "Gelingt dort eine Suche, fliegst du vielleicht auf" },
+    { "id": "einfluss.zug.decken.wahl", "text": "Wen deckst du – auch dich selbst?" },
+
+    { "id": "einfluss.zug.helfen.titel", "text": "Helfen" },
+    { "id": "einfluss.zug.helfen.p1", "text": "+3 Nachtminuten für die Ermittlung" },
+    { "id": "einfluss.zug.helfen.p2", "text": "Höchstens +9 je Runde, egal wie viele helfen" },
+    { "id": "einfluss.zug.helfen.p3", "text": "Anonym bis zur Auflösung, stärkt den Zusammenhalt" },
+
+    { "id": "einfluss.zug.auspacken.titel", "text": "Auspacken" },
+    { "id": "einfluss.zug.auspacken.p1", "text": "Dein Geheimnis kommt offen zu den Funden" },
+    { "id": "einfluss.zug.auspacken.p2", "text": "Alle hören es, mit deinem Namen" },
+    { "id": "einfluss.zug.auspacken.p3", "text": "Nur einmal am Abend, Zusammenhalt wächst doppelt" },
+
+    { "id": "einfluss.zug.ablenken.titel", "text": "Ablenken" },
+    { "id": "einfluss.zug.ablenken.p1", "text": "−4 Nachtminuten, höchstens −8 je Runde" },
+    { "id": "einfluss.zug.ablenken.p2", "text": "Alle erleben deinen Auftritt, mit deinem Namen" },
+    { "id": "einfluss.zug.ablenken.p3", "text": "Spuk wächst doppelt, Zusammenhalt sinkt" },
+
+    { "id": "einfluss.zug.lauschen.titel", "text": "Lauschen" },
+    { "id": "einfluss.zug.lauschen.p1", "text": "Du erfährst Zug und Ziel dieser Figur" },
+    { "id": "einfluss.zug.lauschen.p2", "text": "Gilt nur für ihren Zug dieser Runde" },
+    { "id": "einfluss.zug.lauschen.p3", "text": "Bleibt geheim bis zur Auflösung" },
+    { "id": "einfluss.zug.lauschen.wahl", "text": "Bei wem lauschst du?" },
+
+    { "id": "einfluss.tipp.titel", "text": "Geheimer Tipp" },
+    { "id": "einfluss.tipp.wahl", "text": "Wer war's?" },
+
+    { "id": "einfluss.ereignis.tee.karte", "text": "+5 Nachtminuten in dieser Runde" },
+    { "id": "einfluss.ereignis.kerzenschein.karte", "text": "Nächste Suche: Störung zählt nicht" },
+    { "id": "einfluss.ereignis.erinnerung.karte", "text": "Eine zusätzliche Nachfrage vor der Anklage" },
+    { "id": "einfluss.ereignis.flackerlicht.karte", "text": "−3 Nachtminuten in dieser Runde" },
+    { "id": "einfluss.ereignis.fledermaus.karte", "text": "Diese Runde: Störung zählt doppelt" },
+    { "id": "einfluss.ereignis.kragen.karte", "text": "−5 Nachtminuten, der Morgen wird chaotisch" },
+
+    { "id": "einfluss.abzeichen.plus1", "text": "Rückendeckung +1" },
+    { "id": "einfluss.abzeichen.plus2", "text": "Volle Rückendeckung +2" },
+    { "id": "einfluss.abzeichen.minus1", "text": "Störung −1" },
+    { "id": "einfluss.abzeichen.minus2", "text": "Starke Störung −2" },
+
+    { "id": "einfluss.befragung.redselig", "text": "Redselig: eine Randnotiz obendrauf" },
+    { "id": "einfluss.befragung.zoegert", "text": "Zögert: kostet 3 Minuten extra" },
+    { "id": "einfluss.befragung.mauert", "text": "Mauert: 3 Minuten extra, Fakten erst im Zwischenresümee" },
+
+    { "id": "einfluss.tischruf.nochmal", "text": "Nochmal: 3 Minuten, gleiche Stelle, gleicher Tischwert" },
+    { "id": "einfluss.tischruf.umweg", "text": "Umweg: 3 Minuten, +1, ignoriert Störung, Fakten später" },
+
+    { "id": "einfluss.nachfrage.titel", "text": "Nachfrage" },
+    { "id": "einfluss.nachfrage.p1", "text": "Zeigt eine noch verborgene Randnotiz einer gewählten Option" },
+
+    { "id": "einfluss.privat.haelt_zu_dir", "text": "Jemand hält zu dir" },
+    { "id": "einfluss.privat.mehrere_halten", "text": "Mehrere halten zu dir" },
+    { "id": "einfluss.privat.gelauscht", "text": "Gelauscht bei @figur: @zug @ziel" },
+    { "id": "einfluss.privat.wirkte", "text": "Dein Zug hat etwas bewegt" },
+    { "id": "einfluss.privat.ohne_folgen", "text": "Diesmal bewegte deine Stimme keinen Tischwert" },
+    { "id": "einfluss.privat.ertappt", "text": "Ertappt: Alle wissen jetzt von deinem Decken" }
+  ]
+}

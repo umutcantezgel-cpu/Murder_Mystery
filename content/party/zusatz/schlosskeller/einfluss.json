@@ -1,0 +1,205 @@
+{
+  "format": "einfluss/1",
+  "akte": "schlosskeller",
+  "hinweis": "„Dein Moment“ (planung/finale/SPEZIFIKATION.md §3): Zahlen, Zugarten, Bezug und Randnotizen je Option, Auspacken je Figur, Ereignisse der Leisten, Bot-Persönlichkeiten und die zwei Sterne je Figur. Alles statisch, öffentlich und in allen Pfaden gleich; nichts nennt Täter, Pfad oder Hinweisqualität. Gelesen nur mit der Fähigkeit „einfluss“ in akten.json. Bots: Gewichte in Prozent, Summe 100; wo die Spezifikation nur 80 nennt (dilara), stehen die übrigen 20 beim Auspacken. Zahlen, Bot-Gewichte und Ziele abgestimmt am Bot-Tisch (SPEZIFIKATION „Änderungen“ 18, E-048): Übertrag 5, eine Nachfrage je volle 25 Restminuten, Zusammenhalt +2 ab 5K ≥ 2·n_eff und +1 ab 5K ≥ n_eff. Randnotizen der Befragungen stammen nie von der befragten Figur und wiederholen weder ihr Gespräch noch den Fund der Option (SPEZIFIKATION „Änderungen“ 45, 47): Damir und Joanna zeigen Pawels Wissen über Herrn Schneiders Strenge beim Geld (zu Damirs Ärger über das Teegeschirr und zum Streitfoto), Emine und Tugba Serkan am verschlossenen Außentor (wo jemand im Dunkeln war, niemand kam hinaus; zu Tugbas Eintrag „Serkan (Auto)“), Tim und Azra Tugbas Liste von 23:57 (wo alle kurz vor dem Knall angeblich waren), Zeynep und Aylin Tims leuchtendes Gesicht am Sicherungskasten (zu Cans Maske; bei Aylin der andere Faden der letzten Frage). Jede gilt in allen Pfaden, steht in keiner Begründungskette und kommt in keiner anderen Entscheidung vor, damit „Redselig“ nicht leer ausgeht.",
+  "zahlen": {
+    "tisch": {"teiler": 5, "deckel": 2},
+    "wuerfel": {"modBoden": -2, "modDeckel": 3, "umwegBonus": 1},
+    "befragung": {"redseligAb": 1, "zoegertMinuten": 3, "mauertMinuten": 3},
+    "minuten": {"runde": 45, "uebertragHoechstens": 5, "boden": 42, "helfenHoechstens": 9, "ablenkenHoechstens": 8},
+    "leisten": {
+      "hoechstens": 6,
+      "nMindestens": 5,
+      "zusammenhalt": [{"zuwachs": 2, "faktor": 5, "gegen": 2}, {"zuwachs": 1, "faktor": 5, "gegen": 1}],
+      "spuk": [{"zuwachs": 2, "faktor": 2, "gegen": 1}, {"zuwachs": 1, "faktor": 4, "gegen": 1}]
+    },
+    "nachfragen": {"jeMinuten": 25, "hoechstens": 2},
+    "ende": {"endwertHoechstens": 9, "tischbonusAb": 4},
+    "fluestern": {"wahrAb": 2, "neutralAb": 1},
+    "tippRunde": 3
+  },
+  "arten": [
+    {"id": "zeigen", "ziel": "andere", "tisch": 1, "spuk": 1},
+    {"id": "decken", "ziel": "jede", "tisch": -1},
+    {"id": "helfen", "ziel": "keins", "minuten": 3, "zusammenhalt": 1},
+    {"id": "auspacken", "ziel": "keins", "zusammenhalt": 2, "einmal": true},
+    {"id": "ablenken", "ziel": "keins", "minuten": -4, "zusammenhalt": -1, "spuk": 2},
+    {"id": "lauschen", "ziel": "andere"}
+  ],
+  "bezug": {
+    "e1_1_joanna": ["johanna", "ahmet"],
+    "e1_1_damir": ["enes", "ahmet"],
+    "e1_2_emine": ["emine", "fatma"],
+    "e1_2_tugba": ["tugba", "fatma", "olli"],
+    "e1_3_tim": ["tim", "can"],
+    "e1_3_azra": ["dilara", "olli"],
+    "e2_1_ascheneimer": ["ahmet", "meryem"],
+    "e2_1_bauchtasche": ["can", "zeynep"],
+    "e2_2_vitrine": ["fatma", "dilara", "selin"],
+    "e2_2_tasche": ["fatma", "emine"],
+    "e2_3_olli": ["olli", "kaan"],
+    "e2_3_kamin": ["olli", "meryem"],
+    "e3_1_turmgang": ["can", "selin"],
+    "e3_1_ostsaal": ["ahmet", "baran"],
+    "e3_1_buffetsaal": ["fatma", "olli", "enes"],
+    "e3_2_fatma": ["fatma"],
+    "e3_2_kerzenstaender": ["ahmet", "fatma", "olli", "can"],
+    "e3_3_zeynep": ["zeynep", "can"],
+    "e3_3_aylin": ["aylin", "ahmet"]
+  },
+  "randnotizen": {
+    "e1_1_joanna": ["b_pawel_schneider"],
+    "e1_1_damir": ["b_pawel_schneider"],
+    "e1_2_emine": ["b_serkan_tor"],
+    "e1_2_tugba": ["b_serkan_tor"],
+    "e1_3_tim": ["b_tugba_notiz"],
+    "e1_3_azra": ["b_tugba_notiz"],
+    "e2_1_ascheneimer": ["b_hana_umschlag"],
+    "e2_1_bauchtasche": ["b_marek_gesicht"],
+    "e2_2_vitrine": ["b_selin_gesicht"],
+    "e2_2_tasche": ["b_azra_tasche"],
+    "e2_3_olli": ["b_wojtek_olli_satz"],
+    "e2_3_kamin": ["b_hana_wachs"],
+    "e3_1_turmgang": ["b_wojtek_vorbei"],
+    "e3_1_ostsaal": ["b_baran_rufe"],
+    "e3_1_buffetsaal": ["b_zeynep_gesicht"],
+    "e3_2_fatma": ["b_emine_schatulle"],
+    "e3_2_kerzenstaender": ["b_hana_wachs"],
+    "e3_3_zeynep": ["b_tim_gesicht"],
+    "e3_3_aylin": ["b_tim_gesicht"]
+  },
+  "auspacken": {
+    "ahmet": {"fakt": "f_nd_ahmet_umschlag"},
+    "fatma": {"fakt": "f_nd_fatma"},
+    "olli": {"fakt": "f_nd_olli"},
+    "can": {"fakt": "f_nd_can_maske"},
+    "leyla": {"notiz": "b_lejla_ahmet_theke"},
+    "emine": {"fakt": "f_nd_fatma", "notiz": "b_emine_schatulle"},
+    "tim": {"fakt": "f_kurzschluss", "notiz": "b_tim_kurzschluss"},
+    "johanna": {"fakt": "f_foto_streit", "notiz": "b_joanna_foto"},
+    "murat": {"notiz": "b_marek_gesicht"},
+    "zeynep": {"fakt": "f_nd_can_zeynep", "notiz": "b_zeynep_vorrat"},
+    "baran": {"notiz": "b_baran_rufe"},
+    "meryem": {"notiz": "b_hana_umschlag"},
+    "serkan": {"notiz": "b_serkan_tor"},
+    "aylin": {"fakt": "f_nd_ahmet_quittung", "notiz": "b_aylin_quittung"},
+    "kaan": {"fakt": "f_nd_olli", "notiz": "b_wojtek_tuer"},
+    "dilara": {"notiz": "b_azra_tasche"},
+    "enes": {"notiz": "b_damir_an_der_theke"},
+    "selin": {"notiz": "b_selin_gesicht"},
+    "hakan": {"notiz": "b_pawel_schneider"},
+    "tugba": {"notiz": "b_tugba_notiz"}
+  },
+  "ereignisse": [
+    {"id": "tee", "leiste": "zusammenhalt", "stufe": 2, "minuten": 5},
+    {"id": "kerzenschein", "leiste": "zusammenhalt", "stufe": 4, "wirkung": "kerzenschein"},
+    {"id": "erinnerung", "leiste": "zusammenhalt", "stufe": 6, "nachfragen": 1},
+    {"id": "flackerlicht", "leiste": "spuk", "stufe": 2, "minuten": -3},
+    {"id": "fledermaus", "leiste": "spuk", "stufe": 4, "wirkung": "fledermaus"},
+    {"id": "kragen", "leiste": "spuk", "stufe": 6, "minuten": -5, "morgen": "chaotisch"}
+  ],
+  "bots": {
+    "ahmet": {"gewichte": {"helfen": 30, "decken": 40, "zeigen": 10, "ablenken": 10, "lauschen": 10}, "decken": "ich"},
+    "fatma": {"gewichte": {"helfen": 20, "decken": 50, "zeigen": 10, "ablenken": 0, "lauschen": 20}, "decken": "ich", "lauschen": "emine"},
+    "olli": {"gewichte": {"helfen": 40, "decken": 30, "zeigen": 10, "ablenken": 10, "lauschen": 10}, "decken": "ich"},
+    "can": {"gewichte": {"helfen": 10, "decken": 30, "zeigen": 15, "ablenken": 35, "lauschen": 10}, "decken": "ich"},
+    "leyla": {"gewichte": {"helfen": 30, "decken": 50, "zeigen": 0, "ablenken": 0, "lauschen": 20}, "decken": "ahmet", "lauschen": "ahmet"},
+    "emine": {"gewichte": {"helfen": 25, "decken": 50, "zeigen": 0, "ablenken": 0, "lauschen": 15, "auspacken": 10}, "decken": "fatma", "lauschen": "fatma"},
+    "tim": {"gewichte": {"helfen": 40, "decken": 30, "zeigen": 10, "ablenken": 20, "lauschen": 0}, "decken": "ich", "zeigen": "enes"},
+    "johanna": {"gewichte": {"helfen": 25, "decken": 20, "zeigen": 0, "ablenken": 0, "lauschen": 45, "auspacken": 10}, "decken": "ahmet", "lauschen": "ahmet"},
+    "murat": {"gewichte": {"helfen": 40, "decken": 0, "zeigen": 30, "ablenken": 10, "lauschen": 20}},
+    "zeynep": {"gewichte": {"helfen": 20, "decken": 50, "zeigen": 0, "ablenken": 20, "lauschen": 10}, "decken": "can"},
+    "baran": {"gewichte": {"helfen": 30, "decken": 0, "zeigen": 20, "ablenken": 40, "lauschen": 10}},
+    "meryem": {"gewichte": {"helfen": 55, "decken": 0, "zeigen": 15, "ablenken": 0, "lauschen": 15, "auspacken": 15}, "auspacken": {"runde": 1, "chance": 50}},
+    "serkan": {"gewichte": {"helfen": 70, "decken": 0, "zeigen": 10, "ablenken": 0, "lauschen": 20}},
+    "aylin": {"gewichte": {"helfen": 45, "decken": 0, "zeigen": 15, "ablenken": 0, "lauschen": 40}, "lauschen": "ahmet", "zeigen": "ahmet", "auspacken": {"runde": 3, "chance": 30}},
+    "kaan": {"gewichte": {"helfen": 25, "decken": 50, "zeigen": 0, "ablenken": 0, "lauschen": 15, "auspacken": 10}, "decken": "olli"},
+    "dilara": {"gewichte": {"helfen": 40, "decken": 10, "zeigen": 10, "ablenken": 0, "lauschen": 20, "auspacken": 20}, "decken": "fatma", "auspacken": {"runde": 2, "chance": 60}},
+    "enes": {"gewichte": {"helfen": 70, "decken": 0, "zeigen": 0, "ablenken": 10, "lauschen": 20}},
+    "selin": {"gewichte": {"helfen": 45, "decken": 20, "zeigen": 0, "ablenken": 10, "lauschen": 25}, "decken": "ich"},
+    "hakan": {"gewichte": {"helfen": 70, "decken": 0, "zeigen": 0, "ablenken": 0, "lauschen": 20, "auspacken": 10}},
+    "tugba": {"gewichte": {"helfen": 70, "decken": 0, "zeigen": 15, "ablenken": 15, "lauschen": 0}}
+  },
+  "ziele": {
+    "ahmet": [
+      {"id": "miete_geheim", "bedingung": {"alle": [{"hoechstens": ["bekannt:f_nd_ahmet_umschlag", 0]}, {"hoechstens": ["bekannt:f_nd_ahmet_quittung", 0]}]}},
+      {"id": "nicht_angeklagt", "bedingung": {"nicht": {"gleich": ["angeklagt", "ich"]}}}
+    ],
+    "fatma": [
+      {"id": "schatulle_geheim", "bedingung": {"alle": [{"hoechstens": ["bekannt:f_nd_fatma", 0]}]}},
+      {"id": "nicht_angeklagt", "bedingung": {"nicht": {"gleich": ["angeklagt", "ich"]}}}
+    ],
+    "olli": [
+      {"id": "tuerschaden_geheim", "bedingung": {"alle": [{"hoechstens": ["bekannt:f_nd_olli", 0]}]}},
+      {"id": "nicht_angeklagt", "bedingung": {"nicht": {"gleich": ["angeklagt", "ich"]}}}
+    ],
+    "can": [
+      {"id": "streich_geheim", "bedingung": {"alle": [{"hoechstens": ["bekannt:f_nd_can_maske", 0]}, {"hoechstens": ["bekannt:f_nd_can_zeynep", 0]}]}},
+      {"id": "nicht_angeklagt", "bedingung": {"nicht": {"gleich": ["angeklagt", "ich"]}}}
+    ],
+    "leyla": [
+      {"id": "ahmet_decken", "bedingung": {"mind": ["zieleAuf:decken:ahmet", 2]}},
+      {"id": "ahmet_frei", "bedingung": {"nicht": {"gleich": ["angeklagt", "ahmet"]}}}
+    ],
+    "emine": [
+      {"id": "schweigen", "bedingung": {"hoechstens": ["zuege:auspacken", 0]}},
+      {"id": "fatma_frei", "bedingung": {"nicht": {"gleich": ["angeklagt", "fatma"]}}}
+    ],
+    "tim": [
+      {"id": "kurzschluss_geheim", "bedingung": {"hoechstens": ["bekannt:f_kurzschluss", 0]}},
+      {"id": "nie_ablenken", "bedingung": {"hoechstens": ["zuege:ablenken", 0]}}
+    ],
+    "johanna": [
+      {"id": "schweigen", "bedingung": {"hoechstens": ["zuege:auspacken", 0]}},
+      {"id": "ahmet_lauschen", "bedingung": {"mind": ["zieleAuf:lauschen:ahmet", 1]}}
+    ],
+    "murat": [
+      {"id": "spuk_maessig", "bedingung": {"hoechstens": ["spuk", 3]}},
+      {"id": "streich_heraus", "bedingung": {"eine": [{"mind": ["bekannt:f_nd_can_maske", 1]}, {"mind": ["bekannt:f_nd_can_zeynep", 1]}]}}
+    ],
+    "zeynep": [
+      {"id": "can_decken", "bedingung": {"mind": ["zieleAuf:decken:can", 2]}},
+      {"id": "can_frei", "bedingung": {"nicht": {"gleich": ["angeklagt", "can"]}}}
+    ],
+    "baran": [
+      {"id": "ablenken", "bedingung": {"mind": ["zuege:ablenken", 1]}},
+      {"id": "spuk_unter_vier", "bedingung": {"hoechstens": ["spuk", 3]}}
+    ],
+    "meryem": [
+      {"id": "frueh_auspacken", "bedingung": {"hoechstens": ["auspackRunde:ich", 2]}},
+      {"id": "zusammenhalt", "bedingung": {"mind": ["zusammenhalt", 4]}}
+    ],
+    "serkan": [
+      {"id": "helfen", "bedingung": {"mind": ["zuege:helfen", 2]}},
+      {"id": "zeit_uebrig", "bedingung": {"mind": ["rest", 40]}}
+    ],
+    "aylin": [
+      {"id": "miete_heraus", "bedingung": {"eine": [{"mind": ["bekannt:f_nd_ahmet_umschlag", 1]}, {"mind": ["bekannt:f_nd_ahmet_quittung", 1]}]}},
+      {"id": "nie_auf_ahmet", "bedingung": {"hoechstens": ["zieleAuf:zeigen:ahmet", 0]}}
+    ],
+    "kaan": [
+      {"id": "schweigen", "bedingung": {"hoechstens": ["zuege:auspacken", 0]}},
+      {"id": "olli_frei", "bedingung": {"nicht": {"gleich": ["angeklagt", "olli"]}}}
+    ],
+    "dilara": [
+      {"id": "frueh_auspacken", "bedingung": {"hoechstens": ["auspackRunde:ich", 2]}},
+      {"id": "fatma_nie_decken", "bedingung": {"hoechstens": ["zieleAuf:decken:fatma", 0]}}
+    ],
+    "enes": [
+      {"id": "kein_getuschel", "bedingung": {"hoechstens": ["geruecht:ich", 0]}},
+      {"id": "zusammenhalt", "bedingung": {"mind": ["zusammenhalt", 5]}}
+    ],
+    "selin": [
+      {"id": "spuk_leise", "bedingung": {"hoechstens": ["spuk", 2]}},
+      {"id": "nie_ablenken", "bedingung": {"hoechstens": ["zuege:ablenken", 0]}}
+    ],
+    "hakan": [
+      {"id": "schweigen", "bedingung": {"hoechstens": ["zuege:auspacken", 0]}},
+      {"id": "spuk_leise", "bedingung": {"hoechstens": ["spuk", 2]}}
+    ],
+    "tugba": [
+      {"id": "immer_helfen", "bedingung": {"mind": ["jedeRunde:helfen", 1]}},
+      {"id": "zusammenhalt", "bedingung": {"mind": ["zusammenhalt", 5]}}
+    ]
+  }
+}

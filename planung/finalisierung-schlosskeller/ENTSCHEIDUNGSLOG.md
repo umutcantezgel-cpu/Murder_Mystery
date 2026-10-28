@@ -1277,3 +1277,19 @@ Behzads Zusatzindizien werden ersetzt, wo sie nicht nur im eigenen Pfad entstehe
 - **Anlass:** Prüfung des Nachschliffs M3: Vergab der Gastgeber den Sitz eines getrennten Gast-Detektivs an einen Figur-Spieler, tauschten beide die Plätze. Eine Täterrolle konnte so ermitteln, und der Rückkehrer bekam das Dossier samt Tatwissen seines Nachfolgers (Probe mit Ahmets Spielerin).
 - **Entscheidung (Besitzer):** Den Sitz übernehmen nur der Gastgeber selbst oder ein Gerät ohne Figur (Assistenz). Figur-Spieler werden weder angeboten noch vom Raum angenommen (`invalid`). Der Sitzplan bleibt eine Permutation.
 - **Folge:** `SchlosskellerRaum._detektivNeu`, `GastgeberSitzung.detektivKandidaten` und die Karteikarte „Wer ermittelt weiter?“ folgen der Regel; `sitze_test`, `gastgeber_sitz_test` und beide Server-Matrizen prüfen sie (Party-Server mit Assistenz-Platz bei zwanzig Figuren, Relais mit dem Gastgeber).
+
+## E-046 · Einstimmung und Erzählerakte (A-063)
+- **Anlass:** Wunsch des Besitzers: eine Vorgeschichte von etwa fünf Minuten vor der ersten Phase, eine Vorstellung jeder Figur durch den Erzähler und ein eigenes Dokument für den Erzähler mit Hintergründen und Beziehungen.
+- **Entscheidung (Besitzer):** Nur Schlosskeller. Die Erzählerakte enthält alles außer dem Täter. Vorgeschichte und Vorstellung sind öffentlich und pfadgleich; sie laufen als Unterzustand des Intros und gehen nie in die Bausteine des Spiels.
+- **Folge:** neue Kerndateien `einstimmung.dart`, `erzaehlerakte.dart`, `pfadwissen.dart`, Raummodul `einstimmung_modul.dart`, Texte `erzaehler-vorgeschichte.json` und `erzaehler-vorstellung.json`, Datei `erzaehlerakte.json`, Druck `erzaehlerakte.pdf` im Ordner `4-nur-erzaehler`. Die übrigen Akten bleiben bitgleich.
+
+## E-047 · „Dein Moment“ statt A/B-Gruppenwahl im App-Abend (A-064 bis A-066)
+- **Anlass:** Befund: Nur die Entscheidungen und die Anklage des Detektivs wirkten; die A/B-Wahl wählte nur einen von drei festen Sätzen, der Würfel verschob nur verfallende Minuten, Nochmal und Umweg waren gleich, persönliche Ziele wurden nie gewertet (E-013 versprach es).
+- **Entscheidung (Besitzer):** „Weg ändern, Wahrheit fest“ und „Würfel bleibt, Spieler formen ihn“. Einzelheiten in `planung/finale/SPEZIFIKATION.md`.
+- **Folge:** Die gepinnte Beweis-Teilmenge bleibt unberührt; die Schicht ist ein optionaler Parameter. Ohne sie bleiben Golden k12 und der 9.216-Beweis gültig. Neue Beweise T-W, T-L, T-B, T-P, T-G, T-K und ein eigener Golden `einfluss_soll.g.dart`. Das Druckspiel bleibt bei den Papierstreifen A/B (E-036, E-039). Falsche Bonus-Hinweise kommen im App-Abend mit Schicht nicht mehr vor; Täuschung kommt von den Spielern.
+
+## E-048 · Abstimmung der Einfluss-Schicht vor der ersten Veröffentlichung (A-064 bis A-066)
+- **Anlass:** Simulation am Bot-Tisch (`party_simulate --einfluss`): ab Runde 2 zu viele Minuten (immer zwei Nachfragen), Ziele zwischen 6 und 100 %, Zusammenhalt und Tischbonus +1 fast nie.
+- **Entscheidung (Umsetzung, Rahmen vom Besitzer):** Übertrag höchstens 5, eine Nachfrage je 25 Restminuten, mildere Schwellen für den Zusammenhalt, fünf Ziele und mehrere Bot-Gewichte angepasst (SPEZIFIKATION „Änderungen“ 20–23).
+- **Folge:** Der Vergleichsstand `einfluss_soll.g.dart` war nie auf `main`. Er wurde neu erzeugt und darf bis zur ersten Zusammenführung nach `main` noch einmal neu erzeugt werden; danach gilt „nie neu schreiben“ wie für alle Golden-Dateien. Golden k12 und der Schnappschuss der anderen Akten bleiben unverändert.
+- **Nachtrag (2026-10-28):** Zuletzt neu erzeugt mit SPEZIFIKATION „Änderungen“ 47 (Randnotizen der Befragungen), wie die Male davor mit Gegenprobe. Ab der Zusammenführung nach `main` wird `einfluss_soll.g.dart` nie mehr neu geschrieben, auch nicht für eine gewollte Änderung der Schicht: Die bekommt eine eigene Soll-Datei (Kopf von `tool/bollwerk/einfluss_soll.dart`).

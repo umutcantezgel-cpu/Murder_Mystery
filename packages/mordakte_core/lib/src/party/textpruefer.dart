@@ -282,7 +282,8 @@ class Textpruefer {
 
 /// Alle Texte, die Spielende sehen oder hören (texte/SCHLUESSEL.md, Abschnitt Sichtbarkeit).
 /// Vorlesen tragen der Erzähler und die Bonus-Hinweise, die er spricht; Dossiers, Täterfassungen, Gespräche, Wahlen
-/// und die übrigen Kanon-Felder sind Lesetext.
+/// und die übrigen Kanon-Felder sind Lesetext. Im Bereich `einfluss` entscheidet der Schlüssel
+/// ([einflussVorlesetext]): Folgen, Ereignisse, Ende und Epiloge liest der Erzähler, Karten sind Lesetext.
 List<TextQuelle> textQuellen(Kanon kanon, Textsammlung t) {
   final q = <TextQuelle>[];
   void add(String ort, Object? text, {bool vorlesen = false}) {
@@ -291,7 +292,8 @@ List<TextQuelle> textQuellen(Kanon kanon, Textsammlung t) {
 
   for (final e in t.bausteine.entries) {
     final datei = t.herkunft[e.key]!;
-    add('$datei#${e.key}', e.value, vorlesen: t.dateien[datei]!['bereich'] == 'erzaehler');
+    final bereich = t.dateien[datei]!['bereich'];
+    add('$datei#${e.key}', e.value, vorlesen: bereich == 'erzaehler' || (bereich == 'einfluss' && einflussVorlesetext(e.key)));
   }
   for (final e in t.dossiers.entries) {
     final d = e.value;

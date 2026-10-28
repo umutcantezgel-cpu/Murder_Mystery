@@ -138,6 +138,9 @@ void spieleBis(PartySitzung s, PartyPhase ziel, {int? runde}) {
       case PartyPhase.anklage:
         if (s.angeklagt == null) s.anklagen(s.spiel.pfad);
         s.weiter();
+      // Einstimmung (A-063): Vorgeschichte und Vorstellung vor allem anderen; der Test überspringt sie.
+      case PartyPhase.intro when s.einstimmung != null:
+        s.einstimmungUeberspringen();
       // Langer Abend (M7b): Das Vorspiel läuft vor der Einleitung; der Test überspringt es.
       case PartyPhase.intro when s.rundgang != null:
         s.rundgangUeberspringen();

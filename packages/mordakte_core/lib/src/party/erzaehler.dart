@@ -1,7 +1,20 @@
 import 'ablauf.dart';
 import 'besetzung.dart';
+import 'einstimmung.dart';
 import 'gruppenwahl.dart';
 import 'kanon/kanon.dart';
+
+/// Baustein der Einfluss-Schicht mit Figuren (Finale §3.13): `<kennung>@<figur>[@<ziel>]`.
+/// [Texte.baustein] setzt die Anzeigenamen für `@figur` und `@ziel` ein.
+String einflussBaustein(String kennung, {required String figur, String? ziel}) => ziel == null ? '$kennung@$figur' : '$kennung@$figur@$ziel';
+
+/// Baustein der Einfluss-Schicht mit einer Namensliste (Spürnasen, Finale „Änderungen“ 44):
+/// `<kennung>@<figur>,<figur>,…` mit mindestens zwei Figuren. [Texte.baustein] setzt `@liste` (alle bis
+/// auf die letzte, durch Komma getrennt) und `@letzte` ein; das „und“ dazwischen steht im Text.
+String einflussListenBaustein(String kennung, List<String> figuren) {
+  if (figuren.length < 2) throw ArgumentError('Namensliste mit weniger als zwei Figuren: $figuren');
+  return '$kennung@${figuren.join(',')}';
+}
 
 /// Bausteinwahl des Erzählers (Master 7.12). Der Spielzustand wählt feste
 /// Kennungen; die Texte stehen in der Textsammlung des Kanons (F3).
@@ -102,23 +115,82 @@ class Erzaehler {
     return plan;
   }
 
+  /// Bonus-Hinweis der Runde. Mit Zusatzschicht (Finale §3.8) flüstert der Tisch je nach Zusammenhalt
+  /// einen wahren oder neutralen Hinweis oder nichts (`einfluss.fluestern.still`).
   List<String> bonus(Spiel s) {
-    final q = s.qualitaeten[s.runde]!;
+    final z = s.zusatz;
+    final q = z == null ? s.qualitaeten[s.runde]! : z.bonusQualitaet(s.runde);
+    if (q == null) return const ['einfluss.fluestern.still'];
     final h = s.gruppe.hinweis(s.pfad, s.runde, q);
     return ['bonus.rahmen', 'hinweis.${h['id']}'];
   }
 
   /// Drei Fächer: Gruppenergebnis, Stand der Restverdächtigen, Lage. Das
   /// Gruppenergebnis nennt nur, dass die Runde etwas zugeflüstert hat; Qualität
-  /// und Stimmenzahl bleiben bis zur Auflösung verborgen (E-025).
+  /// und Stimmenzahl bleiben bis zur Auflösung verborgen (E-025). Mit Zusatzschicht
+  /// zählen die sichtbaren Fakten, und das Gruppenfach fehlt, wenn niemand flüsterte.
+  /// Kommen verzögerte Funde (Umweg, „mauert“) jetzt dazu, steht vorn `einfluss.wieder`
+  /// (Finale „Änderungen“ 7). Mit Zusatzschicht nimmt das erste Geflüster des Abends den Satz
+  /// von Runde 1: Die späteren Sätze setzen ein früheres Geflüster voraus („Auch diesmal“).
   List<String> resuemee(Spiel s) {
-    final fakten = s.bekannteFakten(s.runde);
+    final fakten = s.sichtbareFakten(s.runde);
+    final erstes = s.zusatz != null && !s.qualitaeten.keys.any((r) => r < s.runde);
     return [
-      'resuemee.gruppe.${s.runde}',
+      if (s.zusatz?.nachgereichtIn(s.runde) ?? false) 'einfluss.wieder',
+      if (s.zusatz == null || s.qualitaeten.containsKey(s.runde)) 'resuemee.gruppe.${erstes ? 1 : s.runde}',
       restSchluessel(s.ermittlung.restmenge(fakten)),
       'resuemee.lage.${s.runde}.${lageStufe(s, fakten)}',
     ];
   }
+
+  /// Folgen einer Runde mit Einfluss-Schicht (Finale §3.1, §3.8, §3.13), vorgelesen zu Beginn der
+  /// Ermittlung: Auftakt, Auspacken und Ablenken mit Namen, Gerüchte anonym über die beredete Figur,
+  /// Leisten, Ereignisse. Nur öffentliche Eingaben. `einfluss.wieder` steht nicht hier, sondern im
+  /// Zwischenresümee, wenn verzögerte Funde sichtbar werden ([resuemee], „Änderungen“ 7).
+  List<String> einflussFolgen({
+    required int runde,
+    required List<String> auspacken,
+    required List<String> ablenker,
+    required List<({String figur, bool laut})> geruechte,
+    required int zusammenhaltZuwachs,
+    required int spukZuwachs,
+    required List<String> ereignisse,
+  }) =>
+      [
+        'einfluss.folgen.start.$runde',
+        for (final f in auspacken) 'einfluss.auspacken.$f',
+        for (final f in ablenker) 'einfluss.ablenken.$f',
+        if (ablenker.isNotEmpty) 'einfluss.ablenken.schluss',
+        for (final g in geruechte) einflussBaustein('einfluss.geruecht.${g.laut ? 'laut' : 'leise'}', figur: g.figur),
+        if (zusammenhaltZuwachs > 0) 'einfluss.leiste.zusammenhalt.$zusammenhaltZuwachs',
+        if (spukZuwachs > 0) 'einfluss.leiste.spuk.$spukZuwachs',
+        if (zusammenhaltZuwachs <= 0 && spukZuwachs <= 0) 'einfluss.leiste.ruhig',
+        for (final e in ereignisse) 'einfluss.ereignis.$e',
+      ];
+
+  /// Ende der Auflösung mit Einfluss-Schicht (Finale §3.10): Epilog je besetzter Rolle (Stern erreicht
+  /// oder nicht), Auszeichnungen mit Namen, Fassung des Morgens. Die Spürnasen stehen in einem Baustein:
+  /// eine mit `einfluss.preis.spuernase`, mehrere als Namensliste `einfluss.preis.spuernasen`
+  /// ([einflussListenBaustein], „Änderungen“ 44).
+  List<String> einflussAufloesung({
+    required List<({String figur, bool erreicht})> epiloge,
+    required String? stern,
+    required List<String> spuernasen,
+    required String? schlossgeist,
+    required String? treueSeele,
+    required String morgen,
+  }) =>
+      [
+        for (final e in epiloge) 'einfluss.epilog.${e.figur}.${e.erreicht ? 'erreicht' : 'verfehlt'}',
+        if (stern != null) einflussBaustein('einfluss.preis.stern', figur: stern),
+        if (spuernasen.length == 1)
+          einflussBaustein('einfluss.preis.spuernase', figur: spuernasen.single)
+        else if (spuernasen.length > 1)
+          einflussListenBaustein('einfluss.preis.spuernasen', spuernasen),
+        if (schlossgeist != null) einflussBaustein('einfluss.preis.schlossgeist', figur: schlossgeist),
+        if (treueSeele != null) einflussBaustein('einfluss.preis.treue_seele', figur: treueSeele),
+        'einfluss.morgen.$morgen',
+      ];
 
   /// Schlüssel für die Restmenge; bei nur einer Person ohne Namen (S-1).
   String restSchluessel(Set<String> rest) {
@@ -137,11 +209,18 @@ class Erzaehler {
 
   List<String> anklage() => ['anklage.start'];
 
-  List<String> finale(Spiel s) => ['finale.${s.pfad}.${s.ende.id}', 'rueckblende.${s.pfad}'];
+  /// Finale; mit Zusatzschicht davor der Satz zum Tischbonus, wenn er das Ende verschiebt (Finale §3.10).
+  List<String> finale(Spiel s) => [
+        if (s.zusatz?.tischbonus case final b? when b != 0) 'einfluss.tischbonus.${b > 0 ? 'plus' : 'minus'}',
+        'finale.${s.pfad}.${s.ende.id}',
+        'rueckblende.${s.pfad}',
+      ];
 
-  /// Auflösung: erst jetzt, wie oft die Gruppe zusammengehalten hat, dann je Rolle.
+  /// Auflösung: erst jetzt, wie oft die Gruppe zusammengehalten hat, dann je Rolle. Mit Zusatzschicht
+  /// zählt jede Runde, in der der Zusammenhalt wuchs (Flüstern wahr oder neutral, „Der Zusammenhalt
+  /// wächst“); eine Runde ohne Geflüster nicht.
   List<String> aufloesung(Spiel s) => [
-        'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (Gruppenwahl.zusammengehalten(s.qualitaeten[r]!)) r].length}',
+        'aufloesung.gruppe.${[for (var r = 1; r <= 3; r++) if (s.qualitaeten[r] case final q? when s.zusatz != null || Gruppenwahl.zusammengehalten(q)) r].length}',
         for (final r in s.besetzt) aufloesungRolle(r, s.pfad),
       ];
 
@@ -153,7 +232,8 @@ class Erzaehler {
     return kanon.eigenesVerhalten(r, pfad) ? 'aufloesung.$r.unschuldig.$pfad' : 'aufloesung.$r.unschuldig';
   }
 
-  /// Alle Kennungen, die der Erzähler je wählen kann (Katalog für F3).
+  /// Alle Kennungen, die der Erzähler je wählen kann (Katalog für F3), mit der
+  /// Einstimmung, wenn die Akte eine hat (`vorgeschichte.*`, `vorstellung.*`).
   List<String> katalog() {
     final kern = kanon.kernverdaechtige;
     final lacher = [for (final l in (kanon.json['setting.json']!['lacher'] as List? ?? const [])) (l as Map)['id'] as String];
@@ -194,6 +274,8 @@ class Erzaehler {
             if (kanon.eigenesVerhalten(r, p)) 'aufloesung.$r.unschuldig.$p',
         ] else
           'aufloesung.$r',
+      // Einstimmung (A-063): nur in Akten mit Vorgeschichte, sonst bleibt der Katalog, wie er ist.
+      ...?Einstimmung.aus(kanon)?.katalog(),
     ];
   }
 }

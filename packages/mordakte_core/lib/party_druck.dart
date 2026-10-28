@@ -4,6 +4,7 @@
 /// Spiel) ohne `pdf` bleibt.
 library;
 
+export 'src/party/druck/fest_erzaehlerakte.dart';
 export 'src/party/druck/fest_rollenheft.dart';
 export 'src/party/druck/fest_spielleitung.dart';
 export 'src/party/druck/fest_steckbrief.dart';

@@ -76,6 +76,16 @@ class Kanon {
 
   /// Akte mit fester Lösung (ein einziger Pfad, z. B. das Gewölbe).
   bool get festeLoesung => pfade.length == 1;
+
+  /// Teile der Vorgeschichte (`setting.vorgeschichte`, Einstimmung A-063) in
+  /// Lesereihenfolge; `null`, wenn die Akte keine Einstimmung hat.
+  List<String>? get vorgeschichte => switch (json['setting.json']!['vorgeschichte']) {
+        final List l => [for (final t in l) t as String],
+        _ => null,
+      };
+
+  /// Folgt auf die Vorgeschichte die Vorstellungsrunde (`setting.vorstellung`)?
+  bool get vorstellung => json['setting.json']!['vorstellung'] == true;
   Map<String, Object?> get figurenJson => json['figuren.json']!;
   Map<String, Object?> get gegenstaendeJson => json['gegenstaende.json']!;
   Map<String, Object?> get beobachtungenJson => json['beobachtungen.json']!;

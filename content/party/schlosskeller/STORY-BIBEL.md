@@ -62,6 +62,15 @@ Erzeugt aus dem Kanon (Version 1.0.0). Nicht von Hand ändern: dart run bin/part
 - **Ton:** Grusel mit Humor: quietschende Türen, Zugluft, flackerndes Licht, verpatzte Streiche. Herr Schneider überlebt immer; der Schlag ist nur Schatten und Geräusch.
 - **Weitere Intro-Teile:**
   - ausfall
+- **Vorgeschichte (Teile):**
+  - schloss
+  - schneider
+  - clique
+  - einladung
+  - keller
+  - eigenarten
+  - heute
+- **Vorstellungsrunde:** ja
 
 **Lacher**
 

@@ -2,6 +2,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../besetzung.dart';
+import '../einstimmung.dart';
 import '../fassung.dart';
 import 'fest_steckbrief.dart';
 import 'paket.dart';
@@ -10,8 +11,9 @@ import 'satz_fest.dart';
 
 // Veranstalter-Blatt (Druckpaket, Ordner 2): für die Person, die einlädt. Spoilerfrei:
 // Begrüßung, Fall-Code mit Anleitung, Besetzung bei n Personen, Ablauf mit
-// ca.-Minuten für den kurzen und den langen Abend (K-18, fassung.dart), Gästeliste
-// zum Ausfüllen, Checkliste und welche Datei an wen geht. Texte: `ui.druck.paket.*`.
+// ca.-Minuten für den kurzen und den langen Abend (K-18, fassung.dart; mit Einstimmung
+// A-063 auch Vorgeschichte und Vorstellung), Gästeliste zum Ausfüllen, Checkliste und
+// welche Datei an wen geht (mit Erzählerakte auch sie). Texte: `ui.druck.paket.*`.
 
 /// Das Veranstalter-Blatt als Datei (`veranstalter.pdf`), drei Seiten.
 Future<DruckDatei> veranstalterDatei(PaketKontext k) async {
@@ -164,39 +166,49 @@ pw.Widget _besetzung(PaketKontext k) {
 
 // ---------------------------------------------------------------- Seite 2
 
+/// Seite 2: Ablauf und Checkliste. Passt sie nicht (mit Einstimmung zwei Schritte
+/// mehr), steht in jeder Zeile des Ablaufs die Erklärung gleich hinter dem Schritt.
 pw.Widget _seite2(PaketKontext k) {
   final s = k.stil;
-  return s.spalte(
-    wo: 'Veranstalter-Blatt Seite 2',
-    [
-      pw.Text(k.ui('ui.druck.paket.ablauf.titel'), style: s.titel(28)),
-      pw.SizedBox(height: 3),
-      pw.Container(height: 0.5, color: FestStil.linie),
-      pw.SizedBox(height: 10),
-      _ablauf(k),
-      pw.SizedBox(height: 6),
-      pw.Text(k.ui('ui.druck.paket.ablauf.fussnote'), style: s.klein(8)),
-      pw.SizedBox(height: 4),
-      pw.Text(k.ui('ui.druck.paket.fassung.hinweis'), style: s.kursiv(10.5, FestStil.tinteLeise)),
-      pw.Spacer(),
-      s.kopfzeile(k.ui('ui.druck.paket.check.titel'), g: 17),
-      for (final c in ['handys', 'drucke', 'umschlaege', 'erzaehler', 'stifte', 'kostueme', 'ecke'])
-        pw.Padding(
+  List<pw.Widget> teile({required bool eng}) {
+    pw.Widget punkt(String c) => pw.Padding(
           padding: const pw.EdgeInsets.only(bottom: 3),
           child: pw.Row(children: [
             s.kaestchen(11),
             pw.SizedBox(width: 10),
             pw.Expanded(child: pw.Text(k.ui('ui.druck.paket.check.$c'), style: s.text(11))),
           ]),
-        ),
-    ],
-  );
+        );
+    final punkte = [for (final c in ['handys', 'drucke', 'umschlaege', if (k.erzaehlerakte == null) 'erzaehler' else 'erzaehler.akte', 'stifte', 'kostueme', 'ecke']) punkt(c)];
+    return [
+      pw.Text(k.ui('ui.druck.paket.ablauf.titel'), style: s.titel(28)),
+      pw.SizedBox(height: 3),
+      pw.Container(height: 0.5, color: FestStil.linie),
+      pw.SizedBox(height: 10),
+      _ablauf(k, eng: eng),
+      pw.SizedBox(height: 6),
+      pw.Text(k.ui('ui.druck.paket.ablauf.fussnote'), style: s.klein(8)),
+      pw.SizedBox(height: 4),
+      pw.Text(k.ui('ui.druck.paket.fassung.hinweis'), style: s.kursiv(10.5, FestStil.tinteLeise)),
+      pw.Spacer(),
+      s.kopfzeile(k.ui('ui.druck.paket.check.titel'), g: 17),
+      ...punkte,
+    ];
+  }
+
+  final weit = teile(eng: false);
+  final passt = s.hoeheVon(pw.Column(children: [for (final w in weit) if (w is! pw.Spacer) w]), FestStil.breite) <= FestStil.hoehe + 0.5;
+  return s.spalte(wo: 'Veranstalter-Blatt Seite 2', passt ? weit : teile(eng: true));
 }
 
 /// Ablauf als Tabelle: Schritt, was passiert, ca. Minuten kurz und lang (K-18).
-pw.Widget _ablauf(PaketKontext k) {
+/// Mit Einstimmung (A-063) folgen auf das Rollenlesen Vorgeschichte und
+/// Vorstellung; die Summe zählt sie mit. Mit [eng] stehen die Zeilen dichter.
+pw.Widget _ablauf(PaketKontext k, {bool eng = false}) {
   final s = k.stil;
   final mk = Abendfassung.kurz.standardMinuten, ml = Abendfassung.lang.standardMinuten;
+  final einstimmung = Einstimmung.aus(k.kanon);
+  final vorstellung = abendEinstimmungMinuten(k.rollen) - abendVorgeschichteMinuten;
   final rundeKurz = (mk + abendGeraetMinuten + abendWahlMinuten + abendResuemeeMinuten).round();
   final rundeLang = (ml + abendWahlMinuten + abendResuemeeMinuten).round();
   String min(num m) => '${m.round()}';
@@ -205,6 +217,10 @@ pw.Widget _ablauf(PaketKontext k) {
     ('einrichtung', min(abendEinrichtungMinuten), min(abendEinrichtungMinuten)),
     ('figuren', null, null),
     ('rollen', null, null),
+    if (einstimmung != null) ...[
+      ('vorgeschichte', min(abendVorgeschichteMinuten), min(abendVorgeschichteMinuten)),
+      if (einstimmung.vorstellung) ('vorstellung', min(vorstellung), min(vorstellung)),
+    ],
     ('vorspiel', null, min(abendVorspielMinuten)),
     ('einleitung', min(abendIntroMinuten), min(abendIntroMinuten)),
     ('runden', runden.$1, runden.$2),
@@ -238,10 +254,18 @@ pw.Widget _ablauf(PaketKontext k) {
           pw.Padding(padding: const pw.EdgeInsets.fromLTRB(4, 4, 0, 3), child: pw.Text('${i + 1}', style: s.titel(14, FestStil.kerze))),
           pw.Padding(
             padding: const pw.EdgeInsets.fromLTRB(6, 4, 6, 4),
-            child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-              pw.Text(k.ui('ui.druck.paket.ablauf.$id'), style: s.titel(12.5)),
-              pw.Text(k.ui('ui.druck.paket.ablauf.$id.text'), style: s.text(9.5).copyWith(lineSpacing: 1.5)),
-            ]),
+            // Eng: Schritt und Erklärung in einem Absatz.
+            child: eng
+                ? pw.RichText(
+                    text: pw.TextSpan(children: [
+                      pw.TextSpan(text: k.ui('ui.druck.paket.ablauf.$id'), style: s.titel(12)),
+                      pw.TextSpan(text: '   ${k.ui('ui.druck.paket.ablauf.$id.text')}', style: s.text(9.5).copyWith(lineSpacing: 1.5)),
+                    ]),
+                  )
+                : pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
+                    pw.Text(k.ui('ui.druck.paket.ablauf.$id'), style: s.titel(12.5)),
+                    pw.Text(k.ui('ui.druck.paket.ablauf.$id.text'), style: s.text(9.5).copyWith(lineSpacing: 1.5)),
+                  ]),
           ),
           zahl(kurz),
           zahl(lang),
@@ -249,8 +273,8 @@ pw.Widget _ablauf(PaketKontext k) {
       pw.TableRow(decoration: const pw.BoxDecoration(color: FestStil.papierTief), children: [
         pw.SizedBox(),
         pw.Padding(padding: const pw.EdgeInsets.fromLTRB(6, 7, 6, 5), child: pw.Text(k.ui('ui.druck.paket.ablauf.gesamt'), style: s.titel(13))),
-        zahl(k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.kurz, mk)}'}), stark: true),
-        zahl(k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.lang, ml)}'}), stark: true),
+        zahl(k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.kurz, mk, einstimmungRollen: einstimmung == null ? null : k.rollen)}'}), stark: true),
+        zahl(k.ui('ui.druck.paket.ablauf.ca', {'minuten': '${abendMinutenCa(Abendfassung.lang, ml, einstimmungRollen: einstimmung == null ? null : k.rollen)}'}), stark: true),
       ]),
     ],
   );
@@ -364,7 +388,7 @@ pw.Widget _ordner(PaketKontext k, int n) {
             pw.SizedBox(width: 8),
             pw.Text(paketOrdner[n - 1], style: s.klein(7.5)),
           ]),
-          pw.Text(k.ui('ui.druck.paket.dateien.ordner$n.text'), style: s.text(10)),
+          pw.Text(k.ui('ui.druck.paket.dateien.ordner$n.text${n == 4 && k.erzaehlerakte != null ? '.akte' : ''}'), style: s.text(10)),
         ]),
       ),
     ]),

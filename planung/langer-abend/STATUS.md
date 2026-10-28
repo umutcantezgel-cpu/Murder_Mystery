@@ -20,9 +20,11 @@ Entscheidungen A-050 bis A-061 stehen in `planung/gesamt/STATUS.md`, E-043 in `p
 | M9 | Mehrspieler-Bewegung | offen |
 | M10 | CYOA-Ausbau | offen |
 | M11 | Doku, e2e, Gegenprüfung, Release | offen |
+| M12 | Finale: Einstimmung, Erzählerakte, „Dein Moment“ | fertig bis auf die Sichtprüfung, siehe `planung/finale/STATUS.md` (Branch `claude/schlosskeller-finale`, A-063 bis A-067) |
 
 ## Prüfjournal (neueste zuerst)
 
+- 2026-10-28 M12 Finale auf `claude/schlosskeller-finale` (von `main` `ca53adf`, gepusht bis a5f4d7f): Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte und „Dein Moment“ (A-063 bis A-067). Belege, CI-Läufe und offene Punkte stehen in `planung/finale/STATUS.md`; was nur Menschen prüfen können, in `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale“. Zusammenführung nach `main` erst nach Rückfrage beim Besitzer.
 - 2026-10-22 Abschluss auf Wunsch des Besitzers: M7b und Druckpaket auf `claude/brave-allen-of7gx8`. Lokal grün belegt: die Lanes einzeln (Kern 739 +1, Netz 52, App 594 nach A; Lanes B1/B2, Zusammenführung mit `pruefen.sh schnell`, App-Tests, Matrizen, `akte_pruefen` 5×0), `lang_invarianz_test` 48/48, Drucktests 122 + Porträt-Tests 5. Das volle Tor (`pruefen.sh ci`) fährt die CI dieses Branches; die geplante Gegenprüfung W2 und die Sichtprüfung des Pakets sind nicht gelaufen.
 - 2026-10-22 Druckpaket für den Abend: `dart run bin/party_druck.dart --paket --n 12 [--code X]` (aus `packages/mordakte_core`, vorher `flutter test tool/bild/druck_portraets_test.dart` für die Porträts) erzeugt `build/paket/schlosskeller-n<N>-<CODE>/` mit 1-an-alle (Charakterübersicht, Steckbriefe), 2-veranstalter (Fall-Code, Ablauf, Gästeliste), 3-je-person-ungelesen-weitergeben (Rollenheft je Figur, Detektivbögen), 4-nur-erzaehler (Erzählerheft) und ZIPs. PDFs nie committen (Fall-Code).
 

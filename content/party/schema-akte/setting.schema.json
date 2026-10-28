@@ -148,6 +148,18 @@
         "$ref": "#/$defs/id"
       }
     },
+    "vorgeschichte": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "vorstellung": {
+      "type": "boolean"
+    },
     "darstellung": {
       "type": "object",
       "additionalProperties": false,

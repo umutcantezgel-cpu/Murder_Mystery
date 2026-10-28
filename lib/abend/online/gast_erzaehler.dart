@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mordakte_core/mordakte_core.dart' show LookDef;
+import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../l10n/lookup.dart';
+import '../../party/erzaehlerakte_ansicht.dart' show zeigeErzaehlerakte;
 import '../../stil/mappe/online_bausteine.dart';
 import '../../stil/stil.dart';
 import 'ansicht.dart';
 import 'gast_ansicht.dart' show GastKontext;
+import 'gast_dienst.dart';
 import 'online_teile.dart';
 
 /// Was der Erzähler online neben dem Text braucht (Langer Abend M3): das
@@ -20,6 +23,21 @@ List<Widget> gastErzaehlerTeile(GastKontext c) {
   final paket = c.privat['erzaehlerPaket'] is Map ? jMap(c.privat['erzaehlerPaket']) : null;
   final befragungen = jMaps(c.v['befragungen']);
   return [
+    // Die Erzählerakte (A-063) aus der Akte dieses Geräts, nur auf dem Erzähler-Sitz.
+    if (gastErzaehlerakteErlaubt(c.dienst))
+      Padding(
+        padding: const EdgeInsets.only(bottom: MMass.s16),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: MKnopf(
+            key: const ValueKey('erzaehlerakte-knopf'),
+            text: c.l.erzaehlerakte_titel,
+            art: MKnopfArt.zweit,
+            icon: Icons.folder_shared_outlined,
+            onPressed: () => gastErzaehlerakteZeigen(c),
+          ),
+        ),
+      ),
     if (befragungen.isNotEmpty) BefragungsStand(befragungen: befragungen, person: c.personAmTisch, erledigtText: c.l.party_befragung_erledigt),
     if (paket != null && const {'gespraeche', 'entscheidungen', 'gruppenwahl', 'bonus', 'resuemee'}.contains(c.phase))
       ErzaehlerPaketAnsicht(
@@ -287,4 +305,40 @@ class _Karte extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Darf das Gerät eines Gastes die Erzählerakte zeigen (A-063)? Nur auf dem
+/// Erzähler-Sitz (auch das Erzähler-Handy reihum), ab den Rollen und vor dem
+/// Finale, nie wenn es ermittelt. Die Akte kommt aus der Akte des Geräts.
+bool gastErzaehlerakteErlaubt(GastDienst d) {
+  final v = d.ansicht;
+  final phase = jText(v['phase'], 'lobby');
+  if (d.daten?.erzaehlerakte == null || const {'lobby', 'finale', 'aufloesung', 'ende'}.contains(phase)) return false;
+  if (jMap(v['privat'])['detektiv'] == true) return false;
+  return spielerAusAnsicht(v).where((s) => s.id == d.spielerId).firstOrNull?.sitz == Sitz.erzaehler;
+}
+
+/// Spielt der Abend dieses Gastes „Dein Moment“? Online trägt die Ansicht dann
+/// `einfluss` (ab den Rollen); am Erzähler-Handy reihum sagt es der Begleiter
+/// privat (`deinMoment`), ohne die öffentliche Lage zu schicken.
+bool gastMitMoment(GastDienst d) => d.ansicht['einfluss'] is Map || jMap(d.ansicht['privat'])['deinMoment'] == true;
+
+/// Öffnet die Erzählerakte für den Gast auf dem Erzähler-Sitz: besetzt sind die
+/// Figuren der Rollenzahl des Raums, gespielt von den Gästen mit Figur. Mit
+/// „Dein Moment“ stehen die Sterne als Ziele, sonst die des Kanons. Sie
+/// schließt sich, sobald sie nicht mehr gilt (Finale, Sitz gewechselt).
+Future<void> gastErzaehlerakteZeigen(GastKontext c) {
+  final d = c.daten!;
+  final b = d.texte.besetzung;
+  final n = jZahl(c.v['rollen']);
+  final spieler = c.spieler;
+  return zeigeErzaehlerakte(
+    c.context,
+    daten: d,
+    besetzt: n >= b.minRollen && n <= b.maxRollen ? b.besetzt(n) : [for (final r in b.reihenfolge) if (spieler.any((s) => s.rolle == r)) r],
+    einfluss: gastMitMoment(c.dienst),
+    spieler: (f) => spieler.where((s) => s.rolle == f).firstOrNull?.name,
+    wache: c.dienst,
+    erlaubt: () => gastErzaehlerakteErlaubt(c.dienst),
+  );
 }

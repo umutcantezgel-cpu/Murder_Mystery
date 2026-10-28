@@ -1,0 +1,167 @@
+{
+  "settingId": "spuk_im_schlosskeller",
+  "bereich": "einfluss",
+  "hinweis": "Entwurf, Karten je Figur für „Dein Moment“ (SPEZIFIKATION §3.9, §3.13, Änderungen 2026-10-27): einfluss.ziel.<fig>.1 (Stern I) und .2 (Stern II), je genau ein Stichpunkt mit höchstens acht Wörtern, durchgehend als Aufforderung in der Du-Form (R17), damit kein Ziel wie eine Zusage klingt. Die vier Kernfiguren haben dieselbe Form: Stern I „Halte … bis zur Anklage geheim“, Stern II wortgleich „Lass dich am Ende nicht anklagen“. Ziele über eine andere Figur heißen „Bewahre … vor der Anklage“. Zugwörter wie auf den Zugkarten: Decke, Lausche, Hilf, Pack aus, Lenk ab, Zeig auf; „Gerücht“ wie auf der Karte Zeigen. Leisten steigen nur, darum heißt „endet bei höchstens drei“ hier „Halte den Spuk bei höchstens drei“ (auch Barans „endet unter vier“, gleicher Wert, gleicher Wortlaut) und „endet bei mindestens vier“ „Bring den Zusammenhalt auf mindestens vier“. Eine Karte verrät nie ein fremdes Geheimnis, das die Figur im Kanon nicht kennt: Marek weiß nur, dass im Dunkeln ein leuchtendes Gespenstergesicht an ihm vorbeirannte, und ist nicht sicher, wer es war (Dossier). Darum nennt sein Stern II weder Can noch den Streich; die Bedingung bleibt (bekannt f_nd_can_maske oder f_nd_can_zeynep).",
+  "eintraege": [
+    {
+      "id": "einfluss.ziel.ahmet.1",
+      "text": "Halte die erfundene Miete bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.ahmet.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.fatma.1",
+      "text": "Halte die mitgenommene Schatulle bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.fatma.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.olli.1",
+      "text": "Halte den verdeckten Türschaden bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.olli.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.can.1",
+      "text": "Halte den heimlichen Streich bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.can.2",
+      "text": "Lass dich am Ende nicht anklagen"
+    },
+    {
+      "id": "einfluss.ziel.leyla.1",
+      "text": "Decke Ahmet in mindestens zwei Runden"
+    },
+    {
+      "id": "einfluss.ziel.leyla.2",
+      "text": "Bewahre Ahmet vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.emine.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.emine.2",
+      "text": "Bewahre Fatma vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.tim.1",
+      "text": "Halte den Kurzschluss bis zur Anklage geheim"
+    },
+    {
+      "id": "einfluss.ziel.tim.2",
+      "text": "Lass dich beim Decken nie ertappen"
+    },
+    {
+      "id": "einfluss.ziel.johanna.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.johanna.2",
+      "text": "Lausche mindestens einmal bei Ahmet"
+    },
+    {
+      "id": "einfluss.ziel.murat.1",
+      "text": "Halte den Spuk bei höchstens drei"
+    },
+    {
+      "id": "einfluss.ziel.murat.2",
+      "text": "Bring ans Licht, wer als Gespenst herumlief"
+    },
+    {
+      "id": "einfluss.ziel.zeynep.1",
+      "text": "Decke Can in mindestens zwei Runden"
+    },
+    {
+      "id": "einfluss.ziel.zeynep.2",
+      "text": "Bewahre Can vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.baran.1",
+      "text": "Lenk in mindestens einer Runde ab"
+    },
+    {
+      "id": "einfluss.ziel.baran.2",
+      "text": "Halte den Spuk bei höchstens drei"
+    },
+    {
+      "id": "einfluss.ziel.meryem.1",
+      "text": "Pack spätestens in Runde zwei aus"
+    },
+    {
+      "id": "einfluss.ziel.meryem.2",
+      "text": "Bring den Zusammenhalt auf mindestens vier"
+    },
+    {
+      "id": "einfluss.ziel.serkan.1",
+      "text": "Hilf in mindestens zwei Runden"
+    },
+    {
+      "id": "einfluss.ziel.serkan.2",
+      "text": "Lass am Ende mindestens zehn Nachtminuten übrig"
+    },
+    {
+      "id": "einfluss.ziel.aylin.1",
+      "text": "Bring Ahmets erfundene Miete ans Licht"
+    },
+    {
+      "id": "einfluss.ziel.aylin.2",
+      "text": "Zeig an diesem Abend nie auf Ahmet"
+    },
+    {
+      "id": "einfluss.ziel.kaan.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.kaan.2",
+      "text": "Bewahre Olli vor der Anklage"
+    },
+    {
+      "id": "einfluss.ziel.dilara.1",
+      "text": "Pack spätestens in Runde zwei aus"
+    },
+    {
+      "id": "einfluss.ziel.dilara.2",
+      "text": "Decke Fatma an diesem Abend nie"
+    },
+    {
+      "id": "einfluss.ziel.enes.1",
+      "text": "Bleib den ganzen Abend frei von Gerüchten"
+    },
+    {
+      "id": "einfluss.ziel.enes.2",
+      "text": "Bring den Zusammenhalt auf mindestens drei"
+    },
+    {
+      "id": "einfluss.ziel.selin.1",
+      "text": "Halte den Spuk bei höchstens zwei"
+    },
+    {
+      "id": "einfluss.ziel.selin.2",
+      "text": "Lenk an diesem Abend nie ab"
+    },
+    {
+      "id": "einfluss.ziel.hakan.1",
+      "text": "Pack an diesem Abend nie aus"
+    },
+    {
+      "id": "einfluss.ziel.hakan.2",
+      "text": "Halte den Spuk bei höchstens drei"
+    },
+    {
+      "id": "einfluss.ziel.tugba.1",
+      "text": "Hilf in jeder Runde"
+    },
+    {
+      "id": "einfluss.ziel.tugba.2",
+      "text": "Bring den Zusammenhalt auf mindestens vier"
+    }
+  ]
+}

@@ -46,7 +46,7 @@ GastSeiteninhalt gastLobby(GastKontext c, String marke) {
           const SizedBox(height: MMass.s16),
         ],
         Padding(padding: const EdgeInsets.only(top: MMass.s8, bottom: MMass.s8), child: LobbyTisch(stand: stand, befehl: c.befehl)),
-        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz ?? Sitz.rolle, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort)),
+        Align(alignment: Alignment.centerLeft, child: RollenUebersichtKnopf(hervorheben: ich?.sitz ?? Sitz.rolle, mitErzaehler: c.mitErzaehlerSitz, detektivWort: c.detektivWort, einfluss: c.v['einfluss'] is Map)),
         const SizedBox(height: MMass.s8),
       ] else
         for (var i = 0; i < c.spieler.length; i++) OnlinePlatzKarte(name: c.spieler[i].name, nr: i),

@@ -1,17 +1,20 @@
 // F5-BAUMEISTER-01: Erzählerheft (früher Spielleitungsheft, M5) ohne Lösung und Detektivbogen mit
 // Ermittlungsbogen (Master 7.14). Geprüft wird das fertige PDF (pdfinfo, pdftotext): Format, Wortlaut
 // aus den Bausteinen, Codes, Fragen. M5: Das Heft kennt alle Stichpunkte des Erzählerpakets, die
-// Antworten der Befragungen und die Dia-Nummern; der Bogen zeigt nur die Fragen.
+// Antworten der Befragungen und die Dia-Nummern; der Bogen zeigt nur die Fragen. Finale (A-063):
+// Vorgeschichte und Vorstellung stehen nur in Akten mit Einstimmung vor dem Intro, das Druckspiel
+// sagt dann, dass es ohne „Dein Moment“ läuft; ohne Einstimmung bleibt das Heft wie es war.
 import 'dart:math' as math;
 
-import 'package:mordakte_core/mordakte_core.dart' show Diashow, befragungsZettel;
+import 'package:mordakte_core/mordakte_core.dart'
+    show Besetzung, Diashow, Einstimmung, Texte, Textsammlung, befragungsZettel;
 import 'package:mordakte_core/runden.dart' show botAntwort;
 import 'package:mordakte_core/src/party/druck/satz.dart';
 import 'package:mordakte_core/src/party/druck/spielleitung.dart';
 import 'package:test/test.dart';
 
 import 'druck_hilfe.dart';
-import 'kanon_hilfe.dart' show leseJson, repoWurzel;
+import 'kanon_hilfe.dart' show kanon, ladeKanon, leseJson, repoWurzel;
 
 /// Die ersten 60 Zeichen eines Bausteins, flach wie der Text aus dem PDF.
 String _anfang(String s) {
@@ -352,4 +355,86 @@ void main() {
       }
     },
   );
+
+  group('Einstimmung (A-063)', () {
+    late DruckKontext mit;
+    late String druckspiel, bildschirm;
+
+    setUpAll(() async {
+      mit = druckKontextMit(druckKanonEinstimmung, druckTexteEinstimmung, n: 12, detektiv: 'm');
+      druckspiel = flach((await _heft(mit)).text);
+      bildschirm = flach((await _heft(mit, druckspiel: false)).text);
+    });
+
+    test('Vorgeschichte und Vorstellung vor dem Intro: alle Teile, die besetzten Figuren in Reihenfolge, der Detektiv dieses Abends', () {
+      final e = Einstimmung.aus(mit.kanon)!;
+      final schritte = e.schritte(rollen: 12, detektiv: 'm');
+      for (final (art, t) in [('Druckspiel', druckspiel), ('am Bildschirm', bildschirm)]) {
+        final intro = t.indexOf(_anfang(mit.text(mit.satz.spielleitung.intro.first)));
+        var bis = t.indexOf(flach(mit.ui('ui.druck.spielleitung.vorgeschichte')).toUpperCase());
+        expect(bis, greaterThanOrEqualTo(0), reason: art);
+        for (final x in schritte) {
+          final i = t.indexOf(flach(mit.text(x.kennung)), bis);
+          expect(i, greaterThan(bis), reason: '$art: ${x.kennung}');
+          bis = i;
+        }
+        expect(bis, lessThan(intro), reason: art);
+        for (final teil in e.teile) {
+          expect(t, contains(flach(mit.text(Einstimmung.titelKennung(teil)))), reason: '$art: $teil');
+        }
+        expect(RegExp(RegExp.escape(flach(mit.ui('ui.druck.spielleitung.gespielt')))).allMatches(t), hasLength(12), reason: art);
+        for (final f in Besetzung(mit.kanon).besetzt(12)) {
+          expect(t, contains(flach(mit.figurTitel(f))), reason: '$art: $f');
+        }
+        for (final f in Besetzung(mit.kanon).npc(12)) {
+          expect(t, isNot(contains(flach(mit.text(Einstimmung.figurKennung(f))))), reason: '$art: $f');
+        }
+        expect(t, contains(flach(mit.ui('ui.druck.spielleitung.vorstellung.npc'))), reason: art);
+      }
+      // Im Druckspiel steht der Detektiv dieses Abends (wie der Auftrag im Intro).
+      final w = flach(mit.text(Einstimmung.detektivKennung('w')));
+      if (w != flach(mit.text(Einstimmung.detektivKennung('m')))) expect(druckspiel, isNot(contains(w)));
+    });
+
+    test('Druckspiel: In der Vorbereitung steht, dass es ohne „Dein Moment“ läuft; am Bildschirm nicht', () {
+      final hinweis = flach(mit.ui('ui.druck.spielleitung.ohne_moment'));
+      expect(druckspiel, contains(hinweis));
+      expect(druckspiel.indexOf(hinweis), lessThan(druckspiel.indexOf(flach(mit.ui('ui.druck.spielleitung.ablauf.einleitung')))));
+      expect(bildschirm, isNot(contains(hinweis)));
+    });
+
+    test('ohne Einstimmung: weder Abschnitte noch Hinweis, das Heft bleibt wie vor dem Finale', () async {
+      final texte = Texte(kanonOhneEinstimmung, druckTexte.sammlung);
+      final ohne = druckKontextMit(kanonOhneEinstimmung, texte, n: 12, detektiv: 'm');
+      expect(Einstimmung.aus(ohne.kanon), isNull);
+      for (final ds in [true, false]) {
+        final t = flach((await _heft(ohne, druckspiel: ds)).text);
+        for (final kennung in [
+          'ui.druck.spielleitung.vorgeschichte.hinweis',
+          'ui.druck.spielleitung.vorstellung.hinweis',
+          'ui.druck.spielleitung.vorstellung.npc',
+          'ui.druck.spielleitung.gespielt',
+          'ui.druck.spielleitung.ohne_moment',
+        ]) {
+          expect(t, isNot(contains(flach(ohne.ui(kennung)))), reason: '$ds: $kennung');
+        }
+        // Bis die Einstimmung eingespielt ist, ist das der echte Schlosskeller: derselbe Text.
+        if (!echteEinstimmung) {
+          final echt = druckKontextMit(kanon, druckTexte, n: 12, detektiv: 'm');
+          expect(t, flach((await _heft(echt, druckspiel: ds)).text), reason: '$ds');
+        }
+      }
+    });
+
+    test('andere Akten: keine Einstimmung, also keine Abschnitte; die neuen Bausteine gibt es nur im Schlosskeller', () {
+      final basis = Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/basis-ui/$p'));
+      for (final akte in ['gewoelbe', 'ravensmoor', 'nachtexpress', 'blue_palm']) {
+        expect(Einstimmung.aus(ladeKanon(akte)), isNull, reason: akte);
+      }
+      for (final kennung in ['ui.druck.spielleitung.vorgeschichte', 'ui.druck.spielleitung.gespielt', 'ui.druck.spielleitung.ohne_moment']) {
+        expect(basis.bausteine.containsKey(kennung), isFalse, reason: kennung);
+        expect(druckTexte.sammlung.bausteine.containsKey(kennung), isTrue, reason: kennung);
+      }
+    });
+  });
 }

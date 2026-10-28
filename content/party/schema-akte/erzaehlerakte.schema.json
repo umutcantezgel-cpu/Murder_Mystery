@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Erzählerakte: Hintergründe, Stimme und Beziehungsnetz nur für die Person, die erzählt (A-063)",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stimme": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "person": {
+      "type": "object",
+      "required": [
+        "hintergrund",
+        "stimme"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hintergrund": {
+          "$ref": "#/$defs/text"
+        },
+        "stimme": {
+          "$ref": "#/$defs/stimme"
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "format",
+    "settingId",
+    "hinweis",
+    "einleitung",
+    "schneider",
+    "detektiv",
+    "figuren",
+    "netz"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "erzaehlerakte/1"
+    },
+    "settingId": {
+      "$ref": "#/$defs/id"
+    },
+    "hinweis": {
+      "$ref": "#/$defs/text"
+    },
+    "einleitung": {
+      "$ref": "#/$defs/text"
+    },
+    "schneider": {
+      "$ref": "#/$defs/person"
+    },
+    "detektiv": {
+      "$ref": "#/$defs/person"
+    },
+    "figuren": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": [
+          "figur",
+          "hintergrund",
+          "zuSchneider",
+          "stimme"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "figur": {
+            "$ref": "#/$defs/id"
+          },
+          "hintergrund": {
+            "$ref": "#/$defs/text"
+          },
+          "zuSchneider": {
+            "$ref": "#/$defs/text"
+          },
+          "stimme": {
+            "$ref": "#/$defs/stimme"
+          }
+        }
+      }
+    },
+    "netz": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "a",
+          "b",
+          "art",
+          "sichtbar",
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "$ref": "#/$defs/id"
+          },
+          "b": {
+            "$ref": "#/$defs/id"
+          },
+          "art": {
+            "enum": [
+              "familie",
+              "freundschaft",
+              "schule",
+              "studium",
+              "arbeit",
+              "nachbarschaft",
+              "verein",
+              "gefallen",
+              "schuld",
+              "streit"
+            ]
+          },
+          "sichtbar": {
+            "enum": [
+              "oeffentlich",
+              "heimlich"
+            ]
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "generiert": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

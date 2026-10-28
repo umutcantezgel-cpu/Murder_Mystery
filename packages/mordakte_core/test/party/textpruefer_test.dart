@@ -42,6 +42,11 @@ List<Map<String, Object?>> _probeEintraege(String bereich, int n) => switch (ber
       'ui' => [
           {'id': 'ui.probe$n', 'text': 'Weiter.'},
         ],
+      // Einfluss-Schicht (A-064): eine Karte und ein Vorlesetext (einflussVorlesetext).
+      'einfluss' => [
+          {'id': 'einfluss.zug.probe$n.titel', 'text': 'Zeigen'},
+          {'id': 'einfluss.folgen.start.probe$n', 'text': 'Es ist kalt.'},
+        ],
       'dossier' => [
           {
             'rolle': 'probe$n',
@@ -227,20 +232,26 @@ void main() {
   });
 
   group('Quellen (textQuellen)', () {
-    test('textQuellen deckt jede Textdatei des Index ab (38 aus F3, 8 Oberflächendateien aus F4, 3 Druckdateien aus F5, 1 Gästewissen aus F5, 3 Befragungen aus M2a, 1 Befragungs-Oberfläche aus M2b, 1 Gästewissen der Zielfiguren und 1 Kurzfassungsdatei aus E-044, 1 Steckbrief-Druckdatei aus K3, 1 Druckpaket-Datei)', () {
+    test('textQuellen deckt jede Textdatei des Index ab (38 aus F3, 8 Oberflächendateien aus F4, 3 Druckdateien aus F5, 1 Gästewissen aus F5, 3 Befragungen aus M2a, 1 Befragungs-Oberfläche aus M2b, 1 Gästewissen der Zielfiguren und 1 Kurzfassungsdatei aus E-044, 1 Steckbrief-Druckdatei aus K3, 1 Druckpaket-Datei, 2 Einstimmungsdateien aus A-063, 1 Einfluss-Datei aus A-064)', () {
       final index = leseJson('$repoWurzel/content/party/schlosskeller/texte/index.json');
       final dateien = [for (final d in index['dateien'] as List) 'texte/${(d as Map)['datei']}'];
-      expect(dateien, hasLength(58));
+      expect(dateien, hasLength(61));
       final quellen = textQuellen(kanon, _probeSammlung(index));
       final orte = {for (final q in quellen) q.ort.split('#').first};
       expect(orte.where((o) => o.startsWith('texte/')), unorderedEquals(dateien));
     });
 
-    test('vorgelesen werden nur Erzähler und Bonus-Hinweise (E-029)', () {
+    test('vorgelesen werden nur Erzähler, Bonus-Hinweise (E-029) und die Vorlesetexte der Einfluss-Schicht (A-064)', () {
       final index = leseJson('$repoWurzel/content/party/schlosskeller/texte/index.json');
       final quellen = textQuellen(kanon, _probeSammlung(index));
       // Erzähler-Dateien heißen erzaehler-*.json (Bereich erzaehler); ui-erzaehler.json ist Oberfläche.
-      bool gesprochen(TextQuelle q) => q.ort.startsWith('texte/erzaehler-') || q.ort.startsWith('bonus.json#');
+      // In einfluss.json sind Karten Oberfläche, Folgen, Ereignisse, Ende und Epiloge Vorlesetexte.
+      bool gesprochen(TextQuelle q) =>
+          q.ort.startsWith('texte/erzaehler-') ||
+          q.ort.startsWith('bonus.json#') ||
+          (q.ort.startsWith('texte/einfluss.json#') && einflussVorlesetext(q.ort.split('#').last));
+      final einfluss = quellen.where((q) => q.ort.startsWith('texte/einfluss.json#'));
+      expect([for (final q in einfluss) q.vorlesen], unorderedEquals([false, true]), reason: 'eine Karte, ein Vorlesetext');
       final erzaehler = quellen.where(gesprochen);
       expect(erzaehler, isNotEmpty);
       expect(erzaehler.every((q) => q.vorlesen), isTrue);

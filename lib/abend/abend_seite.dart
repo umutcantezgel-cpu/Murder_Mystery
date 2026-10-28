@@ -145,6 +145,8 @@ class _AbendSeiteState extends State<AbendSeite> {
                       // Altakten kennen keinen Erzähler und nennen den Ermittler mit eigenem Wort.
                       mitErzaehler: s.daten.mitErzaehlerSitz,
                       detektivWort: s.hatText('ui.allgemein.detektiv') ? s.text('ui.allgemein.detektiv') : null,
+                      mitEinstimmung: s.mitEinstimmung,
+                      einfluss: s.einfluss,
                     ),
                   ),
                   Expanded(

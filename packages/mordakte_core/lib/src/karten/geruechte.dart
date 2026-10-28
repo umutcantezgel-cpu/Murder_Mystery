@@ -160,7 +160,8 @@ class PfadgleichRegeln {
   /// [art] nennt die Textart in den Befunden („ein pfadgleiches Gerücht“).
   /// [beinamen] sind die Umwege, die geprüft werden (Vorgabe: alle).
   PfadgleichRegeln(Kanon kanon, {Iterable<String> geschuetzt = const [], this.art = 'ein pfadgleiches Gerücht', List<String> beinamen = pfadBeinamen})
-      : _beinamen = beinamen {
+      : _kanon = kanon,
+        _beinamen = beinamen {
     final sperrorte = _sperrorte(kanon);
     _sperren = [
       ...sperrregeln(kanon.figurenJson, kanon.gegenstaendeJson),
@@ -194,6 +195,7 @@ class PfadgleichRegeln {
 
   /// Textart in den Befunden.
   final String art;
+  final Kanon _kanon;
   final List<String> _beinamen;
   late final List<RegExp> _sperren;
   final Map<String, String> _teile = {};
@@ -226,6 +228,27 @@ class PfadgleichRegeln {
     return null;
   }
 
+  /// Ganze Wörter für [r15Woerter] (Wortform → Name, aus dem sie stammen); erst beim ersten Aufruf.
+  late final Map<String, String> _ganz = _ganzeWoerter(_kanon, _beinamen);
+
+  /// Der erste R15-Befund der Zeile [z] nach ganzen Wörtern (Texte der Einfluss-Schicht, Finale
+  /// „Änderungen“ 8 und 15), sonst `null`. Ein Wort der Zeile trifft, wenn eine seiner [wortformen] ein
+  /// Sperrwort, ein Wort rund um den Vorfall, ein Beiname oder ein ganzes Wort aus dem Namen eines
+  /// Gegenstands, Sperrorts oder Ziel-Raums oder aus einer pfadabhängigen Suchstelle ist. Teile eines
+  /// Wortes zählen nicht („Tisch“ steckt nicht in „Buffettisch“). Wörter mit einer Form aus [frei] (klein:
+  /// Namen, Spielbegriffe) sind erlaubt.
+  String? r15Woerter(String z, {Set<String> frei = const {}}) {
+    for (final w in _wortRe.allMatches(z)) {
+      final wort = w.group(0)!;
+      final formen = wortformen(wort);
+      if (formen.any(frei.contains)) continue;
+      if (formen.map((f) => _ganz[f]).nonNulls.firstOrNull case final name?) {
+        return formen.contains(name.toLowerCase()) ? '„$wort“ gehört nicht in $art (R15)' : '„$wort“ aus „$name“ gehört nicht in $art (R15)';
+      }
+    }
+    return null;
+  }
+
   /// Fünf Wörter am Stück aus einer geschützten Kanonstelle in [z], sonst `null`.
   String? leck(String z) {
     for (final f in _fuenfer(z)) {
@@ -234,6 +257,40 @@ class PfadgleichRegeln {
     return null;
   }
 }
+
+/// Ganze Wörter für [PfadgleichRegeln.r15Woerter], je mit dem Namen, aus dem sie
+/// stammen: [spoilerWoerter], Wörter rund um den Vorfall, [beinamen] und jedes
+/// Wort ab vier Buchstaben aus den Namen der Gegenstände, Sperrorte und
+/// Ziel-Räume und aus den Suchstellen pfadabhängiger Optionen (wie bei
+/// [teilwoerter], nur ohne Wortteile).
+Map<String, String> _ganzeWoerter(Kanon kanon, List<String> beinamen) {
+  final aus = <String, String>{};
+  void merke(String name, {Set<String> ohne = const {}, Set<String> allgemein = allgemeineWoerter, String? quelle}) {
+    for (final m in _buchstabenRe.allMatches(name)) {
+      final w = m.group(0)!.toLowerCase();
+      if (w.length >= 4 && !ohne.contains(w) && !allgemein.contains(w)) aus.putIfAbsent(w, () => quelle ?? name);
+    }
+  }
+
+  for (final w in [...spoilerWoerter, ..._vorfallWoerter, ...beinamen]) {
+    aus.putIfAbsent(w, () => w);
+  }
+  for (final g in kanon.gegenstaende) {
+    merke(g['name'] as String);
+  }
+  for (final o in _sperrorte(kanon)) {
+    merke(o, ohne: _allgemeineOrtswoerter);
+  }
+  for (final r in _zielRaeume(kanon)) {
+    merke(r, ohne: _allgemeineOrtswoerter, allgemein: const {});
+  }
+  for (final (suchstelle, option) in _pfadSuchstellen(kanon)) {
+    merke(suchstelle, allgemein: const {}, quelle: option);
+  }
+  return aus;
+}
+
+final _buchstabenRe = RegExp(r'\p{L}+', unicode: true);
 
 /// Namen der Sperrorte: Fundorte der Gegenstände, Ziel-Orte der Entscheidungen
 /// und Orte der Lacher.

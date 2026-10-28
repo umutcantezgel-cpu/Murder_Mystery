@@ -5307,6 +5307,12 @@ abstract class L {
   /// **'Die Ermittlung dieser Runde ist abgeschlossen. Gleich geht es zur Gruppenwahl.'**
   String get online_ermittlung_fertig;
 
+  /// Dein Moment (Finale §3.1): Nach der Ermittlung kommt das Flüstern statt der Gruppenwahl
+  ///
+  /// In de, this message translates to:
+  /// **'Die Ermittlung dieser Runde ist abgeschlossen. Gleich zeigt sich, ob die Runde dem Detektiv etwas zuflüstert.'**
+  String get online_ermittlung_fertig_moment;
+
   /// No description provided for @online_nachtzeit.
   ///
   /// In de, this message translates to:
@@ -7329,6 +7335,198 @@ abstract class L {
   /// **'Karte des Rundgangs. Der Detektiv geht zur Station.'**
   String get rundgang_karte_semantik;
 
+  /// Einstimmung (A-063): Name des ersten Teils im Kapitelzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte'**
+  String get einstimmung_vorgeschichte;
+
+  /// Einstimmung (A-063): Name des zweiten Teils im Kapitelzähler
+  ///
+  /// In de, this message translates to:
+  /// **'Vorstellung'**
+  String get einstimmung_vorstellung;
+
+  /// Einstimmung (A-063): Kapitelzähler über dem Titel, etwa „Vorgeschichte · 3 von 7“
+  ///
+  /// In de, this message translates to:
+  /// **'{teil} · {nr} von {von}'**
+  String einstimmung_zaehler(String teil, String nr, String von);
+
+  /// Einstimmung (A-063): zum nächsten Schritt
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get einstimmung_weiter;
+
+  /// Einstimmung (A-063): letzter Schritt im langen Abend, danach das Vorspiel
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter zum Vorspiel'**
+  String get einstimmung_zum_vorspiel;
+
+  /// Einstimmung (A-063): den Rest der Vorgeschichte überspringen
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte überspringen'**
+  String get einstimmung_ueberspringen_vorgeschichte;
+
+  /// Einstimmung (A-063): den Rest der Vorstellung überspringen
+  ///
+  /// In de, this message translates to:
+  /// **'Vorstellung überspringen'**
+  String get einstimmung_ueberspringen_vorstellung;
+
+  /// Einstimmung (A-063): unter der Vorstellungskarte, wer die Figur am Tisch spielt (nie im Vorlesetext)
+  ///
+  /// In de, this message translates to:
+  /// **'gespielt von {name}'**
+  String einstimmung_gespielt_von(String name);
+
+  /// Einstimmung (A-063): unter der Vorstellungskarte im Solo oder bei einer Rolle ohne Gerät
+  ///
+  /// In de, this message translates to:
+  /// **'Die App spielt {name}'**
+  String einstimmung_app_spielt(String name);
+
+  /// Einstimmung (A-063): Gast, dessen Figur gerade vorgestellt wird
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist dran'**
+  String get einstimmung_du_bist_dran;
+
+  /// Einstimmung (A-063): Fuß auf Geräten, die nicht weiterschalten
+  ///
+  /// In de, this message translates to:
+  /// **'{name} führt durch die Einstimmung.'**
+  String einstimmung_fuehrt(String name);
+
+  /// Einstimmung (A-063): Gast sieht, dass Vorgeschichte oder Vorstellung läuft
+  ///
+  /// In de, this message translates to:
+  /// **'Die Einstimmung läuft.'**
+  String get einstimmung_laeuft;
+
+  /// Assistent (A-063): Überschrift des Schalters für Vorgeschichte und Vorstellung
+  ///
+  /// In de, this message translates to:
+  /// **'Einstimmung'**
+  String get abend_einstimmung_titel;
+
+  /// Assistent (A-063): Schalter für die Einstimmung vor dem Auftakt
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte und Vorstellung'**
+  String get abend_einstimmung_schalter;
+
+  /// Assistent (A-063): Erklärung unter dem Schalter
+  ///
+  /// In de, this message translates to:
+  /// **'Vor dem Auftakt: erst die Vorgeschichte, dann wird jede Figur vorgestellt.'**
+  String get abend_einstimmung_hinweis;
+
+  /// Assistent (A-063): Dauer der Einstimmung bei der gewählten Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'Dauert etwa {minuten} Minuten.'**
+  String abend_einstimmung_dauer(int minuten);
+
+  /// Assistent (A-063): Zeile der Startübersicht
+  ///
+  /// In de, this message translates to:
+  /// **'Einstimmung'**
+  String get abend_start_einstimmung;
+
+  /// Assistent (A-063): Startübersicht, Einstimmung eingeschaltet
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte und Vorstellung'**
+  String get abend_einstimmung_an;
+
+  /// Assistent (A-063): Startübersicht, ohne Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Direkt zum Auftakt'**
+  String get abend_einstimmung_aus;
+
+  /// Wer macht was (A-063): Abschnitt Vorgeschichte und Vorstellung
+  ///
+  /// In de, this message translates to:
+  /// **'Einstimmung'**
+  String get uebersicht_phase_einstimmung;
+
+  /// Wer macht was (A-063): Detektiv in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, die Gäste kennenlernen'**
+  String get aufgabe_detektiv_einstimmung;
+
+  /// Wer macht was (A-063): Erzähler in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Vorgeschichte lesen, Figuren vorstellen'**
+  String get aufgabe_erzaehler_einstimmung;
+
+  /// Wer macht was (A-063): Rolle in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören, die anderen Figuren kennenlernen'**
+  String get aufgabe_rolle_einstimmung;
+
+  /// Wer macht was (A-063): Assistenz in der Einstimmung
+  ///
+  /// In de, this message translates to:
+  /// **'Zuhören und die Runde kennenlernen'**
+  String get aufgabe_assistenz_einstimmung;
+
+  /// Erzählerakte (A-063): Knopf und Titel, nur auf dem Erzähler-Platz
+  ///
+  /// In de, this message translates to:
+  /// **'Erzählerakte'**
+  String get erzaehlerakte_titel;
+
+  /// Erzählerakte (A-063): Zeile unter dem Eintrag in der Rollenphase
+  ///
+  /// In de, this message translates to:
+  /// **'Hintergründe und Netz aller Figuren'**
+  String get erzaehlerakte_eintrag;
+
+  /// Erzählerakte (A-063): Eintrag in der Rollenphase, für wen sie ist
+  ///
+  /// In de, this message translates to:
+  /// **'Für {name}'**
+  String erzaehlerakte_fuer(String name);
+
+  /// Erzählerakte (A-063): Reiter mit allen Figuren
+  ///
+  /// In de, this message translates to:
+  /// **'Figuren'**
+  String get erzaehlerakte_reiter_figuren;
+
+  /// Erzählerakte (A-063): Reiter mit dem Beziehungsnetz
+  ///
+  /// In de, this message translates to:
+  /// **'Netz'**
+  String get erzaehlerakte_reiter_netz;
+
+  /// Erzählerakte (A-063): Hinweis unter dem Netz
+  ///
+  /// In de, this message translates to:
+  /// **'Tipp auf eine Figur zeigt ihre Bindungen.'**
+  String get erzaehlerakte_netz_tipp;
+
+  /// Erzählerakte (A-063): Auswahl im Netz aufheben
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Bindungen'**
+  String get erzaehlerakte_netz_alle;
+
+  /// Erzählerakte (A-063): Bildschirmleser für eine Figur im Netz
+  ///
+  /// In de, this message translates to:
+  /// **'{name}, {anzahl} Bindungen'**
+  String erzaehlerakte_figur_semantik(String name, int anzahl);
+
   /// Gast: Überschrift der gemeinsamen Rundenuhr
   ///
   /// In de, this message translates to:
@@ -7418,6 +7616,444 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Abend'**
   String get abend_start_fassung;
+
+  /// Dein Moment (Finale §3): Assistent: Überschrift des Schalters
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Moment'**
+  String get abend_moment_titel;
+
+  /// Dein Moment (Finale §3): Assistent: Beschriftung des Schalters
+  ///
+  /// In de, this message translates to:
+  /// **'Heimliche Züge in jeder Runde'**
+  String get abend_moment_schalter;
+
+  /// Dein Moment (Finale §3): Assistent: Hinweis unter dem Schalter
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Rolle zieht geheim und formt Würfel, Zeit und Gerüchte. Aus: Gruppenwahl wie bisher.'**
+  String get abend_moment_hinweis;
+
+  /// Dein Moment (Finale §3): Startübersicht: Feldname
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Moment'**
+  String get abend_start_moment;
+
+  /// Dein Moment (Finale §3): Startübersicht: Wert an
+  ///
+  /// In de, this message translates to:
+  /// **'an'**
+  String get abend_moment_an;
+
+  /// Dein Moment (Finale §3): Startübersicht: Wert aus
+  ///
+  /// In de, this message translates to:
+  /// **'aus'**
+  String get abend_moment_aus;
+
+  /// Dein Moment (Finale §3): Wer macht was: Rolle in den Gesprächen mit Schicht (höchstens acht Wörter)
+  ///
+  /// In de, this message translates to:
+  /// **'Gespräch führen, geheim deinen Moment ziehen'**
+  String get aufgabe_rolle_moment;
+
+  /// Dein Moment (Finale §3): Wer macht was: Detektiv in der Ermittlung mit Schicht
+  ///
+  /// In de, this message translates to:
+  /// **'Tischwerte lesen, nach Pech gemeinsam rufen'**
+  String get aufgabe_detektiv_tischwerte;
+
+  /// Dein Moment (Finale §3): Wer macht was: Erzähler in der Ermittlung mit Schicht
+  ///
+  /// In de, this message translates to:
+  /// **'Zu Beginn der Ermittlung die Folgen vorlesen'**
+  String get aufgabe_erzaehler_folgen;
+
+  /// Dein Moment (Finale §3): Überschrift der Liste und der verdeckten Ansicht
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Moment'**
+  String get moment_titel;
+
+  /// Dein Moment (Finale §3): Hinweis über der Liste am Tisch
+  ///
+  /// In de, this message translates to:
+  /// **'Reihum zieht jede Person geheim einen Zug. Erst dann geht es weiter.'**
+  String get moment_hinweis;
+
+  /// Dein Moment (Finale §3): Zeile je Person in der Liste
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Moment: {zustand}'**
+  String moment_zeile(String zustand);
+
+  /// Dein Moment (Finale §3): Zustand: noch nicht gezogen
+  ///
+  /// In de, this message translates to:
+  /// **'offen'**
+  String get moment_offen;
+
+  /// Dein Moment (Finale §3): Zustand: gezogen
+  ///
+  /// In de, this message translates to:
+  /// **'fertig'**
+  String get moment_fertig;
+
+  /// Dein Moment (Finale §3): Liste: alle fertig
+  ///
+  /// In de, this message translates to:
+  /// **'Alle haben ihren Moment gezogen.'**
+  String get moment_alle;
+
+  /// Dein Moment (Finale §3): Solo: Hinweis statt Liste
+  ///
+  /// In de, this message translates to:
+  /// **'Die Rollen der App ziehen ihren Moment selbst.'**
+  String get moment_solo;
+
+  /// Dein Moment (Finale §3): Zwischenstufe: Gerät weitergeben
+  ///
+  /// In de, this message translates to:
+  /// **'Gib das Gerät an {name}.'**
+  String moment_weitergeben(String name);
+
+  /// Dein Moment (Finale §3): Zwischenstufe: Knopf
+  ///
+  /// In de, this message translates to:
+  /// **'Ich bin {name}, zeig her'**
+  String moment_zeig_her(String name);
+
+  /// Dein Moment (Finale §3): Zwischenstufe: Abbruch
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück'**
+  String get moment_zurueck;
+
+  /// Dein Moment (Finale §3): Abschnitt mit den privaten Nachrichten der Vorrunde
+  ///
+  /// In de, this message translates to:
+  /// **'Was du erfahren hast'**
+  String get moment_erfahren;
+
+  /// Dein Moment (Finale §3): Keine privaten Nachrichten
+  ///
+  /// In de, this message translates to:
+  /// **'Diesmal hast du nichts erfahren.'**
+  String get moment_nichts;
+
+  /// Dein Moment (Finale §3): Abschnitt mit den zwei Sternen
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Ziele'**
+  String get moment_ziele;
+
+  /// Dein Moment (Finale §3): Kopf einer Sternkarte
+  ///
+  /// In de, this message translates to:
+  /// **'Stern {nr}'**
+  String moment_stern(int nr);
+
+  /// Dein Moment (Finale §3): Stand eines Sterns
+  ///
+  /// In de, this message translates to:
+  /// **'offen'**
+  String get moment_stand_offen;
+
+  /// Dein Moment (Finale §3): Stand eines Sterns
+  ///
+  /// In de, this message translates to:
+  /// **'erreicht'**
+  String get moment_stand_erreicht;
+
+  /// Dein Moment (Finale §3): Stand eines Sterns
+  ///
+  /// In de, this message translates to:
+  /// **'verloren'**
+  String get moment_stand_verloren;
+
+  /// Dein Moment (Finale §3): Abschnitt mit dem Raster der Züge
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Zug'**
+  String get moment_zug_waehlen;
+
+  /// Dein Moment (Finale §3): Ausgegraute Kachel eines Einmal-Zugs
+  ///
+  /// In de, this message translates to:
+  /// **'Schon gespielt'**
+  String get moment_einmal;
+
+  /// Dein Moment (Finale §3): Ausgegraute Kachel ohne erlaubtes Ziel
+  ///
+  /// In de, this message translates to:
+  /// **'Gerade nicht möglich'**
+  String get moment_gesperrt;
+
+  /// Dein Moment (Finale §3): Zielwahl beim Decken: sich selbst
+  ///
+  /// In de, this message translates to:
+  /// **'Ich selbst'**
+  String get moment_ich_selbst;
+
+  /// Dein Moment (Finale §3): Tipp: niemand
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Ahnung'**
+  String get moment_keine_ahnung;
+
+  /// Dein Moment (Finale §3): Knopf: Zug bestätigen und zudecken
+  ///
+  /// In de, this message translates to:
+  /// **'Das ist mein Zug'**
+  String get moment_bestaetigen;
+
+  /// Dein Moment (Finale §3): Kachel: denselben Zug wie in der Runde davor
+  ///
+  /// In de, this message translates to:
+  /// **'Wie letzte Runde'**
+  String get moment_wie_letzte;
+
+  /// Dein Moment (Finale §3): Kurzform eines Zugs mit Ziel
+  ///
+  /// In de, this message translates to:
+  /// **'{zug} auf {name}'**
+  String moment_zug_auf(String zug, String name);
+
+  /// Dein Moment (Finale §3): Zug steht schon, lässt sich bis zu den Folgen ändern
+  ///
+  /// In de, this message translates to:
+  /// **'Gezogen: {zug}'**
+  String moment_dein_zug(String zug);
+
+  /// Dein Moment (Finale §3): Protokoll: kein Zug
+  ///
+  /// In de, this message translates to:
+  /// **'abgewartet'**
+  String get moment_abgewartet;
+
+  /// Dein Moment (Finale §3): Dossier: erster Stichpunkt (R17)
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Runde ziehst du geheim einen Zug'**
+  String get moment_erklaerung_1;
+
+  /// Dein Moment (Finale §3): Dossier: zweiter Stichpunkt (R17)
+  ///
+  /// In de, this message translates to:
+  /// **'Er formt Würfel, Zeit und Gerüchte'**
+  String get moment_erklaerung_2;
+
+  /// Dein Moment (Finale §3): Dossier: dritter Stichpunkt (R17)
+  ///
+  /// In de, this message translates to:
+  /// **'Zwei Sterne sind deine geheimen Ziele'**
+  String get moment_erklaerung_3;
+
+  /// Dein Moment (Finale §3): Gast: nach dem Senden
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Zug steht. Bis zu den Folgen kannst du ihn ändern.'**
+  String get moment_gezogen_online;
+
+  /// Dein Moment (Finale §3): Wer leitet: Knopf, wenn noch nicht alle gezogen haben
+  ///
+  /// In de, this message translates to:
+  /// **'Letzter Aufruf'**
+  String get moment_aufruf_knopf;
+
+  /// Dein Moment (Finale §3): Wer leitet: Hinweis über dem Knopf
+  ///
+  /// In de, this message translates to:
+  /// **'Noch nicht alle haben ihren Moment gezogen.'**
+  String get moment_aufruf_hinweis;
+
+  /// Dein Moment (Finale §3): Countdown nach dem letzten Aufruf
+  ///
+  /// In de, this message translates to:
+  /// **'Letzter Aufruf: noch {sekunden} Sekunden'**
+  String moment_aufruf_laeuft(int sekunden);
+
+  /// Dein Moment (Finale §3): Nach dem Countdown
+  ///
+  /// In de, this message translates to:
+  /// **'Wer jetzt nicht gezogen hat, wartet diese Runde ab.'**
+  String get moment_aufruf_vorbei;
+
+  /// Dein Moment (Finale §3): Hinweis für Sitze ohne Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Alle ziehen gerade ihren Moment.'**
+  String get moment_warten;
+
+  /// Dein Moment (Finale §3): Zu Beginn der Ermittlung
+  ///
+  /// In de, this message translates to:
+  /// **'Die Folgen eures Moments'**
+  String get einfluss_folgen_titel;
+
+  /// Dein Moment (Finale §3): Knopf nach den Folgen
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Ermittlung'**
+  String get einfluss_folgen_weiter;
+
+  /// Dein Moment (Finale §3): Solo: Reaktionen der Rollen der App
+  ///
+  /// In de, this message translates to:
+  /// **'Am Tisch geraunt'**
+  String get einfluss_blasen_titel;
+
+  /// Dein Moment (Finale §3): Chancenvorschau: Zeile Tischwert
+  ///
+  /// In de, this message translates to:
+  /// **'Tisch'**
+  String get einfluss_tisch;
+
+  /// Dein Moment (Finale §3): Chancenvorschau: Bonus nach einem Umweg
+  ///
+  /// In de, this message translates to:
+  /// **'Umweg'**
+  String get einfluss_umweg;
+
+  /// Dein Moment (Finale §3): Fundkarte und Notizbuch: Kopf einer Randnotiz
+  ///
+  /// In de, this message translates to:
+  /// **'Randnotiz'**
+  String get einfluss_randnotiz;
+
+  /// Dein Moment (Finale §3.6): Notizbuch: Kopf eines ausgepackten Fakts, mit dem Namen am Tisch
+  ///
+  /// In de, this message translates to:
+  /// **'Ausgepackt: {name}'**
+  String einfluss_ausgepackt(String name);
+
+  /// Dein Moment (Finale §3): Leisten Zusammenhalt und Spuk
+  ///
+  /// In de, this message translates to:
+  /// **'Stimmung am Tisch'**
+  String get einfluss_leisten_titel;
+
+  /// Dein Moment (Finale §3): Name der Leiste
+  ///
+  /// In de, this message translates to:
+  /// **'Zusammenhalt'**
+  String get einfluss_zusammenhalt;
+
+  /// Dein Moment (Finale §3): Name der Leiste
+  ///
+  /// In de, this message translates to:
+  /// **'Spuk'**
+  String get einfluss_spuk;
+
+  /// Dein Moment (Finale §3): Stand einer Leiste
+  ///
+  /// In de, this message translates to:
+  /// **'{wert} von {max}'**
+  String einfluss_leiste_stand(int wert, int max);
+
+  /// Dein Moment (Finale §3): Resümee: Ereignisse
+  ///
+  /// In de, this message translates to:
+  /// **'Was in dieser Runde geschah'**
+  String get einfluss_ereignisse_titel;
+
+  /// Dein Moment (Finale §3): Resümee: Funde, die bis jetzt warteten
+  ///
+  /// In de, this message translates to:
+  /// **'Jetzt sichtbar'**
+  String get einfluss_nachgereicht_titel;
+
+  /// Dein Moment (Finale §3): Anklage: Zahl der Nachfragen
+  ///
+  /// In de, this message translates to:
+  /// **'Offene Nachfragen: {n}'**
+  String einfluss_nachfrage_offen(int n);
+
+  /// Dein Moment (Finale §3): Anklage: Auswahl der Option
+  ///
+  /// In de, this message translates to:
+  /// **'Zu welcher Wahl fragst du nach?'**
+  String get einfluss_nachfrage_waehlen;
+
+  /// Dein Moment (Finale §3): Anklage: Knopf
+  ///
+  /// In de, this message translates to:
+  /// **'Nachfragen'**
+  String get einfluss_nachfrage_knopf;
+
+  /// Dein Moment (Finale §3): Auflösung: alle Züge
+  ///
+  /// In de, this message translates to:
+  /// **'Protokoll der Nacht'**
+  String get einfluss_protokoll_titel;
+
+  /// Dein Moment (Finale §3): Auflösung: Kopf einer Runde
+  ///
+  /// In de, this message translates to:
+  /// **'Runde {nr}'**
+  String einfluss_runde(int nr);
+
+  /// Dein Moment (Finale §3): Auflösung: Zug der App für eine Rolle ohne Mensch
+  ///
+  /// In de, this message translates to:
+  /// **'App'**
+  String get einfluss_bot;
+
+  /// Dein Moment (Finale §3): Auflösung: Sterne je Figur
+  ///
+  /// In de, this message translates to:
+  /// **'Sterne der Nacht'**
+  String get einfluss_sterne_titel;
+
+  /// Dein Moment (Finale §3): Auflösung: Tipps aus Runde drei
+  ///
+  /// In de, this message translates to:
+  /// **'Geheime Tipps'**
+  String get einfluss_tipps_titel;
+
+  /// Dein Moment (Finale §3): Auflösung: Feldname
+  ///
+  /// In de, this message translates to:
+  /// **'Punkte'**
+  String get einfluss_punkte;
+
+  /// Dein Moment (Finale §3): Auflösung: Feldname
+  ///
+  /// In de, this message translates to:
+  /// **'Tischbonus'**
+  String get einfluss_tischbonus;
+
+  /// Dein Moment (Finale §3): Auflösung: Feldname
+  ///
+  /// In de, this message translates to:
+  /// **'Endwert'**
+  String get einfluss_endwert;
+
+  /// Dein Moment (Finale §3): Erzähler: Zug-Tafel
+  ///
+  /// In de, this message translates to:
+  /// **'Züge dieser Runde'**
+  String get einfluss_tafel_titel;
+
+  /// Dein Moment (Finale §3): Erzähler: Hinweis zur Zug-Tafel
+  ///
+  /// In de, this message translates to:
+  /// **'Nur für dich. Nie vorlesen.'**
+  String get einfluss_tafel_hinweis;
+
+  /// Dein Moment (Finale §3): Erzähler: Zug-Tafel ohne Züge
+  ///
+  /// In de, this message translates to:
+  /// **'Noch hat niemand gezogen.'**
+  String get einfluss_tafel_leer;
+
+  /// Dein Moment (Finale §3): Fundkarte nach einem Umweg, die Fakten warten
+  ///
+  /// In de, this message translates to:
+  /// **'Die Fakten kommen im Zwischenresümee.'**
+  String get einfluss_verzoegert;
 
   /// Startübersicht (M7b): geschätzte Länge des Abends
   ///
