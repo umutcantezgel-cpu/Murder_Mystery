@@ -171,9 +171,32 @@ void main() {
             [for (final f in p.spiel.besetzt) 'einfluss.epilog.$f.${sterne[f]! >= 1 ? 'erreicht' : 'verfehlt'}']);
         final a = e.auszeichnungen();
         expect(ende, contains(einflussBaustein('einfluss.preis.stern', figur: a.stern!)));
+        // Alle Spürnasen in einem Baustein („Änderungen“ 44).
+        expect([for (final x in ende) if (x.startsWith('einfluss.preis.spuernase')) x], switch (a.spuernasen) {
+          [] => isEmpty,
+          [final f] => [einflussBaustein('einfluss.preis.spuernase', figur: f)],
+          final l => [einflussListenBaustein('einfluss.preis.spuernasen', l)],
+        }, reason: '${profil.name}: ${a.spuernasen}');
         expect(ende.last, 'einfluss.morgen.$morgen');
         expect(e.stand.morgen.name, morgen);
       }
+    });
+
+    test('Spürnasen in einem Baustein: eine mit „spuernase“, mehrere als Namensliste mit „und“ („Änderungen“ 44)', () {
+      final erz = Erzaehler(kanon);
+      List<String> preise(List<String> nasen) => [
+            for (final x in erz.einflussAufloesung(epiloge: const [], stern: null, spuernasen: nasen, schlossgeist: null, treueSeele: null, morgen: 'warm'))
+              if (x.startsWith('einfluss.preis.')) x,
+          ];
+      expect(preise(const []), isEmpty);
+      expect(preise(const ['leyla']), ['einfluss.preis.spuernase@leyla']);
+      expect(preise(const ['fatma', 'olli', 'can', 'leyla']), ['einfluss.preis.spuernasen@fatma,olli,can,leyla']);
+      final texte = einflussTexte();
+      expect(texte.baustein(preise(const ['leyla']).single), startsWith('Eine Spürnase der Nacht ist Lejla.'));
+      expect(texte.baustein(preise(const ['fatma', 'olli']).single), contains(' Fatma und Olli.'));
+      final vier = texte.baustein(preise(const ['fatma', 'olli', 'can', 'leyla']).single);
+      expect(vier, contains(' Fatma, Olli, Can und Lejla.'));
+      expect(vier, isNot(contains('@')));
     });
 
     test('Spürnasen erst ab dem Finale; Sterne und Auszeichnungen aus dem Protokoll; Erfahrung nur mit Schicht', () {

@@ -285,10 +285,15 @@ class Texte {
   /// (`hinweis.<id>`) stehen in `bonus.json`, alles andere in der Textsammlung.
   /// Unbekannte Kennungen sind ein Fehler: Die App erzeugt keinen Text (F-11).
   String baustein(String kennung) {
-    // Einfluss-Bausteine mit Figuren (`einflussBaustein`, Finale §3.13): `<kennung>@<figur>[@<ziel>]`.
+    // Einfluss-Bausteine mit Figuren (`einflussBaustein`, Finale §3.13): `<kennung>@<figur>[@<ziel>]`;
+    // mit Namensliste (`einflussListenBaustein`, „Änderungen“ 44): `<kennung>@<figur>,<figur>,…`.
     if (kennung.startsWith('einfluss.') && kennung.contains('@')) {
       final t = kennung.split('@');
       if (t.length > 3) throw ArgumentError('unbekannter Baustein $kennung');
+      if (t[1].contains(',')) {
+        if (t.length > 2) throw ArgumentError('unbekannter Baustein $kennung');
+        return einflussText(t[0], figuren: t[1].split(','));
+      }
       return einflussText(t[0], figur: t[1], ziel: t.length > 2 ? t[2] : null);
     }
     if (kennung.startsWith('hinweis.')) {
@@ -302,9 +307,17 @@ class Texte {
   /// Text der Einfluss-Schicht (Bereich `einfluss`, Finale §3.13) mit Platzhaltern: `@figur` und `@ziel`
   /// werden zum Anzeigenamen der Figur, `@zug` zum Kurznamen der Zugart (`einfluss.zug.<art>.titel`).
   /// Den Kurznamen sucht nur ein Text, der `@zug` trägt (abgewartet hat keinen, „Änderungen“ 1).
-  String einflussText(String kennung, {String? figur, String? ziel, String? zug}) {
+  /// Eine Namensliste [figuren] (mindestens zwei, „Änderungen“ 44) füllt `@liste` mit allen Namen bis auf
+  /// den letzten, durch Komma getrennt, und `@letzte` mit dem letzten; das „und“ dazwischen steht im Text.
+  String einflussText(String kennung, {String? figur, String? ziel, String? zug, List<String>? figuren}) {
     var t = baustein(kennung);
     String name(String id) => _anzeigenamen[id] ?? (throw ArgumentError('unbekannte Figur $id'));
+    if (figuren != null) {
+      if (figuren.length < 2) throw ArgumentError('Namensliste mit weniger als zwei Figuren: $figuren');
+      t = t
+          .replaceAll('@liste', [for (final f in figuren.take(figuren.length - 1)) name(f)].join(', '))
+          .replaceAll('@letzte', name(figuren.last));
+    }
     if (figur != null) t = t.replaceAll('@figur', name(figur));
     if (ziel != null) t = t.replaceAll('@ziel', name(ziel));
     if (zug != null && t.contains('@zug')) t = t.replaceAll('@zug', baustein('einfluss.zug.$zug.titel'));

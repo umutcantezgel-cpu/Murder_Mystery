@@ -112,7 +112,8 @@ void main() {
         ..['einfluss.zug.helfen.p1'] = 'Hilf mit. Dann geht es schneller.'
         ..['einfluss.auspacken.ahmet'] = fixtureSatz
         ..['einfluss.ertappt'] = 'Gleich danach nennt jemand @figur beim Namen. $fixtureSatz'
-        ..['einfluss.privat.wirkte'] = 'Dein Zug wirkte bei @figur';
+        ..['einfluss.privat.wirkte'] = 'Dein Zug wirkte bei @figur'
+        ..['einfluss.preis.spuernasen'] = 'Gleich danach nennt jemand @figur und @letzte beim Namen. $fixtureSatz';
       final f = _pruefe(einflussJson(), texte: t);
       expect(f, _befund('Text einfluss.wieder fehlt'));
       expect(f, _befund('Text einfluss.geheim gehört nicht zum Einfluss-Katalog'));
@@ -121,6 +122,9 @@ void main() {
       expect(f, _befund('einfluss.auspacken.ahmet: 11 Wörter statt 20 bis 45'));
       expect(f, _befund('einfluss.ertappt: Platzhalter @ziel fehlt'));
       expect(f, _befund('einfluss.privat.wirkte: Platzhalter @figur hier nicht erlaubt'));
+      // Mehrere Spürnasen („Änderungen“ 44): Namensliste statt @figur.
+      expect(f, _befund('einfluss.preis.spuernasen: Platzhalter @figur hier nicht erlaubt'));
+      expect(f, _befund('einfluss.preis.spuernasen: Platzhalter @liste fehlt'));
     });
 
     test('Kragen erzwingt den chaotischen Morgen („Änderungen“ 2)', () {

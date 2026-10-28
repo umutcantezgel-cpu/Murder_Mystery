@@ -379,8 +379,15 @@ void main() {
     expect(a.tipps.keys, containsAll(s.besetzt));
     expect(s.erzaehler, contains(startsWith('einfluss.preis.stern@')));
     expect(s.erzaehler.where((k) => k.startsWith('einfluss.epilog.')), hasLength(s.besetzt.length));
+    // Alle tippen auf Ahmet: Fatma, Olli und Can sind Spürnasen, in einem Baustein („Änderungen“ 44).
+    expect(a.spuernasen, ['fatma', 'olli', 'can']);
+    final nasen = [for (final k in s.erzaehler) if (k.startsWith('einfluss.preis.spuernase')) k];
+    expect(nasen, [einflussListenBaustein('einfluss.preis.spuernasen', a.spuernasen)]);
+    final nasenText = s.text(nasen.single);
+    expect(nasenText, contains(' Fatma, Olli und Can.'));
     await t.pumpWidget(rahmen(AufloesungBildschirm(sitzung: s)));
     await t.pump();
+    expect(find.text(nasenText), findsOneWidget);
     expect(find.byKey(const ValueKey('einfluss-aufloesung')), findsOneWidget);
     for (final r in s.besetzt) {
       expect(find.byKey(ValueKey('protokoll-$r')), findsOneWidget);

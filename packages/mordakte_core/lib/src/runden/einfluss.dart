@@ -1439,7 +1439,7 @@ List<String> einflussKatalog(EinflussRegeln r) {
     for (final f in r.figuren) ...['einfluss.epilog.$f.erreicht', 'einfluss.epilog.$f.verfehlt'],
     'einfluss.tischbonus.plus',
     'einfluss.tischbonus.minus',
-    for (final p in const ['stern', 'spuernase', 'schlossgeist', 'treue_seele']) 'einfluss.preis.$p',
+    for (final p in const ['stern', 'spuernase', 'spuernasen', 'schlossgeist', 'treue_seele']) 'einfluss.preis.$p',
     for (final m in MorgenVariante.values) 'einfluss.morgen.${m.name}',
     for (final f in r.figuren)
       for (final a in botAnlaesse) 'einfluss.bot.$f.$a',

@@ -28,7 +28,7 @@ Map<String, String> fixtureTexte(EinflussRegeln r) {
   final aus = <String, String>{};
   for (final k in einflussKatalog(r)) {
     final platz = einflussPlatzhalter(k);
-    final vorne = [for (final p in ['figur', 'ziel', 'zug']) if (platz.contains(p)) '@$p'].join(' und ');
+    final vorne = [for (final p in ['figur', 'ziel', 'zug', 'liste', 'letzte']) if (platz.contains(p)) '@$p'].join(' und ');
     if (k.startsWith('einfluss.ereignis.') && k.endsWith('.titel')) {
       aus[k] = 'Kurz und klar';
     } else if (!einflussVorlesetext(k)) {

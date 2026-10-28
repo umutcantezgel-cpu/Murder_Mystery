@@ -417,6 +417,23 @@ void main() {
   });
 
   group('Abend', () {
+    test('Auflösung online: alle Spürnasen in einem Baustein, wie am Gerät („Änderungen“ 44)', () {
+      final r = _raum();
+      _start(r, geraete: 6, rollen: 6);
+      final fenster = <String>{};
+      // Alle helfen und tippen auf Ahmet (Pfad ahmet): jede andere Figur ist eine Spürnase.
+      _bis(r, (s) => s['phase'] == 'ende', zuege: (g, i, m) => {'art': 'helfen', if (m['tipps'] != null) 'tipp': 'ahmet'}, jeSchritt: () {
+        final v = r.zustandFuer('p1');
+        if (v['phase'] == 'aufloesung') fenster.addAll((v['erzaehler'] as List? ?? const []).cast<String>());
+      });
+      final nasen = (_map(_map(_map(r.zustandFuer('p1')['aufloesung'])['einfluss'])['auszeichnungen'])['spuernasen'] as List).cast<String>();
+      expect(nasen.length, greaterThan(1));
+      expect(fenster, contains(_texte.baustein(einflussListenBaustein('einfluss.preis.spuernasen', nasen))));
+      for (final f in nasen) {
+        expect(fenster, isNot(contains(_texte.baustein(einflussBaustein('einfluss.preis.spuernase', figur: f)))), reason: f);
+      }
+    });
+
     for (final fassung in Abendfassung.values) {
       test('ganzer Abend (${fassung.name}): Folgen beim Wechsel, keine Gruppenwahl, Flüstern, Nachfragen, Notizbuch, Auflösung', () {
         final r = _raum(fassung: fassung);

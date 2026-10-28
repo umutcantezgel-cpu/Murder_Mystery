@@ -534,3 +534,13 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       Erzählerakte die Rollen aus der Spielerliste. `tool/e2e/solo.mjs` folgt den Vorgaben des Assistenten (beide
       Schalter an). Erfahrung aus „Dein Moment“ bucht nur ein Gast mit Figur am eigenen Gerät; an einem Gerät zählt
       das Ende des Detektivs nach dem Endwert (§3.10).
+- 2026-10-28 (Politur nach der Fotosichtung der Browserprobe des Finales):
+  44. §3.10/§3.13 **Spürnasen in einem Baustein:** Statt einer Karte „Eine Spürnase der Nacht ist …“ je Rolle steht in
+      der Auflösung ein Baustein. Eine Spürnase: `einfluss.preis.spuernase@<figur>` wie bisher. Mehrere: neuer Schlüssel
+      `einfluss.preis.spuernasen` mit den Platzhaltern `@liste` (alle Namen bis auf den letzten, durch Komma getrennt)
+      und `@letzte`; das „und“ steht im Text („Spürnasen der Nacht sind @liste und @letzte. …“). Baustein
+      `einfluss.preis.spuernasen@<figur>,<figur>,…` (`einflussListenBaustein`, mindestens zwei Figuren), aufgelöst in
+      `Texte.baustein`/`einflussText(figuren:)`; Gerät, Gast und Raum zeigen dieselbe Tafel, der Druck kennt die
+      Schicht nicht. Einfluss-Katalog 293 Schlüssel (Vorlesetexte 112). `einfluss_soll.g.dart` nach E-048 neu erzeugt:
+      686 der 1.000 Summen ändern sich, genau die Abende mit mehr als einer Spürnase (nachgezählt); einzige Ursache
+      gegengeprüft: mit der zurückgenommenen Zeile in `Erzaehler.einflussAufloesung` passt die vorige Liste.

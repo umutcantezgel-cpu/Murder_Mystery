@@ -441,12 +441,14 @@ void main() {
     test('Katalog: alle Pflichtschlüssel, eindeutig, Ereignisse aus den Daten', () {
       final k = einflussKatalog(_r);
       expect(k.toSet(), hasLength(k.length));
-      // 283 aus §3.13 und der Textart, dazu „Änderungen“ 1 (2 Lausch-Karten), 3 (6 Ereignistitel), 6 (Tipp-Karte).
-      expect(k, hasLength(292));
+      // 283 aus §3.13 und der Textart, dazu „Änderungen“ 1 (2 Lausch-Karten), 3 (6 Ereignistitel), 6 (Tipp-Karte),
+      // 44 (Spürnasen als Namensliste).
+      expect(k, hasLength(293));
       expect(k, containsAll([
         'einfluss.zug.zeigen.wahl', 'einfluss.zug.decken.wahl', 'einfluss.zug.lauschen.wahl', 'einfluss.tipp.wahl',
         'einfluss.ereignis.fledermaus', 'einfluss.ereignis.fledermaus.karte', 'einfluss.privat.ohne_folgen',
         'einfluss.ziel.hakan.2', 'einfluss.epilog.tugba.verfehlt', 'einfluss.bot.can.freund_gestanden', 'einfluss.preis.treue_seele',
+        'einfluss.preis.spuernase', 'einfluss.preis.spuernasen',
         'einfluss.privat.gelauscht', 'einfluss.privat.gelauscht.ohne_ziel', 'einfluss.privat.gelauscht.abgewartet', 'einfluss.tipp.p1',
         for (final e in _r.ereignisse) 'einfluss.ereignis.${e.id}.titel',
       ]));
@@ -458,7 +460,7 @@ void main() {
         'einfluss.folgen.start.1', 'einfluss.auspacken.ahmet', 'einfluss.ablenken.schluss', 'einfluss.geruecht.laut',
         'einfluss.leiste.ruhig', 'einfluss.ereignis.tee', 'einfluss.wieder', 'einfluss.fluestern.still', 'einfluss.ertappt',
         'einfluss.ertappt.selbst', 'einfluss.verwischt', 'einfluss.tischbonus.plus', 'einfluss.preis.stern',
-        'einfluss.morgen.warm', 'einfluss.epilog.can.erreicht',
+        'einfluss.preis.spuernasen', 'einfluss.morgen.warm', 'einfluss.epilog.can.erreicht',
       ];
       const karten = [
         'einfluss.zug.zeigen.titel', 'einfluss.tipp.titel', 'einfluss.tipp.p1', 'einfluss.ereignis.tee.karte',
@@ -472,10 +474,10 @@ void main() {
       for (final k in karten) {
         expect(einflussVorlesetext(k), isFalse, reason: k);
       }
-      // Im Katalog: 111 Vorlesetexte (Folgen 3, Auspacken 20, Ablenken 21, Gerüchte 2, Leisten 5, Ereignisse 6,
-      // wieder, Flüstern, Ertappt 2, Verwischt, Tischbonus 2, Preise 4, Morgen 3, Epiloge 40), der Rest Karten.
+      // Im Katalog: 112 Vorlesetexte (Folgen 3, Auspacken 20, Ablenken 21, Gerüchte 2, Leisten 5, Ereignisse 6,
+      // wieder, Flüstern, Ertappt 2, Verwischt, Tischbonus 2, Preise 5, Morgen 3, Epiloge 40), der Rest Karten.
       final k = einflussKatalog(_r);
-      expect(k.where(einflussVorlesetext), hasLength(111));
+      expect(k.where(einflussVorlesetext), hasLength(112));
       expect(k.where((x) => !einflussVorlesetext(x)), hasLength(181));
     });
 
@@ -491,6 +493,7 @@ void main() {
           {'id': 'einfluss.privat.gelauscht', 'text': '@figur: @zug bei @ziel'},
           {'id': 'einfluss.privat.gelauscht.abgewartet', 'text': '@figur hat abgewartet'},
           {'id': 'einfluss.zug.decken.titel', 'text': 'Decken'},
+          {'id': 'einfluss.preis.spuernasen', 'text': 'Spürnasen sind @liste und @letzte.'},
           {'id': 'ui.falsch', 'text': 'Nicht hier'},
         ],
       };
@@ -517,6 +520,7 @@ void main() {
         'einfluss.privat.gelauscht': false,
         'einfluss.privat.gelauscht.abgewartet': false,
         'einfluss.zug.decken.titel': false,
+        'einfluss.preis.spuernasen': true,
         'ui.falsch': false,
       });
       final texte = Texte(kanon, sammlung);
@@ -525,6 +529,14 @@ void main() {
       // Abgewartet hat keinen Kurznamen; der Text trägt kein @zug („Änderungen“ 1).
       expect(texte.einflussText('einfluss.privat.gelauscht.abgewartet', figur: 'murat', zug: 'abgewartet'), 'Marek hat abgewartet');
       expect(() => texte.einflussText('einfluss.ertappt', figur: 'niemand'), throwsArgumentError);
+      // Namensliste („Änderungen“ 44): Komma zwischen den Namen, „und“ aus dem Text vor dem letzten.
+      expect(texte.einflussText('einfluss.preis.spuernasen', figuren: ['fatma', 'olli']), 'Spürnasen sind Fatma und Olli.');
+      expect(texte.baustein(einflussListenBaustein('einfluss.preis.spuernasen', ['fatma', 'olli', 'can', 'leyla'])),
+          'Spürnasen sind Fatma, Olli, Can und Lejla.');
+      expect(() => texte.einflussText('einfluss.preis.spuernasen', figuren: ['fatma']), throwsArgumentError);
+      expect(() => texte.baustein('einfluss.preis.spuernasen@fatma,niemand'), throwsArgumentError);
+      expect(() => texte.baustein('einfluss.preis.spuernasen@fatma,olli@can'), throwsArgumentError);
+      expect(() => einflussListenBaustein('einfluss.preis.spuernasen', ['fatma']), throwsArgumentError);
     });
   });
 

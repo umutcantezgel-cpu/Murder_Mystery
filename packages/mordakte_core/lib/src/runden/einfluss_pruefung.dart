@@ -42,8 +42,10 @@ Set<String> einflussR15Frei(Kanon kanon) => {
             for (final m in RegExp(r'\p{L}+', unicode: true).allMatches(n)) m.group(0)!.toLowerCase(),
     };
 
-/// Platzhalter je Schlüssel (Pflicht, „Änderungen“ zu §3.13 und 1); andere Schlüssel tragen keinen.
+/// Platzhalter je Schlüssel (Pflicht, „Änderungen“ zu §3.13, 1 und 44); andere Schlüssel tragen keinen.
+/// `einfluss.preis.spuernasen` nennt mehrere Spürnasen: `@liste` und `@letzte` mit „und“ dazwischen.
 Set<String> einflussPlatzhalter(String kennung) => switch (kennung) {
+      'einfluss.preis.spuernasen' => const {'liste', 'letzte'},
       'einfluss.ertappt' => const {'figur', 'ziel'},
       'einfluss.ertappt.selbst' => const {'figur'},
       'einfluss.privat.gelauscht' => const {'figur', 'ziel', 'zug'},

@@ -1,7 +1,7 @@
 {
   "settingId": "spuk_im_schlosskeller",
   "bereich": "einfluss",
-  "hinweis": "Texte der Einfluss-Schicht „Dein Moment“ (A-064, SPEZIFIKATION §3.13): Zugkarten, Folgen, Ermittlung, private Karten, Ziele, Epiloge, Auszeichnungen, Morgen und Bot-Blasen. Karten nach R17, Vorlesetexte nach den Vorleseregeln; Platzhalter @figur, @ziel, @zug.",
+  "hinweis": "Texte der Einfluss-Schicht „Dein Moment“ (A-064, SPEZIFIKATION §3.13): Zugkarten, Folgen, Ermittlung, private Karten, Ziele, Epiloge, Auszeichnungen, Morgen und Bot-Blasen. Karten nach R17, Vorlesetexte nach den Vorleseregeln; Platzhalter @figur, @ziel, @zug; @liste und @letzte nur in einfluss.preis.spuernasen (mehrere Spürnasen, „und“ vor dem letzten Namen).",
   "eintraege": [
     {
       "id": "einfluss.zug.zeigen.titel",
@@ -350,6 +350,10 @@
     {
       "id": "einfluss.preis.spuernase",
       "text": "Eine Spürnase der Nacht ist @figur. Richtig getippt, ganz ohne Hut und Lupe!"
+    },
+    {
+      "id": "einfluss.preis.spuernasen",
+      "text": "Spürnasen der Nacht sind @liste und @letzte. Richtig getippt, ganz ohne Hut und Lupe!"
     },
     {
       "id": "einfluss.preis.schlossgeist",

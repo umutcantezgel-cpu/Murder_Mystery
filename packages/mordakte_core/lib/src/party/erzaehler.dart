@@ -8,6 +8,14 @@ import 'kanon/kanon.dart';
 /// [Texte.baustein] setzt die Anzeigenamen für `@figur` und `@ziel` ein.
 String einflussBaustein(String kennung, {required String figur, String? ziel}) => ziel == null ? '$kennung@$figur' : '$kennung@$figur@$ziel';
 
+/// Baustein der Einfluss-Schicht mit einer Namensliste (Spürnasen, Finale „Änderungen“ 44):
+/// `<kennung>@<figur>,<figur>,…` mit mindestens zwei Figuren. [Texte.baustein] setzt `@liste` (alle bis
+/// auf die letzte, durch Komma getrennt) und `@letzte` ein; das „und“ dazwischen steht im Text.
+String einflussListenBaustein(String kennung, List<String> figuren) {
+  if (figuren.length < 2) throw ArgumentError('Namensliste mit weniger als zwei Figuren: $figuren');
+  return '$kennung@${figuren.join(',')}';
+}
+
 /// Bausteinwahl des Erzählers (Master 7.12). Der Spielzustand wählt feste
 /// Kennungen; die Texte stehen in der Textsammlung des Kanons (F3).
 ///
@@ -161,7 +169,9 @@ class Erzaehler {
       ];
 
   /// Ende der Auflösung mit Einfluss-Schicht (Finale §3.10): Epilog je besetzter Rolle (Stern erreicht
-  /// oder nicht), Auszeichnungen mit Namen, Fassung des Morgens.
+  /// oder nicht), Auszeichnungen mit Namen, Fassung des Morgens. Die Spürnasen stehen in einem Baustein:
+  /// eine mit `einfluss.preis.spuernase`, mehrere als Namensliste `einfluss.preis.spuernasen`
+  /// ([einflussListenBaustein], „Änderungen“ 44).
   List<String> einflussAufloesung({
     required List<({String figur, bool erreicht})> epiloge,
     required String? stern,
@@ -173,7 +183,10 @@ class Erzaehler {
       [
         for (final e in epiloge) 'einfluss.epilog.${e.figur}.${e.erreicht ? 'erreicht' : 'verfehlt'}',
         if (stern != null) einflussBaustein('einfluss.preis.stern', figur: stern),
-        for (final f in spuernasen) einflussBaustein('einfluss.preis.spuernase', figur: f),
+        if (spuernasen.length == 1)
+          einflussBaustein('einfluss.preis.spuernase', figur: spuernasen.single)
+        else if (spuernasen.length > 1)
+          einflussListenBaustein('einfluss.preis.spuernasen', spuernasen),
         if (schlossgeist != null) einflussBaustein('einfluss.preis.schlossgeist', figur: schlossgeist),
         if (treueSeele != null) einflussBaustein('einfluss.preis.treue_seele', figur: treueSeele),
         'einfluss.morgen.$morgen',
