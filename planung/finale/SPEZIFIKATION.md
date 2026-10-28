@@ -559,3 +559,31 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       Bei 320 px und 200 % Schrift lief der Leistenname „Zusammenhalt“ 15 px über den Rand; er wird jetzt kleiner
       (`LeistenAnzeige`, auch im Resümee und beim Gast). Beweis: `test/party_widgets/protokoll_nacht_test.dart`
       (320/390 px × 100/200 %, Rechtecke der Zeilen, Sinnbilder, Fotos und Schattenabstand).
+  47. §3.5 **Randnotizen aller Befragungen bringen Neues** (Besitzer „Ja, angleichen“, wie Punkt 45): Keine Befragung
+      zeigt mehr, was die befragte Figur ohnehin erzählt (Pflichtgespräch in `befragungen-r1..3`, Erzähler bei
+      unbesetzter Figur) oder was die Option selbst aufdeckt. Neu: `e1_1_joanna` `b_pawel_schneider` statt
+      `b_joanna_foto` (wortgleich mit dem Fund `f_foto_streit`); `e1_2_emine` und `e1_2_tugba` `b_serkan_tor` statt
+      `b_emine_versteck` bzw. `b_tugba_notiz`; `e1_3_tim` und `e1_3_azra` `b_tugba_notiz` statt `b_tim_gesicht` bzw.
+      `b_azra_versteck`; `e3_3_zeynep` und `e3_3_aylin` `b_tim_gesicht` statt `b_zeynep_vorrat` (Quelle des Funds
+      `f_nd_can_zeynep`) bzw. `b_aylin_quittung`. Passung: Herrn Schneiders Strenge beim Geld zum Streitfoto (wie bei
+      Damir); Serkan am verschlossenen Außentor (wo jemand im Dunkeln war, niemand kam hinaus; zu Tugbas Eintrag
+      „Serkan (Auto)“); Tugbas Liste von 23:57 (wo alle kurz vor dem Knall angeblich waren, darunter „Emine und Azra
+      (Buffet)“ und „Damir und Tim (Kaffee)“); Tims leuchtendes Gesicht zu Cans Maske, bei Aylin der andere Faden der
+      letzten Frage. Alle vier gelten in allen Pfaden und entlasten niemanden; nur Tims Sichtung belastet Can wie jede
+      Sichtung des Gesichts, ohne Bezug zum Scheppern (in allen vier Pfaden der neutrale Bonus der Runde 1). Keine steht
+      in einer Begründungskette, keine liest der Erzähler; Pawel ist erst ab 19, Tugba nur bei 20, Serkan ab 13 Rollen
+      besetzt. Pawel, Serkan und Tugba liefern dieselbe Notiz beim Auspacken, aber als Pflichtgespräch-Wissen, nicht als
+      Geheimnis: Kein Geständnis wird vorweggenommen; die Auspack-Notizen der befragten Figuren bleiben unberührt.
+      Doppelte nur innerhalb einer Entscheidung, deren Optionen nie beide gewählt werden: Keine Befragungs-Notiz gehört
+      zu einer anderen Entscheidung, sonst ginge „Redselig“ leer aus, wenn eine frühere Wahl sie schon zeigte (am
+      Bot-Tisch hätte `b_pawel_schneider` bei `e3_3_aylin` in 55 von 506 Wahlen nichts gebracht, weil `e1_1` sie oft
+      schon zeigt; packt die Figur der Notiz vorher aus, bleibt „Redselig“ wie seit Punkt 45 bei Damir ohne Notiz).
+      Geprüft gegen die Story-Bibel (§4 Figuren, §7 Beobachtungen, §8 Tatmatrix je Pfad, §9 Ketten, §10
+      Bonus). Such-Optionen: Keine zeigt eine Notiz der durchsuchten Figur; Zeugen aus dem Bezug (Hana am Ascheneimer
+      und Kamin, Sibel an der Vitrine, Wojtek bei Olli, Baran im Ost-Saal) bleiben, dort wird niemand befragt. Test
+      `einfluss_suche_test` für alle acht Befragungen: Notiz nicht von der befragten Figur, nicht aus ihrem Gespräch,
+      ihrem Erzählerwissen oder den Fakten der Option, `pfade: alle`, in keiner Kette, in keiner anderen Entscheidung.
+      `einfluss_soll.g.dart` nach E-048 zum letzten Mal vor der Zusammenführung nach `main` neu erzeugt: 695 der 1.000
+      Summen ändern sich, genau die Abende, an denen eine der sieben Optionen eine Randnotiz zeigte (redselig oder
+      Nachfrage, mit alten oder neuen Daten; nachgezählt); Gegenprobe mit zurückgenommenem `einfluss.json`: vorige
+      Liste passt (0 Abweichungen).

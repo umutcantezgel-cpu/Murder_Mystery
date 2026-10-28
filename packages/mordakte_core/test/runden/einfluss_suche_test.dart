@@ -363,6 +363,56 @@ void main() {
       expect(Erzaehler(kanon).npcPlan[1]?['enes'], isNot(anyElement(isIn(notizen))));
     });
 
+    test('Jede Befragung bringt Neues: die Randnotiz stammt nie aus dem Pflichtgespräch der befragten Figur („Änderungen“ 47)', () {
+      // Was die befragte Figur im Gespräch preisgibt (befragungen-r1..3), was der Erzähler für sie liest und was die
+      // Option selbst aufdeckt, liegt ohnehin auf dem Tisch. Die Randnotiz kommt von jemand anderem, gilt in allen
+      // Pfaden, steht in keiner Begründungskette und gehört zu keiner anderen Entscheidung: Sonst ginge „Redselig“
+      // leer aus, wenn eine frühere Wahl dieselbe Notiz schon zeigte.
+      final npc = Erzaehler(kanon).npcPlan;
+      final gespraech = <String, Set<String>>{};
+      for (var r = 1; r <= 3; r++) {
+        final j = leseJson('$repoWurzel/content/party/schlosskeller/texte/befragungen-r$r.json');
+        for (final x in (j['eintraege'] as List).cast<Map>()) {
+          for (final g in (x['preisgabe'] as List).cast<String>()) {
+            if (g.startsWith('beobachtung:')) (gespraech[x['rolle'] as String] ??= {}).add(g.substring('beobachtung:'.length));
+          }
+        }
+      }
+      expect(gespraech['emine'], contains('b_emine_versteck'), reason: 'Gespräche gelesen');
+      final ketten = {
+        for (final e in _erm.entscheidungen)
+          for (final b in e.begruendung.values) ...b.kette,
+      };
+      final befragungen = [
+        for (final e in _erm.entscheidungen)
+          if (!istSuche(e)) ...[for (final o in e.optionen) (e, o)],
+      ];
+      expect([for (final (_, o) in befragungen) o.id],
+          ['e1_1_joanna', 'e1_1_damir', 'e1_2_emine', 'e1_2_tugba', 'e1_3_tim', 'e1_3_azra', 'e3_3_zeynep', 'e3_3_aylin']);
+      for (final (e, o) in befragungen) {
+        final wer = o.ziel['person']!;
+        final eigene = {
+          ...?gespraech[wer],
+          for (final x in npc.values) ...?x[wer],
+          for (final f in o.fakten) ?_erm.fakten[f]!.beobachtung,
+        };
+        final notizen = _r.randnotizen[o.id]!;
+        expect(notizen, isNotEmpty, reason: o.id);
+        for (final b in notizen) {
+          final j = _erm.beobachtungJson(b)!;
+          expect(j['wer'], isNot(wer), reason: '${o.id}: $b');
+          expect(j['pfade'], 'alle', reason: '${o.id}: $b');
+          expect(eigene, isNot(contains(b)), reason: '${o.id}: $b');
+          expect(ketten, isNot(contains('beobachtung:$b')), reason: '${o.id}: $b');
+          for (final x in _erm.entscheidungen.where((x) => x.id != e.id)) {
+            for (final y in x.optionen) {
+              expect(_r.randnotizen[y.id] ?? const <String>[], isNot(contains(b)), reason: '${o.id}: $b auch bei ${y.id}');
+            }
+          }
+        }
+      }
+    });
+
     test('Befragung: redselig bringt eine Randnotiz, zögert kostet 3 Minuten, mauert verzögert bis zum Resümee', () {
       for (final (art, soll) in [(ZugArt.zeigen, BefragungsLage.redselig), (ZugArt.decken, BefragungsLage.mauert)]) {
         final p = partie('ahmet', const FesterWuerfel.neutral(), salz: 'befragung-${art.name}');

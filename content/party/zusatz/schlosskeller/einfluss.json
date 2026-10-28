@@ -1,7 +1,7 @@
 {
   "format": "einfluss/1",
   "akte": "schlosskeller",
-  "hinweis": "„Dein Moment“ (planung/finale/SPEZIFIKATION.md §3): Zahlen, Zugarten, Bezug und Randnotizen je Option, Auspacken je Figur, Ereignisse der Leisten, Bot-Persönlichkeiten und die zwei Sterne je Figur. Alles statisch, öffentlich und in allen Pfaden gleich; nichts nennt Täter, Pfad oder Hinweisqualität. Gelesen nur mit der Fähigkeit „einfluss“ in akten.json. Bots: Gewichte in Prozent, Summe 100; wo die Spezifikation nur 80 nennt (dilara), stehen die übrigen 20 beim Auspacken. Zahlen, Bot-Gewichte und Ziele abgestimmt am Bot-Tisch (SPEZIFIKATION „Änderungen“ 18, E-048): Übertrag 5, eine Nachfrage je volle 25 Restminuten, Zusammenhalt +2 ab 5K ≥ 2·n_eff und +1 ab 5K ≥ n_eff. Randnotiz zu „Damir befragen“: Pawels Wissen über Herrn Schneider statt Damirs Thekenbeobachtung, die Damir schon im Gespräch erzählt (SPEZIFIKATION „Änderungen“ 45).",
+  "hinweis": "„Dein Moment“ (planung/finale/SPEZIFIKATION.md §3): Zahlen, Zugarten, Bezug und Randnotizen je Option, Auspacken je Figur, Ereignisse der Leisten, Bot-Persönlichkeiten und die zwei Sterne je Figur. Alles statisch, öffentlich und in allen Pfaden gleich; nichts nennt Täter, Pfad oder Hinweisqualität. Gelesen nur mit der Fähigkeit „einfluss“ in akten.json. Bots: Gewichte in Prozent, Summe 100; wo die Spezifikation nur 80 nennt (dilara), stehen die übrigen 20 beim Auspacken. Zahlen, Bot-Gewichte und Ziele abgestimmt am Bot-Tisch (SPEZIFIKATION „Änderungen“ 18, E-048): Übertrag 5, eine Nachfrage je volle 25 Restminuten, Zusammenhalt +2 ab 5K ≥ 2·n_eff und +1 ab 5K ≥ n_eff. Randnotizen der Befragungen stammen nie von der befragten Figur und wiederholen weder ihr Gespräch noch den Fund der Option (SPEZIFIKATION „Änderungen“ 45, 47): Damir und Joanna zeigen Pawels Wissen über Herrn Schneiders Strenge beim Geld (zu Damirs Ärger über das Teegeschirr und zum Streitfoto), Emine und Tugba Serkan am verschlossenen Außentor (wo jemand im Dunkeln war, niemand kam hinaus; zu Tugbas Eintrag „Serkan (Auto)“), Tim und Azra Tugbas Liste von 23:57 (wo alle kurz vor dem Knall angeblich waren), Zeynep und Aylin Tims leuchtendes Gesicht am Sicherungskasten (zu Cans Maske; bei Aylin der andere Faden der letzten Frage). Jede gilt in allen Pfaden, steht in keiner Begründungskette und kommt in keiner anderen Entscheidung vor, damit „Redselig“ nicht leer ausgeht.",
   "zahlen": {
     "tisch": {"teiler": 5, "deckel": 2},
     "wuerfel": {"modBoden": -2, "modDeckel": 3, "umwegBonus": 1},
@@ -48,12 +48,12 @@
     "e3_3_aylin": ["aylin", "ahmet"]
   },
   "randnotizen": {
-    "e1_1_joanna": ["b_joanna_foto"],
+    "e1_1_joanna": ["b_pawel_schneider"],
     "e1_1_damir": ["b_pawel_schneider"],
-    "e1_2_emine": ["b_emine_versteck"],
-    "e1_2_tugba": ["b_tugba_notiz"],
-    "e1_3_tim": ["b_tim_gesicht"],
-    "e1_3_azra": ["b_azra_versteck"],
+    "e1_2_emine": ["b_serkan_tor"],
+    "e1_2_tugba": ["b_serkan_tor"],
+    "e1_3_tim": ["b_tugba_notiz"],
+    "e1_3_azra": ["b_tugba_notiz"],
     "e2_1_ascheneimer": ["b_hana_umschlag"],
     "e2_1_bauchtasche": ["b_marek_gesicht"],
     "e2_2_vitrine": ["b_selin_gesicht"],
@@ -65,8 +65,8 @@
     "e3_1_buffetsaal": ["b_zeynep_gesicht"],
     "e3_2_fatma": ["b_emine_schatulle"],
     "e3_2_kerzenstaender": ["b_hana_wachs"],
-    "e3_3_zeynep": ["b_zeynep_vorrat"],
-    "e3_3_aylin": ["b_aylin_quittung"]
+    "e3_3_zeynep": ["b_tim_gesicht"],
+    "e3_3_aylin": ["b_tim_gesicht"]
   },
   "auspacken": {
     "ahmet": {"fakt": "f_nd_ahmet_umschlag"},

@@ -18,21 +18,40 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 ## Wiederaufnahme
 
-- Stand (2026-10-28): Stufen 0–5 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis ef214ff. Ungepusht sind
-  der Commit mit der Browserprobe des Finales (Entwicklerroute `einfluss=1`, `tool/e2e/finale.mjs`) und drei
-  Politur-Commits aus der Fotosichtung (Spürnasen in einem Baustein, Damirs Randnotiz, Protokoll der Nacht;
-  „Änderungen“ 44–46, Prüfjournal 2026-10-28).
-- Nächste Schritte: Solo-Browserprobe auf dem aktuellen Stand (Web-Build wie in `tool/e2e/README.md`, dann in
-  `tool/e2e` `node solo.mjs --nur320`) und CI-Lauf 111 auf a5f4d7f beobachten; danach den Commit der Finale-Probe
-  pushen (er ändert `lib/`, `test/` und `tool/` und löst einen CI-Lauf aus). Vor einer Zusammenführung nach `main` den
-  Besitzer fragen.
+- Stand (2026-10-28): Stufen 0–6 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis 9eb5baf (CI-Lauf 113
+  grün). Ungepusht ist Politur 4 (Randnotizen aller Befragungen, „Änderungen“ 47, Prüfjournal 2026-10-28); der Push
+  ändert `content/` und `packages/` und löst einen CI-Lauf aus.
+- Nächste Schritte: Politur 4 pushen und den CI-Lauf beobachten. Vor einer Zusammenführung nach `main` den Besitzer
+  fragen. Ab der Zusammenführung wird `einfluss_soll.g.dart` nie mehr neu geschrieben (E-048, Nachtrag).
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
   `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
-  „Änderungen“ (1–46).
+  „Änderungen“ (1–47).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
   (A-063 bis A-067)“.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-28 Stufe 5, Politur 4 (Besitzer „Ja, angleichen“, Spezifikation „Änderungen“ 47): Die Randnotizen aller
+  acht Befragungen bringen Neues. Alle 19 Optionen von `einfluss.json` geprüft (Pflichtgespräch in
+  `beobachtungen.json`, Preisgabe in `befragungen-r1..3`, Erzählerwissen, Fakten der Option): Außer den fünf bekannten
+  wiederholten auch `e1_1_joanna` (Fotonotiz wortgleich mit dem Fund) und `e3_3_zeynep` (Notiz ist die Quelle des
+  Funds) nur Bekanntes. Neu: Joanna `b_pawel_schneider` (wie Damir), Emine und Tugba `b_serkan_tor`, Tim und Azra
+  `b_tugba_notiz`, Zeynep und Aylin `b_tim_gesicht`; Begründung im `hinweis` von `einfluss.json`, geprüft gegen die
+  Story-Bibel je Pfad. Doppelte nur innerhalb einer Entscheidung, damit „Redselig“ nie leer ausgeht, weil eine frühere
+  Wahl die Notiz schon zeigte (Vergleich am Bot-Tisch über die 1.000 Abende von `einfluss_soll`: `b_pawel_schneider`
+  bei `e3_3_aylin` bliebe in 55 von 506 Wahlen leer). Such-Optionen: Keine zeigt eine Notiz der durchsuchten Figur.
+  Neuer Test in `einfluss_suche_test` für alle Befragungen (schlägt mit den alten Daten fehl); App-Tests erwarten
+  keine der geänderten Notizen wörtlich, keiner musste angepasst werden. `einfluss_soll.g.dart` nach E-048 zum letzten
+  Mal vor der Zusammenführung nach `main` neu erzeugt: 695 der 1.000 Summen ändern sich, genau die Abende, an denen
+  eine der sieben Optionen eine Randnotiz zeigte (redselig oder Nachfrage, mit alten oder neuen Daten; nachgezählt);
+  Gegenprobe mit zurückgenommenem `einfluss.json`: vorige Liste passt (0 Abweichungen). ENTSCHEIDUNGSLOG E-048
+  ergänzt: ab der Zusammenführung nach `main` nie mehr neu geschrieben. `kanon_tor` neu erzeugt (Inhaltskennung),
+  `akte_pruefen` 5 × 0, `flutter analyze` sauber, App `flutter test --concurrency=2` 831 grün, `pruefen.sh schnell`
+  grün (Kern 1000 +1 übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer 18, Secret-Scan
+  sauber), `kanon_tor --pruefen` aktuell. Golden k12 (`determinismus_soll*.g.dart`) und `andere_akten_soll.g.dart`
+  unverändert, nichts aus `tool/kanon_fest.txt` berührt. Offen für Menschen: `b_tim_gesicht` ist ab 7 Rollen oft schon
+  aus Tims Gespräch oder dem neutralen Bonus der Runde 1 bekannt; bei Aylin passt sie nur zur Frage, nicht zum Beleg;
+  Zeugen aus dem Bezug einer Suche (Hana, Sibel, Wojtek, Baran) zeigen dort weiter ihre eigene Beobachtung.
 
 - 2026-10-28 Stufe 6: CI-Läufe 112 (fd1c2f8, Browserprobe) und 113 (d49dc97, Politur) grün; Lauf 113 in allen Jobs
   grün und Vorab-Release `mordakte-113.1` (mordakte.apk, mordakte-ios-unsigned.ipa, mordakte-web.zip, SHA256SUMS.txt).
