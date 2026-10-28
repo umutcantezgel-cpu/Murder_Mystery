@@ -104,13 +104,25 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
      keinen Erzähler-Platz; dort ermittelst du am Gastgeber-Gerät.
    - *Der Fall*: **Zufall** oder **Code eingeben**. Mit demselben fünfstelligen Fall-Code spielt ihr denselben
      Fall noch einmal.
-   - *Rundendauer*: 20, 30, 45 oder 60 Minuten. Das ist die Gesprächsuhr am Tisch. Bei „Solo mit Bots“
-     entfällt sie.
+   - *Länge des Abends* (Schlosskeller): **Kurzer Abend** oder **Langer Abend**. Der lange Abend ist ein
+     Streifzug durch Schloss, Hof und Garten, mit Vorspiel am Anfang und Morgen am Ende.
+   - *Einstimmung* (Schlosskeller): der Schalter **Vorgeschichte und Vorstellung**. Er ist anfangs an. Dann
+     liest der Erzähler vor dem Auftakt eine kurze Vorgeschichte und stellt jede Figur vor (Abschnitt 6). Darunter
+     steht, wie lange das dauert: etwa 7 Minuten bis 8 Rollen, 9 Minuten bis 14 Rollen, 11 Minuten bei mehr. Beim
+     Druckspiel (**Zum Drucken**) ist der Schalter anfangs aus.
+   - *Dein Moment* (Schlosskeller): der Schalter **Heimliche Züge in jeder Runde**. Er ist anfangs an. Dann zieht
+     jede Rolle in jeder Runde geheim einen Zug (Abschnitt 6). Ist er aus, spielt ihr die Gruppenwahl wie bisher.
+     Beim Druckspiel gibt es den Schalter nicht: Papier spielt immer mit Gruppenwahl.
+   - *Rundendauer*: 20, 30, 45 oder 60 Minuten. Im Schlosskeller sind es beim kurzen Abend 10, 15 oder 20 Minuten,
+     beim langen 20, 25, 30 oder 40. Das ist die Gesprächsuhr am Tisch. Bei „Solo mit Bots“ entfällt sie.
+   - *Zeitschätzung* (Schlosskeller, nicht solo): Unter der Rundendauer steht **Ganzer Abend: ca. … Min.**,
+     neben jeder Länge des Abends ebenso. Ist die Einstimmung an, rechnet die Schätzung sie mit. Beispiel: kurzer
+     Abend mit 15 Minuten und 12 Rollen, ohne Einstimmung ca. 100 Minuten, mit Einstimmung ca. 110.
    - *Erzählerstimme*: Sie liest die festen Texte vor und ist anfangs aus. Gibt es auf dem Gerät keine
      deutsche Stimme, bleibt der Text auf dem Bildschirm.
-4. **Start.** Eine Zusammenfassung zeigt Akte, Spielweise, Personen und Rundendauer. Darunter siehst du dein
-   **Deck** für diesen Abend. Mit **Deck ändern** passt du es an. Dann tippst du auf **Abend beginnen**
-   (bei „Jeder am eigenen Gerät“ auf **Raum öffnen**).
+4. **Start.** Eine Zusammenfassung zeigt Akte, Spielweise, Personen und Rundendauer, im Schlosskeller auch Länge,
+   Einstimmung und „Dein Moment“. Darunter siehst du dein **Deck** für diesen Abend. Mit **Deck ändern** passt du
+   es an. Dann tippst du auf **Abend beginnen** (bei „Jeder am eigenen Gerät“ auf **Raum öffnen**).
 
 Bei einem Abend am eigenen Gerät legst du die Zahl der Rollen erst in der Lobby fest.
 
@@ -127,8 +139,14 @@ Du ermittelst allein. Bots spielen alle Gäste.
 - Die Bots wählen in der Gruppenwahl verdeckt. Sie arbeiten mit einer Wahrscheinlichkeit von 70 Prozent mit
   dir zusammen. Nur die Täterrolle kann mit ihrer Wahl sabotieren. Stimmen und Qualität der Hinweise bleiben
   geheim.
+- Mit **„Dein Moment“** (Schlosskeller) gibt es keine Gruppenwahl. Die Bots ziehen ihren Moment selbst, jede
+  Figur auf ihre Art: Pawel hilft fast immer, Can lenkt gern ab. Zu den Folgen raunen bis zu drei von ihnen einen
+  kurzen Satz.
+- Die **Einstimmung** liest die App: Der Text steht auf dem Bildschirm, mit Erzählerstimme liest sie ihn vor. Auf
+  der Karte jeder vorgestellten Figur steht **„Die App spielt …“**. Eine Erzählerakte gibt es solo nicht.
 - Bots halten keine Karten. Dein Deck liegt als Hilfe auf dem Tisch.
-- Der Abend wird nicht gespeichert. Lädst du die Seite neu oder schließt du die App, beginnst du von vorn.
+- Das Gerät legt den Abend nach jedem Schritt ab. Lädst du die Seite neu oder schließt du die App, steht in der
+  Detektei **Abend fortsetzen**.
 
 ### 5.2 Ein Gerät reihum
 
@@ -140,12 +158,15 @@ Diese Ansicht ist ein Schutz gegen Mitlesen, keine technische Sperre. Alle ander
    - Tippe auf die Zeile der Person, die gerade dran ist.
    - Die Person tippt auf **„Ich bin …, zeig her“** und liest ihr Dossier. Es hat die Teile
      *Wer ich bin*, *Was ich weiß*, *Was ich verberge*, *Mein Ziel heute Nacht*, *Meine Pflichtgespräche* und
-     *Meine Rundenwahl*.
+     *Meine Rundenwahl*. Mit „Dein Moment“ stehen statt der Rundenwahl **Deine Ziele** (zwei Sterne) und eine
+     kurze Erklärung zu „Dein Moment“.
    - Mit **„Fertig, Bildschirm zudecken“** wird der Bildschirm wieder verdeckt.
+   - Mit Erzähler am Tisch (Schlosskeller) steht in der Liste auch die **Erzählerakte**. Das Gerät geht an den
+     Erzähler, er tippt auf **„Ich bin …, zeig her“** und liest sie allein (Abschnitt 5.4).
    - Haben alle ihre Rolle gesehen, tippst du auf **„Alle kennen ihre Rolle“**.
    - Mit Erzähler am Tisch liegen die Erzähltexte im **Erzählerpult** zugedeckt. Das Gerät geht an den Erzähler.
      Er tippt auf **„Ich bin …, zeig her“**, liest vor und deckt mit **„Gelesen, zudecken“** wieder zu. Ab dem Finale
-     lesen alle mit.
+     lesen alle mit. Am offenen Pult liegt auch der Knopf **Erzählerakte**.
    - Bequemer ist **„Am eigenen Handy lesen“** am Pult (mit Internet): Das Gerät zeigt Code und QR-Code, der
      Erzähler tritt wie ein Gast bei (Detektei → **Beitreten**). Sein Handy zeigt die Texte und sein
      Erzählerpaket, und er tippt dort auf **Weiter**. Das Gerät am Tisch zeigt nur noch „… liest vor“, mit dem
@@ -154,11 +175,19 @@ Diese Ansicht ist ein Schutz gegen Mitlesen, keine technische Sperre. Alle ander
      Pult; **„Am eigenen Handy lesen“** zeigt dann einen neuen Code.
 3. **Gruppenwahl.** Jede Person wählt geheim zwischen zwei Handlungen. Die Liste zeigt nur, *wer* schon
    gewählt hat. Eine Stimmenzahl steht nie auf dem Bildschirm.
+   **Mit „Dein Moment“** gibt es keine Gruppenwahl. Stattdessen zieht jede Person in den Gesprächen geheim ihren
+   Zug. Die Liste **Dein Moment** zeigt je Person nur *offen* oder *fertig*. Tippe auf die Zeile der Person und gib
+   ihr das Gerät. Sie tippt auf **„Ich bin …, zeig her“**, wählt ihren Zug und tippt auf **„Das ist mein Zug“**.
+   Erst wenn alle gezogen haben, geht es weiter.
 4. **Würfeln.** Das Gerät geht an den angezeigten **Würfelpaten**. Er wechselt nach jedem Wurf.
 5. Alles andere sehen alle zusammen: Karte, Funde, Sprechblasen, Resümee, Finale.
 
+Mit „Dein Moment“ sieht nur der Erzähler, wer was gezogen hat: am offenen Pult oder am Erzähler-Handy, als Tafel
+**Züge dieser Runde**. Sie ist nie zum Vorlesen da. Geht das Gerät an eine Person, schließt sich das Pult.
+
 Fällt jemand vor dem Start aus, stell die Personenzahl neu ein. Die fehlenden Rollen bleiben als Figuren im
-Spiel. Nach dem Start lässt sich die Besetzung nicht mehr ändern. Auch dieser Abend wird nicht gespeichert.
+Spiel. Nach dem Start lässt sich die Besetzung nicht mehr ändern. Auch dieser Abend liegt nach jedem Schritt auf
+dem Gerät und lässt sich mit **Abend fortsetzen** wieder aufnehmen.
 
 ### 5.3 Jeder am eigenen Gerät
 
@@ -167,7 +196,8 @@ Arten von Plätzen:
 
 - **Detektiv**: ermittelt, befragt, wählt die Spuren und klagt an. Nur dieses Gerät hat Detektivkarte und Klasse.
 - **Erzähler** (nur Schlosskeller): liest die Texte vor und tippt auf **Weiter**. Er sieht sein Erzählerpaket mit
-  Tischgesprächen, Befragungen samt Antwort und dem Wissen ungespielter Gäste, aber nie ein Dossier.
+  Tischgesprächen, Befragungen samt Antwort und dem Wissen ungespielter Gäste, aber nie ein Dossier. Dazu hat er
+  die **Erzählerakte** (Abschnitt 5.4) und mit „Dein Moment“ die Tafel **Züge dieser Runde**.
 - **Rolle**: spielt eine Figur mit eigenem Dossier.
 
 Der Gastgeber sitzt als Detektiv oder als Erzähler am Tisch. **„Wer macht was?“** (im Assistenten, in der Lobby
@@ -203,7 +233,10 @@ Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschn
    den Text zum Vorlesen, wen der Detektiv befragt, dein Erzählerpaket und in der Ermittlung eine
    **Zuschauerkarte**. Du tippst auf **Weiter**, sobald der Abschnitt fertig ist. Führt ein Gast als Erzähler
    weiter, steht das neben **Weiter**. In der Rollenphase und bei der Gruppenwahl zeigt dir das Gerät, wer
-   schon gelesen oder gewählt hat. Oben steht eine schmale Leiste mit dem Raumcode und der Zahl der Gäste.
+   schon gelesen oder gewählt hat. Mit „Dein Moment“ zeigt es in den Gesprächen, wer seinen Zug noch nicht
+   gezogen hat. Weiter geht es erst, wenn alle gezogen haben. Wer leitet, kann vorher den **Letzten Aufruf**
+   geben: Nach 60 Sekunden geht es weiter, und wer dann noch nicht gezogen hat, wartet diese Runde ab.
+   Oben steht eine schmale Leiste mit dem Raumcode und der Zahl der Gäste.
    Das Menü dort zeigt den Tisch und bietet **Abend beenden** (für alle).
 7. **Fällt der Gast-Detektiv aus**, steht unter der Leiste, dass er getrennt ist. Kommt er nicht zurück, tippe auf
    **Detektiv-Sitz weitergeben** und wähle, wer weiter ermittelt: du selbst (**Ich ermittle selbst**) oder ein
@@ -227,6 +260,9 @@ Du brauchst **keinen eigenen Server**. Der Abend läuft über ein Relais (Abschn
    Erzähler aus, liest nach zwei Minuten der Gastgeber.
 6. Pro Runde siehst du **deine Gespräche** mit Thema, Ziel und Eröffnung. Dazu kommt **Deine Wahl in dieser
    Runde**: Tippe eine Karte an und dann auf **Wahl abgeben**. Niemand sieht, was du wählst.
+   Mit „Dein Moment“ pulsiert stattdessen der Knopf **Dein Moment**. Wähle deinen Zug und tippe auf **„Das ist
+   mein Zug“**. Bis zu den Folgen kannst du ihn ändern. Dort stehen auch deine zwei Sterne und was du aus der
+   Runde davor erfahren hast.
 7. Du verfolgst die Ermittlung auf deinem Gerät: Würfel, Würfelprotokoll, Funde, Resümee, Anklage, Auflösung.
    Wenn du Würfelpate bist, tippst du auf **Würfeln**.
 8. Am Ende tippst du auf **Belohnung ansehen**.
@@ -244,20 +280,72 @@ eigene Rolle und keine Stimme. Sie verfolgen den öffentlichen Verlauf mit.
 - Der Raumcode ist an den Schlüssel des Gastgebers gebunden. So kann sich niemand im Relais als Gastgeber ausgeben.
 - **Das Gastgeber-Gerät muss im Vordergrund bleiben.** Lass den Bildschirm an. Geht die App in den Hintergrund,
   sehen die Gäste **„Gastgeber getrennt – Abend pausiert“**. Der Abend geht weiter, sobald du zurück bist.
+- **Alle Geräte brauchen dieselbe App-Version.** Seit „Dein Moment“ gilt eine neue Fassung des Online-Protokolls.
+  Ältere Apps kommen nicht in den Raum („Diese App-Version passt nicht zum Raum“).
+
+### 5.4 Einstimmung und Erzählerakte (Schlosskeller)
+
+**Wer die Einstimmung liest.** Vorgeschichte und Vorstellung liest, wer auch sonst vorliest.
+
+- *Solo:* die App. Der Text steht auf dem Bildschirm; mit Erzählerstimme liest sie ihn vor.
+- *Reihum mit Erzähler:* der Erzähler, aus dem Erzählerpult oder am eigenen Handy. Das Pult bleibt über die ganze
+  Einstimmung offen. Das Gerät am Tisch zeigt allen die Karte der vorgestellten Figur.
+- *Reihum ohne Erzähler:* jemand am Tisch liest den Text vom Bildschirm vor, oder die Erzählerstimme.
+- *Jeder am eigenen Gerät:* der Erzähler-Sitz. Ist er frei oder getrennt, liest, wer sonst vorliest (Abschnitt
+  5.3). Nur das Gerät, das vorliest, zeigt den Text. Alle anderen sehen das Kapitel und die Karte der Figur.
+  Wer gerade vorgestellt wird, liest auf dem eigenen Gerät **„Du bist dran“**. **Weiter** und **… überspringen**
+  tippt nur, wer leitet; auf dem Gastgeber-Gerät steht sonst, wer durch die Einstimmung führt.
+
+**Die Erzählerakte** ist das Heft des Erzählers: Hintergründe aller Figuren und ihr Beziehungsnetz. Sie zeigt
+alles außer dem Täter und ist in jedem Fall gleich.
+
+- Reiter **Figuren**: erst die Figuren am Tisch, dann die ohne Spieler, dazu Herr Schneider und der Detektiv. Je
+  Figur stehen Hintergrund, Bindungen, das Verhältnis zu Herrn Schneider, Motiv, Geheimnis, Nebendelikt,
+  Loyalität, Ziele und Tipps für die Stimme. Mit „Dein Moment“ sind die Ziele die zwei Sterne, sonst das Ziel aus
+  dem Dossier.
+- Reiter **Netz**: ein Ring mit Herrn Schneider in der Mitte. Durchgezogene Linien kennt der ganze Tisch,
+  gestrichelte nur du. Tippe auf eine Figur, dann treten ihre Bindungen hervor.
+
+Wo sie liegt:
+
+- *Reihum mit Erzähler:* in der Rollenphase als eigener Eintrag und am offenen Erzählerpult (Knopf
+  **Erzählerakte**), beide verdeckt wie ein Dossier.
+- *Erzähler-Handy* (reihum mit **„Am eigenen Handy lesen“**): Knopf **Erzählerakte** am Handy.
+- *Jeder am eigenen Gerät:* Knopf **Erzählerakte** auf dem Erzähler-Sitz, beim Gast wie beim Gastgeber. Die Akte
+  kommt aus dem eigenen Gerät und wird nie übertragen.
+- **Nie** solo, nie für den Detektiv, eine Rolle oder die Assistenz. Ab dem Finale schließt sie sich.
+
+Gedruckt gibt es sie als `erzaehlerakte.pdf` (siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
 
 ---
 
 ## 6. Der Ablauf eines Abends
 
-Die Abschnitte kommen in dieser Reihenfolge: **Rollen → Intro → drei Runden → Anklage → Finale →
-Auflösung → Ende → Belohnung.**
+Die Abschnitte kommen in dieser Reihenfolge: **Rollen → Einstimmung → Vorspiel → Intro → drei Runden →
+Anklage → Finale → Auflösung → Ende → Belohnung.** Die Einstimmung gibt es nur im Schlosskeller mit dem Schalter
+„Vorgeschichte und Vorstellung“, das Vorspiel nur im langen Abend.
+
+**Einstimmung.** Sie kommt nach dem Rollenlesen, vor allem anderen.
+
+- **Vorgeschichte:** sieben kurze Teile, zusammen etwa fünf Minuten. Sie erzählen vom Schloss, von Herrn Schneider,
+  wie die Clique entstand und wie es zu diesem Abend kam. Alles spielt *vor* dem Abend und verrät nichts über den
+  Fall. Oben steht der Kapitelzähler, etwa „Vorgeschichte · 3 von 7“, mit einem Titel. Der Titel wird nicht
+  vorgelesen.
+- **Vorstellung:** Danach stellt der Erzähler jede Figur am Tisch vor, in der Reihenfolge der Rollen. Wer genannt
+  wird, steht kurz auf; das sagt der Vorlesetext selbst. Die Karte auf dem Bildschirm zeigt Porträt, Name, Rolle,
+  einen typischen Satz und **„gespielt von …“** (reihum nur mit eingetragenem Namen). Dann kommt ein Satz für alle
+  Gäste ohne Spieler, zuletzt der Detektiv.
+- **Vorgeschichte überspringen** und **Vorstellung überspringen** springen ans Ende des laufenden Teils. Danach
+  geht es mit **Weiter** zum Intro, im langen Abend mit **Weiter zum Vorspiel**.
+
+**Vorspiel** (nur langer Abend). Um 18 Uhr kommt die Clique an, mit einem Rundgang durch das Schloss.
 
 **Intro.** Der Erzähler stellt Ort, Abend und Figuren vor. Im Schlosskeller enthält das Intro drei kurze
 Rückblicke auf Rollen (Sibel, Olli und Hana). Frag die Personen vorher, ob das für sie in Ordnung ist.
 
 ### Eine Runde
 
-Jede Runde hat fünf Schritte.
+Jede Runde hat fünf Schritte. Mit „Dein Moment“ läuft sie etwas anders (nächster Abschnitt).
 
 1. **Rundenstart und Gespräche.** Der Erzähler spricht den Start. Die Gesprächsuhr am Tisch zeigt die gewählte
    Rundendauer. Sie ist nur eine Hilfe und schaltet nichts weiter. Jede Person führt ihre
@@ -303,11 +391,109 @@ Zwischen den Entscheidungen kannst du **freiwillig erkunden**. Das ist ein kurze
   (Abschnitt 7).
 - Mit einer **Abstecher-Karte** kostet der Gang keine Nachtminuten.
 
+### Eine Runde mit „Dein Moment“ (Schlosskeller)
+
+Mit „Dein Moment“ gibt es **keine Gruppenwahl**. Stattdessen zieht jede besetzte Rolle in jeder Runde geheim
+einen Zug, Mensch wie Bot. Detektiv, Erzähler und Assistenz ziehen nicht. Der Fall-Code legt Täter und Wahrheit
+fest. Die Züge ändern Würfel, Zeit, Gerüchte und Stimmung, nie die Wahrheit. Jeder Fall bleibt lösbar.
+
+Die Runde läuft so:
+
+1. **Gespräche und Dein Moment.** Während der Gespräche zieht jede Rolle ihren Zug (Abschnitt 5). Im langen
+   Abend muss der Moment vor der ersten Entscheidung der Runde stehen.
+2. **Die Folgen.** Zu Beginn der Ermittlung liest der Erzähler vor, was der Moment bewirkt hat: wer ausgepackt
+   und wer abgelenkt hat, welche Gerüchte umgehen, wie sich die Leisten bewegen und welche Ereignisse kommen.
+   Solo raunen dazu bis zu drei Bots. **Zur Ermittlung** legt das Blatt weg.
+3. **Ermittlung** mit drei Entscheidungen, jetzt mit Tischwerten (unten).
+4. **Flüstern** statt Bonus-Hinweis (unten).
+5. **Zwischenresümee** mit den Leisten, den Ereignissen der Runde und unter **Jetzt sichtbar** den Funden, die
+   bis jetzt gewartet haben. Ein Gruppenergebnis gibt es nicht.
+
+**Die sechs Züge.** Jede Kachel zeigt ihre Wirkung in drei Stichpunkten.
+
+| Zug | Ziel | Wirkung | Wer es erfährt |
+| --- | --- | --- | --- |
+| **Zeigen** | eine andere Figur | +1 Tischstimme auf jede Option dieser Runde, bei der die Figur vorkommt; der Spuk wächst | alle hören ein Gerücht über die Figur, ohne Quelle |
+| **Decken** | eine Figur oder du selbst | −1 Tischstimme auf jede Option, bei der die Figur vorkommt | die Figur liest nur „Jemand hält zu dir“; gelingt dort eine Suche, kannst du auffliegen |
+| **Helfen** | – | +3 Nachtminuten, zusammen höchstens +9 je Runde; der Zusammenhalt wächst | niemand bis zur Auflösung |
+| **Auspacken** | – | dein Geheimnis kommt zu den Funden; der Zusammenhalt wächst doppelt; nur einmal am Abend | alle, mit deinem Namen |
+| **Ablenken** | – | −4 Nachtminuten, zusammen höchstens −8 je Runde; der Spuk wächst doppelt, der Zusammenhalt sinkt | alle, mit deinem Namen und einem Auftritt |
+| **Lauschen** | eine andere Figur | du erfährst Zug und Ziel dieser Figur in dieser Runde | nur du |
+
+- Wer bis zu den Folgen nicht zieht, **wartet ab**. Das hat keine Wirkung, und niemand sieht es.
+- Die Kachel **Wie letzte Runde** wiederholt deinen letzten Zug. Nach dem Auspacken ist die Kachel ausgegraut.
+- Was du privat erfahren hast (Lauschen, „Jemand hält zu dir“, ob dein Zug etwas bewegt hat), steht in der
+  nächsten Runde oben in deinem Moment. Aus Runde 3 zeigt es erst das Protokoll der Nacht.
+- In Runde 3 gibst du dazu einen **geheimen Tipp** ab: „Wer war's?“, eine der vier Verdächtigen oder **Keine
+  Ahnung**. Er bleibt bis zur Auflösung verdeckt und ändert die Anklage nicht.
+- Beim Auspacken legen die vier Verdächtigen ihr Nebendelikt offen. Es zählt für die Regeln wie ein Fund und steht
+  mit ihrem Namen im Notizbuch. Die anderen Figuren verraten eine Beobachtung.
+- **Deine Ziele:** Jede Figur hat zwei geheime Ziele, die **Sterne**. Sie stehen im Dossier und in deinem Moment,
+  mit Stand *offen*, *erreicht* oder *verloren*. Gewertet wird nach der Anklage.
+
+**Tischwerte.** Zu jeder Option gehören feste Figuren, in allen Fällen gleich. Aus Zeigen und Decken auf diese
+Figuren entsteht ein **Tischwert** von −2 bis +2: Zeigen zählt +1, Decken −1. Je Stufe braucht es bei bis zu
+5 Rollen eine Stimme, bis 10 Rollen zwei, bis 15 drei, bis 20 vier. Figuren ohne Spieler zählen nicht. Vor der
+Wahl steht der Wert als Abzeichen an der Option: **Rückendeckung +1**, **Volle Rückendeckung +2**,
+**Störung −1** oder **Starke Störung −2**. Du siehst es in der Liste (**Aus einer Liste wählen**), in der
+Rückfrage und bei den Gästen, nicht an den Zielen auf der Karte.
+
+**Würfel mit Tisch.** Beim Suchen kommt der Tischwert zum Wurf dazu. Die Chancen zeigen ihn als Zeile **Tisch**.
+Zusammen gilt dann −2 bis +3 statt höchstens +2. Ohne Tischwert bleibt alles wie oben.
+
+- **Erfolg:** Fund und 7 Nachtminuten wie immer, dazu ein **Zusatzfund**: eine **Randnotiz** im Notizbuch. Das
+  ist eine kleine Beobachtung, die in jedem Fall gleich gilt. Sie zählt nicht für die Regeln und ändert nie, wer
+  noch verdächtig ist. Hat jemand eine Figur dieser Option gedeckt, fliegt ein Decker auf: **Ertappt!** Sein Name
+  ist dann öffentlich.
+- **Teilerfolg:** nur der Fund.
+- **Pech:** eine Marke wie immer, dazu **Die Spur verwischt**. Verloren ist sie nicht. Der Tisch ruft, je
+  3 Nachtminuten:
+  - **Nochmal:** dieselbe Stelle, derselbe Tischwert. Zusatzfund und Ertappt bleiben möglich.
+  - **Umweg:** +1 auf den nächsten Anlauf, und eine Störung zählt dann nicht. Dafür gibt es keinen Zusatzfund und
+    kein Ertappt, und die Fakten kommen erst im Zwischenresümee.
+- Die Pech-Garantie bleibt. Kein Fund geht verloren, er kommt höchstens später.
+
+**Befragung mit Tisch.** Befragungen bleiben würfelfrei. Mit Rückendeckung ist die Person **redselig**: Es gibt
+eine Randnotiz dazu. Bei Störung −1 **zögert** sie (3 Nachtminuten mehr). Bei −2 **mauert** sie: 3 Nachtminuten
+mehr, und die Fakten kommen erst im Zwischenresümee.
+
+**Nachtminuten.** Jede Runde beginnt mit 45 Nachtminuten. Dazu kommen bis zu 5 übrige Minuten der Runde davor,
+Helfen und Ereignisse; Ablenken und Ereignisse ziehen ab. Es bleiben immer mindestens 42 Minuten.
+
+**Leisten und Ereignisse.** Zwei Leisten von 0 bis 6 zeigen die Stimmung am Tisch: **Zusammenhalt** und **Spuk**.
+Sie wachsen bei den Folgen, je Runde um höchstens 2.
+
+- *Zusammenhalt:* Helfen zählt 1, Auspacken 2, Ablenken −1. Er wächst um 1, wenn die Summe ein Fünftel der Rollen
+  erreicht, um 2 ab zwei Fünfteln.
+- *Spuk:* Zeigen zählt 1, Ablenken 2. Er wächst um 1 ab einem Viertel der Rollen, um 2 ab der Hälfte.
+- Gerechnet wird mit mindestens 5 Rollen. Beispiel bei 10 Rollen: Zwei Helfer bringen Zusammenhalt +1, vier +2.
+
+Erreicht eine Leiste eine Stufe, kommt ihr Ereignis, jedes höchstens einmal am Abend:
+
+| Leiste | Stufe | Ereignis | Wirkung |
+| --- | --- | --- | --- |
+| Zusammenhalt | 2 | **Tee für alle** | +5 Nachtminuten in dieser Runde |
+| Zusammenhalt | 4 | **Goldener Schein** | bei der nächsten Suche zählt keine Störung |
+| Zusammenhalt | 6 | **Schneider erinnert sich** | eine Nachfrage mehr vor der Anklage |
+| Spuk | 2 | **Flackerlicht** | −3 Nachtminuten in dieser Runde |
+| Spuk | 4 | **Die Fledermaus** | in dieser Runde zählt jede Störung doppelt, höchstens −2 |
+| Spuk | 6 | **Geplatzter Kragen** | −5 Nachtminuten, der Morgen wird chaotisch |
+
+**Flüstern.** Wuchs der Zusammenhalt in dieser Runde um 2, flüstert die Runde dem Detektiv einen wahren Hinweis zu.
+Bei +1 kommt ein neutraler Hinweis, sonst „Diesmal flüstert dir niemand etwas zu.“ Falsche Hinweise gibt es mit
+„Dein Moment“ nicht. Täuschen können nur die Spieler selbst.
+
+**Nachfragen.** Nach Runde 3, vor der Anklage, werden übrige Nachtminuten zu Nachfragen: je volle 25 Minuten eine,
+höchstens zwei, dazu eine durch „Schneider erinnert sich“. Jede Nachfrage zeigt zu einer eurer Entscheidungen eine
+Randnotiz, die noch fehlt, etwa nach einem Umweg.
+
 ### Anklage, Finale, Auflösung
 
 - **Anklage.** Der Detektiv klagt eine der vier Verdächtigen an. Das ist endgültig.
-- **Finale.** Eine Rückblende spielt die Nacht nach. Danach liest der Erzähler den Schluss.
-- **Auflösung.** Zu jeder Rolle steht, was sie wirklich getan hat.
+- **Finale.** Eine Rückblende spielt die Nacht nach. Danach liest der Erzähler den Schluss. Mit „Dein Moment“
+  liest er vorher einen Satz zum Tischbonus, wenn es einen gibt (Abschnitt 7).
+- **Auflösung.** Zu jeder Rolle steht, was sie wirklich getan hat. Mit „Dein Moment“ kommt mehr dazu
+  (Abschnitt 7).
 
 ---
 
@@ -322,6 +508,32 @@ dieselbe Matrix. Nur die Namen der Enden sind je Akte eigen.
 | richtig | 0 bis 6 | **Teilerfolg** | 200 |
 | falsch | 4 bis 9 | **Justizirrtum** | 120 |
 | falsch | 0 bis 3 | **Eskalation** | 80 |
+
+### Ende mit „Dein Moment“ (Schlosskeller)
+
+- **Endwert.** In der Tabelle oben zählt statt der Punkte der **Endwert**: Punkte plus **Tischbonus**, zwischen
+  0 und 9. Der Tischbonus ist +1, wenn der Zusammenhalt am Ende mindestens 4 ist, und −1 bei einem Spuk von
+  mindestens 4. Beides zusammen gibt 0. Richtig oder falsch entscheidet allein die Anklage. Die Auflösung zeigt die
+  Punkte trotzdem ohne Bonus.
+- **Geklärt-Regel.** Hat Auspacken schon vor einer Entscheidung alle Fakten gezeigt, die ihre richtige Option
+  bringen würde, zählt die Entscheidung als richtig, auch wenn ihr die andere gewählt habt. Das hebt Punkte nur an.
+- **Auflösung.** Zum Text je Rolle kommt eine Zeile, wie die Nacht für die Figur ausging, je nachdem ob sie
+  mindestens einen Stern erreicht hat. Dann folgen:
+  - das **Protokoll der Nacht**: alle Züge aller Runden als Zeichen, mit Ziel. Die Züge der App sind markiert.
+    Es wird nicht vorgelesen.
+  - die **Sterne der Nacht** je Figur und die **Geheimen Tipps**,
+  - Punkte, Tischbonus und Endwert,
+  - die **Auszeichnungen**, vom Erzähler vorgelesen:
+    - **Stern des Abends:** die meisten Wertungspunkte. Je Stern 3, als Spürnase 2, je gelungene Suche dort, wo du
+      mit Zeigen Rückendeckung gegeben hast, 1 (höchstens 2), fürs Auspacken 1. Bei Gleichstand gewinnt, wer
+      seltener ertappt wurde, dann die frühere Rolle.
+    - **Spürnase:** wer richtig getippt hat. Die Täterrolle zählt nicht, sie kennt ihre Tat.
+    - **Schlossgeist:** wer den meisten Spuk gemacht hat (Zeigen 1, Ablenken 2).
+    - **Treue Seele:** wer am häufigsten andere gedeckt hat.
+  - zum Schluss der **Morgen**: warm bei Zusammenhalt ab 4 und Spuk unter 4, chaotisch bei Spuk ab 4 und
+    Zusammenhalt unter 4 oder nach „Geplatzter Kragen“, sonst gemischt.
+- **Erfahrung.** Gäste mit Figur am eigenen Gerät bekommen zum Ende dazu: 15 je erreichtem Stern, 25 für den Stern
+  des Abends und 10 als Spürnase. Für den Detektiv und an einem Gerät zählt das Ende nach dem Endwert.
 
 Nach dem Ende kommt die **Belohnung**. Tippe die Karten an, um sie umzudrehen. Du bekommst:
 
@@ -435,8 +647,9 @@ Der Abend setzt sich fort. Lass den Bildschirm des Gastgebers während des Abend
 
 **„Keine Antwort vom Gastgeber. Versuche es noch einmal.“** Die Verbindung hakt kurz. Tippe noch einmal.
 
-**Ein Abend am Tisch ist weg.** Solo- und Reihum-Abende werden nicht gespeichert. Nach dem Neuladen oder Schließen
-beginnt ihr neu. Der Fall-Code bringt euch zum selben Fall zurück.
+**Ein Abend am Tisch ist weg.** Solo- und Reihum-Abende liegen nach jedem Schritt auf dem Gerät. Nach dem Neuladen
+oder Schließen steht in der Detektei **Abend fortsetzen**. Ist der Stand weg, bringt euch der Fall-Code zum selben
+Fall zurück. Ein Stand aus der App-Version vor „Dein Moment“ läuft ohne diese Züge weiter.
 
 **Android will die APK nicht installieren.** Erlaube die Installation aus dieser Quelle. Ersetzt sie eine ältere,
 debug-signierte APK, deinstalliere die alte einmal.

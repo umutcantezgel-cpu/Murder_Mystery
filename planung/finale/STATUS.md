@@ -12,18 +12,30 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 | 1 | Inhalte: Faktenblatt, Vorgeschichte, Vorstellungen, Erzählerakte, Einfluss-Texte (Entwürfe in `entwurf/`) | fertig: alle Entwürfe geschrieben und geprüft (Berichte in `berichte/`) |
 | 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung, Abstimmung | fertig: zusammengeführt in f057a49 (Kern 957 grün, akte_pruefen 5 × 0, Golden k12 und Schnappschuss unverändert) |
 | 3 | Inhalte einspielen (`setting.json`, Texte, `erzaehlerakte.json`, `einfluss.json`, `akten.json`), `kanon_tor` | fertig: eingespielt, `akte_pruefen` 5 × 0, Änderung 7 im Kern (Spezifikation „Änderungen“ 25–28) |
-| 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | offen |
-| 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | offen |
-| 6 | `pruefen.sh ci`, Push, CI grün | offen |
+| 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | fertig: E2 (Protokoll 5, Raum, Server, Matrizen) und N2 (Druck, `--erzaehlerakte`) zusammengeführt in 345018c, A-N und A-E in 088831b/d48ae60, Solo-Browserprobe 501d8e6; App 812 grün, `pruefen.sh ci` lokal grün |
+| 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | fertig bis auf die Sichtprüfung durch Menschen: Prüfung nach der App-Zusammenführung (17 Befunde behoben, Änderungen 29–36), Abstimmung am Bot-Tisch (E-048, Änderungen 20–23), Doku (ANLEITUNG §4–§7, Druckspiel, README, FUER-DEN-NUTZER, TON-LEITFADEN, Änderungen 37–43), Solo-Browserprobe mit beiden Schichten; die lange Probe läuft noch ohne Schicht (kein `einfluss=1`) |
+| 6 | `pruefen.sh ci`, Push, CI grün | offen: volles Tor nach der Befundbehebung, Push, CI-Lauf mit 120-Minuten-Limit (A-067) |
 
-## Wiederaufnahme nach der Pause (Besitzerwunsch: zwei Stunden Pause, sobald die laufenden Agenten fertig sind)
+## Wiederaufnahme
 
-- Workflows wurden nach den laufenden Agenten gestoppt (Erzähl-Inhalte `wf_fae96c20-06b`, Kern `wf_cc821ccf-a7c`).
-  Ergebnisse der fertigen Agenten liegen in `berichte/`. Fortsetzen mit `resumeFromRunId` (gleiche Session) oder neu
-  aufsetzen: Erzähl-Inhalte ab „schreiben:akte-b“ und den Prüfungen; Kern ab „zusammenfuehren“.
-- Entscheidungen nach der Inhaltsprüfung stehen in SPEZIFIKATION „Änderungen“ (Punkte 1–11).
+- Stand: Stufen 0–5 fertig, nichts gepusht. Nächster Schritt ist Stufe 6: `bash tool/pruefen.sh ci` auf dem
+  Arbeitsbranch, dann Push und CI beobachten. Vor einer Zusammenführung nach `main` den Besitzer fragen.
+- Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
+  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
+  „Änderungen“ (1–43).
+- Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
+  (A-063 bis A-067)“.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-27 Stufe 5, Doku: `docs/ANLEITUNG.md` §4 (Schalter „Vorgeschichte und Vorstellung“ und „Dein Moment“,
+  Länge, Zeitschätzung), §5 (neu 5.4 Einstimmung und Erzählerakte; Moment reihum und online), §6 (Einstimmung vor
+  Vorspiel und Intro, Runde mit „Dein Moment“: Züge, Folgen, Tischwerte, Würfel, Leisten, Ereignisse, Flüstern,
+  Nachfragen), §7 (Endwert, Geklärt-Regel, Auflösung, Auszeichnungen, Erfahrung); dabei den veralteten Satz „wird nicht
+  gespeichert“ in §5 und §10 an „Abend fortsetzen“ angeglichen. `docs/partykrimi/ANLEITUNG.md` (ohne „Dein Moment“,
+  Erzählerheft mit Einstimmung, Erzählerakte, `--paket`, `--erzaehlerakte`, `--dein-moment`), README (neue
+  Funktionen, Protokoll 5), FUER-DEN-NUTZER (Abschnitt Finale), TON-LEITFADEN (A-061), Spezifikation „Änderungen“
+  37–43, `planung/langer-abend/STATUS.md` Zeile M12. Nur Doku, kein Test nötig.
 
 - 2026-10-27 Behebung der Prüfbefunde nach der App-Zusammenführung (17 Befunde, offene Punkte a–c), Spezifikation
   „Änderungen“ 29–36: Pult zu beim Weitergeben, verzögerte und ausgepackte Fakten im Notizbuch, Fledermaus ohne zweite
@@ -36,6 +48,37 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
   `flutter test` 824 grün, `pruefen.sh schnell` grün (Kern 996 +1 übersprungen, Krimidinner 67, Netz 54, Klang 4),
   `kanon_tor --pruefen` aktuell, `akte_pruefen` 5 × 0. Golden k12 (`determinismus_soll*.g.dart`) und
   `andere_akten_soll.g.dart` unverändert.
+
+- 2026-10-27 CI (0ec85ba, A-067): Lauf 105 brauchte 47,5 von 50 Minuten, Lauf 106 brach am Limit ab. Der Prüf-Job hat
+  jetzt 120 Minuten; die Gesamtprüfung mit Einstimmung und „Dein Moment“ dauert lokal rund 75 Minuten.
+
+- 2026-10-27 Stufe 4, App zusammengeführt (`berichte/wf_b7937080-d6e.json`, „zusammenfuehren-2“): `finale/a-n`
+  (088831b, ohne Konflikt) und `finale/a-e` (d48ae60, Konflikte gelöst), danach Solo-Browserprobe 501d8e6.
+  `flutter analyze` sauber, App `flutter test` 812 grün (695 Basis, A-N, A-E, 8 neue: `einstimmung_moment_test` 4,
+  `gast_einstimmung_moment_test` 3, `rollen_uebersicht_test` +1), gezielt nach dem Merge 103/103.
+  `bash tool/pruefen.sh ci` EXIT 0: Pakete 67 + 992 (+1 übersprungen) + 4 + 54, Kanon-Tor, CI-Helfer,
+  Szenario-Validator, Simulator, Server-Smoke, Party- und Relais-Matrix mit 4 Clients, nativer Server, Flutter 812,
+  Web-Build, Browserproben (`browser_test` 4/4, START, RUNDEN, SOLO bei 320 px mit Einstimmung und „Dein Moment“,
+  LANG endet wie kurz), Secret-Scan. `akte_pruefen` 5 × 0. Golden k12, `andere_akten_soll.g.dart`,
+  `einfluss_soll.g.dart` unverändert, kein Diff in `packages/`, `content/`, `server/`.
+  - A-N (`finale/a-n` ad6872a): App 723 grün; `einstimmung_test` 8, `erzaehlerakte_test` 6,
+    `gast_einstimmung_test` 7, `gast_erzaehlerakte_test` 3, `erzaehler_begleiter_test` 12, `rollen_uebersicht_test` 4,
+    `assistent_test` und `arb_ton_test` grün; Kern-Wächter 13 grün.
+  - A-E (`finale/a-e` b14cb53): App 776 grün; `einfluss_sitzung_test` 18, `heimlicher_zug_test` 9 (320/390 px,
+    100/200 % Schrift), `gast_moment_test` 6, `lang_invarianz_test` 101 (48 neue Kombinationen mit Schicht),
+    `test/abend` 126; keine Änderung an `packages/`, `content/`, `tool/`, `server/`.
+
+- 2026-10-27 Stufe 4, Netz und Druck zusammengeführt (`berichte/wf_b7937080-d6e.json`, „zusammenfuehren-1“, 345018c):
+  `finale/e2` (423597e) und `finale/n2` (5ab9dae) mit `--no-ff`, ohne Konflikt; danach Texte (Ablenken Lejla,
+  Ertappt-Blasen der Kernfiguren ohne Anklang an Fallspuren, Marke „nur dir bekannt“) und ein überflüssiges `!` im
+  Erzählerheft. `akte_pruefen` 5 × 0, `kanon_tor --pruefen` grün (42 Bildprompts, 17 eingebettete Dateien),
+  Party-Matrix (6 Sitz-Konstellationen, darunter „Dein Moment“ und Einstimmung mit Text nur beim Vorleser) und
+  Relais-Matrix (6 Läufe plus Ausfall des Gast-Detektivs) mit 4 Clients grün, Netz 54 (darin `relay_finale_test`),
+  Server 4, Druck 64 (`druck_paket`, `druck_paket_cli`, `druck_spielleitung`, `einfluss_zielquelle`,
+  `erzaehlerakte`). `--erzaehlerakte --personen 8`: 24 Seiten, 185 KB; `--paket --n 8`: Erzählerheft 13 Seiten mit
+  Vorgeschichte und Vorstellung, Veranstalter-PDF 3 Seiten, Erzählerakte in `4-nur-erzaehler`.
+  `pruefen.sh schnell` grün in 6:19 (Kern 992 +1, Krimidinner 67, Klang 4, Netz 54, CI-Helfer 18), App 695 grün.
+  Golden-Dateien unverändert, nichts aus `tool/kanon_fest.txt` berührt.
 
 - 2026-10-27 Stufe 3, Inhalte eingespielt: `setting.json` (Vorgeschichte, Vorstellung), Texte Vorgeschichte, Vorstellung und
   Einfluss (Index 58 → 61), Kapiteltitel in `ui-erzaehler.json`, `erzaehlerakte.json` (50 Kanten), Fähigkeiten

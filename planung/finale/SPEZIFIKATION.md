@@ -505,3 +505,32 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
   36. Zu Punkt 11 geprüft (fc-query über `assets/fonts`): Alle neun Schriften der App führen U+2212 (Caveat, Courier
       Prime, Inter Regular/SemiBold/Bold, Lora, Lora Kursiv, Playfair Display, Special Elite). Die Karten nutzen das
       echte Minuszeichen, auch die Zeile „Tisch“ der Chancenvorschau am Gerät und beim Gast.
+- 2026-10-27 (Entscheidungen der App-Zusammenführungen, Stufe 4; nachgetragen mit der Doku):
+  37. **„Wer macht was“ mit Schicht ohne Gruppenwahl:** `uebersichtPhasen(einfluss: true)` blendet den Abschnitt
+      Gruppenwahl aus (`entscheidungen → bonus`, §3.1); Bonus und Resümee heißen weiter „Hinweis und Resümee“. Mit
+      Schicht: Rolle „Gespräch führen, geheim deinen Moment ziehen“, Detektiv „Tischwerte lesen, nach Pech gemeinsam
+      rufen“, Erzähler „Zu Beginn der Ermittlung die Folgen vorlesen“. A-E hatte die Gruppenwahl dort noch gezeigt.
+  38. **Kein zweiter Bildschirm-Hinweis „Wer genannt wird, steht kurz auf.“** (abweichend von §1 App): Der Satz steht
+      schon im Vorlesetext `vorstellung.start`; die App zeigt ihn nicht zusätzlich (`einstimmung_test` prüft, dass er
+      fehlt). Im Druck bleibt er in den nicht vorgelesenen Hinweisen `ui.druck.spielleitung.vorstellung.hinweis` und
+      `ui.druck.paket.ablauf.vorstellung.text`.
+  39. **Erzählerakte folgt dem Abend:** Nach der Zusammenführung zeigte die Akte die Sterne, sobald die Akte die
+      Fähigkeit `einfluss` hat, auch bei ausgeschaltetem Schalter und im Druck. Entschieden wie Punkt 30: Sterne nur an
+      Abenden mit Schicht, sonst `persoenlichesZiel`; der Druck nur mit `--dein-moment`.
+  40. **Abzeichen nicht an den Karten-Hotspots:** Der Tischwert steht in der Optionsliste („Aus einer Liste wählen“),
+      in der Rückfrage „Das ist endgültig“, in der Chancenzeile „Tisch“ und auf dem Gerät des Gastes. Die Hotspots der
+      Karte tragen keine Marke. Damit gilt §3.3 („Abzeichen an jeder Option vor der Wahl“) als erfüllt.
+  41. **Minuszeichen:** A-E setzte Tischbonus und Zeile „Tisch“ zunächst mit ASCII „-“, weil Punkt 11 noch ungeprüft
+      war. Seit Punkt 36 gilt überall U+2212: Abzeichen-Texte der Akte, Tischbonus, Zeile „Tisch“ am Gerät und beim
+      Gast.
+  42. **`abendstand/3`:** ein Format für alle Abende; gelesen werden `/1`, `/2` und `/3` (`/1` mit Befragungsmodell
+      bleibt abgelehnt). Journal und Raum-Meta tragen `einstimmung: true` und `einfluss: true` nur, wenn an; Stände
+      ohne Eintrag laufen ohne Einstimmung bzw. ohne Schicht. Die Befehle `moment` und `nachfrage` stehen im Journal.
+      Ob die Folgen einer Runde gelesen sind, merkt sich nur das Gerät (nicht im Journal): Nach dem Fortsetzen liegt
+      das Folgen-Blatt der laufenden Runde wieder offen.
+  43. Kleinere Festlegungen: Reihum bleibt das offene Pult über alle Schritte der Einstimmung offen. Weiter und
+      Überspringen der Einstimmung drückt nur, wer leitet (Gastgeber ohne Leitung: gesperrt mit Fußzeile; Gastgeräte
+      ohne Knöpfe). Das Erzähler-Handy reihum bekommt `rollen` nur während der Einstimmung; danach nimmt die
+      Erzählerakte die Rollen aus der Spielerliste. `tool/e2e/solo.mjs` folgt den Vorgaben des Assistenten (beide
+      Schalter an). Erfahrung aus „Dein Moment“ bucht nur ein Gast mit Figur am eigenen Gerät; an einem Gerät zählt
+      das Ende des Detektivs nach dem Endwert (§3.10).

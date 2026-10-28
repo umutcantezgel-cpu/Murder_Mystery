@@ -19,6 +19,15 @@ unveränderten, würfelfreien Papierablauf.
 - Ihr habt einen Drucker und wollt die Karten in der Hand halten.
 - Ihr seid bereit, die Stimmen von Hand zu zählen. Das macht der Erzähler mit Abreißstreifen und einer Tabelle.
 
+### Ohne „Dein Moment“
+
+Am Bildschirm spielt der Schlosskeller mit **„Dein Moment“**: Jede Rolle zieht je Runde geheim einen Zug, statt
+in der Gruppenwahl abzustimmen (siehe [Anleitung, Abschnitt 6](../ANLEITUNG.md#6-der-ablauf-eines-abends)). Das
+Druckspiel läuft **immer ohne** diese Züge. In jeder Runde wählt ihr wie gewohnt mit den Papierstreifen A und B.
+Das Erzählerheft sagt es in der Vorbereitung: „Diese Druckfassung läuft ohne ‚Dein Moment‘ aus der App. In jeder
+Runde wählt ihr wie gewohnt mit den Papierstreifen A und B.“ Auch der Bildschirm, der beim Druckspiel mitläuft,
+spielt ohne „Dein Moment“. Die Vorgeschichte und die Vorstellung gibt es auf Papier trotzdem (unten).
+
 ### Wochen vorher: Steckbriefe und Charakterübersicht
 
 Detektei → **Spuk im Schlosskeller** → **Steckbriefe & Übersicht**. Ein Tipp, keine Einrichtung, kein Fall-Code.
@@ -85,7 +94,12 @@ bleibt im versiegelten Auflösungsheft.
 
 Das Heft sagt dem Erzähler: „Lies die Texte mit der Marke Vorlesen genau so vor, wie sie dastehen. Alles andere ist Anleitung für dich.“
 
-- **Zu Beginn:** Lest die Texte mit der Marke „Vorlesen“ vor.
+- **Zu Beginn:** Lest die Texte mit der Marke „Vorlesen“ vor. Vor dem Intro stehen zwei Abschnitte:
+  - **Vorgeschichte:** sieben Teile, zusammen etwa fünf Minuten. „Lies die Teile nacheinander vor. Die
+    Kapiteltitel sind nur für dich.“
+  - **Vorstellung:** je Figur am Tisch Name, Rolle, eine Zeile „gespielt von: ________“ und der Text. „Lies jede
+    Vorstellung vor und trag ein, wer die Figur spielt. Wer genannt wird, steht kurz auf.“ Danach kommen ein Text
+    „Für alle Gäste ohne Spieler“ und „Zum Schluss der Detektiv“.
 - **Rollen und Fassungen:** „Gib jeder Person ihr Rollenheft und, wenn sie welche hat, ihre Stimmkarten.“ Legt dann die vier versiegelten Fassungen aus und nennt ihre Codes. „Wer einen dieser Codes im eigenen Heft findet, nimmt die Fassung und liest sie allein.“
 - **Pro Runde:**
   1. **Rundenstart.** Lest den Rundenstart vor. Stellt die Uhr auf die Minuten, die das Heft nennt. Jede Rolle beginnt die drei Gespräche aus ihrem Heft. Wer angesprochen wird, antwortet aus der eigenen Rolle.
@@ -111,6 +125,24 @@ Das Heft sagt dem Erzähler: „Lies die Texte mit der Marke Vorlesen genau so v
 - Im Rollenheft steht: „Deine Fassung trägt den Code … Öffne sie erst, wenn der Erzähler diesen Code nennt.“
 - Die Fassungen faltet ihr nach dem Heft, ohne hineinzusehen.
 
+### Die Erzählerakte
+
+Die Erzählerakte ist das Heft des Erzählers mit allen Hintergründen: `erzaehlerakte.pdf`. Sie nennt nie den Täter
+und ist in jedem Fall gleich. Deshalb braucht sie **keinen Fall-Code**, nur die Personenzahl.
+
+- **Deckblatt** „Nur für dich als Erzähler“, dann Herr Schneider und der Detektiv.
+- **Netzseite:** ein Ring mit Herrn Schneider in der Mitte. Durchgezogene Linien kennt der ganze Tisch,
+  gestrichelte nur der Erzähler. Die Legende darunter nennt jede Bindung.
+- **Je Figur eine Seite:** erst die Figuren am Tisch, dann die ohne Spieler. Dort stehen Hintergrund, Bindungen,
+  das Verhältnis zu Herrn Schneider, Motiv, Geheimnis, Nebendelikt, Loyalität, Ziel und Tipps für die Stimme.
+- **Ziele:** Standard ist das Ziel aus dem Rollenheft, denn das Druckspiel läuft ohne „Dein Moment“. Für einen
+  Abend am Bildschirm mit „Dein Moment“ setzt der Befehl mit `--dein-moment` die zwei Sterne je Figur ein.
+
+Die Erzählerakte gibt es nur per Befehl (unten): allein mit `--erzaehlerakte` oder im Druckpaket mit `--paket`, dort im
+Ordner `4-nur-erzaehler`. Die Druckmappe der App enthält sie nicht. Am Bildschirm hat der Erzähler sie ohnehin
+(siehe [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Gebt sie nie
+aus der Hand: Sie enthält die Geheimnisse aller Figuren.
+
 ### Das versiegelte Auflösungsheft
 
 - Das Auflösungsheft ist versiegelt. Dort steht: „Versiegelt – erst nach der Anklage öffnen“.
@@ -124,6 +156,8 @@ Das Heft sagt dem Erzähler: „Lies die Texte mit der Marke Vorlesen genau so v
 - **Rückblende.** Den Zeitraffer im Finale gibt es nur am Bildschirm. Im Druck steht die Rückblende als Text im Auflösungsheft.
 - **Die Summe.** Der Erzähler sagt die Summe nie laut.
 - **Würfel.** Das Druckspiel ist würfelfrei. Der Kellerwürfel und die Kartenhand gehören zum Abend am Bildschirm.
+- **„Dein Moment“.** Die heimlichen Züge, Tischwerte, Leisten, Ereignisse, Sterne und der Tischbonus gibt es nur am
+  Bildschirm. Auf Papier bleiben die Streifen A und B.
 
 ### Der Befehl für Entwickler
 
@@ -133,12 +167,27 @@ Im Ordner `packages/mordakte_core`, nach `source tool/flutter_env.sh`:
 dart run bin/party_druck.dart --code XXXXX --n 7 --detektiv w --dauer 30 --aus <Ordner>
 dart run bin/party_druck.dart --pfad olli --n 7 --alles
 dart run bin/party_druck.dart --steckbriefe --n 7
+dart run bin/party_druck.dart --paket --n 12 [--code XXXXX] [--dein-moment]
+dart run bin/party_druck.dart --erzaehlerakte --personen 8 [--dein-moment] [--aus <Ordner>]
 ```
 
 Der erste Befehl erzeugt den PDF-Satz mit acht Dateien. Ohne `--aus` landet er in `build/druck/<Code>-n<Zahl>`.
 Die Vorgaben sind `--fall schlosskeller`, `--n 12`, `--detektiv w` und die Rundendauer aus `fall.json` (30 Minuten).
 `--pfad` (ahmet, fatma, olli, can) ist nur für Testläufe gedacht. Danach meldet er „Druckspiel <Code> für 7 Rollen
 und den Detektiv in <Ordner>“. Mit `--alles` stehen die acht Teile in einer Datei `druckspiel-alles.pdf`.
+
+`--paket` setzt das festliche Druckpaket für einen Abend am Bildschirm, in `build/paket/schlosskeller-n<Zahl>-<Code>/`
+mit vier Ordnern und je einer ZIP-Datei: `1-an-alle` (Charakterübersicht, Steckbriefe), `2-veranstalter` (Fall-Code,
+Ablauf mit Vorgeschichte und Vorstellung, Gästeliste), `3-je-person-ungelesen-weitergeben` (Rollenheft je Figur,
+Detektivbögen) und `4-nur-erzaehler` (Erzählerheft mit Vorgeschichte und Vorstellung, `erzaehlerakte.pdf`). Die
+Porträts kommen aus `build/druck/portraets/`; vorher im Repo-Wurzelordner
+`flutter test tool/bild/druck_portraets_test.dart` laufen lassen, sonst stehen Schattenrisse in den Heften.
+PDFs mit Fall-Code nie committen.
+
+`--erzaehlerakte` setzt nur `erzaehlerakte.pdf`, ohne Fall-Code. `--personen` (4 bis 20, Vorgabe 8) legt fest, welche
+Figuren als „am Tisch“ zuerst stehen. Ohne `--aus` landet die Datei in `build/druck/schlosskeller-erzaehlerakte-n<Zahl>`.
+`--dein-moment` (bei `--paket` und `--erzaehlerakte`) setzt die zwei Sterne von „Dein Moment“ als Ziele ein; es geht
+nur bei Akten mit „Dein Moment“. Ohne den Schalter stehen die Ziele aus den Rollenheften.
 
 `--steckbriefe` braucht keinen Fall-Code. Es schreibt die Charakterübersicht, eine Datei mit Übersicht und allen
 Steckbriefen und je Figur einen Steckbrief, ohne `--n` für alle Figuren. `--fall` wählt die Akte; Steckbriefe gibt

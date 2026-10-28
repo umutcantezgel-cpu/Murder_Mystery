@@ -51,6 +51,23 @@ Karte, Würfel mit angezeigten Chancen, Funde, geheime Gruppenwahl, Resümee), A
 Das Ende ist **Meister, Teilerfolg, Justizirrtum oder Eskalation**. Dazu gibt es Karten und Erfahrung.
 Optional kannst du **erkunden** (Abstecher): Das kostet Nachtminuten und kann Karten bringen.
 
+**Neu im Schlosskeller** (beides im Assistenten an, je Abend abschaltbar):
+
+- **Einstimmung:** Vor dem Auftakt liest der Erzähler eine Vorgeschichte (etwa fünf Minuten) und stellt jede Figur
+  am Tisch vor. Der Erzähler hat dazu eine **Erzählerakte** mit Hintergründen und Beziehungsnetz aller Figuren,
+  ohne den Täter. Sie liegt nur am Erzähler-Platz (Pult, Erzähler-Handy, Erzähler-Sitz), nie solo, und lässt sich
+  ohne Fall-Code drucken.
+- **„Dein Moment“** ersetzt die Gruppenwahl: Jede Rolle zieht je Runde geheim einen Zug (Zeigen, Decken, Helfen,
+  Auspacken, Ablenken, Lauschen). Die Züge geben den Optionen Tischwerte, die den Würfel verschieben, bringen
+  Gerüchte, Randnotizen und Nachtminuten, füllen die Leisten Zusammenhalt und Spuk mit Ereignissen und bestimmen
+  über den Tischbonus das Ende mit. Jede Figur hat zwei geheime Ziele (Sterne). Täter und Wahrheit legt weiter der
+  Fall-Code fest. Das Druckspiel läuft ohne „Dein Moment“, mit den Papierstreifen A und B.
+
+Mehr dazu in [docs/ANLEITUNG.md](docs/ANLEITUNG.md), Abschnitte 4 bis 7.
+
+**Alle Geräte aktualisieren.** Mit „Dein Moment“ gilt das Online-Protokoll 5. Geräte mit älterer App kommen nicht
+mehr in einen Raum. Abende, die ein Gerät von vorher abgelegt hat, setzt es ohne „Dein Moment“ fort.
+
 ### 4. Karten
 
 Jede Figur jeder Akte und fünf Detektivklassen haben **Sammelkarten**. Sie bleiben dauerhaft auf dem Gerät.
@@ -62,15 +79,18 @@ Tisch) und bei Funden beim Erkunden.
 
 ## Die fünf Akten
 
-| Akte | Ton | Rollen |
-| --- | --- | --- |
-| **Spuk im Schlosskeller** · Das Buffet hinter dicken Mauern | Spuk | 4 bis 20 |
-| **Spuk im Gewölbe** · Ein Geburtstag auf Burg Schartenfels | Spuk | 4 bis 20 |
-| **Ravensmoor** · Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte. | Noir | 4 bis 8 |
-| **Nachtexpress 1931** · Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann. | Noir | 4 bis 8 |
-| **Blue Palm Motel** · Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7 | Noir | 4 bis 8 |
+| Akte | Ton | Rollen | Besonderes |
+| --- | --- | --- | --- |
+| **Spuk im Schlosskeller** · Das Buffet hinter dicken Mauern | Spuk | 4 bis 20 | Erzähler-Platz, kurzer und langer Abend, Einstimmung mit Erzählerakte, „Dein Moment“, Druckspiel |
+| **Spuk im Gewölbe** · Ein Geburtstag auf Burg Schartenfels | Spuk | 4 bis 20 | feste Lösung |
+| **Ravensmoor** · Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte. | Noir | 4 bis 8 | – |
+| **Nachtexpress 1931** · Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann. | Noir | 4 bis 8 | – |
+| **Blue Palm Motel** · Neonlicht, Hurrikan-Warnung und ein Toter in Zimmer 7 | Noir | 4 bis 8 | – |
 
-Die Reihenfolge steht in `content/party/akten.json`. Die Druckfassung des Schlosskellers beschreibt
+Einstimmung, Erzählerakte und „Dein Moment“ gibt es nur im Schlosskeller (Fähigkeiten `einstimmung`,
+`erzaehlerakte`, `einfluss` in `content/party/akten.json`). Die anderen vier Akten laufen bitgleich wie vorher; das
+prüft `einfluss_gating_test` gegen einen Schnappschuss von vor dem Finale. Die Reihenfolge steht in
+`content/party/akten.json`. Die Druckfassung des Schlosskellers beschreibt
 [docs/partykrimi/ANLEITUNG.md](docs/partykrimi/ANLEITUNG.md).
 
 ## Entwickeln
