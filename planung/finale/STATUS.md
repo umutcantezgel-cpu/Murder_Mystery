@@ -18,19 +18,45 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 ## Wiederaufnahme
 
-- Stand (2026-10-28): Stufen 0–5 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis ef214ff. Ungepusht ist
-  der Commit mit der Browserprobe des Finales (Entwicklerroute `einfluss=1`, `tool/e2e/finale.mjs`).
+- Stand (2026-10-28): Stufen 0–5 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis ef214ff. Ungepusht sind
+  der Commit mit der Browserprobe des Finales (Entwicklerroute `einfluss=1`, `tool/e2e/finale.mjs`) und drei
+  Politur-Commits aus der Fotosichtung (Spürnasen in einem Baustein, Damirs Randnotiz, Protokoll der Nacht;
+  „Änderungen“ 44–46, Prüfjournal 2026-10-28).
 - Nächste Schritte: Solo-Browserprobe auf dem aktuellen Stand (Web-Build wie in `tool/e2e/README.md`, dann in
   `tool/e2e` `node solo.mjs --nur320`) und CI-Lauf 111 auf a5f4d7f beobachten; danach den Commit der Finale-Probe
   pushen (er ändert `lib/`, `test/` und `tool/` und löst einen CI-Lauf aus). Vor einer Zusammenführung nach `main` den
   Besitzer fragen.
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
   `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
-  „Änderungen“ (1–43).
+  „Änderungen“ (1–46).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
   (A-063 bis A-067)“.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-28 Stufe 5, Politur aus der Fotosichtung der Browserprobe (drei Commits, Spezifikation „Änderungen“ 44–46):
+  (1) Spürnasen in einem Baustein: eine wie bisher `einfluss.preis.spuernase`, mehrere als Namensliste
+  `einfluss.preis.spuernasen` („Spürnasen der Nacht sind @liste und @letzte. …“, Komma zwischen den Namen, „und“ im
+  Text); Kern `Erzaehler.einflussAufloesung`, `einflussListenBaustein`, `Texte.baustein`/`einflussText(figuren:)`,
+  Katalog 293, Prüfer-Platzhalter; Gerät, Gast und Raum zeigen dieselbe Tafel (Tests in `einfluss_ende_test`,
+  `einfluss_regeln_test`, `einfluss_pruefung_test`, `schlosskeller_raum_einfluss_test`, `einfluss_sitzung_test`).
+  (2) Damirs Randnotiz: `e1_1_damir` zeigt `b_pawel_schneider` statt `b_damir_an_der_theke` (Damir erzählt sie in
+  Runde 1 selbst; seine übrigen Beobachtungen gelten nicht in allen Pfaden). Pawels Wissen gilt in allen Pfaden,
+  belastet niemanden, steht in keiner Begründungskette, ist sonst erst ab 19 Rollen zu hören; geprüft gegen die
+  Story-Bibel; Test: die Notiz stammt nicht von Damir. (3) Protokoll der Nacht: Name und Sinnbilder oben auf einer
+  Linie, Zielfoto darunter in derselben Zeile, Abstand für den Schatten; neuer Widget-Test `protokoll_nacht_test`
+  (320/390 px × 100/200 %, Rechtecke der Zeilen); dabei behoben: „Zusammenhalt“ lief in den Leisten bei 320 px und
+  200 % 15 px über den Rand. `einfluss_soll.g.dart` nach E-048 zweimal neu erzeugt, je mit Gegenprobe: (1) 686 der
+  1.000 Summen ändern sich, genau die Abende mit mehr als einer Spürnase (nachgezählt), mit zurückgenommener Zeile in
+  `einflussAufloesung` passt die vorige Liste; (2) 457 Summen ändern sich, alle an Abenden mit der Wahl `e1_1_damir`,
+  mit zurückgenommener Zeile in `einfluss.json` passt die vorige Liste. `kanon_tor` neu erzeugt (Prüfsummen,
+  Inhaltskennung), `akte_pruefen` 5 × 0, `flutter analyze` sauber, App `flutter test --concurrency=2` 831 grün,
+  `pruefen.sh schnell` grün (Kern 999 +1 übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell,
+  CI-Helfer 18, Secret-Scan sauber). Golden k12 (`determinismus_soll*.g.dart`) und `andere_akten_soll.g.dart`
+  unverändert, nichts aus `tool/kanon_fest.txt` berührt. Aus der Sichtung weiter offen für Menschen: je Baustein ein
+  Schalter „Erzählerstimme“, drei gleich gebaute Epiloge, „Ostsaal“ neben „Ost-Saal“; außerdem wiederholen weitere
+  Befragungs-Optionen die Beobachtung der befragten Figur als Randnotiz (`e1_2_emine`, `e1_3_azra`, `e3_3_aylin`
+  immer; `e1_3_tim`, `e1_2_tugba` bei besetzter Figur) – nicht geändert, Entscheidung offen.
 
 - 2026-10-28 Stufe 5, Browserprobe des Finales auf dem Stand nach der Befundbehebung (nach dem Container-Neustart
   fortgesetzt). Entwicklerroute `einfluss=1` (`lib/party/skript.dart`, `party_seite.dart`; ohne den Parameter
