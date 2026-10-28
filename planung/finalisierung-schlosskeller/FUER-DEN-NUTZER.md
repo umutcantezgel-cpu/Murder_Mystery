@@ -16,12 +16,12 @@ Hier steht alles, was nur Menschen prüfen oder entscheiden können, und alles, 
   - Die Datei wird dadurch etwa 37 MB größer, wenn das Deployment den Ordner ausliefert. Das ist die Bedingung für „zur Laufzeit keine fremden Server“.
 - **Spoilerschutz:** Wer im Browser die Entwicklerwerkzeuge öffnet, kann die Kanon-Dateien und damit die Lösung lesen. Das zu verhindern ist in einer lokalen Web-App nicht möglich und kein Ziel (E-013).
 
-- **Druck und Spoiler (E-035):** Außen steht überall nur ein neutraler Code, auch auf den Fassungen; keine Seite verrät sich durch Zahl, Rahmen oder Überschrift. Wer beim Ausschneiden bewusst die Rückseiten liest, kann trotzdem Funde und die Täterfassung lesen. Druckt einseitig, sortiert nur nach Codes, und am besten druckt jemand, der nicht das Geburtstagskind ist.
+- **Druck und Spoiler (E-035):** Außen steht überall nur ein neutraler Code, auch auf den Fassungen; keine Seite verrät sich durch Zahl, Rahmen oder Überschrift. Wer beim Ausschneiden bewusst die Rückseiten liest, kann trotzdem Funde und die Täterfassung lesen. Druckt einseitig, sortiert nur nach Codes, und am besten druckt jemand, der nicht den Detektiv spielt.
 
 - **Gruppenwahl ohne Ergebnisanzeige (E-025):** Die Runde sieht nach ihrer Wahl nicht, ob der Hinweis wahr, neutral oder ein Gerücht war, und auch keine Stimmenzahl. Sonst ließe sich ein Gerücht als Freispruch lesen und die Sabotage der Täterrolle bei vier Rollen erkennen. Erst die Auflösung zeigt, wie oft die Gruppe zusammengehalten hat.
 - **Wer mehrere Fall-Codes nacheinander spielt,** kann mit der Zeit lernen, welche Satzform der Hinweise in Runde 3 meist stimmt. Für einen Partyabend mit einem Fall ist das ohne Bedeutung.
 
-- **Helligkeit der Karte (Master 7.13):** Die Ermittlung zeigt das verlangte Grundlicht von 23 % in kühlem Blaugrau, dazu warme Kerzenpunkte und den Lichtkegel des Geburtstagskinds. Auf hellen Bildschirmen wirkt das stimmungsvoll; auf einem dunklen Beamer kann es zu düster sein. Der Wert ist eine Zahl in `lib/party/karte_session.dart` (`dunkel: 0.77`).
+- **Helligkeit der Karte (Master 7.13):** Die Ermittlung zeigt das verlangte Grundlicht von 23 % in kühlem Blaugrau, dazu warme Kerzenpunkte und den Lichtkegel des Detektivs. Auf hellen Bildschirmen wirkt das stimmungsvoll; auf einem dunklen Beamer kann es zu düster sein. Der Wert ist eine Zahl in `lib/party/karte_session.dart` (`dunkel: 0.77`).
 - **Erzählerstimme:** Sie nutzt nur Stimmen, die der Browser als lokal meldet, und liest genau den Bausteintext vor. Fehlt eine deutsche lokale Stimme, steht der Text da und ein Hinweis erscheint. Chrome kann sehr lange Sätze manchmal abbrechen; dann hilft „Noch einmal vorlesen“.
 - **Stimmen auf Papier (E-036, E-039):** Die vier Kernrollen haben keine offenen Stimmkarten. Sie geben je Runde einen Streifen A oder B aus ihrer versiegelten Fassung ab; nur beim Täter zählt B −1. Die Spielleitung merkt beim Zählen, dass sabotiert wurde, aber nicht von wem, weil sie keinen Code einer Kernrolle kennt. Die Codes der Gäste stehen auf deren Karten; wer sie sich beim Ausschneiden merkt, wüsste, welcher Gast wie gestimmt hat. Am Bildschirm sieht das niemand.
 - **Fassungen beim Falten (E-039):** Die Innenseite der Täterfassung ist dichter beschrieben als die drei anderen (etwa 450 gegen 250 Wörter), weil sie die Tat erzählt. Ganz gleich würde es nur mit Fülltext. Faltet die Fassungen deshalb genau so, wie das Spielleitungsheft es beschreibt, und seht dabei nicht hinein.
@@ -36,7 +36,7 @@ Hier steht alles, was nur Menschen prüfen oder entscheiden können, und alles, 
 - **Kopftuch bei Emine (E-039):** Emine trägt ein Kopftuch und hat gesehen, wie Fatma die Schatulle nahm; sie schweigt darüber. Sie hat weder Lüge noch Nebendelikt, die Regel aus TON §7 ist also eingehalten. Zwei der drei Kopftuchträgerinnen stehen damit aber im Schatulle-Strang. Wer das ändern will, legt Emines Kopftuch in `figuren.json` (Look `kopf`) auf eine andere, unbelastete Figur.
 - **Kopftuch bei Fatma (E-014):**
   - Behzads Material gibt Fatma ein Kopftuch; sie ist zugleich eine der vier möglichen Täterinnen und hat die Münzschatulle mitgenommen.
-  - Ich habe es behalten und Gegengewichte gesetzt: Ihr Motiv ist Ehrgeiz für ihre Abschlussarbeit, sie will die Schatulle zurückbringen. Emine (Kopftuch) ist Grundschullehrerin, Tugba (Kopftuch) die Geburtstags-Planerin, die beruflich Projekte leitet (E-029: das dritte Kopftuch lag zuerst bei Azra, damit standen alle drei Kopftuchträgerinnen im Schatulle-Strang).
+  - Ich habe es behalten und Gegengewichte gesetzt: Ihr Motiv ist Ehrgeiz für ihre Abschlussarbeit, sie will die Schatulle zurückbringen. Emine (Kopftuch) ist Grundschullehrerin, Tugba (Kopftuch) die Party-Planerin, die beruflich Projekte leitet (E-029: das dritte Kopftuch lag zuerst bei Azra, damit standen alle drei Kopftuchträgerinnen im Schatulle-Strang).
   - Wenn ihr es anders wollt, ist es eine Zeile im Kanon (`figuren.json`, Look von Fatma).
 - **Muster der Nebendelikte (SENS-03, E-029):**
   - Ahmet, Fatma und Can tragen Geld, Mitnahme der Schatulle und Streich, Olli Türschaden und Vertuschung. Wer die Namen türkisch oder muslimisch liest, kann darin ein Muster sehen.
@@ -66,4 +66,39 @@ Hier steht alles, was nur Menschen prüfen oder entscheiden können, und alles, 
 - **Tag `schlosskeller-1.0` noch nicht auf GitHub:** Der Git-Proxy dieser Sitzung blockt das Pushen von Tags (HTTP 403); main selbst ist gepusht. Der Tag liegt annotiert auf dem letzten Commit von main. So kommt er nach GitHub, von einem eigenen Rechner aus:
   `git fetch origin main && git tag -a schlosskeller-1.0 origin/main -m "Spuk im Schlosskeller 1.0" && git push origin schlosskeller-1.0`
   Alternativ auf GitHub unter „Releases“ ein Release mit dem Tag `schlosskeller-1.0` auf `main` anlegen (E-042).
+
+## Finale (A-063 bis A-067)
+Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähler) und „Dein Moment“ (Einfluss-Schicht) auf dem Branch `claude/schlosskeller-finale`. Belege stehen in `planung/finale/STATUS.md`, alle Festlegungen in `planung/finale/SPEZIFIKATION.md` („Änderungen“ 1–43).
+
+### Nur durch Menschen prüfbar
+- **Ton der Einstimmung:** Vorgeschichte und Vorstellungen sind maschinell geprüft, aber noch nie an einem echten Tisch gelaufen.
+  - Hört sie einmal laut vorgelesen und einmal mit der Stimme des Geräts: Tragen die Pointen, passt das Tempo, wird die Vorstellung bei vielen Rollen zu lang?
+  - Die Texte stehen in `texte/erzaehler-vorgeschichte.json` und `texte/erzaehler-vorstellung.json` (`content/party/schlosskeller/`).
+- **Zahlen von „Dein Moment“:** Abgestimmt ist nur mit Bots (1.000 Abende je Tischgröße, E-048, Spezifikation „Änderungen“ 20–23).
+  - Am Bot-Tisch mit 20 Rollen gibt es zu 86 % Tischbonus +1, weil die späten Rollen (ab Rolle 13) als Bots hilfsbereit sind. Bei 4 bis 12 Rollen sind es 22 bis 30 %.
+  - Am echten Tisch prüfen: Wie oft wächst der Zusammenhalt, wie oft kippt der Spuk, reichen die Nachtminuten, sind die Sterne erreichbar?
+  - Die Stellschrauben stehen in `content/party/zusatz/schlosskeller/einfluss.json` (`zahlen`, `bots`, `ziele`, `ereignisse`).
+- **Kern-Epiloge:** Die vier Epiloge „erreicht“ von Ahmet, Fatma, Olli und Can sind nach der Prüfung neu geschrieben. Sie werten den Ausgang nicht mehr, weil auch die unentdeckte Täterrolle „nicht angeklagt“ erreicht.
+  - Hört sie nach einer richtigen und nach einer falschen Anklage.
+  - Die übrigen Textänderungen derselben Prüfung (warmer Morgen, Sammelblock der Vorstellung, Stern des Abends) stehen in Spezifikation „Änderungen“ 29–36 und im Prüfjournal von `planung/finale/STATUS.md`.
+- **Kachelraster von „Dein Moment“:** Die Tests laufen bei 320 und 390 px und doppelter Schrift. Ob sich die Kacheln auf einem echten 320-px-Handy gut tippen und lesen lassen, zeigt nur das Gerät.
+- **Porträts im Druck:** Vor dem Druck `flutter test tool/bild/druck_portraets_test.dart` laufen lassen, sonst stehen Schattenrisse in den Heften. Seht euch Erzählerheft, Steckbriefe und Erzählerakte einmal auf Papier an.
+
+### Bewusst so gelassen (bitte prüfen)
+- **Sensibilität:**
+  - Fatmas Vorstellung nennt das taubengraue Kopftuch als Kleidung, die Pointe gilt ihrer Farbenlehre. Zusammen mit „spricht leise, lächelt viel“ kann man ein Klischee lesen. Ein Sensibilitätsleser sollte das bestätigen; der Ausweg wäre, das Kopftuch in der Vorstellung wegzulassen.
+  - Im Netz der Erzählerakte gibt es Paare gleicher Herkunft (Zeynep–Sibel–Serkan, Joanna–Marek, Joanna–Wojtek). Sie sind weder Motiv noch Pointe (TON §7).
+  - Aylins Bot-Blasen sind Büro-Humor aus ihrem Alltag („Gerüchte bitte schriftlich und in doppelter Ausführung“, „das hefte ich gleich ordentlich ab“). Wer streng sein will, ersetzt `einfluss.bot.aylin.geruecht` und `.freund_gestanden`.
+- **Ungleichgewichte aus dem Kanon:** Alle sind in jedem Pfad gleich und verraten keinen Täter.
+  - Can hat vor dem Abend keinen Konflikt mit Herrn Schneider, die anderen drei Kernfiguren schon.
+  - Ahmet hat zwei loyale Figuren (Lejla, Joanna), die anderen Kernfiguren je eine.
+  - Die Geständnisse der Randfiguren („Auspacken“) betreffen Ahmet und Can je viermal, Fatma zweimal und Olli ein- bis zweimal (Spezifikation „Änderungen“ 10).
+- **Widerspruch im Kanon:** In `raeume.json` hat `vorrat_tuer` den Wert `quietscht: false`, Cans `motiveAndConflict` sagt aber, die Tür zum Vorratsraum quietscht auf. Bewusst nicht geändert, weil die Wahrnehmungsbeweise am Raster hängen.
+
+### Gut zu wissen
+- **Online:** Mit „Dein Moment“ gilt das Protokoll 5. Alle Geräte brauchen die neue App, ältere kommen nicht mehr in einen Raum.
+- **Alte Abende:** Abende, die ein Gerät vorher abgelegt hat, laufen nach „Abend fortsetzen“ ohne „Dein Moment“ weiter.
+
+### Zur Entscheidung
+- **Zusammenführung nach `main`:** Wann der Branch nach `main` kommt, entscheidet ihr. Danach wird `einfluss_soll.g.dart` nie mehr neu geschrieben (E-048). Wer die Zahlen von „Dein Moment“ nach einem Testabend ändern will, tut das am besten vorher.
 

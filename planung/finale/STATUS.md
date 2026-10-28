@@ -13,13 +13,17 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 | 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung, Abstimmung | fertig: zusammengeführt in f057a49 (Kern 957 grün, akte_pruefen 5 × 0, Golden k12 und Schnappschuss unverändert) |
 | 3 | Inhalte einspielen (`setting.json`, Texte, `erzaehlerakte.json`, `einfluss.json`, `akten.json`), `kanon_tor` | fertig: eingespielt, `akte_pruefen` 5 × 0, Änderung 7 im Kern (Spezifikation „Änderungen“ 25–28) |
 | 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | fertig: E2 (Protokoll 5, Raum, Server, Matrizen) und N2 (Druck, `--erzaehlerakte`) zusammengeführt in 345018c, A-N und A-E in 088831b/d48ae60, Solo-Browserprobe 501d8e6; App 812 grün, `pruefen.sh ci` lokal grün |
-| 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | fertig bis auf die Sichtprüfung durch Menschen: Prüfung nach der App-Zusammenführung (17 Befunde behoben, Änderungen 29–36), Abstimmung am Bot-Tisch (E-048, Änderungen 20–23), Doku (ANLEITUNG §4–§7, Druckspiel, README, FUER-DEN-NUTZER, TON-LEITFADEN, Änderungen 37–43), Solo-Browserprobe mit beiden Schichten; die lange Probe läuft noch ohne Schicht (kein `einfluss=1`) |
-| 6 | `pruefen.sh ci`, Push, CI grün | offen: volles Tor nach der Befundbehebung, Push, CI-Lauf mit 120-Minuten-Limit (A-067) |
+| 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | fertig bis auf die Sichtprüfung durch Menschen und eine Browserprobe auf dem Stand nach der Befundbehebung: Prüfung nach der App-Zusammenführung (17 Befunde behoben, Änderungen 29–36), Abstimmung am Bot-Tisch (E-048, Änderungen 20–23), Doku in a5f4d7f (ANLEITUNG §4–§7, Druckspiel, README, Änderungen 37–43), nach dem Container-Neustart FUER-DEN-NUTZER (Abschnitt „Finale“), TON-LEITFADEN (A-061) und `planung/langer-abend/STATUS.md` Zeile M12; Solo-Browserprobe mit beiden Schichten in 501d8e6 (vor der Befundbehebung); die lange Probe läuft noch ohne Schicht (kein `einfluss=1`) |
+| 6 | `pruefen.sh ci`, Push, CI grün | teilweise: gepusht bis a5f4d7f; CI-Lauf 110 auf 0ec85ba grün (120-Minuten-Limit, A-067); Lauf 111 auf a5f4d7f (Befundbehebung und Doku) am 2026-10-28 gestartet, Ergebnis offen; `pruefen.sh ci` lief lokal nach der Befundbehebung nicht (nur `schnell`), das volle Tor ist Lauf 111 |
 
 ## Wiederaufnahme
 
-- Stand: Stufen 0–5 fertig, nichts gepusht. Nächster Schritt ist Stufe 6: `bash tool/pruefen.sh ci` auf dem
-  Arbeitsbranch, dann Push und CI beobachten. Vor einer Zusammenführung nach `main` den Besitzer fragen.
+- Stand (2026-10-28): Stufen 0–5 fertig bis auf Sichtprüfung und Browserprobe, gepusht bis a5f4d7f. Ungepusht ist
+  nur der Doku-Commit mit FUER-DEN-NUTZER, TON-LEITFADEN, M12 und diesem Stand.
+- Nächste Schritte: Solo-Browserprobe auf dem aktuellen Stand (Web-Build wie in `tool/e2e/README.md`, dann in
+  `tool/e2e` `node solo.mjs --nur320`) und CI-Lauf 111 auf a5f4d7f beobachten; danach den Doku-Commit pushen (er ändert
+  nur `planung/` und löst wegen `paths-ignore` keinen CI-Lauf aus). Vor einer Zusammenführung nach `main` den Besitzer
+  fragen.
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
   `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
   „Änderungen“ (1–43).
@@ -28,14 +32,23 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 ## Prüfjournal (neueste zuerst)
 
+- 2026-10-28 Doku nachgezogen: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md` neuer Abschnitt „Finale (A-063
+  bis A-067)“ (Ton der Einstimmung, Zahlen von „Dein Moment“ am echten Tisch, Kern-Epiloge, 320 px, Porträts im Druck,
+  Sensibilität, Ungleichgewichte und Widerspruch im Kanon, Protokoll 5, alte Abende, Zusammenführung nach `main`), dazu
+  drei Geburtstags-Reste dort ersetzt; `TON-LEITFADEN.md` §1 und §3 nach A-061 (Wiedersehen der Clique, der Detektiv
+  als Gast; Regeln unverändert); `planung/langer-abend/STATUS.md` Zeile M12 und Journal. Nur Doku, kein Test nötig.
+
+- 2026-10-28 Container-Neustart: Prüf-Workflow abgebrochen, Befundbehebung (18 Commits) und Doku erhalten, gepusht in
+  a5f4d7f; CI-Lauf 110 auf 0ec85ba grün, Lauf 109 scheiterte nur an zwei Analyse-Warnungen (behoben in 345018c).
+
 - 2026-10-27 Stufe 5, Doku: `docs/ANLEITUNG.md` §4 (Schalter „Vorgeschichte und Vorstellung“ und „Dein Moment“,
   Länge, Zeitschätzung), §5 (neu 5.4 Einstimmung und Erzählerakte; Moment reihum und online), §6 (Einstimmung vor
   Vorspiel und Intro, Runde mit „Dein Moment“: Züge, Folgen, Tischwerte, Würfel, Leisten, Ereignisse, Flüstern,
   Nachfragen), §7 (Endwert, Geklärt-Regel, Auflösung, Auszeichnungen, Erfahrung); dabei den veralteten Satz „wird nicht
   gespeichert“ in §5 und §10 an „Abend fortsetzen“ angeglichen. `docs/partykrimi/ANLEITUNG.md` (ohne „Dein Moment“,
   Erzählerheft mit Einstimmung, Erzählerakte, `--paket`, `--erzaehlerakte`, `--dein-moment`), README (neue
-  Funktionen, Protokoll 5), FUER-DEN-NUTZER (Abschnitt Finale), TON-LEITFADEN (A-061), Spezifikation „Änderungen“
-  37–43, `planung/langer-abend/STATUS.md` Zeile M12. Nur Doku, kein Test nötig.
+  Funktionen, Protokoll 5), Spezifikation „Änderungen“ 37–43 (a5f4d7f). FUER-DEN-NUTZER, TON-LEITFADEN und die Zeile
+  M12 waren hier noch nicht dabei; sie folgten nach dem Container-Neustart (Eintrag oben). Nur Doku, kein Test nötig.
 
 - 2026-10-27 Behebung der Prüfbefunde nach der App-Zusammenführung (17 Befunde, offene Punkte a–c), Spezifikation
   „Änderungen“ 29–36: Pult zu beim Weitergeben, verzögerte und ausgepackte Fakten im Notizbuch, Fledermaus ohne zweite
