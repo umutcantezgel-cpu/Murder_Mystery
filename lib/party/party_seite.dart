@@ -61,7 +61,7 @@ class _PartySeiteState extends State<PartySeite> {
           PartySkript.vorspielenMitGespraech(s, dev, dev.bis!);
           debugPrint('PARTY foto=${dev.bis!.name}');
         } else if (dev.rollen != null) {
-          s.einrichten(rollen: dev.rollen!, detektiv: dev.detektiv, code: dev.fallCode(d.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s));
+          s.einrichten(rollen: dev.rollen!, detektiv: dev.detektiv, code: dev.fallCode(d.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s), einfluss: dev.einflussFuer(s));
           if (dev.dauerSekunden != null) s.rundendauer = Duration(seconds: dev.dauerSekunden!);
         }
       }

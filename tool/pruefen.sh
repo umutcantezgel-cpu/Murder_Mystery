@@ -5,7 +5,8 @@
 #   ci:      wie alles, aber ohne die langsamen Matrizen (stattdessen Party-Matrix mit 4 Clients)
 #            und dazu die schnellen Browser-Proben (Konfiguration, Start, Runden, Solo bei 320 px,
 #            langer Abend kurz gegen lang)
-#   e2e:     alles plus alle 84 Party-Durchläufe (tool/e2e) gegen den Web-Build
+#   e2e:     alles plus die Browser-Proben (dazu das Finale mit Einstimmung und „Dein Moment“,
+#            nur hier, nicht in ci: Laufzeit) und alle 84 Party-Durchläufe (tool/e2e) gegen den Web-Build
 # Zum Schluss läuft immer der Secret-Scan.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -109,7 +110,7 @@ fi
 
 if [ "$STUFE" = "e2e" ]; then
   schritt "Automatisierte Durchläufe"
-  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs && node lang.mjs && node abbrechen.mjs && npm test)
+  (cd tool/e2e && node --test browser_test.mjs && node start.mjs && node runden.mjs && node solo.mjs && node lang.mjs && node finale.mjs && node abbrechen.mjs && npm test)
 fi
 
 schritt "Secret-Scan"

@@ -13,17 +13,17 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 | 2 | Kern: N1 Einstimmung + Erzählerakte, E1a Schnappschuss + Einfluss-Regeln, E1b Haken + Beweise, Zusammenführung, Abstimmung | fertig: zusammengeführt in f057a49 (Kern 957 grün, akte_pruefen 5 × 0, Golden k12 und Schnappschuss unverändert) |
 | 3 | Inhalte einspielen (`setting.json`, Texte, `erzaehlerakte.json`, `einfluss.json`, `akten.json`), `kanon_tor` | fertig: eingespielt, `akte_pruefen` 5 × 0, Änderung 7 im Kern (Spezifikation „Änderungen“ 25–28) |
 | 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | fertig: E2 (Protokoll 5, Raum, Server, Matrizen) und N2 (Druck, `--erzaehlerakte`) zusammengeführt in 345018c, A-N und A-E in 088831b/d48ae60, Solo-Browserprobe 501d8e6; App 812 grün, `pruefen.sh ci` lokal grün |
-| 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | fertig bis auf die Sichtprüfung durch Menschen und eine Browserprobe auf dem Stand nach der Befundbehebung: Prüfung nach der App-Zusammenführung (17 Befunde behoben, Änderungen 29–36), Abstimmung am Bot-Tisch (E-048, Änderungen 20–23), Doku in a5f4d7f (ANLEITUNG §4–§7, Druckspiel, README, Änderungen 37–43), nach dem Container-Neustart FUER-DEN-NUTZER (Abschnitt „Finale“), TON-LEITFADEN (A-061) und `planung/langer-abend/STATUS.md` Zeile M12; Solo-Browserprobe mit beiden Schichten in 501d8e6 (vor der Befundbehebung); die lange Probe läuft noch ohne Schicht (kein `einfluss=1`) |
+| 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | fertig bis auf die Sichtprüfung durch Menschen: Prüfung nach der App-Zusammenführung (17 Befunde behoben, Änderungen 29–36), Abstimmung am Bot-Tisch (E-048, Änderungen 20–23), Doku in a5f4d7f (ANLEITUNG §4–§7, Druckspiel, README, Änderungen 37–43), nach dem Container-Neustart FUER-DEN-NUTZER (Abschnitt „Finale“), TON-LEITFADEN (A-061) und `planung/langer-abend/STATUS.md` Zeile M12; Solo-Browserprobe mit beiden Schichten in 501d8e6 (vor der Befundbehebung); Browserprobe des Finales auf dem Stand nach der Befundbehebung erledigt (`tool/e2e/finale.mjs`: Einstimmung und „Dein Moment“ über die Entwicklerroute `einfluss=1`, grün, 44 Fotos gesichtet; Prüfjournal 2026-10-28); die lange Probe läuft noch ohne Schicht (kein `einfluss=1`) |
 | 6 | `pruefen.sh ci`, Push, CI grün | teilweise: gepusht bis a5f4d7f; CI-Lauf 110 auf 0ec85ba grün (120-Minuten-Limit, A-067); Lauf 111 auf a5f4d7f (Befundbehebung und Doku) am 2026-10-28 gestartet, Ergebnis offen; `pruefen.sh ci` lief lokal nach der Befundbehebung nicht (nur `schnell`), das volle Tor ist Lauf 111 |
 
 ## Wiederaufnahme
 
-- Stand (2026-10-28): Stufen 0–5 fertig bis auf Sichtprüfung und Browserprobe, gepusht bis a5f4d7f. Ungepusht ist
-  nur der Doku-Commit mit FUER-DEN-NUTZER, TON-LEITFADEN, M12 und diesem Stand.
+- Stand (2026-10-28): Stufen 0–5 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis ef214ff. Ungepusht ist
+  der Commit mit der Browserprobe des Finales (Entwicklerroute `einfluss=1`, `tool/e2e/finale.mjs`).
 - Nächste Schritte: Solo-Browserprobe auf dem aktuellen Stand (Web-Build wie in `tool/e2e/README.md`, dann in
-  `tool/e2e` `node solo.mjs --nur320`) und CI-Lauf 111 auf a5f4d7f beobachten; danach den Doku-Commit pushen (er ändert
-  nur `planung/` und löst wegen `paths-ignore` keinen CI-Lauf aus). Vor einer Zusammenführung nach `main` den Besitzer
-  fragen.
+  `tool/e2e` `node solo.mjs --nur320`) und CI-Lauf 111 auf a5f4d7f beobachten; danach den Commit der Finale-Probe
+  pushen (er ändert `lib/`, `test/` und `tool/` und löst einen CI-Lauf aus). Vor einer Zusammenführung nach `main` den
+  Besitzer fragen.
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
   `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
   „Änderungen“ (1–43).
@@ -31,6 +31,29 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
   (A-063 bis A-067)“.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-28 Stufe 5, Browserprobe des Finales auf dem Stand nach der Befundbehebung (nach dem Container-Neustart
+  fortgesetzt). Entwicklerroute `einfluss=1` (`lib/party/skript.dart`, `party_seite.dart`; ohne den Parameter
+  unverändert): Mit Skript zieht jede Rolle ihren Moment verdeckt als Bot-Zug (`momentBotZug`, Fotostelle
+  `moment_r<n>`), zu Beginn der Ermittlung werden die Folgen gelesen (`folgen_r<n>`), eine endgültige Wahl mit
+  Tischwert heißt `endgueltig_<entscheidung>_abzeichen`, vor der Anklage nutzt es eine offene Nachfrage (`nachfrage`);
+  `bis=` zieht die Bots ohne Fotostellen. Widget-Test `test/party_widgets/einfluss_skript_test.dart` (3 Tests), Probe
+  `tool/e2e/finale.mjs` (nur in `pruefen.sh e2e`, Laufzeit). Web-Build frisch, Probe grün in 574 s: ahmet, n = 5,
+  `ende_meister`, 9 Punkte, Einstimmung, drei Momente mit Folgen, Abzeichen bei e1_1, e1_3 und e2_2, Nachfrage
+  genutzt, keine Gruppenwahl, 44 Fotos, Auflösung bis zum Endwert im Bild, 0 Konsolenfehler, 0 fremde Netzaufrufe.
+  Probe nachgebessert: Vergleich der Ansichten ohne den ausblendenden Rollbalken (je Bildschirm ein doppeltes
+  Schlussfoto), Fotopause 18 s statt 5 s (nach jedem Mausradschritt rendert die Ansicht rund 1,5 s; vorher blieben
+  Auszeichnungen, Sterne, Tipps und Endwert der Auflösung und das Ende der Folgen-Tafel ungesehen), Sprung ans Ende,
+  wenn die Pause nicht reicht, neue Prüfung „Auflösung bis zum Ende im Bild“, Mausrad am linken Rand (ein Tooltip der
+  Erzählerstimme stand im Foto). Sichtung aller Fotos (Vorgeschichte, Vorstellung, Gespräche mit Moment-Liste, Moment,
+  Folgen, neun Rückfragen, drei mit dem Abzeichen „Störung −1“, Resümees mit Leisten und „Jetzt sichtbar“, Nachfrage,
+  Auflösung, Ende): nichts abgeschnitten, keine Überlappung außer den gewollten Rückfragen über der Karte, keine
+  leeren Karten, keine englischen Reste oder Platzhalter, Namen richtig. Offen für Menschen (Ton und Gestaltung, kein
+  Fehler im Code): in der Auflösung je Baustein ein eigener Schalter „Erzählerstimme“ (mit „Dein Moment“ rund 20,
+  Aufbau von `main`); vier gleich gebaute Karten „Eine Spürnase der Nacht ist …“; drei Epiloge nacheinander „… hat in
+  dieser Nacht nicht alles verloren, was er/sie schützen wollte“; Damirs Randnotiz der Nachfrage wiederholt fast
+  wörtlich, was er in Runde 1 erzählt; „Ostsaal“ (`raeume.json`, schon auf `main`) neben „Ost-Saal“ in den Texten.
+  `flutter analyze` sauber, `test/party_widgets` 544 grün.
 
 - 2026-10-28 Doku nachgezogen: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md` neuer Abschnitt „Finale (A-063
   bis A-067)“ (Ton der Einstimmung, Zahlen von „Dein Moment“ am echten Tisch, Kern-Epiloge, 320 px, Porträts im Druck,

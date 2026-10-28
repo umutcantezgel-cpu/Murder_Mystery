@@ -36,6 +36,14 @@ import 'streifzug_steuerung.dart';
 ///   Einstimmung. Mit Skript geht es sie Schritt für Schritt durch
 ///   (Fotostellen `vorgeschichte` und `vorstellung` am ersten Schritt jedes
 ///   Teils); `bis=` überspringt sie
+/// - `einfluss=1`: „Dein Moment“ (Finale §3), wie der Assistent ihn einschaltet,
+///   nur in Akten mit dem Zusatz `einfluss`. Mit Skript zieht in den Gesprächen
+///   jede Rolle verdeckt den Zug, den ein Bot an ihrer Stelle zöge
+///   (Fotostelle `moment_r<n>` an der ersten verdeckten Ansicht), zu Beginn
+///   der Ermittlung werden die Folgen gelesen (`folgen_r<n>`), eine endgültige
+///   Wahl mit Tischwert heißt `endgueltig_<entscheidung>_abzeichen`, und vor
+///   der Anklage nutzt es eine offene Nachfrage (`nachfrage`). Mit `bis=`
+///   ziehen die Bots ohne Fotostellen; die Gruppenwahl entfällt
 ///
 /// Im Modell befragung erledigt das Skript die Befragungen jeder Runde selbst
 /// (erste Frage, feste und so viele freie wie erlaubt). Im langen Abend geht
@@ -72,6 +80,9 @@ class PartyDev {
   /// Vorgeschichte und Vorstellung (`einstimmung=1`, A-063).
   final bool einstimmung;
 
+  /// „Dein Moment“ (`einfluss=1`, Finale §3).
+  final bool einfluss;
+
   const PartyDev({
     this.fall = 'schlosskeller',
     this.code,
@@ -93,6 +104,7 @@ class PartyDev {
     this.gespraechSchritte = 0,
     this.fassung = Abendfassung.kurz,
     this.einstimmung = false,
+    this.einfluss = false,
   });
 
   /// Aus den URL-Parametern; `null` ohne `party=`.
@@ -123,6 +135,7 @@ class PartyDev {
       gespraechSchritte: int.tryParse(q['gespraech']?.split(',').elementAtOrNull(1) ?? '') ?? 0,
       fassung: Abendfassung.lesen(q['fassung']),
       einstimmung: q['einstimmung'] == '1',
+      einfluss: q['einfluss'] == '1',
     );
   }
 
@@ -131,6 +144,9 @@ class PartyDev {
 
   /// Einstimmung für die Sitzung [s]: nur, wenn die Akte eine hat.
   bool einstimmungFuer(PartySitzung s) => einstimmung && s.daten.einstimmung != null;
+
+  /// „Dein Moment“ für die Sitzung [s]: nur, wenn die Akte ihn hat.
+  bool einflussFuer(PartySitzung s) => einfluss && s.daten.einfluss != null;
 
   /// Wartet das Skript an der Fotostelle [name] auf den Fotografen?
   bool fotoMitPause(String name) => fotos && (fotoNur?.any(name.startsWith) ?? true);
@@ -148,6 +164,9 @@ class PartySkript {
   final PartyDev dev;
   bool _laeuft = false;
   final _fotografierteAktionen = <int>{};
+
+  /// Die eine Nachfrage vor der Anklage ist genutzt („Dein Moment“, §3.5).
+  bool _nachgefragt = false;
 
   String get _entscheidungen => (dev.skript?.elementAtOrNull(0) ?? 'best');
   String get _gruppe => (dev.skript?.elementAtOrNull(1) ?? 'a');
@@ -209,7 +228,7 @@ class PartySkript {
         s.zurEinrichtung();
       case PartyPhase.einrichtung:
         await _foto('einrichtung');
-        s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s));
+        s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s), einfluss: dev.einflussFuer(s));
         if (dev.dauerSekunden != null) s.rundendauer = Duration(seconds: dev.dauerSekunden!);
         if (dev.zeitraffer != null) s.zeitraffer = dev.zeitraffer!;
       case PartyPhase.intro when s.einstimmung != null:
@@ -235,6 +254,12 @@ class PartySkript {
         await _streifzugEntscheiden();
       case PartyPhase.entscheidungen:
         await _entscheiden();
+      // „Dein Moment“ (Finale §3): Nach den Befragungen zieht jede Rolle ihren Moment.
+      case PartyPhase.gespraeche when s.einfluss:
+        await _foto('gespraeche_r${s.runde}');
+        befragungenErledigen(s);
+        await _momentZiehen();
+        s.weiter();
       case PartyPhase.gruppenwahl:
         if (s.verdeckt != null) {
           final i = s.besetzt.indexOf(s.verdeckt!);
@@ -253,7 +278,12 @@ class PartySkript {
           s.weiter();
         }
       case PartyPhase.anklage:
-        if (s.angeklagt == null) {
+        // „Dein Moment“ (§3.5): Ist eine Nachfrage offen, nutzt das Skript eine, dann klagt es an.
+        if (s.angeklagt == null && !_nachgefragt && s.nachfragenOffen > 0 && s.nachfrageOptionen.isNotEmpty) {
+          _nachgefragt = true;
+          s.nachfrage(s.nachfrageOptionen.first);
+          await _foto('nachfrage');
+        } else if (s.angeklagt == null) {
           await _foto('anklage');
           final pfad = s.spiel.pfad;
           final wer = switch (_anklage) {
@@ -333,6 +363,53 @@ class PartySkript {
     }
   }
 
+  /// „Dein Moment“ (Finale §3, `einfluss=1`): Reihum öffnet jede Rolle, die
+  /// noch nicht gezogen hat, ihren Moment verdeckt und zieht den Zug, den ein
+  /// Bot an ihrer Stelle zöge ([momentBotZug]). An der ersten verdeckten
+  /// Ansicht der Runde ist die Fotostelle `moment_r<n>`. Ohne Schicht geschieht nichts.
+  Future<void> _momentZiehen() async {
+    final s = sitzung;
+    final e = s.einflussAbend;
+    if (e == null || !s.einfluss) return;
+    // Alle Bots sehen dasselbe öffentliche Bild vor der Runde (wie beim Wechsel in die Ermittlung).
+    final lage = e.botLage();
+    var erste = true;
+    for (final rolle in [...s.momentOffen]) {
+      s.momentZeigen(rolle);
+      await _warte();
+      if (erste) await _foto('moment_r${s.runde}');
+      erste = false;
+      final z = momentBotZug(s, rolle, lage);
+      s.momentZug(rolle, z.art, ziel: z.ziel, tipp: z.tipp);
+    }
+  }
+
+  /// Der Zug, den ein Bot für [rolle] zöge ([botZug] aus dem Salz des Abends,
+  /// öffentliches Bild [lage]). Passt er nicht zu dem, was die verdeckte Ansicht
+  /// erlaubt, hilft die Rolle (in der Tipp-Runde mit dem ersten Tipp). Nur bei
+  /// offener verdeckter Ansicht von [rolle].
+  static ({ZugArt art, String? ziel, String? tipp}) momentBotZug(PartySitzung s, String rolle, BotLage lage) {
+    final e = s.einflussAbend!;
+    final m = s.momentSicht(rolle);
+    final z = botZug(e.regeln, salz: e.salz, rolle: rolle, runde: s.runde, lage: lage);
+    final ziele = m.ziele[z.art] ?? const <String>[];
+    final passt = m.arten.contains(z.art) && (ziele.isEmpty ? z.ziel == null : ziele.contains(z.ziel)) && (m.tipps.isEmpty ? z.tipp == null : m.tipps.contains(z.tipp));
+    if (passt) return (art: z.art, ziel: z.ziel, tipp: z.tipp);
+    return (art: ZugArt.helfen, ziel: null, tipp: m.tipps.firstOrNull);
+  }
+
+  /// Wie [_momentZiehen], ohne Pausen und Fotostellen (Standbild-Einstieg `bis=`).
+  static void momenteZiehen(PartySitzung s) {
+    final e = s.einflussAbend;
+    if (e == null || !s.einfluss) return;
+    final lage = e.botLage();
+    for (final rolle in [...s.momentOffen]) {
+      s.momentZeigen(rolle);
+      final z = momentBotZug(s, rolle, lage);
+      s.momentZug(rolle, z.art, ziel: z.ziel, tipp: z.tipp);
+    }
+  }
+
   /// Erledigt die Befragungen der laufenden Runde (Modell befragung, A-051): jede
   /// feste und so viele freie, wie die Runde erlaubt, je mit der ersten Frage.
   /// Reihum ist die Person danach beantwortet. Ohne Befragungen geschieht nichts.
@@ -388,7 +465,7 @@ class PartySkript {
         case PartyPhase.titel:
           s.zurEinrichtung();
         case PartyPhase.einrichtung:
-          s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s));
+          s.einrichten(rollen: dev.rollen ?? 7, detektiv: dev.detektiv, code: dev.fallCode(s.kanon), fassung: dev.fassungFuer(s), einstimmung: dev.einstimmungFuer(s), einfluss: dev.einflussFuer(s));
         case PartyPhase.entscheidungen:
           // Nur der explizite Standbild-Einstieg überspringt das Rendering.
           // Der vollständige E2E-Lauf unten wartet auf echte Kartenaktionen.
@@ -432,6 +509,8 @@ class PartySkript {
             continue;
           }
           befragungenErledigen(s);
+          // „Dein Moment“: Erst ziehen alle ihren Moment, dann geht es in die Ermittlung.
+          if (s.phase == PartyPhase.gespraeche) momenteZiehen(s);
           s.weiter();
       }
     }
@@ -530,6 +609,7 @@ class PartySkript {
       return;
     }
     if (await _naechsteErkundung(gespraeche: true)) return;
+    await _momentZiehen();
     s.weiter();
   }
 
@@ -551,7 +631,7 @@ class PartySkript {
     final s = sitzung;
     final st = s.streifzug;
     if (!st.bereit || _unterwegs()) return;
-    if (st.modus == StreifzugModus.entscheidung) return _entscheiden();
+    if (st.modus == StreifzugModus.entscheidung || s.folgenOffen) return _entscheiden();
     final offen = st.offen;
     if (offen != null) return _karteBearbeiten(offen);
     final entscheidung = s.laufendeEntscheidung != null || s.zug != null;
@@ -566,6 +646,12 @@ class PartySkript {
 
   Future<void> _entscheiden() async {
     final s = sitzung;
+    // „Dein Moment“: Zu Beginn der Ermittlung liegen die Folgen offen; erst lesen, dann ermitteln.
+    if (s.folgenOffen) {
+      await _foto('folgen_r${s.runde}');
+      s.folgenGelesen();
+      return;
+    }
     final zug = s.zug;
     if (zug != null) {
       switch (zug.phase) {
@@ -597,7 +683,9 @@ class PartySkript {
     }
     final v = s.vorschlag;
     if (v != null) {
-      await _foto('endgueltig_${v.entscheidung}');
+      // Mit „Dein Moment“ trägt die Rückfrage das Abzeichen des Tischwerts (§3.3), wenn er nicht 0 ist.
+      final abzeichen = (s.tischwert(v.option) ?? 0) != 0 ? '_abzeichen' : '';
+      await _foto('endgueltig_${v.entscheidung}$abzeichen');
       s.bestaetigen();
       return;
     }
