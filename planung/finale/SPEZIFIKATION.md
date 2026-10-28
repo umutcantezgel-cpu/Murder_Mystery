@@ -552,3 +552,10 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       es sonst nur bei besetztem Pawel (ab 19 Rollen) oder wenn er auspackt. Geprüft gegen die Story-Bibel (§7
       Beobachtungen, Figur 19). `einfluss_soll.g.dart` nach E-048 neu erzeugt: 457 der 1.000 Summen ändern sich, alle
       an Abenden mit der Wahl `e1_1_damir`; Gegenprobe mit zurückgenommener Zeile in `einfluss.json`: vorige Liste passt.
+  46. §3.10 **Protokoll der Nacht ohne Überlappung:** Name und Zug-Sinnbilder stehen oben auf einer Linie (jedes
+      Sinnbild mittig auf der Höhe der ersten Namenszeile), das Zielfoto hängt darunter in derselben Zeile; Zeilen mit
+      Foto halten 12 px Abstand nach unten (Schatten des Abzugs). Vorher stand das Sinnbild über dem Foto und ragte in
+      die Zeile davor. Der Name bricht bei großer Schrift nicht mehr mitten im Wort (`MGanzeWorte`). Dabei gefunden:
+      Bei 320 px und 200 % Schrift lief der Leistenname „Zusammenhalt“ 15 px über den Rand; er wird jetzt kleiner
+      (`LeistenAnzeige`, auch im Resümee und beim Gast). Beweis: `test/party_widgets/protokoll_nacht_test.dart`
+      (320/390 px × 100/200 %, Rechtecke der Zeilen, Sinnbilder, Fotos und Schattenabstand).

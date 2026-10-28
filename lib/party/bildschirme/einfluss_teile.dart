@@ -210,10 +210,11 @@ class LeistenAnzeige extends StatelessWidget {
               spacing: 8,
               runSpacing: 4,
               children: [
+                // Schmal und mit großer Schrift wird der Name kleiner, statt über den Rand zu laufen.
                 Row(mainAxisSize: MainAxisSize.min, children: [
                   Icon(symbol, size: 20, color: farbe),
                   const SizedBox(width: 6),
-                  Text(name, style: MPapierSchrift.text),
+                  Flexible(child: MGanzeWorte(name, stil: MPapierSchrift.text, minimum: 13)),
                 ]),
                 Row(mainAxisSize: MainAxisSize.min, children: [
                   for (var i = 0; i < hoechstens; i++)
@@ -622,7 +623,7 @@ class EinflussAufloesungAnsicht extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           MomentKopf(l.einfluss_protokoll_titel),
-          for (final r in rollen) _protokollZeile(l, r, runden),
+          for (final r in rollen) _protokollZeile(context, l, r, runden),
           const SizedBox(height: MMass.s12),
           MomentKopf(l.einfluss_sterne_titel),
           Wrap(
@@ -675,16 +676,23 @@ class EinflussAufloesungAnsicht extends StatelessWidget {
   }
 
   /// Eine Rolle im Protokoll: Name, dann je Runde das Sinnbild des Zugs und, bei Zügen mit Ziel, dessen Abzug.
-  Widget _protokollZeile(L l, String rolle, List<int> runden) {
+  /// Name und Sinnbilder stehen oben auf einer Linie: Jedes Sinnbild sitzt mittig auf der Höhe der ersten
+  /// Namenszeile, das Zielfoto hängt darunter in derselben Zeile. So ragt nichts in die Zeile davor, auch bei
+  /// großer Schrift; unter einem Foto bleibt bis zur nächsten Zeile Platz für seinen Schatten.
+  Widget _protokollZeile(BuildContext context, L l, String rolle, List<int> runden) {
     final d = darstellung;
+    final zuege = {for (final r in runden) r: aufloesung.protokoll[r]!.where((z) => z.rolle == rolle).firstOrNull};
+    final stil = MPapierSchrift.text;
+    final linie = MediaQuery.textScalerOf(context).scale(stil.fontSize ?? 17) * (stil.height ?? 1.2);
     return Padding(
       key: ValueKey('protokoll-$rolle'),
-      padding: const EdgeInsets.only(bottom: 6),
+      padding: EdgeInsets.only(bottom: zuege.values.any((z) => z?.ziel != null) ? MMass.s12 : 6),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Text(d.name(rolle), style: MPapierSchrift.text)),
-          for (final r in runden)
-            if (aufloesung.protokoll[r]!.where((z) => z.rolle == rolle).firstOrNull case final z?)
+          Expanded(child: MGanzeWorte(d.name(rolle), stil: stil, minimum: 13)),
+          for (final MapEntry(key: r, value: z) in zuege.entries)
+            if (z != null)
               Semantics(
                 label: '${l.einfluss_runde(r)}: ${d.zugKurz(l, z, ich: rolle)}',
                 excludeSemantics: true,
@@ -693,7 +701,10 @@ class EinflussAufloesungAnsicht extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(zugSymbol(z.art), size: 20, color: z.bot ? MRoh.tinteLeise : MRoh.tinteBlau),
+                      SizedBox(
+                        height: linie < 20 ? 20 : linie,
+                        child: Center(child: Icon(zugSymbol(z.art), size: 20, color: z.bot ? MRoh.tinteLeise : MRoh.tinteBlau)),
+                      ),
                       if (z.ziel case final ziel?) Padding(padding: const EdgeInsets.only(top: 2), child: d.bild(ziel, 22)),
                     ],
                   ),
