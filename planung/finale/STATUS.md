@@ -14,7 +14,7 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 | 3 | Inhalte einspielen (`setting.json`, Texte, `erzaehlerakte.json`, `einfluss.json`, `akten.json`), `kanon_tor` | fertig: eingespielt, `akte_pruefen` 5 × 0, Änderung 7 im Kern (Spezifikation „Änderungen“ 25–28) |
 | 4 | App offline/online, Raum/Server/Matrizen für Einfluss, Druck und CLI | fertig: E2 (Protokoll 5, Raum, Server, Matrizen) und N2 (Druck, `--erzaehlerakte`) zusammengeführt in 345018c, A-N und A-E in 088831b/d48ae60, Solo-Browserprobe 501d8e6; App 812 grün, `pruefen.sh ci` lokal grün |
 | 5 | Review, Simulation und Feinabstimmung, Doku, Browserproben | fertig bis auf die Sichtprüfung durch Menschen: Prüfung nach der App-Zusammenführung (17 Befunde behoben, Änderungen 29–36), Abstimmung am Bot-Tisch (E-048, Änderungen 20–23), Doku in a5f4d7f (ANLEITUNG §4–§7, Druckspiel, README, Änderungen 37–43), nach dem Container-Neustart FUER-DEN-NUTZER (Abschnitt „Finale“), TON-LEITFADEN (A-061) und `planung/langer-abend/STATUS.md` Zeile M12; Solo-Browserprobe mit beiden Schichten in 501d8e6 (vor der Befundbehebung); Browserprobe des Finales auf dem Stand nach der Befundbehebung erledigt (`tool/e2e/finale.mjs`: Einstimmung und „Dein Moment“ über die Entwicklerroute `einfluss=1`, grün, 44 Fotos gesichtet; Prüfjournal 2026-10-28); die lange Probe läuft noch ohne Schicht (kein `einfluss=1`) |
-| 6 | `pruefen.sh ci`, Push, CI grün | fertig: CI-Lauf 113 auf d49dc97 (Endstand mit Politur) grün in allen Jobs (Prüfung mit Browserproben, Android, iOS, Web, Release), Vorab-Release `mordakte-113.1`; davor Läufe 110, 111, 112 grün. Offen: Zusammenführung nach `main` (Besitzer entscheidet) |
+| 6 | `pruefen.sh ci`, Push, CI grün, `main` | fertig: Randnotizen angeglichen (89e9eef, CI grün), nach `main` zusammengeführt (bc29db4), CI auf `main` grün, Release `mordakte-115.1` ist „latest“ (APK, IPA, Web). Pages-Job rot, weil GitHub Pages im Repo nicht aktiviert ist (einmaliger Schalter des Besitzers, README) |
 
 ## Wiederaufnahme
 
@@ -30,6 +30,13 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
   (A-063 bis A-067)“.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-28 Abschluss: Besitzer entschied „Jetzt nach main“ und „Randnotizen angleichen“. 89e9eef (sieben
+  Befragungen mit neuen pfadgleichen Randnotizen, letzte Neuerzeugung von `einfluss_soll.g.dart` nach E-048, Gegenprüfung
+  ohne Befund) mit CI grün; danach `main` ca53adf → bc29db4 (Merge-Commit, ohne Konflikt). CI-Lauf auf `main` grün in
+  Prüfung, Android, iOS, Web und Release; `mordakte-115.1` ist „latest“. Ab jetzt gilt für `einfluss_soll.g.dart` „nie neu
+  schreiben“ (E-048). Offen bleiben nur die Punkte für Menschen in FUER-DEN-NUTZER („Finale“) sowie das Aufräumen der
+  Hilfsbranches `finale/*` und das Aktivieren von GitHub Pages durch den Besitzer.
 
 - 2026-10-28 Stufe 5, Politur 4 (Besitzer „Ja, angleichen“, Spezifikation „Änderungen“ 47): Die Randnotizen aller
   acht Befragungen bringen Neues. Alle 19 Optionen von `einfluss.json` geprüft (Pflichtgespräch in
