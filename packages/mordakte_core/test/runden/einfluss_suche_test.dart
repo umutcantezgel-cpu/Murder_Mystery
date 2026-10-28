@@ -351,6 +351,18 @@ void main() {
       expect(p.tisch('e2_2_tasche'), 0);
     });
 
+    test('Damirs Randnotiz bringt Neues: nicht, was Damir selbst erzählt („Änderungen“ 45)', () {
+      // Damirs Beobachtungen nennt er im Gespräch oder liest der Erzähler in Runde 1 für ihn; die anderen
+      // gelten nicht in allen Pfaden. Die Randnotiz zu „Damir befragen“ stammt darum von jemand anderem.
+      final notizen = _r.randnotizen['e1_1_damir']!;
+      expect(notizen, isNotEmpty);
+      for (final b in notizen) {
+        expect(_erm.beobachtungJson(b)?['wer'], isNot('enes'), reason: b);
+        expect(_erm.beobachtungJson(b)?['pfade'], 'alle', reason: b);
+      }
+      expect(Erzaehler(kanon).npcPlan[1]?['enes'], isNot(anyElement(isIn(notizen))));
+    });
+
     test('Befragung: redselig bringt eine Randnotiz, zögert kostet 3 Minuten, mauert verzögert bis zum Resümee', () {
       for (final (art, soll) in [(ZugArt.zeigen, BefragungsLage.redselig), (ZugArt.decken, BefragungsLage.mauert)]) {
         final p = partie('ahmet', const FesterWuerfel.neutral(), salz: 'befragung-${art.name}');
@@ -371,7 +383,7 @@ void main() {
         expect(p.wuerfe.where((w) => w.id == 'e1_1'), isEmpty, reason: 'würfelfrei');
         if (soll == BefragungsLage.redselig) {
           expect(vor - p.restMinuten, 6);
-          expect(f.randnotizen, ['b_damir_an_der_theke']);
+          expect(f.randnotizen, ['b_pawel_schneider']);
           expect(p.zug!.funde, isNotEmpty);
           expect(p.fakten, containsAll(_erm.faktenVon('e1_1_damir', 'ahmet')));
         } else {

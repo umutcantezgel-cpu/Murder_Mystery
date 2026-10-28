@@ -544,3 +544,11 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       Schicht nicht. Einfluss-Katalog 293 Schlüssel (Vorlesetexte 112). `einfluss_soll.g.dart` nach E-048 neu erzeugt:
       686 der 1.000 Summen ändern sich, genau die Abende mit mehr als einer Spürnase (nachgezählt); einzige Ursache
       gegengeprüft: mit der zurückgenommenen Zeile in `Erzaehler.einflussAufloesung` passt die vorige Liste.
+  45. §3.5 **Randnotiz zu „Damir befragen“:** `e1_1_damir` zeigt `b_pawel_schneider` („Herr Schneider muss jeden Schaden
+      der Stiftung melden. Darum ist er beim Geld so streng.“) statt `b_damir_an_der_theke`. Die alte Notiz wiederholte
+      fast wörtlich, was Damir in Runde 1 erzählt (Befragung oder Erzähler bei unbesetztem Damir); Damirs übrige
+      Beobachtungen gelten nicht in allen Pfaden. Pawels Wissen gilt in allen Pfaden, belastet und entlastet niemanden,
+      steht in keiner Begründungskette und passt zu Damirs Ärger mit Herrn Schneider über das Teegeschirr; erzählt wird
+      es sonst nur bei besetztem Pawel (ab 19 Rollen) oder wenn er auspackt. Geprüft gegen die Story-Bibel (§7
+      Beobachtungen, Figur 19). `einfluss_soll.g.dart` nach E-048 neu erzeugt: 457 der 1.000 Summen ändern sich, alle
+      an Abenden mit der Wahl `e1_1_damir`; Gegenprobe mit zurückgenommener Zeile in `einfluss.json`: vorige Liste passt.
