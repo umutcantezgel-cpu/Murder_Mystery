@@ -85,6 +85,18 @@ class ErzaehlerakteJobTests(unittest.TestCase):
         ordner = [re.search(r'--aus "?([^"\s]+)', a).group(1) for a in aufrufe]
         self.assertEqual(len(set(ordner)), 2, "eigener --aus-Ordner für „Dein Moment“")
         self.assertIn("erzaehlerakte-dein-moment.pdf", self.block)
+        # Die Warnung über fehlende Porträts steht auf stderr: Nur mit „2>&1“ landet sie im
+        # Log, das grep danach liest. Ohne würde der Job still Akten ohne Bilder ausliefern.
+        for a in aufrufe:
+            name = "dein-moment" if "--dein-moment" in a else "druckspiel"
+            self.assertRegex(a, rf'--aus "\$aus/{name}" 2>&1 \| tee "\$aus/{name}\.log"$', a)
+
+    def test_dateien_nicht_vertauscht(self):
+        # Druckspiel nach erzaehlerakte.pdf, „Dein Moment“ nach erzaehlerakte-dein-moment.pdf;
+        # der Job prüft nur, dass beide verschieden sind, nicht welche welche ist.
+        self.assertIn('cp "$aus/druckspiel/erzaehlerakte.pdf" "$GITHUB_WORKSPACE/out/erzaehlerakte.pdf"', self.block)
+        self.assertIn('cp "$aus/dein-moment/erzaehlerakte.pdf" "$GITHUB_WORKSPACE/out/erzaehlerakte-dein-moment.pdf"', self.block)
+        self.assertEqual(self.block.count("\n          cp "), 2)
 
     def test_nie_fall_code_pfad_oder_paket(self):
         for verboten in ("--code", "--paket", "--pfad", "--personen", "--n "):
@@ -92,10 +104,13 @@ class ErzaehlerakteJobTests(unittest.TestCase):
 
     def test_abbruch_bei_fehlenden_portraets_wenig_seiten_und_gleichen_dateien(self):
         self.assertIn(WARNUNG, self.block)
+        # Ein Treffer bricht ab: kein „|| true“, kein „!“, beide Logs.
+        self.assertIn(f"if grep -F '{WARNUNG}' \"$aus/druckspiel.log\" \"$aus/dein-moment.log\"; then", self.block)
         # Derselbe Text steht in party_druck.dart: Ändert sich die Warnung, fällt dieser Test.
         self.assertIn(f"'{WARNUNG} (", PARTY_DRUCK.read_text(encoding="utf-8"))
         self.assertIn("pdfinfo", self.block)
-        self.assertIn("-lt 23", self.block)
+        # Deckblatt, Personen, Netz mit Legende (zwei Seiten) und 20 Figuren: 24 Seiten.
+        self.assertIn('if [ "${seiten:-0}" -lt 24 ]; then', self.block)
         self.assertIn("if cmp -s erzaehlerakte.pdf erzaehlerakte-dein-moment.pdf; then", self.block)
         self.assertNotRegex(self.block, r"!\s*cmp", "kein „! cmp“ unter set -e")
 

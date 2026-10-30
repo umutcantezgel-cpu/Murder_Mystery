@@ -6,7 +6,9 @@ name: Prüfen und Builds
 #   ios     unsignierte IPA zum Sideloaden (darf fehlschlagen)
 #   web     mordakte-web.zip und GitHub Pages
 #   erzaehlerakte  Erzählerakte des Schlosskellers als PDF ohne Besetzung (für jede Personenzahl),
-#           einmal mit den Zielen des Druckspiels, einmal für „Dein Moment“ (darf fehlen)
+#           einmal mit den Zielen des Druckspiels, einmal für „Dein Moment“. Schlägt der Job fehl,
+#           entsteht das Release trotzdem, ohne die PDFs; der Lauf ist dann rot (nachholen mit
+#           „Re-run failed jobs“, das ein neues Release mit neuem Tag erzeugt)
 #   release GitHub-Release mit festen Dateinamen und SHA256SUMS.txt
 # Die 84 Party-E2E-Läufe (e2e_voll) laufen nur auf Wunsch (workflow_dispatch) und wöchentlich.
 on:
@@ -379,14 +381,14 @@ jobs:
           for f in erzaehlerakte.pdf erzaehlerakte-dein-moment.pdf; do
             seiten="$(pdfinfo "$f" | awk '/^Pages:/ {print $2}')"
             echo "$f: ${seiten:-?} Seiten, $(wc -c <"$f") Bytes"
-            # Deckblatt, Herr Schneider und der Detektiv, Netz und 20 Figuren.
-            if [ "${seiten:-0}" -lt 23 ]; then
-              echo "$f hat nur ${seiten:-0} Seiten (mindestens 23 erwartet)." >&2
+            # Deckblatt, Herr Schneider und der Detektiv, Netz mit Legende (zwei Seiten) und 20 Figuren.
+            if [ "${seiten:-0}" -lt 24 ]; then
+              echo "$f hat nur ${seiten:-0} Seiten (mindestens 24 erwartet)." >&2
               exit 1
             fi
           done
           if cmp -s erzaehlerakte.pdf erzaehlerakte-dein-moment.pdf; then
-            echo "Beide Erzählerakten sind gleich: Die Ziele von „Dein Moment“ fehlen." >&2
+            echo 'Beide Erzählerakten sind gleich: Die Ziele von „Dein Moment“ fehlen.' >&2
             exit 1
           fi
       - name: Erzählerakten sichern
@@ -488,6 +490,7 @@ jobs:
             else
               printf -- '- Erzählerakte für „Dein Moment“: in diesem Lauf keine PDF\n'
             fi
+            printf -- '- PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken.\n'
             printf -- '- `SHA256SUMS.txt`: Prüfsummen aller Dateien (`sha256sum -c SHA256SUMS.txt`)\n\n'
             printf '## Installation\n\n'
             printf -- '- **Android:** APK auf dem Handy öffnen und die Installation aus dieser Quelle erlauben (unbekannte Quellen).\n'
@@ -495,10 +498,9 @@ jobs:
             if [ -n "$zertifikat" ]; then printf '  Zertifikat SHA-256: `%s`\n' "$zertifikat"; fi
             printf '  Bei einem Signaturwechsel (Test- auf Release-Schlüssel oder zurück) die alte App zuerst deinstallieren.\n'
             printf -- '- **iOS:** Die IPA ist unsigniert. Mit AltStore oder Sideloadly auf dem eigenen Gerät signieren und installieren.\n'
-            printf -- '- **Web:** ZIP entpacken und auf einen beliebigen statischen Webhost legen (Wurzelverzeichnis).\n'
-            printf -- '- PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken.\n\n'
+            printf -- '- **Web:** ZIP entpacken und auf einen beliebigen statischen Webhost legen (Wurzelverzeichnis).\n\n'
             printf 'Der Schlosskeller funktioniert offline. Online läuft ohne Einrichtung über das eingebaute Supabase-Relais (Raumcode). '
-            printf 'Spielanleitung: docs/ANLEITUNG.md. Aktueller Funktions- und Prüfstand: planung/langer-abend/STATUS.md im Repository.\n'
+            printf 'Spielanleitung: docs/ANLEITUNG.md. Aktueller Funktions- und Prüfstand: planung/finale/STATUS.md im Repository.\n'
           } >release/NOTES.md
 
           # „latest“ nur, wenn dieser Stand noch die Spitze von main oder des Arbeitsbranches ist.
