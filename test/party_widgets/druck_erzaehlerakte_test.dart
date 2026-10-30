@@ -5,6 +5,9 @@
 // Moment“) und der Personenzahl der Einstellung. Sie ist in allen Pfaden dieselbe. Nie in
 // der Rollenvergabe, die der ganze Tisch sieht, nie ohne Druckspiel, nie im Solo, nie bei
 // Akten ohne Erzählerakte. Im Browser: „Herunterladen: Erzählerakte“.
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +20,7 @@ import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/bildschirme/rollen.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/datei_teilen.dart';
+import 'package:mordakte/party/druck_portraets.dart';
 import 'package:mordakte/party/druck_speichern.dart';
 import 'package:mordakte/party/druck_tafel.dart';
 import 'package:mordakte/party/sitzung.dart';
@@ -94,6 +98,28 @@ Future<void> _tippeUndWarte(WidgetTester t, Finder knopf, bool Function() fertig
 /// Bytes der geteilten Datei.
 Future<Uint8List> _bytes(WidgetTester t, ShareParams p) async => (await t.runAsync(() => p.files!.single.readAsBytes()))!;
 
+/// Die Test-Assets wie `flutter test` sie liefert (`UNIT_TEST_ASSETS`, ohne Paketpräfix).
+Future<ByteData?> _testAsset(ByteData? nachricht) async {
+  final key = utf8.decode(nachricht!.buffer.asUint8List());
+  final f = File('${Platform.environment['UNIT_TEST_ASSETS']}/$key');
+  return f.existsSync() ? ByteData.sublistView(f.readAsBytesSync()) : null;
+}
+
+/// Lässt das Laden von [asset] einmal scheitern (etwa eine Schrift beim ersten Tipp);
+/// alles andere kommt aus den Test-Assets.
+void _einmalOhne(WidgetTester t, String asset) {
+  var gescheitert = false;
+  final m = t.binding.defaultBinaryMessenger;
+  m.setMockMessageHandler('flutter/assets', (n) {
+    if (!gescheitert && utf8.decode(n!.buffer.asUint8List()) == asset) {
+      gescheitert = true;
+      return Future.value();
+    }
+    return _testAsset(n);
+  });
+  addTearDown(() => m.setMockMessageHandler('flutter/assets', _testAsset));
+}
+
 /// Der Knopf der Erzählerakte in der Druckmappe (Schlüssel `druck-erzaehlerakte-<n>`).
 final _knopf = find.byWidgetPredicate((w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('druck-erzaehlerakte'));
 
@@ -137,6 +163,55 @@ void main() {
     expect(angefragt, hasLength(1));
   });
 
+  testWidgets('Scheitern die Porträts oder sind sie unlesbar, entsteht die Akte ohne Bilder', (t) async {
+    final s = _sitzung(rollen: 5);
+    final ohneBilder = await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 5, portraets: const {}));
+    final vorher = druckPortraetsUeber;
+    addTearDown(() => druckPortraetsUeber = vorher);
+    for (final (warum, bilder) in [
+      ('Zeichner wirft', (Kanon k) async => throw StateError('PNG geht hier nicht')),
+      ('unlesbares Bild', (Kanon k) async => {for (final id in ersatzPortraets(k).keys) id: Uint8List.fromList(const [1, 2, 3])}),
+    ]) {
+      druckPortraetsUeber = bilder;
+      final geteilt = _zeuge();
+      await _zeige(t, KeyedSubtree(key: ValueKey(warum), child: _mappe(s)));
+      await _tippeUndWarte(t, _knopf, () => geteilt.isNotEmpty);
+      expect(find.text(_de.druck_datei_fehler), findsNothing, reason: warum);
+      final bytes = await _bytes(t, geteilt.single);
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-', reason: warum);
+      expect(bytes, ohneBilder, reason: warum);
+    }
+  });
+
+  testWidgets('Scheitert der erste Tipp, steht der Fehler da, und der nächste Tipp baut neu und teilt die Datei', (t) async {
+    final angefragt = mitErsatzPortraets();
+    final geteilt = _zeuge();
+    _einmalOhne(t, 'assets/fonts/PlayfairDisplay-Variabel.ttf');
+    final s = _sitzung(rollen: 5);
+    await _zeige(t, _mappe(s));
+    await _tippeUndWarte(t, _knopf, () => find.text(_de.druck_datei_fehler).evaluate().isNotEmpty);
+    expect(find.text(_de.druck_datei_fehler), findsOneWidget);
+    expect(geteilt, isEmpty);
+    // Unter dem Knopf steht jetzt der Fehler: auf die Beschriftung tippen, nicht in die Mitte.
+    await _tippeUndWarte(t, find.text(s.ui('ui.druck.akte.titel')), () => geteilt.isNotEmpty);
+    expect(find.text(_de.druck_datei_fehler), findsNothing);
+    expect(await _bytes(t, geteilt.single), await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 5)));
+    expect(angefragt, hasLength(1), reason: 'Der erste Versuch scheiterte schon an der Schrift');
+  });
+
+  testWidgets('Ändert sich die Personenzahl der Tafel, entsteht die Akte für die neue Zahl', (t) async {
+    mitErsatzPortraets();
+    final geteilt = _zeuge();
+    await _zeige(t, _mappe(_sitzung(rollen: 6)));
+    await _tippeUndWarte(t, _knopf, () => geteilt.isNotEmpty);
+    // Dieselbe Tafel (derselbe Zustand) mit einer Sitzung für acht Personen.
+    await _zeige(t, _mappe(_sitzung(rollen: 8)));
+    expect(find.byKey(const ValueKey('druck-erzaehlerakte-8')), findsOneWidget);
+    await _tippeUndWarte(t, _knopf, () => geteilt.length > 1);
+    expect(await _bytes(t, geteilt.first), await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 6)));
+    expect(await _bytes(t, geteilt.last), await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 8)));
+  });
+
   testWidgets('Zwei Codes aus verschiedenen Pfaden ergeben dieselbe Erzählerakte', (t) async {
     mitErsatzPortraets();
     final geteilt = _zeuge();
@@ -160,7 +235,8 @@ void main() {
       expect(find.text(_de.druck_erzaehlerakte_hinweis), findsNothing, reason: warum);
     }
 
-    // Die Rollenvergabe sieht der ganze Tisch: Druckspiel ja, Erzählerakte als Datei nie.
+    // Die Rollenvergabe sieht der ganze Tisch: Die Tafel „Druckfassung“ dort bietet die
+    // Erzählerakte nie an (verdeckt liegt sie mit Erzähler nur im eigenen Eintrag).
     for (final erzaehler in ['', 'Mia']) {
       final s = _sitzung(erzaehler: erzaehler);
       await _zeige(t, RollenBildschirm(sitzung: s));

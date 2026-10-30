@@ -321,15 +321,19 @@ void main() {
     expect(String.fromCharCodes(ohne.take(5)), '%PDF-');
     expect(ohne, await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 7)));
 
-    // Mit „Dein Moment“ im Browser: erst bauen, dann „Herunterladen: Erzählerakte“.
+    // Mit „Dein Moment“ im Browser: erst bauen, dann „Herunterladen“ (im engen Fuß ohne
+    // Dateinamen; der Bildschirmleser hört „Herunterladen: Erzählerakte“).
     final browser = _Browser();
     final vorher = dateiGeraet;
     dateiGeraet = browser;
     addTearDown(() => dateiGeraet = vorher);
     await _zeige(t, ErzaehlerakteSeite(key: const ValueKey('mit'), daten: s.daten, besetzt: s.besetzt, einfluss: true, rollen: 7));
-    final laden = find.text(_de.druck_datei_laden(s.ui('ui.druck.akte.titel')));
+    final laden = find.text(_de.druck_datei_laden_kurz);
     await _tippeUndWarte(t, _pdf, () => laden.evaluate().isNotEmpty);
     expect(laden, findsOneWidget);
+    final semantik = t.ensureSemantics();
+    expect(find.bySemanticsLabel(_de.druck_datei_laden(s.ui('ui.druck.akte.titel'))), findsOneWidget);
+    semantik.dispose();
     await t.tap(laden);
     await t.pump();
     final (name, mit) = browser.angeboten.single;

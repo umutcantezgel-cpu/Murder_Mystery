@@ -11,7 +11,8 @@
 // Die Zeiten hängen am Rechner. Ein verfehltes Zeitziel meldet die Probe deshalb als Warnung
 // (`ZEITZIEL VERFEHLT`); mit --zeitziel macht es sie rot. --drossel N rechnet wie ein langsameres Gerät
 // (Chrome-CPU-Drosselung wie leistung.mjs: 4 = mittleres, 6 = einfaches Handy), nur auf der Seite der
-// Schritte 2 bis 4. --ruhig öffnet alle Seiten mit „Bewegung reduzieren“ (Sanduhr statt Ladekreisel).
+// Schritte 2 bis 4. --ruhig öffnet alle Seiten mit „Bewegung reduzieren“ (der Dateiknopf zeigt beim Bauen
+// ohnehin immer die ruhende Sanduhr, seit der Ladekreisel die Erzählerakte im Browser auf über 20 s brachte).
 // Aufruf in tool/e2e: node druck.mjs [--breite 390] [--drossel 1] [--ruhig] [--zeitziel]
 //   (--breite: Breite für die Schritte 2 bis 4)
 // Ausgabe: fotos/druck/ (Fotos, kontaktbogen.png, die beiden PDFs, bericht.json).

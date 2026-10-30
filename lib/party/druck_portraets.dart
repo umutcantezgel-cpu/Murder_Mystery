@@ -10,8 +10,14 @@ import '../ui/widgets/portrait.dart';
 // und für den Detektiv (`detektiv-w`, `detektiv-m`) ein Brustbild als PNG auf
 // ruhigem, hellem Atelierhintergrund, aus demselben Zeichner wie im Spiel
 // (PortraitPainter, Aussehen aus `renderLook`). Die App zeichnet sie beim
-// Erstellen der Erzählerakte, die Bildwerkstatt (`tool/bild/druck_portraets_test.dart`)
-// für die Kommandozeile in 720 px.
+// Erstellen der Erzählerakte in 240 px, die Bildwerkstatt
+// (`tool/bild/druck_portraets_test.dart`) für die Kommandozeile in 720 px.
+//
+// Warum 240 px: Die Browserprobe (Web-Build, 390 px) maß für die Erzählerakte mit
+// 360 px im Mittel 20,7 s; ohne Ladekreis 8 bis 9 s, mit 240 px 5,2 bis 5,5 s, bei
+// vierfach gedrosselter CPU (mittleres Handy) 19,9 statt 27,5 bis 31,5 s. Die
+// JPEG-Umrechnung im Satz wächst mit der Fläche. Im PDF steht ein Porträt höchstens
+// 86 pt breit (1,2 Zoll); 240 px sind dort rund 200 dpi.
 
 /// Der Detektiv als Detektivin (`w`) oder Detektiv (`m`): Aussehen aus dem Kanon, dazu das
 /// Geschlecht für die Darstellung. `m` zeichnet genau die Figur des Spiels (das Spiel kennt
@@ -61,9 +67,10 @@ Future<Uint8List> portraetPng(LookDef look, {double groesse = 360}) async {
 }
 
 /// Alle Porträts der Druckfassung ([druckLooks]) als PNG, Schlüssel wie in
-/// `FestPortraets`. Zwischen zwei Bildern kommt die Oberfläche zum Zug (im
-/// Browser gibt es keine Isolates), damit der Ladehinweis weiterläuft.
-Future<Map<String, Uint8List>> druckPortraets(Kanon kanon, {double groesse = 360}) async {
+/// `FestPortraets`, in der App 240 px (siehe oben). Zwischen zwei Bildern kommt
+/// die Oberfläche zum Zug (im Browser gibt es keine Isolates): Eingaben und,
+/// online am Gastgeber, der Raum laufen weiter.
+Future<Map<String, Uint8List>> druckPortraets(Kanon kanon, {double groesse = 240}) async {
   final bilder = <String, Uint8List>{};
   for (final e in druckLooks(kanon).entries) {
     bilder[e.key] = await portraetPng(e.value, groesse: groesse);

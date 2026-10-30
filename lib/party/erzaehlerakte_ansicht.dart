@@ -787,12 +787,14 @@ class _ErzaehlerakteSeiteState extends State<ErzaehlerakteSeite> {
             art: MKnopfArt.zweit,
             onPressed: () => Navigator.of(context).maybePop(),
           ),
-          // Dieselbe Fassung als Datei, nur hier in der offenen Akte.
+          // Dieselbe Fassung als Datei, nur hier in der offenen Akte. Im Browser im
+          // engen Fuß nur „Herunterladen“/„Teilen“, damit die Figurenliste bei 320 px bleibt.
           if (rollen != null)
             DateiKnopf(
               key: ValueKey('erzaehlerakte-pdf-${widget.einfluss}-$rollen'),
               text: _de.erzaehlerakte_pdf,
               datei: _ui(widget.daten, 'ui.druck.akte.titel'),
+              kurz: true,
               icon: Icons.picture_as_pdf_rounded,
               bauen: () => _pdf(rollen),
             ),

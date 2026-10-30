@@ -3840,7 +3840,7 @@ abstract class L {
   /// Assistent, Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung)
   ///
   /// In de, this message translates to:
-  /// **'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter PDFs zum Ausdrucken.'**
+  /// **'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.'**
   String get abend_druck_nur_pdfs;
 
   /// No description provided for @profil_klasse_hinweis.
@@ -7011,6 +7011,18 @@ abstract class L {
   /// **'Herunterladen: {datei}'**
   String druck_datei_laden(String datei);
 
+  /// Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen
+  ///
+  /// In de, this message translates to:
+  /// **'Teilen'**
+  String get druck_datei_teilen_kurz;
+
+  /// Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden
+  ///
+  /// In de, this message translates to:
+  /// **'Herunterladen'**
+  String get druck_datei_laden_kurz;
+
   /// Druck: Erstellen oder Teilen der Datei ist gescheitert
   ///
   /// In de, this message translates to:
@@ -7044,7 +7056,7 @@ abstract class L {
   /// Druckmappe: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt
   ///
   /// In de, this message translates to:
-  /// **'Nur für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nicht weiter.'**
+  /// **'Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.'**
   String get druck_erzaehlerakte_hinweis;
 
   /// Akte: Knopf zu Steckbriefen und Charakterübersicht

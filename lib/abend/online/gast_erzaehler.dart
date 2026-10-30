@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mordakte_core/mordakte_core.dart' show LookDef;
+import 'package:mordakte_core/mordakte_core.dart' show Besetzung, LookDef;
 import 'package:mordakte_core/runden.dart' show Sitz;
 
 import '../../l10n/lookup.dart';
@@ -323,6 +323,19 @@ bool gastErzaehlerakteErlaubt(GastDienst d) {
 /// privat (`deinMoment`), ohne die öffentliche Lage zu schicken.
 bool gastMitMoment(GastDienst d) => d.ansicht['einfluss'] is Map || jMap(d.ansicht['privat'])['deinMoment'] == true;
 
+/// Besetzte Figuren und Personenzahl für „Als PDF“ in der Erzählerakte eines
+/// Gastes: mit der Rollenzahl [n] des Raums deren Besetzung. Ohne passende Zahl
+/// (Erzähler-Handy reihum nach der Einstimmung) die gespielten Figuren
+/// [gespielt] in Besetzungsreihenfolge; eine Personenzahl nur, wenn sie genau
+/// die Besetzung ihrer Zahl sind, sonst `null` (kein Knopf).
+({List<String> besetzt, int? rollen}) gastAkteBesetzung(Besetzung b, int n, Iterable<String?> gespielt) {
+  if (n >= b.minRollen && n <= b.maxRollen) return (besetzt: b.besetzt(n), rollen: n);
+  final rollen = gespielt.toSet();
+  final besetzt = [for (final r in b.reihenfolge) if (rollen.contains(r)) r];
+  final m = besetzt.length;
+  return (besetzt: besetzt, rollen: m >= b.minRollen && m <= b.maxRollen && b.besetzt(m).join(',') == besetzt.join(',') ? m : null);
+}
+
 /// Öffnet die Erzählerakte für den Gast auf dem Erzähler-Sitz: besetzt sind die
 /// Figuren der Rollenzahl des Raums, gespielt von den Gästen mit Figur. Mit
 /// „Dein Moment“ stehen die Sterne als Ziele, sonst die des Kanons. Sie
@@ -333,13 +346,8 @@ bool gastMitMoment(GastDienst d) => d.ansicht['einfluss'] is Map || jMap(d.ansic
 /// sind; sonst gibt es keinen Knopf.
 Future<void> gastErzaehlerakteZeigen(GastKontext c) {
   final d = c.daten!;
-  final b = d.texte.besetzung;
-  final n = jZahl(c.v['rollen']);
-  final passt = n >= b.minRollen && n <= b.maxRollen;
   final spieler = c.spieler;
-  final besetzt = passt ? b.besetzt(n) : [for (final r in b.reihenfolge) if (spieler.any((s) => s.rolle == r)) r];
-  final m = besetzt.length;
-  final rollen = passt ? n : (m >= b.minRollen && m <= b.maxRollen && b.besetzt(m).join(',') == besetzt.join(',') ? m : null);
+  final (:besetzt, :rollen) = gastAkteBesetzung(d.texte.besetzung, jZahl(c.v['rollen']), [for (final s in spieler) s.rolle]);
   return zeigeErzaehlerakte(
     c.context,
     daten: d,

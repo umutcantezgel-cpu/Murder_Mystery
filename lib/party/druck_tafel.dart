@@ -46,6 +46,9 @@ class _DruckTafelState extends State<DruckTafel> {
   Future<DruckKontext>? _kontext;
   Future<ErzaehlerakteKontext?>? _akte;
 
+  /// Personenzahl, für die [_akte] entstand.
+  int? _akteRollen;
+
   PartySitzung get s => widget.sitzung;
 
   /// Schriften und Satz entstehen beim ersten Tipp einmal; scheitert das, baut der nächste Tipp neu.
@@ -73,12 +76,19 @@ class _DruckTafelState extends State<DruckTafel> {
   /// Schriften und Porträts der Erzählerakte entstehen beim ersten Tipp auf ihren
   /// Knopf; scheitert das, baut der nächste Tipp neu. Ziele des Kanons wie im
   /// Druckspiel (nie die Sterne von „Dein Moment“), Personenzahl der Einstellung.
+  /// Ändert sie sich, entsteht der Kontext neu (wie der Knopf mit seinem Schlüssel).
   Future<ErzaehlerakteKontext> _ka() async {
+    final n = s.einstellungen.rollen;
+    if (_akteRollen != n) {
+      _akte = null;
+      _akteRollen = n;
+    }
+    final laeuft = _akte ??= erzaehlerakteKontext(s.daten, einfluss: false, rollen: n);
     try {
-      final k = await (_akte ??= erzaehlerakteKontext(s.daten, einfluss: false, rollen: s.einstellungen.rollen));
+      final k = await laeuft;
       return k ?? (throw StateError('Diese Akte hat keine Erzählerakte.'));
     } catch (_) {
-      _akte = null;
+      if (identical(_akte, laeuft)) _akte = null;
       rethrow;
     }
   }

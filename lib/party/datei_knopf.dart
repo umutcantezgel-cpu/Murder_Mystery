@@ -20,6 +20,13 @@ typedef FertigeDatei = ({String name, Uint8List bytes});
 /// der Browser Dateien teilen kann, daneben „Teilen“. Scheitert etwas, steht
 /// darunter ein Satz in Handschrift.
 ///
+/// Während die Datei entsteht, steht eine ruhende Sanduhr mit Hinweis da, kein
+/// Ladekreis: Der Kreis ließ die ganze Seite bei jedem Zwischenschritt neu
+/// zeichnen; im Browser kostete das mehr Zeit als die Datei selbst
+/// (Browserprobe der Erzählerakte: rund 20 s mit Kreis, 8 s ohne), und das
+/// Setzen der PDF hält ihn ohnehin an. Kein Wort bricht mitten durch
+/// ([MKnopf.ganzeWorte]).
+///
 /// Eine Datei, die von Einstellungen abhängt (Personenzahl, Detektiv), bekommt
 /// einen Schlüssel aus diesen Einstellungen: Ändern sie sich, wird neu gebaut.
 ///
@@ -34,6 +41,7 @@ class DateiKnopf extends StatefulWidget {
     this.haupt = false,
     this.typ = 'application/pdf',
     this.datei,
+    this.kurz = false,
   });
 
   final String text;
@@ -41,6 +49,11 @@ class DateiKnopf extends StatefulWidget {
   /// Name der Datei auf den Knöpfen im Browser („Herunterladen: …“); ohne
   /// Angabe [text]. Für Knöpfe wie „Als PDF“, die die Datei nicht nennen.
   final String? datei;
+
+  /// Im Browser stehen auf den Knöpfen der fertigen Datei nur die Wege
+  /// („Herunterladen“, „Teilen“); der Bildschirmleser hört sie mit dem
+  /// Dateinamen. Für einen engen Fuß wie den der Erzählerakte (320 px, große Schrift).
+  final bool kurz;
   final Future<FertigeDatei> Function() bauen;
   final IconData icon;
   final bool haupt;
@@ -96,6 +109,21 @@ class _DateiKnopfState extends State<DateiKnopf> {
     if (mounted) setState(() => _fehler = !ok);
   }
 
+  /// Knopf für den Weg [weg] der fertigen Datei; mit [DateiKnopf.kurz] nur der Weg.
+  Widget _wegKnopf(DateiWeg weg, {required bool haupt}) {
+    final teilen = weg == DateiWeg.teilen;
+    final name = widget.datei ?? widget.text;
+    final voll = teilen ? _de.druck_datei_teilen(name) : _de.druck_datei_laden(name);
+    return PartyKnopf(
+      text: widget.kurz ? (teilen ? _de.druck_datei_teilen_kurz : _de.druck_datei_laden_kurz) : voll,
+      semantik: widget.kurz ? voll : null,
+      haupt: haupt,
+      icon: teilen ? Icons.ios_share_rounded : Icons.download_rounded,
+      ganzeWorte: true,
+      onPressed: () => _tipp(weg),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Tinte auf Papier, Papierfarbe auf dem dunklen Grund.
@@ -104,13 +132,8 @@ class _DateiKnopfState extends State<DateiKnopf> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 22,
-            height: 22,
-            child: MBewegung.ruhig(context)
-                ? const Icon(Icons.hourglass_top_rounded, size: 22, color: MRoh.stempelRot)
-                : const CircularProgressIndicator(strokeWidth: 2.5, color: MRoh.stempelRot),
-          ),
+          // Ruhend, nie ein Ladekreis (siehe oben).
+          const Icon(Icons.hourglass_top_rounded, size: 22, color: MRoh.stempelRot),
           const SizedBox(width: 12),
           Flexible(child: Text(_de.druck_datei_laedt, style: MPapierSchrift.maschine.copyWith(color: schrift))),
         ],
@@ -124,19 +147,13 @@ class _DateiKnopfState extends State<DateiKnopf> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (wege.isEmpty)
-          PartyKnopf(text: widget.text, haupt: widget.haupt, icon: widget.icon, onPressed: _tipp)
+          PartyKnopf(text: widget.text, haupt: widget.haupt, icon: widget.icon, ganzeWorte: true, onPressed: _tipp)
         else
           Wrap(
             spacing: 8,
             runSpacing: 8,
             children: [
-              for (final (i, weg) in wege.indexed)
-                PartyKnopf(
-                  text: weg == DateiWeg.teilen ? _de.druck_datei_teilen(widget.datei ?? widget.text) : _de.druck_datei_laden(widget.datei ?? widget.text),
-                  haupt: widget.haupt && i == 0,
-                  icon: weg == DateiWeg.teilen ? Icons.ios_share_rounded : Icons.download_rounded,
-                  onPressed: () => _tipp(weg),
-                ),
+              for (final (i, weg) in wege.indexed) _wegKnopf(weg, haupt: widget.haupt && i == 0),
             ],
           ),
         if (_fehler) ...[

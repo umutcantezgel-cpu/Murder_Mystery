@@ -109,15 +109,15 @@ FestStil festStilAusDateien() {
 }
 
 /// Die Erzählerakte von [daten], wie der Kern sie setzt: Fassung nach [einfluss]
-/// ([PartyDaten.erzaehlerakteFuer]), [rollen] Personen, die Ersatzporträts.
-Future<Uint8List> erzaehlerakteSoll(PartyDaten daten, {required bool einfluss, required int rollen}) async {
+/// ([PartyDaten.erzaehlerakteFuer]), [rollen] Personen, die Ersatzporträts (oder [portraets]).
+Future<Uint8List> erzaehlerakteSoll(PartyDaten daten, {required bool einfluss, required int rollen, Map<String, Uint8List>? portraets}) async {
   final k = ErzaehlerakteKontext(
     daten.kanon,
     daten.texte,
     daten.erzaehlerakteFuer(einfluss: einfluss)!,
     stil: festStilAusDateien(),
     rollen: rollen,
-    portraets: FestPortraets(ersatzPortraets(daten.kanon)),
+    portraets: FestPortraets(portraets ?? ersatzPortraets(daten.kanon)),
   );
   return (await festErzaehlerakteDatei(k)).bytes;
 }

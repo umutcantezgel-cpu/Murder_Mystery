@@ -1253,7 +1253,7 @@
   "abend_feste_loesung_hinweis": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung.",
   "abend_feste_loesung_solo": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, wählt besser eine andere Akte.",
   "abend_feste_loesung_online": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.",
-  "abend_druck_nur_pdfs": "Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter PDFs zum Ausdrucken.",
+  "abend_druck_nur_pdfs": "Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.",
   "@abend_druck_nur_pdfs": {
     "description": "Assistent, Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung)"
   },
@@ -3034,6 +3034,14 @@
       }
     }
   },
+  "druck_datei_teilen_kurz": "Teilen",
+  "@druck_datei_teilen_kurz": {
+    "description": "Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen"
+  },
+  "druck_datei_laden_kurz": "Herunterladen",
+  "@druck_datei_laden_kurz": {
+    "description": "Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden"
+  },
   "druck_datei_fehler": "Das hat nicht geklappt. Versuch es bitte noch einmal.",
   "@druck_datei_fehler": {
     "description": "Druck: Erstellen oder Teilen der Datei ist gescheitert"
@@ -3059,7 +3067,7 @@
   "@druck_erzaehlerheft_hinweis": {
     "description": "Rollenvergabe reihum: Erzählerheft ohne Druckspiel"
   },
-  "druck_erzaehlerakte_hinweis": "Nur für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nicht weiter.",
+  "druck_erzaehlerakte_hinweis": "Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.",
   "@druck_erzaehlerakte_hinweis": {
     "description": "Druckmappe: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt"
   },

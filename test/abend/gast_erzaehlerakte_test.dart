@@ -5,7 +5,7 @@
 // in Menü und Pult seiner Sitzung; als Detektiv nicht.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mordakte/abend/online/gast_erzaehler.dart' show gastErzaehlerakteErlaubt, gastMitMoment;
+import 'package:mordakte/abend/online/gast_erzaehler.dart' show gastAkteBesetzung, gastErzaehlerakteErlaubt, gastMitMoment;
 import 'package:mordakte/abend/online/gastgeber_sitzung.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/erzaehlerakte_ansicht.dart';
@@ -58,6 +58,24 @@ void main() {
     await t.pumpAndSettle();
     expect(find.byType(ErzaehlerakteSeite), findsNothing);
     await t.pumpWidget(const SizedBox.shrink());
+  });
+
+  test('Personenzahl für „Als PDF“: die Rollenzahl des Raums, sonst nur, wenn die gespielten Figuren genau die Besetzung ihrer Zahl sind', () {
+    final b = erzaehlDaten.texte.besetzung;
+    final raum = gastAkteBesetzung(b, 6, const []);
+    expect(raum.besetzt, b.besetzt(6));
+    expect(raum.rollen, 6, reason: 'Online schickt der Raum die Rollenzahl');
+    // Erzähler-Handy reihum nach der Einstimmung: keine Rollenzahl, die gespielten Figuren in beliebiger Folge.
+    final vier = gastAkteBesetzung(b, 0, [...b.besetzt(4).reversed, null]);
+    expect(vier.besetzt, b.besetzt(4));
+    expect(vier.rollen, 4);
+    // Lücke: Die dritte Figur spielt niemand, die fünfte schon. Dann gibt es keine Zahl und keinen Knopf.
+    final luecke = [...b.besetzt(5)]..removeAt(2);
+    final mitLuecke = gastAkteBesetzung(b, 0, luecke);
+    expect(mitLuecke.besetzt, luecke);
+    expect(mitLuecke.rollen, isNull);
+    // Zu wenige gespielte Figuren für eine Besetzung: ebenso keine Zahl.
+    expect(gastAkteBesetzung(b, 0, b.reihenfolge.take(b.minRollen - 1)).rollen, isNull);
   });
 
   test('Mit „Dein Moment“ im Raum zeigt die Erzählerakte des Gastes die Sterne, sonst die Ziele des Kanons', () {

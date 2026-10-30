@@ -2189,7 +2189,7 @@ class LDe extends L {
 
   @override
   String get abend_druck_nur_pdfs =>
-      'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter PDFs zum Ausdrucken.';
+      'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.';
 
   @override
   String get profil_klasse_hinweis =>
@@ -4057,6 +4057,12 @@ class LDe extends L {
   }
 
   @override
+  String get druck_datei_teilen_kurz => 'Teilen';
+
+  @override
+  String get druck_datei_laden_kurz => 'Herunterladen';
+
+  @override
   String get druck_datei_fehler =>
       'Das hat nicht geklappt. Versuch es bitte noch einmal.';
 
@@ -4078,7 +4084,7 @@ class LDe extends L {
 
   @override
   String get druck_erzaehlerakte_hinweis =>
-      'Nur für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nicht weiter.';
+      'Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.';
 
   @override
   String get detektei_akte_steckbriefe => 'Steckbriefe & Übersicht';
