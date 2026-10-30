@@ -696,6 +696,16 @@ void main() {
     }
     expect(refText, contains(flach(k.ui('ui.druck.akte.personen', {'anzahl': '12'})).toUpperCase()));
 
+    // Das Deckblatt sagt ohne Besetzung, welche Figuren bei einer Personenzahl spielen,
+    // statt „erst die gespielten, dann die ohne Spieler“ (das gilt nur mit Besetzung).
+    final opfer = {'opfer': (kanon.figurenJson['opfer'] as Map)['name'] as String};
+    final alle = flach(k.ui('ui.druck.akte.inhalt_alle', opfer)), gespielt12 = flach(k.ui('ui.druck.akte.inhalt', opfer));
+    expect(alle, contains('1 bis 8'));
+    expect(seiten.first, contains(alle));
+    expect(seiten.first, isNot(contains(gespielt12)));
+    expect(_seiten(ref).first, contains(gespielt12));
+    expect(_seiten(ref).first, isNot(contains(alle)));
+
     // Weder Pfad noch Code noch Personenzahl ändern die Datei.
     final codes = <String>{};
     for (final (i, pfad) in kanon.pfade.indexed) {

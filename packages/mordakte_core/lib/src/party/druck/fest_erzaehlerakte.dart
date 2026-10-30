@@ -20,7 +20,8 @@ import 'satz_fest.dart';
 // dieselbe Datei. Ohne Personenzahl (`rollen: null`) entsteht die Fassung ohne
 // Besetzung für jede Personenzahl (Datei am Release): alle Figuren in
 // Besetzungsreihenfolge, ohne die Marken „Heute gespielt“ und „Ohne Spieler“, ohne
-// blasse Knoten im Netz und ohne Personenzeile auf dem Deckblatt.
+// blasse Knoten im Netz und ohne Personenzeile auf dem Deckblatt; dort sagt
+// `ui.druck.akte.inhalt_alle`, dass bei N Personen die Figuren 1 bis N spielen.
 
 /// Was die Erzählerakte zum Setzen braucht: Kanon, Texte, die zusammengesetzte
 /// [akte], der festliche Stil, die Personenzahl [rollen] (null: ohne Besetzung)
@@ -145,7 +146,8 @@ pw.Widget _deckblatt(ErzaehlerakteKontext k) {
         children: [
           pw.Text(k.akte.einleitung, style: s.text(12)),
           pw.SizedBox(height: 8),
-          pw.Text(k.ui('ui.druck.akte.inhalt', {'opfer': k.name(k.opfer)}), style: s.kursiv(12, FestStil.tinteLeise)),
+          // Ohne Besetzung sagt das Deckblatt, welche Figuren bei einer Personenzahl spielen.
+          pw.Text(k.ui(k.mitBesetzung ? 'ui.druck.akte.inhalt' : 'ui.druck.akte.inhalt_alle', {'opfer': k.name(k.opfer)}), style: s.kursiv(12, FestStil.tinteLeise)),
           pw.SizedBox(height: 14),
           s.feld(pw.Text(k.ui('ui.druck.akte.hinweis'), style: s.kursiv(12)), farbe: FestStil.stempelrot),
         ],
