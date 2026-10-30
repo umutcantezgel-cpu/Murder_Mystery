@@ -2,7 +2,8 @@
 // Ordner eine ZIP und das ganze Paket als ZIP, der Fall-Code im Ordnernamen. Außerhalb des
 // Repos bricht das Werkzeug mit einer Meldung ab, statt endlos nach der Wurzel zu suchen.
 // Finale (A-063): Mit erzaehlerakte.json liegt die Erzählerakte in Ordner 4 (eine PDF mehr);
-// `--erzaehlerakte` setzt sie allein, ohne Fall-Code. Bis die echte Akte eingespielt ist,
+// `--erzaehlerakte` setzt sie allein, ohne Fall-Code, mit `--ohne-besetzung` für jede
+// Personenzahl (Datei am Release). Bis die echte Akte eingespielt ist,
 // läuft das Werkzeug in einer Kopie des Repos (Verweise auf die echten Dateien) mit der Fixture.
 import 'dart:convert';
 import 'dart:io';
@@ -139,6 +140,62 @@ void main() {
     expect(mit, isNot(contains(ziel)));
     for (final s in sterne) {
       expect(mit, contains(s));
+    }
+  }, timeout: const Timeout(Duration(minutes: 3)));
+
+  test('--erzaehlerakte --ohne-besetzung: die Akte für jede Personenzahl, alle Figuren, ohne Besetzungsmarken', () async {
+    final repo = _repo(Directory('${tmp.path}/repo'), akte: true);
+    final texte = Texte(kanon, Textsammlung.lade((p) => leseJson('$repoWurzel/content/party/schlosskeller/$p')));
+    final aus = '${tmp.path}/alle';
+    final r = await Process.run(
+      Platform.resolvedExecutable,
+      ['--packages=$pakete', skript, '--erzaehlerakte', '--ohne-besetzung', '--aus', aus, '--portraets', bilder().path],
+      workingDirectory: repo.path,
+    );
+    expect(r.exitCode, 0, reason: '${r.stdout}\n${r.stderr}');
+    expect('${r.stderr}', isNot(contains('Porträts fehlen')));
+    expect('${r.stdout}', contains('erzaehlerakte.pdf'));
+    expect([for (final f in Directory(aus).listSync()) f.uri.pathSegments.last], ['erzaehlerakte.pdf']);
+    expect(RegExp(r'\b[A-Z0-9]{5}\b').hasMatch('${r.stdout}'.replaceAll(aus, '')), isFalse, reason: '${r.stdout}');
+    final info = Process.runSync('pdfinfo', ['$aus/erzaehlerakte.pdf']).stdout as String;
+    expect(int.parse(RegExp(r'Pages:\s+(\d+)').firstMatch(info)!.group(1)!), greaterThanOrEqualTo(3 + kanon.figuren.length));
+    final t = Process.runSync('pdftotext', ['-raw', '$aus/erzaehlerakte.pdf', '-']).stdout as String;
+    // Groß- und Kleinschreibung zählen: „ohne Spieler“ steht klein in der Einleitung.
+    for (final marke in [texte.baustein('ui.druck.akte.besetzt'), texte.baustein('ui.druck.akte.ohne'), texte.baustein('ui.druck.akte.personen').replaceAll('{anzahl}', '').trim()]) {
+      expect(t, isNot(contains(marke)), reason: marke);
+      expect(t, isNot(contains(marke.toUpperCase())), reason: marke);
+    }
+  }, timeout: const Timeout(Duration(minutes: 3)));
+
+  test('--ohne-besetzung: fehlen Porträts, warnt das Werkzeug über alle Figuren und beide Detektive (Exit 0)', () async {
+    final repo = _repo(Directory('${tmp.path}/repo'), akte: true);
+    final aus = '${tmp.path}/alle';
+    final r = await Process.run(
+      Platform.resolvedExecutable,
+      ['--packages=$pakete', skript, '--erzaehlerakte', '--ohne-besetzung', '--aus', aus, '--portraets', '${tmp.path}/fehlt'],
+      workingDirectory: repo.path,
+    );
+    expect(r.exitCode, 0, reason: '${r.stdout}\n${r.stderr}');
+    expect('${r.stderr}', contains('Porträts fehlen'));
+    expect('${r.stderr}', contains('Achtung: Porträts fehlen (${[...Besetzung(kanon).reihenfolge, 'detektiv-w', 'detektiv-m'].join(', ')})'));
+    expect(File('$aus/erzaehlerakte.pdf').existsSync(), isTrue);
+  }, timeout: const Timeout(Duration(minutes: 3)));
+
+  test('--ohne-besetzung mit --personen oder --n oder ohne --erzaehlerakte: Abbruch mit Meldung, keine Datei', () async {
+    final repo = _repo(Directory('${tmp.path}/repo'), akte: true);
+    for (final extra in [
+      ['--erzaehlerakte', '--personen', '8'],
+      ['--erzaehlerakte', '--n', '12'],
+      ['--paket'],
+    ]) {
+      final r = await Process.run(
+        Platform.resolvedExecutable,
+        ['--packages=$pakete', skript, ...extra, '--ohne-besetzung', '--aus', '${tmp.path}/akte'],
+        workingDirectory: repo.path,
+      );
+      expect(r.exitCode, 2, reason: '$extra\n${r.stdout}\n${r.stderr}');
+      expect('${r.stderr}', contains('--ohne-besetzung'), reason: '$extra');
+      expect(Directory('${tmp.path}/akte').existsSync(), isFalse, reason: '$extra');
     }
   }, timeout: const Timeout(Duration(minutes: 3)));
 

@@ -17,22 +17,29 @@ import 'satz_fest.dart';
 // die besetzten, dann die ohne Spieler. Alles kommt aus der zusammengesetzten
 // [Erzaehlerakte] (Datei und Kanon, Ziele über ihre ZielQuelle) und den Bausteinen
 // `ui.druck.akte.*`. Kein Druck-Satz, kein Fall-Code: In allen Pfaden entsteht
-// dieselbe Datei.
+// dieselbe Datei. Ohne Personenzahl (`rollen: null`) entsteht die Fassung ohne
+// Besetzung für jede Personenzahl (Datei am Release): alle Figuren in
+// Besetzungsreihenfolge, ohne die Marken „Heute gespielt“ und „Ohne Spieler“, ohne
+// blasse Knoten im Netz und ohne Personenzeile auf dem Deckblatt.
 
 /// Was die Erzählerakte zum Setzen braucht: Kanon, Texte, die zusammengesetzte
-/// [akte], der festliche Stil, die Personenzahl [rollen] und die Porträts.
+/// [akte], der festliche Stil, die Personenzahl [rollen] (null: ohne Besetzung)
+/// und die Porträts.
 class ErzaehlerakteKontext {
   ErzaehlerakteKontext(this.kanon, this.texte, this.akte, {required this.stil, required this.rollen, FestPortraets? portraets})
       : portraets = portraets ?? FestPortraets(const {}),
         besetzung = Besetzung(kanon) {
-    besetzung.besetzt(rollen); // prüft die Personenzahl
+    if (rollen case final n?) besetzung.besetzt(n); // prüft die Personenzahl
   }
 
   final Kanon kanon;
   final Texte texte;
   final Erzaehlerakte akte;
   final FestStil stil;
-  final int rollen;
+
+  /// Personenzahl des Abends; null setzt die Akte ohne Besetzung (für jede
+  /// Personenzahl gleich): keine Figur gilt als gespielt oder als ohne Spieler.
+  final int? rollen;
   final FestPortraets portraets;
   final Besetzung besetzung;
 
@@ -63,13 +70,24 @@ class ErzaehlerakteKontext {
   /// Platz in der Besetzungsreihenfolge (ab 1): die Nummer im Netz.
   int platz(String figur) => besetzung.reihenfolge.indexOf(figur) + 1;
 
+  /// Setzt die Akte die Besetzung eines Abends (Marken, blasse Knoten, Personenzeile)?
+  bool get mitBesetzung => rollen != null;
+
+  /// Ist [figur] heute gespielt? Ohne Besetzung nie.
   bool istBesetzt(String figur) => _besetzt.contains(figur);
-  late final Set<String> _besetzt = besetzung.besetzt(rollen).toSet();
+
+  /// Bleibt [figur] heute ohne Spieler? Ohne Besetzung nie.
+  bool ohneSpieler(String figur) => mitBesetzung && !_besetzt.contains(figur);
+  late final Set<String> _besetzt = {if (rollen case final n?) ...besetzung.besetzt(n)};
 
   /// Die Figuren der Akte: erst die besetzten, dann die ohne Spieler, je in
-  /// Besetzungsreihenfolge.
+  /// Besetzungsreihenfolge; ohne Besetzung alle in Besetzungsreihenfolge.
   late final List<ErzaehlerakteFigur> figuren = [
-    for (final id in [...besetzung.besetzt(rollen), ...besetzung.npc(rollen)]) ?akte.figur(id),
+    for (final id in switch (rollen) {
+      final n? => [...besetzung.besetzt(n), ...besetzung.npc(n)],
+      null => besetzung.reihenfolge,
+    })
+      ?akte.figur(id),
   ];
 
   String seite(int nr, int von) => ui('ui.druck.fest.seite', {'nr': '$nr', 'von': '$von'});
@@ -113,8 +131,10 @@ pw.Widget _deckblatt(ErzaehlerakteKontext k) {
     pw.Text(k.fallTitel, style: s.kursiv(16, FestStil.tinteLeise)),
     pw.SizedBox(height: 12),
     s.zierlinie(240),
-    pw.SizedBox(height: 12),
-    pw.Text(k.ui('ui.druck.akte.personen', {'anzahl': '${k.rollen}'}).toUpperCase(), style: s.marke(10.5)),
+    if (k.rollen case final n?) ...[
+      pw.SizedBox(height: 12),
+      pw.Text(k.ui('ui.druck.akte.personen', {'anzahl': '$n'}).toUpperCase(), style: s.marke(10.5)),
+    ],
     pw.SizedBox(height: 22),
     s.stempel(k.ui('ui.druck.akte.nur'), g: 12.5, neigung: -0.04),
     pw.Spacer(),
@@ -235,7 +255,8 @@ List<pw.Widget> _netz(ErzaehlerakteKontext k) {
 
 /// Der Ring: Herr Schneider in der Mitte, die Figuren in Besetzungsreihenfolge
 /// im Uhrzeigersinn ab oben, jede mit ihrer Nummer. Öffentliche Kanten
-/// durchgezogen, heimliche gestrichelt; Figuren ohne Spieler blass.
+/// durchgezogen, heimliche gestrichelt; Figuren ohne Spieler blass (ohne
+/// Besetzung keine).
 pw.Widget _ring(ErzaehlerakteKontext k) {
   final s = k.stil;
   final breite = FestStil.breite;
@@ -247,7 +268,7 @@ pw.Widget _ring(ErzaehlerakteKontext k) {
     k.opfer: (cx, cy),
     for (final e in winkel.entries) e.key: (cx + _ringRadius * math.sin(e.value), cy - _ringRadius * math.cos(e.value)),
   };
-  bool blass(String id) => id != k.opfer && !k.istBesetzt(id);
+  bool blass(String id) => id != k.opfer && k.ohneSpieler(id);
   final kanten = [
     for (final kante in k.akte.netz)
       if (lage.containsKey(kante.a) && lage.containsKey(kante.b)) kante,
@@ -313,7 +334,7 @@ pw.Widget _ring(ErzaehlerakteKontext k) {
   return pw.SizedBox(width: breite, height: _ringHoehe, child: pw.Stack(overflow: pw.Overflow.visible, children: kinder));
 }
 
-/// Was die Linien bedeuten: durchgezogen, gestrichelt, blass.
+/// Was die Linien bedeuten: durchgezogen, gestrichelt, blass (blass nur mit Besetzung).
 pw.Widget _linienLegende(ErzaehlerakteKontext k) {
   final s = k.stil;
   pw.Widget linie(PdfColor farbe, {bool gestrichelt = false}) => pw.CustomPaint(
@@ -336,7 +357,7 @@ pw.Widget _linienLegende(ErzaehlerakteKontext k) {
   return pw.Wrap(spacing: 18, runSpacing: 4, children: [
     eintrag(linie(FestStil.tinteLeise), k.ui('ui.druck.akte.netz.oeffentlich')),
     eintrag(linie(FestStil.stempelrot, gestrichelt: true), k.ui('ui.druck.akte.netz.heimlich')),
-    eintrag(pw.Opacity(opacity: 0.45, child: s.medaillon(null, 10, ring: FestStil.linie)), k.ui('ui.druck.akte.ohne')),
+    if (k.mitBesetzung) eintrag(pw.Opacity(opacity: 0.45, child: s.medaillon(null, 10, ring: FestStil.linie)), k.ui('ui.druck.akte.ohne')),
   ]);
 }
 
@@ -355,7 +376,7 @@ List<pw.Widget> _legende(ErzaehlerakteKontext k) {
       zelle(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
         pw.Text(k.name(knoten), style: s.titel(11)),
         if (rolle != null && rolle.isNotEmpty) pw.Text(rolle, style: s.klein(7.5), maxLines: 2),
-        if (!mitte && !k.istBesetzt(knoten)) pw.Text(k.ui('ui.druck.akte.ohne'), style: s.kursiv(8, FestStil.stempelrot)),
+        if (!mitte && k.ohneSpieler(knoten)) pw.Text(k.ui('ui.druck.akte.ohne'), style: s.kursiv(8, FestStil.stempelrot)),
       ])),
       zelle(pw.RichText(
         text: pw.TextSpan(children: [
@@ -457,6 +478,7 @@ pw.Widget _zweiSpalten(List<pw.Widget> links, List<pw.Widget> rechts) {
 }
 
 /// Die Teile einer Figurenseite in Textgröße [g]: oben Porträt (wenn vorhanden),
+/// die Marke „Heute gespielt“ oder „Ohne Spieler“ (ohne Besetzung keine),
 /// Name, Nummer, Rolle und Alter, Hintergrund und Bindungen; dazu die kurzen
 /// Abschnitte für zwei Spalten (Zu Herrn Schneider, Motiv, Geheimnis,
 /// Nebendelikt, Loyalität, Ziele, Stimme).
@@ -477,8 +499,10 @@ pw.Widget _zweiSpalten(List<pw.Widget> links, List<pw.Widget> rechts) {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            pw.Text(k.ui(besetzt ? 'ui.druck.akte.besetzt' : 'ui.druck.akte.ohne').toUpperCase(), style: s.marke(9, besetzt ? FestStil.messing : FestStil.stempelrot)),
-            pw.SizedBox(height: 1),
+            if (k.mitBesetzung) ...[
+              pw.Text(k.ui(besetzt ? 'ui.druck.akte.besetzt' : 'ui.druck.akte.ohne').toUpperCase(), style: s.marke(9, besetzt ? FestStil.messing : FestStil.stempelrot)),
+              pw.SizedBox(height: 1),
+            ],
             pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.end, children: [
               pw.Text(f.name, style: s.titel(30)),
               pw.SizedBox(width: 10),

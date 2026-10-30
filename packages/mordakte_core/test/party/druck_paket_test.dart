@@ -6,6 +6,8 @@
 // Finale (A-063): Das Erzählerheft beginnt mit Vorgeschichte und Vorstellung, Ordner 4
 // trägt die Erzählerakte – in allen Pfaden dieselbe Datei, ohne Pfadwissen und Code. Bis
 // die echten Inhalte da sind, laufen Einstimmung und Erzählerakte mit den Fixtures.
+// Ohne Personenzahl entsteht die Erzählerakte ohne Besetzung (Datei am Release): alle
+// Figuren in Besetzungsreihenfolge, keine Besetzungsmarken, für jeden Pfad dieselben Bytes.
 // Die Datei setzt das ganze Paket zweimal und dazu die Kernhefte und Erzählerakten aller
 // Pfade: wie die anderen schweren Kerntests mit eigenem Zeitlimit (im vollen Kernlauf
 // teilen sich vier Prozesse die Kerne; 30 s reichten dort nicht).
@@ -646,6 +648,86 @@ void main() {
       }
       final ziel = kanon.figur(s.figur)!['persoenlichesZiel'];
       if (ziel is String && ziel.trim().isNotEmpty) expect(s.text, isNot(contains(flach(ziel))), reason: s.figur);
+    }
+  });
+
+  test('Erzählerakte ohne Besetzung (Release): alle Figuren in Besetzungsreihenfolge, keine Besetzungsmarken, in allen Pfaden und Personenzahlen gleich', () async {
+    final ref = datei('4-nur-erzaehler', 'erzaehlerakte.pdf').bytes;
+    final refText = text['4-nur-erzaehler/erzaehlerakte.pdf']!;
+    final reihe = Besetzung(k.kanon);
+    final bilder = FestPortraets(_portraets());
+    Future<Uint8List> neutral(PaketKontext kp, Erzaehlerakte akte) async =>
+        (await festErzaehlerakteDatei(ErzaehlerakteKontext(kp.kanon, kp.texte, akte, stil: kp.stil, rollen: null, portraets: bilder))).bytes;
+    final bytes = await neutral(k, k.erzaehlerakte!);
+    final seiten = _seiten(bytes);
+    final t = flach(_text(bytes));
+
+    // Seitenzahl wie die Helfer zählen: Deckblatt, Herr Schneider und der Detektiv und das Netz
+    // stehen vor der ersten Figurenseite (in der Akte für zwölf Personen die erste mit einer
+    // Marke), danach je Figur genau eine Seite.
+    final gespielt = k.ui('ui.druck.akte.besetzt').toUpperCase(), ohne = k.ui('ui.druck.akte.ohne').toUpperCase();
+    final vorspann = _seiten(ref).indexWhere((s) => s.contains(gespielt) || s.contains(ohne));
+    expect(vorspann, greaterThanOrEqualTo(3), reason: 'Deckblatt, Personen, Netz');
+    expect(_figurenSeiten(k, ref), hasLength(kanon.figuren.length));
+    expect(pdfPruefen(ref).seiten, vorspann + kanon.figuren.length);
+    final befund = pdfPruefen(bytes);
+    expect(befund.a4, isTrue);
+    expect(befund.seiten, vorspann + kanon.figuren.length, reason: 'Deckblatt + Personen + Netz + ${kanon.figuren.length} Figuren');
+    expect(befund.seiten, greaterThanOrEqualTo(3 + kanon.figuren.length), reason: 'Untergrenze der Release-Prüfung');
+    expect(seiten.first, contains(flach(k.ui('ui.druck.akte.nur')).toUpperCase()));
+    final netz = flach(k.ui('ui.druck.akte.netz.titel'));
+    expect(seiten.indexWhere((s) => s.contains(netz)), _seiten(ref).indexWhere((s) => s.contains(netz)));
+    final akte = k.erzaehlerakte!;
+    expect(reihe.reihenfolge, hasLength(kanon.figuren.length));
+    for (final (i, id) in reihe.reihenfolge.indexed) {
+      expect(seiten[vorspann + i], contains(flach(akte.figur(id)!.hintergrund)), reason: 'Seite ${vorspann + i + 1}: $id');
+    }
+    for (final (i, f) in reihe.reihenfolge.indexed) {
+      expect(t, contains('${i + 1} ${kanon.figur(f)!['name']}'), reason: 'Legende: $f');
+    }
+
+    // Keine Besetzung: weder „Heute gespielt“ noch „Ohne Spieler“ noch die Personenzeile;
+    // die Akte für zwölf Personen trägt alle drei.
+    final personen = k.ui('ui.druck.akte.personen', {'anzahl': ''}).trim();
+    for (final marke in [k.ui('ui.druck.akte.besetzt'), k.ui('ui.druck.akte.ohne'), personen]) {
+      expect(refText, contains(flach(marke).toUpperCase()), reason: 'Bezug: $marke');
+      expect(t, isNot(contains(flach(marke))), reason: marke);
+      expect(t, isNot(contains(flach(marke).toUpperCase())), reason: marke);
+    }
+    expect(refText, contains(flach(k.ui('ui.druck.akte.personen', {'anzahl': '12'})).toUpperCase()));
+
+    // Weder Pfad noch Code noch Personenzahl ändern die Datei.
+    final codes = <String>{};
+    for (final (i, pfad) in kanon.pfade.indexed) {
+      final kp = _kontext(pfad: pfad, n: const [4, 8, 16, 20][i % 4]);
+      codes.add(kp.code);
+      expect(await neutral(kp, kp.erzaehlerakte!), bytes, reason: '$pfad mit ${kp.rollen} Personen');
+    }
+    expect(codes, hasLength(kanon.pfade.length));
+    for (final c in codes) {
+      expect(RegExp('(?<![A-Z])$c(?![A-Z0-9])').hasMatch(t), isFalse, reason: c);
+    }
+
+    // Die Ziele folgen der ZielQuelle: Kanon (Druckspiel) und Einfluss („Dein Moment“) unterscheiden sich.
+    final regeln = EinflussRegeln.ausJson(einflussJson(), Ermittlung(k.kanon));
+    final sterne = Erzaehlerakte.ausJson(erzaehlerakteDaten(), k.kanon, ziele: EinflussZielQuelle(regeln, k.texte));
+    final mit = await neutral(k, sterne);
+    expect(mit, isNot(bytes));
+    final mitSeiten = _seiten(mit);
+    for (final id in reihe.reihenfolge) {
+      final kanonZiele = [for (final z in akte.figur(id)!.ziele) z.text];
+      final sternZiele = [for (final z in sterne.figur(id)!.ziele) z.text];
+      expect(sternZiele, hasLength(2), reason: id);
+      expect(sternZiele, isNot(kanonZiele), reason: id);
+      final hintergrund = flach(akte.figur(id)!.hintergrund);
+      final ohneSeite = seiten.firstWhere((s) => s.contains(hintergrund));
+      final mitSeite = mitSeiten.firstWhere((s) => s.contains(hintergrund));
+      for (final z in kanonZiele) {
+        expect(ohneSeite, contains(flach(z)), reason: '$id: $z');
+      }
+      for (final z in sternZiele) {
+        expect(mitSeite, contains(flach(z)), reason: '$id: $z');
+      }
     }
   });
 
