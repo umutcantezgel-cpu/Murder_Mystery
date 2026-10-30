@@ -21,7 +21,10 @@ import 'schreibtisch.dart';
 /// Oben die Wortmarke und der Dienstausweis (Name, Rang, Erfahrung), daneben
 /// „Neuer Abend“ als Messingschild und „Beitreten“ als Etikett, darunter die
 /// Akten der Kampagne als Aktenmappen und Sammlung und Profil als Karteikarten.
-/// Unter jeder Mappe mit Druckfassung führt „PDFs zum Ausdrucken“ in ihre Druckmappe.
+///
+/// Zwei Wege führen zu den PDFs: „PDFs zum Ausdrucken“ gleich unter der
+/// Wortmarke, noch im ersten Bildschirm, in die Druckmappe der ersten Akte mit
+/// Druckfassung, und derselbe Knopf unter jeder Mappe mit Druckfassung in ihre.
 class DetekteiSeite extends StatefulWidget {
   const DetekteiSeite({super.key});
 
@@ -96,6 +99,27 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                 MTonSchalter(an: l.ton_an, aus: l.ton_aus),
               ],
             ),
+            // Der kurze Weg zu den PDFs, vor dem Ausweis und ohne Rollen zu finden: aus
+            // demselben Future wie die Mappen; ohne Akte mit Druckfassung bleibt er weg.
+            FutureBuilder<List<AkteInfo>>(
+              future: _akten,
+              builder: (context, snap) {
+                final druck = snap.data?.where((a) => a.druckbar).firstOrNull;
+                if (druck == null) return const SizedBox.shrink();
+                return Padding(
+                  padding: const EdgeInsets.only(top: MMass.s16),
+                  child: Center(
+                    child: MKnopf(
+                      text: l.detektei_druck_pdfs,
+                      art: MKnopfArt.zweit,
+                      icon: Icons.print_rounded,
+                      ganzeWorte: true,
+                      onPressed: () => context.go(Routes.druckmappeVon(druck.id)),
+                    ),
+                  ),
+                );
+              },
+            ),
             const SizedBox(height: MMass.s24),
             LayoutBuilder(
               builder: (context, box) {
@@ -151,7 +175,7 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                       akte: akten[i],
                       nummer: i,
                       onTap: () => context.go(Routes.akteVon(akten[i].id)),
-                      // Der zweite Weg zur Druckmappe, ohne den Umweg über die Akte.
+                      // Der Weg zur Druckmappe bei ihrer Mappe, ohne den Umweg über die Akte.
                       unten: akten[i].druckbar
                           ? Align(
                               alignment: Alignment.centerLeft,

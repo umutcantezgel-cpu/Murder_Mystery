@@ -3393,10 +3393,10 @@ abstract class L {
   /// **'Druckmappe'**
   String get detektei_druck_titel;
 
-  /// No description provided for @detektei_druck_hinweis.
+  /// Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen
   ///
   /// In de, this message translates to:
-  /// **'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken, auch die Erzählerakte für die Person, die erzählt.'**
+  /// **'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.\n\nDie Erzählerakte ist nur für die Person, die erzählt.'**
   String get detektei_druck_hinweis;
 
   /// No description provided for @detektei_druck_vorbereiten.
@@ -3405,7 +3405,7 @@ abstract class L {
   /// **'Druckmappe vorbereiten'**
   String get detektei_druck_vorbereiten;
 
-  /// Akte und Startseite: Knopf zur Druckmappe einer Akte mit Druckfassung
+  /// Akte und Startseite (ganz oben und unter der Mappe): Knopf zur Druckmappe einer Akte mit Druckfassung
   ///
   /// In de, this message translates to:
   /// **'PDFs zum Ausdrucken'**
