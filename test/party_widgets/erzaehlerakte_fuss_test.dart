@@ -42,6 +42,9 @@ class _Browser extends DateiGeraet {
   bool get kannHerunterladen => true;
 
   @override
+  bool get herunterladenMitDialog => false;
+
+  @override
   bool kannTeilen(String name, String typ) => teilen;
 
   @override

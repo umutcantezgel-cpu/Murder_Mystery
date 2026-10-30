@@ -34,6 +34,10 @@ class DateiGeraet {
   /// „In Dateien sichern“).
   bool get kannHerunterladen => umsetzung.kannHerunterladen;
 
+  /// Öffnet „Herunterladen“ erst einen Dialog des Systems (Android: Ort wählen)?
+  /// Im Browser nicht, der Download geht gleich in den Download-Ordner.
+  bool get herunterladenMitDialog => umsetzung.herunterladenMitDialog;
+
   /// Kann das Gerät eine Datei vom Typ [typ] teilen?
   bool kannTeilen(String name, String typ) => umsetzung.dateiTeilbar(name, typ);
 
@@ -42,7 +46,7 @@ class DateiGeraet {
   /// App das Teilen des Systems, auch auf Android. Dort öffnet „Herunterladen“
   /// einen Dialog; den bekommt nur, wer den Knopf dafür wählt ([dateiWege]).
   DateiWeg get standardWeg =>
-      kannHerunterladen && !umsetzung.herunterladenMitDialog ? DateiWeg.herunterladen : DateiWeg.teilen;
+      kannHerunterladen && !herunterladenMitDialog ? DateiWeg.herunterladen : DateiWeg.teilen;
 
   Future<bool> anbieten(String name, Uint8List bytes, {required String typ, Rect? ursprung, required DateiWeg weg}) =>
       umsetzung.dateiAnbieten(name, bytes, typ: typ, ursprung: ursprung, teilen: weg == DateiWeg.teilen);

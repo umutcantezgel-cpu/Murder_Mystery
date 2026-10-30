@@ -2,7 +2,9 @@
 // Bytes und den Satz nach dem Speichern aus der ARB (das Kotlin kennt keinen Oberflächentext).
 // Gespeichert und abgebrochen zählen als angeboten, ein Fehler des Kanals nicht. Auf Android
 // wartet die fertige Datei auf „Herunterladen“ (Speichern-Dialog) oder „Teilen“; ein Tipp ohne
-// Wahl (Krimidinner) teilt weiter. iOS und der Rechner teilen wie bisher sofort.
+// Wahl (Krimidinner) teilt weiter. iOS und der Rechner teilen wie bisher sofort. Dazu der Vertrag
+// mit MainActivity.kt, gelesen aus dem Quelltext.
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -124,6 +126,15 @@ void main() {
       expect(kanal, isEmpty, reason: 'Der Speichern-Dialog öffnet sich nie ungefragt');
     });
 
+    test('der Standardweg folgt dem Gerät: Ein Browser lädt ohne Dialog herunter, auch neben der Android-Weiche', () async {
+      _aufAndroid();
+      final browser = _Browser();
+      expect(browser.herunterladenMitDialog, isFalse);
+      expect(browser.standardWeg, DateiWeg.herunterladen);
+      expect(const DateiGeraet().herunterladenMitDialog, isTrue);
+      expect(const DateiGeraet().standardWeg, DateiWeg.teilen);
+    });
+
     test('iOS und Rechner: kein Download, kein zweiter Tipp, die Datei geht an das Teilen', () async {
       _aufAndroid(false);
       final kanal = _kotlin((_) => true);
@@ -197,6 +208,19 @@ void main() {
       expect(find.text(_de.druck_datei_fehler), findsNothing);
     });
 
+    testWidgets('bricht die Person den Speichern-Dialog ab, ist das kein Fehler; beide Wege bleiben', (t) async {
+      _aufAndroid();
+      final kanal = _kotlin((_) => false);
+      _teilen();
+      await zeige(t);
+      await t.tap(laden);
+      await t.pump();
+      expect(kanal, hasLength(1));
+      expect(find.text(_de.druck_datei_fehler), findsNothing);
+      expect(laden, findsOneWidget);
+      expect(teilen, findsOneWidget);
+    });
+
     testWidgets('auf iOS und am Rechner teilt schon der erste Tipp', (t) async {
       _aufAndroid(false);
       final kanal = _kotlin((_) => true);
@@ -208,4 +232,44 @@ void main() {
       expect(kanal, isEmpty);
     });
   });
+
+  // Der Vertrag mit der Android-App: Kein Dart-Test erreicht das Kotlin, darum liest dieser den
+  // Quelltext. Benennt jemand dort Kanal, Methode oder Schlüssel um, schlägt er fehl, bevor ein
+  // Gerät die Fehlerzeile zeigt.
+  group('Vertrag mit MainActivity.kt', () {
+    final kotlin = File('android/app/src/main/kotlin/de/codayweb/mordakte/MainActivity.kt').readAsStringSync();
+
+    test('Kanal, Methode und Schlüssel wie in dateiSpeichern', () async {
+      final aufrufe = _kotlin((_) => true);
+      await dateiSpeichern('a.pdf', _bytes, gespeichert: 'Gespeichert: a.pdf');
+      final c = aufrufe.single;
+      expect(kotlin, contains('KANAL = "${_kanal.name}"'));
+      expect(kotlin, contains('call.method == "${c.method}"'));
+      for (final schluessel in _argumente(c).keys) {
+        expect(kotlin, matches(RegExp(r'call\.argument<\w+>\("' '$schluessel' r'"\)')), reason: schluessel as String);
+      }
+    });
+
+    test('eine vorhandene Datei wird beim Überschreiben gekürzt („wt“), sonst bliebe ihr alter Rest in der PDF', () {
+      expect(kotlin, contains('openOutputStream(ziel, "wt")'));
+    });
+  });
+}
+
+/// Ein Browser: Download ohne Dialog, Teilen, zweiter Tipp.
+class _Browser extends DateiGeraet {
+  @override
+  bool get zweiterTipp => true;
+
+  @override
+  bool get kannHerunterladen => true;
+
+  @override
+  bool get herunterladenMitDialog => false;
+
+  @override
+  bool kannTeilen(String name, String typ) => true;
+
+  @override
+  Future<bool> anbieten(String name, Uint8List bytes, {required String typ, Rect? ursprung, required DateiWeg weg}) async => true;
 }
