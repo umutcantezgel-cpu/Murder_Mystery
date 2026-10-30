@@ -2,7 +2,8 @@
 // steht die Tafel in der Rollenvergabe: Fall-Code-Hinweis, „Alles in einer Datei“, die acht
 // Teile und je Person ein Rollenheft. Jede Datei entsteht erst beim Tipp und geht an das
 // Teilen des Systems (kein „nur im Browser“ mehr); im Browser steht danach immer
-// „Herunterladen“ und, wenn er Dateien teilen kann, „Teilen“. Ohne Druckspiel gibt es reihum bei
+// „Herunterladen“ und, wenn er Dateien teilen kann, „Teilen“, in der Android-App beide
+// („Herunterladen“ öffnet den Speichern-Dialog des Systems). Ohne Druckspiel gibt es reihum bei
 // Akten mit Druckfassung nur das Erzählerheft, ohne Fall-Code.
 import 'dart:convert';
 import 'dart:io';
@@ -74,6 +75,9 @@ class _Browser extends DateiGeraet {
   bool get kannHerunterladen => true;
 
   @override
+  bool get herunterladenMitDialog => false;
+
+  @override
   bool kannTeilen(String name, String typ) => teilbar;
 
   @override
@@ -89,6 +93,38 @@ _Browser _imBrowser({required bool teilbar}) {
   dateiGeraet = b;
   addTearDown(() => dateiGeraet = vorher);
   return b;
+}
+
+/// Spielt die Android-App nach: „Herunterladen“ (Speichern-Dialog des Systems) und
+/// „Teilen“ nach dem Bauen; wer nicht wählt, teilt.
+class _Android extends DateiGeraet {
+  final angeboten = <(String, DateiWeg)>[];
+
+  @override
+  bool get zweiterTipp => true;
+
+  @override
+  bool get kannHerunterladen => true;
+
+  @override
+  bool kannTeilen(String name, String typ) => true;
+
+  @override
+  bool get herunterladenMitDialog => true;
+
+  @override
+  Future<bool> anbieten(String name, Uint8List bytes, {required String typ, Rect? ursprung, required DateiWeg weg}) async {
+    angeboten.add((name, weg));
+    return true;
+  }
+}
+
+_Android _aufAndroid() {
+  final a = _Android();
+  final vorher = dateiGeraet;
+  dateiGeraet = a;
+  addTearDown(() => dateiGeraet = vorher);
+  return a;
 }
 
 /// Tippt auf [knopf] und wartet in echter Zeit, bis [fertig] gilt (die PDF-Erzeugung läuft wirklich).
@@ -203,12 +239,39 @@ void main() {
     final s = _sitzung(druck: true, namen: {'fatma': 'Bea'});
     await _zeige(t, s);
     final senden = _de.druck_senden_an('Bea');
-    final laden = find.text(_de.druck_datei_laden(senden));
+    // Nach dem Bauen nennen die Wege das Rollenheft, nicht „Senden an …“.
+    final heft = _de.druck_rollenheft_von('Bea');
+    final laden = find.text(_de.druck_datei_laden(heft));
     await _tippeUndWarte(t, find.text(senden), () => laden.evaluate().isNotEmpty);
-    expect(find.text(_de.druck_datei_teilen(senden)), findsNothing);
+    expect(find.text(_de.druck_datei_teilen(heft)), findsNothing);
+    expect(find.textContaining(_de.druck_datei_laden(senden)), findsNothing);
     await t.tap(laden);
     await t.pump();
     expect(browser.angeboten, [('10-rollenheft-fatma.pdf', DateiWeg.herunterladen)]);
+  });
+
+  testWidgets('in der Android-App: nach dem Bauen „Herunterladen“ und „Teilen“, jeder Knopf nimmt seinen Weg', (t) async {
+    final android = _aufAndroid();
+    final s = _sitzung(druck: true, namen: {'fatma': 'Bea'});
+    await _zeige(t, s);
+    final senden = _de.druck_senden_an('Bea');
+    final heft = _de.druck_rollenheft_von('Bea');
+    final laden = find.text(_de.druck_datei_laden(heft));
+    final teilen = find.text(_de.druck_datei_teilen(heft));
+    await _tippeUndWarte(t, find.text(senden), () => laden.evaluate().isNotEmpty);
+    // Der erste Tipp baut nur, auch beim Rollenheft einer Person; dann wählt man den Weg.
+    expect(android.angeboten, isEmpty);
+    expect(laden, findsOneWidget);
+    expect(teilen, findsOneWidget);
+    expect(t.getTopLeft(laden).dx, lessThan(t.getTopLeft(teilen).dx));
+
+    await t.tap(laden);
+    await t.pump();
+    expect(android.angeboten, [('10-rollenheft-fatma.pdf', DateiWeg.herunterladen)]);
+    await t.tap(teilen);
+    await t.pump();
+    expect(android.angeboten.last, ('10-rollenheft-fatma.pdf', DateiWeg.teilen));
+    expect(find.text(_de.druck_datei_fehler), findsNothing);
   });
 
   testWidgets('reihum ohne Druck, Akte mit Druckspiel: nur das Erzählerheft, kein Fall-Code; im Solo keins', (t) async {

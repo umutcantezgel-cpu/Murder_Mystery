@@ -103,18 +103,26 @@ class PartyFussHinweis extends InheritedWidget {
 }
 
 /// Knopf im Kellerstil. [haupt] ist der warme Hauptknopf, sonst ein ruhiger
-/// Rahmenknopf. Dünner Mantel um [MKnopf].
+/// Rahmenknopf. Dünner Mantel um [MKnopf] ([ganzeWorte] und [semantik] wie dort).
 class PartyKnopf extends StatelessWidget {
-  const PartyKnopf({super.key, required this.text, required this.onPressed, this.haupt = true, this.icon});
+  const PartyKnopf({super.key, required this.text, required this.onPressed, this.haupt = true, this.icon, this.ganzeWorte = false, this.semantik});
 
   final String text;
   final VoidCallback? onPressed;
   final bool haupt;
   final IconData? icon;
+  final bool ganzeWorte;
+  final String? semantik;
 
   @override
-  Widget build(BuildContext context) =>
-      MKnopf(text: text, onPressed: onPressed, art: haupt ? MKnopfArt.haupt : MKnopfArt.zweit, icon: icon);
+  Widget build(BuildContext context) => MKnopf(
+        text: text,
+        onPressed: onPressed,
+        art: haupt ? MKnopfArt.haupt : MKnopfArt.zweit,
+        icon: icon,
+        ganzeWorte: ganzeWorte,
+        semantik: semantik,
+      );
 }
 
 /// Tafel: Fläche für zusammengehörige Inhalte. Dünner Mantel um [MTafel].

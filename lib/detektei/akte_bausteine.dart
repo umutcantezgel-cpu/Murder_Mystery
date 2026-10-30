@@ -168,15 +168,19 @@ class AkteMarken extends StatelessWidget {
 /// das Tatortfoto mit Klebestreifen und das Siegel der Akte.
 ///
 /// In der Kampagnenliste ([gewaehlt] `null`) ist die Mappe ein Knopf, dessen Text
-/// der Bildschirmleser vorliest. Im Assistenten ([gewaehlt] gesetzt) ist sie eine
+/// der Bildschirmleser vorliest; [unten] steht darunter, außerhalb dieses Knopfs
+/// (die Detektei: „PDFs zum Ausdrucken“). Im Assistenten ([gewaehlt] gesetzt) ist sie eine
 /// Auswahl mit dem Titel als Beschriftung und dem Untertitel als Hinweis; die
 /// gewählte Mappe trägt einen Haken und den Stempel „Gewählt“.
 class AkteKarte extends StatelessWidget {
-  const AkteKarte({super.key, required this.akte, required this.onTap, this.gewaehlt, this.nummer});
+  const AkteKarte({super.key, required this.akte, required this.onTap, this.gewaehlt, this.nummer, this.unten});
 
   final AkteInfo akte;
   final VoidCallback onTap;
   final bool? gewaehlt;
+
+  /// Unter der Mappe in der Kampagnenliste, mit eigenem Namen für den Bildschirmleser.
+  final Widget? unten;
 
   /// Platz in der Kampagne (0 für die erste Akte); ohne Angabe trägt die Mappe keinen Reiter.
   final int? nummer;
@@ -209,9 +213,17 @@ class AkteKarte extends StatelessWidget {
         if (akte.ton.isNotEmpty) akteTonText(l, akte.ton),
         if (min != null && max != null) l.detektei_personen(min, max),
       ].join('\n');
+      final karte = Semantics(button: true, label: name, onTap: onTap, excludeSemantics: true, child: mappe);
+      final darunter = unten;
       return Padding(
         padding: const EdgeInsets.only(bottom: MMass.s24),
-        child: Semantics(button: true, label: name, onTap: onTap, excludeSemantics: true, child: mappe),
+        child: darunter == null
+            ? karte
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [karte, const SizedBox(height: MMass.s12), darunter],
+              ),
       );
     }
     final mappe = MAktenmappe(

@@ -18,18 +18,169 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 ## Wiederaufnahme
 
-- Stand (2026-10-28): Stufen 0–6 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis 9eb5baf (CI-Lauf 113
-  grün). Ungepusht ist Politur 4 (Randnotizen aller Befragungen, „Änderungen“ 47, Prüfjournal 2026-10-28); der Push
-  ändert `content/` und `packages/` und löst einen CI-Lauf aus.
-- Nächste Schritte: Politur 4 pushen und den CI-Lauf beobachten. Vor einer Zusammenführung nach `main` den Besitzer
-  fragen. Ab der Zusammenführung wird `einfluss_soll.g.dart` nie mehr neu geschrieben (E-048, Nachtrag).
+- Stand (2026-10-30): Das Finale ist auf `main` (`mordakte-115.1` ist „latest“). Darauf folgt der **Nachtrag PDFs**
+  (Erzählerakte als PDF in der App und an jedem Release, „PDFs zum Ausdrucken“; Spezifikation „Änderungen“ 48–61):
+  auf `claude/schlosskeller-finale` gepusht (e21c28e, CI grün). Darauf der **Nachtrag „leicht finden“** („PDFs zum
+  Ausdrucken“ ganz oben in der Detektei, Druckmappe in Schritten, „Herunterladen“ in der Android-App; „Änderungen“
+  62–66): zusammengeführt (65f5313, 07df747), Doku nachgezogen; Proben und Prüfer (Browser, Kotlin, Oberfläche,
+  Verhalten) gelaufen, ihre Befunde behoben („Änderungen“ 67–74), lokal grün, **nicht gepusht**. Plan:
+  `/root/.claude/plans/delegated-wandering-meteor.md`; die Hilfsbranches `leicht/a` (Android) und `leicht/b`
+  (Detektei) sind nach dem Zusammenführen gelöscht.
+- Nächste Schritte: Push und CI-Lauf mit dem Job `android` (baut den Kotlin-Teil als Release mit R8), danach nach
+  `main` (Freigabe des Besitzers); dazu die Frage „Preis des Knopfs oben“ in FUER-DEN-NUTZER. `einfluss_soll.g.dart`
+  wird nie mehr neu geschrieben (E-048, Nachtrag).
+- Android lokal bauen: Das SDK in `/root/android-sdk` und der Gradle-Zwischenspeicher `~/.gradle` sind nach der
+  letzten Kotlin-Prüfung gelöscht (Plattenkontingent); den Android-Bau übernimmt der CI-Job `android`. Wer lokal
+  bauen will, holt das SDK neu (cmdline-tools von dl.google.com, platforms 35 und 36, build-tools 36.0.0, NDK
+  28.2.13676358). `flutter build apk --debug` scheitert hier, solange Maven Central über den Proxy HTTP 429 liefert;
+  dann `flutter build apk --config-only` mit `ANDROID_HOME` und in `android/` `./gradlew -I <init-skript>
+  :app:compileDebugKotlin` (oder `:app:assembleDebug`) mit einem Init-Skript, das Maven Central auf den Google-Spiegel
+  `https://maven-central.storage-download.googleapis.com/maven2/` lenkt (nicht ins Repo, nicht nach `~/.gradle`).
+- Bekannt und vorbestehend, nicht Teil des Nachtrags: `party_druck.dart --paket --n 17` bis `20` bricht mit
+  „Überlauf: Charakterübersicht“ ab (`fest_steckbrief.dart` über `satz_fest.dart`; an 2dbec65 genauso, `--n 12`
+  geht). Die App nutzt `paketDateien` nicht. Abhilfe später: `--paket --n` begrenzen und verständlich melden oder
+  die Charakterübersicht auf eine weitere Seite umbrechen.
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
-  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
-  „Änderungen“ (1–47).
+  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`; Nachtrag PDFs `wf_50f212a9-a69` und Nachtrag „leicht finden“
+  `wf_c06c2b01-abc` (Ergebnisse jeweils im Prüfjournal 2026-10-30). Alle Entscheidungen seit dem Plan stehen in
+  SPEZIFIKATION „Änderungen“ (1–74).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
-  (A-063 bis A-067)“.
+  (A-063 bis A-067)“, darin auch Erzählerakte als PDF, Ladezeit im Browser, die PDFs am Release und „Herunterladen“
+  in der Android-App auf einem echten Gerät.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-30 Nachtrag „leicht finden“, Proben und Prüfer (Workflow `wf_c06c2b01-abc`, Plan Schritt 3 und 4;
+  Spezifikation „Änderungen“ 67–74). Vier Prüfer auf c6449c6: Browserprobe (`druck.mjs` bei 390 und 320 px grün,
+  erster Start mit Namensdialog bei 320 × 568 bis 412 × 915, Teilen mit nachgebildetem Web Share, Ladezeiten gegen
+  einen Bau von e21c28e ohne Verschlechterung, `erzaehlerakte.pdf` bitgleich), Kotlin (eigener Bau
+  `:app:compileDebugKotlin` mit Warnungen als Fehler, Lint 0 Fehler, Doku der Android-APIs), Oberfläche (Lage,
+  Bildschirmleser, Wortbrüche, Systemränder) und Verhalten (iOS, Rechner, Browser, Krimidinner, alle
+  `DateiKnopf`-Stellen). Jeden Befund nachgestellt; jeder neue Test schlägt ohne seine Behebung fehl (Gegenproben
+  mit zurückgenommener Behebung, Logs `scratchpad/leicht/fix/gegen-*.log`). **Behoben:**
+  - *Druckmappe 320 × 568 (mittel):* Nach „Druckmappe vorbereiten“ war keine Datei zu sehen („Druckfassung“ bei y 561,
+    Fußleiste ab 504). Jetzt rollt die Seite zur Druckfassung, der Hinweis endet nach Schritt 3. Browser danach:
+    „Alles in einer Datei“ ohne weiteres Rollen bei y 227 (320 × 568), 204 (360 × 640), 181 (390 × 844 und
+    412 × 915), immer über der Fußleiste. Test bei 320 × 568 (`start_test`).
+  - *Sprung der Detektei (Browser niedrig, Oberfläche mittel):* Der Knopf oben kam 1,3 bis 3,7 s nach dem ersten Bild
+    und schob Ausweis und „Neuer Abend“ um 56 bis 64 px (Schrift 2: 130 px). Jetzt hält ein unsichtbarer Knopf den
+    Platz. Browser danach: „Neuer Abend“ steht beim ersten Bild schon 56 px tiefer (370 statt 314 bei 320 px, 386
+    statt 330 bei 390 px) und am Ende wie vorher bei 666 bzw. 637; den übrigen, vorbestehenden Weg nach unten
+    (Rückkehrkarten und „Dein erster Fall“ kommen nach dem Laden, +296 px) hat auch e21c28e. Test mit verzögertem
+    Katalog bei 390 × 844 und 320 × 568, Schrift 2.
+  - *„Zurück“ (bekannt):* führt aus der Druckmappe dorthin, woher man kam (`?von=detektei`), auch die Zurück-Taste
+    des Systems. Browser: oberer Knopf → `/#/akte/schlosskeller/druck?von=detektei` → „Zurück“ und Browser-Zurück
+    jeweils `/` mit „Neuer Abend“. Von der Akte weiter auf die Akte (Test).
+  - *Wortbrüche auf Android (mittel) und „Druckmapp|e vorbereiten“:* Symbol entfällt, wo es ein Wort bräche;
+    `DateiKnopf` setzt bei zu engem Platz den Dateinamen als Zeile über „Herunterladen“/„Teilen“. Der Prüfer-Lauf
+    `oberflaeche/android_knoepfe_test.dart` („BRUCH“, 320/360/390 px × Schrift 1,3/1,5/2) findet danach nur noch
+    „Charakterübersicht“ im Grundzustand bei 320 px und Schrift 2 (vorbestehend, siehe Änderung 70; vorher dazu
+    „Druckmappe“, „Detektivbogen“, „Auflösungsheft“, „Herunterladen:“ und „Charakterübersicht“ auf den Wegen).
+  - *Beschriftungen ohne Dateinamen:* „Herunterladen: Rollenheft Ayla“, „Teilen: Steckbrief Fatma“ (zwei ARB-Schlüssel).
+  - *Kotlin:* Überschreiben kürzt („wt“, mittel; nachgestellt war eine überschriebene PDF für `pdfinfo` kaputt), leere
+    neue Datei nach Fehler oder verfallener Anfrage entfernt, jede Ausnahme beim Öffnen des Dialogs setzt zurück,
+    der Hinweis nennt den wirklichen Dateinamen. Danach `:app:compileDebugKotlin` mit Warnungen als Fehler
+    (`-Werror`, `-Xreport-all-warnings`, offline mit dem Spiegel): BUILD SUCCESSFUL, keine Zeile zu `MainActivity.kt`.
+    Auf einem Gerät nicht ausprobiert (FUER-DEN-NUTZER, zwei neue Punkte).
+  - *Verhalten:* Standardweg über `DateiGeraet.herunterladenMitDialog`; neue Tests für den Vertrag mit
+    `MainActivity.kt`, den Abbruch am `DateiKnopf` und die Steckbrief-Seite in der Android-App; zwei Kommentare.
+  - *Doku:* „Das Teilen-Menü öffnet sich gleich“ gilt nur für die App auf iPhone und iPad; Safari am iPhone ist ein
+    Browser mit zweitem Tipp (README, Anleitung §3 und §5.4, Druckspiel-Anleitung).
+  **Bewusst nicht geändert:** der Preis des Knopfs oben (auf üblichen Handys rutscht „Sofort ermitteln“ oder „Neuer
+  Abend“ aus dem ersten Bildschirm; Frage an den Besitzer in FUER-DEN-NUTZER), Schritte ohne hängenden Einzug,
+  „Charakterübersicht“ im Grundzustand bei 320 px und Schrift 2. **Prüfungen danach:** `flutter analyze` sauber;
+  `flutter test --concurrency=2` 888 grün (vorher 876); `pruefen.sh schnell` grün in 424 s (Analyse sauber, Kern
+  1005 +1 übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer, Secret-Scan); CI-Helfer 33
+  grün; `packages/mordakte_core/test/runden/`, `tool/kanon_fest.txt` und `content/` gleich e21c28e; Web-Bau neu,
+  `druck.mjs` grün bei 390 px (Erzählerakte 5,7 s, 649.258 Bytes, „Alles“ 1,9 s) und bei 320 px (5,6 s, 649.258
+  Bytes, „Alles“ 2 s), je 0 Konsolenfehler und 0 fremde Anfragen; `start.mjs` grün. Nicht gepusht.
+
+- 2026-10-30 Nachtrag „leicht finden“ (Besitzer: „Mach es so, dass man leicht draufkommt“, „Ja, Speichern dazu“, jeder
+  spielt am eigenen Handy, Geräte Android-App, iPhone und Browser; Spezifikation „Änderungen“ 62–66). `leicht/a`
+  (16e0c3f, „Herunterladen“ in der Android-App über den Speichern-Dialog) und `leicht/b` (7893806, „PDFs zum
+  Ausdrucken“ ganz oben, Hinweis der Druckmappe in Schritten) ohne Konflikt zusammengeführt (65f5313, 07df747); beide
+  ändern `app_de.arb` an verschiedenen Schlüsseln, `flutter gen-l10n` danach ohne Änderung (die Zeilenumbrüche in
+  `detektei_druck_hinweis` sind erhalten). Belege der Agenten: Kotlin lokal kompiliert, `assembleDebug` grün
+  (Debug-APK, `classes8.dex` enthält `mordakte/datei` und `CREATE_DOCUMENT`; Maven Central über den Spiegel, siehe
+  „Wiederaufnahme“), nicht auf einem Gerät; Lage des oberen Knopfs ohne Rollen 320 × 568 Schrift 1 y 92–140, Schrift 2
+  y 99–213, 390 × 844 Schrift 1 y 108–156, Schrift 2 y 117–231, jeweils über dem Ausweis; `node tool/e2e/druck.mjs`
+  grün bei 390 und 320 px (oben ohne Rollen, genau 2 Knöpfe, beide öffnen die Druckmappe, Erzählerakte 6 s, 649.258
+  Bytes, 0 Konsolenfehler, 0 fremde Anfragen), Schritt 1 unter Last 14 von 14; `start.mjs` grün (weiter genau ein
+  Knopf „Spuk im Schlosskeller“). Doku: README, Anleitung §2, §3, §4, §5.4 (Rat zum gemeinsamen Gerät auf einen Satz
+  gekürzt), §9, Druckspiel-Anleitung, Release-Notiz „(ganz oben)“ mit `test_release_workflow.py`, FUER-DEN-NUTZER
+  (beide Fragen entschieden, neuer Punkt „Herunterladen in der Android-App“ am Gerät prüfen). **Prüfungen nach dem
+  Zusammenführen** (07df747 plus Doku): `kanon_tor --pruefen` aktuell (Schema 24 Dateien, Story-Bibel, 42
+  Bildprompts, Prüfsummen und Inhaltskennungen aktuell); `pruefen.sh schnell` grün (Analyse sauber, Kern 1005 +1
+  übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer 33, Secret-Scan sauber);
+  `flutter analyze` sauber; `flutter test --concurrency=2` 876 grün (vorher 853); `packages/mordakte_core/test/runden/`,
+  `tool/kanon_fest.txt` und `content/` gleich e21c28e; CI-Helfer 33 grün (auch nach der Release-Notiz); `akte_pruefen`
+  5 × 0 (schlosskeller, gewoelbe, ravensmoor, nachtexpress, blue_palm). Kotlin seit 16e0c3f unverändert, daher nicht
+  neu kompiliert. Nicht gepusht.
+
+- 2026-10-30 Nachtrag PDFs, Proben und Gegenprüfung (Release-PDFs, Browserprobe 0c47d3c, Prüfer Sichtbarkeit, CI und
+  Oberfläche; Spezifikation „Änderungen“ 55–61). Jeder Befund nachgestellt, die Tests zu den Behebungen schlagen ohne
+  sie fehl. Commits: bc62591 (Deckblatt), bb12cb3 (Kommandozeile), 0884af5 (CI), 5ef9d44 (App), danach die Doku.
+  **Behoben:**
+  - *Browser über 20 s (hoch):* Die Erzählerakte brauchte im Web-Build im Mittel 20,7 s, vor allem weil der Ladekreis
+    von `DateiKnopf` die Seite bei jedem Zwischenschritt neu zeichnen ließ. Jetzt ruhende Sanduhr, Porträts in der App
+    240 statt 360 px, JPEG-Umrechnung vorab Bild für Bild mit Pause (`vorab`). `node druck.mjs` danach: Erzählerakte
+    5,5 / 5,9 / 5,7 / 5,9 s bei 390 px, 5,7 s bei 320 px, 17,9 s bei vierfacher Drosselung (vorher 48,4 s); „Alles in
+    einer Datei“ 1,8 bis 2,2 s (4×: 6,4 s); `erzaehlerakte.pdf` 649.258 statt 808.359 Bytes, 24 Seiten, Porträts
+    240 px; 0 Konsolenfehler, 0 fremde Anfragen.
+  - *Satz blockiert am Stück (mittel, zweimal gemeldet):* durch `vorab` behoben; das Umrechnen liegt im Rückfall
+    (unlesbares Bild → Akte ohne Porträts, neuer Test).
+  - *Fuß der Erzählerakte bei 320 px, Schrift 2, Browser (mittel):* Überlauf 9 px (320 × 640) und 81 px (320 × 568),
+    Figurenliste 0 px, nachgestellt im neuen `erzaehlerakte_fuss_test` mit echten Schriften. Jetzt dort nur
+    „Herunterladen“/„Teilen“ (Bildschirmleser mit Dateinamen), alle Dateiknöpfe mit `ganzeWorte`; kein Überlauf, die
+    Liste bleibt, kein Wort bricht (auch Erzählerheft, Detektivbogen, Auflösungsheft, Erzählerakte in der Druckmappe).
+  - *Deckblatt der neutralen Akte (mittel):* neuer Baustein `ui.druck.akte.inhalt_alle` („Bei acht Personen (ohne den
+    Detektiv) spielen die Figuren 1 bis 8 …“), `kanon_tor` neu; Seite gesichtet (pdftoppm), 24 Seiten.
+  - *Test übersah `2>&1` (mittel), vertauschte Dateien, `grep … || false`:* `test_release_workflow.py` verlangt Umleitung,
+    grep-Zeile und `cp`-Zeilen (15 Tests); Mutationsprobe 19 von 23 erkannt (vorher 16).
+  - *Untergrenze 23 Seiten (zweimal gemeldet):* jetzt 24, Kommentar korrigiert, README nachgezogen.
+  - *Release auf `main` ohne PDFs wird „latest“ (mittel) und „darf fehlen“ ohne `continue-on-error`:* bewusst rot
+    gelassen und dokumentiert (Kopfkommentar, README „Builds“ mit „Re-run failed jobs“, Hinweis auf die Release-Seite
+    in README und Anleitung §2); latest-Logik unverändert.
+  - *Notizen:* PDF-Satz unter „Dateien“, Statusverweis auf diese Datei; SC1111 weg (einfache Anführungszeichen).
+  - *Kommandozeile:* `--erzaehlerakte` mit `--code`, `--pfad` oder `--detektiv` → Exit 2; Porträtwarnung auch mit
+    `--personen` über alle Figuren und beide Detektive (zwei neue Fälle im CLI-Test).
+  - *Kleinere App-Befunde:* Kontext der Druckmappe nach Personenzahl; Rückfall am Erzähler-Handy als
+    `gastAkteBesetzung` mit Test für die Lücke; neue Tests für Porträtfehler und neuen Versuch nach einem Fehler;
+    Texte: „Gib sie nur dieser Person.“ in der Druckmappe, der Knopfname im Hinweis des Assistenten in Anführungszeichen.
+  - *Doku:* Druckspiel-Anleitung (Tafel statt Seite, `--code`/`--pfad`/`--detektiv`), Anleitung §2 und §5.4 (reihum
+    bleibt die Datei auf dem gemeinsamen Gerät; „Herunterladen“), README (eigene Überschrift, „zwei Ziele“ statt
+    „Sterne“, Steckbriefe unter „Steckbriefe & Übersicht“), SPEZIFIKATION 51 „14 Tests“, FUER-DEN-NUTZER.
+  **Nicht geändert** (Begründung in „Änderungen“ 61): Kanten durch „Herr Schneider“ im Netz und Umbruch „Fall-/Code“
+  (vorbestehend), Lage des Knopfs in der Detektei und vierzeiliger Fuß der Akte-Seite bei 320 px (Beobachtungen für
+  den Besitzer), „Als PDF“ reihum (Plan; Entscheidung des Besitzers), `--paket --n 17` bis `20` (vorbestehend, unter
+  „Wiederaufnahme“). **Prüfungen:** `flutter analyze` sauber; `flutter test --concurrency=2` 853 grün (vorher 844);
+  `pruefen.sh schnell` grün (Kern 1005 +1 übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell,
+  CI-Helfer 33, Secret-Scan sauber); `akte_pruefen` 5 × 0; `tool/kanon_fest.txt` gültig; `determinismus_soll*`, `andere_akten_soll` und `einfluss_soll` gleich
+  2dbec65; Bytes von `--erzaehlerakte --personen 8`, `--personen 20 --dein-moment` und `--paket --n 12 --code VPXWW`
+  (38 Dateien) gleich 41362eb. Nicht gepusht.
+
+- 2026-10-30 Nachtrag PDFs (Besitzer: Erzählerakte als PDF in der App, als Datei an jedem Release, Druckmappe leichter
+  finden; Spezifikation „Änderungen“ 48–54): `pdf/a` (c603111 neutrale Fassung `--ohne-besetzung`, 049b733 Release-Job
+  `erzaehlerakte`) und `pdf/b` (adf7f1a Porträts in `lib/`, 82f06fc Druckmappe, „Als PDF“, „PDFs zum Ausdrucken“) ohne
+  Konflikt zusammengeführt (3365c2b, 549576f). Beim Zusammenführen gefunden und behoben (a7d1272): Am Erzähler-Handy
+  reihum fehlte „Als PDF“ nach der Einstimmung, weil der Begleiter `rollen` nur während der Einstimmung schickt; jetzt
+  gilt dort die Zahl der gespielten Figuren, wenn sie genau die Besetzung dieser Zahl sind (neuer Test in
+  `erzaehler_begleiter_test`, schlägt ohne die Änderung mit `rollen` null fehl). Belege der Agenten: Bytes von
+  `--erzaehlerakte --personen 8`, `--personen 20 --dein-moment` und `--paket --n 12 --code PRT3W` vor und nach der
+  Änderung gleich (40 von 40 Dateien); die 22 Porträts aus `tool/bild` bytegleich; neutrale Akte 24 Seiten (Druckspiel
+  1.423.482 B, „Dein Moment“ 1.423.993 B, verschieden), ohne „Heute gespielt“, „Ohne Spieler“ und Personenzeile, in
+  allen Pfaden und Codes dieselben Bytes; Job lokal simuliert (Abbruch bei fehlenden Porträts und gleichen Dateien),
+  Release-Schritt mit und ohne Artefakt simuliert, Mutationsprobe an `release.yml` 12 von 12 erkannt; App: Erzählerakte
+  der Druckmappe bytegleich zum Kern mit Kanon-Zielen, ungleich der Sternfassung, kein Knopf in der Rollenvergabe,
+  ohne Druckspiel, solo oder ohne Akte. Prüfungen nach dem Zusammenführen auf a7d1272: `flutter analyze` sauber;
+  `flutter test --concurrency=2` 844 grün (vorher 831); `pruefen.sh schnell` grün (Kern 1004 +1 übersprungen,
+  Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer 32, Secret-Scan sauber); `kanon_tor --pruefen`
+  aktuell (`content/` unverändert, nichts neu erzeugt; kein neuer Text, Deckblatt-Satz `ui.druck.akte.inhalt` bleibt,
+  „Änderungen“ 50); `akte_pruefen` 5 × 0; `determinismus_soll*`, `andere_akten_soll` und `einfluss_soll` gleich
+  2dbec65; `tool/kanon_fest.txt` 152 Prüfsummen gültig, kein Diff. Doku: README (Herunterladen, Builds), ANLEITUNG
+  §2/§3/§4/§5.4/§9, Druckspiel-Anleitung (Wege, Erzählerakte, `--ohne-besetzung`), FUER-DEN-NUTZER. Nicht gepusht.
+  Offen: Proben (Release-PDFs mit Porträts, Browserprobe mit Zeitmessung), Gegenprüfung, erster CI-Lauf des Jobs
+  `erzaehlerakte` (setzt voraus, dass `tool/bild/druck_portraets_test.dart` mindestens 22 PNG schreibt), dann `main`.
 
 - 2026-10-28 Abschluss: Besitzer entschied „Jetzt nach main“ und „Randnotizen angleichen“. 89e9eef (sieben
   Befragungen mit neuen pfadgleichen Randnotizen, letzte Neuerzeugung von `einfluss_soll.g.dart` nach E-048, Gegenprüfung

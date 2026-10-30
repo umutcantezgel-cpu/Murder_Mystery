@@ -21,6 +21,10 @@ import 'schreibtisch.dart';
 /// Oben die Wortmarke und der Dienstausweis (Name, Rang, Erfahrung), daneben
 /// „Neuer Abend“ als Messingschild und „Beitreten“ als Etikett, darunter die
 /// Akten der Kampagne als Aktenmappen und Sammlung und Profil als Karteikarten.
+///
+/// Zwei Wege führen zu den PDFs: „PDFs zum Ausdrucken“ gleich unter der
+/// Wortmarke, noch im ersten Bildschirm, in die Druckmappe der ersten Akte mit
+/// Druckfassung, und derselbe Knopf unter jeder Mappe mit Druckfassung in ihre.
 class DetekteiSeite extends StatefulWidget {
   const DetekteiSeite({super.key});
 
@@ -95,6 +99,30 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                 MTonSchalter(an: l.ton_an, aus: l.ton_aus),
               ],
             ),
+            // Der kurze Weg zu den PDFs, vor dem Ausweis und ohne Rollen zu finden: aus
+            // demselben Future wie die Mappen; ohne Akte mit Druckfassung bleibt er weg.
+            // Solange der Katalog lädt, hält ein unsichtbarer Knopf seinen Platz: Ausweis
+            // und „Neuer Abend“ springen nicht, wenn er erscheint.
+            FutureBuilder<List<AkteInfo>>(
+              future: _akten,
+              builder: (context, snap) {
+                final laedt = snap.connectionState != ConnectionState.done;
+                final druck = snap.data?.where((a) => a.druckbar).firstOrNull;
+                if (!laedt && druck == null) return const SizedBox.shrink();
+                final knopf = MKnopf(
+                  text: l.detektei_druck_pdfs,
+                  art: MKnopfArt.zweit,
+                  icon: Icons.print_rounded,
+                  ganzeWorte: true,
+                  onPressed: druck == null ? null : () => context.go(Routes.druckmappeVon(druck.id, ausDetektei: true)),
+                );
+                return Padding(
+                  padding: const EdgeInsets.only(top: MMass.s16),
+                  // Unsichtbar nur mit seiner Größe: kein Tipp, nichts für den Bildschirmleser.
+                  child: Center(child: laedt ? Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: knopf) : knopf),
+                );
+              },
+            ),
             const SizedBox(height: MMass.s24),
             LayoutBuilder(
               builder: (context, box) {
@@ -145,7 +173,25 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                 final akten = snap.data;
                 if (akten == null) return Text(l.appLoading, style: t.leise);
                 final mappen = [
-                  for (var i = 0; i < akten.length; i++) AkteKarte(akte: akten[i], nummer: i, onTap: () => context.go(Routes.akteVon(akten[i].id))),
+                  for (var i = 0; i < akten.length; i++)
+                    AkteKarte(
+                      akte: akten[i],
+                      nummer: i,
+                      onTap: () => context.go(Routes.akteVon(akten[i].id)),
+                      // Der Weg zur Druckmappe bei ihrer Mappe, ohne den Umweg über die Akte.
+                      unten: akten[i].druckbar
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: MKnopf(
+                                text: l.detektei_druck_pdfs,
+                                art: MKnopfArt.zweit,
+                                icon: Icons.print_rounded,
+                                ganzeWorte: true,
+                                onPressed: () => context.go(Routes.druckmappeVon(akten[i].id, ausDetektei: true)),
+                              ),
+                            )
+                          : null,
+                    ),
                 ];
                 return LayoutBuilder(
                   builder: (context, box) {

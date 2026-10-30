@@ -4,6 +4,7 @@
 //   dart run bin/party_druck.dart --steckbriefe [--fall schlosskeller] [--n 12] [--detektiv w] [--aus ordner]
 //   dart run bin/party_druck.dart --paket [--n 12] [--code XXXXX] [--dein-moment] [--aus ordner] [--portraets ordner]
 //   dart run bin/party_druck.dart --erzaehlerakte [--fall schlosskeller] [--personen 8] [--dein-moment] [--aus ordner] [--portraets ordner]
+//   dart run bin/party_druck.dart --erzaehlerakte --ohne-besetzung [--fall schlosskeller] [--dein-moment] [--aus ordner] [--portraets ordner]
 // Ohne Code und Pfad entsteht ein Zufallsfall. Der Pfad ist nur für Testläufe
 // des Erzählers gedacht; im Ordnernamen steht nur der Code. --alles setzt die acht
 // Teile in eine Datei. --steckbriefe braucht keinen Fall-Code: Übersicht, alle
@@ -16,7 +17,14 @@
 // gleich und hängt nur an der Personenzahl (erst die besetzten Figuren). Je Figur steht
 // ihr persönliches Ziel: Das Druckspiel läuft immer ohne „Dein Moment“ (Finale §3.1).
 // Mit --dein-moment (nur Akten mit der Fähigkeit einfluss) stehen dort die zwei Sterne
-// je Figur, für einen Abend am Bildschirm mit der Schicht.
+// je Figur, für einen Abend am Bildschirm mit der Schicht. --ohne-besetzung setzt die
+// Akte für jede Personenzahl (die Datei am Release): alle Figuren in
+// Besetzungsreihenfolge, ohne „Heute gespielt“/„Ohne Spieler“ und ohne Personenzeile;
+// zusammen mit --personen oder --n bricht das Werkzeug ab. Ausgabe dann in
+// build/druck/<fall>-erzaehlerakte-alle. --code, --pfad und --detektiv gehen mit
+// --erzaehlerakte nicht (Exit 2), weil die Akte nie vom Fall abhängt. Fehlen Porträts
+// (alle Figuren und beide Detektive, auch mit --personen), warnt es nur
+// („Achtung: Porträts fehlen …“, Exit 0); die Akte entsteht ohne sie.
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -78,8 +86,29 @@ Future<void> main(List<String> args) async {
     return;
   }
 
+  final ohneBesetzung = args.contains('--ohne-besetzung');
+  if (ohneBesetzung && !args.contains('--erzaehlerakte')) {
+    stderr.writeln('--ohne-besetzung gilt nur zusammen mit --erzaehlerakte.');
+    exitCode = 2;
+    return;
+  }
+  if (ohneBesetzung && (args.contains('--personen') || args.contains('--n'))) {
+    stderr.writeln('--ohne-besetzung setzt die Akte für jede Personenzahl; --personen und --n gehen damit nicht.');
+    exitCode = 2;
+    return;
+  }
+
+  // Die Erzählerakte hängt nie vom Fall ab: Wer Code, Pfad oder Detektiv angibt, erwartet eine
+  // fallbezogene Datei; statt die Angabe still zu übergehen, bricht das Werkzeug ab.
+  final fallAngaben = [for (final a in ['--code', '--pfad', '--detektiv']) if (args.contains(a)) a];
+  if (args.contains('--erzaehlerakte') && fallAngaben.isNotEmpty) {
+    stderr.writeln('Die Erzählerakte hängt nie von Fall-Code, Pfad oder Detektiv ab; ${fallAngaben.join(', ')} geht mit --erzaehlerakte nicht.');
+    exitCode = 2;
+    return;
+  }
+
   if (args.contains('--erzaehlerakte')) {
-    await erzaehlerakte(wurzel, fall, kanon, texte, wert, deinMoment: deinMoment);
+    await erzaehlerakte(wurzel, fall, kanon, texte, wert, deinMoment: deinMoment, ohneBesetzung: ohneBesetzung);
     return;
   }
 
@@ -180,8 +209,9 @@ Future<void> paket(String wurzel, String fall, Kanon kanon, Texte texte, DruckSt
     ..writeln('Archiv: ${basis.path}/$name.zip (je Ordner eine ZIP im Paketordner)');
 }
 
-/// Nur die Erzählerakte (`--erzaehlerakte`): ohne Fall-Code, für `--personen` Personen.
-Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte, String? Function(String) wert, {bool deinMoment = false}) async {
+/// Nur die Erzählerakte (`--erzaehlerakte`): ohne Fall-Code, für `--personen` Personen;
+/// mit [ohneBesetzung] für jede Personenzahl (alle Figuren, keine Besetzungsmarken).
+Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte, String? Function(String) wert, {bool deinMoment = false, bool ohneBesetzung = false}) async {
   final akte = erzaehlerakteAus(wurzel, fall, kanon, texte, deinMoment: deinMoment);
   if (akte == null) {
     stderr.writeln('Akte $fall hat keine Erzählerakte (content/party/$fall/erzaehlerakte.json fehlt).');
@@ -189,15 +219,18 @@ Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte,
     return;
   }
   final besetzung = Besetzung(kanon);
-  final n = int.parse(wert('personen') ?? wert('n') ?? '8');
-  if (n < besetzung.minRollen || n > besetzung.maxRollen) {
+  final n = ohneBesetzung ? null : int.parse(wert('personen') ?? wert('n') ?? '8');
+  if (n != null && (n < besetzung.minRollen || n > besetzung.maxRollen)) {
     stderr.writeln('--personen muss zwischen ${besetzung.minRollen} und ${besetzung.maxRollen} liegen.');
     exitCode = 2;
     return;
   }
   final ordner = portraetOrdner(wurzel, wert);
   final portraets = portraetsAus(ordner);
-  final fehlen = [for (final id in besetzung.besetzt(n)) if (!portraets.containsKey(id)) id];
+  // Mit und ohne Besetzung stehen alle Figuren (die ohne Spieler auf eigenen Seiten und im
+  // Netz) und beide Detektiv-Porträts in der Akte.
+  final noetig = [...besetzung.reihenfolge, 'detektiv-w', 'detektiv-m'];
+  final fehlen = [for (final id in noetig) if (!portraets.containsKey(id)) id];
   if (fehlen.isNotEmpty) {
     stderr
       ..writeln('Achtung: Porträts fehlen (${fehlen.join(', ')}) in ${ordner.path}.')
@@ -206,11 +239,11 @@ Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte,
   }
   final k = ErzaehlerakteKontext(kanon, texte, akte, stil: festStil(wurzel), rollen: n, portraets: FestPortraets(portraets));
   final d = await festErzaehlerakteDatei(k);
-  final aus = Directory(wert('aus') ?? '$wurzel/build/druck/$fall-erzaehlerakte-n$n')..createSync(recursive: true);
+  final aus = Directory(wert('aus') ?? '$wurzel/build/druck/$fall-erzaehlerakte-${n == null ? 'alle' : 'n$n'}')..createSync(recursive: true);
   File('${aus.path}/${d.name}').writeAsBytesSync(d.bytes);
   stdout
     ..writeln('${d.name.padRight(40)} ${(d.bytes.length / 1024).toStringAsFixed(0).padLeft(6)} KB')
-    ..writeln('Erzählerakte für $n Personen in ${aus.path}');
+    ..writeln(n == null ? 'Erzählerakte ohne Besetzung (für jede Personenzahl) in ${aus.path}' : 'Erzählerakte für $n Personen in ${aus.path}');
 }
 
 /// Die Erzählerakte der Akte, wenn es `erzaehlerakte.json` gibt; sonst null. Die

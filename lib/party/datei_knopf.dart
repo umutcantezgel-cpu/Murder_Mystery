@@ -13,15 +13,28 @@ final _de = LDe();
 typedef FertigeDatei = ({String name, Uint8List bytes});
 
 /// Knopf für eine Datei, die erst beim Tipp entsteht (M5): Der erste Tipp baut
-/// sie (einmal, danach liegt sie bereit). In der App geht sie gleich danach an das
-/// Teilen des Systems. Im Browser wartet sie auf einen zweiten Tipp
-/// ([zweiterTipp]), weil Teilen und Download dort direkt im Tipp liegen müssen;
-/// dann steht da ein Knopf je Weg ([dateiWege]): immer „Herunterladen“ und, wenn
-/// der Browser Dateien teilen kann, daneben „Teilen“. Scheitert etwas, steht
-/// darunter ein Satz in Handschrift.
+/// sie (einmal, danach liegt sie bereit). Auf iOS und am Rechner geht sie gleich
+/// danach an das Teilen des Systems. Im Browser und auf Android wartet sie auf
+/// einen zweiten Tipp ([zweiterTipp]): Im Browser müssen Teilen und Download
+/// direkt im Tipp liegen, auf Android wählt man den Weg. Dann steht da ein Knopf
+/// je Weg ([dateiWege]): immer „Herunterladen“ (Android: Speichern-Dialog des
+/// Systems) und, wenn das Gerät Dateien teilen kann, daneben „Teilen“. Scheitert
+/// etwas, steht darunter ein Satz in Handschrift.
+///
+/// Während die Datei entsteht, steht eine ruhende Sanduhr mit Hinweis da, kein
+/// Ladekreis: Der Kreis ließ die ganze Seite bei jedem Zwischenschritt neu
+/// zeichnen; im Browser kostete das mehr Zeit als die Datei selbst
+/// (Browserprobe der Erzählerakte: rund 20 s mit Kreis, 8 s ohne), und das
+/// Setzen der PDF hält ihn ohnehin an. Kein Wort bricht mitten durch
+/// ([MKnopf.ganzeWorte]); passt ein Wort auf den Knöpfen der fertigen Datei
+/// nicht einmal in der kleinsten Schrift (schmales Handy, große Schrift), steht
+/// der Dateiname als eigene Zeile darüber und auf den Knöpfen nur der Weg.
 ///
 /// Eine Datei, die von Einstellungen abhängt (Personenzahl, Detektiv), bekommt
 /// einen Schlüssel aus diesen Einstellungen: Ändern sie sich, wird neu gebaut.
+///
+/// Auf Papier ([MFlaeche.papier]) stehen Hinweis und Fehler in Tinte, auf dem
+/// dunklen Grund (etwa im Fuß einer Seite) in Papierfarbe.
 class DateiKnopf extends StatefulWidget {
   const DateiKnopf({
     super.key,
@@ -30,9 +43,20 @@ class DateiKnopf extends StatefulWidget {
     this.icon = Icons.ios_share_rounded,
     this.haupt = false,
     this.typ = 'application/pdf',
+    this.datei,
+    this.kurz = false,
   });
 
   final String text;
+
+  /// Name der Datei auf den Knöpfen je Weg („Herunterladen: …“); ohne
+  /// Angabe [text]. Für Knöpfe wie „Als PDF“, die die Datei nicht nennen.
+  final String? datei;
+
+  /// Im Browser und auf Android stehen auf den Knöpfen der fertigen Datei nur die
+  /// Wege („Herunterladen“, „Teilen“); der Bildschirmleser hört sie mit dem
+  /// Dateinamen. Für einen engen Fuß wie den der Erzählerakte (320 px, große Schrift).
+  final bool kurz;
   final Future<FertigeDatei> Function() bauen;
   final IconData icon;
   final bool haupt;
@@ -88,50 +112,88 @@ class _DateiKnopfState extends State<DateiKnopf> {
     if (mounted) setState(() => _fehler = !ok);
   }
 
+  /// Name der Datei auf den Knöpfen je Weg.
+  String get _name => widget.datei ?? widget.text;
+
+  /// Beschriftung des Knopfs für den Weg [weg] mit dem Dateinamen („Herunterladen: …“).
+  String _voll(DateiWeg weg) => weg == DateiWeg.teilen ? _de.druck_datei_teilen(_name) : _de.druck_datei_laden(_name);
+
+  /// Knopf für den Weg [weg] der fertigen Datei; mit [kurz] nur der Weg, der
+  /// Bildschirmleser hört ihn mit dem Dateinamen.
+  Widget _wegKnopf(DateiWeg weg, {required bool haupt, required bool kurz}) {
+    final teilen = weg == DateiWeg.teilen;
+    return PartyKnopf(
+      text: kurz ? (teilen ? _de.druck_datei_teilen_kurz : _de.druck_datei_laden_kurz) : _voll(weg),
+      semantik: kurz ? _voll(weg) : null,
+      haupt: haupt,
+      icon: teilen ? Icons.ios_share_rounded : Icons.download_rounded,
+      ganzeWorte: true,
+      onPressed: () => _tipp(weg),
+    );
+  }
+
+  /// Die Knöpfe der fertigen Datei, Herunterladen vorn. Bräche auf einem davon ein
+  /// Wort selbst in der kleinsten Schrift (etwa „Charakterübersicht“ bei 320 px und
+  /// doppelter Schrift), steht der Dateiname als Zeile darüber und auf den Knöpfen
+  /// nur der Weg, wie mit [DateiKnopf.kurz].
+  Widget _wegKnoepfe(List<DateiWeg> wege, Color? schrift) => LayoutBuilder(
+        builder: (context, box) {
+          bool haupt(int i) => widget.haupt && i == 0;
+          final eng = !widget.kurz &&
+              [
+                for (final (i, weg) in wege.indexed)
+                  MKnopf.passtGanz(context, _voll(weg), box.maxWidth, art: haupt(i) ? MKnopfArt.haupt : MKnopfArt.zweit),
+              ].contains(false);
+          final knoepfe = Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final (i, weg) in wege.indexed) _wegKnopf(weg, haupt: haupt(i), kurz: widget.kurz || eng),
+            ],
+          );
+          if (!eng) return knoepfe;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Die Knöpfe nennen dem Bildschirmleser den Namen schon.
+              ExcludeSemantics(child: MGanzeWorte(_name, stil: MPapierSchrift.maschine.copyWith(color: schrift), minimum: 11)),
+              const SizedBox(height: 6),
+              knoepfe,
+            ],
+          );
+        },
+      );
+
   @override
   Widget build(BuildContext context) {
+    // Tinte auf Papier, Papierfarbe auf dem dunklen Grund.
+    final schrift = MFlaeche.hellVon(context) ? null : MFarben.von(context).papier;
     if (_baut) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 22,
-            height: 22,
-            child: MBewegung.ruhig(context)
-                ? const Icon(Icons.hourglass_top_rounded, size: 22, color: MRoh.stempelRot)
-                : const CircularProgressIndicator(strokeWidth: 2.5, color: MRoh.stempelRot),
-          ),
+          // Ruhend, nie ein Ladekreis (siehe oben).
+          const Icon(Icons.hourglass_top_rounded, size: 22, color: MRoh.stempelRot),
           const SizedBox(width: 12),
-          Flexible(child: Text(_de.druck_datei_laedt, style: MPapierSchrift.maschine)),
+          Flexible(child: Text(_de.druck_datei_laedt, style: MPapierSchrift.maschine.copyWith(color: schrift))),
         ],
       );
     }
     final d = _datei;
-    // Im Browser liegt die fertige Datei bereit: ein Knopf je Weg, der Standard vorn.
+    // Im Browser und auf Android liegt die fertige Datei bereit: ein Knopf je Weg, Herunterladen vorn.
     final wege = d != null && zweiterTipp ? dateiWege(d.name, typ: widget.typ) : const <DateiWeg>[];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (wege.isEmpty)
-          PartyKnopf(text: widget.text, haupt: widget.haupt, icon: widget.icon, onPressed: _tipp)
+          PartyKnopf(text: widget.text, haupt: widget.haupt, icon: widget.icon, ganzeWorte: true, onPressed: _tipp)
         else
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final (i, weg) in wege.indexed)
-                PartyKnopf(
-                  text: weg == DateiWeg.teilen ? _de.druck_datei_teilen(widget.text) : _de.druck_datei_laden(widget.text),
-                  haupt: widget.haupt && i == 0,
-                  icon: weg == DateiWeg.teilen ? Icons.ios_share_rounded : Icons.download_rounded,
-                  onPressed: () => _tipp(weg),
-                ),
-            ],
-          ),
+          _wegKnoepfe(wege, schrift),
         if (_fehler) ...[
           const SizedBox(height: 6),
-          Text(_de.druck_datei_fehler, style: MPapierSchrift.hand.copyWith(fontSize: 19)),
+          Text(_de.druck_datei_fehler, style: MPapierSchrift.hand.copyWith(fontSize: 19, color: schrift)),
         ],
       ],
     );

@@ -3393,10 +3393,10 @@ abstract class L {
   /// **'Druckmappe'**
   String get detektei_druck_titel;
 
-  /// No description provided for @detektei_druck_hinweis.
+  /// Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen. Wem die Erzählerakte gehört, sagt der Block „Nur Erzähler“ bei ihrem Knopf (druck_erzaehlerakte_hinweis)
   ///
   /// In de, this message translates to:
-  /// **'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.'**
+  /// **'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.'**
   String get detektei_druck_hinweis;
 
   /// No description provided for @detektei_druck_vorbereiten.
@@ -3404,6 +3404,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Druckmappe vorbereiten'**
   String get detektei_druck_vorbereiten;
+
+  /// Akte und Startseite (ganz oben und unter der Mappe): Knopf zur Druckmappe einer Akte mit Druckfassung
+  ///
+  /// In de, this message translates to:
+  /// **'PDFs zum Ausdrucken'**
+  String get detektei_druck_pdfs;
 
   /// No description provided for @abend_schritt.
   ///
@@ -3830,6 +3836,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.'**
   String get abend_feste_loesung_online;
+
+  /// Assistent, Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung)
+  ///
+  /// In de, this message translates to:
+  /// **'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.'**
+  String get abend_druck_nur_pdfs;
 
   /// No description provided for @profil_klasse_hinweis.
   ///
@@ -6987,17 +6999,35 @@ abstract class L {
   /// **'Die Datei wird erstellt …'**
   String get druck_datei_laedt;
 
-  /// Druck im Browser: Der zweite Tipp teilt die fertige Datei
+  /// Druck im Browser und in der Android-App: Der zweite Tipp teilt die fertige Datei
   ///
   /// In de, this message translates to:
   /// **'Teilen: {datei}'**
   String druck_datei_teilen(String datei);
 
-  /// Druck im Browser: Der zweite Tipp lädt die fertige Datei herunter
+  /// Druck im Browser und in der Android-App: Der zweite Tipp lädt die fertige Datei herunter (Android: Speichern-Dialog des Systems)
   ///
   /// In de, this message translates to:
   /// **'Herunterladen: {datei}'**
   String druck_datei_laden(String datei);
+
+  /// Druck im Browser und in der Android-App, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen
+  ///
+  /// In de, this message translates to:
+  /// **'Teilen'**
+  String get druck_datei_teilen_kurz;
+
+  /// Druck im Browser und in der Android-App, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden
+  ///
+  /// In de, this message translates to:
+  /// **'Herunterladen'**
+  String get druck_datei_laden_kurz;
+
+  /// Druck in der Android-App: kurze Meldung des Systems, nachdem „Herunterladen“ die Datei über den Speichern-Dialog abgelegt hat
+  ///
+  /// In de, this message translates to:
+  /// **'Gespeichert: {datei}'**
+  String druck_datei_gespeichert(String datei);
 
   /// Druck: Erstellen oder Teilen der Datei ist gescheitert
   ///
@@ -7023,11 +7053,23 @@ abstract class L {
   /// **'Senden an {name}'**
   String druck_senden_an(String name);
 
+  /// Druckfassung, Knöpfe der fertigen Datei: das Rollenheft einer Person („Herunterladen: Rollenheft Ayla“), statt „Senden an …“
+  ///
+  /// In de, this message translates to:
+  /// **'Rollenheft {name}'**
+  String druck_rollenheft_von(String name);
+
   /// Rollenvergabe reihum: Erzählerheft ohne Druckspiel
   ///
   /// In de, this message translates to:
   /// **'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.'**
   String get druck_erzaehlerheft_hinweis;
+
+  /// Druckmappe: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt
+  ///
+  /// In de, this message translates to:
+  /// **'Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.'**
+  String get druck_erzaehlerakte_hinweis;
 
   /// Akte: Knopf zu Steckbriefen und Charakterübersicht
   ///
@@ -7124,6 +7166,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Steckbrief senden'**
   String get steckbrief_senden;
+
+  /// Steckbrief-Seite, Knöpfe der fertigen Datei: der Steckbrief der Figur eines Gastes („Herunterladen: Steckbrief Fatma“), statt „Steckbrief senden“
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbrief {figur}'**
+  String steckbrief_von(String figur);
 
   /// Lobby des Gastgebers: Figuren der Gästeliste, die bei dieser Rollenzahl wegfallen (Figur und Gast)
   ///
@@ -7520,6 +7568,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Alle Bindungen'**
   String get erzaehlerakte_netz_alle;
+
+  /// Erzählerakte (A-063): die Akte des Abends als PDF, nur auf dem Erzähler-Platz
+  ///
+  /// In de, this message translates to:
+  /// **'Als PDF'**
+  String get erzaehlerakte_pdf;
 
   /// Erzählerakte (A-063): Bildschirmleser für eine Figur im Netz
   ///

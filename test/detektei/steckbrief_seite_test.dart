@@ -1,7 +1,8 @@
 // M5, K3, A-059: Steckbriefe & Übersicht einer Akte (/akte/:id/steckbriefe). Ein Tipp von der
 // Akte-Seite, keine Einrichtung, kein Fall-Code. Personenzahl offen oder fest, Übersicht und alle
 // Steckbriefe als Datei, Gästeliste Name → Figur im MetaStore, je Gast „Steckbrief senden“;
-// fällt eine Figur bei kleinerer Zahl weg, steht das am Gast. Jede Datei geht an das Teilen.
+// fällt eine Figur bei kleinerer Zahl weg, steht das am Gast. Jede Datei geht an das Teilen; in der
+// Android-App wartet sie auf „Herunterladen“ (Speichern-Dialog) oder „Teilen“.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,10 +14,24 @@ import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/datei_teilen.dart';
+import 'package:mordakte/party/druck_speichern_stub.dart' as app;
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final _de = LDe();
+const _kanal = MethodChannel('mordakte/datei');
+
+/// Fängt den Kanal zur Android-App ab; [antwort] gibt, was das Kotlin melden würde, oder wirft.
+List<MethodCall> _kotlin(Object? Function(MethodCall) antwort) {
+  final aufrufe = <MethodCall>[];
+  final bote = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  bote.setMockMethodCallHandler(_kanal, (c) async {
+    aufrufe.add(c);
+    return antwort(c);
+  });
+  addTearDown(() => bote.setMockMethodCallHandler(_kanal, null));
+  return aufrufe;
+}
 
 /// Fängt das Teilen des Systems ab.
 List<ShareParams> _zeuge() {
@@ -148,6 +163,59 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });
+
+  // Die Android-App (Tests laufen nie auf Android): Nach dem ersten Tipp stehen „Herunterladen“
+  // (Speichern-Dialog, vorn) und „Teilen“; sie nennen die Datei, auch beim Steckbrief eines Gastes.
+  for (final (breite, schrift) in [(390.0, 1.0), (320.0, 2.0)]) {
+    testWidgets('Android: $breite px, Schrift $schrift: Übersicht und Steckbrief eines Gastes mit zwei Wegen; Abbruch ist kein Fehler', (tester) async {
+      final vorher = app.aufAndroid;
+      app.aufAndroid = true;
+      addTearDown(() => app.aufAndroid = vorher);
+      final kanal = _kotlin((_) => true);
+      final geteilt = _zeuge();
+      final meta = MetaStore.memory()
+        ..name = 'Test'
+        ..setzeGaesteliste('schlosskeller', const GaesteListe(personen: 5, gaeste: [Gast('Ayla', 'fatma')]));
+      final state = await _oeffnen(tester, breite: breite, schrift: schrift, meta: meta);
+
+      // Übersicht: Der erste Tipp baut nur, dann zwei Wege, Herunterladen vorn.
+      final uebersichtLaden = find.bySemanticsLabel(_de.druck_datei_laden('Charakterübersicht'));
+      final uebersichtTeilen = find.bySemanticsLabel(_de.druck_datei_teilen('Charakterübersicht'));
+      await _tippe(tester, find.text('Charakterübersicht'), () => uebersichtLaden.evaluate().isNotEmpty);
+      expect(uebersichtLaden, findsOneWidget);
+      expect(uebersichtTeilen, findsOneWidget);
+      expect(tester.getRect(uebersichtLaden).top, lessThanOrEqualTo(tester.getRect(uebersichtTeilen).top));
+      expect(kanal, isEmpty, reason: 'Der erste Tipp baut nur');
+      expect(geteilt, isEmpty);
+
+      // Steckbrief des Gastes: Die Wege nennen ihn („Steckbrief Fatma“), nicht „Steckbrief senden“.
+      final datei = _de.steckbrief_von('Fatma');
+      final steckbriefLaden = find.bySemanticsLabel(_de.druck_datei_laden(datei));
+      await _tippe(tester, find.text(_de.steckbrief_senden), () => steckbriefLaden.evaluate().isNotEmpty);
+      expect(steckbriefLaden, findsOneWidget);
+      expect(find.bySemanticsLabel(_de.druck_datei_teilen(datei)), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp('Steckbrief senden')), findsNothing);
+      await _tippe(tester, steckbriefLaden);
+      final a = kanal.single.arguments as Map<Object?, Object?>;
+      expect(a['name'], 'steckbrief-fatma.pdf');
+      expect(a['gespeichert'], _de.druck_datei_gespeichert('steckbrief-fatma.pdf'));
+      expect(geteilt, isEmpty);
+      await _tippe(tester, find.bySemanticsLabel(_de.druck_datei_teilen(datei)));
+      expect(geteilt.single.fileNameOverrides, ['steckbrief-fatma.pdf']);
+      expect(find.text(_de.druck_datei_fehler), findsNothing);
+
+      // Abbruch im Speichern-Dialog: kein Fehler. Scheitert das Schreiben: der Satz in Handschrift.
+      _kotlin((_) => false);
+      await _tippe(tester, uebersichtLaden);
+      expect(find.text(_de.druck_datei_fehler), findsNothing, reason: 'Abbruch ist kein Fehler');
+      _kotlin((_) => throw PlatformException(code: 'schreiben'));
+      await _tippe(tester, uebersichtLaden);
+      expect(find.text(_de.druck_datei_fehler), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+  }
 
   for (final breite in [320.0, 390.0]) {
     testWidgets('Steckbrief-Seite: $breite px, Schrift 2.0, mit Gästen ohne Überlauf', (tester) async {

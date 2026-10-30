@@ -476,6 +476,10 @@
       "text": "Darin stehen {opfer}, der Detektiv, das Netz der Gäste und jede Figur: erst die gespielten, dann die ohne Spieler."
     },
     {
+      "id": "ui.druck.akte.inhalt_alle",
+      "text": "Darin stehen {opfer}, der Detektiv, das Netz der Gäste und jede Figur mit ihrer Nummer in der Besetzung. Bei acht Personen (ohne den Detektiv) spielen die Figuren 1 bis 8, die übrigen bleiben ohne Spieler."
+    },
+    {
       "id": "ui.druck.akte.hinweis",
       "text": "Lies die Akte vor dem Abend in Ruhe. Sie bleibt bei dir, und was darin steht, gilt an jedem Abend gleich."
     },

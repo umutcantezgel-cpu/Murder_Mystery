@@ -52,7 +52,10 @@ abstract final class Routes {
   static const akte = '/akte/:id';
   static String akteVon(String id) => '/akte/$id';
   static const druckmappe = '/akte/:id/druck';
-  static String druckmappeVon(String id) => '/akte/$id/druck';
+
+  /// Druckmappe der Akte [id]; mit [ausDetektei] führt „Zurück“ in die Detektei
+  /// (dorthin, woher man kam), sonst auf die Akte.
+  static String druckmappeVon(String id, {bool ausDetektei = false}) => ausDetektei ? '/akte/$id/druck?von=detektei' : '/akte/$id/druck';
 
   /// Steckbriefe und Charakterübersicht einer Akte (M5), ohne Einrichtung und Fall-Code.
   static const steckbriefe = '/akte/:id/steckbriefe';
@@ -160,7 +163,9 @@ GoRouter buildRouter(AppState app, {String initialLocation = Routes.start, Abend
       path: Routes.druckmappe,
       pageBuilder: (c, s) {
         final id = s.pathParameters['id'] ?? '';
-        return _fade(c, s, _zurueckNach(Routes.akteVon(id), DruckmappeSeite(akteId: id)));
+        // Zurück dorthin, woher man kam: aus der Detektei (ganz oben oder unter der Mappe) dorthin, sonst auf die Akte.
+        final zurueck = s.uri.queryParameters['von'] == 'detektei' ? Routes.detektei : Routes.akteVon(id);
+        return _fade(c, s, _zurueckNach(zurueck, DruckmappeSeite(akteId: id, zurueck: zurueck)));
       },
     ),
     GoRoute(

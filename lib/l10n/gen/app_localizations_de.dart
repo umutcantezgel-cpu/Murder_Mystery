@@ -1935,10 +1935,13 @@ class LDe extends L {
 
   @override
   String get detektei_druck_hinweis =>
-      'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.';
+      'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.';
 
   @override
   String get detektei_druck_vorbereiten => 'Druckmappe vorbereiten';
+
+  @override
+  String get detektei_druck_pdfs => 'PDFs zum Ausdrucken';
 
   @override
   String abend_schritt(int n, int gesamt) {
@@ -2183,6 +2186,10 @@ class LDe extends L {
   @override
   String get abend_feste_loesung_online =>
       'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.';
+
+  @override
+  String get abend_druck_nur_pdfs =>
+      'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.';
 
   @override
   String get profil_klasse_hinweis =>
@@ -4050,6 +4057,17 @@ class LDe extends L {
   }
 
   @override
+  String get druck_datei_teilen_kurz => 'Teilen';
+
+  @override
+  String get druck_datei_laden_kurz => 'Herunterladen';
+
+  @override
+  String druck_datei_gespeichert(String datei) {
+    return 'Gespeichert: $datei';
+  }
+
+  @override
   String get druck_datei_fehler =>
       'Das hat nicht geklappt. Versuch es bitte noch einmal.';
 
@@ -4066,8 +4084,17 @@ class LDe extends L {
   }
 
   @override
+  String druck_rollenheft_von(String name) {
+    return 'Rollenheft $name';
+  }
+
+  @override
   String get druck_erzaehlerheft_hinweis =>
       'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.';
+
+  @override
+  String get druck_erzaehlerakte_hinweis =>
+      'Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.';
 
   @override
   String get detektei_akte_steckbriefe => 'Steckbriefe & Übersicht';
@@ -4122,6 +4149,11 @@ class LDe extends L {
 
   @override
   String get steckbrief_senden => 'Steckbrief senden';
+
+  @override
+  String steckbrief_von(String figur) {
+    return 'Steckbrief $figur';
+  }
 
   @override
   String online_lobby_gaesteliste_weg(int anzahl, String figuren) {
@@ -4363,6 +4395,9 @@ class LDe extends L {
 
   @override
   String get erzaehlerakte_netz_alle => 'Alle Bindungen';
+
+  @override
+  String get erzaehlerakte_pdf => 'Als PDF';
 
   @override
   String erzaehlerakte_figur_semantik(String name, int anzahl) {

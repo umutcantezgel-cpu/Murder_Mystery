@@ -12,6 +12,7 @@ import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/meta/meta_store.dart';
+import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,6 +70,9 @@ void main() {
     expect(find.text('Diese Akte spielen'), findsOneWidget);
     // M5: Steckbriefe & Übersicht mit einem Tipp, ohne Einrichtung.
     expect(find.text('Steckbriefe & Übersicht'), findsOneWidget);
+    // Der Weg zur Druckmappe sagt, was es dort gibt.
+    expect(find.text('PDFs zum Ausdrucken'), findsOneWidget);
+    expect(find.text('Druckmappe'), findsNothing);
     for (final text in ['Die Lage', 'Schauplatz', 'Anlass', 'Zeitpunkt', 'Personen', 'Das Opfer']) {
       expect(find.text(text), findsOneWidget, reason: text);
     }
@@ -104,9 +108,40 @@ void main() {
       final state = await oeffnen(tester, 'blue_palm', breite: breite, schrift: 2);
       expect(find.text('Blue Palm Motel'), findsOneWidget);
       expect(find.text('Die Lage'), findsOneWidget);
-      // Steckbriefe gibt es nur bei Akten mit dem Zusatz steckbriefe.
+      // Steckbriefe gibt es nur bei Akten mit dem Zusatz steckbriefe, PDFs nur mit Druckfassung.
       expect(find.text('Steckbriefe & Übersicht'), findsNothing);
+      expect(find.text('PDFs zum Ausdrucken'), findsNothing);
       expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+  }
+
+  for (final schrift in [1.0, 2.0]) {
+    testWidgets('Fallakte Schlosskeller: 320 px, Schrift $schrift, alle vier Fußknöpfe ganz im Bild und antippbar', (tester) async {
+      // Die Druckmappe liest die Akte aus dem Bündel: vorab in echter Zeit laden, ohne
+      // Ladevorgänge, die frühere Tests begonnen und nicht abgewartet haben.
+      await tester.runAsync(() async {
+        rootBundle.clear();
+        await PartyDaten.laden(rootBundle);
+      });
+      final state = await oeffnen(tester, 'schlosskeller', breite: 320, schrift: schrift);
+      const bild = Rect.fromLTWH(0, 0, 320, 844);
+      for (final text in ['Zurück', 'Steckbriefe & Übersicht', 'PDFs zum Ausdrucken', 'Diese Akte spielen']) {
+        final knopf = find.ancestor(of: find.text(text), matching: find.byType(MKnopf));
+        expect(knopf, findsOneWidget, reason: text);
+        final r = tester.getRect(knopf);
+        expect(bild.contains(r.topLeft) && bild.contains(r.bottomRight - const Offset(0.01, 0.01)), isTrue, reason: '$text: $r');
+        expect(knopf.hitTestable(), findsOneWidget, reason: '$text: antippbar');
+      }
+      expect(tester.takeException(), isNull);
+      // Der Tipp führt in die Druckmappe.
+      await tester.tap(find.text('PDFs zum Ausdrucken'));
+      for (var i = 0; i < 100 && find.text('Druckmappe vorbereiten').evaluate().isEmpty; i++) {
+        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(find.text('Druckmappe vorbereiten'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();
     });

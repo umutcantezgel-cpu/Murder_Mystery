@@ -30,6 +30,31 @@ immer auf das neueste freigegebene Release.
   einmaligen Schalter des Besitzers (siehe unten). Eine feste Web-Adresse steht hier nicht.
   Lokal: `bash build.sh`, dann `python3 -m http.server 8081 --directory build/web`.
 
+**Erzählerakte am Release (Schlosskeller).** Am Release hängt die Erzählerakte als PDF, in zwei Fassungen. Beide sind
+nur für die Person, die erzählt, nennen nie den Täter und gelten für jede Personenzahl (alle Figuren in der Reihenfolge
+der Besetzung, ohne Marken für einen bestimmten Abend; bei acht Personen spielen die Figuren 1 bis 8):
+
+| Fassung | Datei |
+| --- | --- |
+| Ziele wie im Druckspiel | [`erzaehlerakte.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
+| Abend mit „Dein Moment“ (je Figur die zwei Ziele aus „Dein Moment“) | [`erzaehlerakte-dein-moment.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
+
+Fehlt eine der beiden Dateien im neuesten Release (dann war der Job `erzaehlerakte` rot, siehe „Builds“), liegt sie
+im vorigen Release auf der [Release-Seite](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases).
+
+Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken**
+(ganz oben, gleich unter dem Schriftzug MORDAKTE; derselbe Knopf steht unter dem Schlosskeller und auf der
+Akte-Seite). In der Druckmappe Personen, Detektiv und Fall einstellen, unten **Druckmappe vorbereiten** tippen, dann
+eine Datei antippen. Sie entsteht beim ersten Tipp; danach je Gerät:
+
+- **Android-App:** zweiter Tipp. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen (meist
+  „Downloads“), speichern. **Teilen** öffnet wie bisher das Teilen-Menü des Telefons.
+- **iPhone- und iPad-App:** Das Teilen-Menü öffnet sich gleich, darin **In Dateien sichern** oder **Drucken**.
+- **Browser** (auch Safari am iPhone): zweiter Tipp. **Herunterladen** legt die Datei in den Download-Ordner; kann
+  der Browser teilen, steht daneben **Teilen**.
+
+Steckbriefe und Charakterübersicht liegen auf der Akte-Seite unter **Steckbriefe & Übersicht**.
+
 ### 2. Starten
 
 Die App startet in der **Detektei**: **Neuer Abend**, **Beitreten**, die Kampagne aus fünf Akten, die
@@ -56,7 +81,7 @@ Optional kannst du **erkunden** (Abstecher): Das kostet Nachtminuten und kann Ka
 - **Einstimmung:** Vor dem Auftakt liest der Erzähler eine Vorgeschichte (etwa fünf Minuten) und stellt jede Figur
   am Tisch vor. Der Erzähler hat dazu eine **Erzählerakte** mit Hintergründen und Beziehungsnetz aller Figuren,
   ohne den Täter. Sie liegt nur am Erzähler-Platz (Pult, Erzähler-Handy, Erzähler-Sitz), nie solo, und lässt sich
-  ohne Fall-Code drucken.
+  ohne Fall-Code drucken: in der offenen Akte mit **Als PDF**, in der Druckmappe der App und als Datei am Release.
 - **„Dein Moment“** ersetzt die Gruppenwahl: Jede Rolle zieht je Runde geheim einen Zug (Zeigen, Decken, Helfen,
   Auspacken, Ablenken, Lauschen). Die Züge geben den Optionen Tischwerte, die den Würfel verschieben, bringen
   Gerüchte, Randnotizen und Nachtminuten, füllen die Leisten Zusammenhalt und Spuk mit Ereignissen und bestimmen
@@ -164,8 +189,18 @@ Weitere Einstiege (Web): `?screen=detektei|neu|akte|sammlung|deck|profile|beitre
 - **`android`**: `mordakte.apk`. **`ios`** (macOS, darf fehlschlagen): `mordakte-ios-unsigned.ipa`.
 - **`web`**: `mordakte-web.zip` und eine Kopie mit Basis `/Murder_Mystery/` für GitHub Pages. **`pages`** veröffentlicht
   sie und schlägt ohne aktiviertes Pages fehl, ohne den Lauf zu stören.
+- **`erzaehlerakte`** (nicht beim wöchentlichen Lauf): zeichnet die Porträts (`flutter test
+  tool/bild/druck_portraets_test.dart`, mindestens 22) und setzt die Erzählerakte des Schlosskellers zweimal mit
+  `party_druck.dart --erzaehlerakte --ohne-besetzung`, einmal mit `--dein-moment`: `erzaehlerakte.pdf` und
+  `erzaehlerakte-dein-moment.pdf`. Der Job schlägt fehl, wenn Porträts fehlen, eine Datei weniger als 24 Seiten hat
+  oder beide Dateien gleich sind. Kein Fall-Code, kein Pfad. Ein roter Job hält das Release nicht auf: Es erscheint
+  ohne die PDFs, und der Lauf bleibt rot. Auf `main` wird es trotzdem „latest“, und die Links oben führen dann ins
+  Leere, bis die PDFs wieder dranhängen. Nachholen mit „Re-run failed jobs“: Das baut die Akten neu und erzeugt ein
+  neues Release mit neuem Tag (`mordakte-<Lauf>.<Versuch>`).
 - **`release`**: je Lauf ein Release mit Tag `mordakte-<Lauf>.<Versuch>` und den festen Dateinamen
-  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `SHA256SUMS.txt`. Tags werden nie verschoben.
+  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `erzaehlerakte.pdf`,
+  `erzaehlerakte-dein-moment.pdf`, `SHA256SUMS.txt`. IPA, Web-ZIP und die beiden PDFs dürfen fehlen; dann nennen die
+  Notizen das, und das Release entsteht trotzdem. Tags werden nie verschoben.
   **latest** bekommt das Release nur, solange sein Stand die Spitze von `main` oder des Arbeitsbranches ist.
 
 **Android-Signatur.** Sind alle vier Secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte/abend/einrichtung/abschnitte.dart' show EinrichtungsWerte;
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/einrichtung.dart';
 import 'package:mordakte/stil/stil.dart' show MFotoabzug;
 import 'package:mordakte/party/sitzung.dart';
@@ -150,7 +151,11 @@ void main() {
     _ansicht(t, 1280, 800);
     final s = _einrichtung();
     await t.pumpWidget(rahmen(EinrichtungBildschirm(sitzung: s)));
+    // Erst mit „Zum Drucken“ der Hinweis auf die PDFs ohne Abend (nur Text, kein Sprung).
+    final nurPdfs = find.text(LDe().abend_druck_nur_pdfs);
+    expect(nurPdfs, findsNothing);
     await _tippe(t, find.text(s.ui('ui.einrichtung.spiel_druck')));
+    expect(nurPdfs, findsOneWidget);
     await _tippe(t, find.text(s.ui('ui.einrichtung.start')));
     expect(s.einstellungen.druck, isTrue);
   });

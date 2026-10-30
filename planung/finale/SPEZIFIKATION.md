@@ -587,3 +587,215 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       Summen ändern sich, genau die Abende, an denen eine der sieben Optionen eine Randnotiz zeigte (redselig oder
       Nachfrage, mit alten oder neuen Daten; nachgezählt); Gegenprobe mit zurückgenommenem `einfluss.json`: vorige
       Liste passt (0 Abweichungen).
+- 2026-10-30 (Nachtrag PDFs: Erzählerakte in App und Release, Druckmappe leichter finden; Besitzer: alle drei Punkte,
+  Plan `delegated-wandering-meteor`, Branches `pdf/a` Kern und Release, `pdf/b` App):
+  48. §2 **Erzählerakte als PDF in der Druckmappe:** `DruckTafel(erzaehlerakte: true)` nur in der `DruckmappeSeite`.
+      Im Druckspiel steht unter „Rollenhefte einzeln senden“ ein eigener Abschnitt mit dem Kopf
+      `ui.druck.paket.dateien.ordner4` („Nur Erzähler“), dem Hinweis `druck_erzaehlerakte_hinweis` (ARB) und dem Knopf
+      `ui.druck.akte.titel` → `erzaehlerakte.pdf`. Die Akte kommt nur über `erzaehlerakteFuer(einfluss: false)`, also mit
+      den Zielen des Kanons wie Druckspiel und Kommandozeile ohne `--dein-moment`, nie über `daten.erzaehlerakte`
+      (Sternfassung). Personenzahl der Einstellung; kein Satz, kein Fall-Code, in allen Pfaden dieselben Bytes. Der
+      Kontext entsteht erst beim Tipp und nach einem Fehler neu. Nie in der Rollenvergabe (`rollen.dart`, die neutrale
+      Ansicht für den ganzen Tisch), nie ohne Druckspiel, solo oder in Akten ohne Erzählerakte. Icon wie der Zugang am
+      Abend (`folder_shared_outlined`).
+  49. §2 **„Als PDF“ in der Erzählerakte des Abends:** Der Knopf steht im Fuß der offenen `ErzaehlerakteSeite` neben
+      „Schließen“, nicht als eigener Streifen (ein fester Streifen hätte die Figurenliste am Handy dauerhaft
+      verkürzt). Nicht im Eintrag, nicht in der Zwischenstufe, nicht am Pult, nie solo. Die Datei hat die angezeigte
+      Fassung (`erzaehlerakteFuer(einfluss: widget.einfluss)`, mit Schicht die Sterne) und die Personenzahl des Abends,
+      ohne Fall-Code. Den Knopf gibt es nur mit einer Personenzahl der Besetzung; gilt die Akte nicht mehr
+      (`erlaubt()` falsch), entsteht keine Datei. Reihum und am Pult die Zahl der Einstellung, online die Rollenzahl
+      des Raums. Am Erzähler-Handy reihum schickt der Begleiter `rollen` nur während der Einstimmung (Punkt 43); sonst
+      gilt die Zahl der gespielten Figuren, wenn sie genau die Besetzung dieser Zahl sind (beim Zusammenführen
+      ergänzt, a7d1272; vorher fehlte der Knopf dort nach der Einstimmung). `DateiKnopf` hat dafür den optionalen
+      Dateinamen `datei` („Herunterladen: Erzählerakte“ statt „Herunterladen: Als PDF“) und schreibt Ladehinweis und
+      Fehler auf dunklem Grund in Papierfarbe; auf Papier unverändert.
+  50. §2 **Neutrale Fassung für das Release:** `ErzaehlerakteKontext.rollen` ist `required int?`; `null` setzt die Akte
+      ohne Besetzung: alle 20 Figuren in Besetzungsreihenfolge, keine Marken „Heute gespielt“/„Ohne Spieler“, im Netz
+      keine blassen Knoten, Etiketten oder Kanten und kein „Ohne Spieler“ in den Legenden, keine Personenzeile auf dem
+      Deckblatt. Die neutrale Fassung
+      muss ausdrücklich mit `rollen: null` angefordert werden; `PaketKontext` bleibt bei `int`. Kommandozeile
+      `--erzaehlerakte --ohne-besetzung` (Ausgabe `build/druck/<fall>-erzaehlerakte-alle`); mit `--personen` oder
+      `--n` und, zusätzlich zum Plan, ohne `--erzaehlerakte` (sonst entstünde stillschweigend ein Paket für 12) Exit 2.
+      Die Porträtprüfung umfasst dann alle 20 Figuren und `detektiv-w`/`detektiv-m`; fehlende Porträts bleiben eine
+      Warnung mit Exit 0 („Achtung: Porträts fehlen (…) in …“). Die Akte hat 24 statt der geplanten 23 Seiten, weil
+      Netz und Legende zwei Seiten brauchen (wie schon bei `--personen 8`); der Test zählt Deckblatt, Personen und
+      Netz aus der Bezugsakte für 12 Personen, die CI-Untergrenze bleibt 23. Bytes für `--personen N`, `--dein-moment`
+      und `--paket` unverändert (40 von 40 Dateien vor und nach der Änderung gleich). **Kein neuer Text:** Das
+      Deckblatt sagt weiter `ui.druck.akte.inhalt` („… erst die gespielten, dann die ohne Spieler“). Das stimmt für jede
+      Personenzahl, weil `Besetzung.besetzt(n)` der Anfang der Besetzungsreihenfolge ist. Ein Satz wie „Bei N
+      Personen spielen die Figuren 1 bis N“ hätte einen neuen Baustein in `ui-druck-paket.json` und `kanon_tor`
+      gebraucht; die Doku (Druckspiel-Anleitung) sagt es stattdessen.
+  51. **Release-Job `erzaehlerakte`, optional:** `needs: gate`, nicht bei `schedule`, 20 min. Porträts mit
+      `flutter test tool/bild/druck_portraets_test.dart` (mindestens 22 PNG), dann zweimal
+      `party_druck.dart --erzaehlerakte --ohne-besetzung`, einmal mit `--dein-moment` in eigenem `--aus`-Ordner,
+      umbenannt zu `erzaehlerakte-dein-moment.pdf`. Abbruch bei „Achtung: Porträts fehlen“, unter 23 Seiten
+      (`pdfinfo`) oder gleichen Dateien. Artefakt `erzaehlerakte` (`if-no-files-found: error`). Der Release-Job lädt es
+      mit `continue-on-error` wie IPA und Web-ZIP; ein PDF-Fehler hält die APK nie auf. Vorhandene PDFs kommen in
+      `SHA256SUMS.txt`, die Assets und je eine Notizzeile („Nur für die Person, die erzählt; nennt nie den Täter; für
+      jede Personenzahl“), sonst eine Ersatzzeile; dazu der Installationspunkt „PDFs zum Ausdrucken … Detektei → PDFs
+      zum Ausdrucken“. Kein `--code`, `--paket`, `--pfad`, `--personen` oder `--n` im Job. Geprüft von
+      `tool/ci/tests/test_release_workflow.py` (14 Tests, nur Standardbibliothek; gleicht den Warntext mit
+      `party_druck.dart` ab).
+  52. **„PDFs zum Ausdrucken“ als einheitlicher Name** (`detektei_druck_pdfs`): auf der Akte-Seite statt „Druckmappe“
+      (`ganzeWorte`; der Seitentitel „Druckmappe“ und `detektei_akte_druckmappe` bleiben), als zweiter Weg unter jeder
+      druckbaren Mappe der Startseite (`AkteKarte.unten`, außerhalb von `excludeSemantics`, ab zwei Spalten in der
+      Spalte der Mappe; der Name enthält keinen Akten-Titel, weil `tool/e2e/start.mjs` „Spuk im Schlosskeller“ genau
+      einmal erwartet), im Assistenten bei „Zum Drucken“ als Hinweis `abend_druck_nur_pdfs` (nur Text, kein Sprung, die
+      Einstellungen bleiben) und in den Release-Notizen. `detektei_druck_hinweis` nennt die Erzählerakte.
+  53. **Porträts in der App:** `lib/party/druck_portraets.dart` zeichnet die Porträts der Druckfassung
+      (`druckPortraets`, 20 Figuren plus `detektiv-w`/`detektiv-m`, ohne das Opfer, `Future.delayed(Duration.zero)`
+      zwischen den Bildern) mit 360 px statt 720 px. Kein Zwischenspeicher: `DruckTafel` hält den Kontext, `DateiKnopf`
+      die fertige Datei. Scheitern die Porträts (etwa die PNG-Kodierung im Browser), entsteht die Akte ohne Bilder.
+      Teststelle `druckPortraetsUeber`. `tool/bild/druck_portraets_test.dart` nutzt dieselbe Funktion mit 720 px; die
+      22 PNG sind bytegleich zu vorher. Offen: Browserprobe (Ladezeit, Ziel unter 20 s, sonst 240 px).
+  54. Testanpassungen aus der App-Hälfte: Tests, die zur Druckmappe navigieren, leeren vorher `rootBundle` und laden
+      `PartyDaten` in `runAsync` vor (Ladevorgänge aus beendeten Testzonen früherer Tests ließen die Druckmappe bei
+      „Die Akte wird vorbereitet …“ stehen). Im Rollenphasen-Test der Erzählerakte sind die Scrollschritte 120 statt
+      300 px, weil der Fuß mit zwei Knöpfen in der Testschrift zweizeilig wird; der Inhalt der Prüfungen ist gleich.
+  55. §2 **Deckblatt der neutralen Erzählerakte** (Befund der Release-Probe, ersetzt „Kein neuer Text“ aus Punkt 50):
+      Ohne Besetzung sagt das Deckblatt `ui.druck.akte.inhalt_alle` („… und jede Figur mit ihrer Nummer in der
+      Besetzung. Bei acht Personen (ohne den Detektiv) spielen die Figuren 1 bis 8, die übrigen bleiben ohne
+      Spieler.“) statt „erst die gespielten, dann die ohne Spieler“, denn ohne Marken sah man die Grenze nirgends. Nur
+      der neutrale Zweig liest den Baustein; Akten mit Personenzahl und `--paket` bleiben bytegleich. Neuer Baustein
+      in `ui-druck-paket.json` (nicht in `tool/kanon_fest.txt`), `kanon_tor` neu erzeugt (Prüfsummen, Inhaltskennung
+      des Schlosskellers in `akten.json`).
+  56. **Release-Job, Feinschliff aus Probe und Prüfung:** Untergrenze 24 statt 23 Seiten (Deckblatt, Personen, Netz mit
+      Legende auf zwei Seiten, 20 Figuren; eine verlorene Figurenseite fällt jetzt auch im Job auf, nicht nur im gate).
+      `test_release_workflow.py` verlangt zusätzlich `2>&1 | tee` in beiden Aufrufen (sonst erreicht die Porträtwarnung
+      von stderr das Log nicht), die genaue grep-Zeile über beide Logs und die beiden `cp`-Zeilen (Druckspiel nach
+      `erzaehlerakte.pdf`, „Dein Moment“ nach `erzaehlerakte-dein-moment.pdf`); 15 Tests. Mutationsprobe: 19 von 23
+      erkannt (vorher 16). Die Meldung mit „Dein Moment“ steht in einfachen Anführungszeichen (shellcheck SC1111).
+      Release-Notizen: der Satz „PDFs zum Ausdrucken … erstellt die App“ steht unter „Dateien“ statt unter
+      „Installation“; der Statusverweis zeigt auf `planung/finale/STATUS.md`. **Bewusst ohne `continue-on-error`:** Ein
+      roter Job `erzaehlerakte` färbt den Lauf rot (Signal), das Release entsteht trotzdem ohne die PDFs und wird auf
+      `main` an der Spitze „latest“; die latest-Logik bleibt unverändert. Kopfkommentar, README („Builds“, Hinweis auf
+      die Release-Seite) und Anleitung §2 sagen das; nachholen mit „Re-run failed jobs“ (neues Release, neuer Tag).
+  57. **Kommandozeile:** `--erzaehlerakte` mit `--code`, `--pfad` oder `--detektiv` bricht ab (Exit 2), statt die
+      Angabe still zu übergehen; die Akte hängt nie vom Fall ab. Die Porträtprüfung umfasst auch mit `--personen`
+      alle 20 Figuren und beide Detektive (die Figuren ohne Spieler haben eigene Seiten und Knoten im Netz). Nur
+      Meldungen ändern sich, keine Bytes.
+  58. **Porträts in der App 240 px** (ersetzt 360 px aus Punkt 53; Befund der Browserprobe): Die Erzählerakte brauchte
+      im Web-Build bei 390 px im Mittel 20,7 s (2 von 10 Läufen unter 20 s). Ohne Ladekreis 8 bis 9 s, ohne Kreis und
+      mit 240 px 5,2 bis 5,5 s, bei vierfach gedrosseltem Prozessor 19,9 s. Ein Porträt steht im PDF höchstens 86 pt
+      breit; 240 px sind dort rund 200 dpi. `tool/bild` bleibt bei 720 px (Release, Kommandozeile). Vor dem Satz
+      rechnet `vorab` (`lib/party/erzaehlerakte_druck.dart`) jedes Porträt groß und jede Figur klein in JPEG um, mit
+      `Future.delayed(Duration.zero)` dazwischen; `FestPortraets` merkt sich die Bilder, die Datei bleibt bytegleich.
+      Das Umrechnen liegt im Rückfall: Ist ein Bild unlesbar, entsteht die Akte ohne Porträts.
+  59. **`DateiKnopf`:** Während die Datei entsteht, steht immer die ruhende Sanduhr (wie bisher nur bei „Bewegung
+      reduzieren“), nie der Ladekreis: Er ließ die Seite bei jedem `await` neu zeichnen, im Browser teurer als die
+      Datei selbst. Beschriftungen mit `ganzeWorte` (vorher brachen bei 320 px und doppelter Schrift Erzählerheft,
+      Detektivbogen, Auflösungsheft und Erzählerakte mitten im Wort). Neu `kurz`: Im Fuß der Erzählerakte stehen im
+      Browser nach dem Bauen nur „Herunterladen“ und „Teilen“ (`druck_datei_laden_kurz`, `druck_datei_teilen_kurz`),
+      der Bildschirmleser hört „Herunterladen: Erzählerakte“; vorher lief der Fuß bei 320 × 640 und 320 × 568 mit
+      doppelter Schrift um 9 bzw. 81 px über und die Figurenliste schrumpfte auf 0 px (ändert Punkt 49 für den Fuß).
+      Die Druckmappe nennt den Dateinamen weiter.
+  60. **Kleinere Korrekturen der App:** `DruckTafel` baut den Kontext der Erzählerakte neu, wenn sich die Personenzahl
+      ändert (vorher nur der Knopf-Schlüssel; heute nicht erreichbar, aber latent). Der Rückfall am Erzähler-Handy
+      (a7d1272) ist die reine Funktion `gastAkteBesetzung` mit Test für die Lücke. Texte:
+      `druck_erzaehlerakte_hinweis` endet mit „Gib sie nur dieser Person.“ statt „Gib sie nicht weiter.“ (die
+      Druckmappe füllt oft der Gastgeber für die erzählende Person), `abend_druck_nur_pdfs` setzt den Knopfnamen in
+      „…“.
+  61. **Bewusst nicht geändert** (Befunde der Gegenprüfung): Kanten durch das Etikett „Herr Schneider“ im Netz (schon
+      vorher, änderte die Bytes aller Fassungen), Umbruch „Fall-/Code“ im Hinweis der Druckfassung (schon vorher),
+      Lage von „PDFs zum Ausdrucken“ unter dem ersten Bildschirm der Detektei und der vierzeilige Fuß der Akte-Seite
+      bei 320 px (Beobachtungen in FUER-DEN-NUTZER), „Als PDF“ reihum (der Plan sieht es vor; Anleitung §5.4 rät zum
+      eigenen Gerät, Entscheidung des Besitzers in FUER-DEN-NUTZER), `--paket --n 17` bis `20` stürzt ab (vorbestehend,
+      eigener Punkt in STATUS).
+- 2026-10-30 (Nachtrag „leicht finden“, Proben und Prüfer: Browserprobe, Kotlin, Oberfläche, Verhalten; jeder Befund
+  nachgestellt, die neuen Tests schlagen ohne die Behebung fehl):
+  67. **Knopf oben ohne Sprung** (ändert 62): Solange `_akten` lädt, hält `Visibility(visible: false, maintainSize)`
+      den Platz des oberen Knopfs (gesperrt, ohne Tipp und ohne Semantik). Vorher kam er im Web-Build 1,3 bis 3,7 s
+      nach dem ersten Bild und schob Ausweis, „Dein erster Fall“ und „Neuer Abend“ um 56 bis 64 px (Schrift 2: 130 px)
+      nach unten. Nur wenn der Katalog geladen ist und keine Akte `druckbar` ist (oder er nicht lädt), fällt der Platz
+      weg. Test mit um 400 ms verzögertem `akten.json` (`start_test`).
+  68. **„Zurück“ dorthin, woher man kam** (ändert 62): `Routes.druckmappeVon(id, ausDetektei: true)` hängt
+      `?von=detektei` an; beide Knöpfe der Detektei (oben und unter der Mappe) setzen es. Dann führen „Zurück“ und die
+      Zurück-Taste des Systems (`_zurueckNach`) in die Detektei, sonst wie bisher auf die Akte
+      (`DruckmappeSeite.zurueck`). Vorher landete man auf einer Akte-Seite, die man nie geöffnet hatte.
+  69. **Druckmappe am kleinen Handy** (ändert 63): Nach „Druckmappe vorbereiten“ rollt die Seite zur Druckfassung
+      (`GlobalKey` auf `DruckTafel`, `Scrollable.ensureVisible` im nächsten Bild, 300 ms, ohne Bewegung bei „Bewegung
+      reduzieren“). Bei 320 × 568 lag „Druckfassung“ vorher unter der Fußleiste und Schritt 3 zeigte auf nichts
+      Sichtbares; jetzt liegt „Alles in einer Datei“ über der Fußleiste. Der Hinweis endet nach Schritt 3: Der Satz
+      „Die Erzählerakte ist nur für die Person, die erzählt.“ stand schon im Block „Nur Erzähler“
+      (`druck_erzaehlerakte_hinweis`) bei ihrem Knopf. „Druckmappe vorbereiten“ hat `ganzeWorte` (brach bei 320 px und
+      doppelter Schrift als „Druckmapp|e“).
+  70. **Ganze Wörter auf den Dateiknöpfen** (ändert 59): `MKnopf` mit `ganzeWorte` lässt das Symbol weg, wenn ein Wort
+      selbst in der kleinsten Schrift (11) nicht daneben passt (`ganzeWortePassen` in `m_ganze_worte.dart`; das Symbol
+      schmückt nur). `DateiKnopf` prüft nach dem Bauen mit `MKnopf.passtGanz`, ob „Herunterladen: …“ und „Teilen: …“
+      überhaupt ganz passen; wenn nicht, steht der Dateiname als eigene Zeile darüber (`MGanzeWorte`, für den
+      Bildschirmleser ausgeblendet) und auf den Knöpfen nur der Weg wie mit `kurz` (Semantik mit Dateinamen). Vorher
+      brachen auf Android (neu dort, im Browser schon vorher) bei 320 px und doppelter Schrift „Herunterlade|n: …“ und
+      „Chara|kterübersich|t“, bei 360 px oder Schrift 1,5 noch „Teilen: Charakterübersicht“; im Grundzustand
+      „Detektivbogen“ und „Auflösungsheft“. Bleibt: der Knopf „Charakterübersicht“ (Messingschild) im Grundzustand
+      bei 320 px und doppelter Schrift (vorbestehend, das Wort ist auch in Schrift 11 breiter als der Knopf).
+  71. **Die Wege nennen die Datei:** `datei:` an „Senden an {name}“ (`druck_rollenheft_von` „Rollenheft {name}“) und an
+      „Steckbrief senden“ (`steckbrief_von` „Steckbrief {figur}“, Name der Figur). Nach dem Bauen also „Herunterladen:
+      Rollenheft Ayla“ und „Teilen: Steckbrief Fatma“ statt zweier Verben ohne Dateinamen; das betraf nun auch jede
+      Person in der Android-App.
+  72. **Kotlin** (ändert 64): Geschrieben wird mit `openOutputStream(ziel, "wt")` (kürzen), mit Rückfall auf „w“, wenn
+      ein Anbieter „wt“ nicht kennt. Mit „w“ kürzt nicht jeder Anbieter; wer im Dialog eine vorhandene, längere PDF
+      überschrieb (etwa die für 12 Personen mit einer kürzeren), behielt deren Rest, die Datei war für `pdfinfo`
+      kaputt. Eine neue, vom Dialog leer angelegte Datei (Größe 0 vor dem Schreiben) wird nach einem Schreibfehler
+      entfernt (`DocumentsContract.deleteDocument`); ebenso, wenn die Anfrage zu einer früheren Activity gehörte und
+      die Datei noch leer ist. Eine vorhandene, zum Überschreiben gewählte bleibt. Jede Ausnahme beim Öffnen des
+      Dialogs (nicht nur `ActivityNotFoundException`) setzt die Anfrage zurück und meldet `kein_dialog`; vorher blieb
+      `offen` gesetzt und jeder weitere Tipp hieß „belegt“. Der Hinweis nach dem Speichern nennt den Namen, unter dem
+      die Datei liegt (`OpenableColumns.DISPLAY_NAME`, etwa „erzaehlerakte (1).pdf“ oder umbenannt): Das Kotlin setzt
+      ihn im Satz aus der ARB an die Stelle des vorgeschlagenen Namens, hat also weiter keinen eigenen Text.
+      Kompiliert mit Warnungen als Fehler, auf einem Gerät nicht ausprobiert.
+  73. **`DateiGeraet.herunterladenMitDialog`** (ändert 65): Der Standardweg liest es über das Gerät, nicht mehr am Gerät
+      vorbei aus der Umsetzung. Ein nachgebildeter Browser lädt so auch neben der Android-Weiche herunter; die Fakes in
+      den Tests setzen es selbst (die Android-Attrappe in `druck_tafel_test` braucht `standardWeg` nicht mehr).
+  74. **Tests und Kommentare:** Vertrag mit `MainActivity.kt` aus dem Quelltext (Kanal, Methode, alle Schlüssel, „wt“;
+      Vorbild `langer_abend_test`), Abbruch im Speichern-Dialog am `DateiKnopf` (keine Fehlerzeile), die Steckbrief-Seite
+      in der Android-App (zwei Wege, Kanal, Teilen, Abbruch, Schreibfehler), Druckmappe und Steckbriefe in der
+      Android-App bei 320 px und doppelter Schrift ohne geteiltes Wort (`ganze_worte_test`). Die Kommentare in
+      `druck_tafel.dart` und `erzaehlerakte_ansicht.dart` nennen den zweiten Tipp auch für die Android-App.
+      **Bewusst nicht geändert:** Der obere Knopf kostet 64 px (Schrift 1,3 bei 320 px: 82 px); auf üblichen Handys
+      rutschen damit „Sofort ermitteln“ oder „Neuer Abend“ aus dem ersten Bildschirm (etwa Android 360 × 640 bei
+      Schrift 1, iPhone 390 × 844 bei Schrift 1,15). Das ist der Preis der Entscheidung „ganz oben“ (Punkt 62); die
+      Frage steht in FUER-DEN-NUTZER. Die Schritte im Hinweis stehen weiter in einem Absatz mit `\n`, ohne hängenden
+      Einzug.
+- 2026-10-30 (Nachtrag „leicht finden“: Knopf oben, „Herunterladen“ in der Android-App; Besitzer: „Mach es so, dass
+  man leicht draufkommt“, „Ja, Speichern dazu“, jeder spielt am eigenen Handy, Geräte Android-App, iPhone und Browser;
+  Plan `delegated-wandering-meteor`, Branches `leicht/a` Android, `leicht/b` Detektei):
+  62. **„PDFs zum Ausdrucken“ ganz oben in der Detektei** (ergänzt Punkt 52, erledigt die Lage aus Punkt 61):
+      `DetekteiSeite` zeigt direkt unter der Zeile Wortmarke/Tonschalter, mittig und vor dem Dienstausweis,
+      `MKnopf(detektei_druck_pdfs, zweit, Icons.print_rounded, ganzeWorte)` → `Routes.druckmappeVon` der ersten Akte
+      mit `druckbar`. Er kommt aus demselben `_akten`-Future wie die Mappen (kein zweites Laden) und fehlt ohne
+      druckbare Akte. Lage ohne Rollen bei 320 × 568 und 390 × 844, Schrift 1 und 2, mit „Dein erster Fall“ und
+      Rückkehrkarten: oben y 92 bis 117, unten höchstens 231, immer über dem Ausweis. Der Knopf unter der Mappe und
+      auf der Akte-Seite bleibt; der Text steht auf der Detektei also zweimal (`start_test` und `druck.mjs` zählen 2,
+      `start.mjs` weiter genau einen Knopf „Spuk im Schlosskeller“). „Zurück“ in der Druckmappe führt wie bisher zur
+      Akte-Seite. Release-Notiz „Detektei → PDFs zum Ausdrucken (ganz oben).“, `test_release_workflow.py` mitgezogen.
+  63. **Hinweis der Druckmappe in Schritten:** `detektei_druck_hinweis` ist „So geht’s:“ mit drei nummerierten
+      Schritten (… „3. Datei antippen, kurz warten, dann speichern oder teilen.“) und nach einer Leerzeile „Die
+      Erzählerakte ist nur für die Person, die erzählt.“ Erster ARB-Text mit `\n`; `GanzeWorte` zeigt die Umbrüche.
+      „speichern oder teilen“ statt der Knopfnamen, weil das iPhone gleich das Teilen-Menü öffnet; „Datei“ ohne
+      „Eine“, weil der Textprüfer vor einer Ziffer keinen Satz trennt (24 Wörter, Grenze 25). `abend_druck_nur_pdfs`
+      („bei der Akte“) bleibt; die Anleitung nennt den Knopf oben dazu.
+  64. **„Herunterladen“ in der Android-App** (Storage Access Framework): `MainActivity.kt` richtet
+      `MethodChannel("mordakte/datei")` mit `speichern` (`name`, `typ`, `bytes`, `gespeichert`) ein und öffnet
+      `ACTION_CREATE_DOCUMENT` (`CATEGORY_OPENABLE`, `type`, `EXTRA_TITLE`) mit eigener Anfragenummer.
+      `onActivityResult` ruft zuerst `super`, setzt `offen`, `bytes` und `gespeichert` immer zurück, schreibt in einem
+      eigenen Thread über `contentResolver.openOutputStream(uri).use` und antwortet per `runOnUiThread`: `true` nach
+      dem Speichern mit Toast `druck_datei_gespeichert` („Gespeichert: {datei}“, Text aus ARB), `false` bei Abbruch,
+      `error("schreiben")`. Weitere Fehler: `belegt` (Anfrage offen), `kein_dialog` (`ActivityNotFoundException`),
+      `argumente`. Wird die Activity neu erzeugt, verfällt die Anfrage still. Dart: `lib/party/datei_speichern.dart`
+      (`dateiSpeichern`; `false` nur bei einer Ausnahme, ein Abbruch zählt wie beim Teilen als angeboten). Der Stub
+      erkennt Android über `dart:io` `Platform.isAndroid` (Teststelle `aufAndroid`), **nicht** über
+      `defaultTargetPlatform`: Das ist in Widget-Tests Android und hätte alle App-Tests umgestellt. Auf Android sind
+      `zweiterTipp` und `kannHerunterladen` wahr, `dateiWege` ist [herunterladen, teilen], `dateiAnbieten(teilen:
+      false)` geht an `dateiSpeichern`. iOS und Rechner unverändert: Der erste Tipp öffnet das Teilen. Android braucht
+      damit wie der Browser einen zweiten Tipp, auch bei „Rollenhefte einzeln senden“. Scheitert der Dialog, steht die
+      Fehlerzeile da und „Teilen“ bleibt daneben.
+  65. **Standardweg ohne `weg` bleibt in der App „teilen“:** `DateiGeraet.standardWeg` ist `herunterladen` nur, wenn
+      das Gerät herunterladen kann und dafür keinen Dialog braucht (`herunterladenMitDialog`, wahr nur im Stub auf
+      Android, im Web `false`): im Browser also weiter der Download, in der App das Teilen, auch auf Android.
+      `dateiAnbieten` ohne `weg` nimmt `standardWeg` statt `dateiWege().first`, sonst öffnete
+      `lib/krimidinner/teile/druck.dart` (Aufruf ohne `weg`) auf Android plötzlich den Speichern-Dialog (Gegenprobe in
+      `gewoelbe_druck_test`).
+  66. **Entscheidung des Besitzers: „Als PDF“ bleibt, jeder spielt am eigenen Handy** (schließt die Frage aus Punkt 61):
+      Der Knopf im Fuß der Erzählerakte bleibt unverändert, auch reihum. In der Android-App stehen dort nach dem
+      Bauen kurz „Herunterladen“ und „Teilen“ wie im Browser (Test bei 320 × 568, Schrift 2: kein Überlauf, die
+      Figurenliste bleibt). Anleitung §5.4 sagt den Rat zum eigenen Handy in einem Satz.
