@@ -701,3 +701,46 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       bei 320 px (Beobachtungen in FUER-DEN-NUTZER), „Als PDF“ reihum (der Plan sieht es vor; Anleitung §5.4 rät zum
       eigenen Gerät, Entscheidung des Besitzers in FUER-DEN-NUTZER), `--paket --n 17` bis `20` stürzt ab (vorbestehend,
       eigener Punkt in STATUS).
+- 2026-10-30 (Nachtrag „leicht finden“: Knopf oben, „Herunterladen“ in der Android-App; Besitzer: „Mach es so, dass
+  man leicht draufkommt“, „Ja, Speichern dazu“, jeder spielt am eigenen Handy, Geräte Android-App, iPhone und Browser;
+  Plan `delegated-wandering-meteor`, Branches `leicht/a` Android, `leicht/b` Detektei):
+  62. **„PDFs zum Ausdrucken“ ganz oben in der Detektei** (ergänzt Punkt 52, erledigt die Lage aus Punkt 61):
+      `DetekteiSeite` zeigt direkt unter der Zeile Wortmarke/Tonschalter, mittig und vor dem Dienstausweis,
+      `MKnopf(detektei_druck_pdfs, zweit, Icons.print_rounded, ganzeWorte)` → `Routes.druckmappeVon` der ersten Akte
+      mit `druckbar`. Er kommt aus demselben `_akten`-Future wie die Mappen (kein zweites Laden) und fehlt ohne
+      druckbare Akte. Lage ohne Rollen bei 320 × 568 und 390 × 844, Schrift 1 und 2, mit „Dein erster Fall“ und
+      Rückkehrkarten: oben y 92 bis 117, unten höchstens 231, immer über dem Ausweis. Der Knopf unter der Mappe und
+      auf der Akte-Seite bleibt; der Text steht auf der Detektei also zweimal (`start_test` und `druck.mjs` zählen 2,
+      `start.mjs` weiter genau einen Knopf „Spuk im Schlosskeller“). „Zurück“ in der Druckmappe führt wie bisher zur
+      Akte-Seite. Release-Notiz „Detektei → PDFs zum Ausdrucken (ganz oben).“, `test_release_workflow.py` mitgezogen.
+  63. **Hinweis der Druckmappe in Schritten:** `detektei_druck_hinweis` ist „So geht’s:“ mit drei nummerierten
+      Schritten (… „3. Datei antippen, kurz warten, dann speichern oder teilen.“) und nach einer Leerzeile „Die
+      Erzählerakte ist nur für die Person, die erzählt.“ Erster ARB-Text mit `\n`; `GanzeWorte` zeigt die Umbrüche.
+      „speichern oder teilen“ statt der Knopfnamen, weil das iPhone gleich das Teilen-Menü öffnet; „Datei“ ohne
+      „Eine“, weil der Textprüfer vor einer Ziffer keinen Satz trennt (24 Wörter, Grenze 25). `abend_druck_nur_pdfs`
+      („bei der Akte“) bleibt; die Anleitung nennt den Knopf oben dazu.
+  64. **„Herunterladen“ in der Android-App** (Storage Access Framework): `MainActivity.kt` richtet
+      `MethodChannel("mordakte/datei")` mit `speichern` (`name`, `typ`, `bytes`, `gespeichert`) ein und öffnet
+      `ACTION_CREATE_DOCUMENT` (`CATEGORY_OPENABLE`, `type`, `EXTRA_TITLE`) mit eigener Anfragenummer.
+      `onActivityResult` ruft zuerst `super`, setzt `offen`, `bytes` und `gespeichert` immer zurück, schreibt in einem
+      eigenen Thread über `contentResolver.openOutputStream(uri).use` und antwortet per `runOnUiThread`: `true` nach
+      dem Speichern mit Toast `druck_datei_gespeichert` („Gespeichert: {datei}“, Text aus ARB), `false` bei Abbruch,
+      `error("schreiben")`. Weitere Fehler: `belegt` (Anfrage offen), `kein_dialog` (`ActivityNotFoundException`),
+      `argumente`. Wird die Activity neu erzeugt, verfällt die Anfrage still. Dart: `lib/party/datei_speichern.dart`
+      (`dateiSpeichern`; `false` nur bei einer Ausnahme, ein Abbruch zählt wie beim Teilen als angeboten). Der Stub
+      erkennt Android über `dart:io` `Platform.isAndroid` (Teststelle `aufAndroid`), **nicht** über
+      `defaultTargetPlatform`: Das ist in Widget-Tests Android und hätte alle App-Tests umgestellt. Auf Android sind
+      `zweiterTipp` und `kannHerunterladen` wahr, `dateiWege` ist [herunterladen, teilen], `dateiAnbieten(teilen:
+      false)` geht an `dateiSpeichern`. iOS und Rechner unverändert: Der erste Tipp öffnet das Teilen. Android braucht
+      damit wie der Browser einen zweiten Tipp, auch bei „Rollenhefte einzeln senden“. Scheitert der Dialog, steht die
+      Fehlerzeile da und „Teilen“ bleibt daneben.
+  65. **Standardweg ohne `weg` bleibt in der App „teilen“:** `DateiGeraet.standardWeg` ist `herunterladen` nur, wenn
+      das Gerät herunterladen kann und dafür keinen Dialog braucht (`herunterladenMitDialog`, wahr nur im Stub auf
+      Android, im Web `false`): im Browser also weiter der Download, in der App das Teilen, auch auf Android.
+      `dateiAnbieten` ohne `weg` nimmt `standardWeg` statt `dateiWege().first`, sonst öffnete
+      `lib/krimidinner/teile/druck.dart` (Aufruf ohne `weg`) auf Android plötzlich den Speichern-Dialog (Gegenprobe in
+      `gewoelbe_druck_test`).
+  66. **Entscheidung des Besitzers: „Als PDF“ bleibt, jeder spielt am eigenen Handy** (schließt die Frage aus Punkt 61):
+      Der Knopf im Fuß der Erzählerakte bleibt unverändert, auch reihum. In der Android-App stehen dort nach dem
+      Bauen kurz „Herunterladen“ und „Teilen“ wie im Browser (Test bei 320 × 568, Schrift 2: kein Überlauf, die
+      Figurenliste bleibt). Anleitung §5.4 sagt den Rat zum eigenen Handy in einem Satz.

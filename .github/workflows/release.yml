@@ -490,7 +490,7 @@ jobs:
             else
               printf -- '- Erzählerakte für „Dein Moment“: in diesem Lauf keine PDF\n'
             fi
-            printf -- '- PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken.\n'
+            printf -- '- PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben).\n'
             printf -- '- `SHA256SUMS.txt`: Prüfsummen aller Dateien (`sha256sum -c SHA256SUMS.txt`)\n\n'
             printf '## Installation\n\n'
             printf -- '- **Android:** APK auf dem Handy öffnen und die Installation aus dieser Quelle erlauben (unbekannte Quellen).\n'

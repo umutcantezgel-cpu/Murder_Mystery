@@ -41,28 +41,37 @@ Detektei → **Spuk im Schlosskeller** → **Steckbriefe & Übersicht**. Ein Tip
   eine Figur bei einer kleineren Zahl weg, steht das am Gast. Die Liste bleibt auf dem Gerät und füllt am Abend
   reihum die Personenzahl und die Namen in der Einrichtung vor.
 
-Jede Datei entsteht erst beim Tipp. In der App öffnet sich danach das Teilen des Telefons: speichern, drucken
-oder direkt an eine Person schicken. Im Browser tippt ihr ein zweites Mal: **Herunterladen** speichert die Datei,
-am Rechner der Weg zum Drucken. Kann der Browser Dateien teilen, steht daneben **Teilen**. Die Steckbriefe heißen
-nach der Figur, etwa `steckbrief-fatma.pdf`.
+Jede Datei entsteht erst beim Tipp. Danach hängt es vom Gerät ab:
+
+- **Android-App:** Ihr tippt ein zweites Mal. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen
+  (meist „Downloads“), dann speichern. **Teilen** öffnet das Teilen des Telefons: drucken oder direkt an eine Person
+  schicken.
+- **iPhone und iPad:** Das Teilen-Menü öffnet sich gleich: **In Dateien sichern**, **Drucken** oder direkt an eine
+  Person schicken.
+- **Browser:** Ihr tippt ein zweites Mal. **Herunterladen** speichert die Datei, am Rechner der Weg zum Drucken. Kann
+  der Browser Dateien teilen, steht daneben **Teilen**.
+
+Die Steckbriefe heißen nach der Figur, etwa `steckbrief-fatma.pdf`.
 
 ### Die acht Dateien bekommen
 
 Es gibt drei Wege.
 
-- **Über die Druckmappe:** In der Detektei steht unter der Mappe **Spuk im Schlosskeller** der Knopf **PDFs zum
-  Ausdrucken**, derselbe Knopf auch unten auf der Seite der Akte. Er öffnet die Druckmappe. Stelle Personen,
-  Detektiv oder Detektivin und Fall ein und tippe auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer
-  Datei**, einen Knopf je Datei, **Rollenhefte einzeln senden** mit einem Knopf je Person und unter **Nur Erzähler**
-  die **Erzählerakte** (unten). Jede Datei entsteht beim ersten Tipp und geht dann an das Teilen des Telefons (im
-  Browser mit einem zweiten Tipp: Herunterladen oder Teilen).
+- **Über die Druckmappe:** In der Detektei steht ganz oben, gleich unter dem Schriftzug MORDAKTE, der Knopf **PDFs
+  zum Ausdrucken**; ihr findet ihn ohne Rollen. Derselbe Knopf steht unter der Mappe **Spuk im Schlosskeller** und
+  unten auf der Seite der Akte. Er öffnet die Druckmappe. Stelle Personen, Detektiv oder Detektivin und Fall ein und
+  tippe unten auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen Knopf je Datei,
+  **Rollenhefte einzeln senden** mit einem Knopf je Person und unter **Nur Erzähler** die **Erzählerakte** (unten).
+  Jede Datei entsteht beim ersten Tipp. Danach geht es je Gerät weiter wie oben: in der Android-App und im Browser
+  mit einem zweiten Tipp auf **Herunterladen** oder **Teilen**, am iPhone gleich im Teilen-Menü.
 - **Über einen Abend am Tisch:** Wähle im Assistenten **Ein Gerät reihum** und bei den Einstellungen
   **Zum Drucken**. Auf der Seite „Eure Rollen“ steht dann die Tafel „Druckfassung“. Der Bildschirm führt
   trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen. Die Tafel
   „Druckfassung“ bietet die Erzählerakte nie an, denn die Tafel sieht der ganze Tisch. Sitzt ein Erzähler am Tisch,
   liegt die Akte auf dieser Seite nur verdeckt als eigener Eintrag; geöffnet steht dort **Als PDF** (siehe
   [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Wer nur die PDFs
-  will, braucht keinen Abend: Der Assistent weist bei **Zum Drucken** auf **PDFs zum Ausdrucken** bei der Akte hin.
+  will, braucht keinen Abend: Der Assistent weist bei **Zum Drucken** auf **PDFs zum Ausdrucken** bei der Akte hin;
+  denselben Knopf gibt es ganz oben in der Detektei.
 - **Per Befehl:** Das Team erstellt den Satz mit einem Befehl (siehe unten).
 
 Die Rollenhefte je Person heißen nach der Figur, etwa `10-rollenheft-fatma.pdf`. Sie gelten nur mit demselben
@@ -146,9 +155,9 @@ und ist in jedem Fall gleich. Deshalb braucht sie **keinen Fall-Code**, nur die 
 
 So bekommt ihr sie:
 
-- **Druckmappe der App:** Detektei → **PDFs zum Ausdrucken** → **Druckmappe vorbereiten**, dann unter **Nur
-  Erzähler** der Knopf **Erzählerakte**. Sie hat die Ziele aus dem Rollenheft wie das Druckspiel und die Personenzahl
-  der Druckmappe. Fall und Detektiv ändern an ihr nichts: In jedem Fall entsteht dieselbe Datei.
+- **Druckmappe der App:** Detektei → **PDFs zum Ausdrucken** (ganz oben) → **Druckmappe vorbereiten**, dann unter
+  **Nur Erzähler** der Knopf **Erzählerakte**. Sie hat die Ziele aus dem Rollenheft wie das Druckspiel und die
+  Personenzahl der Druckmappe. Fall und Detektiv ändern an ihr nichts: In jedem Fall entsteht dieselbe Datei.
 - **Am Abend:** In der offenen Erzählerakte am Erzähler-Platz steht **Als PDF** (siehe
   [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Die Datei hat die
   Fassung, die der Erzähler gerade sieht, mit „Dein Moment“ also die Sterne, und die Personenzahl des Abends.

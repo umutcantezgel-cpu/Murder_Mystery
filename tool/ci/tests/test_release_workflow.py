@@ -174,7 +174,7 @@ class ReleaseJobTests(unittest.TestCase):
         self.assertIn("Ziele wie im Druckspiel", self.block)
         self.assertIn("„Dein Moment“", self.block)
         self.assertEqual(self.block.count("in diesem Lauf keine PDF"), 2)
-        self.assertIn("PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken.", self.block)
+        self.assertIn("PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben).", self.block)
 
     def test_kopfkommentar_nennt_den_job(self):
         kopf = self.text[: self.text.index("\non:\n")]

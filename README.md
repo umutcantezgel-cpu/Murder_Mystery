@@ -43,8 +43,17 @@ Fehlt eine der beiden Dateien im neuesten Release (dann war der Job `erzaehlerak
 im vorigen Release auf der [Release-Seite](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases).
 
 Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken**
-(unter dem Schlosskeller oder auf der Akte-Seite). Steckbriefe und Charakterübersicht liegen auf der Akte-Seite unter
-**Steckbriefe & Übersicht**.
+(ganz oben, gleich unter dem Schriftzug MORDAKTE; derselbe Knopf steht unter dem Schlosskeller und auf der
+Akte-Seite). In der Druckmappe Personen, Detektiv und Fall einstellen, unten **Druckmappe vorbereiten** tippen, dann
+eine Datei antippen. Sie entsteht beim ersten Tipp; danach je Gerät:
+
+- **Android-App:** zweiter Tipp. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen (meist
+  „Downloads“), speichern. **Teilen** öffnet wie bisher das Teilen-Menü des Telefons.
+- **iPhone, iPad:** Das Teilen-Menü öffnet sich gleich, darin **In Dateien sichern** oder **Drucken**.
+- **Browser:** zweiter Tipp. **Herunterladen** legt die Datei in den Download-Ordner; kann der Browser teilen, steht
+  daneben **Teilen**.
+
+Steckbriefe und Charakterübersicht liegen auf der Akte-Seite unter **Steckbriefe & Übersicht**.
 
 ### 2. Starten
 

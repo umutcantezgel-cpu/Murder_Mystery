@@ -79,8 +79,8 @@ bis 8; das steht auch auf dem Deckblatt. `erzaehlerakte.pdf` nennt die Ziele wie
 Release, liegt sie im vorigen auf der Seite der Releases (oben).
 
 Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum
-Ausdrucken** (Abschnitt 3). Steckbriefe und Charakterübersicht liegen auf der Seite der Akte unter **Steckbriefe &
-Übersicht**.
+Ausdrucken**, ganz oben (Abschnitt 3; dort auch, wie du sie in der Android-App, am iPhone und im Browser speicherst
+oder teilst). Steckbriefe und Charakterübersicht liegen auf der Seite der Akte unter **Steckbriefe & Übersicht**.
 
 **Prüfen (optional):** Lade `SHA256SUMS.txt` in denselben Ordner und führe `sha256sum -c SHA256SUMS.txt` aus.
 
@@ -93,13 +93,23 @@ Beim Start öffnet sich die **Detektei**. Beim allerersten Start fragt sie nach 
 - **Neuer Abend**: Der Assistent führt dich zu einem Abend (Abschnitt 4).
 - **Beitreten**: Du trittst mit einem Raumcode dem Abend eines anderen Geräts bei (Abschnitt 5.3).
 - **Kampagne**: Die fünf Akten in Reihenfolge. Tippe eine Akte an, dann auf **Diese Akte spielen**.
-- **PDFs zum Ausdrucken**: Der Knopf steht unter der Mappe jeder Akte mit Druckfassung (bisher nur der
-  Schlosskeller) und unten auf der Seite der Akte. Er öffnet die **Druckmappe**. Dort stellst du Personen, Detektiv
-  oder Detektivin und den Fall ein und tippst auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer
-  Datei**, einen Knopf je Datei, **Rollenhefte einzeln senden** und unter **Nur Erzähler** die **Erzählerakte** für
-  die Person, die erzählt. Dabei entsteht kein Abend. Jede Datei entsteht erst beim Tipp und geht dann an das
-  Teilen des Telefons; im Browser tippst du ein zweites Mal auf **Herunterladen** (Details:
-  [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
+- **PDFs zum Ausdrucken**: Der Knopf steht ganz oben, gleich unter dem Schriftzug **MORDAKTE** und vor deinem
+  Dienstausweis, also ohne Rollen im ersten Bildschirm. Er öffnet die **Druckmappe** des Schlosskellers. Derselbe
+  Knopf steht auch unter der Mappe jeder Akte mit Druckfassung (bisher nur der Schlosskeller) und unten auf der Seite
+  der Akte. In der Druckmappe stellst du Personen, Detektiv oder Detektivin und den Fall ein und tippst unten auf
+  **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen Knopf je Datei, **Rollenhefte einzeln
+  senden** und unter **Nur Erzähler** die **Erzählerakte** für die Person, die erzählt. Dabei entsteht kein Abend.
+  Jede Datei entsteht erst beim Tipp, das dauert einen Moment. Danach hängt es vom Gerät ab:
+  - *Android-App:* Du tippst ein zweites Mal. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen
+    (meist „Downloads“), dann speichern; die App meldet „Gespeichert: …“. **Teilen** öffnet wie bisher das Teilen des
+    Telefons, etwa zum Drucken oder um die Datei einer Person zu schicken.
+  - *iPhone und iPad:* Das Teilen-Menü öffnet sich gleich. Mit **In Dateien sichern** speicherst du die Datei, mit
+    **Drucken** druckst du sie.
+  - *Browser:* Du tippst ein zweites Mal. **Herunterladen** legt die Datei in den Download-Ordner. Kann der Browser
+    Dateien teilen, steht daneben **Teilen**.
+
+  Der zweite Tipp gilt in der Android-App und im Browser für jede Datei, auch bei **Rollenhefte einzeln senden**.
+  Details: [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md).
 - **Sammlung**: Deine Karten. Dazu gehört das **Deck** (Abschnitt 8).
 - **Profil**: Name, Rang, Erfahrung und deine Dienstakte.
 
@@ -129,7 +139,8 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
    - *Wie spielt ihr?* (Schlosskeller, nur bei „Ein Gerät reihum“): **Am Bildschirm** oder **Zum Drucken**. Beim
      Druckspiel kommt die Druckfassung als PDF, der Bildschirm führt trotzdem durch den Abend
      ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Darunter steht: „Nur die PDFs, ohne Abend? Die gibt es
-     bei der Akte unter ‚PDFs zum Ausdrucken‘.“ Das ist nur ein Hinweis; deine Einstellungen bleiben (Abschnitt 3).
+     bei der Akte unter ‚PDFs zum Ausdrucken‘.“ Das ist nur ein Hinweis; deine Einstellungen bleiben. Denselben Knopf
+     gibt es ganz oben in der Detektei (Abschnitt 3).
    - *Länge des Abends* (Schlosskeller): **Kurzer Abend** oder **Langer Abend**. Der lange Abend ist ein
      Streifzug durch Schloss, Hof und Garten, mit Vorspiel am Anfang und Morgen am Ende.
    - *Einstimmung* (Schlosskeller): der Schalter **Vorgeschichte und Vorstellung**. Er ist anfangs an. Dann
@@ -344,14 +355,13 @@ Wo sie liegt:
 **Als PDF.** In der offenen Erzählerakte steht unten neben **Schließen** der Knopf **Als PDF** (nur dort, nicht am
 Eintrag, nicht am Pult). Er liefert `erzaehlerakte.pdf` in der Fassung, die du gerade siehst: mit „Dein Moment“ die
 zwei Sterne je Figur, sonst die Ziele aus dem Dossier. Dazu kommt die Personenzahl des Abends; die Figuren am Tisch
-stehen zuerst. Ein Fall-Code steht nicht darin. In der App öffnet sich das Teilen des Telefons, im Browser tippst du
-ein zweites Mal auf **Herunterladen** (oder **Teilen**). Schließt sich die Akte (Finale, Sitz gewechselt), entsteht
-keine Datei mehr. Reihum gehört das Gerät dem ganzen Tisch: Die Datei bleibt danach dort liegen (Downloads oder
-Verlauf des Teilens). Besser erstellt der Erzähler sie am eigenen Handy (**„Am eigenen Handy lesen“**) oder vorab in
-der Druckmappe am eigenen Gerät.
+stehen zuerst. Ein Fall-Code steht nicht darin. Am iPhone öffnet sich gleich das Teilen-Menü. In der Android-App und
+im Browser tippst du ein zweites Mal: **Herunterladen** oder **Teilen** (wie in Abschnitt 3). Schließt sich die Akte
+(Finale, Sitz gewechselt), entsteht keine Datei mehr. Die Datei bleibt auf dem Gerät, auf dem du tippst; am besten
+tippt der Erzähler am eigenen Handy.
 
-Gedruckt gibt es sie außerdem in der Druckmappe (Detektei → **PDFs zum Ausdrucken**, Abschnitt 3; Ziele wie im
-Druckspiel) und am Release für jede Personenzahl (Abschnitt 2). Mehr dazu in
+Gedruckt gibt es sie außerdem in der Druckmappe (Detektei → **PDFs zum Ausdrucken** ganz oben, Abschnitt 3; Ziele
+wie im Druckspiel) und am Release für jede Personenzahl (Abschnitt 2). Mehr dazu in
 [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md).
 
 ---
@@ -646,9 +656,9 @@ Tippe eine Karte an, um sie ins Deck zu legen. Eine Karte gleicher Art ersetzt d
   **Inspektor** oder die **Inspektorin**. So heißt auch der Platz in Lobby, Tisch und „Wer macht was?“.
 - Bei der Rollenzahl zählen die Rollen ohne den Detektiv. Alle weiteren Figuren der Akte spielt das Spiel als Gäste ohne Spieler.
 - Jede Akte hat **Erkundungsorte** (Schlosskeller 8, Gewölbe 7, die drei anderen je 6).
-- Den Schlosskeller gibt es auch als **Druckspiel** auf Papier: **PDFs zum Ausdrucken** unter seiner Mappe in der
-  Detektei oder auf der Seite der Akte öffnet die **Druckmappe** (Abschnitt 3,
-  siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
+- Den Schlosskeller gibt es auch als **Druckspiel** auf Papier: **PDFs zum Ausdrucken** ganz oben in der Detektei,
+  unter seiner Mappe oder auf der Seite der Akte öffnet die **Druckmappe** (Abschnitt 3, dort auch Herunterladen und
+  Teilen je Gerät; siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
 
 ---
 

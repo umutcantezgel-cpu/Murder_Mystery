@@ -20,24 +20,54 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 - Stand (2026-10-30): Das Finale ist auf `main` (`mordakte-115.1` ist „latest“). Darauf folgt der **Nachtrag PDFs**
   (Erzählerakte als PDF in der App und an jedem Release, „PDFs zum Ausdrucken“; Spezifikation „Änderungen“ 48–61):
-  auf `claude/schlosskeller-finale` zusammengeführt, Proben und Gegenprüfung erledigt, Befunde behoben, lokal grün,
-  **nicht gepusht**. Plan:
-  `/root/.claude/plans/delegated-wandering-meteor.md`, Hilfsbranches `pdf/a` (Kern, Release) und `pdf/b` (App).
-- Nächste Schritte im Nachtrag: Push, CI-Lauf mit dem neuen Job `erzaehlerakte` begleiten (erster Lauf von
-  `tool/bild/druck_portraets_test.dart` in CI), die PDFs im Vorab-Release prüfen (24 Seiten, Deckblatt mit „Bei acht
-  Personen …“), danach nach `main` (Freigabe mit dem Plan). `einfluss_soll.g.dart` wird nie mehr neu geschrieben
-  (E-048, Nachtrag).
+  auf `claude/schlosskeller-finale` gepusht (e21c28e, CI grün). Darauf der **Nachtrag „leicht finden“** („PDFs zum
+  Ausdrucken“ ganz oben in der Detektei, Druckmappe in Schritten, „Herunterladen“ in der Android-App; „Änderungen“
+  62–66): zusammengeführt (65f5313, 07df747), Doku nachgezogen, lokal grün, **nicht gepusht**. Plan:
+  `/root/.claude/plans/delegated-wandering-meteor.md`; die Hilfsbranches `leicht/a` (Android) und `leicht/b`
+  (Detektei) sind nach dem Zusammenführen gelöscht.
+- Nächste Schritte: Proben und Prüfer zum Nachtrag „leicht finden“ (Browserprobe `druck.mjs` bei 320 und 390 px,
+  Kotlin-Prüfer, Oberfläche, Verhalten), dann Push und CI-Lauf mit dem Job `android` (baut den Kotlin-Teil), danach
+  nach `main` (Freigabe des Besitzers). `einfluss_soll.g.dart` wird nie mehr neu geschrieben (E-048, Nachtrag).
+- Android lokal bauen: Das SDK liegt in `/root/android-sdk` (cmdline-tools, platform-tools, platforms 35 und 36,
+  build-tools 36.0.0, NDK 28.2.13676358). `flutter build apk --debug` scheitert hier, solange Maven Central über den
+  Proxy HTTP 429 liefert; dann `ANDROID_HOME=/root/android-sdk flutter build apk --config-only` und in `android/`
+  `./gradlew -I <init-skript> :app:assembleDebug` mit einem Init-Skript, das Maven Central auf den Google-Spiegel
+  `https://maven-central.storage-download.googleapis.com/maven2/` lenkt (nicht ins Repo, nicht nach `~/.gradle`).
 - Bekannt und vorbestehend, nicht Teil des Nachtrags: `party_druck.dart --paket --n 17` bis `20` bricht mit
   „Überlauf: Charakterübersicht“ ab (`fest_steckbrief.dart` über `satz_fest.dart`; an 2dbec65 genauso, `--n 12`
   geht). Die App nutzt `paketDateien` nicht. Abhilfe später: `--paket --n` begrenzen und verständlich melden oder
   die Charakterübersicht auf eine weitere Seite umbrechen.
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
-  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`; Nachtrag PDFs `wf_50f212a9-a69` (Ergebnisse im Prüfjournal
-  2026-10-30). Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION „Änderungen“ (1–61).
+  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`; Nachtrag PDFs `wf_50f212a9-a69` und Nachtrag „leicht finden“
+  `wf_c06c2b01-abc` (Ergebnisse jeweils im Prüfjournal 2026-10-30). Alle Entscheidungen seit dem Plan stehen in
+  SPEZIFIKATION „Änderungen“ (1–66).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
-  (A-063 bis A-067)“, darin auch Erzählerakte als PDF, Ladezeit im Browser und die PDFs am Release.
+  (A-063 bis A-067)“, darin auch Erzählerakte als PDF, Ladezeit im Browser, die PDFs am Release und „Herunterladen“
+  in der Android-App auf einem echten Gerät.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-30 Nachtrag „leicht finden“ (Besitzer: „Mach es so, dass man leicht draufkommt“, „Ja, Speichern dazu“, jeder
+  spielt am eigenen Handy, Geräte Android-App, iPhone und Browser; Spezifikation „Änderungen“ 62–66). `leicht/a`
+  (16e0c3f, „Herunterladen“ in der Android-App über den Speichern-Dialog) und `leicht/b` (7893806, „PDFs zum
+  Ausdrucken“ ganz oben, Hinweis der Druckmappe in Schritten) ohne Konflikt zusammengeführt (65f5313, 07df747); beide
+  ändern `app_de.arb` an verschiedenen Schlüsseln, `flutter gen-l10n` danach ohne Änderung (die Zeilenumbrüche in
+  `detektei_druck_hinweis` sind erhalten). Belege der Agenten: Kotlin lokal kompiliert, `assembleDebug` grün
+  (Debug-APK, `classes8.dex` enthält `mordakte/datei` und `CREATE_DOCUMENT`; Maven Central über den Spiegel, siehe
+  „Wiederaufnahme“), nicht auf einem Gerät; Lage des oberen Knopfs ohne Rollen 320 × 568 Schrift 1 y 92–140, Schrift 2
+  y 99–213, 390 × 844 Schrift 1 y 108–156, Schrift 2 y 117–231, jeweils über dem Ausweis; `node tool/e2e/druck.mjs`
+  grün bei 390 und 320 px (oben ohne Rollen, genau 2 Knöpfe, beide öffnen die Druckmappe, Erzählerakte 6 s, 649.258
+  Bytes, 0 Konsolenfehler, 0 fremde Anfragen), Schritt 1 unter Last 14 von 14; `start.mjs` grün (weiter genau ein
+  Knopf „Spuk im Schlosskeller“). Doku: README, Anleitung §2, §3, §4, §5.4 (Rat zum gemeinsamen Gerät auf einen Satz
+  gekürzt), §9, Druckspiel-Anleitung, Release-Notiz „(ganz oben)“ mit `test_release_workflow.py`, FUER-DEN-NUTZER
+  (beide Fragen entschieden, neuer Punkt „Herunterladen in der Android-App“ am Gerät prüfen). **Prüfungen nach dem
+  Zusammenführen** (07df747 plus Doku): `kanon_tor --pruefen` aktuell (Schema 24 Dateien, Story-Bibel, 42
+  Bildprompts, Prüfsummen und Inhaltskennungen aktuell); `pruefen.sh schnell` grün (Analyse sauber, Kern 1005 +1
+  übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer 33, Secret-Scan sauber);
+  `flutter analyze` sauber; `flutter test --concurrency=2` 876 grün (vorher 853); `packages/mordakte_core/test/runden/`,
+  `tool/kanon_fest.txt` und `content/` gleich e21c28e; CI-Helfer 33 grün (auch nach der Release-Notiz); `akte_pruefen`
+  5 × 0 (schlosskeller, gewoelbe, ravensmoor, nachtexpress, blue_palm). Kotlin seit 16e0c3f unverändert, daher nicht
+  neu kompiliert. Nicht gepusht.
 
 - 2026-10-30 Nachtrag PDFs, Proben und Gegenprüfung (Release-PDFs, Browserprobe 0c47d3c, Prüfer Sichtbarkeit, CI und
   Oberfläche; Spezifikation „Änderungen“ 55–61). Jeder Befund nachgestellt, die Tests zu den Behebungen schlagen ohne
