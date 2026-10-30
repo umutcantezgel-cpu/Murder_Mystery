@@ -22,16 +22,19 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
   (Erzählerakte als PDF in der App und an jedem Release, „PDFs zum Ausdrucken“; Spezifikation „Änderungen“ 48–61):
   auf `claude/schlosskeller-finale` gepusht (e21c28e, CI grün). Darauf der **Nachtrag „leicht finden“** („PDFs zum
   Ausdrucken“ ganz oben in der Detektei, Druckmappe in Schritten, „Herunterladen“ in der Android-App; „Änderungen“
-  62–66): zusammengeführt (65f5313, 07df747), Doku nachgezogen, lokal grün, **nicht gepusht**. Plan:
+  62–66): zusammengeführt (65f5313, 07df747), Doku nachgezogen; Proben und Prüfer (Browser, Kotlin, Oberfläche,
+  Verhalten) gelaufen, ihre Befunde behoben („Änderungen“ 67–74), lokal grün, **nicht gepusht**. Plan:
   `/root/.claude/plans/delegated-wandering-meteor.md`; die Hilfsbranches `leicht/a` (Android) und `leicht/b`
   (Detektei) sind nach dem Zusammenführen gelöscht.
-- Nächste Schritte: Proben und Prüfer zum Nachtrag „leicht finden“ (Browserprobe `druck.mjs` bei 320 und 390 px,
-  Kotlin-Prüfer, Oberfläche, Verhalten), dann Push und CI-Lauf mit dem Job `android` (baut den Kotlin-Teil), danach
-  nach `main` (Freigabe des Besitzers). `einfluss_soll.g.dart` wird nie mehr neu geschrieben (E-048, Nachtrag).
-- Android lokal bauen: Das SDK liegt in `/root/android-sdk` (cmdline-tools, platform-tools, platforms 35 und 36,
-  build-tools 36.0.0, NDK 28.2.13676358). `flutter build apk --debug` scheitert hier, solange Maven Central über den
-  Proxy HTTP 429 liefert; dann `ANDROID_HOME=/root/android-sdk flutter build apk --config-only` und in `android/`
-  `./gradlew -I <init-skript> :app:assembleDebug` mit einem Init-Skript, das Maven Central auf den Google-Spiegel
+- Nächste Schritte: Push und CI-Lauf mit dem Job `android` (baut den Kotlin-Teil als Release mit R8), danach nach
+  `main` (Freigabe des Besitzers); dazu die Frage „Preis des Knopfs oben“ in FUER-DEN-NUTZER. `einfluss_soll.g.dart`
+  wird nie mehr neu geschrieben (E-048, Nachtrag).
+- Android lokal bauen: Das SDK in `/root/android-sdk` und der Gradle-Zwischenspeicher `~/.gradle` sind nach der
+  letzten Kotlin-Prüfung gelöscht (Plattenkontingent); den Android-Bau übernimmt der CI-Job `android`. Wer lokal
+  bauen will, holt das SDK neu (cmdline-tools von dl.google.com, platforms 35 und 36, build-tools 36.0.0, NDK
+  28.2.13676358). `flutter build apk --debug` scheitert hier, solange Maven Central über den Proxy HTTP 429 liefert;
+  dann `flutter build apk --config-only` mit `ANDROID_HOME` und in `android/` `./gradlew -I <init-skript>
+  :app:compileDebugKotlin` (oder `:app:assembleDebug`) mit einem Init-Skript, das Maven Central auf den Google-Spiegel
   `https://maven-central.storage-download.googleapis.com/maven2/` lenkt (nicht ins Repo, nicht nach `~/.gradle`).
 - Bekannt und vorbestehend, nicht Teil des Nachtrags: `party_druck.dart --paket --n 17` bis `20` bricht mit
   „Überlauf: Charakterübersicht“ ab (`fest_steckbrief.dart` über `satz_fest.dart`; an 2dbec65 genauso, `--n 12`
@@ -40,12 +43,57 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
   `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`; Nachtrag PDFs `wf_50f212a9-a69` und Nachtrag „leicht finden“
   `wf_c06c2b01-abc` (Ergebnisse jeweils im Prüfjournal 2026-10-30). Alle Entscheidungen seit dem Plan stehen in
-  SPEZIFIKATION „Änderungen“ (1–66).
+  SPEZIFIKATION „Änderungen“ (1–74).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
   (A-063 bis A-067)“, darin auch Erzählerakte als PDF, Ladezeit im Browser, die PDFs am Release und „Herunterladen“
   in der Android-App auf einem echten Gerät.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-30 Nachtrag „leicht finden“, Proben und Prüfer (Workflow `wf_c06c2b01-abc`, Plan Schritt 3 und 4;
+  Spezifikation „Änderungen“ 67–74). Vier Prüfer auf c6449c6: Browserprobe (`druck.mjs` bei 390 und 320 px grün,
+  erster Start mit Namensdialog bei 320 × 568 bis 412 × 915, Teilen mit nachgebildetem Web Share, Ladezeiten gegen
+  einen Bau von e21c28e ohne Verschlechterung, `erzaehlerakte.pdf` bitgleich), Kotlin (eigener Bau
+  `:app:compileDebugKotlin` mit Warnungen als Fehler, Lint 0 Fehler, Doku der Android-APIs), Oberfläche (Lage,
+  Bildschirmleser, Wortbrüche, Systemränder) und Verhalten (iOS, Rechner, Browser, Krimidinner, alle
+  `DateiKnopf`-Stellen). Jeden Befund nachgestellt; jeder neue Test schlägt ohne seine Behebung fehl (Gegenproben
+  mit zurückgenommener Behebung, Logs `scratchpad/leicht/fix/gegen-*.log`). **Behoben:**
+  - *Druckmappe 320 × 568 (mittel):* Nach „Druckmappe vorbereiten“ war keine Datei zu sehen („Druckfassung“ bei y 561,
+    Fußleiste ab 504). Jetzt rollt die Seite zur Druckfassung, der Hinweis endet nach Schritt 3. Browser danach:
+    „Alles in einer Datei“ ohne weiteres Rollen bei y 227 (320 × 568), 204 (360 × 640), 181 (390 × 844 und
+    412 × 915), immer über der Fußleiste. Test bei 320 × 568 (`start_test`).
+  - *Sprung der Detektei (Browser niedrig, Oberfläche mittel):* Der Knopf oben kam 1,3 bis 3,7 s nach dem ersten Bild
+    und schob Ausweis und „Neuer Abend“ um 56 bis 64 px (Schrift 2: 130 px). Jetzt hält ein unsichtbarer Knopf den
+    Platz. Browser danach: „Neuer Abend“ steht beim ersten Bild schon 56 px tiefer (370 statt 314 bei 320 px, 386
+    statt 330 bei 390 px) und am Ende wie vorher bei 666 bzw. 637; den übrigen, vorbestehenden Weg nach unten
+    (Rückkehrkarten und „Dein erster Fall“ kommen nach dem Laden, +296 px) hat auch e21c28e. Test mit verzögertem
+    Katalog bei 390 × 844 und 320 × 568, Schrift 2.
+  - *„Zurück“ (bekannt):* führt aus der Druckmappe dorthin, woher man kam (`?von=detektei`), auch die Zurück-Taste
+    des Systems. Browser: oberer Knopf → `/#/akte/schlosskeller/druck?von=detektei` → „Zurück“ und Browser-Zurück
+    jeweils `/` mit „Neuer Abend“. Von der Akte weiter auf die Akte (Test).
+  - *Wortbrüche auf Android (mittel) und „Druckmapp|e vorbereiten“:* Symbol entfällt, wo es ein Wort bräche;
+    `DateiKnopf` setzt bei zu engem Platz den Dateinamen als Zeile über „Herunterladen“/„Teilen“. Der Prüfer-Lauf
+    `oberflaeche/android_knoepfe_test.dart` („BRUCH“, 320/360/390 px × Schrift 1,3/1,5/2) findet danach nur noch
+    „Charakterübersicht“ im Grundzustand bei 320 px und Schrift 2 (vorbestehend, siehe Änderung 70; vorher dazu
+    „Druckmappe“, „Detektivbogen“, „Auflösungsheft“, „Herunterladen:“ und „Charakterübersicht“ auf den Wegen).
+  - *Beschriftungen ohne Dateinamen:* „Herunterladen: Rollenheft Ayla“, „Teilen: Steckbrief Fatma“ (zwei ARB-Schlüssel).
+  - *Kotlin:* Überschreiben kürzt („wt“, mittel; nachgestellt war eine überschriebene PDF für `pdfinfo` kaputt), leere
+    neue Datei nach Fehler oder verfallener Anfrage entfernt, jede Ausnahme beim Öffnen des Dialogs setzt zurück,
+    der Hinweis nennt den wirklichen Dateinamen. Danach `:app:compileDebugKotlin` mit Warnungen als Fehler
+    (`-Werror`, `-Xreport-all-warnings`, offline mit dem Spiegel): BUILD SUCCESSFUL, keine Zeile zu `MainActivity.kt`.
+    Auf einem Gerät nicht ausprobiert (FUER-DEN-NUTZER, zwei neue Punkte).
+  - *Verhalten:* Standardweg über `DateiGeraet.herunterladenMitDialog`; neue Tests für den Vertrag mit
+    `MainActivity.kt`, den Abbruch am `DateiKnopf` und die Steckbrief-Seite in der Android-App; zwei Kommentare.
+  - *Doku:* „Das Teilen-Menü öffnet sich gleich“ gilt nur für die App auf iPhone und iPad; Safari am iPhone ist ein
+    Browser mit zweitem Tipp (README, Anleitung §3 und §5.4, Druckspiel-Anleitung).
+  **Bewusst nicht geändert:** der Preis des Knopfs oben (auf üblichen Handys rutscht „Sofort ermitteln“ oder „Neuer
+  Abend“ aus dem ersten Bildschirm; Frage an den Besitzer in FUER-DEN-NUTZER), Schritte ohne hängenden Einzug,
+  „Charakterübersicht“ im Grundzustand bei 320 px und Schrift 2. **Prüfungen danach:** `flutter analyze` sauber;
+  `flutter test --concurrency=2` 888 grün (vorher 876); `pruefen.sh schnell` grün in 424 s (Analyse sauber, Kern
+  1005 +1 übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer, Secret-Scan); CI-Helfer 33
+  grün; `packages/mordakte_core/test/runden/`, `tool/kanon_fest.txt` und `content/` gleich e21c28e; Web-Bau neu,
+  `druck.mjs` grün bei 390 px (Erzählerakte 5,7 s, 649.258 Bytes, „Alles“ 1,9 s) und bei 320 px (5,6 s, 649.258
+  Bytes, „Alles“ 2 s), je 0 Konsolenfehler und 0 fremde Anfragen; `start.mjs` grün. Nicht gepusht.
 
 - 2026-10-30 Nachtrag „leicht finden“ (Besitzer: „Mach es so, dass man leicht draufkommt“, „Ja, Speichern dazu“, jeder
   spielt am eigenen Handy, Geräte Android-App, iPhone und Browser; Spezifikation „Änderungen“ 62–66). `leicht/a`

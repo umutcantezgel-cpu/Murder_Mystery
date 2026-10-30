@@ -701,6 +701,61 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       bei 320 px (Beobachtungen in FUER-DEN-NUTZER), „Als PDF“ reihum (der Plan sieht es vor; Anleitung §5.4 rät zum
       eigenen Gerät, Entscheidung des Besitzers in FUER-DEN-NUTZER), `--paket --n 17` bis `20` stürzt ab (vorbestehend,
       eigener Punkt in STATUS).
+- 2026-10-30 (Nachtrag „leicht finden“, Proben und Prüfer: Browserprobe, Kotlin, Oberfläche, Verhalten; jeder Befund
+  nachgestellt, die neuen Tests schlagen ohne die Behebung fehl):
+  67. **Knopf oben ohne Sprung** (ändert 62): Solange `_akten` lädt, hält `Visibility(visible: false, maintainSize)`
+      den Platz des oberen Knopfs (gesperrt, ohne Tipp und ohne Semantik). Vorher kam er im Web-Build 1,3 bis 3,7 s
+      nach dem ersten Bild und schob Ausweis, „Dein erster Fall“ und „Neuer Abend“ um 56 bis 64 px (Schrift 2: 130 px)
+      nach unten. Nur wenn der Katalog geladen ist und keine Akte `druckbar` ist (oder er nicht lädt), fällt der Platz
+      weg. Test mit um 400 ms verzögertem `akten.json` (`start_test`).
+  68. **„Zurück“ dorthin, woher man kam** (ändert 62): `Routes.druckmappeVon(id, ausDetektei: true)` hängt
+      `?von=detektei` an; beide Knöpfe der Detektei (oben und unter der Mappe) setzen es. Dann führen „Zurück“ und die
+      Zurück-Taste des Systems (`_zurueckNach`) in die Detektei, sonst wie bisher auf die Akte
+      (`DruckmappeSeite.zurueck`). Vorher landete man auf einer Akte-Seite, die man nie geöffnet hatte.
+  69. **Druckmappe am kleinen Handy** (ändert 63): Nach „Druckmappe vorbereiten“ rollt die Seite zur Druckfassung
+      (`GlobalKey` auf `DruckTafel`, `Scrollable.ensureVisible` im nächsten Bild, 300 ms, ohne Bewegung bei „Bewegung
+      reduzieren“). Bei 320 × 568 lag „Druckfassung“ vorher unter der Fußleiste und Schritt 3 zeigte auf nichts
+      Sichtbares; jetzt liegt „Alles in einer Datei“ über der Fußleiste. Der Hinweis endet nach Schritt 3: Der Satz
+      „Die Erzählerakte ist nur für die Person, die erzählt.“ stand schon im Block „Nur Erzähler“
+      (`druck_erzaehlerakte_hinweis`) bei ihrem Knopf. „Druckmappe vorbereiten“ hat `ganzeWorte` (brach bei 320 px und
+      doppelter Schrift als „Druckmapp|e“).
+  70. **Ganze Wörter auf den Dateiknöpfen** (ändert 59): `MKnopf` mit `ganzeWorte` lässt das Symbol weg, wenn ein Wort
+      selbst in der kleinsten Schrift (11) nicht daneben passt (`ganzeWortePassen` in `m_ganze_worte.dart`; das Symbol
+      schmückt nur). `DateiKnopf` prüft nach dem Bauen mit `MKnopf.passtGanz`, ob „Herunterladen: …“ und „Teilen: …“
+      überhaupt ganz passen; wenn nicht, steht der Dateiname als eigene Zeile darüber (`MGanzeWorte`, für den
+      Bildschirmleser ausgeblendet) und auf den Knöpfen nur der Weg wie mit `kurz` (Semantik mit Dateinamen). Vorher
+      brachen auf Android (neu dort, im Browser schon vorher) bei 320 px und doppelter Schrift „Herunterlade|n: …“ und
+      „Chara|kterübersich|t“, bei 360 px oder Schrift 1,5 noch „Teilen: Charakterübersicht“; im Grundzustand
+      „Detektivbogen“ und „Auflösungsheft“. Bleibt: der Knopf „Charakterübersicht“ (Messingschild) im Grundzustand
+      bei 320 px und doppelter Schrift (vorbestehend, das Wort ist auch in Schrift 11 breiter als der Knopf).
+  71. **Die Wege nennen die Datei:** `datei:` an „Senden an {name}“ (`druck_rollenheft_von` „Rollenheft {name}“) und an
+      „Steckbrief senden“ (`steckbrief_von` „Steckbrief {figur}“, Name der Figur). Nach dem Bauen also „Herunterladen:
+      Rollenheft Ayla“ und „Teilen: Steckbrief Fatma“ statt zweier Verben ohne Dateinamen; das betraf nun auch jede
+      Person in der Android-App.
+  72. **Kotlin** (ändert 64): Geschrieben wird mit `openOutputStream(ziel, "wt")` (kürzen), mit Rückfall auf „w“, wenn
+      ein Anbieter „wt“ nicht kennt. Mit „w“ kürzt nicht jeder Anbieter; wer im Dialog eine vorhandene, längere PDF
+      überschrieb (etwa die für 12 Personen mit einer kürzeren), behielt deren Rest, die Datei war für `pdfinfo`
+      kaputt. Eine neue, vom Dialog leer angelegte Datei (Größe 0 vor dem Schreiben) wird nach einem Schreibfehler
+      entfernt (`DocumentsContract.deleteDocument`); ebenso, wenn die Anfrage zu einer früheren Activity gehörte und
+      die Datei noch leer ist. Eine vorhandene, zum Überschreiben gewählte bleibt. Jede Ausnahme beim Öffnen des
+      Dialogs (nicht nur `ActivityNotFoundException`) setzt die Anfrage zurück und meldet `kein_dialog`; vorher blieb
+      `offen` gesetzt und jeder weitere Tipp hieß „belegt“. Der Hinweis nach dem Speichern nennt den Namen, unter dem
+      die Datei liegt (`OpenableColumns.DISPLAY_NAME`, etwa „erzaehlerakte (1).pdf“ oder umbenannt): Das Kotlin setzt
+      ihn im Satz aus der ARB an die Stelle des vorgeschlagenen Namens, hat also weiter keinen eigenen Text.
+      Kompiliert mit Warnungen als Fehler, auf einem Gerät nicht ausprobiert.
+  73. **`DateiGeraet.herunterladenMitDialog`** (ändert 65): Der Standardweg liest es über das Gerät, nicht mehr am Gerät
+      vorbei aus der Umsetzung. Ein nachgebildeter Browser lädt so auch neben der Android-Weiche herunter; die Fakes in
+      den Tests setzen es selbst (die Android-Attrappe in `druck_tafel_test` braucht `standardWeg` nicht mehr).
+  74. **Tests und Kommentare:** Vertrag mit `MainActivity.kt` aus dem Quelltext (Kanal, Methode, alle Schlüssel, „wt“;
+      Vorbild `langer_abend_test`), Abbruch im Speichern-Dialog am `DateiKnopf` (keine Fehlerzeile), die Steckbrief-Seite
+      in der Android-App (zwei Wege, Kanal, Teilen, Abbruch, Schreibfehler), Druckmappe und Steckbriefe in der
+      Android-App bei 320 px und doppelter Schrift ohne geteiltes Wort (`ganze_worte_test`). Die Kommentare in
+      `druck_tafel.dart` und `erzaehlerakte_ansicht.dart` nennen den zweiten Tipp auch für die Android-App.
+      **Bewusst nicht geändert:** Der obere Knopf kostet 64 px (Schrift 1,3 bei 320 px: 82 px); auf üblichen Handys
+      rutschen damit „Sofort ermitteln“ oder „Neuer Abend“ aus dem ersten Bildschirm (etwa Android 360 × 640 bei
+      Schrift 1, iPhone 390 × 844 bei Schrift 1,15). Das ist der Preis der Entscheidung „ganz oben“ (Punkt 62); die
+      Frage steht in FUER-DEN-NUTZER. Die Schritte im Hinweis stehen weiter in einem Absatz mit `\n`, ohne hängenden
+      Einzug.
 - 2026-10-30 (Nachtrag „leicht finden“: Knopf oben, „Herunterladen“ in der Android-App; Besitzer: „Mach es so, dass
   man leicht draufkommt“, „Ja, Speichern dazu“, jeder spielt am eigenen Handy, Geräte Android-App, iPhone und Browser;
   Plan `delegated-wandering-meteor`, Branches `leicht/a` Android, `leicht/b` Detektei):

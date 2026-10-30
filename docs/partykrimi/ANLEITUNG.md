@@ -46,10 +46,10 @@ Jede Datei entsteht erst beim Tipp. Danach hängt es vom Gerät ab:
 - **Android-App:** Ihr tippt ein zweites Mal. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen
   (meist „Downloads“), dann speichern. **Teilen** öffnet das Teilen des Telefons: drucken oder direkt an eine Person
   schicken.
-- **iPhone und iPad:** Das Teilen-Menü öffnet sich gleich: **In Dateien sichern**, **Drucken** oder direkt an eine
-  Person schicken.
-- **Browser:** Ihr tippt ein zweites Mal. **Herunterladen** speichert die Datei, am Rechner der Weg zum Drucken. Kann
-  der Browser Dateien teilen, steht daneben **Teilen**.
+- **App auf iPhone und iPad:** Das Teilen-Menü öffnet sich gleich: **In Dateien sichern**, **Drucken** oder direkt
+  an eine Person schicken.
+- **Browser, auch Safari am iPhone:** Ihr tippt ein zweites Mal. **Herunterladen** speichert die Datei, am Rechner
+  der Weg zum Drucken. Kann der Browser Dateien teilen, steht daneben **Teilen**.
 
 Die Steckbriefe heißen nach der Figur, etwa `steckbrief-fatma.pdf`.
 
@@ -63,7 +63,7 @@ Es gibt drei Wege.
   tippe unten auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen Knopf je Datei,
   **Rollenhefte einzeln senden** mit einem Knopf je Person und unter **Nur Erzähler** die **Erzählerakte** (unten).
   Jede Datei entsteht beim ersten Tipp. Danach geht es je Gerät weiter wie oben: in der Android-App und im Browser
-  mit einem zweiten Tipp auf **Herunterladen** oder **Teilen**, am iPhone gleich im Teilen-Menü.
+  mit einem zweiten Tipp auf **Herunterladen** oder **Teilen**, in der App am iPhone gleich im Teilen-Menü.
 - **Über einen Abend am Tisch:** Wähle im Assistenten **Ein Gerät reihum** und bei den Einstellungen
   **Zum Drucken**. Auf der Seite „Eure Rollen“ steht dann die Tafel „Druckfassung“. Der Bildschirm führt
   trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen. Die Tafel

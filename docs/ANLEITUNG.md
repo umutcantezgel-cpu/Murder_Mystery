@@ -103,10 +103,10 @@ Beim Start öffnet sich die **Detektei**. Beim allerersten Start fragt sie nach 
   - *Android-App:* Du tippst ein zweites Mal. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen
     (meist „Downloads“), dann speichern; die App meldet „Gespeichert: …“. **Teilen** öffnet wie bisher das Teilen des
     Telefons, etwa zum Drucken oder um die Datei einer Person zu schicken.
-  - *iPhone und iPad:* Das Teilen-Menü öffnet sich gleich. Mit **In Dateien sichern** speicherst du die Datei, mit
-    **Drucken** druckst du sie.
-  - *Browser:* Du tippst ein zweites Mal. **Herunterladen** legt die Datei in den Download-Ordner. Kann der Browser
-    Dateien teilen, steht daneben **Teilen**.
+  - *App auf iPhone und iPad:* Das Teilen-Menü öffnet sich gleich. Mit **In Dateien sichern** speicherst du die
+    Datei, mit **Drucken** druckst du sie.
+  - *Browser, auch Safari am iPhone:* Du tippst ein zweites Mal. **Herunterladen** legt die Datei in den
+    Download-Ordner. Kann der Browser Dateien teilen, steht daneben **Teilen**.
 
   Der zweite Tipp gilt in der Android-App und im Browser für jede Datei, auch bei **Rollenhefte einzeln senden**.
   Details: [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md).
@@ -355,8 +355,9 @@ Wo sie liegt:
 **Als PDF.** In der offenen Erzählerakte steht unten neben **Schließen** der Knopf **Als PDF** (nur dort, nicht am
 Eintrag, nicht am Pult). Er liefert `erzaehlerakte.pdf` in der Fassung, die du gerade siehst: mit „Dein Moment“ die
 zwei Sterne je Figur, sonst die Ziele aus dem Dossier. Dazu kommt die Personenzahl des Abends; die Figuren am Tisch
-stehen zuerst. Ein Fall-Code steht nicht darin. Am iPhone öffnet sich gleich das Teilen-Menü. In der Android-App und
-im Browser tippst du ein zweites Mal: **Herunterladen** oder **Teilen** (wie in Abschnitt 3). Schließt sich die Akte
+stehen zuerst. Ein Fall-Code steht nicht darin. In der App auf dem iPhone öffnet sich gleich das Teilen-Menü. In der
+Android-App und im Browser (auch Safari am iPhone) tippst du ein zweites Mal: **Herunterladen** oder **Teilen** (wie
+in Abschnitt 3). Schließt sich die Akte
 (Finale, Sitz gewechselt), entsteht keine Datei mehr. Die Datei bleibt auf dem Gerät, auf dem du tippst; am besten
 tippt der Erzähler am eigenen Handy.
 

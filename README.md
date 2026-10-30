@@ -49,9 +49,9 @@ eine Datei antippen. Sie entsteht beim ersten Tipp; danach je Gerät:
 
 - **Android-App:** zweiter Tipp. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen (meist
   „Downloads“), speichern. **Teilen** öffnet wie bisher das Teilen-Menü des Telefons.
-- **iPhone, iPad:** Das Teilen-Menü öffnet sich gleich, darin **In Dateien sichern** oder **Drucken**.
-- **Browser:** zweiter Tipp. **Herunterladen** legt die Datei in den Download-Ordner; kann der Browser teilen, steht
-  daneben **Teilen**.
+- **iPhone- und iPad-App:** Das Teilen-Menü öffnet sich gleich, darin **In Dateien sichern** oder **Drucken**.
+- **Browser** (auch Safari am iPhone): zweiter Tipp. **Herunterladen** legt die Datei in den Download-Ordner; kann
+  der Browser teilen, steht daneben **Teilen**.
 
 Steckbriefe und Charakterübersicht liegen auf der Akte-Seite unter **Steckbriefe & Übersicht**.
 
