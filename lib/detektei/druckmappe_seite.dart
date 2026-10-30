@@ -19,7 +19,7 @@ import 'schreibtisch.dart' show GanzeWorte;
 /// einstellen, dann die PDF-Dateien erzeugen ([DruckTafel]), bei Akten mit
 /// Erzählerakte auch diese. Es entsteht dabei kein Abend; die Sitzung dient nur
 /// dem Satz der Druckdateien. Erreichbar über „PDFs zum Ausdrucken“ auf der
-/// Akte und unter ihrer Mappe in der Detektei.
+/// Akte, ganz oben in der Detektei und dort unter ihrer Mappe.
 ///
 /// Oben liegt die Mappe der Druckfassung (Reiter mit der Aktennummer, Titel der
 /// Akte, Anleitung), darunter die Einstellungen auf dem Schreibtisch.

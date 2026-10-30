@@ -128,6 +128,18 @@ void main() {
     final state = await oeffnen(tester, Routes.druckmappeVon('schlosskeller'), bereit: find.text('Spuk im Schlosskeller'));
     expect(find.text('Druckmappe'), findsWidgets);
     keinWortGeteilt(tester, find.byType(MAktenmappe));
+    // Die Anleitung in Schritten: Jeder Schritt und der Satz zur Erzählerakte beginnt eine eigene Zeile.
+    final hinweis = tester.renderObject<RenderParagraph>(find.textContaining('So geht'));
+    final text = hinweis.text.toPlainText();
+    var oben = -1.0;
+    for (final anfang in ['So geht', '1. ', '2. ', '3. ', 'Die Erzählerakte']) {
+      final i = text.indexOf(anfang);
+      expect(i, greaterThanOrEqualTo(0), reason: anfang);
+      final box = hinweis.getBoxesForSelection(TextSelection(baseOffset: i, extentOffset: i + 1)).first;
+      expect(box.left, lessThan(1), reason: '„$anfang“ steht am Zeilenanfang');
+      expect(box.top, greaterThan(oben), reason: '„$anfang“ steht unter dem Schritt davor');
+      oben = box.top;
+    }
     await schliessen(tester, state);
   });
 

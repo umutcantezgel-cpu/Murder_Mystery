@@ -1,7 +1,10 @@
 // Browserprobe der Druckmappe (PDF-Paket): der Weg zu den PDFs und die Erzählerakte im Web-Build.
-// (1) Detektei bei 320 und 390 px: unter der Mappe des Schlosskellers der Knopf „PDFs zum Ausdrucken“,
-//     ganz im Bild und genau einmal; die Mappe ist genau ein Knopf mit „Spuk im Schlosskeller“ im Namen
-//     (der neue Knopf nennt die Akte nicht). (2) Tipp darauf: die Druckmappe mit ihren Standardwerten,
+// (1) Detektei bei 320 und 390 px: Vor jedem Rollen liegt „PDFs zum Ausdrucken“ oben ganz im Bild, mittig
+//     und vor „Neuer Abend“ (Foto detektei-oben-<breite>). Auf einem hohen Bild, in dem beide zugleich
+//     liegen, gibt es den Knopf genau zweimal; der zweite liegt unter der Mappe des Schlosskellers und
+//     kommt beim Rollen ganz ins Bild (Foto detektei-<breite>), ein Tipp darauf öffnet die Druckmappe. Die
+//     Mappe ist genau ein Knopf mit „Spuk im Schlosskeller“ im Namen (die Knöpfe nennen die Akte nicht).
+//     (2) Neu geöffnet, ohne Rollen: Tipp auf den oberen Knopf, die Druckmappe mit ihren Standardwerten,
 //     dann „Druckmappe vorbereiten“. (3) Tipp auf „Erzählerakte“: Zeit bis „Herunterladen: Erzählerakte“
 //     (Ziel des PDF-Pakets: unter 20 s), dann der Download: Name, Größe, beginnt mit %PDF- und endet mit %%EOF.
 //     (4) Zum Vergleich „Alles in einer Datei“ ebenso. (5) Akte-Seite des Schlosskellers bei 320 px: die
@@ -31,6 +34,11 @@ const ausgabe = path.join(hier, 'fotos', 'druck');
 
 const HOEHE = 844;
 const BREITEN = [320, 390];
+/**
+ * Hohes Bild nur zum Zählen: Die Detektei liegt bis unter die Mappen ohne Rollen darin. Knöpfe außerhalb
+ * des Bildes hat die Semantik oft nicht, im Handybild lassen sich beide Knöpfe also nicht zugleich zählen.
+ */
+const HOCH = 2400;
 /** Ziel des Plans: Die Erzählerakte steht im Browser in unter 20 s bereit (sonst Porträts mit 240 px). */
 const ZIEL_ERZAEHLERAKTE_S = 20;
 /** Spätestens dann gilt eine Datei als gescheitert. */
@@ -217,6 +225,78 @@ async function tippe(page, ziel, label, optionen) {
   await sleep(420);
 }
 
+/** Wartet, bis [ziel] drei Messungen lang an derselben Stelle liegt (Flutter ordnet nach dem Laden um). */
+async function ruhigeBox(ziel, label) {
+  let alt = await ziel.boundingBox();
+  let stabil = 0;
+  const ende = Date.now() + 10000;
+  while (stabil < 3 && Date.now() < ende) {
+    await sleep(150);
+    const neu = await ziel.boundingBox();
+    stabil = neu && alt && Math.abs(neu.x - alt.x) < 1 && Math.abs(neu.y - alt.y) < 1 ? stabil + 1 : 0;
+    alt = neu ?? alt;
+  }
+  assert(alt, `„${label}“ hat keine Lage`);
+  return alt;
+}
+
+/**
+ * Der obere Knopf „PDFs zum Ausdrucken“ vor jedem Rollen: der erste dieses Namens, ganz im Bild (seitlich
+ * und über dem Bildrand), mittig und vor „Neuer Abend“. Rückgabe: seine Lage.
+ */
+async function obenImBild(page, breite) {
+  const oben = knopf(page, T.pdfs).first();
+  await oben.waitFor({ timeout: 30000 });
+  const box = await ruhigeBox(oben, T.pdfs);
+  const neu = await knopf(page, T.neuerAbend).boundingBox();
+  assert(box.y >= RAND && box.y + box.height <= HOEHE - RAND, `„${T.pdfs}“ oben liegt nicht ganz im Bild (y ${Math.round(box.y)} bis ${Math.round(box.y + box.height)} bei ${HOEHE} px)`);
+  assert(box.x >= 0 && box.x + box.width <= breite, `„${T.pdfs}“ oben ragt seitlich aus dem Bild`);
+  assert(Math.abs(box.x + box.width / 2 - breite / 2) <= 2, `„${T.pdfs}“ oben steht nicht mittig`);
+  assert(neu && box.y + box.height <= neu.y, `„${T.pdfs}“ oben liegt nicht vor „${T.neuerAbend}“`);
+  return box;
+}
+
+/**
+ * Der Knopf [name] unter [oberhalb] als Ziel für insBild und tippe. Er wird bei jedem Blick neu gesucht:
+ * Ein gleichnamiger Knopf weiter oben kommt und geht beim Rollen in der Semantik. Ohne kurze Frist beim
+ * Messen: Nach einem Radschritt rechnet Flutter oft über eine Sekunde, und ein verfehlter Blick hieße
+ * weiterrollen, bis der Knopf aus dem Bild ist.
+ */
+function unter(page, name, oberhalb) {
+  const finde = async () => {
+    try {
+      if (await oberhalb.count() !== 1) return null;
+      const o = await oberhalb.boundingBox();
+      if (!o) return null;
+      for (const k of await knopf(page, name).all()) {
+        const b = await k.boundingBox();
+        if (b && b.y >= o.y + o.height - 1) return { k, b };
+      }
+    } catch { /* Beim Umordnen verschwundene Knoten: beim nächsten Blick neu. */ }
+    return null;
+  };
+  return {
+    count: async () => ((await finde()) ? 1 : 0),
+    boundingBox: async () => (await finde())?.b ?? null,
+    isEnabled: async () => (await finde())?.k.isEnabled() ?? false,
+  };
+}
+
+/** Zählt [ziel] auf dem hohen Bild ([HOCH]) und stellt danach das Handybild wieder her. */
+async function zaehleHoch(page, breite, ziel) {
+  await page.setViewportSize({ width: breite, height: HOCH });
+  try {
+    await warteBis(async () => await ziel.count() >= 2, `„${T.pdfs}“ zweimal im hohen Bild`);
+    await sleep(500);
+    return await ziel.count();
+  } finally {
+    await page.setViewportSize({ width: breite, height: HOEHE });
+    await sleep(500);
+  }
+}
+
+const rund = (b) => ({ x: Math.round(b.x), y: Math.round(b.y), b: Math.round(b.width), h: Math.round(b.height) });
+
 async function foto(page, name, label, clip) {
   const datei = `${name}.png`;
   await page.screenshot({ path: path.join(ausgabe, datei), ...(clip ? { clip } : {}) });
@@ -279,7 +359,6 @@ async function datei(page, name, kuerzel, richtung) {
 
 try {
   browser = await starteBrowser();
-  let ablauf;
   // (1) Detektei bei 320 und 390 px.
   for (const breite of BREITEN) {
     stufe = `${breite} px · Detektei`;
@@ -287,30 +366,43 @@ try {
     const akte = knopf(page, /Spuk im Schlosskeller/);
     await akte.first().waitFor({ timeout: 30000 });
     await warteBis(async () => await akte.count() === 1, 'genau eine Mappe „Spuk im Schlosskeller“');
+    // Oben, vor jedem Rollen: der kurze Weg im ersten Bildschirm.
+    stufe = `${breite} px · Detektei oben`;
+    const oben = await obenImBild(page, breite);
+    await foto(page, `detektei-oben-${breite}`, `Detektei oben, ohne Rollen · ${breite} × ${HOEHE}`);
+    console.log(`DRUCK OK · ${breite} px · Detektei: „${T.pdfs}“ oben ohne Rollen ganz im Bild (y ${Math.round(oben.y)} bis ${Math.round(oben.y + oben.height)})`);
+    // Genau zwei Knöpfe dieses Namens: oben und unter der Mappe.
+    stufe = `${breite} px · Detektei zählen`;
     const pdfs = knopf(page, T.pdfs);
-    const box = await insBild(page, pdfs, T.pdfs);
-    assert.equal(await pdfs.count(), 1, `„${T.pdfs}“ ist nicht genau einmal da`);
+    assert.equal(await zaehleHoch(page, breite, pdfs), 2, `„${T.pdfs}“ ist nicht genau zweimal da`);
+    // Unter der Mappe, nach dem Rollen ganz im Bild.
+    stufe = `${breite} px · Detektei unter der Mappe`;
+    const unten = unter(page, T.pdfs, akte);
+    const box = await insBild(page, unten, `${T.pdfs} unter der Mappe`);
     assert.equal(await akte.count(), 1, 'Die Mappe „Spuk im Schlosskeller“ ist nicht genau ein Knopf');
-    assert(box.x >= 0 && box.x + box.width <= breite, `„${T.pdfs}“ ragt seitlich aus dem Bild`);
-    const mappe = await akte.boundingBox();
-    // Der Knopf steht unter der Mappe, nicht in ihr.
-    assert(mappe && box.y >= mappe.y + mappe.height - 1, `„${T.pdfs}“ liegt nicht unter der Mappe`);
+    assert(box.x >= 0 && box.x + box.width <= breite, `„${T.pdfs}“ unter der Mappe ragt seitlich aus dem Bild`);
     await foto(page, `detektei-${breite}`, `Detektei · ${breite} × ${HOEHE}`);
-    bericht.detektei.push({ breite, knopf: { x: Math.round(box.x), y: Math.round(box.y), b: Math.round(box.width), h: Math.round(box.height) } });
-    console.log(`DRUCK OK · ${breite} px · Detektei: „${T.pdfs}“ unter der Mappe, die Mappe genau einmal`);
-    if (breite === ABLAUF_BREITE) ablauf = page;
-    else await page.close();
+    bericht.detektei.push({ breite, oben: rund(oben), knopf: rund(box) });
+    // Antippbar: Auch der Knopf unter der Mappe führt in die Druckmappe.
+    await tippe(page, unten, `${T.pdfs} unter der Mappe`);
+    await knopf(page, T.vorbereiten).waitFor({ state: 'visible', timeout: 30000 });
+    console.log(`DRUCK OK · ${breite} px · Detektei: „${T.pdfs}“ genau zweimal, der zweite unter der Mappe öffnet die Druckmappe, die Mappe genau einmal`);
+    await page.close();
   }
 
-  // (2) Druckmappe mit den Standardwerten, dann vorbereiten.
-  const page = aktiv = ablauf;
+  // (2) Neu geöffnet, ohne Rollen: der obere Knopf, die Druckmappe mit den Standardwerten, dann vorbereiten.
   const breite = ABLAUF_BREITE;
+  stufe = `${breite} px · Detektei oben, Tipp`;
+  const page = await oeffne(breite);
   if (DROSSEL > 1) {
     const cdp = await page.context().newCDPSession(page);
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: DROSSEL });
     console.log(`DRUCK · CPU-Drosselung ${DROSSEL}× für die Schritte 2 bis 4`);
   }
-  await tippe(page, knopf(page, T.pdfs), T.pdfs);
+  const knopfOben = await obenImBild(page, breite);
+  assert(await knopf(page, T.pdfs).first().isEnabled(), `„${T.pdfs}“ oben ist gesperrt`);
+  await page.mouse.click(knopfOben.x + knopfOben.width / 2, knopfOben.y + knopfOben.height / 2);
+  await sleep(420);
   stufe = `${breite} px · Druckmappe`;
   const vorbereiten = knopf(page, T.vorbereiten);
   await vorbereiten.waitFor({ state: 'visible', timeout: 30000 });
