@@ -634,7 +634,7 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       `SHA256SUMS.txt`, die Assets und je eine Notizzeile („Nur für die Person, die erzählt; nennt nie den Täter; für
       jede Personenzahl“), sonst eine Ersatzzeile; dazu der Installationspunkt „PDFs zum Ausdrucken … Detektei → PDFs
       zum Ausdrucken“. Kein `--code`, `--paket`, `--pfad`, `--personen` oder `--n` im Job. Geprüft von
-      `tool/ci/tests/test_release_workflow.py` (13 Tests, nur Standardbibliothek; gleicht den Warntext mit
+      `tool/ci/tests/test_release_workflow.py` (14 Tests, nur Standardbibliothek; gleicht den Warntext mit
       `party_druck.dart` ab).
   52. **„PDFs zum Ausdrucken“ als einheitlicher Name** (`detektei_druck_pdfs`): auf der Akte-Seite statt „Druckmappe“
       (`ganzeWorte`; der Seitentitel „Druckmappe“ und `detektei_akte_druckmappe` bleiben), als zweiter Weg unter jeder
@@ -652,3 +652,52 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       `PartyDaten` in `runAsync` vor (Ladevorgänge aus beendeten Testzonen früherer Tests ließen die Druckmappe bei
       „Die Akte wird vorbereitet …“ stehen). Im Rollenphasen-Test der Erzählerakte sind die Scrollschritte 120 statt
       300 px, weil der Fuß mit zwei Knöpfen in der Testschrift zweizeilig wird; der Inhalt der Prüfungen ist gleich.
+  55. §2 **Deckblatt der neutralen Erzählerakte** (Befund der Release-Probe, ersetzt „Kein neuer Text“ aus Punkt 50):
+      Ohne Besetzung sagt das Deckblatt `ui.druck.akte.inhalt_alle` („… und jede Figur mit ihrer Nummer in der
+      Besetzung. Bei acht Personen (ohne den Detektiv) spielen die Figuren 1 bis 8, die übrigen bleiben ohne
+      Spieler.“) statt „erst die gespielten, dann die ohne Spieler“, denn ohne Marken sah man die Grenze nirgends. Nur
+      der neutrale Zweig liest den Baustein; Akten mit Personenzahl und `--paket` bleiben bytegleich. Neuer Baustein
+      in `ui-druck-paket.json` (nicht in `tool/kanon_fest.txt`), `kanon_tor` neu erzeugt (Prüfsummen, Inhaltskennung
+      des Schlosskellers in `akten.json`).
+  56. **Release-Job, Feinschliff aus Probe und Prüfung:** Untergrenze 24 statt 23 Seiten (Deckblatt, Personen, Netz mit
+      Legende auf zwei Seiten, 20 Figuren; eine verlorene Figurenseite fällt jetzt auch im Job auf, nicht nur im gate).
+      `test_release_workflow.py` verlangt zusätzlich `2>&1 | tee` in beiden Aufrufen (sonst erreicht die Porträtwarnung
+      von stderr das Log nicht), die genaue grep-Zeile über beide Logs und die beiden `cp`-Zeilen (Druckspiel nach
+      `erzaehlerakte.pdf`, „Dein Moment“ nach `erzaehlerakte-dein-moment.pdf`); 15 Tests. Mutationsprobe: 19 von 23
+      erkannt (vorher 16). Die Meldung mit „Dein Moment“ steht in einfachen Anführungszeichen (shellcheck SC1111).
+      Release-Notizen: der Satz „PDFs zum Ausdrucken … erstellt die App“ steht unter „Dateien“ statt unter
+      „Installation“; der Statusverweis zeigt auf `planung/finale/STATUS.md`. **Bewusst ohne `continue-on-error`:** Ein
+      roter Job `erzaehlerakte` färbt den Lauf rot (Signal), das Release entsteht trotzdem ohne die PDFs und wird auf
+      `main` an der Spitze „latest“; die latest-Logik bleibt unverändert. Kopfkommentar, README („Builds“, Hinweis auf
+      die Release-Seite) und Anleitung §2 sagen das; nachholen mit „Re-run failed jobs“ (neues Release, neuer Tag).
+  57. **Kommandozeile:** `--erzaehlerakte` mit `--code`, `--pfad` oder `--detektiv` bricht ab (Exit 2), statt die
+      Angabe still zu übergehen; die Akte hängt nie vom Fall ab. Die Porträtprüfung umfasst auch mit `--personen`
+      alle 20 Figuren und beide Detektive (die Figuren ohne Spieler haben eigene Seiten und Knoten im Netz). Nur
+      Meldungen ändern sich, keine Bytes.
+  58. **Porträts in der App 240 px** (ersetzt 360 px aus Punkt 53; Befund der Browserprobe): Die Erzählerakte brauchte
+      im Web-Build bei 390 px im Mittel 20,7 s (2 von 10 Läufen unter 20 s). Ohne Ladekreis 8 bis 9 s, ohne Kreis und
+      mit 240 px 5,2 bis 5,5 s, bei vierfach gedrosseltem Prozessor 19,9 s. Ein Porträt steht im PDF höchstens 86 pt
+      breit; 240 px sind dort rund 200 dpi. `tool/bild` bleibt bei 720 px (Release, Kommandozeile). Vor dem Satz
+      rechnet `vorab` (`lib/party/erzaehlerakte_druck.dart`) jedes Porträt groß und jede Figur klein in JPEG um, mit
+      `Future.delayed(Duration.zero)` dazwischen; `FestPortraets` merkt sich die Bilder, die Datei bleibt bytegleich.
+      Das Umrechnen liegt im Rückfall: Ist ein Bild unlesbar, entsteht die Akte ohne Porträts.
+  59. **`DateiKnopf`:** Während die Datei entsteht, steht immer die ruhende Sanduhr (wie bisher nur bei „Bewegung
+      reduzieren“), nie der Ladekreis: Er ließ die Seite bei jedem `await` neu zeichnen, im Browser teurer als die
+      Datei selbst. Beschriftungen mit `ganzeWorte` (vorher brachen bei 320 px und doppelter Schrift Erzählerheft,
+      Detektivbogen, Auflösungsheft und Erzählerakte mitten im Wort). Neu `kurz`: Im Fuß der Erzählerakte stehen im
+      Browser nach dem Bauen nur „Herunterladen“ und „Teilen“ (`druck_datei_laden_kurz`, `druck_datei_teilen_kurz`),
+      der Bildschirmleser hört „Herunterladen: Erzählerakte“; vorher lief der Fuß bei 320 × 640 und 320 × 568 mit
+      doppelter Schrift um 9 bzw. 81 px über und die Figurenliste schrumpfte auf 0 px (ändert Punkt 49 für den Fuß).
+      Die Druckmappe nennt den Dateinamen weiter.
+  60. **Kleinere Korrekturen der App:** `DruckTafel` baut den Kontext der Erzählerakte neu, wenn sich die Personenzahl
+      ändert (vorher nur der Knopf-Schlüssel; heute nicht erreichbar, aber latent). Der Rückfall am Erzähler-Handy
+      (a7d1272) ist die reine Funktion `gastAkteBesetzung` mit Test für die Lücke. Texte:
+      `druck_erzaehlerakte_hinweis` endet mit „Gib sie nur dieser Person.“ statt „Gib sie nicht weiter.“ (die
+      Druckmappe füllt oft der Gastgeber für die erzählende Person), `abend_druck_nur_pdfs` setzt den Knopfnamen in
+      „…“.
+  61. **Bewusst nicht geändert** (Befunde der Gegenprüfung): Kanten durch das Etikett „Herr Schneider“ im Netz (schon
+      vorher, änderte die Bytes aller Fassungen), Umbruch „Fall-/Code“ im Hinweis der Druckfassung (schon vorher),
+      Lage von „PDFs zum Ausdrucken“ unter dem ersten Bildschirm der Detektei und der vierzeilige Fuß der Akte-Seite
+      bei 320 px (Beobachtungen in FUER-DEN-NUTZER), „Als PDF“ reihum (der Plan sieht es vor; Anleitung §5.4 rät zum
+      eigenen Gerät, Entscheidung des Besitzers in FUER-DEN-NUTZER), `--paket --n 17` bis `20` stürzt ab (vorbestehend,
+      eigener Punkt in STATUS).

@@ -58,9 +58,11 @@ Es gibt drei Wege.
   Browser mit einem zweiten Tipp: Herunterladen oder Teilen).
 - **Über einen Abend am Tisch:** Wähle im Assistenten **Ein Gerät reihum** und bei den Einstellungen
   **Zum Drucken**. Auf der Seite „Eure Rollen“ steht dann die Tafel „Druckfassung“. Der Bildschirm führt
-  trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen. Die
-  Erzählerakte gibt es auf dieser Seite nie, denn sie sieht der ganze Tisch. Wer nur die PDFs will, braucht keinen
-  Abend: Der Assistent weist bei **Zum Drucken** auf **PDFs zum Ausdrucken** bei der Akte hin.
+  trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen. Die Tafel
+  „Druckfassung“ bietet die Erzählerakte nie an, denn die Tafel sieht der ganze Tisch. Sitzt ein Erzähler am Tisch,
+  liegt die Akte auf dieser Seite nur verdeckt als eigener Eintrag; geöffnet steht dort **Als PDF** (siehe
+  [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Wer nur die PDFs
+  will, braucht keinen Abend: Der Assistent weist bei **Zum Drucken** auf **PDFs zum Ausdrucken** bei der Akte hin.
 - **Per Befehl:** Das Team erstellt den Satz mit einem Befehl (siehe unten).
 
 Die Rollenhefte je Person heißen nach der Figur, etwa `10-rollenheft-fatma.pdf`. Sie gelten nur mit demselben
@@ -150,10 +152,11 @@ So bekommt ihr sie:
 - **Am Abend:** In der offenen Erzählerakte am Erzähler-Platz steht **Als PDF** (siehe
   [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Die Datei hat die
   Fassung, die der Erzähler gerade sieht, mit „Dein Moment“ also die Sterne, und die Personenzahl des Abends.
-- **Am Release:** `erzaehlerakte.pdf` (Ziele wie im Druckspiel) und `erzaehlerakte-dein-moment.pdf` (Sterne) hängen
-  an jedem Release (siehe [Anleitung, Abschnitt 2](../ANLEITUNG.md#2-installieren)). Sie gelten für jede
-  Personenzahl: alle Figuren in der Reihenfolge der Besetzung, ohne „Heute gespielt“ oder „Ohne Spieler“. Bei N
-  Rollen (ohne den Detektiv) sind die ersten N Figurenseiten die Figuren am Tisch.
+- **Am Release:** `erzaehlerakte.pdf` (Ziele wie im Druckspiel) und `erzaehlerakte-dein-moment.pdf` (je Figur die
+  zwei Ziele aus „Dein Moment“) hängen an jedem Release (siehe
+  [Anleitung, Abschnitt 2](../ANLEITUNG.md#2-installieren)). Sie gelten für jede Personenzahl: alle Figuren in der
+  Reihenfolge der Besetzung, ohne „Heute gespielt“ oder „Ohne Spieler“. Bei N Rollen (ohne den Detektiv) sind die
+  ersten N Figurenseiten die Figuren am Tisch; das Deckblatt sagt es am Beispiel von acht Personen.
 - **Per Befehl** (unten): allein mit `--erzaehlerakte` oder im Druckpaket mit `--paket`, dort im Ordner
   `4-nur-erzaehler`.
 
@@ -208,9 +211,11 @@ nur bei Akten mit „Dein Moment“. Ohne den Schalter stehen die Ziele aus den 
 
 `--ohne-besetzung` (nur mit `--erzaehlerakte`) setzt die Akte für jede Personenzahl, so wie sie am Release hängt: alle
 Figuren in der Reihenfolge der Besetzung, ohne „Heute gespielt“ und „Ohne Spieler“ und ohne Personenzeile auf dem
-Deckblatt. Ohne `--aus` landet sie in `build/druck/schlosskeller-erzaehlerakte-alle`. Zusammen mit `--personen` oder
-`--n`, oder ohne `--erzaehlerakte`, bricht der Befehl ab (Exit 2). Fehlen Porträts (alle Figuren und beide
-Detektive), warnt er nur mit „Achtung: Porträts fehlen …“ und setzt die Akte ohne sie.
+Deckblatt; dort steht stattdessen, dass bei acht Personen die Figuren 1 bis 8 spielen. Ohne `--aus` landet sie in
+`build/druck/schlosskeller-erzaehlerakte-alle`. Zusammen mit `--personen` oder `--n`, oder ohne `--erzaehlerakte`,
+bricht der Befehl ab (Exit 2). `--code`, `--pfad` und `--detektiv` gehen mit `--erzaehlerakte` nie (Exit 2): Die
+Akte hängt nicht vom Fall ab. Fehlen Porträts (alle Figuren und beide Detektive, auch mit `--personen`), warnt er nur
+mit „Achtung: Porträts fehlen …“ und setzt die Akte ohne sie.
 
 `--steckbriefe` braucht keinen Fall-Code. Es schreibt die Charakterübersicht, eine Datei mit Übersicht und allen
 Steckbriefen und je Figur einen Steckbrief, ohne `--n` für alle Figuren. `--fall` wählt die Akte; Steckbriefe gibt

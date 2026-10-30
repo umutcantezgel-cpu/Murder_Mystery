@@ -68,7 +68,7 @@ Hier steht alles, was nur Menschen prüfen oder entscheiden können, und alles, 
   Alternativ auf GitHub unter „Releases“ ein Release mit dem Tag `schlosskeller-1.0` auf `main` anlegen (E-042).
 
 ## Finale (A-063 bis A-067)
-Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähler) und „Dein Moment“ (Einfluss-Schicht) auf dem Branch `claude/schlosskeller-finale`. Belege stehen in `planung/finale/STATUS.md`, alle Festlegungen in `planung/finale/SPEZIFIKATION.md` („Änderungen“ 1–54; die PDFs ab 48).
+Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähler) und „Dein Moment“ (Einfluss-Schicht) auf dem Branch `claude/schlosskeller-finale`. Belege stehen in `planung/finale/STATUS.md`, alle Festlegungen in `planung/finale/SPEZIFIKATION.md` („Änderungen“ 1–61; die PDFs ab 48).
 
 ### Nur durch Menschen prüfbar
 - **Ton der Einstimmung:** Vorgeschichte und Vorstellungen sind maschinell geprüft, aber noch nie an einem echten Tisch gelaufen.
@@ -86,9 +86,11 @@ Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähl
 - **Erzählerakte als PDF (Nachtrag 2026-10-30):** Maschinell geprüft sind Bytes, Seitenzahl und Sichtbarkeit, nicht das Gerät und nicht das Papier.
   - Auf einem echten Handy: Detektei → **PDFs zum Ausdrucken** → **Druckmappe vorbereiten** → **Erzählerakte**. Öffnet sich das Teilen, lässt sich die Datei speichern und drucken?
   - Am Abend in der offenen Erzählerakte **Als PDF** antippen: reihum am Pult, am Erzähler-Handy und online am Erzähler-Sitz. Mit „Dein Moment“ müssen die Sterne darin stehen.
-  - Einmal auf Papier: Sind die Porträts mit 360 px (in der App) scharf genug? Die Release-Dateien haben 720 px.
-  - Bei 320 px Breite brechen „Schließen“ und „Als PDF“ im Fuß der Erzählerakte vielleicht auf zwei Zeilen um. Ist das noch gut lesbar und tippbar?
-- **Ladezeit im Browser:** Die App zeichnet 22 Porträts und rechnet sie in reinem Dart um. Wie lange dauert „Erzählerakte“ in der Druckmappe der Web-Fassung, auch auf einem schwachen Handy? Ziel unter 20 Sekunden, sonst die Porträts auf 240 px verkleinern. Scheitern die Bilder im Browser, kommt die Akte ohne Porträts; dann bitte melden.
+  - Einmal auf Papier: Sind die Porträts mit 240 px (in der App, rund 200 dpi im Druck) scharf genug? Die Release-Dateien haben 720 px.
+  - Bei 320 px Breite brechen „Schließen“ und „Als PDF“ im Fuß der Erzählerakte vielleicht auf zwei Zeilen um. Im Browser stehen danach „Herunterladen“ und „Teilen“ dort. Ist das noch gut lesbar und tippbar?
+  - Reihum gehört das Gerät dem ganzen Tisch: Wer dort **Als PDF** tippt, lässt die Datei in Downloads oder im Verlauf des Teilens zurück. Die Anleitung (5.4) rät zum Erzähler-Handy oder zur Druckmappe am eigenen Gerät. Soll der Knopf reihum bleiben? (Entscheidung des Besitzers; der Plan sieht ihn dort vor.)
+- **Ladezeit im Browser:** Die Browserprobe maß mit Ladekreis und 360 px im Mittel 20,7 s (nur 2 von 10 Läufen unter 20 s), weil der Kreis die Seite bei jedem Zwischenschritt neu zeichnen ließ. Jetzt steht eine ruhende Sanduhr da, die Porträts haben 240 px und werden vor dem Satz Bild für Bild umgerechnet. Ohne Kreis und mit 240 px maß dieselbe Probe 5,2 bis 5,5 s, bei vierfach gedrosseltem Prozessor 19,9 s (kopfloser Browser ohne Grafikkarte). Bitte auf einem echten, schwächeren Handy messen. Scheitern die Bilder im Browser, kommt die Akte ohne Porträts; dann bitte melden.
+- **Weg zu den PDFs in der Detektei:** Der Knopf **PDFs zum Ausdrucken** steht unter der Mappe des Schlosskellers, am Handy (320 und 390 px) aber erst nach etwa 300 bis 400 px Rollen im Bild. Soll weiter oben ein Hinweis stehen? (Beobachtung der Browserprobe, Entscheidung des Besitzers.)
 - **PDFs am Release:** Nach dem ersten CI-Lauf mit dem neuen Job `erzaehlerakte` beide Dateien herunterladen (`erzaehlerakte.pdf`, `erzaehlerakte-dein-moment.pdf`) und durchblättern: 24 Seiten, kein „Heute gespielt“, keine Personenzahl auf dem Deckblatt. Die Dateien sind öffentlich; sie nennen nie den Täter, sind aber nur für die Person gedacht, die erzählt.
 
 ### Bewusst so gelassen (bitte prüfen)

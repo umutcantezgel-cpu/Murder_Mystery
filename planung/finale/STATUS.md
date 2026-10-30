@@ -19,22 +19,67 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 ## Wiederaufnahme
 
 - Stand (2026-10-30): Das Finale ist auf `main` (`mordakte-115.1` ist „latest“). Darauf folgt der **Nachtrag PDFs**
-  (Erzählerakte als PDF in der App und an jedem Release, „PDFs zum Ausdrucken“; Spezifikation „Änderungen“ 48–54):
-  auf `claude/schlosskeller-finale` zusammengeführt, lokal grün, **nicht gepusht**. Plan:
+  (Erzählerakte als PDF in der App und an jedem Release, „PDFs zum Ausdrucken“; Spezifikation „Änderungen“ 48–61):
+  auf `claude/schlosskeller-finale` zusammengeführt, Proben und Gegenprüfung erledigt, Befunde behoben, lokal grün,
+  **nicht gepusht**. Plan:
   `/root/.claude/plans/delegated-wandering-meteor.md`, Hilfsbranches `pdf/a` (Kern, Release) und `pdf/b` (App).
-- Nächste Schritte im Nachtrag: (1) Proben: beide Release-PDFs lokal mit Porträts setzen und Seiten ansehen;
-  Browserprobe im Web-Build (Startseite bei 320/390 px, „PDFs zum Ausdrucken“ → vorbereiten → Erzählerakte →
-  „Herunterladen“, Datei beginnt mit `%PDF-`, Zeit messen, Ziel unter 20 s, sonst Porträts 240 px). (2) Gegenprüfung:
-  Sichtbarkeit und Pfadfreiheit, CI-YAML, Oberfläche bei 320 px. (3) Push, CI-Lauf mit dem neuen Job `erzaehlerakte`
-  begleiten, die PDFs im Vorab-Release prüfen, danach nach `main` (Freigabe mit dem Plan). `einfluss_soll.g.dart` wird
-  nie mehr neu geschrieben (E-048, Nachtrag).
+- Nächste Schritte im Nachtrag: Push, CI-Lauf mit dem neuen Job `erzaehlerakte` begleiten (erster Lauf von
+  `tool/bild/druck_portraets_test.dart` in CI), die PDFs im Vorab-Release prüfen (24 Seiten, Deckblatt mit „Bei acht
+  Personen …“), danach nach `main` (Freigabe mit dem Plan). `einfluss_soll.g.dart` wird nie mehr neu geschrieben
+  (E-048, Nachtrag).
+- Bekannt und vorbestehend, nicht Teil des Nachtrags: `party_druck.dart --paket --n 17` bis `20` bricht mit
+  „Überlauf: Charakterübersicht“ ab (`fest_steckbrief.dart` über `satz_fest.dart`; an 2dbec65 genauso, `--n 12`
+  geht). Die App nutzt `paketDateien` nicht. Abhilfe später: `--paket --n` begrenzen und verständlich melden oder
+  die Charakterübersicht auf eine weitere Seite umbrechen.
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
   `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`; Nachtrag PDFs `wf_50f212a9-a69` (Ergebnisse im Prüfjournal
-  2026-10-30). Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION „Änderungen“ (1–54).
+  2026-10-30). Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION „Änderungen“ (1–61).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
   (A-063 bis A-067)“, darin auch Erzählerakte als PDF, Ladezeit im Browser und die PDFs am Release.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-30 Nachtrag PDFs, Proben und Gegenprüfung (Release-PDFs, Browserprobe 0c47d3c, Prüfer Sichtbarkeit, CI und
+  Oberfläche; Spezifikation „Änderungen“ 55–61). Jeder Befund nachgestellt, die Tests zu den Behebungen schlagen ohne
+  sie fehl. Commits: bc62591 (Deckblatt), bb12cb3 (Kommandozeile), 0884af5 (CI), 5ef9d44 (App), danach die Doku.
+  **Behoben:**
+  - *Browser über 20 s (hoch):* Die Erzählerakte brauchte im Web-Build im Mittel 20,7 s, vor allem weil der Ladekreis
+    von `DateiKnopf` die Seite bei jedem Zwischenschritt neu zeichnen ließ. Jetzt ruhende Sanduhr, Porträts in der App
+    240 statt 360 px, JPEG-Umrechnung vorab Bild für Bild mit Pause (`vorab`). `node druck.mjs` danach: Erzählerakte
+    5,5 / 5,9 / 5,7 / 5,9 s bei 390 px, 5,7 s bei 320 px, 17,9 s bei vierfacher Drosselung (vorher 48,4 s); „Alles in
+    einer Datei“ 1,8 bis 2,2 s (4×: 6,4 s); `erzaehlerakte.pdf` 649.258 statt 808.359 Bytes, 24 Seiten, Porträts
+    240 px; 0 Konsolenfehler, 0 fremde Anfragen.
+  - *Satz blockiert am Stück (mittel, zweimal gemeldet):* durch `vorab` behoben; das Umrechnen liegt im Rückfall
+    (unlesbares Bild → Akte ohne Porträts, neuer Test).
+  - *Fuß der Erzählerakte bei 320 px, Schrift 2, Browser (mittel):* Überlauf 9 px (320 × 640) und 81 px (320 × 568),
+    Figurenliste 0 px, nachgestellt im neuen `erzaehlerakte_fuss_test` mit echten Schriften. Jetzt dort nur
+    „Herunterladen“/„Teilen“ (Bildschirmleser mit Dateinamen), alle Dateiknöpfe mit `ganzeWorte`; kein Überlauf, die
+    Liste bleibt, kein Wort bricht (auch Erzählerheft, Detektivbogen, Auflösungsheft, Erzählerakte in der Druckmappe).
+  - *Deckblatt der neutralen Akte (mittel):* neuer Baustein `ui.druck.akte.inhalt_alle` („Bei acht Personen (ohne den
+    Detektiv) spielen die Figuren 1 bis 8 …“), `kanon_tor` neu; Seite gesichtet (pdftoppm), 24 Seiten.
+  - *Test übersah `2>&1` (mittel), vertauschte Dateien, `grep … || false`:* `test_release_workflow.py` verlangt Umleitung,
+    grep-Zeile und `cp`-Zeilen (15 Tests); Mutationsprobe 19 von 23 erkannt (vorher 16).
+  - *Untergrenze 23 Seiten (zweimal gemeldet):* jetzt 24, Kommentar korrigiert, README nachgezogen.
+  - *Release auf `main` ohne PDFs wird „latest“ (mittel) und „darf fehlen“ ohne `continue-on-error`:* bewusst rot
+    gelassen und dokumentiert (Kopfkommentar, README „Builds“ mit „Re-run failed jobs“, Hinweis auf die Release-Seite
+    in README und Anleitung §2); latest-Logik unverändert.
+  - *Notizen:* PDF-Satz unter „Dateien“, Statusverweis auf diese Datei; SC1111 weg (einfache Anführungszeichen).
+  - *Kommandozeile:* `--erzaehlerakte` mit `--code`, `--pfad` oder `--detektiv` → Exit 2; Porträtwarnung auch mit
+    `--personen` über alle Figuren und beide Detektive (zwei neue Fälle im CLI-Test).
+  - *Kleinere App-Befunde:* Kontext der Druckmappe nach Personenzahl; Rückfall am Erzähler-Handy als
+    `gastAkteBesetzung` mit Test für die Lücke; neue Tests für Porträtfehler und neuen Versuch nach einem Fehler;
+    Texte: „Gib sie nur dieser Person.“ in der Druckmappe, der Knopfname im Hinweis des Assistenten in Anführungszeichen.
+  - *Doku:* Druckspiel-Anleitung (Tafel statt Seite, `--code`/`--pfad`/`--detektiv`), Anleitung §2 und §5.4 (reihum
+    bleibt die Datei auf dem gemeinsamen Gerät; „Herunterladen“), README (eigene Überschrift, „zwei Ziele“ statt
+    „Sterne“, Steckbriefe unter „Steckbriefe & Übersicht“), SPEZIFIKATION 51 „14 Tests“, FUER-DEN-NUTZER.
+  **Nicht geändert** (Begründung in „Änderungen“ 61): Kanten durch „Herr Schneider“ im Netz und Umbruch „Fall-/Code“
+  (vorbestehend), Lage des Knopfs in der Detektei und vierzeiliger Fuß der Akte-Seite bei 320 px (Beobachtungen für
+  den Besitzer), „Als PDF“ reihum (Plan; Entscheidung des Besitzers), `--paket --n 17` bis `20` (vorbestehend, unter
+  „Wiederaufnahme“). **Prüfungen:** `flutter analyze` sauber; `flutter test --concurrency=2` 853 grün (vorher 844);
+  `pruefen.sh schnell` grün (Kern 1005 +1 übersprungen, Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell,
+  CI-Helfer 33, Secret-Scan sauber); `akte_pruefen` 5 × 0; `tool/kanon_fest.txt` gültig; `determinismus_soll*`, `andere_akten_soll` und `einfluss_soll` gleich
+  2dbec65; Bytes von `--erzaehlerakte --personen 8`, `--personen 20 --dein-moment` und `--paket --n 12 --code VPXWW`
+  (38 Dateien) gleich 41362eb. Nicht gepusht.
 
 - 2026-10-30 Nachtrag PDFs (Besitzer: Erzählerakte als PDF in der App, als Datei an jedem Release, Druckmappe leichter
   finden; Spezifikation „Änderungen“ 48–54): `pdf/a` (c603111 neutrale Fassung `--ohne-besetzung`, 049b733 Release-Job

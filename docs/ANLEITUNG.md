@@ -72,10 +72,15 @@ deinen Gastgeber nach der Adresse.
 **Erzählerakte (PDF, Schlosskeller)**
 
 Die beiden PDFs sind die Erzählerakte zum Ausdrucken (Abschnitt 5.4). Sie sind **nur für die Person, die erzählt**,
-und nennen nie den Täter. Sie gelten für jede Personenzahl: Alle Figuren stehen in der Reihenfolge der Besetzung,
-ohne Marken für einen bestimmten Abend. `erzaehlerakte.pdf` nennt die Ziele wie im Druckspiel,
-`erzaehlerakte-dein-moment.pdf` die zwei Sterne je Figur für einen Abend mit „Dein Moment“. Alle anderen PDFs
-(Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken** (Abschnitt 3).
+und nennen nie den Täter. Sie gelten für jede Personenzahl: Alle Figuren stehen mit ihrer Nummer in der Reihenfolge
+der Besetzung, ohne Marken für einen bestimmten Abend. Bei acht Personen (ohne den Detektiv) spielen die Figuren 1
+bis 8; das steht auch auf dem Deckblatt. `erzaehlerakte.pdf` nennt die Ziele wie im Druckspiel,
+`erzaehlerakte-dein-moment.pdf` je Figur die zwei Ziele aus „Dein Moment“. Fehlt eine der Dateien im neuesten
+Release, liegt sie im vorigen auf der Seite der Releases (oben).
+
+Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum
+Ausdrucken** (Abschnitt 3). Steckbriefe und Charakterübersicht liegen auf der Seite der Akte unter **Steckbriefe &
+Übersicht**.
 
 **Prüfen (optional):** Lade `SHA256SUMS.txt` in denselben Ordner und führe `sha256sum -c SHA256SUMS.txt` aus.
 
@@ -124,7 +129,7 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
    - *Wie spielt ihr?* (Schlosskeller, nur bei „Ein Gerät reihum“): **Am Bildschirm** oder **Zum Drucken**. Beim
      Druckspiel kommt die Druckfassung als PDF, der Bildschirm führt trotzdem durch den Abend
      ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Darunter steht: „Nur die PDFs, ohne Abend? Die gibt es
-     bei der Akte unter PDFs zum Ausdrucken.“ Das ist nur ein Hinweis; deine Einstellungen bleiben (Abschnitt 3).
+     bei der Akte unter ‚PDFs zum Ausdrucken‘.“ Das ist nur ein Hinweis; deine Einstellungen bleiben (Abschnitt 3).
    - *Länge des Abends* (Schlosskeller): **Kurzer Abend** oder **Langer Abend**. Der lange Abend ist ein
      Streifzug durch Schloss, Hof und Garten, mit Vorspiel am Anfang und Morgen am Ende.
    - *Einstimmung* (Schlosskeller): der Schalter **Vorgeschichte und Vorstellung**. Er ist anfangs an. Dann
@@ -340,8 +345,10 @@ Wo sie liegt:
 Eintrag, nicht am Pult). Er liefert `erzaehlerakte.pdf` in der Fassung, die du gerade siehst: mit „Dein Moment“ die
 zwei Sterne je Figur, sonst die Ziele aus dem Dossier. Dazu kommt die Personenzahl des Abends; die Figuren am Tisch
 stehen zuerst. Ein Fall-Code steht nicht darin. In der App öffnet sich das Teilen des Telefons, im Browser tippst du
-ein zweites Mal auf **Herunterladen: Erzählerakte**. Schließt sich die Akte (Finale, Sitz gewechselt), entsteht
-keine Datei mehr.
+ein zweites Mal auf **Herunterladen** (oder **Teilen**). Schließt sich die Akte (Finale, Sitz gewechselt), entsteht
+keine Datei mehr. Reihum gehört das Gerät dem ganzen Tisch: Die Datei bleibt danach dort liegen (Downloads oder
+Verlauf des Teilens). Besser erstellt der Erzähler sie am eigenen Handy (**„Am eigenen Handy lesen“**) oder vorab in
+der Druckmappe am eigenen Gerät.
 
 Gedruckt gibt es sie außerdem in der Druckmappe (Detektei → **PDFs zum Ausdrucken**, Abschnitt 3; Ziele wie im
 Druckspiel) und am Release für jede Personenzahl (Abschnitt 2). Mehr dazu in

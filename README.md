@@ -30,17 +30,21 @@ immer auf das neueste freigegebene Release.
   einmaligen Schalter des Besitzers (siehe unten). Eine feste Web-Adresse steht hier nicht.
   Lokal: `bash build.sh`, dann `python3 -m http.server 8081 --directory build/web`.
 
-**PDFs zum Ausdrucken (Schlosskeller).** Am Release hängt die Erzählerakte als PDF, in zwei Fassungen. Beide sind nur
-für die Person, die erzählt, nennen nie den Täter und gelten für jede Personenzahl (alle Figuren in der Reihenfolge
-der Besetzung, ohne Marken für einen bestimmten Abend):
+**Erzählerakte am Release (Schlosskeller).** Am Release hängt die Erzählerakte als PDF, in zwei Fassungen. Beide sind
+nur für die Person, die erzählt, nennen nie den Täter und gelten für jede Personenzahl (alle Figuren in der Reihenfolge
+der Besetzung, ohne Marken für einen bestimmten Abend; bei acht Personen spielen die Figuren 1 bis 8):
 
 | Fassung | Datei |
 | --- | --- |
 | Ziele wie im Druckspiel | [`erzaehlerakte.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
-| Abend mit „Dein Moment“ (je Figur die zwei Sterne) | [`erzaehlerakte-dein-moment.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
+| Abend mit „Dein Moment“ (je Figur die zwei Ziele aus „Dein Moment“) | [`erzaehlerakte-dein-moment.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
 
-Alle anderen PDFs (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken**
-(unter dem Schlosskeller oder auf der Akte-Seite).
+Fehlt eine der beiden Dateien im neuesten Release (dann war der Job `erzaehlerakte` rot, siehe „Builds“), liegt sie
+im vorigen Release auf der [Release-Seite](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases).
+
+Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken**
+(unter dem Schlosskeller oder auf der Akte-Seite). Steckbriefe und Charakterübersicht liegen auf der Akte-Seite unter
+**Steckbriefe & Übersicht**.
 
 ### 2. Starten
 
@@ -179,8 +183,11 @@ Weitere Einstiege (Web): `?screen=detektei|neu|akte|sammlung|deck|profile|beitre
 - **`erzaehlerakte`** (nicht beim wöchentlichen Lauf): zeichnet die Porträts (`flutter test
   tool/bild/druck_portraets_test.dart`, mindestens 22) und setzt die Erzählerakte des Schlosskellers zweimal mit
   `party_druck.dart --erzaehlerakte --ohne-besetzung`, einmal mit `--dein-moment`: `erzaehlerakte.pdf` und
-  `erzaehlerakte-dein-moment.pdf`. Der Job schlägt fehl, wenn Porträts fehlen, eine Datei weniger als 23 Seiten hat
-  oder beide Dateien gleich sind. Kein Fall-Code, kein Pfad.
+  `erzaehlerakte-dein-moment.pdf`. Der Job schlägt fehl, wenn Porträts fehlen, eine Datei weniger als 24 Seiten hat
+  oder beide Dateien gleich sind. Kein Fall-Code, kein Pfad. Ein roter Job hält das Release nicht auf: Es erscheint
+  ohne die PDFs, und der Lauf bleibt rot. Auf `main` wird es trotzdem „latest“, und die Links oben führen dann ins
+  Leere, bis die PDFs wieder dranhängen. Nachholen mit „Re-run failed jobs“: Das baut die Akten neu und erzeugt ein
+  neues Release mit neuem Tag (`mordakte-<Lauf>.<Versuch>`).
 - **`release`**: je Lauf ein Release mit Tag `mordakte-<Lauf>.<Versuch>` und den festen Dateinamen
   `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `erzaehlerakte.pdf`,
   `erzaehlerakte-dein-moment.pdf`, `SHA256SUMS.txt`. IPA, Web-ZIP und die beiden PDFs dürfen fehlen; dann nennen die
