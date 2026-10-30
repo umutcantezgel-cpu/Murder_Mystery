@@ -326,17 +326,20 @@ bool gastMitMoment(GastDienst d) => d.ansicht['einfluss'] is Map || jMap(d.ansic
 /// Öffnet die Erzählerakte für den Gast auf dem Erzähler-Sitz: besetzt sind die
 /// Figuren der Rollenzahl des Raums, gespielt von den Gästen mit Figur. Mit
 /// „Dein Moment“ stehen die Sterne als Ziele, sonst die des Kanons. Sie
-/// schließt sich, sobald sie nicht mehr gilt (Finale, Sitz gewechselt).
+/// schließt sich, sobald sie nicht mehr gilt (Finale, Sitz gewechselt). „Als
+/// PDF“ gibt es mit der Rollenzahl des Raums, wenn sie zur Besetzung passt.
 Future<void> gastErzaehlerakteZeigen(GastKontext c) {
   final d = c.daten!;
   final b = d.texte.besetzung;
   final n = jZahl(c.v['rollen']);
+  final passt = n >= b.minRollen && n <= b.maxRollen;
   final spieler = c.spieler;
   return zeigeErzaehlerakte(
     c.context,
     daten: d,
-    besetzt: n >= b.minRollen && n <= b.maxRollen ? b.besetzt(n) : [for (final r in b.reihenfolge) if (spieler.any((s) => s.rolle == r)) r],
+    besetzt: passt ? b.besetzt(n) : [for (final r in b.reihenfolge) if (spieler.any((s) => s.rolle == r)) r],
     einfluss: gastMitMoment(c.dienst),
+    rollen: passt ? n : null,
     spieler: (f) => spieler.where((s) => s.rolle == f).firstOrNull?.name,
     wache: c.dienst,
     erlaubt: () => gastErzaehlerakteErlaubt(c.dienst),

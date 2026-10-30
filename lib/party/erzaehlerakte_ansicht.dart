@@ -9,6 +9,8 @@ import '../l10n/gen/app_localizations_de.dart';
 import '../stil/mappe/online_bausteine.dart' show MOnlineSilhouette;
 import '../stil/stil.dart';
 import 'daten.dart';
+import 'datei_knopf.dart';
+import 'erzaehlerakte_druck.dart';
 import 'party_stil.dart';
 import 'sitzung.dart';
 
@@ -24,7 +26,8 @@ final _de = LDe();
 /// ([ErzaehlerakteEintrag], „Gib das Gerät an …“) und das offene Erzählerpult,
 /// am Erzähler-Handy und online auf dem Erzähler-Sitz. Nie im Solo, nie dem
 /// Detektiv, einer Rolle oder der Assistenz, nie ab dem Finale
-/// ([PartySitzung.erzaehlerakteSichtbar]).
+/// ([PartySitzung.erzaehlerakteSichtbar]). Nur in der offenen Akte
+/// ([ErzaehlerakteSeite]) gibt es sie auch „Als PDF“, in derselben Fassung.
 ///
 /// Zwei Reiter:
 /// - „Figuren“: erst die besetzten, dann die ohne Spieler, danach Herr
@@ -680,12 +683,13 @@ class NetzMaler extends CustomPainter {
 /// Öffnet die Erzählerakte als ganze Seite über dem Abend. [wache] und
 /// [erlaubt]: Ändert sich der Abend so, dass sie nicht mehr gilt (Finale, Sitz
 /// gewechselt), schließt sie sich selbst. [einfluss]: Spielt der Abend „Dein
-/// Moment“ (Sterne als Ziele)?
+/// Moment“ (Sterne als Ziele)? [rollen]: Personenzahl des Abends für „Als PDF“.
 Future<void> zeigeErzaehlerakte(
   BuildContext context, {
   required PartyDaten daten,
   required List<String> besetzt,
   required bool einfluss,
+  int? rollen,
   String? Function(String figur)? spieler,
   Listenable? wache,
   bool Function()? erlaubt,
@@ -694,18 +698,34 @@ Future<void> zeigeErzaehlerakte(
   return Navigator.of(context).push<void>(
     MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (_) => ErzaehlerakteSeite(daten: daten, besetzt: besetzt, einfluss: einfluss, spieler: spieler, wache: wache, erlaubt: erlaubt),
+      builder: (_) => ErzaehlerakteSeite(daten: daten, besetzt: besetzt, einfluss: einfluss, rollen: rollen, spieler: spieler, wache: wache, erlaubt: erlaubt),
     ),
   );
 }
 
-/// Die Erzählerakte als eigene Seite mit „Schließen“.
+/// Die Erzählerakte als eigene Seite mit „Schließen“. Mit der Personenzahl
+/// [rollen] liegt daneben „Als PDF“: dieselbe Fassung wie angezeigt
+/// ([einfluss]), für diese Personenzahl, ohne Fall-Code. Die Seite ist nur dem
+/// Erzähler-Platz zugänglich ([erlaubt]); so auch die Datei.
 class ErzaehlerakteSeite extends StatefulWidget {
-  const ErzaehlerakteSeite({super.key, required this.daten, required this.besetzt, required this.einfluss, this.spieler, this.wache, this.erlaubt});
+  const ErzaehlerakteSeite({
+    super.key,
+    required this.daten,
+    required this.besetzt,
+    required this.einfluss,
+    this.rollen,
+    this.spieler,
+    this.wache,
+    this.erlaubt,
+  });
 
   final PartyDaten daten;
   final List<String> besetzt;
   final bool einfluss;
+
+  /// Personenzahl des Abends für „Als PDF“; ohne Angabe (oder außerhalb der
+  /// Besetzung) gibt es den Knopf nicht.
+  final int? rollen;
   final String? Function(String figur)? spieler;
   final Listenable? wache;
   final bool Function()? erlaubt;
@@ -735,25 +755,52 @@ class _ErzaehlerakteSeiteState extends State<ErzaehlerakteSeite> {
     Navigator.of(context).maybePop();
   }
 
+  /// Personenzahl für „Als PDF“, wenn es die Akte gibt und die Zahl zur Besetzung passt.
+  int? get _pdfRollen {
+    final n = widget.rollen;
+    final b = widget.daten.texte.besetzung;
+    if (n == null || n < b.minRollen || n > b.maxRollen) return null;
+    return widget.daten.erzaehlerakteFuer(einfluss: widget.einfluss) == null ? null : n;
+  }
+
+  /// Die Akte wie angezeigt als PDF; nur, solange die Seite gilt.
+  Future<FertigeDatei> _pdf(int rollen) async {
+    if (!(widget.erlaubt?.call() ?? true)) throw StateError('Die Erzählerakte gilt hier nicht mehr.');
+    final k = await erzaehlerakteKontext(widget.daten, einfluss: widget.einfluss, rollen: rollen);
+    return erzaehlerakteDatei(k ?? (throw StateError('Diese Akte hat keine Erzählerakte.')));
+  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        key: const ValueKey('erzaehlerakte-seite'),
-        backgroundColor: MFarben.von(context).grund,
-        body: MRahmen(
-          marke: _ui(widget.daten, 'ui.druck.akte.nur'),
-          titel: _de.erzaehlerakte_titel,
-          scroll: false,
-          aktionen: [
-            MKnopf(
-              key: const ValueKey('erzaehlerakte-schliessen'),
-              text: _de.common_close,
-              art: MKnopfArt.zweit,
-              onPressed: () => Navigator.of(context).maybePop(),
+  Widget build(BuildContext context) {
+    final rollen = _pdfRollen;
+    return Scaffold(
+      key: const ValueKey('erzaehlerakte-seite'),
+      backgroundColor: MFarben.von(context).grund,
+      body: MRahmen(
+        marke: _ui(widget.daten, 'ui.druck.akte.nur'),
+        titel: _de.erzaehlerakte_titel,
+        scroll: false,
+        aktionen: [
+          MKnopf(
+            key: const ValueKey('erzaehlerakte-schliessen'),
+            text: _de.common_close,
+            art: MKnopfArt.zweit,
+            onPressed: () => Navigator.of(context).maybePop(),
+          ),
+          // Dieselbe Fassung als Datei, nur hier in der offenen Akte.
+          if (rollen != null)
+            DateiKnopf(
+              key: ValueKey('erzaehlerakte-pdf-${widget.einfluss}-$rollen'),
+              text: _de.erzaehlerakte_pdf,
+              datei: _ui(widget.daten, 'ui.druck.akte.titel'),
+              icon: Icons.picture_as_pdf_rounded,
+              bauen: () => _pdf(rollen),
             ),
-          ],
-          child: ErzaehlerakteAnsicht(daten: widget.daten, besetzt: widget.besetzt, einfluss: widget.einfluss, spieler: widget.spieler),
-        ),
-      );
+        ],
+        child: ErzaehlerakteAnsicht(daten: widget.daten, besetzt: widget.besetzt, einfluss: widget.einfluss, spieler: widget.spieler),
+      ),
+    );
+  }
 }
 
 /// Knopf „Erzählerakte“ für den Erzähler-Platz eines Abends an diesem Gerät
@@ -785,6 +832,7 @@ Future<void> erzaehlerakteZeigen(BuildContext context, PartySitzung s) => zeigeE
       daten: s.daten,
       besetzt: s.besetzt,
       einfluss: s.einfluss,
+      rollen: s.einstellungen.rollen,
       spieler: (f) => s.solo ? null : s.namen[f],
       wache: s,
       erlaubt: () => s.erzaehlerakteSichtbar,

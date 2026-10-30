@@ -25,7 +25,7 @@ const _geloesteEnden = {'ende_meister', 'ende_teilerfolg'};
 /// Alles stammt aus öffentlichen Feldern ([AkteAuszug]); kein Blatt verrät,
 /// wer als Täter in Frage kommt. Unten führt der Weg in den Assistenten, bei
 /// Akten mit Steckbriefen zu Steckbriefen und Übersicht (ein Tipp, M5), bei
-/// Akten mit Druckfassung auch zur Druckmappe.
+/// Akten mit Druckfassung auch zur Druckmappe („PDFs zum Ausdrucken“).
 class AkteSeite extends StatefulWidget {
   const AkteSeite({super.key, required this.akteId});
 
@@ -104,9 +104,10 @@ class _AkteSeiteState extends State<AkteSeite> {
                       ),
                     if (akte.druckbar)
                       MKnopf(
-                        text: l.detektei_akte_druckmappe,
+                        text: l.detektei_druck_pdfs,
                         art: MKnopfArt.zweit,
                         icon: Icons.print_rounded,
+                        ganzeWorte: true,
                         onPressed: () => context.go(Routes.druckmappeVon(akte.id)),
                       ),
                     MKnopf(

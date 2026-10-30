@@ -22,6 +22,9 @@ typedef FertigeDatei = ({String name, Uint8List bytes});
 ///
 /// Eine Datei, die von Einstellungen abhängt (Personenzahl, Detektiv), bekommt
 /// einen Schlüssel aus diesen Einstellungen: Ändern sie sich, wird neu gebaut.
+///
+/// Auf Papier ([MFlaeche.papier]) stehen Hinweis und Fehler in Tinte, auf dem
+/// dunklen Grund (etwa im Fuß einer Seite) in Papierfarbe.
 class DateiKnopf extends StatefulWidget {
   const DateiKnopf({
     super.key,
@@ -30,9 +33,14 @@ class DateiKnopf extends StatefulWidget {
     this.icon = Icons.ios_share_rounded,
     this.haupt = false,
     this.typ = 'application/pdf',
+    this.datei,
   });
 
   final String text;
+
+  /// Name der Datei auf den Knöpfen im Browser („Herunterladen: …“); ohne
+  /// Angabe [text]. Für Knöpfe wie „Als PDF“, die die Datei nicht nennen.
+  final String? datei;
   final Future<FertigeDatei> Function() bauen;
   final IconData icon;
   final bool haupt;
@@ -90,6 +98,8 @@ class _DateiKnopfState extends State<DateiKnopf> {
 
   @override
   Widget build(BuildContext context) {
+    // Tinte auf Papier, Papierfarbe auf dem dunklen Grund.
+    final schrift = MFlaeche.hellVon(context) ? null : MFarben.von(context).papier;
     if (_baut) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -102,7 +112,7 @@ class _DateiKnopfState extends State<DateiKnopf> {
                 : const CircularProgressIndicator(strokeWidth: 2.5, color: MRoh.stempelRot),
           ),
           const SizedBox(width: 12),
-          Flexible(child: Text(_de.druck_datei_laedt, style: MPapierSchrift.maschine)),
+          Flexible(child: Text(_de.druck_datei_laedt, style: MPapierSchrift.maschine.copyWith(color: schrift))),
         ],
       );
     }
@@ -122,7 +132,7 @@ class _DateiKnopfState extends State<DateiKnopf> {
             children: [
               for (final (i, weg) in wege.indexed)
                 PartyKnopf(
-                  text: weg == DateiWeg.teilen ? _de.druck_datei_teilen(widget.text) : _de.druck_datei_laden(widget.text),
+                  text: weg == DateiWeg.teilen ? _de.druck_datei_teilen(widget.datei ?? widget.text) : _de.druck_datei_laden(widget.datei ?? widget.text),
                   haupt: widget.haupt && i == 0,
                   icon: weg == DateiWeg.teilen ? Icons.ios_share_rounded : Icons.download_rounded,
                   onPressed: () => _tipp(weg),
@@ -131,7 +141,7 @@ class _DateiKnopfState extends State<DateiKnopf> {
           ),
         if (_fehler) ...[
           const SizedBox(height: 6),
-          Text(_de.druck_datei_fehler, style: MPapierSchrift.hand.copyWith(fontSize: 19)),
+          Text(_de.druck_datei_fehler, style: MPapierSchrift.hand.copyWith(fontSize: 19, color: schrift)),
         ],
       ],
     );

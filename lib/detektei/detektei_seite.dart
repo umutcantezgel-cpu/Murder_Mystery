@@ -21,6 +21,7 @@ import 'schreibtisch.dart';
 /// Oben die Wortmarke und der Dienstausweis (Name, Rang, Erfahrung), daneben
 /// „Neuer Abend“ als Messingschild und „Beitreten“ als Etikett, darunter die
 /// Akten der Kampagne als Aktenmappen und Sammlung und Profil als Karteikarten.
+/// Unter jeder Mappe mit Druckfassung führt „PDFs zum Ausdrucken“ in ihre Druckmappe.
 class DetekteiSeite extends StatefulWidget {
   const DetekteiSeite({super.key});
 
@@ -145,7 +146,25 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                 final akten = snap.data;
                 if (akten == null) return Text(l.appLoading, style: t.leise);
                 final mappen = [
-                  for (var i = 0; i < akten.length; i++) AkteKarte(akte: akten[i], nummer: i, onTap: () => context.go(Routes.akteVon(akten[i].id))),
+                  for (var i = 0; i < akten.length; i++)
+                    AkteKarte(
+                      akte: akten[i],
+                      nummer: i,
+                      onTap: () => context.go(Routes.akteVon(akten[i].id)),
+                      // Der zweite Weg zur Druckmappe, ohne den Umweg über die Akte.
+                      unten: akten[i].druckbar
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: MKnopf(
+                                text: l.detektei_druck_pdfs,
+                                art: MKnopfArt.zweit,
+                                icon: Icons.print_rounded,
+                                ganzeWorte: true,
+                                onPressed: () => context.go(Routes.druckmappeVon(akten[i].id)),
+                              ),
+                            )
+                          : null,
+                    ),
                 ];
                 return LayoutBuilder(
                   builder: (context, box) {

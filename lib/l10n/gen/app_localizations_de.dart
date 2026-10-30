@@ -1935,10 +1935,13 @@ class LDe extends L {
 
   @override
   String get detektei_druck_hinweis =>
-      'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.';
+      'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken, auch die Erzählerakte für die Person, die erzählt.';
 
   @override
   String get detektei_druck_vorbereiten => 'Druckmappe vorbereiten';
+
+  @override
+  String get detektei_druck_pdfs => 'PDFs zum Ausdrucken';
 
   @override
   String abend_schritt(int n, int gesamt) {
@@ -2183,6 +2186,10 @@ class LDe extends L {
   @override
   String get abend_feste_loesung_online =>
       'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.';
+
+  @override
+  String get abend_druck_nur_pdfs =>
+      'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter PDFs zum Ausdrucken.';
 
   @override
   String get profil_klasse_hinweis =>
@@ -4070,6 +4077,10 @@ class LDe extends L {
       'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.';
 
   @override
+  String get druck_erzaehlerakte_hinweis =>
+      'Nur für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nicht weiter.';
+
+  @override
   String get detektei_akte_steckbriefe => 'Steckbriefe & Übersicht';
 
   @override
@@ -4363,6 +4374,9 @@ class LDe extends L {
 
   @override
   String get erzaehlerakte_netz_alle => 'Alle Bindungen';
+
+  @override
+  String get erzaehlerakte_pdf => 'Als PDF';
 
   @override
   String erzaehlerakte_figur_semantik(String name, int anzahl) {

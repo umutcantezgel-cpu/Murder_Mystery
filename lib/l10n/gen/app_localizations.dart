@@ -3396,7 +3396,7 @@ abstract class L {
   /// No description provided for @detektei_druck_hinweis.
   ///
   /// In de, this message translates to:
-  /// **'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.'**
+  /// **'Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken, auch die Erzählerakte für die Person, die erzählt.'**
   String get detektei_druck_hinweis;
 
   /// No description provided for @detektei_druck_vorbereiten.
@@ -3404,6 +3404,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Druckmappe vorbereiten'**
   String get detektei_druck_vorbereiten;
+
+  /// Akte und Startseite: Knopf zur Druckmappe einer Akte mit Druckfassung
+  ///
+  /// In de, this message translates to:
+  /// **'PDFs zum Ausdrucken'**
+  String get detektei_druck_pdfs;
 
   /// No description provided for @abend_schritt.
   ///
@@ -3830,6 +3836,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.'**
   String get abend_feste_loesung_online;
+
+  /// Assistent, Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung)
+  ///
+  /// In de, this message translates to:
+  /// **'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter PDFs zum Ausdrucken.'**
+  String get abend_druck_nur_pdfs;
 
   /// No description provided for @profil_klasse_hinweis.
   ///
@@ -7029,6 +7041,12 @@ abstract class L {
   /// **'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.'**
   String get druck_erzaehlerheft_hinweis;
 
+  /// Druckmappe: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt
+  ///
+  /// In de, this message translates to:
+  /// **'Nur für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nicht weiter.'**
+  String get druck_erzaehlerakte_hinweis;
+
   /// Akte: Knopf zu Steckbriefen und Charakterübersicht
   ///
   /// In de, this message translates to:
@@ -7520,6 +7538,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Alle Bindungen'**
   String get erzaehlerakte_netz_alle;
+
+  /// Erzählerakte (A-063): die Akte des Abends als PDF, nur auf dem Erzähler-Platz
+  ///
+  /// In de, this message translates to:
+  /// **'Als PDF'**
+  String get erzaehlerakte_pdf;
 
   /// Erzählerakte (A-063): Bildschirmleser für eine Figur im Netz
   ///
