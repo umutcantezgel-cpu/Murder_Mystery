@@ -38,8 +38,10 @@ void main() {
     for (final g in [rolle, greta]) {
       await zeigeImThema(t, (_) => gastSeiteLive(g));
       expect(find.byKey(_knopf), findsNothing, reason: g.spielerId);
+      expect(find.text(l.erzaehlerakte_pdf), findsNothing, reason: g.spielerId);
     }
     await zeigeImThema(t, (_) => gastSeiteLive(cleo));
+    expect(find.text(l.erzaehlerakte_pdf), findsNothing, reason: 'Erst in der offenen Akte');
     await t.ensureVisible(find.byKey(_knopf));
     await t.tap(find.byKey(_knopf));
     await t.pumpAndSettle();
@@ -48,6 +50,9 @@ void main() {
     expect(seite.besetzt, raum.partieFuerGastgeber!.spiel.besetzt);
     expect(seite.spieler!('ahmet'), isNotEmpty, reason: 'Wer die Figur spielt, steht in der Akte');
     expect(seite.einfluss, isFalse, reason: 'Ohne „Dein Moment“ die Ziele des Kanons');
+    // „Als PDF“ mit der Rollenzahl des Raums, wie die Akte sie zeigt.
+    expect(seite.rollen, raum.partieFuerGastgeber!.spiel.besetzt.length);
+    expect(find.text(l.erzaehlerakte_pdf), findsOneWidget);
     expect(find.text(l.erzaehlerakte_reiter_netz), findsOneWidget);
     await t.tap(find.byKey(const ValueKey('erzaehlerakte-schliessen')));
     await t.pumpAndSettle();

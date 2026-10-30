@@ -4,15 +4,22 @@
 // dem Finale. Reiter „Figuren“ (besetzte zuerst, dann ohne Spieler) und „Netz“
 // (Ring mit Herrn Schneider in der Mitte, öffentlich durchgezogen, heimlich
 // gestrichelt, antippbar). Die Ziele kommen mit der Schicht aus ihren Sternen;
-// an einem Abend ohne „Dein Moment“ sind es die Ziele des Kanons.
+// an einem Abend ohne „Dein Moment“ sind es die Ziele des Kanons. „Als PDF“ gibt
+// es nur in der offenen Akte, in der Fassung, die sie zeigt, für die Personenzahl
+// des Abends.
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/bildschirme/intro.dart';
 import 'package:mordakte/party/bildschirme/rollen.dart';
+import 'package:mordakte/party/datei_teilen.dart';
+import 'package:mordakte/party/druck_speichern.dart';
 import 'package:mordakte/party/erzaehlerakte_ansicht.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'erzaehl_hilfe.dart';
 import 'hilfe.dart';
@@ -31,6 +38,53 @@ Future<void> _zeige(WidgetTester t, Widget kind, {Size groesse = const Size(390,
   addTearDown(t.view.resetDevicePixelRatio);
   await t.pumpWidget(rahmen(MediaQuery(data: MediaQueryData(disableAnimations: true, size: groesse, textScaler: TextScaler.linear(schrift)), child: kind)));
   await t.pump();
+}
+
+/// Der Knopf „Als PDF“ der Erzählerakte.
+Finder get _pdf => find.text(_de.erzaehlerakte_pdf);
+
+/// Tippt auf [knopf] und wartet in echter Zeit, bis [fertig] gilt (die PDF-Erzeugung läuft wirklich).
+Future<void> _tippeUndWarte(WidgetTester t, Finder knopf, bool Function() fertig) async {
+  await t.ensureVisible(knopf);
+  await t.tap(knopf);
+  await t.pump();
+  for (var i = 0; i < 600 && !fertig(); i++) {
+    await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+    await t.pump(const Duration(milliseconds: 20));
+  }
+  await t.pump();
+}
+
+/// Fängt das Teilen des Systems ab.
+List<ShareParams> _zeuge() {
+  final geteilt = <ShareParams>[];
+  final vorher = dateiTeilenUeber;
+  dateiTeilenUeber = (p) async {
+    geteilt.add(p);
+    return const ShareResult('ok', ShareResultStatus.success);
+  };
+  addTearDown(() => dateiTeilenUeber = vorher);
+  return geteilt;
+}
+
+/// Der Browser ohne Teilen: nur Herunterladen.
+class _Browser extends DateiGeraet {
+  final angeboten = <(String, Uint8List)>[];
+
+  @override
+  bool get zweiterTipp => true;
+
+  @override
+  bool get kannHerunterladen => true;
+
+  @override
+  bool kannTeilen(String name, String typ) => false;
+
+  @override
+  Future<bool> anbieten(String name, Uint8List bytes, {required String typ, Rect? ursprung, required DateiWeg weg}) async {
+    angeboten.add((name, bytes));
+    return true;
+  }
 }
 
 void main() {
@@ -85,15 +139,18 @@ void main() {
     expect(find.byType(ErzaehlerakteSeite), findsOneWidget);
     expect(find.text(_de.erzaehlerakte_titel), findsWidgets);
     // Figuren: „Heute gespielt“ vor „Ohne Spieler“; Emine (Platz sechs) steht unter den Gästen ohne Spieler.
+    // Kleine Schritte: Jeder Zug schwingt nach, und unter der Akte liegt im Fuß auch „Als PDF“.
     final besetzt = find.byKey(const ValueKey('akte-besetzt')), ohne = find.byKey(const ValueKey('akte-ohne'));
-    await t.scrollUntilVisible(besetzt, 300, scrollable: _figurenListe);
-    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-ahmet')), 300, scrollable: _figurenListe);
+    await t.scrollUntilVisible(besetzt, 120, scrollable: _figurenListe);
+    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-ahmet')), 120, scrollable: _figurenListe);
     expect(find.text(_de.einstimmung_gespielt_von('Ben')), findsOneWidget);
-    await t.scrollUntilVisible(ohne, 300, scrollable: _figurenListe);
-    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-emine')), 300, scrollable: _figurenListe);
+    await t.scrollUntilVisible(ohne, 120, scrollable: _figurenListe);
+    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-emine')), 120, scrollable: _figurenListe);
     expect(t.getTopLeft(find.byKey(const ValueKey('akte-figur-emine'))).dy, greaterThan(t.getTopLeft(ohne).dy));
     expect(find.byKey(const ValueKey('akte-besetzt')).evaluate().isEmpty || t.getTopLeft(besetzt).dy < t.getTopLeft(ohne).dy, isTrue);
-    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-ahmet')), -300, scrollable: _figurenListe);
+    await t.scrollUntilVisible(find.byKey(const ValueKey('akte-figur-ahmet')), -120, scrollable: _figurenListe);
+    await t.ensureVisible(find.byKey(const ValueKey('akte-figur-ahmet')));
+    await t.pump();
     // Aufklappen: alle Abschnitte, Bindungen als Chips.
     await t.tap(find.byKey(const ValueKey('akte-figur-ahmet')));
     await t.pump();
@@ -125,8 +182,9 @@ void main() {
     await t.tap(find.byKey(const ValueKey('netz-knoten-ahmet')));
     await t.pump();
     expect(maler().wahl, 'ahmet');
-    expect(find.byKey(const ValueKey('netz-alle')), findsOneWidget);
-    await t.ensureVisible(find.byKey(const ValueKey('netz-alle')));
+    // „Alle Bindungen“ liegt unter dem Ring; bei kleinem Bildschirm erst nach dem Rollen im Bild.
+    expect(find.byKey(const ValueKey('netz-alle'), skipOffstage: false), findsOneWidget);
+    await t.ensureVisible(find.byKey(const ValueKey('netz-alle'), skipOffstage: false));
     await t.pump();
     await t.tap(find.byKey(const ValueKey('netz-alle')));
     await t.pump();
@@ -195,5 +253,101 @@ void main() {
     await t.tap(find.byKey(const ValueKey('netz-knoten-leyla')));
     await t.pump();
     expect(t.takeException(), isNull);
+  });
+
+  testWidgets('„Als PDF“ nur in der offenen Akte: nicht im Eintrag, nicht am Pult, nie im Solo; mit der Personenzahl des Abends', (t) async {
+    final s = erzaehlSitzung(rollen: 5, erzaehler: 'Mia', einstimmung: false);
+    await _zeige(t, RollenBildschirm(sitzung: s));
+    expect(_pdf, findsNothing, reason: 'Die Rollenvergabe sieht der ganze Tisch');
+    await t.ensureVisible(find.byKey(const ValueKey('erzaehlerakte-eintrag')));
+    await t.tap(find.byKey(const ValueKey('erzaehlerakte-eintrag')));
+    await t.pump();
+    expect(_pdf, findsNothing, reason: '„Gib das Gerät an Mia“');
+    await t.ensureVisible(find.byKey(const ValueKey('erzaehlerakte-zeigen')));
+    await t.tap(find.byKey(const ValueKey('erzaehlerakte-zeigen')));
+    await t.pumpAndSettle();
+    expect(_pdf, findsOneWidget);
+    expect(t.widget<ErzaehlerakteSeite>(find.byType(ErzaehlerakteSeite)).rollen, 5);
+    await t.tap(find.byKey(const ValueKey('erzaehlerakte-schliessen')));
+    await t.pumpAndSettle();
+    expect(_pdf, findsNothing);
+
+    // Am Pult: zugedeckt nichts, offen nur der Knopf zur Akte; das PDF erst in ihr.
+    final pult = erzaehlSitzung(rollen: 4, erzaehler: 'Mia', einstimmung: false);
+    spieleBis(pult, PartyPhase.intro);
+    await _zeige(t, ListenableBuilder(listenable: pult, builder: (_, _) => IntroBildschirm(sitzung: pult)));
+    expect(_pdf, findsNothing);
+    pult.pultZeigen();
+    await t.pump();
+    expect(_pdf, findsNothing);
+    await t.ensureVisible(find.byKey(const ValueKey('erzaehlerakte-knopf')));
+    await t.tap(find.byKey(const ValueKey('erzaehlerakte-knopf')));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 600));
+    expect(_pdf, findsOneWidget);
+    expect(t.widget<ErzaehlerakteSeite>(find.byType(ErzaehlerakteSeite)).rollen, 4);
+    await t.tap(find.byKey(const ValueKey('erzaehlerakte-schliessen')));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 600));
+    expect(find.byType(ErzaehlerakteSeite), findsNothing);
+    expect(_pdf, findsNothing);
+
+    // Im Solo gibt es weder Akte noch PDF.
+    final solo = erzaehlSitzung(rollen: 4, solo: true, einstimmung: false);
+    spieleBis(solo, PartyPhase.intro);
+    await _zeige(t, IntroBildschirm(sitzung: solo));
+    expect(find.byKey(const ValueKey('erzaehlerakte-knopf')), findsNothing);
+    expect(_pdf, findsNothing);
+
+    // Ohne passende Personenzahl oder ohne Akte keinen Knopf.
+    for (final n in [null, 3, 21]) {
+      await _zeige(t, ErzaehlerakteSeite(daten: erzaehlDaten, besetzt: s.besetzt, einfluss: false, rollen: n));
+      expect(_pdf, findsNothing, reason: '$n Personen');
+    }
+    await _zeige(t, ErzaehlerakteSeite(daten: partyDaten, besetzt: s.besetzt, einfluss: false, rollen: 5));
+    expect(_pdf, findsNothing, reason: 'Ohne Erzählerakte');
+  });
+
+  testWidgets('„Als PDF“ setzt die Fassung, die die Akte zeigt: ohne „Dein Moment“ die Ziele des Kanons, mit ihm die Sterne', (t) async {
+    final angefragt = mitErsatzPortraets();
+    final geteilt = _zeuge();
+    final s = erzaehlSitzung(rollen: 7, erzaehler: 'Mia', einstimmung: false);
+    await _zeige(t, ErzaehlerakteSeite(daten: s.daten, besetzt: s.besetzt, einfluss: false, rollen: 7));
+    expect(angefragt, isEmpty, reason: 'Erst beim Tipp');
+    await _tippeUndWarte(t, _pdf, () => geteilt.isNotEmpty);
+    expect(geteilt.single.fileNameOverrides, ['erzaehlerakte.pdf']);
+    expect(geteilt.single.files!.single.mimeType, 'application/pdf');
+    final ohne = (await t.runAsync(() => geteilt.single.files!.single.readAsBytes()))!;
+    expect(String.fromCharCodes(ohne.take(5)), '%PDF-');
+    expect(ohne, await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 7)));
+
+    // Mit „Dein Moment“ im Browser: erst bauen, dann „Herunterladen: Erzählerakte“.
+    final browser = _Browser();
+    final vorher = dateiGeraet;
+    dateiGeraet = browser;
+    addTearDown(() => dateiGeraet = vorher);
+    await _zeige(t, ErzaehlerakteSeite(key: const ValueKey('mit'), daten: s.daten, besetzt: s.besetzt, einfluss: true, rollen: 7));
+    final laden = find.text(_de.druck_datei_laden(s.ui('ui.druck.akte.titel')));
+    await _tippeUndWarte(t, _pdf, () => laden.evaluate().isNotEmpty);
+    expect(laden, findsOneWidget);
+    await t.tap(laden);
+    await t.pump();
+    final (name, mit) = browser.angeboten.single;
+    expect(name, 'erzaehlerakte.pdf');
+    expect(mit, await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: true, rollen: 7)));
+    expect(mit, isNot(ohne), reason: 'Die Sterne sind eine andere Fassung');
+    expect(angefragt, hasLength(2));
+  });
+
+  testWidgets('Gilt die Akte nicht mehr, entsteht keine Datei', (t) async {
+    mitErsatzPortraets();
+    final geteilt = _zeuge();
+    var erlaubt = true;
+    final s = erzaehlSitzung(rollen: 5, erzaehler: 'Mia', einstimmung: false);
+    await _zeige(t, ErzaehlerakteSeite(daten: s.daten, besetzt: s.besetzt, einfluss: false, rollen: 5, erlaubt: () => erlaubt));
+    erlaubt = false;
+    await _tippeUndWarte(t, _pdf, () => find.text(_de.druck_datei_fehler).evaluate().isNotEmpty);
+    expect(find.text(_de.druck_datei_fehler), findsOneWidget);
+    expect(geteilt, isEmpty);
   });
 }

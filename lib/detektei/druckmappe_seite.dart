@@ -16,8 +16,10 @@ import 'akten.dart';
 import 'schreibtisch.dart' show GanzeWorte;
 
 /// Druckmappe einer Akte (Route `/akte/:id/druck`): Personen und Fall-Code
-/// einstellen, dann die PDF-Dateien erzeugen ([DruckTafel]). Es entsteht dabei
-/// kein Abend; die Sitzung dient nur dem Satz der Druckdateien.
+/// einstellen, dann die PDF-Dateien erzeugen ([DruckTafel]), bei Akten mit
+/// Erzählerakte auch diese. Es entsteht dabei kein Abend; die Sitzung dient nur
+/// dem Satz der Druckdateien. Erreichbar über „PDFs zum Ausdrucken“ auf der
+/// Akte und unter ihrer Mappe in der Detektei.
 ///
 /// Oben liegt die Mappe der Druckfassung (Reiter mit der Aktennummer, Titel der
 /// Akte, Anleitung), darunter die Einstellungen auf dem Schreibtisch.
@@ -126,7 +128,8 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                 else if (s == null || w == null)
                   Text(l.abend_laedt, style: MSchrift.von(context).leise)
                 else if (_bereit)
-                  DruckTafel(sitzung: s)
+                  // Nur hier, nie in der Rollenvergabe: die Erzählerakte für die Person, die erzählt.
+                  DruckTafel(sitzung: s, erzaehlerakte: true)
                 else ...[
                   PersonenAbschnitt(werte: w),
                   DetektivAbschnitt(werte: w),

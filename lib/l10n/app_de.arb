@@ -1146,8 +1146,12 @@
   "detektei_akte_druckmappe": "Druckmappe",
   "detektei_akte_unbekannt": "Diese Akte gibt es nicht.",
   "detektei_druck_titel": "Druckmappe",
-  "detektei_druck_hinweis": "Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken.",
+  "detektei_druck_hinweis": "Stelle den Abend ein. Danach erstellst du die Dateien zum Ausdrucken, auch die Erzählerakte für die Person, die erzählt.",
   "detektei_druck_vorbereiten": "Druckmappe vorbereiten",
+  "detektei_druck_pdfs": "PDFs zum Ausdrucken",
+  "@detektei_druck_pdfs": {
+    "description": "Akte und Startseite: Knopf zur Druckmappe einer Akte mit Druckfassung"
+  },
   "abend_schritt": "Schritt {n} von {gesamt}",
   "@abend_schritt": {
     "placeholders": {
@@ -1249,6 +1253,10 @@
   "abend_feste_loesung_hinweis": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung.",
   "abend_feste_loesung_solo": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, wählt besser eine andere Akte.",
   "abend_feste_loesung_online": "Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.",
+  "abend_druck_nur_pdfs": "Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter PDFs zum Ausdrucken.",
+  "@abend_druck_nur_pdfs": {
+    "description": "Assistent, Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung)"
+  },
   "profil_klasse_hinweis": "Tippe auf eine Klasse, um sie zu wählen. Dein Abend bringt dir eine Sammelkarte dieser Klasse.",
   "profil_klasse_akten": "Wirkt nur in diesen Akten: {akten}.",
   "@profil_klasse_akten": {
@@ -3051,6 +3059,10 @@
   "@druck_erzaehlerheft_hinweis": {
     "description": "Rollenvergabe reihum: Erzählerheft ohne Druckspiel"
   },
+  "druck_erzaehlerakte_hinweis": "Nur für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nicht weiter.",
+  "@druck_erzaehlerakte_hinweis": {
+    "description": "Druckmappe: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt"
+  },
   "detektei_akte_steckbriefe": "Steckbriefe & Übersicht",
   "@detektei_akte_steckbriefe": {
     "description": "Akte: Knopf zu Steckbriefen und Charakterübersicht"
@@ -3486,6 +3498,10 @@
   "erzaehlerakte_netz_alle": "Alle Bindungen",
   "@erzaehlerakte_netz_alle": {
     "description": "Erzählerakte (A-063): Auswahl im Netz aufheben"
+  },
+  "erzaehlerakte_pdf": "Als PDF",
+  "@erzaehlerakte_pdf": {
+    "description": "Erzählerakte (A-063): die Akte des Abends als PDF, nur auf dem Erzähler-Platz"
   },
   "erzaehlerakte_figur_semantik": "{name}, {anzahl} Bindungen",
   "@erzaehlerakte_figur_semantik": {

@@ -752,7 +752,9 @@ class FesteLoesungHinweis extends StatelessWidget {
   }
 }
 
-/// Bildschirmspiel oder Druckfassung (nur reihum, nicht im Solo-Spiel).
+/// Bildschirmspiel oder Druckfassung (nur reihum, nicht im Solo-Spiel). Bei der
+/// Druckfassung steht der Hinweis, dass es die PDFs auch ohne Abend gibt (Akte →
+/// „PDFs zum Ausdrucken“); nur als Text, damit die Einstellungen bleiben.
 class SpielartAbschnitt extends _Abschnitt {
   const SpielartAbschnitt({super.key, required super.werte});
 
@@ -771,6 +773,8 @@ class SpielartAbschnitt extends _Abschnitt {
           if (werte.spielart == Spielart.druck) ...[
             const SizedBox(height: MMass.s8),
             Text(s.ui('ui.einrichtung.druck_hinweis'), style: MPapierSchrift.leise),
+            const SizedBox(height: MMass.s4),
+            Text(_texte(context).abend_druck_nur_pdfs, key: const ValueKey('nur-pdfs-hinweis'), style: MPapierSchrift.leise),
           ],
         ],
       );

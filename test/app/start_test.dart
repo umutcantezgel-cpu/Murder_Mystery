@@ -5,8 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
+import 'package:mordakte/detektei/akte_bausteine.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/meta/meta_store.dart';
+import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -105,6 +107,11 @@ void main() {
           expect(beitreten.onPressed, isNotNull, reason: 'Beitreten ist offen');
           expect(find.bySemanticsLabel(RegExp(r'^Profil von Test, .+, \d+ Erfahrungspunkte$')), findsOneWidget);
           expect(find.bySemanticsLabel(RegExp(r'Spuk im Schlosskeller[\s\S]*Das Buffet hinter dicken Mauern')), findsOneWidget);
+          // Unter der Mappe mit Druckfassung (nur der Schlosskeller) der zweite Weg zur Druckmappe,
+          // als eigener Knopf: Sein Name nennt die Akte nicht, die Mappe nennt ihn nicht.
+          expect(find.text('PDFs zum Ausdrucken'), findsOneWidget);
+          expect(find.bySemanticsLabel('PDFs zum Ausdrucken'), findsOneWidget);
+          expect(find.bySemanticsLabel(RegExp(r'Schlosskeller[\s\S]*PDFs|PDFs[\s\S]*Schlosskeller')), findsNothing);
           for (final alt in ['Andere Abende & Fälle', 'Klassische Fälle', 'Fallakten', 'bald']) {
             expect(find.text(alt), findsNothing, reason: alt);
           }
@@ -149,11 +156,42 @@ void main() {
     state.dispose();
   });
 
+  testWidgets('„PDFs zum Ausdrucken“ unter der Mappe öffnet die Druckmappe', (tester) async {
+    handy(tester, 390, 1);
+    // Die Druckmappe liest die Akte aus dem Bündel: vorab in echter Zeit laden, ohne
+    // Ladevorgänge, die frühere Tests begonnen und nicht abgewartet haben.
+    await tester.runAsync(() async {
+      rootBundle.clear();
+      await PartyDaten.laden(rootBundle);
+    });
+    final state = await starte(tester);
+    final knopf = find.text('PDFs zum Ausdrucken');
+    await tester.ensureVisible(knopf);
+    await tester.pump();
+    // Er liegt unter der Mappe des Schlosskellers.
+    final mappe = find.ancestor(of: find.text('Spuk im Schlosskeller'), matching: find.byType(MAktenmappe));
+    expect(tester.getRect(knopf).top, greaterThan(tester.getRect(mappe).bottom));
+    await tester.tap(knopf);
+    await warten(tester, find.text('Druckmappe vorbereiten'));
+    expect(find.text('Druckmappe vorbereiten'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
   testWidgets('Detektei auf breitem Bildschirm (800 px) ohne Ausnahme', (tester) async {
     handy(tester, 800, 1);
     final state = await starte(tester);
     expect(find.text('Sammlung'), findsOneWidget);
     expect(find.text('Profil'), findsOneWidget);
+    // Zwei Spalten: Der Knopf steht in der Spalte seiner Mappe, unter ihr.
+    final knopf = find.text('PDFs zum Ausdrucken');
+    final karte = tester.getRect(find.ancestor(of: find.text('Spuk im Schlosskeller'), matching: find.byType(AkteKarte)));
+    final mappe = tester.getRect(find.ancestor(of: find.text('Spuk im Schlosskeller'), matching: find.byType(MAktenmappe)));
+    expect(tester.getRect(knopf).left, greaterThanOrEqualTo(karte.left));
+    expect(tester.getRect(knopf).right, lessThanOrEqualTo(karte.right));
+    expect(tester.getRect(knopf).top, greaterThan(mappe.bottom));
+    expect(karte.width, lessThan(400), reason: 'Zwei Mappen nebeneinander');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
