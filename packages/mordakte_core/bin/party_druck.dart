@@ -21,7 +21,9 @@
 // Akte für jede Personenzahl (die Datei am Release): alle Figuren in
 // Besetzungsreihenfolge, ohne „Heute gespielt“/„Ohne Spieler“ und ohne Personenzeile;
 // zusammen mit --personen oder --n bricht das Werkzeug ab. Ausgabe dann in
-// build/druck/<fall>-erzaehlerakte-alle. Fehlen Porträts, warnt es nur
+// build/druck/<fall>-erzaehlerakte-alle. --code, --pfad und --detektiv gehen mit
+// --erzaehlerakte nicht (Exit 2), weil die Akte nie vom Fall abhängt. Fehlen Porträts
+// (alle Figuren und beide Detektive, auch mit --personen), warnt es nur
 // („Achtung: Porträts fehlen …“, Exit 0); die Akte entsteht ohne sie.
 import 'dart:convert';
 import 'dart:io';
@@ -92,6 +94,15 @@ Future<void> main(List<String> args) async {
   }
   if (ohneBesetzung && (args.contains('--personen') || args.contains('--n'))) {
     stderr.writeln('--ohne-besetzung setzt die Akte für jede Personenzahl; --personen und --n gehen damit nicht.');
+    exitCode = 2;
+    return;
+  }
+
+  // Die Erzählerakte hängt nie vom Fall ab: Wer Code, Pfad oder Detektiv angibt, erwartet eine
+  // fallbezogene Datei; statt die Angabe still zu übergehen, bricht das Werkzeug ab.
+  final fallAngaben = [for (final a in ['--code', '--pfad', '--detektiv']) if (args.contains(a)) a];
+  if (args.contains('--erzaehlerakte') && fallAngaben.isNotEmpty) {
+    stderr.writeln('Die Erzählerakte hängt nie von Fall-Code, Pfad oder Detektiv ab; ${fallAngaben.join(', ')} geht mit --erzaehlerakte nicht.');
     exitCode = 2;
     return;
   }
@@ -216,8 +227,9 @@ Future<void> erzaehlerakte(String wurzel, String fall, Kanon kanon, Texte texte,
   }
   final ordner = portraetOrdner(wurzel, wert);
   final portraets = portraetsAus(ordner);
-  // Ohne Besetzung stehen alle Figuren und beide Detektiv-Porträts in der Akte.
-  final noetig = n == null ? [...besetzung.reihenfolge, 'detektiv-w', 'detektiv-m'] : besetzung.besetzt(n);
+  // Mit und ohne Besetzung stehen alle Figuren (die ohne Spieler auf eigenen Seiten und im
+  // Netz) und beide Detektiv-Porträts in der Akte.
+  final noetig = [...besetzung.reihenfolge, 'detektiv-w', 'detektiv-m'];
   final fehlen = [for (final id in noetig) if (!portraets.containsKey(id)) id];
   if (fehlen.isNotEmpty) {
     stderr

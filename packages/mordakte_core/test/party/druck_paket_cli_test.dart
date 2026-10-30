@@ -2,8 +2,8 @@
 // Ordner eine ZIP und das ganze Paket als ZIP, der Fall-Code im Ordnernamen. Außerhalb des
 // Repos bricht das Werkzeug mit einer Meldung ab, statt endlos nach der Wurzel zu suchen.
 // Finale (A-063): Mit erzaehlerakte.json liegt die Erzählerakte in Ordner 4 (eine PDF mehr);
-// `--erzaehlerakte` setzt sie allein, ohne Fall-Code, mit `--ohne-besetzung` für jede
-// Personenzahl (Datei am Release). Bis die echte Akte eingespielt ist,
+// `--erzaehlerakte` setzt sie allein, ohne Fall-Code (mit `--code`, `--pfad` oder `--detektiv`
+// Abbruch), mit `--ohne-besetzung` für jede Personenzahl (Datei am Release). Bis die echte Akte eingespielt ist,
 // läuft das Werkzeug in einer Kopie des Repos (Verweise auf die echten Dateien) mit der Fixture.
 import 'dart:convert';
 import 'dart:io';
@@ -167,18 +167,43 @@ void main() {
     }
   }, timeout: const Timeout(Duration(minutes: 3)));
 
-  test('--ohne-besetzung: fehlen Porträts, warnt das Werkzeug über alle Figuren und beide Detektive (Exit 0)', () async {
+  test('fehlen Porträts, warnt das Werkzeug über alle Figuren und beide Detektive (Exit 0), mit und ohne Besetzung', () async {
     final repo = _repo(Directory('${tmp.path}/repo'), akte: true);
-    final aus = '${tmp.path}/alle';
-    final r = await Process.run(
-      Platform.resolvedExecutable,
-      ['--packages=$pakete', skript, '--erzaehlerakte', '--ohne-besetzung', '--aus', aus, '--portraets', '${tmp.path}/fehlt'],
-      workingDirectory: repo.path,
-    );
-    expect(r.exitCode, 0, reason: '${r.stdout}\n${r.stderr}');
-    expect('${r.stderr}', contains('Porträts fehlen'));
-    expect('${r.stderr}', contains('Achtung: Porträts fehlen (${[...Besetzung(kanon).reihenfolge, 'detektiv-w', 'detektiv-m'].join(', ')})'));
-    expect(File('$aus/erzaehlerakte.pdf').existsSync(), isTrue);
+    // Auch mit --personen stehen alle Figuren (die ohne Spieler auf eigenen Seiten) und beide Detektive in der Akte.
+    for (final (i, extra) in [
+      ['--ohne-besetzung'],
+      ['--personen', '8'],
+    ].indexed) {
+      final aus = '${tmp.path}/akte$i';
+      final r = await Process.run(
+        Platform.resolvedExecutable,
+        ['--packages=$pakete', skript, '--erzaehlerakte', ...extra, '--aus', aus, '--portraets', '${tmp.path}/fehlt'],
+        workingDirectory: repo.path,
+      );
+      expect(r.exitCode, 0, reason: '$extra\n${r.stdout}\n${r.stderr}');
+      expect('${r.stderr}', contains('Achtung: Porträts fehlen (${[...Besetzung(kanon).reihenfolge, 'detektiv-w', 'detektiv-m'].join(', ')})'), reason: '$extra');
+      expect(File('$aus/erzaehlerakte.pdf').existsSync(), isTrue, reason: '$extra');
+    }
+  }, timeout: const Timeout(Duration(minutes: 3)));
+
+  test('--erzaehlerakte mit --code, --pfad oder --detektiv: Abbruch mit Meldung, keine Datei (die Akte hängt nie vom Fall ab)', () async {
+    final repo = _repo(Directory('${tmp.path}/repo'), akte: true);
+    for (final extra in [
+      ['--code', 'ABCDE'],
+      ['--pfad', 'olli'],
+      ['--detektiv', 'm'],
+      ['--ohne-besetzung', '--code', 'ABCDE'],
+    ]) {
+      final r = await Process.run(
+        Platform.resolvedExecutable,
+        ['--packages=$pakete', skript, '--erzaehlerakte', ...extra, '--aus', '${tmp.path}/akte'],
+        workingDirectory: repo.path,
+      );
+      expect(r.exitCode, 2, reason: '$extra\n${r.stdout}\n${r.stderr}');
+      expect('${r.stderr}', contains(extra[extra.length - 2]), reason: '$extra');
+      expect('${r.stderr}', contains('--erzaehlerakte'), reason: '$extra');
+      expect(Directory('${tmp.path}/akte').existsSync(), isFalse, reason: '$extra');
+    }
   }, timeout: const Timeout(Duration(minutes: 3)));
 
   test('--ohne-besetzung mit --personen oder --n oder ohne --erzaehlerakte: Abbruch mit Meldung, keine Datei', () async {
