@@ -5,6 +5,8 @@ name: Prüfen und Builds
 #   android APK (Release-Schlüssel aus Secrets, sonst öffentlicher Test-Schlüssel)
 #   ios     unsignierte IPA zum Sideloaden (darf fehlschlagen)
 #   web     mordakte-web.zip und GitHub Pages
+#   erzaehlerakte  Erzählerakte des Schlosskellers als PDF ohne Besetzung (für jede Personenzahl),
+#           einmal mit den Zielen des Druckspiels, einmal für „Dein Moment“ (darf fehlen)
 #   release GitHub-Release mit festen Dateinamen und SHA256SUMS.txt
 # Die 84 Party-E2E-Läufe (e2e_voll) laufen nur auf Wunsch (workflow_dispatch) und wöchentlich.
 on:
@@ -311,9 +313,94 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
+  erzaehlerakte:
+    name: Erzählerakte als PDF (ohne Besetzung)
+    needs: gate
+    if: ${{ github.event_name != 'schedule' }}
+    runs-on: ubuntu-24.04
+    # Porträts zeichnen und zwei Akten setzen, rund 3–5 min. Ein Fehler hier hält APK und Release nicht auf.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Pub-Cache wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/pubspec.lock', '!.werkzeug/**') }}
+          restore-keys: |
+            pub-${{ runner.os }}-${{ runner.arch }}-
+      - name: Flutter-SDK wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: .werkzeug/flutter
+          key: flutter-3.47.6-${{ runner.os }}-${{ runner.arch }}
+      - name: Gepinntes Flutter bereitstellen
+        run: |
+          source tool/flutter_env.sh
+          echo "$PWD/.werkzeug/flutter/bin" >> "$GITHUB_PATH"
+      - name: PDF-Werkzeuge bereitstellen
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes poppler-utils
+      - name: Porträts zeichnen
+        run: |
+          set -euo pipefail
+          flutter pub get
+          (cd packages/mordakte_core && dart pub get)
+          flutter test tool/bild/druck_portraets_test.dart
+          anzahl="$(find build/druck/portraets -maxdepth 1 -name '*.png' | wc -l)"
+          echo "Porträts: $anzahl"
+          # 20 Figuren und der Detektiv als Frau und als Mann.
+          if [ "$anzahl" -lt 22 ]; then
+            echo "Zu wenige Porträts: $anzahl statt mindestens 22." >&2
+            exit 1
+          fi
+      - name: Erzählerakten setzen (Druckspiel und „Dein Moment“)
+        working-directory: packages/mordakte_core
+        run: |
+          set -euo pipefail
+          aus="$GITHUB_WORKSPACE/build/erzaehlerakte"
+          rm -rf "$aus" "$GITHUB_WORKSPACE/out"
+          mkdir -p "$aus" "$GITHUB_WORKSPACE/out"
+          dart run bin/party_druck.dart --fall schlosskeller --erzaehlerakte --ohne-besetzung \
+            --aus "$aus/druckspiel" 2>&1 | tee "$aus/druckspiel.log"
+          dart run bin/party_druck.dart --fall schlosskeller --erzaehlerakte --ohne-besetzung --dein-moment \
+            --aus "$aus/dein-moment" 2>&1 | tee "$aus/dein-moment.log"
+          # Fehlen Porträts, warnt party_druck nur (Exit 0); hier ist das ein Fehler.
+          if grep -F 'Achtung: Porträts fehlen' "$aus/druckspiel.log" "$aus/dein-moment.log"; then
+            echo "Porträts fehlen in der Erzählerakte." >&2
+            exit 1
+          fi
+          cp "$aus/druckspiel/erzaehlerakte.pdf" "$GITHUB_WORKSPACE/out/erzaehlerakte.pdf"
+          cp "$aus/dein-moment/erzaehlerakte.pdf" "$GITHUB_WORKSPACE/out/erzaehlerakte-dein-moment.pdf"
+          cd "$GITHUB_WORKSPACE/out"
+          for f in erzaehlerakte.pdf erzaehlerakte-dein-moment.pdf; do
+            seiten="$(pdfinfo "$f" | awk '/^Pages:/ {print $2}')"
+            echo "$f: ${seiten:-?} Seiten, $(wc -c <"$f") Bytes"
+            # Deckblatt, Herr Schneider und der Detektiv, Netz und 20 Figuren.
+            if [ "${seiten:-0}" -lt 23 ]; then
+              echo "$f hat nur ${seiten:-0} Seiten (mindestens 23 erwartet)." >&2
+              exit 1
+            fi
+          done
+          if cmp -s erzaehlerakte.pdf erzaehlerakte-dein-moment.pdf; then
+            echo "Beide Erzählerakten sind gleich: Die Ziele von „Dein Moment“ fehlen." >&2
+            exit 1
+          fi
+      - name: Erzählerakten sichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: erzaehlerakte
+          path: |
+            out/erzaehlerakte.pdf
+            out/erzaehlerakte-dein-moment.pdf
+          if-no-files-found: error
+
   release:
     name: GitHub-Release veröffentlichen
-    needs: [android, ios, web]
+    needs: [android, ios, web, erzaehlerakte]
     if: ${{ always() && needs.android.result == 'success' && github.event_name != 'schedule' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -337,6 +424,12 @@ jobs:
         with:
           name: webzip
           path: artifacts/webzip
+      - name: Erzählerakten laden (können fehlen)
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: erzaehlerakte
+          path: artifacts/erzaehlerakte
       - name: Release erstellen, keine Tags verschieben
         env:
           GH_TOKEN: ${{ github.token }}
@@ -345,13 +438,14 @@ jobs:
           set -euo pipefail
           mkdir -p release
           cp artifacts/apk/mordakte.apk release/
-          for datei in artifacts/ipa/mordakte-ios-unsigned.ipa artifacts/webzip/mordakte-web.zip; do
+          for datei in artifacts/ipa/mordakte-ios-unsigned.ipa artifacts/webzip/mordakte-web.zip \
+            artifacts/erzaehlerakte/erzaehlerakte.pdf artifacts/erzaehlerakte/erzaehlerakte-dein-moment.pdf; do
             if [ -f "$datei" ]; then cp "$datei" release/; fi
           done
           (
             cd release
             files=()
-            for f in mordakte.apk mordakte-ios-unsigned.ipa mordakte-web.zip; do
+            for f in mordakte.apk mordakte-ios-unsigned.ipa mordakte-web.zip erzaehlerakte.pdf erzaehlerakte-dein-moment.pdf; do
               if [ -f "$f" ]; then files+=("$f"); fi
             done
             sha256sum -- "${files[@]}" >SHA256SUMS.txt
@@ -384,6 +478,16 @@ jobs:
             else
               printf -- '- Web: in diesem Lauf kein ZIP\n'
             fi
+            if [ -f release/erzaehlerakte.pdf ]; then
+              printf -- '- `erzaehlerakte.pdf`: Erzählerakte „Spuk im Schlosskeller“ zum Drucken, Ziele wie im Druckspiel. Nur für die Person, die erzählt; nennt nie den Täter; für jede Personenzahl.\n'
+            else
+              printf -- '- Erzählerakte: in diesem Lauf keine PDF\n'
+            fi
+            if [ -f release/erzaehlerakte-dein-moment.pdf ]; then
+              printf -- '- `erzaehlerakte-dein-moment.pdf`: dieselbe Akte für einen Abend mit „Dein Moment“. Nur für die Person, die erzählt; nennt nie den Täter; für jede Personenzahl.\n'
+            else
+              printf -- '- Erzählerakte für „Dein Moment“: in diesem Lauf keine PDF\n'
+            fi
             printf -- '- `SHA256SUMS.txt`: Prüfsummen aller Dateien (`sha256sum -c SHA256SUMS.txt`)\n\n'
             printf '## Installation\n\n'
             printf -- '- **Android:** APK auf dem Handy öffnen und die Installation aus dieser Quelle erlauben (unbekannte Quellen).\n'
@@ -391,7 +495,8 @@ jobs:
             if [ -n "$zertifikat" ]; then printf '  Zertifikat SHA-256: `%s`\n' "$zertifikat"; fi
             printf '  Bei einem Signaturwechsel (Test- auf Release-Schlüssel oder zurück) die alte App zuerst deinstallieren.\n'
             printf -- '- **iOS:** Die IPA ist unsigniert. Mit AltStore oder Sideloadly auf dem eigenen Gerät signieren und installieren.\n'
-            printf -- '- **Web:** ZIP entpacken und auf einen beliebigen statischen Webhost legen (Wurzelverzeichnis).\n\n'
+            printf -- '- **Web:** ZIP entpacken und auf einen beliebigen statischen Webhost legen (Wurzelverzeichnis).\n'
+            printf -- '- PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken.\n\n'
             printf 'Der Schlosskeller funktioniert offline. Online läuft ohne Einrichtung über das eingebaute Supabase-Relais (Raumcode). '
             printf 'Spielanleitung: docs/ANLEITUNG.md. Aktueller Funktions- und Prüfstand: planung/langer-abend/STATUS.md im Repository.\n'
           } >release/NOTES.md
@@ -415,6 +520,8 @@ jobs:
           assets=(release/mordakte.apk release/SHA256SUMS.txt)
           if [ -f release/mordakte-ios-unsigned.ipa ]; then assets+=(release/mordakte-ios-unsigned.ipa); fi
           if [ -f release/mordakte-web.zip ]; then assets+=(release/mordakte-web.zip); fi
+          if [ -f release/erzaehlerakte.pdf ]; then assets+=(release/erzaehlerakte.pdf); fi
+          if [ -f release/erzaehlerakte-dein-moment.pdf ]; then assets+=(release/erzaehlerakte-dein-moment.pdf); fi
           gh release create "$tag" --target "$GITHUB_SHA" --title "Mordakte $kurz" \
             --latest="$latest" --prerelease="$vorab" --notes-file release/NOTES.md "${assets[@]}"
           echo "Release $tag erstellt (latest=$latest)."
