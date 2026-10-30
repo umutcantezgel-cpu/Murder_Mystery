@@ -3018,7 +3018,7 @@
   },
   "druck_datei_teilen": "Teilen: {datei}",
   "@druck_datei_teilen": {
-    "description": "Druck im Browser: Der zweite Tipp teilt die fertige Datei",
+    "description": "Druck im Browser und in der Android-App: Der zweite Tipp teilt die fertige Datei",
     "placeholders": {
       "datei": {
         "type": "String"
@@ -3027,7 +3027,7 @@
   },
   "druck_datei_laden": "Herunterladen: {datei}",
   "@druck_datei_laden": {
-    "description": "Druck im Browser: Der zweite Tipp lädt die fertige Datei herunter",
+    "description": "Druck im Browser und in der Android-App: Der zweite Tipp lädt die fertige Datei herunter (Android: Speichern-Dialog des Systems)",
     "placeholders": {
       "datei": {
         "type": "String"
@@ -3036,11 +3036,20 @@
   },
   "druck_datei_teilen_kurz": "Teilen",
   "@druck_datei_teilen_kurz": {
-    "description": "Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen"
+    "description": "Druck im Browser und in der Android-App, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen"
   },
   "druck_datei_laden_kurz": "Herunterladen",
   "@druck_datei_laden_kurz": {
-    "description": "Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden"
+    "description": "Druck im Browser und in der Android-App, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden"
+  },
+  "druck_datei_gespeichert": "Gespeichert: {datei}",
+  "@druck_datei_gespeichert": {
+    "description": "Druck in der Android-App: kurze Meldung des Systems, nachdem „Herunterladen“ die Datei über den Speichern-Dialog abgelegt hat",
+    "placeholders": {
+      "datei": {
+        "type": "String"
+      }
+    }
   },
   "druck_datei_fehler": "Das hat nicht geklappt. Versuch es bitte noch einmal.",
   "@druck_datei_fehler": {

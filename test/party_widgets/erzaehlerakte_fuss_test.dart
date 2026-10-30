@@ -1,19 +1,22 @@
 // Erzählerakte und Druckmappe am schmalen Handy mit großer Schrift (A-063, PDF-Paket),
-// mit den echten Schriften: Im Browser ersetzt die fertige Datei „Als PDF“ durch einen
-// Knopf je Weg. Im engen Fuß der Erzählerakte stehen dort nur „Herunterladen“ und
-// „Teilen“ (der Bildschirmleser hört den Dateinamen), damit die Figurenliste bleibt und
-// nichts überläuft. Kein Dateiknopf bricht ein Wort mitten durch, auch nicht in der
-// Druckmappe. Während die Datei entsteht, steht eine ruhende Sanduhr da, kein Ladekreis.
+// mit den echten Schriften: Im Browser und in der Android-App ersetzt die fertige Datei
+// „Als PDF“ durch einen Knopf je Weg. Im engen Fuß der Erzählerakte stehen dort nur
+// „Herunterladen“ und „Teilen“ (der Bildschirmleser hört den Dateinamen), damit die
+// Figurenliste bleibt und nichts überläuft. Kein Dateiknopf bricht ein Wort mitten durch,
+// auch nicht in der Druckmappe. Während die Datei entsteht, steht eine ruhende Sanduhr da,
+// kein Ladekreis.
 import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart' show MethodCall, MethodChannel;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/party/datei_knopf.dart';
 import 'package:mordakte/party/druck_portraets.dart';
 import 'package:mordakte/party/druck_speichern.dart';
+import 'package:mordakte/party/druck_speichern_stub.dart' as app;
 import 'package:mordakte/party/druck_tafel.dart';
 import 'package:mordakte/party/erzaehlerakte_ansicht.dart';
 import 'package:mordakte/party/sitzung.dart';
@@ -132,6 +135,44 @@ void main() {
       expect(browser.angeboten, [('erzaehlerakte.pdf', DateiWeg.herunterladen)]);
     });
   }
+
+  testWidgets('Fuß der Erzählerakte 320×568, Schrift 2, Android-App: „Herunterladen“ und „Teilen“ ohne Überlauf, '
+      '„Herunterladen“ öffnet den Speichern-Dialog', (t) async {
+    mitErsatzPortraets();
+    final vorherAndroid = app.aufAndroid;
+    app.aufAndroid = true;
+    addTearDown(() => app.aufAndroid = vorherAndroid);
+    const kanal = MethodChannel('mordakte/datei');
+    final gespeichert = <MethodCall>[];
+    final bote = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+    bote.setMockMethodCallHandler(kanal, (c) async {
+      gespeichert.add(c);
+      return true;
+    });
+    addTearDown(() => bote.setMockMethodCallHandler(kanal, null));
+    const groesse = Size(320, 568);
+    final s = erzaehlSitzung(rollen: 20, erzaehler: 'Mia', einstimmung: false);
+    await _zeige(t, ErzaehlerakteSeite(daten: s.daten, besetzt: s.besetzt, einfluss: false, rollen: 20, spieler: (f) => s.namen[f]), groesse: groesse);
+    final liste = find.byKey(const ValueKey('erzaehlerakte-figuren'));
+    final vorDemTipp = t.getSize(liste).height;
+
+    await t.tap(find.text(_de.erzaehlerakte_pdf));
+    final laden = find.text(_de.druck_datei_laden_kurz);
+    await _warte(t, () => laden.evaluate().isNotEmpty);
+    expect(laden, findsOneWidget);
+    expect(find.text(_de.druck_datei_teilen_kurz), findsOneWidget);
+    expect(gespeichert, isEmpty, reason: 'Der erste Tipp baut nur');
+    expect(t.takeException(), isNull, reason: 'Kein Überlauf im Fuß');
+    expect(t.getSize(liste).height, greaterThan(vorDemTipp / 3), reason: 'Die Figurenliste bleibt');
+    expect(_gebrochen(_knopfTexte(find.byKey(const ValueKey('erzaehlerakte-seite')))), isEmpty);
+
+    await t.tap(laden);
+    await t.pump();
+    final a = gespeichert.single.arguments as Map<Object?, Object?>;
+    expect(a['name'], 'erzaehlerakte.pdf');
+    expect(String.fromCharCodes((a['bytes']! as Uint8List).take(5)), '%PDF-');
+    expect(a['gespeichert'], _de.druck_datei_gespeichert('erzaehlerakte.pdf'));
+  });
 
   testWidgets('Während die Datei entsteht: ruhende Sanduhr statt Ladekreis, auch ohne „Bewegung reduzieren“', (t) async {
     _imBrowser(_Browser());

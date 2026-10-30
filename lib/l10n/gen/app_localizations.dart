@@ -6999,29 +6999,35 @@ abstract class L {
   /// **'Die Datei wird erstellt …'**
   String get druck_datei_laedt;
 
-  /// Druck im Browser: Der zweite Tipp teilt die fertige Datei
+  /// Druck im Browser und in der Android-App: Der zweite Tipp teilt die fertige Datei
   ///
   /// In de, this message translates to:
   /// **'Teilen: {datei}'**
   String druck_datei_teilen(String datei);
 
-  /// Druck im Browser: Der zweite Tipp lädt die fertige Datei herunter
+  /// Druck im Browser und in der Android-App: Der zweite Tipp lädt die fertige Datei herunter (Android: Speichern-Dialog des Systems)
   ///
   /// In de, this message translates to:
   /// **'Herunterladen: {datei}'**
   String druck_datei_laden(String datei);
 
-  /// Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen
+  /// Druck im Browser und in der Android-App, enger Fuß (Erzählerakte): Der zweite Tipp teilt die fertige Datei; der Bildschirmleser hört druck_datei_teilen
   ///
   /// In de, this message translates to:
   /// **'Teilen'**
   String get druck_datei_teilen_kurz;
 
-  /// Druck im Browser, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden
+  /// Druck im Browser und in der Android-App, enger Fuß (Erzählerakte): Der zweite Tipp lädt die fertige Datei herunter; der Bildschirmleser hört druck_datei_laden
   ///
   /// In de, this message translates to:
   /// **'Herunterladen'**
   String get druck_datei_laden_kurz;
+
+  /// Druck in der Android-App: kurze Meldung des Systems, nachdem „Herunterladen“ die Datei über den Speichern-Dialog abgelegt hat
+  ///
+  /// In de, this message translates to:
+  /// **'Gespeichert: {datei}'**
+  String druck_datei_gespeichert(String datei);
 
   /// Druck: Erstellen oder Teilen der Datei ist gescheitert
   ///

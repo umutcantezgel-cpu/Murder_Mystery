@@ -1,15 +1,19 @@
 // Druck: Vorschau der Steckbriefe auf Papierweiß, je Person ein Mappen-Knopf,
 // kein Mappeninhalt im Baum. In der App gehen Steckbriefe und Mappen an das Teilen
-// des Systems (M5, A-059); nur wenn das scheitert, kommt der Hinweis aufs Drucken im Browser.
-// Im Browser laden sie herunter, auch wenn er Dateien teilen kann (Rechner).
+// des Systems (M5, A-059), auch auf Android: Der Speichern-Dialog öffnet sich dort nur über
+// „Herunterladen“, nie bei einem Tipp ohne Wahl. Nur wenn das Teilen scheitert, kommt der
+// Hinweis aufs Drucken im Browser. Im Browser laden sie herunter, auch wenn er Dateien teilen
+// kann (Rechner).
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show MethodCall, MethodChannel;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/krimidinner/abschnitt_ansicht.dart';
 import 'package:mordakte/krimidinner/gewoelbe_seite.dart';
 import 'package:mordakte/party/datei_teilen.dart';
 import 'package:mordakte/party/druck_speichern.dart';
+import 'package:mordakte/party/druck_speichern_stub.dart' as app;
 import 'package:share_plus/share_plus.dart';
 
 import 'hilfe.dart';
@@ -76,6 +80,42 @@ void main() {
     expect(geteilt.last.fileNameOverrides!.single, startsWith('gewoelbe-mappe-'));
     expect(find.text(nurBrowser), findsNothing);
     expect(mappenInhaltSichtbar(tester, 5), isFalse);
+  });
+
+  testWidgets('Auf Android teilt der Tipp weiter, der Speichern-Dialog öffnet sich nie ungefragt', (tester) async {
+    final vorherAndroid = app.aufAndroid;
+    app.aufAndroid = true;
+    addTearDown(() => app.aufAndroid = vorherAndroid);
+    const kanal = MethodChannel('mordakte/datei');
+    final gespeichert = <MethodCall>[];
+    final bote = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+    bote.setMockMethodCallHandler(kanal, (c) async {
+      gespeichert.add(c);
+      return true;
+    });
+    addTearDown(() => bote.setMockMethodCallHandler(kanal, null));
+    final geteilt = <ShareParams>[];
+    final vorher = dateiTeilenUeber;
+    dateiTeilenUeber = (p) async {
+      geteilt.add(p);
+      return const ShareResult('ok', ShareResultStatus.success);
+    };
+    addTearDown(() => dateiTeilenUeber = vorher);
+    groesse(tester, const Size(800, 3000));
+    await tester.pumpWidget(gewoelbeApp(teil: GewoelbeTeil.druck, n: 5));
+    await bilder(tester);
+
+    await tester.tap(find.text('Als Datei speichern'));
+    await bilder(tester);
+    expect(geteilt.single.fileNameOverrides, ['gewoelbe-steckbriefe-5.html']);
+    expect(find.text('Datei erstellt: gewoelbe-steckbriefe-5.html'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Mappe für Merle Hartwig'));
+    await tester.tap(find.text('Mappe für Merle Hartwig'));
+    await bilder(tester);
+    expect(geteilt, hasLength(2));
+    expect(gespeichert, isEmpty);
+    expect(find.text(nurBrowser), findsNothing);
   });
 
   testWidgets('Im Browser lädt Speichern die Datei herunter, auch wenn er Dateien teilen kann', (tester) async {

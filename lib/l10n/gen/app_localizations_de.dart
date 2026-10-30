@@ -4063,6 +4063,11 @@ class LDe extends L {
   String get druck_datei_laden_kurz => 'Herunterladen';
 
   @override
+  String druck_datei_gespeichert(String datei) {
+    return 'Gespeichert: $datei';
+  }
+
+  @override
   String get druck_datei_fehler =>
       'Das hat nicht geklappt. Versuch es bitte noch einmal.';
 

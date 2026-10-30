@@ -13,12 +13,13 @@ final _de = LDe();
 typedef FertigeDatei = ({String name, Uint8List bytes});
 
 /// Knopf für eine Datei, die erst beim Tipp entsteht (M5): Der erste Tipp baut
-/// sie (einmal, danach liegt sie bereit). In der App geht sie gleich danach an das
-/// Teilen des Systems. Im Browser wartet sie auf einen zweiten Tipp
-/// ([zweiterTipp]), weil Teilen und Download dort direkt im Tipp liegen müssen;
-/// dann steht da ein Knopf je Weg ([dateiWege]): immer „Herunterladen“ und, wenn
-/// der Browser Dateien teilen kann, daneben „Teilen“. Scheitert etwas, steht
-/// darunter ein Satz in Handschrift.
+/// sie (einmal, danach liegt sie bereit). Auf iOS und am Rechner geht sie gleich
+/// danach an das Teilen des Systems. Im Browser und auf Android wartet sie auf
+/// einen zweiten Tipp ([zweiterTipp]): Im Browser müssen Teilen und Download
+/// direkt im Tipp liegen, auf Android wählt man den Weg. Dann steht da ein Knopf
+/// je Weg ([dateiWege]): immer „Herunterladen“ (Android: Speichern-Dialog des
+/// Systems) und, wenn das Gerät Dateien teilen kann, daneben „Teilen“. Scheitert
+/// etwas, steht darunter ein Satz in Handschrift.
 ///
 /// Während die Datei entsteht, steht eine ruhende Sanduhr mit Hinweis da, kein
 /// Ladekreis: Der Kreis ließ die ganze Seite bei jedem Zwischenschritt neu
@@ -46,12 +47,12 @@ class DateiKnopf extends StatefulWidget {
 
   final String text;
 
-  /// Name der Datei auf den Knöpfen im Browser („Herunterladen: …“); ohne
+  /// Name der Datei auf den Knöpfen je Weg („Herunterladen: …“); ohne
   /// Angabe [text]. Für Knöpfe wie „Als PDF“, die die Datei nicht nennen.
   final String? datei;
 
-  /// Im Browser stehen auf den Knöpfen der fertigen Datei nur die Wege
-  /// („Herunterladen“, „Teilen“); der Bildschirmleser hört sie mit dem
+  /// Im Browser und auf Android stehen auf den Knöpfen der fertigen Datei nur die
+  /// Wege („Herunterladen“, „Teilen“); der Bildschirmleser hört sie mit dem
   /// Dateinamen. Für einen engen Fuß wie den der Erzählerakte (320 px, große Schrift).
   final bool kurz;
   final Future<FertigeDatei> Function() bauen;
@@ -140,7 +141,7 @@ class _DateiKnopfState extends State<DateiKnopf> {
       );
     }
     final d = _datei;
-    // Im Browser liegt die fertige Datei bereit: ein Knopf je Weg, der Standard vorn.
+    // Im Browser und auf Android liegt die fertige Datei bereit: ein Knopf je Weg, Herunterladen vorn.
     final wege = d != null && zweiterTipp ? dateiWege(d.name, typ: widget.typ) : const <DateiWeg>[];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
