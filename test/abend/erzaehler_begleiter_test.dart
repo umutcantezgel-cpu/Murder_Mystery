@@ -18,6 +18,7 @@ import 'package:mordakte/party/bildschirme/runde.dart';
 import 'package:mordakte/party/bildschirme/einfluss_teile.dart' show ZugTafelAnsicht;
 import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/erzaehler_begleitung.dart';
+import 'package:mordakte/party/erzaehlerakte_ansicht.dart' show ErzaehlerakteSeite;
 import 'package:mordakte/party/party_seite.dart' show bildschirm;
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
@@ -547,6 +548,27 @@ void main() {
     raum.nachricht('e1', {'typ': 'einstimmung', 'ueberspringen': true});
     v = raum.zustandFuer('e1');
     expect([v.containsKey('einstimmung'), _map(v['privat']).containsKey('einstimmungText'), v['kannWeiter']], [false, false, true]);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Erzählerakte am Handy ohne Einstimmung (A-063): „Als PDF“ mit der Zahl der gespielten Figuren', (tester) async {
+    final s = erzaehlSitzung(rollen: 4, erzaehler: 'Mia', einstimmung: false)..weiter();
+    final raum = ProtokollRaum(BegleiterRaum('ABCDEF', s));
+    raum.beitreten(BegleiterRaum.tisch, 'Ada');
+    raum.beitreten('e1', 'Mia');
+    expect(raum.zustandFuer('e1')['rollen'], isNull, reason: 'Die Rollenzahl schickt der Begleiter nur während der Einstimmung');
+    final mia = LiveGast(raum, spielerId: 'e1', daten: erzaehlDaten);
+    await zeigeImThema(tester, (c) => gastSeiteLive(mia));
+    expect(find.text(l.erzaehlerakte_pdf), findsNothing, reason: 'Erst in der offenen Akte');
+    await tester.ensureVisible(find.byKey(const ValueKey('erzaehlerakte-knopf')));
+    await tester.tap(find.byKey(const ValueKey('erzaehlerakte-knopf')));
+    // Die Gastseite hat Daueranimationen; der Seitenübergang braucht nur wenige Bilder.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    final seite = tester.widget<ErzaehlerakteSeite>(find.byType(ErzaehlerakteSeite));
+    expect(seite.besetzt, s.besetzt);
+    expect(seite.rollen, 4, reason: 'Die gespielten Figuren sind genau die Besetzung für vier');
+    expect(find.text(l.erzaehlerakte_pdf), findsOneWidget);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
