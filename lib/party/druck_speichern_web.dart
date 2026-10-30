@@ -28,6 +28,9 @@ const zweiterTipp = true;
 /// Den Download gibt es in jedem Browser.
 const kannHerunterladen = true;
 
+/// Der Download geht ohne Dialog des Systems in den Download-Ordner.
+const herunterladenMitDialog = false;
+
 bool dateiTeilbar(String name, String typ) =>
     _kannTeilen(_TeilDaten(files: [_Datei(<JSAny>[].toJS, name.toJS, _BlobOptionen(type: typ.toJS))].toJS));
 
