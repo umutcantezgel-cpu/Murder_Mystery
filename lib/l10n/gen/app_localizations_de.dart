@@ -1935,7 +1935,7 @@ class LDe extends L {
 
   @override
   String get detektei_druck_hinweis =>
-      'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.\n\nDie Erzählerakte ist nur für die Person, die erzählt.';
+      'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.';
 
   @override
   String get detektei_druck_vorbereiten => 'Druckmappe vorbereiten';

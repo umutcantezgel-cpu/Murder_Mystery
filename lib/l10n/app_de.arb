@@ -1146,9 +1146,9 @@
   "detektei_akte_druckmappe": "Druckmappe",
   "detektei_akte_unbekannt": "Diese Akte gibt es nicht.",
   "detektei_druck_titel": "Druckmappe",
-  "detektei_druck_hinweis": "So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.\n\nDie Erzählerakte ist nur für die Person, die erzählt.",
+  "detektei_druck_hinweis": "So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.",
   "@detektei_druck_hinweis": {
-    "description": "Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen"
+    "description": "Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen. Wem die Erzählerakte gehört, sagt der Block „Nur Erzähler“ bei ihrem Knopf (druck_erzaehlerakte_hinweis)"
   },
   "detektei_druck_vorbereiten": "Druckmappe vorbereiten",
   "detektei_druck_pdfs": "PDFs zum Ausdrucken",

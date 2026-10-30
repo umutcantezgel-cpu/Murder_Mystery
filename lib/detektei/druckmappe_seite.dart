@@ -24,9 +24,12 @@ import 'schreibtisch.dart' show GanzeWorte;
 /// Oben liegt die Mappe der Druckfassung (Reiter mit der Aktennummer, Titel der
 /// Akte, Anleitung), darunter die Einstellungen auf dem Schreibtisch.
 class DruckmappeSeite extends StatefulWidget {
-  const DruckmappeSeite({super.key, required this.akteId});
+  const DruckmappeSeite({super.key, required this.akteId, this.zurueck});
 
   final String akteId;
+
+  /// Wohin „Zurück“ führt: dorthin, woher man kam (Detektei oder Akte); ohne Angabe die Akte.
+  final String? zurueck;
 
   @override
   State<DruckmappeSeite> createState() => _DruckmappeSeiteState();
@@ -71,9 +74,20 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
     super.dispose();
   }
 
+  /// Die Druckfassung mit den Dateien; nach „Druckmappe vorbereiten“ rollt die Seite zu ihr.
+  final _tafel = GlobalKey();
+
   void _vorbereiten() {
     _werte!.starten(druckErzwingen: true);
     setState(() => _bereit = true);
+    // Am kleinen Handy füllt der Deckel mit den Schritten den Bildschirm: Ohne Rollen
+    // sähe man keine Datei, obwohl Schritt 3 sie antippen lässt.
+    final ruhig = MediaQuery.disableAnimationsOf(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final tafel = _tafel.currentContext;
+      if (!mounted || tafel == null) return;
+      Scrollable.ensureVisible(tafel, duration: ruhig ? Duration.zero : const Duration(milliseconds: 300), curve: Curves.easeOut);
+    });
   }
 
   @override
@@ -91,7 +105,7 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                 text: l.common_back,
                 art: MKnopfArt.zweit,
                 icon: Icons.arrow_back_rounded,
-                onPressed: () => context.go(Routes.akteVon(widget.akteId)),
+                onPressed: () => context.go(widget.zurueck ?? Routes.akteVon(widget.akteId)),
               ),
               if (!_bereit && w != null)
                 ListenableBuilder(
@@ -99,6 +113,8 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                   builder: (context, _) => MKnopf(
                     text: l.detektei_druck_vorbereiten,
                     icon: Icons.print_rounded,
+                    // Schritt 2 der Anleitung nennt ihn: auch am kleinen Handy mit großer Schrift ganz.
+                    ganzeWorte: true,
                     onPressed: w.codeOk ? _vorbereiten : null,
                   ),
                 ),
@@ -129,7 +145,7 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                   Text(l.abend_laedt, style: MSchrift.von(context).leise)
                 else if (_bereit)
                   // Nur hier, nie in der Rollenvergabe: die Erzählerakte für die Person, die erzählt.
-                  DruckTafel(sitzung: s, erzaehlerakte: true)
+                  DruckTafel(key: _tafel, sitzung: s, erzaehlerakte: true)
                 else ...[
                   PersonenAbschnitt(werte: w),
                   DetektivAbschnitt(werte: w),

@@ -128,11 +128,11 @@ void main() {
     final state = await oeffnen(tester, Routes.druckmappeVon('schlosskeller'), bereit: find.text('Spuk im Schlosskeller'));
     expect(find.text('Druckmappe'), findsWidgets);
     keinWortGeteilt(tester, find.byType(MAktenmappe));
-    // Die Anleitung in Schritten: Jeder Schritt und der Satz zur Erzählerakte beginnt eine eigene Zeile.
+    // Die Anleitung in Schritten: Jeder Schritt beginnt eine eigene Zeile.
     final hinweis = tester.renderObject<RenderParagraph>(find.textContaining('So geht'));
     final text = hinweis.text.toPlainText();
     var oben = -1.0;
-    for (final anfang in ['So geht', '1. ', '2. ', '3. ', 'Die Erzählerakte']) {
+    for (final anfang in ['So geht', '1. ', '2. ', '3. ']) {
       final i = text.indexOf(anfang);
       expect(i, greaterThanOrEqualTo(0), reason: anfang);
       final box = hinweis.getBoxesForSelection(TextSelection(baseOffset: i, extentOffset: i + 1)).first;
@@ -140,6 +140,10 @@ void main() {
       expect(box.top, greaterThan(oben), reason: '„$anfang“ steht unter dem Schritt davor');
       oben = box.top;
     }
+    // Wem die Erzählerakte gehört, steht bei ihrem Knopf („Nur Erzähler“), nicht noch einmal hier.
+    expect(text, isNot(contains('Erzählerakte')));
+    // Schritt 2 nennt den Knopf in der Fußleiste: auch er bleibt ganz.
+    keinWortGeteilt(tester, find.ancestor(of: find.text('Druckmappe vorbereiten'), matching: find.byType(MKnopf)));
     await schliessen(tester, state);
   });
 

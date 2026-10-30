@@ -257,11 +257,91 @@ void main() {
       // Die Druckmappe der ersten Akte mit Druckfassung: des Schlosskellers.
       expect(find.text('Spuk im Schlosskeller'), findsOneWidget);
       expect(find.text('Druckmappe'), findsOneWidget);
+      // „Zurück“ führt dorthin, woher man kam: in die Detektei, nicht auf die Akte, die man nie geöffnet hat.
+      await tester.tap(find.text('Zurück'));
+      await warten(tester, find.text('Neuer Abend'));
+      expect(find.text('Neuer Abend'), findsOneWidget);
+      expect(find.text('Diese Akte spielen'), findsNothing);
+      // Ebenso die Zurück-Taste des Systems.
+      await tester.tap(find.text('PDFs zum Ausdrucken').first);
+      await warten(tester, find.text('Druckmappe vorbereiten'));
+      await tester.binding.handlePopRoute();
+      await warten(tester, find.text('Neuer Abend'));
+      expect(find.text('Neuer Abend'), findsOneWidget);
+      expect(find.text('Diese Akte spielen'), findsNothing);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();
     });
   }
+
+  // Der Katalog kommt verzögert (im Browser über das Netz): Solange er lädt, hält der Knopf oben
+  // seinen Platz. Ausweis und „Neuer Abend“ springen nicht, wenn er erscheint.
+  for (final (breite, hoehe, schrift) in [(390.0, 844.0, 1.0), (320.0, 568.0, 2.0)]) {
+    testWidgets('„PDFs zum Ausdrucken“ oben: Ausweis und „Neuer Abend“ springen nicht, wenn der Katalog spät kommt ($breite × $hoehe, Schrift $schrift)', (tester) async {
+      final semantik = tester.ensureSemantics();
+      try {
+        handy(tester, breite, schrift, hoehe: hoehe);
+        final m = tester.binding.defaultBinaryMessenger;
+        m.setMockMessageHandler('flutter/assets', (n) {
+          if (utf8.decode(n!.buffer.asUint8List()) == AktenKatalog.pfad) return Future.delayed(const Duration(milliseconds: 400), () => _testAsset(n));
+          return _testAsset(n);
+        });
+        addTearDown(() {
+          m.setMockMessageHandler('flutter/assets', _testAsset);
+          rootBundle.clear();
+        });
+        rootBundle.clear();
+        final state = app();
+        await tester.pumpWidget(MordakteApp(app: state, initialLocation: Routes.start));
+        for (var i = 0; i < 5; i++) {
+          await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+          await tester.pump(const Duration(milliseconds: 20));
+        }
+        // Der Katalog lädt noch: kein Knopf zum Antippen, keiner für den Bildschirmleser.
+        expect(find.text('Spuk im Schlosskeller'), findsNothing, reason: 'Der Katalog lädt noch');
+        expect(find.text('PDFs zum Ausdrucken').hitTestable(), findsNothing);
+        expect(find.bySemanticsLabel('PDFs zum Ausdrucken'), findsNothing);
+        final ausweis = tester.getRect(find.byType(Dienstausweis));
+        final neu = tester.getRect(find.text('Neuer Abend'));
+        await warten(tester, find.text('Spuk im Schlosskeller'));
+        final oben = find.ancestor(of: find.text('PDFs zum Ausdrucken').first, matching: find.byType(MKnopf));
+        expect(tester.widget<MKnopf>(oben).onPressed, isNotNull, reason: 'Nach dem Laden ist der Knopf oben da');
+        expect(find.bySemanticsLabel('PDFs zum Ausdrucken'), findsNWidgets(2));
+        expect(tester.getRect(find.byType(Dienstausweis)).top, ausweis.top, reason: 'Der Ausweis springt nicht');
+        expect(tester.getRect(find.text('Neuer Abend')).top, neu.top, reason: '„Neuer Abend“ springt nicht');
+        expect(tester.getRect(oben).bottom, lessThan(ausweis.top));
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox.shrink());
+        state.dispose();
+      } finally {
+        semantik.dispose();
+      }
+    });
+  }
+
+  // Am kleinsten Handy füllt der Deckel mit den Schritten den Bildschirm: Nach „Druckmappe
+  // vorbereiten“ rollt die Seite zur Druckfassung, die erste Datei liegt über der Fußleiste.
+  testWidgets('Druckmappe 320 × 568: nach „Druckmappe vorbereiten“ ist die erste Datei ohne Rollen im Bild', (tester) async {
+    handy(tester, 320, 1, hoehe: 568);
+    await tester.runAsync(() async {
+      rootBundle.clear();
+      await PartyDaten.laden(rootBundle);
+    });
+    final state = await starte(tester, ort: Routes.druckmappeVon('schlosskeller'));
+    await warten(tester, find.text('Druckmappe vorbereiten'));
+    await tester.tap(find.text('Druckmappe vorbereiten'));
+    await warten(tester, find.text('Alles in einer Datei'));
+    // Das Rollen läuft als kurze Bewegung.
+    await tester.pump(const Duration(milliseconds: 400));
+    final fuss = tester.getRect(find.ancestor(of: find.text('Zurück'), matching: find.byType(MKnopf))).top - MMass.s12;
+    final alles = tester.getRect(find.ancestor(of: find.text('Alles in einer Datei'), matching: find.byType(MKnopf)));
+    expect(alles.top, greaterThanOrEqualTo(0));
+    expect(alles.bottom, lessThanOrEqualTo(fuss), reason: '„Alles in einer Datei“ endet bei ${alles.bottom}, die Fußleiste beginnt bei $fuss');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
 
   testWidgets('„PDFs zum Ausdrucken“ unter der Mappe öffnet die Druckmappe', (tester) async {
     handy(tester, 390, 1);
@@ -282,6 +362,31 @@ void main() {
     await tester.tap(knopf);
     await warten(tester, find.text('Druckmappe vorbereiten'));
     expect(find.text('Druckmappe vorbereiten'), findsOneWidget);
+    // „Zurück“ führt wieder in die Detektei.
+    await tester.tap(find.text('Zurück'));
+    await warten(tester, find.text('Neuer Abend'));
+    expect(find.text('Neuer Abend'), findsOneWidget);
+    expect(find.text('Diese Akte spielen'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    state.dispose();
+  });
+
+  testWidgets('„PDFs zum Ausdrucken“ auf der Akte: „Zurück“ führt wieder auf die Akte', (tester) async {
+    handy(tester, 390, 1);
+    await tester.runAsync(() async {
+      rootBundle.clear();
+      await PartyDaten.laden(rootBundle);
+      await AkteAuszug.laden('schlosskeller');
+    });
+    final state = await starte(tester, ort: Routes.akteVon('schlosskeller'));
+    await warten(tester, find.text('Diese Akte spielen'));
+    await tester.tap(find.text('PDFs zum Ausdrucken'));
+    await warten(tester, find.text('Druckmappe vorbereiten'));
+    await tester.tap(find.text('Zurück'));
+    await warten(tester, find.text('Diese Akte spielen'));
+    expect(find.text('Diese Akte spielen'), findsOneWidget);
+    expect(find.text('Neuer Abend'), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();

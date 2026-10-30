@@ -101,22 +101,25 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
             ),
             // Der kurze Weg zu den PDFs, vor dem Ausweis und ohne Rollen zu finden: aus
             // demselben Future wie die Mappen; ohne Akte mit Druckfassung bleibt er weg.
+            // Solange der Katalog lädt, hält ein unsichtbarer Knopf seinen Platz: Ausweis
+            // und „Neuer Abend“ springen nicht, wenn er erscheint.
             FutureBuilder<List<AkteInfo>>(
               future: _akten,
               builder: (context, snap) {
+                final laedt = snap.connectionState != ConnectionState.done;
                 final druck = snap.data?.where((a) => a.druckbar).firstOrNull;
-                if (druck == null) return const SizedBox.shrink();
+                if (!laedt && druck == null) return const SizedBox.shrink();
+                final knopf = MKnopf(
+                  text: l.detektei_druck_pdfs,
+                  art: MKnopfArt.zweit,
+                  icon: Icons.print_rounded,
+                  ganzeWorte: true,
+                  onPressed: druck == null ? null : () => context.go(Routes.druckmappeVon(druck.id, ausDetektei: true)),
+                );
                 return Padding(
                   padding: const EdgeInsets.only(top: MMass.s16),
-                  child: Center(
-                    child: MKnopf(
-                      text: l.detektei_druck_pdfs,
-                      art: MKnopfArt.zweit,
-                      icon: Icons.print_rounded,
-                      ganzeWorte: true,
-                      onPressed: () => context.go(Routes.druckmappeVon(druck.id)),
-                    ),
-                  ),
+                  // Unsichtbar nur mit seiner Größe: kein Tipp, nichts für den Bildschirmleser.
+                  child: Center(child: laedt ? Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: knopf) : knopf),
                 );
               },
             ),
@@ -184,7 +187,7 @@ class _DetekteiSeiteState extends State<DetekteiSeite> {
                                 art: MKnopfArt.zweit,
                                 icon: Icons.print_rounded,
                                 ganzeWorte: true,
-                                onPressed: () => context.go(Routes.druckmappeVon(akten[i].id)),
+                                onPressed: () => context.go(Routes.druckmappeVon(akten[i].id, ausDetektei: true)),
                               ),
                             )
                           : null,

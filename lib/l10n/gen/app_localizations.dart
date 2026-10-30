@@ -3393,10 +3393,10 @@ abstract class L {
   /// **'Druckmappe'**
   String get detektei_druck_titel;
 
-  /// Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen
+  /// Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen. Wem die Erzählerakte gehört, sagt der Block „Nur Erzähler“ bei ihrem Knopf (druck_erzaehlerakte_hinweis)
   ///
   /// In de, this message translates to:
-  /// **'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.\n\nDie Erzählerakte ist nur für die Person, die erzählt.'**
+  /// **'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.'**
   String get detektei_druck_hinweis;
 
   /// No description provided for @detektei_druck_vorbereiten.
