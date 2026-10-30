@@ -18,18 +18,46 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 ## Wiederaufnahme
 
-- Stand (2026-10-28): Stufen 0–6 fertig bis auf die Sichtprüfung durch Menschen, gepusht bis 9eb5baf (CI-Lauf 113
-  grün). Ungepusht ist Politur 4 (Randnotizen aller Befragungen, „Änderungen“ 47, Prüfjournal 2026-10-28); der Push
-  ändert `content/` und `packages/` und löst einen CI-Lauf aus.
-- Nächste Schritte: Politur 4 pushen und den CI-Lauf beobachten. Vor einer Zusammenführung nach `main` den Besitzer
-  fragen. Ab der Zusammenführung wird `einfluss_soll.g.dart` nie mehr neu geschrieben (E-048, Nachtrag).
+- Stand (2026-10-30): Das Finale ist auf `main` (`mordakte-115.1` ist „latest“). Darauf folgt der **Nachtrag PDFs**
+  (Erzählerakte als PDF in der App und an jedem Release, „PDFs zum Ausdrucken“; Spezifikation „Änderungen“ 48–54):
+  auf `claude/schlosskeller-finale` zusammengeführt, lokal grün, **nicht gepusht**. Plan:
+  `/root/.claude/plans/delegated-wandering-meteor.md`, Hilfsbranches `pdf/a` (Kern, Release) und `pdf/b` (App).
+- Nächste Schritte im Nachtrag: (1) Proben: beide Release-PDFs lokal mit Porträts setzen und Seiten ansehen;
+  Browserprobe im Web-Build (Startseite bei 320/390 px, „PDFs zum Ausdrucken“ → vorbereiten → Erzählerakte →
+  „Herunterladen“, Datei beginnt mit `%PDF-`, Zeit messen, Ziel unter 20 s, sonst Porträts 240 px). (2) Gegenprüfung:
+  Sichtbarkeit und Pfadfreiheit, CI-YAML, Oberfläche bei 320 px. (3) Push, CI-Lauf mit dem neuen Job `erzaehlerakte`
+  begleiten, die PDFs im Vorab-Release prüfen, danach nach `main` (Freigabe mit dem Plan). `einfluss_soll.g.dart` wird
+  nie mehr neu geschrieben (E-048, Nachtrag).
 - Berichte der Workflows in `berichte/`: Erzähl-Inhalte `wf_fae96c20-06b`, Einfluss-Texte `wf_71d4acb7-589`, Kern
-  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`. Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION
-  „Änderungen“ (1–47).
+  `wf_cc821ccf-a7c`, App/Netz/Druck `wf_b7937080-d6e`; Nachtrag PDFs `wf_50f212a9-a69` (Ergebnisse im Prüfjournal
+  2026-10-30). Alle Entscheidungen seit dem Plan stehen in SPEZIFIKATION „Änderungen“ (1–54).
 - Was nur Menschen prüfen können: `planung/finalisierung-schlosskeller/FUER-DEN-NUTZER.md`, Abschnitt „Finale
-  (A-063 bis A-067)“.
+  (A-063 bis A-067)“, darin auch Erzählerakte als PDF, Ladezeit im Browser und die PDFs am Release.
 
 ## Prüfjournal (neueste zuerst)
+
+- 2026-10-30 Nachtrag PDFs (Besitzer: Erzählerakte als PDF in der App, als Datei an jedem Release, Druckmappe leichter
+  finden; Spezifikation „Änderungen“ 48–54): `pdf/a` (c603111 neutrale Fassung `--ohne-besetzung`, 049b733 Release-Job
+  `erzaehlerakte`) und `pdf/b` (adf7f1a Porträts in `lib/`, 82f06fc Druckmappe, „Als PDF“, „PDFs zum Ausdrucken“) ohne
+  Konflikt zusammengeführt (3365c2b, 549576f). Beim Zusammenführen gefunden und behoben (a7d1272): Am Erzähler-Handy
+  reihum fehlte „Als PDF“ nach der Einstimmung, weil der Begleiter `rollen` nur während der Einstimmung schickt; jetzt
+  gilt dort die Zahl der gespielten Figuren, wenn sie genau die Besetzung dieser Zahl sind (neuer Test in
+  `erzaehler_begleiter_test`, schlägt ohne die Änderung mit `rollen` null fehl). Belege der Agenten: Bytes von
+  `--erzaehlerakte --personen 8`, `--personen 20 --dein-moment` und `--paket --n 12 --code PRT3W` vor und nach der
+  Änderung gleich (40 von 40 Dateien); die 22 Porträts aus `tool/bild` bytegleich; neutrale Akte 24 Seiten (Druckspiel
+  1.423.482 B, „Dein Moment“ 1.423.993 B, verschieden), ohne „Heute gespielt“, „Ohne Spieler“ und Personenzeile, in
+  allen Pfaden und Codes dieselben Bytes; Job lokal simuliert (Abbruch bei fehlenden Porträts und gleichen Dateien),
+  Release-Schritt mit und ohne Artefakt simuliert, Mutationsprobe an `release.yml` 12 von 12 erkannt; App: Erzählerakte
+  der Druckmappe bytegleich zum Kern mit Kanon-Zielen, ungleich der Sternfassung, kein Knopf in der Rollenvergabe,
+  ohne Druckspiel, solo oder ohne Akte. Prüfungen nach dem Zusammenführen auf a7d1272: `flutter analyze` sauber;
+  `flutter test --concurrency=2` 844 grün (vorher 831); `pruefen.sh schnell` grün (Kern 1004 +1 übersprungen,
+  Krimidinner 67, Klang 4, Netz 54, Kanon-Tor aktuell, CI-Helfer 32, Secret-Scan sauber); `kanon_tor --pruefen`
+  aktuell (`content/` unverändert, nichts neu erzeugt; kein neuer Text, Deckblatt-Satz `ui.druck.akte.inhalt` bleibt,
+  „Änderungen“ 50); `akte_pruefen` 5 × 0; `determinismus_soll*`, `andere_akten_soll` und `einfluss_soll` gleich
+  2dbec65; `tool/kanon_fest.txt` 152 Prüfsummen gültig, kein Diff. Doku: README (Herunterladen, Builds), ANLEITUNG
+  §2/§3/§4/§5.4/§9, Druckspiel-Anleitung (Wege, Erzählerakte, `--ohne-besetzung`), FUER-DEN-NUTZER. Nicht gepusht.
+  Offen: Proben (Release-PDFs mit Porträts, Browserprobe mit Zeitmessung), Gegenprüfung, erster CI-Lauf des Jobs
+  `erzaehlerakte` (setzt voraus, dass `tool/bild/druck_portraets_test.dart` mindestens 22 PNG schreibt), dann `main`.
 
 - 2026-10-28 Abschluss: Besitzer entschied „Jetzt nach main“ und „Randnotizen angleichen“. 89e9eef (sieben
   Befragungen mit neuen pfadgleichen Randnotizen, letzte Neuerzeugung von `einfluss_soll.g.dart` nach E-048, Gegenprüfung

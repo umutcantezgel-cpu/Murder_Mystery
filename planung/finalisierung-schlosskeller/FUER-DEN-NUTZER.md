@@ -68,7 +68,7 @@ Hier steht alles, was nur Menschen prüfen oder entscheiden können, und alles, 
   Alternativ auf GitHub unter „Releases“ ein Release mit dem Tag `schlosskeller-1.0` auf `main` anlegen (E-042).
 
 ## Finale (A-063 bis A-067)
-Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähler) und „Dein Moment“ (Einfluss-Schicht) auf dem Branch `claude/schlosskeller-finale`. Belege stehen in `planung/finale/STATUS.md`, alle Festlegungen in `planung/finale/SPEZIFIKATION.md` („Änderungen“ 1–43).
+Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähler) und „Dein Moment“ (Einfluss-Schicht) auf dem Branch `claude/schlosskeller-finale`. Belege stehen in `planung/finale/STATUS.md`, alle Festlegungen in `planung/finale/SPEZIFIKATION.md` („Änderungen“ 1–54; die PDFs ab 48).
 
 ### Nur durch Menschen prüfbar
 - **Ton der Einstimmung:** Vorgeschichte und Vorstellungen sind maschinell geprüft, aber noch nie an einem echten Tisch gelaufen.
@@ -83,6 +83,13 @@ Einstimmung (Vorgeschichte und Vorstellung), Erzählerakte (nur für den Erzähl
   - Die übrigen Textänderungen derselben Prüfung (warmer Morgen, Sammelblock der Vorstellung, Stern des Abends) stehen in Spezifikation „Änderungen“ 29–36 und im Prüfjournal von `planung/finale/STATUS.md`.
 - **Kachelraster von „Dein Moment“:** Die Tests laufen bei 320 und 390 px und doppelter Schrift. Ob sich die Kacheln auf einem echten 320-px-Handy gut tippen und lesen lassen, zeigt nur das Gerät.
 - **Porträts im Druck:** Vor dem Druck `flutter test tool/bild/druck_portraets_test.dart` laufen lassen, sonst stehen Schattenrisse in den Heften. Seht euch Erzählerheft, Steckbriefe und Erzählerakte einmal auf Papier an.
+- **Erzählerakte als PDF (Nachtrag 2026-10-30):** Maschinell geprüft sind Bytes, Seitenzahl und Sichtbarkeit, nicht das Gerät und nicht das Papier.
+  - Auf einem echten Handy: Detektei → **PDFs zum Ausdrucken** → **Druckmappe vorbereiten** → **Erzählerakte**. Öffnet sich das Teilen, lässt sich die Datei speichern und drucken?
+  - Am Abend in der offenen Erzählerakte **Als PDF** antippen: reihum am Pult, am Erzähler-Handy und online am Erzähler-Sitz. Mit „Dein Moment“ müssen die Sterne darin stehen.
+  - Einmal auf Papier: Sind die Porträts mit 360 px (in der App) scharf genug? Die Release-Dateien haben 720 px.
+  - Bei 320 px Breite brechen „Schließen“ und „Als PDF“ im Fuß der Erzählerakte vielleicht auf zwei Zeilen um. Ist das noch gut lesbar und tippbar?
+- **Ladezeit im Browser:** Die App zeichnet 22 Porträts und rechnet sie in reinem Dart um. Wie lange dauert „Erzählerakte“ in der Druckmappe der Web-Fassung, auch auf einem schwachen Handy? Ziel unter 20 Sekunden, sonst die Porträts auf 240 px verkleinern. Scheitern die Bilder im Browser, kommt die Akte ohne Porträts; dann bitte melden.
+- **PDFs am Release:** Nach dem ersten CI-Lauf mit dem neuen Job `erzaehlerakte` beide Dateien herunterladen (`erzaehlerakte.pdf`, `erzaehlerakte-dein-moment.pdf`) und durchblättern: 24 Seiten, kein „Heute gespielt“, keine Personenzahl auf dem Deckblatt. Die Dateien sind öffentlich; sie nennen nie den Täter, sind aber nur für die Person gedacht, die erzählt.
 
 ### Bewusst so gelassen (bitte prüfen)
 - **Sensibilität:**

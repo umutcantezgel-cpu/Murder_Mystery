@@ -43,6 +43,8 @@ neueste freigegebene Release:
 | Android | `mordakte.apk` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte.apk) |
 | iPhone und iPad | `mordakte-ios-unsigned.ipa` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-ios-unsigned.ipa) |
 | Webserver | `mordakte-web.zip` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-web.zip) |
+| Erzählerakte (Druckspiel) | `erzaehlerakte.pdf` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
+| Erzählerakte („Dein Moment“) | `erzaehlerakte-dein-moment.pdf` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
 | Prüfsummen | `SHA256SUMS.txt` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/SHA256SUMS.txt) |
 
 **Android**
@@ -67,6 +69,14 @@ Die Web-Fassung läuft im Browser. Entpacke `mordakte-web.zip` auf einem statisc
 Wurzelverzeichnis. Wo das Spiel im Web erreichbar ist, hängt davon ab, wo es veröffentlicht wurde. Frag
 deinen Gastgeber nach der Adresse.
 
+**Erzählerakte (PDF, Schlosskeller)**
+
+Die beiden PDFs sind die Erzählerakte zum Ausdrucken (Abschnitt 5.4). Sie sind **nur für die Person, die erzählt**,
+und nennen nie den Täter. Sie gelten für jede Personenzahl: Alle Figuren stehen in der Reihenfolge der Besetzung,
+ohne Marken für einen bestimmten Abend. `erzaehlerakte.pdf` nennt die Ziele wie im Druckspiel,
+`erzaehlerakte-dein-moment.pdf` die zwei Sterne je Figur für einen Abend mit „Dein Moment“. Alle anderen PDFs
+(Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken** (Abschnitt 3).
+
 **Prüfen (optional):** Lade `SHA256SUMS.txt` in denselben Ordner und führe `sha256sum -c SHA256SUMS.txt` aus.
 
 ---
@@ -78,6 +88,13 @@ Beim Start öffnet sich die **Detektei**. Beim allerersten Start fragt sie nach 
 - **Neuer Abend**: Der Assistent führt dich zu einem Abend (Abschnitt 4).
 - **Beitreten**: Du trittst mit einem Raumcode dem Abend eines anderen Geräts bei (Abschnitt 5.3).
 - **Kampagne**: Die fünf Akten in Reihenfolge. Tippe eine Akte an, dann auf **Diese Akte spielen**.
+- **PDFs zum Ausdrucken**: Der Knopf steht unter der Mappe jeder Akte mit Druckfassung (bisher nur der
+  Schlosskeller) und unten auf der Seite der Akte. Er öffnet die **Druckmappe**. Dort stellst du Personen, Detektiv
+  oder Detektivin und den Fall ein und tippst auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer
+  Datei**, einen Knopf je Datei, **Rollenhefte einzeln senden** und unter **Nur Erzähler** die **Erzählerakte** für
+  die Person, die erzählt. Dabei entsteht kein Abend. Jede Datei entsteht erst beim Tipp und geht dann an das
+  Teilen des Telefons; im Browser tippst du ein zweites Mal auf **Herunterladen** (Details:
+  [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
 - **Sammlung**: Deine Karten. Dazu gehört das **Deck** (Abschnitt 8).
 - **Profil**: Name, Rang, Erfahrung und deine Dienstakte.
 
@@ -104,6 +121,10 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
      keinen Erzähler-Platz; dort ermittelst du am Gastgeber-Gerät.
    - *Der Fall*: **Zufall** oder **Code eingeben**. Mit demselben fünfstelligen Fall-Code spielt ihr denselben
      Fall noch einmal.
+   - *Wie spielt ihr?* (Schlosskeller, nur bei „Ein Gerät reihum“): **Am Bildschirm** oder **Zum Drucken**. Beim
+     Druckspiel kommt die Druckfassung als PDF, der Bildschirm führt trotzdem durch den Abend
+     ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Darunter steht: „Nur die PDFs, ohne Abend? Die gibt es
+     bei der Akte unter PDFs zum Ausdrucken.“ Das ist nur ein Hinweis; deine Einstellungen bleiben (Abschnitt 3).
    - *Länge des Abends* (Schlosskeller): **Kurzer Abend** oder **Langer Abend**. Der lange Abend ist ein
      Streifzug durch Schloss, Hof und Garten, mit Vorspiel am Anfang und Morgen am Ende.
    - *Einstimmung* (Schlosskeller): der Schalter **Vorgeschichte und Vorstellung**. Er ist anfangs an. Dann
@@ -315,7 +336,16 @@ Wo sie liegt:
   kommt aus dem eigenen Gerät und wird nie übertragen.
 - **Nie** solo, nie für den Detektiv, eine Rolle oder die Assistenz. Ab dem Finale schließt sie sich.
 
-Gedruckt gibt es sie als `erzaehlerakte.pdf` (siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
+**Als PDF.** In der offenen Erzählerakte steht unten neben **Schließen** der Knopf **Als PDF** (nur dort, nicht am
+Eintrag, nicht am Pult). Er liefert `erzaehlerakte.pdf` in der Fassung, die du gerade siehst: mit „Dein Moment“ die
+zwei Sterne je Figur, sonst die Ziele aus dem Dossier. Dazu kommt die Personenzahl des Abends; die Figuren am Tisch
+stehen zuerst. Ein Fall-Code steht nicht darin. In der App öffnet sich das Teilen des Telefons, im Browser tippst du
+ein zweites Mal auf **Herunterladen: Erzählerakte**. Schließt sich die Akte (Finale, Sitz gewechselt), entsteht
+keine Datei mehr.
+
+Gedruckt gibt es sie außerdem in der Druckmappe (Detektei → **PDFs zum Ausdrucken**, Abschnitt 3; Ziele wie im
+Druckspiel) und am Release für jede Personenzahl (Abschnitt 2). Mehr dazu in
+[Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md).
 
 ---
 
@@ -609,8 +639,9 @@ Tippe eine Karte an, um sie ins Deck zu legen. Eine Karte gleicher Art ersetzt d
   **Inspektor** oder die **Inspektorin**. So heißt auch der Platz in Lobby, Tisch und „Wer macht was?“.
 - Bei der Rollenzahl zählen die Rollen ohne den Detektiv. Alle weiteren Figuren der Akte spielt das Spiel als Gäste ohne Spieler.
 - Jede Akte hat **Erkundungsorte** (Schlosskeller 8, Gewölbe 7, die drei anderen je 6).
-- Den Schlosskeller gibt es auch als **Druckspiel** auf Papier: Akte öffnen → **Druckmappe**
-  (siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
+- Den Schlosskeller gibt es auch als **Druckspiel** auf Papier: **PDFs zum Ausdrucken** unter seiner Mappe in der
+  Detektei oder auf der Seite der Akte öffnet die **Druckmappe** (Abschnitt 3,
+  siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
 
 ---
 

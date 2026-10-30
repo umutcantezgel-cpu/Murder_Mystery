@@ -30,6 +30,18 @@ immer auf das neueste freigegebene Release.
   einmaligen Schalter des Besitzers (siehe unten). Eine feste Web-Adresse steht hier nicht.
   Lokal: `bash build.sh`, dann `python3 -m http.server 8081 --directory build/web`.
 
+**PDFs zum Ausdrucken (Schlosskeller).** Am Release hängt die Erzählerakte als PDF, in zwei Fassungen. Beide sind nur
+für die Person, die erzählt, nennen nie den Täter und gelten für jede Personenzahl (alle Figuren in der Reihenfolge
+der Besetzung, ohne Marken für einen bestimmten Abend):
+
+| Fassung | Datei |
+| --- | --- |
+| Ziele wie im Druckspiel | [`erzaehlerakte.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
+| Abend mit „Dein Moment“ (je Figur die zwei Sterne) | [`erzaehlerakte-dein-moment.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
+
+Alle anderen PDFs (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken**
+(unter dem Schlosskeller oder auf der Akte-Seite).
+
 ### 2. Starten
 
 Die App startet in der **Detektei**: **Neuer Abend**, **Beitreten**, die Kampagne aus fünf Akten, die
@@ -56,7 +68,7 @@ Optional kannst du **erkunden** (Abstecher): Das kostet Nachtminuten und kann Ka
 - **Einstimmung:** Vor dem Auftakt liest der Erzähler eine Vorgeschichte (etwa fünf Minuten) und stellt jede Figur
   am Tisch vor. Der Erzähler hat dazu eine **Erzählerakte** mit Hintergründen und Beziehungsnetz aller Figuren,
   ohne den Täter. Sie liegt nur am Erzähler-Platz (Pult, Erzähler-Handy, Erzähler-Sitz), nie solo, und lässt sich
-  ohne Fall-Code drucken.
+  ohne Fall-Code drucken: in der offenen Akte mit **Als PDF**, in der Druckmappe der App und als Datei am Release.
 - **„Dein Moment“** ersetzt die Gruppenwahl: Jede Rolle zieht je Runde geheim einen Zug (Zeigen, Decken, Helfen,
   Auspacken, Ablenken, Lauschen). Die Züge geben den Optionen Tischwerte, die den Würfel verschieben, bringen
   Gerüchte, Randnotizen und Nachtminuten, füllen die Leisten Zusammenhalt und Spuk mit Ereignissen und bestimmen
@@ -164,8 +176,15 @@ Weitere Einstiege (Web): `?screen=detektei|neu|akte|sammlung|deck|profile|beitre
 - **`android`**: `mordakte.apk`. **`ios`** (macOS, darf fehlschlagen): `mordakte-ios-unsigned.ipa`.
 - **`web`**: `mordakte-web.zip` und eine Kopie mit Basis `/Murder_Mystery/` für GitHub Pages. **`pages`** veröffentlicht
   sie und schlägt ohne aktiviertes Pages fehl, ohne den Lauf zu stören.
+- **`erzaehlerakte`** (nicht beim wöchentlichen Lauf): zeichnet die Porträts (`flutter test
+  tool/bild/druck_portraets_test.dart`, mindestens 22) und setzt die Erzählerakte des Schlosskellers zweimal mit
+  `party_druck.dart --erzaehlerakte --ohne-besetzung`, einmal mit `--dein-moment`: `erzaehlerakte.pdf` und
+  `erzaehlerakte-dein-moment.pdf`. Der Job schlägt fehl, wenn Porträts fehlen, eine Datei weniger als 23 Seiten hat
+  oder beide Dateien gleich sind. Kein Fall-Code, kein Pfad.
 - **`release`**: je Lauf ein Release mit Tag `mordakte-<Lauf>.<Versuch>` und den festen Dateinamen
-  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `SHA256SUMS.txt`. Tags werden nie verschoben.
+  `mordakte.apk`, `mordakte-ios-unsigned.ipa`, `mordakte-web.zip`, `erzaehlerakte.pdf`,
+  `erzaehlerakte-dein-moment.pdf`, `SHA256SUMS.txt`. IPA, Web-ZIP und die beiden PDFs dürfen fehlen; dann nennen die
+  Notizen das, und das Release entsteht trotzdem. Tags werden nie verschoben.
   **latest** bekommt das Release nur, solange sein Stand die Spitze von `main` oder des Arbeitsbranches ist.
 
 **Android-Signatur.** Sind alle vier Secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`,

@@ -587,3 +587,68 @@ E-046/E-047 im ENTSCHEIDUNGSLOG · R18 (Einstimmung), R19–R25 (Einfluss) in `E
       Summen ändern sich, genau die Abende, an denen eine der sieben Optionen eine Randnotiz zeigte (redselig oder
       Nachfrage, mit alten oder neuen Daten; nachgezählt); Gegenprobe mit zurückgenommenem `einfluss.json`: vorige
       Liste passt (0 Abweichungen).
+- 2026-10-30 (Nachtrag PDFs: Erzählerakte in App und Release, Druckmappe leichter finden; Besitzer: alle drei Punkte,
+  Plan `delegated-wandering-meteor`, Branches `pdf/a` Kern und Release, `pdf/b` App):
+  48. §2 **Erzählerakte als PDF in der Druckmappe:** `DruckTafel(erzaehlerakte: true)` nur in der `DruckmappeSeite`.
+      Im Druckspiel steht unter „Rollenhefte einzeln senden“ ein eigener Abschnitt mit dem Kopf
+      `ui.druck.paket.dateien.ordner4` („Nur Erzähler“), dem Hinweis `druck_erzaehlerakte_hinweis` (ARB) und dem Knopf
+      `ui.druck.akte.titel` → `erzaehlerakte.pdf`. Die Akte kommt nur über `erzaehlerakteFuer(einfluss: false)`, also mit
+      den Zielen des Kanons wie Druckspiel und Kommandozeile ohne `--dein-moment`, nie über `daten.erzaehlerakte`
+      (Sternfassung). Personenzahl der Einstellung; kein Satz, kein Fall-Code, in allen Pfaden dieselben Bytes. Der
+      Kontext entsteht erst beim Tipp und nach einem Fehler neu. Nie in der Rollenvergabe (`rollen.dart`, die neutrale
+      Ansicht für den ganzen Tisch), nie ohne Druckspiel, solo oder in Akten ohne Erzählerakte. Icon wie der Zugang am
+      Abend (`folder_shared_outlined`).
+  49. §2 **„Als PDF“ in der Erzählerakte des Abends:** Der Knopf steht im Fuß der offenen `ErzaehlerakteSeite` neben
+      „Schließen“, nicht als eigener Streifen (ein fester Streifen hätte die Figurenliste am Handy dauerhaft
+      verkürzt). Nicht im Eintrag, nicht in der Zwischenstufe, nicht am Pult, nie solo. Die Datei hat die angezeigte
+      Fassung (`erzaehlerakteFuer(einfluss: widget.einfluss)`, mit Schicht die Sterne) und die Personenzahl des Abends,
+      ohne Fall-Code. Den Knopf gibt es nur mit einer Personenzahl der Besetzung; gilt die Akte nicht mehr
+      (`erlaubt()` falsch), entsteht keine Datei. Reihum und am Pult die Zahl der Einstellung, online die Rollenzahl
+      des Raums. Am Erzähler-Handy reihum schickt der Begleiter `rollen` nur während der Einstimmung (Punkt 43); sonst
+      gilt die Zahl der gespielten Figuren, wenn sie genau die Besetzung dieser Zahl sind (beim Zusammenführen
+      ergänzt, a7d1272; vorher fehlte der Knopf dort nach der Einstimmung). `DateiKnopf` hat dafür den optionalen
+      Dateinamen `datei` („Herunterladen: Erzählerakte“ statt „Herunterladen: Als PDF“) und schreibt Ladehinweis und
+      Fehler auf dunklem Grund in Papierfarbe; auf Papier unverändert.
+  50. §2 **Neutrale Fassung für das Release:** `ErzaehlerakteKontext.rollen` ist `required int?`; `null` setzt die Akte
+      ohne Besetzung: alle 20 Figuren in Besetzungsreihenfolge, keine Marken „Heute gespielt“/„Ohne Spieler“, im Netz
+      keine blassen Knoten, Etiketten oder Kanten und kein „Ohne Spieler“ in den Legenden, keine Personenzeile auf dem
+      Deckblatt. Die neutrale Fassung
+      muss ausdrücklich mit `rollen: null` angefordert werden; `PaketKontext` bleibt bei `int`. Kommandozeile
+      `--erzaehlerakte --ohne-besetzung` (Ausgabe `build/druck/<fall>-erzaehlerakte-alle`); mit `--personen` oder
+      `--n` und, zusätzlich zum Plan, ohne `--erzaehlerakte` (sonst entstünde stillschweigend ein Paket für 12) Exit 2.
+      Die Porträtprüfung umfasst dann alle 20 Figuren und `detektiv-w`/`detektiv-m`; fehlende Porträts bleiben eine
+      Warnung mit Exit 0 („Achtung: Porträts fehlen (…) in …“). Die Akte hat 24 statt der geplanten 23 Seiten, weil
+      Netz und Legende zwei Seiten brauchen (wie schon bei `--personen 8`); der Test zählt Deckblatt, Personen und
+      Netz aus der Bezugsakte für 12 Personen, die CI-Untergrenze bleibt 23. Bytes für `--personen N`, `--dein-moment`
+      und `--paket` unverändert (40 von 40 Dateien vor und nach der Änderung gleich). **Kein neuer Text:** Das
+      Deckblatt sagt weiter `ui.druck.akte.inhalt` („… erst die gespielten, dann die ohne Spieler“). Das stimmt für jede
+      Personenzahl, weil `Besetzung.besetzt(n)` der Anfang der Besetzungsreihenfolge ist. Ein Satz wie „Bei N
+      Personen spielen die Figuren 1 bis N“ hätte einen neuen Baustein in `ui-druck-paket.json` und `kanon_tor`
+      gebraucht; die Doku (Druckspiel-Anleitung) sagt es stattdessen.
+  51. **Release-Job `erzaehlerakte`, optional:** `needs: gate`, nicht bei `schedule`, 20 min. Porträts mit
+      `flutter test tool/bild/druck_portraets_test.dart` (mindestens 22 PNG), dann zweimal
+      `party_druck.dart --erzaehlerakte --ohne-besetzung`, einmal mit `--dein-moment` in eigenem `--aus`-Ordner,
+      umbenannt zu `erzaehlerakte-dein-moment.pdf`. Abbruch bei „Achtung: Porträts fehlen“, unter 23 Seiten
+      (`pdfinfo`) oder gleichen Dateien. Artefakt `erzaehlerakte` (`if-no-files-found: error`). Der Release-Job lädt es
+      mit `continue-on-error` wie IPA und Web-ZIP; ein PDF-Fehler hält die APK nie auf. Vorhandene PDFs kommen in
+      `SHA256SUMS.txt`, die Assets und je eine Notizzeile („Nur für die Person, die erzählt; nennt nie den Täter; für
+      jede Personenzahl“), sonst eine Ersatzzeile; dazu der Installationspunkt „PDFs zum Ausdrucken … Detektei → PDFs
+      zum Ausdrucken“. Kein `--code`, `--paket`, `--pfad`, `--personen` oder `--n` im Job. Geprüft von
+      `tool/ci/tests/test_release_workflow.py` (13 Tests, nur Standardbibliothek; gleicht den Warntext mit
+      `party_druck.dart` ab).
+  52. **„PDFs zum Ausdrucken“ als einheitlicher Name** (`detektei_druck_pdfs`): auf der Akte-Seite statt „Druckmappe“
+      (`ganzeWorte`; der Seitentitel „Druckmappe“ und `detektei_akte_druckmappe` bleiben), als zweiter Weg unter jeder
+      druckbaren Mappe der Startseite (`AkteKarte.unten`, außerhalb von `excludeSemantics`, ab zwei Spalten in der
+      Spalte der Mappe; der Name enthält keinen Akten-Titel, weil `tool/e2e/start.mjs` „Spuk im Schlosskeller“ genau
+      einmal erwartet), im Assistenten bei „Zum Drucken“ als Hinweis `abend_druck_nur_pdfs` (nur Text, kein Sprung, die
+      Einstellungen bleiben) und in den Release-Notizen. `detektei_druck_hinweis` nennt die Erzählerakte.
+  53. **Porträts in der App:** `lib/party/druck_portraets.dart` zeichnet die Porträts der Druckfassung
+      (`druckPortraets`, 20 Figuren plus `detektiv-w`/`detektiv-m`, ohne das Opfer, `Future.delayed(Duration.zero)`
+      zwischen den Bildern) mit 360 px statt 720 px. Kein Zwischenspeicher: `DruckTafel` hält den Kontext, `DateiKnopf`
+      die fertige Datei. Scheitern die Porträts (etwa die PNG-Kodierung im Browser), entsteht die Akte ohne Bilder.
+      Teststelle `druckPortraetsUeber`. `tool/bild/druck_portraets_test.dart` nutzt dieselbe Funktion mit 720 px; die
+      22 PNG sind bytegleich zu vorher. Offen: Browserprobe (Ladezeit, Ziel unter 20 s, sonst 240 px).
+  54. Testanpassungen aus der App-Hälfte: Tests, die zur Druckmappe navigieren, leeren vorher `rootBundle` und laden
+      `PartyDaten` in `runAsync` vor (Ladevorgänge aus beendeten Testzonen früherer Tests ließen die Druckmappe bei
+      „Die Akte wird vorbereitet …“ stehen). Im Rollenphasen-Test der Erzählerakte sind die Scrollschritte 120 statt
+      300 px, weil der Fuß mit zwei Knöpfen in der Testschrift zweizeilig wird; der Inhalt der Prüfungen ist gleich.

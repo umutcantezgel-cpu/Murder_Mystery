@@ -50,13 +50,17 @@ nach der Figur, etwa `steckbrief-fatma.pdf`.
 
 Es gibt drei Wege.
 
-- **Über die Akte:** Detektei → **Spuk im Schlosskeller** → **Druckmappe**. Stelle Personen, Detektiv oder
-  Detektivin und Fall ein und tippe auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen
-  Knopf je Datei und **Rollenhefte einzeln senden** mit einem Knopf je Person. Jede Datei entsteht beim ersten Tipp
-  und geht dann an das Teilen des Telefons (im Browser mit einem zweiten Tipp: Herunterladen oder Teilen).
+- **Über die Druckmappe:** In der Detektei steht unter der Mappe **Spuk im Schlosskeller** der Knopf **PDFs zum
+  Ausdrucken**, derselbe Knopf auch unten auf der Seite der Akte. Er öffnet die Druckmappe. Stelle Personen,
+  Detektiv oder Detektivin und Fall ein und tippe auf **Druckmappe vorbereiten**. Danach gibt es **Alles in einer
+  Datei**, einen Knopf je Datei, **Rollenhefte einzeln senden** mit einem Knopf je Person und unter **Nur Erzähler**
+  die **Erzählerakte** (unten). Jede Datei entsteht beim ersten Tipp und geht dann an das Teilen des Telefons (im
+  Browser mit einem zweiten Tipp: Herunterladen oder Teilen).
 - **Über einen Abend am Tisch:** Wähle im Assistenten **Ein Gerät reihum** und bei den Einstellungen
   **Zum Drucken**. Auf der Seite „Eure Rollen“ steht dann die Tafel „Druckfassung“. Der Bildschirm führt
-  trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen.
+  trotzdem durch den Abend. Ohne **Zum Drucken** steht dort nur das **Erzählerheft** zum Vorlesen. Die
+  Erzählerakte gibt es auf dieser Seite nie, denn sie sieht der ganze Tisch. Wer nur die PDFs will, braucht keinen
+  Abend: Der Assistent weist bei **Zum Drucken** auf **PDFs zum Ausdrucken** bei der Akte hin.
 - **Per Befehl:** Das Team erstellt den Satz mit einem Befehl (siehe unten).
 
 Die Rollenhefte je Person heißen nach der Figur, etwa `10-rollenheft-fatma.pdf`. Sie gelten nur mit demselben
@@ -138,10 +142,22 @@ und ist in jedem Fall gleich. Deshalb braucht sie **keinen Fall-Code**, nur die 
 - **Ziele:** Standard ist das Ziel aus dem Rollenheft, denn das Druckspiel läuft ohne „Dein Moment“. Für einen
   Abend am Bildschirm mit „Dein Moment“ setzt der Befehl mit `--dein-moment` die zwei Sterne je Figur ein.
 
-Die Erzählerakte gibt es nur per Befehl (unten): allein mit `--erzaehlerakte` oder im Druckpaket mit `--paket`, dort im
-Ordner `4-nur-erzaehler`. Die Druckmappe der App enthält sie nicht. Am Bildschirm hat der Erzähler sie ohnehin
-(siehe [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Gebt sie nie
-aus der Hand: Sie enthält die Geheimnisse aller Figuren.
+So bekommt ihr sie:
+
+- **Druckmappe der App:** Detektei → **PDFs zum Ausdrucken** → **Druckmappe vorbereiten**, dann unter **Nur
+  Erzähler** der Knopf **Erzählerakte**. Sie hat die Ziele aus dem Rollenheft wie das Druckspiel und die Personenzahl
+  der Druckmappe. Fall und Detektiv ändern an ihr nichts: In jedem Fall entsteht dieselbe Datei.
+- **Am Abend:** In der offenen Erzählerakte am Erzähler-Platz steht **Als PDF** (siehe
+  [Anleitung, Abschnitt 5.4](../ANLEITUNG.md#54-einstimmung-und-erzählerakte-schlosskeller)). Die Datei hat die
+  Fassung, die der Erzähler gerade sieht, mit „Dein Moment“ also die Sterne, und die Personenzahl des Abends.
+- **Am Release:** `erzaehlerakte.pdf` (Ziele wie im Druckspiel) und `erzaehlerakte-dein-moment.pdf` (Sterne) hängen
+  an jedem Release (siehe [Anleitung, Abschnitt 2](../ANLEITUNG.md#2-installieren)). Sie gelten für jede
+  Personenzahl: alle Figuren in der Reihenfolge der Besetzung, ohne „Heute gespielt“ oder „Ohne Spieler“. Bei N
+  Rollen (ohne den Detektiv) sind die ersten N Figurenseiten die Figuren am Tisch.
+- **Per Befehl** (unten): allein mit `--erzaehlerakte` oder im Druckpaket mit `--paket`, dort im Ordner
+  `4-nur-erzaehler`.
+
+Am Bildschirm hat der Erzähler sie ohnehin. Gebt sie nie aus der Hand: Sie enthält die Geheimnisse aller Figuren.
 
 ### Das versiegelte Auflösungsheft
 
@@ -169,6 +185,7 @@ dart run bin/party_druck.dart --pfad olli --n 7 --alles
 dart run bin/party_druck.dart --steckbriefe --n 7
 dart run bin/party_druck.dart --paket --n 12 [--code XXXXX] [--dein-moment]
 dart run bin/party_druck.dart --erzaehlerakte --personen 8 [--dein-moment] [--aus <Ordner>]
+dart run bin/party_druck.dart --erzaehlerakte --ohne-besetzung [--dein-moment] [--aus <Ordner>]
 ```
 
 Der erste Befehl erzeugt den PDF-Satz mit acht Dateien. Ohne `--aus` landet er in `build/druck/<Code>-n<Zahl>`.
@@ -188,6 +205,12 @@ PDFs mit Fall-Code nie committen.
 Figuren als „am Tisch“ zuerst stehen. Ohne `--aus` landet die Datei in `build/druck/schlosskeller-erzaehlerakte-n<Zahl>`.
 `--dein-moment` (bei `--paket` und `--erzaehlerakte`) setzt die zwei Sterne von „Dein Moment“ als Ziele ein; es geht
 nur bei Akten mit „Dein Moment“. Ohne den Schalter stehen die Ziele aus den Rollenheften.
+
+`--ohne-besetzung` (nur mit `--erzaehlerakte`) setzt die Akte für jede Personenzahl, so wie sie am Release hängt: alle
+Figuren in der Reihenfolge der Besetzung, ohne „Heute gespielt“ und „Ohne Spieler“ und ohne Personenzeile auf dem
+Deckblatt. Ohne `--aus` landet sie in `build/druck/schlosskeller-erzaehlerakte-alle`. Zusammen mit `--personen` oder
+`--n`, oder ohne `--erzaehlerakte`, bricht der Befehl ab (Exit 2). Fehlen Porträts (alle Figuren und beide
+Detektive), warnt er nur mit „Achtung: Porträts fehlen …“ und setzt die Akte ohne sie.
 
 `--steckbriefe` braucht keinen Fall-Code. Es schreibt die Charakterübersicht, eine Datei mit Übersicht und allen
 Steckbriefen und je Figur einen Steckbrief, ohne `--n` für alle Figuren. `--fall` wählt die Akte; Steckbriefe gibt
