@@ -13,9 +13,15 @@ import 'package:mordakte/abend/rollen_uebersicht.dart';
 import 'package:mordakte/app/router.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/detektei/schreibtisch.dart';
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/meta/meta_store.dart';
+import 'package:mordakte/party/daten.dart';
+import 'package:mordakte/party/datei_teilen.dart';
+import 'package:mordakte/party/druck_speichern_stub.dart' as app;
+import 'package:mordakte/party/druck_tafel.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:mordakte_core/runden.dart' show Sitz;
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../abend/online_hilfe.dart';
@@ -33,6 +39,32 @@ void keinWortGeteilt(WidgetTester tester, Finder bereich) {
       expect(zeilen.length, lessThanOrEqualTo(1), reason: '„${m.group(0)}“ in „$text“ bricht mitten im Wort um');
     }
   }
+}
+
+final _de = LDe();
+
+/// Spielt die Android-App nach (zwei Wege nach dem Bauen); Kanal und Teilen sind abgefangen.
+void androidNachspielen() {
+  final vorher = app.aufAndroid;
+  app.aufAndroid = true;
+  addTearDown(() => app.aufAndroid = vorher);
+  const kanal = MethodChannel('mordakte/datei');
+  final bote = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  bote.setMockMethodCallHandler(kanal, (_) async => true);
+  addTearDown(() => bote.setMockMethodCallHandler(kanal, null));
+  final teilen = dateiTeilenUeber;
+  dateiTeilenUeber = (_) async => const ShareResult('ok', ShareResultStatus.success);
+  addTearDown(() => dateiTeilenUeber = teilen);
+}
+
+/// Wartet in echter Zeit (Bündel, PDF-Satz), bis [finder] etwas findet.
+Future<void> warteBis(WidgetTester tester, Finder finder, {bool lang = false}) async {
+  for (var i = 0; i < (lang ? 600 : 100) && finder.evaluate().isEmpty; i++) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 25)));
+    await tester.pump(const Duration(milliseconds: 30));
+  }
+  expect(finder, findsWidgets);
+  await tester.pump(const Duration(milliseconds: 400));
 }
 
 void main() {
@@ -144,6 +176,50 @@ void main() {
     expect(text, isNot(contains('Erzählerakte')));
     // Schritt 2 nennt den Knopf in der Fußleiste: auch er bleibt ganz.
     keinWortGeteilt(tester, find.ancestor(of: find.text('Druckmappe vorbereiten'), matching: find.byType(MKnopf)));
+    await schliessen(tester, state);
+  });
+
+  // In der Android-App (und im Browser) stehen nach dem Bauen „Herunterladen: …“ und „Teilen: …“.
+  // Bräche ein Wort selbst in der kleinsten Schrift, steht der Dateiname als Zeile darüber und auf
+  // den Knöpfen nur der Weg; ein Symbol, neben dem ein Wort bräche, entfällt.
+  testWidgets('Druckmappe in der Android-App: 320 px, doppelte Schrift, die Dateien und ihre Wege teilen kein Wort', (tester) async {
+    androidNachspielen();
+    await tester.runAsync(() => PartyDaten.laden(rootBundle, fall: 'schlosskeller'));
+    final state = await oeffnen(tester, Routes.druckmappeVon('schlosskeller'), bereit: find.text('Druckmappe vorbereiten'));
+    await tester.tap(find.text('Druckmappe vorbereiten'));
+    await warteBis(tester, find.text('Alles in einer Datei'));
+    keinWortGeteilt(tester, find.byType(DruckTafel));
+    for (final datei in ['Alles in einer Datei', 'Erzählerakte', 'Detektivbogen']) {
+      await tester.ensureVisible(find.text(datei));
+      await tester.tap(find.text(datei));
+      await warteBis(tester, find.bySemanticsLabel(_de.druck_datei_laden(datei)), lang: true);
+    }
+    // „Senden an …“ nennt die Datei nicht: Die Wege nennen das Rollenheft.
+    final senden = find.textContaining(_de.druck_senden_an('')).first;
+    final person = tester.widget<Text>(senden).data!.substring(_de.druck_senden_an('').length);
+    await tester.ensureVisible(senden);
+    await tester.tap(senden);
+    await warteBis(tester, find.text(_de.druck_datei_laden(_de.druck_rollenheft_von(person))), lang: true);
+    keinWortGeteilt(tester, find.byType(DruckTafel));
+    await schliessen(tester, state);
+  });
+
+  testWidgets('Steckbriefe in der Android-App: 320 px, doppelte Schrift, „Charakterübersicht“ steht als Zeile über „Herunterladen“ und „Teilen“', (tester) async {
+    androidNachspielen();
+    await tester.runAsync(() async {
+      await PartyDaten.laden(rootBundle, fall: 'schlosskeller');
+      await rootBundle.loadString('content/party/schlosskeller/steckbriefe.json');
+    });
+    final state = await oeffnen(tester, Routes.steckbriefeVon('schlosskeller'), bereit: find.text('Charakterübersicht'));
+    await tester.ensureVisible(find.text('Charakterübersicht'));
+    await tester.tap(find.text('Charakterübersicht'));
+    await warteBis(tester, find.bySemanticsLabel(_de.druck_datei_laden('Charakterübersicht')), lang: true);
+    // Der Name als Zeile, auf den Knöpfen nur der Weg; der Bildschirmleser hört beides zusammen.
+    expect(find.text('Charakterübersicht'), findsOneWidget);
+    expect(find.text(_de.druck_datei_laden_kurz), findsOneWidget);
+    expect(find.text(_de.druck_datei_teilen_kurz), findsOneWidget);
+    expect(find.bySemanticsLabel(_de.druck_datei_teilen('Charakterübersicht')), findsOneWidget);
+    keinWortGeteilt(tester, find.byType(RollFlaeche));
     await schliessen(tester, state);
   });
 

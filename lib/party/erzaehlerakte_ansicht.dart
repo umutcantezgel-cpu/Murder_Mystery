@@ -787,8 +787,9 @@ class _ErzaehlerakteSeiteState extends State<ErzaehlerakteSeite> {
             art: MKnopfArt.zweit,
             onPressed: () => Navigator.of(context).maybePop(),
           ),
-          // Dieselbe Fassung als Datei, nur hier in der offenen Akte. Im Browser im
-          // engen Fuß nur „Herunterladen“/„Teilen“, damit die Figurenliste bei 320 px bleibt.
+          // Dieselbe Fassung als Datei, nur hier in der offenen Akte. Im Browser und in
+          // der Android-App im engen Fuß nur „Herunterladen“/„Teilen“, damit die
+          // Figurenliste bei 320 px bleibt.
           if (rollen != null)
             DateiKnopf(
               key: ValueKey('erzaehlerakte-pdf-${widget.einfluss}-$rollen'),

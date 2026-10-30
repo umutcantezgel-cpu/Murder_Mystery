@@ -75,6 +75,9 @@ class _Browser extends DateiGeraet {
   bool get kannHerunterladen => true;
 
   @override
+  bool get herunterladenMitDialog => false;
+
+  @override
   bool kannTeilen(String name, String typ) => teilbar;
 
   @override
@@ -107,7 +110,7 @@ class _Android extends DateiGeraet {
   bool kannTeilen(String name, String typ) => true;
 
   @override
-  DateiWeg get standardWeg => DateiWeg.teilen;
+  bool get herunterladenMitDialog => true;
 
   @override
   Future<bool> anbieten(String name, Uint8List bytes, {required String typ, Rect? ursprung, required DateiWeg weg}) async {
@@ -236,9 +239,12 @@ void main() {
     final s = _sitzung(druck: true, namen: {'fatma': 'Bea'});
     await _zeige(t, s);
     final senden = _de.druck_senden_an('Bea');
-    final laden = find.text(_de.druck_datei_laden(senden));
+    // Nach dem Bauen nennen die Wege das Rollenheft, nicht „Senden an …“.
+    final heft = _de.druck_rollenheft_von('Bea');
+    final laden = find.text(_de.druck_datei_laden(heft));
     await _tippeUndWarte(t, find.text(senden), () => laden.evaluate().isNotEmpty);
-    expect(find.text(_de.druck_datei_teilen(senden)), findsNothing);
+    expect(find.text(_de.druck_datei_teilen(heft)), findsNothing);
+    expect(find.textContaining(_de.druck_datei_laden(senden)), findsNothing);
     await t.tap(laden);
     await t.pump();
     expect(browser.angeboten, [('10-rollenheft-fatma.pdf', DateiWeg.herunterladen)]);
@@ -249,8 +255,9 @@ void main() {
     final s = _sitzung(druck: true, namen: {'fatma': 'Bea'});
     await _zeige(t, s);
     final senden = _de.druck_senden_an('Bea');
-    final laden = find.text(_de.druck_datei_laden(senden));
-    final teilen = find.text(_de.druck_datei_teilen(senden));
+    final heft = _de.druck_rollenheft_von('Bea');
+    final laden = find.text(_de.druck_datei_laden(heft));
+    final teilen = find.text(_de.druck_datei_teilen(heft));
     await _tippeUndWarte(t, find.text(senden), () => laden.evaluate().isNotEmpty);
     // Der erste Tipp baut nur, auch beim Rollenheft einer Person; dann wählt man den Weg.
     expect(android.angeboten, isEmpty);

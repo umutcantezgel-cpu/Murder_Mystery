@@ -421,6 +421,8 @@ class _GastZeile extends StatelessWidget {
               child: DateiKnopf(
                 key: ValueKey('steckbrief-$figur-$detektiv'),
                 text: l.steckbrief_senden,
+                // Nach dem Bauen „Herunterladen: Steckbrief Fatma“, nicht „Herunterladen: Steckbrief senden“.
+                datei: l.steckbrief_von(figuren.where((f) => f.$1 == figur).firstOrNull?.$2 ?? figur),
                 icon: Icons.send_rounded,
                 bauen: () => senden(figur),
               ),

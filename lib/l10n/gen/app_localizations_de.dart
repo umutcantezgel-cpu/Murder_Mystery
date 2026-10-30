@@ -4084,6 +4084,11 @@ class LDe extends L {
   }
 
   @override
+  String druck_rollenheft_von(String name) {
+    return 'Rollenheft $name';
+  }
+
+  @override
   String get druck_erzaehlerheft_hinweis =>
       'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.';
 
@@ -4144,6 +4149,11 @@ class LDe extends L {
 
   @override
   String get steckbrief_senden => 'Steckbrief senden';
+
+  @override
+  String steckbrief_von(String figur) {
+    return 'Steckbrief $figur';
+  }
 
   @override
   String online_lobby_gaesteliste_weg(int anzahl, String figuren) {

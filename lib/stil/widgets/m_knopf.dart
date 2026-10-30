@@ -44,8 +44,32 @@ class MKnopf extends StatelessWidget {
 
   /// Schmal und mit großer Schrift wird die Beschriftung kleiner, statt ein
   /// Wort mitten durch zu brechen ([ganzeWorteGroesse]). Für Knöpfe mit langen
-  /// Wörtern („Nachtminuten“) auf dem Handy.
+  /// Wörtern („Nachtminuten“) auf dem Handy. Passt ein Wort selbst in der
+  /// kleinsten Schrift nicht neben das Symbol, entfällt das Symbol.
   final bool ganzeWorte;
+
+  /// Kleinste Schrift der Beschriftung mit [ganzeWorte] (vor der Skalierung des Geräts).
+  static const _minimum = 11.0;
+
+  /// Waagrechtes Polster je Seite.
+  static const _seite = 22.0;
+
+  /// Symbol mit seinem Abstand zur Beschriftung.
+  static const _symbol = 20.0 + MMass.s8;
+
+  /// Schrift der Beschriftung: eingraviert auf dem Schild, Schreibmaschine auf Etikett und Tintenzeile.
+  static TextStyle _schrift(MKnopfArt art, bool gross) => switch (art) {
+        MKnopfArt.haupt || MKnopfArt.gefahr => MRohSchrift.knopf.copyWith(fontSize: gross ? 19 : 17),
+        MKnopfArt.zweit || MKnopfArt.leise => MRohSchrift.schreibmaschine.copyWith(fontSize: gross ? 17 : 15, letterSpacing: 0.6),
+      };
+
+  /// Passt jedes Wort von [text] auf einen Knopf der Art [art], der höchstens
+  /// [breite] breit ist, ganz in eine Zeile, notfalls in der kleinsten Schrift
+  /// von [ganzeWorte] und ohne Symbol? Für Knöpfe, die sonst eine kürzere
+  /// Beschriftung wählen (die fertige Datei des Dateiknopfs).
+  static bool passtGanz(BuildContext context, String text, double breite, {MKnopfArt art = MKnopfArt.haupt, bool gross = false}) =>
+      // Im Knopf gilt allein seine Schrift, nicht die der Umgebung.
+      ganzeWortePassen(context, text, _schrift(art, gross).copyWith(inherit: false), breite - 2 * _seite, minimum: _minimum);
 
   /// Mit Klang: Messingschild klickt, Etikett raschelt, Tintenlink bleibt still.
   VoidCallback? get _gedrueckt {
@@ -73,26 +97,35 @@ class MKnopf extends StatelessWidget {
     final onPressed = _gedrueckt;
     final form = RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
     const mindest = Size(MMass.tippflaeche, MMass.tippflaeche);
-    final polster = EdgeInsets.symmetric(horizontal: 22, vertical: gross ? 19 : 13);
-    final schild = MRohSchrift.knopf.copyWith(fontSize: gross ? 19 : 17);
-    final etikett = MRohSchrift.schreibmaschine.copyWith(fontSize: gross ? 17 : 15, letterSpacing: 0.6);
+    final polster = EdgeInsets.symmetric(horizontal: _seite, vertical: gross ? 19 : 13);
+    final schild = _schrift(MKnopfArt.haupt, gross);
+    final etikett = _schrift(MKnopfArt.zweit, gross);
     // Gemessen wird im Knopf: Dort gilt seine Schrift (DefaultTextStyle).
     final Widget beschriftung = ganzeWorte
         ? LayoutBuilder(
             builder: (context, box) {
               final groesse = DefaultTextStyle.of(context).style.fontSize;
-              final g = ganzeWorteGroesse(context, text, const TextStyle(), box.maxWidth, minimum: 11);
+              final g = ganzeWorteGroesse(context, text, const TextStyle(), box.maxWidth, minimum: _minimum);
               return Text(text, textAlign: TextAlign.center, style: g == groesse ? null : TextStyle(fontSize: g));
             },
           )
         : Text(text, textAlign: TextAlign.center);
-    final inhalt = icon == null
+    Widget mitSymbol(IconData icon) => Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Icon(icon, size: 20), const SizedBox(width: MMass.s8), Flexible(child: beschriftung)],
+        );
+    final symbol = icon;
+    final Widget inhalt = symbol == null
         ? beschriftung
-        : Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Icon(icon, size: 20), const SizedBox(width: MMass.s8), Flexible(child: beschriftung)],
-          );
+        : ganzeWorte
+            // Das Symbol schmückt nur: Bräche sonst ein Wort, steht die Beschriftung allein.
+            ? LayoutBuilder(
+                builder: (context, box) => ganzeWortePassen(context, text, const TextStyle(), box.maxWidth - _symbol, minimum: _minimum)
+                    ? mitSymbol(symbol)
+                    : beschriftung,
+              )
+            : mitSymbol(symbol);
     final Widget knopf = switch (art) {
       MKnopfArt.haupt || MKnopfArt.gefahr => FilledButton(
           onPressed: onPressed,

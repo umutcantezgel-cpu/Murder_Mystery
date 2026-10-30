@@ -13,7 +13,8 @@ final _de = LDe();
 
 /// Druckfassung in der App (F5-BAUMEISTER-04, Master 7.6/7.14, M5): Jede Datei
 /// entsteht erst beim Tipp auf ihren Knopf und geht dann an das Teilen des
-/// Systems (A-059; im Browser mit einem zweiten Tipp, [DateiKnopf]).
+/// Systems (A-059; im Browser und in der Android-App mit einem zweiten Tipp:
+/// „Herunterladen“ oder „Teilen“, [DateiKnopf]).
 ///
 /// Mit [druckspiel]: der Hinweis mit dem Fall-Code, „Alles in einer Datei“, die
 /// acht Teile (Dateinamen nur mit Nummer und Teil) und je Person ein Rollenheft
@@ -97,10 +98,12 @@ class _DruckTafelState extends State<DruckTafel> {
   /// Solo und nur bei Akten mit Erzählerakte.
   bool get _mitErzaehlerakte => widget.erzaehlerakte && widget.druckspiel && !s.solo && s.daten.erzaehlerakteFuer(einfluss: false) != null;
 
-  /// Ein Knopf, der die Datei aus [bauen] erst beim Tipp setzt.
-  Widget _knopf(String text, Future<DruckDatei> Function(DruckKontext k) bauen, {bool haupt = false, IconData icon = Icons.ios_share_rounded}) =>
+  /// Ein Knopf, der die Datei aus [bauen] erst beim Tipp setzt; [datei] nennt sie
+  /// auf den Knöpfen der fertigen Datei, wenn [text] sie nicht nennt.
+  Widget _knopf(String text, Future<DruckDatei> Function(DruckKontext k) bauen, {bool haupt = false, IconData icon = Icons.ios_share_rounded, String? datei}) =>
       DateiKnopf(
         text: text,
+        datei: datei,
         haupt: haupt,
         icon: icon,
         bauen: () async {
@@ -174,7 +177,14 @@ class _DruckTafelState extends State<DruckTafel> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (final r in s.besetzt) _knopf(_de.druck_senden_an(s.spielerName(r)), (k) => rollenheftDatei(k, r), icon: Icons.send_rounded),
+            for (final r in s.besetzt)
+              _knopf(
+                _de.druck_senden_an(s.spielerName(r)),
+                (k) => rollenheftDatei(k, r),
+                icon: Icons.send_rounded,
+                // Nach dem Bauen „Herunterladen: Rollenheft Ayla“, nicht „Herunterladen: Senden an Ayla“.
+                datei: _de.druck_rollenheft_von(s.spielerName(r)),
+              ),
           ],
         ),
         if (_mitErzaehlerakte) ..._erzaehlerakte(),

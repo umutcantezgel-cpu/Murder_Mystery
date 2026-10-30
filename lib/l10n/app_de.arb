@@ -3075,6 +3075,15 @@
       }
     }
   },
+  "druck_rollenheft_von": "Rollenheft {name}",
+  "@druck_rollenheft_von": {
+    "description": "Druckfassung, Knöpfe der fertigen Datei: das Rollenheft einer Person („Herunterladen: Rollenheft Ayla“), statt „Senden an …“",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "druck_erzaehlerheft_hinweis": "Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.",
   "@druck_erzaehlerheft_hinweis": {
     "description": "Rollenvergabe reihum: Erzählerheft ohne Druckspiel"
@@ -3156,6 +3165,15 @@
   "steckbrief_senden": "Steckbrief senden",
   "@steckbrief_senden": {
     "description": "Steckbrief-Seite: Steckbrief eines Gastes teilen"
+  },
+  "steckbrief_von": "Steckbrief {figur}",
+  "@steckbrief_von": {
+    "description": "Steckbrief-Seite, Knöpfe der fertigen Datei: der Steckbrief der Figur eines Gastes („Herunterladen: Steckbrief Fatma“), statt „Steckbrief senden“",
+    "placeholders": {
+      "figur": {
+        "type": "String"
+      }
+    }
   },
   "online_lobby_gaesteliste_weg": "Bei {anzahl} Rollen nicht dabei: {figuren}.",
   "@online_lobby_gaesteliste_weg": {

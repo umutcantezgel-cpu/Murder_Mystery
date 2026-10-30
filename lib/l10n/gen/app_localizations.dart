@@ -7053,6 +7053,12 @@ abstract class L {
   /// **'Senden an {name}'**
   String druck_senden_an(String name);
 
+  /// Druckfassung, Knöpfe der fertigen Datei: das Rollenheft einer Person („Herunterladen: Rollenheft Ayla“), statt „Senden an …“
+  ///
+  /// In de, this message translates to:
+  /// **'Rollenheft {name}'**
+  String druck_rollenheft_von(String name);
+
   /// Rollenvergabe reihum: Erzählerheft ohne Druckspiel
   ///
   /// In de, this message translates to:
@@ -7160,6 +7166,12 @@ abstract class L {
   /// In de, this message translates to:
   /// **'Steckbrief senden'**
   String get steckbrief_senden;
+
+  /// Steckbrief-Seite, Knöpfe der fertigen Datei: der Steckbrief der Figur eines Gastes („Herunterladen: Steckbrief Fatma“), statt „Steckbrief senden“
+  ///
+  /// In de, this message translates to:
+  /// **'Steckbrief {figur}'**
+  String steckbrief_von(String figur);
 
   /// Lobby des Gastgebers: Figuren der Gästeliste, die bei dieser Rollenzahl wegfallen (Figur und Gast)
   ///

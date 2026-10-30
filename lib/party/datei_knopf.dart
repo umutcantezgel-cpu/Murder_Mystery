@@ -26,7 +26,9 @@ typedef FertigeDatei = ({String name, Uint8List bytes});
 /// zeichnen; im Browser kostete das mehr Zeit als die Datei selbst
 /// (Browserprobe der Erzählerakte: rund 20 s mit Kreis, 8 s ohne), und das
 /// Setzen der PDF hält ihn ohnehin an. Kein Wort bricht mitten durch
-/// ([MKnopf.ganzeWorte]).
+/// ([MKnopf.ganzeWorte]); passt ein Wort auf den Knöpfen der fertigen Datei
+/// nicht einmal in der kleinsten Schrift (schmales Handy, große Schrift), steht
+/// der Dateiname als eigene Zeile darüber und auf den Knöpfen nur der Weg.
 ///
 /// Eine Datei, die von Einstellungen abhängt (Personenzahl, Detektiv), bekommt
 /// einen Schlüssel aus diesen Einstellungen: Ändern sie sich, wird neu gebaut.
@@ -110,20 +112,58 @@ class _DateiKnopfState extends State<DateiKnopf> {
     if (mounted) setState(() => _fehler = !ok);
   }
 
-  /// Knopf für den Weg [weg] der fertigen Datei; mit [DateiKnopf.kurz] nur der Weg.
-  Widget _wegKnopf(DateiWeg weg, {required bool haupt}) {
+  /// Name der Datei auf den Knöpfen je Weg.
+  String get _name => widget.datei ?? widget.text;
+
+  /// Beschriftung des Knopfs für den Weg [weg] mit dem Dateinamen („Herunterladen: …“).
+  String _voll(DateiWeg weg) => weg == DateiWeg.teilen ? _de.druck_datei_teilen(_name) : _de.druck_datei_laden(_name);
+
+  /// Knopf für den Weg [weg] der fertigen Datei; mit [kurz] nur der Weg, der
+  /// Bildschirmleser hört ihn mit dem Dateinamen.
+  Widget _wegKnopf(DateiWeg weg, {required bool haupt, required bool kurz}) {
     final teilen = weg == DateiWeg.teilen;
-    final name = widget.datei ?? widget.text;
-    final voll = teilen ? _de.druck_datei_teilen(name) : _de.druck_datei_laden(name);
     return PartyKnopf(
-      text: widget.kurz ? (teilen ? _de.druck_datei_teilen_kurz : _de.druck_datei_laden_kurz) : voll,
-      semantik: widget.kurz ? voll : null,
+      text: kurz ? (teilen ? _de.druck_datei_teilen_kurz : _de.druck_datei_laden_kurz) : _voll(weg),
+      semantik: kurz ? _voll(weg) : null,
       haupt: haupt,
       icon: teilen ? Icons.ios_share_rounded : Icons.download_rounded,
       ganzeWorte: true,
       onPressed: () => _tipp(weg),
     );
   }
+
+  /// Die Knöpfe der fertigen Datei, Herunterladen vorn. Bräche auf einem davon ein
+  /// Wort selbst in der kleinsten Schrift (etwa „Charakterübersicht“ bei 320 px und
+  /// doppelter Schrift), steht der Dateiname als Zeile darüber und auf den Knöpfen
+  /// nur der Weg, wie mit [DateiKnopf.kurz].
+  Widget _wegKnoepfe(List<DateiWeg> wege, Color? schrift) => LayoutBuilder(
+        builder: (context, box) {
+          bool haupt(int i) => widget.haupt && i == 0;
+          final eng = !widget.kurz &&
+              [
+                for (final (i, weg) in wege.indexed)
+                  MKnopf.passtGanz(context, _voll(weg), box.maxWidth, art: haupt(i) ? MKnopfArt.haupt : MKnopfArt.zweit),
+              ].contains(false);
+          final knoepfe = Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final (i, weg) in wege.indexed) _wegKnopf(weg, haupt: haupt(i), kurz: widget.kurz || eng),
+            ],
+          );
+          if (!eng) return knoepfe;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Die Knöpfe nennen dem Bildschirmleser den Namen schon.
+              ExcludeSemantics(child: MGanzeWorte(_name, stil: MPapierSchrift.maschine.copyWith(color: schrift), minimum: 11)),
+              const SizedBox(height: 6),
+              knoepfe,
+            ],
+          );
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +190,7 @@ class _DateiKnopfState extends State<DateiKnopf> {
         if (wege.isEmpty)
           PartyKnopf(text: widget.text, haupt: widget.haupt, icon: widget.icon, ganzeWorte: true, onPressed: _tipp)
         else
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final (i, weg) in wege.indexed) _wegKnopf(weg, haupt: widget.haupt && i == 0),
-            ],
-          ),
+          _wegKnoepfe(wege, schrift),
         if (_fehler) ...[
           const SizedBox(height: 6),
           Text(_de.druck_datei_fehler, style: MPapierSchrift.hand.copyWith(fontSize: 19, color: schrift)),

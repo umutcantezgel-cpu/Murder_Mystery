@@ -17,33 +17,49 @@ double ganzeWorteGroesse(BuildContext context, String text, TextStyle stil, doub
   final groesse = wirk.fontSize ?? 30;
   if (!breite.isFinite || breite <= 0) return groesse;
   final skala = MediaQuery.textScalerOf(context);
-  final worte = text.split(RegExp(r'\s+|(?<=[-–])')).where((w) => w.isNotEmpty).toList();
-  double laengstes(double g) {
-    var breitestes = 0.0;
-    for (final wort in worte) {
-      final tp = TextPainter(
-        text: TextSpan(text: wort, style: wirk.copyWith(fontSize: g)),
-        textDirection: TextDirection.ltr,
-        textScaler: skala,
-        maxLines: 1,
-      )..layout();
-      if (tp.width > breitestes) breitestes = tp.width;
-      tp.dispose();
-    }
-    return breitestes;
-  }
-
+  final worte = _worte(text);
   final untergrenze = math.min(minimum, groesse);
   var g = groesse;
   // Ein geerbter Zeichenabstand wächst nicht mit der Schrift; darum höchstens
   // dreimal nachmessen, bis das längste Wort mit etwas Luft hineinpasst.
   for (var i = 0; i < 3; i++) {
-    final w = laengstes(g);
+    final w = _laengstes(worte, wirk.copyWith(fontSize: g), skala);
     if (w == 0 || w <= breite * 0.98) return g;
     g = (g * breite / w * 0.97).clamp(untergrenze, groesse);
     if (g == untergrenze) return g;
   }
   return g;
+}
+
+/// Passt jedes Wort von [text] spätestens in der kleinsten Größe [minimum] ganz
+/// in eine Zeile der Breite [breite] (Stil und Skalierung wie bei
+/// [ganzeWorteGroesse])? Wenn nicht, bräche auch [ganzeWorteGroesse] ein Wort;
+/// wer kann, wählt dann eine kürzere Beschriftung oder mehr Platz.
+bool ganzeWortePassen(BuildContext context, String text, TextStyle stil, double breite, {double minimum = 13}) {
+  if (!breite.isFinite) return true;
+  if (breite <= 0) return false;
+  final wirk = DefaultTextStyle.of(context).style.merge(stil);
+  final g = math.min(minimum, wirk.fontSize ?? 30);
+  return _laengstes(_worte(text), wirk.copyWith(fontSize: g), MediaQuery.textScalerOf(context)) <= breite * 0.98;
+}
+
+/// Die Wörter von [text]; nach einem Bindestrich darf die Zeile umbrechen, dort endet ein Wort.
+List<String> _worte(String text) => text.split(RegExp(r'\s+|(?<=[-–])')).where((w) => w.isNotEmpty).toList();
+
+/// Breite des längsten Worts aus [worte] in [stil], skaliert mit [skala].
+double _laengstes(List<String> worte, TextStyle stil, TextScaler skala) {
+  var breitestes = 0.0;
+  for (final wort in worte) {
+    final tp = TextPainter(
+      text: TextSpan(text: wort, style: stil),
+      textDirection: TextDirection.ltr,
+      textScaler: skala,
+      maxLines: 1,
+    )..layout();
+    if (tp.width > breitestes) breitestes = tp.width;
+    tp.dispose();
+  }
+  return breitestes;
 }
 
 /// Text, dessen Wörter nie mitten durchbrechen: Reicht die Breite für das
