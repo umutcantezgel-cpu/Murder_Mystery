@@ -26,8 +26,16 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
   Verhalten) gelaufen, ihre Befunde behoben („Änderungen“ 67–74), lokal grün, **nicht gepusht**. Plan:
   `/root/.claude/plans/delegated-wandering-meteor.md`; die Hilfsbranches `leicht/a` (Android) und `leicht/b`
   (Detektei) sind nach dem Zusammenführen gelöscht.
-- Nächste Schritte: Push und CI-Lauf mit dem Job `android` (baut den Kotlin-Teil als Release mit R8), danach nach
-  `main` (Freigabe des Besitzers); dazu die Frage „Preis des Knopfs oben“ in FUER-DEN-NUTZER. `einfluss_soll.g.dart`
+- Stand (2026-11-01): „leicht finden“ ist auf `main`: gepusht (b140dc7, CI-Lauf 117 grün), Vorab-Release
+  `mordakte-117.1` gegnerisch geprüft (APK mit Kanal `mordakte/datei` und gleichem Zertifikat 6bd9b889… wie 115.1,
+  versionCode 117; IPA; PDFs 24 Seiten; `druck.mjs`/`start.mjs` gegen das Web-ZIP grün), nach Freigabe des Besitzers
+  als Merge-Commit 04f0109 nach `main`. CI-Lauf 118 auf `main` grün, `mordakte-118.1` ist „latest“ (APK versionCode
+  118, gleiches Zertifikat); alle `releases/latest/download/…`-Links aus README, ANLEITUNG und der Anleitung für
+  Mitspieler liefern die Dateien. Kleine Altlasten aus der Release-Prüfung, bewusst nicht angefasst: Zertifikats-
+  Fingerabdruck fehlt in den Release-Notizen (seit jeher), versionName bleibt 0.1.0 (A4.3), `version.json` der
+  Web-Fassung ohne Laufnummer. Der obere Knopf bleibt (Empfehlung); die Frage steht weiter in FUER-DEN-NUTZER.
+- Nächster Auftrag (2026-11-01): Das Druckspiel des Schlosskellers wird durch ein neues Pen-&-Paper-Druckspiel
+  („Kammerspiel“, fester Täter Olli, Fall U4YRK) ersetzt; das App-Spiel bleibt unverändert. `einfluss_soll.g.dart`
   wird nie mehr neu geschrieben (E-048, Nachtrag).
 - Android lokal bauen: Das SDK in `/root/android-sdk` und der Gradle-Zwischenspeicher `~/.gradle` sind nach der
   letzten Kotlin-Prüfung gelöscht (Plattenkontingent); den Android-Bau übernimmt der CI-Job `android`. Wer lokal
