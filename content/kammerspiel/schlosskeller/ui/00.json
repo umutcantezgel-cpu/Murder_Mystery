@@ -24,6 +24,7 @@
   "teileliste.10": "{anzahl} Rollenhefte: {namen}",
   "teileliste.11": "{anzahl} versiegelte Fassungen für {namen}",
   "teileliste.12": "{anzahl} Zusatzhefte: {namen}",
+  "teileliste.12.eins": "1 Zusatzheft: {name}",
   "teileliste.12.keine": "heute keine Zusatzhefte, nur eine Hinweisseite",
   "teileliste.20": "{indiz} Indizkarten, {geheim} Geheimniskarten, {aktion} Aktionskarten",
   "teileliste.20.detektiv": "davon {anzahl} für {detektiv:den Detektiv|die Detektivin}",

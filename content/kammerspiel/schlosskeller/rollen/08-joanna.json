@@ -239,7 +239,7 @@
       "runde": 3,
       "nr": 1,
       "ziel": "olli",
-      "frage": "**Olli in Stufe 2:** „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Um 23:57 Uhr standst du genau dort. Detektiv, wenn er da so lange war, dann schau dir den Eiskübel an.“\n**Olli noch in Stufe 1:** „Olli, auf meiner Notiz stehst du am Eiskübel, und der Kopf der Tafel war leer. Wo warst du beim Scheppern?“",
+      "frage": "**Olli in Stufe 2:** „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Um 23:57 Uhr standst du genau dort. Detektiv, wenn er da so lange war, dann schau dir den Eiskübel an.“\n**Olli noch in Stufe 1:** „Olli, auf meiner Notiz stehst du am Eiskübel, und der Kopf der Tafel war leer. Wo warst du beim Scheppern?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
       "ausweich": null
     },
@@ -247,9 +247,9 @@
       "runde": 3,
       "nr": 2,
       "ziel": "zeynep",
-      "frage": "„Zeynep, um fünf vor zwölf hab ich zum Gruppenfoto gerufen, und du hast aus dem Steinbogen ‚Komm gleich!‘ gerufen. Gekommen bist du nicht. Was kam im Dunkeln durch den Bogen?“",
+      "frage": "„Zeynep, um fünf vor zwölf hast du aus dem Steinbogen ‚Komm gleich!‘ gerufen. Gekommen bist du nicht. Was kam im Dunkeln durch den Bogen?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
-      "ausweich": "Tim: „Tim, du standest im Durchgang am Sicherungskasten. Was kam im Dunkeln an dir vorbei, und wann?“"
+      "ausweich": "Tim: „Tim, du standest im Durchgang am Sicherungskasten. Was kam im Dunkeln an dir vorbei, und wann?“ Stell diese Frage vor allen. Ruf dafür den Erzähler."
     }
   ],
   "wasDuBeiDirTraegst": {

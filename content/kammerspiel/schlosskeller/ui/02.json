@@ -6,6 +6,7 @@
   "lageplan.blattA.anschluss": "Blatt B rechts daneben legen",
   "lageplan.blattB": "Blatt B: Markerfelder",
   "lageplan.blattB.anschluss": "Blatt A links daneben legen",
+  "lageplan.blattB.hinweis": "Marker unter die Linie legen, bei vollem Feld hochkant.",
   "lageplan.legende": "Legende",
   "lageplan.massstab": "1 Kästchen = 1 Meter",
   "lageplan.norden": "N",
@@ -22,5 +23,6 @@
   "marker.detektiv": "{detektiv:Detektiv|Detektivin}",
   "marker.schneider": "Herr Schneider",
   "tippZettel.punkt": "(1 Punkt)",
-  "tippZettel.punkte": "({punkte} Punkte)"
+  "tippZettel.punkte": "({punkte} Punkte)",
+  "streifen.falten": "Hier nach hinten falten, Etikett bleibt oben"
 }

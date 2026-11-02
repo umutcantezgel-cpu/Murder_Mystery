@@ -84,8 +84,8 @@
       {
         "zeit": "0:00",
         "text": "Licht. Olli steht neben ihr auf und geht als Erstes zum Eiskübel",
-        "frei": "offen",
-        "zusatz": null
+        "frei": "karte",
+        "zusatz": "Aufstehen offen; „als Erstes zum Eiskübel“ erst nach dem Umdrehen"
       },
       {
         "zeit": "0:00",
@@ -115,7 +115,7 @@
       "„Ab kurz vor zwölf war ich am rechten Buffettisch und hab die Warmhaltebehälter zugedeckt.“",
       "„Beim Knall hab ich mich hingekauert, allein.“",
       "„Beim Scheppern war ich allein. Erst danach ist Olli zu mir gekrochen und hat geflüstert: ‚Lejla? Ich bin's, Olli.‘“",
-      "„Als das Licht anging, ist Olli als Erstes zum Eiskübel.“",
+      "„Als das Licht anging, ist Olli neben mir aufgestanden.“",
       "„Für Herrn Schneider hab ich das Kühlpack aus dem Erste-Hilfe-Kasten geholt. Er hat eine dicke Beule. An die Sekunden vor dem Scheppern erinnert er sich nicht.“"
     ],
     "ausweichsaetze": [
@@ -230,7 +230,7 @@
       "runde": 2,
       "nr": 2,
       "ziel": "marek",
-      "frage": "„Marek, Ahmet sagt, er hat sich beim Knall an deine Beine gekauert. Stimmt das? Dann sag es laut, damit es alle hören.“",
+      "frage": "„Marek, Ahmet sagt, er hat sich beim Knall an deine Beine gekauert. Stimmt das? Dann sag es vor allen.“",
       "nachschlag": null,
       "ausweich": "Olli: „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“"
     },
@@ -238,7 +238,7 @@
       "runde": 3,
       "nr": 1,
       "ziel": "olli",
-      "frage": "**Olli in Stufe 2:** „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Von da bis zu mir sind es ein paar Schritte. Warum kamst du erst nach dem Scheppern? Und als das Licht anging, bist du als Erstes zurück zum Eiskübel.“\n**Olli noch in Stufe 1:** „Olli, du warst nicht im Ost-Saal. Du warst bei mir, aber erst nach dem Scheppern. Wo warst du davor?“",
+      "frage": "**Olli in Stufe 2:** „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Von da bis zu mir sind es ein paar Schritte. Warum kamst du erst nach dem Scheppern? Und als das Licht anging, bist du zurück zum Eiskübel.“\n**Olli noch in Stufe 1:** „Olli, du warst nicht im Ost-Saal. Du warst bei mir, aber erst nach dem Scheppern. Wo warst du davor?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
       "ausweich": null
     },

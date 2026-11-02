@@ -7,7 +7,8 @@
 ///    25 × 22 m), Legende rechts. Zonen mit Nummer im Kreis und Namen,
 ///    Teilfelder, Türen mit Zustand, jeder Gegenstand als Punkt mit Namen.
 /// 2. Blatt B, Markerfelder (A4 quer): 5 × 3 Zellen zu 54 × 58 mm, Feld 1 über
-///    drei Zellen; je Feld Nummer, Name und Mini-Skizze der Lage.
+///    drei Zellen; je Feld ein Kopfband mit Nummer und Name, darunter Platz für
+///    die Plättchen und unten rechts eine kleine Mini-Skizze der Lage.
 /// 3. Positions-Marker (A4 hoch, ein Blatt): Plättchen 26 × 18 mm, je Person
 ///    zwei nebeneinander (23:57 und Scheppern), Grauton-Streifen nach Zeitpunkt.
 /// 4. Tipp-Zettel (A4 hoch): P − 1 Stück, vier A6 quer je Blatt (gedreht).
@@ -16,8 +17,8 @@
 ///    Oberkante, Protokoll um 180° gedreht darunter.
 ///
 /// Schrift: nirgends unter 9 pt; nur Joannas Notiz steht in 8 pt (MECH 5.2,
-/// FALL-BIBEL 19.2 Nr. 4) und die Falzmarke „Hier falten“ des gemeinsamen
-/// Helfers ([KammerSatz.falzlinie]) in 6,5 pt. Die Beschriftungen des Lageplans setzt eine
+/// FALL-BIBEL 19.2 Nr. 4) und die Falzmarke der Streifen in 6,5 pt (wie „Hier
+/// falten“ in [KammerSatz.falzlinie], mit Faltrichtung). Die Beschriftungen des Lageplans setzt eine
 /// feste Suche (gleiche Eingaben ⇒ gleiche Lage): erst neben den Punkt, sonst
 /// mit Führungslinie in freien Platz. Kollisionen und Überlauf sind ein
 /// [KammerUeberlauf] mit Stelle, nie still.
@@ -332,6 +333,8 @@ const _schildLage = {
   't3': _Lage(10.94, 10.12, 'tr'),
   't4': _Lage(6.88, 9.86, 'r'),
   'lichtschaechte': _Lage(5.5, 8.69, 't'),
+  'wandbankWest': _Lage(1.12, 10.3, 'bl'),
+  'kaminNische': _Lage(2.6, 10.42, 'tl', 1, 2.7),
   'spuele': _Lage(11.69, 7.4, 'l'),
   'kerzenstaender': _Lage(13.92, 6.62, 'br'),
   'teekocher': _Lage(16.6, 4.8, 'l'),
@@ -348,8 +351,8 @@ const _schildLage = {
   't1': _Lage(20.12, 9.5, 'l'),
   'kopfDerTafel': _Lage(22.33, 10.44, 'r', 2),
   'handykorb': _Lage(25.9, 10.5, 'r'),
-  'musikbox': _Lage(25.9, 15.3, 'br'),
-  'ehrenplatz': _Lage(25.9, 17.15, 'tr'),
+  'ehrenplatz': _Lage(20.15, 17.15, 'tl'),
+  'musikbox': _Lage(25.9, 18.85, 'br', 2),
   'warmhaltebehaelter': _Lage(15.12, 15.12, 'tl'),
 };
 
@@ -1211,7 +1214,12 @@ pw.Widget _feldRahmen(KammerKontext k, String id) => pw.Container(
 // ================================================================ Blatt B: Markerfelder
 
 /// Blatt B: 5 × 3 Zellen zu 54 × 58 mm; Feld 1 über drei Zellen (MECH 10.2).
-/// Je Feld Nummer, Name (wörtlich nach WELT 2.1) und eine Mini-Skizze der Lage.
+/// Je Feld oben ein schmales Kopfband mit Nummer und Name (wörtlich nach WELT
+/// 2.1) über einer dünnen Linie. Darunter liegen die Plättchen und verdecken
+/// den Kopf nicht (Befund P5R3-03): Das Band ist so niedrig, dass die in
+/// `tisch.json` versprochene Zahl Plättchen darunter Platz hat, quer oder
+/// hochkant, sonst [KammerUeberlauf]. Die Mini-Skizze der Lage steht klein unten
+/// rechts im Plättchenfeld; bei voller Belegung darf sie verdeckt sein, der Kopf nie.
 void _blattB(KammerSeiten s, KammerKontext k) {
   final plan = _Plan(k);
   final mf = k.inhalt.tisch.markerfelder;
@@ -1222,6 +1230,9 @@ void _blattB(KammerSeiten s, KammerKontext k) {
     crossAxisAlignment: pw.CrossAxisAlignment.end,
     children: [
       pw.Expanded(child: pw.Text(KammerSatz.glyphen(k.klartext(_u(k, 'lageplan.blattB'))), style: k.stil.titel(15))),
+      // Wohin die Plättchen gehören (unter das Kopfband), dann der Anschluss an Blatt A.
+      pw.Text(KammerSatz.glyphen(k.klartext(_u(k, 'lageplan.blattB.hinweis'))), style: _stil(k)),
+      pw.SizedBox(width: 8 * _mm),
       pw.Text(KammerSatz.glyphen(k.klartext(_u(k, 'lageplan.blattB.anschluss'))), style: _stil(k, farbe: DruckStil.leise)),
     ],
   );
@@ -1230,10 +1241,21 @@ void _blattB(KammerSeiten s, KammerKontext k) {
   final kopfHoehe = titelHoehe + 4 * _mm;
   if (gitterB > format.width - _randQuer.horizontal) throw s.ueberlauf('markerfelder', 'Raster breiter als das Blatt');
   s.pruefeHoehe(kopfHoehe + mf.reihen * zh, format.height - _randQuer.vertical, wo: 'markerfelder');
+  // Plättchen (MECH 10.2): wie viele unter dem Kopfband Platz haben, quer oder hochkant.
+  final pb = k.inhalt.tisch.marker.breiteMm * _mm, ph = k.inhalt.tisch.marker.hoeheMm * _mm;
+  int platzFuer(double w, double h) {
+    int n(double a, double b) => (a / b + 1e-6).floor();
+    return math.max(n(w, pb) * n(h, ph), n(w, ph) * n(h, pb));
+  }
+
+  String mm(double v) => (v / _mm).toStringAsFixed(1);
   // Mini-Skizze: der ganze Keller klein, das Feld schwarz.
-  const skizzeB = 32 * _mm;
+  const skizzeB = 20 * _mm, skizzeRand = 1.5 * _mm;
   final skizzeH = skizzeB * plan.p.hoehe / plan.p.breite;
-  const innen = pw.EdgeInsets.all(3 * _mm);
+  // Kopfband: Kennung (Kreis bzw. Rahmen wie auf Blatt A) und Name in 10 pt, knapp gefasst.
+  const band = pw.EdgeInsets.fromLTRB(1.8 * _mm, 0.6 * _mm, 1.8 * _mm, 0.6 * _mm);
+  const d = 4.6 * _mm, g = 10.0;
+  final zeileH = s.satz.hoehe(pw.Text('X', style: _stil(k, g: g, fett: true)), 1000);
   final felder = [
     for (final b in mf.belegung)
       () {
@@ -1244,43 +1266,49 @@ void _blattB(KammerSeiten s, KammerKontext k) {
         final feld = k.fall.feld(b.feld);
         final breite = (s1 - s0 + 1) * zb;
         final hoehe = (r1 - r0 + 1) * zh;
+        final wo = 'markerfelder / ${feld.id}';
         // Wie auf Blatt A: Zone mit einem Feld im Kreis, Teilfeld im Rahmen.
-        final zone = k.fall.zonen.firstWhere((z) => z.felder.contains(feld.id));
-        const d = 7.5 * _mm;
+        final einFeld = k.fall.zonen.firstWhere((z) => z.felder.contains(feld.id)).felder.length == 1;
         final kennung = pw.Container(
-          width: zone.felder.length == 1 ? d : null,
+          width: einFeld ? d : null,
           height: d,
-          padding: zone.felder.length == 1 ? null : const pw.EdgeInsets.symmetric(horizontal: 4),
+          padding: einFeld ? null : const pw.EdgeInsets.symmetric(horizontal: 1.2 * _mm),
           alignment: pw.Alignment.center,
-          decoration: zone.felder.length == 1
+          decoration: einFeld
               ? pw.BoxDecoration(
                   shape: pw.BoxShape.circle,
-                  border: pw.Border.all(color: DruckStil.tinte, width: 1.1),
+                  border: pw.Border.all(color: DruckStil.tinte, width: 0.9),
                 )
               : pw.BoxDecoration(
-                  border: pw.Border.all(color: DruckStil.tinte, width: 1.1),
-                  borderRadius: pw.BorderRadius.circular(6),
+                  border: pw.Border.all(color: DruckStil.tinte, width: 0.9),
+                  borderRadius: pw.BorderRadius.circular(4),
                 ),
-          child: pw.Text(feld.id, style: _stil(k, g: 13, fett: true)),
+          child: pw.Text(feld.id, style: _stil(k, g: g, fett: true)),
         );
-        final kopfzeile = pw.Row(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            kennung,
-            pw.SizedBox(width: 2 * _mm),
-            pw.Expanded(
-              child: pw.Padding(
-                padding: const pw.EdgeInsets.only(top: 3.5),
-                child: pw.Text(KammerSatz.glyphen(k.klartext(feld.name)), style: _stil(k, g: 10.5, fett: true)),
+        final kopfband = pw.Padding(
+          padding: band,
+          child: pw.Row(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              kennung,
+              pw.SizedBox(width: 1.5 * _mm),
+              pw.Expanded(
+                child: pw.Padding(
+                  padding: pw.EdgeInsets.only(top: math.max(0, (d - zeileH) / 2)),
+                  child: pw.Text(KammerSatz.glyphen(k.klartext(feld.name)), style: _stil(k, g: g, fett: true)),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
-        // Kopfzeile und Skizze dürfen sich nicht überlappen: Kopf über der Skizze.
-        final kopfH = s.satz.hoehe(kopfzeile, breite - innen.horizontal);
-        if (kopfH + skizzeH + 2 * _mm > hoehe - innen.vertical) {
-          final (h, p) = (((kopfH + skizzeH) / _mm).toStringAsFixed(1), ((hoehe - innen.vertical) / _mm).toStringAsFixed(1));
-          throw s.ueberlauf('markerfelder / ${feld.id}', 'Name und Skizze $h mm hoch, Platz $p mm');
+        // Unter dem Band muss die versprochene Zahl Plättchen liegen können; die Skizze passt darunter.
+        final bandH = s.satz.hoehe(kopfband, breite);
+        final platz = platzFuer(breite, hoehe - bandH);
+        if (platz < b.plaettchen) {
+          throw s.ueberlauf(wo, 'Kopfband ${mm(bandH)} mm hoch, darunter Platz für $platz Plättchen, versprochen ${b.plaettchen}');
+        }
+        if (bandH + 1 * _mm + skizzeH + skizzeRand > hoehe) {
+          throw s.ueberlauf(wo, 'Kopfband und Skizze ${mm(bandH + skizzeH)} mm hoch, Platz ${mm(hoehe - 1 * _mm - skizzeRand)} mm');
         }
         return pw.Positioned(
           left: s0 * zb,
@@ -1288,12 +1316,20 @@ void _blattB(KammerSeiten s, KammerKontext k) {
           child: pw.Container(
             width: breite,
             height: hoehe,
-            padding: innen,
             decoration: pw.BoxDecoration(border: pw.Border.all(color: DruckStil.tinte, width: 1)),
             child: pw.Stack(
               children: [
-                pw.Positioned(left: 0, top: 0, right: 0, child: kopfzeile),
-                pw.Positioned(right: 0, bottom: 0, child: _skizze(plan, b.feld, skizzeB, skizzeH)),
+                pw.Positioned(left: 0, top: 0, right: 0, child: kopfband),
+                pw.Positioned(
+                  left: 0,
+                  right: 0,
+                  top: bandH,
+                  child: pw.Container(
+                    height: 0,
+                    decoration: const pw.BoxDecoration(border: pw.Border(top: pw.BorderSide(color: DruckStil.linie, width: 0.6))),
+                  ),
+                ),
+                pw.Positioned(right: skizzeRand, bottom: skizzeRand, child: _skizze(plan, b.feld, skizzeB, skizzeH)),
               ],
             ),
           ),
@@ -1506,7 +1542,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
   final sb = a.streifenBreiteMm * _mm;
   final sh = a.streifenHoeheMm * _mm;
   final falz = a.etikettHoeheMm * _mm;
-  // Abstände im Streifen: seitlich 2,5 mm, oben 2,5 mm, am Falz je 1,6 mm (Platz für „Hier falten“), unten 2 mm.
+  // Abstände im Streifen: seitlich 2,5 mm, oben 2,5 mm, am Falz je 1,6 mm (Platz für die Falzmarke), unten 2 mm.
   const seitlich = 2.5 * _mm, oben = 2.5 * _mm, amFalz = 1.6 * _mm, unten = 2 * _mm, luft = 1.3 * _mm;
   final tb = sb - 2 * seitlich;
   pw.Widget text(String roh, double g, {bool fett = false}) => _text(k, roh, g: g, fett: fett);
@@ -1538,9 +1574,29 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
     );
   }
 
-  // Die Falzlinie mit „Hier falten“ steht in einem 8 pt hohen Band über dem Falz: messen statt still kürzen.
-  const falzBand = 8.0;
-  s.pruefe(k.satz.falzlinie(), breite: sb - 3 * _mm, platz: falzBand, wo: 'abwesenheitsblatt / falz');
+  // Die Falzlinie steht in einem 8 pt hohen Band über dem Falz. Statt „Hier falten“ nennt sie die
+  // Richtung (MECH 5.2: Druckseite außen, das Etikett liegt oben; Befund P5R3-06): gepunktet wie
+  // [KammerSatz.falzlinie], rechts der Text aus `ui/02.json`. Messen statt still kürzen: Der Text
+  // bleibt einzeilig und lässt links mindestens 10 mm gepunktete Linie.
+  const falzBand = 8.0, falzLinieMin = 10 * _mm, falzLuecke = 4.0;
+  final falzText = k.klartext(_u(k, 'streifen.falten'));
+  pw.Widget falzlinie() => pw.Row(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [
+      pw.Expanded(child: k.satz.falzlinie(beschriftung: false)),
+      pw.SizedBox(width: falzLuecke),
+      pw.Text(falzText, style: k.stil.klein(6.5)),
+    ],
+  );
+  final falzTextBreite = () {
+    final t = pw.Text(falzText, style: k.stil.klein(6.5));
+    s.satz.hoehe(t, 100000);
+    return t.box!.width;
+  }();
+  if (falzTextBreite + falzLuecke + falzLinieMin > sb - 3 * _mm) {
+    throw s.ueberlauf('abwesenheitsblatt / falz', 'Faltrichtung ${(falzTextBreite / _mm).toStringAsFixed(1)} mm breit, Platz ${((sb - 3 * _mm - falzLuecke - falzLinieMin) / _mm).toStringAsFixed(1)} mm');
+  }
+  s.pruefe(falzlinie(), breite: sb - 3 * _mm, platz: falzBand, wo: 'abwesenheitsblatt / falz');
   final zellen = <KammerZelle>[];
   for (final st in k.besetzung.streifen) {
     final wo = 'abwesenheitsblatt / ${st.zeuge}';
@@ -1568,7 +1624,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
                 left: 1.5 * _mm,
                 right: 1.5 * _mm,
                 top: falz - falzBand / 2,
-                child: pw.SizedBox(height: falzBand, child: k.satz.falzlinie()),
+                child: pw.SizedBox(height: falzBand, child: falzlinie()),
               ),
               // Um 180° gedreht: der Anfang des Protokolls liegt an der Unterkante, gelesen oben.
               pw.Positioned(

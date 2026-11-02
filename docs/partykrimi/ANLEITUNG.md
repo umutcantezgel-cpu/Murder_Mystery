@@ -116,25 +116,28 @@ Das Erzählerheft nennt die Schritte auf Seite 2 („Vorbereitung“). Zusammen 
 2. **Teil 02, Tisch (etwa 15 Minuten).** Blatt A und Blatt B nicht schneiden; sie liegen quer nebeneinander in der
    Tischmitte. Die Positions-Marker ausschneiden: flache Plättchen, nicht falten. Jede Rolle, der Detektiv und Herr
    Schneider haben je zwei, „23:57“ und „Scheppern“. Die Tipp-Zettel ausschneiden. Bei 6 bis 11 Personen das
-   Abwesenheitsblatt an den Linien in Streifen schneiden und jeden Streifen 30 mm unter der Oberkante falten: Das
-   Etikett liegt oben, das Protokoll mit der Schrift nach unten.
-3. **Teil 11, Fassungen (etwa 5 Minuten).** Jede Fassung falten und zukleben, ohne hineinzusehen. Außen bleibt nur
-   der Code.
+   Abwesenheitsblatt an den Linien in Streifen schneiden und jeden Streifen an der Linie „Hier nach hinten falten“
+   (30 mm unter der Oberkante) nach hinten falten: Das Etikett liegt oben, das Protokoll mit der Schrift nach unten.
+3. **Teil 11, Fassungen (etwa 5 Minuten).** Jede Fassung so falten, wie es auf ihrer ersten Seite steht (die Seiten
+   2 bis 4 in Drittel um das Deckblatt), und zukleben, ohne hineinzusehen. Außen bleibt nur der Code.
 4. **Teil 20, Karten (etwa 25 Minuten).** Indiz- und Geheimniskarten liegen zu zweit auf einem Blatt. Ausschneiden und
-   sofort im Z-Falz in drei Felder zufalten, mit dem Text innen. Das dritte Feld mit dem grauen Raster deckt den
-   Text ab. „Umdrehen“ heißt am Tisch: die Karte wenden und dieses Deckfeld aufklappen. Die Indizkarten nach Code
+   sofort im Z-Falz in drei Felder zufalten: das obere Feld nach hinten, das graue Feld nach vorn über den Text.
+   Der Text liegt innen, das graue Raster deckt ihn ab. „Umdrehen“ heißt am Tisch: die Karte wenden und dieses Deckfeld aufklappen. Die Indizkarten nach Code
    stapeln, Code nach oben. Die Aktionskarten (acht auf einem Blatt) nur ausschneiden.
-5. **Teil 90, Auflösungsheft (etwa 2 Minuten).** Falten und versiegeln, etwa mit Klebeband. Es bleibt zu, bis der
-   Detektiv angeklagt hat.
+5. **Teil 90, Auflösungsheft (etwa 3 Minuten).** So falten, wie es auf seiner ersten Seite steht (alle übrigen
+   Seiten in Drittel um das Deckblatt, die Schrift nach innen), und mit Klebeband zukleben. Außen stehen nur
+   „Auflösungsheft“ und der Code. Es bleibt zu, bis der Detektiv angeklagt hat.
 
 ### Am Tisch
 
 - **Aufbau.** Der Erzähler legt den Lageplan, die Markerfelder, den Stapel Indizkarten (ungelesen, nach Code), die
   Tipp-Zettel und das versiegelte Auflösungsheft zu sich. Jede Rolle bekommt ihr Heft, ihre Geheimniskarte (verdeckt),
-  ihre Aktionskarte (offen) und zwei Marker. Der Detektiv bekommt den Detektivbogen und zwei Marker. Die vier
+  ihre Aktionskarte (offen) und zwei Marker. Der Detektiv bekommt den Detektivbogen und zwei Marker, bei 6 bis 11 Personen auch die
+  Aktionskarten der fehlenden Zeugen. Die vier
   Fassungen behält der Erzähler, bis die Verdächtigen sie nach dem Tat-Moment still öffnen.
 - **Runden.** Jede Runde dauert 30 Minuten: Rundenstart, Tischgespräch mit Verhörstuhl, reinen Tisch machen, drei
-  Untersuchungen des Detektivs, Marker-Probe. Wer in die Enge kommt, dreht seine Geheimniskarte um. In Runde 3
+  Untersuchungen des Detektivs, Marker-Probe. Bittet der Detektiv um einen Moderationsimpuls, liest der Erzähler genau
+  diesen. Wer in die Enge kommt, dreht seine Geheimniskarte um. In Runde 3
   tippen alle, auch der Erzähler, bevor der Detektiv ein letztes Mal untersucht und anklagt.
 - **Auflösung.** Erst nach der Anklage öffnet der Erzähler das Auflösungsheft und folgt seiner Reihenfolge.
 

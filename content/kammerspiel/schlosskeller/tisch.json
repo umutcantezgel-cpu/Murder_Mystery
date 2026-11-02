@@ -536,7 +536,7 @@
       },
       {
         "id": "musikbox",
-        "name": "Musikbox",
+        "name": "Wandbank Ost mit Musikbox",
         "x": 25.5,
         "y": 15.5,
         "feld": "1"
@@ -669,9 +669,16 @@
       },
       {
         "id": "wandbankSued",
-        "name": "Wandbank",
+        "name": "Wandbank Süd",
         "x": 3.5,
         "y": 18.5,
+        "feld": "7"
+      },
+      {
+        "id": "wandbankWest",
+        "name": "Wandbank West",
+        "x": 1.5,
+        "y": 10.5,
         "feld": "7"
       },
       {
@@ -797,7 +804,7 @@
             0
           ]
         ],
-        "plaettchen": 6
+        "plaettchen": 4
       },
       {
         "feld": "5",
@@ -835,7 +842,7 @@
             1
           ]
         ],
-        "plaettchen": 6
+        "plaettchen": 4
       },
       {
         "feld": "4a",
@@ -845,7 +852,7 @@
             1
           ]
         ],
-        "plaettchen": 6
+        "plaettchen": 4
       },
       {
         "feld": "4b",
@@ -855,7 +862,7 @@
             1
           ]
         ],
-        "plaettchen": 6
+        "plaettchen": 4
       },
       {
         "feld": "4c",
@@ -865,7 +872,7 @@
             1
           ]
         ],
-        "plaettchen": 6
+        "plaettchen": 4
       },
       {
         "feld": "4d",

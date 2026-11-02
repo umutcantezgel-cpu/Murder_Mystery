@@ -96,10 +96,10 @@
     }
   ],
   "stufe2": {
-    "wasDuVerbirgst": "Um 18:35 Uhr hast du beim Tragen der Warmhaltebehälter die geschnitzte Bogentür geschrammt. Ein Beschlag ist aus der gekalkten Wand gerissen. {rolle:tim|Dein Kumpel aus der Berufsschule} hat dir braunes Möbelwachs gegeben, und du hast die Schramme damit überdeckt. Um 18:50 Uhr verlangte Herr Schneider 2.000 € in Bargeld bis Mitternacht. Um 23:00 Uhr drohte er mit der Polizei. Um 23:57 Uhr standst du am Eiskübel. Du wolltest Eis für {rolle:tim|deinen Kumpel aus der Berufsschule} holen und mit Herrn Schneider reden.",
+    "wasDuVerbirgst": "Um 18:35 Uhr hast du beim Tragen der Warmhaltebehälter die geschnitzte Bogentür geschrammt. Ein Beschlag ist aus der gekalkten Wand gerissen. {rolle:tim|Dein Kumpel aus der Berufsschule} hat dir braunes Möbelwachs gegeben, und du hast die Schramme damit überdeckt. Um 18:50 Uhr verlangte Herr Schneider 2.000 € in Bargeld bis Mitternacht. Um 23:00 Uhr drohte er mit der Polizei. Um 23:57 Uhr standst du am Eiskübel. Du wolltest Eis für {rolle:tim|deinen Kumpel} holen und mit Herrn Schneider reden.",
     "ausloeser": [
       "{wenn:joanna|Sobald Joanna vor allen aus ihrer Notiz von 23:57 Uhr vorliest, dass du am Eiskübel standst.|Sobald der Zeugenstreifen an der Tür zum Ost-Saal offen liegt.}",
-      "{wenn:lejla|Sobald Lejla vor allen sagt oder ihr Zeugenstreifen zeigt, dass du erst nach dem Scheppern zu ihr an den rechten Buffettisch kamst.|Sobald der Zeugenstreifen am rechten Buffettisch zeigt, dass du erst nach dem Scheppern dorthin kamst.}",
+      "{wenn:lejla|Sobald Lejla vor allen sagt, dass du erst nach dem Scheppern zu ihr an den rechten Buffettisch kamst.|Sobald der Zeugenstreifen am rechten Buffettisch zeigt, dass du erst nach dem Scheppern dorthin kamst.}",
       "Sobald Ahmet oder Fatma vor allen sagen, dass du um 23:57 Uhr am Eiskübel standst."
     ],
     "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Beim Knall hab ich mich am Eiskübel geduckt. Dann ist das leuchtende Gespenst aus dem Vorratsraum auf Herrn Schneider los. Dann hat es gescheppert. {wenn:lejla|Ich bin zu Lejla gekrochen.|Ich bin zum rechten Buffettisch gekrochen.}“",
@@ -140,7 +140,7 @@
       "ziel": "tim",
       "frage": "„Tim, ich hab dir Eis gebracht, gleich als das Licht anging. Sag dem Detektiv, wo du da warst.“",
       "nachschlag": "Sobald Tim es bestätigt: „Siehst du. Kaum war Licht, war ich bei dir.“",
-      "ausweich": "Can: „Can, du sagst, du warst auf der Turm-Toilette. Bist du dafür durch den Ost-Saal gekommen? Dann hättest du mich am Kopf der Tafel sitzen sehen.“"
+      "ausweich": "Can: „Can, du sagst, du warst auf der Turm-Toilette. Dahin kommt man nur durch den Kaminsaal und den Turmgang. Wer hat dich da gehen sehen?“"
     },
     {
       "runde": 2,
@@ -221,7 +221,7 @@
       },
       {
         "zeit": "18:45",
-        "text": "{rolle:tim|Dein Kumpel aus der Berufsschule} holt braunes Möbelwachs aus dem Werkzeugkasten. Du reibst es mit deinem rechten Arbeitshandschuh in die Schramme. Den Handschuh steckst du in die Westentasche."
+        "text": "{rolle:tim|Dein Kumpel} holt braunes Möbelwachs aus dem Werkzeugkasten. Du reibst es mit deinem rechten Arbeitshandschuh in die Schramme. Den Handschuh steckst du in die Westentasche."
       },
       {
         "zeit": "18:50",
@@ -233,11 +233,11 @@
       },
       {
         "zeit": "23:00",
-        "text": "Vor der Theke streitet ihr laut. Herr Schneider ruft: „Bis Mitternacht. Sonst ruf ich die Polizei!“ {rolle:tim|Dein Kumpel aus der Berufsschule} hört alles."
+        "text": "Vor der Theke streitet ihr laut. Herr Schneider ruft: „Bis Mitternacht. Sonst ruf ich die Polizei!“ {rolle:tim|Dein Kumpel} hört alles."
       },
       {
         "zeit": "23:50",
-        "text": "An der Bogentür klemmt sich {rolle:tim|dein Kumpel aus der Berufsschule} den Finger ein. Um 23:52 Uhr sagst du zu ihm: „Ich hol dir Eis. Und dann red ich mit Schneider.“"
+        "text": "An der Bogentür klemmt sich {rolle:tim|dein Kumpel} den Finger ein. Um 23:52 Uhr sagst du zu ihm: „Ich hol dir Eis. Und dann red ich mit Schneider.“"
       },
       {
         "zeit": "23:54",
@@ -273,7 +273,7 @@
       },
       {
         "zeit": "0:00",
-        "text": "Das Licht geht an. Du gehst zum Eiskübel. Um 0:01 Uhr bringst du {rolle:tim|deinem Kumpel aus der Berufsschule} obenauf eine Handvoll Eis in den Durchgang: „Hier, dein Eis. Hat gedauert.“"
+        "text": "Das Licht geht an. Du gehst zum Eiskübel. Um 0:01 Uhr bringst du {rolle:tim|deinem Kumpel} obenauf eine Handvoll Eis in den Durchgang: „Hier, dein Eis. Hat gedauert.“"
       }
     ],
     "wasNurDuWeisst": [

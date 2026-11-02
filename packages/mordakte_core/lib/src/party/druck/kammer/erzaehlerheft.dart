@@ -225,9 +225,11 @@ class _Heft {
       ].join('\n'),
       '10': u('teileliste.10', {'anzahl': '${b.hauptrollen.length}', 'namen': [for (final p in b.hauptrollen) p.name].join(', ')}),
       '11': u('teileliste.11', {'anzahl': '${b.verdaechtige.length}', 'namen': _aufzaehlen([for (final p in b.verdaechtige) p.name], 'und')}),
-      '12': b.zusatzrollen.isEmpty
-          ? u('teileliste.12.keine')
-          : u('teileliste.12', {'anzahl': '${b.zusatzrollen.length}', 'namen': [for (final p in b.zusatzrollen) p.name].join(', ')}),
+      '12': switch (b.zusatzrollen) {
+        [] => u('teileliste.12.keine'),
+        [final p] => u('teileliste.12.eins', {'name': p.name}),
+        final z => u('teileliste.12', {'anzahl': '${z.length}', 'namen': [for (final p in z) p.name].join(', ')}),
+      },
       '20': [
         u('teileliste.20', {
           'indiz': '${k.inhalt.indizkarten.karten.length}',

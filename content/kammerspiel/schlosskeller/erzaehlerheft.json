@@ -14,18 +14,18 @@
       },
       {
         "teil": "11",
-        "text": "Falte jede Fassung und klebe sie zu.",
+        "text": "Falte jede Fassung so, wie es auf ihrer ersten Seite steht, und klebe sie zu.",
         "minuten": 5
       },
       {
         "teil": "20",
-        "text": "Schneide die Indizkarten und die Geheimniskarten aus. Falte jede Karte sofort im Zickzack in drei Felder, sodass der Text innen liegt. Staple die Indizkarten nach Code. Schneide die Aktionskarten aus.",
+        "text": "Schneide die Indizkarten und die Geheimniskarten aus. Falte jede Karte sofort: das obere Feld nach hinten, das graue Feld nach vorn über den Text. Staple die Indizkarten nach Code. Schneide die Aktionskarten aus.",
         "minuten": 25
       },
       {
         "teil": "90",
-        "text": "Falte Teil 90 und versiegle es.",
-        "minuten": 2
+        "text": "Falte Teil 90 so, wie es auf seiner ersten Seite steht, und klebe es zu.",
+        "minuten": 3
       }
     ],
     "anWen": "Vorab darf jede Rolle ihr eigenes Heft bekommen, der Detektiv Teil 01. Teil 90 bekommt niemand vorab.\n\nZu dir legst du Blatt A und Blatt B und den Stapel der Indizkarten, nach Code sortiert und ungelesen. Dazu die Tipp-Zettel, die zwei Marker von Herrn Schneider und Teil 90, versiegelt.{ab:12|| Auch die Zeugenstreifen und die Geheimniskarten der fehlenden Zeugen bleiben bis zur Lageplan-Führung bei dir.} Die vier versiegelten Fassungen behältst du bis nach dem Tat-Moment.\n\nJede Rolle bekommt ihr Heft, ihre Geheimniskarte verdeckt, ihre Aktionskarte offen und zwei Marker. Der Detektiv bekommt Teil 01 und zwei Marker.{ab:12|| Dazu bekommt er die Aktionskarten der fehlenden Zeugen.} Alle legen ihre Geheimniskarte verdeckt und ihre Aktionskarte offen vor sich. Gelesen wird noch nichts Neues."
@@ -93,7 +93,7 @@
     },
     {
       "schritt": 6,
-      "name": "Lageplan-Führung, Marker setzen, Zeugenstreifen auslegen",
+      "name": "Lageplan-Führung, Marker setzen{ab:12||, Zeugenstreifen auslegen}",
       "minuten": {
         "6": 5,
         "12": 7,
@@ -183,7 +183,7 @@
       "abschnitt": "b",
       "name": "Tischgespräch und Verhörstuhl",
       "minuten": 17,
-      "text": "Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl, jede höchstens zwei Minuten. Ist ein Pflicht-Auslöser erfüllt und die Rundensperre vorbei, ruft die Person „Karte!“ und dreht ihre Geheimniskarte um. Marker werden umgestellt, Aktionskarten gespielt. Stockt das Gespräch, liest du einen Impuls.{ab:14| In Runde 1 rufst du nach der Hälfte „Wechsel!“. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“.}"
+      "text": "Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl, jede höchstens zwei Minuten. Ist ein Pflicht-Auslöser erfüllt und die Rundensperre vorbei, ruft die Person „Karte!“ und dreht ihre Geheimniskarte um. Marker werden umgestellt, Aktionskarten gespielt. Bittet der Detektiv um einen Impuls, liest du genau diesen. Stockt das Gespräch, liest du einen Impuls.{ab:14| In Runde 1 rufst du nach der Hälfte „Wechsel!“. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“.}"
     },
     {
       "abschnitt": "c",
@@ -276,8 +276,8 @@
       "nurMitStreifen": false
     }
   ],
-  "impulsRegeln": "Lies einen Impuls, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit. Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.",
-  "ausweichsatz": "Diese Person ist heute nicht am Tisch. Was sie weiß, liegt vielleicht als Zeugenstreifen neben dem Lageplan. Detektiv, eine Untersuchung an ihrem Ort kann es aufdecken.",
+  "impulsRegeln": "Bittet der Detektiv um einen Impuls, liest du genau diesen. Lies auch einen Impuls, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit.{ab:14| Den Impuls zur Hälfte liest du erst nach „Wechsel!“.} Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.",
+  "ausweichsatz": "Diese Person ist heute nicht am Tisch.{ab:12|| Was sie weiß, liegt vielleicht als Zeugenstreifen neben dem Lageplan. Detektiv, eine Untersuchung an ihrem Ort kann es aufdecken.}",
   "dominoFrage": {
     "wann": "Gleich nachdem eine Geheimniskarte umgedreht wurde.",
     "nenntPerson": "Die Karte nennt am Ende jemanden. Bitte, sag uns sofort, ob das stimmt. Wenn dein Heft es dir noch nicht erlaubt, sag: „Dazu sag ich jetzt nichts.“",
@@ -383,9 +383,9 @@
       ]
     }
   ],
-  "bonusZiel": "Dein eigenes Bonus-Ziel: Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Zähl vor der Tipp-Runde nach, und noch einmal bei der Anklage. Karten unter den Zeugenstreifen zählen nicht mit.",
+  "bonusZiel": "Dein eigenes Bonus-Ziel: Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Zähl vor der Tipp-Runde nach, und noch einmal bei der Anklage.{ab:12|| Karten unter den Zeugenstreifen zählen nicht mit.}",
   "tippRunde": {
-    "vorlesen": "Bevor der Detektiv seine letzten Untersuchungen macht und anklagt, tippt die ganze Clique. Jede Person bekommt einen Tipp-Zettel, ich auch. Schreibt geheim auf, wer es war, wo der Schlüsselbund steckt und ob ihr euer Bonus-Ziel erreicht habt. Faltet den Zettel und gebt ihn mir.",
+    "vorlesen": "Bevor der Detektiv seine letzten Untersuchungen macht und anklagt, tippt die ganze Clique. Jede Person bekommt einen Tipp-Zettel, ich auch. Schreibt geheim auf, wer es war, wo der Schlüsselbund steckt und ob ihr glaubt, dass euer Bonus-Ziel bei der Anklage erfüllt ist. Faltet den Zettel und gebt ihn mir.",
     "anleitung": "Zettel einsammeln, ungeöffnet in die Mitte legen. Dann folgen die drei Untersuchungen der Runde 3 und die Marker-Probe. Danach klagt der Detektiv an und legt den Stift weg."
   },
   "anklage": {
@@ -536,7 +536,7 @@
     ]
   },
   "kartenUnterStreifen": {
-    "anleitung": "Liegt ein Code aus dieser Tabelle offen, egal wodurch, ziehst du die Karte unter dem Streifen hervor und legst sie offen daneben. Ist ihre Runde noch nicht erreicht, tust du es gleich zu Beginn dieser Runde. Der Streifen bleibt zu, bis sein eigener Code kommt. Dann liest der Detektiv die Karte laut vor.",
+    "anleitung": "Liegt ein Code aus dieser Tabelle offen, egal wodurch, ziehst du die Karte unter dem Streifen hervor und legst sie offen daneben. Der Detektiv liest sie sofort laut vor, dann stellst du die Domino-Frage. Ist ihre Runde noch nicht erreicht, tust du das gleich zu Beginn dieser Runde. Der Streifen selbst bleibt zu, bis sein eigener Code kommt.",
     "muster": "Karte unter dem Streifen {name}: umdrehen, sobald {codes} offen liegt. Frühestens zu Beginn von Runde {runde}.",
     "umschreibungen": [
       {
