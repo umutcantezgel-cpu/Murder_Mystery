@@ -47,7 +47,7 @@
       },
       {
         "frage": "Wo war {rolle:zeynep|deine Schwester}?",
-        "antwort": "„Im Kaminsaal, glaub ich. Wir haben vorher zusammen Gebäck gegessen. Frag sie selbst.“"
+        "antwort": "„Im Kaminsaal, glaub ich. Wir haben vorher zusammen Gebäck gegessen.{wenn:zeynep| Frag sie selbst.}“"
       },
       {
         "frage": "Herr Schneider hat eine Kapuze gepackt. Deine?",
@@ -170,7 +170,7 @@
       "runde": 3,
       "nr": 2,
       "ziel": "tim",
-      "frage": "„Tim, du warst im Dunkeln im Durchgang. Was hast du gehört und gesehen, und in welcher Reihenfolge?“",
+      "frage": "„Tim, du warst im Dunkeln im Durchgang. Was kam da an dir vorbei, und wann?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Das leuchtende Gesicht war ich. Sag dem Detektiv, ob ich vor oder nach dem Scheppern an dir vorbei bin.“",
       "ausweich": "Frag Olli: „Olli, wo warst du, als es schepperte?“ Liegt deine Geheimniskarte offen, bitte außerdem den Detektiv um den Ortstermin „im Steinbogen“ und sag: „Da bin ich durchgerannt. Wer dort stand, weiß, wann.“"
     }
@@ -286,8 +286,8 @@
     "wennEsEngWird": [
       "Sobald jemand die gelben Fasern an Herrn Schneiders Hand gegen dich anführt (nur, wenn deine Karte offen ist): „Ja, das war meine Kapuze. Er hat mich gepackt, und ich hab mich losgerissen. Da stand er noch.“",
       "Sobald jemand sagt, das Gespenst sei auf Herrn Schneider losgegangen: „Losgegangen? Ich bin rausgesprungen, ‚Buuuh!‘, mehr nicht. Er hat mich gepackt, nicht umgekehrt.“",
-      "Sobald jemand fragt, was nach deiner Flucht an der Theke war: „Keine Ahnung. Im Turm hört man nichts. Frag die, die im Durchgang waren.“",
-      "Sobald jemand fragt, wer dich rennen sah (nur, wenn deine Karte offen ist): „Im Steinbogen hab ich {rolle:zeynep|meine Schwester} gestreift. Frag sie.“",
+      "Sobald jemand fragt, was nach deiner Flucht an der Theke war: „Keine Ahnung. Im Turm hört man nichts.{wenn:tim| Frag die, die im Durchgang waren.| Detektiv, schau dir den Durchgang an.}“",
+      "Sobald jemand fragt, wer dich rennen sah (nur, wenn deine Karte offen ist): „Im Steinbogen hab ich {rolle:zeynep|meine Schwester} gestreift.{wenn:zeynep| Frag sie.| Detektiv, schau dir den Steinbogen an.}“",
       "Sobald jemand verlangt, dass du deinen Marker „Scheppern“ umstellst: „Ich war oben im Turm. Keine Karte sagt etwas anderes. Der Marker bleibt.“"
     ],
     "stufe3": "Ich? Nein. Ja, ich war das Gespenst, und der Streich war dumm. Herr Schneider hat mich gepackt, und ich hab mich losgerissen. Als ich weggerannt bin, stand er noch und hat mir hinterhergebrüllt. Was danach an der Theke war, hab ich oben im Turm nicht mal gehört. An der Vorratsraumtür war ich da nicht mehr. Den Schlüsselbund hab ich nie in der Hand gehabt."

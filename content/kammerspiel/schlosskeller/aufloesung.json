@@ -267,5 +267,5 @@
     "sonderregel": "**Für Olli zählen Frage 1 und 2 nicht.** Er bekommt stattdessen 3 Punkte, wenn der Detektiv nicht ihn angeklagt hat. Frage 3 zählt für ihn wie für alle. So hat jeder höchstens 5 Punkte.",
     "spuernase": "Der Erzähler zählt auf jedem Tipp-Zettel die Punkte zusammen, auch auf seinem eigenen. **Spürnase des Abends** ist, wer die meisten Punkte hat. Bei Gleichstand teilen sich alle mit den meisten Punkten den Titel. Der Detektiv ist nicht in dieser Wertung. Für ihn zählen sein Ende und seine Detektiv-Punkte."
   },
-  "erzaehlerBonus": "Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Karten unter den Zeugenstreifen zählen nicht mit."
+  "erzaehlerBonus": "Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen.{ab:12|| Karten unter den Zeugenstreifen zählen nicht mit.}"
 }

@@ -6,7 +6,9 @@
 // Marker nur für besetzte Rollen, Tipp-Zettel P − 1 Stück wörtlich, Abwesenheitsblatt nur
 // bei 6 bis 11 Personen mit den Streifen der fehlenden Zeugen in Platzreihenfolge; Schrift
 // nirgends unter 9 pt, nur Joannas Notiz 8 pt (MECH 5.2, Befund R2-11); Druckrand, gleiche
-// Bytes und Überlauf mit Stelle.
+// Bytes und Überlauf mit Stelle. Runde 3: die drei Wandbänke der Hefte auf dem Plan (P3R3-B3),
+// Kennung und Name von Blatt B im Kopfband über den Plättchen (P5R3-03), am Falz der Streifen
+// die Faltrichtung (P5R3-06).
 //
 // Personenzahlen: 6 (alle Zeugen fehlen), 9 (letzte mit Joannas Streifen), 10 (Detektiv
 // männlich, neun Tipp-Zettel auf drei Blättern), 11 (letztes Abwesenheitsblatt), 12 (ohne
@@ -183,6 +185,34 @@ void main() {
           expect(b, contains(kammerFlach(k.klartext(f.name))), reason: f.id);
           expect(wort(f.id).hasMatch(roh[1]), isTrue, reason: f.id);
         }
+        expect(b, contains(kammerFlach(u('lageplan.blattB.hinweis'))));
+      });
+
+      test('Blatt B: Kennung und Name im Kopfband, darunter Platz für die versprochenen Plättchen (P5R3-03)', () {
+        const mm = 72 / 25.4;
+        final mf = k.inhalt.tisch.markerfelder;
+        final pb = k.inhalt.tisch.marker.breiteMm.toDouble(), ph = k.inhalt.tisch.marker.hoeheMm.toDouble();
+        final w = woerter[1];
+        for (final b in mf.belegung) {
+          final f = k.fall.feld(b.feld);
+          final breite = (b.zellen.map((z) => z.$1).toSet().length) * mf.zelleBreiteMm.toDouble();
+          final hoehe = (b.zellen.map((z) => z.$2).toSet().length) * mf.zelleHoeheMm.toDouble();
+          // Am wenigsten Höhe für die versprochene Zahl: quer (26 × 18) oder hochkant (18 × 26).
+          double reihen(double lang, double kurz) => (b.plaettchen / (breite / lang + 1e-6).floor()).ceil() * kurz;
+          final braucht = [reihen(pb, ph), reihen(ph, pb)].reduce((a, c) => a < c ? a : c);
+          // Die Kennung steht links oben in der Zelle; alle Wörter der Zelle gehören zu Kennung und Name.
+          final id = w.firstWhere((x) => x.text == f.id, orElse: () => throw StateError('Kennung ${f.id} fehlt'));
+          final links = id.x0 - 4 * mm, oben = id.y0 - 2 * mm;
+          final zelle = [
+            for (final x in w)
+              if (x.x0 >= links && x.x1 <= links + breite * mm && x.y0 >= oben && x.y1 <= oben + hoehe * mm) x,
+          ];
+          expect(kammerFlach(zelle.where((x) => !identical(x, id)).map((x) => x.text).join(' ')), kammerFlach(k.klartext(f.name)), reason: f.id);
+          // Die Kennung sitzt höchstens 1 mm unter der Oberkante der Zelle; die letzte Namenszeile
+          // endet über dem Plättchenfeld.
+          final unten = zelle.map((x) => x.y1).reduce((a, c) => a > c ? a : c);
+          expect((unten - id.y0) / mm + 1, lessThanOrEqualTo(hoehe - braucht), reason: '${f.id}: Kopfband über ${b.plaettchen} Plättchen');
+        }
       });
 
       test('Positions-Marker: zwei je besetzter Rolle, Detektiv und Herr Schneider; fehlende Rollen ohne Marker', () {
@@ -249,8 +279,17 @@ void main() {
         }
       });
 
-      test('Schrift: nirgends unter 9 pt, nur Joannas Notiz 8 pt (MECH 5.2), Falzmarke wie in satz.dart', () {
-        final falten = k.klartext(k.uiGemeinsam('falten')).split(' ').toSet();
+      test('Abwesenheitsblatt: an jedem Falz die Faltrichtung statt nur „Hier falten“ (MECH 5.2, P5R3-06)', () {
+        if (abwesenheit == null) return;
+        final s = flach[abwesenheit];
+        final richtung = u('streifen.falten');
+        expect(richtung, allOf(contains('nach hinten'), contains('Etikett')));
+        expect(anzahl(s, kammerFlach(richtung)), k.besetzung.fehlendeZeugen.length);
+        expect(s, isNot(contains(kammerFlach(k.klartext(k.uiGemeinsam('falten'))))));
+      });
+
+      test('Schrift: nirgends unter 9 pt, nur Joannas Notiz 8 pt (MECH 5.2), Falzmarke 6,5 pt wie in satz.dart', () {
+        final falten = k.klartext(k.ui('02', 'streifen.falten')).split(' ').toSet();
         final notiz = {
           for (final z in k.inhalt.rolle('joanna').notiz!.zeilen) ...k.klartext(z).split(' '),
         };
@@ -303,6 +342,24 @@ void main() {
     expect(kammerInhalt.rolle('joanna').notiz!.zeilen, contains(startsWith('Gruppenfoto')));
   });
 
+  test('Lageplan: jede Wandbank der Hefte steht auf dem Plan, West 4 m vom Ascheneimer (P3R3-B3, WELT 2.3)', () {
+    final namen = [for (final o in kammerInhalt.tisch.lageplan.gegenstaende) o.name];
+    final genannt = {
+      for (final text in leseKammerDateien(repoWurzel).values)
+        for (final m in RegExp('Wandbank (Nord|Süd|West|Ost)').allMatches(text)) m.group(0)!,
+    };
+    expect(genannt, isNotEmpty);
+    for (final b in {...genannt, 'Wandbank Süd', 'Wandbank West', 'Wandbank Ost'}) {
+      expect(namen.any((n) => n.contains(b)), isTrue, reason: b);
+    }
+    final g = {for (final o in kammerInhalt.tisch.lageplan.gegenstaende) o.id: o};
+    final (west, eimer) = (g['wandbankWest']!, g['ascheneimer']!);
+    expect((west.zusatz, west.x, west.y), ('7', 1.5, 10.5));
+    expect((west.y - eimer.y).abs() + (west.x - eimer.x).abs(), 4.0);
+    expect((g['wandbankSued']!.x, g['wandbankSued']!.y), (3.5, 18.5));
+    expect((g['musikbox']!.x, g['musikbox']!.y), (25.5, 15.5));
+  });
+
   group('Überlauf aus dem Inhalt bricht mit Teil und Stelle ab', () {
     KammerKontext mit(int personen, void Function(Map<String, Object?> j) aendern) {
       final j = <String, Object?>{for (final e in leseKammerDateien(repoWurzel).entries) e.key: jsonDecode(e.value)};
@@ -335,6 +392,22 @@ void main() {
         l['text'] = lang(l['text'], 6);
       });
       expect(() => kammerTisch(kammerStil.neuesDokument('probe'), k), ueberlaufIn(['legende']));
+    });
+
+    test('Blatt B: Kopfband zu hoch für die versprochenen Plättchen (P5R3-03)', () {
+      final k = mit(20, (j) {
+        final b = ((json(j, 'tisch.json')['markerfelder']! as Map<String, Object?>)['belegung']! as List).cast<Map<String, Object?>>();
+        b.firstWhere((f) => f['feld'] == '4c')['plaettchen'] = 6;
+      });
+      expect(() => kammerTisch(kammerStil.neuesDokument('probe'), k), ueberlaufIn(['markerfelder / 4c', 'Plättchen']));
+    });
+
+    test('Abwesenheitsblatt: Faltrichtung zu lang für das Falzband', () {
+      final k = mit(6, (j) {
+        final ui = json(j, 'ui/02.json');
+        ui['streifen.falten'] = lang(ui['streifen.falten'], 3);
+      });
+      expect(() => kammerTisch(kammerStil.neuesDokument('probe'), k), ueberlaufIn(['abwesenheitsblatt / falz']));
     });
 
     test('Lageplan: ein Gegenstandsname, für den kein Platz frei ist', () {

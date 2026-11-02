@@ -232,7 +232,7 @@
       "runde": 2,
       "nr": 2,
       "ziel": "sibel",
-      "frage": "**Sprich leise mit Sibel:** „Wenn am Tisch die Vitrine Thema wird und jemand anderes für unseren Sprung geradestehen soll: Sagen wir es dann selbst, am Ende der Runde?“",
+      "frage": "**Sibels Karte offen:** „Sibel, unser Sprung ist jetzt raus. Sag allen, ob um neun die Münzschatulle noch in der Vitrine lag.“\n**Sibels Karte zu:** Sprich leise mit ihr: „Wenn am Tisch die Vitrine Thema wird und jemand anderes für unseren Sprung geradestehen soll: Sagen wir es dann selbst, am Ende der Runde?“",
       "nachschlag": null,
       "ausweich": null
     },
@@ -240,7 +240,7 @@
       "runde": 3,
       "nr": 1,
       "ziel": "marek",
-      "frage": "„Marek, du hast beim Knall gestanden, direkt vor mir, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“",
+      "frage": "„Marek, du hast beim Knall gestanden, direkt vor mir, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
       "ausweich": null
     },

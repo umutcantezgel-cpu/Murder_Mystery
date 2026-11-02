@@ -383,7 +383,7 @@
       ]
     }
   ],
-  "bonusZiel": "Dein eigenes Bonus-Ziel: Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Zähl vor der Tipp-Runde nach, und noch einmal bei der Anklage. Karten unter den Zeugenstreifen zählen nicht mit.",
+  "bonusZiel": "Dein eigenes Bonus-Ziel: Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Zähl vor der Tipp-Runde nach, und noch einmal bei der Anklage.{ab:12|| Karten unter den Zeugenstreifen zählen nicht mit.}",
   "tippRunde": {
     "vorlesen": "Bevor der Detektiv seine letzten Untersuchungen macht und anklagt, tippt die ganze Clique. Jede Person bekommt einen Tipp-Zettel, ich auch. Schreibt geheim auf, wer es war, wo der Schlüsselbund steckt und ob ihr glaubt, dass euer Bonus-Ziel bei der Anklage erfüllt ist. Faltet den Zettel und gebt ihn mir.",
     "anleitung": "Zettel einsammeln, ungeöffnet in die Mitte legen. Dann folgen die drei Untersuchungen der Runde 3 und die Marker-Probe. Danach klagt der Detektiv an und legt den Stift weg."

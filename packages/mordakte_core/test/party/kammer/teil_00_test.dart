@@ -4,8 +4,10 @@
 // (besetzte Rollen in Spielreihenfolge mit Rollenbezeichnung, fehlende fehlen, Lacher nur
 // für fehlende Zusatzrollen), Vorlesen und Anleitung gekennzeichnet, besetzungsabhängige
 // Teile (Zeugenstreifen und „Karten unter den Streifen“ bis 11, kleine Runden bis 8,
-// Gegenüberstellung ab 14, sieben Minuten ab 18), keine Fassungscodes (E10), Druckrand,
-// gleiche Bytes, Überlauf mit Teil und Seite.
+// Gegenüberstellung ab 14, sieben Minuten ab 18; ab 12 nennen Ablauf, Ausweichsatz und
+// Bonus-Ziel keine Zeugenstreifen), Impulse auch auf Bitte des Detektivs (jeder Impuls, um den
+// Teil 01 bittet, steht in seiner Runde), keine Fassungscodes (E10), Druckrand, gleiche Bytes,
+// Überlauf mit Teil und Seite.
 //
 // Seitenzahl: MECH 10.1 nennt 15 / 16 / 17 bei 6 / 12 / 20 Personen. Mit „Was alle wissen“
 // fest auf Seite 7 (MECH 9.1, 9.6) kann die Vorstellungsrunde die Seitenzahl nicht mehr
@@ -228,6 +230,37 @@ void main() {
         }
       });
 
+      test('Zeugenstreifen nur, wo es sie gibt (bis 11 Personen): Ablauf Schritt 6, Ausweichsatz, Bonus-Ziel; ein Zusatzheft in der Einzahl', () {
+        final b = k.besetzung;
+        final e = k.inhalt.erzaehlerheft;
+        const streifen = 'Zeugenstreifen';
+        for (final (seite, roh) in [(3, e.ablauf.singleWhere((a) => a.schritt == 6).name), (10, e.ausweichsatz), (13, e.bonusZiel)]) {
+          final t = k.klartext(roh);
+          expect(flach[seite - 1], contains(kammerFlach(t)), reason: 'Seite $seite');
+          expect(t.contains(streifen), b.abwesenheitsblatt, reason: 'Seite $seite: $t');
+        }
+        final zusatz = switch (b.zusatzrollen) {
+          [] => u('teileliste.12.keine'),
+          [final p] => u('teileliste.12.eins', {'name': p.name}),
+          final z => u('teileliste.12', {'anzahl': '${z.length}', 'namen': [for (final p in z) p.name].join(', ')}),
+        };
+        expect(flach[1], contains(kammerFlach(zusatz)));
+        expect(flach[1], isNot(contains('1 Zusatzhefte')));
+      });
+
+      test('Impulse (MECH 9.9): auf Bitte des Detektivs, bei Flaute oder zur Hälfte; ab 14 Personen die Hälfte erst nach „Wechsel!“', () {
+        final e = k.inhalt.erzaehlerheft;
+        final regeln = k.klartext(e.impulsRegeln);
+        final b = k.klartext(e.rundenaufbau.singleWhere((r) => r.abschnitt == 'b').text);
+        expect(flach[9], contains(kammerFlach(regeln)));
+        expect(flach[2], contains(kammerFlach(b)));
+        // Teil 01 lässt den Detektiv um Impulse bitten (RK 6.5); Teil 00 sagt, dass der Erzähler dann genau diesen liest.
+        for (final t in [regeln, b]) {
+          expect(t, contains('Bittet der Detektiv um einen Impuls, liest du genau diesen.'));
+        }
+        expect(regeln.contains('Wechsel!'), personen >= 14);
+      });
+
       test('Karten unter den Streifen (MECH 9.14): nur fehlende Zeugen, nur bis 11 Personen', () {
         final b = k.besetzung;
         final e = k.inhalt.erzaehlerheft;
@@ -253,6 +286,26 @@ void main() {
       });
     });
   }
+
+  test('jeder Impuls, um den Teil 01 bittet, steht in Teil 00 in derselben Runde (RK 6.5, MECH 9.9)', () {
+    final k = kammerKontext(20);
+    var genannt = 0;
+    for (final a in k.inhalt.detektiv.aufgabenJeRunde) {
+      final titel = {
+        for (final r in k.inhalt.erzaehlerheft.runden.where((r) => r.nr == a.runde))
+          for (final i in r.impulse) k.klartext(i.titel),
+      };
+      for (final z in a.zeilen.map(k.klartext).where((z) => z.contains('Bitte den Erzähler um'))) {
+        final namen = [for (final m in RegExp('um (?:den Impuls )?„([^“]+)“').allMatches(z)) m.group(1)!];
+        expect(namen, isNotEmpty, reason: z);
+        for (final n in namen) {
+          expect(titel, contains(n), reason: 'Runde ${a.runde}: „$n“');
+          genannt++;
+        }
+      }
+    }
+    expect(genannt, greaterThanOrEqualTo(7));
+  });
 
   test('gleiche Eingaben ergeben gleiche Bytes', () async {
     final a = await setze(kammerKontext(11));

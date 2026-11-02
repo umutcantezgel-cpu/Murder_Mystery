@@ -100,7 +100,7 @@
       "„Um elf hab ich für mein Ratespiel alle Handys eingesammelt. Nur Joanna durfte ihres behalten, sie fotografiert. Um fünf vor zwölf hab ich alle in den Ost-Saal gerufen.“",
       "„Der Detektiv hatte die Augenbinde und Wojteks Kopfhörer auf. Ich stand neben ihm und hab nur auf die blinde Kuh geschaut.“",
       "„Um zwölf hab ich ihm Augenbinde und Kopfhörer abgenommen. Kurz danach hab ich allen die Handys zurückgegeben.“",
-      "„Aylin wollte beim Einlass einen Beleg für die Miete.“",
+      "„Aylin wollte am Jackenständer einen Beleg für die Miete.“",
       "**Nur als Vermutung:** „Ich glaub, da wollte jemand die blinde Kuh im Vorratsraum erschrecken.“"
     ],
     "ausweichsaetze": [],
@@ -184,7 +184,7 @@
       "runde": 2,
       "nr": 2,
       "ziel": "aylin",
-      "frage": "„Aylin, du wolltest beim Einlass einen Beleg für die Miete. Du hebst doch jeden Zettel auf. Hast du inzwischen einen?“",
+      "frage": "„Aylin, du wolltest am Jackenständer einen Beleg für die Miete. Du hebst doch jeden Zettel auf. Hast du inzwischen einen?“",
       "nachschlag": null,
       "ausweich": null
     },
@@ -200,7 +200,7 @@
       "runde": 3,
       "nr": 2,
       "ziel": "marek",
-      "frage": "„Marek, du hast um zwölf die Tür zum Vorratsraum aufgemacht. Steht meine Torte noch? Und was hast du an der Tür gesehen, bevor die Kerzen ausgingen?“",
+      "frage": "„Marek, du hast um zwölf die Tür zum Vorratsraum aufgemacht. Steht meine Torte noch? Und was hast du an der Tür gesehen, bevor die Kerzen ausgingen?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
       "ausweich": null
     }
@@ -229,7 +229,7 @@
     "vermerke": [
       "Nichts für den Ermittlungsbogen."
     ],
-    "undNochEtwas": "Aylin wollte beim Einlass einen Beleg für die Miete. Frag sie, ob sie einen bekommen hat."
+    "undNochEtwas": "Aylin wollte am Jackenständer einen Beleg für die Miete. Frag sie, ob sie einen bekommen hat."
   },
   "solo": null,
   "teil90": "Tugba hatte nichts zu verbergen. Sie hatte um halb acht gesehen, wie Olli seinen linken Arbeitshandschuh am Kamin liegen ließ. Und sie hatte eine Dankeskarte für Herrn Schneider, die er nach dieser Nacht gut gebrauchen kann.",

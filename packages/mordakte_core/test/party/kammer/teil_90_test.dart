@@ -1,13 +1,14 @@
 // Teil 90 (Auflösungsheft, versiegelt) des Kammerspiels (MECH 6.1–6.4, 7.2, 8.1–8.4, 10.1; RK x.12, ZG x.12,
 // ZR x.13): Seitenzahlen nach MECH 10.1 (9 / 10 / 12 bei 6 / 12 / 20 Personen, dazwischen steigend), jede Seite
-// A4 hoch; die Außenseite trägt nur Titel, Fall-Code und Hinweis im oberen Drittel, mittig; die Seiten 2 bis 5
-// nach MECH 8.4 (Was wirklich war und Meilensteine, Enden 1 und 2, Enden 3 und 4, Rückblende allein), ab Seite 6
-// Zeitleiste, Die Rollen am Tisch, Tipp-Wertung und Zum Nachlesen in dieser Reihenfolge; „Die Rollen am Tisch“
-// und die Bonus-Ziele genau für die gespielten Rollen, Verdächtige mit Fassungscode; fehlende Zusatzrollen nirgends
-// mit Namen, fehlende Zeugen in der Streifentabelle; jedes Ende mit beiden Bund-Sätzen; Lösung, Sekunden und alle
-// vier Fassungscodes; nichts unter 9 pt außer Kopf und Fuß, die Rückblende in mindestens 10 pt; gleiche Eingaben,
-// gleiche Bytes. Rot-Proben: zu lange Rückblende, Meilensteinregel und Rollen-Absätze brechen mit KammerUeberlauf
-// ab, statt still abzuschneiden.
+// A4 hoch; die Außenseite trägt Titel, Fall-Code und Hinweis im oberen Drittel, mittig, das mittlere Drittel ist
+// leer, im unteren steht die Anleitung zum Verschließen (Faltart wie Teil 11); die Seiten 2 bis 5 nach MECH 8.4
+// (Was wirklich war und Meilensteine, Enden 1 und 2, Enden 3 und 4, Rückblende allein), ab Seite 6 Zeitleiste,
+// Die Rollen am Tisch, Tipp-Wertung und Zum Nachlesen in dieser Reihenfolge; „Die Rollen am Tisch“ und die
+// Bonus-Ziele genau für die gespielten Rollen, Verdächtige mit Fassungscode, die anderen mit Platz; fehlende
+// Zusatzrollen nirgends mit Namen, fehlende Zeugen in der Streifentabelle; jedes Ende mit beiden Bund-Sätzen;
+// Stichworte M1 bis M3 passend zu den Vermerken; Lösung, Sekunden und alle vier Fassungscodes; nichts unter 9 pt
+// außer Kopf und Fuß, die Rückblende in mindestens 10 pt; gleiche Eingaben, gleiche Bytes. Rot-Proben: zu lange
+// Rückblende, Meilensteinregel und Rollen-Absätze brechen mit KammerUeberlauf ab, statt still abzuschneiden.
 //
 // Seitenzahlen für alle Personenzahlen 6 bis 20; die übrigen Prüfungen bei 6 (alle sechs Zeugen fehlen),
 // 10 (Vorgabe, Marek und Zeynep fehlen), 13 (Sibel ohne Damir, Detektiv m), 14 (ab hier liest jede Person ihren
@@ -134,16 +135,32 @@ void main() {
         boxen = await woerter(bytes[schluessel(personen, detektiv)]!);
       });
 
-      test('Außenseite: nur Titel, Fall-Code und Hinweis, im oberen Drittel, mittig, ohne Kopf und Fuß', () {
-        expect(flach.first, kammerFlach('${u('deckblatt.titel')} ${k.fallCode} ${u('deckblatt.hinweis')}'));
+      test('Außenseite: oben mittig nur Titel, Fall-Code und Hinweis, Mitte leer, unten die Anleitung zum Verschließen wie Teil 11, ohne Kopf und Fuß', () {
         final seite = boxen.first;
         const a4 = KammerSatz.a4Hoch;
-        for (final w in seite) {
-          expect(w.y1, lessThan(a4.height / 3), reason: w.wort);
+        final drittel = a4.height / 3;
+        final oben = seite.where((w) => w.y1 < drittel).toList();
+        final mitte = seite.where((w) => w.y0 < 2 * drittel && w.y1 > drittel).toList();
+        final unten = seite.where((w) => w.y0 > 2 * drittel).toList();
+        expect(oben.length + mitte.length + unten.length, seite.length, reason: 'Wort über einem Falz');
+        expect(kammerFlach(oben.map((w) => w.wort).join(' ')), kammerFlach('${u('deckblatt.titel')} ${k.fallCode} ${u('deckblatt.hinweis')}'));
+        // Das mittlere Drittel liegt gefaltet außen; direkt hinter dem Code liegt die Anleitung, nie die Lösung.
+        expect(mitte, isEmpty, reason: mitte.map((w) => w.wort).join(' '));
+        // Unten die vier Schritte nummeriert, Schritt 1 mit der letzten Seite dieses Hefts.
+        final letzte = {'letzte': '${pdf.seiten}'};
+        final anleitung = [u('verschliessen.titel'), for (var n = 1; n <= 4; n++) '$n. ${u('verschliessen.$n', letzte)}'];
+        expect(kammerFlach(unten.map((w) => w.wort).join(' ')), kammerFlach(anleitung.join(' ')));
+        expect(u('verschliessen.1', letzte), contains('2 bis ${pdf.seiten} '));
+        // Dieselbe Faltart wie Teil 11: Schritte 2 und 3 wörtlich gleich.
+        for (final n in [2, 3]) {
+          expect(u('verschliessen.$n'), k.klartext(k.ui('11', 'verschliessen.$n')), reason: 'Schritt $n');
         }
-        // Mittig: Titel, Code und Hinweis je Zeile um die Blattmitte (die Sperrung des Codes rückt ihn um 3 pt).
+        // Mittig: Titel, Code und Hinweis je Zeile um die Blattmitte (die Sperrung des Codes rückt ihn um 3 pt),
+        // der Block senkrecht in der Mitte des oberen Drittels.
+        final blockMitte = (oben.map((w) => w.y0).reduce(math.min) + oben.map((w) => w.y1).reduce(math.max)) / 2;
+        expect(blockMitte, closeTo(drittel / 2, 12));
         final zeilenMitte = <double, List<Wort>>{};
-        for (final w in seite) {
+        for (final w in oben) {
           (zeilenMitte[w.y0.roundToDouble()] ??= []).add(w);
         }
         for (final z in zeilenMitte.values) {
@@ -202,14 +219,22 @@ void main() {
         expect(alles, isNot(contains(kammerFlach(u(personen >= 14 ? 'rollenAmTisch.erzaehler' : 'rollenAmTisch.selbst')))));
       });
 
-      test('Die Rollen am Tisch: je gespielter Rolle ihr Absatz in Platzreihenfolge, Verdächtige mit Fassungscode', () {
+      test('Die Rollen am Tisch: je gespielter Rolle ihr Absatz in Platzreihenfolge, Verdächtige mit Fassungscode, die anderen mit Platz', () {
         var bisher = -1;
         for (final p in b().besetzt) {
           final r = k.rolle(p);
-          final name = r.fassung == null ? p.name : u('rollenAmTisch.fassung', {'name': p.name, 'code': r.fassung!.code});
+          final name = r.fassung == null
+              ? u('rollenAmTisch.platz', {'name': p.name, 'platz': '${p.platz}'})
+              : u('rollenAmTisch.fassung', {'name': p.name, 'code': r.fassung!.code});
           final i = alles.indexOf(kammerFlach('$name ${k.klartext(r.teil90)}'));
           expect(i, greaterThan(bisher), reason: p.name);
           bisher = i;
+          // Das Etikett ist nie nur der Name: Der Absatz beginnt selbst mit ihm („Lejla Lejla …“).
+          expect(name, isNot(p.name), reason: p.name);
+        }
+        final abschnitt = alles.substring(alles.indexOf(kammerFlach(u('rollenAmTisch'))), alles.indexOf(kammerFlach(u('tippWertung.wer'))));
+        for (final p in b().besetzt) {
+          expect(abschnitt, isNot(contains('${p.name} ${p.name} ')), reason: p.name);
         }
         for (final p in k.fall.plaetze.where((p) => !b().istBesetzt(p.id))) {
           expect(alles, isNot(contains(text(k.rolle(p).teil90))), reason: p.name);
@@ -270,6 +295,16 @@ void main() {
           for (final t in k.texte(k.rolle(p).stufe2.ausloeser)) {
             expect(nach, contains(text(t)), reason: p.name);
           }
+          // Die Rundensperre steht wie im Heft vor den Auslösern, gleich hinter dem Namen.
+          final sperre = k.rolle(p).geheimniskarte.sperre;
+          if (sperre > 1) {
+            final vorn = '${p.name} ${text(k.uiGemeinsam('heft.rundensperre', {'runde': '$sperre'}))}';
+            final i = nach.indexOf(vorn);
+            expect(i, greaterThanOrEqualTo(0), reason: p.name);
+            // Dazwischen höchstens die Nummer „1.“.
+            final erster = nach.indexOf(text(k.texte(k.rolle(p).stufe2.ausloeser).first), i);
+            expect(erster - (i + vorn.length), inInclusiveRange(1, 4), reason: p.name);
+          }
         }
         final indiz = nach.substring(nach.indexOf(kammerFlach(u('zumNachlesen.indizkarten'))));
         for (final c in k.inhalt.indizkarten.karten) {
@@ -303,6 +338,44 @@ void main() {
     });
   }
 
+  test('Stichworte M1 bis M3 passen zu den Vermerken, die der Detektiv wörtlich abschreibt; der Ort um 23:57 bringt M1 nicht', () {
+    // Alle Texte des Inhalts; Vermerke beginnen mit ihrem Feld („Alibi beim Scheppern · Fatma: …“).
+    final texte = <String>[];
+    void sammeln(Object? j) {
+      if (j is String) texte.add(j);
+      if (j is List) j.forEach(sammeln);
+      if (j is Map) j.values.forEach(sammeln);
+    }
+
+    for (final d in leseKammerDateien(repoWurzel).values) {
+      sammeln(jsonDecode(d));
+    }
+    const alibi = 'Alibi beim Scheppern · ';
+    const nr = {'Ahmet': 'M1', 'Fatma': 'M2', 'Can': 'M3', 'für das leuchtende Gesicht': 'M3'};
+    for (final personen in [6, 10, 12, 20]) {
+      final k = kammerKontext(personen);
+      // Die Stichworte stehen im ersten Satz; danach folgt höchstens, was allein nicht genügt.
+      List<String> stichworte(String m) => [
+            for (final x in RegExp('„([^“]+)“').allMatches(k.klartext(k.inhalt.aufloesung.meilensteine.singleWhere((s) => s.nr == m).stichwort).split('. ').first))
+              x.group(1)!.toLowerCase(),
+          ];
+      var geprueft = 0;
+      for (final v in texte.where((t) => t.startsWith(alibi)).map((t) => k.klartext(t))) {
+        final wer = nr.keys.where((w) => v.startsWith('$alibi$w:'));
+        if (wer.isEmpty) continue;
+        final m = nr[wer.single]!;
+        expect(stichworte(m).where((s) => v.toLowerCase().contains(s)), isNotEmpty, reason: '$personen Personen, $m: $v');
+        geprueft++;
+      }
+      expect(geprueft, greaterThanOrEqualTo(5), reason: '$personen Personen');
+      final ort = [for (final t in texte) if (t.startsWith('Ort um 23:57 · ') && t.contains('Ahmet')) k.klartext(t).toLowerCase()];
+      expect(ort, isNotEmpty);
+      for (final o in ort) {
+        expect(stichworte('M1').where(o.contains), isEmpty, reason: '$personen Personen: $o');
+      }
+    }
+  });
+
   test('gleiche Eingaben, gleiche Bytes', () async {
     expect(await setze(kammerKontext(13, detektiv: 'm')), bytes[schluessel(13, 'm')]);
   });
@@ -331,6 +404,14 @@ void main() {
     test('längere Meilensteinregel: Seite 2 läuft über', () {
       final k = mit(10, 'aufloesung.json', (j) => j['meilensteinRegel'] = List.filled(3, j['meilensteinRegel']).join(' '));
       expect(() => setzen(k), ueberlauf(2, 'meilensteine'));
+    });
+
+    test('zu lange Anleitung zum Verschließen: auch in 9 pt nicht im unteren Drittel von Seite 1', () {
+      final k = mit(10, 'ui/90.json', (j) => j['verschliessen.1'] = List.filled(12, j['verschliessen.1']).join(' '));
+      expect(
+        () => setzen(k),
+        throwsA(isA<KammerUeberlauf>().having((e) => e.teil, 'teil', '90').having((e) => e.seite, 'seite', 1).having((e) => e.wo, 'wo', contains('verschliessen'))),
+      );
     });
 
     test('doppelt lange Absätze „Die Rollen am Tisch“ bei 20 Personen: mehr Seiten als geplant', () {

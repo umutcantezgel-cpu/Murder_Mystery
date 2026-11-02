@@ -117,7 +117,7 @@
     ],
     "ausweichsaetze": [
       {
-        "frage": "was du nach dem Knall an der Tür gesehen hast (Runde 1 und 2)",
+        "frage": "was du nach dem Knall an der Tür gesehen hast (außer in Runde 3 vor allen)",
         "antwort": "„Im Dunkeln bin ich stehen geblieben, damit keiner über mich fällt. Was an der Tür war, dazu sag ich jetzt nichts.“"
       },
       {
@@ -214,7 +214,7 @@
       "runde": 2,
       "nr": 1,
       "ziel": "ahmet",
-      "frage": "„Ahmet, du hast um sechs von uns allen 150 € ‚Miete‘ eingesammelt, auch von mir. Wo ist das Geld jetzt?“\n**Dazu im Heft:** „Wenn er ausweicht, ist das ein guter Moment für deine Taschenkontrolle.“",
+      "frage": "„Ahmet, du hast um sechs von uns allen 150 € ‚Miete‘ eingesammelt, auch von mir. Wo ist das Geld jetzt?“\n**Tipp:** Weicht er aus, ist das ein guter Moment für deine Taschenkontrolle.",
       "nachschlag": null,
       "ausweich": null
     },

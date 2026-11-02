@@ -3,7 +3,8 @@
 // RN7, YW4. Seite 1 ist die Außenseite: im oberen Drittel mittig nur der Code und der Hinweis (RK 7.2),
 // das mittlere Drittel leer, im unteren Drittel die Anleitung zum Verschließen; kein Kopf, kein Fuß.
 // Seiten 2 bis 4 tragen die Abschnitte der Bibel in ihrer Reihenfolge. Gleiche Gestalt (E9): je Seite
-// dieselbe Schriftgröße und jede Überschrift auf derselben Höhe in allen vier Fassungen; nichts unter
+// dieselbe Schriftgröße und jede Überschrift auf derselben Höhe in allen vier Fassungen; Zeitleiste und Listen
+// in allen vier mit denselben Abständen (gestreckt wäre die Fassung mit mehr Text dichter); nichts unter
 // 9 pt. Längen nach RK 7.7 an den gedruckten Seiten: jeder Teil höchstens zehn Prozent vom Mittel der
 // vier. Platzhalter je Besetzung: fehlende Rollen stehen nicht im Text, besetzte mit Namen. Nur RN7
 // enthält die Tat. Dazu Druckrand, Bytegleichheit und Rot-Proben (Überlauf, Längenprüfung).
@@ -113,16 +114,6 @@ Map<String, int> laengen(KammerKontext k, KammerPdf pdf, int f) {
   }
   return beste;
 }
-
-/// Bekannte Abweichungen über zehn Prozent, je mit Teil, Fassung, Personen und Obergrenze. Nur diese, nur
-/// bei diesen Personen und nur bis zur Grenze. Grund: Bei 6 bis 8 Personen fehlt Tim; sein Ersatz in Ollis
-/// Zeitleiste („dein Kumpel aus der Berufsschule“, fünfmal) macht RN7 länger. Bei 6 und 7 Personen fehlen
-/// auch Lejla und Marek, deren Ersatz WW4 ähnlich verlängert; dort bleibt es unter zehn Prozent, bei 8 sind
-/// es 10,3 %. Gemeldet an die Schreiber (kürzerer Ersatz). Die Gestalt bleibt gleich, weil jeder Abschnitt in
-/// allen vier gleich hoch gesetzt wird.
-const bekannteAbweichungen = [
-  (teil: 'zeitleiste', code: 'RN7', von: 8, bis: 8, grenze: 0.11),
-];
 
 void main() {
   for (var personen = 6; personen <= 20; personen++) {
@@ -259,6 +250,33 @@ void main() {
         }
       });
 
+      test('gleiche Dichte (RK 7.1): Zeitleiste und Listen in allen vier mit denselben Abständen, der Rest bleibt darunter frei', () {
+        // Abstände von Zeile zu Zeile (Oberkante zu Oberkante) unter der Überschrift [von] bis zur Überschrift [bis]
+        // (null: bis zum Fuß). Was auf einer Höhe steht (Zeit und Text, Nummer und Eintrag), ist eine Zeile.
+        List<double> abstaende(List<Zeile> seite, String von, String? bis) {
+          final oben = seite.firstWhere((l) => kammerFlach(l.text) == von).y1;
+          final unten = bis == null ? 785.0 : seite.firstWhere((l) => kammerFlach(l.text) == bis).y0;
+          final ys = [for (final l in seite) if (l.y0 > oben && l.y1 < unten) l.y0]..sort();
+          final hoehen = <double>[];
+          for (final y in ys) {
+            if (hoehen.isEmpty || y - hoehen.last > 0.5) hoehen.add(y);
+          }
+          return [for (var i = 1; i < hoehen.length; i++) hoehen[i] - hoehen[i - 1]];
+        }
+
+        for (final (s, von, bis) in [(2, 'wasWirklichGeschah', null), (3, 'wasNurDuWeisst', 'heftUndWahrheit'), (3, 'wennEsEngWird', 'stufe3')]) {
+          final alle = [for (var f = 0; f < 4; f++) ...abstaende(zeilen[4 * f + s - 1], u(von), bis == null ? null : u(bis))]..sort();
+          // Höchstens zwei Abstände über alle vier: innerhalb eines Eintrags (einer Tabellenzeile) und von Eintrag zu
+          // Eintrag. Eine gestreckte Liste brächte je Fassung einen eigenen Abstand zwischen den Einträgen.
+          final gruppen = <double>[];
+          for (final a in alle) {
+            if (gruppen.isEmpty || a - gruppen.last > 0.3) gruppen.add(a);
+          }
+          expect(alle, isNotEmpty, reason: 'Seite $s: „${u(von)}“');
+          expect(gruppen.length, lessThanOrEqualTo(2), reason: 'Seite $s: „${u(von)}“ ${[for (final g in gruppen) g.toStringAsFixed(2)]}');
+        }
+      });
+
       test('keine Schrift unter 9 pt (außer Kopf und Fuß)', () {
         for (var s = 0; s < zeilen.length; s++) {
           for (final l in zeilen[s].where((l) => l.y0 > 60 && l.y1 < 785)) {
@@ -274,9 +292,7 @@ void main() {
         printOnFailure([for (final t in teile) '$t: ${[for (final x in l) x[t]]}'].join('\n'));
         for (final t in teile) {
           final a = groessteAbweichung([for (final x in l) x[t]!]);
-          final ausnahme = bekannteAbweichungen.where((b) => b.teil == t && b.code == codes[a.fassung] && personen >= b.von && personen <= b.bis);
-          final grenze = ausnahme.isEmpty ? 0.10 : ausnahme.single.grenze;
-          expect(a.abweichung.abs(), lessThanOrEqualTo(grenze), reason: '$t: ${codes[a.fassung]} ${(100 * a.abweichung).toStringAsFixed(1)} %');
+          expect(a.abweichung.abs(), lessThanOrEqualTo(0.10), reason: '$t: ${codes[a.fassung]} ${(100 * a.abweichung).toStringAsFixed(1)} %');
         }
       });
 

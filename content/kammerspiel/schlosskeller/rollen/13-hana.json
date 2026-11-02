@@ -249,7 +249,7 @@
       "runde": 3,
       "nr": 2,
       "ziel": "tim",
-      "frage": "„Tim, du standest am Sicherungskasten, direkt am Weg in den Kaminsaal. Was kam im Dunkeln an dir vorbei, und war das vor oder nach dem Scheppern?“",
+      "frage": "„Tim, du standest am Sicherungskasten, direkt am Weg in den Kaminsaal. Was kam im Dunkeln an dir vorbei, und war das vor oder nach dem Scheppern?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
       "ausweich": null
     }

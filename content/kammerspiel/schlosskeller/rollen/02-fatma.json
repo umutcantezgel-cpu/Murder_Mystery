@@ -170,7 +170,7 @@
       "runde": 3,
       "nr": 2,
       "ziel": "marek",
-      "frage": "„Marek, du standst hinter der Theke, als die Kerzen noch brannten. Was hast du an der Vorratsraumtür gesehen?“",
+      "frage": "„Marek, du standst hinter der Theke, als die Kerzen noch brannten. Was hast du an der Vorratsraumtür gesehen?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": "Sobald dein Marker „23:57“ auf der Klappe steht: „Ich war um drei vor zwölf an der Klappe, aber beim Knall bin ich sofort zurück. Hast du danach an der Klappe noch jemanden gesehen?“",
       "ausweich": "Bitte den Detektiv, den Messingkerzenständer und den Vorratsraum zu untersuchen. Sag: „Dort lag Herr Schneider. Da muss man zuerst hinschauen.“ Bis dahin frag Can: „Can, Herr Schneider hat eine Kapuze erwischt. Wo war deine, als es schepperte?“"
     }

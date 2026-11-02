@@ -161,7 +161,7 @@
         "antwort": "„Herr Schneider ruft heute viel.“"
       },
       {
-        "frage": "was im Durchgang an dir vorbeikam (Runde 1 und 2)",
+        "frage": "was im Durchgang an dir vorbeikam (außer in Runde 3 vor allen)",
         "antwort": "„Ich hab mit dem Gesicht zur Wand den Hauptschalter gesucht. Mehr sag ich dazu jetzt nicht.“"
       },
       {
@@ -301,7 +301,7 @@
       "runde": 3,
       "nr": 2,
       "ziel": "marek",
-      "frage": "„Marek, du standest am Ostende, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“",
+      "frage": "„Marek, du standest am Ostende, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
       "nachschlag": null,
       "ausweich": "Lejla: „Lejla, du hast Herrn Schneider nach dem Licht versorgt. Hat er gesagt, wen er im Dunkeln gepackt hat?“"
     }
