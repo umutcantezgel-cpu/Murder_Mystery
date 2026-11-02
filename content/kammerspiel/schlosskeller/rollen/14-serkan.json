@@ -5,7 +5,7 @@
     "frage": "Serkan, der Fahrdienst-Organisator. Du fragst jeden, wann er heimwill. Wer darf nachher bei dir vorne sitzen, und wer muss auf die Rückbank?",
     "auftritt": "Ich bin Serkan, Rettungssanitäter, und heute euer Fahrdienst. Wer fährt nachher mit wem? Ich frag lieber jetzt schon. Um halb zwölf hab ich im Kaminsaal die Klappen der Lichtschächte aufgerissen, als aus dem Kamin der Qualm kam. Gern geschehen. Mitnehmen würde ich jeden. Nur das Schloss passt leider in kein Auto."
   },
-  "werDuBist": "OFFEN: ZR 4 „Wer du bist“ (Muster ZR 0.7 aus dem Profil ZR 4.1)",
+  "werDuBist": "Du bist Serkan, 29, der Fahrdienst-Organisator. Du bist Rettungssanitäter und fährst heute alle heim. Man erkennt dich an der Steppweste und am Klemmbrett mit Fahrzeiten. Du hast Hana am Kamin gesehen. Sie kennt deinen Plan. Im Erste-Hilfe-Kurs warst du Lejlas Ausbilder.\nWas dich heute antreibt: Alle sollen schnell und sicher nach Hause kommen.",
   "haltung": "Du bleibst ruhig und willst alle sicher heimbringen. Nur deine Überraschung für die Torte verrätst du nicht. Dafür flunkerst du einmal: die Decken.",
   "tandemKasten": "Um 23:20 Uhr hast du gesehen, wie Hana Papier in den Kamin gestopft hat, ohne die Klappe zu öffnen. Um 23:30 Uhr hast du die Klappen der Lichtschächte aufgerissen. Beim Lüften hast du Hana deinen Plan verraten: Wunderkerzen für die Mitternachtstorte, sie liegen in deinem Auto. Offenes Feuer erlaubt Herr Schneider im Keller nicht. Ihr deckt euch gegenseitig. Kurz vor zwölf wolltest du die Wunderkerzen holen. Das Außentor war zu.",
   "marker": {
@@ -22,8 +22,80 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZR 4.5 Wissen",
-        "text": "OFFEN: ZR 4.5 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "am Nachmittag",
+        "text": "legt eine Packung Wunderkerzen für die Mitternachtstorte in sein Auto",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "parkt vor dem Außentor; zahlt 150 €; unterschreibt die Dankeskarte",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:20",
+        "text": "sieht im Kaminsaal, wie Hana Papier in den Kamin stopft, ohne die Kaminklappe zu öffnen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:30",
+        "text": "Qualm aus dem Kamin; er reißt die Klappen der Lichtschächte auf. Herr Schneider löscht das Feuer",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:30",
+        "text": "verrät Hana beim Lüften seinen Plan mit den Wunderkerzen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–23:55",
+        "text": "im Ost-Saal; Damir schenkt Tee aus",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "geht durch den Buffetsaal und die quietschende Innentür in den Windfang. Er will die Wunderkerzen aus dem Auto holen",
+        "frei": "offen",
+        "zusatz": "Grund erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:56",
+        "text": "Das Außentor ist abgeschlossen. Er schaltet seine LED-Lampe an und leuchtet aufs Schloss",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58–0:00",
+        "text": "auch im Windfang wird es dunkel; aus dem Buffetsaal hört er hinter der Innentür nur dumpfes Rumpeln. Seine Lampe brennt",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "bis 0:02",
+        "text": "Niemand kommt in den Windfang. Die Innentür quietscht laut und geht nicht auf. Das Tor bleibt zu",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:01",
+        "text": "schaltet die Lampe aus",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:02",
+        "text": "kommt durch die Innentür zurück und ruft: „Das Tor ist zu. Abgeschlossen.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:03",
+        "text": "Buffetsaal: {rolle:aylin|Ein Gast} sagt, den Schlüssel fürs Außentor gibt es nur zweimal",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,16 +106,36 @@
     "kernsaetze": [],
     "regie": null,
     "sagstDuJedem": [
-      "OFFEN: ZR 4 Stufe 1 „Das sagst du jedem“"
+      "„Ich bin heute euer Fahrdienst. Wer fährt nachher mit wem?“",
+      "„Um halb zwölf hab ich im Kaminsaal die Klappen der Lichtschächte aufgerissen, als der Kamin so gequalmt hat.“",
+      "„Kurz vor zwölf bin ich durch die Innentür in den Windfang. Das Außentor war abgeschlossen. Ich hab mit meiner Lampe aufs Schloss geleuchtet.“",
+      "„Bis kurz nach zwölf stand ich am Außentor. Niemand kam in den Windfang. Die Innentür quietscht laut, das hätte ich gehört. Durchs Außentor ist also keiner raus.“",
+      "„Aus dem Buffetsaal hab ich hinter der Innentür nur dumpfes Rumpeln gehört.“",
+      "„Um zwei nach zwölf bin ich rein und hab gerufen: ‚Das Tor ist zu. Abgeschlossen.‘“"
     ],
     "ausweichsaetze": [
       {
-        "frage": "OFFEN: ZR 4 Stufe 1, Spalte „Wenn jemand fragt“",
-        "antwort": "OFFEN: ZR 4 Stufe 1, Spalte „sagst du“"
+        "frage": "warum du kurz vor zwölf zum Außentor gegangen bist (deine eine Ausrede, immer derselbe Satz)",
+        "antwort": "„Ich wollte Decken aus dem Auto holen.“"
+      },
+      {
+        "frage": "was im Auto liegt",
+        "antwort": "„Frag nicht so viel. Ich bin der Fahrdienst, nicht der Packesel.“"
+      },
+      {
+        "frage": "was Hana um 23:20 Uhr am Kamin gemacht hat",
+        "antwort": "„Den Kamin angefeuert, das weiß doch jeder. Frag sie selbst.“"
+      },
+      {
+        "frage": "ob Hana dir etwas verraten hat oder du ihr",
+        "antwort": "„Was am Kamin geredet wird, bleibt am Kamin.“"
       }
     ],
     "verboten": [
-      "OFFEN: ZR 4 Stufe 1 „Verboten“"
+      "„Das Tor war offen.“",
+      "„Ich war die ganze Zeit im Ost-Saal.“",
+      "„Hana hat nichts verbrannt.“",
+      "Jede neue Ausrede außer den Decken."
     ],
     "markersatz": null
   },

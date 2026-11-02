@@ -1935,13 +1935,44 @@ class LDe extends L {
 
   @override
   String get detektei_druck_hinweis =>
-      'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.';
+      'So geht’s:\n1. Personen und Detektiv oder Detektivin einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.';
 
   @override
   String get detektei_druck_vorbereiten => 'Druckmappe vorbereiten';
 
   @override
   String get detektei_druck_pdfs => 'PDFs zum Ausdrucken';
+
+  @override
+  String get detektei_druck_personen => 'Personen am Tisch';
+
+  @override
+  String detektei_druck_personen_anzahl(String anzahl) {
+    return '$anzahl Personen';
+  }
+
+  @override
+  String detektei_druck_personen_rollen(String rollen) {
+    return '$rollen Rollen, Detektiv und Erzähler';
+  }
+
+  @override
+  String get detektei_druck_personen_weniger => 'Eine Person weniger';
+
+  @override
+  String get detektei_druck_personen_mehr => 'Eine Person mehr';
+
+  @override
+  String get detektei_druck_detektiv => 'Wer ermittelt?';
+
+  @override
+  String get detektei_druck_detektiv_m => 'Detektiv';
+
+  @override
+  String get detektei_druck_detektiv_w => 'Detektivin';
+
+  @override
+  String get detektei_druck_keine => 'Zu dieser Akte gibt es keine Druckmappe.';
 
   @override
   String abend_schritt(int n, int gesamt) {
@@ -2190,6 +2221,21 @@ class LDe extends L {
   @override
   String get abend_druck_nur_pdfs =>
       'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.';
+
+  @override
+  String get abend_druck_mappe_hinweis =>
+      'Das Kammerspiel spielt ihr ganz auf Papier, die App begleitet den Abend nicht. Personen und Detektiv stellst du in der Druckmappe ein, dort entstehen die PDFs.';
+
+  @override
+  String get abend_einstellungen_druck_hinweis =>
+      'Zum Drucken gibt es hier nichts weiter einzustellen.';
+
+  @override
+  String get abend_start_druck_hinweis =>
+      'Weiter geht es in der Druckmappe der Akte.';
+
+  @override
+  String get abend_zur_druckmappe => 'Zur Druckmappe';
 
   @override
   String get profil_klasse_hinweis =>
@@ -4095,6 +4141,20 @@ class LDe extends L {
   @override
   String get druck_erzaehlerakte_hinweis =>
       'Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.';
+
+  @override
+  String druck_kammer_hinweis(String personen, String rollen) {
+    return 'Für $personen Personen: $rollen Rollen, Detektiv und Erzähler. Druck alles einseitig aus, ohne es durchzulesen. Was an wen geht und was geschnitten, gefaltet und versiegelt wird, steht vorn im Erzählerheft.';
+  }
+
+  @override
+  String get druck_kammer_je_person_hinweis =>
+      'Jede Rolle bekommt vorab nur ihr eigenes Heft mit ihrer Aktionskarte. Der Detektiv bekommt den Detektivbogen, der Erzähler das Erzählerheft. Das Auflösungsheft bleibt versiegelt.';
+
+  @override
+  String druck_zusatzheft_von(String name) {
+    return 'Zusatzheft $name';
+  }
 
   @override
   String get detektei_akte_steckbriefe => 'Steckbriefe & Übersicht';

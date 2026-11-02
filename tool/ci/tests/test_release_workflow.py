@@ -164,17 +164,29 @@ class ReleaseJobTests(unittest.TestCase):
             self.assertIn(f"if [ -f release/{pdf} ]; then assets+=(release/{pdf}); fi", self.block)
 
     def test_notizen_je_datei_und_ersatzzeile(self):
+        notiz = {}
         for pdf in PDFS:
             zeilen = [z for z in self.block.splitlines() if f"`{pdf}`" in z and "printf" in z]
             self.assertEqual(len(zeilen), 1, pdf)
             self.assertIn("Nur für die Person, die erzählt", zeilen[0])
             self.assertIn("nennt nie den Täter", zeilen[0])
             self.assertIn("für jede Personenzahl", zeilen[0])
+            # Die Erzählerakte gehört zu Abenden am Bildschirm, nicht zum Druckspiel (E16).
+            self.assertIn("für einen Abend am Bildschirm", zeilen[0])
+            self.assertIn("Gehört nicht zum Kammerspiel.", zeilen[0])
+            notiz[pdf] = zeilen[0]
+        # Die eine ohne, die andere mit „Dein Moment“; nicht vertauscht.
+        self.assertIn("am Bildschirm ohne „Dein Moment“ (je Figur das Ziel aus ihrer Rolle im App-Spiel)", notiz["erzaehlerakte.pdf"])
+        self.assertNotIn("mit „Dein Moment“", notiz["erzaehlerakte.pdf"])
+        self.assertIn("am Bildschirm mit „Dein Moment“ (je Figur die zwei Ziele aus „Dein Moment“)", notiz["erzaehlerakte-dein-moment.pdf"])
+        self.assertNotIn("ohne „Dein Moment“", notiz["erzaehlerakte-dein-moment.pdf"])
         self.assertIn("Spuk im Schlosskeller", self.block)
-        self.assertIn("Ziele wie im Druckspiel", self.block)
-        self.assertIn("„Dein Moment“", self.block)
+        # Das Druckspiel der App ist das Kammerspiel; die Akte trägt dessen Ziele nicht mehr (E16).
+        self.assertNotIn("Ziele wie im Druckspiel", self.text)
+        self.assertNotIn("Zielen des Druckspiels", self.text)
         self.assertEqual(self.block.count("in diesem Lauf keine PDF"), 2)
-        self.assertIn("PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben).", self.block)
+        self.assertIn("Das Druckspiel „Kammerspiel“ für 6 bis 20 Personen (Erzählerheft, Detektivbogen, Lageplan, Rollenhefte, Fassungen, Karten, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben) → Druckmappe.", self.block)
+        self.assertNotIn("PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung)", self.block)
 
     def test_kopfkommentar_nennt_den_job(self):
         kopf = self.text[: self.text.index("\non:\n")]

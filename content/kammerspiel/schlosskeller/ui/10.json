@@ -15,10 +15,16 @@
   "abDann": "Ab dann",
   "gespraechsauftraege": "Deine Gesprächsaufträge",
   "freigabe": "Was du über andere sagen darfst",
-  "freigabe.kopf": "Was du über andere sagen darfst. Sofort: alles in der ersten Spalte. Wenn dein Marker „23:57“ umgestellt ist: die zweite. Wenn deine Karte offen liegt: die dritte.",
+  "freigabe.kopf": "Sofort: alles in der ersten Spalte. Wenn dein Marker „23:57“ umgestellt ist: die zweite. Wenn deine Karte offen liegt: die dritte.",
   "freigabe.sofort": "Sofort",
   "freigabe.marker": "Wenn dein Marker umgestellt ist",
   "freigabe.karte": "Wenn deine Karte offen liegt",
   "fassung": "Deine versiegelte Fassung",
-  "fassung.text": "Deine Fassung trägt den Code {code}. Öffne sie erst, wenn der Erzähler es sagt."
+  "fassung.text": "Deine Fassung trägt den Code {code}. Öffne sie erst, wenn der Erzähler es sagt.",
+  "impuls": "**{id}** {titel}",
+  "aktion.kopf": "Aktionskarte · {name}",
+  "aktion.wirkung": "Wirkung",
+  "aktion.grenzen": "Grenzen",
+  "aktion.fuss": "Einmal im Spiel. Danach umdrehen.",
+  "notiz": "Deine Notiz"
 }

@@ -22,8 +22,74 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZG 6.4 Wissen",
-        "text": "OFFEN: ZG 6.4 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "18:00",
+        "text": "zahlt 150 € „Miete“ an Ahmet",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "vorher",
+        "text": "Can will um zwölf die blinde Kuh mit einer Leuchtmaske erschrecken. Sie soll Schmiere stehen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:45",
+        "text": "holt am linken Buffet Gebäck für sich und Can. Fatmas Umhängetasche ist auffällig ausgebeult",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "an der langen Tafel im Kaminsaal mit Can. Olli und Tim stehen an der Bogentür; Tim ruft: „Au! Mein Finger!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:54",
+        "text": "Can geht mit der Maske über Steinbogen, Durchgang und Klappe in den Vorratsraum. Sie stellt sich in den Steinbogen, Rücken am Nordpfeiler. Ihr Auftrag: den Fluchtweg frei halten und aufpassen, dass niemand aus dem Kaminsaal herüberkommt",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:54–23:55",
+        "text": "Herr Schneider kommt aus dem Turmgang zurück. Sie macht ihm im Bogen Platz",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "Joanna ruft an der Tür zum Durchgang zum Gruppenfoto. Zeynep: „Komm gleich!“ Kurz danach geht Tim mit dem Finger in der Hand an ihr vorbei Richtung Klappe",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "hört Herrn Schneider laut: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Sie hört „Hab ich dich!“ und „Stehen bleiben!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "Can rennt mit dem leuchtenden Gesicht durch den Durchgang, streift sie im Bogen und rennt in den Kaminsaal. Danach brüllt Herr Schneider noch einmal. Dann scheppert es",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "im Dunkeln, kurz vor dem Licht",
+        "text": "Tims Stirnlampe leuchtet sie an",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:01",
+        "text": "Can kommt von der Turm-Toilette herunter. Sie geht zu ihm auf die Wandbank im Kaminsaal",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,16 +100,41 @@
     "kernsaetze": [],
     "regie": null,
     "sagstDuJedem": [
-      "OFFEN: ZG 6 Stufe 1 „Das sagst du jedem“"
+      "„Ab kurz vor zwölf stand ich im Steinbogen zwischen Durchgang und Kaminsaal. Ich hab nach der blinden Kuh Ausschau gehalten.“",
+      "„Um Viertel vor zwölf hab ich am linken Buffet Gebäck geholt. Fatmas Umhängetasche war auffällig ausgebeult.“",
+      "„Um zehn vor zwölf standen Olli und Tim im Kaminsaal an der Bogentür. Tim hat ‚Au! Mein Finger!‘ gerufen.“",
+      "„Kurz vor dem Knall rief Herr Schneider an der Theke: ‚Nicht die alte Leiste!‘ Das hab ich bis in den Bogen gehört.“"
     ],
     "ausweichsaetze": [
       {
-        "frage": "OFFEN: ZG 6 Stufe 1, Spalte „Wenn jemand fragt“",
-        "antwort": "OFFEN: ZG 6 Stufe 1, Spalte „sagst du“"
+        "frage": "warum du im Bogen standest",
+        "antwort": "„Ich wollte sehen, wann die blinde Kuh zur Torte gebracht wird.“"
+      },
+      {
+        "frage": "wo Can war",
+        "antwort": "„Can ist alt genug. Frag ihn selbst.“"
+      },
+      {
+        "frage": "was du im Dunkeln gesehen hast (Runde 1 und 2)",
+        "antwort": "„Ich hab mich an den Pfeiler gedrückt und gewartet, bis das Licht anging. Mehr sag ich jetzt nicht.“"
+      },
+      {
+        "frage": "ob du Fatma an der Klappe gesehen hast",
+        "antwort": "„Ich hab vor allem in den Kaminsaal geschaut. Auf die Klappe hab ich nicht geachtet.“"
+      },
+      {
+        "frage": "nach Cans Kapuze",
+        "antwort": "„Gelb ist eine schöne Farbe. Mehr nicht.“"
+      },
+      {
+        "frage": "wenn Cans Geheimniskarte schon vor Runde 3 offen liegt",
+        "antwort": "„Was auf Cans Karte steht, stimmt. Mehr sag ich jetzt nicht.“"
       }
     ],
     "verboten": [
-      "OFFEN: ZG 6 Stufe 1 „Verboten“"
+      "„Can war auf der Toilette.“",
+      "„Ich hab im Dunkeln nichts gesehen.“",
+      "„Ich weiß nichts von einer Maske.“"
     ],
     "markersatz": null
   },
@@ -74,7 +165,7 @@
     },
     {
       "impuls": "I-3.1",
-      "antwort": "OFFEN: ZG 0.4 I-3.1 Zeynep (Gesprächs-Auslöser: Karte umdrehen)"
+      "antwort": "Das ist ein Auslöser für dich. Ruf „Karte!“, dreh deine Geheimniskarte um und lies sie vor. Liegt sie schon offen, erzähl, was darauf steht."
     },
     {
       "impuls": "I-3.3",

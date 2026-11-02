@@ -103,7 +103,7 @@
       "Sobald Herrn Schneiders rechte Hand (JA9) offen liegt und jemand vor allen gesagt hat oder eine offene Karte sagt: Das Gesicht kam aus dem Vorratsraum. Was davon zuerst da war, ist egal."
     ],
     "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Als ich mich losgerissen hab, stand Herr Schneider noch. Er hat mir ‚Stehen bleiben!‘ hinterhergebrüllt.“",
-    "marker": "OFFEN: RK 5.7 Marker",
+    "marker": "23:57 auf Vorratsraum (5), Scheppern auf Wendeltreppe und Turm-Toilette (8b). Stell sie so, falls sie anders stehen.",
     "abDann": "Ab jetzt sagst du offen, wie dein Streich lief. Du darfst sagen, dass {rolle:zeynep|deine Schwester} Schmiere stand und dass du sie im Steinbogen gestreift hast. Was nach deiner Flucht an der Theke geschah, weißt du nicht. Im Turm hört man nichts. Sag das ehrlich. Mehr gibst du nicht zu. Dabei bleibst du.",
     "nachDemUmdrehen": {
       "einleitung": null,

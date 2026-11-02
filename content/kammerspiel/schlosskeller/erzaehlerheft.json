@@ -4,31 +4,31 @@
     "taetigkeiten": [
       {
         "teil": "alle",
-        "text": "OFFEN: MECH 10.5 (alle)",
+        "text": "Druck alles einseitig und lies dabei nichts. Nimm für Teil 02 und Teil 20 festeres Papier ab 120 Gramm. Dann scheint nichts durch.",
         "minuten": null
       },
       {
         "teil": "02",
-        "text": "OFFEN: MECH 10.5 (02)",
+        "text": "Blatt A und Blatt B bleiben ganz. Schneide die Marker-Plättchen und die Tipp-Zettel aus.{ab:12|| Schneide das Abwesenheitsblatt in Streifen und falte jeden Streifen so, wie es auf dem Blatt steht.}",
         "minuten": 15
       },
       {
         "teil": "11",
-        "text": "OFFEN: MECH 10.5 (11)",
+        "text": "Falte jede Fassung und klebe sie zu.",
         "minuten": 5
       },
       {
         "teil": "20",
-        "text": "OFFEN: MECH 10.5 (20)",
+        "text": "Schneide die Indizkarten und die Geheimniskarten aus. Falte jede Karte sofort im Zickzack in drei Felder, sodass der Text innen liegt. Staple die Indizkarten nach Code. Schneide die Aktionskarten aus.",
         "minuten": 25
       },
       {
         "teil": "90",
-        "text": "OFFEN: MECH 10.5 (90)",
+        "text": "Falte Teil 90 und versiegle es.",
         "minuten": 2
       }
     ],
-    "anWen": "OFFEN: MECH 9.1 Seite 2 und MECH 1.2 Schritt 0 (was an wen geht)"
+    "anWen": "Vorab darf jede Rolle ihr eigenes Heft bekommen, der Detektiv Teil 01. Teil 90 bekommt niemand vorab.\n\nZu dir legst du Blatt A und Blatt B und den Stapel der Indizkarten, nach Code sortiert und ungelesen. Dazu die Tipp-Zettel, die zwei Marker von Herrn Schneider und Teil 90, versiegelt.{ab:12|| Auch die Zeugenstreifen und die Geheimniskarten der fehlenden Zeugen bleiben bis zur Lageplan-Führung bei dir.} Die vier versiegelten Fassungen behältst du bis nach dem Tat-Moment.\n\nJede Rolle bekommt ihr Heft, ihre Geheimniskarte verdeckt, ihre Aktionskarte offen und zwei Marker. Der Detektiv bekommt Teil 01 und zwei Marker.{ab:12|| Dazu bekommt er die Aktionskarten der fehlenden Zeugen.} Alle legen ihre Geheimniskarte verdeckt und ihre Aktionskarte offen vor sich. Gelesen wird noch nichts Neues."
   },
   "ablauf": [
     {
@@ -177,40 +177,40 @@
       "abschnitt": "a",
       "name": "Rundenstart",
       "minuten": 1,
-      "text": "OFFEN: MECH 1.3 a"
+      "text": "Lies den Rundenstart vor. Ab jetzt sind die Indizkarten dieser Runde frei."
     },
     {
       "abschnitt": "b",
       "name": "Tischgespräch und Verhörstuhl",
       "minuten": 17,
-      "text": "OFFEN: MECH 1.3 b"
+      "text": "Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl, jede höchstens zwei Minuten. Ist ein Pflicht-Auslöser erfüllt, ruft die Person „Karte!“ und dreht ihre Geheimniskarte um. Marker werden umgestellt, Aktionskarten gespielt. Stockt das Gespräch, liest du einen Impuls.{ab:14| In Runde 1 rufst du nach der Hälfte „Wechsel!“. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“.}"
     },
     {
       "abschnitt": "c",
       "name": "Reinen Tisch",
       "minuten": 2,
-      "text": "OFFEN: MECH 1.3 c"
+      "text": "Frag einmal reihum: „Will jemand reinen Tisch machen?“ Wer will, dreht seine Geheimniskarte jetzt um, wenn seine Rundensperre vorbei ist."
     },
     {
       "abschnitt": "d",
       "name": "Untersuchungen",
       "minuten": 6,
-      "text": "OFFEN: MECH 1.3 d"
+      "text": "Der Detektiv nennt nacheinander drei Indizkarten aus seiner Liste. Du suchst jeden Code im Stapel und gibst die Karte ungelesen weiter. Der Detektiv liest sie laut vor. Bei einem Ortstermin antwortet vor allen, wer dort war.{ab:12|| Fehlt die Person heute, drehst du ihren Zeugenstreifen um. Der Detektiv liest ihn laut vor.} Nach jeder Karte stellst du die Standardfrage: „Löst diese Karte bei jemandem etwas aus?“{ab:12|| Danach schaust du still in deine Tabelle „Karten unter den Streifen“.}"
     },
     {
       "abschnitt": "e",
       "name": "Marker-Probe und Bogen",
       "minuten": 3,
-      "text": "OFFEN: MECH 1.3 e"
+      "text": "Frag in die Runde: „Nennt eine offene Karte{ab:12|| oder ein offener Streifen} für jemanden ausdrücklich einen anderen Ort als seinen Marker?“ Wer betroffen ist, stellt seinen Marker vor allen um. Der Detektiv trägt seine Vermerke ein."
     },
     {
       "abschnitt": "f",
       "name": "Rundenschluss",
       "minuten": 1,
-      "text": "OFFEN: MECH 1.3 f"
+      "text": "Lies den Rundenschluss vor. In Runde 3 entfällt er. Dort liegt die Tipp-Runde zwischen Abschnitt c und d."
     }
   ],
-  "runde3Reihenfolge": "OFFEN: MECH 1.3 (Runde 3 hat eine eigene Reihenfolge, P2-03)",
+  "runde3Reihenfolge": "In Runde 3 laufen die Abschnitte a, b und c wie immer. Dann kommt die Tipp-Runde. Danach folgen d und e: die letzten Untersuchungen und die Marker-Probe. Dann klagt der Detektiv an. Abschnitt f entfällt. So liegen alle Tipps bei dir, bevor der Detektiv seine letzten Indizkarten zieht.",
   "gegenueberstellungRegel": "Ab 14 Personen ruft der Erzähler in Runde 2 und 3 nach der Hälfte von Abschnitt b die Gegenüberstellung aus. Ahmet, Fatma, Olli und Can setzen sich nebeneinander an den Kopf des Tisches. Reihum stellt dort jede Person, deren Ziel in dieser Runde einer der vier ist, genau eine Frage. Frage und Antwort dauern zusammen höchstens zwanzig Sekunden. Die Gegenüberstellung dauert fünf Minuten, ab 18 Personen sieben. Danach ruft der Erzähler „Wechsel!“.",
   "kleineRunden": "Bei 6 bis 8 Personen darf der Erzähler Abschnitt b nach zwölf Minuten beenden, wenn alle Ziele gefragt sind.",
   "soLaeuftDerAbend": "Willkommen im Schlosskeller. Heute spielt ihr einen Krimi, und ihr spielt ihn selbst. Jede Rolle hat ein Heft, eine verdeckte Geheimniskarte und eine offene Aktionskarte. Erst stelle ich euch die Geschichte vor, dann stellt ihr euch selbst vor. Dann geschieht es. Danach gibt es drei Runden. In jeder Runde redet ihr miteinander, fragt nach und bohrt nach. Wer in die Enge kommt, muss mit der Wahrheit herausrücken. Am Ende jeder Runde macht der Detektiv drei Untersuchungen. Auf dem Lageplan zeigt jeder, wo er war. Wer lügt, muss seinen Marker irgendwann umstellen. In der letzten Runde tippt ihr alle, auch ich, bevor der Detektiv ein letztes Mal untersucht. Dann klagt er an. Übrigens: Ich weiß selbst nicht, wer es war.",
@@ -237,7 +237,7 @@
   "lageplanFuehrung": [
     {
       "art": "anleitung",
-      "text": "OFFEN: MECH 9.7 Schritt 1",
+      "text": "Leg Blatt A, den Lageplan, und Blatt B, die Markerfelder, nebeneinander in die Tischmitte.",
       "nurMitStreifen": false
     },
     {
@@ -247,12 +247,12 @@
     },
     {
       "art": "anleitung",
-      "text": "OFFEN: MECH 9.7 Schritt 3 (Herrn Schneiders Marker)",
+      "text": "Setz die zwei Marker von Herrn Schneider: „23:57“ auf Feld 4d, Theke Ostende, und „Scheppern“ auf Feld 4c, hinter der Theke vor der Vorratsraumtür.",
       "nurMitStreifen": false
     },
     {
       "art": "anleitung",
-      "text": "OFFEN: MECH 9.7 Schritt 4 (Marker des Detektivs)",
+      "text": "Der Detektiv setzt seine beiden Marker auf Feld 1, Ost-Saal. Dort bleiben sie den ganzen Abend.",
       "nurMitStreifen": false
     },
     {
@@ -262,7 +262,7 @@
     },
     {
       "art": "anleitung",
-      "text": "OFFEN: MECH 9.7 Schritt 6 (Zeugenstreifen auslegen)",
+      "text": "Leg jeden Zeugenstreifen mit dem Etikett nach oben neben das Markerfeld der Zone, die auf dem Etikett steht. Leg die Geheimniskarte desselben Zeugen verdeckt darunter. Die Tabelle „Karten unter den Streifen“ hinten in diesem Heft behältst du bei dir.",
       "nurMitStreifen": true
     },
     {
@@ -272,7 +272,7 @@
     },
     {
       "art": "anleitung",
-      "text": "OFFEN: MECH 9.7 Schritt 7 (Indizkarten-Stapel)",
+      "text": "Der Stapel der Indizkarten bleibt bei dir, nach Code sortiert und ungelesen.",
       "nurMitStreifen": false
     }
   ],
@@ -516,22 +516,22 @@
       {
         "von": 6,
         "bis": 8,
-        "text": "OFFEN: MECH 9.13 Hinweis für 6 bis 8 Personen"
+        "text": "Alle reden mit allen. Ermuntere den Detektiv, Ortstermine früh zu nutzen. Abschnitt b darfst du nach zwölf Minuten beenden, wenn alle Ziele gefragt sind."
       },
       {
         "von": 10,
         "bis": 10,
-        "text": "OFFEN: MECH 9.13 Hinweis für 10 Personen (Standardrunde)"
+        "text": "Das ist die Standardrunde. Zwei Zeugen fehlen, ihre Streifen liegen verdeckt neben dem Lageplan. Sonst läuft alles so, wie dieses Heft es beschreibt."
       },
       {
         "von": 12,
         "bis": 12,
-        "text": "OFFEN: MECH 9.13 Hinweis für 12 Personen"
+        "text": "Alle Hauptrollen sind besetzt, Zeugenstreifen gibt es nicht. Ab hier laufen beim Verhörstuhl die anderen Gespräche leise weiter. Soll eine Antwort dort für alle gelten, rufst du vorher „Alle mal herhören!“."
       },
       {
         "von": 14,
         "bis": 20,
-        "text": "OFFEN: MECH 9.13 Hinweis für 14 bis 20 Personen"
+        "text": "Ab hier zerfällt das Gespräch in Grüppchen. In Runde 1 rufst du nach der Hälfte von Abschnitt b „Wechsel!“. Dann geht jede Rolle zu ihrem zweiten Nachbohr-Ziel. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“. Die Gegenüberstellung dauert {ab:18|sieben|fünf} Minuten. Bei der Auflösung liest jede Person ihren Absatz „Die Rollen am Tisch“ selbst."
       }
     ]
   },
@@ -564,6 +564,6 @@
         "text": "„die Fußballtrainerin“, „deine Schwester“, „meine Schwester“"
       }
     ],
-    "hinweis": "OFFEN: MECH 9.14 (Satz unter der Tabelle: „Ein Gast“, „jemand“, Damir mit der Teekanne)"
+    "hinweis": "„Ein Gast“ und „jemand“ öffnen keinen Streifen. Auch „ein Gast mit einer großen Teekanne“ öffnet keinen, denn das ist kein Zeuge."
   }
 }

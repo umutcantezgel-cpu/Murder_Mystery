@@ -103,7 +103,7 @@
       "Sobald eine Taschenkontrolle bei dir das Bündel Scheine gezeigt hat und der Jackenständer im Ost-Saal (WE3) offen liegt. Was davon zuerst da war, ist egal."
     ],
     "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Ihr bekommt euer Geld zurück. Versprochen.“",
-    "marker": "OFFEN: RK 2.7 Marker (bleiben auf 4d)",
+    "marker": "23:57 auf Theke Ostende (4d), Scheppern auf Theke Ostende (4d). Stell sie so, falls sie anders stehen.",
     "abDann": "Ab jetzt sagst du offen, was an der Theke war. Du darfst sagen, dass {rolle:joanna|die Fotografin des Abends} um 23:51 Uhr ein Foto gemacht hat. Zum Umschlag sagst du die Wahrheit. Um 0:12 Uhr hast du das Geld in die Hosentasche gesteckt. Den leeren Umschlag hast du in den Ascheneimer am Kamin geworfen. Mehr gibst du nicht zu. Dabei bleibst du.",
     "nachDemUmdrehen": {
       "einleitung": null,

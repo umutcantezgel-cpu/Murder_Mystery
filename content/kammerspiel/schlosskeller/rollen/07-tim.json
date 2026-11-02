@@ -25,7 +25,7 @@
         "zeit": "18:00",
         "text": "leiht sich {wenn:wojtek|Wojteks Werkzeugkasten|einen Werkzeugkasten}, um seine wackelige alte Mehrfachsteckdose zu richten. Er tut es nicht. Der Kasten steht hinter der Theke neben der Kaffeemaschine",
         "frei": "offen",
-        "zusatz": "OFFEN: ZG 3.4 frei ab: „offen, dass er den Kasten geliehen hat; die Steckdose: Karte“"
+        "zusatz": "Kasten offen; die Steckdose erst nach dem Umdrehen"
       },
       {
         "zeit": "18:30",
@@ -67,13 +67,13 @@
         "zeit": "23:50",
         "text": "steht mit Olli vor der Bogentür, sie schauen nach der Schramme. Klemmt sich den Finger ein: „Au! Mein Finger!“",
         "frei": "offen",
-        "zusatz": "OFFEN: ZG 3.4 frei ab: „offen: der Finger an der Bogentür; der Grund: nach dem Umdrehen“"
+        "zusatz": "Bogentür und Finger offen; die Schramme erst nach dem Umdrehen"
       },
       {
         "zeit": "23:52",
         "text": "Olli: „Ich hol dir Eis. Und dann red ich mit Schneider.“ Danach geht Olli Richtung Ost-Saal",
         "frei": "offen",
-        "zusatz": "OFFEN: ZG 3.4 frei ab: „„Ich hol dir Eis“ offen; ganzer Satz nach dem Umdrehen“"
+        "zusatz": "„Ich hol dir Eis“ offen; der ganze Satz erst nach dem Umdrehen"
       },
       {
         "zeit": "23:52–23:54",
@@ -103,7 +103,7 @@
         "zeit": "23:57",
         "text": "hört hinter sich: „Zweitausend, bis zwölf.“ Dann kommt Herr Schneider vom Ostende zu ihm: „Nicht die alte Leiste!“ Tim steckt die Kaffeemaschine trotzdem ein",
         "frei": "offen",
-        "zusatz": "OFFEN: ZG 3.4 frei ab: „„Nicht die alte Leiste“ offen; das Einstecken: Karte; „Zweitausend“: nach dem Umdrehen“"
+        "zusatz": "Ruf offen, alle hörten ihn; wem er galt, das Einstecken und „Zweitausend“ erst nach dem Umdrehen"
       },
       {
         "zeit": "23:58",
@@ -224,7 +224,7 @@
     },
     {
       "impuls": "I-3.1",
-      "antwort": "OFFEN: ZG 0.4 I-3.1 Tim (Gesprächs-Auslöser: Karte umdrehen)"
+      "antwort": "Das ist ein Auslöser für dich. Ruf „Karte!“, dreh deine Geheimniskarte um und lies sie vor. Liegt sie schon offen, erzähl, was darauf steht."
     },
     {
       "impuls": "I-3.3",

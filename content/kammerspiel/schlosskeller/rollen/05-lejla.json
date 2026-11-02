@@ -55,7 +55,7 @@
         "zeit": "23:57",
         "text": "Ahmet schlüpft mit einem dicken Umschlag am Ostende hinter die Theke",
         "frei": "karte",
-        "zusatz": "OFFEN: ZG 1.4 frei ab: „Karte (nur der Ort ohne Umschlag ist offen, er steht auf Ahmets Marker)“"
+        "zusatz": "Ahmets Ort offen; der Umschlag erst nach dem Umdrehen"
       },
       {
         "zeit": "23:57",
@@ -232,7 +232,7 @@
       "ziel": "marek",
       "frage": "„Marek, Ahmet sagt, er hat sich beim Knall an deine Beine gekauert. Stimmt das? Dann sag es laut, damit es alle hören.“",
       "nachschlag": null,
-      "ausweich": "Olli: „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“ (Ollis Heimlichtuerei, M7)"
+      "ausweich": "Olli: „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“"
     },
     {
       "runde": 3,

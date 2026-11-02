@@ -57,27 +57,27 @@
     }
   ],
   "meilensteinRegel": "M1 bis M3 zählen nur, wenn in der Zelle eine Quelle steht, die nicht die Person selbst ist. Das kann eine Zeugin, ein Zeuge, ein Streifen oder eine Karte sein. Welche, ist egal.",
-  "pruefung": "OFFEN: MECH 6.1 (Absatz über der Tabelle) und MECH 6.4 (abhaken, Summe, Mehrheit des Tisches)",
+  "pruefung": "Leg den Ermittlungsbogen neben diese Tabelle und hake jeden Meilenstein ab, der dort steht. Je Meilenstein gibt es einen Punkt, höchstens 9. Es zählt der Kernfakt im richtigen Feld, egal aus welcher Quelle. Für Falsches gibt es keinen Minuspunkt. Es zählt, was bei der Anklage auf dem Bogen stand. Die Summe sind die Detektiv-Punkte, 0 bis 9. Bei Zweifel entscheidet die Mehrheit des Tisches, nicht der Erzähler allein.",
   "enden": [
     {
       "nr": 1,
       "name": "Meister-Detektiv",
-      "text": "OFFEN: MECH 8.2 Ende 1 (Kanon finale.olli.ende_1 mit M-24; an die Stelle des Bund-Satzes {bund})"
+      "text": "Du klagst Olli an, und es stimmt. Du hast die Spuren zusammengetragen. Olli gesteht: Die Tat war Panik im Dunkeln. Zusammen seht ihr euch den Kerzenständer an. Im erstarrten roten Wachs am Fuß kleben feine Holzsplitter und weißer Kalk. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig.\n\n{bund}\n\nDie Runde lacht erleichtert, bei Tee und alkoholfreiem Apfelpunsch. Herr Schneider will das Außentor erst im Hellen aufschließen. Bis es dämmert, gibt es Torte und Tee. Dann schließt er auf, und ihr geht hinaus."
     },
     {
       "nr": 2,
       "name": "Teilerfolg",
-      "text": "OFFEN: MECH 8.2 Ende 2 (Kanon finale.olli.ende_2 mit M-24; an die Stelle des Bund-Satzes {bund})"
+      "text": "Du klagst Olli an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Olli gesteht: Die Tat war Panik im Dunkeln. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig.\n\n{bund}\n\nZwischen euch bleibt ein kleiner Riss. Herr Schneider will das Außentor erst im Hellen aufschließen. Bis es dämmert, gibt es Torte und Tee. Dann schließt er auf, und alle gehen ein bisschen stiller hinaus."
     },
     {
       "nr": 3,
       "name": "Justizirrtum",
-      "text": "OFFEN: MECH 8.2 Ende 3 (Kanon finale.olli.ende_3 mit M-24; an die Stelle des Bund-Satzes {bund})"
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig. Das Tor bleibt zu bis zum Morgen.\n\n{bund}\n\nOlli gesteht erst danach: Die Tat war Panik im Dunkeln. Zwischen euch bleibt ein tiefer Riss."
     },
     {
       "nr": 4,
       "name": "Totale Eskalation",
-      "text": "OFFEN: MECH 8.2 Ende 4 (Kanon finale.olli.ende_4 mit M-24; an die Stelle des Bund-Satzes {bund})"
+      "text": "Du zeigst auf die falsche Person, und plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Stimmen werden immer lauter, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig. Das Tor bleibt zu bis zum Morgen.\n\n{bund}\n\nOlli gesteht erst danach: Die Tat war Panik im Dunkeln. Alle gehen hinaus, und keiner verabschiedet sich."
     }
   ],
   "bundSaetze": {
@@ -87,19 +87,163 @@
     "andereMitPp9": "Den Bund hat Herr Schneider, aber er schließt erst auf, als es hell wird."
   },
   "rueckblende": [
-    "OFFEN: MECH 8.3 Abschnitt 1 „Der Abend“; Kernsatz wörtlich: „Um halb sieben tragen Olli und Tim die Warmhaltebehälter durch den Turmgang. Fünf Minuten später schrammt Olli die Bogentür, und ein Beschlag reißt aus der gekalkten Wand.“",
-    "OFFEN: MECH 8.3 Abschnitt 2 „Vier Heimlichtuereien“; Kernsatz wörtlich: „Vier aus der Clique haben heute etwas zu verbergen. Nur einer davon hat mit dem Scheppern zu tun.“",
-    "OFFEN: MECH 8.3 Abschnitt 3 „Zwei vor zwölf“; Kernsatz wörtlich: „Zwei vor zwölf steckt Tim die Kaffeemaschine in seine alte Steckdose. Es knallt, und überall ist es dunkel.“",
-    "OFFEN: MECH 8.3 Abschnitt 4 „Das Gespenst“; Kernsatz wörtlich: „Can ist schon im Kaminsaal, als Herr Schneider ihm noch hinterherbrüllt. Erst danach scheppert es.“",
-    "OFFEN: MECH 8.3 Abschnitt 5 „Das Scheppern“; Kernsatz wörtlich: „Dann, in Panik: ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden. Die Kerzen gehen aus.“",
-    "OFFEN: MECH 8.3 Abschnitt 6 „Der Bund“; Kernsatz wörtlich: „Olli schiebt den Bund unter die Eiswürfel. Dann kriecht er zum rechten Buffettisch und flüstert: ‚Lejla? Ich bin's, Olli.‘“",
-    "OFFEN: MECH 8.3 Abschnitt 7 „Licht“; Kernsatz wörtlich: „Um Mitternacht geht das Licht an. Olli holt Tim eine Handvoll Eis, nur von oben.“",
-    "OFFEN: MECH 8.3 Abschnitt 8 „Nach Mitternacht“; Kernsatz wörtlich: „Herr Schneider überlebt. Er hat eine dicke Beule und eine Gedächtnislücke, und er ist bald wieder grantig.“"
+    "Um halb sieben tragen Olli und Tim die Warmhaltebehälter durch den Turmgang. Fünf Minuten später schrammt Olli die Bogentür, und ein Beschlag reißt aus der gekalkten Wand. An seinen Ärmeln hängen Holzsplitter und weißer Kalk. Tim gibt ihm Möbelwachs, und Olli reibt es mit seinem rechten Handschuh in die Schramme. Herr Schneider verlangt zweitausend Euro bis Mitternacht. Dann sperrt er die Tore zu. Um elf Uhr droht er Olli laut mit der Polizei.",
+    "Vier aus der Clique haben heute etwas zu verbergen. Nur einer davon hat mit dem Scheppern zu tun. Ahmet hat für Mareks Nachzahlung von allen „Miete“ eingesammelt, obwohl der Keller umsonst war. Fatma hat um zwanzig vor zwölf die Münzschatulle aus der Vitrine ausgeliehen. Can wartet ab sechs vor zwölf mit einer leuchtenden Maske im Vorratsraum, Zeynep steht Schmiere. Und Olli will mit Herrn Schneider reden.",
+    "Drei vor zwölf steht Olli am Eiskübel, Ahmet hinter der Theke bei Marek. Fatma geht zur Theken-Klappe. Herr Schneider ruft Tim zu: „Nicht die alte Leiste!“ Zwei vor zwölf steckt Tim die Kaffeemaschine in seine alte Steckdose. Es knallt, und überall ist es dunkel. Nur die Kerzen an der Anrichte und das Notausgangsschild leuchten noch. Ahmet kauert an Mareks Beinen, Fatma neben Emine hinter dem linken Buffettisch. Lejla kauert allein am rechten Buffettisch.",
+    "Herr Schneider will die Notlaterne holen und zieht die Vorratsraumtür auf. Da springt Can mit der leuchtenden Maske heraus. Herr Schneider packt ihn an der Kapuze: „Hab ich dich!“ Marek sieht im Kerzenlicht das leuchtende Gesicht. Can reißt sich los. Herr Schneider brüllt: „Stehen bleiben!“ Aber Can rennt an Olli, Tim und Zeynep vorbei. Can ist schon im Kaminsaal, als Herr Schneider ihm noch hinterherbrüllt. Erst danach scheppert es.",
+    "Olli geht durch die Klappe zur Vorratsraumtür: „Lass uns reden, nur kurz.“ Herr Schneider packt ihn am Ärmel und zischt: „Zweitausend. Sonst Polizei.“ Olli greift den Kerzenständer am Fuß. Holzsplitter und Kalk von seinem Ärmel bleiben im Wachs kleben, rote Tropfen fallen auf seinen Handschuh. Dann, in Panik: ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden. Die Kerzen gehen aus.",
+    "Herr Schneider fällt rückwärts in den Vorratsraum und bleibt bewusstlos liegen, mit einer dicken Beule. Olli reißt ihm den Schlüsselbund vom Gürtel, um hinauszukommen. Gleich danach weiß er: Flucht macht alles schlimmer. Er tastet sich zum Eiskübel zurück. Olli schiebt den Bund unter die Eiswürfel. Dann kriecht er zum rechten Buffettisch und flüstert: „Lejla? Ich bin's, Olli.“",
+    "Im Durchgang findet Tim Stirnlampe und Hauptschalter. Um Mitternacht geht das Licht an. Olli holt Tim eine Handvoll Eis, nur von oben. Da hat Marek schon gerufen: „Hier liegt Herr Schneider!“ Außer Olli greift niemand in den Eiskübel. So bleibt der Bund unter dem Eis verborgen.",
+    "Herr Schneider kommt zu sich und vermisst seinen Schlüsselbund. Ohne den Bund sitzen alle bis zum Morgen fest. Zwölf nach zwölf leert Ahmet am Kamin seinen Umschlag. Das Geld steckt er ein, die Hülle landet im Ascheneimer. Herr Schneider überlebt. Er hat eine dicke Beule und eine Gedächtnislücke, und er ist bald wieder grantig."
   ],
   "zeitleiste": [
     {
-      "zeit": "OFFEN: MECH 8.3 Zeitleiste (WELT 3.4, 23:57:00 bis 0:01:00, Zeilen der Abschnitte 3 bis 7)",
-      "text": "OFFEN: MECH 8.3 Zeitleiste"
+      "zeit": "23:57:00",
+      "text": "Olli steht am Eiskübel. Herr Schneider sagt vom Ostende der Theke her leise: „Zweitausend, bis zwölf.“ Ahmet steht eben neben Marek hinter der Theke."
+    },
+    {
+      "zeit": "23:57:00",
+      "text": "Joanna hält ihre Liste in den Notizen ihres Handys fest. Zeitstempel 23:57."
+    },
+    {
+      "zeit": "23:57:00 – 23:57:06",
+      "text": "Mit ihrer Tasche geht Fatma vom linken Buffet zur Theken-Klappe. Sie will Herrn Schneider die Schatulle zurückgeben."
+    },
+    {
+      "zeit": "23:57:00 – 23:57:03",
+      "text": "Im dunklen Vorratsraum wartet Can jetzt gleich hinter der angelehnten Tür."
+    },
+    {
+      "zeit": "23:57:25 – 23:57:30",
+      "text": "Herr Schneider wechselt hinter der Theke vom Ostende zu Tim an die Kaffeemaschine. Ahmet kommt nicht zu Wort."
+    },
+    {
+      "zeit": "23:57:30 – 23:57:35",
+      "text": "{rolle:damir|Ein Gast} bringt die große Teekanne aus dem Ost-Saal ans Ostende und wartet hinter Marek."
+    },
+    {
+      "zeit": "23:57:40",
+      "text": "Herr Schneider laut zu Tim: „Nicht die alte Leiste!“"
+    },
+    {
+      "zeit": "23:57:50",
+      "text": "Trotzdem steckt Tim die Kaffeemaschine in seine Mehrfachsteckdose."
+    },
+    {
+      "zeit": "23:58:00",
+      "text": "**Knall.** Die Hauptsicherung fliegt, überall ist der Strom weg. Es leuchten nur noch die Kerzen an der Anrichte und das Notausgangsschild."
+    },
+    {
+      "zeit": "23:58:00",
+      "text": "Ahmet kauert sich an Mareks Beine, {rolle:damir|ein Gast} kauert am Ostende. Emine kauert hinter dem linken Buffettisch, Lejla am rechten. Marek bleibt stehen, Olli am Eiskübel auch. Tim sucht sich im Dunkeln den Weg zur Klappe."
+    },
+    {
+      "zeit": "23:58:01 – 23:58:05",
+      "text": "Fatma geht von der Klappe hinter den linken Buffettisch und kauert sich hin."
+    },
+    {
+      "zeit": "23:58:02 – 23:58:05",
+      "text": "Herr Schneider: „Ruhe! Ich hol die Notlaterne.“ Hinter der Theke läuft er bis zur Vorratsraumtür und zieht sie auf."
+    },
+    {
+      "zeit": "23:58:03",
+      "text": "Ahmet: „Marek? Ich bin's, Ahmet.“"
+    },
+    {
+      "zeit": "23:58:06",
+      "text": "Fatma: „Emine? Ich bin's, Fatma.“"
+    },
+    {
+      "zeit": "23:58:06 – 23:58:07",
+      "text": "Can springt mit der leuchtenden Maske heraus: „Buuuh!“"
+    },
+    {
+      "zeit": "23:58:08",
+      "text": "Herr Schneider packt Can an der gelben Kapuze: „Hab ich dich!“ Danach beginnt seine Gedächtnislücke. Marek sieht im Kerzenlicht das leuchtende Gesicht."
+    },
+    {
+      "zeit": "23:58:09",
+      "text": "Tim erreicht den Sicherungskasten im Durchgang. Seine Stirnlampe rutscht ihm vom Hals."
+    },
+    {
+      "zeit": "23:58:10 – 23:58:15",
+      "text": "Olli geht vor der Theke nach Westen. Im Dunkeln bleibt er 1,4 m neben der Theken-Klappe stehen."
+    },
+    {
+      "zeit": "23:58:17 – 23:58:18",
+      "text": "Can reißt sich los. Herr Schneider brüllt: „Stehen bleiben!“"
+    },
+    {
+      "zeit": "23:58:19",
+      "text": "Can rennt durch die Klappe, dicht an Olli vorbei. Olli sieht das leuchtende Gesicht. Dann geht er durch die Klappe zur Vorratsraumtür."
+    },
+    {
+      "zeit": "23:58:20 – 23:58:22",
+      "text": "Can rennt an Tim vorbei, streift Zeynep im Steinbogen und läuft quer durch den Kaminsaal."
+    },
+    {
+      "zeit": "23:58:22",
+      "text": "Herr Schneider brüllt: „Stehen bleiben, hab ich gesagt!“ Can ist schon im Kaminsaal."
+    },
+    {
+      "zeit": "23:58:23",
+      "text": "Can stopft die Maske vor der Bogentür in die Bauchtasche. Das Leuchten ist weg."
+    },
+    {
+      "zeit": "23:58:25",
+      "text": "Olli im Kerzenlicht vor der Vorratsraumtür: „Lass uns reden, nur kurz.“ Marek sieht nur einen zweiten Umriss."
+    },
+    {
+      "zeit": "23:58:26",
+      "text": "Herr Schneider packt Olli am Ärmel und zischt: „Zweitausend. Sonst Polizei.“"
+    },
+    {
+      "zeit": "23:58:29",
+      "text": "Olli greift in Panik den Messingkerzenständer am Fuß. Holzsplitter und Kalk von seinem Ärmel kleben im weichen Wachs. Rote Tropfen fallen auf seinen rechten Handschuh."
+    },
+    {
+      "zeit": "23:58:30",
+      "text": "**Scheppern:** ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden. Die Kerzen erlöschen. Herr Schneider fällt rückwärts in den Vorratsraum."
+    },
+    {
+      "zeit": "23:58:31 – 23:58:35",
+      "text": "Olli geht in den dunklen Vorratsraum und reißt den Schlüsselbund von der Gürtelschlaufe. Der Bund klimpert."
+    },
+    {
+      "zeit": "23:58:36 – 23:58:49",
+      "text": "Olli tastet sich zurück zum Eiskübel: Vorratsraumtür, Klappe, dann vor der Theke entlang."
+    },
+    {
+      "zeit": "23:58:49",
+      "text": "Olli schiebt den Bund unter die Eiswürfel. Das Eis klirrt. Niemand ist näher als 1,9 m."
+    },
+    {
+      "zeit": "23:58:50 – 23:58:55",
+      "text": "Olli kriecht zum rechten Buffettisch und flüstert: „Lejla? Ich bin's, Olli.“"
+    },
+    {
+      "zeit": "23:59:40",
+      "text": "Tim ertastet seine Stirnlampe auf dem Boden. Sie leuchtet wieder."
+    },
+    {
+      "zeit": "0:00:00",
+      "text": "**Licht.** Tim schaltet die Hauptsicherung ein. Der Vorratsraum bleibt dunkel."
+    },
+    {
+      "zeit": "0:00:05",
+      "text": "Alle Kauernden stehen auf. Der Kerzenständer liegt am Boden, Herr Schneider fehlt. Olli geht zum Eiskübel."
+    },
+    {
+      "zeit": "0:00:10 – 0:00:20",
+      "text": "Marek öffnet die Vorratsraumtür ganz, macht drinnen Licht und ruft: „Hier liegt Herr Schneider!“ Lejla eilt hin."
+    },
+    {
+      "zeit": "0:00:30 – 0:01:00",
+      "text": "Olli nimmt obenauf eine Handvoll Eis in eine Serviette und bringt sie Tim in den Durchgang."
+    },
+    {
+      "zeit": "0:01:00",
+      "text": "Olli zu Tim: „Hier, dein Eis. Hat gedauert.“ Can steigt von der Turm-Toilette herab."
     }
   ],
   "tippWertung": {
@@ -107,21 +251,21 @@
       {
         "nr": 1,
         "punkte": 2,
-        "loesung": "OFFEN: MECH 7.2 Frage 1"
+        "loesung": "Olli."
       },
       {
         "nr": 2,
         "punkte": 1,
-        "loesung": "OFFEN: MECH 7.2 Frage 2"
+        "loesung": "Im Eiskübel. „Unter dem Eis“ zählt auch."
       },
       {
         "nr": 3,
         "punkte": 2,
-        "loesung": "OFFEN: MECH 7.2 Frage 3"
+        "loesung": "Das Bonus-Ziel zählt, wenn seine Bedingung bei der Anklage erfüllt war. Die Bedingungen stehen unter „Bonus-Ziele“. Der Tisch bestätigt."
       }
     ],
-    "sonderregel": "OFFEN: MECH 7.2 Sonderregel für Olli (M-22)",
-    "spuernase": "OFFEN: MECH 7.2 Spürnase des Abends"
+    "sonderregel": "**Für Olli zählen Frage 1 und 2 nicht.** Er bekommt stattdessen 3 Punkte, wenn der Detektiv nicht ihn angeklagt hat. Frage 3 zählt für ihn wie für alle. So hat jeder höchstens 5 Punkte.",
+    "spuernase": "Der Erzähler zählt die Punkte aller Tipp-Zettel zusammen, auch seine eigenen. **Spürnase des Abends** ist, wer die meisten Punkte hat. Bei Gleichstand teilen sich alle mit den meisten Punkten den Titel. Der Detektiv ist nicht in dieser Wertung. Für ihn zählen sein Ende und seine Detektiv-Punkte."
   },
   "erzaehlerBonus": "Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Karten unter den Zeugenstreifen zählen nicht mit."
 }

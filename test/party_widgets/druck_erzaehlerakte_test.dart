@@ -1,10 +1,16 @@
-// Die Erzählerakte als PDF in der Druckmappe (A-063, PDF-Paket): Unter „Rollenhefte
-// einzeln senden“ steht ein eigener Abschnitt „Nur Erzähler“ mit Hinweis und Knopf. Die
-// Datei entsteht erst beim Tipp, ohne Satz und Fall-Code, mit den Zielen des Kanons (wie
-// das Druckspiel und die Kommandozeile ohne --dein-moment, nie die Sterne von „Dein
-// Moment“) und der Personenzahl der Einstellung. Sie ist in allen Pfaden dieselbe. Nie in
-// der Rollenvergabe, die der ganze Tisch sieht, nie ohne Druckspiel, nie im Solo, nie bei
-// Akten ohne Erzählerakte. Im Browser: „Herunterladen: Erzählerakte“.
+// Die Erzählerakte als PDF in der alten Druckfassung (A-063, PDF-Paket): Mit dem Schalter
+// erzaehlerakte steht unter „Rollenhefte einzeln senden“ ein eigener Abschnitt „Nur
+// Erzähler“ mit Hinweis und Knopf. Die Datei entsteht erst beim Tipp, ohne Satz und
+// Fall-Code, mit den Zielen des Kanons (wie das Druckspiel und die Kommandozeile ohne
+// --dein-moment, nie die Sterne von „Dein Moment“) und der Personenzahl der Einstellung.
+// Sie ist in allen Pfaden dieselbe. Nie in der Rollenvergabe, die der ganze Tisch sieht,
+// nie ohne Druckspiel, nie im Solo, nie bei Akten ohne Erzählerakte. Im Browser:
+// „Herunterladen: Erzählerakte“.
+//
+// Die Druckmappe der Akte bietet seit dem Kammerspiel keine Erzählerakte mehr an (E16):
+// Sie zeigt die KammerTafel, nie die DruckTafel mit dem Schalter (letzter Test). Die
+// Tafel mit dem Schalter bleibt bis zur Abnahme erreichbar (A-2); ihre Prüfungen hier
+// gelten weiter, ebenso die Erzählerakte am Erzählerplatz und als Release-Datei.
 import 'dart:convert';
 import 'dart:io';
 
@@ -22,7 +28,9 @@ import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/datei_teilen.dart';
 import 'package:mordakte/party/druck_portraets.dart';
 import 'package:mordakte/party/druck_speichern.dart';
+import 'package:mordakte/party/datei_knopf.dart';
 import 'package:mordakte/party/druck_tafel.dart';
+import 'package:mordakte/party/kammer_tafel.dart';
 import 'package:mordakte/party/sitzung.dart';
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:share_plus/share_plus.dart';
@@ -47,7 +55,7 @@ Future<void> _zeige(WidgetTester t, Widget kind) async {
   await t.pumpWidget(rahmen(kind));
 }
 
-/// Die Tafel der Druckmappe (mit dem Abschnitt der Erzählerakte) in einer rollenden Seite.
+/// Die Tafel mit dem Abschnitt der Erzählerakte (früher in der Druckmappe) in einer rollenden Seite.
 Widget _mappe(PartySitzung s, {bool druckspiel = true, bool erzaehlerakte = true}) =>
     SingleChildScrollView(child: DruckTafel(sitzung: s, druckspiel: druckspiel, erzaehlerakte: erzaehlerakte));
 
@@ -120,13 +128,13 @@ void _einmalOhne(WidgetTester t, String asset) {
   addTearDown(() => m.setMockMessageHandler('flutter/assets', _testAsset));
 }
 
-/// Der Knopf der Erzählerakte in der Druckmappe (Schlüssel `druck-erzaehlerakte-<n>`).
+/// Der Knopf der Erzählerakte auf der Tafel (Schlüssel `druck-erzaehlerakte-<n>`).
 final _knopf = find.byWidgetPredicate((w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('druck-erzaehlerakte'));
 
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  testWidgets('Druckmappe: Abschnitt „Nur Erzähler“ unter den Rollenheften; der Knopf teilt erzaehlerakte.pdf mit den Zielen des Kanons', (t) async {
+  testWidgets('Tafel mit Schalter: Abschnitt „Nur Erzähler“ unter den Rollenheften; der Knopf teilt erzaehlerakte.pdf mit den Zielen des Kanons', (t) async {
     final angefragt = mitErsatzPortraets();
     final geteilt = _zeuge();
     final s = _sitzung();
@@ -155,7 +163,7 @@ void main() {
     final soll = await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: 6));
     expect(bytes, soll);
     final sterne = await t.runAsync(() => erzaehlerakteSoll(erzaehlDaten, einfluss: true, rollen: 6));
-    expect(bytes, isNot(sterne), reason: 'Die Druckmappe nennt nie die Sterne von „Dein Moment“');
+    expect(bytes, isNot(sterne), reason: 'Die Tafel nennt nie die Sterne von „Dein Moment“');
 
     // Der zweite Tipp baut nicht neu.
     await _tippeUndWarte(t, find.text(s.ui('ui.druck.akte.titel')), () => geteilt.length > 1);
@@ -287,8 +295,8 @@ void main() {
     expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
   });
 
-  testWidgets('In der App: Akte → Druckmappe vorbereiten → Erzählerakte mit den Schriften aus dem Bündel', (t) async {
-    mitErsatzPortraets();
+  testWidgets('In der App: Druckmappe vorbereiten bietet keine Erzählerakte an (E16), nur das Kammerspiel', (t) async {
+    final angefragt = mitErsatzPortraets();
     final geteilt = _zeuge();
     t.view.physicalSize = const Size(390, 844);
     t.view.devicePixelRatio = 1;
@@ -307,16 +315,28 @@ void main() {
       await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
       await t.pump(const Duration(milliseconds: 50));
     }
+    // Was die Erzählerakte in der Druckmappe anzeigte: Abschnitt, Hinweis, Knopf (aus den Texten der Akte).
+    final d = erzaehlDaten;
+    expect(d.erzaehlerakteFuer(einfluss: false), isNotNull, reason: 'Die Akte hat eine Erzählerakte, nur die Druckmappe bietet sie nicht an');
+    void keineAkte(String wann) {
+      expect(find.byType(DruckTafel), findsNothing, reason: wann);
+      expect(_knopf, findsNothing, reason: wann);
+      expect(find.text(d.texte.baustein('ui.druck.paket.dateien.ordner4'), skipOffstage: false), findsNothing, reason: wann);
+      expect(find.text(d.texte.baustein('ui.druck.akte.titel'), skipOffstage: false), findsNothing, reason: wann);
+      expect(find.text(_de.druck_erzaehlerakte_hinweis, skipOffstage: false), findsNothing, reason: wann);
+      expect(find.textContaining('Erzählerakte', skipOffstage: false), findsNothing, reason: wann);
+    }
+
+    keineAkte('vor dem Vorbereiten');
     await t.tap(vorbereiten);
     await t.pump();
-    final tafel = t.widget<DruckTafel>(find.byType(DruckTafel));
-    expect(tafel.erzaehlerakte, isTrue);
-    final s = tafel.sitzung;
-    expect(find.text(s.ui('ui.druck.paket.dateien.ordner4'), skipOffstage: false), findsOneWidget);
-    await _tippeUndWarte(t, find.text(s.ui('ui.druck.akte.titel')), () => geteilt.isNotEmpty);
-    expect(geteilt.single.fileNameOverrides, ['erzaehlerakte.pdf']);
-    final soll = await t.runAsync(() async => erzaehlerakteSoll(erzaehlDaten, einfluss: false, rollen: s.einstellungen.rollen));
-    expect(await _bytes(t, geteilt.single), soll);
+    expect(find.byType(KammerTafel), findsOneWidget);
+    keineAkte('nach dem Vorbereiten');
+    // Jeder Knopf der Tafel gehört zum Kammerspiel: Alles, acht Teile, je Rolle ein Heft.
+    final k = t.widget<KammerTafel>(find.byType(KammerTafel)).kontext;
+    expect(find.byType(DateiKnopf, skipOffstage: false), findsNWidgets(1 + 8 + k.besetzung.rollen));
+    expect(geteilt, isEmpty);
+    expect(angefragt, isEmpty, reason: 'Keine Porträts: Es entsteht keine Erzählerakte');
     await t.pumpWidget(const SizedBox.shrink());
     state.dispose();
   });

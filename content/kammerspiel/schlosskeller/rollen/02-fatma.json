@@ -103,7 +103,7 @@
       "{wenn:emine|Sobald Emines Geheimniskarte offen liegt.|Sobald die Geheimniskarte unter dem Zeugenstreifen am linken Buffettisch offen liegt.}"
     ],
     "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Am Montag bring ich sie zurück. Versprochen.“",
-    "marker": "OFFEN: RK 3.7 Marker",
+    "marker": "23:57 auf Theke Westende mit Theken-Klappe (4a), Scheppern auf Linkes Buffet (2). Stell sie so, falls sie anders stehen.",
     "abDann": "Ab jetzt sagst du offen, was du an der Klappe wolltest. Du darfst sagen, dass Herr Schneider dir um 23:56 Uhr mit der Polizei gedroht hat und dass {rolle:emine|deine beste Freundin} es gehört hat. Die Schatulle zeigst du, wenn jemand fragt. Sie bleibt in deiner Tasche, bis Herr Schneider sie nimmt. Mehr gibst du nicht zu. Dabei bleibst du.",
     "nachDemUmdrehen": {
       "einleitung": null,

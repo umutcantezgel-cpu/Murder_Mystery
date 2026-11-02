@@ -6,5 +6,10 @@
   "hinweisseite": "Heute ohne Zusatzrollen. Zusatzrollen gibt es ab dreizehn Personen.",
   "deinTandem": "Dein Tandem",
   "gespraechsauftraege": "Gesprächsaufträge",
-  "ausweichRegel": "Fehlt dein Ziel, frag stattdessen den Verdächtigen, den du in dieser Runde noch nicht gefragt hast. Stell ihm dieselbe Frage."
+  "ausweichRegel": "Fehlt dein Ziel, frag stattdessen den Verdächtigen, den du in dieser Runde noch nicht gefragt hast. Stell ihm dieselbe Frage.",
+  "impuls": "**{id}** {titel}",
+  "aktion.kopf": "Aktionskarte · {name}",
+  "aktion.wirkung": "Wirkung",
+  "aktion.grenzen": "Grenzen",
+  "aktion.fuss": "Einmal im Spiel. Danach umdrehen."
 }

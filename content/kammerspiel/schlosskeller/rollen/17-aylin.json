@@ -5,7 +5,7 @@
     "frage": "Aylin, die Kassenprüferin. Wenn dein Kugelschreiber klickt, steht irgendwo ein Stuhl schief. Wie oft hat er heute schon geklickt?",
     "auftritt": "Ich bin Aylin, Steuerfachangestellte. Ordnung ist das halbe Leben, die andere Hälfte vermutlich auch. Ich hebe jeden Beleg auf, sogar den vom Kaugummi. Beim Einlass hab ich die Gästeliste abgehakt, alle sind da. Wenn mein Kugelschreiber dreimal klickt, steht irgendwo ein Stuhl schief. Heute hat er schon sehr oft geklickt."
   },
-  "werDuBist": "OFFEN: ZR 7 „Wer du bist“ (Muster ZR 0.7 aus dem Profil ZR 7.1)",
+  "werDuBist": "Du bist Aylin, 24, die Kassenprüferin. Du bist Steuerfachangestellte und hebst jeden Beleg auf. Man erkennt dich an der schwarzen Ledermappe und am Kugelschreiber. Für Mareks Catering-Betrieb machst du die Steuer.{wenn:tugba| Mit Tugba teilst du eine Überraschung: die Dankeskarte.}\nWas dich heute antreibt: Du willst dein Geld zurück, ohne Ahmet vor allen bloßzustellen.",
   "haltung": "Du willst Ordnung und dein Geld. Aber du stellst niemanden vor allen bloß. Lügen tust du nicht.",
   "tandemKasten": "Beim Einlass hast du Herrn Schneider geholfen und die Gästeliste abgehakt. Dabei hast du heimlich alle {wenn:tugba|Tugbas|eine} Dankeskarte für Herrn Schneider unterschreiben lassen. Die soll er mit der Torte bekommen. Das ist das harmlose Geheimnis eures Tandems. Dein eigenes ist es nicht: In deiner Ledermappe steckt ein Zettel von Herrn Schneider.",
   "marker": {
@@ -22,8 +22,56 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZR 7.5 Wissen",
-        "text": "OFFEN: ZR 7.5 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "18:00",
+        "text": "hilft beim Einlass im Windfang, hakt die Gästeliste ab. Herr Schneider zeigt ihr im Durchgang den Sicherungskasten und darunter das Fach mit Ersatzsicherungen und Putzmitteln, dazu die Notlaterne hinter der Vorratsraumtür: „Falls was ist.“ Er sagt: Den Außentor-Schlüssel gibt es nur an seinem Bund und bei seiner Kollegin",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "lässt mit der Gästeliste heimlich alle die Dankeskarte unterschreiben",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "zahlt Ahmet die 150 € nur unter Protest und will einen Beleg. Ahmet: „Den Beleg gibt's von Herrn Schneider.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "22:30",
+        "text": "fragt Herrn Schneider an der Tafel West nach einem Beleg. Er schreibt auf einen Quittungszettel: „Miete: 0 Euro. Schneider“. Im Quittungsblock sieht sie davor einen Durchschlag: „Bogentür, Beschlag ausgerissen: 2.000 € Bargeld. Bis Mitternacht.“ Ohne Namen. Er sagt: Jeden Schaden muss er der Stiftung melden, kleine zahlt er oft selbst. Sie steckt den Zettel in ihre Ledermappe",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "Ost-Saal, Ratespiel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:30",
+        "text": "holt Putzmittel und Lappen aus dem Fach im Durchgang, für den Ruß am Kamin",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "Serkan geht aus dem Ost-Saal, gerade als alle zur blinden Kuh sollen. Wohin, sieht sie nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–0:00",
+        "text": "sitzt an der langen Tafel, Westseite, die Mappe auf dem Schoß. Bis kurz vor zwölf schenkt Damir dort Tee aus.{wenn:tugba| Tugba steht an der Wandtafel.} Ab fünf vor zwölf schaut sie auf die blinde Kuh. Hört Knall, Rufe, Scheppern. Als die Handylampen angehen, schaut sie zur Tür, woher der Lärm kam",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:03",
+        "text": "im Buffetsaal unter dem Notausgangsschild: „Den Schlüssel fürs Außentor gibt's nur an seinem Bund und bei seiner Kollegin.“",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,16 +82,31 @@
     "kernsaetze": [],
     "regie": null,
     "sagstDuJedem": [
-      "OFFEN: ZR 7 Stufe 1 „Das sagst du jedem“"
+      "„Ordnung ist das halbe Leben. Ich hebe jeden Beleg auf.“",
+      "„Beim Einlass hab ich Herrn Schneider geholfen und die Gästeliste abgehakt. Er hat mir den Sicherungskasten im Durchgang gezeigt, das Fach mit Ersatzsicherungen und die Notlaterne hinter der Vorratsraumtür.“",
+      "„Den Schlüssel fürs Außentor gibt es nur zweimal: an Herrn Schneiders Bund und bei seiner Kollegin. Das hat er mir beim Einlass gesagt.“",
+      "„Ich hab Ahmet die 150 € nur unter Protest gegeben. Ich wollte einen Beleg. Er sagte: ‚Den Beleg gibt's von Herrn Schneider.‘“",
+      "„Um halb zwölf hab ich Putzmittel aus dem Fach im Durchgang geholt, für den Ruß am Kamin.“",
+      "„Kurz vor zwölf saß ich im Ost-Saal an der Tafel, Westseite, und hab der blinden Kuh zugeschaut.“"
     ],
     "ausweichsaetze": [
       {
-        "frage": "OFFEN: ZR 7 Stufe 1, Spalte „Wenn jemand fragt“",
-        "antwort": "OFFEN: ZR 7 Stufe 1, Spalte „sagst du“"
+        "frage": "ob du deinen Beleg bekommen hast",
+        "antwort": "„Mein Beleg ist meine Sache. Ahmet soll selbst sagen, wofür das Geld war.“"
+      },
+      {
+        "frage": "was in deiner Mappe ist",
+        "antwort": "„Belege. Viele Belege.“"
+      },
+      {
+        "frage": "ob du heute mit Herrn Schneider gesprochen hast",
+        "antwort": "„Ich hab ihn heute ein paarmal etwas gefragt. Er antwortet gern knapp.“"
       }
     ],
     "verboten": [
-      "OFFEN: ZR 7 Stufe 1 „Verboten“"
+      "„Ich hab keinen Beleg.“",
+      "„Die Miete war echt.“",
+      "„In meiner Mappe ist nichts von Herrn Schneider.“"
     ],
     "markersatz": null
   },

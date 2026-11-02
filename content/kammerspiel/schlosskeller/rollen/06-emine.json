@@ -22,8 +22,50 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZG 2.4 Wissen",
-        "text": "OFFEN: ZG 2.4 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "18:00",
+        "text": "zahlt 150 € „Miete“ an Ahmet",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:40",
+        "text": "kommt im Turmgang die Wendeltreppe von der Toilette herunter. Fatma hebt die gesprungene Scheibe der Vitrine an und nimmt die Münzschatulle. Die Ecke bricht, Scherben fallen, Splitter bleiben am rechten Ärmel von Fatmas Mantel. Fatma: „Montag bring ich sie zurück. Versprochen.“ Emine verspricht zu schweigen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "hinter dem linken Buffettisch, Fatma beim Gebäck",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:54",
+        "text": "tuschelt mit Fatma über die Tasche; achtet nicht auf die Theken-Klappe",
+        "frei": "offen",
+        "zusatz": "Tuscheln offen; das Thema erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:56",
+        "text": "Herr Schneider bei Fatma. Er sieht die Glassplitter und sagt leise: „Die Schatulle. Um Punkt zwölf geh ich raus und ruf die Polizei.“",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Fatma geht mit der Tasche zur Theken-Klappe. Emine schaut nur auf Fatma",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider ruft laut: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Sie kauert sich hin. Gleich danach kauert Fatma neben ihr: „Emine? Ich bin's, Fatma.“ Dann die Rufe, dann das Scheppern. Fatma bleibt bis zum Licht",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,16 +76,40 @@
     "kernsaetze": [],
     "regie": null,
     "sagstDuJedem": [
-      "OFFEN: ZG 2 Stufe 1 „Das sagst du jedem“"
+      "„Ab kurz vor zwölf stand ich hinter dem linken Buffettisch.“",
+      "„Gleich nach dem Knall hat Fatma sich neben mich gekauert und geflüstert: ‚Emine? Ich bin's, Fatma.‘ Beim Scheppern war sie neben mir.“",
+      "„Sie blieb neben mir, bis das Licht anging.“"
     ],
     "ausweichsaetze": [
       {
-        "frage": "OFFEN: ZG 2 Stufe 1, Spalte „Wenn jemand fragt“",
-        "antwort": "OFFEN: ZG 2 Stufe 1, Spalte „sagst du“"
+        "frage": "wo Fatma um drei vor zwölf war",
+        "antwort": "„Frag Fatma selbst. Ich sag dir, was ich sicher weiß: Beim Scheppern war sie neben mir.“"
+      },
+      {
+        "frage": "wenn du bestätigen sollst, dass Fatma um drei vor zwölf bei dir war",
+        "antwort": "„Dazu sag ich jetzt nichts. Beim Scheppern war sie neben mir.“"
+      },
+      {
+        "frage": "was in Fatmas Tasche ist",
+        "antwort": "„Fatmas Tasche ist Fatmas Sache.“"
+      },
+      {
+        "frage": "worüber ihr getuschelt habt",
+        "antwort": "„Unter Freundinnen tuschelt man. Worüber, bleibt unter uns.“"
+      },
+      {
+        "frage": "ob du im Turmgang warst",
+        "antwort": "„Ich war vor zwölf oben auf der Turm-Toilette.“"
+      },
+      {
+        "frage": "ob Herr Schneider bei euch war",
+        "antwort": "„Ja, kurz. Was er wollte, soll Fatma erzählen.“"
       }
     ],
     "verboten": [
-      "OFFEN: ZG 2 Stufe 1 „Verboten“"
+      "„Fatma war um drei vor zwölf die ganze Zeit bei mir.“",
+      "„In Fatmas Tasche sind nur Bücher.“",
+      "„Ich hab im Turmgang nichts gesehen.“"
     ],
     "markersatz": null
   },

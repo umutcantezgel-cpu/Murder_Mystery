@@ -5,7 +5,7 @@
     "frage": "Tugba, die Party-Planerin. Laut deinem Ablaufplan ist jetzt jemand dran: Wer wohl, und was steht für Mitternacht auf dem Plan?",
     "auftritt": "Laut Plan bin jetzt ich dran, und der Plan ist von mir. Ich bin Tugba, Projektleiterin. Ich plane sogar Spieleabende mit Ablaufplan. Heute stand drauf: Um zwölf blinde Kuh, dann Torte. Herr Schneider hat bei jedem Punkt geseufzt. Und jetzt? Torte um halb eins. Egal, was passiert."
   },
-  "werDuBist": "OFFEN: ZR 8 „Wer du bist“ (Muster ZR 0.7 aus dem Profil ZR 8.1)",
+  "werDuBist": "Du bist Tugba, 27, die Party-Planerin. Du bist Projektleiterin und hast den Ablaufplan geschrieben. Man erkennt dich am Notizbuch mit goldenem Einband. Mit Aylin teilst du eine Überraschung: die Dankeskarte. Bei deinen Spieleabenden kocht Damir Tee und Azra dekoriert.\nWas dich heute antreibt: Du rettest den Abend. Torte um halb eins, egal was passiert.",
   "haltung": "Du hast nichts zu verbergen. Du willst nur, dass der Abend weitergeht. Alles, was du weißt, sagst du jedem.",
   "tandemKasten": "Du hast eine Dankeskarte für Herrn Schneider gebastelt. Aylin hat sie beim Einlass mit der Gästeliste herumgehen lassen. Alle haben heimlich unterschrieben. Herr Schneider soll sie mit der Torte bekommen. Das ist eine Überraschung, kein Geheimnis zum Fall. Du hast nichts zu verbergen.",
   "marker": {
@@ -22,8 +22,68 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZR 8.5 Wissen",
-        "text": "OFFEN: ZR 8.5 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "vorher",
+        "text": "schreibt den Ablaufplan; er hängt an der Wandtafel im Ost-Saal. Um zwölf soll die blinde Kuh mit verbundenen Augen zur Torte in den Vorratsraum geführt werden. Herr Schneider hat nur widerwillig erlaubt, die Torte dort zu kühlen",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "vorher",
+        "text": "bastelt die Dankeskarte: „Danke für 25 Jahre Schloss!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "Aylin lässt beim Einlass alle die Karte unterschreiben. Tugba verwahrt sie in ihrem Notizbuch",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "Aylin zahlt nur unter Protest und will einen Beleg. Ahmet: „Den Beleg gibt's von Herrn Schneider.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "19:30",
+        "text": "im Kaminsaal: Olli wärmt sich am noch kalten Kamin die Hände. Er legt seinen linken Arbeitshandschuh in die Kamin-Nische, der Handschuh wird schwarz vom alten Ruß. Den rechten hat er in der Westentasche. Den linken lässt er liegen",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "den Abend über",
+        "text": "führt im Notizbuch die Punkteliste der Spiele",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "leitet im Ost-Saal ihr Ratespiel. Vorher sammelt sie alle Handys ein, auch Tims an der Kaffeemaschine; nur Joanna behält ihres. Als Herr Schneider danach an der Theke laut wird, sitzt sie wieder im Ost-Saal und versteht die Worte nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "ruft: „Alle in den Ost-Saal! Um zwölf gibt's Torte!“ Setzt den Detektiv auf den Ehrenplatz der blinden Kuh, Augenbinde. Wojtek setzt ihm seine Kopfhörer auf. Aylin sitzt an der langen Tafel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55–0:00",
+        "text": "steht neben dem Detektiv und schaut auf die blinde Kuh. Hört Knall, Rufe, Scheppern, „Hier liegt Herr Schneider!“. Als die Handylampen angehen, schaut sie zur Tür, woher der Lärm kam",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "nimmt dem Detektiv Augenbinde und Kopfhörer ab: „So, Augen auf. Das war nicht die Überraschung.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:05",
+        "text": "gibt die Handys zurück, keins hat Empfang",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,7 +94,14 @@
     "kernsaetze": [],
     "regie": "Du hast nichts zu verbergen. Alles, was du weißt, sagst du jedem, der fragt. Auch ungefragt.",
     "sagstDuJedem": [
-      "OFFEN: ZR 8 Stufe 1 „Das sagst du jedem“"
+      "„Laut Plan sollte um zwölf die blinde Kuh mit verbundenen Augen zur Torte in den Vorratsraum geführt werden. Das steht auf der Wandtafel im Ost-Saal.“",
+      "„Herr Schneider hat nur widerwillig erlaubt, die Torte im Vorratsraum zu kühlen.“",
+      "„Um halb acht hat Olli am kalten Kamin seinen linken Arbeitshandschuh in die Kamin-Nische gelegt. Der war schwarz vom alten Ruß. Den rechten hatte er in der Westentasche. Den linken hat er liegen lassen.“",
+      "„Um elf hab ich für mein Ratespiel alle Handys eingesammelt. Nur Joanna durfte ihres behalten, sie fotografiert. Um fünf vor zwölf hab ich alle in den Ost-Saal gerufen.“",
+      "„Der Detektiv hatte die Augenbinde und Wojteks Kopfhörer auf. Ich stand neben ihm und hab nur auf die blinde Kuh geschaut.“",
+      "„Um zwölf hab ich ihm Augenbinde und Kopfhörer abgenommen. Kurz danach hab ich allen die Handys zurückgegeben.“",
+      "„Aylin wollte beim Einlass einen Beleg für die Miete.“",
+      "**Nur als Vermutung:** „Ich glaub, da wollte jemand die blinde Kuh im Vorratsraum erschrecken.“"
     ],
     "ausweichsaetze": [],
     "verboten": [],

@@ -5,7 +5,7 @@
     "frage": "Wojtek, der Architekturstudent. Du misst alles nach, sogar die Lautstärke. Wie knapp war es heute, dass Herr Schneider deine Musikbox einkassiert?",
     "auftritt": "Ich bin Wojtek und studiere Architektur. Schaut euch nur diese alten Mauern an! Mein Maßband hab ich immer dabei. Um zehn wollte Herr Schneider meine Musikbox einkassieren. Dabei war sie nur ein kleines bisschen laut. Und um Viertel nach acht hab ich mit meiner Taschenlampe einen Einbrecher entlarvt. Er hieß Olli und suchte das Klo."
   },
-  "werDuBist": "OFFEN: ZR 6 „Wer du bist“ (Muster ZR 0.7 aus dem Profil ZR 6.1)",
+  "werDuBist": "Du bist Wojtek, 27, der Architekturstudent. Man erkennt dich an der Brille, am Zimmermannsbleistift hinter dem Ohr und am Maßband am Hosenbund. Mit Azra skizzierst du alte Fassaden. Tim hat sich heute deinen Werkzeugkasten geliehen. Joanna fotografiert deine Hausmodelle.\nWas dich heute antreibt: Niemand soll wissen, dass das Möbelwachs aus deinem Kasten kam.",
   "haltung": "Du bewunderst alte Mauern und misst alles nach. Dein Werkzeugkasten soll aus dem Gerede bleiben. Lügen tust du nicht.",
   "tandemKasten": "Um 18:00 Uhr hast du Tim deinen Werkzeugkasten geliehen. Er wollte seine wackelige alte Mehrfachsteckdose richten. Um 20:15 Uhr rief Azra „Einbrecher an der Torte!“, und du hast mit der Taschenlampe aus dem Kasten in den Vorratsraum geleuchtet. Es war Olli. Beim Zurücklegen sahst du: Die Dose Möbelwachs war halb leer, am Rand Holzstaub. Heute Morgen war sie neu. Tim sagte: „Olli brauchte was für eine Schramme.“ Du hast Azra gebeten, nichts zu sagen. Du hast Angst, dass Herr Schneider auch dich zur Kasse bittet.",
   "marker": {
@@ -22,8 +22,68 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZR 6.5 Wissen",
-        "text": "OFFEN: ZR 6.5 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "am Morgen",
+        "text": "Die Dose Möbelwachs in seinem Werkzeugkasten ist neu",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "bringt Musikbox, Kopfhörer und Werkzeugkasten mit. Tim leiht sich den Kasten für den Abend, er will seine wackelige alte Mehrfachsteckdose richten. Der Kasten steht hinter der Theke neben der Kaffeemaschine",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "zahlt 150 €; unterschreibt die Dankeskarte",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "20:15",
+        "text": "Azra ruft „Einbrecher an der Torte!“. Er holt die Taschenlampe aus dem Kasten und leuchtet in den Vorratsraum. Es ist Olli",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "20:15",
+        "text": "Beim Zurücklegen: Dose halb leer, am Rand Holzstaub. Tim: „Olli brauchte was für eine Schramme.“ Wojtek bittet Azra: „Sag keinem, dass das Wachs aus meinem Kasten ist.“",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "22:00",
+        "text": "Herr Schneider im Ost-Saal: „Ab jetzt leise. Sonst kassier ich die Box ein.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "Ost-Saal, Ratespiel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–0:00",
+        "text": "sitzt auf der Wandbank Ost bei der Box. Azra sitzt an der langen Tafel. Bis kurz vor zwölf schenkt Damir dort Tee aus",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "setzt dem Detektiv seine Kopfhörer auf; laute Musik über die Akku-Box. Der Detektiv hört nur sehr Lautes",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58–0:00",
+        "text": "hört Knall, Rufe, Scheppern. Nach dem Scheppern schaut er zur Tür in den Buffetsaal, woher der Lärm kam; auf den Kopf der Tafel achtet er nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "{rolle:tugba|Ein Gast} nimmt dem Detektiv Augenbinde und Kopfhörer ab",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,16 +94,39 @@
     "kernsaetze": [],
     "regie": null,
     "sagstDuJedem": [
-      "OFFEN: ZR 6 Stufe 1 „Das sagst du jedem“"
+      "„Schaut euch nur diese alten Mauern an! Ich hab mein Maßband dabei, falls jemand was nachmessen will.“",
+      "„Die Musikbox und die Kopfhörer sind meine. Um zehn wollte Herr Schneider die Box einkassieren.“",
+      "„Um fünf vor zwölf hab ich dem Detektiv meine Kopfhörer aufgesetzt. Laute Musik. Gehört hat er nur, was richtig laut war.“",
+      "„Kurz vor zwölf saß ich im Ost-Saal auf der Wandbank bei meiner Box und hab der blinden Kuh zugeschaut.“",
+      "„Um Viertel nach acht hab ich mit meiner Taschenlampe in den Vorratsraum geleuchtet. Da stand Olli vor der Torte.“",
+      "„Tim hat sich heute meinen Werkzeugkasten geliehen. Er wollte seine wackelige alte Mehrfachsteckdose richten.“"
     ],
     "ausweichsaetze": [
       {
-        "frage": "OFFEN: ZR 6 Stufe 1, Spalte „Wenn jemand fragt“",
-        "antwort": "OFFEN: ZR 6 Stufe 1, Spalte „sagst du“"
+        "frage": "was im Werkzeugkasten ist",
+        "antwort": "„Werkzeug. Was sonst?“"
+      },
+      {
+        "frage": "ob aus dem Kasten etwas fehlt",
+        "antwort": "„Frag Tim, der hatte ihn den ganzen Abend.“"
+      },
+      {
+        "frage": "was um 20:15 Uhr am Kasten gesagt wurde",
+        "antwort": "„Alle haben über Olli gelacht. Mehr sag ich dazu jetzt nicht.“"
+      },
+      {
+        "frage": "nach Möbelwachs",
+        "antwort": "„Frag Tim. Der Kasten war bei ihm.“"
+      },
+      {
+        "frage": "(Runde 1) ob stimmt, was Azras Karte über dich sagt",
+        "antwort": "„Stimmt. Warum, sag ich in der nächsten Runde.“"
       }
     ],
     "verboten": [
-      "OFFEN: ZR 6 Stufe 1 „Verboten“"
+      "„Im Kasten fehlt nichts.“",
+      "„Das Möbelwachs ist nicht von mir.“",
+      "„Tim hat nichts gesagt.“"
     ],
     "markersatz": null
   },

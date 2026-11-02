@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mordakte/app/app.dart';
 import 'package:mordakte/app/app_state.dart';
+import 'package:mordakte/abend/einrichtung/abschnitte.dart' show EinrichtungsTafel;
 import 'package:mordakte/abend/online/lobby_besetzung.dart' show LobbyStand, zeigeLobbyWahl;
 import 'package:mordakte/abend/rollen_uebersicht.dart';
 import 'package:mordakte/app/router.dart';
@@ -19,7 +20,9 @@ import 'package:mordakte/party/daten.dart';
 import 'package:mordakte/party/datei_teilen.dart';
 import 'package:mordakte/party/druck_speichern_stub.dart' as app;
 import 'package:mordakte/party/druck_tafel.dart';
+import 'package:mordakte/party/kammer_tafel.dart';
 import 'package:mordakte/stil/stil.dart';
+import 'package:mordakte_core/party_druck.dart' show kammerTeil;
 import 'package:mordakte_core/runden.dart' show Sitz;
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,7 +160,9 @@ void main() {
   }
 
   testWidgets('Druckmappe: 320 px, doppelte Schrift, der Deckel teilt kein Wort', (tester) async {
-    final state = await oeffnen(tester, Routes.druckmappeVon('schlosskeller'), bereit: find.text('Spuk im Schlosskeller'));
+    // Bereit, wenn Deckel und Einstellungen stehen (Katalog und Kammerspiel aus dem Bündel).
+    final state = await oeffnen(tester, Routes.druckmappeVon('schlosskeller'), bereit: find.text('Druckmappe vorbereiten'));
+    expect(find.text('Spuk im Schlosskeller'), findsOneWidget);
     expect(find.text('Druckmappe'), findsWidgets);
     keinWortGeteilt(tester, find.byType(MAktenmappe));
     // Die Anleitung in Schritten: Jeder Schritt beginnt eine eigene Zeile.
@@ -172,10 +177,17 @@ void main() {
       expect(box.top, greaterThan(oben), reason: '„$anfang“ steht unter dem Schritt davor');
       oben = box.top;
     }
-    // Wem die Erzählerakte gehört, steht bei ihrem Knopf („Nur Erzähler“), nicht noch einmal hier.
+    // Die Druckmappe bietet keine Erzählerakte an (E16); der Deckel nennt sie nicht.
     expect(text, isNot(contains('Erzählerakte')));
     // Schritt 2 nennt den Knopf in der Fußleiste: auch er bleibt ganz.
     keinWortGeteilt(tester, find.ancestor(of: find.text('Druckmappe vorbereiten'), matching: find.byType(MKnopf)));
+    // Die Einstellungen des Kammerspiels darunter: Personen mit der Zeile, was die Zahl bedeutet, und wer ermittelt.
+    for (final kopf in [_de.detektei_druck_personen, _de.detektei_druck_detektiv]) {
+      final tafel = find.ancestor(of: find.text(kopf.toUpperCase(), skipOffstage: false), matching: find.byType(EinrichtungsTafel));
+      expect(tafel, findsOneWidget, reason: kopf);
+      keinWortGeteilt(tester, tafel);
+    }
+    expect(find.text(_de.detektei_druck_personen_rollen('8'), skipOffstage: false), findsOneWidget);
     await schliessen(tester, state);
   });
 
@@ -188,8 +200,13 @@ void main() {
     final state = await oeffnen(tester, Routes.druckmappeVon('schlosskeller'), bereit: find.text('Druckmappe vorbereiten'));
     await tester.tap(find.text('Druckmappe vorbereiten'));
     await warteBis(tester, find.text('Alles in einer Datei'));
-    keinWortGeteilt(tester, find.byType(DruckTafel));
-    for (final datei in ['Alles in einer Datei', 'Erzählerakte', 'Detektivbogen']) {
+    // Das Kammerspiel (B1): keine alte Druckfassung, keine Erzählerakte (E16).
+    expect(find.byType(DruckTafel), findsNothing);
+    expect(find.textContaining('Erzählerakte', skipOffstage: false), findsNothing);
+    keinWortGeteilt(tester, find.byType(KammerTafel));
+    // Titel aus dem Inhalt (ui/*.json): Alles, der längste Teil und ein kurzer.
+    final k = tester.widget<KammerTafel>(find.byType(KammerTafel)).kontext;
+    for (final datei in [k.uiGemeinsam('titel.alles'), kammerTeil(k, '02').titel, kammerTeil(k, '01').titel]) {
       await tester.ensureVisible(find.text(datei));
       await tester.tap(find.text(datei));
       await warteBis(tester, find.bySemanticsLabel(_de.druck_datei_laden(datei)), lang: true);
@@ -200,7 +217,7 @@ void main() {
     await tester.ensureVisible(senden);
     await tester.tap(senden);
     await warteBis(tester, find.text(_de.druck_datei_laden(_de.druck_rollenheft_von(person))), lang: true);
-    keinWortGeteilt(tester, find.byType(DruckTafel));
+    keinWortGeteilt(tester, find.byType(KammerTafel));
     await schliessen(tester, state);
   });
 

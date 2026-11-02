@@ -44,7 +44,7 @@ const einrichtungMinuten = [20, 30, 45, 60];
 /// Alle anderen Akten bleiben, wie sie waren.
 class EinrichtungsWerte extends ChangeNotifier {
   /// [druckbar]: Die Akte hat eine Druckmappe (`AkteInfo.druckbar`). Ohne Angabe
-  /// gilt sie als druckbar (alter Einrichtungsbildschirm, Druckmappe).
+  /// gilt sie als druckbar (alter Einrichtungsbildschirm `/party`).
   /// [gaeste]: Gästeliste der Akte (M5) für Personenzahl und Namen; ihr
   /// Detektiv-Eintrag füllt [detektivName] vor (reihum und online).
   EinrichtungsWerte(this.sitzung, {this.druckbar = true, GaesteListe gaeste = const GaesteListe()})
@@ -262,7 +262,10 @@ class EinrichtungsWerte extends ChangeNotifier {
   }
 
   /// Richtet den Abend ein und setzt danach Erzählerstimme und Erzähltiefe.
-  /// [druckErzwingen] stellt eine Druckfassung ein (Druckmappe einer Akte).
+  /// [druckErzwingen] stellt eine Druckfassung ein. Früher nutzte das die
+  /// Druckmappe; seit dem Kammerspiel (B1) hat der Schalter keinen Aufrufer mehr.
+  /// Der Assistent richtet mit „Zum Drucken“ keinen Abend ein, er führt zur
+  /// Druckmappe (E17).
   void starten({bool druckErzwingen = false}) {
     final s = sitzung;
     final namen = <String, String>{};
@@ -366,42 +369,63 @@ abstract class _Abschnitt extends StatelessWidget {
 /// Druckfassung. Die Druckfassung gibt es nur für druckbare Akten
 /// ([EinrichtungsWerte.druckbar]). Bei einer Akte mit fester Lösung ersetzt ein
 /// Hinweis den Fall-Code.
+///
+/// Im Assistenten ([zurDruckmappe], E17) führt „Zum Drucken“ zur Druckmappe der
+/// Akte: Die App begleitet das Kammerspiel nicht, und Personen und Detektiv
+/// stellt die Druckmappe selbst ein. Ist „Zum Drucken“ gewählt, bleibt darum nur
+/// die Wahl der Spielart mit ihrem Hinweis; alle Abschnitte eines Abends in der
+/// App entfallen. Der alte Einrichtungsbildschirm (`/party`) richtet die
+/// Druckfassung weiter selbst ein.
 class EinrichtungsAbschnitte extends StatelessWidget {
-  const EinrichtungsAbschnitte({super.key, required this.werte, this.online = false});
+  const EinrichtungsAbschnitte({super.key, required this.werte, this.online = false, this.zurDruckmappe = false});
 
   final EinrichtungsWerte werte;
   final bool online;
 
+  /// „Zum Drucken“ führt zur Druckmappe (Assistent, E17), statt einen Abend mit Druckfassung einzurichten.
+  final bool zurDruckmappe;
+
+  /// Die Wahl der Spielart behält ihren Zustand, wenn die übrigen Abschnitte gehen oder kommen.
+  static const _spielart = ValueKey('spielart');
+
   @override
   Widget build(BuildContext context) => ListenableBuilder(
         listenable: werte,
-        builder: (context, _) => MBlatt(
-          klammer: true,
-          samen: 41,
-          neigung: -0.002,
-          padding: const EdgeInsets.fromLTRB(20, 30, 20, 2),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (!online) PersonenAbschnitt(werte: werte),
-              DetektivNameAbschnitt(werte: werte),
-              if (werte.mitErzaehler) RollenAmTischAbschnitt(werte: werte, online: online),
-              DetektivAbschnitt(werte: werte),
-              FallAbschnitt(werte: werte, online: online),
-              if (!werte.solo && !online && werte.druckbar) SpielartAbschnitt(werte: werte),
-              // Kurzer oder langer Abend (M7b): nur Akten mit Langfassung, auch im Solo und online.
-              if (werte.langfassung && !werte.druck) FassungAbschnitt(werte: werte),
-              // Vorgeschichte und Vorstellung (A-063): nur Akten mit Einstimmung, auch im Solo und online.
-              if (werte.hatEinstimmung) EinstimmungAbschnitt(werte: werte),
-              // „Dein Moment“ (Finale §3): nur Akten mit Regeln, nie im Druckspiel.
-              if (werte.einflussMoeglich && !werte.druck) MomentAbschnitt(werte: werte),
-              if (!werte.solo) DauerAbschnitt(werte: werte),
-              // Online richtet der Raum den Abend ein; dort gilt die Vorgabe.
-              if (werte.hatGespraeche && !online) ErzaehltiefeAbschnitt(werte: werte),
-              StimmeAbschnitt(werte: werte),
-            ],
-          ),
-        ),
+        builder: (context, _) {
+          final spielart = !werte.solo && !online && werte.druckbar;
+          return MBlatt(
+            klammer: true,
+            samen: 41,
+            neigung: -0.002,
+            padding: const EdgeInsets.fromLTRB(20, 30, 20, 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Zum Drucken (E17): nur die Spielart; den Rest stellt die Druckmappe ein.
+                if (zurDruckmappe && spielart && werte.druck)
+                  SpielartAbschnitt(key: _spielart, werte: werte, zurDruckmappe: true)
+                else ...[
+                  if (!online) PersonenAbschnitt(werte: werte),
+                  DetektivNameAbschnitt(werte: werte),
+                  if (werte.mitErzaehler) RollenAmTischAbschnitt(werte: werte, online: online),
+                  DetektivAbschnitt(werte: werte),
+                  FallAbschnitt(werte: werte, online: online),
+                  if (spielart) SpielartAbschnitt(key: _spielart, werte: werte, zurDruckmappe: zurDruckmappe),
+                  // Kurzer oder langer Abend (M7b): nur Akten mit Langfassung, auch im Solo und online.
+                  if (werte.langfassung && !werte.druck) FassungAbschnitt(werte: werte),
+                  // Vorgeschichte und Vorstellung (A-063): nur Akten mit Einstimmung, auch im Solo und online.
+                  if (werte.hatEinstimmung) EinstimmungAbschnitt(werte: werte),
+                  // „Dein Moment“ (Finale §3): nur Akten mit Regeln, nie im Druckspiel.
+                  if (werte.einflussMoeglich && !werte.druck) MomentAbschnitt(werte: werte),
+                  if (!werte.solo) DauerAbschnitt(werte: werte),
+                  // Online richtet der Raum den Abend ein; dort gilt die Vorgabe.
+                  if (werte.hatGespraeche && !online) ErzaehltiefeAbschnitt(werte: werte),
+                  StimmeAbschnitt(werte: werte),
+                ],
+              ],
+            ),
+          );
+        },
       );
 }
 
@@ -752,11 +776,22 @@ class FesteLoesungHinweis extends StatelessWidget {
   }
 }
 
-/// Bildschirmspiel oder Druckfassung (nur reihum, nicht im Solo-Spiel). Bei der
-/// Druckfassung steht der Hinweis, dass es die PDFs auch ohne Abend gibt (Akte →
-/// „PDFs zum Ausdrucken“); nur als Text, damit die Einstellungen bleiben.
+/// Bildschirmspiel oder Druckfassung (nur reihum, nicht im Solo-Spiel).
+///
+/// Im Assistenten ([zurDruckmappe], E17) führt „Zum Drucken“ zur Druckmappe:
+/// Darunter steht dann, dass die App das Kammerspiel nicht begleitet und die
+/// Druckmappe Personen und Detektiv einstellt. Weil mit der Wahl die übrigen
+/// Abschnitte gehen oder kommen, rollt die Seite danach zu dieser Wahl.
+///
+/// Im alten Einrichtungsbildschirm (`/party`) richtet „Zum Drucken“ einen Abend
+/// mit Druckfassung ein; dort steht der Hinweis, dass es die PDFs auch ohne
+/// Abend gibt (Akte → „PDFs zum Ausdrucken“), nur als Text, damit die
+/// Einstellungen bleiben.
 class SpielartAbschnitt extends _Abschnitt {
-  const SpielartAbschnitt({super.key, required super.werte});
+  const SpielartAbschnitt({super.key, required super.werte, this.zurDruckmappe = false});
+
+  /// „Zum Drucken“ führt zur Druckmappe (Assistent, E17).
+  final bool zurDruckmappe;
 
   @override
   Widget baue(BuildContext context) => EinrichtungsTafel(
@@ -768,16 +803,31 @@ class SpielartAbschnitt extends _Abschnitt {
               (Spielart.druck, s.ui('ui.einrichtung.spiel_druck')),
             ],
             gewaehlt: werte.spielart,
-            onWahl: werte.setzeSpielart,
+            onWahl: (wert) => _waehle(context, wert),
           ),
           if (werte.spielart == Spielart.druck) ...[
             const SizedBox(height: MMass.s8),
-            Text(s.ui('ui.einrichtung.druck_hinweis'), style: MPapierSchrift.leise),
-            const SizedBox(height: MMass.s4),
-            Text(_texte(context).abend_druck_nur_pdfs, key: const ValueKey('nur-pdfs-hinweis'), style: MPapierSchrift.leise),
+            if (zurDruckmappe)
+              Text(_texte(context).abend_druck_mappe_hinweis, key: const ValueKey('druck-mappe-hinweis'), style: MPapierSchrift.leise)
+            else ...[
+              Text(s.ui('ui.einrichtung.druck_hinweis'), style: MPapierSchrift.leise),
+              const SizedBox(height: MMass.s4),
+              Text(_texte(context).abend_druck_nur_pdfs, key: const ValueKey('nur-pdfs-hinweis'), style: MPapierSchrift.leise),
+            ],
           ],
         ],
       );
+
+  void _waehle(BuildContext context, Spielart wert) {
+    werte.setzeSpielart(wert);
+    if (!zurDruckmappe) return;
+    // Die übrigen Abschnitte gehen oder kommen: Die Wahl bleibt im Bild.
+    final ruhig = MBewegung.ruhig(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!context.mounted) return;
+      Scrollable.ensureVisible(context, duration: ruhig ? Duration.zero : MBewegung.normal(context), curve: Curves.easeOut);
+    });
+  }
 }
 
 /// Kurzer oder langer Abend (Langer Abend M7b), nur in Akten mit dem Zusatz

@@ -30,22 +30,27 @@ immer auf das neueste freigegebene Release.
   einmaligen Schalter des Besitzers (siehe unten). Eine feste Web-Adresse steht hier nicht.
   Lokal: `bash build.sh`, dann `python3 -m http.server 8081 --directory build/web`.
 
-**Erzählerakte am Release (Schlosskeller).** Am Release hängt die Erzählerakte als PDF, in zwei Fassungen. Beide sind
-nur für die Person, die erzählt, nennen nie den Täter und gelten für jede Personenzahl (alle Figuren in der Reihenfolge
-der Besetzung, ohne Marken für einen bestimmten Abend; bei acht Personen spielen die Figuren 1 bis 8):
+**Erzählerakte am Release (Schlosskeller).** Am Release hängt die Erzählerakte als PDF, in zwei Fassungen, beide für
+einen Abend am Bildschirm. Beide sind nur für die Person, die erzählt, nennen nie den Täter und gelten für jede
+Personenzahl (alle Figuren in der Reihenfolge der Besetzung, ohne Marken für einen bestimmten Abend; bei acht Personen
+spielen die Figuren 1 bis 8). Zum Druckspiel (Kammerspiel) gehört keine: Dort kennt der Erzähler die Lösung nicht.
 
 | Fassung | Datei |
 | --- | --- |
-| Ziele wie im Druckspiel | [`erzaehlerakte.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
+| Abend ohne „Dein Moment“ (je Figur das Ziel aus ihrer Rolle) | [`erzaehlerakte.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
 | Abend mit „Dein Moment“ (je Figur die zwei Ziele aus „Dein Moment“) | [`erzaehlerakte-dein-moment.pdf`](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
 
 Fehlt eine der beiden Dateien im neuesten Release (dann war der Job `erzaehlerakte` rot, siehe „Builds“), liegt sie
 im vorigen Release auf der [Release-Seite](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases).
 
-Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum Ausdrucken**
-(ganz oben, gleich unter dem Schriftzug MORDAKTE; derselbe Knopf steht unter dem Schlosskeller und auf der
-Akte-Seite). In der Druckmappe Personen, Detektiv und Fall einstellen, unten **Druckmappe vorbereiten** tippen, dann
-eine Datei antippen. Sie entsteht beim ersten Tipp; danach je Gerät:
+**Druckspiel zum Ausdrucken (Schlosskeller).** Das Druckspiel heißt **Kammerspiel**: ein Krimi auf Papier für 6 bis
+20 Personen (Rollen, Detektiv und Erzähler) mit festem Fall, am Tisch ohne App. Die PDFs erstellt die App:
+Detektei → **PDFs zum Ausdrucken** (ganz oben, gleich unter dem Schriftzug MORDAKTE; derselbe Knopf steht unter dem
+Schlosskeller und auf der Akte-Seite, und **Zum Drucken** im Abend-Assistenten führt ebenfalls dorthin). In der
+Druckmappe unter **Personen am Tisch** die Zahl und unter **Wer ermittelt?** Detektiv oder Detektivin wählen, unten
+**Druckmappe vorbereiten** tippen. Dann gibt es **Alles in einer Datei**, je Teil einen Knopf und unter **Rollenhefte
+einzeln senden** je Rolle **Senden an …**; eine Erzählerakte gibt es dort nicht. Eine Datei entsteht beim ersten Tipp;
+danach je Gerät:
 
 - **Android-App:** zweiter Tipp. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen (meist
   „Downloads“), speichern. **Teilen** öffnet wie bisher das Teilen-Menü des Telefons.
@@ -81,12 +86,12 @@ Optional kannst du **erkunden** (Abstecher): Das kostet Nachtminuten und kann Ka
 - **Einstimmung:** Vor dem Auftakt liest der Erzähler eine Vorgeschichte (etwa fünf Minuten) und stellt jede Figur
   am Tisch vor. Der Erzähler hat dazu eine **Erzählerakte** mit Hintergründen und Beziehungsnetz aller Figuren,
   ohne den Täter. Sie liegt nur am Erzähler-Platz (Pult, Erzähler-Handy, Erzähler-Sitz), nie solo, und lässt sich
-  ohne Fall-Code drucken: in der offenen Akte mit **Als PDF**, in der Druckmappe der App und als Datei am Release.
+  ohne Fall-Code drucken: in der offenen Akte mit **Als PDF** und als Datei am Release.
 - **„Dein Moment“** ersetzt die Gruppenwahl: Jede Rolle zieht je Runde geheim einen Zug (Zeigen, Decken, Helfen,
   Auspacken, Ablenken, Lauschen). Die Züge geben den Optionen Tischwerte, die den Würfel verschieben, bringen
   Gerüchte, Randnotizen und Nachtminuten, füllen die Leisten Zusammenhalt und Spuk mit Ereignissen und bestimmen
   über den Tischbonus das Ende mit. Jede Figur hat zwei geheime Ziele (Sterne). Täter und Wahrheit legt weiter der
-  Fall-Code fest. Das Druckspiel läuft ohne „Dein Moment“, mit den Papierstreifen A und B.
+  Fall-Code fest. Das Druckspiel (Kammerspiel) läuft ohne „Dein Moment“ und ohne App am Tisch.
 
 Mehr dazu in [docs/ANLEITUNG.md](docs/ANLEITUNG.md), Abschnitte 4 bis 7.
 
@@ -106,7 +111,7 @@ Tisch) und bei Funden beim Erkunden.
 
 | Akte | Ton | Rollen | Besonderes |
 | --- | --- | --- | --- |
-| **Spuk im Schlosskeller** · Das Buffet hinter dicken Mauern | Spuk | 4 bis 20 | Erzähler-Platz, kurzer und langer Abend, Einstimmung mit Erzählerakte, „Dein Moment“, Druckspiel |
+| **Spuk im Schlosskeller** · Das Buffet hinter dicken Mauern | Spuk | 4 bis 20 | Erzähler-Platz, kurzer und langer Abend, Einstimmung mit Erzählerakte, „Dein Moment“, Druckspiel „Kammerspiel“ (6 bis 20 Personen) |
 | **Spuk im Gewölbe** · Ein Geburtstag auf Burg Schartenfels | Spuk | 4 bis 20 | feste Lösung |
 | **Ravensmoor** · Ein Gewitter. Ein Herrenhaus. Ein Toter, der zu viele Geheimnisse kannte. | Noir | 4 bis 8 | – |
 | **Nachtexpress 1931** · Ein Toter im Schlafwagen. Ein Zug, den niemand verlassen kann. | Noir | 4 bis 8 | – |
@@ -115,8 +120,11 @@ Tisch) und bei Funden beim Erkunden.
 Einstimmung, Erzählerakte und „Dein Moment“ gibt es nur im Schlosskeller (Fähigkeiten `einstimmung`,
 `erzaehlerakte`, `einfluss` in `content/party/akten.json`). Die anderen vier Akten laufen bitgleich wie vorher; das
 prüft `einfluss_gating_test` gegen einen Schnappschuss von vor dem Finale. Die Reihenfolge steht in
-`content/party/akten.json`. Die Druckfassung des Schlosskellers beschreibt
-[docs/partykrimi/ANLEITUNG.md](docs/partykrimi/ANLEITUNG.md).
+`content/party/akten.json`. Die Druckfassung des Schlosskellers, das Kammerspiel (Fähigkeit `druckspiel`), beschreibt
+[docs/partykrimi/ANLEITUNG.md](docs/partykrimi/ANLEITUNG.md). Ihr Inhalt liegt mit eigenem Schema unter
+`content/kammerspiel/schlosskeller/` (`SCHEMA.md`); nur der Druck liest ihn. Per Befehl im Ordner
+`packages/mordakte_core`: `dart run bin/party_druck.dart --personen 10` (6 bis 20, `--probe` für 6, 10 und 20
+Personen); das alte Druckspiel bis zur Abnahme mit `--druckspiel-alt`.
 
 ## Entwickeln
 
@@ -140,6 +148,7 @@ packages/mordakte_netz/   Online-Abende: Phoenix-Relais, Ende-zu-Ende-Umschläge
 packages/krimidinner_kanon/  Kanonleser und Konverter für „Spuk im Gewölbe“
 server/                   optionaler Dart-Server (siehe server/README.md)
 content/party/<akte>/     Bündel je Akte; Index content/party/akten.json; Erkundungsorte in zusatz/<akte>/
+content/kammerspiel/<akte>/  Druckspiel „Kammerspiel“ (eigenes Schema in SCHEMA.md, nur für den Druck)
 content/karten/           Sammelkarten je Akte (plus Detektivklassen in mordakte.json)
 content/scenarios/        klassische Szenarien (Quelle der Konverter, unverändert)
 krimidinner/              Kanon „Spuk im Gewölbe“ (unverändert)

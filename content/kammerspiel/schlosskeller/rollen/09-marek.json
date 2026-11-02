@@ -22,8 +22,80 @@
   "wasDuWeisst": {
     "zeilen": [
       {
-        "zeit": "OFFEN: ZG 5.4 Wissen",
-        "text": "OFFEN: ZG 5.4 Wissen (Tabelle ohne Spalte Quelle)",
+        "zeit": "Wochen vorher",
+        "text": "Ahmet hat viel zu groß bestellt. Die Nachzahlung ist 150 € pro Gast, heute Abend in Bargeld fällig",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "zahlt seine 150 € „Miete“ an Ahmet",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:30",
+        "text": "liefert über den Schlosshof, parkt auf Herrn Schneiders reserviertem Platz („Am Telefon hieß es, das geht in Ordnung“). Herr Schneider: „Steht der um Mitternacht noch da, lass ich ihn abschleppen.“ Olli und Tim tragen die Warmhaltebehälter durch Hoftür, Turmgang und Bogentür",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "deckt mit Lejla im Ost-Saal Tortenteller und Gläser",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "geht hinter die Theke ans Ostende und füllt Saftkrüge, Gesicht zur Anrichte Ost",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Ahmet schlüpft neben ihn hinter die Theke, mit einem dicken Umschlag. Marek denkt: Ist das mein Geld?",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "hört hinter sich: „Zweitausend, bis zwölf.“ Er sieht nicht, zu wem",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider geht hinter der Theke an ihm vorbei zur Kaffeemaschine. {rolle:damir|Ein Gast} wartet mit der großen Teekanne hinter ihm. Dann: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Marek bleibt stehen. Ahmet kauert sich an seine Beine: „Marek? Ich bin's, Ahmet.“ Herr Schneider: „Ruhe! Ich hol die Notlaterne.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "Im Kerzenlicht, gut drei Meter entfernt: Ein leuchtendes Gesicht springt aus der Vorratsraumtür. Herr Schneider packt es: „Hab ich dich!“ Sie ringen. Es reißt sich los und verschwindet hinter der Theke zur Klappe, Richtung Durchgang. „Stehen bleiben!“, zweimal",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "Von der Klappe her kommt noch jemand zu Herrn Schneider, nur ein Umriss. Herr Schneider packt den Umriss am Ärmel. Dann scheppert es, die Kerzen sind aus",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "bis 0:00",
+        "text": "Ahmet bleibt an seinen Beinen, bis das Licht angeht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "Als das Licht angeht, steht {rolle:damir|der Gast mit der Teekanne} gleich neben Ahmet auf. Marek geht zur Vorratsraumtür, macht sie ganz auf, knipst innen das Licht an: „Hier liegt Herr Schneider!“ Er liegt direkt hinter der Tür. Die Notlaterne hängt unberührt am Haken",
         "frei": "offen",
         "zusatz": null
       }
@@ -34,16 +106,33 @@
     "kernsaetze": [],
     "regie": null,
     "sagstDuJedem": [
-      "OFFEN: ZG 5 Stufe 1 „Das sagst du jedem“"
+      "„Kurz vor zwölf stand ich hinter der Theke am Ostende und hab Saftkrüge gefüllt. Mit dem Rücken zur Theke.“",
+      "„Beim Knall bin ich stehen geblieben. Ahmet hat sich an meine Beine gekauert und geflüstert: ‚Marek? Ich bin's, Ahmet.‘ Er war noch da, als es schepperte, und auch, als das Licht anging.“",
+      "„{wenn:damir|Damir stand vorher mit der Teekanne hinter mir.|Ein Gast mit der großen Teekanne stand vorher hinter mir.} Als das Licht anging, stand er gleich neben Ahmet auf.“",
+      "„Kurz vor zwölf hat Herr Schneider hinter mir zu jemandem gesagt: ‚Zweitausend, bis zwölf.‘ Zu wem, hab ich nicht gesehen.“",
+      "„Um zwölf hab ich die Tür zum Vorratsraum aufgemacht und drinnen das Licht angeknipst. Herr Schneider lag gleich hinter der Tür. Die Notlaterne hing unberührt am Haken.“",
+      "„Um halb sieben haben Olli und Tim mein Essen durch den Turmgang reingetragen.“",
+      "„Ich steh auf Herrn Schneiders Parkplatz. Am Telefon hieß es, das geht in Ordnung.“",
+      "„Die Mitternachtstorte steht unversehrt im Regal.“"
     ],
     "ausweichsaetze": [
       {
-        "frage": "OFFEN: ZG 5 Stufe 1, Spalte „Wenn jemand fragt“",
-        "antwort": "OFFEN: ZG 5 Stufe 1, Spalte „sagst du“"
+        "frage": "was du nach dem Knall an der Tür gesehen hast (Runde 1 und 2)",
+        "antwort": "„Im Dunkeln bin ich stehen geblieben, damit keiner über mich fällt. Was an der Tür war, dazu sag ich jetzt nichts.“"
+      },
+      {
+        "frage": "ob Ahmet etwas in der Hand hatte",
+        "antwort": "„Frag Ahmet.“"
+      },
+      {
+        "frage": "ob Ahmet dir Geld schuldet",
+        "antwort": "„Übers Geschäft red ich nicht beim Essen.“"
       }
     ],
     "verboten": [
-      "OFFEN: ZG 5 Stufe 1 „Verboten“"
+      "„Ich hab im Dunkeln nichts gesehen.“",
+      "„Ahmet schuldet mir nichts.“",
+      "„Ahmet hatte nichts in der Hand.“"
     ],
     "markersatz": null
   },
@@ -74,7 +163,7 @@
     },
     {
       "impuls": "I-3.1",
-      "antwort": "OFFEN: ZG 0.4 I-3.1 Marek (Gesprächs-Auslöser: Karte umdrehen)"
+      "antwort": "Das ist ein Auslöser für dich. Ruf „Karte!“, dreh deine Geheimniskarte um und lies sie vor. Liegt sie schon offen, erzähl, was darauf steht."
     },
     {
       "impuls": "I-3.3",

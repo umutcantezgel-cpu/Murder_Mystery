@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordakte_core/party_druck.dart';
 import 'package:provider/provider.dart';
 
-import '../abend/einrichtung/abschnitte.dart';
+import '../abend/einrichtung/abschnitte.dart' show EinrichtungsTafel;
 import '../app/router.dart';
 import '../l10n/lookup.dart';
 import '../meta/meta_store.dart';
-import '../party/daten.dart';
-import '../party/druck_tafel.dart';
-import '../party/sitzung.dart';
+import '../party/kammer_laden.dart';
+import '../party/kammer_tafel.dart';
+import '../stil/mappe/assistent_formular.dart';
 import '../stil/stil.dart';
 import 'akte_bausteine.dart';
 import 'akten.dart';
 import 'schreibtisch.dart' show GanzeWorte;
 
-/// Druckmappe einer Akte (Route `/akte/:id/druck`): Personen und Fall-Code
-/// einstellen, dann die PDF-Dateien erzeugen ([DruckTafel]), bei Akten mit
-/// Erzählerakte auch diese. Es entsteht dabei kein Abend; die Sitzung dient nur
-/// dem Satz der Druckdateien. Erreichbar über „PDFs zum Ausdrucken“ auf der
-/// Akte, ganz oben in der Detektei und dort unter ihrer Mappe.
+/// Druckmappe einer Akte (Route `/akte/:id/druck`): das Kammerspiel zum
+/// Ausdrucken (B1, B3). Es ersetzt hier das alte Druckspiel; der Fall ist fest
+/// (U4YRK), darum gibt es keinen Fall-Code, keine Rundendauer und keine Wahl
+/// von Fassung oder „Dein Moment“, nur Personen (6 bis 20: Rollen, Detektiv und
+/// Erzähler, E6) und Detektiv oder Detektivin. „Druckmappe vorbereiten“ zeigt
+/// die Dateien ([KammerTafel]). Eine Erzählerakte bietet die Druckmappe nicht an
+/// (E16): Sie verriete dem Erzähler, der die Lösung nicht kennt, die Geheimnisse;
+/// sie bleibt am Erzählerplatz eines Abends am Bildschirm. Es entsteht kein
+/// Abend. Erreichbar über „PDFs zum Ausdrucken“ auf der Akte, ganz oben in der
+/// Detektei und dort unter ihrer Mappe; eine Akte ohne Kammerspiel hat keine.
+///
+/// Inhalt und Schriften kommen aus dem Bündel ([kammerGrundlageLaden]), ohne
+/// `dart:io`: Die Druckmappe läuft auch im Browser. Die Gästeliste der Akte
+/// (Steckbrief-Seite, M5) gibt die Personenzahl vor ([kammerPersonenVorgabe])
+/// und die Namen auf den Knöpfen „Senden an …“.
 ///
 /// Oben liegt die Mappe der Druckfassung (Reiter mit der Aktennummer, Titel der
 /// Akte, Anleitung), darunter die Einstellungen auf dem Schreibtisch.
@@ -36,10 +47,22 @@ class DruckmappeSeite extends StatefulWidget {
 }
 
 class _DruckmappeSeiteState extends State<DruckmappeSeite> {
-  PartySitzung? _sitzung;
-  EinrichtungsWerte? _werte;
+  KammerGrundlage? _grundlage;
   bool _fehler = false;
   bool _bereit = false;
+
+  /// Personen am Tisch (Rollen, Detektiv und Erzähler); steht nach dem Laden fest.
+  int? _personen;
+  String _detektiv = 'w';
+
+  /// Spielernamen der Gästeliste je Kanon-Figur, für „Senden an …“.
+  Map<String, String> _spieler = const {};
+
+  /// Der Kontext der aktuellen Einstellungen; ändern sie sich, entsteht er neu.
+  KammerKontext? _kontext;
+
+  /// Nur Akten mit Kammerspiel haben eine Druckmappe.
+  late final bool _mitKammerspiel = hatKammerspiel(widget.akteId);
 
   /// Titel und Platz der Akte für die Mappe; ohne Kampagne bleibt die Mappe schlicht.
   late final Future<List<AkteInfo>> _akten = AktenKatalog.laden().catchError((Object _) => const <AkteInfo>[]);
@@ -47,19 +70,19 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
   @override
   void initState() {
     super.initState();
-    _laden();
+    if (_mitKammerspiel) _laden();
   }
 
   Future<void> _laden() async {
     if (_fehler) setState(() => _fehler = false);
     try {
-      final daten = await PartyDaten.laden(rootBundle, fall: widget.akteId);
+      final g = await kammerGrundlageLaden(rootBundle);
       if (!mounted) return;
-      final s = PartySitzung(daten);
+      final gaeste = context.read<MetaStore>().gaesteliste(widget.akteId);
       setState(() {
-        _sitzung = s;
-        // Die Gästeliste (Steckbrief-Seite, M5) gibt Personenzahl und Namen für die Hefte je Person.
-        _werte = EinrichtungsWerte(s, gaeste: context.read<MetaStore>().gaesteliste(widget.akteId));
+        _grundlage = g;
+        _personen = kammerPersonenVorgabe(g.inhalt.fall, gaeste.personen);
+        _spieler = gaeste.namenJeFigur;
       });
     } catch (e, st) {
       debugPrint('DRUCKMAPPE laden fehler $e\n$st');
@@ -67,18 +90,24 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
     }
   }
 
-  @override
-  void dispose() {
-    _werte?.dispose();
-    _sitzung?.dispose();
-    super.dispose();
+  /// Der Kontext für Personenzahl und Detektiv; `null`, solange der Inhalt lädt.
+  KammerKontext? _kontextJetzt() {
+    final g = _grundlage, n = _personen;
+    if (g == null || n == null) return null;
+    final k = _kontext;
+    if (k != null && k.personen == n && k.detektiv == _detektiv) return k;
+    return _kontext = KammerKontext(g.inhalt, personen: n, stil: g.stil, detektiv: _detektiv, spieler: _spieler);
   }
 
-  /// Die Druckfassung mit den Dateien; nach „Druckmappe vorbereiten“ rollt die Seite zu ihr.
+  void _setzePersonen(int n) {
+    final f = _grundlage!.inhalt.fall;
+    setState(() => _personen = n.clamp(f.personenMin, f.personenMax).toInt());
+  }
+
+  /// Die Dateien; nach „Druckmappe vorbereiten“ rollt die Seite zu ihnen.
   final _tafel = GlobalKey();
 
   void _vorbereiten() {
-    _werte!.starten(druckErzwingen: true);
     setState(() => _bereit = true);
     // Am kleinen Handy füllt der Deckel mit den Schritten den Bildschirm: Ohne Rollen
     // sähe man keine Datei, obwohl Schritt 3 sie antippen lässt.
@@ -93,7 +122,7 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
-    final s = _sitzung, w = _werte;
+    final k = _kontextJetzt();
     return AkteThema(
       akte: widget.akteId,
       child: Builder(
@@ -107,16 +136,13 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                 icon: Icons.arrow_back_rounded,
                 onPressed: () => context.go(widget.zurueck ?? Routes.akteVon(widget.akteId)),
               ),
-              if (!_bereit && w != null)
-                ListenableBuilder(
-                  listenable: w,
-                  builder: (context, _) => MKnopf(
-                    text: l.detektei_druck_vorbereiten,
-                    icon: Icons.print_rounded,
-                    // Schritt 2 der Anleitung nennt ihn: auch am kleinen Handy mit großer Schrift ganz.
-                    ganzeWorte: true,
-                    onPressed: w.codeOk ? _vorbereiten : null,
-                  ),
+              if (!_bereit && k != null)
+                MKnopf(
+                  text: l.detektei_druck_vorbereiten,
+                  icon: Icons.print_rounded,
+                  // Schritt 2 der Anleitung nennt ihn: auch am kleinen Handy mit großer Schrift ganz.
+                  ganzeWorte: true,
+                  onPressed: _vorbereiten,
                 ),
             ],
             child: Column(
@@ -128,7 +154,13 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                   builder: (context, snap) => _Deckel(akteId: widget.akteId, akten: snap.data ?? const []),
                 ),
                 const SizedBox(height: MMass.s32),
-                if (_fehler)
+                if (!_mitKammerspiel)
+                  MBlatt(
+                    art: PapierArt.notiz,
+                    neigung: -0.006,
+                    child: Text(l.detektei_druck_keine, style: MPapierSchrift.text),
+                  )
+                else if (_fehler)
                   MBlatt(
                     art: PapierArt.notiz,
                     neigung: -0.006,
@@ -141,15 +173,13 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
                       ],
                     ),
                   )
-                else if (s == null || w == null)
+                else if (k == null)
                   Text(l.abend_laedt, style: MSchrift.von(context).leise)
                 else if (_bereit)
-                  // Nur hier, nie in der Rollenvergabe: die Erzählerakte für die Person, die erzählt.
-                  DruckTafel(key: _tafel, sitzung: s, erzaehlerakte: true)
+                  KammerTafel(key: _tafel, kontext: k)
                 else ...[
-                  PersonenAbschnitt(werte: w),
-                  DetektivAbschnitt(werte: w),
-                  FallAbschnitt(werte: w),
+                  _PersonenTafel(kontext: k, onPersonen: _setzePersonen),
+                  _DetektivTafel(detektiv: _detektiv, onWahl: (w) => setState(() => _detektiv = w)),
                 ],
               ],
             ),
@@ -158,6 +188,101 @@ class _DruckmappeSeiteState extends State<DruckmappeSeite> {
       ),
     );
   }
+}
+
+/// Personen am Tisch (6 bis 20) per Regler, darunter, was die Zahl bedeutet
+/// („8 Rollen, Detektiv und Erzähler“, aus der Besetzung). Im Stil der
+/// Einrichtung eines Abends; deren Personen-Abschnitt zählt Rollen der App mit
+/// Namensfeldern und passt nicht zum Kammerspiel.
+class _PersonenTafel extends StatelessWidget {
+  const _PersonenTafel({required this.kontext, required this.onPersonen});
+
+  final KammerKontext kontext;
+  final ValueChanged<int> onPersonen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final f = kontext.fall;
+    final n = kontext.personen;
+    return EinrichtungsTafel(
+      ueberschrift: l.detektei_druck_personen,
+      kinder: [
+        GanzeWorte(l.detektei_druck_personen_anzahl('$n'), style: MPapierSchrift.ueberschrift, textAlign: TextAlign.center),
+        const SizedBox(height: MMass.s4),
+        Row(
+          children: [
+            _Stellknopf(
+              tooltip: l.detektei_druck_personen_weniger,
+              icon: Icons.remove_circle_outline,
+              onPressed: n > f.personenMin ? () => onPersonen(n - 1) : null,
+            ),
+            Expanded(
+              child: MPapierRegler(
+                child: Slider(
+                  value: n.toDouble(),
+                  min: f.personenMin.toDouble(),
+                  max: f.personenMax.toDouble(),
+                  divisions: f.personenMax - f.personenMin,
+                  onChanged: (v) => onPersonen(v.round()),
+                ),
+              ),
+            ),
+            _Stellknopf(
+              tooltip: l.detektei_druck_personen_mehr,
+              icon: Icons.add_circle_outline,
+              onPressed: n < f.personenMax ? () => onPersonen(n + 1) : null,
+            ),
+          ],
+        ),
+        const SizedBox(height: MMass.s8),
+        GanzeWorte(l.detektei_druck_personen_rollen('${kontext.besetzung.rollen}'), style: MPapierSchrift.leise, textAlign: TextAlign.center),
+      ],
+    );
+  }
+}
+
+/// Detektiv oder Detektivin: Ankreuzfelder wie in der Einrichtung eines Abends.
+class _DetektivTafel extends StatelessWidget {
+  const _DetektivTafel({required this.detektiv, required this.onWahl});
+
+  final String detektiv;
+  final ValueChanged<String> onWahl;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    return EinrichtungsTafel(
+      ueberschrift: l.detektei_druck_detektiv,
+      kinder: [
+        MAnkreuzWahl<String>(
+          optionen: [('m', l.detektei_druck_detektiv_m), ('w', l.detektei_druck_detektiv_w)],
+          gewaehlt: detektiv,
+          onWahl: onWahl,
+        ),
+      ],
+    );
+  }
+}
+
+/// Kleiner Stellknopf (eine Person weniger oder mehr) in Tinte.
+class _Stellknopf extends StatelessWidget {
+  const _Stellknopf({required this.tooltip, required this.icon, required this.onPressed});
+
+  final String tooltip;
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+        tooltip: tooltip,
+        onPressed: onPressed,
+        icon: Icon(icon),
+        iconSize: 28,
+        color: MRoh.tinte,
+        disabledColor: MRoh.tinte.withValues(alpha: 0.25),
+        highlightColor: MRoh.tinte.withValues(alpha: 0.08),
+      );
 }
 
 /// Die Mappe der Druckfassung: Reiter „Akte Nr. 0X“, Formularkopf mit dem Titel
