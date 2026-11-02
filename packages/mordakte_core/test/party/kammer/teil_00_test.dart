@@ -172,6 +172,19 @@ void main() {
         expect(text, contains(detektiv == 'm' ? 'Zum Schluss: der Detektiv' : 'Zum Schluss: die Detektivin'));
       });
 
+      test('Vorstellungsrunde: keine Marke allein unten auf Seite 5, die Fortsetzung auf Seite 6 sagt, wozu sie gehört', () {
+        List<String> zeilen(String seite) => [for (final z in seite.split('\n')) if (z.trim().isNotEmpty) z.trim()];
+        final marken = {u('vorstellung.fehlend').toUpperCase(), u('vorstellung.abschluss').toUpperCase()};
+        final fuenf = zeilen(roh[4]);
+        // Letzte Zeile vor dem Fuß.
+        expect(marken, isNot(contains(fuenf[fuenf.length - 2])), reason: 'Seite 5 endet mit „${fuenf[fuenf.length - 2]}“');
+        final sechs = zeilen(roh[5]);
+        final tat = sechs.indexOf(u('tatMoment'));
+        expect(tat, greaterThan(0));
+        // Steht vor dem Tat-Moment noch etwas der Vorstellungsrunde, beginnt Seite 6 (nach dem Kopf) mit der Marke.
+        expect(sechs[1] == u('vorstellung.weiter').toUpperCase(), tat > 1, reason: sechs.take(3).join(' | '));
+      });
+
       test('Vorlesen und Anleitung gekennzeichnet (Lageplan-Führung nach Besetzung)', () {
         final vorlesen = k.klartext(k.uiGemeinsam('vorlesen')).toUpperCase();
         final anleitung = k.klartext(k.uiGemeinsam('anleitung')).toUpperCase();

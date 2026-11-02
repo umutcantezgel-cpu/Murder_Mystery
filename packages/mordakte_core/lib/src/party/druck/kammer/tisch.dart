@@ -16,7 +16,8 @@
 ///    Oberkante, Protokoll um 180° gedreht darunter.
 ///
 /// Schrift: nirgends unter 9 pt; nur Joannas Notiz steht in 8 pt (MECH 5.2,
-/// FALL-BIBEL 19.2 Nr. 4). Die Beschriftungen des Lageplans setzt eine
+/// FALL-BIBEL 19.2 Nr. 4) und die Falzmarke „Hier falten“ des gemeinsamen
+/// Helfers ([KammerSatz.falzlinie]) in 6,5 pt. Die Beschriftungen des Lageplans setzt eine
 /// feste Suche (gleiche Eingaben ⇒ gleiche Lage): erst neben den Punkt, sonst
 /// mit Führungslinie in freien Platz. Kollisionen und Überlauf sind ein
 /// [KammerUeberlauf] mit Stelle, nie still.
@@ -49,14 +50,6 @@ void kammerTisch(pw.Document doc, KammerKontext k) => kammerTeilSetzen(doc, k, '
 });
 
 String _u(KammerKontext k, String schluessel, [Map<String, String> werte = const {}]) => k.ui('02', schluessel, werte);
-
-/// Überlauf mit Teil, Seite und Stelle (wie die Helfer in satz.dart). Die
-/// Aufrufer schreiben `throw _ueberlauf(…)`, damit die Meldung in einer
-/// Zeile mit `throw` steht (story_text_ausserhalb_test.dart).
-Never _ueberlauf(KammerSeiten s, String wo, String grund) {
-  final ort = '${s.k.teilTitel('02')} / $wo';
-  throw KammerUeberlauf('02', s.naechste, ort, 'Überlauf in Teil 02, Seite ${s.naechste} ($ort): $grund');
-}
 
 pw.TextStyle _stil(KammerKontext k, {double g = _pt, bool fett = false, PdfColor farbe = DruckStil.tinte}) =>
     pw.TextStyle(font: fett ? k.stil.stark : k.stil.normal, fontSize: g, color: farbe);
@@ -410,7 +403,7 @@ class _Beschrifter {
     return w.box!.width / m;
   }();
 
-  Never fehler(String wo, String grund) => _ueberlauf(s, 'lageplan / $wo', grund);
+  Never fehler(String wo, String grund) => s.ueberlauf('lageplan / $wo', grund);
 
   /// [text] in [n] Zeilen, möglichst gleich lang; Umbruch nur an Leerzeichen,
   /// gern vor „(“ und nach „–“, „:“ oder „,“. Null, wenn es weniger Wörter sind.
@@ -768,11 +761,13 @@ void _blattA(KammerSeiten s, KammerKontext k) {
       _text(k, '**${k.klartext(_u(k, 'lageplan.blattA'))}** · ${k.klartext(_u(k, 'lageplan.blattA.anschluss'))}'),
     ],
   );
-  final kopfHoehe = s.satz.hoehe(titel, w) + 2 * _mm;
+  // Gemessen wird vorher: Beim Speichern misst niemand mehr (dann gilt das Messdokument nicht sicher).
+  final titelHoehe = s.satz.hoehe(titel, w);
+  final kopfHoehe = titelHoehe + 2 * _mm;
   s.pruefeHoehe(kopfHoehe + h, format.height - _randQuer.vertical, wo: 'lageplan');
   const luecke = 3 * _mm;
   final legendeBreite = format.width - _randQuer.horizontal - w - luecke;
-  if (legendeBreite < 60 * _mm) throw _ueberlauf(s, 'legende', 'nur ${(legendeBreite / _mm).toStringAsFixed(0)} mm breit');
+  if (legendeBreite < 60 * _mm) throw s.ueberlauf('legende', 'nur ${(legendeBreite / _mm).toStringAsFixed(0)} mm breit');
   final legende = _legende(k, plan, legendeBreite);
   s.pruefe(legende, breite: legendeBreite, platz: format.height - _randQuer.vertical, wo: 'legende');
   final beschriftung = _beschriften(s, k, plan);
@@ -786,7 +781,7 @@ void _blattA(KammerSeiten s, KammerKontext k) {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.SizedBox(width: w, child: titel),
-            pw.SizedBox(height: kopfHoehe - s.satz.hoehe(titel, w)),
+            pw.SizedBox(height: kopfHoehe - titelHoehe),
             _planBild(k, plan, beschriftung),
           ],
         ),
@@ -1182,7 +1177,7 @@ pw.Widget _legende(KammerKontext k, _Plan plan, double breite) {
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
-      pw.Text(KammerSatz.glyphen(k.klartext(_u(k, 'lageplan.legende'))), style: k.stil.ueberschrift(12.5)),
+      k.satz.fett(_u(k, 'lageplan.legende'), groesse: 12.5),
       pw.SizedBox(height: 1),
       for (final z in k.fall.zonen) ...[
         zeile(_zonenKreis(k, z.nr, kreis), _text(k, ['**${k.klartext(z.name)}**', if (z.felder.length == 1) ?texte[z.felder.single]].join('\n')), oben: 2.4),
@@ -1231,8 +1226,9 @@ void _blattB(KammerSeiten s, KammerKontext k) {
     ],
   );
   final gitterB = mf.spalten * zb;
-  final kopfHoehe = s.satz.hoehe(kopf, gitterB) + 4 * _mm;
-  if (gitterB > format.width - _randQuer.horizontal) throw _ueberlauf(s, 'markerfelder', 'Raster breiter als das Blatt');
+  final titelHoehe = s.satz.hoehe(kopf, gitterB);
+  final kopfHoehe = titelHoehe + 4 * _mm;
+  if (gitterB > format.width - _randQuer.horizontal) throw s.ueberlauf('markerfelder', 'Raster breiter als das Blatt');
   s.pruefeHoehe(kopfHoehe + mf.reihen * zh, format.height - _randQuer.vertical, wo: 'markerfelder');
   // Mini-Skizze: der ganze Keller klein, das Feld schwarz.
   const skizzeB = 32 * _mm;
@@ -1284,7 +1280,7 @@ void _blattB(KammerSeiten s, KammerKontext k) {
         final kopfH = s.satz.hoehe(kopfzeile, breite - innen.horizontal);
         if (kopfH + skizzeH + 2 * _mm > hoehe - innen.vertical) {
           final (h, p) = (((kopfH + skizzeH) / _mm).toStringAsFixed(1), ((hoehe - innen.vertical) / _mm).toStringAsFixed(1));
-          throw _ueberlauf(s, 'markerfelder / ${feld.id}', 'Name und Skizze $h mm hoch, Platz $p mm');
+          throw s.ueberlauf('markerfelder / ${feld.id}', 'Name und Skizze $h mm hoch, Platz $p mm');
         }
         return pw.Positioned(
           left: s0 * zb,
@@ -1313,7 +1309,7 @@ void _blattB(KammerSeiten s, KammerKontext k) {
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         children: [
           pw.SizedBox(width: gitterB, child: kopf),
-          pw.SizedBox(height: kopfHoehe - s.satz.hoehe(kopf, gitterB)),
+          pw.SizedBox(height: kopfHoehe - titelHoehe),
           pw.SizedBox(
             width: gitterB,
             height: mf.reihen * zh,
@@ -1363,7 +1359,7 @@ void _marker(KammerSeiten s, KammerKontext k) {
   final b = mv.breiteMm * _mm;
   final h = mv.hoeheMm * _mm;
   final marker = k.besetzung.marker;
-  if (marker.length > mv.max) throw _ueberlauf(s, 'marker', '${marker.length} Marker, höchstens ${mv.max}');
+  if (marker.length > mv.max) throw s.ueberlauf('marker', '${marker.length} Marker, höchstens ${mv.max}');
   String wer(KammerMarker m) => switch (m.wer) {
     kammerDetektiv => _u(k, 'marker.detektiv'),
     kammerSchneider => _u(k, 'marker.schneider'),
@@ -1437,7 +1433,7 @@ void _tippZettel(KammerSeiten s, KammerKontext k) {
   final kopf = pw.Row(
     crossAxisAlignment: pw.CrossAxisAlignment.end,
     children: [
-      pw.Text(KammerSatz.glyphen(k.klartext(t.titel)), style: k.stil.ueberschrift(16)),
+      k.satz.fett(t.titel, groesse: 16),
       pw.SizedBox(width: 8 * _mm),
       pw.Expanded(child: _text(k, t.name, g: g)),
     ],
@@ -1471,7 +1467,7 @@ void _tippZettel(KammerSeiten s, KammerKontext k) {
     ],
   );
   final hoehe = s.satz.hoehe(oben, lb) + 4 * _mm + s.satz.hoehe(fuss, lb);
-  if (hoehe > lh) throw _ueberlauf(s, 'tippzettel', '${(hoehe / _mm).toStringAsFixed(1)} mm hoch, Platz ${(lh / _mm).toStringAsFixed(1)} mm');
+  if (hoehe > lh) throw s.ueberlauf('tippzettel', '${(hoehe / _mm).toStringAsFixed(1)} mm hoch, Platz ${(lh / _mm).toStringAsFixed(1)} mm');
   // Um 90° gedreht; das Kind bekommt seine eigene Größe (sonst gälte die schmale Feldbreite).
   final zettel = pw.Transform.rotateBox(
     angle: math.pi / 2,
@@ -1506,7 +1502,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
   final pt = a.schriftPt.toDouble();
   final notizPt = a.notizPt.toDouble();
   // Mindestgrößen fest (MECH 5.2, 19.2 Nr. 4): 9 pt, nur die Notiz 8 pt.
-  if (pt < _pt || notizPt < _pt - 1) throw _ueberlauf(s, 'abwesenheitsblatt', 'Schrift ${a.schriftPt}/${a.notizPt} pt, mindestens 9/8 pt');
+  if (pt < _pt || notizPt < _pt - 1) throw s.ueberlauf('abwesenheitsblatt', 'Schrift ${a.schriftPt}/${a.notizPt} pt, mindestens 9/8 pt');
   final sb = a.streifenBreiteMm * _mm;
   final sh = a.streifenHoeheMm * _mm;
   final falz = a.etikettHoeheMm * _mm;
@@ -1530,7 +1526,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
         if (beste == null || hoehe < beste.$1 - 0.01) beste = (hoehe, teil, b1);
       }
     }
-    if (beste == null) throw _ueberlauf(s, '$wo / notiz', 'keine Zeilen');
+    if (beste == null) throw s.ueberlauf('$wo / notiz', 'keine Zeilen');
     final (_, teil, b1) = beste;
     return pw.Row(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -1542,6 +1538,9 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
     );
   }
 
+  // Die Falzlinie mit „Hier falten“ steht in einem 8 pt hohen Band über dem Falz: messen statt still kürzen.
+  const falzBand = 8.0;
+  s.pruefe(k.satz.falzlinie(), breite: sb - 3 * _mm, platz: falzBand, wo: 'abwesenheitsblatt / falz');
   final zellen = <KammerZelle>[];
   for (final st in k.besetzung.streifen) {
     final wo = 'abwesenheitsblatt / ${st.zeuge}';
@@ -1551,7 +1550,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
         text(st.protokoll, pt),
-        if (st.mitNotiz) ...[pw.SizedBox(height: luft), notiz(k.inhalt.rolle(st.zeuge).notiz ?? (throw _ueberlauf(s, wo, 'Notiz fehlt')), wo)],
+        if (st.mitNotiz) ...[pw.SizedBox(height: luft), notiz(k.inhalt.rolle(st.zeuge).notiz ?? (throw s.ueberlauf(wo, 'Notiz fehlt')), wo)],
         pw.SizedBox(height: luft),
         text(st.vermerk, pt, fett: true),
       ],
@@ -1568,8 +1567,8 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
               pw.Positioned(
                 left: 1.5 * _mm,
                 right: 1.5 * _mm,
-                top: falz - 4,
-                child: pw.SizedBox(height: 8, child: k.satz.falzlinie()),
+                top: falz - falzBand / 2,
+                child: pw.SizedBox(height: falzBand, child: k.satz.falzlinie()),
               ),
               // Um 180° gedreht: der Anfang des Protokolls liegt an der Unterkante, gelesen oben.
               pw.Positioned(

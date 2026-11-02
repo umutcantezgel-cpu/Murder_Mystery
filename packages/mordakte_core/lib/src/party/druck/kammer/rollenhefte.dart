@@ -54,7 +54,6 @@ import 'package:pdf/widgets.dart' as pw;
 import '../satz_stil.dart';
 import 'inhalt.dart';
 import 'kontext.dart';
-import 'platzhalter.dart';
 import 'satz.dart';
 
 /// Setzt Teil 10: die Rollenhefte der besetzten Plätze 1–10 in Platzreihenfolge.
@@ -379,12 +378,12 @@ class _Planer {
         if (h > platz) {
           final teil = hefte[i].teil;
           final wo = [k.teilTitel(teil), hefte[i].p.name].join(' / ');
-          throw KammerUeberlauf(teil, seite + 1, wo, 'Überlauf in Teil $teil, Seite ${seite + 1} ($wo): passt auf $n Seiten auch in ${g}pt nicht, diese Seite ${h.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
+          throw KammerUeberlauf.werfen(teil, seite + 1, wo, 'passt auf $n Seiten auch in ${g}pt nicht, diese Seite ${h.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
         }
       }
     }
     final wo = [k.teilTitel(hefte.first.teil), for (final h in hefte) h.p.name].join(' / ');
-    throw KammerUeberlauf(hefte.first.teil, n, wo, 'Überlauf in Teil ${hefte.first.teil} ($wo): kein Seitenplan in ${g}pt');
+    throw KammerUeberlauf.werfen(hefte.first.teil, n, wo, 'kein Seitenplan in ${g}pt');
   }
 }
 
@@ -619,7 +618,7 @@ class _Heft {
   pw.Widget h1(String t, double g) => pw.Padding(
         padding: pw.EdgeInsets.only(bottom: g * 0.25),
         child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
-          pw.Text(KammerSatz.glyphen(k.klartext(t)), style: stil.ueberschrift(g + 2)),
+          x.fett(t, groesse: g + 2),
           pw.SizedBox(height: 1.5),
           pw.Container(height: 0.5, color: DruckStil.linie),
         ]),
@@ -628,42 +627,19 @@ class _Heft {
   /// Unterüberschrift (Teil eines Abschnitts).
   pw.Widget h2(String t, double g) => pw.Padding(
         padding: pw.EdgeInsets.only(bottom: g * 0.25),
-        child: pw.Text(KammerSatz.glyphen(k.klartext(t)), style: stil.ueberschrift(g + 1)),
+        child: x.fett(t, groesse: g + 1),
       );
 
   /// Etikett in Grundschrift, fett.
   pw.Widget etikett(String t, double g) => pw.Padding(
         padding: pw.EdgeInsets.only(bottom: g * 0.15),
-        child: pw.Text(KammerSatz.glyphen(k.klartext(t)), style: stil.ueberschrift(g)),
+        child: x.fett(t, groesse: g),
       );
 
   /// Absatz mit Auszeichnung (`**fett**`, `*kursiv*` grau, Zeilen, Absätze) in
   /// Größe [g], mit knappem Zeilenabstand. Leer aufgelöst: nichts.
-  pw.Widget text(String t, double g, {bool leise = false}) {
-    final absaetze = k.absaetze(t);
-    if (absaetze.isEmpty) return pw.SizedBox();
-    final farbe = leise ? DruckStil.leise : DruckStil.tinte;
-    pw.TextStyle stilVon(KammerLauf l) => pw.TextStyle(
-          font: l.fett ? stil.stark : stil.normal,
-          fontSize: g,
-          color: l.kursiv ? DruckStil.leise : farbe,
-          lineSpacing: g * _zeilenabstand,
-        );
-    return pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-      for (var i = 0; i < absaetze.length; i++)
-        pw.Padding(
-          padding: pw.EdgeInsets.only(top: i == 0 ? 0 : g * 0.35),
-          child: pw.RichText(
-            text: pw.TextSpan(children: [
-              for (var z = 0; z < absaetze[i].zeilen.length; z++) ...[
-                if (z > 0) pw.TextSpan(text: '\n', style: stilVon(const KammerLauf(''))),
-                for (final l in absaetze[i].zeilen[z]) pw.TextSpan(text: KammerSatz.glyphen(l.text), style: stilVon(l)),
-              ],
-            ]),
-          ),
-        ),
-    ]);
-  }
+  pw.Widget text(String t, double g, {bool leise = false}) =>
+      x.absatz(t, groesse: g, leise: leise, abstand: g * 0.35, zeilenabstand: _zeilenabstand);
 
   /// Fließtext mit fettem Etikett davor.
   pw.Widget mitEtikett(String etikett, String t, double g) => text('**${k.klartext(etikett)}:** ${k.text(t)}', g);
@@ -672,19 +648,13 @@ class _Heft {
   /// Einträge, die leer aufgelöst werden, fallen weg; die Nummern rücken nach.
   List<_Block> liste(Iterable<String> eintraege, double g, {KammerNummer nummer = KammerNummer.strich, bool leise = false}) {
     final texte = k.texte(eintraege);
-    String zeichen(int i) => switch (nummer) {
-          KammerNummer.strich => '–',
-          KammerNummer.zahl => '${i + 1}.',
-          KammerNummer.buchstabe => '(${String.fromCharCode(0x61 + i)})',
-          KammerNummer.keine => '',
-        };
-    final einzug = nummer == KammerNummer.keine ? 0.0 : g * (nummer == KammerNummer.strich ? 1.1 : 1.8);
+    final einzug = nummer.einzug(g);
     return [
       for (var i = 0; i < texte.length; i++)
         _Block(pw.Padding(
           padding: pw.EdgeInsets.only(top: i == 0 ? 0 : g * 0.1),
           child: pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-            if (einzug > 0) pw.SizedBox(width: einzug, child: pw.Text(zeichen(i), style: stil.text(g).copyWith(lineSpacing: g * _zeilenabstand))),
+            if (einzug > 0) pw.SizedBox(width: einzug, child: pw.Text(nummer.zeichen(i), style: stil.text(g).copyWith(lineSpacing: g * _zeilenabstand))),
             pw.Expanded(child: text(texte[i], g, leise: leise)),
           ]),
         )),
@@ -703,14 +673,8 @@ class _Heft {
       );
 
   /// Kasten mit Rahmen, grau hinterlegt oder weiß.
-  pw.Widget kasten(List<pw.Widget> inhalt, {bool grau = false}) => pw.Container(
-        padding: const pw.EdgeInsets.fromLTRB(7, 4, 7, 5),
-        decoration: pw.BoxDecoration(
-          border: pw.Border.all(color: DruckStil.tinte, width: 0.6),
-          color: grau ? PdfColors.grey100 : null,
-        ),
-        child: pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.start, children: inhalt),
-      );
+  pw.Widget kasten(List<pw.Widget> inhalt, {bool grau = false}) =>
+      x.kasten(inhalt, grau: grau, rahmen: 0.6, innen: const pw.EdgeInsets.fromLTRB(7, 4, 7, 5));
 
   /// Tabelle als Blöcke, je Zeile einer (die Zeilen einer Seite schließen
   /// lückenlos aneinander). Zellen: Text oder Widget. Zeilen, deren erster Text
@@ -725,16 +689,7 @@ class _Heft {
             _ => text('$inhalt', g),
           },
         );
-    pw.Widget reihe(List<pw.Widget> zellen, {required bool oben, bool grau = false}) => pw.Table(
-          border: pw.TableBorder(left: _linie, right: _linie, bottom: _linie, top: oben ? _linie : pw.BorderSide.none, verticalInside: _linie),
-          columnWidths: {for (var i = 0; i < spalten.length; i++) i: pw.FlexColumnWidth(spalten[i])},
-          children: [
-            pw.TableRow(
-              decoration: grau ? const pw.BoxDecoration(color: PdfColors.grey200) : null,
-              children: zellen,
-            ),
-          ],
-        );
+    pw.Widget reihe(List<pw.Widget> zellen, {required bool oben, bool grau = false}) => x.tabellenzeile(zellen, spalten, oben: oben, grau: grau);
     final sichtbar = [
       for (final z in zeilen)
         if (z.isEmpty || z.first is! String || !k.leer(z.first! as String)) z,
@@ -977,9 +932,18 @@ class _Heft {
           if (a.nachschlag case final n?) pw.Padding(padding: pw.EdgeInsets.only(top: g * 0.2), child: mitEtikett(gm('heft.nachschlag'), n, g)),
         ];
       } else {
-        final ausweich = a.ausweich ??
-            (gestalt == _Gestalt.zusatz ? u('ausweichRegel') : throw StateError('${p.name}: Ziel ${a.ziel} fehlt heute, kein Ausweichziel'));
-        inhalt = [text('**$nr:** ${k.text(ausweich)}', g)];
+        final ausweich = k.text(a.ausweich ??
+            (gestalt == _Gestalt.zusatz ? u('ausweichRegel') : throw StateError('${p.name}: Ziel ${a.ziel} fehlt heute, kein Ausweichziel')));
+        // Beginnt das Ausweichziel mit dem Namen einer besetzten Rolle („Can: „…““),
+        // steht der Name wie bei jedem Ziel im Kopf („Ziel 2 · Can:“), nicht doppelt mit Doppelpunkt.
+        final vorne = RegExp(r'^([^\s:*„“]+): ').firstMatch(ausweich);
+        final name = vorne?.group(1);
+        inhalt = [
+          if (vorne != null && name != null && b.besetzt.any((q) => q.name == name))
+            text('**$nr · $name:** ${ausweich.substring(vorne.end)}', g)
+          else
+            text('**$nr:** $ausweich', g),
+        ];
       }
       return pw.Padding(
         padding: pw.EdgeInsets.only(top: erstes ? 0 : g * 0.45),

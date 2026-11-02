@@ -6637,7 +6637,7 @@ Seitenzahlen A4, einseitig. P = Personen.
 
 | Teil | Datei | Inhalt | Format, Verarbeitung | Seiten P = 6 / 12 / 20 |
 |---|---|---|---|---|
-| 00 | `00-erzaehlerheft.pdf` | Erzählerheft (9.1) | A4 hoch, lose oder geheftet | 15 / 16 / 17 |
+| 00 | `00-erzaehlerheft.pdf` | Erzählerheft (9.1) | A4 hoch, lose oder geheftet | 16 / 16 / 16 (E18) |
 | 01 | `01-detektivbogen.pdf` | Detektivbogen und Ermittlungsbogen (2.6) | A4 hoch | 6 / 6 / 6 |
 | 02 | `02-tisch.pdf` | Lageplan (Blatt A und B), Positions-Marker, Tipp-Zettel, Abwesenheitsblatt (6–11 P.) | A4 quer (Lageplan), A4 hoch (Rest); schneiden, falten | 6 / 6 / 8 |
 | 10 | `10-rollenhefte.pdf` | Rollenhefte der besetzten Rollen 1–10 | A4 hoch, je Rolle 4 Seiten, die vier Verdächtigen gleich lang und gleich gegliedert | 16 / 40 / 40 |
@@ -6759,7 +6759,8 @@ Bewusst nicht oder nur teilweise behoben; keiner blockiert die Text-Phase.
    nennen (ZG-09) und sie den größten Platz hat. Sie hat je Runde zwei eigene Ziele und ihre Aktionskarte.
 3. **Gesprächslast bei 14 bis 20 Personen (P14-04, P145R2-M02):** Die Gegenüberstellung ist mit genau einer Frage je Person
    nachgerechnet (MECH 1.3). Ob Frage und Antwort in zwanzig Sekunden passen, zeigt erst ein Probelauf mit 20 Personen.
-4. **Seitenumfänge** (MECH 10.1) sind Schätzungen. Der Generator prüft Überlauf bei 9 pt; nur Joannas Notiz darf 8 pt haben.
+4. **Seitenumfänge** (MECH 10.1) sind gemessen (Umsetzung, E18). Der Generator prüft Überlauf bei 9 pt Lesetext; darunter
+   liegen nur Joannas Notiz (8 pt), Kopf, Fuß und Marken (8,5 pt) und die Falzmarke „Hier falten“ (6,5 pt), siehe E19.
    Das Zusatzheft hat jetzt drei Seiten (P145R2-M06). Seite 7 des Erzählerhefts trägt jetzt auch „Was alle wissen“
    (P145R2-M09); läuft sie über, bekommt das Erzählerheft eine Seite mehr.
 5. **Erzählertabelle 9.14:** Sie zeigt nur Codes. Ein aufmerksamer Erzähler kann aus vorgelesenen Karten auf Zusammenhänge

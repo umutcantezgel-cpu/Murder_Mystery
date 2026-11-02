@@ -38,10 +38,8 @@ library;
 
 import 'dart:math' as math;
 
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-import '../satz_stil.dart';
 import 'besetzung.dart';
 import 'inhalt.dart';
 import 'kontext.dart';
@@ -81,7 +79,6 @@ class _Heft {
   KammerBesetzung get b => k.besetzung;
   KammerAufloesung get a => k.inhalt.aufloesung;
   KammerFall get f => k.fall;
-  DruckStil get stil => k.stil;
 
   static const _teil = '90';
   static final _breite = KammerSatz.satzBreite();
@@ -157,13 +154,12 @@ class _Heft {
 
     final voll = packen(platz);
     if (voll == null) {
-      final h = mitKopf.reduce(math.max);
-      throw KammerUeberlauf(_teil, erste, ab.wo, 'Überlauf in Teil $_teil, Seite $erste (${ab.wo}): ${h.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
+      KammerUeberlauf.zuHoch(_teil, erste, ab.wo, mitKopf.reduce(math.max), platz);
     }
     if (voll.length > ab.seiten) {
       final letzte = erste + ab.seiten - 1;
       final summe = ohneKopf.fold(0.0, (p, q) => p + q).toStringAsFixed(1);
-      throw KammerUeberlauf(_teil, letzte, ab.wo, 'Überlauf in Teil $_teil, Seite $letzte (${ab.wo}): ${voll.length} Seiten nötig, geplant sind ${ab.seiten} ($summe pt, Platz ${(ab.seiten * platz).toStringAsFixed(1)} pt)');
+      throw KammerUeberlauf.werfen(_teil, letzte, ab.wo, '${voll.length} Seiten nötig, geplant sind ${ab.seiten} ($summe pt, Platz ${(ab.seiten * platz).toStringAsFixed(1)} pt)');
     }
     if (ab.seiten == 1) return voll;
     // Kleinste Seitenhöhe, mit der es auf die geplanten Seiten geht (halbierend gesucht).
@@ -203,48 +199,18 @@ class _Heft {
   /// Abstand vor einem Abschnitt, der mitten auf einer Seite beginnen kann.
   static const _vorAbschnitt = 14.0;
 
-  /// Vorlesetext aus mehreren Teilen: Balken links, Marke „Vorlesen“ (wie [KammerSatz.vorlesen]).
-  pw.Widget _vorlesen(List<pw.Widget> teile, {double luecke = 5}) => pw.Container(
-        padding: const pw.EdgeInsets.fromLTRB(10, 6, 4, 6),
-        decoration: const pw.BoxDecoration(border: pw.Border(left: pw.BorderSide(color: DruckStil.tinte, width: 2.5))),
-        child: pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-          x.marke(k.uiGemeinsam('vorlesen'), groesse: _gTabelle),
-          pw.SizedBox(height: 4),
-          for (final (i, t) in teile.indexed) ...[if (i > 0) pw.SizedBox(height: luecke), t],
-        ]),
-      );
+  /// Vorlesetext aus mehreren Teilen: Balken links, Marke „Vorlesen“ in 9 pt.
+  pw.Widget _vorlesen(List<pw.Widget> teile, {double luecke = 5}) => x.vorlesenKasten(teile, marke: _gTabelle, luecke: luecke);
 
-  /// Eine Tabellenzeile als eigener Baustein: Rahmen links, rechts, unten und
-  /// zwischen den Spalten; der Kopf ([kopf]) auch oben, grau hinterlegt.
+  /// Eine Tabellenzeile als eigener Baustein ([KammerSatz.tabellenzeile]); der
+  /// Kopf ([kopf]) fett, mit Linie oben und grau hinterlegt.
   pw.Widget _zeile(
     List<Object?> zellen,
     List<double> spalten, {
     bool kopf = false,
-    double groesse = _gTabelle,
     pw.EdgeInsets innen = const pw.EdgeInsets.fromLTRB(4, 3, 4, 3),
-  }) {
-    const linie = pw.BorderSide(color: DruckStil.linie, width: 0.5);
-    pw.Widget zelle(Object? z) => pw.Padding(
-          padding: innen,
-          child: switch (z) {
-            null => pw.SizedBox(),
-            final pw.Widget w => w,
-            final String t when kopf => pw.Text(KammerSatz.glyphen(k.klartext(t)), style: stil.ueberschrift(groesse)),
-            final String t => x.absatz(t, groesse: groesse),
-            _ => x.absatz('$z', groesse: groesse),
-          },
-        );
-    return pw.Table(
-      border: pw.TableBorder(left: linie, right: linie, bottom: linie, top: kopf ? linie : pw.BorderSide.none, verticalInside: linie),
-      columnWidths: {for (var i = 0; i < spalten.length; i++) i: pw.FlexColumnWidth(spalten[i])},
-      children: [
-        pw.TableRow(
-          decoration: kopf ? const pw.BoxDecoration(color: PdfColors.grey200) : null,
-          children: [for (final z in zellen) zelle(z)],
-        ),
-      ],
-    );
-  }
+  }) =>
+      x.tabellenzeile([for (final z in zellen) x.zelle(z, groesse: _gTabelle, innen: innen, kopf: kopf)], spalten, oben: kopf, grau: kopf);
 
   /// Bausteine einer Tabelle, die über Seiten gehen darf: [vorweg] (etwa die
   /// Überschrift), Kopf und erste Zeile bleiben zusammen; jede weitere Zeile
@@ -269,14 +235,10 @@ class _Heft {
   pw.Widget _tabelleGanz(List<String> kopf, List<List<Object?>> zeilen, List<double> spalten) =>
       _spalte([_zeile(kopf, spalten, kopf: true), for (final r in zeilen) _zeile(r, spalten)]);
 
-  pw.Widget _fett(String text, [double groesse = _gTabelle]) => pw.Text(KammerSatz.glyphen(k.klartext(text)), style: stil.ueberschrift(groesse));
+  pw.Widget _fett(String text, [double groesse = _gTabelle]) => x.fett(text, groesse: groesse);
 
   /// „a, b oder c“ (`liste.oder`).
-  String _oder(List<String> teile) => switch (teile.length) {
-        0 => '',
-        1 => teile.single,
-        _ => u('liste.oder', {'liste': teile.sublist(0, teile.length - 1).join(', '), 'letzter': teile.last}),
-      };
+  String _oder(List<String> teile) => x.aufzaehlen(teile, _teil, 'liste.oder');
 
   KammerPlatz _platz(String id) => f.plaetze.firstWhere((p) => p.id == id);
 
@@ -390,8 +352,7 @@ class _Heft {
       final w = bauen(g);
       if (x.hoehe(w, _breite) <= platz) return _Abschnitt('rueckblende', 1, [_Block(w)]);
     }
-    final h = x.hoehe(bauen(_gRueckblendeMin), _breite);
-    throw KammerUeberlauf(_teil, _seiteRueckblende, 'rueckblende', 'Überlauf in Teil $_teil, Seite $_seiteRueckblende (rueckblende): auch in ${_gRueckblendeMin}pt ${h.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
+    KammerUeberlauf.keineGroesse(_teil, _seiteRueckblende, 'rueckblende', _gRueckblendeMin, x.hoehe(bauen(_gRueckblendeMin), _breite), platz);
   }
 
   // ---------------------------------------------------------------- ab Seite 6
@@ -408,12 +369,7 @@ class _Heft {
     pw.Widget rolle(KammerPlatz p) {
       final r = k.rolle(p);
       final name = r.fassung == null ? p.name : u('rollenAmTisch.fassung', {'name': p.name, 'code': r.fassung!.code});
-      return pw.Container(
-        margin: const pw.EdgeInsets.only(bottom: 7),
-        padding: const pw.EdgeInsets.fromLTRB(8, 1, 2, 1),
-        decoration: const pw.BoxDecoration(border: pw.Border(left: pw.BorderSide(color: DruckStil.tinte, width: 2.5))),
-        child: x.absatz('**$name** ${r.teil90}', groesse: _gVorlesen),
-      );
+      return x.balken(x.absatz('**$name** ${r.teil90}', groesse: _gVorlesen), aussen: const pw.EdgeInsets.only(bottom: 7));
     }
 
     final rollen = b.besetzt;
@@ -466,8 +422,10 @@ class _Heft {
           const [0.7, 7, 0.9],
         ),
         _abstand(6),
+        // Die Sonderregel gehört zur Tabelle darüber: nie allein auf die nächste Seite.
+        x.kasten([x.absatz(a.sonderregel, groesse: _gText)]),
+        _abstand(4),
       ])),
-      _Block(_spalte([x.kasten([x.absatz(a.sonderregel, groesse: _gText)]), _abstand(4)])),
       ..._tabelle(
         [_h2(u('tippWertung.bonusZiele')), _wer(u('tippWertung.bonusZiele.wer'))],
         [u('tippWertung.bonus.wer'), u('tippWertung.bonus.ziel')],

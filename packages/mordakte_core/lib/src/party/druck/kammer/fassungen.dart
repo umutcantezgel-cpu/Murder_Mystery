@@ -108,10 +108,10 @@ class _Fassungen {
     for (var i = 0; i < fassungen.length; i++) {
       final h = bloecke.fold(0.0, (a, b) => a + x.hoehe(b(i, g, null), _breite));
       final ort = [k.teilTitel('11'), fassungen[i].code, wo].join(' / ');
-      if (h > _platz) throw KammerUeberlauf('11', seite, ort, 'Überlauf in Teil 11, Seite $seite ($ort): auch in ${g}pt ${h.toStringAsFixed(1)} pt hoch, Platz ${_platz.toStringAsFixed(1)} pt');
+      if (h > _platz) KammerUeberlauf.keineGroesse('11', seite, ort, g, h, _platz);
     }
     final ort = [k.teilTitel('11'), for (final f in fassungen) f.code, wo].join(' / ');
-    throw KammerUeberlauf('11', seite, ort, 'Überlauf in Teil 11, Seite $seite ($ort): in gleicher Gestalt auch in ${g}pt höher als ${_platz.toStringAsFixed(1)} pt');
+    throw KammerUeberlauf.werfen('11', seite, ort, 'in gleicher Gestalt auch in ${g}pt höher als ${_platz.toStringAsFixed(1)} pt');
   }
 
   /// Überschrift (für alle gleich).
@@ -209,16 +209,7 @@ class _Fassungen {
   /// Der Text der Stufe 3 zum Vorlesen (Balken links, Marke „Vorlesen“);
   /// gestreckt mit dem Balken über die ganze Höhe.
   pw.Widget _vorlesen(int i, double g, double? hoehe) {
-    pw.Widget kasten(double? h) => pw.Container(
-          height: h,
-          padding: const pw.EdgeInsets.fromLTRB(10, 6, 4, 6),
-          decoration: const pw.BoxDecoration(border: pw.Border(left: pw.BorderSide(color: DruckStil.tinte, width: 2.5))),
-          child: pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-            x.marke(k.uiGemeinsam('vorlesen'), groesse: KammerSatz.kleinsteGroesse),
-            pw.SizedBox(height: 4),
-            x.absatz(fassungen[i].stufe3, groesse: g),
-          ]),
-        );
+    pw.Widget kasten(double? h) => x.vorlesenKasten([x.absatz(fassungen[i].stufe3, groesse: g)], marke: KammerSatz.kleinsteGroesse, hoehe: h);
     final natur = kasten(null);
     if (hoehe == null) return natur;
     // Eine Spalte fester Höhe ließe zu viel Text still weg: vorher messen.

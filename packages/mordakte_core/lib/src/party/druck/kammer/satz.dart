@@ -2,14 +2,16 @@
 ///
 /// Zwei Ebenen:
 /// - [KammerSatz] (`k.satz`) baut Bausteine ohne Seitenbezug: Titel,
-///   Überschrift, Absatz mit Auszeichnung, Liste, Kasten (Vorlesen, Anleitung),
-///   Tabelle, Notizlinien, Kästchen, Schnittlinie mit Schere, Falzlinie,
-///   Außenseite mit Code, Messen.
+///   Überschrift, fette Zeile, Absatz mit Auszeichnung, Liste, Kasten,
+///   Vorlesetext (mit Marke oder nur Balken), Anleitung, Tabelle (ganz oder
+///   Zeile für Zeile), Notizlinien, Kästchen, Falzlinie, Außenseite mit Code,
+///   Sichtschutz-Raster, Aufzählung „a, b oder c“, Messen.
 /// - [KammerSeiten] setzt Seiten eines Teils und zählt sie: feste Seite A4 hoch
 ///   oder quer mit Kopf und Fuß, fließender Text über mehrere Seiten, volle Seite
 ///   ohne Rand, versiegelte Außenseite, Raster (A5-Feld mit Z-Falz zwei je A4,
-///   A7 acht je A4, Plättchen für die Marker), passende Schriftgrößen.
-///   [kammerTeilSetzen] öffnet die Zählung eines Teils und schließt sie wieder.
+///   A7 acht je A4, beliebige Zellen wie Marker, Zettel, Streifen), passende
+///   Schriftgrößen. [kammerTeilSetzen] öffnet die Zählung eines Teils und
+///   schließt sie wieder.
 ///
 /// Stil: [DruckStil] (schlicht, schwarzweiß). Alle Text-Helfer lösen die
 /// Platzhalter selbst auf (über [KammerKontext.text]) und setzen die
@@ -17,14 +19,15 @@
 ///
 /// Überlauf ist nie still: Passt etwas nicht auf seine Seite, in seine Zelle
 /// oder in die erlaubte Seitenzahl, wirft der Helfer [KammerUeberlauf] mit
-/// Teil, Seite und Stelle (A2). Achtung beim Selbstbauen: Eine `pw.Column` mit
-/// begrenzter Höhe lässt ein Kind, das nicht mehr passt, still weg (pw.Flex
-/// teilt es auf eine nächste Seite, die es auf einer festen Seite nicht gibt).
-/// Darum feste Seiten nur über [KammerSeiten.seite], Raster über
-/// [KammerSeiten.raster], [KammerSeiten.a7], [KammerSeiten.zFalz],
-/// [KammerSeiten.plaettchen], Kästen fester Größe über [KammerSeiten.fest],
-/// und eigene Seiten ([KammerSeiten.vollSeite]) nur mit [KammerSeiten.pruefe]
-/// bzw. [KammerSeiten.pruefeHoehe].
+/// Teil, Seite und Stelle (A2); die Teile werfen ihn in derselben Form
+/// ([KammerUeberlauf.werfen], [KammerSeiten.ueberlauf]). Achtung beim
+/// Selbstbauen: Eine `pw.Column` mit begrenzter Höhe lässt ein Kind, das nicht
+/// mehr passt, still weg (pw.Flex teilt es auf eine nächste Seite, die es auf
+/// einer festen Seite nicht gibt). Darum feste Seiten nur über
+/// [KammerSeiten.seite], Raster über [KammerSeiten.raster], [KammerSeiten.a7],
+/// [KammerSeiten.zFalz], Kästen fester Größe über [KammerSeiten.fest], und
+/// eigene Seiten ([KammerSeiten.vollSeite]) nur mit [KammerSeiten.pruefe] bzw.
+/// [KammerSeiten.pruefeHoehe].
 ///
 /// Druckrand: Raster, A7 und Z-Falz reichen bis an die Papierkante; Text hält
 /// dort mindestens [KammerSatz.druckRand] Abstand, sonst ist es ein Überlauf.
@@ -56,22 +59,29 @@ class KammerUeberlauf implements Exception {
 
   @override
   String toString() => meldung;
+
+  // Alle Überläufe haben dieselbe Meldung: „Überlauf in Teil …, Seite … (Stelle): Grund“.
+  // Die Aufrufer schreiben `throw KammerUeberlauf.werfen(…)`, damit ein Grund mit Wörtern in
+  // einer Zeile mit `throw` steht (story_text_ausserhalb_test.dart).
+
+  /// Wirft den Überlauf in Teil [teil], Seite [seite], an der Stelle [wo] mit [grund].
+  static Never werfen(String teil, int seite, String wo, String grund) =>
+      throw KammerUeberlauf(teil, seite, wo, 'Überlauf in Teil $teil, Seite $seite ($wo): $grund');
+
+  /// [hoehe] passt nicht in [platz] (pt).
+  static Never zuHoch(String teil, int seite, String wo, double hoehe, double platz) =>
+      throw werfen(teil, seite, wo, '${hoehe.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
+
+  /// Auch in der kleinsten erlaubten Schriftgröße [min] ist es [hoehe] hoch, Platz [platz].
+  static Never keineGroesse(String teil, int seite, String wo, double min, double hoehe, double platz) =>
+      throw werfen(teil, seite, wo, 'auch in ${min}pt ${hoehe.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
 }
 
-Never _zuHoch(String teil, int seite, String wo, double hoehe, double platz) =>
-    throw KammerUeberlauf(teil, seite, wo, 'Überlauf in Teil $teil, Seite $seite ($wo): ${hoehe.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
-
 Never _zuVieleSeiten(String teil, int seite, String wo, int seiten, int max) =>
-    throw KammerUeberlauf(teil, seite, wo, 'Überlauf in Teil $teil, Seite $seite ($wo): $seiten Seiten, erlaubt sind $max');
-
-Never _passtNicht(String teil, int seite, String wo, String grund) =>
-    throw KammerUeberlauf(teil, seite, wo, 'Überlauf in Teil $teil, Seite $seite ($wo): $grund');
+    throw KammerUeberlauf.werfen(teil, seite, wo, '$seiten Seiten, erlaubt sind $max');
 
 Never _zuNahAmRand(String teil, int seite, String wo, String kante, double abstand) =>
-    throw KammerUeberlauf(teil, seite, wo, 'Überlauf in Teil $teil, Seite $seite ($wo): Text $kante ${(abstand / KammerSatz.mm).toStringAsFixed(1)} mm von der Papierkante, mindestens ${(KammerSatz.druckRand / KammerSatz.mm).toStringAsFixed(0)} mm');
-
-Never _keineGroesse(String teil, int seite, String wo, double min, double hoehe, double platz) =>
-    throw KammerUeberlauf(teil, seite, wo, 'Überlauf in Teil $teil, Seite $seite ($wo): auch in ${min}pt ${hoehe.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
+    throw KammerUeberlauf.werfen(teil, seite, wo, 'Text $kante ${(abstand / KammerSatz.mm).toStringAsFixed(1)} mm von der Papierkante, mindestens ${(KammerSatz.druckRand / KammerSatz.mm).toStringAsFixed(0)} mm');
 
 /// Nummerierung einer Liste ([KammerSatz.liste]).
 enum KammerNummer {
@@ -85,7 +95,18 @@ enum KammerNummer {
   buchstabe,
 
   /// ohne Zeichen.
-  keine,
+  keine;
+
+  /// Zeichen vor Eintrag [i] (ab 0).
+  String zeichen(int i) => switch (this) {
+        strich => '–',
+        zahl => '${i + 1}.',
+        buchstabe => '(${String.fromCharCode(0x61 + i)})',
+        keine => '',
+      };
+
+  /// Einzug des Texts hinter dem Zeichen bei Schriftgröße [g] (ohne Zeichen keiner).
+  double einzug(double g) => this == keine ? 0.0 : g * (this == strich ? 1.1 : 1.8);
 }
 
 /// Inhalt einer Rasterzelle (Karte, Plättchen, Zettel, Streifen): [oben] steht
@@ -139,8 +160,6 @@ class KammerSatz {
 
   /// Innenabstand der Felder im Z-Falz.
   static const zFalzInnen = pw.EdgeInsets.all(14);
-  static double get zFalzInnenBreite => zFalzTextBreite();
-  static double get zFalzInnenHoehe => zFalzFeldHoehe - zFalzInnen.vertical;
 
   /// Abstand der beiden A5-Felder zur Papierkante links und rechts (0,5 mm).
   static double get zFalzAussenRand => (a4Quer.width - 2 * a5Breite) / 2;
@@ -164,8 +183,6 @@ class KammerSatz {
   static const a7Breite = 74 * mm;
   static const a7Hoehe = 105 * mm;
   static const a7Innen = pw.EdgeInsets.all(16);
-  static double get a7InnenBreite => a7Breite - a7Innen.horizontal;
-  static double get a7InnenHoehe => a7Hoehe - a7Innen.vertical;
 
   /// Seitenformat, Rand und Satzspiegel.
   static PdfPageFormat format({bool quer = false}) => quer ? a4Quer : a4Hoch;
@@ -203,20 +220,30 @@ class KammerSatz {
   /// Zeichen, die Inter nicht hat, durch gleichwertige ersetzen (☐ → □).
   static String glyphen(String t) => t.replaceAll('☐', '□');
 
-  pw.TextStyle _lauf(KammerLauf l, double g, PdfColor farbe) => pw.TextStyle(
+  /// Stil eines Laufs in Größe [g]; [zeilenabstand] ist der zusätzliche
+  /// Zeilenabstand in Teilen der Größe.
+  pw.TextStyle _lauf(KammerLauf l, double g, PdfColor farbe, double zeilenabstand) => pw.TextStyle(
         font: l.fett ? stil.stark : stil.normal,
         fontSize: g,
         // Der Stil hat keine kursive Schrift: Kursives steht in Grau.
         color: l.kursiv ? DruckStil.leise : farbe,
-        lineSpacing: g * 0.2,
+        lineSpacing: g * zeilenabstand,
       );
 
-  pw.TextSpan _spans(KammerAbsatz a, double g, PdfColor farbe) => pw.TextSpan(children: [
+  pw.TextSpan _spans(KammerAbsatz a, double g, PdfColor farbe, double zeilenabstand) => pw.TextSpan(children: [
         for (var z = 0; z < a.zeilen.length; z++) ...[
-          if (z > 0) pw.TextSpan(text: '\n', style: _lauf(const KammerLauf(''), g, farbe)),
-          for (final l in a.zeilen[z]) pw.TextSpan(text: glyphen(l.text), style: _lauf(l, g, farbe)),
+          if (z > 0) pw.TextSpan(text: '\n', style: _lauf(const KammerLauf(''), g, farbe, zeilenabstand)),
+          for (final l in a.zeilen[z]) pw.TextSpan(text: glyphen(l.text), style: _lauf(l, g, farbe, zeilenabstand)),
         ],
       ]);
+
+  /// Fette Zeile ohne Auszeichnung in [groesse] (Überschrift, Tabellenkopf,
+  /// Etikett, Name).
+  pw.Widget fett(String text, {double groesse = 11, Map<String, String> werte = const {}}) =>
+      pw.Text(glyphen(k.klartext(text, werte: werte)), style: stil.ueberschrift(groesse));
+
+  /// Spalte über die ganze Breite (die Kinder gestreckt).
+  pw.Widget spalte(List<pw.Widget> kinder) => pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: kinder);
 
   /// Großer Titel (Deckblatt), ohne Auszeichnung.
   pw.Widget titel(String text, {double groesse = 26, Map<String, String> werte = const {}}) =>
@@ -227,7 +254,7 @@ class KammerSatz {
     final g = switch (stufe) { 1 => 15.0, 2 => 12.5, _ => 10.5 };
     return pw.Padding(
       padding: pw.EdgeInsets.only(top: stufe == 1 ? 8 : 5, bottom: stufe == 1 ? 5 : 3),
-      child: pw.Text(glyphen(k.klartext(text, werte: werte)), style: stil.ueberschrift(g)),
+      child: fett(text, groesse: g, werte: werte),
     );
   }
 
@@ -236,7 +263,8 @@ class KammerSatz {
       pw.Text(glyphen(k.klartext(text, werte: werte)).toUpperCase(), style: stil.marke(groesse));
 
   /// Absatz mit Auszeichnung: `**fett**`, `*kursiv*` (grau), Zeilen, Absätze.
-  /// Leer aufgelöst: nichts.
+  /// [abstand] steht zwischen den Absätzen, [zeilenabstand] (in Teilen der
+  /// Größe) zwischen den Zeilen. Leer aufgelöst: nichts.
   pw.Widget absatz(
     String text, {
     double groesse = 11,
@@ -244,6 +272,7 @@ class KammerSatz {
     bool leise = false,
     pw.TextAlign ausrichtung = pw.TextAlign.left,
     double abstand = 4,
+    double zeilenabstand = 0.2,
   }) {
     final absaetze = k.absaetze(text, werte: werte);
     if (absaetze.isEmpty) return pw.SizedBox();
@@ -255,7 +284,7 @@ class KammerSatz {
         for (var i = 0; i < absaetze.length; i++)
           pw.Padding(
             padding: pw.EdgeInsets.only(top: i == 0 ? 0 : abstand),
-            child: pw.RichText(text: _spans(absaetze[i], groesse, farbe), textAlign: ausrichtung),
+            child: pw.RichText(text: _spans(absaetze[i], groesse, farbe, zeilenabstand), textAlign: ausrichtung),
           ),
       ],
     );
@@ -270,13 +299,7 @@ class KammerSatz {
     double abstand = 3,
   }) {
     final texte = k.texte(eintraege, werte: werte);
-    String zeichen(int i) => switch (nummer) {
-          KammerNummer.strich => '–',
-          KammerNummer.zahl => '${i + 1}.',
-          KammerNummer.buchstabe => '(${String.fromCharCode(0x61 + i)})',
-          KammerNummer.keine => '',
-        };
-    final einzug = nummer == KammerNummer.keine ? 0.0 : groesse * (nummer == KammerNummer.strich ? 1.1 : 1.8);
+    final einzug = nummer.einzug(groesse);
     return pw.Column(
       mainAxisSize: pw.MainAxisSize.min,
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -285,7 +308,7 @@ class KammerSatz {
           pw.Padding(
             padding: pw.EdgeInsets.only(top: i == 0 ? 0 : abstand),
             child: pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-              if (einzug > 0) pw.SizedBox(width: einzug, child: pw.Text(zeichen(i), style: stil.text(groesse))),
+              if (einzug > 0) pw.SizedBox(width: einzug, child: pw.Text(nummer.zeichen(i), style: stil.text(groesse))),
               pw.Expanded(child: absatz(texte[i], groesse: groesse)),
             ]),
           ),
@@ -314,14 +337,30 @@ class KammerSatz {
       );
 
   /// Vorlesetext: Balken links, Marke „Vorlesen“ (`ui/gemeinsam.json`).
-  pw.Widget vorlesen(String text, {double groesse = 11.5, Map<String, String> werte = const {}}) => pw.Container(
+  pw.Widget vorlesen(String text, {double groesse = 11.5, Map<String, String> werte = const {}}) =>
+      vorlesenKasten([absatz(text, groesse: groesse, werte: werte)]);
+
+  /// Vorlesetext aus mehreren [teile]n (Abstand [luecke]) unter der Marke
+  /// „Vorlesen“ in [marke] pt, Balken links; mit [hoehe] genau so hoch (der
+  /// Aufrufer hat vorher gemessen, dass der Inhalt passt).
+  pw.Widget vorlesenKasten(List<pw.Widget> teile, {double marke = 8.5, double luecke = 5, double? hoehe}) => pw.Container(
+        height: hoehe,
         padding: const pw.EdgeInsets.fromLTRB(10, 6, 4, 6),
         decoration: const pw.BoxDecoration(border: pw.Border(left: pw.BorderSide(color: DruckStil.tinte, width: 2.5))),
         child: pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-          marke(k.uiGemeinsam('vorlesen')),
+          this.marke(k.uiGemeinsam('vorlesen'), groesse: marke),
           pw.SizedBox(height: 4),
-          absatz(text, groesse: groesse, werte: werte),
+          for (final (i, t) in teile.indexed) ...[if (i > 0) pw.SizedBox(height: luecke), t],
         ]),
+      );
+
+  /// Balken eines Vorlesetexts ohne Marke (Einträge unter einer gemeinsamen
+  /// Marke); [aussen] ist der Abstand um den Balken.
+  pw.Widget balken(pw.Widget kind, {pw.EdgeInsets? aussen}) => pw.Container(
+        margin: aussen,
+        padding: const pw.EdgeInsets.fromLTRB(8, 1, 2, 1),
+        decoration: const pw.BoxDecoration(border: pw.Border(left: pw.BorderSide(color: DruckStil.tinte, width: 2.5))),
+        child: kind,
       );
 
   /// Anleitung für den Erzähler: dünner Kasten, Marke „Anleitung“.
@@ -339,16 +378,6 @@ class KammerSatz {
     pw.EdgeInsets innen = const pw.EdgeInsets.fromLTRB(4, 3, 4, 3),
   }) {
     final n = kopf?.length ?? (zeilen.isEmpty ? 1 : zeilen.first.length);
-    pw.Widget zelle(Object? inhalt, {bool kopfzeile = false}) => pw.Padding(
-          padding: innen,
-          child: switch (inhalt) {
-            null => pw.SizedBox(),
-            final pw.Widget w => w,
-            final String s when kopfzeile => pw.Text(glyphen(k.klartext(s)), style: stil.ueberschrift(groesse)),
-            final String s => absatz(s, groesse: groesse),
-            _ => absatz('$inhalt', groesse: groesse),
-          },
-        );
     final sichtbar = [
       for (final z in zeilen)
         if (z.isEmpty || z.first is! String || !k.leer(z.first! as String)) z,
@@ -361,12 +390,52 @@ class KammerSatz {
           pw.TableRow(
             repeat: true,
             decoration: const pw.BoxDecoration(color: PdfColors.grey200),
-            children: [for (final t in kopf) zelle(t, kopfzeile: true)],
+            children: [for (final t in kopf) zelle(t, groesse: groesse, innen: innen, kopf: true)],
           ),
-        for (final z in sichtbar) pw.TableRow(children: [for (var i = 0; i < n; i++) zelle(i < z.length ? z[i] : null)]),
+        for (final z in sichtbar) pw.TableRow(children: [for (var i = 0; i < n; i++) zelle(i < z.length ? z[i] : null, groesse: groesse, innen: innen)]),
       ],
     );
   }
+
+  /// Zelle einer Tabelle mit Innenabstand [innen]: Text mit Auszeichnung in
+  /// [groesse] (im [kopf] fett ohne Auszeichnung), Widget oder leer (null).
+  pw.Widget zelle(Object? inhalt, {required double groesse, pw.EdgeInsets innen = const pw.EdgeInsets.fromLTRB(4, 3, 4, 3), bool kopf = false}) => pw.Padding(
+        padding: innen,
+        child: switch (inhalt) {
+          null => pw.SizedBox(),
+          final pw.Widget w => w,
+          final String s when kopf => fett(s, groesse: groesse),
+          final String s => absatz(s, groesse: groesse),
+          _ => absatz('$inhalt', groesse: groesse),
+        },
+      );
+
+  /// Eine Tabellenzeile als eigene Tabelle (so kann eine Tabelle zwischen zwei
+  /// Zeilen umbrechen): Linien links, rechts, unten und zwischen den Spalten,
+  /// mit [oben] auch oben, mit [grau] grau hinterlegt (Kopf). [spalten] sind
+  /// Breitenverhältnisse.
+  pw.Widget tabellenzeile(List<pw.Widget> zellen, List<double> spalten, {bool oben = false, bool grau = false}) {
+    const linie = pw.BorderSide(color: DruckStil.linie, width: 0.5);
+    return pw.Table(
+      border: pw.TableBorder(left: linie, right: linie, bottom: linie, top: oben ? linie : pw.BorderSide.none, verticalInside: linie),
+      columnWidths: {for (var i = 0; i < spalten.length; i++) i: pw.FlexColumnWidth(spalten[i])},
+      children: [
+        pw.TableRow(
+          decoration: grau ? const pw.BoxDecoration(color: PdfColors.grey200) : null,
+          children: zellen,
+        ),
+      ],
+    );
+  }
+
+  /// „a, b oder c“: zwei und mehr [teile] über `ui/<teil>.json` → [schluessel]
+  /// mit den Werten `{liste}` (alle bis auf den letzten, mit Komma) und
+  /// `{letzter}`; einer allein bleibt, keiner ist leer.
+  String aufzaehlen(List<String> teile, String teil, String schluessel) => switch (teile.length) {
+        0 => '',
+        1 => teile.single,
+        _ => k.ui(teil, schluessel, {'liste': teile.sublist(0, teile.length - 1).join(', '), 'letzter': teile.last}),
+      };
 
   /// [anzahl] Schreiblinien im Abstand [abstand].
   pw.Widget notizlinien(int anzahl, {double abstand = 22}) => pw.Column(children: [
@@ -387,49 +456,6 @@ class KammerSatz {
   /// Gestrichelter Rahmen zum Ausschneiden.
   pw.BoxDecoration schnitt() => stil.schnitt();
 
-  /// Kleine Schere (gezeichnet; Inter hat kein ✂).
-  pw.Widget schere([double groesse = 9]) => pw.SizedBox(
-        width: groesse * 1.6,
-        height: groesse,
-        child: pw.CustomPaint(size: PdfPoint(groesse * 1.6, groesse), painter: _schereMalen),
-      );
-
-  static void _schereMalen(PdfGraphics g, PdfPoint s) {
-    final r = s.y * 0.2;
-    g
-      ..setStrokeColor(DruckStil.tinte)
-      ..setLineWidth(0.7)
-      ..drawEllipse(r, s.y * 0.25, r, r)
-      ..drawEllipse(r, s.y * 0.75, r, r)
-      ..moveTo(2 * r, s.y * 0.3)
-      ..lineTo(s.x, s.y * 0.62)
-      ..moveTo(2 * r, s.y * 0.7)
-      ..lineTo(s.x, s.y * 0.38)
-      ..strokePath();
-  }
-
-  /// Schnittlinie: Schere und gestrichelte Linie. Waagrecht füllt sie die
-  /// Breite (oder [laenge]); senkrecht braucht sie [laenge].
-  pw.Widget schnittlinie({bool senkrecht = false, double? laenge, bool mitSchere = true}) {
-    const seite = pw.BorderSide(color: DruckStil.tinte, width: 0.6, style: pw.BorderStyle.dashed);
-    if (senkrecht) {
-      return pw.SizedBox(
-        height: laenge,
-        child: pw.Column(children: [
-          if (mitSchere) pw.Transform.rotateBox(angle: -math.pi / 2, child: schere()),
-          pw.Expanded(child: pw.Container(width: 0, decoration: const pw.BoxDecoration(border: pw.Border(left: seite)))),
-        ]),
-      );
-    }
-    return pw.SizedBox(
-      width: laenge,
-      child: pw.Row(children: [
-        if (mitSchere) ...[schere(), pw.SizedBox(width: 3)],
-        pw.Expanded(child: pw.Container(height: 0, decoration: const pw.BoxDecoration(border: pw.Border(top: seite)))),
-      ]),
-    );
-  }
-
   /// Falzlinie: gepunktet, mit kleiner Beschriftung „Hier falten“
   /// (`ui/gemeinsam.json` → `falten`). Waagrecht.
   pw.Widget falzlinie({double? laenge, bool beschriftung = true}) => pw.SizedBox(
@@ -447,13 +473,16 @@ class KammerSatz {
         ]),
       );
 
-  /// Außenseite mit großem Code und kleinem Hinweis (Karten, Fassungen, Teil 90).
-  pw.Widget aussenseite(String code, String hinweis, {double codeGroesse = 40, double hinweisGroesse = 10, Map<String, String> werte = const {}}) =>
-      pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.center, children: [
-        pw.Text(code, style: stil.code(codeGroesse)),
-        pw.SizedBox(height: 8),
-        absatz(hinweis, groesse: hinweisGroesse, werte: werte, ausrichtung: pw.TextAlign.center, leise: true),
-      ]);
+  /// Außenseite mit großem Code und kleinem Hinweis (Indizkarten, Teil 90).
+  pw.Widget aussenseite(String code, String hinweis, {double codeGroesse = 40, double hinweisGroesse = 10, Map<String, String> werte = const {}}) {
+    final codeStil = stil.code(codeGroesse);
+    return pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.center, children: [
+      // Die Sperrung steht auch hinter dem letzten Zeichen; links ebenso viel, damit der Code mittig steht (wie Teil 11).
+      pw.Padding(padding: pw.EdgeInsets.only(left: codeStil.letterSpacing ?? 0), child: pw.Text(code, style: codeStil)),
+      pw.SizedBox(height: 8),
+      absatz(hinweis, groesse: hinweisGroesse, werte: werte, ausrichtung: pw.TextAlign.center, leise: true),
+    ]);
+  }
 
   /// Dichtes graues Raster (Sichtschutz des Deckfelds im Z-Falz, MECH 4.1).
   pw.Widget sichtschutz(double breite, double hoehe) => pw.SizedBox(
@@ -528,7 +557,11 @@ class KammerSeiten {
 
   void _schliessen() => _ende = _anzahl(doc);
 
-  String _ort(String wo) => [k.teilTitel(teil), ?bereich, if (wo.isNotEmpty) wo].join(' / ');
+  /// Stelle für Überlauf-Meldungen: Teil / Bereich / [wo].
+  String ort(String wo) => [k.teilTitel(teil), ?bereich, if (wo.isNotEmpty) wo].join(' / ');
+
+  /// Wirft [KammerUeberlauf] für die nächste Seite an der Stelle [wo] ([ort]) mit [grund].
+  Never ueberlauf(String wo, String grund) => KammerUeberlauf.werfen(teil, naechste, ort(wo), grund);
 
   /// Ein Bereich desselben Teils mit eigener Seitenzählung (etwa ein Heft in
   /// Teil 10): Kopf rechts [name], Fuß „Seite x von y“ des Bereichs.
@@ -567,7 +600,7 @@ class KammerSeiten {
   /// Überlaufschutz für selbst gebaute Seiten ([vollSeite]): Ist [hoehe] größer
   /// als [platz], wirft es [KammerUeberlauf] für die nächste Seite.
   void pruefeHoehe(double hoehe, double platz, {String wo = ''}) {
-    if (hoehe > platz) _zuHoch(teil, naechste, _ort(wo), hoehe, platz);
+    if (hoehe > platz) KammerUeberlauf.zuHoch(teil, naechste, ort(wo), hoehe, platz);
   }
 
   /// Wie [pruefeHoehe], aber misst [inhalt] bei [breite] selbst.
@@ -597,7 +630,7 @@ class KammerSeiten {
   void _druckRand(pw.EdgeInsets abstand, String wo) {
     const d = KammerSatz.druckRand - 0.01;
     for (final (seite, a) in [('links', abstand.left), ('oben', abstand.top), ('rechts', abstand.right), ('unten', abstand.bottom)]) {
-      if (a < d) _zuNahAmRand(teil, naechste, _ort(wo), seite, a);
+      if (a < d) _zuNahAmRand(teil, naechste, ort(wo), seite, a);
     }
   }
 
@@ -619,7 +652,7 @@ class KammerSeiten {
     final breite = KammerSatz.satzBreite(quer: quer);
     final p = platz(quer: quer, mitKopf: mitKopf, mitFuss: mitFuss);
     final h = satz.hoehe(pw.Column(crossAxisAlignment: ausrichtung, children: [for (final w in inhalt) if (w is! pw.Spacer) w]), breite);
-    if (h > p) _zuHoch(teil, naechste, _ort(wo), h, p);
+    if (h > p) KammerUeberlauf.zuHoch(teil, naechste, ort(wo), h, p);
     var kinder = inhalt;
     if (notizen) {
       final marke = satz.marke(k.uiGemeinsam('notizen'));
@@ -653,10 +686,10 @@ class KammerSeiten {
         build: (c) => inhalt,
       ));
     } on PdfException catch (e) {
-      _passtNicht(teil, _anzahl(doc) - _start + 1, _ort(wo), '${e.message}');
+      throw KammerUeberlauf.werfen(teil, _anzahl(doc) - _start + 1, ort(wo), '${e.message}');
     }
     final neu = _anzahl(doc) - vorher;
-    if (maxSeiten != null && neu > maxSeiten) _zuVieleSeiten(teil, gesetzt, _ort(wo), neu, maxSeiten);
+    if (maxSeiten != null && neu > maxSeiten) _zuVieleSeiten(teil, gesetzt, ort(wo), neu, maxSeiten);
   }
 
   /// Volle Seite ohne Kopf und Fuß (Raster, Plan): [bauen] bekommt den Kontext,
@@ -686,7 +719,7 @@ class KammerSeiten {
     final h = satz.hoehe(pw.Column(children: inhalt), KammerSatz.satzBreite());
     // Gefaltet wird in Dritteln des Blatts, nicht des Satzspiegels.
     final drittel = KammerSatz.a4Hoch.height / 3 - KammerSatz.randHoch.top - _falzAbstand;
-    if (h > drittel) _zuHoch(teil, naechste, _ort(code), h, drittel);
+    if (h > drittel) KammerUeberlauf.zuHoch(teil, naechste, ort(code), h, drittel);
     doc.addPage(pw.Page(
       pageFormat: KammerSatz.a4Hoch,
       margin: KammerSatz.randHoch,
@@ -727,8 +760,8 @@ class KammerSeiten {
     final nutzBreite = format.width - rand.horizontal;
     final ueberHoehe = ueber == null ? 0.0 : satz.hoehe(ueber, nutzBreite) + 6;
     final nutzHoehe = format.height - rand.vertical - ueberHoehe;
-    if (spalten * breite > nutzBreite + 0.01) _passtNicht(teil, naechste, _ort(wo), '$spalten × ${breite.toStringAsFixed(1)} pt > ${nutzBreite.toStringAsFixed(1)} pt');
-    if (reihen * hoehe > nutzHoehe + 0.01) _zuHoch(teil, naechste, _ort(wo), reihen * hoehe, nutzHoehe);
+    if (spalten * breite > nutzBreite + 0.01) throw KammerUeberlauf.werfen(teil, naechste, ort(wo), '$spalten × ${breite.toStringAsFixed(1)} pt > ${nutzBreite.toStringAsFixed(1)} pt');
+    if (reihen * hoehe > nutzHoehe + 0.01) KammerUeberlauf.zuHoch(teil, naechste, ort(wo), reihen * hoehe, nutzHoehe);
     // Das Gitter liegt mittig; Text in den Randzellen und die Überschrift halten Abstand zur Papierkante.
     final seitlich = math.max(0.0, nutzBreite - spalten * breite) / 2;
     final senkrecht = math.max(0.0, nutzHoehe - reihen * hoehe) / 2;
@@ -744,13 +777,13 @@ class KammerSeiten {
     );
     final jeSeite = spalten * reihen;
     final seiten = (zellen.length / jeSeite).ceil();
-    if (maxSeiten != null && seiten > maxSeiten) _zuVieleSeiten(teil, naechste, _ort(wo), seiten, maxSeiten);
+    if (maxSeiten != null && seiten > maxSeiten) _zuVieleSeiten(teil, naechste, ort(wo), seiten, maxSeiten);
     final iw = breite - innen.horizontal;
     final ih = hoehe - innen.vertical;
     for (var i = 0; i < zellen.length; i++) {
       final z = zellen[i];
       final h = satz.hoehe(z.oben, iw) + (z.unten == null ? 0 : satz.hoehe(z.unten!, iw) + 4);
-      if (h > ih) _zuHoch(teil, naechste + i ~/ jeSeite, _ort(z.wo.isEmpty ? wo : z.wo), h, ih);
+      if (h > ih) KammerUeberlauf.zuHoch(teil, naechste + i ~/ jeSeite, ort(z.wo.isEmpty ? wo : z.wo), h, ih);
     }
     for (var s = 0; s < seiten; s++) {
       final blatt = zellen.skip(s * jeSeite).take(jeSeite).toList();
@@ -802,39 +835,14 @@ class KammerSeiten {
         wo: wo,
       );
 
-  /// Positions-Marker als flache Plättchen (Maße aus `tisch.json` → `marker`,
-  /// 26 × 18 mm), alle auf einem Blatt A4 hoch (MECH 10.2); [ueber] steht darüber.
-  void plaettchen(List<KammerZelle> plaettchen, {pw.Widget? ueber, String wo = ''}) {
-    final m = k.inhalt.tisch.marker;
-    final b = m.breiteMm * KammerSatz.mm;
-    final h = m.hoeheMm * KammerSatz.mm;
-    const rand = pw.EdgeInsets.all(12 * KammerSatz.mm);
-    final spalten = ((KammerSatz.a4Hoch.width - rand.horizontal) / b).floor();
-    final ueberHoehe = ueber == null ? 0.0 : satz.hoehe(ueber, KammerSatz.a4Hoch.width - rand.horizontal) + 6;
-    final reihen = ((KammerSatz.a4Hoch.height - rand.vertical - ueberHoehe) / h).floor();
-    raster(
-      plaettchen,
-      breite: b,
-      hoehe: h,
-      spalten: spalten,
-      reihen: math.min(reihen, (plaettchen.length / spalten).ceil()),
-      innen: const pw.EdgeInsets.symmetric(horizontal: 4, vertical: 3),
-      rand: rand,
-      ueber: ueber,
-      maxSeiten: 1,
-      wo: wo,
-    );
-  }
-
   /// Karten im Z-Falz (Indiz- und Geheimniskarten, MECH 3.1 Nr. 9, 4.1): je Karte
   /// ein A5-Feld hoch (148 × 210 mm), zwei nebeneinander auf A4 quer. Feld 1
   /// (oben) [KammerZFalz.aussen], Feld 2 [KammerZFalz.innen], Feld 3 das
   /// Deckfeld mit grauem Raster; zwischen den Feldern Falzlinien, außen
   /// Schnittlinien. Beide Texte müssen in ihr Feld passen: Breite
   /// [KammerSatz.zFalzTextBreite] für [innen], Höhe Feldhöhe minus
-  /// [innen] (Vorgabe [KammerSatz.zFalzInnenBreite] ×
-  /// [KammerSatz.zFalzInnenHoehe]). Die Felder reichen bis an die Papierkante;
-  /// dort wächst der Innenabstand auf [KammerSatz.druckRand]
+  /// [innen] (Vorgabe [KammerSatz.zFalzInnen]). Die Felder reichen bis an die
+  /// Papierkante; dort wächst der Innenabstand auf [KammerSatz.druckRand]
   /// ([KammerSatz.zFalzInnenFuer]).
   void zFalz(List<KammerZFalz> karten, {pw.EdgeInsets innen = KammerSatz.zFalzInnen, String wo = ''}) {
     const b = KammerSatz.a5Breite;
@@ -842,14 +850,14 @@ class KammerSeiten {
     final ih = f - innen.vertical;
     for (var i = 0; i < karten.length; i++) {
       final z = karten[i];
-      final ort = z.wo.isEmpty ? wo : z.wo;
+      final stelle = ort(z.wo.isEmpty ? wo : z.wo);
       final ib = b - KammerSatz.zFalzInnenFuer(innen, i % 2).horizontal;
       for (final w in [z.aussen, z.innen]) {
         final h = satz.hoehe(w, ib);
-        if (h > ih) _zuHoch(teil, naechste + i ~/ 2, _ort(ort), h, ih);
+        if (h > ih) KammerUeberlauf.zuHoch(teil, naechste + i ~/ 2, stelle, h, ih);
         // Feld 1 liegt an der oberen Papierkante; sein Text steht mittig.
         final oben = innen.top + (ih - h) / 2;
-        if (identical(w, z.aussen) && oben < KammerSatz.druckRand) _zuNahAmRand(teil, naechste + i ~/ 2, _ort(ort), 'oben', oben);
+        if (identical(w, z.aussen) && oben < KammerSatz.druckRand) _zuNahAmRand(teil, naechste + i ~/ 2, stelle, 'oben', oben);
       }
     }
     pw.Widget feld(pw.Widget kind, int spalte, {bool falz = true, bool mitte = false}) => pw.Container(
@@ -905,7 +913,7 @@ class KammerSeiten {
     for (var g = start; g >= min - 1e-9; g -= schritt) {
       if (satz.hoehe(bauen(g), breite) <= hoehe) return g;
     }
-    _keineGroesse(teil, naechste, _ort(wo), min, satz.hoehe(bauen(min), breite), hoehe);
+    KammerUeberlauf.keineGroesse(teil, naechste, ort(wo), min, satz.hoehe(bauen(min), breite), hoehe);
   }
 
   /// Eine Schriftgröße für mehrere Inhalte (gleiche Gestalt, E9): die kleinste

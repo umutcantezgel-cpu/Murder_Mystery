@@ -47,7 +47,7 @@ import 'satz.dart';
 const _mm = KammerSatz.mm;
 
 /// Kleinste Schriftgröße auf jeder Karte, innen wie außen (9 pt).
-const double _min = 9;
+const double _min = KammerSatz.kleinsteGroesse;
 
 /// Größte Schriftgröße für den Text der Innenseiten und Aktionskarten.
 const double _start = 11;

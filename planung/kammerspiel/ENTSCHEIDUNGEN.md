@@ -56,3 +56,20 @@ Berichte unter verstehen/ (kanon-olli.md, u4yrk-set.md, abgleich.md, generator.m
   („Ziele wie im Druckspiel“) am Release geschieht, klärt die Umsetzung (Release-Notiz/-Test anpassen). Behzads
   Anleitung (Schritt 6) wird danach angepasst.
 - E17 **„Zum Drucken“** im Abend-Assistenten führt künftig zur Druckmappe; die App begleitet das Kammerspiel nicht.
+
+Entscheidungen bei der Umsetzung der Druckteile (2026-11-02), zur Kenntnis des Besitzers:
+
+- E18 **Erzählerheft immer 16 Seiten.** MECH 10.1 schätzte 15 / 16 / 17. „Was alle wissen“ steht fest auf Seite 7
+  (MECH 9.1, 9.6) und „Karten unter den Streifen“ auf Seite 16 (MECH 9.14); ohne leere Füllseiten ergibt das bei jeder
+  Besetzung 16 Seiten. Die Tischregeln stehen auf Seite 14 statt 3, weil Seite 3 mit Ablauf und Rundenaufbau voll ist.
+- E19 **Schriftgrößen.** Lesetext nie unter 9 pt. Darunter liegen nur Beschriftungen: Kopf, Fuß und Marken („VORLESEN“)
+  in 8,5 pt, die Falzmarke „Hier falten“ in 6,5 pt (am Falz sind nur 1,6 mm Luft, MECH 5.2) und Joannas Notiz in 8 pt.
+  Die Rollenhefte nutzen 10 mm Rand (Druckrand 5 mm bleibt gewahrt), damit die Bibel-Längen in die festen Seitenzahlen passen.
+- E20 **„Detektiv“ und „Erzähler“ sind Rollenbegriffe.** Regeltexte, Kartenköpfe („heute beim Detektiv“), „Was alle
+  wissen“ (MECH 1.5 wörtlich) und die Bedingung der Stufe 3 in Teil 11 bleiben bei der Rolle. Nach `--detektiv w|m`
+  richten sich die Anrede, der Detektivbogen (Teil 01) und Beschriftungen wie die Teileliste.
+- E21 **Tandem-Kasten immer.** Jedes Zusatzheft trägt den Kasten „Dein Tandem“ (fehlt der Partner, in der Ersatzfassung,
+  ZR 0.7, ZR 1.12); der Solo-Abschnitt steht zusätzlich nur beim Platz, der heute allein spielt.
+- E22 **Rollenhefte der Verdächtigen:** Stufe 2 steht auf Seite 3 vor den Gesprächsaufträgen, „Was du über andere sagen
+  darfst“ auf Seite 4; so steht alles in 10,5 pt, die Reihenfolge von RK 1.1 bleibt. Fehlende Ziele erscheinen nur als
+  Ausweichziel, nie mit dem Namen der fehlenden Rolle.

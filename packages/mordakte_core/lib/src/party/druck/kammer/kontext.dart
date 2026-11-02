@@ -79,8 +79,8 @@ class KammerKontext {
 
   /// Löst [roh] auf; Einträge, die danach leer sind, fallen weg (SCHEMA §2).
   List<String> texte(Iterable<String> roh, {Map<String, String> werte = const {}}) => [
-        for (final t in roh)
-          if (kammerKlartext(text(t, werte: werte)).trim().isNotEmpty) text(t, werte: werte),
+        for (final t in roh.map((r) => text(r, werte: werte)))
+          if (kammerKlartext(t).trim().isNotEmpty) t,
       ];
 
   /// [roh] aufgelöst und in Absätze, Zeilen und Läufe zerlegt.
@@ -108,9 +108,6 @@ class KammerKontext {
 
   /// Beschriftung aus `ui/gemeinsam.json` (Kopf, Fuß, `heft.*`, `karte.*` …).
   String uiGemeinsam(String schluessel, [Map<String, String> werte = const {}]) => ui('gemeinsam', schluessel, werte);
-
-  /// Ob `ui/<teil>.json` den Schlüssel kennt.
-  bool hatUi(String teil, String schluessel) => inhalt.ui[teil]?.containsKey(schluessel) ?? false;
 
   /// Titel des Falls („Spuk im Schlosskeller“).
   String get fallTitel => uiGemeinsam('fall.titel');

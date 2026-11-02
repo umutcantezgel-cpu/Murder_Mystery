@@ -4,7 +4,8 @@
 // build/druck/kammerspiel-U4YRK-p<personen>/. Falsche Angaben brechen mit Exit 2 und
 // einer klaren Meldung ab, ohne Dateien: fremder --code („fester Fall U4YRK“), --n und
 // --pfad (Personen statt Rollen, altes Druckspiel mit --druckspiel-alt), --personen
-// 5 oder 21, eine Akte ohne Kammerspiel. --druckspiel-alt setzt die acht alten Dateien.
+// 5 oder 21, eine Akte ohne Kammerspiel, eine Angabe ohne Wert und eine unbekannte
+// Angabe. --druckspiel-alt setzt die acht alten Dateien.
 //
 // Das Werkzeug wird einmal als Kernel übersetzt und dann je Fall gestartet; es läuft
 // in einer Kopie des Repos (Verweise auf content/ und assets/), damit der Standardpfad
@@ -123,6 +124,10 @@ void main() {
       // Ohne Wert fiele die Angabe still auf die Vorgabe zurück (10 Personen, Detektivin).
       (['--detektiv', '--alles'], '--detektiv braucht einen Wert'),
       (['--code', '--alles'], '--code braucht einen Wert'),
+      // Vertippte oder fremde Angaben fielen sonst still weg (10 Personen statt 8).
+      (['--persnen', '8'], 'Unbekannte Angabe --persnen'),
+      (['--personen', '8', '9'], 'Unbekannte Angabe 9'),
+      (['--portraets', 'bilder'], 'Unbekannte Angabe --portraets'),
     ]) {
       test('${args.join(' ')} → „$meldung“', () async {
         final aus = '${tmp.path}/abbruch-${args.join('_')}';

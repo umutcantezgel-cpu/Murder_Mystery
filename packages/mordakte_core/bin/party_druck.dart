@@ -15,7 +15,8 @@
 // kammerspiel-alles.pdf. --probe setzt die Sätze für 6, 10 und 20 Personen, je in
 // einen Unterordner kammerspiel-U4YRK-p<personen>/ von build/druck/ bzw. von --aus.
 // --code geht nur mit U4YRK; --n, --pfad und --dauer gehören zum alten Druckspiel
-// und brechen im Kammerspiel ab (Exit 2). Akten ohne Kammerspiel brechen ohne Modus ab.
+// und brechen im Kammerspiel ab (Exit 2), ebenso jede andere unbekannte Angabe. Akten
+// ohne Kammerspiel brechen ohne Modus ab.
 // --druckspiel-alt setzt das alte Druckspiel wie bisher (bis zur Abnahme, E1):
 // Ohne Code und Pfad entsteht ein Zufallsfall. Der Pfad ist nur für Testläufe
 // des Erzählers gedacht; im Ordnernamen steht nur der Code. --alles setzt die acht
@@ -200,6 +201,16 @@ Future<void> kammerspiel(String wurzel, String fall, DruckStil stil, List<String
   for (final name in ['personen', 'detektiv', 'code', 'aus']) {
     final w = wert(name);
     if (args.contains('--$name') && (w == null || w.startsWith('--'))) return abbruch('--$name braucht einen Wert.');
+  }
+  // Eine vertippte oder fremde Angabe (--persnen 8, --portraets) fiele sonst ebenso still weg.
+  const mitWert = {'--personen', '--detektiv', '--code', '--aus', '--fall'};
+  const ohneWert = {'--alles', '--probe'};
+  for (var i = 0; i < args.length; i++) {
+    if (mitWert.contains(args[i])) {
+      i++;
+    } else if (!ohneWert.contains(args[i])) {
+      return abbruch('Unbekannte Angabe ${args[i]}: Das Kammerspiel kennt --personen, --detektiv, --code, --alles, --aus und --probe.');
+    }
   }
   final inhalt = ladeKammerInhalt(wurzel);
   final f = inhalt.fall;

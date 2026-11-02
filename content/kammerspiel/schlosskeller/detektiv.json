@@ -220,7 +220,7 @@
       "text": "Spiel sie, bevor du eine Person auf den Verhörstuhl holst, die sich mit einer Karte schützen könnte."
     }
   ],
-  "gegenKarten": "Einspruch: Stell die Frage einer anderen Person. Gegenfrage: Beantworte zuerst die Frage, dann antwortet die Person. Themenwechsel: Der Erzähler liest einen Impuls, das Thema darf später wiederkommen. Gegen Ortstermine, Indizkarten und offene Karten hilft keine dieser Karten. Retourkutsche: Wirfst du jemandem etwas vor, sagst du zuerst, wo du beim Scheppern warst. Du saßt mit Augenbinde auf dem Ehrenplatz der blinden Kuh. Lagebesprechung: Sag ehrlich, wen du gerade verdächtigst und warum.",
+  "gegenKarten": "Einspruch: Stell die Frage einer anderen Person. Gegenfrage: Beantworte zuerst die Frage, dann antwortet die Person. Themenwechsel: Der Erzähler liest einen Impuls, das Thema darf später wiederkommen. Gegen Ortstermine, Indizkarten und offene Karten hilft keine dieser Karten. Retourkutsche: Wirfst du jemandem etwas vor, sagst du zuerst, wo du beim Scheppern warst. Du saßt mit Augenbinde auf dem Ehrenplatz der blinden Kuh.{wenn:serkan| Lagebesprechung: Sag ehrlich, wen du gerade verdächtigst und warum.}",
   "wennRollenFehlen": [
     {
       "von": 6,

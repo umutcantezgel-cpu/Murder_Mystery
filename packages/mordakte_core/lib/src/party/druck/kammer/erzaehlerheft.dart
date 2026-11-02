@@ -44,12 +44,15 @@ const kammerErzaehlerheftSeiteWasAlleWissen = 7;
 void kammerErzaehlerheft(pw.Document doc, KammerKontext k) => kammerTeilSetzen(doc, k, '00', (s) => _Heft(k, s).setzen());
 
 /// Ein unteilbarer Baustein einer Seite. [neueSeite]: beginnt eine neue Seite.
-/// [inhalt]: Eintrag im Inhaltsverzeichnis auf dem Deckblatt.
+/// [inhalt]: Eintrag im Inhaltsverzeichnis auf dem Deckblatt. [kopf]: steht
+/// davor, wenn der Baustein eine Folgeseite seiner Gruppe beginnt (wozu er
+/// gehört).
 class _Block {
-  _Block(this.widget, {this.neueSeite = false, this.inhalt});
+  _Block(this.widget, {this.neueSeite = false, this.inhalt, this.kopf});
   final pw.Widget widget;
   final bool neueSeite;
   final String? inhalt;
+  final pw.Widget? kopf;
 }
 
 /// Eine Seitengruppe des Seitenplans: [bloecke] auf mindestens [min] und
@@ -72,7 +75,6 @@ class _Heft {
   KammerSatz get x => k.satz;
   KammerBesetzung get b => k.besetzung;
   KammerErzaehlerheft get e => k.inhalt.erzaehlerheft;
-  DruckStil get stil => k.stil;
 
   static const _teil = '00';
   static final _breite = KammerSatz.satzBreite();
@@ -103,21 +105,10 @@ class _Heft {
   /// Anleitung im Kasten mit mehreren Teilen (Text und Vorlesetext gemischt).
   pw.Widget _anleitungKasten(List<pw.Widget> teile) => x.kasten(teile, marke: k.uiGemeinsam('anleitung'), rahmen: 0.5);
 
-  /// Balken eines Vorlesetexts ohne Marke (für Listen unter einer Marke).
-  pw.Widget _balken(pw.Widget kind) => pw.Container(
-        padding: const pw.EdgeInsets.fromLTRB(8, 1, 2, 1),
-        decoration: const pw.BoxDecoration(border: pw.Border(left: pw.BorderSide(color: DruckStil.tinte, width: 2.5))),
-        child: kind,
-      );
-
-  pw.Widget _fett(String text, {double groesse = _gText}) => pw.Text(KammerSatz.glyphen(k.klartext(text)), style: stil.ueberschrift(groesse));
+  pw.Widget _fett(String text, {double groesse = _gText}) => x.fett(text, groesse: groesse);
 
   /// Aufzählung „a, b oder c“ bzw. „a, b und c“ (`ui/00.json` → `liste.oder`, `liste.und`).
-  String _aufzaehlen(List<String> teile, String art) => switch (teile.length) {
-        0 => '',
-        1 => teile.single,
-        _ => u('liste.$art', {'liste': teile.sublist(0, teile.length - 1).join(', '), 'letzter': teile.last}),
-      };
+  String _aufzaehlen(List<String> teile, String art) => x.aufzaehlen(teile, _teil, 'liste.$art');
 
   // ---------------------------------------------------------------- Setzen
 
@@ -148,7 +139,7 @@ class _Heft {
     }
     final wasAlleWissen = inhalt.where((i) => i.$1 == k.uiGemeinsam('ueberschrift.wasAlleWissen')).single.$2;
     if (wasAlleWissen != kammerErzaehlerheftSeiteWasAlleWissen) {
-      throw KammerUeberlauf(_teil, wasAlleWissen, 'Was alle wissen', 'Überlauf in Teil 00: „Was alle wissen“ stünde auf Seite $wasAlleWissen statt $kammerErzaehlerheftSeiteWasAlleWissen');
+      throw KammerUeberlauf.werfen(_teil, wasAlleWissen, 'was-alle-wissen', '„Was alle wissen“ stünde auf Seite $wasAlleWissen statt $kammerErzaehlerheftSeiteWasAlleWissen');
     }
     s.seite(_deckblatt(inhalt), wo: 'deckblatt');
     for (final (w, wo, notizen) in seiten) {
@@ -167,18 +158,17 @@ class _Heft {
       final h = x.hoehe(bl.widget, _breite);
       if (seiten.last.isNotEmpty && (bl.neueSeite || hoehe + h > platz)) {
         final seite = erste + seiten.length - 1;
-        if (seiten.length == g.max) {
-          throw KammerUeberlauf(_teil, seite, g.wo, 'Überlauf in Teil 00, Seite $seite (${g.wo}): ${(hoehe + h).toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
-        }
+        if (seiten.length == g.max) KammerUeberlauf.zuHoch(_teil, seite, g.wo, hoehe + h, platz);
         seiten.add([]);
         hoehe = 0;
       }
-      if (h > platz) {
-        final seite = erste + seiten.length - 1;
-        throw KammerUeberlauf(_teil, seite, g.wo, 'Überlauf in Teil 00, Seite $seite (${g.wo}): ${h.toStringAsFixed(1)} pt hoch, Platz ${platz.toStringAsFixed(1)} pt');
-      }
+      // Beginnt der Baustein eine Folgeseite der Gruppe, steht sein Kopf davor.
+      final kopf = seiten.length > 1 && seiten.last.isEmpty ? bl.kopf : null;
+      final mitKopf = h + (kopf == null ? 0 : x.hoehe(kopf, _breite));
+      if (mitKopf > platz) KammerUeberlauf.zuHoch(_teil, erste + seiten.length - 1, g.wo, mitKopf, platz);
+      if (kopf != null) seiten.last.add(_Block(kopf));
       seiten.last.add(bl);
-      hoehe += h;
+      hoehe += mitKopf;
     }
     while (seiten.length < g.min) {
       seiten.add([]);
@@ -250,11 +240,11 @@ class _Heft {
     };
     String teilName(String t) => t == 'alle' ? u('vorbereitung.alle') : t;
     return _Gruppe('vorbereitung', [
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(u('vorbereitung')),
         _anleitung(e.vorbereitungHinweis),
       ]), inhalt: u('vorbereitung')),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(u('vorbereitung.teileliste')),
         x.tabelle(
           kopf: [u('vorbereitung.spalten.teil'), u('vorbereitung.spalten.datei'), u('vorbereitung.spalten.stueck')],
@@ -265,7 +255,7 @@ class _Heft {
           groesse: _gTabelle,
         ),
       ])),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(u('vorbereitung.schneiden')),
         x.tabelle(
           kopf: [u('vorbereitung.spalten.teil'), u('vorbereitung.spalten.taetigkeit'), u('vorbereitung.spalten.dauer')],
@@ -277,7 +267,7 @@ class _Heft {
           groesse: _gTabelle,
         ),
       ])),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(u('vorbereitung.anWen')),
         x.absatz(e.vorbereitungAnWen, groesse: _gText),
       ])),
@@ -291,7 +281,7 @@ class _Heft {
     final summe = minuten.fold(0, (a, m) => a + m);
     pw.Widget rechts(String t) => x.absatz(t, groesse: _gTabelle, ausrichtung: pw.TextAlign.right);
     return _Gruppe('ablauf', [
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(u('ablauf')),
         x.tabelle(
           kopf: [u('ablauf.spalten.nr'), u('ablauf.spalten.schritt'), u('ablauf.spalten.minuten'), u('ablauf.spalten.uhr')],
@@ -305,7 +295,7 @@ class _Heft {
           innen: const pw.EdgeInsets.fromLTRB(4, 2, 4, 2),
         ),
       ]), inhalt: u('ablauf')),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(u('rundenaufbau')),
         x.tabelle(
           zeilen: [
@@ -317,12 +307,12 @@ class _Heft {
           innen: const pw.EdgeInsets.fromLTRB(4, 2.5, 4, 2.5),
         ),
       ])),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(u('rundenaufbau.runde3')),
         x.absatz(e.runde3Reihenfolge, groesse: _gText),
       ])),
       if (b.abschnittBKurz)
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h2(u('kleineRunden')),
           x.absatz(e.kleineRunden, groesse: _gText),
         ])),
@@ -332,11 +322,11 @@ class _Heft {
   // ---------------------------------------------------------------- Seite 4
 
   _Gruppe _beginn() => _Gruppe('beginn', [
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h1(u('soLaeuftDerAbend')),
           _vorlesen(e.soLaeuftDerAbend),
         ]), inhalt: u('soLaeuftDerAbend')),
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h1(u('vorgeschichte')),
           _vorlesen(e.vorgeschichte),
         ]), inhalt: u('vorgeschichte')),
@@ -352,14 +342,14 @@ class _Heft {
         padding: const pw.EdgeInsets.only(top: 4),
         child: pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
           pw.SizedBox(width: _wer, child: pw.Padding(padding: const pw.EdgeInsets.only(top: 1.5, right: 8), child: _fett(wer, groesse: 9.5))),
-          pw.Expanded(child: _balken(x.absatz(text, groesse: 10.5))),
+          pw.Expanded(child: x.balken(x.absatz(text, groesse: 10.5))),
         ]),
       );
 
   _Gruppe _vorstellung() {
     final v = e.vorstellung;
     final fehlend = [for (final l in v.lacherFehlend) if (!b.istBesetzt(l.schluessel)) l];
-    final kopf = pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+    final kopf = x.spalte([
       _h1(u('vorstellung')),
       _anleitung(v.anleitung),
       _abstand(8),
@@ -370,17 +360,21 @@ class _Heft {
       for (final p in b.besetzt) _frage(u('vorstellung.rolle', {'name': p.name, 'titel': k.text(p.bezeichnung)}), k.rolle(p).frage),
       _frage(u('vorstellung.detektiv'), v.frageDetektiv),
     ];
+    // Eine Marke bleibt mit dem ersten Text darunter zusammen (nie allein am Seitenende).
+    pw.Widget mitMarke(String marke, pw.Widget erstes) => x.spalte([
+          pw.Padding(padding: const pw.EdgeInsets.only(top: 10, bottom: 1), child: x.marke(marke)),
+          erstes,
+        ]);
     final danach = [
       if (fehlend.isNotEmpty) ...[
-        pw.Padding(padding: const pw.EdgeInsets.only(top: 10, bottom: 1), child: x.marke(u('vorstellung.fehlend'))),
-        for (final l in fehlend) _frage('', l.text),
+        mitMarke(u('vorstellung.fehlend'), _frage('', fehlend.first.text)),
+        for (final l in fehlend.skip(1)) _frage('', l.text),
       ],
-      if (b.rollen < k.fall.plaetze.length) ...[
-        pw.Padding(padding: const pw.EdgeInsets.only(top: 10, bottom: 1), child: x.marke(u('vorstellung.abschluss'))),
-        _frage('', v.abschluss),
-      ],
+      if (b.rollen < k.fall.plaetze.length) mitMarke(u('vorstellung.abschluss'), _frage('', v.abschluss)),
     ];
-    final tat = pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+    // Auf Seite 6 steht über der Fortsetzung, wozu sie gehört (wie in Teil 90).
+    final weiter = pw.Padding(padding: const pw.EdgeInsets.only(bottom: 2), child: x.marke(u('vorstellung.weiter')));
+    final tat = x.spalte([
       _h1(u('tatMoment')),
       _vorlesen(e.tatMoment, groesse: 10.5),
       _h1(u('auftrag')),
@@ -390,13 +384,13 @@ class _Heft {
     final vorstellung = [
       _Block(kopf, inhalt: u('vorstellung')),
       for (final (i, r) in rollen.indexed)
-        _Block(i > 0
-            ? r
-            : pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        i > 0
+            ? _Block(r, kopf: weiter)
+            : _Block(x.spalte([
                 pw.Padding(padding: const pw.EdgeInsets.only(left: _wer), child: x.marke(k.uiGemeinsam('vorlesen'))),
                 r,
               ])),
-      for (final d in danach) _Block(d),
+      for (final d in danach) _Block(d, kopf: weiter),
     ];
     final hoehe = vorstellung.fold(0.0, (h, bl) => h + x.hoehe(bl.widget, _breite));
     return _Gruppe('vorstellung', [
@@ -408,11 +402,11 @@ class _Heft {
   // ---------------------------------------------------------------- Seite 7
 
   _Gruppe _wasAlleWissen() => _Gruppe('was-alle-wissen', [
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h1(u('fassungenOeffnen')),
           _anleitung(e.fassungenOeffnen, werte: {'seite': '$kammerErzaehlerheftSeiteWasAlleWissen'}),
         ]), inhalt: u('fassungenOeffnen')),
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h1(k.uiGemeinsam('ueberschrift.wasAlleWissen')),
           x.liste(k.inhalt.gemeinsam.wasAlleWissen, groesse: 10.5, abstand: 4),
         ]), inhalt: k.uiGemeinsam('ueberschrift.wasAlleWissen')),
@@ -431,16 +425,16 @@ class _Heft {
 
   pw.Widget _impuls(KammerImpuls i) => pw.Padding(
         padding: const pw.EdgeInsets.only(bottom: 6),
-        child: pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        child: x.spalte([
           x.ueberschrift(k.uiGemeinsam('impuls', {'id': i.id, 'titel': k.text(i.titel)}), stufe: 3),
-          _balken(x.absatz(i.text, groesse: 10.5)),
+          x.balken(x.absatz(i.text, groesse: 10.5)),
           if (i.hinweis != null && !k.leer(i.hinweis!))
             pw.Padding(padding: const pw.EdgeInsets.only(top: 3, left: 10.5), child: x.absatz(i.hinweis!, groesse: 9.5, leise: true)),
         ]),
       );
 
   /// Gegenüberstellung (MECH 1.3, 9.9): in Runde 2 mit der Regel, in Runde 3 nur wann.
-  pw.Widget _gegenueberstellung(int runde) => pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+  pw.Widget _gegenueberstellung(int runde) => x.spalte([
         _h2(u('gegenueberstellung')),
         _anleitungKasten([
           // In Runde 2 die ganze Regel (MECH 1.3, nennt auch wann), in Runde 3 nur wann (MECH 9.9).
@@ -454,21 +448,21 @@ class _Heft {
     final runde = k.fall.runden.firstWhere((f) => f.nr == r.nr);
     final titel = k.uiGemeinsam('runde.titel', {'runde': '${r.nr}', 'name': k.text(runde.name)});
     final bloecke = [
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(titel),
         x.absatz(u('runde.uhr', {'uhr': runde.uhr}), groesse: 9.5, leise: true),
         _h2(u('runde.start')),
         _vorlesen(r.start),
       ]), inhalt: titel),
       if (r.nr > 1 && b.gegenueberstellung) _Block(_gegenueberstellung(r.nr)),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(u('impulse')),
         x.marke(k.uiGemeinsam('vorlesen')),
         _abstand(1),
       ])),
       for (final i in r.impulse) _Block(_impuls(i)),
       if (r.schluss != null)
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h2(u('runde.schluss')),
           _vorlesen(r.schluss!),
         ]))
@@ -489,15 +483,15 @@ class _Heft {
 
   /// Regeln für die Impulse, Ausweichsatz, Domino-Frage (MECH 9.9): gelten in allen Runden.
   List<_Block> _moderation() => [
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h1(u('impulse.regeln')),
           _anleitung(e.impulsRegeln),
         ]), inhalt: u('impulse.regeln')),
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h2(u('ausweichsatz')),
           _vorlesen(e.ausweichsatz),
         ])),
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h2(u('dominoFrage')),
           _anleitungKasten([
             x.absatz(e.dominoWann, groesse: _gAnleitung),
@@ -526,7 +520,7 @@ class _Heft {
           innen: const pw.EdgeInsets.fromLTRB(4, 2.5, 4, 2.5),
         );
     return [
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(u('bonusZiel')),
         x.kasten([x.absatz(e.bonusZiel, groesse: _gText)], grau: true, rahmen: 0.5),
         _abstand(6),
@@ -539,13 +533,13 @@ class _Heft {
           ],
         ]),
       ]), inhalt: u('bonusZiel')),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(u('tippRunde')),
         _vorlesen(e.tippRunde.vorlesen),
         _abstand(5),
         _anleitung(e.tippRunde.anleitung),
       ]), inhalt: u('tippRunde')),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(u('anklage')),
         _vorlesen(e.anklage.vorlesen),
         _abstand(5),
@@ -589,7 +583,7 @@ class _Heft {
     final mass = u('masstabelle');
     const innen = pw.EdgeInsets.fromLTRB(4, 2, 4, 2);
     return _Gruppe('nachschlagen', [
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(hs),
         x.tabelle(
           kopf: [u('herrSchneider.spalten.frage'), u('herrSchneider.spalten.antwort')],
@@ -599,7 +593,7 @@ class _Heft {
           innen: innen,
         ),
       ]), inhalt: hs),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(mass),
         x.tabelle(
           kopf: [u('masstabelle.spalten.vonNach'), u('masstabelle.spalten.abstand'), u('masstabelle.spalten.dunkel')],
@@ -611,7 +605,7 @@ class _Heft {
           innen: innen,
         ),
       ]), inhalt: mass),
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h2(k.uiGemeinsam('ueberschrift.licht')),
         x.absatz(k.inhalt.gemeinsam.licht, groesse: _gTabelle),
       ])),
@@ -628,7 +622,7 @@ class _Heft {
     final titel = u('skalierung');
     final karten = u('kartenUnterStreifen');
     return _Gruppe('skalierung', [
-      _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+      _Block(x.spalte([
         _h1(titel),
         _h2(u('skalierung.heute', {'personen': '${k.personen}'})),
         _anleitung(hinweis == null || k.leer(hinweis) ? u('skalierung.keinHinweis') : hinweis, groesse: 9.5),
@@ -638,7 +632,7 @@ class _Heft {
         _ueberblick(),
       ]), inhalt: titel),
       if (b.abwesenheitsblatt)
-        _Block(pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: [
+        _Block(x.spalte([
           _h1(karten),
           _anleitung(e.kartenUnterStreifenAnleitung, groesse: 9.5),
           _abstand(5),

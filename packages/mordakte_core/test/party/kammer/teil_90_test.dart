@@ -103,6 +103,18 @@ void main() {
     expect(pdfs[schluessel(13, 'm')]!.seiten, pdfs[schluessel(13, 'w')]!.seiten);
   });
 
+  test('Tipp-Wertung: die Sonderregel steht bei jeder Personenzahl auf der Seite der Tabelle (nie allein umbrochen)', () {
+    for (var p = 6; p <= 20; p++) {
+      final k = kammerKontext(p);
+      final seiten = [for (final s in pdfs[schluessel(p, 'w')]!.seitenText) kammerFlach(s)];
+      int seite(String text) => seiten.indexWhere((s) => s.contains(text));
+      final tabelle = seite(kammerFlach(k.klartext(k.ui('90', 'tippWertung.wer'))));
+      final regel = kammerFlach(k.klartext(k.inhalt.aufloesung.sonderregel));
+      expect(tabelle, greaterThan(0), reason: '$p Personen');
+      expect(seite(regel.substring(0, math.min(40, regel.length))), tabelle, reason: '$p Personen');
+    }
+  });
+
   for (final MapEntry(key: personen, value: detektiv) in faelle.entries) {
     group('$personen Personen, Detektiv $detektiv', () {
       late KammerKontext k;

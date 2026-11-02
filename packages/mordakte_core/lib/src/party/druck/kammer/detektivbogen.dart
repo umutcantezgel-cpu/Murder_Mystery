@@ -96,11 +96,10 @@ class _Bogen {
     _vermerke();
     _leseSeite('anklage', _seite6, notizen: true);
     if (s.gesetzt != kammerDetektivbogenSeiten) {
-      throw KammerUeberlauf(_teil, s.gesetzt, '', 'Überlauf in Teil 01: ${s.gesetzt} Seiten statt $kammerDetektivbogenSeiten');
+      throw KammerUeberlauf.werfen(_teil, s.gesetzt, 'seitenplan', '${s.gesetzt} Seiten statt $kammerDetektivbogenSeiten');
     }
   }
 
-  pw.Widget _spalte(List<pw.Widget> kinder) => pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.stretch, children: kinder);
 
   /// Dichter Satz: halbe Abstände (Überschriften, Listen, Kästen). Nur, wenn
   /// eine Seite mit den üblichen Abständen auch in [_gMin] nicht passt.
@@ -110,7 +109,7 @@ class _Bogen {
   /// abwärts, bei der [bauen] auf die Seite passt; passt sie auch in [_gMin]
   /// nicht, noch einmal mit dichtem Satz ([_dicht]), danach [KammerUeberlauf].
   void _leseSeite(String wo, List<pw.Widget> Function(double g) bauen, {bool notizen = false}) {
-    double groesse() => s.passendeGroesse((g) => _spalte(bauen(g)), breite: _breite, hoehe: s.platz(), start: _gStart, min: _gMin, wo: wo);
+    double groesse() => s.passendeGroesse((g) => x.spalte(bauen(g)), breite: _breite, hoehe: s.platz(), start: _gStart, min: _gMin, wo: wo);
     double g;
     try {
       g = groesse();
@@ -134,14 +133,13 @@ class _Bogen {
 
   pw.Widget _ueberschrift(String text, double g, {required double oben, required double unten}) => pw.Padding(
         padding: pw.EdgeInsets.only(top: _a(oben), bottom: _a(unten)),
-        child: pw.Text(KammerSatz.glyphen(k.klartext(text)), style: stil.ueberschrift(g)),
+        child: x.fett(text, groesse: g),
       );
 
   pw.EdgeInsets get _kastenInnen => _dicht ? const pw.EdgeInsets.fromLTRB(9, 5, 9, 5) : const pw.EdgeInsets.fromLTRB(9, 7, 9, 8);
 
   /// Fette Zeile in Lesegröße (Gruppentitel, Rundentitel, Kartenname).
-  pw.Widget _fett(String text, double g) =>
-      pw.Text(KammerSatz.glyphen(k.klartext(text)), style: stil.ueberschrift(g));
+  pw.Widget _fett(String text, double g) => x.fett(text, groesse: g);
 
   pw.Widget _abstand([double h = 6]) => pw.SizedBox(height: _a(h));
 
@@ -219,7 +217,7 @@ class _Bogen {
     final rest = [for (final gr in gruppen) if (!nummeriert.contains(gr)) gr];
     const luecke = 14.0;
     final spaltenBreite = (_breite - luecke) / 2;
-    double hoehe(Iterable<KammerLeitfadenGruppe> gs) => gs.isEmpty ? 0 : x.hoehe(_spalte([for (final gr in gs) ..._leitfadenGruppe(gr, g)]), spaltenBreite);
+    double hoehe(Iterable<KammerLeitfadenGruppe> gs) => gs.isEmpty ? 0 : x.hoehe(x.spalte([for (final gr in gs) ..._leitfadenGruppe(gr, g)]), spaltenBreite);
     var teilung = nummeriert.length;
     var beste = double.infinity;
     for (var i = 1; i < nummeriert.length; i++) {
@@ -234,9 +232,9 @@ class _Bogen {
         for (final gr in nummeriert) ..._leitfadenGruppe(gr, g)
       else
         pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-          pw.Expanded(child: _spalte([for (final gr in nummeriert.take(teilung)) ..._leitfadenGruppe(gr, g)])),
+          pw.Expanded(child: x.spalte([for (final gr in nummeriert.take(teilung)) ..._leitfadenGruppe(gr, g)])),
           pw.SizedBox(width: luecke),
-          pw.Expanded(child: _spalte([for (final gr in nummeriert.skip(teilung)) ..._leitfadenGruppe(gr, g)])),
+          pw.Expanded(child: x.spalte([for (final gr in nummeriert.skip(teilung)) ..._leitfadenGruppe(gr, g)])),
         ]),
       for (final gr in rest) ..._leitfadenGruppe(gr, g),
     ];
@@ -357,9 +355,9 @@ class _Bogen {
   void _ermittlungsbogen() {
     const wo = 'ermittlungsbogen';
     final platz = s.platz();
-    final g = s.passendeGroesse((g) => _spalte(_seite4(g, _rasterMin)), breite: _breite, hoehe: platz, start: 10.5, min: _gMin, wo: wo);
+    final g = s.passendeGroesse((g) => x.spalte(_seite4(g, _rasterMin)), breite: _breite, hoehe: platz, start: 10.5, min: _gMin, wo: wo);
     final schreibzeilen = d.bogen.zeilen.where((z) => z.id != 'ausgeschieden').length;
-    final rest = platz - x.hoehe(_spalte(_seite4(g, _rasterMin)), _breite);
+    final rest = platz - x.hoehe(x.spalte(_seite4(g, _rasterMin)), _breite);
     final zeile = math.min(_rasterMax, _rasterMin + (schreibzeilen == 0 ? 0 : (rest - 1) / schreibzeilen));
     s.seite(_seite4(g, zeile), wo: wo, ausrichtung: pw.CrossAxisAlignment.stretch);
   }
@@ -442,10 +440,10 @@ class _Bogen {
     final platz = s.platz();
     final n = d.vermerkeZeilen;
     final links = (n + 1) ~/ 2;
-    final ohneZeilen = x.hoehe(_spalte(_seite5(0)), _breite);
+    final ohneZeilen = x.hoehe(x.spalte(_seite5(0)), _breite);
     final zeile = (platz - ohneZeilen - 1) / links;
     if (zeile < _vermerkMin) {
-      throw KammerUeberlauf(_teil, s.naechste, wo, 'Überlauf in Teil 01, Seite ${s.naechste} ($wo): $n Vermerke, Zeile ${(zeile / KammerSatz.mm).toStringAsFixed(1)} mm hoch, mindestens ${(_vermerkMin / KammerSatz.mm).toStringAsFixed(0)} mm');
+      throw KammerUeberlauf.werfen(_teil, s.naechste, wo, '$n Vermerke, Zeile ${(zeile / KammerSatz.mm).toStringAsFixed(1)} mm hoch, mindestens ${(_vermerkMin / KammerSatz.mm).toStringAsFixed(0)} mm');
     }
     s.seite(_seite5(zeile), wo: wo, ausrichtung: pw.CrossAxisAlignment.stretch);
   }

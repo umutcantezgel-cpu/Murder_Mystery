@@ -11,7 +11,7 @@
 // Personenzahlen: 6, 12 und 20 (Stützstellen von MECH 10.1), 7 (erster Zeuge),
 // 10 (Vorgabe, Joanna mit ihrer Notiz), 13 (Sibel spielt ihr Tandem allein),
 // 15 (Hana allein, Sibel mit Damir). Die PDFs prüfen pdfinfo und pdftotext.
-// Einzeldateien und Druckrand nur bei 20 (alle achtzehn Rollen; dateien_test.dart
+// Einzeldateien und Druckrand nur bei 20 (alle achtzehn Rollen; dateien_satz.dart
 // prüft beides an weiteren Grenzen), die Bytegleichheit bei 13.
 import 'dart:convert';
 import 'dart:io';
@@ -283,7 +283,14 @@ void main() {
               expect(text, contains(kammerFlach(k.klartext(a.frage))), reason: '${e.key.name} → ${ziel.name}');
             } else {
               expect(text, isNot(contains(kopf)), reason: '${e.key.name} → ${ziel.name}');
-              expect(text, contains(kammerFlach(k.klartext(a.ausweich!))), reason: '${e.key.name} → Ausweichziel für ${ziel.name}');
+              final ausweich = kammerFlach(k.klartext(a.ausweich!));
+              expect(text, contains(ausweich), reason: '${e.key.name} → Ausweichziel für ${ziel.name}');
+              // Beginnt das Ausweichziel mit einer besetzten Rolle, steht sie wie jedes Ziel im Kopf, ohne doppelten Doppelpunkt.
+              final nr = k.klartext(k.uiGemeinsam('heft.ziel', {'nr': '${a.nr}'}));
+              for (final q in b.besetzt.where((q) => ausweich.startsWith('${q.name}: '))) {
+                expect(text, contains('$nr · $ausweich'), reason: '${e.key.name} → Ausweichziel ${q.name}');
+                expect(text, isNot(contains('$nr: $ausweich')), reason: '${e.key.name} → Ausweichziel ${q.name}');
+              }
             }
           }
         }
