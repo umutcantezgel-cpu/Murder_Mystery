@@ -1,9 +1,11 @@
 # Fall-Bibel Kammerspiel „Spuk im Schlosskeller“ (U4YRK, Täter Olli)
 
-Stand 2026-11-02, Integration Runde 2. Phase „Fall-Bibel“. Repo nur gelesen. Diese Datei ist die eine, widerspruchsfreie
+Stand 2026-11-02, Integration Runde 2, Nachzug nach Runde 3 (Prüfung am fertigen Druck). Phase „Fall-Bibel“. Repo nur
+gelesen. Diese Datei ist die eine, widerspruchsfreie
 Spezifikation des Druckspiels „Kammerspiel“. Sie führt die fünf Teilentwürfe `bibel/01-welt.md`, `02-mechanik.md`,
 `03-rollen-kern.md`, `04-rollen-zeugen.md` und `05-rollen-zusatz.md` zusammen und behebt die Befunde der Testprotokolle 1 bis 5,
-Runden 1 und 2. Welcher Befund wie behoben ist, steht in `bibel/TESTPROTOKOLL.md`. Die Datei ist Spezifikation, kein fertiger
+Runden 1 und 2. Nach Runde 3 ist sie auf den Stand des gedruckten Inhalts nachgezogen. Welcher Befund wie behoben ist,
+steht in `bibel/TESTPROTOKOLL.md`. Die Datei ist Spezifikation, kein fertiger
 Spieltext. Texte mit dem Zusatz **wörtlich** gelten so für den Druck.
 
 Wo diese Datei und ein Teilentwurf sich unterscheiden, gilt diese Datei. Die Teilentwürfe bleiben als Herkunft liegen.
@@ -738,6 +740,7 @@ Feste Punkte (Mitte der Kachel):
 | vor der Bogentür | 2,5/8,5 | 7 |
 | Kamin-Nische, davor (Hana) | 2,5/13,5 | 7 |
 | Ascheneimer | 1,5/14,5 | 7 |
+| Wandbank West (Can ab 0:01, Azra ab 0:10; 4 m vom Ascheneimer, P3R3-B3) | 1,5/10,5 | 7 |
 | Wandbank Süd (Sibel) | 3,5/18,5 | 7 |
 
 ### WELT 2.4 Entscheidung Eiskübel: Ostende (W-02)
@@ -1213,7 +1216,7 @@ dreißig Minuten (M-02). In großen Runden laufen die Gespräche parallel.
 | 3 | Vorstellungsrunde (je Rolle etwa 50 s, dazu Detektiv und Lacher, 9.4) | 6 | 11 | 17 | – |
 | 4 | Tat-Moment und Auftrag (Vorlesen, 9.5) | 3 | 3 | 3 | 23:55 bis 0:20 |
 | 5 | Die vier Verdächtigen öffnen still ihre Fassung (9.6) | 3 | 3 | 3 | 0:20 |
-| 6 | Lageplan-Führung, Marker setzen, Zeugenstreifen auslegen (9.7) | 5 | 7 | 8 | – |
+| 6 | Lageplan-Führung, Marker setzen, bis 11 Personen Zeugenstreifen auslegen (9.7) | 5 | 7 | 8 | – |
 | 7 | Runde 1 „Das Alibi-Geflecht“ (1.3) | 30 | 30 | 30 | ab 0:30 |
 | 8 | Runde 2 „Die Indizien-Filterung“ | 30 | 30 | 30 | ab 1:15 |
 | 9 | Pause | 10 | 10 | 10 | – |
@@ -1247,7 +1250,7 @@ Die Pause liegt zwischen Runde 2 und Runde 3, damit vor der Gegenüberstellung a
 | Abschnitt | Minuten | Was geschieht |
 |---|---|---|
 | a Rundenstart | 1 | Erzähler liest den Rundenstart (9.8). Ab jetzt sind die Indizkarten dieser Runde frei |
-| b Tischgespräch und Verhörstuhl | 17 | Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl (je höchstens zwei Minuten, R-02). Geheimniskarten werden umgedreht, sobald ein Pflicht-Auslöser erfüllt ist (mit dem Ruf „Karte!“, R-03). Marker werden umgestellt. Aktionskarten werden gespielt. Bei Flaute liest der Erzähler einen Impuls (9.9). Ab 14 Personen: in Runde 1 nach der Hälfte „Wechsel!“, in Runde 2 und 3 nach der Hälfte erst die Gegenüberstellung, dann „Wechsel!“ |
+| b Tischgespräch und Verhörstuhl | 17 | Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl (je höchstens zwei Minuten, R-02). Geheimniskarten werden umgedreht, sobald ein Pflicht-Auslöser erfüllt ist (mit dem Ruf „Karte!“, R-03). Marker werden umgestellt. Aktionskarten werden gespielt. Bittet der Detektiv um einen Impuls, liest der Erzähler genau diesen; stockt das Gespräch, liest er einen Impuls (9.9, P2R3-01). Ab 14 Personen: in Runde 1 nach der Hälfte „Wechsel!“, in Runde 2 und 3 nach der Hälfte erst die Gegenüberstellung, dann „Wechsel!“ |
 | c Reinen Tisch | 2 | Erzähler fragt einmal reihum: „Will jemand reinen Tisch machen?“ Wer will und darf (Rundensperre), dreht seine Geheimniskarte um |
 | d Untersuchungen | 6 | Der Detektiv nennt nacheinander drei Indizkarten aus Teil 01. Der Erzähler sucht den Code im Stapel und gibt die Karte ungelesen weiter. Der Detektiv liest sie laut vor. Nach jeder Karte stellt der Erzähler die Standardfrage (R-08) |
 | e Marker-Probe und Bogen | 3 | Erzähler: „Nennt eine offene Karte oder ein offener Streifen für jemanden ausdrücklich einen anderen Ort als seinen Marker?“ Wer betroffen ist, stellt um (R-06). Der Detektiv trägt Vermerke ein |
@@ -1281,7 +1284,7 @@ Minuten beenden, wenn alle Ziele gefragt sind.“
 | R-05 Reinen Tisch | Am Rundenende darfst du deine Geheimniskarte freiwillig umdrehen, wenn die Rundensperre vorbei ist |
 | R-06 Marker | Jede Person hat zwei Marker: „23:57“ und „Scheppern“. Nennt eine offene Indizkarte, ein offener Streifen, eine offene Geheimniskarte oder eine vor allen vorgelesene Notiz aus einem Heft für dich ausdrücklich einen anderen Ort, oder verlangt es ein Auslöser in deinem Heft, stellst du deinen Marker sofort vor allen um. Schlüsse aus mehreren Karten zählen nicht; sie gehören in die Anklage. Ortslügen fallen vor Geheimnissen: Du darfst den Marker umstellen und trotzdem noch ausweichen, warum du dort warst, bis deine Geheimniskarte offen ist |
 | R-07 Aktionskarten | Einmal im Spiel, offen ausspielen, danach umdrehen. Nur im Tischgespräch (Abschnitt b), sofern die Karte nichts anderes sagt. Nicht während einer Untersuchung, nicht ab der Tipp-Runde |
-| R-08 Standardfrage | Nach jeder Indizkarte fragt der Erzähler: „Löst diese Karte bei jemandem etwas aus?“ Wer betroffen ist, dreht um (Rundensperre beachten). Liegen Zeugenstreifen aus, prüft der Erzähler danach still: „Steht dieser Code in meiner Tabelle ‚Karten unter den Streifen‘?“ (9.14). Steht er dort, zieht er die genannte Karte unter dem Streifen hervor und legt sie offen daneben, sofort oder zu Beginn der genannten Runde |
+| R-08 Standardfrage | Nach jeder Indizkarte fragt der Erzähler: „Löst diese Karte bei jemandem etwas aus?“ Wer betroffen ist, dreht um (Rundensperre beachten). Liegen Zeugenstreifen aus, prüft der Erzähler danach still: „Steht dieser Code in meiner Tabelle ‚Karten unter den Streifen‘?“ (9.14). Steht er dort, zieht er die genannte Karte unter dem Streifen hervor und legt sie offen daneben, sofort oder zu Beginn der genannten Runde. Dann liest der Detektiv sie laut vor (P2R3-03) |
 | R-09 Offen ist offen | Was einmal offen liegt (Karte, Streifen, Geheimniskarte), bleibt offen auf dem Tisch. Indizkarten legt der Detektiv offen an den Rand des Lageplans |
 | R-10 Herr Schneider | Herr Schneider sitzt mit einem Kühlpack im Buffetsaal. Der Erzähler spricht ihn nur mit den Sätzen aus 9.10, und nur, wenn eine Indizkarte (JA9, PM3) oder die Aktionskarte „Krankenbesuch“ es verlangt |
 | R-11 Nichts vorher lesen | Indizkarten, fremde Geheimniskarten, Zeugenstreifen, fremde Hefte, Fassungen und Teil 90 liest niemand vorher. Der Erzähler auch nicht |
@@ -1735,7 +1738,7 @@ eine Rundensperre umgehen.
 |---|---|---|---|---|
 | 1 Ahmet | 150 € „Miete“ von allen, obwohl der Keller umsonst war; das Geld sollte Mareks Nachzahlung für das zu groß bestellte Buffet bezahlen; 23:57 mit dem Umschlag hinter die Theke, wollte Herrn Schneider bitten, um zwölf nichts zu sagen | „Heimlichtuerei · Ahmet: hat von allen 150 € ‚Miete‘ eingesammelt, obwohl der Keller umsonst war.“ · „Ort um 23:57 · Ahmet: hinter der Theke am Ostende.“ | „Um 23:57 Uhr stand Olli am Eiskübel. Herr Schneider sagte zu ihm: ‚Zweitausend, bis zwölf.‘“ | (a) PM3 oder WM9 liegt offen; (b) Lejlas Geheimniskarte liegt offen; (c) eine Taschenkontrolle bei dir hat das Bündel Scheine gezeigt **und** WE3 liegt offen, Reihenfolge egal (P2-19) |
 | 2 Fatma | 23:40 Münzschatulle aus der schon gesprungenen Vitrine ausgeliehen, um das Wappen abzuzeichnen, Rückgabe Montag; 23:56 Drohung; 23:57 zur Theken-Klappe, um sie zurückzugeben | „Heimlichtuerei · Fatma: hat um 23:40 die Münzschatulle aus der Vitrine ausgeliehen, um das Wappen abzuzeichnen. Rückgabe am Montag.“ · „Ort um 23:57 · Fatma: an der Theken-Klappe.“ | „Um 23:57 Uhr ging Ahmet mit einem dicken Umschlag am Ostende hinter die Theke.“ | (a) NN3 liegt offen; (b) FM9 liegt offen **und** dein Marker „23:57“ steht schon auf der Klappe; (c) Emines Geheimniskarte liegt offen |
-| 3 Olli | 18:35 Bogentür beim Tragen beschädigt, 18:45 mit Möbelwachs überdeckt; Herr Schneider verlangt 2.000 € bis Mitternacht; kurz vor zwölf am Eiskübel, wollte mit Herrn Schneider reden | „Heimlichtuerei · Olli: hat um 18:35 an der Bogentür einen Beschlag ausgerissen und die Schramme mit Möbelwachs überdeckt. Herr Schneider verlangt 2.000 € bis Mitternacht.“ · „Ort um 23:57 · Olli: am Eiskübel.“ | „Nach dem Knall sprang ein leuchtendes Gesicht aus dem Vorratsraum, und Herr Schneider packte es.“ | (a) Joanna liest vor allen aus ihrer Notiz von 23:57 vor, dass er am Eiskübel stand (etwa bei FX3), oder ihr Zeugenstreifen liegt offen (P2-16); (b) Lejla sagt vor allen oder ihr Streifen zeigt, dass du erst nach dem Scheppern zu ihr kamst (DM3); (c) Ahmet oder Fatma sagen vor allen, dass du um 23:57 am Eiskübel standest (A:95) |
+| 3 Olli | 18:35 Bogentür beim Tragen beschädigt, 18:45 mit Möbelwachs überdeckt; Herr Schneider verlangt 2.000 € bis Mitternacht; kurz vor zwölf am Eiskübel, wollte mit Herrn Schneider reden | „Heimlichtuerei · Olli: hat um 18:35 an der Bogentür einen Beschlag ausgerissen und die Schramme mit Möbelwachs überdeckt. Herr Schneider verlangt 2.000 € bis Mitternacht.“ · „Ort um 23:57 · Olli: am Eiskübel.“ | „Nach dem Knall sprang ein leuchtendes Gesicht aus dem Vorratsraum, und Herr Schneider packte es.“ | (a) Joanna liest vor allen aus ihrer Notiz von 23:57 vor, dass er am Eiskübel stand (etwa bei FX3), oder ihr Zeugenstreifen liegt offen (P2-16); (b) Lejla sagt vor allen, dass du erst nach dem Scheppern zu ihr kamst; fehlt sie, zeigt es ihr Streifen (DM3, P4-03); (c) Ahmet oder Fatma sagen vor allen, dass du um 23:57 am Eiskübel standest (A:95) |
 | 4 Can | ab 23:54 mit Leuchtmaske im dunklen Vorratsraum, Streich für die blinde Kuh; Zeynep stand Schmiere; nach dem Knall herausgesprungen, Herr Schneider packte die Kapuze; losgerissen, weggerannt, Maske in die Bauchtasche, Turm-Toilette | „Heimlichtuerei · Can: hat ab 23:54 mit einer Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh gewartet. Ein Streich.“ · „Ort um 23:57 · Can: im Vorratsraum.“ | „Um 23:54 Uhr tuschelten Fatma und Emine am linken Buffet. Fatma hielt ihre Tasche ganz fest.“ Fehlt Emine (RK-10): „Um 23:54 Uhr tuschelte Fatma mit einer Freundin am linken Buffet. Fatma hielt ihre Tasche ganz fest.“ | (a) JT3 liegt offen; (b) Zeyneps Geheimniskarte liegt offen; (c) JA9 liegt offen **und** jemand hat vor allen gesagt oder eine offene Karte sagt, dass das leuchtende Gesicht aus dem Vorratsraum kam, Reihenfolge egal (P2-19) |
 
 Zu Cans Auslöser (c): Ollis offene Geheimniskarte erfüllt den zweiten Teil von Cans Auslöser (c), egal ob JA9 vorher oder
@@ -1870,7 +1873,7 @@ Sobald eine der Rollen 5–10 unbesetzt ist (E7), also bei 6 bis 11 Personen. Ab
 - **Ein A4-Blatt hoch, einseitig, mit 5 mm Rand** (A:57). Bis zu sechs Zeugenstreifen in zwei Spalten und drei Reihen, je
   100 × 95 mm. Gefaltet wird 30 mm unter der Oberkante, Druckseite außen: oben das Etikett (30 mm), darunter das Protokoll
   (65 mm, um 180° gedreht). Auf dem Tisch liegt das Etikett oben, das Protokoll mit der Schrift nach unten. Umdrehen heißt:
-  den Streifen wenden (P14-02).
+  den Streifen wenden (P14-02). Am Falz steht, **wörtlich**: „Hier nach hinten falten, Etikett bleibt oben“ (6,5 pt, P5R3-06).
 - **Satz:** Protokoll und Vermerk in 9 pt, rund 16 Zeilen. Joannas Notiz steht zweispaltig in 8 pt unter ihrem Protokoll
   (Ausnahme nur für die Notiz; neben dem Protokoll brächen die Zeilen um, P145R2-K04). Eine Schlusszeile zur Geheimniskarte gibt es nicht.
 - Gedruckt werden nur die Streifen der heute fehlenden Zeugen, in Platzreihenfolge.
@@ -1908,7 +1911,7 @@ W-21, P14-16).
 | Was | Wodurch | Wer dreht | Rundensperre |
 |---|---|---|---|
 | Zeugenstreifen | Ortstermin der Zone oder Aktionskarte „Zeitstempel“, bei der jemand den Zeugen nennt. Andere Aktionskarten öffnen keinen Streifen | Erzähler | keine (der Ortstermin selbst ist an seine Runde gebunden) |
-| Geheimniskarte darunter | Ein Code aus der Tabelle „Karten unter den Streifen“ (9.14) liegt offen, egal wodurch: Untersuchung, Taschenkontrolle, Stirnlampe oder Krankenbesuch (P14-K02) | Erzähler, sofort oder zu Beginn der genannten Runde. Er zieht die Karte unter dem Streifen hervor und legt sie offen daneben. Der Streifen bleibt zu, bis sein eigener Code kommt (P14-K13) | wie in der Tabelle |
+| Geheimniskarte darunter | Ein Code aus der Tabelle „Karten unter den Streifen“ (9.14) liegt offen, egal wodurch: Untersuchung, Taschenkontrolle, Stirnlampe oder Krankenbesuch (P14-K02) | Erzähler, sofort oder zu Beginn der genannten Runde. Er zieht die Karte unter dem Streifen hervor und legt sie offen daneben; der Detektiv liest sie sofort laut vor (P2R3-03). Der Streifen bleibt zu, bis sein eigener Code kommt (P14-K13) | wie in der Tabelle |
 
 Nie offen von Anfang an, nie durch ein Gespräch allein (E7). Der Erzähler liest Streifen und Karte erst, wenn er sie
 umdreht; dann liest der Detektiv sie laut vor.
@@ -1935,9 +1938,9 @@ auf dem Bogen steht (R-12).
 
 | Nr | Feld | Kernfakt, der dastehen muss | Stichwort, das genügt |
 |---|---|---|---|
-| M1 | Alibi · Ahmet | Ahmet kauerte beim Scheppern hinter der Theke am Ostende (bei Marek) | „Ostende“ oder „bei Marek“ oder „bei Damir“ |
-| M2 | Alibi · Fatma | Fatma kauerte beim Scheppern hinter dem linken Buffettisch (bei Emine) | „linkes Buffet“ oder „bei Emine“ |
-| M3 | Alibi · Can | Can (das leuchtende Gesicht) war vor dem Scheppern schon durch den Durchgang Richtung Kaminsaal | „vor dem Scheppern weg“ oder „Gesicht vor dem Scheppern durch den Durchgang“ |
+| M1 | Alibi · Ahmet | Ahmet kauerte beim Scheppern hinter der Theke am Ostende (bei Marek) | „bei Marek“ (fehlt Marek, auch „beim Caterer“), mit Damir auch „bei Damir“, oder „an Mareks Beinen“. „Ostende“ allein genügt nicht, das steht auch beim Ort um 23:57 (P2R3-04) |
+| M2 | Alibi · Fatma | Fatma kauerte beim Scheppern hinter dem linken Buffettisch (bei Emine) | „linkes Buffet“, „linken Buffettisch“, „bei Emine“ oder „neben Emine“ (P2R3-04) |
+| M3 | Alibi · Can | Can (das leuchtende Gesicht) war vor dem Scheppern schon durch den Durchgang Richtung Kaminsaal | „vor dem Scheppern“, „bevor es schepperte“, „Erst dann schepperte es“ oder „Erst danach schepperte es“ (P2R3-04) |
 | M4 | Heimlichtuerei · Ahmet | Ahmet hat 150 € „Miete“ eingesammelt, obwohl der Keller umsonst war, oder den Umschlag geleert und versteckt | „Keller umsonst“, „Keller hat nichts gekostet“, „0 Euro“, „Miete erfunden“ oder „Umschlag“ zusammen mit „Ascheneimer“. „Miete“ allein genügt nicht, das Einsammeln wissen alle (P145R2-M08) |
 | M5 | Heimlichtuerei · Fatma | Fatma hat die Münzschatulle aus der Vitrine ausgeliehen | „Münzschatulle“ |
 | M6 | Heimlichtuerei · Can | Can hat mit der Leuchtmaske im Vorratsraum auf die blinde Kuh gewartet | „Maske“ oder „Streich“ |
@@ -2025,7 +2028,7 @@ muss es aus dem Gespräch schließen (P2-03).
 |---|---|---|
 | 1 | 2 | „Olli“ |
 | 2 | 1 | „Eiskübel“ (auch „unter dem Eis“) |
-| 3 | 2 | Bonus-Ziel erfüllt nach der Prüfbedingung in Teil 90, Stand bei der Anklage; der Tisch bestätigt |
+| 3 | 2 | Bonus-Ziel erfüllt nach der Prüfbedingung in Teil 90, Stand bei der Anklage, egal was auf dem Zettel angekreuzt ist; der Tisch bestätigt (P2R3-05) |
 | Sonderregel | – | **Für Olli zählen Frage 1 und 2 nicht.** Er bekommt stattdessen 3 Punkte, wenn der Detektiv nicht ihn angeklagt hat. So hat jeder höchstens 5 Punkte (M-22) |
 
 Der Erzähler zählt mit. „Spürnase des Abends“ ist, wer die meisten Punkte hat; Gleichstand teilt den Titel. Der Detektiv
@@ -2053,7 +2056,8 @@ Person fehlt). Ausnahme mit Absicht: Ollis Ziel ist ab 7 Personen kaum zu erreic
 (P145R2-K16). Kein Bonus-Ziel erfüllt sich ohne Zutun der Rolle schon in Runde 1 oder 2 (P145R2-M07). Kein Ziel belohnt, eine Unschuldige oder einen Unschuldigen anzuklagen. Kein Ziel braucht Wissen aus Teil 90.
 
 **Bonus-Ziel des Erzählers, wörtlich:** „Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der
-gespielten Rollen offen. Karten unter den Zeugenstreifen zählen nicht mit.“ (P145R2-K21) Grund: Der Erzähler moderiert; das belohnt, dass er Gespräche in Gang hält (M-23).
+gespielten Rollen offen. Karten unter den Zeugenstreifen zählen nicht mit.“ (P145R2-K21) Der zweite Satz steht nur bis 11 Personen,
+ab 12 gibt es keine Streifen (P4-02). Grund: Der Erzähler moderiert; das belohnt, dass er Gespräche in Gang hält (M-23).
 
 ---
 
@@ -2116,14 +2120,24 @@ Damir in der Zeitleiste um 23:57:30). Die Kernsätze oben nennen keine Zusatzrol
 
 | Seite | Inhalt | Wer liest |
 |---|---|---|
-| 1 | Deckblatt „Versiegelt – erst nach der Anklage öffnen“, Fall-Code U4YRK | – |
+| 1 | Deckblatt: im oberen Drittel „Auflösungsheft“, „Versiegelt – erst nach der Anklage öffnen“ und Fall-Code U4YRK; zwei Falzlinien wie bei Teil 11 (RK 7.2), das mittlere Drittel leer, im unteren Drittel die Anleitung zum Verschließen (unten, P5R3-01) | – |
 | 2 | „Was wirklich war“, Kernsatz **wörtlich** (P5-K6): „Es war Olli. Um drei vor zwölf stand er am Eiskübel. Als das leuchtende Gesicht schon weg war, ging er über die Theken-Klappe zur Vorratsraumtür. Im Dunkeln hat ihn die Panik gepackt. Den Schlüsselbund hat er unter die Eiswürfel im Eiskübel geschoben. Der Schlüsselbeweis: Holzsplitter und weißer Kalk im Wachs am Fuß des Kerzenständers, dieselben Spuren an Ollis Ärmeln, dazu frische rote Kerzenwachstropfen auf seinem rechten Handschuh.“ Dann Meilensteine prüfen (Tabelle 6.1 mit Kästchen) | Erzähler laut, dann mit dem Detektiv |
 | 3 | Endentabelle (8.2) und Enden 1 und 2 | Erzähler liest das passende Ende |
 | 4 | Enden 3 und 4 | dto. |
 | 5–6 | Rückblende (Vorlesen) und Zeitleiste (Nachlesen) | Erzähler |
-| 7–8 | „Die Rollen am Tisch“: je gespielter Rolle zwei bis drei Sätze, was sie verbarg und welchen Domino-Stein sie trug (Wortlaut RK 2.12 bis 5.12, ZG 1.12, 2.12, 3.12, 4.13, 5.12, 6.12, ZR 1.13 bis 8.13) | Erzähler; ab 14 Personen liest jede Person ihren Absatz selbst |
+| 7–8 | „Die Rollen am Tisch“: je gespielter Rolle zwei bis drei Sätze, was sie verbarg und welchen Domino-Stein sie trug (Wortlaut RK 2.12 bis 5.12, ZG 1.12, 2.12, 3.12, 4.13, 5.12, 6.12, ZR 1.13 bis 8.13). Etikett je Absatz: „Name · Fassung Code“ bei den Verdächtigen, sonst „Name · Platz N“ (P5R3-04) | Erzähler; ab 14 Personen liest jede Person ihren Absatz selbst |
 | 9 (ab 15 Personen 9 und 10) | Tipp-Wertung: Antworten, Sonderregel Olli, Bonus-Ziele aller gespielten Rollen und des Erzählers mit Prüfbedingung, Spürnase | Erzähler |
-| 10 (ab 15 Personen 11) | Zum Nachlesen: Pflicht-Auslöser der heute gespielten Rollen und der Streifen neben dem Lageplan; Liste der Indizkarten (Code, Titel, Runde) | wer will |
+| 10 (ab 15 Personen 11) | Zum Nachlesen: Pflicht-Auslöser der heute gespielten Rollen und der Streifen neben dem Lageplan; Liste der Indizkarten (Code, Titel, Runde). Spaltenkopf **wörtlich**: „Wörtlich aus dem Heft der Rolle. Sobald einer davon eintrat, musste sie ihre Geheimniskarte umdrehen.“ Die Rundensperre („Frühestens in Runde N.“) steht wie im Heft vor den Auslösern (P5R3-07) | wer will |
+
+Anleitung auf Seite 1 (unteres Drittel), **wörtlich** (P5R3-01), Schritte 2 und 3 wie bei Teil 11:
+> **So verschließt du das Auflösungsheft**
+> 1. „Lege die Seiten 2 bis [letzte Seite] aufeinander und falte sie zusammen in Drittel, die Schrift nach innen. Lies dabei nichts.“
+> 2. „Lege sie auf die leere Rückseite dieses Blatts, genau hinter das mittlere Drittel.“
+> 3. „Falte das untere Drittel an der unteren Linie nach hinten. Falte dann das obere Drittel an der oberen Linie nach hinten darüber.“
+> 4. „Klebe die offenen Ränder mit Klebeband zu. Außen stehen jetzt nur noch ‚Auflösungsheft‘ und der Code.“
+
+Nach dem Falten liegt hinter dem Code die Anleitung, nicht die Lösung. Festeres Papier wird für Teil 90 bewusst nicht empfohlen:
+Neun bis zwölf dicke Blätter lassen sich schwer dritteln, und die Faltung legt mindestens zwei Lagen über die Schrift (P5R3-01).
 
 ---
 
@@ -2247,10 +2261,15 @@ Olli und Can in Stufe 1 andere Orte nennen; der Erzähler soll nicht deuten (WEL
 ### MECH 9.9 Moderationsimpulse (wörtlich, spoilerfrei, für jede Besetzung)
 
 Regeln für den Erzähler, **wörtlich**:
-> „Lies einen Impuls, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit. Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.“
+> „Bittet der Detektiv um einen Impuls, liest du genau diesen. Lies auch einen Impuls, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit. [ab 14 Personen:] Den Impuls zur Hälfte liest du erst nach „Wechsel!“. Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.“
+
+Teil 01 lässt die Ganzer-Tisch-Ziele des Detektivs über die Bitte um einen bestimmten Impuls laufen; jeder Impuls, um den
+Teil 01 bittet, steht in derselben Runde im Erzählerheft (P2R3-01).
 
 Ausweichsatz, **wörtlich**:
 > „Diese Person ist heute nicht am Tisch. Was sie weiß, liegt vielleicht als Zeugenstreifen neben dem Lageplan. Detektiv, eine Untersuchung an ihrem Ort kann es aufdecken.“
+
+Ab 12 Personen gibt es keine Zeugenstreifen; dann lautet der Ausweichsatz nur „Diese Person ist heute nicht am Tisch.“ (P4-02).
 
 Grundsatz: Kein Impuls nennt nur einen Verdächtigen. Jeder Impuls fragt alle vier oder alle am Tisch, oder er knüpft an
 etwas an, das schon offen liegt (REG §9 Nr. 14, E10). Das Beispiel aus A:30 (Fatma, Emine, Zeynep) wird deshalb durch
@@ -2369,8 +2388,9 @@ Eiskübel (8,2 m) noch die Vorratsraumtür (P3R2-10).
 
 - Dein eigenes Bonus-Ziel, **wörtlich** im Erzählerheft vor der Tipp-Runde (P5-M3): „Dein eigenes Bonus-Ziel: Bei der
   Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Zähl vor der Tipp-Runde nach,
-  und noch einmal bei der Anklage. Karten unter den Zeugenstreifen zählen nicht mit.“ (P145R2-K21)
-- Tipp-Runde, Vorlesen: „Bevor der Detektiv seine letzten Untersuchungen macht und anklagt, tippt die ganze Clique. Jede Person bekommt einen Tipp-Zettel, ich auch. Schreibt geheim auf, wer es war, wo der Schlüsselbund steckt und ob ihr euer Bonus-Ziel erreicht habt. Faltet den Zettel und gebt ihn mir.“
+  und noch einmal bei der Anklage. Karten unter den Zeugenstreifen zählen nicht mit.“ (P145R2-K21) Der letzte Satz steht nur
+  bis 11 Personen; ab 12 gibt es keine Streifen (P4-02).
+- Tipp-Runde, Vorlesen: „Bevor der Detektiv seine letzten Untersuchungen macht und anklagt, tippt die ganze Clique. Jede Person bekommt einen Tipp-Zettel, ich auch. Schreibt geheim auf, wer es war, wo der Schlüsselbund steckt und ob ihr glaubt, dass euer Bonus-Ziel bei der Anklage erfüllt ist. Faltet den Zettel und gebt ihn mir.“ (P2R3-05)
 - Anleitung: Zettel einsammeln, ungeöffnet in die Mitte legen. Dann folgen die drei Untersuchungen der Runde 3 und die
   Marker-Probe (1.3 d, e). Danach klagt der Detektiv an und legt den Stift weg (R-12).
 - Anklage, Vorlesen (Kanon `anklage.start`): „Die Nacht ist fast vorbei. Du stehst vor den vier Verdächtigen und musst dich entscheiden. Klag eine Person an und sag laut, warum. Dann zeigt sich, ob du richtig lagst.“
@@ -2404,10 +2424,10 @@ gibt es nicht (ABG D-21).
 ### MECH 9.14 Karten unter den Streifen (Erzählerheft Seite 16, nur bei 6 bis 11 Personen; P14-05)
 
 Gedruckt werden nur die Zeilen der heute fehlenden Zeugen. Die Tabelle nennt nur Codes und Runden, keinen Inhalt (E10). Der
-Erzähler schaut nach jeder Indizkarte still hinein (R-08). Anleitung, **wörtlich**: „Liegt ein Code aus dieser Tabelle offen,
-egal wodurch, ziehst du die Karte unter dem Streifen hervor und legst sie offen daneben. Ist ihre Runde noch nicht erreicht,
-tust du es gleich zu Beginn dieser Runde. Der Streifen bleibt zu, bis sein eigener Code kommt. Dann liest der Detektiv die
-Karte laut vor.“
+Erzähler schaut nach jeder Indizkarte still hinein (R-08). Anleitung, **wörtlich** (P2R3-03): „Liegt ein Code aus dieser Tabelle offen,
+egal wodurch, ziehst du die Karte unter dem Streifen hervor und legst sie offen daneben. Der Detektiv liest sie sofort laut
+vor, dann stellst du die Domino-Frage. Ist ihre Runde noch nicht erreicht, tust du das gleich zu Beginn dieser Runde. Der
+Streifen selbst bleibt zu, bis sein eigener Code kommt.“
 
 Muster je Zeile, **wörtlich**: „Karte unter dem Streifen [Name]: umdrehen, sobald [Codes] offen liegt. Frühestens zu Beginn von
 Runde [N].“
@@ -2558,12 +2578,12 @@ Name weg.
 | 5 Lejla | Olli | „die Apothekerin am rechten Buffettisch“; Flüstern: „Ich bin's, Olli.“ |
 | 6 Emine | Fatma | „deine beste Freundin“; Flüstern: „Ich bin's, Fatma.“ |
 | 6 Emine | Can, Karte Can | „eine Freundin von Fatma“ (siehe 5.8, RK-10) |
-| 7 Tim | Olli | „dein Kumpel aus der Berufsschule“ |
-| 7 Tim | Can | „ein Gast“ |
+| 7 Tim | Olli | „dein Kumpel aus der Berufsschule“; in RN7 und in „Was du verbirgst“ nur bei der ersten Nennung, danach „dein Kumpel“ (RN7 18:45, 23:00, 23:50, 0:00; zweite Nennung in Stufe 2). Was Olli laut sagt, bleibt lang |
+| 7 Tim | Can | „ein Gast“; in YW4 „Wenn es eng wird“ statt „Frag die, die im Durchgang waren.“: „Detektiv, schau dir den Durchgang an.“ (P4-04) |
 | 8 Joanna | alle | „die Fotografin des Abends“ (wie MECH §1.5) |
 | 9 Marek | Ahmet | „der Caterer“; Flüstern: „Ich bin's, Ahmet.“ |
 | 9 Marek | Olli, Fatma | „der Caterer“ |
-| 10 Zeynep | Can | „deine Schwester“ |
+| 10 Zeynep | Can | „deine Schwester“; in Stufe 1 entfällt „Frag sie selbst.“; in YW4 „Wenn es eng wird“ statt „Frag sie.“: „Detektiv, schau dir den Steinbogen an.“ (P4-04) |
 | 10 Zeynep | Fatma | „jemand“; Fatmas Eintrag „sofort“ über Zeynep wird ersetzt durch „Um 23:56 Uhr ist Herr Schneider von unserem Buffet zum Ostende gegangen.“ (P14-K05) |
 | 12 Damir | Ahmet | „ein Gast mit einer großen Teekanne“ |
 | 15 Azra | Fatma | „eine Bekannte aus der Unibibliothek“ |
@@ -2785,7 +2805,7 @@ Wirkung des Domino-Hinweises: Pflicht-Auslöser (c) für Olli (MECH §4.2, A:95)
 | 2 | 1 | Olli | „Olli, um elf ist Herr Schneider an der Theke richtig laut geworden. Mit wem hat er da gestritten, und worum ging es?“ | „Sobald deine Geheimniskarte offen liegt: ‚Um drei vor zwölf hat Herr Schneider zu dir gesagt: Zweitausend, bis zwölf. Zweitausend wofür?‘“ | – |
 | 2 | 2 | Joanna | „Joanna, du hast um fünf vor zwölf alle zum Gruppenfoto gerufen und dann in der Tür zum Ost-Saal gestanden. Wen hast du von dort an der Theke gesehen?“ | „Sobald deine Geheimniskarte offen liegt: ‚Du darfst das Foto von 23:51 Uhr jetzt zeigen. Ich hab Herrn Schneider nur gebeten, um zwölf nichts zu sagen.‘“ | „Bitte den Detektiv um den Ortstermin ‚Tür zum Ost-Saal‘. Sag: ‚Von dort sieht man die ganze Theke.‘ Bis dahin frag Fatma: ‚Fatma, du schleppst die schwere Tasche den ganzen Abend mit dir herum. Was ist da drin?‘“ |
 | 3 | 1 | Can | „Can, Herr Schneider hat im Dunkeln eine Kapuze erwischt. Wo genau warst du, als er ‚Hab ich dich!‘ brüllte, und wer hat dich dort gesehen?“ | „Sobald Herrn Schneiders rechte Hand (JA9) offen liegt: ‚An seiner Hand hängen gelbe Fasern. Dein Pulli ist gelb. Erklär das.‘“ | – |
-| 3 | 2 | Lejla | „Lejla, du warst beim Knall am rechten Buffet. Wer kam im Dunkeln zu dir, und wann?“ | „Sobald deine Geheimniskarte offen liegt: ‚Mit der Miete ist es raus. Du musst mich nicht mehr schützen. Sag dem Detektiv alles, was du heute Nacht mitbekommen hast.‘“ | „Bitte den Detektiv um den Ortstermin ‚rechter Buffettisch‘. Sag: ‚Wer dort beim Scheppern war, weiß, wer daneben war.‘ Bis dahin frag Olli: ‚Olli, um fünf vor zwölf saßt du am Kopf der Tafel. Wo warst du, als es schepperte?‘“ |
+| 3 | 2 | Lejla | „Lejla, du warst beim Knall am rechten Buffet. Wer kam im Dunkeln zu dir, und wann?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. (Ollis Pflicht-Auslöser (b), P1R3-02) | „Sobald deine Geheimniskarte offen liegt: ‚Mit der Miete ist es raus. Du musst mich nicht mehr schützen. Sag dem Detektiv alles, was du heute Nacht mitbekommen hast.‘“ | „Bitte den Detektiv um den Ortstermin ‚rechter Buffettisch‘. Sag: ‚Wer dort beim Scheppern war, weiß, wer daneben war.‘ Bis dahin frag Olli: ‚Olli, um fünf vor zwölf saßt du am Kopf der Tafel. Wo warst du, als es schepperte?‘“ |
 
 Was die Ziele treiben: R1 Fatmas Ortslüge und Ahmets eigenes Alibi (M1); R2 Ollis Heimlichtuerei (Domino zu Olli) und Joannas
 Liste (D1, D4); R3 die falsche Fährte gegen Can (D16) und Ollis späte Ankunft (D2).
@@ -2944,7 +2964,7 @@ Wirkung: Druck auf Ahmet; zusammen mit WE3 Anlass für eine Taschenkontrolle (Ah
 | 2 | 1 | Ahmet | „Ahmet, ich hab dir 150 € Miete gegeben, wie alle. Wie viel hat der Keller denn gekostet? Hast du eine Quittung von Herrn Schneider?“ | „Sobald deine Geheimniskarte offen liegt: ‚Um drei vor zwölf bist du mit einem dicken Umschlag am Ostende hinter die Theke. Was war da drin?‘“ | – |
 | 2 | 2 | Zeynep | „Zeynep, du hast um Viertel vor zwölf bei mir am linken Buffet Gebäck geholt. Für wen? Und wo warst du danach?“ | „Sobald jemand sagt, dass Can um drei vor zwölf nirgends war: ‚Zeynep, du kennst deinen Bruder. Wo war er?‘“ | Can: „Can, um fünf vor zwölf sollten alle in den Ost-Saal, zur blinden Kuh und zur Torte. Du bist nicht gekommen. Warum nicht?“ |
 | 3 | 1 | Olli | „Olli, wo warst du, als es schepperte? Und wer hat dich dort gespürt oder gehört?“ | „Sobald Ollis Marker am Eiskübel steht: ‚Vom Eiskübel sind es nur ein paar Meter bis zur Vorratsraumtür. Wer kann sagen, dass du dort geblieben bist?‘“ | – |
-| 3 | 2 | Marek | „Marek, du standst hinter der Theke, als die Kerzen noch brannten. Was hast du an der Vorratsraumtür gesehen?“ | „Sobald dein Marker ‚23:57‘ auf der Klappe steht: ‚Ich war um drei vor zwölf an der Klappe, aber beim Knall bin ich sofort zurück. Hast du danach an der Klappe noch jemanden gesehen?‘“ | „Bitte den Detektiv, den Messingkerzenständer und den Vorratsraum zu untersuchen. Sag: ‚Dort lag Herr Schneider. Da muss man zuerst hinschauen.‘ Bis dahin frag Can: ‚Can, Herr Schneider hat eine Kapuze erwischt. Wo war deine, als es schepperte?‘“ |
+| 3 | 2 | Marek | „Marek, du standst hinter der Theke, als die Kerzen noch brannten. Was hast du an der Vorratsraumtür gesehen?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | „Sobald dein Marker ‚23:57‘ auf der Klappe steht: ‚Ich war um drei vor zwölf an der Klappe, aber beim Knall bin ich sofort zurück. Hast du danach an der Klappe noch jemanden gesehen?‘“ | „Bitte den Detektiv, den Messingkerzenständer und den Vorratsraum zu untersuchen. Sag: ‚Dort lag Herr Schneider. Da muss man zuerst hinschauen.‘ Bis dahin frag Can: ‚Can, Herr Schneider hat eine Kapuze erwischt. Wo war deine, als es schepperte?‘“ |
 
 Was die Ziele treiben: R1 Cans Ortslüge (D10, Joannas „nirgends“) und Fatmas Alibi (M2); R2 Ahmets Heimlichtuerei (Domino zu
 Ahmet) und Zeynep zu Can; R3 Ollis Weg zur Tür (D3) und Mareks zweite Gestalt (D12). Fatmas eigene Frage an Marek ist riskant
@@ -3073,7 +3093,7 @@ Ein umgestellter Marker vor der Karte kommt bei Olli nicht vor: Alles, was seine
 Pflicht-Auslöser (MECH §4.2, A:95), **wörtlich**:
 > „Du drehst deine Geheimniskarte sofort um, wenn einer dieser drei Fälle eintritt:
 > (a) Sobald [Joanna] vor allen aus ihrer Notiz von 23:57 Uhr vorliest, dass du am Eiskübel standst.
-> (b) Sobald [Lejla] vor allen sagt oder ihr Zeugenstreifen zeigt, dass du erst nach dem Scheppern zu ihr an den rechten Buffettisch kamst.
+> (b) Sobald [Lejla] vor allen sagt, dass du erst nach dem Scheppern zu ihr an den rechten Buffettisch kamst.
 > (c) Sobald Ahmet oder Fatma vor allen sagen, dass du um 23:57 Uhr am Eiskübel standst.
 > Du darfst sie auch am Ende jeder Runde freiwillig umdrehen.“
 
@@ -3112,7 +3132,7 @@ Umriss und Leuchten, WELT §2.8). Die Karte sagt nichts über „geduckt“.
 | Runde | Ziel | Zielrolle | Frage (wörtlich) | Nachschlag (wörtlich) | Ausweichziel (wörtlich) |
 |---|---|---|---|---|---|
 | 1 | 1 | Ahmet | „Ahmet, dein Marker steht hinter der Theke. Um fünf vor zwölf sollten alle in den Ost-Saal. Was hast du hinter der Theke gemacht?“ | „Sobald Ahmet ‚Servietten‘ sagt: ‚Servietten? Im Ost-Saal hattest du einen dicken Umschlag in der Hand, keine Servietten.‘“ | – (immer besetzt) |
-| 1 | 2 | Tim | „Tim, ich hab dir Eis gebracht, gleich als das Licht anging. Sag dem Detektiv, wo du da warst.“ | „Sobald Tim es bestätigt: ‚Siehst du. Kaum war Licht, war ich bei dir.‘“ | Can: „Can, du sagst, du warst auf der Turm-Toilette. Bist du dafür durch den Ost-Saal gekommen? Dann hättest du mich am Kopf der Tafel sitzen sehen.“ (P14-K06) |
+| 1 | 2 | Tim | „Tim, ich hab dir Eis gebracht, gleich als das Licht anging. Sag dem Detektiv, wo du da warst.“ | „Sobald Tim es bestätigt: ‚Siehst du. Kaum war Licht, war ich bei dir.‘“ | Can: „Can, du sagst, du warst auf der Turm-Toilette. Dahin kommt man nur durch den Kaminsaal und den Turmgang. Wer hat dich da gehen sehen?“ (P14-K06, P3R3-B2) |
 | 2 | 1 | Can | „Can, du drehst doch ständig lustige Videos. Hattest du für Mitternacht irgendwas vorbereitet?“ | „Sobald deine Geheimniskarte offen liegt: ‚Ich hab das leuchtende Gesicht aus dem Vorratsraum springen sehen. Can, du warst um drei vor zwölf nirgends. Wo warst du da?‘“ | – |
 | 2 | 2 | Marek | „Marek, um halb sieben hat Herr Schneider gedroht, deinen Lieferwagen abschleppen zu lassen. Steht der immer noch auf seinem Platz?“ | „Sobald deine Geheimniskarte offen liegt: ‚Ich hab Ärger mit Herrn Schneider wegen der Bogentür, du wegen des Parkplatzes. Wer hier hat noch Ärger mit ihm?‘“ | Ahmet: „Ahmet, du hast bei der Ankunft von uns allen Geld eingesammelt. Wofür genau, und wo ist das Geld jetzt?“ |
 | 3 | 1 | Fatma | „Fatma, wo genau warst du beim Knall? Und wer hat gehört, dass du dich nicht bewegt hast?“ | „Sobald Fatmas Marker ‚23:57‘ auf der Klappe steht: ‚Von der Klappe sind es nur ein paar Schritte bis zur Vorratsraumtür. Warum bist du beim Knall weg, und wohin?‘“ | – |
@@ -3142,7 +3162,7 @@ anklagt (MECH §7.2, M-22). Frage 3 (Bonus-Ziel) zählt wie bei allen.
 |---|---|
 | Lejla (6 Personen) | „die Apothekerin am rechten Buffettisch“; Auslöser (b) über ihren Zeugenstreifen (DM3, Zeitstempel); Stufe-2-Satz „zum rechten Buffettisch gekrochen“; R3 Ziel 2 → Ausweichziel |
 | Emine | nichts |
-| Tim (6–8 Personen) | „dein Kumpel aus der Berufsschule“; R1 Ziel 2 → Ausweichziel Can (so fragt Olli in Runde 1 nicht zweimal Ahmet, P14-K06) |
+| Tim (6–8 Personen) | „dein Kumpel aus der Berufsschule“, nach der ersten Nennung in RN7 und „Was du verbirgst“ kurz „dein Kumpel“ (RK 1.5); R1 Ziel 2 → Ausweichziel Can (so fragt Olli in Runde 1 nicht zweimal Ahmet, P14-K06) |
 | Joanna (6–9 Personen) | „die Fotografin des Abends“; Auslöser (a) über ihren Zeugenstreifen (FX3, Zeitstempel) |
 | Marek (6–10 Personen) | „der Caterer“; R2 Ziel 2 → Ausweichziel |
 | Zeynep | nichts |
@@ -3229,7 +3249,7 @@ Kernsätze, **wörtlich**: „Ich war die ganze Zeit oben auf der Turm-Toilette.
 | Wo warst du um 23:51 Uhr? | „Im Kaminsaal an der langen Tafel. [Zeynep] saß bei mir.“ | wahr |
 | Wo warst du beim Knall und beim Scheppern? | „Immer noch oben. Da hört man gar nichts. Auf einmal war das Licht weg, und ich saß im Dunkeln.“ | halb (oben hört man wirklich nichts) |
 | Wann bist du hoch, und auf welchem Weg? | „Kurz vor zwölf. Vom Kaminsaal durch die Bogentür, durch den Turmgang und die Wendeltreppe hinauf.“ | Weg wahr, Zeit gelogen |
-| Wo war [Zeynep]? | „Im Kaminsaal, glaub ich. Wir haben vorher zusammen Gebäck gegessen. Frag sie selbst.“ | gelogen |
+| Wo war [Zeynep]? | „Im Kaminsaal, glaub ich. Wir haben vorher zusammen Gebäck gegessen. Frag sie selbst.“ (ohne Zeynep entfällt „Frag sie selbst.“, P4-04) | gelogen |
 | Herr Schneider hat eine Kapuze gepackt. Deine? | „Ich war oben im Turm. Frag Herrn Schneider, ob er mein Gesicht gesehen hat.“ | ausweichend (er sah nur die Maske) |
 | Was ist in deiner Bauchtasche? | „Nichts Besonderes. Krümel und ein Taschentuch.“ | gelogen |
 
@@ -3284,7 +3304,7 @@ Wirkung: Druck auf Fatma (Tasche, NN3) und Emine (MECH §11.2).
 | 2 | 1 | Fatma | „Fatma, du schleppst den ganzen Abend diese schwere Tasche mit dir herum. Was ist da drin, das du nicht mal beim Gebäck abstellst?“ | „Sobald deine Geheimniskarte offen liegt: ‚Um 23:54 Uhr hast du mit [Emine] am linken Buffet getuschelt und deine Tasche ganz festgehalten. Worüber habt ihr getuschelt?‘“ | – |
 | 2 | 2 | Joanna | „Joanna, du hast heute ständig fotografiert. Zeig dem Detektiv, wer auf deinen letzten Fotos vor zwölf zu sehen ist.“ | „Sobald Joanna sagt, dass du um drei vor zwölf nirgends warst: ‚Nirgends heißt nicht an der Theke. Wen hast du denn an der Theke gesehen?‘“ | „Bitte den Detektiv, den Jackenständer im Ost-Saal zu untersuchen. Sag: ‚Dort hat Ahmet heute von allen Geld eingesammelt.‘ Bis dahin frag Ahmet: ‚Ahmet, du hast heute von allen Geld eingesammelt. Wo ist es jetzt?‘“ |
 | 3 | 1 | Ahmet | „Ahmet, du warst hinter der Theke am Ostende, nicht weit von der Vorratsraumtür. Was hast du im Dunkeln gehört, bevor es schepperte? Und wer kann sagen, dass du dich nicht bewegt hast?“ | „Sobald der Ascheneimer am Kamin (WM9) offen liegt: ‚Der leere Umschlag im Ascheneimer trägt deine Handschrift. Was hast du nach zwölf am Kamin gemacht?‘“ | – |
-| 3 | 2 | Tim | „Tim, du warst im Dunkeln im Durchgang. Was hast du gehört und gesehen, und in welcher Reihenfolge?“ | „Sobald deine Geheimniskarte offen liegt: ‚Das leuchtende Gesicht war ich. Sag dem Detektiv, ob ich vor oder nach dem Scheppern an dir vorbei bin.‘“ | „Frag Olli: ‚Olli, wo warst du, als es schepperte?‘ Liegt deine Geheimniskarte offen, bitte außerdem den Detektiv um den Ortstermin ‚im Steinbogen‘ und sag: ‚Da bin ich durchgerannt. Wer dort stand, weiß, wann.‘“ |
+| 3 | 2 | Tim | „Tim, du warst im Dunkeln im Durchgang. Was kam da an dir vorbei, und wann?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. (P1R3-02) | „Sobald deine Geheimniskarte offen liegt: ‚Das leuchtende Gesicht war ich. Sag dem Detektiv, ob ich vor oder nach dem Scheppern an dir vorbei bin.‘“ | „Frag Olli: ‚Olli, wo warst du, als es schepperte?‘ Liegt deine Geheimniskarte offen, bitte außerdem den Detektiv um den Ortstermin ‚im Steinbogen‘ und sag: ‚Da bin ich durchgerannt. Wer dort stand, weiß, wann.‘“ |
 
 Was die Ziele treiben: R1 Ollis Ortslüge und die Bogentür (RK-05, Druck zu YT4) und Cans eigene Deckung; R2 Fatmas Tasche
 (Domino zu Fatma) und Joannas Liste (D1, D4) oder Ahmets Geld (WE3); R3 Ahmets Weg und Umschlag (D8) und Cans eigenes Alibi über
@@ -3306,10 +3326,10 @@ Bonus-Ziel, **wörtlich**: „**Dein Bonus-Ziel:** Du sagst selbst, was du verbi
 |---|---|
 | Lejla | nichts |
 | Emine (6 Personen) | Domino-Hinweis und R2-Nachschlag mit „einer Freundin“ (RK-10) |
-| Tim (6–8 Personen) | „ein Gast“ an der Bogentür (Wissen Nr. 2, Fassung); R3 Ziel 2 → Ausweichziel |
+| Tim (6–8 Personen) | „ein Gast“ an der Bogentür (Wissen Nr. 2, Fassung); YW4 „Wenn es eng wird“ mit „Detektiv, schau dir den Durchgang an.“ (P4-04); R3 Ziel 2 → Ausweichziel |
 | Joanna (6–9 Personen) | R2 Ziel 2 → Ausweichziel |
 | Marek | nichts im Heft; Cans Alibi kommt dann über die Karten von Tim, Zeynep und Marek unter ihren Streifen (MECH §6.3) |
-| Zeynep (6–11 Personen) | „deine Schwester“; Satz in Klammern auf der Karte entfällt; Auslöser (b) über die Karte unter ihrem Streifen (FK3 oder JT3, ab Runde 3); R1 Ziel 2 → Ausweichziel |
+| Zeynep (6–11 Personen) | „deine Schwester“; Satz in Klammern auf der Karte entfällt; Stufe 1 ohne „Frag sie selbst.“, YW4 „Wenn es eng wird“ mit „Detektiv, schau dir den Steinbogen an.“ (P4-04); Auslöser (b) über die Karte unter ihrem Streifen (FK3 oder JT3, ab Runde 3); R1 Ziel 2 → Ausweichziel |
 
 Alle drei Pflicht-Auslöser bleiben erreichbar: (a) JT3 (Untersuchung oder Taschenkontrolle ab Runde 2); (b) Zeynep oder die Karte unter
 ihrem Streifen (Runde 3); (c) JA9 (ab Runde 1) und Ollis Domino-Hinweis.
@@ -3487,7 +3507,7 @@ Zeynep), REG §6.4. Jede Rolle nennt nur ihr eigenes Farbwort (REG §6.7).
 | 23:57 | Herr Schneider ruft laut: „Nicht die alte Leiste!“ | WELT §5.6 | offen |
 | 23:58 | Knall. Sie kauert sich allein hin. Sie hört „Hab ich dich!“, zweimal „Stehen bleiben!“ und das Scheppern | WELT §5.1 | offen |
 | nach dem Scheppern | Jemand kriecht zu ihr und flüstert: „Lejla? Ich bin's, Olli.“ Vorher war niemand neben ihr | WELT §5.3 | offen (D2) |
-| 0:00 | Licht. Olli steht neben ihr auf und geht als Erstes zum Eiskübel | WELT §3.4, W-20, Z-08 | offen |
+| 0:00 | Licht. Olli steht neben ihr auf und geht als Erstes zum Eiskübel | WELT §3.4, W-20, Z-08 | Karte (das Aufstehen ist offen; „als Erstes zum Eiskübel“ erst nach dem Umdrehen, P2R3-02) |
 | 0:00 | „Hier liegt Herr Schneider!“ Sie eilt als Apothekerin in den Vorratsraum | WELT §3.4 | offen |
 | 0:01 | Herr Schneider kommt zu sich: dicke Beule, Gedächtnislücke. Sie holt das Kühlpack aus dem Erste-Hilfe-Kasten im Regal | WELT §3.5, W-19 | offen |
 | 0:02 | Herr Schneider: „Mein Schlüsselbund! Der ist weg!“ | WELT §3.5 | offen |
@@ -3505,7 +3525,7 @@ Nachzahlung ist; dass der Bund im Eiskübel liegt.
 - „Beim Knall hab ich mich hingekauert, allein.“
 - „Beim Scheppern war ich allein. Erst danach ist Olli zu mir gekrochen und hat geflüstert: ‚Lejla? Ich bin's, Olli.‘“
   (Kernsatz WELT §5.3)
-- „Als das Licht anging, ist Olli als Erstes zum Eiskübel.“
+- „Als das Licht anging, ist Olli neben mir aufgestanden.“ („als Erstes zum Eiskübel“ steht erst auf der Karte, ZG 1.6; P2R3-02)
 - „Für Herrn Schneider hab ich das Kühlpack aus dem Erste-Hilfe-Kasten geholt. Er hat eine dicke Beule. An die Sekunden
   vor dem Scheppern erinnert er sich nicht.“
 
@@ -3555,8 +3575,8 @@ Nachzahlung ist; dass der Bund im Eiskübel liegt.
 | 1 | 1 | Olli | „Olli, dein Marker steht im Ost-Saal. Aber beim Scheppern war ich am rechten Buffet allein. Erst danach bist du zu mir gekrochen: ‚Lejla? Ich bin's, Olli.‘ Wo warst du vorher?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Ollis Pflicht-Auslöser (b), sein Marker fällt (P2-16) | – |
 | 1 | 2 | Can | „Can, Herr Schneider hat im Dunkeln ein leuchtendes Gesicht an einer Kapuze gepackt. Deine Kapuze ist die auffälligste im Keller, und für einen Spaß bist du immer zu haben. Wo warst du, als um fünf vor zwölf alle in den Ost-Saal sollten?“ | Druck auf Cans Marker; lenkt von Ahmet ab | – |
 | 2 | 1 | Ahmet | Karte zu: „Ahmet, du hast heute von allen Geld eingesammelt. Sag selbst, wofür es wirklich ist, bevor es jemand anders tut.“ Karte offen: „Ahmet, jetzt liegt es auf dem Tisch. Sag allen, wofür das Geld war. Dann glaubt man dir auch den Rest.“ | Ahmet macht reinen Tisch (M4); dein Bonus-Ziel | – |
-| 2 | 2 | Marek | „Marek, Ahmet sagt, er hat sich beim Knall an deine Beine gekauert. Stimmt das? Dann sag es laut, damit es alle hören.“ | Ahmets Alibi (M1) für dein Bonus-Ziel | Olli: „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“ (Ollis Heimlichtuerei, M7) |
-| 3 | 1 | Olli | Olli in Stufe 2: „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Von da bis zu mir sind es ein paar Schritte. Warum kamst du erst nach dem Scheppern? Und als das Licht anging, bist du als Erstes zurück zum Eiskübel.“ Olli noch in Stufe 1: „Olli, du warst nicht im Ost-Saal. Du warst bei mir, aber erst nach dem Scheppern. Wo warst du davor?“ | Druck auf Ollis Stufe 2; lenkt den Detektiv zum Eiskübel (PP9) | – |
+| 2 | 2 | Marek | „Marek, Ahmet sagt, er hat sich beim Knall an deine Beine gekauert. Stimmt das? Dann sag es vor allen.“ | Ahmets Alibi (M1) für dein Bonus-Ziel (gekürzt für den Satz von Seite 4, P1R3-02) | Olli: „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“ (Ollis Heimlichtuerei, M7) |
+| 3 | 1 | Olli | Olli in Stufe 2: „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Von da bis zu mir sind es ein paar Schritte. Warum kamst du erst nach dem Scheppern? Und als das Licht anging, bist du zurück zum Eiskübel.“ Olli noch in Stufe 1: „Olli, du warst nicht im Ost-Saal. Du warst bei mir, aber erst nach dem Scheppern. Wo warst du davor?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Druck auf Ollis Stufe 2; lenkt den Detektiv zum Eiskübel (PP9). „als Erstes“ steht nur auf der Karte (ZG 1.6, P2R3-02). Fassung Stufe 1: Ollis Pflicht-Auslöser (b) (P1R3-02) | – |
 | 3 | 2 | Tim | „Tim, du warst beim Scheppern im Durchgang am Sicherungskasten. Ist da im Dunkeln etwas an dir vorbei? Sag es jetzt, vor allen.“ | Tims Gesprächs-Auslöser in Runde 3; Cans Alibi (M3) | Can: „Can, Herr Schneider hat dem Gespenst zweimal ‚Stehen bleiben!‘ hinterhergebrüllt. Wenn du es warst: Wohin bist du gerannt, und wann?“ |
 
 #### ZG 1.8 Aktionskarte (wörtlich, MECH §4.4)
@@ -3877,7 +3897,7 @@ wo Olli zwischen fünf vor zwölf und dem Licht war; dass der Bund im Eiskübel 
 |---|---|
 | warum die Sicherung geflogen ist | „Alter Keller, alte Leitungen. Die Hauptsicherung ist geflogen, und ich hab sie wieder eingeschaltet.“ |
 | ob Herr Schneider mit „Nicht die alte Leiste!“ dich meinte | „Herr Schneider ruft heute viel.“ |
-| was im Durchgang an dir vorbeikam (Runde 1 und 2) | „Ich hab mit dem Gesicht zur Wand den Hauptschalter gesucht. Mehr sag ich dazu jetzt nicht.“ |
+| was im Durchgang an dir vorbeikam (außer in Runde 3 vor allen) | „Ich hab mit dem Gesicht zur Wand den Hauptschalter gesucht. Mehr sag ich dazu jetzt nicht.“ |
 | was du mit Olli an der Bogentür gemacht hast | „Wir haben uns die alte Tür angeschaut. Dabei hab ich mir den Finger eingeklemmt. Dann ist Olli rüber Richtung Ost-Saal.“ |
 | worum es um elf an der Theke ging | „Frag Herrn Schneider.“ |
 | nach dem Tragen um halb sieben | „Ich hab Olli geholfen, die Warmhaltebehälter reinzutragen. Schwere Dinger.“ |
@@ -3933,7 +3953,7 @@ im Ost-Saal.“ · „Ich weiß nichts über die Bogentür.“
 | 2 | 1 | Ahmet | „Ahmet, um drei vor zwölf kam Herr Schneider vom Ostende zu mir an die Kaffeemaschine. Da hast du gestanden. Er war richtig geladen. Was hattest du mit ihm zu klären?“ | Ahmets Heimlichtuerei (M4); lenkt von deiner Leiste ab | – |
 | 2 | 2 | Can | Sobald JA9 offen liegt: „Can, an Herrn Schneiders Hand hängen knallgelbe Fasern. Er hat eine Kapuze erwischt. Gelb trägt hier nur einer: du.“ Sonst: „Can, Herr Schneider hat im Dunkeln eine Kapuze erwischt. Deine ist die auffälligste im Keller. Wo war die um drei vor zwölf?“ | Druck auf Can; lenkt von Olli ab | – |
 | 3 | 1 | Olli | Karte zu: „Olli, um 23:52 Uhr wolltest du mir Eis holen. Gekommen ist es erst nach dem Licht. Wo warst du so lange?“ Karte offen: „Olli, um 23:52 Uhr hast du gesagt: ‚Ich hol dir Eis. Und dann red ich mit Schneider.‘ Das Eis kam erst nach dem Licht. Was war dazwischen?“ (P3R2-06) | Druck auf Ollis Stufe 2 | – |
-| 3 | 2 | Marek | „Marek, du standest am Ostende, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“ | Mareks Gesprächs-Auslöser in Runde 3 (D11, D12) | Lejla: „Lejla, du hast Herrn Schneider nach dem Licht versorgt. Hat er gesagt, wen er im Dunkeln gepackt hat?“ (P14-K07) |
+| 3 | 2 | Marek | „Marek, du standest am Ostende, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Mareks Gesprächs-Auslöser in Runde 3 (D11, D12; P1R3-02) | Lejla: „Lejla, du hast Herrn Schneider nach dem Licht versorgt. Hat er gesagt, wen er im Dunkeln gepackt hat?“ (P14-K07) |
 
 #### ZG 3.8 Aktionskarte (wörtlich, MECH §4.4)
 
@@ -4128,8 +4148,8 @@ zeigt es nicht.“ Auf Nachfrage sagst du außerdem (wörtlich): „Ahmet hat mi
 | 1 | 2 | Fatma | „Fatma, dein Marker steht beim Gebäck. Auf meiner Notiz steht: ‚Fatma: geht zur Klappe.‘ Kurz vorher war Herr Schneider bei dir. Was wolltest du an der Theken-Klappe?“ | Fatmas Marker 23:57 fällt auf 4a; Druck auf ihre Karte | – |
 | 2 | 1 | Can | „Can, auf meiner Notiz steht bei dir nur: ‚nirgends!‘ Ich hab im Buffetsaal und am Durchgang nach allen geschaut. Dich hab ich nicht gesehen. Wo warst du um drei vor zwölf?“ | Cans Marker 23:57; Druck auf seine Karte; dein Bonus-Ziel | – |
 | 2 | 2 | Ahmet | Karte zu: „Ahmet, du weißt, worum du mich um 23:53 Uhr gebeten hast. Für dich lüg ich nicht. Sag es selbst, bevor ich es muss.“ Karte offen: „Ahmet, auf meinem Foto von 23:51 Uhr hältst du einen dicken Umschlag, und Herr Schneider ist sauer. Was war in dem Umschlag?“ | Ahmet macht reinen Tisch (M4) | – |
-| 3 | 1 | Olli | Olli in Stufe 2: „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Um 23:57 Uhr standst du genau dort. Detektiv, wenn er da so lange war, dann schau dir den Eiskübel an.“ Olli noch in Stufe 1: „Olli, auf meiner Notiz stehst du am Eiskübel, und der Kopf der Tafel war leer. Wo warst du beim Scheppern?“ | lenkt den Detektiv zum Eiskübel (PP9, M8) | – |
-| 3 | 2 | Zeynep | „Zeynep, um fünf vor zwölf hab ich zum Gruppenfoto gerufen, und du hast aus dem Steinbogen ‚Komm gleich!‘ gerufen. Gekommen bist du nicht. Was kam im Dunkeln durch den Bogen?“ | Zeyneps Gesprächs-Auslöser in Runde 3 (D10, D11) | Tim: „Tim, du standest im Durchgang am Sicherungskasten. Was kam im Dunkeln an dir vorbei, und wann?“ |
+| 3 | 1 | Olli | Olli in Stufe 2: „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Um 23:57 Uhr standst du genau dort. Detektiv, wenn er da so lange war, dann schau dir den Eiskübel an.“ Olli noch in Stufe 1: „Olli, auf meiner Notiz stehst du am Eiskübel, und der Kopf der Tafel war leer. Wo warst du beim Scheppern?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | lenkt den Detektiv zum Eiskübel (PP9, M8); Fassung Stufe 1: Ollis Pflicht-Auslöser (a) (P1R3-02) | – |
+| 3 | 2 | Zeynep | „Zeynep, um fünf vor zwölf hast du aus dem Steinbogen ‚Komm gleich!‘ gerufen. Gekommen bist du nicht. Was kam im Dunkeln durch den Bogen?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Zeyneps Gesprächs-Auslöser in Runde 3 (D10, D11; P1R3-02, gekürzt für den Satz von Seite 4) | Tim: „Tim, du standest im Durchgang am Sicherungskasten. Was kam im Dunkeln an dir vorbei, und wann?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. |
 
 #### ZG 4.9 Aktionskarte (wörtlich, MECH §4.4)
 
@@ -4267,7 +4287,7 @@ wurde; wohin das Gesicht nach der Klappe lief; dass der Bund im Eiskübel liegt.
 
 | Wenn jemand fragt | sagst du |
 |---|---|
-| was du nach dem Knall an der Tür gesehen hast (Runde 1 und 2) | „Im Dunkeln bin ich stehen geblieben, damit keiner über mich fällt. Was an der Tür war, dazu sag ich jetzt nichts.“ |
+| was du nach dem Knall an der Tür gesehen hast (außer in Runde 3 vor allen) | „Im Dunkeln bin ich stehen geblieben, damit keiner über mich fällt. Was an der Tür war, dazu sag ich jetzt nichts.“ |
 | ob Ahmet etwas in der Hand hatte | „Frag Ahmet.“ |
 | ob Ahmet dir Geld schuldet | „Übers Geschäft red ich nicht beim Essen.“ |
 
@@ -4311,7 +4331,7 @@ wurde; wohin das Gesicht nach der Klappe lief; dass der Bund im Eiskübel liegt.
 |---|---|---|---|---|---|
 | 1 | 1 | Ahmet | „Ahmet, du sagst, du hast hinter der Theke Servietten gesucht. Die liegen auf der Anrichte direkt vor meiner Nase. Was wolltest du wirklich hinter der Theke?“ | Ahmets Stufe-1-Lüge wackelt; zugleich bezeugst du auf Nachfrage sein Alibi (M1) | – |
 | 1 | 2 | Tim | „Tim, du standest kurz vor zwölf an der Kaffeemaschine, einen Meter neben mir. Herr Schneider hat hinter uns gesagt: ‚Zweitausend, bis zwölf.‘ Zu wem? Und kurz danach rief er dir zu: ‚Nicht die alte Leiste!‘ Dann knallte es.“ | Druck auf Tim (Knall, Olli) | – |
-| 2 | 1 | Ahmet | „Ahmet, du hast um sechs von uns allen 150 € ‚Miete‘ eingesammelt, auch von mir. Wo ist das Geld jetzt?“ Dazu im Heft: „Wenn er ausweicht, ist das ein guter Moment für deine Taschenkontrolle.“ | Ahmets Heimlichtuerei (M4), dein Bonus-Ziel | – |
+| 2 | 1 | Ahmet | „Ahmet, du hast um sechs von uns allen 150 € ‚Miete‘ eingesammelt, auch von mir. Wo ist das Geld jetzt?“ Tipp: Weicht er aus, ist das ein guter Moment für deine Taschenkontrolle. (P1R3-03) | Ahmets Heimlichtuerei (M4), dein Bonus-Ziel | – |
 | 2 | 2 | Olli | „Olli, du und Tim, ihr habt um halb sieben mein Essen durch den Turmgang getragen. Ist dabei was kaputtgegangen?“ Sobald YT4 offen liegt, dazu: „Seitdem fehlt an der Bogentür ein Beschlag. Wart ihr das?“ | Ollis Heimlichtuerei (M7), Tims Wachs | – |
 | 3 | 1 | Olli | Karte offen: „Olli, du sagst, das Gespenst ist auf Herrn Schneider los. Ich hab es im Kerzenlicht gesehen. Das Gesicht riss sich los und war zur Klappe weg. Danach kam noch einer von der Klappe zu Herrn Schneider. Erst dann schepperte es. Wer war das?“ Karte zu: „Olli, du sagst, du warst am Eiskübel. Das sind zwei Meter von mir. Gespürt hab ich beim Knall nur Ahmet.“ | Ollis Stufe 2 fällt (D12) | – |
 | 3 | 2 | Can | Karte offen: „Can, das Gesicht sprang aus der Vorratsraumtür, Herr Schneider packte die Kapuze, und dann riss es sich los. Warst du das? Dann sag allen, wohin du gerannt bist.“ Karte zu: „Can, wenn du das Gespenst warst: Wohin bist du danach gerannt?“ | Cans Pflicht-Auslöser (c) mit JA9; Reihenfolge für M3 | – |
@@ -4447,7 +4467,7 @@ wo Olli nach dem Knall war.
 |---|---|
 | warum du im Bogen standest | „Ich wollte sehen, wann die blinde Kuh zur Torte gebracht wird.“ |
 | wo Can war | „Can ist alt genug. Frag ihn selbst.“ |
-| was du im Dunkeln gesehen hast (Runde 1 und 2) | „Ich hab mich an den Pfeiler gedrückt und gewartet, bis das Licht anging. Mehr sag ich jetzt nicht.“ |
+| was du im Dunkeln gesehen hast (außer in Runde 3 vor allen) | „Ich hab mich an den Pfeiler gedrückt und gewartet, bis das Licht anging. Mehr sag ich jetzt nicht.“ |
 | ob du Fatma an der Klappe gesehen hast | „Ich hab vor allem in den Kaminsaal geschaut. Auf die Klappe hab ich nicht geachtet.“ |
 | nach Cans Kapuze | „Gelb ist eine schöne Farbe. Mehr nicht.“ |
 | wenn Cans Geheimniskarte schon vor Runde 3 offen liegt | „Was auf Cans Karte steht, stimmt. Mehr sag ich jetzt nicht.“ |
@@ -4652,7 +4672,8 @@ berührt den Hauptfall nur am Rand. Sie geht über die Geheimniskarten der beide
   Herrn Schneider wegen des Teegeschirrs (Kanon) und will keinen neuen.
 - Wie es aufgeht: YT4 (Splitter unter dem Sockel, ab Runde 1) dreht beide Karten. FM9 dreht Sibels Karte, Sibels Karte dreht
   Damirs. Wirft jemand einer anderen Person vor, die Vitrine kaputt gemacht zu haben, drehen beide aus Gewissen um. In Runde 2 spricht
-  Damir leise mit Sibel darüber (P14-09).
+  Damir leise mit Sibel darüber, solange ihre Karten noch zu sind; liegen sie offen, bittet er Sibel, allen zu sagen, ob die
+  Münzschatulle um 21:00 noch in der Vitrine lag (P14-09, P1R3-01).
 - Berührung mit dem Hauptfall: Der Sprung von 21:00 stützt Fatmas Fassung (sie hob die Scheibe nur an), nicht ihr Alibi.
   Damir kauerte beim Knall neben Ahmet (Rand-Indiz M1). Sibel sah das Gesicht zum Turm huschen (Rand-Indiz, stützt M6).
 
@@ -4664,7 +4685,8 @@ berührt den Hauptfall nur am Rand. Sie geht über die Geheimniskarten der beide
 - Was verdeckt bleibt: der Brief (halb verkohlt unter der Asche, ohne Namen) und die Wunderkerzen. Serkans Ausrede um 23:56:
   „Ich wollte Decken aus dem Auto holen.“
 - Wie es aufgeht: VP7 (Kamin-Nische, ab Runde 3, P2-07) dreht Hanas Karte. Hanas Karte verrät Serkans Ausrede und dreht seine.
-  In Runde 1 fragt Wojtek Hana vor allen nach dem Kamin, in Runde 2 spricht Serkan leise mit Hana (P14-09). Fragt jemand
+  In Runde 1 fragt Wojtek Hana vor allen nach dem Kamin, in Runde 2 spricht Serkan leise mit Hana, solange ihre Karten noch zu sind; liegen sie offen,
+  fragt er Hana, was sonst noch in der Kamin-Nische lag, und sie sagt es allen (P14-09, P1R3-01). Fragt jemand
   Hana vor allen, was sie in den Kamin gesteckt hat, dreht sie um. Serkan fragen der Detektiv ab 16 Personen (RK 6.12) und
   Azra ab 17 nach dem Warum (P145R2-M05).
   Wird Serkan zweimal gefragt, warum er zum Außentor ging, dreht er um; seine Karte verrät Hanas Papier und dreht ihre.
@@ -5082,8 +5104,8 @@ ist; was mit der Schatulle ist.
 | 1 | 1 | Tim | „Tim, kurz vor dem Knall hat Herr Schneider dir zugerufen: ‚Nicht die alte Leiste!‘ Ich stand am Ostende und hab es genau gehört. Was hast du an der Kaffeemaschine gemacht?“ | Druck auf Tims Knall; lenkt zu MR4 | – (immer besetzt) |
 | 1 | 2 | Emine | „Emine, du warst beim Knall hinter dem linken Buffettisch. Wer hat sich da neben dich gekauert? Ich frag, weil ich am Ostende auch nicht allein war.“ | Fatmas Alibi (M2) kommt laut auf den Tisch | – (immer besetzt) |
 | 2 | 1 | Ahmet | Karte offen: „Ahmet, du hast im Dunkeln neben mir gekauert, das sag ich jedem. Aber als das Licht anging, hattest du einen dicken Umschlag in der Hand. Was wolltest du damit hinter der Theke?“ Karte zu: „Ahmet, beim Knall warst du hinter der Theke am Ostende, direkt neben mir. Um fünf vor zwölf sollten alle in den Ost-Saal. Was wolltest du da hinten?“ | Ahmets Heimlichtuerei (M4) | – (immer besetzt) |
-| 2 | 2 | Sibel | Sprich leise mit Sibel: „Wenn am Tisch die Vitrine Thema wird und jemand anderes für unseren Sprung geradestehen soll: Sagen wir es dann selbst, am Ende der Runde?“ | Tandem 1 spielt seine Mini-Intrige aus; beide können am Rundenende reinen Tisch machen (R-05, P14-09) | – (immer besetzt) |
-| 3 | 1 | Marek | „Marek, du hast beim Knall gestanden, direkt vor mir, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“ | Mareks Gesprächs-Auslöser in Runde 3 (ZG 5.6, D11, D12) | – (immer besetzt) |
+| 2 | 2 | Sibel | Sibels Karte offen: „Sibel, unser Sprung ist jetzt raus. Sag allen, ob um neun die Münzschatulle noch in der Vitrine lag.“ Sibels Karte zu: Sprich leise mit ihr: „Wenn am Tisch die Vitrine Thema wird und jemand anderes für unseren Sprung geradestehen soll: Sagen wir es dann selbst, am Ende der Runde?“ | Karte offen: Die Schatulle lag um 21:00 noch in der Vitrine, Druck auf Fatma (M5, P1R3-01). Karte zu: Tandem 1 spielt seine Mini-Intrige aus; beide können am Rundenende reinen Tisch machen (R-05, P14-09) | – (immer besetzt) |
+| 3 | 1 | Marek | „Marek, du hast beim Knall gestanden, direkt vor mir, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Mareks Gesprächs-Auslöser in Runde 3 (ZG 5.6, D11, D12; P1R3-02) | – (immer besetzt) |
 | 3 | 2 | Can | „Can, Herr Schneider hat ‚Hab ich dich!‘ gebrüllt und danach noch zweimal ‚Stehen bleiben!‘. Ich hab das am Ostende gehört. Wenn du das Gespenst warst: Bist du vor oder nach dem Scheppern weggerannt?“ | Cans Alibi (M3) in Runde 3 | – (immer besetzt) |
 
 #### ZR 2.9 Aktionskarte (wörtlich, MECH §4.4)
@@ -5264,7 +5286,7 @@ nichts gerochen.“
 | 2 | 1 | Can | „Can, das Gesicht im Kaminsaal leuchtete grünlich-weiß, wie Leuchtfarbe. Herr Schneider hat eine Kapuze erwischt, und deine ist die auffälligste hier. Was steckt in deiner Bauchtasche?“ | Cans Heimlichtuerei (M6); lenkt zu JT3 | – (immer besetzt) |
 | 2 | 2 | Tim | „Tim, dein Marker ‚Scheppern‘ steht im Durchgang am Sicherungskasten. Im Dunkeln warst du ziemlich schnell dort. Wusstest du vorher, wo es knallen würde?“ | Druck auf Tims Knall; lenkt zu MR4 | – (immer besetzt) |
 | 3 | 1 | Olli | Olli in Stufe 2: „Olli, du sagst, das Gespenst ist auf Herrn Schneider los. Aber das Gesicht war bei uns im Kaminsaal, und erst danach roch es nach ausgeblasenen Kerzen. Wer war an der Theke, als die Kerzen ausgingen?“ Olli noch in Stufe 1: „Olli, erst huschte das Gesicht durch den Kaminsaal, dann roch es nach ausgeblasenen Kerzen. Die Kerzen standen an der Theke. Wo warst du, als sie ausgingen?“ (P3-03) | Ollis Gespenst-Fassung wackelt; stützt M3 | – (immer besetzt) |
-| 3 | 2 | Tim | „Tim, du standest am Sicherungskasten, direkt am Weg in den Kaminsaal. Was kam im Dunkeln an dir vorbei, und war das vor oder nach dem Scheppern?“ | Tims Gesprächs-Auslöser in Runde 3 (ZG 3.6) | – (immer besetzt) |
+| 3 | 2 | Tim | „Tim, du standest am Sicherungskasten, direkt am Weg in den Kaminsaal. Was kam im Dunkeln an dir vorbei, und war das vor oder nach dem Scheppern?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Tims Gesprächs-Auslöser in Runde 3 (ZG 3.6; P1R3-02) | – (immer besetzt) |
 
 #### ZR 3.9 Aktionskarte (wörtlich, MECH §4.4)
 
@@ -5430,9 +5452,9 @@ außer den Decken.
 |---|---|---|---|---|---|
 | 1 | 1 | Lejla | „Lejla, als ich vom Tor zurückkam, warst du bei Herrn Schneider. Ich war dein Ausbilder im Erste-Hilfe-Kurs, also: Wie geht es ihm? Und wer war im Dunkeln bei dir am rechten Buffet?“ (P3-13) | Lejlas offenes Wissen (D2) kommt auf den Tisch | – (immer besetzt) |
 | 1 | 2 | Damir | „Damir, dein Marker ‚Scheppern‘ steht hinter der Theke am Ostende. Wer war im Dunkeln bei dir, und ging es allen gut?“ | Ahmets Alibi (M1) wird laut gesagt; Damir wird angesprochen (P145R2-K20) | – (immer besetzt) |
-| 2 | 1 | Hana | Sprich leise mit Hana: „Am Tisch fragen sie nach dem Tor und nach dem Kamin. Fragt dich jemand nach dem Papier: Halten wir dicht, oder sagen wir es beide?“ | Tandem 2 spielt seine Mini-Intrige aus; beide können am Rundenende reinen Tisch machen (R-05, P14-09) | – (immer besetzt) |
+| 2 | 1 | Hana | Hanas Karte offen: „Hana, jetzt ist es raus. Dein Brief liegt unter der Asche in der Kamin-Nische. Lag da sonst noch etwas? Sag es allen.“ Hanas Karte zu: Sprich leise mit ihr: „Am Tisch fragen sie nach dem Tor und nach dem Kamin. Fragt dich jemand nach dem Papier: Halten wir dicht, oder sagen wir es beide?“ | Karte offen: Hanas Satz zum Handschuh in der Nische kommt vor allen auf den Tisch, lenkt zu VP7 (P1R3-01). Karte zu: Tandem 2 spielt seine Mini-Intrige aus; beide können am Rundenende reinen Tisch machen (R-05, P14-09) | – (immer besetzt) |
 | 2 | 2 | Fatma | „Fatma, du schleppst die schwere Tasche den ganzen Abend mit dir herum. Ich trag sie dir nachher zum Auto. Was ist denn da drin?“ | Fatmas Heimlichtuerei (M5); lenkt zu NN3 | – (immer besetzt) |
-| 3 | 1 | Lejla | „Lejla, durchs Außentor ist keiner raus, ich stand dort. Der Bund ist also wohl noch hier drin. Wer ist als Erstes wohin gegangen, als das Licht anging?“ | Lejlas offener Satz zum Eiskübel (ZG 1.5); lenkt zu PP9 | – (immer besetzt) |
+| 3 | 1 | Lejla | „Lejla, durchs Außentor ist keiner raus, ich stand dort. Der Bund ist also wohl noch hier drin. Wer ist als Erstes wohin gegangen, als das Licht anging?“ | Lejlas Satz zum Eiskübel (ZG 1.6, sobald ihre Karte offen ist; vorher nur „neben mir aufgestanden“, P2R3-02); lenkt zu PP9 | – (immer besetzt) |
 | 3 | 2 | Can | „Can, du warst oben im Turm, sagst du. Herr Schneider hat zweimal ‚Stehen bleiben!‘ gebrüllt. Bist du vor dem Scheppern hoch oder danach?“ | Cans Alibi (M3) in Runde 3 | – (immer besetzt) |
 
 #### ZR 4.9 Aktionskarte (wörtlich, MECH §4.4)
@@ -5924,7 +5946,7 @@ Tandems. Dein eigenes ist es nicht: In deiner Ledermappe steckt ein Zettel von H
 
 | Runde | Nr | Ziel | Frage oder Vorwurf (wörtlich) | Worauf du hinauswillst | Ausweichziel |
 |---|---|---|---|---|---|
-| 1 | 1 | Ahmet | „Ahmet, beim Einlass wolltest du mir keinen Beleg geben. Den gibt's von Herrn Schneider, hast du gesagt. Warst du kurz vor zwölf deshalb bei ihm hinter der Theke?“ | Druck auf Ahmets Grund am Ostende | – (immer besetzt) |
+| 1 | 1 | Ahmet | „Ahmet, am Jackenständer wolltest du mir keinen Beleg geben. Den gibt's von Herrn Schneider, hast du gesagt. Warst du kurz vor zwölf deshalb bei ihm hinter der Theke?“ | Druck auf Ahmets Grund am Ostende | – (immer besetzt) |
 | 1 | 2 | Serkan | „Serkan, kurz vor zwölf bist du aus dem Ost-Saal gegangen, gerade als alle zur blinden Kuh sollten. Wohin, und warum?“ | Serkans Auslöser 1 (erste Frage nach dem Warum, P14-09) | – (immer besetzt) |
 | 2 | 1 | Ahmet | Karte offen: „Ahmet, hier ist mein Zettel: ‚Miete: 0 Euro.‘ Ich will dich nicht vorführen. Sag selbst, wofür das Geld war, und wann wir es zurückbekommen.“ Karte zu: „Ahmet, ich warte immer noch auf meinen Beleg. Hast du Herrn Schneider die Miete gegeben, ja oder nein?“ | Ahmets Heimlichtuerei (M4) | – (immer besetzt) |
 | 2 | 2 | Wojtek | „Wojtek, du hast vorhin erzählt, dass du um Viertel nach acht in den Vorratsraum geleuchtet hast. Woher hattest du die Taschenlampe, und wo ist sie jetzt?“ | Wojtek wird angesprochen; seine offenen Sätze (Auftritt, Stufe 1, Was du bei dir trägst) führen zum Werkzeugkasten (MR4, P145R2-K20) | – (immer besetzt) |
@@ -6046,7 +6068,7 @@ stimmt). Sie darf die Vermutung sagen, aber als Vermutung.
   zwölf hab ich alle in den Ost-Saal gerufen.“
 - „Der Detektiv hatte die Augenbinde und Wojteks Kopfhörer auf. Ich stand neben ihm und hab nur auf die blinde Kuh geschaut.“
 - „Um zwölf hab ich ihm Augenbinde und Kopfhörer abgenommen. Kurz danach hab ich allen die Handys zurückgegeben.“
-- „Aylin wollte beim Einlass einen Beleg für die Miete.“
+- „Aylin wollte am Jackenständer einen Beleg für die Miete.“
 - Vermutung, als solche: „Ich glaub, da wollte jemand die blinde Kuh im Vorratsraum erschrecken.“
 
 Es gibt keine Tarnsätze und keine Verbote: Jede Frage beantwortet Tugba nach ihrem Wissen.
@@ -6070,7 +6092,7 @@ offen auf dem Tisch liegt oder jemand mit der Taschenkontrolle dein Notizbuch se
 > „Nichts für den Ermittlungsbogen.“ (MECH §4.2 wörtlich)
 >
 > **Und noch etwas**
-> „Aylin wollte beim Einlass einen Beleg für die Miete. Frag sie, ob sie einen bekommen hat.“
+> „Aylin wollte am Jackenständer einen Beleg für die Miete. Frag sie, ob sie einen bekommen hat.“
 
 **Nach dem Umdrehen:** keine neuen Sätze; Tugba hat schon alles gesagt.
 
@@ -6081,9 +6103,9 @@ offen auf dem Tisch liegt oder jemand mit der Taschenkontrolle dein Notizbuch se
 | 1 | 1 | Can | „Can, um fünf vor zwölf hab ich alle zur blinden Kuh gerufen. Du warst nicht da. Ausgerechnet du, der bei jedem Spaß dabei ist. Wo warst du?“ | Druck auf Cans Marker | – (immer besetzt) |
 | 1 | 2 | Joanna | „Joanna, du hast um fünf vor zwölf zum Gruppenfoto gerufen und in der Tür gestanden. Wer fehlte da noch? Ich brauch das für meinen Plan.“ | Joannas Notiz (D1, D4) kommt auf den Tisch | – (immer besetzt) |
 | 2 | 1 | Olli | „Olli, um halb acht hast du deinen linken Arbeitshandschuh in die Kamin-Nische gelegt und vergessen. Den rechten hast du in der Westentasche. Was hast du heute damit angefasst?“ | lenkt zu VP7 und FN3 | – (immer besetzt) |
-| 2 | 2 | Aylin | „Aylin, du wolltest beim Einlass einen Beleg für die Miete. Du hebst doch jeden Zettel auf. Hast du inzwischen einen?“ | Druck auf Aylins Karte (M4) | – (immer besetzt) |
+| 2 | 2 | Aylin | „Aylin, du wolltest am Jackenständer einen Beleg für die Miete. Du hebst doch jeden Zettel auf. Hast du inzwischen einen?“ | Druck auf Aylins Karte (M4) | – (immer besetzt) |
 | 3 | 1 | Can | „Can, laut Plan sollte die blinde Kuh um zwölf zur Torte in den Vorratsraum. Wer dort im Dunkeln gewartet hat, wollte sie erschrecken. Warst du das? Dann sag, wann du wieder rausgerannt bist.“ | Cans Heimlichtuerei und Alibi (M6, M3) in Runde 3 | – (immer besetzt) |
-| 3 | 2 | Marek | „Marek, du hast um zwölf die Tür zum Vorratsraum aufgemacht. Steht meine Torte noch? Und was hast du an der Tür gesehen, bevor die Kerzen ausgingen?“ | Mareks Gesprächs-Auslöser in Runde 3 (ZG 5.6); dein Bonus-Ziel | – (immer besetzt) |
+| 3 | 2 | Marek | „Marek, du hast um zwölf die Tür zum Vorratsraum aufgemacht. Steht meine Torte noch? Und was hast du an der Tür gesehen, bevor die Kerzen ausgingen?“ Stell diese Frage vor allen. Ruf dafür den Erzähler. | Mareks Gesprächs-Auslöser in Runde 3 (ZG 5.6); dein Bonus-Ziel (P1R3-02) | – (immer besetzt) |
 
 #### ZR 8.9 Aktionskarte (wörtlich, MECH §4.4)
 
@@ -6153,15 +6175,15 @@ beantwortet entlasten sie ihn (M3). So bleibt Can Gegengewicht, ohne dass ihm ei
 | 1 | Azra → Serkan | Serkans Gang zum Außentor; Frage nach dem Warum (P145R2-M05) |
 | 1 | Aylin → Serkan | Serkans Gang zum Außentor; erste Frage nach dem Warum (P14-09) |
 | 1 | Tugba → Joanna | Joannas Notiz (D1, D4) kommt auf den Tisch: Pflicht-Auslöser (a) für Olli kommt aus Joannas Notiz |
-| 2 | Damir → Sibel (leise) | Tandem 1 bespricht, ob es reinen Tisch macht (P14-09) |
+| 2 | Damir → Sibel (leise, solange die Karten noch zu sind; offen vor allen) | Tandem 1 bespricht, ob es reinen Tisch macht (P14-09); bei offener Karte: Schatulle um 21:00 noch in der Vitrine, Druck auf Fatma (M5, P1R3-01) |
 | 2 | Hana → Tim, Wojtek → Tim | Tims Leiste; Wojteks Karte nennt Tims Satz von 20:15 |
-| 2 | Serkan → Hana (leise) | Tandem 2 bespricht, ob es reinen Tisch macht (P14-09) |
+| 2 | Serkan → Hana (leise, solange die Karten noch zu sind; offen vor allen) | Tandem 2 bespricht, ob es reinen Tisch macht (P14-09); bei offener Karte: Hanas Satz zum Handschuh in der Nische, lenkt zu VP7 (P1R3-01) |
 | 2 | Aylin → Wojtek | Taschenlampe und Werkzeugkasten (P145R2-K20) |
 | 2 | Tugba → Aylin | Druck auf Aylins Zettel; das Tandem 4 gerät aneinander |
 | 3 | Damir → Marek, Tugba → Marek | Mareks Gesprächs-Auslöser in Runde 3 |
 | 3 | Hana → Tim | Tims Gesprächs-Auslöser in Runde 3 |
 | 3 | Azra → Zeynep | Zeyneps Gesprächs-Auslöser in Runde 3 |
-| 3 | Serkan → Lejla | Lejlas Satz zum Eiskübel nach dem Licht; lenkt zu PP9 |
+| 3 | Serkan → Lejla | Lejlas Satz zum Eiskübel nach dem Licht (sobald ihre Karte offen ist, P2R3-02); lenkt zu PP9 |
 | 3 | Wojtek → Azra | das Tandem 3 löst sich; zweite Stimme für Tims Satz |
 
 Wer von Zusatzrollen angebohrt wird: Tim (5×), Lejla (2×), Marek (2×), Zeynep (2×), Hana (2×), Serkan (2×), Joanna (1×),
@@ -6397,6 +6419,10 @@ Bedingung zu Stufe 3, für alle vier **wörtlich**: „Nennt der Detektiv bei de
 Uhrzeiten nur als Kanon-Minuten, Sekunden nie, im Dunkeln nur Reihenfolgen (WELT §0.2). Namen fehlender Rollen nach 1.5.
 Längenprüfung in 7.7.
 
+Satz (P5R3-02): Listen, Absätze und Zeitleiste stehen oben in ihrem gleich hohen Abschnitt, mit gleichem Abstand zwischen
+Einträgen und Zeilen in allen vier Fassungen. Der Rest bleibt darunter frei. Gestreckt wäre die Fassung mit mehr Text am
+Seitenbild dichter. Ganz gleich sehen die Seiten erst aus, wenn auch die Textlängen gleich sind.
+
 ### RK 7.2 Außenseiten
 
 | Code | Außenseite (**wörtlich**) |
@@ -6598,6 +6624,10 @@ Er nimmt an der Klappe niemanden wahr (WELT §5.7). Er hört das Scheppern nicht
 > – Sobald jemand fragt, wer dich rennen sah (nur, wenn deine Karte offen ist): „Im Steinbogen hab ich [Zeynep] gestreift. Frag sie.“
 > – Sobald jemand verlangt, dass du deinen Marker ‚Scheppern‘ umstellst: „Ich war oben im Turm. Keine Karte sagt etwas anderes. Der Marker bleibt.“
 
+Varianten (RK 1.5, P4-04): Tim fehlt: „Keine Ahnung. Im Turm hört man nichts. Detektiv, schau dir den Durchgang an.“ ·
+Zeynep fehlt: „Im Steinbogen hab ich meine Schwester gestreift. Detektiv, schau dir den Steinbogen an.“ „Detektiv“ ist
+hier der Rollenbegriff (E20).
+
 **Stufe 3: Wenn du angeklagt wirst** (**wörtlich**, Vorlesen, 64 Wörter):
 > „Ich? Nein. Ja, ich war das Gespenst, und der Streich war dumm. Herr Schneider hat mich gepackt, und ich hab mich losgerissen. Als ich weggerannt bin, stand er noch und hat mir hinterhergebrüllt. Was danach an der Theke war, hab ich oben im Turm nicht mal gehört. An der Vorratsraumtür war ich da nicht mehr. Den Schlüsselbund hab ich nie in der Hand gehabt.“
 
@@ -6615,7 +6645,7 @@ Nach jeder Stufe 3, für alle vier **wörtlich**: „Danach stellst du deine Mar
 | Stufe 3 | 64 | 61 | 67 | 64 | 64 | +4,7 % |
 | Heft Seite 2 (Stufe 1 + „Wenn der Erzähler fragt“ + Stufe 2) | 487 | 517 | 522 | 488 | 504 | Olli +3,7 % |
 | davon „Wenn der Erzähler fragt“ | 126 | 134 | 138 | 139 | 134 | Ahmet −6,1 % |
-| Heft Gesprächsaufträge (Frage + Nachschlag) | 254 | 247 | 237 | 274 | 253 | Can +8,3 % |
+| Heft Gesprächsaufträge (Frage + Nachschlag; nach Runde 3 nachgezählt, P1R3-02) | 263 | 256 | 237 | 281 | 259 | Olli −8,6 %, Can +8,4 % |
 | „Dein Auftritt“ | 70 | 70 | 78 | 67 | 71 | Olli +9,9 % |
 | Geheimniskarte „Was ich zugebe“ | 59 | 57 | 55 | 57 (50 ohne Zeynep) | 57 | Can ohne Zeynep −12 % (Besetzungsvariante, zulässig) |
 | Bonus-Ziel | 34 | 34 | 34 | 34 | 34 | 0 % |
@@ -6624,7 +6654,9 @@ Alle Teile liegen innerhalb von zehn Prozent um das Mittel (REG §6.11), bis auf
 ein Satz über eine nicht besetzte Rolle; das ist die Regel aus WELT §1.1, nicht ein Unterschied der Gestalt. Knapp unter der
 Grenze liegt Ollis Auftritt (+9,9 %); RN7 liegt nach Runde 2 bei +6,7 % gesamt, die Zeitleiste bei +8,3 % und „Wenn es eng
 wird“ bei +7,9 %. Die Text-Phase darf dort nichts verlängern. Heft Seite 2 wuchs in Runde 2 um die Zeile zu 23:51 (P2-21), bei
-Olli dazu um die Handschuh-Zeile (P2-17); alle vier liegen im Budget 465–535. Ausweichziele
+Olli dazu um die Handschuh-Zeile (P2-17); alle vier liegen im Budget 465–535. Die Gesprächsaufträge wuchsen in Runde 3 um
+den Satz „Stell diese Frage vor allen. Ruf dafür den Erzähler.“ (P1R3-02); Can liegt damit ein Wort über dem Nennwert von
+RK 1.1 (230–280), innerhalb der zehn Prozent. Ausweichziele
 (nur gedruckt, wenn die Zielrolle fehlt) zählen nicht mit. Der Generator prüft die Längen erneut nach dem Satz.
 
 ---
@@ -6659,23 +6691,30 @@ Einzelheiten der Seitenzahlen:
 - **Blatt A, Lageplan:** A4 quer. Titel oben links, **wörtlich**: „Lageplan: Gewölbekeller unter dem Schlossturm“ (A:76, P5-K8). Maßstäblich nach Kanon-Raster (WELT §2.3, LÜ D-02): 1 m = 8,5 mm, Kellerfläche 25 × 22 m
   = 212 × 187 mm, links auf dem Blatt; hellgraues 1-m-Gitter. Rechts die Legende (etwa 70 mm breit).
   Eingezeichnet: Zonen 1–8 mit Namen wörtlich nach A:78-85 und Nummer im Kreis, Randfeld W, Teilfelder 4a–4d und 8a–8b,
-  Türen und Steinbogen, alle Gegenstände aus WELT §2.1 als Symbol mit Namen, Legende „Eiskübel (vor dem Ostende)“ (W-02). In der Legende stehen außerdem die Hinweise
+  Türen und Steinbogen, alle Gegenstände aus WELT §2.1 als Symbol mit Namen, Legende „Eiskübel (vor dem Ostende)“ (W-02). Die Bänke
+  heißen auf dem Plan „Wandbank Süd“, „Wandbank West“ und „Wandbank Ost mit Musikbox“ (WELT 2.3, P3R3-B3); die Wandbank Nord
+  (WELT 2.1, Kaminsaal unter den Lichtschächten) bleibt ohne Punkt, weil kein Heft sie nennt. In der Legende stehen außerdem die Hinweise
   „Offene Indizkarten an den Rand legen“ und „Zeitpunkte: Marker 23:57 / Marker Scheppern“ (P14-12).
   Keine roten Teilchen, kein Fundort-Kreuz in Rot, keine Flaschen (REG §6.12). Schwarzweiß-tauglich.
 - **Blatt B, Markerfelder:** A4 quer, neben Blatt A gelegt. Raster aus 15 Zellen je 54 × 58 mm (5 × 3). Feld 1 Ost-Saal
   liegt über drei Zellen der oberen Reihe (162 × 58 mm, Platz für 18 Plättchen). Die übrigen zwölf Zellen sind die Felder
-  2 bis W mit je Platz für sechs Plättchen (zwei Spalten, drei Reihen). Feldnamen wörtlich nach WELT §2.1 (P3-05):
+  2 bis W. Feldnamen wörtlich nach WELT §2.1 (P3-05):
   1 Ost-Saal · 2 Linkes Buffet · 3 Rechtes Buffet · 4a Theke Westende mit Theken-Klappe · 4b Vor der Theke mit Eiskübel ·
   4c Hinter der Theke: Anrichte, Vorratsraumtür · 4d Theke Ostende · 5 Vorratsraum · 6 Durchgang mit Steinbogen · 7 Kaminsaal ·
-  8a Turmgang · 8b Wendeltreppe und Turm-Toilette · W Windfang. Jedes Feld zeigt die Nummer, den Namen und eine Mini-Skizze der
-  Lage. Höchste Belegung: Feld 1 mit 15 Markern bei 20 Personen, Feld 4d mit 6 (P14-12). Die Felder 2, 3, 4d und 6 liegen am Rand von
+  8a Turmgang · 8b Wendeltreppe und Turm-Toilette · W Windfang. Jede Zelle hat oben ein Kopfband mit Nummer und Name über einer dünnen Linie, darunter liegen die
+  Plättchen. Auf Blatt B steht, **wörtlich**: „Marker unter die Linie legen, bei vollem Feld hochkant.“ Feld 1 hat Platz für 18
+  (hochkant neun nebeneinander, zwei Reihen), die Felder mit einzeiligem Namen (2, 3, 4d, 5, 7, 8a, W) für 6 (hochkant drei
+  nebeneinander, zwei Reihen), die Felder mit langem Namen (4a, 4b, 4c, 6, 8b) für 4 (quer, zwei Spalten, zwei Reihen; höchste
+  Belegung dort 3). Die Mini-Skizze der Lage (20 mm breit) steht unten rechts im Plättchenfeld und darf bei voller Belegung
+  verdeckt sein, das Kopfband nie (P5R3-03). Höchste Belegung: Feld 1 mit 15 Markern bei 20 Personen, Feld 4d mit 6 (P14-12). Die Felder 2, 3, 4d und 6 liegen am Rand von
   Blatt B, Feld 1 oben. In die drei inneren Zellen der mittleren Reihe kommen 4a, 4b und 4c. So ist neben jedem Feld, an das
   ein Zeugenstreifen kommen kann, Platz (P145R2-K05).
 - **Positions-Marker:** flache Plättchen 26 × 18 mm, nicht gefaltet (P14-12). Jedes trägt Name, Platz-Nummer und „23:57“
   oder „Scheppern“. Zwei je Rolle, zwei für den Detektiv, zwei für Herrn Schneider. Für
   fehlende Rollen keine Marker (LÜ D-15). Farbe nur als Grauton-Streifen; der Name entscheidet (LÜ L-18).
 - Grund für zwei Blätter (A Plan, B Felder) statt eines über zwei Blätter gezogenen Plans: Kein Plan über eine Klebekante,
-  und die Plättchen haben Platz: Feld 1 für 18, jedes andere Feld für 6 (M-27, P14-12).
+  und die Plättchen haben Platz: Feld 1 für 18, die Felder mit einzeiligem Namen für 6, die fünf mit langem Namen für 4
+  (M-27, P14-12, P5R3-03).
 
 ### MECH 10.3 Was je Person in „Rollenheft einzeln senden“ gehört
 
@@ -6700,7 +6739,7 @@ Teil 90 wird nie einzeln gesendet.
 
 Regel: Das Rollenheft enthält nichts, woraus man Ollis Tat lesen kann. Ollis Stufe-2-Satz („geduckt“) steht dort ohne
 Hinweis, dass er gelogen ist. Alle vier Hefte enden Stufe 2 mit demselben Schlusssatz (RK §8.2, P5-B3). Gleiche Überschriften, gleiche Länge (Toleranz zehn Prozent der Wörter) für alle vier Hefte
-und alle vier Fassungen (E9, REG §6.11). Die Fassung wird nach dem Tat-Moment geöffnet (9.6). Wer will, gibt sie vorab
+und alle vier Fassungen (E9, REG §6.11); gleicher Abstand zwischen Einträgen und Zeilen (RK 7.1, P5R3-02). Die Fassung wird nach dem Tat-Moment geöffnet (9.6). Wer will, gibt sie vorab
 versiegelt mit; geöffnet wird trotzdem erst am Tisch.
 
 ### MECH 10.5 Vorbereitung (für die Seite 2 im Erzählerheft)
@@ -6709,9 +6748,9 @@ versiegelt mit; geöffnet wird trotzdem erst am Tisch.
 |---|---|---|
 | alle | einseitig drucken, nichts lesen; Teile 02 und 20 auf festeres Papier (ab 120 g), damit nichts durchscheint; am besten schneidet und faltet jemand, der heute nicht mitspielt (9.1, P145R2-K06) | – |
 | 02 | Blatt A und B nicht schneiden; Marker-Plättchen ausschneiden; Tipp-Zettel ausschneiden; Abwesenheitsblatt in Streifen schneiden und falten | 15 min |
-| 11 | jede Fassung falten und zukleben | 5 min |
-| 20 | Indiz- und Geheimniskarten ausschneiden und sofort im Z-Falz zufalten (Text innen), Indizkarten nach Code stapeln; Aktionskarten ausschneiden | 25 min |
-| 90 | falten und versiegeln | 2 min |
+| 11 | „Falte jede Fassung so, wie es auf ihrer ersten Seite steht, und klebe sie zu.“ | 5 min |
+| 20 | Indiz- und Geheimniskarten ausschneiden und sofort im Z-Falz falten, wie es auf der Karte steht: „das obere Feld nach hinten, das graue Feld nach vorn über den Text“; Indizkarten nach Code stapeln; Aktionskarten ausschneiden | 25 min |
+| 90 | „Falte Teil 90 so, wie es auf seiner ersten Seite steht, und klebe es zu.“ (P5R3-01) | 3 min |
 
 ---
 
@@ -6760,7 +6799,8 @@ Bewusst nicht oder nur teilweise behoben; keiner blockiert die Text-Phase.
 3. **Gesprächslast bei 14 bis 20 Personen (P14-04, P145R2-M02):** Die Gegenüberstellung ist mit genau einer Frage je Person
    nachgerechnet (MECH 1.3). Ob Frage und Antwort in zwanzig Sekunden passen, zeigt erst ein Probelauf mit 20 Personen.
 4. **Seitenumfänge** (MECH 10.1) sind gemessen (Umsetzung, E18). Der Generator prüft Überlauf bei 9 pt Lesetext; darunter
-   liegen nur Joannas Notiz (8 pt), Kopf, Fuß und Marken (8,5 pt) und die Falzmarke „Hier falten“ (6,5 pt), siehe E19.
+   liegen nur Joannas Notiz (8 pt), Kopf, Fuß und Marken (8,5 pt) und die Falzmarke „Hier falten“, auf den Zeugenstreifen „Hier nach hinten falten, Etikett bleibt oben“
+   (6,5 pt), siehe E19.
    Das Zusatzheft hat jetzt drei Seiten (P145R2-M06). Seite 7 des Erzählerhefts trägt jetzt auch „Was alle wissen“
    (P145R2-M09); läuft sie über, bekommt das Erzählerheft eine Seite mehr.
 5. **Erzählertabelle 9.14:** Sie zeigt nur Codes. Ein aufmerksamer Erzähler kann aus vorgelesenen Karten auf Zusammenhänge

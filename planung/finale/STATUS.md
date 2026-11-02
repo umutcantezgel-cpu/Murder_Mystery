@@ -37,6 +37,19 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 - Nächster Auftrag (2026-11-01): Das Druckspiel des Schlosskellers wird durch ein neues Pen-&-Paper-Druckspiel
   („Kammerspiel“, fester Täter Olli, Fall U4YRK) ersetzt; das App-Spiel bleibt unverändert. `einfluss_soll.g.dart`
   wird nie mehr neu geschrieben (E-048, Nachtrag).
+- Stand (2026-11-02): **Kammerspiel** ersetzt das Druckspiel des Schlosskellers (Planung, Fall-Bibel, Entscheidungen
+  E1–E22 und Testprotokolle Runde 1–3 unter `planung/kammerspiel/`; Inhalt `content/kammerspiel/schlosskeller/`; Satz
+  `packages/mordakte_core/lib/src/party/druck/kammer/`). Acht Druckteile 00/01/02/10/11/12/20/90 für 6–20 Personen,
+  Gesamtdatei und Einzelhefte, in der App über die Druckmappe (Personen 6–20, Detektiv/Detektivin), CLI
+  `party_druck.dart --personen N [--detektiv m] [--alles] [--probe]`; altes Druckspiel bis zur Abnahme über
+  `--druckspiel-alt`. Stand 2ab3d04 (CI-Lauf 121 grün) auf Wunsch des Besitzers als Merge 1bf4c95 nach `main`,
+  CI-Lauf 122 grün, `mordakte-122.1` ist „latest“. Danach die fünf Protokolle aus dem Auftrag am echten Druck
+  (Runde 3, `planung/kammerspiel/TESTPROTOKOLL.md`): 0 Blocker, 4 mittel, 19 klein, alle behoben und am neuen Druck
+  nachgeprüft; dieser Stand liegt auf `claude/schlosskeller-finale`, noch nicht auf `main`. Das Vercel-Projekt der
+  Web-Fassung liegt nicht im verbundenen Vercel-Team; das Redeploy stößt der Besitzer an.
+- Vorbestehend, nicht vom Kammerspiel: Der wöchentliche Zeitplan-Lauf auf `main` ist seit Lauf 57 rot (Pages im
+  Repo nicht aktiviert; Party-E2E: je Pfad 17 von 21 Läufen über dem Zeitlimit von 3 Minuten, die Läufe mit n = 7
+  brauchen auf dem Runner etwa 7,5 Minuten).
 - Android lokal bauen: Das SDK in `/root/android-sdk` und der Gradle-Zwischenspeicher `~/.gradle` sind nach der
   letzten Kotlin-Prüfung gelöscht (Plattenkontingent); den Android-Bau übernimmt der CI-Job `android`. Wer lokal
   bauen will, holt das SDK neu (cmdline-tools von dl.google.com, platforms 35 und 36, build-tools 36.0.0, NDK
@@ -58,6 +71,12 @@ Entscheidungen A-063 bis A-067 (`planung/gesamt/STATUS.md`), E-046/E-047, R18–
 
 ## Prüfjournal (neueste zuerst)
 
+- 2026-11-02 Kammerspiel, Runde 3 am Druck: Protokoll-Workflow `wf_7653750e-558` (P1 Interaktion, P2 Domino, P3
+  Zeit/Ort, P4 Skalierung, P5 Druck/Vollständigkeit an 6/10/20 Personen w/m und weiteren Besetzungen, jede mittlere
+  Meldung gegengeprüft), Behebung `wf_c0780aed-8d1` (Gruppen Rollentexte, Erzählerheft/Auflösung/Fassungen,
+  Lageplan/Streifen; Nachprüfung am neu gesetzten Druck: 26 von 26 erledigt, Seitenzahlen unverändert, 30 Sätze ohne
+  Überlauf, bytegleich). `dart test test/party/` 1724 grün, `flutter test` grün, `dart analyze`/`flutter analyze`
+  sauber, `kanon_tor` grün. Probe-Sätze 6/10/20 (87/105/144 Seiten) an den Besitzer.
 - 2026-10-30 Nachtrag „leicht finden“, Proben und Prüfer (Workflow `wf_c06c2b01-abc`, Plan Schritt 3 und 4;
   Spezifikation „Änderungen“ 67–74). Vier Prüfer auf c6449c6: Browserprobe (`druck.mjs` bei 390 und 320 px grün,
   erster Start mit Namensdialog bei 320 × 568 bis 412 × 915, Teilen mit nachgebildetem Web Share, Ladezeiten gegen

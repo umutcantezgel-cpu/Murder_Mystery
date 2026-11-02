@@ -1,7 +1,7 @@
 # Testprotokoll Kammerspiel (Fall-Bibel)
 
-Fortlaufendes Protokoll der Testrunden zur Fall-Bibel. Jede Runde nennt je Protokoll das Ergebnis und jeden Befund
-mit Behebung oder Begründung. Die ausführlichen Protokolle stehen unter `bibel/tests/`. Fundstellen wie „MECH 4.4“
+Fortlaufendes Protokoll der Testrunden zur Fall-Bibel und, ab Runde 3, zum fertigen Druck. Jede Runde nennt je Protokoll
+das Ergebnis und jeden Befund mit Behebung oder Begründung. Die ausführlichen Protokolle stehen unter `bibel/tests/`. Fundstellen wie „MECH 4.4“
 oder „ZG 3.5“ sind Kennungen in `bibel/FALL-BIBEL.md` (FALL-BIBEL 0.2).
 
 ## Runde 1: Tests der Teilentwürfe 01–05, Integration Runde 1 (2026-11-01)
@@ -192,7 +192,7 @@ Ausführlich: `bibel/tests/P2-runde2.md`. 0 Blocker, 3 mittel, 8 klein.
 
 | Befund | Schwere | Ergebnis | Behebung oder Begründung |
 |---|---|---|---|
-| P2-16 | mittel | behoben | R-13 neu: „Der ganze Tisch hört zu“, mit Ortstermin, Impuls-Antworten, Vorlesen einer Karte; Verhörstuhl nur, solange die anderen Gespräche ruhen (mit P145R2-M01, I-25). Auf Sätze bis 25 Wörter gekürzt. R-03: „Karte!“ bei jeder Personenzahl (auch MECH 1.3 b, 9.13). R-06 „vor allen vorgelesene Notiz“. Kurzform, MECH 0.2, RK 6.6 angeglichen. Olli (a) in RK 4.7 und MECH 4.2. Zusatz „Stell diese Frage vor allen. Ruf dafür den Erzähler.“ in ZG 1.7 und ZG 4.8 R1-1. |
+| P2-16 | mittel | behoben | R-13 neu: „Der ganze Tisch hört zu“, mit Ortstermin, Impuls-Antworten, Vorlesen einer Karte; Verhörstuhl nur, solange die anderen Gespräche ruhen (mit P145R2-M01, I-25). Auf Sätze bis 25 Wörter gekürzt. R-03: „Karte!“ bei jeder Personenzahl (auch MECH 1.3 b, 9.13). R-06 „vor allen vorgelesene Notiz“. Kurzform, MECH 0.2, RK 6.6 angeglichen. Olli (a) in RK 4.7 und MECH 4.2. Zusatz „Stell diese Frage vor allen. Ruf dafür den Erzähler.“ in ZG 1.7 und ZG 4.8 R1-1. Nachtrag Runde 3 (P1R3-02): derselbe Zusatz an den Runde-3-Zielen, die einen Auslöser „vor allen“ treffen sollen (RK 2.9, 3.9, 5.9; ZG 1.7, 3.7, 4.8; ZR 2.8, 3.8, 8.8). |
 | P2-17 | mittel | behoben, mit Abweichung | FN3 ohne „frische“ (Teil 90 und WELT 6 behalten es); „Wenn es eng wird“ gilt in allen vier Fassungen, sobald der Fall eintritt; RK 7.1; MECH 3.5 Nr. 2 ergänzt. Abweichung: Ollis neuer Tropfen-Satz gilt nur bei offener Karte (sonst wäre „Kalk und Wachs hab ich von der Bogentür“ in Runde 2 ein vorzeitiges Geständnis); für die Zeit davor bekommt Olli in Stufe 1 die Zeile „Rote Tropfen? Keine Ahnung.“ zum Handschuh. Die Ausrede berührt den Kerzenständer nicht. RN7 bleibt unter zehn Prozent (RK 7.7). |
 | P2-18 | mittel | behoben | DM3, WJ9, FX3 nennen ihren Platz; AD3 zur Gleichheit auch. MECH 3.1 Nr. 5 und RK 6.7 Nr. 6 wörtlich nach Vorschlag. |
 | P2-19 | klein | behoben | Ahmet (c) und Can (c) mit „Was davon zuerst da war, ist egal.“; MECH 4.2 Tabelle und Hinweis. Cans (c) auf 25 Wörter gekürzt („sagt: Das Gesicht kam aus dem Vorratsraum“). |
@@ -281,3 +281,103 @@ nichts“ in MECH 0.2; Kapitel 0 (Nummernbereiche R-14, K-25, I-41; Stand Runde 
 neu gezählt (RN7 gesamt +6,7 %, Zeitleiste +8,3 %, „Wenn es eng wird“ +7,9 %, Heft Seite 2 alle vier im Budget); I-13 mit
 Hinweis auf I-25; 19.2 neu gefasst; 19.4 neu (I-25 bis I-41); WELT 0.2 zwei neue Zeitregeln; WELT 2.8 Zeile „Tim am Kasten“;
 ZR 0.3 Übersicht der Bonus-Ziele; ZR 9.1 Summe Can; RK 6.5 Prüfsatz; WE3-Vermerk mit Begründung.
+
+## Runde 3: Prüfung am fertigen Druck (2026-11-02)
+
+Geprüft wurde nicht die Bibel, sondern der echte Druck aus `bin/party_druck.dart` (Stand `2ab3d04`): die Hauptsätze mit
+6, 10 und 20 Personen, jeweils mit Detektivin (w) und Detektiv (m), dazu selbst gesetzte Besetzungen mit 7 bis 9 und 11 bis
+19 Personen (w) sowie Stichproben mit 7, 8 und 13 Personen (m). Gelesen wurde der Text der PDFs (pdftotext), Satz und
+Lageplan wurden als Bild angesehen und vermessen. Jeder mittlere Befund ging an eine eigene Gegenprüfung, die ihn zu
+widerlegen versuchte. Die Gruppen A (Rollentexte), B (Erzählerheft, Teil 11 und 90) und C (Teil 02) haben behoben; eine
+Nachprüfung hat danach alle 30 Sätze (6 bis 20 Personen, w und m) neu gesetzt und gegen den alten Druck verglichen.
+Ausführlich: `tests/P1-runde3-druck.md` bis `tests/P5-runde3-druck.md`, Gegenprüfungen
+`tests/P1-runde3-gegenpruefung-P1R3-01.md`, `…-P1R3-02.md`, `tests/P2-runde3-gegenpruefung-P2R3-01.md` und
+`tests/P5-runde3-gegenpruefung-P5R3-01.md`.
+
+Die Bibel ist danach auf den Stand des gedruckten Inhalts nachgezogen. Alle Änderungen liefen über ein Skript mit
+Trefferprüfung: 74 Ersetzungen in `FALL-BIBEL.md` und eine in `ENTSCHEIDUNGEN.md` (E19), jede mit genau einem Treffer.
+
+### Ergebnis je Protokoll
+
+- **Protokoll 1 (Interaktion und Pausen), 6, 10 und 20 Personen, Stichprobe m, Satz mit 18:** Jede gespielte Rolle hat in
+  jeder Runde zwei Gesprächsaufträge; Stufe 2 ist erreichbar und am Tisch erkennbar; zu jeder Rolle passen Geheimnis- und
+  Aktionskarte. Joanna, Tim, Marek und Lejla haben keinen Leerlauf. Die Gegenprobe über Kreuz deckt 108, 48 und 24 Aufträge
+  ab, kein Ziel fehlt. Schwächen: Die Flüster-Aufträge der Tandems in Runde 2 sind tot, sobald die Karten offen sind; in
+  Runde 3 fehlt bei Fragen an Tim, Marek und Zeynep der Hinweis „vor allen“. 0 Blocker, 2 mittel, 1 klein.
+- **Protokoll 2 (Domino-Ketten), vier Abende simuliert (10 zurückhaltend und forsch, 6, 20), Stichproben 8, 11, 13, 14:**
+  Keine Sackgasse, kein Zirkel, kein Lösen vor Runde 3. Ahmet, Fatma und Can sind bis Ende Runde 3 entlastbar, alle Beweise
+  zeigen auf Olli, alle neun Meilensteine sind in jeder Besetzung erreichbar. Die zurückhaltende Detektivin kommt auf
+  5 Punkte, die forsche auf 9. Alle Befunde aus P2 Runde 2 sind im Druck behoben. Schwächen: Teil 01 lässt um Impulse
+  bitten, die Teil 00 nicht vorsieht; dazu vier kleine Unklarheiten. 0 Blocker, 1 mittel, 4 klein.
+- **Protokoll 3 (Zeitstrahl und Orte), 8.186 Uhrzeit- und Ortsfundstellen per Skript, Lageplan bei 200 dpi vermessen:**
+  Alle Auftrags-Zeiten stehen in allen Teilen gleich; kein Weg ist zu schnell; jeder Punkt auf Blatt A liegt auf ±0,02 m
+  genau; Widersprüche nur bei den gewollten Lügen der Verdächtigen. Schwächen: Ort des Beleg-Streits, ein unmöglicher Weg in
+  Ollis Ausweichfrage, nur eine „Wandbank“ auf dem Plan. 0 Blocker, 0 mittel, 3 klein.
+- **Protokoll 4 (Skalierung), 18 Sätze:** Das Zwiebelprinzip trägt von 6 bis 20 Personen. Teileliste, Abwesenheitsblatt,
+  Umschreibungen fehlender Rollen, Ausweichziele, Solo-Abschnitte und Auflösungsheft passen zu jeder Besetzung. Schwächen:
+  „1 Zusatzhefte“, Zeugenstreifen in Texten ab 12 Personen, Verweise auf fehlende Rollen, ein Arbeitsvermerk im Druck.
+  0 Blocker, 0 mittel, 5 klein.
+- **Protokoll 5 (Druck und Layout):** Das Paket ist vollständig; keine Platzhalterreste, Seitenverweise stimmen, nichts
+  näher als 5 mm am Rand, Lesetext mindestens 9 pt. Alle 105 Seiten bei 10 Personen und die besetzungsabhängigen Seiten bei
+  6 und 20 als Bild angesehen. Schwächen: Teil 90 ohne Falz- und Verschlussanleitung, RN7 dichter gesetzt, verdeckte
+  Feldnamen auf Blatt B, doppelte Namen in Teil 90, fehlende Faltrichtung der Streifen. 0 Blocker, 1 mittel, 6 klein.
+
+Die Gegenprüfungen haben alle vier mittleren Befunde bestätigt (P1R3-02 nur teilweise auf der Zeugen-Seite, P5R3-01 mit
+zwei Berichtigungen: Lage des Codekastens, Papierempfehlung unnötig).
+
+### Befunde und Behebung, Runde 3
+
+| Befund | Schwere | Ergebnis | Behebung oder Begründung |
+|---|---|---|---|
+| P1R3-01 | mittel | behoben | Serkan → Hana und Damir → Sibel in Runde 2 mit zwei Fassungen: „Hanas/Sibels Karte offen“ bittet vor allen um eine Antwort, die in „Nach dem Umdrehen“ steht (Handschuh in der Nische, Schatulle um 21:00); „Karte zu“ bleibt das Flüstern (ZR 2.8, 4.8, 0.4, 9.2). Im Druck bei 14, 18 und 20 Personen geprüft, Etiketten je auf eigener Zeile. |
+| P1R3-02 | mittel | behoben | „Stell diese Frage vor allen. Ruf dafür den Erzähler.“ an jeder Runde-3-Frage, die einen Auslöser „vor allen“ treffen soll: Can, Hana → Tim; Fatma, Tim, Damir, Tugba → Marek; Joanna → Zeynep und ihr Ausweichziel Tim; Ahmet → Lejla; Lejlas und Joannas Fassung „Olli noch in Stufe 1“. Cans Frage an Tims Auslöser angepasst. Tarnzeile von Tim, Marek, Zeynep „(außer in Runde 3 vor allen)“. Lejla → Marek (R2) und Joanna → Zeynep sinngleich gekürzt, sonst kippen die Zeugenhefte bei 12–16 Personen in den Notumbruch. Nicht übernommen: „Das sag ich nur einmal …“ (passt nicht zu den Figuren, kein Platz). |
+| P1R3-03 | klein | behoben | Marek, Runde 2: „Tipp: Weicht er aus, ist das ein guter Moment für deine Taschenkontrolle.“ ohne Anführungszeichen und ohne „Dazu im Heft“ (ZG 5.7). |
+| P2R3-01 | mittel | behoben | Impulsregeln: „Bittet der Detektiv um einen Impuls, liest du genau diesen.“; ab 14 Personen „Den Impuls zur Hälfte liest du erst nach „Wechsel!“.“; Abschnitt b ebenso (MECH 1.3, 9.9). Test: Jeder der sieben Impulse, um die Teil 01 bittet, steht in Teil 00 in derselben Runde. |
+| P2R3-02 | klein | behoben | Lejlas Stufe 1: „Als das Licht anging, ist Olli neben mir aufgestanden.“ „als Erstes zum Eiskübel“ steht nur noch auf der Karte, die Runde-3-Frage sagt es nicht vorweg (ZG 1.4, 1.5, 1.7; Folge ZR 4.8, 9.2). W-20 bleibt: Ollis eigene Stufe 1 deckt das Eisholen. |
+| P2R3-03 | klein | behoben | Anleitung „Karten unter den Streifen“ nach Vorschlag umgestellt: „Der Detektiv liest sie sofort laut vor, dann stellst du die Domino-Frage. … Der Streifen selbst bleibt zu, bis sein eigener Code kommt.“ R-08 endet auf „Dann liest der Detektiv sie laut vor.“ (MECH 1.4, 5.4, 9.14). |
+| P2R3-04 | klein | behoben | Stichworte M1–M3 passen jetzt zu den gedruckten Vermerken; „Ostende“ allein genügt nicht, „beim Caterer“ nur ohne Marek (MECH 6.1). Ein Test liest alle Vermerke aus dem Inhalt (6, 10, 12, 20 Personen). |
+| P2R3-05 | klein | behoben | Tipp-Wertung Frage 3: „…, egal was auf dem Zettel angekreuzt ist.“ Tipp-Runde: „ob ihr glaubt, dass euer Bonus-Ziel bei der Anklage erfüllt ist“ (MECH 7.2, 9.12). |
+| P3R3-B1 | klein | behoben | Beleg-Streit „am Jackenständer“ statt „beim Einlass“: Aylin R1 Ziel 1, Tugba Stufe 1, R2 Ziel 2 und Karte (ZR 7.8, 8.6, 8.7, 8.8). „Beim Einlass“ bleibt nur für Dankeskarte und Gästeliste. |
+| P3R3-B2 | klein | behoben | Ollis Ausweichfrage an Can: „Dahin kommt man nur durch den Kaminsaal und den Turmgang. Wer hat dich da gehen sehen?“ (RK 4.9). |
+| P3R3-B3 | klein | behoben | Blatt A zeigt „Wandbank Süd“, neu „Wandbank West“ (1,5/10,5, Feld 7, 4 m vom Ascheneimer) und „Wandbank Ost mit Musikbox“; Schilder ohne Überdeckung (WELT 2.3, MECH 10.2). Die Wandbank Nord bleibt ohne Punkt, kein Heft nennt sie. |
+| P4-01 | klein | behoben | Bei genau einem Zusatzheft „1 Zusatzheft: Sibel“ (neuer Schlüssel in `ui/00.json`). |
+| P4-02 | klein | behoben | Ab 12 Personen nennt Teil 00 keine Zeugenstreifen: Schritt 6, Ausweichsatz und der Satz zu den Karten unter den Streifen im Bonus-Ziel des Erzählers, dieser auch in Teil 90 (MECH 1.1, 7.3, 9.9, 9.12). Test: „Zeugenstreifen“ steht auf S. 3, 10 und 13 genau dann, wenn es ein Abwesenheitsblatt gibt. |
+| P4-03 | klein | behoben | Ollis Auslöser (b) mit Lejla ohne „oder ihr Zeugenstreifen zeigt“; Teil 90 übernimmt es (RK 4.7, MECH 4.2). |
+| P4-04 | klein | behoben | Can schickt niemanden zu einer fehlenden Rolle: „Frag sie selbst.“ nur mit Zeynep; ohne Tim „Detektiv, schau dir den Durchgang an.“, ohne Zeynep „Detektiv, schau dir den Steinbogen an.“ (Rollenbegriff nach E20; RK 1.5, 5.6, 5.11, 7.6). |
+| P4-05 | klein | behoben | Wie P1R3-03. |
+| P5R3-01 | mittel | behoben | Außenseite von Teil 90 wie Teil 11: zwei Drittel-Falzlinien, Mitte leer, unten „So verschließt du das Auflösungsheft“ mit vier Schritten (Schritt 1 nennt die letzte Seite). Vorbereitung: „Falte Teil 90 so, wie es auf seiner ersten Seite steht, und klebe es zu.“ (3 min). Festeres Papier bewusst nicht empfohlen, wie die Gegenprüfung riet (MECH 8.4, 10.5). |
+| P5R3-02 | klein | behoben | Listen auf S. 3 und Zeitleiste auf S. 2 haben in allen vier Fassungen denselben festen Abstand; jeder Abschnitt steht oben in seinem gleich hohen Kasten. Gemessen: je Abschnitt genau zwei Zeilenabstände, in allen vier gleich (vorher drei bis vier). Ausnahme RN7 bei 8 Personen im Längentest entfernt (RK 7.1, MECH 10.4). |
+| P5R3-03 | klein | behoben | Blatt B: Kopfband mit Kennung und Name über einer Linie, Mini-Skizze 20 mm unten rechts, Hinweis „Marker unter die Linie legen, bei vollem Feld hochkant.“; der Satz prüft, ob die versprochenen Plättchen passen. 4a, 4b, 4c, 6 und 8b fassen 4 statt 6 (Höchstbelegung dort 3) (MECH 10.2). |
+| P5R3-04 | klein | behoben | „Die Rollen am Tisch“: Etikett „Name · Platz N“ für Rollen ohne Fassung, kein doppelter Name mehr (MECH 8.4). |
+| P5R3-05 | klein | behoben | Wie P4-02. |
+| P5R3-06 | klein | behoben | Am Falz jedes Streifens: „Hier nach hinten falten, Etikett bleibt oben“ (6,5 pt, mit Überlaufprüfung; MECH 5.2, E19). Die Ersatzlösung im Erzählerheft ist nicht nötig. |
+| P5R3-07 | klein | behoben | „Zum Nachlesen“: Kopf „Wörtlich aus dem Heft der Rolle. Sobald einer davon eintrat, musste sie ihre Geheimniskarte umdrehen.“; „Frühestens in Runde N.“ fett vor den Auslösern wie im Heft (MECH 8.4). |
+
+### Nachprüfung, Runde 3
+
+Alle 23 Befunde sind im neuen Druck erledigt, jeder mit Zitat vorher und nachher belegt. Folgeänderungen, die kein Befund
+verlangte: In Ollis RN7 heißt Tim bei 6 bis 8 Personen nach der ersten Nennung nur „dein Kumpel“ (Zeitleiste dort jetzt
++7,3 / +7,5 / +8,2 % statt +9,4 / +9,7 / +10,3 %; RK 1.5, 4.11); der Falzhinweis für Teil 20 in der Vorbereitung folgt der
+Karte, der für Teil 11 der ersten Seite der Fassung (MECH 10.5); RK 7.7 Zeile Gesprächsaufträge neu gezählt
+(263 · 256 · 237 · 281). Drei kleine Reste bleiben begründet offen:
+
+- RN7 füllt auf S. 3 die Abschnitte „Was nur du weißt“ und „Wenn es eng wird“ fast ganz (8 pt frei, die anderen 23–38 pt).
+  Das folgt aus dem Vorschlag zu P5R3-02. Ganz gleich wird das Seitenbild erst bei gleich langen Texten (RK 7.7).
+- Can hat 281 Wörter Gesprächsaufträge, ein Wort über dem Nennwert von RK 1.1 (230–280), innerhalb der zehn Prozent.
+- Die Tabelle auf S. 16 des Erzählerhefts nennt für Tim „dein Kumpel aus der Berufsschule“; die Kurzform steht nur in
+  Ollis stillem Text, was er laut sagt, deckt die Tabelle ab.
+
+Hinweise für spätere Änderungen: Seite 4 der Zeugenhefte ist bei 12 bis 16 Personen bei Lejla und Joanna ohne Luft; jede
+weitere Zeile in ihren Nachbohr-Zielen kippt alle sechs Zeugenhefte in den Notumbruch. Drei ältere Runde-3-Fragen behalten
+die Kurzform („Sag es jetzt, vor allen.“, „Sag es vor allen.“, „Sag allen, …“). Soll Cans Anrede „Detektiv, …“ nach dem
+Geschlecht gehen, ist an den drei Stellen `{detektiv:Detektiv|Detektivin}` zu setzen.
+
+### Summe Runde 3
+
+23 Befunde: 0 Blocker, 4 mittel, 19 klein; zwei davon doppelt gemeldet (P4-05 wie P1R3-03, P5R3-05 wie P4-02). Ergebnis:
+alle 23 behoben. Die Seitenzahlen nach MECH 10.1 und E18 sind dieselben wie vorher.
+
+Prüfungen: `dart analyze` und `flutter analyze` ohne Befund; `dart test test/party/` +1724, ein Test übersprungen wie
+bisher (figuren_abgleich); `tool/kanon_tor.sh --pruefen` Exit 0; `tool/ci/tests` 33 Tests OK; 30 Sätze (6–20 Personen, w
+und m) ohne Überlauf; zwei Läufe mit 10 Personen bytegleich (16 PDFs); JSON-Format der 21 geänderten Inhaltsdateien
+unverändert; kein Test gelöscht, übersprungen oder abgeschwächt.

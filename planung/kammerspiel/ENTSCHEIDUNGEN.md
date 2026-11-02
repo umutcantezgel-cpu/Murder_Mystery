@@ -63,7 +63,8 @@ Entscheidungen bei der Umsetzung der Druckteile (2026-11-02), zur Kenntnis des B
   (MECH 9.1, 9.6) und „Karten unter den Streifen“ auf Seite 16 (MECH 9.14); ohne leere Füllseiten ergibt das bei jeder
   Besetzung 16 Seiten. Die Tischregeln stehen auf Seite 14 statt 3, weil Seite 3 mit Ablauf und Rundenaufbau voll ist.
 - E19 **Schriftgrößen.** Lesetext nie unter 9 pt. Darunter liegen nur Beschriftungen: Kopf, Fuß und Marken („VORLESEN“)
-  in 8,5 pt, die Falzmarke „Hier falten“ in 6,5 pt (am Falz sind nur 1,6 mm Luft, MECH 5.2) und Joannas Notiz in 8 pt.
+  in 8,5 pt, die Falzmarke „Hier falten“ (auf den Zeugenstreifen „Hier nach hinten falten, Etikett bleibt oben“, P5R3-06) in 6,5 pt
+  (am Falz sind nur 1,6 mm Luft, MECH 5.2) und Joannas Notiz in 8 pt.
   Die Rollenhefte nutzen 10 mm Rand (Druckrand 5 mm bleibt gewahrt), damit die Bibel-Längen in die festen Seitenzahlen passen.
 - E20 **„Detektiv“ und „Erzähler“ sind Rollenbegriffe.** Regeltexte, Kartenköpfe („heute beim Detektiv“), „Was alle
   wissen“ (MECH 1.5 wörtlich) und die Bedingung der Stufe 3 in Teil 11 bleiben bei der Rolle. Nach `--detektiv w|m`
