@@ -55,12 +55,13 @@ Es gibt zwei Wege.
 
 - **Über die Druckmappe der App:** In der Detektei steht ganz oben, gleich unter dem Schriftzug MORDAKTE, der Knopf
   **PDFs zum Ausdrucken**; ihr findet ihn ohne Rollen. Derselbe Knopf steht unter der Mappe **Spuk im
-  Schlosskeller** und unten auf der Seite der Akte. Wählt ihr im Abend-Assistenten **Zum Drucken**, führt auch das
-  zur Druckmappe. Dabei entsteht kein Abend.
+  Schlosskeller** und unten auf der Seite der Akte. Auch der Abend-Assistent führt dorthin: **Neuer Abend** →
+  Akte → **Ein Gerät reihum** → unter **Wie spielt ihr?** **Zum Drucken**. Dann verschwinden alle anderen
+  Einstellungen, und der Startknopf heißt **Zur Druckmappe**. Dabei entsteht kein Abend.
   1. Unter **Personen am Tisch** stellt ihr die Zahl ein, 6 bis 20: mit dem Regler oder den Knöpfen daneben
      („Eine Person weniger“, „Eine Person mehr“). Darunter steht, was sie bedeutet, etwa „8 Rollen, Detektiv und
      Erzähler“. Führt die Gästeliste der Akte schon eine Zahl, steht sie vorn, mit Detektiv und Erzähler
-     dazugezählt; sonst sind es 10.
+     dazugezählt, höchstens 20; sonst sind es 10.
   2. Unter **Wer ermittelt?** kreuzt ihr **Detektiv** oder **Detektivin** an. Einen Fall wählt ihr nicht, er steht
      fest.
   3. Unten auf **Druckmappe vorbereiten** tippen. Die Tafel **Kammerspiel** nennt die Personen und Rollen und
@@ -162,7 +163,8 @@ Reihenfolge eine andere. Für das Kammerspiel schickt ihr vorab besser die Rolle
   Steckbrief verrät etwas über den Fall.
 - **Gästeliste:** Tragt ein, wer welche Figur spielt. Je Gast schickt **Steckbrief senden** seinen Steckbrief. Fällt
   eine Figur bei einer kleineren Zahl weg, steht das am Gast. Die Liste bleibt auf dem Gerät und füllt am Abend
-  reihum die Personenzahl und die Namen in der Einrichtung vor.
+  reihum die Personenzahl und die Namen in der Einrichtung vor, in der Druckmappe die Personenzahl (mit Detektiv und
+  Erzähler) und die Namen auf **Senden an …**.
 
 Die Steckbriefe heißen nach der Figur, etwa `steckbrief-fatma.pdf`. Herunterladen und Teilen gehen wie oben.
 
@@ -201,9 +203,10 @@ zum Vorlesen als PDF.
 ## Das alte Druckspiel (nur per Befehl)
 
 Bis der Besitzer das Kammerspiel abnimmt, bleibt das bisherige Druckspiel per Befehl erreichbar
-(`--druckspiel-alt`, unten). Die App bietet es nicht mehr an. Es folgt dem Fall-Code des App-Spiels (vier Pfade),
-zählt Rollen ohne den Detektiv (4 bis 20) und läuft mit Stimmkarten, Hinweis-Umschlägen und der Gruppenwahl mit
-Papierstreifen A und B. Sein Erzählerheft kennt alle Stichpunkte und erklärt Vorbereitung und Ablauf selbst.
+(`--druckspiel-alt`, unten). Druckmappe und Abend-Assistent bieten es nicht mehr an. Es folgt dem Fall-Code des
+App-Spiels (vier Pfade), zählt Rollen ohne den Detektiv (4 bis 20) und läuft mit Stimmkarten, Hinweis-Umschlägen und
+der Gruppenwahl mit Papierstreifen A und B. Sein Erzählerheft kennt alle Stichpunkte und erklärt Vorbereitung und
+Ablauf selbst.
 
 | Dateiname | So steht es im Erzählerheft |
 | --- | --- |

@@ -25,7 +25,7 @@
         "zeit": "18:00",
         "text": "leiht sich {wenn:wojtek|Wojteks Werkzeugkasten|einen Werkzeugkasten}, um seine wackelige alte Mehrfachsteckdose zu richten. Er tut es nicht. Der Kasten steht hinter der Theke neben der Kaffeemaschine",
         "frei": "offen",
-        "zusatz": "Kasten offen; die Steckdose erst nach dem Umdrehen"
+        "zusatz": "offen, dass er den Kasten geliehen hat; die Steckdose erst nach dem Umdrehen"
       },
       {
         "zeit": "18:30",
@@ -103,7 +103,7 @@
         "zeit": "23:57",
         "text": "hört hinter sich: „Zweitausend, bis zwölf.“ Dann kommt Herr Schneider vom Ostende zu ihm: „Nicht die alte Leiste!“ Tim steckt die Kaffeemaschine trotzdem ein",
         "frei": "offen",
-        "zusatz": "Ruf offen, alle hörten ihn; wem er galt, das Einstecken und „Zweitausend“ erst nach dem Umdrehen"
+        "zusatz": "„Nicht die alte Leiste!“ offen, alle hörten es; wem es galt, das Einstecken und „Zweitausend“ erst nach dem Umdrehen"
       },
       {
         "zeit": "23:58",

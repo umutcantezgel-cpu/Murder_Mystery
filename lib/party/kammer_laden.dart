@@ -44,12 +44,12 @@ Future<KammerGrundlage> kammerGrundlageLaden([AssetBundle? bundle]) async {
 }
 
 /// Personenzahl zu Beginn der Druckmappe: Die Gästeliste der Akte zählt die
-/// Personen am Tisch ohne den Detektiv ([gaestePersonen], `null`: offen); im
-/// Kammerspiel spielen sie die Rollen, dazu kommen Detektiv und Erzähler (E6).
-/// Liegt das außerhalb der Grenzen des Falls (6 bis 20), gilt die Vorgabe des
-/// Falls (10).
+/// Personen am Tisch ohne den Detektiv ([gaestePersonen], `null`: offen, dann
+/// die Vorgabe des Falls, 10); im Kammerspiel spielen sie die Rollen, dazu
+/// kommen Detektiv und Erzähler (E6). Liegt das außerhalb der Grenzen des Falls
+/// (6 bis 20), gilt die nächste Grenze: Bei 19 oder 20 Gästen sind es 20
+/// Personen, so nah an der Gästeliste wie möglich, nicht die Vorgabe 10.
 int kammerPersonenVorgabe(KammerFall fall, int? gaestePersonen) {
   if (gaestePersonen == null) return fall.personenVorgabe;
-  final p = gaestePersonen + fall.ohneRolle.length;
-  return p >= fall.personenMin && p <= fall.personenMax ? p : fall.personenVorgabe;
+  return (gaestePersonen + fall.ohneRolle.length).clamp(fall.personenMin, fall.personenMax).toInt();
 }

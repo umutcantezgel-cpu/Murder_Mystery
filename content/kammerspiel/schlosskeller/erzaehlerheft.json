@@ -183,7 +183,7 @@
       "abschnitt": "b",
       "name": "Tischgespräch und Verhörstuhl",
       "minuten": 17,
-      "text": "Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl, jede höchstens zwei Minuten. Ist ein Pflicht-Auslöser erfüllt, ruft die Person „Karte!“ und dreht ihre Geheimniskarte um. Marker werden umgestellt, Aktionskarten gespielt. Stockt das Gespräch, liest du einen Impuls.{ab:14| In Runde 1 rufst du nach der Hälfte „Wechsel!“. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“.}"
+      "text": "Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl, jede höchstens zwei Minuten. Ist ein Pflicht-Auslöser erfüllt und die Rundensperre vorbei, ruft die Person „Karte!“ und dreht ihre Geheimniskarte um. Marker werden umgestellt, Aktionskarten gespielt. Stockt das Gespräch, liest du einen Impuls.{ab:14| In Runde 1 rufst du nach der Hälfte „Wechsel!“. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“.}"
     },
     {
       "abschnitt": "c",
@@ -564,6 +564,6 @@
         "text": "„die Fußballtrainerin“, „deine Schwester“, „meine Schwester“"
       }
     ],
-    "hinweis": "„Ein Gast“ und „jemand“ öffnen keinen Streifen. Auch „ein Gast mit einer großen Teekanne“ öffnet keinen, denn das ist kein Zeuge."
+    "hinweis": "„Ein Gast“ und „jemand“ öffnen keinen Streifen. Auch „ein Gast mit einer großen Teekanne“ öffnet keinen, denn diese Person hat keinen Zeugenstreifen."
   }
 }

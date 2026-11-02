@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -439,6 +440,12 @@ void main() {
       await tester.tap(find.text('Weiter'));
       await warten(tester, bis: find.text('Bereit?'));
       expect(find.text(_de.abend_zur_druckmappe).hitTestable(), findsOneWidget, reason: 'Der Startknopf liegt im Bild');
+      // Ganze Wörter auf dem Startknopf: „Druckmappe“ bricht nicht mitten im Wort um (im Web-Build gesehen: „Druckmapp|e“).
+      final absatz = tester.renderObject<RenderParagraph>(find.descendant(of: find.text(_de.abend_zur_druckmappe), matching: find.byType(RichText)));
+      for (final m in RegExp(r'[^\s-]+-?').allMatches(_de.abend_zur_druckmappe)) {
+        final zeilen = absatz.getBoxesForSelection(TextSelection(baseOffset: m.start, extentOffset: m.end)).map((b) => b.top.round()).toSet();
+        expect(zeilen, hasLength(1), reason: '„${m.group(0)}“ auf „${_de.abend_zur_druckmappe}“ bricht mitten im Wort um');
+      }
       expect(tester.takeException(), isNull, reason: 'Start zum Drucken');
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();

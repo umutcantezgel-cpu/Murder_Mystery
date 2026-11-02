@@ -5,7 +5,7 @@
     "frage": "Aylin, die Kassenprüferin. Wenn dein Kugelschreiber klickt, steht irgendwo ein Stuhl schief. Wie oft hat er heute schon geklickt?",
     "auftritt": "Ich bin Aylin, Steuerfachangestellte. Ordnung ist das halbe Leben, die andere Hälfte vermutlich auch. Ich hebe jeden Beleg auf, sogar den vom Kaugummi. Beim Einlass hab ich die Gästeliste abgehakt, alle sind da. Wenn mein Kugelschreiber dreimal klickt, steht irgendwo ein Stuhl schief. Heute hat er schon sehr oft geklickt."
   },
-  "werDuBist": "Du bist Aylin, 24, die Kassenprüferin. Du bist Steuerfachangestellte und hebst jeden Beleg auf. Man erkennt dich an der schwarzen Ledermappe und am Kugelschreiber. Für Mareks Catering-Betrieb machst du die Steuer.{wenn:tugba| Mit Tugba teilst du eine Überraschung: die Dankeskarte.}\nWas dich heute antreibt: Du willst dein Geld zurück, ohne Ahmet vor allen bloßzustellen.",
+  "werDuBist": "Du bist Aylin, 24, die Kassenprüferin. Als Steuerfachangestellte hebst du jeden Beleg auf. Man erkennt dich an der schwarzen Ledermappe und am Kugelschreiber. Für Mareks Catering-Betrieb machst du die Steuer.{wenn:tugba| Mit Tugba teilst du eine Überraschung: die Dankeskarte.}\nWas dich heute antreibt: Du willst dein Geld zurück, ohne Ahmet vor allen bloßzustellen.",
   "haltung": "Du willst Ordnung und dein Geld. Aber du stellst niemanden vor allen bloß. Lügen tust du nicht.",
   "tandemKasten": "Beim Einlass hast du Herrn Schneider geholfen und die Gästeliste abgehakt. Dabei hast du heimlich alle {wenn:tugba|Tugbas|eine} Dankeskarte für Herrn Schneider unterschreiben lassen. Die soll er mit der Torte bekommen. Das ist das harmlose Geheimnis eures Tandems. Dein eigenes ist es nicht: In deiner Ledermappe steckt ein Zettel von Herrn Schneider.",
   "marker": {
@@ -65,7 +65,7 @@
       },
       {
         "zeit": "23:50–0:00",
-        "text": "sitzt an der langen Tafel, Westseite, die Mappe auf dem Schoß. Bis kurz vor zwölf schenkt Damir dort Tee aus.{wenn:tugba| Tugba steht an der Wandtafel.} Ab fünf vor zwölf schaut sie auf die blinde Kuh. Hört Knall, Rufe, Scheppern. Als die Handylampen angehen, schaut sie zur Tür, woher der Lärm kam",
+        "text": "sitzt an der langen Tafel, Westseite, die Mappe auf dem Schoß. Bis kurz vor zwölf schenkt Damir dort Tee aus. Ab fünf vor zwölf schaut sie auf die blinde Kuh. Hört Knall, Rufe, Scheppern. Als die Handylampen angehen, schaut sie zur Tür, woher der Lärm kam{wenn:tugba|. Tugba steht erst an der Wandtafel, ab fünf vor zwölf beim Detektiv}",
         "frei": "offen",
         "zusatz": null
       },

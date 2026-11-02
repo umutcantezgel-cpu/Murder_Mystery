@@ -1,7 +1,7 @@
 // Die Druckmappe bietet das Kammerspiel an (B1, B3, E16): Nach dem Deckel stehen nur
 // Personen (6 bis 20: Rollen, Detektiv und Erzähler) und Detektiv oder Detektivin, ohne
 // Fall-Code, Rundendauer, Fassung oder „Dein Moment“. Die Gästeliste der Akte gibt die
-// Personenzahl vor, wenn sie passt, und die Namen auf „Senden an …“. „Druckmappe
+// Personenzahl vor (an den Grenzen 6 und 20) und die Namen auf „Senden an …“. „Druckmappe
 // vorbereiten“ zeigt die KammerTafel für die eingestellten Werte, nie die alte
 // Druckfassung und nie die Erzählerakte. „Zurück“ führt dorthin, woher man kam. Eine
 // Akte ohne Kammerspiel hat keine Druckmappe. Inhalt und Schriften kommen aus dem
@@ -57,7 +57,7 @@ void main() {
   /// Die Tafel nach „Druckmappe vorbereiten“.
   KammerTafel tafel(WidgetTester t) => t.widget<KammerTafel>(find.byType(KammerTafel));
 
-  test('Personenzahl aus der Gästeliste: Rollen dazu Detektiv und Erzähler, sonst die Vorgabe 10', () {
+  test('Personenzahl aus der Gästeliste: Rollen dazu Detektiv und Erzähler, an den Grenzen 6 und 20; offen die Vorgabe 10', () {
     final f = ladeKammerInhalt('.').fall;
     expect((f.personenMin, f.personenVorgabe, f.personenMax), (6, 10, 20));
     expect(kammerPersonenVorgabe(f, null), 10, reason: 'Gästeliste offen');
@@ -65,8 +65,10 @@ void main() {
     expect(kammerPersonenVorgabe(f, 8), 10);
     expect(kammerPersonenVorgabe(f, 11), 13);
     expect(kammerPersonenVorgabe(f, 18), 20);
-    expect(kammerPersonenVorgabe(f, 19), 10, reason: '21 Personen passen nicht');
-    expect(kammerPersonenVorgabe(f, 3), 10, reason: '5 Personen passen nicht');
+    // Mehr als 20 Personen passen nicht: die größte Zahl, so nah an der Gästeliste wie möglich, nicht die Vorgabe.
+    expect(kammerPersonenVorgabe(f, 19), 20, reason: '21 Personen passen nicht, 20 schon');
+    expect(kammerPersonenVorgabe(f, 20), 20, reason: '22 Personen passen nicht, 20 schon');
+    expect(kammerPersonenVorgabe(f, 3), 6, reason: '5 Personen passen nicht, 6 schon');
   });
 
   test('Ein Kammerspiel hat nur der Schlosskeller', () {
@@ -207,9 +209,11 @@ void main() {
     await schliessen(t, state);
   });
 
-  testWidgets('Passt die Gästeliste nicht (21 Personen), gilt die Vorgabe 10', (t) async {
+  testWidgets('Passt die Gästeliste nicht (21 Personen), gilt die größte Zahl 20', (t) async {
     final state = await oeffnen(t, Routes.druckmappeVon('schlosskeller'), bereit: vorbereiten, gaeste: const GaesteListe(personen: 19));
-    expect(find.text(_de.detektei_druck_personen_anzahl('10')), findsOneWidget);
+    expect(find.text(_de.detektei_druck_personen_anzahl('20')), findsOneWidget);
+    expect(find.text(_de.detektei_druck_personen_rollen('18')), findsOneWidget);
+    expect(find.text(_de.detektei_druck_personen_anzahl('10')), findsNothing, reason: 'Nicht die Vorgabe: Die Gästeliste ist näher an 20');
     await schliessen(t, state);
   });
 

@@ -377,6 +377,8 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                 MKnopf(
                   text: letzter ? startText : l.abend_weiter,
                   icon: letzter ? startIcon : null,
+                  // „Zur Druckmappe“ bräche am kleinen Handy mit großer Schrift sonst mitten im Wort.
+                  ganzeWorte: true,
                   onPressed: _kannWeiter && !_oeffnet ? (letzter ? _starten : _weiter) : null,
                 ),
               ],

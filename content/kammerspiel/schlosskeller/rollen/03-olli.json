@@ -103,7 +103,7 @@
       "Sobald Ahmet oder Fatma vor allen sagen, dass du um 23:57 Uhr am Eiskübel standst."
     ],
     "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Beim Knall hab ich mich am Eiskübel geduckt. Dann ist das leuchtende Gespenst aus dem Vorratsraum auf Herrn Schneider los. Dann hat es gescheppert. {wenn:lejla|Ich bin zu Lejla gekrochen.|Ich bin zum rechten Buffettisch gekrochen.}“",
-    "marker": "23:57 auf Vor der Theke mit Eiskübel (4b), Scheppern auf Vor der Theke mit Eiskübel (4b). Stell sie so, falls sie anders stehen.",
+    "marker": "„23:57“ auf den Eiskübel (4b), „Scheppern“ auf den Eiskübel (4b). Steht einer noch anders, stell ihn jetzt vor allen um.",
     "abDann": "Ab jetzt sagst du offen, was an der Bogentür war. Sag immer „das Gespenst“ oder „das leuchtende Gesicht“, nie einen Namen. Fragt jemand, wer es war: „Erkannt hab ich nur das Leuchten.“ Woher das Möbelwachs kam, sagst du nicht. Mehr gibst du nicht zu. Dabei bleibst du.",
     "nachDemUmdrehen": {
       "einleitung": null,

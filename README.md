@@ -46,7 +46,8 @@ im vorigen Release auf der [Release-Seite](https://github.com/umutcantezgel-cpu/
 **Druckspiel zum Ausdrucken (Schlosskeller).** Das Druckspiel heißt **Kammerspiel**: ein Krimi auf Papier für 6 bis
 20 Personen (Rollen, Detektiv und Erzähler) mit festem Fall, am Tisch ohne App. Die PDFs erstellt die App:
 Detektei → **PDFs zum Ausdrucken** (ganz oben, gleich unter dem Schriftzug MORDAKTE; derselbe Knopf steht unter dem
-Schlosskeller und auf der Akte-Seite, und **Zum Drucken** im Abend-Assistenten führt ebenfalls dorthin). In der
+Schlosskeller und auf der Akte-Seite; im Abend-Assistenten führt **Zum Drucken** mit dem Knopf **Zur Druckmappe**
+ebenfalls dorthin, ohne einen Abend einzurichten). In der
 Druckmappe unter **Personen am Tisch** die Zahl und unter **Wer ermittelt?** Detektiv oder Detektivin wählen, unten
 **Druckmappe vorbereiten** tippen. Dann gibt es **Alles in einer Datei**, je Teil einen Knopf und unter **Rollenhefte
 einzeln senden** je Rolle **Senden an …**; eine Erzählerakte gibt es dort nicht. Eine Datei entsteht beim ersten Tipp;

@@ -185,7 +185,7 @@ class ReleaseJobTests(unittest.TestCase):
         self.assertNotIn("Ziele wie im Druckspiel", self.text)
         self.assertNotIn("Zielen des Druckspiels", self.text)
         self.assertEqual(self.block.count("in diesem Lauf keine PDF"), 2)
-        self.assertIn("Das Druckspiel „Kammerspiel“ für 6 bis 20 Personen (Erzählerheft, Detektivbogen, Lageplan, Rollenhefte, Fassungen, Karten, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben) → Druckmappe.", self.block)
+        self.assertIn("Das Druckspiel „Kammerspiel“ für 6 bis 20 Personen (Erzählerheft, Detektivbogen, Lageplan, Rollenhefte, Fassungen, Zusatzhefte, Karten, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben) → Druckmappe.", self.block)
         self.assertNotIn("PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung)", self.block)
 
     def test_kopfkommentar_nennt_den_job(self):

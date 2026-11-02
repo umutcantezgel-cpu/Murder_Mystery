@@ -57,27 +57,27 @@
     }
   ],
   "meilensteinRegel": "M1 bis M3 zählen nur, wenn in der Zelle eine Quelle steht, die nicht die Person selbst ist. Das kann eine Zeugin, ein Zeuge, ein Streifen oder eine Karte sein. Welche, ist egal.",
-  "pruefung": "Leg den Ermittlungsbogen neben diese Tabelle und hake jeden Meilenstein ab, der dort steht. Je Meilenstein gibt es einen Punkt, höchstens 9. Es zählt der Kernfakt im richtigen Feld, egal aus welcher Quelle. Für Falsches gibt es keinen Minuspunkt. Es zählt, was bei der Anklage auf dem Bogen stand. Die Summe sind die Detektiv-Punkte, 0 bis 9. Bei Zweifel entscheidet die Mehrheit des Tisches, nicht der Erzähler allein.",
+  "pruefung": "Leg den Ermittlungsbogen neben diese Tabelle und hake jeden Meilenstein ab, der dort steht. Je Meilenstein gibt es einen Punkt, höchstens 9. Es zählt der Kernfakt im richtigen Feld, egal aus welcher Quelle. Für Falsches gibt es keinen Minuspunkt. Es zählt, was bei der Anklage auf dem Bogen stand. Die Summe sind die Detektiv-Punkte, 0 bis 9. Bei Zweifel entscheidet die Mehrheit des Tisches, nicht du allein.",
   "enden": [
     {
       "nr": 1,
       "name": "Meister-Detektiv",
-      "text": "Du klagst Olli an, und es stimmt. Du hast die Spuren zusammengetragen. Olli gesteht: Die Tat war Panik im Dunkeln. Zusammen seht ihr euch den Kerzenständer an. Im erstarrten roten Wachs am Fuß kleben feine Holzsplitter und weißer Kalk. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig.\n\n{bund}\n\nDie Runde lacht erleichtert, bei Tee und alkoholfreiem Apfelpunsch. Herr Schneider will das Außentor erst im Hellen aufschließen. Bis es dämmert, gibt es Torte und Tee. Dann schließt er auf, und ihr geht hinaus."
+      "text": "Du klagst Olli an, und es stimmt. Du hast die Spuren zusammengetragen. Olli gesteht: Die Tat war Panik im Dunkeln. Zusammen seht ihr euch den Kerzenständer an. Im erstarrten roten Wachs am Fuß kleben feine Holzsplitter und weißer Kalk. Herr Schneider überlebt. Er ist wach, hat eine dicke Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig.\n\n{bund}\n\nDie Runde lacht erleichtert, bei Tee und alkoholfreiem Apfelpunsch. Herr Schneider will das Außentor erst im Hellen aufschließen. Bis es dämmert, gibt es Torte und Tee. Dann schließt er auf, und ihr geht hinaus."
     },
     {
       "nr": 2,
       "name": "Teilerfolg",
-      "text": "Du klagst Olli an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Olli gesteht: Die Tat war Panik im Dunkeln. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig.\n\n{bund}\n\nZwischen euch bleibt ein kleiner Riss. Herr Schneider will das Außentor erst im Hellen aufschließen. Bis es dämmert, gibt es Torte und Tee. Dann schließt er auf, und alle gehen ein bisschen stiller hinaus."
+      "text": "Du klagst Olli an, und es stimmt. Ein gutes Stück Glück war allerdings dabei. Olli gesteht: Die Tat war Panik im Dunkeln. Herr Schneider überlebt. Er ist wach, hat eine dicke Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig.\n\n{bund}\n\nZwischen euch bleibt ein kleiner Riss. Herr Schneider will das Außentor erst im Hellen aufschließen. Bis es dämmert, gibt es Torte und Tee. Dann schließt er auf, und alle gehen ein bisschen stiller hinaus."
     },
     {
       "nr": 3,
       "name": "Justizirrtum",
-      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig. Das Tor bleibt zu bis zum Morgen.\n\n{bund}\n\nOlli gesteht erst danach: Die Tat war Panik im Dunkeln. Zwischen euch bleibt ein tiefer Riss."
+      "text": "Du klagst die falsche Person an. Wer zu Unrecht beschuldigt wurde, ist entsetzt und wütend. Die Runde sitzt danach geteilt da, und die Stimmung wird kalt. Herr Schneider überlebt. Er ist wach, hat eine dicke Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig. Das Tor bleibt zu bis zum Morgen.\n\n{bund}\n\nOlli gesteht erst danach: Die Tat war Panik im Dunkeln. Zwischen euch bleibt ein tiefer Riss."
     },
     {
       "nr": 4,
       "name": "Totale Eskalation",
-      "text": "Du zeigst auf die falsche Person, und plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Stimmen werden immer lauter, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Herr Schneider überlebt. Er wacht auf, hat eine Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig. Das Tor bleibt zu bis zum Morgen.\n\n{bund}\n\nOlli gesteht erst danach: Die Tat war Panik im Dunkeln. Alle gehen hinaus, und keiner verabschiedet sich."
+      "text": "Du zeigst auf die falsche Person, und plötzlich reden alle durcheinander. Wer zu Unrecht beschuldigt wurde, wehrt sich laut. Die Stimmen werden immer lauter, und keiner hört mehr zu. Die Runde zerfällt in kleine Grüppchen. Herr Schneider überlebt. Er ist wach, hat eine dicke Beule und eine Gedächtnislücke. Er ist schon bald wieder grantig. Das Tor bleibt zu bis zum Morgen.\n\n{bund}\n\nOlli gesteht erst danach: Die Tat war Panik im Dunkeln. Alle gehen hinaus, und keiner verabschiedet sich."
     }
   ],
   "bundSaetze": {
@@ -87,14 +87,14 @@
     "andereMitPp9": "Den Bund hat Herr Schneider, aber er schließt erst auf, als es hell wird."
   },
   "rueckblende": [
-    "Um halb sieben tragen Olli und Tim die Warmhaltebehälter durch den Turmgang. Fünf Minuten später schrammt Olli die Bogentür, und ein Beschlag reißt aus der gekalkten Wand. An seinen Ärmeln hängen Holzsplitter und weißer Kalk. Tim gibt ihm Möbelwachs, und Olli reibt es mit seinem rechten Handschuh in die Schramme. Herr Schneider verlangt zweitausend Euro bis Mitternacht. Dann sperrt er die Tore zu. Um elf Uhr droht er Olli laut mit der Polizei.",
+    "Um halb sieben tragen Olli und Tim die Warmhaltebehälter durch den Turmgang. Fünf Minuten später schrammt Olli die Bogentür, und ein Beschlag reißt aus der gekalkten Wand. An seinen Ärmeln hängen Holzsplitter und weißer Kalk. Tim gibt ihm Möbelwachs, und Olli reibt es mit seinem rechten Handschuh in die Schramme. Den linken vergisst er um halb acht in der Kamin-Nische. Herr Schneider verlangt zweitausend Euro bis Mitternacht. Er sperrt die Tore zu. Um elf Uhr droht er Olli laut mit der Polizei.",
     "Vier aus der Clique haben heute etwas zu verbergen. Nur einer davon hat mit dem Scheppern zu tun. Ahmet hat für Mareks Nachzahlung von allen „Miete“ eingesammelt, obwohl der Keller umsonst war. Fatma hat um zwanzig vor zwölf die Münzschatulle aus der Vitrine ausgeliehen. Can wartet ab sechs vor zwölf mit einer leuchtenden Maske im Vorratsraum, Zeynep steht Schmiere. Und Olli will mit Herrn Schneider reden.",
     "Drei vor zwölf steht Olli am Eiskübel, Ahmet hinter der Theke bei Marek. Fatma geht zur Theken-Klappe. Herr Schneider ruft Tim zu: „Nicht die alte Leiste!“ Zwei vor zwölf steckt Tim die Kaffeemaschine in seine alte Steckdose. Es knallt, und überall ist es dunkel. Nur die Kerzen an der Anrichte und das Notausgangsschild leuchten noch. Ahmet kauert an Mareks Beinen, Fatma neben Emine hinter dem linken Buffettisch. Lejla kauert allein am rechten Buffettisch.",
     "Herr Schneider will die Notlaterne holen und zieht die Vorratsraumtür auf. Da springt Can mit der leuchtenden Maske heraus. Herr Schneider packt ihn an der Kapuze: „Hab ich dich!“ Marek sieht im Kerzenlicht das leuchtende Gesicht. Can reißt sich los. Herr Schneider brüllt: „Stehen bleiben!“ Aber Can rennt an Olli, Tim und Zeynep vorbei. Can ist schon im Kaminsaal, als Herr Schneider ihm noch hinterherbrüllt. Erst danach scheppert es.",
     "Olli geht durch die Klappe zur Vorratsraumtür: „Lass uns reden, nur kurz.“ Herr Schneider packt ihn am Ärmel und zischt: „Zweitausend. Sonst Polizei.“ Olli greift den Kerzenständer am Fuß. Holzsplitter und Kalk von seinem Ärmel bleiben im Wachs kleben, rote Tropfen fallen auf seinen Handschuh. Dann, in Panik: ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden. Die Kerzen gehen aus.",
     "Herr Schneider fällt rückwärts in den Vorratsraum und bleibt bewusstlos liegen, mit einer dicken Beule. Olli reißt ihm den Schlüsselbund vom Gürtel, um hinauszukommen. Gleich danach weiß er: Flucht macht alles schlimmer. Er tastet sich zum Eiskübel zurück. Olli schiebt den Bund unter die Eiswürfel. Dann kriecht er zum rechten Buffettisch und flüstert: „Lejla? Ich bin's, Olli.“",
     "Im Durchgang findet Tim Stirnlampe und Hauptschalter. Um Mitternacht geht das Licht an. Olli holt Tim eine Handvoll Eis, nur von oben. Da hat Marek schon gerufen: „Hier liegt Herr Schneider!“ Außer Olli greift niemand in den Eiskübel. So bleibt der Bund unter dem Eis verborgen.",
-    "Herr Schneider kommt zu sich und vermisst seinen Schlüsselbund. Ohne den Bund sitzen alle bis zum Morgen fest. Zwölf nach zwölf leert Ahmet am Kamin seinen Umschlag. Das Geld steckt er ein, die Hülle landet im Ascheneimer. Herr Schneider überlebt. Er hat eine dicke Beule und eine Gedächtnislücke, und er ist bald wieder grantig."
+    "Herr Schneider kommt zu sich und vermisst seinen Schlüsselbund. Zwölf nach zwölf leert Ahmet am Kamin seinen Umschlag. Das Geld steckt er ein, die Hülle landet im Ascheneimer. Herr Schneider überlebt. Er hat eine dicke Beule und eine Gedächtnislücke, und er ist bald wieder grantig."
   ],
   "zeitleiste": [
     {
@@ -179,7 +179,7 @@
     },
     {
       "zeit": "23:58:20 – 23:58:22",
-      "text": "Can rennt an Tim vorbei, streift Zeynep im Steinbogen und läuft quer durch den Kaminsaal."
+      "text": "Can rennt an Tim vorbei, streift Zeynep im Steinbogen und läuft quer durch den Kaminsaal.{wenn:sibel| {wenn:hana|Hana und Sibel sehen|Sibel sieht} das leuchtende Gesicht.}"
     },
     {
       "zeit": "23:58:22",
@@ -223,7 +223,7 @@
     },
     {
       "zeit": "23:59:40",
-      "text": "Tim ertastet seine Stirnlampe auf dem Boden. Sie leuchtet wieder."
+      "text": "Tim ertastet seine Stirnlampe auf dem Boden und knipst sie an."
     },
     {
       "zeit": "0:00:00",
@@ -265,7 +265,7 @@
       }
     ],
     "sonderregel": "**Für Olli zählen Frage 1 und 2 nicht.** Er bekommt stattdessen 3 Punkte, wenn der Detektiv nicht ihn angeklagt hat. Frage 3 zählt für ihn wie für alle. So hat jeder höchstens 5 Punkte.",
-    "spuernase": "Der Erzähler zählt die Punkte aller Tipp-Zettel zusammen, auch seine eigenen. **Spürnase des Abends** ist, wer die meisten Punkte hat. Bei Gleichstand teilen sich alle mit den meisten Punkten den Titel. Der Detektiv ist nicht in dieser Wertung. Für ihn zählen sein Ende und seine Detektiv-Punkte."
+    "spuernase": "Der Erzähler zählt auf jedem Tipp-Zettel die Punkte zusammen, auch auf seinem eigenen. **Spürnase des Abends** ist, wer die meisten Punkte hat. Bei Gleichstand teilen sich alle mit den meisten Punkten den Titel. Der Detektiv ist nicht in dieser Wertung. Für ihn zählen sein Ende und seine Detektiv-Punkte."
   },
   "erzaehlerBonus": "Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Karten unter den Zeugenstreifen zählen nicht mit."
 }

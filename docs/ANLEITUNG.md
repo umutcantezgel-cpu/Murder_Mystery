@@ -144,8 +144,9 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
    - *Wie spielt ihr?* (Schlosskeller, nur bei „Ein Gerät reihum“): **Am Bildschirm** oder **Zum Drucken**.
      **Zum Drucken** führt zur Druckmappe (Abschnitt 3). Das Druckspiel, das Kammerspiel für 6 bis 20 Personen, läuft
      ganz auf Papier; die App erstellt nur die PDFs und begleitet den Abend nicht
-     ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Dieselbe Druckmappe öffnet **PDFs zum Ausdrucken** ganz
-     oben in der Detektei.
+     ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Wählst du **Zum Drucken**, verschwinden alle anderen
+     Einstellungen: Personen und Detektiv stellst du in der Druckmappe ein. Dieselbe Druckmappe öffnet **PDFs zum
+     Ausdrucken** ganz oben in der Detektei.
    - *Länge des Abends* (Schlosskeller): **Kurzer Abend** oder **Langer Abend**. Der lange Abend ist ein
      Streifzug durch Schloss, Hof und Garten, mit Vorspiel am Anfang und Morgen am Ende.
    - *Einstimmung* (Schlosskeller): der Schalter **Vorgeschichte und Vorstellung**. Er ist anfangs an. Dann
@@ -163,6 +164,8 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
 4. **Start.** Eine Zusammenfassung zeigt Akte, Spielweise, Personen und Rundendauer, im Schlosskeller auch Länge,
    Einstimmung und „Dein Moment“. Darunter siehst du dein **Deck** für diesen Abend. Mit **Deck ändern** passt du
    es an. Dann tippst du auf **Abend beginnen** (bei „Jeder am eigenen Gerät“ auf **Raum öffnen**).
+   Bei **Zum Drucken** zeigt die Zusammenfassung nur Akte und Spielweise, und der Knopf **Zur Druckmappe** öffnet
+   die Druckmappe der Akte; es beginnt kein Abend.
 
 Bei einem Abend am eigenen Gerät legst du die Zahl der Rollen erst in der Lobby fest.
 

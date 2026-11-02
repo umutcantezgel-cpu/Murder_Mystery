@@ -754,7 +754,7 @@
   "leser": {
     "beschreibung": "Regeldaten der Leser-Prüfung (packages/mordakte_core/lib/src/party/druck/kammer/leserpruefung.dart): Wer liest welchen Text wann, und was darf er dabei nicht erfahren (FALL-BIBEL E3, E7–E11, MECH 3.1, 4.1, 9, 10.4, RK 1, RK 7.7, RK 8, WELT 0.2). Muster wie unter ausnahmen: datei oder datei#jsonPfad (Datei-Glob, JSON-Pfad als Präfix ab $, [*] jeder Index); {taeter} steht für die Rollendatei des Täters aus fall.json, {unschuldig} für die der übrigen Verdächtigen. Folgen sind Fünf-Wort-Folgen innerhalb eines Satzes, klein und ohne Satzzeichen (fuenfWortFolgen). Wortlisten: ganz = ganzes Wort, anfang = Wortanfang, folgen = Wortfolge (folge in Wörtern ohne Satzzeichen, nichtVor = das nächste Wort darf keins davon sein). Texte, die mit einer Marke aus unvollstaendigMarken beginnen, prüft die Leser-Prüfung nicht; Vergleiche, die sie bräuchten, stehen in ausgelassen.",
     "hinweise": {
-      "leser-taeterwissen": "Eine Fünf-Wort-Folge aus dem Tatkern (Ollis Fassung RN7 ab dem Knall, Stufe 3, Teil 90) steht in einem Text, den andere vor der Auflösung lesen (MECH 10.4, E10, A:25).",
+      "leser-taeterwissen": "Eine Fünf-Wort-Folge aus dem Tatkern (Ollis Fassung RN7 ab dem Knall, Stufe 3, Teil 90; Rückblende ab Abschnitt 2, weil Abschnitt 1 nur wörtlich wiederholt, was Olli und Tim vor dem Knall offen wissen, und darum Geheimnisquelle ist) steht in einem Text, den andere vor der Auflösung lesen (MECH 10.4, E10, A:25).",
       "leser-tatwort": "Ein Wort der Tat oder des Geständnisses („Panik“, „Ich war es.“) steht außerhalb von RN7 und Teil 90 (E9, MECH 8.1).",
       "leser-geheimnis": "Erzählerheft, Detektivbogen, Tisch, Außenseiten und Beschriftungen enthalten keine Stufe-2-Inhalte und keine Lösung (E10, RK 6); ein Zeugenstreifen enthält nicht die Geheimniskarte seines Zeugen (E7).",
       "leser-fassungscode": "Ein Fassungscode steht im Klartext außerhalb von Teil 90; die Zuordnung Code → Person steht nur im eigenen Heft (MECH 9, RK 7.2).",
@@ -780,7 +780,13 @@
         "{taeter}#$.fassung.wennEsEngWird",
         "{taeter}#$.fassung.stufe3",
         "aufloesung.json#$.wasWirklichWar",
-        "aufloesung.json#$.rueckblende",
+        "aufloesung.json#$.rueckblende[1]",
+        "aufloesung.json#$.rueckblende[2]",
+        "aufloesung.json#$.rueckblende[3]",
+        "aufloesung.json#$.rueckblende[4]",
+        "aufloesung.json#$.rueckblende[5]",
+        "aufloesung.json#$.rueckblende[6]",
+        "aufloesung.json#$.rueckblende[7]",
         "aufloesung.json#$.zeitleiste",
         "aufloesung.json#$.enden",
         "aufloesung.json#$.bundSaetze",
@@ -796,7 +802,8 @@
       "rollen/*.json#$.geheimniskarte.vermerke",
       "rollen/*.json#$.geheimniskarte.undNochEtwas",
       "rollen/*.json#$.freigabe.nachDerKarte",
-      "rollen/*.json#$.teil90"
+      "rollen/*.json#$.teil90",
+      "aufloesung.json#$.rueckblende[0]"
     ],
     "oeffentlich": [
       "gemeinsam.json",
