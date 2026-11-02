@@ -5,7 +5,7 @@
       "nr": "M1",
       "feld": "Alibi · Ahmet",
       "kernfakt": "Ahmet kauerte beim Scheppern hinter der Theke am Ostende (bei Marek)",
-      "stichwort": "„bei Marek“ oder „an Mareks Beinen“{wenn:damir| oder „bei Damir“}. „Ostende“ allein genügt nicht, so heißt auch der Ort um 23:57"
+      "stichwort": "„bei Marek“{wenn:marek||, „beim Caterer“}{wenn:damir|, „bei Damir“} oder „an Mareks Beinen“. „Ostende“ allein genügt nicht, das steht auch beim Ort um 23:57"
     },
     {
       "nr": "M2",

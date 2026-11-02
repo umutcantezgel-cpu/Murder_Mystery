@@ -276,7 +276,7 @@
       "nurMitStreifen": false
     }
   ],
-  "impulsRegeln": "Lies einen Impuls, wenn der Detektiv dich darum bittet. Lies dann genau den, den er nennt. Lies auch einen, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit.{ab:14| Den Impuls zur Hälfte liest du erst nach „Wechsel!“.} Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.",
+  "impulsRegeln": "Bittet der Detektiv um einen Impuls, liest du genau diesen. Lies auch einen Impuls, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit.{ab:14| Den Impuls zur Hälfte liest du erst nach „Wechsel!“.} Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.",
   "ausweichsatz": "Diese Person ist heute nicht am Tisch.{ab:12|| Was sie weiß, liegt vielleicht als Zeugenstreifen neben dem Lageplan. Detektiv, eine Untersuchung an ihrem Ort kann es aufdecken.}",
   "dominoFrage": {
     "wann": "Gleich nachdem eine Geheimniskarte umgedreht wurde.",

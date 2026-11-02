@@ -20,11 +20,14 @@
 ///
 /// Gleiche Gestalt (E9, RK 7.1, MECH 10.4): Je Seite eine Schriftgröße für
 /// alle vier, die größte, bei der alle passen; gleiche Spaltenbreiten; jeder
-/// Abschnitt ist in allen vier gleich hoch (kürzere bekommen mehr Luft
-/// zwischen Einträgen und Tabellenzeilen). So stehen alle Überschriften auf
-/// denselben Höhen, und kein Seitenbild verrät, welche Fassung die Tat
-/// enthält. Die Längen (RK 7.7: jeder Teil höchstens zehn Prozent vom Mittel)
-/// prüft `teil_11_test.dart` an den gedruckten Seiten jeder Personenzahl.
+/// Abschnitt ist in allen vier gleich hoch. Absätze, Listen und die
+/// Zeitleiste stehen oben in ihrem Abschnitt, mit demselben Abstand zwischen
+/// Einträgen und Tabellenzeilen in allen vier; was eine kürzere Fassung nicht
+/// braucht, bleibt darunter frei (gestreckt wäre die Fassung mit mehr Text am
+/// Seitenbild dichter). So stehen alle Überschriften auf denselben Höhen, und
+/// kein Seitenbild verrät, welche Fassung die Tat enthält. Die Längen (RK 7.7:
+/// jeder Teil höchstens zehn Prozent vom Mittel) und die gleiche Dichte prüft
+/// `teil_11_test.dart` an den gedruckten Seiten jeder Personenzahl.
 ///
 /// Überlauf ist ein Fehler ([KammerUeberlauf] mit Seite, Code und Stelle).
 library;
@@ -112,7 +115,7 @@ class _Fassungen {
   /// Überschrift (für alle gleich).
   _Bau _titel(String schluessel) => (i, g, hoehe) => x.ueberschrift(u(schluessel));
 
-  /// Absatz [text] der Fassung [i]; gestreckt in einem Kasten fester Höhe (Text oben).
+  /// Absatz [text] der Fassung [i]; in einem Kasten fester Höhe, der Text oben.
   _Bau _absatz(String Function(int i) text, String wo) => (i, g, hoehe) {
         final a = x.absatz(text(i), groesse: g);
         return hoehe == null ? a : s.fest(a, breite: _breite, hoehe: hoehe, wo: '${fassungen[i].code} / $wo');
@@ -136,23 +139,22 @@ class _Fassungen {
         _zeitleiste,
       ];
 
-  /// Zeitleiste als Tabelle; gestreckt über den Innenabstand aller Zeilen.
+  /// Zeitleiste als Tabelle mit festem Innenabstand (in allen vier gleich
+  /// dicht); in einem Kasten fester Höhe, der Rest bleibt unter der Tabelle frei.
   pw.Widget _zeitleiste(int i, double g, double? hoehe) {
     final zeilen = [
       for (final z in fassungen[i].zeitleiste)
         if (!k.leer(z.zeit) && !k.leer(z.text)) [k.text(z.zeit), k.text(z.text)],
     ];
     final zb = _zeitBreite(g);
-    pw.Widget tabelle(double mehr) => x.tabelle(
-          kopf: [u('zeitleiste.zeit'), u('zeitleiste.text')],
-          zeilen: zeilen,
-          spalten: [zb, _breite - zb],
-          groesse: g,
-          innen: pw.EdgeInsets.fromLTRB(4, 3, 4, 3 + mehr),
-        );
-    final natur = tabelle(0);
-    if (hoehe == null) return natur;
-    return tabelle((hoehe - x.hoehe(natur, _breite)) / (zeilen.length + 1));
+    final tabelle = x.tabelle(
+      kopf: [u('zeitleiste.zeit'), u('zeitleiste.text')],
+      zeilen: zeilen,
+      spalten: [zb, _breite - zb],
+      groesse: g,
+      innen: const pw.EdgeInsets.fromLTRB(4, 3, 4, 3),
+    );
+    return hoehe == null ? tabelle : s.fest(tabelle, breite: _breite, hoehe: hoehe, wo: '${fassungen[i].code} / zeitleiste');
   }
 
   /// Breite der Zeitspalte in [g]: keine Zeit der vier Fassungen bricht um (gleich für alle).
