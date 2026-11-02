@@ -700,39 +700,85 @@ class KammerSeiten {
   void vollSeite(pw.Widget Function(pw.Context c) bauen, {bool quer = false, pw.EdgeInsets rand = pw.EdgeInsets.zero}) =>
       doc.addPage(pw.Page(pageFormat: KammerSatz.format(quer: quer), margin: rand, build: bauen));
 
-  /// Abstand des Inhalts einer versiegelten Außenseite zum ersten Falz.
-  static const _falzAbstand = 8 * KammerSatz.mm;
+  /// Abstand zwischen einem Falz der versiegelten Außenseite (oder der
+  /// Papierkante oben) und dem Inhalt daneben.
+  static const _amFalz = 8 * KammerSatz.mm;
 
-  /// Versiegelte Außenseite (Teil 11, Teil 90): [code] groß, darunter
-  /// [hinweis], über dem Code optional [titel]; alles im oberen Drittel des
-  /// Blatts (bis [_falzAbstand] über dem ersten Falz bei 99 mm), damit es nach
-  /// dem Falten in Dritteln vorn bleibt. Ohne Kopf und Fuß.
-  void versiegelt({required String code, required String hinweis, String? titel, Map<String, String> werte = const {}}) {
-    final inhalt = [
-      if (titel != null) ...[satz.titel(titel, groesse: 20, werte: werte), pw.SizedBox(height: 18)],
-      pw.Container(
-        padding: const pw.EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        decoration: pw.BoxDecoration(border: pw.Border.all(color: DruckStil.tinte, width: 1.6)),
-        child: satz.aussenseite(code, hinweis, codeGroesse: 44, hinweisGroesse: 11, werte: werte),
-      ),
-    ];
-    final h = satz.hoehe(pw.Column(children: inhalt), KammerSatz.satzBreite());
-    // Gefaltet wird in Dritteln des Blatts, nicht des Satzspiegels.
-    final drittel = KammerSatz.a4Hoch.height / 3 - KammerSatz.randHoch.top - _falzAbstand;
-    if (h > drittel) KammerUeberlauf.zuHoch(teil, naechste, ort(code), h, drittel);
-    doc.addPage(pw.Page(
-      pageFormat: KammerSatz.a4Hoch,
-      margin: KammerSatz.randHoch,
-      // Volle Breite, damit Titel und Code mittig stehen (eine Spalte ist sonst so schmal wie ihr Inhalt).
-      build: (c) => pw.SizedBox(
-        width: KammerSatz.satzBreite(),
-        child: pw.Column(children: [
-          pw.SizedBox(height: (drittel - h) / 2),
-          ...inhalt,
-          pw.Spacer(),
+  /// Versiegelte Außenseite (Teil 90): [code] groß im Rahmen, darunter
+  /// [hinweis], über dem Code optional [titel]; gesetzt mit [verschlussSeite]
+  /// (mit [verschliessen] auch Falzlinien und Anleitung). Überlauf an der
+  /// Stelle [code].
+  void versiegelt({
+    required String code,
+    required String hinweis,
+    String? titel,
+    List<String> verschliessen = const [],
+    Map<String, String> werte = const {},
+  }) =>
+      verschlussSeite(
+        () => pw.Column(mainAxisSize: pw.MainAxisSize.min, children: [
+          if (titel != null) ...[satz.titel(titel, groesse: 20, werte: werte), pw.SizedBox(height: 18)],
+          pw.Container(
+            padding: const pw.EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            decoration: pw.BoxDecoration(border: pw.Border.all(color: DruckStil.tinte, width: 1.6)),
+            child: satz.aussenseite(code, hinweis, codeGroesse: 44, hinweisGroesse: 11, werte: werte),
+          ),
         ]),
-      ),
-    ));
+        verschliessen: verschliessen,
+        wo: code,
+      );
+
+  /// Außenseite einer versiegelten Sache (Teil 11, Teil 90; RK 7.2, MECH
+  /// 10.5), ohne Kopf und Fuß. Gefaltet wird in Dritteln des Blatts, nicht des
+  /// Satzspiegels: [oben] steht waagrecht und senkrecht mittig im oberen
+  /// Drittel, mindestens [_amFalz] von Papierkante und erstem Falz entfernt.
+  /// Mit [verschliessen] (Überschrift, dann die Schritte) teilen zwei
+  /// gepunktete Falzlinien das Blatt in Drittel, und die nummerierte
+  /// Anleitung steht im unteren Drittel, unter dem Falz bis zum Rand, in der
+  /// größten Schrift ab 10 pt, die passt. Die Seiten dahinter kommen gefaltet
+  /// hinter das leere mittlere Drittel; unteres und oberes Drittel werden
+  /// darüber nach hinten gefaltet. Außen liegen dann nur [oben] und die leere
+  /// Mitte, direkt hinter [oben] die Anleitung, nie Text des Inhalts. Passt
+  /// etwas nicht: [KammerUeberlauf] an der Stelle [wo].
+  void verschlussSeite(pw.Widget Function() oben, {List<String> verschliessen = const [], String wo = ''}) {
+    const seite = KammerSatz.a4Hoch;
+    const rand = KammerSatz.randHoch;
+    final breite = KammerSatz.satzBreite();
+    final drittel = seite.height / 3;
+    final hOben = satz.hoehe(oben(), breite);
+    pruefeHoehe(hOben, drittel - 2 * _amFalz, wo: wo);
+    final obenAnleitung = 2 * drittel + _amFalz;
+    pw.Widget anleitung(double g) => pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
+          satz.ueberschrift(verschliessen.first, stufe: 3),
+          satz.liste(verschliessen.skip(1), nummer: KammerNummer.zahl, groesse: g, abstand: g * 0.3),
+        ]);
+    final gAnleitung = verschliessen.isEmpty
+        ? null
+        : passendeGroesse(anleitung, breite: breite, hoehe: seite.height - rand.bottom - obenAnleitung, start: 10, wo: '$wo / verschliessen');
+    pw.Widget falz(double y) => pw.Positioned(
+          left: KammerSatz.druckRand,
+          top: y,
+          child: pw.Container(
+            width: seite.width - 2 * KammerSatz.druckRand,
+            height: 0,
+            decoration: const pw.BoxDecoration(
+              border: pw.Border(top: pw.BorderSide(color: DruckStil.linie, width: 0.8, style: pw.BorderStyle.dotted)),
+            ),
+          ),
+        );
+    vollSeite((c) => pw.SizedBox(
+          width: seite.width,
+          height: seite.height,
+          child: pw.Stack(children: [
+            // Volle Breite, damit alles mittig steht (eine Spalte ist sonst so schmal wie ihr Inhalt).
+            pw.Positioned(left: rand.left, top: (drittel - hOben) / 2, child: pw.SizedBox(width: breite, child: oben())),
+            if (gAnleitung != null) ...[
+              falz(drittel),
+              falz(2 * drittel),
+              pw.Positioned(left: rand.left, top: obenAnleitung, child: pw.SizedBox(width: breite, child: anleitung(gAnleitung))),
+            ],
+          ]),
+        ));
   }
 
   // ---------------------------------------------------------------- Raster

@@ -7,7 +7,9 @@
 /// nach MECH 10.1: 9 / 10 / 12 Seiten bei 6 / 12 / 20 Personen):
 ///
 ///  1 Außenseite: „Auflösungsheft“, Fall-Code, „Versiegelt – erst nach der
-///    Anklage öffnen“, im oberen Drittel ([KammerSeiten.versiegelt])
+///    Anklage öffnen“, im oberen Drittel; zwei Falzlinien und im unteren
+///    Drittel die Anleitung zum Verschließen (`verschliessen.*`, wie Teil 11;
+///    [KammerSeiten.versiegelt])
 ///  2 Was wirklich war (Vorlesen), die neun Meilensteine mit Kästchen und
 ///    Summe (MECH 6.1, 6.4)
 ///  3 Endentabelle (MECH 8.2), Ende 1 und 2; 4 Ende 3 und 4. In jedem Ende
@@ -101,10 +103,22 @@ class _Heft {
 
   int get _rest => _restSeiten.firstWhere((r) => b.rollen <= r.rollen).seiten;
 
+  /// Seiten des Hefts: Außenseite bis Rückblende, dann die Seiten ab Seite 6.
+  int get _seiten => _seiteRueckblende + _rest;
+
   // ---------------------------------------------------------------- Setzen
 
   void setzen() {
-    s.versiegelt(code: k.fallCode, titel: u('deckblatt.titel'), hinweis: u('deckblatt.hinweis'));
+    // Gefaltet und zugeklebt wie die Fassungen in Teil 11: Die Lösung liegt nie direkt hinter einer Lage Papier.
+    s.versiegelt(
+      code: k.fallCode,
+      titel: u('deckblatt.titel'),
+      hinweis: u('deckblatt.hinweis'),
+      verschliessen: [
+        u('verschliessen.titel'),
+        for (var n = 1; n <= 4; n++) u('verschliessen.$n', {'letzte': '$_seiten'}),
+      ],
+    );
     final abschnitte = [
       _meilensteine(),
       ..._enden(),
@@ -368,7 +382,10 @@ class _Heft {
   List<_Block> _rollenAmTisch() {
     pw.Widget rolle(KammerPlatz p) {
       final r = k.rolle(p);
-      final name = r.fassung == null ? p.name : u('rollenAmTisch.fassung', {'name': p.name, 'code': r.fassung!.code});
+      // Ein Etikett, das nicht nur der Name ist: Der Absatz beginnt selbst mit dem Namen.
+      final name = r.fassung == null
+          ? u('rollenAmTisch.platz', {'name': p.name, 'platz': '${p.platz}'})
+          : u('rollenAmTisch.fassung', {'name': p.name, 'code': r.fassung!.code});
       return x.balken(x.absatz('**$name** ${r.teil90}', groesse: _gVorlesen), aussen: const pw.EdgeInsets.only(bottom: 7));
     }
 
@@ -443,10 +460,14 @@ class _Heft {
           final r = k.rolle(p);
           return [
             _fett(p.name),
+            // Die Rundensperre steht wie im Heft vor den Auslösern.
             _spalte([
-              x.liste(r.stufe2.ausloeser, nummer: p.art == KammerArt.verdaechtig ? KammerNummer.buchstabe : KammerNummer.zahl, groesse: _gTabelle, abstand: 1.5),
               if (r.geheimniskarte.sperre > 1)
-                x.absatz(k.uiGemeinsam('heft.rundensperre', {'runde': '${r.geheimniskarte.sperre}'}), groesse: _gTabelle, leise: true),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(bottom: 1.5),
+                  child: x.absatz('**${k.klartext(k.uiGemeinsam('heft.rundensperre', {'runde': '${r.geheimniskarte.sperre}'}))}**', groesse: _gTabelle),
+                ),
+              x.liste(r.stufe2.ausloeser, nummer: p.art == KammerArt.verdaechtig ? KammerNummer.buchstabe : KammerNummer.zahl, groesse: _gTabelle, abstand: 1.5),
             ]),
           ];
         }(),

@@ -5,19 +5,19 @@
       "nr": "M1",
       "feld": "Alibi · Ahmet",
       "kernfakt": "Ahmet kauerte beim Scheppern hinter der Theke am Ostende (bei Marek)",
-      "stichwort": "„Ostende“ oder „bei Marek“{wenn:damir| oder „bei Damir“}"
+      "stichwort": "„bei Marek“ oder „an Mareks Beinen“{wenn:damir| oder „bei Damir“}. „Ostende“ allein genügt nicht, so heißt auch der Ort um 23:57"
     },
     {
       "nr": "M2",
       "feld": "Alibi · Fatma",
       "kernfakt": "Fatma kauerte beim Scheppern hinter dem linken Buffettisch (bei Emine)",
-      "stichwort": "„linkes Buffet“ oder „bei Emine“"
+      "stichwort": "„linkes Buffet“, „linken Buffettisch“, „bei Emine“ oder „neben Emine“"
     },
     {
       "nr": "M3",
       "feld": "Alibi · Can",
       "kernfakt": "Can (das leuchtende Gesicht) war vor dem Scheppern schon durch den Durchgang Richtung Kaminsaal",
-      "stichwort": "„vor dem Scheppern weg“ oder „Gesicht vor dem Scheppern durch den Durchgang“"
+      "stichwort": "„vor dem Scheppern“, „bevor es schepperte“, „Erst dann schepperte es“ oder „Erst danach schepperte es“"
     },
     {
       "nr": "M4",
@@ -261,7 +261,7 @@
       {
         "nr": 3,
         "punkte": 2,
-        "loesung": "Das Bonus-Ziel zählt, wenn seine Bedingung bei der Anklage erfüllt war. Die Bedingungen stehen unter „Bonus-Ziele“. Der Tisch bestätigt."
+        "loesung": "Das Bonus-Ziel zählt, wenn seine Bedingung bei der Anklage erfüllt war, egal was auf dem Zettel angekreuzt ist. Die Bedingungen stehen unter „Bonus-Ziele“. Der Tisch bestätigt."
       }
     ],
     "sonderregel": "**Für Olli zählen Frage 1 und 2 nicht.** Er bekommt stattdessen 3 Punkte, wenn der Detektiv nicht ihn angeklagt hat. Frage 3 zählt für ihn wie für alle. So hat jeder höchstens 5 Punkte.",

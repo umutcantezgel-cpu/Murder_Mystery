@@ -31,7 +31,6 @@ library;
 
 import 'package:pdf/widgets.dart' as pw;
 
-import '../satz_stil.dart';
 import 'inhalt.dart';
 import 'kontext.dart';
 import 'satz.dart';
@@ -48,9 +47,6 @@ const _groessen = [11.0, 10.75, 10.5, 10.25, 10.0, 9.75, 9.5, 9.25, KammerSatz.k
 
 /// Abstand zwischen den Einträgen einer Liste, relativ zur Schriftgröße.
 const _listenAbstand = 0.45;
-
-/// Abstand zwischen Linie und Inhalt des Seitenteils, in dem er steht (Außenseite).
-const _amFalz = 8 * KammerSatz.mm;
 
 class _Fassungen {
   _Fassungen(this.k, this.s)
@@ -70,12 +66,11 @@ class _Fassungen {
   void setzen() {
     final seite2 = _plan(2, 'zeitleiste', _seite2());
     final seite3 = _plan(3, 'stufe3', _seite3());
-    final aussen = _aussenseite();
     final notizen = _notizen();
     for (var i = 0; i < fassungen.length; i++) {
       final code = fassungen[i].code;
       s.bereichSetzen(code, (h) {
-        aussen(h, code);
+        _aussenseite(h, code);
         h.seite(seite2(i), wo: 'zeitleiste');
         h.seite(seite3(i), wo: 'stufe3');
         h.seite(notizen, wo: 'notizen');
@@ -123,14 +118,13 @@ class _Fassungen {
         return hoehe == null ? a : s.fest(a, breite: _breite, hoehe: hoehe, wo: '${fassungen[i].code} / $wo');
       };
 
-  /// Liste je Fassung; gestreckt über den Abstand zwischen den Einträgen.
+  /// Liste je Fassung mit festem Abstand zwischen den Einträgen, in allen vier
+  /// gleich dicht (eine gestreckte Liste verriete am Seitenbild, welche
+  /// Fassung mehr Text hat); in einem Kasten fester Höhe, der Rest bleibt
+  /// unter der Liste frei.
   _Bau _liste(List<String> Function(int i) eintraege, KammerNummer nummer, String wo) => (i, g, hoehe) {
-        final texte = k.texte(eintraege(i));
-        final grund = g * _listenAbstand;
-        final natur = x.liste(texte, nummer: nummer, groesse: g, abstand: grund);
-        if (hoehe == null) return natur;
-        if (texte.length < 2) return s.fest(natur, breite: _breite, hoehe: hoehe, wo: '${fassungen[i].code} / $wo');
-        return x.liste(texte, nummer: nummer, groesse: g, abstand: grund + (hoehe - x.hoehe(natur, _breite)) / (texte.length - 1));
+        final liste = x.liste(k.texte(eintraege(i)), nummer: nummer, groesse: g, abstand: g * _listenAbstand);
+        return hoehe == null ? liste : s.fest(liste, breite: _breite, hoehe: hoehe, wo: '${fassungen[i].code} / $wo');
       };
 
   // ---------------------------------------------------------------- Seite 2
@@ -229,54 +223,19 @@ class _Fassungen {
 
   // ---------------------------------------------------------------- Seite 1
 
-  /// Außenseite (RK 7.2, MECH 10.5): vorher gemessen, dann je Fassung gesetzt.
-  void Function(KammerSeiten h, String code) _aussenseite() {
-    const seite = KammerSatz.a4Hoch;
-    const rand = KammerSatz.randHoch;
-    final drittel = seite.height / 3;
+  /// Außenseite (RK 7.2, MECH 10.5): Code und Hinweis im oberen Drittel,
+  /// Falzlinien und Anleitung wie bei Teil 90 ([KammerSeiten.verschlussSeite]).
+  void _aussenseite(KammerSeiten h, String code) {
     final codeStil = k.stil.code(60);
-    pw.Widget mitte(String code) => pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.center, children: [
-          // Die Sperrung steht auch hinter dem letzten Zeichen; links ebenso viel, damit der Code mittig steht.
-          pw.Padding(padding: pw.EdgeInsets.only(left: codeStil.letterSpacing ?? 0), child: pw.Text(code, style: codeStil)),
-          pw.SizedBox(height: 10),
-          x.absatz(u('aussen.hinweis'), groesse: 13, ausrichtung: pw.TextAlign.center),
-        ]);
-    // Code und Hinweis mittig im oberen Drittel, mit Abstand zum Falz.
-    final hMitte = x.hoehe(mitte(fassungen.first.code), _breite);
-    s.pruefeHoehe(hMitte, drittel - 2 * _amFalz, wo: 'aussen');
-    // Die Anleitung im unteren Drittel, unter dem Falz bis zum Rand.
-    final obenAnleitung = 2 * drittel + _amFalz;
-    final platzAnleitung = seite.height - rand.bottom - obenAnleitung;
-    pw.Widget anleitung(double g) => pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-          x.ueberschrift(u('verschliessen.titel'), stufe: 3),
-          x.liste([for (var n = 1; n <= 4; n++) u('verschliessen.$n')], nummer: KammerNummer.zahl, groesse: g, abstand: g * 0.3),
-        ]);
-    final gAnleitung = s.passendeGroesse(anleitung, breite: _breite, hoehe: platzAnleitung, start: 10, wo: 'aussen / verschliessen');
-    pw.Widget falz(double oben) => pw.Positioned(
-          left: KammerSatz.druckRand,
-          top: oben,
-          child: pw.Container(
-            width: seite.width - 2 * KammerSatz.druckRand,
-            height: 0,
-            decoration: const pw.BoxDecoration(
-              border: pw.Border(top: pw.BorderSide(color: DruckStil.linie, width: 0.8, style: pw.BorderStyle.dotted)),
-            ),
-          ),
-        );
-    return (h, code) => h.vollSeite((c) => pw.SizedBox(
-          width: seite.width,
-          height: seite.height,
-          child: pw.Stack(children: [
-            pw.Positioned(
-              left: rand.left,
-              top: (drittel - hMitte) / 2,
-              // Volle Breite, damit Code und Hinweis mittig stehen (eine Spalte ist sonst so schmal wie ihr Inhalt).
-              child: pw.SizedBox(width: _breite, child: mitte(code)),
-            ),
-            falz(drittel),
-            falz(2 * drittel),
-            pw.Positioned(left: rand.left, top: obenAnleitung, child: pw.SizedBox(width: _breite, child: anleitung(gAnleitung))),
-          ]),
-        ));
+    h.verschlussSeite(
+      () => pw.Column(mainAxisSize: pw.MainAxisSize.min, crossAxisAlignment: pw.CrossAxisAlignment.center, children: [
+        // Die Sperrung steht auch hinter dem letzten Zeichen; links ebenso viel, damit der Code mittig steht.
+        pw.Padding(padding: pw.EdgeInsets.only(left: codeStil.letterSpacing ?? 0), child: pw.Text(code, style: codeStil)),
+        pw.SizedBox(height: 10),
+        x.absatz(u('aussen.hinweis'), groesse: 13, ausrichtung: pw.TextAlign.center),
+      ]),
+      verschliessen: [u('verschliessen.titel'), for (var n = 1; n <= 4; n++) u('verschliessen.$n')],
+      wo: 'aussen',
+    );
   }
 }
