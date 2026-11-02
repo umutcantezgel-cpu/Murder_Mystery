@@ -50,7 +50,9 @@ void kammerTisch(pw.Document doc, KammerKontext k) => kammerTeilSetzen(doc, k, '
 
 String _u(KammerKontext k, String schluessel, [Map<String, String> werte = const {}]) => k.ui('02', schluessel, werte);
 
-/// Überlauf mit Teil, Seite und Stelle (wie die Helfer in satz.dart).
+/// Überlauf mit Teil, Seite und Stelle (wie die Helfer in satz.dart). Die
+/// Aufrufer schreiben `throw _ueberlauf(…)`, damit die Meldung in einer
+/// Zeile mit `throw` steht (story_text_ausserhalb_test.dart).
 Never _ueberlauf(KammerSeiten s, String wo, String grund) {
   final ort = '${s.k.teilTitel('02')} / $wo';
   throw KammerUeberlauf('02', s.naechste, ort, 'Überlauf in Teil 02, Seite ${s.naechste} ($ort): $grund');
@@ -463,31 +465,31 @@ class _Beschrifter {
   /// Grund, warum [kasten] nicht geht, sonst null. [raeumeErlaubt]: Räume, in
   /// denen das Schild stehen darf (außerhalb aller Räume geht immer).
   String? kastenFrei(_R kasten, {Set<int> raeumeErlaubt = const {}, bool aufMoebel = false, Object? selbst}) {
-    if (!plan.rahmen.um(-_luft).umfasst(kasten)) return 'ragt aus dem Plan';
+    if (!plan.rahmen.um(-_luft).umfasst(kasten)) return 'rand';
     int? raum;
     for (var i = 0; i < plan.raeume.length; i++) {
       final rs = plan.raeume[i].$2;
       if (rs.any((r) => r.um(-_luft - 0.02).umfasst(kasten))) {
         raum = i;
       } else if (rs.any((r) => r.um(_luft).schneidet(kasten))) {
-        return 'schneidet die Wand von ${plan.raeume[i].$1.name}';
+        return 'wand: ${plan.raeume[i].$1.name}';
       }
     }
-    if (raum != null && !raeumeErlaubt.contains(raum)) return 'steht im falschen Raum (${plan.raeume[raum].$1.name})';
+    if (raum != null && !raeumeErlaubt.contains(raum)) return 'raum: ${plan.raeume[raum].$1.name}';
     if (raum != null && !aufMoebel) {
       // Ein Schild steht ganz in einem Feld (oder in keinem) und kreuzt keine Feldgrenze.
       final getroffen = [
         for (final MapEntry(key: id, value: rs) in plan.felder.entries)
           if (rs.any((r) => r.schneidet(kasten))) id,
       ];
-      if (getroffen.length > 1) return 'kreuzt eine Feldgrenze (${getroffen.join(', ')})';
+      if (getroffen.length > 1) return 'feldgrenze: ${getroffen.join('/')}';
       if (getroffen.length == 1) {
         final rs = plan.felder[getroffen.single]!;
         if (!rs.any((r) => r.umfasst(kasten))) {
           for (var x = kasten.x0; x <= kasten.x1 + 1e-9; x += 0.1) {
             for (var y = kasten.y0; y <= kasten.y1 + 1e-9; y += 0.1) {
               final px = math.min(x, kasten.x1 - 1e-6), py = math.min(y, kasten.y1 - 1e-6);
-              if (!rs.any((r) => px >= r.x0 && px < r.x1 && py >= r.y0 && py < r.y1)) return 'kreuzt die Grenze von Feld ${getroffen.single}';
+              if (!rs.any((r) => px >= r.x0 && px < r.x1 && py >= r.y0 && py < r.y1)) return 'feldgrenze: ${getroffen.single}';
             }
           }
         }
@@ -495,22 +497,22 @@ class _Beschrifter {
     }
     if (raum == null) {
       for (final t in plan.tueren) {
-        if (t.durchgang case final d? when d.um(_luft).schneidet(kasten)) return 'liegt auf der Tür ${t.p.name}';
+        if (t.durchgang case final d? when d.um(_luft).schneidet(kasten)) return 'tuer: ${t.p.name}';
       }
     }
     if (!aufMoebel) {
       for (final (f, rs) in plan.moebel) {
-        if (rs.any((r) => r.um(0.03).schneidet(kasten))) return 'liegt auf ${f.name}';
+        if (rs.any((r) => r.um(0.03).schneidet(kasten))) return 'moebel: ${f.name}';
       }
     }
     for (final o in plan.p.gegenstaende) {
-      if (kasten.abstand(o.x, o.y) < _punktRadius + _luft) return 'deckt den Punkt ${o.name}';
+      if (kasten.abstand(o.x, o.y) < _punktRadius + _luft) return 'punkt: ${o.name}';
     }
     for (final a in schilder) {
       if (identical(a, selbst)) continue;
-      if (a.kasten.um(_luft).schneidet(kasten)) return 'stößt an ${a.wo}';
+      if (a.kasten.um(_luft).schneidet(kasten)) return 'schild: ${a.wo}';
       if (a.linie case (final ax, final ay, final bx, final by)? when _streckeTrifft(ax, ay, bx, by, kasten.um(0.03))) {
-        return 'liegt auf der Führungslinie von ${a.wo}';
+        return 'linie: ${a.wo}';
       }
     }
     return null;
@@ -520,23 +522,23 @@ class _Beschrifter {
   String? linieFrei((double, double, double, double) l, {required Set<int> raeumeErlaubt, required double vonX, required double vonY}) {
     final (ax, ay, bx, by) = l;
     for (final a in schilder) {
-      if (_streckeTrifft(ax, ay, bx, by, a.kasten.um(0.03))) return 'Linie kreuzt ${a.wo}';
-      if (a.linie case final b? when _streckenKreuzen(l, b)) return 'Linie kreuzt die Linie von ${a.wo}';
+      if (_streckeTrifft(ax, ay, bx, by, a.kasten.um(0.03))) return 'linie-schild: ${a.wo}';
+      if (a.linie case final b? when _streckenKreuzen(l, b)) return 'linie-linie: ${a.wo}';
     }
     for (final o in plan.p.gegenstaende) {
       if ((o.x - vonX).abs() < 1e-9 && (o.y - vonY).abs() < 1e-9) continue;
-      if (_abstandStrecke(o.x, o.y, ax, ay, bx, by) < 0.2) return 'Linie streift den Punkt ${o.name}';
+      if (_abstandStrecke(o.x, o.y, ax, ay, bx, by) < 0.2) return 'linie-punkt: ${o.name}';
     }
     for (final t in plan.tueren) {
       if ((t.p.x - vonX).abs() < 1e-9 && (t.p.y - vonY).abs() < 1e-9) continue;
-      if (t.durchgang case final d? when _streckeTrifft(ax, ay, bx, by, d)) return 'Linie läuft durch die Tür ${t.p.name}';
+      if (t.durchgang case final d? when _streckeTrifft(ax, ay, bx, by, d)) return 'linie-tuer: ${t.p.name}';
     }
     final laenge = math.sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
     final schritte = math.max(1, (laenge / 0.05).ceil());
     for (var i = 0; i <= schritte; i++) {
       final x = ax + (bx - ax) * i / schritte, y = ay + (by - ay) * i / schritte;
       final r = plan.raumVon(x, y);
-      if (r != null && !raeumeErlaubt.contains(r)) return 'Linie läuft durch ${plan.raeume[r].$1.name}';
+      if (r != null && !raeumeErlaubt.contains(r)) return 'linie-raum: ${plan.raeume[r].$1.name}';
     }
     return null;
   }
@@ -547,8 +549,9 @@ class _Beschrifter {
     final p = plan.p;
     // 1. Hand gesetzt: Zonen, Teilfelder, Möbel (lange Tafeln), Nordpfeil und Maßstab.
     for (final z in k.fall.zonen) {
-      final lage = _zonenLage[z.nr] ?? fehler('Zone ${z.nr}', 'keine Lage für das Zonenschild');
-      final (zeilen, b) = umbruch(k.klartext(z.name), lage.zeilen, fett: true) ?? fehler('Zone ${z.nr}', 'Name passt nicht in ${lage.zeilen} Zeilen');
+      final wo = 'zone ${z.nr}';
+      final lage = _zonenLage[z.nr] ?? (throw fehler(wo, 'keine Lage für das Zonenschild'));
+      final (zeilen, b) = umbruch(k.klartext(z.name), lage.zeilen, fett: true) ?? (throw fehler(wo, 'Name passt nicht in ${lage.zeilen} Zeilen'));
       final h = math.max(kreis, zeilen.length * zeile) + 2 * _polster;
       final kasten = kastenAn(lage.x, lage.y, lage.anker, kreis + 0.12 + b + 2 * _polster, h);
       final felder = z.felder.toSet();
@@ -558,19 +561,20 @@ class _Beschrifter {
       };
       final aufMoebel = plan.moebel.any((m) => m.$2.any((r) => r.umfasst(kasten)));
       final grund = kastenFrei(kasten, raeumeErlaubt: raeume, aufMoebel: aufMoebel);
-      if (grund != null) fehler('Zone ${z.nr}', grund);
-      schilder.add(_Schild(wo: 'Zone ${z.nr}', kasten: kasten, zeilen: zeilen, art: _Art.zone, nr: z.nr));
+      if (grund != null) throw fehler(wo, 'Zonenschild $grund');
+      schilder.add(_Schild(wo: wo, kasten: kasten, zeilen: zeilen, art: _Art.zone, nr: z.nr));
     }
     for (final f in k.fall.felder) {
       final zone = k.fall.zonen.firstWhere((z) => z.felder.contains(f.id));
       if (zone.felder.length < 2) continue;
-      final lage = _teilfeldLage[f.id] ?? fehler('Feld ${f.id}', 'keine Lage für das Feldschild');
+      final wo = 'feld ${f.id}';
+      final lage = _teilfeldLage[f.id] ?? (throw fehler(wo, 'keine Lage für das Feldschild'));
       final kasten = kastenAn(lage.x, lage.y, lage.anker, breite(f.id, fett: true) + 0.3, kreis + 2 * _polster - 0.04);
       final raum = plan.raumVon((kasten.x0 + kasten.x1) / 2, (kasten.y0 + kasten.y1) / 2);
       final grund = kastenFrei(kasten, raeumeErlaubt: {?raum});
-      if (grund != null) fehler('Feld ${f.id}', grund);
-      if (plan.feldVon((kasten.x0 + kasten.x1) / 2, (kasten.y0 + kasten.y1) / 2) != f.id) fehler('Feld ${f.id}', 'Schild liegt nicht im Feld');
-      schilder.add(_Schild(wo: 'Feld ${f.id}', kasten: kasten, zeilen: [f.id], art: _Art.teilfeld, nr: f.id));
+      if (grund != null) throw fehler(wo, 'Feldschild $grund');
+      if (plan.feldVon((kasten.x0 + kasten.x1) / 2, (kasten.y0 + kasten.y1) / 2) != f.id) throw fehler(wo, 'Schild liegt nicht im Feld');
+      schilder.add(_Schild(wo: wo, kasten: kasten, zeilen: [f.id], art: _Art.teilfeld, nr: f.id));
     }
     for (final (f, rs) in plan.moebel) {
       // Die Theke trägt das Schild der Zone 4; die Buffettische tragen die Zonen 2 und 3 im Namen.
@@ -595,7 +599,7 @@ class _Beschrifter {
     final massKasten = _R(nordKasten.x1 + 0.4, unten - 1.0, nordKasten.x1 + 0.4 + 1.3 + breite(massstab) + 2 * _polster, unten);
     for (final (wo, kasten) in [('norden', nordKasten), ('massstab', massKasten)]) {
       final grund = kastenFrei(kasten);
-      if (grund != null) fehler(wo, grund);
+      if (grund != null) throw fehler(wo, 'Schild $grund');
     }
     schilder
       ..add(_Schild(wo: 'norden', kasten: nordKasten, zeilen: [nord], art: _Art.frei, ausrichtung: pw.TextAlign.center))
@@ -613,7 +617,7 @@ class _Beschrifter {
             i,
       };
       final groesse = [for (final i in raeume) plan.raeume[i].$2.fold(0.0, (a, r) => a + r.breite * r.hoehe)].fold(1e9, math.min);
-      auftraege.add(('Tür ${t.p.name}', _tuerText(t), t.p.x, t.p.y, raeume, groesse, t.p.id));
+      auftraege.add(('tuer ${t.p.name}', k.klartext(t.p.name), t.p.x, t.p.y, raeume, groesse, t.p.id));
     }
     for (final o in p.gegenstaende) {
       final raum = plan.raumVon(o.x, o.y);
@@ -631,15 +635,9 @@ class _Beschrifter {
       });
     for (final i in reihenfolge) {
       final (wo, text, x, y, raeume, _, id) = auftraege[i];
-      schilder.add(suche(wo, text, x, y, raeume, tuer: auftraege[i].$1.startsWith('Tür '), lage: _schildLage[id]));
+      schilder.add(suche(wo, text, x, y, raeume, tuer: plan.tueren.any((t) => t.p.id == id), lage: _schildLage[id]));
     }
     return _Beschriftung(schilder, zeile, kreis);
-  }
-
-  String _tuerText(_Tuer t) {
-    final name = k.klartext(t.p.name);
-    final zustand = t.p.zusatz;
-    return k.hatUi('02', 'tuer.$zustand') ? k.klartext(_u(k, 'tuer.$zustand', {'name': name})) : name;
   }
 
   /// Sucht die Lage für ein Schild zum Punkt (x, y): erst daneben, dann mit
@@ -744,7 +742,7 @@ class _Beschrifter {
       }
       return _Schild(wo: wo, kasten: kasten, zeilen: zeilen, art: tuer ? _Art.tuer : _Art.gegenstand, ausrichtung: ausrichtung, linie: linie);
     }
-    fehler(wo, 'kein freier Platz für die Beschriftung (${letzterGrund ?? 'keine Lage'})');
+    throw fehler(wo, 'kein freier Platz für die Beschriftung, zuletzt ${letzterGrund ?? '-'}');
   }
 }
 
@@ -774,7 +772,7 @@ void _blattA(KammerSeiten s, KammerKontext k) {
   s.pruefeHoehe(kopfHoehe + h, format.height - _randQuer.vertical, wo: 'lageplan');
   const luecke = 3 * _mm;
   final legendeBreite = format.width - _randQuer.horizontal - w - luecke;
-  if (legendeBreite < 60 * _mm) _ueberlauf(s, 'legende', 'nur ${(legendeBreite / _mm).toStringAsFixed(0)} mm breit');
+  if (legendeBreite < 60 * _mm) throw _ueberlauf(s, 'legende', 'nur ${(legendeBreite / _mm).toStringAsFixed(0)} mm breit');
   final legende = _legende(k, plan, legendeBreite);
   s.pruefe(legende, breite: legendeBreite, platz: format.height - _randQuer.vertical, wo: 'legende');
   final beschriftung = _beschriften(s, k, plan);
@@ -1187,7 +1185,7 @@ pw.Widget _legende(KammerKontext k, _Plan plan, double breite) {
       pw.Text(KammerSatz.glyphen(k.klartext(_u(k, 'lageplan.legende'))), style: k.stil.ueberschrift(12.5)),
       pw.SizedBox(height: 1),
       for (final z in k.fall.zonen) ...[
-        zeile(_zonenKreis(k, z.nr, kreis), _text(k, ['**${k.klartext(z.name)}**', if (z.felder.length == 1) ?texte[z.felder.single]].join('\n')), oben: 3.2),
+        zeile(_zonenKreis(k, z.nr, kreis), _text(k, ['**${k.klartext(z.name)}**', if (z.felder.length == 1) ?texte[z.felder.single]].join('\n')), oben: 2.4),
         if (z.felder.length > 1)
           for (final f in z.felder) zeile(_feldRahmen(k, f), _text(k, ['**${k.klartext(k.fall.feld(f).name)}**', ?texte[f]].join(': '))),
       ],
@@ -1234,7 +1232,7 @@ void _blattB(KammerSeiten s, KammerKontext k) {
   );
   final gitterB = mf.spalten * zb;
   final kopfHoehe = s.satz.hoehe(kopf, gitterB) + 4 * _mm;
-  if (gitterB > format.width - _randQuer.horizontal) _ueberlauf(s, 'markerfelder', 'Raster breiter als das Blatt');
+  if (gitterB > format.width - _randQuer.horizontal) throw _ueberlauf(s, 'markerfelder', 'Raster breiter als das Blatt');
   s.pruefeHoehe(kopfHoehe + mf.reihen * zh, format.height - _randQuer.vertical, wo: 'markerfelder');
   // Mini-Skizze: der ganze Keller klein, das Feld schwarz.
   const skizzeB = 32 * _mm;
@@ -1285,11 +1283,8 @@ void _blattB(KammerSeiten s, KammerKontext k) {
         // Kopfzeile und Skizze dürfen sich nicht überlappen: Kopf über der Skizze.
         final kopfH = s.satz.hoehe(kopfzeile, breite - innen.horizontal);
         if (kopfH + skizzeH + 2 * _mm > hoehe - innen.vertical) {
-          _ueberlauf(
-            s,
-            'markerfelder / ${feld.id}',
-            'Name und Skizze ${((kopfH + skizzeH) / _mm).toStringAsFixed(1)} mm hoch, Platz ${((hoehe - innen.vertical) / _mm).toStringAsFixed(1)} mm',
-          );
+          final (h, p) = (((kopfH + skizzeH) / _mm).toStringAsFixed(1), ((hoehe - innen.vertical) / _mm).toStringAsFixed(1));
+          throw _ueberlauf(s, 'markerfelder / ${feld.id}', 'Name und Skizze $h mm hoch, Platz $p mm');
         }
         return pw.Positioned(
           left: s0 * zb,
@@ -1368,7 +1363,7 @@ void _marker(KammerSeiten s, KammerKontext k) {
   final b = mv.breiteMm * _mm;
   final h = mv.hoeheMm * _mm;
   final marker = k.besetzung.marker;
-  if (marker.length > mv.max) _ueberlauf(s, 'marker', '${marker.length} Marker, höchstens ${mv.max}');
+  if (marker.length > mv.max) throw _ueberlauf(s, 'marker', '${marker.length} Marker, höchstens ${mv.max}');
   String wer(KammerMarker m) => switch (m.wer) {
     kammerDetektiv => _u(k, 'marker.detektiv'),
     kammerSchneider => _u(k, 'marker.schneider'),
@@ -1476,7 +1471,7 @@ void _tippZettel(KammerSeiten s, KammerKontext k) {
     ],
   );
   final hoehe = s.satz.hoehe(oben, lb) + 4 * _mm + s.satz.hoehe(fuss, lb);
-  if (hoehe > lh) _ueberlauf(s, 'tippzettel', '${(hoehe / _mm).toStringAsFixed(1)} mm hoch, Platz ${(lh / _mm).toStringAsFixed(1)} mm');
+  if (hoehe > lh) throw _ueberlauf(s, 'tippzettel', '${(hoehe / _mm).toStringAsFixed(1)} mm hoch, Platz ${(lh / _mm).toStringAsFixed(1)} mm');
   // Um 90° gedreht; das Kind bekommt seine eigene Größe (sonst gälte die schmale Feldbreite).
   final zettel = pw.Transform.rotateBox(
     angle: math.pi / 2,
@@ -1511,7 +1506,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
   final pt = a.schriftPt.toDouble();
   final notizPt = a.notizPt.toDouble();
   // Mindestgrößen fest (MECH 5.2, 19.2 Nr. 4): 9 pt, nur die Notiz 8 pt.
-  if (pt < _pt || notizPt < _pt - 1) _ueberlauf(s, 'abwesenheitsblatt', 'Schrift ${a.schriftPt}/${a.notizPt} pt, mindestens 9/8 pt');
+  if (pt < _pt || notizPt < _pt - 1) throw _ueberlauf(s, 'abwesenheitsblatt', 'Schrift ${a.schriftPt}/${a.notizPt} pt, mindestens 9/8 pt');
   final sb = a.streifenBreiteMm * _mm;
   final sh = a.streifenHoeheMm * _mm;
   final falz = a.etikettHoeheMm * _mm;
@@ -1535,7 +1530,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
         if (beste == null || hoehe < beste.$1 - 0.01) beste = (hoehe, teil, b1);
       }
     }
-    if (beste == null) _ueberlauf(s, '$wo / notiz', 'keine Zeilen');
+    if (beste == null) throw _ueberlauf(s, '$wo / notiz', 'keine Zeilen');
     final (_, teil, b1) = beste;
     return pw.Row(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -1556,7 +1551,7 @@ void _abwesenheit(KammerSeiten s, KammerKontext k) {
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
         text(st.protokoll, pt),
-        if (st.mitNotiz) ...[pw.SizedBox(height: luft), notiz(k.inhalt.rolle(st.zeuge).notiz ?? _ueberlauf(s, wo, 'Notiz fehlt'), wo)],
+        if (st.mitNotiz) ...[pw.SizedBox(height: luft), notiz(k.inhalt.rolle(st.zeuge).notiz ?? (throw _ueberlauf(s, wo, 'Notiz fehlt')), wo)],
         pw.SizedBox(height: luft),
         text(st.vermerk, pt, fett: true),
       ],

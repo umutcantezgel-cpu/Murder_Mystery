@@ -16,13 +16,20 @@
 ///    und 2.4.
 /// 5. Vermerke 1 bis 48, zweispaltig (Nr · Runde · Quelle · Vermerk, MECH 2.2).
 /// 6. Anklagefeld mit Schreiblinien (MECH 2.5) und Hilfe (RK 6.10); „Wenn
-///    Rollen fehlen“ für die heutige Personenzahl (RK 6.12); bei 6 bis 11
-///    Personen die Tipps zu den Aktionskarten der fehlenden Zeugen (RK 6.8,
-///    MECH 4.6); Wenn Karten gegen dich gespielt werden (RK 6.8); Notizen.
+///    Rollen fehlen“ für die heutige Personenzahl (RK 6.12 nennt keine Seite;
+///    auf Seite 6 leitet der Hinweis für 6 bis 11 Personen die Aktionskarten
+///    ein); bei 6 bis 11 Personen die Tipps zu den Aktionskarten der fehlenden
+///    Zeugen (RK 6.8, MECH 4.6); Wenn Karten gegen dich gespielt werden (RK
+///    6.8); freier Platz wird zu Notizlinien.
+///
+/// Die ganzen Tischregeln R-01 bis R-14 stehen nur im Erzählerheft (MECH 1.4,
+/// 2.6: Teil 01 hat die Kurzform).
 ///
 /// Lesetext steht je Seite in der größten Schrift von 11 pt abwärts, die die
-/// Seite füllt, nie unter 9 pt; passt eine Seite auch in 9 pt nicht, ist das
-/// ein [KammerUeberlauf] mit Seite und Stelle. Raster und Vermerke füllen
+/// Seite füllt, nie unter 9 pt. Passt eine Seite auch in 9 pt nicht, wird sie
+/// mit halben Abständen noch einmal versucht (dichter Satz, Reserve für
+/// längere Texte); passt sie auch so nicht, ist das ein [KammerUeberlauf] mit
+/// Seite und Stelle. Raster und Vermerke füllen
 /// ihre Seite mit Schreibraum (mindestens [_rasterMin] bzw. [_vermerkMin] je
 /// Zeile). Jeder sichtbare Text kommt aus dem Inhalt (`detektiv.json`,
 /// `gemeinsam.json`, `indizkarten.json`, `fall.json`, die Aktionskarten der

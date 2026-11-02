@@ -188,7 +188,7 @@ void main() {
       test('Positions-Marker: zwei je besetzter Rolle, Detektiv und Herr Schneider; fehlende Rollen ohne Marker', () {
         final m = flach[2];
         final besetzt = k.besetzung.besetzt.toSet();
-        final platz = RegExp('${RegExp.escape(kammerFlach(u('marker.platz', {'platz': '#'}))).replaceAll('#', r'(\d+)')}(?!\d)');
+        final platz = RegExp(RegExp.escape(kammerFlach(u('marker.platz', {'platz': '#'}))).replaceAll('#', r'(\d+)') + r'(?!\d)');
         final plaetze = [for (final x in platz.allMatches(m)) int.parse(x.group(1)!)];
         for (final pl in k.fall.plaetze) {
           final n = besetzt.contains(pl) ? 2 : 0;
