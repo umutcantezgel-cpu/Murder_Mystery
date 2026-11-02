@@ -1,0 +1,270 @@
+{
+  "platz": 15,
+  "id": "azra",
+  "vorstellung": {
+    "frage": "Azra, die Flohmarkt-Kennerin. Du hast heute Abend schon einen Einbrecher gestellt. Wie gefährlich war er wirklich?",
+    "auftritt": "Ich bin Azra. Ich studiere Kunstgeschichte und stöbere jedes Wochenende auf Flohmärkten. Feilschen ist mein Sport. Um Viertel nach acht hab ich an der Torte einen Einbrecher erwischt. Ich hab laut gerufen, {wenn:wojtek|Wojtek hat|jemand hat} mit der Taschenlampe in den Vorratsraum geleuchtet, und da stand: Olli. Er wollte nur aufs Klo. Jeder Trödel erzählt eine Geschichte. Die hier erzähl ich noch meinen Enkeln."
+  },
+  "werDuBist": "Du bist Azra, 26, die Flohmarkt-Kennerin. Du studierst Kunstgeschichte und kennst alte Münzen. Man erkennt dich an deiner Lupe und am langen Strickcardigan.{wenn:wojtek| Mit Wojtek skizzierst du alte Fassaden.} Fatma kennst du aus der Unibibliothek.{wenn:tugba| Tugbas Spieleabende schmückst du mit Flohmarkt-Deko.}\nWas dich heute antreibt: Niemand soll denken, du hättest Fatma zu etwas angestiftet.",
+  "haltung": "Du feilschst gern und redest gern über alte Dinge. Nur über die Schatulle in der Vitrine schweigst du lieber. Lügen tust du nicht.",
+  "tandemKasten": "Um 20:15 Uhr hast du „Einbrecher an der Torte!“ gerufen. {rolle:wojtek|Ein Gast} hat mit der Taschenlampe aus dem Werkzeugkasten hinter der Theke in den Vorratsraum geleuchtet. Es war Olli. Beim Zurücklegen sah {rolle:wojtek|der Gast} im Werkzeugkasten eine halb leere Dose Möbelwachs. Tim sagte: „Olli brauchte was für eine Schramme.“ {rolle:wojtek|Der Gast} bat dich: „Sag keinem, dass das Wachs aus meinem Kasten ist.“ Du hast es versprochen. Dein eigenes Geheimnis hat mit der Schauvitrine zu tun.",
+  "marker": {
+    "zeile": "Marker 23:57: Ost-Saal (1). Marker Scheppern: Ost-Saal (1). Beide stimmen.",
+    "behauptet": {
+      "z2357": "1",
+      "scheppern": "1"
+    },
+    "wahr": {
+      "z2357": "1",
+      "scheppern": "1"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "vorher",
+        "text": "erzählt Fatma in der Unibibliothek von der Münzschatulle mit dem Wappen in der Schauvitrine",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "zahlt 150 €; unterschreibt die Dankeskarte",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "heute Abend",
+        "text": "steht selbst lange vor der Vitrine und schaut sich die Schatulle an. Herr Schneider schaut sie komisch an. Einen Sprung in der Scheibe bemerkt sie nicht",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "20:15",
+        "text": "sieht jemanden in der dunklen Tür neben der Anrichte verschwinden und ruft: „Einbrecher an der Torte!“ {rolle:wojtek|Ein Gast} leuchtet hinein. Olli: „Ich wollte nur aufs Klo!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "20:15",
+        "text": "hinter der Theke: Die Dose Möbelwachs im Werkzeugkasten ist halb leer, am Rand Holzstaub. Tim: „Olli brauchte was für eine Schramme.“ {rolle:wojtek|Der Gast} bittet sie zu schweigen",
+        "frei": "karte",
+        "zusatz": "{wenn:wojtek|erst nach Wojteks Karte|erst nach dem Umdrehen}"
+      },
+      {
+        "zeit": "22:00",
+        "text": "Herr Schneider verlangt im Ost-Saal leisere Musik",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "Ost-Saal, Ratespiel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–0:00",
+        "text": "sitzt im Ost-Saal an der langen Tafel, Ostseite. Bis kurz vor zwölf schenkt Damir dort Tee aus.{wenn:wojtek| Wojtek sitzt auf der Wandbank Ost bei seiner Box.} Ab fünf vor zwölf schaut sie auf die blinde Kuh. Hört Knall, Rufe, Scheppern, „Hier liegt Herr Schneider!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "im Dunkeln, kurz vor dem Licht",
+        "text": "Im Ost-Saal gehen Handylampen an. Sie schaut zur Tür in den Buffetsaal, woher der Lärm kam, nicht zur Tafel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:03",
+        "text": "Buffetsaal: Bund weg, Tor zu",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:10",
+        "text": "holt ihren Skizzenblock von der Wandbank West im Kaminsaal und bleibt dort sitzen",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:12",
+        "text": "Ahmet kommt an den Kamin. Er nimmt ein Bündel Scheine aus einem Umschlag und steckt es in die Hosentasche. Den leeren Umschlag faltet er und wirft ihn in den Ascheneimer neben der Kamin-Nische",
+        "frei": "offen",
+        "zusatz": "frühestens in Runde 2"
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Gib mir eine Lupe und einen Flohmarkt, und ich bin glücklich.“",
+      "„Um Viertel nach acht hab ich ‚Einbrecher an der Torte!‘ gerufen. Es war Olli. Er wollte nur aufs Klo.“",
+      "„Kurz vor zwölf saß ich im Ost-Saal an der langen Tafel und hab der blinden Kuh zugeschaut. Von der Theke hab ich nichts gesehen.“",
+      "„Knall, Rufe, Scheppern: Das hab ich nur gehört.“",
+      "„Um zehn nach zwölf hab ich im Kaminsaal meinen Skizzenblock von der Wandbank geholt und mich da hingesetzt.“",
+      "**Ab Runde 2:** „Um 0:12 Uhr kam Ahmet an den Kamin. Er hat ein Bündel Scheine aus einem Umschlag genommen und in die Hosentasche gesteckt. Den leeren Umschlag hat er gefaltet und in den Ascheneimer geworfen.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "nach der Münzschatulle oder alten Münzen",
+        "antwort": "„Alte Münzen sind mein Hobby, ja. Mehr sag ich dazu gerade nicht.“"
+      },
+      {
+        "frage": "ob du heute an der Vitrine warst",
+        "antwort": "„Im Turmgang war ich heute auch mal. Mehr sag ich dazu nicht.“"
+      },
+      {
+        "frage": "nach dem Werkzeugkasten, dem Möbelwachs, der Taschenlampe",
+        "antwort": "„{wenn:wojtek|Frag Wojtek.|Frag Tim, der hat sich den Kasten heute geliehen.}“"
+      },
+      {
+        "frage": "(Runde 1) was du nach zwölf im Kaminsaal gesehen hast",
+        "antwort": "„Ich hab meinen Skizzenblock geholt und mich hingesetzt.“"
+      }
+    ],
+    "verboten": [
+      "„Ich kenne die Schatulle nicht.“",
+      "„Ich hab Fatma nie davon erzählt.“",
+      "„Ich hab nach zwölf nichts gesehen.“",
+      "„Im Werkzeugkasten war alles in Ordnung.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ich saß im Ost-Saal und hab der blinden Kuh zugeschaut. Bestätigen kann ich da keinen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ich saß an der langen Tafel im Ost-Saal, bei den anderen.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich bin gefolgt. Ich war im Ost-Saal.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Im Turmgang war ich heute auch mal. Mehr sag ich dazu nicht.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich war im Ost-Saal.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Knall, Rufe, Scheppern. Gesehen hab ich nichts.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Um zehn nach zwölf hab ich meinen Skizzenblock von der Wandbank im Kaminsaal geholt.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte NN3 oder FM9 offen auf dem Tisch liegt.",
+      "Sobald Fatmas Geheimniskarte offen auf dem Tisch liegt."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Ob Fatma die Schatulle hat, weiß ich nicht sicher. Ich hoffe nur, sie kommt heil zurück.“",
+        "{wenn:wojtek|**Erst nach Wojteks Karte:** „Ja, ich war um 20:15 Uhr dabei. Tim hat gesagt: ‚Olli brauchte was für eine Schramme.‘“}"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, um Viertel nach acht standest du im dunklen Vorratsraum vor der Torte. Ich hab dich für einen Einbrecher gehalten. Den Weg hinter die Theke kennst du also auch im Dunkeln, oder?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "serkan",
+      "frage": "„Serkan, dein Marker steht im Windfang. Um fünf vor zwölf sollten alle in den Ost-Saal. Was wolltest du da draußen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, um 0:12 Uhr warst du am Kamin. Du hast ein Bündel Scheine in die Hosentasche gesteckt und einen leeren Umschlag in den Ascheneimer geworfen. Warum versteckst du den Umschlag?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "fatma",
+      "frage": "**Azras Karte offen:** „Fatma, ja, ich hab dir von der Schatulle erzählt. Aber angestiftet hab ich dich zu nichts. Sag allen, dass du sie zurückbringst.“\n**Azras Karte zu:** „Fatma, du schreibst über alte Münzbilder. Hast du hier im Schloss heute schon etwas zum Abzeichnen gefunden?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, um Viertel nach acht hast du im Dunkeln bis vor die Torte gefunden. Um zwei vor zwölf war es wieder dunkel. Wohin bist du da gegangen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "zeynep",
+      "frage": "„Zeynep, du standest im Steinbogen. Was ist im Dunkeln an dir vorbeigekommen, und wann? Sag es vor allen.“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Ich hab meine Lupe an der Silberkette und einen kleinen Block mit Skizzen von alten Fassaden. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Lupe",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Du wählst eine offene Indizkarte und eine Person. Die Person beantwortet sofort eine Frage von dir zu diesem Fund.",
+    "grenzen": "Lügen nach Stufe 1 bleibt erlaubt.",
+    "tipp": "Gut, wenn eine Indizkarte offen liegt und keiner etwas dazu sagt. Frag die Person, deren Name oder Ort auf der Karte steht."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Die Münzschatulle soll heil zurück, und niemand soll denken, du hättest Fatma angestiftet. **Erfüllt, wenn** Fatmas Geheimniskarte offen lag, bevor die Indizkarte „Fatma: Taschen und Kleidung“ offen lag. Darauf steht, dass sie die Schatulle nur ausgeliehen hat.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "NN3",
+      "FM9"
+    ],
+    "wasIchZugebe": "Ich kenne mich mit alten Münzen aus. In der Unibibliothek hab ich Fatma von der Münzschatulle mit dem Wappen erzählt, die hier in der Schauvitrine liegt. Heute Abend stand ich selbst lange davor. Herr Schneider hat mich komisch angeschaut. Aber ich hab Fatma zu nichts angestiftet.",
+    "vermerke": [
+      "Hinweis: Azra hat Fatma vor dem Abend von der Münzschatulle in der Schauvitrine erzählt."
+    ],
+    "undNochEtwas": "{wenn:wojtek|Wojtek hat mich um 20:15 Uhr gebeten, über seinen Werkzeugkasten zu schweigen. Frag ihn, warum.|Um 20:15 Uhr sagte Tim am Werkzeugkasten hinter der Theke: „Olli brauchte was für eine Schramme.“}"
+  },
+  "solo": "**Du spielst dein Tandem allein.** Wem der Werkzeugkasten gehört, spielt heute niemand. Sag dann „ein Gast“. Dein Versprechen gilt trotzdem: Wem das Wachs gehört, sagst du nicht. Was Tim um 20:15 Uhr gesagt hat, steht dafür am Ende deiner Karte. Alles andere gilt wie gedruckt.",
+  "teil90": "Azra hatte Fatma von der Münzschatulle erzählt und schwieg darüber. {wenn:wojtek|Für Wojtek|Für einen Gast} hielt sie ein Versprechen. Um zwölf nach zwölf sah sie, wie Ahmet den leeren Umschlag in den Ascheneimer warf.",
+  "fassung": null
+}

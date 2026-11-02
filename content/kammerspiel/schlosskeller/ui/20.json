@@ -1,0 +1,20 @@
+{
+  "datei": "20-karten.pdf",
+  "titel": "Karten",
+  "indiz.titel": "Indizkarten",
+  "indiz.aussen": "Indizkarte {code} · ab Runde {runde} · Erst umdrehen, wenn der Detektiv diese Karte gewählt hat.",
+  "indiz.wasDuFindest": "Was du findest",
+  "indiz.ortstermin": "Ortstermin",
+  "geheimnis.titel": "Geheimniskarten",
+  "geheimnis.vorne": "Geheimnis · {name} · Platz {platz}",
+  "geheimnis.vorne.hinweis": "Liegt verdeckt vor dir. Umdrehen nur, wenn dein Heft es sagt, oder wenn du am Rundenende reinen Tisch machst.",
+  "geheimnis.vorne.fehlt": "**Geheimnis · {name} · Platz {platz}** · Heute spielt diese Rolle niemand. Der Erzähler dreht sie um.",
+  "geheimnis.innen": "Geheimnis · {name}",
+  "aktion.titel": "Aktionskarten",
+  "aktion.kopf": "Aktionskarte · {name}",
+  "aktion.kopf.detektiv": "Aktionskarte · heute beim Detektiv",
+  "aktion.wirkung": "Wirkung",
+  "aktion.grenzen": "Grenzen",
+  "aktion.fuss": "Einmal im Spiel. Danach umdrehen.",
+  "falz.hinweis": "Falten: das obere Feld nach hinten, das graue Feld nach vorn über diesen Text."
+}

@@ -1,0 +1,333 @@
+{
+  "ortsterminSchluss": {
+    "einzahl": "Liegt für diesen Ort ein Zeugenstreifen neben dem Lageplan, dreht der Erzähler ihn jetzt um.",
+    "mehrzahl": "Liegen für diesen Ort Zeugenstreifen neben dem Lageplan, dreht der Erzähler sie jetzt um."
+  },
+  "ortsterminVermerk": "Nichts Gedrucktes. Was die Person hier sagt, trägst du selbst ein. Ein umgedrehter Zeugenstreifen hat einen eigenen Vermerk.",
+  "karten": [
+    {
+      "code": "AD3",
+      "abRunde": 1,
+      "art": "ortstermin",
+      "titel": "Ortstermin: Durchgang mit Sicherungskasten",
+      "felder": [
+        "6"
+      ],
+      "wasDuFindest": "Ein kurzer, niedriger Gang, gut zwei Meter lang. An der Nordwand hängt der Sicherungskasten. Die Hauptsicherung ist wieder eingeschaltet. Darunter ein Fach mit Ersatzsicherungen, Putzmitteln und Lappen. Daneben stehen Getränkekisten. Der Steinbogen zum Kaminsaal ist nur 1 m breit. Im Durchgang liegt kein Schlüsselbund.",
+      "ortstermin": "Wer beim Knall oder beim Scheppern im Durchgang oder im Steinbogen war, stellt sich an seinen Platz. Sag vor allen: Wo genau hast du gestanden? Was hast du bis zum Licht getan?",
+      "vermerke": [],
+      "zeugen": [
+        "tim",
+        "zeynep"
+      ],
+      "meilensteine": []
+    },
+    {
+      "code": "DM3",
+      "abRunde": 1,
+      "art": "ortstermin",
+      "titel": "Ortstermin: rechter Buffettisch",
+      "felder": [
+        "3"
+      ],
+      "wasDuFindest": "Auf dem rechten Buffettisch stehen die Warmhaltebehälter, sauber zugedeckt. Bis zum Eiskübel vor dem Ostende der Theke sind es gut 3 m. Am rechten Buffettisch liegt kein Schlüsselbund.",
+      "ortstermin": "Wer beim Scheppern hier war, sagt vor allen: Wo genau warst du? Wer war im Dunkeln neben dir, seit wann, und woran hast du die Person erkannt?",
+      "vermerke": [],
+      "zeugen": [
+        "lejla"
+      ],
+      "meilensteine": []
+    },
+    {
+      "code": "FK3",
+      "abRunde": 3,
+      "art": "ortstermin",
+      "titel": "Ortstermin: im Steinbogen",
+      "felder": [
+        "6"
+      ],
+      "wasDuFindest": "Der Steinbogen zwischen Durchgang und Kaminsaal ist nur 1 m breit. Wer hier steht und jemand rennt durch, wird gestreift. Aus dem Bogen sieht man den Durchgang entlang bis zur Tür und zur Theken-Klappe. Im Steinbogen liegt kein Schlüsselbund.",
+      "ortstermin": "Wer im Steinbogen stand, stellt sich hinein und sagt vor allen: Was kam im Dunkeln durch den Bogen? Was hast du danach gehört? Und warum hast du genau hier gestanden?",
+      "vermerke": [],
+      "zeugen": [
+        "zeynep"
+      ],
+      "meilensteine": [
+        "M6",
+        "M3"
+      ]
+    },
+    {
+      "code": "FM9",
+      "abRunde": 1,
+      "art": "spur",
+      "titel": "Schauvitrine im Turmgang",
+      "felder": [
+        "8a"
+      ],
+      "wasDuFindest": "Die gesprungene Scheibe der Schauvitrine ist angehoben. Frische Scherben liegen am Boden. Das Samtbett ist leer: Die Münzschatulle mit dem Wappen fehlt. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis: Aus der Schauvitrine fehlt die Münzschatulle."
+      ],
+      "zeugen": [],
+      "meilensteine": []
+    },
+    {
+      "code": "FN3",
+      "abRunde": 2,
+      "art": "spur",
+      "titel": "Olli: Taschen und Kleidung",
+      "felder": [],
+      "wasDuFindest": "In der Tasche von Ollis dunkelblauer Daunenweste steckt sein rechter Arbeitshandschuh. An den Fingerkuppen: braunes Möbelwachs und weißer Kalk. Auf dem Handrücken: rote Kerzenwachstropfen. An beiden Bündchen von Ollis grauem Kapuzenpulli hängen Kalkstaub und ein paar feine Holzsplitter. Sonst nichts.",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis · Heimlichtuerei: Möbelwachs und Kalk an den Fingerkuppen von Ollis rechtem Handschuh. Vergleiche die Bogentür (YT4).",
+        "Hinweis: Auf dem Handrücken rote Kerzenwachstropfen. An beiden Bündchen von Ollis Pulli Kalkstaub und feine Holzsplitter."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M7",
+        "M9"
+      ]
+    },
+    {
+      "code": "FX3",
+      "abRunde": 1,
+      "art": "ortstermin",
+      "titel": "Ortstermin: Tür zum Ost-Saal",
+      "felder": [
+        "1"
+      ],
+      "wasDuFindest": "Die Holztür zwischen Ost-Saal und Buffetsaal steht offen. Aus der Tür sieht man bei Licht den ganzen Buffetsaal: Theke, Eiskübel, beide Buffettische und die Theken-Klappe. Durch die offene Tür neben der Klappe sieht man ein Stück in den Durchgang, bis zum Steinbogen. Den Sicherungskasten sieht man nicht. Auf der langen Tafel liegt ein umgestoßener Handyhalter neben dem Handykorb. In der Tür und am Handykorb liegt kein Schlüsselbund.",
+      "ortstermin": "Wer um 23:57 Uhr in dieser Tür stand, sagt vor allen: Wen hast du von hier aus gesehen, und wo? Und wo warst du, als es schepperte?",
+      "vermerke": [],
+      "zeugen": [
+        "joanna"
+      ],
+      "meilensteine": []
+    },
+    {
+      "code": "JA9",
+      "abRunde": 1,
+      "art": "spur",
+      "titel": "Herrn Schneiders rechte Hand",
+      "felder": [],
+      "wasDuFindest": "Herr Schneider sitzt mit einem Kühlpack im Buffetsaal. An seiner rechten Hand hängen knallgelbe Fasern, wie von einer Kapuze. Er brummt: „Das Gespenst hatte eine Kapuze. Mehr weiß ich nicht.“",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis: Herr Schneider hat im Dunkeln jemanden an einer knallgelben Kapuze gepackt."
+      ],
+      "zeugen": [],
+      "meilensteine": []
+    },
+    {
+      "code": "JT3",
+      "abRunde": 2,
+      "art": "spur",
+      "titel": "Can: Taschen und Kleidung",
+      "felder": [],
+      "wasDuFindest": "In der Bauchtasche von Cans signalgelbem Kapuzenpulli steckt eine zusammengefaltete weiße Maske. Sie ist mit grünlich-weißer Leuchtfarbe bemalt. Die Farbe ist noch leicht klebrig. Sonst nichts.",
+      "ortstermin": null,
+      "vermerke": [
+        "Heimlichtuerei: In Cans Bauchtasche steckt eine Maske mit grünlich-weißer Leuchtfarbe."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M6"
+      ]
+    },
+    {
+      "code": "MR4",
+      "abRunde": 2,
+      "art": "spur",
+      "titel": "Hinter der Theke: Kaffeemaschine und Werkzeugkasten",
+      "felder": [
+        "4c"
+      ],
+      "wasDuFindest": "Hinter der Theke steht die Kaffeemaschine. Ihr Stecker steckt in einer alten, wackeligen Mehrfachsteckdose auf dem Boden. Ein Steckplatz ist schwarz verschmort. Daneben steht ein Werkzeugkasten. Darin eine Dose braunes Möbelwachs: halb leer, am Rand Holzstaub. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis: Der Knall kam aus dieser Mehrfachsteckdose.",
+        "Hinweis: Mit diesem Möbelwachs wurde heute Holz behandelt."
+      ],
+      "zeugen": [],
+      "meilensteine": []
+    },
+    {
+      "code": "NN3",
+      "abRunde": 2,
+      "art": "spur",
+      "titel": "Fatma: Taschen und Kleidung",
+      "felder": [],
+      "wasDuFindest": "In Fatmas schwerer Umhängetasche aus Leder liegt zwischen Skizzenblock und Stiften eine Münzschatulle. Der Deckel ist blank poliert und zeigt ein Wappen mit zwei Löwen. Am rechten Ärmel von Fatmas beerenrotem Mantel hängen feine Glassplitter.",
+      "ortstermin": null,
+      "vermerke": [
+        "Heimlichtuerei: Die Münzschatulle aus der Schauvitrine steckt in Fatmas Tasche."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M5"
+      ]
+    },
+    {
+      "code": "PM3",
+      "abRunde": 2,
+      "art": "spur",
+      "titel": "Herrn Schneiders Klemmbrett",
+      "felder": [],
+      "wasDuFindest": "Herr Schneider zeigt dir sein Klemmbrett. Oben das Belegungsblatt der Stiftung: „Saalmiete Schlosskeller: 0 Euro“. Darunter der Quittungsblock mit zwei Durchschlägen: „Bogentür, Beschlag ausgerissen: 2.000 € Bargeld. Bis Mitternacht.“ Ohne Namen. Und: „Miete: 0 Euro.“ Herr Schneider sagt nur: „Das kläre ich mit den Leuten selbst.“",
+      "ortstermin": null,
+      "vermerke": [
+        "Heimlichtuerei: Der Keller hat nichts gekostet. Wer trotzdem „Miete“ eingesammelt hat, hat geschwindelt.",
+        "Hinweis: Für den Schaden an der Bogentür verlangt Herr Schneider 2.000 € bis Mitternacht."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M4"
+      ]
+    },
+    {
+      "code": "PP9",
+      "abRunde": 3,
+      "art": "spur",
+      "titel": "Vor der Theke am Ostende",
+      "felder": [
+        "4b"
+      ],
+      "wasDuFindest": "Der Eiskübel steht vor dem Ostende der Theke. Das Eis ist halb geschmolzen. Obenauf fehlt eine Handvoll Eiswürfel. Unter den Eiswürfeln liegt Herrn Schneiders Schlüsselbund: große Schlüssel aus dunklem Eisen an einem Stahlring. Herr Schneider steckt ihn ein: „Aufgeschlossen wird, wenn's hell ist.“",
+      "ortstermin": null,
+      "vermerke": [
+        "Fundort: Unter den Eiswürfeln im Eiskübel liegt Herrn Schneiders Schlüsselbund."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M8"
+      ]
+    },
+    {
+      "code": "RH3",
+      "abRunde": 1,
+      "art": "ortstermin",
+      "titel": "Ortstermin: linker Buffettisch",
+      "felder": [
+        "2"
+      ],
+      "wasDuFindest": "Auf dem linken Buffettisch: Gebäck, Dips, eine silberne Thermoskanne und die Brottasche. In der Brottasche sind nur Brot und Krümel. Kein Schlüsselbund.",
+      "ortstermin": "Wer beim Scheppern hier war, sagt vor allen: Wo genau warst du? Wer war im Dunkeln neben dir, seit wann, und woran hast du die Person erkannt?",
+      "vermerke": [],
+      "zeugen": [
+        "emine"
+      ],
+      "meilensteine": [
+        "M2"
+      ]
+    },
+    {
+      "code": "VP7",
+      "abRunde": 3,
+      "art": "spur",
+      "titel": "Kamin-Nische",
+      "felder": [
+        "7"
+      ],
+      "wasDuFindest": "In der Kamin-Nische liegt ein linker Arbeitshandschuh, schwarz vom Ruß, zur Seite geschoben. Unter der Asche liegt ein halb verkohlter Brief. Lesbar ist nur: „Ich trau mich nicht, es dir zu sagen.“ Kein Name. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis: Jemand hat hier einen linken Arbeitshandschuh liegen lassen."
+      ],
+      "zeugen": [],
+      "meilensteine": []
+    },
+    {
+      "code": "WE3",
+      "abRunde": 1,
+      "art": "spur",
+      "titel": "Jackenständer im Ost-Saal",
+      "felder": [
+        "1"
+      ],
+      "wasDuFindest": "Am Jackenständer hängt Ahmets schwarze Jacke. In der Brusttasche steckt eine Namensliste: die 17 anderen aus der Clique, hinter jedem Namen „150 € ✓“. In der Innentasche ein Kaugummipapier. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis: Ahmet hat heute von allen anderen aus der Clique 150 € eingesammelt."
+      ],
+      "zeugen": [],
+      "meilensteine": []
+    },
+    {
+      "code": "WJ9",
+      "abRunde": 1,
+      "art": "ortstermin",
+      "titel": "Ortstermin: hinter der Theke am Ostende",
+      "felder": [
+        "4d"
+      ],
+      "wasDuFindest": "Hinter dem Ostende der Theke steht die Anrichte Ost mit Saftkrügen, Gläsern, Tassen und Servietten. Von hier bis zur Vorratsraumtür sind es gut 3 m, bis zum Eiskübel 2 m. Hinter der Theke am Ostende liegt kein Schlüsselbund.",
+      "ortstermin": "Wer beim Scheppern hier war, sagt vor allen: Wo genau warst du? Wer war im Dunkeln neben dir, seit wann, und woran hast du die Person erkannt?",
+      "vermerke": [],
+      "zeugen": [
+        "marek"
+      ],
+      "meilensteine": [
+        "M1"
+      ]
+    },
+    {
+      "code": "WM9",
+      "abRunde": 2,
+      "art": "spur",
+      "titel": "Ascheneimer am Kamin",
+      "felder": [
+        "7"
+      ],
+      "wasDuFindest": "Im Ascheneimer neben der Kamin-Nische liegt ein leerer, gefalteter Umschlag mit einem langen Knick. Darauf steht in Ahmets Handschrift: „Miete Schlosskeller“. Er ist grau von kalter Asche. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Heimlichtuerei: Wer das Mietgeld eingesammelt hat, hat den Umschlag geleert und im Ascheneimer versteckt."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M4"
+      ]
+    },
+    {
+      "code": "XD3",
+      "abRunde": 3,
+      "art": "spur",
+      "titel": "Messingkerzenständer und Vorratsraum",
+      "felder": [
+        "4c",
+        "5"
+      ],
+      "wasDuFindest": "Der Messingkerzenständer liegt umgestoßen auf dem Steinboden vor der Vorratsraumtür. Der Schaft ist leicht verbogen. Die drei roten Kerzen liegen daneben. Am Griff kleben rote Wachstropfen vom Kerzenteller. Im erstarrten roten Wachs am Fuß kleben feine Holzsplitter und weißer Kalk. Im Vorratsraum gleich hinter der Tür hängt die Notlaterne unberührt am Haken. Die Mitternachtstorte steht unversehrt im Regal. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Schlüsselbeweis, Teil 1: Im roten Wachs am Fuß kleben feine Holzsplitter und weißer Kalk. Wer den Kerzenständer am Fuß hielt, hatte beides am Ärmel. Teil 2 ist die passende Spur an einer Person."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M9"
+      ]
+    },
+    {
+      "code": "YT4",
+      "abRunde": 1,
+      "art": "spur",
+      "titel": "Bogentür und Ritterrüstung",
+      "felder": [
+        "7",
+        "8a"
+      ],
+      "wasDuFindest": "An der geschnitzten Bogentür zum Turmgang ist ein Beschlag aus der gekalkten Wand gerissen. Frische Holzsplitter und weißer Kalk am Türbogen, darüber ein Rest braunes Möbelwachs. Im Helm der Ritterrüstung: Staub und eine alte Spinnwebe. Unter dem Sockel der Rüstung liegen ein paar kleine Glassplitter. Kein Schlüsselbund.",
+      "ortstermin": null,
+      "vermerke": [
+        "Hinweis · Heimlichtuerei: Jemand hat heute an der Bogentür einen Beschlag ausgerissen und die Schramme mit braunem Möbelwachs überdeckt."
+      ],
+      "zeugen": [],
+      "meilensteine": [
+        "M7"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "platz": 17,
+  "id": "aylin",
+  "vorstellung": {
+    "frage": "Aylin, die Kassenprüferin. Wenn dein Kugelschreiber klickt, steht irgendwo ein Stuhl schief. Wie oft hat er heute schon geklickt?",
+    "auftritt": "Ich bin Aylin, Steuerfachangestellte. Ordnung ist das halbe Leben, die andere Hälfte vermutlich auch. Ich hebe jeden Beleg auf, sogar den vom Kaugummi. Beim Einlass hab ich die Gästeliste abgehakt, alle sind da. Wenn mein Kugelschreiber dreimal klickt, steht irgendwo ein Stuhl schief. Heute hat er schon sehr oft geklickt."
+  },
+  "werDuBist": "Du bist Aylin, 24, die Kassenprüferin. Als Steuerfachangestellte hebst du jeden Beleg auf. Man erkennt dich an der schwarzen Ledermappe und am Kugelschreiber. Für Mareks Catering-Betrieb machst du die Steuer.{wenn:tugba| Mit Tugba teilst du eine Überraschung: die Dankeskarte.}\nWas dich heute antreibt: Du willst dein Geld zurück, ohne Ahmet vor allen bloßzustellen.",
+  "haltung": "Du willst Ordnung und dein Geld. Aber du stellst niemanden vor allen bloß. Lügen tust du nicht.",
+  "tandemKasten": "Beim Einlass hast du Herrn Schneider geholfen und die Gästeliste abgehakt. Dabei hast du heimlich alle {wenn:tugba|Tugbas|eine} Dankeskarte für Herrn Schneider unterschreiben lassen. Die soll er mit der Torte bekommen. Das ist das harmlose Geheimnis eures Tandems. Dein eigenes ist es nicht: In deiner Ledermappe steckt ein Zettel von Herrn Schneider.",
+  "marker": {
+    "zeile": "Marker 23:57: Ost-Saal (1). Marker Scheppern: Ost-Saal (1). Beide stimmen.",
+    "behauptet": {
+      "z2357": "1",
+      "scheppern": "1"
+    },
+    "wahr": {
+      "z2357": "1",
+      "scheppern": "1"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "18:00",
+        "text": "hilft beim Einlass im Windfang, hakt die Gästeliste ab. Herr Schneider zeigt ihr im Durchgang den Sicherungskasten und darunter das Fach mit Ersatzsicherungen und Putzmitteln, dazu die Notlaterne hinter der Vorratsraumtür: „Falls was ist.“ Er sagt: Den Außentor-Schlüssel gibt es nur an seinem Bund und bei seiner Kollegin",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "lässt mit der Gästeliste heimlich alle die Dankeskarte unterschreiben",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "zahlt Ahmet die 150 € nur unter Protest und will einen Beleg. Ahmet: „Den Beleg gibt's von Herrn Schneider.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "22:30",
+        "text": "fragt Herrn Schneider an der Tafel West nach einem Beleg. Er schreibt auf einen Quittungszettel: „Miete: 0 Euro. Schneider“. Im Quittungsblock sieht sie davor einen Durchschlag: „Bogentür, Beschlag ausgerissen: 2.000 € Bargeld. Bis Mitternacht.“ Ohne Namen. Er sagt: Jeden Schaden muss er der Stiftung melden, kleine zahlt er oft selbst. Sie steckt den Zettel in ihre Ledermappe",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "Ost-Saal, Ratespiel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:30",
+        "text": "holt Putzmittel und Lappen aus dem Fach im Durchgang, für den Ruß am Kamin",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "Serkan geht aus dem Ost-Saal, gerade als alle zur blinden Kuh sollen. Wohin, sieht sie nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–0:00",
+        "text": "sitzt an der langen Tafel, Westseite, die Mappe auf dem Schoß. Bis kurz vor zwölf schenkt Damir dort Tee aus. Ab fünf vor zwölf schaut sie auf die blinde Kuh. Hört Knall, Rufe, Scheppern. Als die Handylampen angehen, schaut sie zur Tür, woher der Lärm kam{wenn:tugba|. Tugba steht erst an der Wandtafel, ab fünf vor zwölf beim Detektiv}",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:03",
+        "text": "im Buffetsaal unter dem Notausgangsschild: „Den Schlüssel fürs Außentor gibt's nur an seinem Bund und bei seiner Kollegin.“",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Ordnung ist das halbe Leben. Ich hebe jeden Beleg auf.“",
+      "„Beim Einlass hab ich Herrn Schneider geholfen und die Gästeliste abgehakt. Er hat mir den Sicherungskasten im Durchgang gezeigt, das Fach mit Ersatzsicherungen und die Notlaterne hinter der Vorratsraumtür.“",
+      "„Den Schlüssel fürs Außentor gibt es nur zweimal: an Herrn Schneiders Bund und bei seiner Kollegin. Das hat er mir beim Einlass gesagt.“",
+      "„Ich hab Ahmet die 150 € nur unter Protest gegeben. Ich wollte einen Beleg. Er sagte: ‚Den Beleg gibt's von Herrn Schneider.‘“",
+      "„Um halb zwölf hab ich Putzmittel aus dem Fach im Durchgang geholt, für den Ruß am Kamin.“",
+      "„Kurz vor zwölf saß ich im Ost-Saal an der Tafel, Westseite, und hab der blinden Kuh zugeschaut.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "ob du deinen Beleg bekommen hast",
+        "antwort": "„Mein Beleg ist meine Sache. Ahmet soll selbst sagen, wofür das Geld war.“"
+      },
+      {
+        "frage": "was in deiner Mappe ist",
+        "antwort": "„Belege. Viele Belege.“"
+      },
+      {
+        "frage": "ob du heute mit Herrn Schneider gesprochen hast",
+        "antwort": "„Ich hab ihn heute ein paarmal etwas gefragt. Er antwortet gern knapp.“"
+      }
+    ],
+    "verboten": [
+      "„Ich hab keinen Beleg.“",
+      "„Die Miete war echt.“",
+      "„In meiner Mappe ist nichts von Herrn Schneider.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ich saß im Ost-Saal und hab der blinden Kuh zugeschaut. Bestätigen kann ich da keinen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ich saß an der Tafel, Westseite, meine Mappe auf dem Schoß.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich bin gefolgt. Ich war im Ost-Saal.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„Ich hab Ahmet 150 € gegeben. Nur unter Protest. Ich wollte einen Beleg.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Dazu weiß ich nichts.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich war im Ost-Saal.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Knall, Rufe, Scheppern. Gesehen hab ich nichts.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab nichts geholt. Ich hab gesagt: Den Schlüssel fürs Außentor gibt's nur an seinem Bund und bei seiner Kollegin.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte PM3 oder WE3 offen auf dem Tisch liegt.",
+      "Sobald Ahmets Geheimniskarte offen auf dem Tisch liegt.",
+      "Sobald jemand mit der Taschenkontrolle deine Mappe sehen will.",
+      "Liegt eins davon schon in Runde 1 offen, drehst du zu Beginn von Runde 2 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Jeden Schaden muss Herr Schneider der Stiftung melden. Kleine Schäden zahlt er oft aus eigener Tasche. Darum ist er so streng beim Geld.“",
+        "„Wer die Bogentür beschädigt hat, weiß ich nicht.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, beim Einlass wolltest du mir keinen Beleg geben. Den gibt's von Herrn Schneider, hast du gesagt. Warst du kurz vor zwölf deshalb bei ihm hinter der Theke?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "serkan",
+      "frage": "„Serkan, kurz vor zwölf bist du aus dem Ost-Saal gegangen, gerade als alle zur blinden Kuh sollten. Wohin, und warum?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "**Karte offen:** „Ahmet, hier ist mein Zettel: ‚Miete: 0 Euro.‘ Ich will dich nicht vorführen. Sag selbst, wofür das Geld war, und wann wir es zurückbekommen.“\n**Karte zu:** „Ahmet, ich warte immer noch auf meinen Beleg. Hast du Herrn Schneider die Miete gegeben, ja oder nein?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "wojtek",
+      "frage": "„Wojtek, du hast vorhin erzählt, dass du um Viertel nach acht in den Vorratsraum geleuchtet hast. Woher hattest du die Taschenlampe, und wo ist sie jetzt?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "**Ahmets Karte offen:** „Ahmet, es liegt jetzt alles auf dem Tisch. Sag allen, dass sie ihr Geld zurückbekommen. Dann ist die Sache für mich erledigt.“\n**Ahmets Karte zu:** „Ahmet, mach reinen Tisch. Wer selbst damit herausrückt, steht besser da.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "olli",
+      "frage": "**Ollis Karte offen und deine offen:** „Olli, im Quittungsblock von Herrn Schneider steht: Bogentür, 2.000 € Bargeld, bis Mitternacht. Warst du kurz vor zwölf deshalb bei ihm?“\n**Deine offen, Ollis zu:** „Olli, im Quittungsblock steht ein Schaden an der Bogentür, 2.000 € bis Mitternacht, ohne Namen. Du trägst doch sonst die schweren Sachen. Warst du das?“\n**Deine zu:** „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Ich hab meine schwarze Ledermappe mit Belegen, darin der Quittungszettel von Herrn Schneider, dazu einen Kugelschreiber. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Beleg bitte!",
+    "abRunde": 1,
+    "klasse": "beleg",
+    "wirkung": "Eine Person deiner Wahl nennt für eine ihrer Behauptungen einen Beleg: eine Person, die es bezeugt, oder einen Gegenstand. Kann sie das nicht, schreibt der Detektiv „ohne Beleg“ daneben.",
+    "grenzen": "Die genannte Person sagt sofort, ob das stimmt. Hält ihr Heft es noch zurück, sagt sie: „Dazu sag ich jetzt nichts.“",
+    "tipp": "Gut gegen jemanden, der viel behauptet und nichts belegt. Am besten in Runde 1, wenn die Marker noch frisch sind."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du willst dein Geld zurück, ohne Ahmet vorzuführen. **Erfüllt, wenn** Ahmets Geheimniskarte offen lag, bevor „Herrn Schneiders Klemmbrett“ oder der „Ascheneimer am Kamin“ offen lag.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 2,
+    "pflichtCodes": [
+      "PM3",
+      "WE3"
+    ],
+    "wasIchZugebe": "Ich hab die 150 € nur unter Protest bezahlt und wollte einen Beleg. Um 22:30 Uhr hab ich Herrn Schneider selbst gefragt. Er hat mir auf einen Quittungszettel geschrieben: „Miete: 0 Euro. Schneider“. Der Zettel steckt in meiner Ledermappe. Ich will mein Geld zurück, aber Ahmet nicht vor allen bloßstellen.",
+    "vermerke": [
+      "Heimlichtuerei · Ahmet: Der Keller hat nichts gekostet. Herr Schneider schrieb Aylin um 22:30 Uhr auf einen Quittungszettel: „Miete: 0 Euro.“"
+    ],
+    "undNochEtwas": "Im Quittungsblock stand vor meinem Zettel noch ein Durchschlag: „Bogentür, Beschlag ausgerissen: 2.000 € Bargeld. Bis Mitternacht.“ Ohne Namen."
+  },
+  "solo": "**Du spielst dein Tandem allein.** Wer die Dankeskarte gebastelt hat, spielt heute niemand. Sag dann „ein Gast“. Die Karte gibt es trotzdem, und alle haben unterschrieben. Alles andere gilt wie gedruckt.",
+  "teil90": "Aylin hatte schwarz auf weiß, dass der Keller nichts gekostet hat: Herrn Schneiders Quittungszettel. Sie wollte ihr Geld zurück, aber Ahmet nicht vor allen bloßstellen.",
+  "fassung": null
+}

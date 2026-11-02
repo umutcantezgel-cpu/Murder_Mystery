@@ -1,0 +1,569 @@
+{
+  "vorbereitung": {
+    "hinweis": "Am besten schneidet und faltet jemand, der heute nicht mitspielt. Machst du es selbst: Schneide an den Linien, lies nichts, und falte jede Karte sofort zu. Leg sie mit dem Code nach oben ab.",
+    "taetigkeiten": [
+      {
+        "teil": "alle",
+        "text": "Druck alles einseitig und lies dabei nichts. Nimm für Teil 02 und Teil 20 festeres Papier ab 120 Gramm. Dann scheint nichts durch.",
+        "minuten": null
+      },
+      {
+        "teil": "02",
+        "text": "Blatt A und Blatt B bleiben ganz. Schneide die Marker-Plättchen und die Tipp-Zettel aus.{ab:12|| Schneide das Abwesenheitsblatt in Streifen und falte jeden Streifen so, wie es auf dem Blatt steht.}",
+        "minuten": 15
+      },
+      {
+        "teil": "11",
+        "text": "Falte jede Fassung und klebe sie zu.",
+        "minuten": 5
+      },
+      {
+        "teil": "20",
+        "text": "Schneide die Indizkarten und die Geheimniskarten aus. Falte jede Karte sofort im Zickzack in drei Felder, sodass der Text innen liegt. Staple die Indizkarten nach Code. Schneide die Aktionskarten aus.",
+        "minuten": 25
+      },
+      {
+        "teil": "90",
+        "text": "Falte Teil 90 und versiegle es.",
+        "minuten": 2
+      }
+    ],
+    "anWen": "Vorab darf jede Rolle ihr eigenes Heft bekommen, der Detektiv Teil 01. Teil 90 bekommt niemand vorab.\n\nZu dir legst du Blatt A und Blatt B und den Stapel der Indizkarten, nach Code sortiert und ungelesen. Dazu die Tipp-Zettel, die zwei Marker von Herrn Schneider und Teil 90, versiegelt.{ab:12|| Auch die Zeugenstreifen und die Geheimniskarten der fehlenden Zeugen bleiben bis zur Lageplan-Führung bei dir.} Die vier versiegelten Fassungen behältst du bis nach dem Tat-Moment.\n\nJede Rolle bekommt ihr Heft, ihre Geheimniskarte verdeckt, ihre Aktionskarte offen und zwei Marker. Der Detektiv bekommt Teil 01 und zwei Marker.{ab:12|| Dazu bekommt er die Aktionskarten der fehlenden Zeugen.} Alle legen ihre Geheimniskarte verdeckt und ihre Aktionskarte offen vor sich. Gelesen wird noch nichts Neues."
+  },
+  "ablauf": [
+    {
+      "schritt": 0,
+      "name": "Aufbau am Tisch: Lageplan, Marker, Karten, Hefte verteilen",
+      "minuten": {
+        "6": 10,
+        "12": 12,
+        "20": 12
+      },
+      "uhr": null
+    },
+    {
+      "schritt": 1,
+      "name": "Begrüßung und „So läuft der Abend“",
+      "minuten": {
+        "6": 4,
+        "12": 4,
+        "20": 4
+      },
+      "uhr": null
+    },
+    {
+      "schritt": 2,
+      "name": "Vorgeschichte",
+      "minuten": {
+        "6": 3,
+        "12": 3,
+        "20": 3
+      },
+      "uhr": null
+    },
+    {
+      "schritt": 3,
+      "name": "Vorstellungsrunde",
+      "minuten": {
+        "6": 6,
+        "12": 11,
+        "20": 17
+      },
+      "uhr": null
+    },
+    {
+      "schritt": 4,
+      "name": "Tat-Moment und Auftrag",
+      "minuten": {
+        "6": 3,
+        "12": 3,
+        "20": 3
+      },
+      "uhr": "23:55 bis 0:20"
+    },
+    {
+      "schritt": 5,
+      "name": "Die vier Verdächtigen öffnen still ihre Fassung",
+      "minuten": {
+        "6": 3,
+        "12": 3,
+        "20": 3
+      },
+      "uhr": "0:20"
+    },
+    {
+      "schritt": 6,
+      "name": "Lageplan-Führung, Marker setzen, Zeugenstreifen auslegen",
+      "minuten": {
+        "6": 5,
+        "12": 7,
+        "20": 8
+      },
+      "uhr": null
+    },
+    {
+      "schritt": 7,
+      "name": "Runde 1 „Das Alibi-Geflecht“",
+      "minuten": {
+        "6": 30,
+        "12": 30,
+        "20": 30
+      },
+      "uhr": "ab 0:30"
+    },
+    {
+      "schritt": 8,
+      "name": "Runde 2 „Die Indizien-Filterung“",
+      "minuten": {
+        "6": 30,
+        "12": 30,
+        "20": 30
+      },
+      "uhr": "ab 1:15"
+    },
+    {
+      "schritt": 9,
+      "name": "Pause",
+      "minuten": {
+        "6": 10,
+        "12": 10,
+        "20": 10
+      },
+      "uhr": null
+    },
+    {
+      "schritt": 10,
+      "name": "Runde 3 „Die finale Gegenüberstellung“",
+      "minuten": {
+        "6": 30,
+        "12": 30,
+        "20": 30
+      },
+      "uhr": "ab 2:00"
+    },
+    {
+      "schritt": 11,
+      "name": "Tipp-Runde, in Runde 3 zwischen Abschnitt c und d",
+      "minuten": {
+        "6": 4,
+        "12": 5,
+        "20": 6
+      },
+      "uhr": "2:45"
+    },
+    {
+      "schritt": 12,
+      "name": "Anklage und Stufe 3",
+      "minuten": {
+        "6": 5,
+        "12": 5,
+        "20": 5
+      },
+      "uhr": "2:45"
+    },
+    {
+      "schritt": 13,
+      "name": "Auflösung",
+      "minuten": {
+        "6": 12,
+        "12": 14,
+        "20": 15
+      },
+      "uhr": null
+    }
+  ],
+  "rundenaufbau": [
+    {
+      "abschnitt": "a",
+      "name": "Rundenstart",
+      "minuten": 1,
+      "text": "Lies den Rundenstart vor. Ab jetzt sind die Indizkarten dieser Runde frei."
+    },
+    {
+      "abschnitt": "b",
+      "name": "Tischgespräch und Verhörstuhl",
+      "minuten": 17,
+      "text": "Alle reden. Jede Rolle verfolgt ihre zwei Nachbohr-Ziele der Runde. Der Detektiv holt Personen auf den Verhörstuhl, jede höchstens zwei Minuten. Ist ein Pflicht-Auslöser erfüllt und die Rundensperre vorbei, ruft die Person „Karte!“ und dreht ihre Geheimniskarte um. Marker werden umgestellt, Aktionskarten gespielt. Stockt das Gespräch, liest du einen Impuls.{ab:14| In Runde 1 rufst du nach der Hälfte „Wechsel!“. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“.}"
+    },
+    {
+      "abschnitt": "c",
+      "name": "Reinen Tisch",
+      "minuten": 2,
+      "text": "Frag einmal reihum: „Will jemand reinen Tisch machen?“ Wer will, dreht seine Geheimniskarte jetzt um, wenn seine Rundensperre vorbei ist."
+    },
+    {
+      "abschnitt": "d",
+      "name": "Untersuchungen",
+      "minuten": 6,
+      "text": "Der Detektiv nennt nacheinander drei Indizkarten aus seiner Liste. Du suchst jeden Code im Stapel und gibst die Karte ungelesen weiter. Der Detektiv liest sie laut vor. Bei einem Ortstermin antwortet vor allen, wer dort war.{ab:12|| Fehlt die Person heute, drehst du ihren Zeugenstreifen um. Der Detektiv liest ihn laut vor.} Nach jeder Karte stellst du die Standardfrage: „Löst diese Karte bei jemandem etwas aus?“{ab:12|| Danach schaust du still in deine Tabelle „Karten unter den Streifen“.}"
+    },
+    {
+      "abschnitt": "e",
+      "name": "Marker-Probe und Bogen",
+      "minuten": 3,
+      "text": "Frag in die Runde: „Nennt eine offene Karte{ab:12|| oder ein offener Streifen} für jemanden ausdrücklich einen anderen Ort als seinen Marker?“ Wer betroffen ist, stellt seinen Marker vor allen um. Der Detektiv trägt seine Vermerke ein."
+    },
+    {
+      "abschnitt": "f",
+      "name": "Rundenschluss",
+      "minuten": 1,
+      "text": "Lies den Rundenschluss vor. In Runde 3 entfällt er. Dort liegt die Tipp-Runde zwischen Abschnitt c und d."
+    }
+  ],
+  "runde3Reihenfolge": "In Runde 3 laufen die Abschnitte a, b und c wie immer. Dann kommt die Tipp-Runde. Danach folgen d und e: die letzten Untersuchungen und die Marker-Probe. Dann klagt der Detektiv an. Abschnitt f entfällt. So liegen alle Tipps bei dir, bevor der Detektiv seine letzten Indizkarten zieht.",
+  "gegenueberstellungRegel": "Ab 14 Personen ruft der Erzähler in Runde 2 und 3 nach der Hälfte von Abschnitt b die Gegenüberstellung aus. Ahmet, Fatma, Olli und Can setzen sich nebeneinander an den Kopf des Tisches. Reihum stellt dort jede Person, deren Ziel in dieser Runde einer der vier ist, genau eine Frage. Frage und Antwort dauern zusammen höchstens zwanzig Sekunden. Die Gegenüberstellung dauert fünf Minuten, ab 18 Personen sieben. Danach ruft der Erzähler „Wechsel!“.",
+  "kleineRunden": "Bei 6 bis 8 Personen darf der Erzähler Abschnitt b nach zwölf Minuten beenden, wenn alle Ziele gefragt sind.",
+  "soLaeuftDerAbend": "Willkommen im Schlosskeller. Heute spielt ihr einen Krimi, und ihr spielt ihn selbst. Jede Rolle hat ein Heft, eine verdeckte Geheimniskarte und eine offene Aktionskarte. Erst stelle ich euch die Geschichte vor, dann stellt ihr euch selbst vor. Dann geschieht es. Danach gibt es drei Runden. In jeder Runde redet ihr miteinander, fragt nach und bohrt nach. Wer in die Enge kommt, muss mit der Wahrheit herausrücken. Am Ende jeder Runde macht der Detektiv drei Untersuchungen. Auf dem Lageplan zeigt jeder, wo er war. Wer lügt, muss seinen Marker irgendwann umstellen. In der letzten Runde tippt ihr alle, auch ich, bevor der Detektiv ein letztes Mal untersucht. Dann klagt er an. Übrigens: Ich weiß selbst nicht, wer es war.",
+  "vorgeschichte": "Lehnt euch zurück. Wo die Stadt aufhört und die Wälder anfangen, steht an einer stillen Landstraße ein altes Schloss. Seine Gewölbe sind noch älter als das Schloss, denn man hat es auf die Keller einer kleinen Burg gesetzt. Die Mauern sind dicker, als ein Arm lang ist. Heute gehört alles einer Stiftung. Im Dorf erzählt man sich: Bei Westwind singt das Schloss.\n\nSeit fünfundzwanzig Jahren kümmert sich Herr Schneider um Schloss, Park und Garten. Offiziell ist er Schlossverwalter, aber fast alle nennen ihn einfach den Hausmeister. Er brummt über Lärm, Krümel und Matsch an den Schuhen. Danke sagt er selten. Feste mag er trotzdem, auch wenn er das nie zugeben würde.\n\nDie Clique ist über viele Jahre gewachsen. Ein paar kommen aus derselben Straße, andere aus der Schule, von der Uni, aus der Berufsschule oder von Spieleabenden. Jeder brachte jemanden mit, und keiner ging wieder. Früher traf sich die ganze Clique jeden November zu einem großen Herbstabend. Dann kamen Studium, Arbeit und Umzüge dazwischen. Diesen Sommer stand fest: Der Herbstabend kommt zurück.\n\nAhmet hat den Keller organisiert. Tief unter dem Turm liegt ein weiter Gewölbekeller, mehrere Gewölbe hintereinander, durch niedrige Gänge verbunden. Es gibt lange Tafeln, Wandbänke und Platz für ein Buffet. Der Wind summt in den Lichtschächten, und schwere Türen quietschen, als wollten sie mitreden. Handyempfang gibt es hier unten nicht.\n\nHeute ist Samstag. Draußen wird es früh Nacht und bitterkalt, und der Wind kommt von Westen. Der Ablaufplan steht, und fürs Buffet ist alles geplant. Um Mitternacht gibt es Torte und dazu ein Spiel: blinde Kuh. Jetzt fahren die Autos aus der Stadt hinaus. Am Ende der Landstraße wartet das alte Schloss. Hört ihr es schon singen?",
+  "vorstellung": {
+    "anleitung": "Lies den Starttext. Dann rufst du die Rollen der Reihe nach auf, von Platz eins an. Lies zu jeder Rolle nur die Frage. Die Person antwortet mit „Dein Auftritt“ aus ihrem Heft. Wer nicht gespielt wird, wird übersprungen. Zum Schluss fragst du den Detektiv.",
+    "start": "Das alte Schloss hat schon viele Gäste gesehen, aber noch nie euch alle auf einmal. Zeit, dass es euch kennenlernt. Ich stelle jedem eine Frage. Wer gefragt wird, steht kurz auf und antwortet selbst.",
+    "frageDetektiv": "Und dann ist da noch unser Gast. Du kennst viele hier von früheren Festen, aber das Schloss kennt dich noch nicht. Was hast du heute unter deinem Hut versteckt?",
+    "lacherFehlend": [
+      {
+        "rolle": "sibel",
+        "text": "Um neun Uhr abends hielt ein Gast die alte Ritterrüstung im Turmgang für einen Menschen. Der Gast schrie auf und stolperte rückwärts."
+      },
+      {
+        "rolle": "hana",
+        "text": "Ein Gast feuerte den Kamin an, ohne die Kaminklappe zu öffnen. Um halb zwölf abends füllte dichter Qualm den Kaminsaal. Alle husteten, die Klappen der Lichtschächte wurden aufgerissen, und das Feuer wurde gelöscht."
+      }
+    ],
+    "abschluss": "Wer heute ohne Spielerin oder Spieler dabei ist, isst trotzdem mit und lacht mit. Das Schloss zählt jeden Gast mit."
+  },
+  "tatMoment": "Es ist kurz vor Mitternacht. Im Ost-Saal sitzt du mit verbundenen Augen auf dem Ehrenplatz der blinden Kuh. In deinen Kopfhörern läuft laute Musik. Gleich gibt es Torte.\n\nZwei vor zwölf: ein lauter Knall. Überall geht das Licht aus. Nur die drei roten Kerzen an der Anrichte hinter der Theke flackern noch. Über der Innentür leuchtet grün das Notausgangsschild.\n\nIm Buffetsaal duckt sich, wer kann. Herr Schneider brüllt: „Hab ich dich!“ Dann: „Stehen bleiben!“ Und noch einmal: „Stehen bleiben, hab ich gesagt!“\n\nKurz darauf scheppert es laut an der Theke. Ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden. Die Kerzen sind aus. Jetzt ist es fast ganz dunkel.\n\nUm Mitternacht geht das Licht wieder an. Alle blinzeln. Vor der Tür zum Vorratsraum liegt der Messingkerzenständer am Boden. Herr Schneider ist weg.\n\nJemand reißt die Tür zum Vorratsraum auf und ruft: „Hier liegt Herr Schneider!“ Er liegt gleich hinter der Tür, bewusstlos, mit einer dicken Beule.\n\nKurz danach kommt er zu sich. „Mein Kopf.“ Dann: „Mein Schlüsselbund! Der ist weg!“ Dann kommt jemand vom Windfang herein: „Das Tor ist zu. Abgeschlossen.“ Den Schlüssel fürs Außentor gibt es nur zweimal: an Herrn Schneiders Bund und bei seiner Kollegin. Hinter den dicken Mauern hat kein Handy Empfang. Ihr sitzt bis zum Morgen fest.\n\nHerr Schneider sitzt mit einem Kühlpack im Buffetsaal und brummt: „Ich wollte die Notlaterne holen. Da springt mich so ein leuchtendes Gespenstergesicht an. Ich hab eine Kapuze erwischt. Dann weiß ich nichts mehr.“",
+  "auftrag": "Eben warst du noch die blinde Kuh, und jetzt bist du auch noch {detektiv:der Detektiv|die Detektivin}. Herr Schneider bittet dich: „Finde raus, wer das war. Bis zum Morgen.“",
+  "fassungenOeffnen": "Gib Ahmet, Fatma, Olli und Can je die versiegelte Fassung mit dem Code, der in ihrem Heft steht. Lies vor: „Ahmet, Fatma, Olli und Can: Öffnet jetzt eure versiegelte Fassung und lest sie still. Zeigt sie niemandem.“ Gib ihnen drei Minuten. Alle anderen lesen in der Zeit „Was alle wissen“ in ihrem Heft. Du liest es auf Seite 7.",
+  "lageplanFuehrung": [
+    {
+      "art": "anleitung",
+      "text": "Leg Blatt A, den Lageplan, und Blatt B, die Markerfelder, nebeneinander in die Tischmitte.",
+      "nurMitStreifen": false
+    },
+    {
+      "art": "vorlesen",
+      "nurMitStreifen": false,
+      "text": "Das hier ist der Gewölbekeller unter dem Schlossturm. Ganz im Osten der Ost-Saal mit der langen Tafel. Daneben der Buffetsaal mit den zwei Buffettischen und der Theke. Hinter der Theke die Anrichte und die Tür zum Vorratsraum. Westlich führt ein kurzer Durchgang mit einem Steinbogen in den Kaminsaal. Hinter der Bogentür liegt der Turmgang mit der Ritterrüstung und der Treppe zur Turm-Toilette. Im Süden der Windfang mit dem Außentor."
+    },
+    {
+      "art": "anleitung",
+      "text": "Setz die zwei Marker von Herrn Schneider: „23:57“ auf Feld 4d, Theke Ostende, und „Scheppern“ auf Feld 4c, hinter der Theke vor der Vorratsraumtür.",
+      "nurMitStreifen": false
+    },
+    {
+      "art": "anleitung",
+      "text": "Der Detektiv setzt seine beiden Marker auf Feld 1, Ost-Saal. Dort bleiben sie den ganzen Abend.",
+      "nurMitStreifen": false
+    },
+    {
+      "art": "vorlesen",
+      "nurMitStreifen": false,
+      "text": "Jetzt setzt jede Rolle ihre zwei Marker. Der Marker „drei vor zwölf“ kommt dahin, wo ihr da wart. Der Marker „Scheppern“ dahin, wo ihr beim lauten Scheppern wart. So steht es in eurem Heft unter „Deine Marker“. Wer später bei einer Lüge über seinen Ort ertappt wird, stellt seinen Marker vor allen um."
+    },
+    {
+      "art": "anleitung",
+      "text": "Leg jeden Zeugenstreifen mit dem Etikett nach oben neben das Markerfeld der Zone, die auf dem Etikett steht. Leg die Geheimniskarte desselben Zeugen verdeckt darunter. Die Tabelle „Karten unter den Streifen“ hinten in diesem Heft behältst du bei dir.",
+      "nurMitStreifen": true
+    },
+    {
+      "art": "vorlesen",
+      "nurMitStreifen": true,
+      "text": "Diese Streifen sind die Aussagen von Gästen, die heute niemand spielt. Sie bleiben verdeckt. Nur ein Ortstermin oder die Aktionskarte Zeitstempel deckt sie auf. Wann sie aufgedeckt werden, steht auf ihrem Etikett."
+    },
+    {
+      "art": "anleitung",
+      "text": "Der Stapel der Indizkarten bleibt bei dir, nach Code sortiert und ungelesen.",
+      "nurMitStreifen": false
+    }
+  ],
+  "impulsRegeln": "Lies einen Impuls, wenn das Gespräch länger als eine halbe Minute stockt oder nach der Hälfte der Gesprächszeit. Lies nie mehr als einen Impuls auf einmal. Wenn ein Impuls eine Person nennt, die heute niemand spielt, lies den Ausweichsatz.",
+  "ausweichsatz": "Diese Person ist heute nicht am Tisch. Was sie weiß, liegt vielleicht als Zeugenstreifen neben dem Lageplan. Detektiv, eine Untersuchung an ihrem Ort kann es aufdecken.",
+  "dominoFrage": {
+    "wann": "Gleich nachdem eine Geheimniskarte umgedreht wurde.",
+    "nenntPerson": "Die Karte nennt am Ende jemanden. Bitte, sag uns sofort, ob das stimmt. Wenn dein Heft es dir noch nicht erlaubt, sag: „Dazu sag ich jetzt nichts.“",
+    "sonst": "Nennt sie einen Ort, niemanden oder nur Herrn Schneider, fragt der Detektiv in die Runde: „Wer weiß dazu etwas?“ Der Erzähler antwortet nie für Herrn Schneider.",
+    "fehlt": "Wenn die genannte Person fehlt: Ausweichsatz."
+  },
+  "gegenueberstellung": {
+    "wann": "Runde 2 und 3, ab 14 Personen, nach der Hälfte von Abschnitt b.",
+    "text": "Gegenüberstellung! Ahmet, Fatma, Olli und Can, setzt euch nebeneinander an den Kopf des Tisches. Wer in dieser Runde eine Frage an einen der vier hat, stellt hier genau eine. Reihum, Frage und Antwort zusammen höchstens zwanzig Sekunden. {ab:18|In sieben Minuten rufe ich: Wechsel!|In fünf Minuten rufe ich: Wechsel!}"
+  },
+  "runden": [
+    {
+      "nr": 1,
+      "start": "Es ist halb eins. Im Keller wird es still, und das Licht flackert. Die erste Runde heißt: Das Alibi-Geflecht. Wer war wo, als es knallte, und wo, als es schepperte? Ab jetzt sind die Karten der ersten Runde frei. Hört jetzt genau zu.",
+      "schluss": "Die erste Runde ist vorbei. Auf dem Lageplan hat sich schon etwas bewegt. Schaut genau hin, wer wo steht.",
+      "impulse": [
+        {
+          "id": "I-1.1",
+          "titel": "Wer hat dich gesehen?",
+          "text": "Kurz vor zwölf war noch Licht. Ahmet, Fatma, Olli und Can: Nennt jetzt nacheinander einen Namen. Wer hat dich um drei vor zwölf gesehen? Die genannte Person sagt, ob das stimmt.",
+          "hinweis": "Wenn die genannte Person fehlt: Ausweichsatz."
+        },
+        {
+          "id": "I-1.2",
+          "titel": "Wer war neben dir?",
+          "text": "Beim Knall hat sich fast jeder irgendwo hingekauert. Sagt reihum: Wer war im Dunkeln neben dir, und woran hast du die Person erkannt? Wer allein war, sagt das auch.",
+          "hinweis": "Wenn jemand eine fehlende Person nennt: Ausweichsatz."
+        },
+        {
+          "id": "I-1.3",
+          "titel": "Dem Ruf nicht gefolgt",
+          "text": "Um fünf vor zwölf sollten alle in den Ost-Saal, zur blinden Kuh, zur Torte und zum Gruppenfoto. Wer ist dem Ruf nicht gefolgt? Und warum nicht?",
+          "hinweis": null
+        },
+        {
+          "id": "I-1.4",
+          "titel": "Der Lageplan",
+          "text": "Schaut auf den Lageplan. Steht ein Marker irgendwo, wo diese Person noch niemand gesehen hat? Fragt nach. Die Person muss sagen, wer sie dort gesehen haben könnte.",
+          "hinweis": null
+        }
+      ]
+    },
+    {
+      "nr": 2,
+      "start": "Es ist Viertel nach eins. Im Gewölbe knarrt es leise. Die zweite Runde heißt: Die Indizien-Filterung. Manche hier verbergen etwas, das mit dem Knall gar nichts zu tun hat. Trennt das eine vom anderen. Ab jetzt sind auch die Karten der zweiten Runde frei.",
+      "schluss": "Die zweite Runde ist vorbei. Macht eine Pause. Holt euch Tee oder Saft. Danach kommt die letzte Runde.",
+      "impulse": [
+        {
+          "id": "I-2.1",
+          "titel": "Geld",
+          "text": "Heute Nacht ging viel Bargeld durch viele Hände. Wer hat heute Abend Geld bezahlt, wer hat Geld eingesammelt, und wer schuldet noch jemandem etwas? Jede Person sagt einen Satz dazu.",
+          "hinweis": null
+        },
+        {
+          "id": "I-2.2",
+          "titel": "Turmgang und Bogentür",
+          "text": "Im Turmgang und an der Bogentür ist heute einiges passiert. Wer war heute Abend dort, wann, und warum?",
+          "hinweis": null
+        },
+        {
+          "id": "I-2.3",
+          "titel": "Das Gesicht",
+          "text": "Herr Schneider hat im Dunkeln ein leuchtendes Gesicht gepackt. Wer hat dieses Gesicht heute Nacht gesehen, und wo standest du da? Wer noch nicht mehr sagen mag, sagt wenigstens, wo er stand.",
+          "hinweis": null
+        },
+        {
+          "id": "I-2.4",
+          "titel": "Selbst damit herausrücken",
+          "text": "Wer bisher nur die halbe Wahrheit gesagt hat, kann jetzt noch selbst damit herausrücken. Wer es von sich aus tut, steht besser da, als wenn eine Karte es zeigt.",
+          "hinweis": null
+        }
+      ]
+    },
+    {
+      "nr": 3,
+      "start": "Es ist zwei Uhr. Die letzte Runde heißt: Die finale Gegenüberstellung. Jetzt zählt nur noch, wer an der Vorratsraumtür war und wo der Schlüsselbund steckt. Ab jetzt sind auch die Karten der dritten Runde frei. Im Keller ist es ganz still. Jetzt wird es ernst.",
+      "schluss": null,
+      "impulse": [
+        {
+          "id": "I-3.1",
+          "titel": "Was kam zuerst?",
+          "text": "Im Dunkeln zählt nur, was zuerst kam. Wer zwischen Knall und Scheppern etwas gesehen, gehört oder gespürt hat, erzählt es jetzt der Reihe nach. Was kam zuerst, was danach?",
+          "hinweis": null
+        },
+        {
+          "id": "I-3.2",
+          "titel": "Der Weg zur Vorratsraumtür",
+          "text": "Herr Schneider stand beim Scheppern vor der Vorratsraumtür. Detektiv, geh mit allen die Marker auf dem Lageplan ab. Wer hätte im Dunkeln dorthin kommen können, und auf welchem Weg?",
+          "hinweis": null
+        },
+        {
+          "id": "I-3.3",
+          "titel": "Nach dem Licht",
+          "text": "Als das Licht anging, kam einiges in Bewegung. Wer hat seit Mitternacht etwas geholt, weggebracht oder weggeworfen? Jede Person sagt einen Satz.",
+          "hinweis": null
+        },
+        {
+          "id": "I-3.4",
+          "titel": "Letzte Gelegenheit",
+          "text": "Gleich kommt die Tipp-Runde. Wer seine Geheimniskarte noch nicht umgedreht hat, hat jetzt die letzte Gelegenheit, reinen Tisch zu machen.",
+          "hinweis": null
+        }
+      ]
+    }
+  ],
+  "bonusZiel": "Dein eigenes Bonus-Ziel: Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Zähl vor der Tipp-Runde nach, und noch einmal bei der Anklage. Karten unter den Zeugenstreifen zählen nicht mit.",
+  "tippRunde": {
+    "vorlesen": "Bevor der Detektiv seine letzten Untersuchungen macht und anklagt, tippt die ganze Clique. Jede Person bekommt einen Tipp-Zettel, ich auch. Schreibt geheim auf, wer es war, wo der Schlüsselbund steckt und ob ihr euer Bonus-Ziel erreicht habt. Faltet den Zettel und gebt ihn mir.",
+    "anleitung": "Zettel einsammeln, ungeöffnet in die Mitte legen. Dann folgen die drei Untersuchungen der Runde 3 und die Marker-Probe. Danach klagt der Detektiv an und legt den Stift weg."
+  },
+  "anklage": {
+    "vorlesen": "Die Nacht ist fast vorbei. Du stehst vor den vier Verdächtigen und musst dich entscheiden. Klag eine Person an und sag laut, warum. Dann zeigt sich, ob du richtig lagst.",
+    "anleitung": "Die angeklagte Person liest ihre Stufe 3. Dann Teil 90 öffnen und seiner Reihenfolge folgen."
+  },
+  "herrSchneiderAntwortet": [
+    {
+      "frage": "seinem Platz kurz vor zwölf",
+      "antwort": "Um drei vor zwölf stand ich am Ostende der Theke. Dann bin ich hinter der Theke zur Kaffeemaschine."
+    },
+    {
+      "frage": "der Kaffeemaschine, der Leiste",
+      "antwort": "Ich hab noch gesagt: Nicht die alte Leiste! Dann hat es geknallt."
+    },
+    {
+      "frage": "dem Knall, der Notlaterne",
+      "antwort": "Nach dem Knall wollte ich die Notlaterne holen. Die hängt gleich hinter der Tür vom Vorratsraum."
+    },
+    {
+      "frage": "dem Gespenst, der Kapuze",
+      "antwort": "So ein leuchtendes Gesicht ist mich angesprungen. Ich hab eine Kapuze erwischt. Hab ich dich, hab ich gerufen. Dann ist alles weg."
+    },
+    {
+      "frage": "dem, was danach war",
+      "antwort": "Danach weiß ich nichts mehr. Aufgewacht bin ich mit einer dicken Beule."
+    },
+    {
+      "frage": "dem Schlüsselbund",
+      "antwort": "Der hing an meiner rechten Gürtelschlaufe. Außentor, Hoftür, Turm. Den Schlüssel fürs Außentor gibt es nur zweimal: an meinem Bund und bei meiner Kollegin."
+    },
+    {
+      "frage": "Geld, Miete, Schaden, Vitrine, Streit, einer bestimmten Person",
+      "antwort": "Das kläre ich mit den Leuten selbst."
+    },
+    {
+      "frage": "wer es war",
+      "antwort": "Wenn ich das wüsste, säßest du nicht hier. Finde es raus."
+    },
+    {
+      "frage": "allem anderen",
+      "antwort": "Mein Kopf brummt. Frag die anderen."
+    }
+  ],
+  "masstabelle": [
+    {
+      "von": "Ostende hinter der Theke (Saftkrüge)",
+      "nach": "Vorratsraumtür",
+      "abstand": "gut drei Meter",
+      "dunkel": "Im Kerzenlicht sieht man dort nur Umrisse und leuchtende Farbe."
+    },
+    {
+      "von": "Ostende hinter der Theke",
+      "nach": "Eiskübel",
+      "abstand": "zwei Meter",
+      "dunkel": "Dunkel. Man sieht nichts."
+    },
+    {
+      "von": "Eiskübel",
+      "nach": "Vorratsraumtür",
+      "abstand": "gut vier Meter",
+      "dunkel": "Bis zum Knall hell. Danach sieht man vom Eiskübel an der Tür im Kerzenlicht nur Umrisse und leuchtende Farbe."
+    },
+    {
+      "von": "Eiskübel",
+      "nach": "rechter Buffettisch",
+      "abstand": "gut drei Meter",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Eiskübel",
+      "nach": "vor der Theke am Westende",
+      "abstand": "fünf Meter",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Theken-Klappe",
+      "nach": "Vorratsraumtür",
+      "abstand": "gut vier Meter, hinter der Theke entlang",
+      "dunkel": "Die Tür ist hell, die Klappe fast dunkel."
+    },
+    {
+      "von": "Theken-Klappe",
+      "nach": "hinter dem linken Buffettisch",
+      "abstand": "vier Meter",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Theken-Klappe",
+      "nach": "Sicherungskasten",
+      "abstand": "gut zwei Meter, durch die offene Tür",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Sicherungskasten",
+      "nach": "Steinbogen",
+      "abstand": "gut zwei Meter",
+      "dunkel": "Dunkel. Leuchtende Farbe sieht man."
+    },
+    {
+      "von": "Vorratsraumtür",
+      "nach": "Steinbogen",
+      "abstand": "gut acht Meter",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Steinbogen",
+      "nach": "Bogentür",
+      "abstand": "fünf Meter, quer durch den Kaminsaal",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Tür zum Ost-Saal",
+      "nach": "Eiskübel",
+      "abstand": "gut zwei Meter",
+      "dunkel": "Dunkel."
+    },
+    {
+      "von": "Tür zum Ost-Saal",
+      "nach": "Kopf der Tafel",
+      "abstand": "gut drei Meter",
+      "dunkel": "Dunkel."
+    }
+  ],
+  "taschenkontrolle": "Taschenkontrolle: Ollis Weste → FN3, Cans Bauchtasche → JT3, Fatmas Tasche → NN3. Bei allen anderen liest die Person „Was du bei dir trägst“ vor.",
+  "skalierung": {
+    "hinweise": [
+      {
+        "von": 6,
+        "bis": 8,
+        "text": "Alle reden mit allen. Ermuntere den Detektiv, Ortstermine früh zu nutzen. Abschnitt b darfst du nach zwölf Minuten beenden, wenn alle Ziele gefragt sind."
+      },
+      {
+        "von": 10,
+        "bis": 10,
+        "text": "Das ist die Standardrunde. Zwei Zeugen fehlen, ihre Streifen liegen verdeckt neben dem Lageplan. Sonst läuft alles so, wie dieses Heft es beschreibt."
+      },
+      {
+        "von": 12,
+        "bis": 12,
+        "text": "Alle Hauptrollen sind besetzt, Zeugenstreifen gibt es nicht. Ab hier laufen beim Verhörstuhl die anderen Gespräche leise weiter. Soll eine Antwort dort für alle gelten, rufst du vorher „Alle mal herhören!“."
+      },
+      {
+        "von": 14,
+        "bis": 20,
+        "text": "Ab hier zerfällt das Gespräch in Grüppchen. In Runde 1 rufst du nach der Hälfte von Abschnitt b „Wechsel!“. Dann geht jede Rolle zu ihrem zweiten Nachbohr-Ziel. In Runde 2 und 3 rufst du nach der Hälfte erst die Gegenüberstellung aus, danach „Wechsel!“. Die Gegenüberstellung dauert {ab:18|sieben|fünf} Minuten. Bei der Auflösung liest jede Person ihren Absatz „Die Rollen am Tisch“ selbst."
+      }
+    ]
+  },
+  "kartenUnterStreifen": {
+    "anleitung": "Liegt ein Code aus dieser Tabelle offen, egal wodurch, ziehst du die Karte unter dem Streifen hervor und legst sie offen daneben. Ist ihre Runde noch nicht erreicht, tust du es gleich zu Beginn dieser Runde. Der Streifen bleibt zu, bis sein eigener Code kommt. Dann liest der Detektiv die Karte laut vor.",
+    "muster": "Karte unter dem Streifen {name}: umdrehen, sobald {codes} offen liegt. Frühestens zu Beginn von Runde {runde}.",
+    "umschreibungen": [
+      {
+        "zeuge": "lejla",
+        "text": "„die Apothekerin am rechten Buffettisch“, „deine Cousine“, „meine Cousine“"
+      },
+      {
+        "zeuge": "emine",
+        "text": "„deine beste Freundin“, „meine beste Freundin“, „eine Freundin von Fatma“"
+      },
+      {
+        "zeuge": "tim",
+        "text": "„der Hobby-Elektriker“, „dein Kumpel aus der Berufsschule“, „mein Kumpel“"
+      },
+      {
+        "zeuge": "joanna",
+        "text": "„die Fotografin des Abends“"
+      },
+      {
+        "zeuge": "marek",
+        "text": "„der Caterer“"
+      },
+      {
+        "zeuge": "zeynep",
+        "text": "„die Fußballtrainerin“, „deine Schwester“, „meine Schwester“"
+      }
+    ],
+    "hinweis": "„Ein Gast“ und „jemand“ öffnen keinen Streifen. Auch „ein Gast mit einer großen Teekanne“ öffnet keinen, denn diese Person hat keinen Zeugenstreifen."
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "platz": 6,
+  "id": "emine",
+  "vorstellung": {
+    "frage": "Emine, die Grundschullehrerin. Du bringst jeden Morgen zwanzig Kinder in drei Sekunden zur Ruhe. Wie lange brauchst du für diese Clique?",
+    "auftritt": "Ich bin Emine, Grundschullehrerin. Meine Klasse ist in drei Sekunden still. Diese Clique hab ich noch nie still erlebt. Meine silberne Thermoskanne ist immer dabei, mit meinem eigenen Tee. Fatma ist seit der fünften Klasse meine beste Freundin. Damals half sie mir in Kunst und ich ihr in Mathe. So machen wir das bis heute."
+  },
+  "werDuBist": "Du bist Emine, 26, Grundschullehrerin. Deine Klasse bekommst du in drei Sekunden still. Man erkennt dich am olivgrünen Steppmantel und an deiner silbernen Thermoskanne mit Tee. Fatma ist seit der fünften Klasse deine beste Freundin. Heute hast du ihr versprochen zu schweigen.{wenn:damir| Damir betreut nachmittags Kinder aus deiner Klasse.}\nWas dich heute antreibt: Du hältst zu Fatma. Aber du lügst für niemanden.",
+  "haltung": "Du hältst zu Fatma. Aber du lügst für niemanden. Wie in der Schule: der Reihe nach, und nur, was stimmt.",
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Linkes Buffet (2). Marker Scheppern: Linkes Buffet (2). Beide stimmen.",
+    "behauptet": {
+      "z2357": "2",
+      "scheppern": "2"
+    },
+    "wahr": {
+      "z2357": "2",
+      "scheppern": "2"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "18:00",
+        "text": "zahlt 150 € „Miete“ an Ahmet",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:40",
+        "text": "kommt im Turmgang die Wendeltreppe von der Toilette herunter. Fatma hebt die gesprungene Scheibe der Vitrine an und nimmt die Münzschatulle. Die Ecke bricht, Scherben fallen, Splitter bleiben am rechten Ärmel von Fatmas Mantel. Fatma: „Montag bring ich sie zurück. Versprochen.“ Emine verspricht zu schweigen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "hinter dem linken Buffettisch, Fatma beim Gebäck",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:54",
+        "text": "tuschelt mit Fatma über die Tasche; achtet nicht auf die Theken-Klappe",
+        "frei": "offen",
+        "zusatz": "Tuscheln offen; das Thema erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:56",
+        "text": "Herr Schneider bei Fatma. Er sieht die Glassplitter und sagt leise: „Die Schatulle. Um Punkt zwölf geh ich raus und ruf die Polizei.“",
+        "frei": "karte",
+        "zusatz": "Besuch offen; was er sah und sagte, erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:57",
+        "text": "Fatma geht mit der Tasche zur Theken-Klappe. Emine schaut nur auf Fatma",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider ruft laut: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Sie kauert sich hin. Gleich danach kauert Fatma neben ihr: „Emine? Ich bin's, Fatma.“ Dann die Rufe, dann das Scheppern. Fatma bleibt bis zum Licht",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Ab kurz vor zwölf stand ich hinter dem linken Buffettisch.“",
+      "„Gleich nach dem Knall hat Fatma sich neben mich gekauert und geflüstert: ‚Emine? Ich bin's, Fatma.‘ Beim Scheppern war sie neben mir.“",
+      "„Sie blieb neben mir, bis das Licht anging.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "wo Fatma um drei vor zwölf war",
+        "antwort": "„Frag Fatma selbst. Ich sag dir, was ich sicher weiß: Beim Scheppern war sie neben mir.“"
+      },
+      {
+        "frage": "wenn du bestätigen sollst, dass Fatma um drei vor zwölf bei dir war",
+        "antwort": "„Dazu sag ich jetzt nichts. Beim Scheppern war sie neben mir.“"
+      },
+      {
+        "frage": "was in Fatmas Tasche ist",
+        "antwort": "„Fatmas Tasche ist Fatmas Sache.“"
+      },
+      {
+        "frage": "worüber ihr getuschelt habt",
+        "antwort": "„Unter Freundinnen tuschelt man. Worüber, bleibt unter uns.“"
+      },
+      {
+        "frage": "ob du im Turmgang warst",
+        "antwort": "„Ich war vor zwölf oben auf der Turm-Toilette.“"
+      },
+      {
+        "frage": "ob Herr Schneider bei euch war",
+        "antwort": "„Ja, kurz. Was er wollte, soll Fatma erzählen.“"
+      }
+    ],
+    "verboten": [
+      "„Fatma war um drei vor zwölf die ganze Zeit bei mir.“",
+      "„In Fatmas Tasche sind nur Bücher.“",
+      "„Ich hab im Turmgang nichts gesehen.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Bei Fatma:** „Frag Fatma selbst. Ich sag dir, was ich sicher weiß: Beim Scheppern war sie neben mir.“\n**Sonst:** „Ich hab nur auf Fatma geachtet.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Gleich nach dem Knall hat Fatma sich neben mich gekauert und geflüstert: ‚Emine? Ich bin's, Fatma.‘“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Ich bin am linken Buffet geblieben.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„Ich hab Ahmet meine 150 € gegeben, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Ich war vor zwölf oben auf der Turm-Toilette.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich hab nichts gesehen. Ich hab hinter dem linken Buffettisch gekauert.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Erst der Knall. Gleich danach kam Fatma zu mir. Dann die Rufe, dann das Scheppern.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab nichts geholt und nichts weggebracht.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte FM9 oder NN3 offen auf dem Tisch liegt.",
+      "Sobald Fatmas Geheimniskarte offen auf dem Tisch liegt.",
+      "Liegt eins davon schon in Runde 1 offen, drehst du zu Beginn von Runde 2 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": [
+        "**Gleich nach dem Domino-Hinweis, in die Runde:** „Wem hat Herr Schneider heute noch gedroht?“",
+        "**Auf Nachfrage:** „Um drei vor zwölf ist Fatma mit der Tasche zur Theken-Klappe gegangen. Ich glaube, sie wollte die Schatulle zurückgeben.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, du sagst, du hast die ganze Zeit am Kopf der Tafel gesessen. Wer saß neben dir, als es knallte? Nenn mir einen Namen, der das bezeugt.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "lejla",
+      "frage": "„Lejla, ich war am linken Buffet, du am rechten. Bei mir war Fatma, gleich nach dem Knall. Wer war beim Scheppern bei dir?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "fatma",
+      "frage": "**Karte zu:** „Fatma, ich halte zu dir. Aber sag es selbst, bevor es eine Karte tut. Du weißt, was ich meine.“\n**Karte offen:** „Fatma, jetzt ist es raus. Erzähl allen, warum du um drei vor zwölf zur Theken-Klappe wolltest.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "olli",
+      "frage": "**Sobald Ollis Geheimniskarte offen liegt:** „Olli, Herr Schneider wollte zweitausend Euro von dir, bis Mitternacht. Womit hat er dir gedroht, wenn du nicht zahlst?“\n**Sonst:** „Olli, um elf ist Herr Schneider an der Theke laut geworden. Warst du dabei?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, beim Scheppern war Fatma neben mir. Und du? Wer hat dich da gespürt oder gehört? Nenn einen Namen.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "can",
+      "frage": "„Can, erzähl der Reihe nach, wie in der Schule: Wo warst du beim Knall, wo beim Scheppern? Und an wem bist du dazwischen vorbei?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Meine silberne Thermoskanne mit Tee. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Kreuzverhör",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Du nennst zwei Personen und eine Frage. Die zweite geht kurz außer Hörweite. Die erste antwortet. Dann kommt die zweite zurück und antwortet auf dieselbe Frage.",
+    "grenzen": "Danach darf jede Person am Tisch eine Nachfrage an eine der beiden stellen. Lügen nach Stufe 1 bleibt erlaubt.",
+    "tipp": "Gut für zwei, deren Geschichten zusammenpassen müssten. Etwa Olli und Lejla mit der Frage: „Wo war Olli beim Scheppern?“"
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du hältst zu Fatma, bis feststeht, dass sie es nicht war. **Erfüllt, wenn** Fatma bei der Anklage auf dem Ermittlungsbogen als ausgeschieden steht: Alibi ✓ und Heimlichtuerei ✓.",
+    "hinweis": "Fatma scheidet nur aus, wenn auch ihr Geheimnis auf dem Tisch liegt. Halt zu ihr, indem du ihr hilfst, es selbst zu sagen."
+  },
+  "geheimniskarte": {
+    "sperre": 2,
+    "pflichtCodes": [
+      "FM9",
+      "NN3"
+    ],
+    "wasIchZugebe": "Um 23:40 Uhr kam ich im Turmgang die Wendeltreppe herunter. Da hob Fatma die Scheibe der Vitrine an und nahm die Münzschatulle. Sie sagte: „Montag bring ich sie zurück.“ Ich hab versprochen zu schweigen. Um 23:56 Uhr sah Herr Schneider Glassplitter an ihrem Mantel. Er sagte: „Die Schatulle. Um Punkt zwölf geh ich raus und ruf die Polizei.“",
+    "vermerke": [
+      "Heimlichtuerei · Fatma: Um 23:40 nahm Fatma die Münzschatulle aus der Vitrine. Sie sagte: „Montag bring ich sie zurück.“"
+    ],
+    "undNochEtwas": "Um elf ist Herr Schneider an der Theke laut geworden. Mit wem, hab ich vom Ost-Saal aus nicht gesehen."
+  },
+  "solo": null,
+  "teil90": "Emine kauerte hinter dem linken Buffettisch. Gleich nach dem Knall kam Fatma zu ihr, und beim Scheppern war sie noch da. Um zwanzig vor zwölf hatte Emine gesehen, wie Fatma die Münzschatulle auslieh, und sie hielt ihr Versprechen, so lange es ging.",
+  "fassung": null
+}

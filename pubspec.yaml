@@ -73,6 +73,9 @@ flutter:
     - content/erzaehlung/gewoelbe/
     - content/erzaehlung/nachtexpress/
     - content/erzaehlung/schlosskeller/
+    - content/kammerspiel/schlosskeller/
+    - content/kammerspiel/schlosskeller/ui/
+    - content/kammerspiel/schlosskeller/rollen/
   fonts:
     - family: SpecialElite
       fonts:

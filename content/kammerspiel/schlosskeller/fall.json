@@ -1,0 +1,585 @@
+{
+  "kennung": "schlosskeller",
+  "fallCode": "U4YRK",
+  "taeter": "olli",
+  "personen": {
+    "min": 6,
+    "max": 20,
+    "vorgabe": 10,
+    "ohneRolle": [
+      "erzaehler",
+      "detektiv"
+    ]
+  },
+  "plaetze": [
+    {
+      "platz": 1,
+      "id": "ahmet",
+      "kanonFigur": "ahmet",
+      "name": "Ahmet",
+      "bezeichnung": "der Organisator",
+      "art": "verdaechtig",
+      "tandem": null,
+      "datei": "rollen/01-ahmet.json"
+    },
+    {
+      "platz": 2,
+      "id": "fatma",
+      "kanonFigur": "fatma",
+      "name": "Fatma",
+      "bezeichnung": "die Designstudentin",
+      "art": "verdaechtig",
+      "tandem": null,
+      "datei": "rollen/02-fatma.json"
+    },
+    {
+      "platz": 3,
+      "id": "olli",
+      "kanonFigur": "olli",
+      "name": "Olli",
+      "bezeichnung": "der Anpacker",
+      "art": "verdaechtig",
+      "tandem": null,
+      "datei": "rollen/03-olli.json"
+    },
+    {
+      "platz": 4,
+      "id": "can",
+      "kanonFigur": "can",
+      "name": "Can",
+      "bezeichnung": "der Spaßvogel",
+      "art": "verdaechtig",
+      "tandem": null,
+      "datei": "rollen/04-can.json"
+    },
+    {
+      "platz": 5,
+      "id": "lejla",
+      "kanonFigur": "leyla",
+      "name": "Lejla",
+      "bezeichnung": "die Apothekerin",
+      "art": "zeuge",
+      "tandem": null,
+      "datei": "rollen/05-lejla.json"
+    },
+    {
+      "platz": 6,
+      "id": "emine",
+      "kanonFigur": "emine",
+      "name": "Emine",
+      "bezeichnung": "die Grundschullehrerin",
+      "art": "zeuge",
+      "tandem": null,
+      "datei": "rollen/06-emine.json"
+    },
+    {
+      "platz": 7,
+      "id": "tim",
+      "kanonFigur": "tim",
+      "name": "Tim",
+      "bezeichnung": "der Hobby-Elektriker",
+      "art": "zeuge",
+      "tandem": null,
+      "datei": "rollen/07-tim.json"
+    },
+    {
+      "platz": 8,
+      "id": "joanna",
+      "kanonFigur": "johanna",
+      "name": "Joanna",
+      "bezeichnung": "die Fotografin des Abends",
+      "art": "zeuge",
+      "tandem": null,
+      "datei": "rollen/08-joanna.json"
+    },
+    {
+      "platz": 9,
+      "id": "marek",
+      "kanonFigur": "murat",
+      "name": "Marek",
+      "bezeichnung": "der Caterer",
+      "art": "zeuge",
+      "tandem": null,
+      "datei": "rollen/09-marek.json"
+    },
+    {
+      "platz": 10,
+      "id": "zeynep",
+      "kanonFigur": "zeynep",
+      "name": "Zeynep",
+      "bezeichnung": "die Fußballtrainerin",
+      "art": "zeuge",
+      "tandem": null,
+      "datei": "rollen/10-zeynep.json"
+    },
+    {
+      "platz": 11,
+      "id": "sibel",
+      "kanonFigur": "selin",
+      "name": "Sibel",
+      "bezeichnung": "die Vorsichtige",
+      "art": "zusatz",
+      "tandem": 1,
+      "datei": "rollen/11-sibel.json"
+    },
+    {
+      "platz": 12,
+      "id": "damir",
+      "kanonFigur": "enes",
+      "name": "Damir",
+      "bezeichnung": "der Teemeister",
+      "art": "zusatz",
+      "tandem": 1,
+      "datei": "rollen/12-damir.json"
+    },
+    {
+      "platz": 13,
+      "id": "hana",
+      "kanonFigur": "meryem",
+      "name": "Hana",
+      "bezeichnung": "die Kamin-Heizerin",
+      "art": "zusatz",
+      "tandem": 2,
+      "datei": "rollen/13-hana.json"
+    },
+    {
+      "platz": 14,
+      "id": "serkan",
+      "kanonFigur": "serkan",
+      "name": "Serkan",
+      "bezeichnung": "der Fahrdienst-Organisator",
+      "art": "zusatz",
+      "tandem": 2,
+      "datei": "rollen/14-serkan.json"
+    },
+    {
+      "platz": 15,
+      "id": "azra",
+      "kanonFigur": "dilara",
+      "name": "Azra",
+      "bezeichnung": "die Flohmarkt-Kennerin",
+      "art": "zusatz",
+      "tandem": 3,
+      "datei": "rollen/15-azra.json"
+    },
+    {
+      "platz": 16,
+      "id": "wojtek",
+      "kanonFigur": "kaan",
+      "name": "Wojtek",
+      "bezeichnung": "der Architekturstudent",
+      "art": "zusatz",
+      "tandem": 3,
+      "datei": "rollen/16-wojtek.json"
+    },
+    {
+      "platz": 17,
+      "id": "aylin",
+      "kanonFigur": "aylin",
+      "name": "Aylin",
+      "bezeichnung": "die Kassenprüferin",
+      "art": "zusatz",
+      "tandem": 4,
+      "datei": "rollen/17-aylin.json"
+    },
+    {
+      "platz": 18,
+      "id": "tugba",
+      "kanonFigur": "tugba",
+      "name": "Tugba",
+      "bezeichnung": "die Party-Planerin",
+      "art": "zusatz",
+      "tandem": 4,
+      "datei": "rollen/18-tugba.json"
+    }
+  ],
+  "tandems": [
+    {
+      "nr": 1,
+      "plaetze": [
+        11,
+        12
+      ],
+      "thema": "Das Vitrinen-Missgeschick um 21:00"
+    },
+    {
+      "nr": 2,
+      "plaetze": [
+        13,
+        14
+      ],
+      "thema": "Das Kamin-Desaster um 23:30"
+    },
+    {
+      "nr": 3,
+      "plaetze": [
+        15,
+        16
+      ],
+      "thema": "Der falsche Alarm um 20:15 und der Werkzeugkasten"
+    },
+    {
+      "nr": 4,
+      "plaetze": [
+        17,
+        18
+      ],
+      "thema": "Die Schlüssel- und Gästeliste"
+    }
+  ],
+  "runden": [
+    {
+      "nr": 1,
+      "name": "Das Alibi-Geflecht",
+      "uhr": "0:30"
+    },
+    {
+      "nr": 2,
+      "name": "Die Indizien-Filterung",
+      "uhr": "1:15"
+    },
+    {
+      "nr": 3,
+      "name": "Die finale Gegenüberstellung",
+      "uhr": "2:00"
+    }
+  ],
+  "untersuchungenJeRunde": 3,
+  "schwellen": {
+    "verhoerLeiseAb": 12,
+    "gegenueberstellungAb": 14,
+    "gegenueberstellungLangAb": 18,
+    "rollenAmTischSelbstAb": 14,
+    "tippWertungZweiSeitenAb": 15,
+    "abschnittBKurzBis": 8,
+    "dankeskarteAb": 13
+  },
+  "zonen": [
+    {
+      "nr": "1",
+      "name": "Ost-Saal",
+      "felder": [
+        "1"
+      ]
+    },
+    {
+      "nr": "2",
+      "name": "Buffetsaal – Linkes Buffet",
+      "felder": [
+        "2"
+      ]
+    },
+    {
+      "nr": "3",
+      "name": "Buffetsaal – Rechtes Buffet",
+      "felder": [
+        "3"
+      ]
+    },
+    {
+      "nr": "4",
+      "name": "Theke & Anrichte",
+      "felder": [
+        "4a",
+        "4b",
+        "4c",
+        "4d"
+      ]
+    },
+    {
+      "nr": "5",
+      "name": "Vorratsraum",
+      "felder": [
+        "5"
+      ]
+    },
+    {
+      "nr": "6",
+      "name": "Durchgang mit Steinbogen",
+      "felder": [
+        "6"
+      ]
+    },
+    {
+      "nr": "7",
+      "name": "Kaminsaal",
+      "felder": [
+        "7"
+      ]
+    },
+    {
+      "nr": "8",
+      "name": "Turmgang & Turm",
+      "felder": [
+        "8a",
+        "8b"
+      ]
+    },
+    {
+      "nr": "W",
+      "name": "Windfang",
+      "felder": [
+        "W"
+      ]
+    }
+  ],
+  "felder": [
+    {
+      "id": "1",
+      "zone": "1",
+      "name": "Ost-Saal"
+    },
+    {
+      "id": "2",
+      "zone": "2",
+      "name": "Linkes Buffet"
+    },
+    {
+      "id": "3",
+      "zone": "3",
+      "name": "Rechtes Buffet"
+    },
+    {
+      "id": "4a",
+      "zone": "4",
+      "name": "Theke Westende mit Theken-Klappe"
+    },
+    {
+      "id": "4b",
+      "zone": "4",
+      "name": "Vor der Theke mit Eiskübel"
+    },
+    {
+      "id": "4c",
+      "zone": "4",
+      "name": "Hinter der Theke: Anrichte, Vorratsraumtür"
+    },
+    {
+      "id": "4d",
+      "zone": "4",
+      "name": "Theke Ostende"
+    },
+    {
+      "id": "5",
+      "zone": "5",
+      "name": "Vorratsraum"
+    },
+    {
+      "id": "6",
+      "zone": "6",
+      "name": "Durchgang mit Steinbogen"
+    },
+    {
+      "id": "7",
+      "zone": "7",
+      "name": "Kaminsaal"
+    },
+    {
+      "id": "8a",
+      "zone": "8",
+      "name": "Turmgang"
+    },
+    {
+      "id": "8b",
+      "zone": "8",
+      "name": "Wendeltreppe und Turm-Toilette"
+    },
+    {
+      "id": "W",
+      "zone": "W",
+      "name": "Windfang"
+    }
+  ],
+  "zeitpunkte": [
+    "z2357",
+    "scheppern"
+  ],
+  "uhrzeiten": [
+    "18:00",
+    "18:30",
+    "18:35",
+    "18:45",
+    "18:50",
+    "19:00",
+    "19:30",
+    "20:15",
+    "21:00",
+    "22:00",
+    "22:30",
+    "23:00",
+    "23:20",
+    "23:30",
+    "23:40",
+    "23:45",
+    "23:50",
+    "23:51",
+    "23:52",
+    "23:53",
+    "23:54",
+    "23:55",
+    "23:56",
+    "23:57",
+    "23:58",
+    "23:59",
+    "0:00",
+    "0:01",
+    "0:02",
+    "0:03",
+    "0:05",
+    "0:10",
+    "0:11",
+    "0:12",
+    "0:13",
+    "0:15",
+    "0:20",
+    "0:30",
+    "1:15",
+    "2:00",
+    "2:45",
+    "7:00"
+  ],
+  "raumnamen": [
+    "Ost-Saal",
+    "Buffetsaal",
+    "Vorratsraum",
+    "Durchgang",
+    "Kaminsaal",
+    "Turmgang",
+    "Windfang",
+    "Steinbogen",
+    "Turm-Toilette",
+    "Theke",
+    "Theken-Klappe"
+  ],
+  "meilensteine": [
+    {
+      "nr": "M1",
+      "zeile": "alibi",
+      "spalte": "ahmet",
+      "punkte": 1
+    },
+    {
+      "nr": "M2",
+      "zeile": "alibi",
+      "spalte": "fatma",
+      "punkte": 1
+    },
+    {
+      "nr": "M3",
+      "zeile": "alibi",
+      "spalte": "can",
+      "punkte": 1
+    },
+    {
+      "nr": "M4",
+      "zeile": "heimlichtuerei",
+      "spalte": "ahmet",
+      "punkte": 1
+    },
+    {
+      "nr": "M5",
+      "zeile": "heimlichtuerei",
+      "spalte": "fatma",
+      "punkte": 1
+    },
+    {
+      "nr": "M6",
+      "zeile": "heimlichtuerei",
+      "spalte": "can",
+      "punkte": 1
+    },
+    {
+      "nr": "M7",
+      "zeile": "heimlichtuerei",
+      "spalte": "olli",
+      "punkte": 1
+    },
+    {
+      "nr": "M8",
+      "zeile": "fundort",
+      "spalte": null,
+      "punkte": 1
+    },
+    {
+      "nr": "M9",
+      "zeile": "schluesselbeweis",
+      "spalte": "olli",
+      "punkte": 1
+    }
+  ],
+  "punkte": {
+    "detektivMax": 9,
+    "tipp": {
+      "taeter": 2,
+      "versteck": 1,
+      "bonus": 2
+    },
+    "taeterSonder": 3,
+    "jePersonMax": 5
+  },
+  "enden": [
+    {
+      "nr": 1,
+      "anklage": "taeter",
+      "von": 7,
+      "bis": 9
+    },
+    {
+      "nr": 2,
+      "anklage": "taeter",
+      "von": 0,
+      "bis": 6
+    },
+    {
+      "nr": 3,
+      "anklage": "andere",
+      "von": 4,
+      "bis": 9
+    },
+    {
+      "nr": 4,
+      "anklage": "andere",
+      "von": 0,
+      "bis": 3
+    }
+  ],
+  "codes": {
+    "fassungen": [
+      "WW4",
+      "JM3",
+      "RN7",
+      "YW4"
+    ],
+    "indizkarten": [
+      "AD3",
+      "DM3",
+      "FK3",
+      "FM9",
+      "FN3",
+      "FX3",
+      "JA9",
+      "JT3",
+      "MR4",
+      "NN3",
+      "PM3",
+      "PP9",
+      "RH3",
+      "VP7",
+      "WE3",
+      "WJ9",
+      "WM9",
+      "XD3",
+      "YT4"
+    ]
+  },
+  "teile": [
+    "00",
+    "01",
+    "02",
+    "10",
+    "11",
+    "12",
+    "20",
+    "90"
+  ]
+}

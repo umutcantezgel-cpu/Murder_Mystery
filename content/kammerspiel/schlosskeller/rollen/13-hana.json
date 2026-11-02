@@ -1,0 +1,288 @@
+{
+  "platz": 13,
+  "id": "hana",
+  "vorstellung": {
+    "frage": "Hana, die Kamin-Heizerin. Im Wald kennst du jeden Baum beim Namen. Warum hat ausgerechnet dieser Kamin heute gegen dich gewonnen?",
+    "auftritt": "Ich bin Hana, Försterin. Holz kenne ich besser als jeder hier. Kaminzüge offenbar nicht. Um zwanzig nach elf hab ich den Kamin angefeuert und die Klappe vergessen. Um halb zwölf war der Kaminsaal voller Qualm, und alle haben gehustet. {wenn:serkan|Serkan hat die Klappen der Lichtschächte aufgerissen und uns gerettet. }Im Wald ist es jedenfalls nie so laut."
+  },
+  "werDuBist": "Du bist Hana, 25, die Kamin-Heizerin. Du arbeitest als Försterin. Man erkennt dich am Jeanshemd und an den Rußflecken. Tim repariert deine Motorsäge gegen Brennholz.{wenn:serkan| Serkan hat dich am Kamin gesehen. Du kennst seinen Plan.}\nWas dich heute antreibt: Der Kamin soll wieder ziehen. Bei Herrn Schneider willst du dich für den Ruß entschuldigen.",
+  "haltung": "Du lachst am lautesten über dich selbst. Aber dein Brief geht niemanden etwas an. Lügen tust du nicht.",
+  "tandemKasten": "Um 23:20 Uhr wolltest du im Kamin heimlich einen alten Liebesbrief verbrennen. Die Kaminklappe hast du vergessen. {wenn:serkan|Serkan hat gesehen, wie du Papier in den Kamin gestopft hast. Beim Lüften hat er dir dafür sein Geheimnis verraten: Er hat Wunderkerzen für die Torte im Auto. Offenes Feuer erlaubt Herr Schneider nicht. Ihr deckt euch gegenseitig.|Ein Gast hat gesehen, wie du Papier in den Kamin gestopft hast.} Der Brief ist nur halb verkohlt. Er liegt noch unter der Asche in der Kamin-Nische.",
+  "marker": {
+    "zeile": "Marker 23:57: Kaminsaal (7). Marker Scheppern: Kaminsaal (7). Beide stimmen.",
+    "behauptet": {
+      "z2357": "7",
+      "scheppern": "7"
+    },
+    "wahr": {
+      "z2357": "7",
+      "scheppern": "7"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "18:00",
+        "text": "zahlt 150 €; unterschreibt die Dankeskarte",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "20:15",
+        "text": "Lacher: Olli steht im dunklen Vorratsraum vor der Torte",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:20",
+        "text": "feuert in der Kamin-Nische den Kamin an, ohne die Kaminklappe zu öffnen. Sie will, dass der Kamin endlich zieht, und dabei heimlich einen alten Liebesbrief verbrennen. {rolle:serkan|Ein Gast} sieht, wie sie Papier in den Kamin stopft",
+        "frei": "offen",
+        "zusatz": "Brief erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:20",
+        "text": "schiebt einen alten Arbeitshandschuh in der Nische zur Seite. Er ist schwarz vom Ruß und lag schon da",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:30",
+        "text": "Qualm aus dem Kamin füllt den Kaminsaal, alle husten. {rolle:serkan|Ein Gast} reißt die Klappen der Lichtschächte auf. Herr Schneider löscht das Feuer und schimpft über den Ruß an der Wand. {rolle:aylin|Ein Gast} holt Putzmittel und Lappen aus dem Fach im Durchgang. Hana wischt den Ruß ab",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "{wenn:serkan|23:30}",
+        "text": "{wenn:serkan|Serkan verrät ihr beim Lüften seinen Plan: Wunderkerzen für die Mitternachtstorte im Auto}",
+        "frei": "karte",
+        "zusatz": "{wenn:serkan|erst nach Serkans Karte}"
+      },
+      {
+        "zeit": "23:30–23:58",
+        "text": "wischt mit dem Gesicht zur Wand Ruß ab",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "Tim ruft an der Bogentür: „Au! Mein Finger!“ Sie dreht sich um: Tim und Olli stehen an der Bogentür. Sibel sitzt auf der Wandbank Süd",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Licht aus. Einen Knall hört sie im Kaminsaal nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "kurz danach",
+        "text": "rennende Schritte. Sie dreht sich um: Ein leuchtendes Gesicht huscht quer durch den Kaminsaal zur Bogentür. Dann ist es weg",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "kurz danach",
+        "text": "Es riecht nach frisch ausgeblasenen Kerzen, mit dem Luftzug aus Richtung Theke. Erst das Gesicht, dann der Geruch",
+        "frei": "runde3",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "Licht. Zeynep steht im Steinbogen",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:01",
+        "text": "Can kommt aus dem Turmgang und setzt sich auf die Wandbank West",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:03",
+        "text": "geht mit allen in den Buffetsaal und bleibt dort",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Ich bin Försterin. Holz kenn ich, Kaminzüge offenbar nicht.“",
+      "„Um zwanzig nach elf hab ich den Kamin angefeuert und die Klappe vergessen. Der Qualm im Kaminsaal war meine Schuld. Herr Schneider hat das Feuer gelöscht und über den Ruß geschimpft.“",
+      "„Seitdem hab ich mit dem Gesicht zur Wand Ruß abgewischt. Um zehn vor zwölf hat Tim an der Bogentür ‚Au! Mein Finger!‘ gerufen. Da stand Olli neben ihm.“",
+      "„Auf einmal war es dunkel. Einen Knall hab ich im Kaminsaal nicht gehört.“",
+      "„Dann rannte jemand. Ich hab mich umgedreht: Ein leuchtendes Gesicht huschte quer durch den Kaminsaal zur Bogentür. Dann war es weg.“",
+      "**Ab Runde 3:** „Kurz nachdem das Gesicht durch den Kaminsaal gehuscht war, roch es nach frisch ausgeblasenen Kerzen. Der Geruch kam mit dem Luftzug aus Richtung Theke. Erst das Gesicht, dann der Geruch. Da bin ich mir sicher.“",
+      "**Ab Runde 3:** „Echte Kerzen gab es heute nur an der Anrichte hinter der Theke.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "warum du den Kamin angefeuert hast",
+        "antwort": "„Ich wollte, dass der Kamin endlich zieht.“"
+      },
+      {
+        "frage": "was du in den Kamin gesteckt hast",
+        "antwort": "„Frag lieber, warum ich die Klappe vergessen hab. Ich bin Försterin, keine Kaminkehrerin.“"
+      },
+      {
+        "frage": "ob in der Kamin-Nische noch etwas liegt",
+        "antwort": "„Ich hab genug von dieser Nische. Schau selbst, wenn du willst.“"
+      },
+      {
+        "frage": "ob du im Dunkeln etwas gerochen oder sonst gemerkt hast (Runde 1 und 2)",
+        "antwort": "„Dazu sag ich später was. Erst will ich hören, was die anderen im Dunkeln mitgekriegt haben.“"
+      },
+      {
+        "frage": "{wenn:serkan|was Serkan vorhat, ob er dir etwas verraten hat}",
+        "antwort": "{wenn:serkan|„Frag Serkan selbst.“}"
+      }
+    ],
+    "verboten": [
+      "„Ich hab nichts verbrannt.“",
+      "„In der Nische liegt nichts.“",
+      "„Im Dunkeln hab ich nichts gesehen.“",
+      "„Ich hab nichts gerochen.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ich hab im Kaminsaal mit dem Gesicht zur Wand Ruß gewischt. Bestätigen kann ich da keinen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Niemand. Ich stand allein an der Kamin-Nische.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Den Ruf hab ich im Kaminsaal nicht gehört. Ich hab Ruß gewischt.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Um zehn vor zwölf hat Tim an der Bogentür ‚Au! Mein Finger!‘ gerufen.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich hab es auch gesehen, von der Kamin-Nische aus.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Erst das Gesicht im Kaminsaal. Kurz danach roch es nach ausgeblasenen Kerzen, mit dem Luftzug aus Richtung Theke.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich bin mit allen in den Buffetsaal. Geholt hab ich nichts.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte VP7 offen auf dem Tisch liegt.",
+      "{wenn:serkan|Sobald Serkans Geheimniskarte offen auf dem Tisch liegt.}",
+      "Sobald dich jemand vor allen fragt, was du in den Kamin gesteckt hast."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "{wenn:serkan|„Den alten Arbeitshandschuh in der Nische hab ich um 23:20 Uhr zur Seite geschoben. Er lag schon da. Wem er gehört, weiß ich nicht.“}",
+        "„Bei Herrn Schneider will ich mich für den Ruß entschuldigen.“",
+        "{wenn:serkan|**Nach Serkans Karte:** „Ja, Serkan hat mir beim Lüften von seinen Wunderkerzen erzählt.“}"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, du sagst, du warst die ganze Zeit im Ost-Saal. Um zehn vor zwölf hat Tim an der Bogentür ‚Au! Mein Finger!‘ gerufen. Ich hab mich umgedreht, und du standest daneben. Was habt ihr da gemacht?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, dein Marker steht hinter der Theke am Ostende. Um fünf vor zwölf sollten alle in den Ost-Saal. Was hattest du da hinten zu suchen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, das Gesicht im Kaminsaal leuchtete grünlich-weiß, wie Leuchtfarbe. Herr Schneider hat eine Kapuze erwischt, und deine ist die auffälligste hier. Was steckt in deiner Bauchtasche?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, dein Marker ‚Scheppern‘ steht im Durchgang am Sicherungskasten. Im Dunkeln warst du ziemlich schnell dort. Wusstest du vorher, wo es knallen würde?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "**Olli in Stufe 2:** „Olli, du sagst, das Gespenst ist auf Herrn Schneider los. Aber das Gesicht war bei uns im Kaminsaal, und erst danach roch es nach ausgeblasenen Kerzen. Wer war an der Theke, als die Kerzen ausgingen?“\n**Olli noch in Stufe 1:** „Olli, erst huschte das Gesicht durch den Kaminsaal, dann roch es nach ausgeblasenen Kerzen. Die Kerzen standen an der Theke. Wo warst du, als sie ausgingen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, du standest am Sicherungskasten, direkt am Weg in den Kaminsaal. Was kam im Dunkeln an dir vorbei, und war das vor oder nach dem Scheppern?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "In der Hemdtasche ein rußiger Lappen und ein Stück Birkenrinde als Glücksbringer. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Spurenlesen",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Du wählst eine Zone auf dem Lageplan. Jede Person, deren Marker „Scheppern“ dort steht, sagt, was sie im Dunkeln gehört, gespürt oder gerochen hat.",
+    "grenzen": "Lügen nach Stufe 1 bleibt erlaubt.",
+    "tipp": "Gut, wenn ein Gespräch stockt. Wähl eine Zone, in der mehrere Marker „Scheppern“ stehen. Steht dein eigener Marker dort, sagst du vor Runde 3 nur, was du gesehen hast."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Deine Nase soll zählen, nicht dein Brief. **Erfüllt, wenn** bei der Anklage auf dem Ermittlungsbogen in der Spalte Can bei „Alibi beim Scheppern“ ein ✓ steht.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "VP7"
+    ],
+    "wasIchZugebe": "Um 23:20 Uhr hab ich den Kamin angefeuert, ohne die Kaminklappe zu öffnen. Ich wollte heimlich einen alten Liebesbrief verbrennen. Er ist nur halb verkohlt und liegt unter der Asche in der Kamin-Nische. An wen er ist, bleibt mein Geheimnis. Mit dem Abend hat er nichts zu tun.",
+    "vermerke": [
+      "Hinweis: Der halb verkohlte Brief in der Kamin-Nische ist Hanas alter Liebesbrief. Sie wollte ihn um 23:20 Uhr heimlich verbrennen."
+    ],
+    "undNochEtwas": "{wenn:serkan|Serkan hat es gesehen. Dafür kenn ich sein Geheimnis: Um 23:56 Uhr wollte er keine Decken aus dem Auto holen.|Den alten Arbeitshandschuh in der Kamin-Nische hab ich um 23:20 Uhr nur zur Seite geschoben. Er lag schon vorher da, schwarz vom Ruß.}"
+  },
+  "solo": "**Du spielst dein Tandem allein.** Wer dich am Kamin gesehen hat, spielt heute niemand. Sag dann „ein Gast“. Ein fremdes Geheimnis kennst du heute nicht. Deine Karte endet mit dem Satz über den alten Handschuh. Alles andere gilt wie gedruckt.",
+  "teil90": "Hana wollte um zwanzig nach elf heimlich einen alten Liebesbrief im Kamin verbrennen und vergaß die Klappe. Im Dunkeln sah sie das leuchtende Gesicht und roch erst danach die ausgeblasenen Kerzen. Ihre Nase stützte Cans Alibi.",
+  "fassung": null
+}

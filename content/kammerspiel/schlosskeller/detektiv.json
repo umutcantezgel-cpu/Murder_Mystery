@@ -1,0 +1,246 @@
+{
+  "auftritt": "Unter dem Hut? Einen Kopf voller Fragen. Ich bin heute nur Gast, ehrlich. Trenchcoat und Hut trag ich, weil man nie weiß. Meine Pfeife bläst Seifenblasen, sonst nichts. Ich hör gern zu, und wer mir etwas erzählt, wird um mehr gebeten. Mein Lieblingssatz: „Erzähl mir mehr davon.“ Heute will ich aber nur Torte. Und wenn mich jemand zur blinden Kuh macht, sag ich bestimmt nicht Nein.",
+  "wasDuSelbstWeisst": [
+    "Ab zehn vor zwölf sitzt du im Ost-Saal an der langen Tafel, auf der Ostseite.",
+    "Um 23:54 Uhr siehst du Olli hereinkommen. Er setzt sich an den Kopf der Tafel.",
+    "Um 23:55 Uhr wirst du die blinde Kuh: Augenbinde, Ehrenplatz der blinden Kuh, Kopfhörer mit lauter Musik. Ab jetzt siehst du nichts mehr.",
+    "Du hörst nur sehr Lautes: den Knall, „Hab ich dich!“, zweimal „Stehen bleiben!“, das Scheppern und „Hier liegt Herr Schneider!“.",
+    "Kurz nach Mitternacht nimmt dir jemand Augenbinde und Kopfhörer ab: „So, Augen auf. Das war nicht die Überraschung.“",
+    "Um 0:20 Uhr bittet dich Herr Schneider: „Finde raus, wer das war. Bis zum Morgen.“"
+  ],
+  "fragenLeitfaden": [
+    {
+      "titel": "A – An Ahmet, Fatma, Olli und Can (immer dieselben Fragen)",
+      "fragen": [
+        {
+          "nr": "A1",
+          "text": "„Wo warst du um drei vor zwölf, und wer hat dich dort gesehen?“"
+        },
+        {
+          "nr": "A2",
+          "text": "„Wo warst du, als es schepperte? Wer war neben dir, und woran hat die Person dich erkannt?“"
+        },
+        {
+          "nr": "A3",
+          "text": "„Was hast du im Dunkeln gehört, und in welcher Reihenfolge?“"
+        },
+        {
+          "nr": "A4",
+          "text": "„Was hattest du heute mit Herrn Schneider zu tun?“"
+        },
+        {
+          "nr": "A5",
+          "text": "„Was trägst du bei dir?“"
+        },
+        {
+          "nr": "A6",
+          "text": "„Willst du an deiner Geschichte etwas ändern?“"
+        }
+      ]
+    },
+    {
+      "titel": "B – An alle anderen",
+      "fragen": [
+        {
+          "nr": "B1",
+          "text": "„Wo warst du beim Knall, und wo beim Scheppern?“"
+        },
+        {
+          "nr": "B2",
+          "text": "„Wer war im Dunkeln in deiner Nähe?“"
+        },
+        {
+          "nr": "B3",
+          "text": "„Was hast du gesehen, gehört, gespürt oder gerochen?“"
+        },
+        {
+          "nr": "B4",
+          "text": "„Wen hast du kurz vor zwölf wo gesehen?“"
+        }
+      ]
+    },
+    {
+      "titel": "C – Wenn etwas nicht zusammenpasst",
+      "fragen": [
+        {
+          "nr": "C1",
+          "text": "„Dein Marker sagt das eine, jemand anderes sagt das andere. Wer irrt sich?“"
+        },
+        {
+          "nr": "C2",
+          "text": "„Wer kann das bezeugen?“"
+        },
+        {
+          "nr": "C3",
+          "text": "„Woher weißt du das? Gesehen, gehört oder erzählt bekommen?“"
+        }
+      ]
+    },
+    {
+      "titel": "Gut zu wissen",
+      "fragen": [
+        {
+          "nr": null,
+          "text": "Lügen ist erlaubt, solange ein Heft es erlaubt. Über ihren eigenen Ort sagen alle außer den vier Verdächtigen immer die Wahrheit."
+        },
+        {
+          "nr": null,
+          "text": "Wer bei einer Lüge über seinen Ort ertappt wird, stellt seinen Marker vor allen um."
+        },
+        {
+          "nr": null,
+          "text": "Auf dem Verhörstuhl sitzt jemand höchstens zwei Minuten. Bis 11 Personen hören die anderen zu. Ab 12 Personen reden sie leise weiter. Soll eine Antwort für alle zählen, bitte vorher den Erzähler um „Alle mal herhören!“."
+        },
+        {
+          "nr": null,
+          "text": "„Vor allen“ heißt: Der ganze Tisch hört zu. Das ist so am Verhörstuhl, solange alle anderen schweigen, beim Ortstermin, bei einem Impuls, beim Vorlesen einer Karte und nach „Alle mal herhören!“."
+        },
+        {
+          "nr": null,
+          "text": "Wer etwas noch nicht bestätigen darf, sagt: „Dazu sag ich jetzt nichts.“ Das ist erlaubt."
+        },
+        {
+          "nr": null,
+          "text": "Frag nie nach dem Text einer verdeckten Karte. Wer seine Karte umdrehen muss, tut das von selbst."
+        }
+      ]
+    }
+  ],
+  "untersuchungen": [
+    "Am Ende jeder Runde nennst du nacheinander drei Indizkarten aus deiner Liste. Wählbar sind alle Karten, deren Runde schon erreicht ist. In Runde 3 erst nach der Tipp-Runde.",
+    "Der Erzähler sucht die Karte heraus und gibt sie dir ungelesen. Du liest sie laut vor.",
+    "Danach fragt der Erzähler, ob die Karte bei jemandem etwas auslöst. Wer betroffen ist, dreht seine Geheimniskarte um.",
+    "Bei einem Ortstermin antwortet vor allen, wer dort war. Fehlt diese Person heute, dreht der Erzähler ihren Zeugenstreifen um.",
+    "Leg die Karte offen an den Rand des Lageplans. Trag den Vermerk wörtlich in deine Vermerke-Liste ein, mit Nummer und Runde.",
+    "Steht auf der Karte, dass an diesem Platz kein Schlüsselbund liegt, kreuz in deiner Liste „Kein Bund“ an. Das gilt nur für diesen Platz, nicht für Orte, die die Karte nur als Entfernung nennt.",
+    "Was du nicht wählst, bleibt für später. Keine Karte geht verloren.",
+    "Eine Taschenkontrolle oder die Stirnlampe kann dir eine Karte zusätzlich öffnen. Das zählt nicht zu deinen drei."
+  ],
+  "aufgabenJeRunde": [
+    {
+      "runde": 1,
+      "zeilen": [
+        "Ziel: Für Ahmet, Fatma, Olli und Can füllst du die Zeilen „Ort um 23:57“ und „Alibi beim Scheppern“.",
+        "Verhörstuhl, erstes Ziel: Hol die vier Verdächtigen nacheinander kurz auf den Stuhl. Stell jeder dieselben drei Fragen aus dem Leitfaden (A1 bis A3).",
+        "Zweites Ziel, ganzer Tisch: Bitte den Erzähler um den Impuls „Wer war neben dir?“. Alle antworten reihum mit einem Satz.",
+        "Wenn jemand fehlt: Liegt an einem Ort ein Zeugenstreifen, kann ein Ortstermin dort ihn aufdecken.",
+        "Untersuchungen: drei Karten mit „ab Runde 1“. Ortstermine zeigen dir, wer wo war. Spurkarten zeigen dir Gegenstände."
+      ]
+    },
+    {
+      "runde": 2,
+      "zeilen": [
+        "Ziel: Für alle vier füllst du die Zeile „Heimlichtuerei“. Wer Alibi ✓ und Heimlichtuerei ✓ hat, scheidet aus.",
+        "Erstes Ziel, ganzer Tisch: Geld. Bitte den Erzähler um den Impuls „Geld“. Alle antworten reihum mit einem Satz.",
+        "Zweites Ziel, ganzer Tisch: Bitte den Erzähler um den Impuls „Turmgang und Bogentür“, später um „Das Gesicht“. Alle antworten reihum mit einem Satz.",
+        "Untersuchungen: drei Karten, jetzt auch mit „ab Runde 2“."
+      ]
+    },
+    {
+      "runde": 3,
+      "zeilen": [
+        "Ziel: Fundort, Schlüsselbeweis und das Alibi für das leuchtende Gesicht. Danach klagst du an.",
+        "Erstes Ziel, ganzer Tisch: Reihenfolge. Bitte den Erzähler um den Impuls „Was kam zuerst?“. Wer im Dunkeln etwas gesehen oder gehört hat, antwortet der Reihe nach.",
+        "Zweites Ziel, ganzer Tisch: Wege. Bitte den Erzähler um den Impuls „Der Weg zur Vorratsraumtür“, danach um „Nach dem Licht“.",
+        "Tipp-Runde: Nach „Reinen Tisch“ tippen alle außer dir. Du wartest.",
+        "Untersuchungen: Danach drei Karten, jetzt auch mit „ab Runde 3“. Trag die Vermerke ein. Dann klagst du an. Mit der Anklage legst du den Stift weg."
+      ]
+    }
+  ],
+  "bogen": {
+    "hinweis": "Schreib in jede Zelle kurz, was feststeht, und woher du es weißt. Setz ✓, wenn es belegt ist, ✗, wenn es widerlegt ist. Ohne Zeichen ist es noch offen. Ein ✓ bei „Alibi“ braucht eine Quelle, die nicht die Person selbst ist.",
+    "zeilen": [
+      {
+        "id": "ort2357",
+        "titel": "Ort um 23:57",
+        "zusatz": "Hilfszeile, keine Punkte"
+      },
+      {
+        "id": "alibi",
+        "titel": "Alibi beim Scheppern",
+        "zusatz": null
+      },
+      {
+        "id": "heimlichtuerei",
+        "titel": "Heimlichtuerei",
+        "zusatz": null
+      },
+      {
+        "id": "ausgeschieden",
+        "titel": "Ausgeschieden",
+        "zusatz": "Alibi ✓ und Heimlichtuerei ✓"
+      }
+    ],
+    "spalten": [
+      "ahmet",
+      "fatma",
+      "olli",
+      "can"
+    ],
+    "unterRaster": [
+      "**Fundort des Schlüsselbunds:** ______________________ Quelle: ______",
+      "**Schlüsselbeweis:** Teil 1 ☐ · Teil 2 ☐ · gehört zu: ______________",
+      "**Überführt** (Regel unten): ☐ Name: ______________"
+    ],
+    "entlastungsregel": "**Wer ausscheidet:** Wer beim Scheppern nachweislich woanders war **und** eine aufgedeckte Heimlichtuerei hat, scheidet aus. Beides muss zusammenkommen. Das Alibi zeigt, dass die Person es nicht war. Die Heimlichtuerei erklärt, warum sie geflunkert oder sich seltsam verhalten hat. Das Scheppern ist das laute Poltern an der Theke, kurz nach dem Knall.",
+    "ueberfuehrungsregel": "**Wer überführt ist:** Eine Person ist überführt, wenn alle drei Dinge offen auf dem Tisch liegen:\n1. Schlüsselbeweis Teil 1: eine Karte mit dem Vermerk „Schlüsselbeweis, Teil 1“.\n2. Schlüsselbeweis Teil 2: eine Spur an einer Person, die genau zu Teil 1 passt.\n3. Der Fundort des Schlüsselbunds liegt an einem Platz, an dem diese Person kurz vor dem Scheppern nachweislich war (Zeile „Ort um 23:57“).\nDann scheiden alle anderen aus.",
+    "fuehren": "Vermerke von Karten und Streifen schreibst du wörtlich ab. Was jemand nur sagt, schreibst du selbst auf und nennst die Person als Quelle. Für deine Punkte zählt, was in der richtigen Zeile steht, nicht woher es kam. Ein ✓ bei „Alibi“ braucht eine Quelle, die nicht die Person selbst ist. Ein Vermerk „für das leuchtende Gesicht“ gehört in die Spalte der Person, die das Gesicht war. Wer das war, zeigt dir eine offene Karte. Hat eine Spalte „Alibi ✓“ und „Heimlichtuerei ✓“, kreuzt du „Ausgeschieden“ an. Teil 1 des Schlüsselbeweises kreuzt du an, wenn eine Karte mit dem Vermerk „Schlüsselbeweis, Teil 1“ offen liegt. Teil 2 kreuzt du an, wenn eine offene Karte an einer Person genau die Spur zeigt, die Teil 1 beschreibt. Dann schreibst du dazu, zu wem er gehört. Macht jemand am Rundenende freiwillig reinen Tisch, schreib „freiwillig“ zum Eintrag."
+  },
+  "vermerkeZeilen": 48,
+  "anklage": {
+    "feld": [
+      "**Anklage.** Ich klage an: ______________. Weil: (drei Gründe) ______________________________________",
+      "Nach dem Auflösungsheft: Punkte ____ von 9 · Ende: ______________"
+    ],
+    "hilfe": "Nenn eine Person und drei Gründe. Gute Gründe stehen auf deinem Bogen. Wo war die Person um drei vor zwölf? Hält ihr Alibi? Wo lag der Schlüsselbund, und was zeigt der Schlüsselbeweis? So klingt es: „Ich klage diese Person an. Erstens war sie um drei vor zwölf genau dort. Zweitens hält ihr Alibi nicht. Drittens passt der Schlüsselbeweis zu ihr.“"
+  },
+  "aktionskartenTipps": [
+    {
+      "rolle": "lejla",
+      "text": "Frag Herrn Schneider nach seinem Platz kurz vor zwölf und nach dem, was er im Dunkeln noch weiß. Liegt seine rechte Hand (JA9) noch zu, kommt sie dabei offen auf den Tisch."
+    },
+    {
+      "rolle": "emine",
+      "text": "Nimm zwei, die sagen, sie waren zusammen. Stimmen ihre Antworten überein?"
+    },
+    {
+      "rolle": "tim",
+      "text": "Ab Runde 2. Eine vierte Untersuchung in einer Runde, in der viel offen ist."
+    },
+    {
+      "rolle": "joanna",
+      "text": "Gut in Runde 1: Nennt die Person jemanden, der heute fehlt, deckt der Erzähler dessen Zeugenstreifen auf."
+    },
+    {
+      "rolle": "marek",
+      "text": "Ab Runde 2. Was jemand bei sich trägt, kommt ohne Untersuchung auf den Tisch."
+    },
+    {
+      "rolle": "zeynep",
+      "text": "Spiel sie, bevor du eine Person auf den Verhörstuhl holst, die sich mit einer Karte schützen könnte."
+    }
+  ],
+  "gegenKarten": "Einspruch: Stell die Frage einer anderen Person. Gegenfrage: Beantworte zuerst die Frage, dann antwortet die Person. Themenwechsel: Der Erzähler liest einen Impuls, das Thema darf später wiederkommen. Gegen Ortstermine, Indizkarten und offene Karten hilft keine dieser Karten. Retourkutsche: Wirfst du jemandem etwas vor, sagst du zuerst, wo du beim Scheppern warst. Du saßt mit Augenbinde auf dem Ehrenplatz der blinden Kuh.{wenn:serkan| Lagebesprechung: Sag ehrlich, wen du gerade verdächtigst und warum.}",
+  "wennRollenFehlen": [
+    {
+      "von": 6,
+      "bis": 11,
+      "text": "Für jeden fehlenden Zeugen liegt ein verdeckter Zeugenstreifen mit seiner Aussage neben dem Lageplan. Ein Ortstermin an seinem Ort oder die Aktionskarte „Zeitstempel“ deckt den Streifen auf. Die Aktionskarten fehlender Zeugen liegen bei dir. Du spielst sie nach denselben Regeln wie alle. Liest der Erzähler den Ausweichsatz, ist das dein Hinweis auf einen Ortstermin."
+    },
+    {
+      "von": 6,
+      "bis": 6,
+      "text": "Heute fehlen alle sechs Zeugen. Nutze Ortstermine früh, schon in Runde 1. Spiel auch deine Aktionskarten: Stirnlampe und Taschenkontrolle können dir ab Runde 2 eine Karte zusätzlich öffnen."
+    },
+    {
+      "von": 12,
+      "bis": 20,
+      "text": "Heute sind alle Zeugen am Tisch, es gibt keine Zeugenstreifen. Am Verhörstuhl laufen die anderen Gespräche leise weiter. Soll eine Antwort für alle zählen, bitte vorher den Erzähler um „Alle mal herhören!“.{ab:14| Nach der Hälfte jeder Gesprächszeit ruft der Erzähler „Wechsel!“. In Runde 2 und 3 ruft er vorher die Gegenüberstellung aus. Der Verhörstuhl ruht dann. Du hörst zu und darfst selbst fragen.}"
+    },
+    {
+      "von": 15,
+      "bis": 20,
+      "text": "Hol in Runde 1 oder 2 die Gäste mit Marker im Windfang oder im Kaminsaal kurz auf den Verhörstuhl. Frag sie: „Was wolltest du kurz vor zwölf dort, und warum?“ So kommen auch Zusatzrollen ins Gespräch, die sonst selten gefragt werden."
+    }
+  ]
+}

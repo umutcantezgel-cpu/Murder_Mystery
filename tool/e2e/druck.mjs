@@ -1,24 +1,31 @@
-// Browserprobe der Druckmappe (PDF-Paket): der Weg zu den PDFs und die Erzählerakte im Web-Build.
+// Browserprobe der Druckmappe (Kammerspiel, B1/B3/E16): der Weg zu den PDFs im Web-Build.
 // (1) Detektei bei 320 und 390 px: Vor jedem Rollen liegt „PDFs zum Ausdrucken“ oben ganz im Bild, mittig
 //     und vor „Neuer Abend“ (Foto detektei-oben-<breite>). Auf einem hohen Bild, in dem beide zugleich
 //     liegen, gibt es den Knopf genau zweimal; der zweite liegt unter der Mappe des Schlosskellers und
 //     kommt beim Rollen ganz ins Bild (Foto detektei-<breite>), ein Tipp darauf öffnet die Druckmappe. Die
 //     Mappe ist genau ein Knopf mit „Spuk im Schlosskeller“ im Namen (die Knöpfe nennen die Akte nicht).
-//     (2) Neu geöffnet, ohne Rollen: Tipp auf den oberen Knopf, die Druckmappe mit ihren Standardwerten,
-//     dann „Druckmappe vorbereiten“. (3) Tipp auf „Erzählerakte“: Zeit bis „Herunterladen: Erzählerakte“
-//     (Ziel des PDF-Pakets: unter 20 s), dann der Download: Name, Größe, beginnt mit %PDF- und endet mit %%EOF.
-//     (4) Zum Vergleich „Alles in einer Datei“ ebenso. (5) Akte-Seite des Schlosskellers bei 320 px: die
-//     vier Knöpfe der Fußleiste ganz im Bild, ohne Überlappung, antippbar; „PDFs zum Ausdrucken“ öffnet
-//     auch von hier die Druckmappe. Alle Tipps gehen als echter Zeiger durch den Flutter-Hittest.
+//     (2) Neu geöffnet, ohne Rollen: Tipp auf den oberen Knopf, die Druckmappe mit ihren Standardwerten
+//     (Personen nach fall.json, ohne Gästeliste; keine Fall-Wahl). Personen wählen: „Eine Person mehr“ und
+//     „Eine Person weniger“ bis zur Zielzahl (Zusatzrolle allein, also mit Zusatzheft), dazu „Detektiv“
+//     ankreuzen, dann „Druckmappe vorbereiten“. Die Tafel nennt Personen und Rollen, hat die acht Teile, je
+//     Rolle „Senden an …“ und keine Erzählerakte (E16). (3) „Alles in einer Datei“: Zeit bis „Herunterladen:
+//     …“, dann der Download: Name kammerspiel-alles.pdf, Größe, beginnt mit %PDF- und endet mit %%EOF.
+//     (4) Ein Einzelheft, „Senden an“ die Rolle auf Platz 1 (Ziel: unter 20 s bis „Herunterladen: Rollenheft
+//     …“), ebenso geprüft; dazu das Zusatzheft der allein spielenden Zusatzrolle. (5) Akte-Seite des
+//     Schlosskellers bei 320 px: die vier Knöpfe der Fußleiste ganz im Bild, ohne Überlappung, antippbar;
+//     „PDFs zum Ausdrucken“ öffnet auch von hier die Druckmappe. Alle Tipps gehen als echter Zeiger durch den
+//     Flutter-Hittest.
 // Geprüft wird außerdem: keine Konsolenfehler, keine Anfragen außer 127.0.0.1/localhost.
 // Die Zeiten hängen am Rechner. Ein verfehltes Zeitziel meldet die Probe deshalb als Warnung
 // (`ZEITZIEL VERFEHLT`); mit --zeitziel macht es sie rot. --drossel N rechnet wie ein langsameres Gerät
 // (Chrome-CPU-Drosselung wie leistung.mjs: 4 = mittleres, 6 = einfaches Handy), nur auf der Seite der
 // Schritte 2 bis 4. --ruhig öffnet alle Seiten mit „Bewegung reduzieren“ (der Dateiknopf zeigt beim Bauen
-// ohnehin immer die ruhende Sanduhr, seit der Ladekreisel die Erzählerakte im Browser auf über 20 s brachte).
-// Aufruf in tool/e2e: node druck.mjs [--breite 390] [--drossel 1] [--ruhig] [--zeitziel]
-//   (--breite: Breite für die Schritte 2 bis 4)
-// Ausgabe: fotos/druck/ (Fotos, kontaktbogen.png, die beiden PDFs, bericht.json).
+// ohnehin immer die ruhende Sanduhr).
+// Aufruf in tool/e2e: node druck.mjs [--breite 390] [--drossel 1] [--ruhig] [--zeitziel] [--personen 13]
+//   [--build build/web]
+//   (--breite: Breite für die Schritte 2 bis 4; --personen: Zielzahl der Druckmappe, ungerade Rollenzahl ab
+//   13, damit eine Zusatzrolle allein spielt; --build: Ordner des Web-Builds, relativ zum Repo)
+// Ausgabe: fotos/druck/ (Fotos, kontaktbogen.png, die drei PDFs, bericht.json).
 // Rückgabewert 0 nur, wenn alle Prüfungen bestehen; 2 bei Aufruf- oder Bauproblemen.
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -29,7 +36,6 @@ import { starteServer } from './server.mjs';
 
 const hier = import.meta.dirname;
 const repo = path.resolve(hier, '../..');
-const build = path.join(repo, 'build/web');
 const ausgabe = path.join(hier, 'fotos', 'druck');
 
 const HOEHE = 844;
@@ -39,8 +45,14 @@ const BREITEN = [320, 390];
  * des Bildes hat die Semantik oft nicht, im Handybild lassen sich beide Knöpfe also nicht zugleich zählen.
  */
 const HOCH = 2400;
-/** Ziel des Plans: Die Erzählerakte steht im Browser in unter 20 s bereit (sonst Porträts mit 240 px). */
-const ZIEL_ERZAEHLERAKTE_S = 20;
+/** Hohes Bild für die vorbereitete Druckmappe: Tafel mit acht Teilen und bis zu 18 Heften ganz in der Semantik. */
+const HOCH_MAPPE = 4000;
+/**
+ * Ziel für ein Einzelheft: Es steht im Browser in unter 20 s bereit. Früher galt das Ziel der Erzählerakte, die
+ * die Druckmappe seit dem Kammerspiel nicht mehr anbietet (E16); das Heft je Person ist die Datei, die man am
+ * Abend vorher für jeden Gast einzeln holt.
+ */
+const ZIEL_EINZELHEFT_S = 20;
 /** Spätestens dann gilt eine Datei als gescheitert. */
 const FRIST_DATEI_S = 180;
 /** Ein Mausradschritt beim Suchen eines Knopfs unterhalb oder oberhalb des Bildes. */
@@ -58,22 +70,27 @@ const wert = (name, std) => {
   const i = args.indexOf(`--${name}`);
   return i >= 0 ? Number(args[i + 1]) : std;
 };
+/** Web-Build: Vorgabe build/web im Repo, mit --build ein anderer Ordner (etwa ein eigener Build zum Prüfen). */
+const build = (() => {
+  const i = args.indexOf('--build');
+  return i >= 0 && args[i + 1] ? path.resolve(repo, args[i + 1]) : path.join(repo, 'build/web');
+})();
 const ABLAUF_BREITE = wert('breite', 390);
 const DROSSEL = wert('drossel', 1);
 const ZEITZIEL_STRENG = args.includes('--zeitziel');
 const RUHIG = args.includes('--ruhig');
-if (!BREITEN.includes(ABLAUF_BREITE) || !(DROSSEL >= 1)) {
-  console.error(`DRUCK · Aufruf: node druck.mjs [--breite ${BREITEN.join('|')}] [--drossel N ≥ 1] [--ruhig] [--zeitziel]`);
+const ZIEL_PERSONEN = wert('personen', 13);
+if (!BREITEN.includes(ABLAUF_BREITE) || !(DROSSEL >= 1) || !Number.isInteger(ZIEL_PERSONEN)) {
+  console.error(`DRUCK · Aufruf: node druck.mjs [--breite ${BREITEN.join('|')}] [--drossel N ≥ 1] [--ruhig] [--zeitziel] [--personen N] [--build ordner]`);
   process.exit(2);
 }
 if (!existsSync(path.join(build, 'index.html'))) {
-  console.error('DRUCK · build/web fehlt: flutter build web --release --no-web-resources-cdn -o build/web');
+  console.error(`DRUCK · ${path.relative(repo, build) || build} fehlt: flutter build web --release --no-web-resources-cdn -o build/web`);
   process.exit(2);
 }
-await fs.rm(ausgabe, { recursive: true, force: true });
-await fs.mkdir(ausgabe, { recursive: true });
 
-// Texte aus der App (ARB) und aus der Akte (ui-Texte des Schlosskellers), keine Kopien.
+// Texte aus der App (ARB), aus der Akte (ui-Texte des Schlosskellers) und aus dem Kammerspiel
+// (content/kammerspiel/schlosskeller: fall.json und ui/*.json), keine Kopien.
 const readJson = async (datei) => JSON.parse(await fs.readFile(path.join(repo, datei), 'utf8'));
 const arb = await readJson('lib/l10n/app_de.arb');
 const ui = new Map();
@@ -89,6 +106,28 @@ const text = (key, werte = {}) => {
   assert.equal(typeof roh, 'string', `Unbekannter Textschlüssel: ${key}`);
   return roh.replace(/\{(\w+)\}/g, (_, name) => werte[name] ?? `{${name}}`);
 };
+const KAMMER = 'content/kammerspiel/schlosskeller';
+const fall = await readJson(`${KAMMER}/fall.json`);
+const kammerUi = {};
+for (const teil of ['gemeinsam', ...fall.teile]) kammerUi[teil] = await readJson(`${KAMMER}/ui/${teil}.json`);
+/** Beschriftung aus ui/<teil>.json ohne Auszeichnung (wie kammerKlartext); Platzhalter füllt [werte]. */
+const kammer = (teil, schluessel, werte = {}) => {
+  const roh = kammerUi[teil]?.[schluessel];
+  assert.equal(typeof roh, 'string', `Unbekannte Beschriftung: ui/${teil}.json ${schluessel}`);
+  const t = roh.replace(/\{(\w+)\}/g, (_, name) => werte[name] ?? `{${name}}`).replace(/\*\*|\*/g, '');
+  assert(!/[{}]/.test(t), `ui/${teil}.json ${schluessel}: Platzhalter offen in „${t}“`);
+  return t;
+};
+/** Dateiwort wie dateiWort in satz.dart: klein, Umlaute ausgeschrieben, sonst Bindestriche. */
+const dateiWort = (s) => s.toLowerCase().replaceAll('ä', 'ae').replaceAll('ö', 'oe').replaceAll('ü', 'ue').replaceAll('ß', 'ss')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const P = fall.personen;
+assert(ZIEL_PERSONEN >= P.min && ZIEL_PERSONEN <= P.max && ZIEL_PERSONEN !== P.vorgabe, `--personen muss zwischen ${P.min} und ${P.max} liegen und von der Vorgabe ${P.vorgabe} abweichen`);
+const ZIEL_ROLLEN = ZIEL_PERSONEN - P.ohneRolle.length;
+/** Besetzt sind die Plätze 1 bis ZIEL_ROLLEN; die letzte Zusatzrolle spielt bei ungerader Zahl allein. */
+const besetzt = fall.plaetze.slice(0, ZIEL_ROLLEN);
+const erster = besetzt[0];
+const zusatz = besetzt.filter((p) => p.art === 'zusatz').at(-1) ?? null;
 const T = {
   neuerAbend: text('detektei_neuer_abend'),
   pdfs: text('detektei_druck_pdfs'),
@@ -98,25 +137,46 @@ const T = {
   spielen: text('detektei_akte_spielen'),
   laedt: text('druck_datei_laedt'),
   fehler: text('druck_datei_fehler'),
+  personenTitel: text('detektei_druck_personen'),
+  personen: (n) => text('detektei_druck_personen_anzahl', { anzahl: `${n}` }),
+  rollen: (n) => text('detektei_druck_personen_rollen', { rollen: `${n}` }),
+  weniger: text('detektei_druck_personen_weniger'),
+  mehr: text('detektei_druck_personen_mehr'),
+  detektivTitel: text('detektei_druck_detektiv'),
+  detektivM: text('detektei_druck_detektiv_m'),
+  hinweis: (personen, rollen) => text('druck_kammer_hinweis', { personen: `${personen}`, rollen: `${rollen}` }),
+  jePerson: text('druck_je_person'),
+  sendenAn: (name) => text('druck_senden_an', { name }),
+  rollenheftVon: (name) => text('druck_rollenheft_von', { name }),
+  zusatzheftVon: (name) => text('druck_zusatzheft_von', { name }),
+  spiel: kammer('gemeinsam', 'spiel.titel'),
+  alles: kammer('gemeinsam', 'titel.alles'),
+  allesDatei: kammer('gemeinsam', 'datei.alles'),
+  teile: fall.teile.map((nr) => ({ nr, titel: kammer(nr, 'titel'), datei: kammer(nr, 'datei') })),
+  // Nur zur Gegenprobe (E16): Die Druckmappe bietet keine Erzählerakte und keinen Block „Nur Erzähler“ mehr.
   akte: text('ui.druck.akte.titel'),
-  alles: text('ui.druck.datei.alles'),
   nurErzaehler: text('ui.druck.paket.dateien.ordner4'),
   laden: (datei) => text('druck_datei_laden', { datei }),
 };
 const woertlich = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const SENDEN = new RegExp(`^${woertlich(text('druck_senden_an', { name: '' }))}`);
-/** Der Fall-Code im Hinweis der Druckfassung („… Fall-Code {code}. …“). */
-const CODE = (() => {
-  const [vor, nach] = text('ui.druck.app.hinweis').split('{code}');
-  return new RegExp(`${woertlich(vor.slice(-10))}(\\S+?)${woertlich(nach.slice(0, 1))}`);
-})();
+const SENDEN = new RegExp(`^${woertlich(T.sendenAn(''))}`);
+/**
+ * Steht [s] in den Texten der Semantik: als eigener Text oder in einem zusammengefassten Label, nie als Ende
+ * einer längeren Zahl („3 Personen“ zählt nicht in „13 Personen“).
+ */
+const steht = (texte, s) => texte.some((t) => t === s || new RegExp(`(^|[^0-9])${woertlich(s)}`).test(t));
+/** Eine Überschrift der Einrichtung (MFormkopf setzt sie in Großbuchstaben): ohne Unterschied der Schreibung. */
+const stehtTitel = (texte, s) => steht(texte.map((t) => t.toUpperCase()), s.toUpperCase());
+
+await fs.rm(ausgabe, { recursive: true, force: true });
+await fs.mkdir(ausgabe, { recursive: true });
 
 const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
 const sekunden = (ms) => Math.round(ms / 100) / 10;
 const fehler = [];
 const fremd = [];
 const bilder = [];
-const bericht = { breite_ablauf: ABLAUF_BREITE, drossel: DROSSEL, ruhig: RUHIG, ziel_erzaehlerakte_s: ZIEL_ERZAEHLERAKTE_S, detektei: [], druckmappe: {}, dateien: [], akte: {}, konsolenfehler: 0, fremd: 0 };
+const bericht = { breite_ablauf: ABLAUF_BREITE, drossel: DROSSEL, ruhig: RUHIG, ziel_einzelheft_s: ZIEL_EINZELHEFT_S, detektei: [], druckmappe: {}, dateien: [], akte: {}, konsolenfehler: 0, fremd: 0 };
 const server = await starteServer(build);
 const base = `http://127.0.0.1:${server.address().port}`;
 let browser;
@@ -295,6 +355,21 @@ async function zaehleHoch(page, breite, ziel) {
   }
 }
 
+/**
+ * Führt [pruefe] auf einem hohen Bild aus ([hoehe]); Knöpfe außerhalb des Handybilds fehlen sonst oft in der
+ * Semantik. Danach gilt wieder das Handybild.
+ */
+async function aufHohemBild(page, breite, pruefe, hoehe = HOCH_MAPPE) {
+  await page.setViewportSize({ width: breite, height: hoehe });
+  try {
+    await sleep(800);
+    return await pruefe();
+  } finally {
+    await page.setViewportSize({ width: breite, height: HOEHE });
+    await sleep(500);
+  }
+}
+
 const rund = (b) => ({ x: Math.round(b.x), y: Math.round(b.y), b: Math.round(b.width), h: Math.round(b.height) });
 
 async function foto(page, name, label, clip) {
@@ -304,13 +379,15 @@ async function foto(page, name, label, clip) {
 }
 
 /**
- * Tippt auf den Dateiknopf [name], misst die Zeit bis „Herunterladen: [name]“ und lädt die Datei.
- * Rückgabe: Sekunden, Dateiname, Bytes. Die Datei liegt danach unter fotos/druck/.
+ * Tippt auf den Dateiknopf [name], misst die Zeit bis „Herunterladen: [fertig]“ und lädt die Datei. [fertig]
+ * ist der Name auf den Knöpfen der fertigen Datei; ohne Angabe [name] (bei „Senden an …“ nennen die Knöpfe
+ * danach das Heft: „Herunterladen: Rollenheft …“). Rückgabe: Sekunden, Dateiname, Bytes. Die Datei liegt
+ * danach unter fotos/druck/.
  */
-async function datei(page, name, kuerzel, richtung) {
+async function datei(page, name, kuerzel, richtung, fertig = name) {
   const breite = page.viewportSize().width;
   const ziel = knopf(page, name);
-  const laden = knopf(page, T.laden(name));
+  const laden = knopf(page, T.laden(fertig));
   await insBild(page, ziel, name, { richtung });
   stufe = `${breite} px · „${name}“ erstellen`;
   const box = await ziel.boundingBox();
@@ -333,9 +410,9 @@ async function datei(page, name, kuerzel, richtung) {
   assert(ende !== null, `„${name}“ ist nach ${FRIST_DATEI_S} s nicht fertig`);
   const s = sekunden(ende - start);
   console.log(`DRUCK · ${breite} px · „${name}“ bereit nach ${s} s (Ladehinweis ${hinweis ? 'gesehen' : 'nicht gesehen'})`);
-  await insBild(page, laden.first(), T.laden(name), { richtung: 1 });
-  await foto(page, `${kuerzel}-bereit-${breite}`, `${breite} px · ${T.laden(name)}`);
-  stufe = `${breite} px · „${T.laden(name)}“`;
+  await insBild(page, laden.first(), T.laden(fertig), { richtung: 1 });
+  await foto(page, `${kuerzel}-bereit-${breite}`, `${breite} px · ${T.laden(fertig)}`);
+  stufe = `${breite} px · „${T.laden(fertig)}“`;
   const boxLaden = await laden.first().boundingBox();
   const [download] = await Promise.all([
     page.waitForEvent('download', { timeout: 30000 }),
@@ -350,7 +427,7 @@ async function datei(page, name, kuerzel, richtung) {
   assert.match(dateiname, /\.pdf$/, `${dateiname} ist keine PDF-Datei`);
   await sleep(600);
   const fehlerText = await page.getByText(T.fehler, { exact: true }).count();
-  assert.equal(fehlerText, 0, `Nach „${T.laden(name)}“ steht „${T.fehler}“`);
+  assert.equal(fehlerText, 0, `Nach „${T.laden(fertig)}“ steht „${T.fehler}“`);
   const eintrag = { knopf: name, sekunden: s, datei: dateiname, bytes: bytes.length, ladehinweis: hinweis };
   console.log(`DRUCK · ${breite} px · ${dateiname}: ${bytes.length} Bytes, %PDF-`);
   bericht.dateien.push(eintrag);
@@ -390,7 +467,8 @@ try {
     await page.close();
   }
 
-  // (2) Neu geöffnet, ohne Rollen: der obere Knopf, die Druckmappe mit den Standardwerten, dann vorbereiten.
+  // (2) Neu geöffnet, ohne Rollen: der obere Knopf, die Druckmappe mit den Standardwerten, Personen und
+  // Detektiv wählen, dann vorbereiten.
   const breite = ABLAUF_BREITE;
   stufe = `${breite} px · Detektei oben, Tipp`;
   const page = await oeffne(breite);
@@ -408,25 +486,75 @@ try {
   await vorbereiten.waitFor({ state: 'visible', timeout: 30000 });
   await warteBis(() => vorbereiten.isEnabled(), `„${T.vorbereiten}“ offen`);
   await sleep(800);
+  // Ohne Gästeliste gilt die Vorgabe aus fall.json; einen Fall wählt niemand (fester Fall, B2).
+  await warteBis(async () => steht(await sichtbareTexte(page), T.personen(P.vorgabe)), `„${T.personen(P.vorgabe)}“ als Vorgabe`);
+  {
+    const texte = await sichtbareTexte(page);
+    for (const t of [T.personenTitel, T.detektivTitel]) assert(stehtTitel(texte, t), `Druckmappe: Überschrift „${t}“ fehlt`);
+    const rollen = T.rollen(P.vorgabe - P.ohneRolle.length);
+    assert(steht(texte, rollen), `Druckmappe: „${rollen}“ fehlt`);
+  }
   await foto(page, `druckmappe-${breite}`, `${breite} px · Druckmappe (Standardwerte)`);
+  // Personen wählen: über die Zielzahl hinaus und einen Schritt zurück, so arbeiten beide Knöpfe.
+  stufe = `${breite} px · Druckmappe · Personen`;
+  const schritte = [];
+  for (let n = P.vorgabe; n !== ZIEL_PERSONEN + Math.sign(ZIEL_PERSONEN - P.vorgabe); n += Math.sign(ZIEL_PERSONEN - P.vorgabe)) schritte.push(n);
+  const hin = ZIEL_PERSONEN > P.vorgabe ? T.mehr : T.weniger;
+  const rueck = ZIEL_PERSONEN > P.vorgabe ? T.weniger : T.mehr;
+  const ueber = ZIEL_PERSONEN + Math.sign(ZIEL_PERSONEN - P.vorgabe);
+  assert(ueber >= P.min && ueber <= P.max, `--personen ${ZIEL_PERSONEN}: Ein Schritt darüber hinaus läge außerhalb von ${P.min} bis ${P.max}`);
+  for (const [n, name] of [...schritte.slice(1).map((n) => [n, hin]), [ueber, hin], [ZIEL_PERSONEN, rueck]]) {
+    await tippe(page, knopf(page, name), name);
+    await warteBis(async () => steht(await sichtbareTexte(page), T.personen(n)), `„${T.personen(n)}“ nach „${name}“`);
+  }
+  {
+    const texte = await sichtbareTexte(page);
+    assert(steht(texte, T.rollen(ZIEL_ROLLEN)), `Druckmappe: „${T.rollen(ZIEL_ROLLEN)}“ fehlt bei ${ZIEL_PERSONEN} Personen`);
+  }
+  await tippe(page, knopf(page, T.detektivM), T.detektivM);
+  await foto(page, `druckmappe-gewaehlt-${breite}`, `${breite} px · ${T.personen(ZIEL_PERSONEN)}, ${T.detektivM}`);
+  console.log(`DRUCK OK · ${breite} px · Druckmappe: Vorgabe ${P.vorgabe}, gewählt ${ZIEL_PERSONEN} Personen (${ZIEL_ROLLEN} Rollen), ${T.detektivM}`);
+
   await tippe(page, vorbereiten, T.vorbereiten);
   stufe = `${breite} px · Druckmappe vorbereitet`;
   await knopf(page, T.alles).waitFor({ state: 'visible', timeout: 30000 });
   await sleep(800);
-  const texte = await sichtbareTexte(page);
-  const code = texte.join('\n').match(CODE)?.[1] ?? null;
-  const personen = await page.getByRole('button', { name: SENDEN }).count();
-  assert(personen >= 1, 'Keine Rollenhefte je Person');
-  assert(texte.some((t) => t.includes(T.nurErzaehler)), `Abschnitt „${T.nurErzaehler}“ fehlt`);
-  bericht.druckmappe = { fall_code: code, rollenhefte: personen };
+  // Gezählt wird auf dem hohen Bild: Im Handybild fehlen Knöpfe außerhalb des Bildes in der Semantik.
+  const senden = await aufHohemBild(page, breite, async () => {
+    await warteBis(async () => await page.getByRole('button', { name: SENDEN }).count() === ZIEL_ROLLEN, `${ZIEL_ROLLEN} × „${T.sendenAn('…')}“`);
+    const texte = await sichtbareTexte(page);
+    assert(steht(texte, T.spiel), `Tafel „${T.spiel}“ fehlt`);
+    assert(steht(texte, T.hinweis(ZIEL_PERSONEN, ZIEL_ROLLEN)), `Hinweis „${T.hinweis(ZIEL_PERSONEN, ZIEL_ROLLEN)}“ fehlt`);
+    assert(steht(texte, T.jePerson), `„${T.jePerson}“ fehlt`);
+    // „Alles in einer Datei“ und die acht Teile, je genau ein Knopf mit dem Titel aus ui/*.json.
+    assert.equal(await knopf(page, T.alles).count(), 1, `„${T.alles}“ ist nicht genau ein Knopf`);
+    for (const teil of T.teile) assert.equal(await knopf(page, teil.titel).count(), 1, `Teil ${teil.nr} „${teil.titel}“ ist nicht genau ein Knopf`);
+    // Je besetzter Rolle „Senden an …“ mit dem Namen der Rolle (ohne Gästeliste).
+    for (const p of besetzt) assert.equal(await knopf(page, T.sendenAn(p.name)).count(), 1, `„${T.sendenAn(p.name)}“ fehlt`);
+    // E16: keine Erzählerakte, kein Block „Nur Erzähler“.
+    assert.equal(await knopf(page, T.akte).count(), 0, `Die Druckmappe bietet „${T.akte}“ an`);
+    assert(!texte.some((t) => t.includes(T.nurErzaehler)), `Abschnitt „${T.nurErzaehler}“ steht noch in der Druckmappe`);
+    await foto(page, `druckmappe-tafel-${breite}`, `${breite} px · Tafel „${T.spiel}“ (hohes Bild)`);
+    return await page.getByRole('button', { name: SENDEN }).count();
+  });
+  bericht.druckmappe = { personen: ZIEL_PERSONEN, rollen: ZIEL_ROLLEN, detektiv: 'm', teile: T.teile.map((t) => t.titel), senden };
   await foto(page, `druckmappe-bereit-${breite}`, `${breite} px · ${T.vorbereiten}`);
-  console.log(`DRUCK OK · ${breite} px · Druckmappe vorbereitet: ${personen} Rollenhefte, Fall-Code ${code ?? '–'}`);
+  console.log(`DRUCK OK · ${breite} px · Druckmappe vorbereitet: ${T.teile.length} Teile, ${senden} × „${T.sendenAn('…')}“, keine Erzählerakte`);
 
-  // (3) Erzählerakte, (4) zum Vergleich alles in einer Datei (steht oben: zurückrollen).
-  const akteDatei = await datei(page, T.akte, 'erzaehlerakte', 1);
-  assert.equal(akteDatei.datei, 'erzaehlerakte.pdf', 'Die Erzählerakte heißt nicht erzaehlerakte.pdf');
+  // (3) Alles in einer Datei.
   const allesDatei = await datei(page, T.alles, 'alles', -1);
-  assert.notEqual(allesDatei.datei, akteDatei.datei, 'Alles in einer Datei und die Erzählerakte tragen denselben Namen');
+  assert.equal(allesDatei.datei, T.allesDatei, `„${T.alles}“ heißt nicht ${T.allesDatei}`);
+  // (4) Ein Einzelheft: das Rollenheft auf Platz 1, dazu das Zusatzheft der allein spielenden Zusatzrolle.
+  const heftName = (p) => kammer(p.art === 'zusatz' ? '12' : '10', 'dateiEinzeln', { figur: dateiWort(p.name) });
+  const heftKnopf = (p) => (p.art === 'zusatz' ? T.zusatzheftVon(p.name) : T.rollenheftVon(p.name));
+  const einzelDatei = await datei(page, T.sendenAn(erster.name), `einzeln-${erster.id}`, 1, heftKnopf(erster));
+  assert.equal(einzelDatei.datei, heftName(erster), `Das Heft von ${erster.name} heißt nicht ${heftName(erster)}`);
+  let zusatzDatei = null;
+  if (zusatz) {
+    zusatzDatei = await datei(page, T.sendenAn(zusatz.name), `einzeln-${zusatz.id}`, 1, heftKnopf(zusatz));
+    assert.equal(zusatzDatei.datei, heftName(zusatz), `Das Heft von ${zusatz.name} heißt nicht ${heftName(zusatz)}`);
+  }
+  assert(allesDatei.bytes > einzelDatei.bytes, `${T.allesDatei} (${allesDatei.bytes} Bytes) ist nicht größer als ${einzelDatei.datei} (${einzelDatei.bytes} Bytes)`);
   await page.close();
 
   // (5) Akte-Seite des Schlosskellers bei 320 px: die Fußleiste.
@@ -467,9 +595,9 @@ try {
   assert.equal(fehler.length, 0, `Konsolenfehler: ${fehler.join(' | ')}`);
   assert.equal(fremd.length, 0, `Fremde Anfragen: ${fremd.join(' | ')}`);
   stufe = 'Zeitziel';
-  bericht.ziel_erreicht = akteDatei.sekunden < ZIEL_ERZAEHLERAKTE_S;
+  bericht.ziel_erreicht = einzelDatei.sekunden < ZIEL_EINZELHEFT_S;
   if (!bericht.ziel_erreicht) {
-    const meldung = `Die Erzählerakte braucht ${akteDatei.sekunden} s (Ziel unter ${ZIEL_ERZAEHLERAKTE_S} s, Drosselung ${DROSSEL}×${RUHIG ? ', ruhig' : ''})`;
+    const meldung = `Das Heft ${einzelDatei.datei} braucht ${einzelDatei.sekunden} s (Ziel unter ${ZIEL_EINZELHEFT_S} s, Drosselung ${DROSSEL}×${RUHIG ? ', ruhig' : ''})`;
     if (ZEITZIEL_STRENG) throw new Error(meldung);
     console.warn(`DRUCK · ZEITZIEL VERFEHLT · ${meldung}`);
   }
@@ -480,11 +608,11 @@ try {
     const bild = (await fs.readFile(path.join(ausgabe, d))).toString('base64');
     return `<figure><figcaption>${label}</figcaption><img src="data:image/png;base64,${bild}"></figure>`;
   }));
-  await bogen.setContent(`<html><body style="margin:0;background:#18151f;color:#f1ede4;font:15px sans-serif"><h2 style="margin:24px">Mordakte · PDFs zum Ausdrucken</h2><main style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:20px;padding:0 20px 20px">${figuren.join('')}</main><style>figure{margin:0;width:300px}figcaption{margin-bottom:8px;min-height:2.6em}img{display:block;max-width:300px}</style></body></html>`);
+  await bogen.setContent(`<html><body style="margin:0;background:#18151f;color:#f1ede4;font:15px sans-serif"><h2 style="margin:24px">Mordakte · PDFs zum Ausdrucken (Kammerspiel)</h2><main style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:20px;padding:0 20px 20px">${figuren.join('')}</main><style>figure{margin:0;width:300px}figcaption{margin-bottom:8px;min-height:2.6em}img{display:block;max-width:300px}</style></body></html>`);
   await bogen.locator('img').evaluateAll((imgs) => Promise.all(imgs.map((img) => img.decode())));
   await bogen.screenshot({ path: path.join(ausgabe, 'kontaktbogen.png'), fullPage: true });
   await bogen.close();
-  console.log(`DRUCK GRÜN · Detektei 2/2 · Drosselung ${DROSSEL}×${RUHIG ? ' · ruhig' : ''} · Erzählerakte ${akteDatei.sekunden} s, ${akteDatei.bytes} Bytes · Alles ${allesDatei.sekunden} s, ${allesDatei.bytes} Bytes · 0 Konsolenfehler · 0 fremde Netzaufrufe`);
+  console.log(`DRUCK GRÜN · Detektei 2/2 · Drosselung ${DROSSEL}×${RUHIG ? ' · ruhig' : ''} · ${ZIEL_PERSONEN} Personen · Alles ${allesDatei.sekunden} s, ${allesDatei.bytes} Bytes · ${einzelDatei.datei} ${einzelDatei.sekunden} s, ${einzelDatei.bytes} Bytes${zusatzDatei ? ` · ${zusatzDatei.datei} ${zusatzDatei.sekunden} s` : ''} · keine Erzählerakte · 0 Konsolenfehler · 0 fremde Netzaufrufe`);
 } catch (error) {
   await aktiv?.screenshot({ path: path.join(ausgabe, 'fehler.png') }).catch(() => {});
   bericht.fehler = `${stufe} · ${String(error.message).slice(0, 1600)}`;

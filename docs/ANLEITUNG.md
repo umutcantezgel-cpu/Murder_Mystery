@@ -1,7 +1,7 @@
 # Mordakte · Anleitung
 
 Diese Anleitung gilt für das ganze Spiel. Sie ersetzt die früheren Anleitungen für Schlosskeller,
-Gewölbe und die klassischen Fälle. Die Druckfassung des Schlosskellers hat eine eigene Seite:
+Gewölbe und die klassischen Fälle. Die Druckfassung des Schlosskellers, das Kammerspiel, hat eine eigene Seite:
 [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md). Entwicklerthemen stehen in der
 [README](../README.md).
 
@@ -43,7 +43,7 @@ neueste freigegebene Release:
 | Android | `mordakte.apk` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte.apk) |
 | iPhone und iPad | `mordakte-ios-unsigned.ipa` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-ios-unsigned.ipa) |
 | Webserver | `mordakte-web.zip` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/mordakte-web.zip) |
-| Erzählerakte (Druckspiel) | `erzaehlerakte.pdf` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
+| Erzählerakte (ohne „Dein Moment“) | `erzaehlerakte.pdf` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte.pdf) |
 | Erzählerakte („Dein Moment“) | `erzaehlerakte-dein-moment.pdf` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/erzaehlerakte-dein-moment.pdf) |
 | Prüfsummen | `SHA256SUMS.txt` | [Download](https://github.com/umutcantezgel-cpu/Murder_Mystery/releases/latest/download/SHA256SUMS.txt) |
 
@@ -71,16 +71,18 @@ deinen Gastgeber nach der Adresse.
 
 **Erzählerakte (PDF, Schlosskeller)**
 
-Die beiden PDFs sind die Erzählerakte zum Ausdrucken (Abschnitt 5.4). Sie sind **nur für die Person, die erzählt**,
-und nennen nie den Täter. Sie gelten für jede Personenzahl: Alle Figuren stehen mit ihrer Nummer in der Reihenfolge
-der Besetzung, ohne Marken für einen bestimmten Abend. Bei acht Personen (ohne den Detektiv) spielen die Figuren 1
-bis 8; das steht auch auf dem Deckblatt. `erzaehlerakte.pdf` nennt die Ziele wie im Druckspiel,
-`erzaehlerakte-dein-moment.pdf` je Figur die zwei Ziele aus „Dein Moment“. Fehlt eine der Dateien im neuesten
-Release, liegt sie im vorigen auf der Seite der Releases (oben).
+Die beiden PDFs sind die Erzählerakte zum Ausdrucken (Abschnitt 5.4), für einen **Abend am Bildschirm**. Sie sind
+**nur für die Person, die erzählt**, und nennen nie den Täter. Sie gelten für jede Personenzahl: Alle Figuren stehen
+mit ihrer Nummer in der Reihenfolge der Besetzung, ohne Marken für einen bestimmten Abend. Bei acht Personen (ohne
+den Detektiv) spielen die Figuren 1 bis 8; das steht auch auf dem Deckblatt. `erzaehlerakte.pdf` gilt für einen
+Abend ohne „Dein Moment“ und nennt je Figur das Ziel aus ihrer Rolle, `erzaehlerakte-dein-moment.pdf` je Figur die
+zwei Ziele aus „Dein Moment“. Zum Druckspiel gehört keine der beiden: Im Kammerspiel kennt der Erzähler die Lösung
+nicht und rätselt mit. Fehlt eine der Dateien im neuesten Release, liegt sie im vorigen auf der Seite der Releases
+(oben).
 
-Die PDFs des Druckspiels (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → **PDFs zum
-Ausdrucken**, ganz oben (Abschnitt 3; dort auch, wie du sie in der Android-App, am iPhone und im Browser speicherst
-oder teilst). Steckbriefe und Charakterübersicht liegen auf der Seite der Akte unter **Steckbriefe & Übersicht**.
+Das Druckspiel, das **Kammerspiel** für 6 bis 20 Personen, erstellt die App: Detektei → **PDFs zum Ausdrucken**,
+ganz oben (Abschnitt 3; dort auch, wie du die Dateien in der Android-App, am iPhone und im Browser speicherst oder
+teilst). Steckbriefe und Charakterübersicht liegen auf der Seite der Akte unter **Steckbriefe & Übersicht**.
 
 **Prüfen (optional):** Lade `SHA256SUMS.txt` in denselben Ordner und führe `sha256sum -c SHA256SUMS.txt` aus.
 
@@ -94,11 +96,14 @@ Beim Start öffnet sich die **Detektei**. Beim allerersten Start fragt sie nach 
 - **Beitreten**: Du trittst mit einem Raumcode dem Abend eines anderen Geräts bei (Abschnitt 5.3).
 - **Kampagne**: Die fünf Akten in Reihenfolge. Tippe eine Akte an, dann auf **Diese Akte spielen**.
 - **PDFs zum Ausdrucken**: Der Knopf steht ganz oben, gleich unter dem Schriftzug **MORDAKTE** und vor deinem
-  Dienstausweis, also ohne Rollen im ersten Bildschirm. Er öffnet die **Druckmappe** des Schlosskellers. Derselbe
-  Knopf steht auch unter der Mappe jeder Akte mit Druckfassung (bisher nur der Schlosskeller) und unten auf der Seite
-  der Akte. In der Druckmappe stellst du Personen, Detektiv oder Detektivin und den Fall ein und tippst unten auf
-  **Druckmappe vorbereiten**. Danach gibt es **Alles in einer Datei**, einen Knopf je Datei, **Rollenhefte einzeln
-  senden** und unter **Nur Erzähler** die **Erzählerakte** für die Person, die erzählt. Dabei entsteht kein Abend.
+  Dienstausweis, also ohne Rollen im ersten Bildschirm. Er öffnet die **Druckmappe** des Schlosskellers mit dem
+  Druckspiel, dem **Kammerspiel** für 6 bis 20 Personen. Derselbe Knopf steht auch unter der Mappe jeder Akte mit
+  Druckfassung (bisher nur der Schlosskeller) und unten auf der Seite der Akte. In der Druckmappe stellst du unter
+  **Personen am Tisch** die Zahl ein (Rollen, Detektiv und Erzähler zusammen) und unter **Wer ermittelt?**
+  **Detektiv** oder **Detektivin**. Einen Fall wählst du nicht, das Kammerspiel hat einen festen Fall. Dann tippst du
+  unten auf **Druckmappe vorbereiten**. Die Tafel **Kammerspiel** bietet **Alles in einer Datei**, einen Knopf je
+  Teil und unter **Rollenhefte einzeln senden** je Rolle **Senden an …**. Eine Erzählerakte gibt es dort nicht
+  (Abschnitt 5.4). Dabei entsteht kein Abend.
   Jede Datei entsteht erst beim Tipp, das dauert einen Moment. Danach hängt es vom Gerät ab:
   - *Android-App:* Du tippst ein zweites Mal. **Herunterladen** öffnet den Speichern-Dialog des Systems: Ort wählen
     (meist „Downloads“), dann speichern; die App meldet „Gespeichert: …“. **Teilen** öffnet wie bisher das Teilen des
@@ -136,20 +141,19 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
      keinen Erzähler-Platz; dort ermittelst du am Gastgeber-Gerät.
    - *Der Fall*: **Zufall** oder **Code eingeben**. Mit demselben fünfstelligen Fall-Code spielt ihr denselben
      Fall noch einmal.
-   - *Wie spielt ihr?* (Schlosskeller, nur bei „Ein Gerät reihum“): **Am Bildschirm** oder **Zum Drucken**. Beim
-     Druckspiel kommt die Druckfassung als PDF, der Bildschirm führt trotzdem durch den Abend
-     ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Darunter steht: „Nur die PDFs, ohne Abend? Die gibt es
-     bei der Akte unter ‚PDFs zum Ausdrucken‘.“ Das ist nur ein Hinweis; deine Einstellungen bleiben. Denselben Knopf
-     gibt es ganz oben in der Detektei (Abschnitt 3).
+   - *Wie spielt ihr?* (Schlosskeller, nur bei „Ein Gerät reihum“): **Am Bildschirm** oder **Zum Drucken**.
+     **Zum Drucken** führt zur Druckmappe (Abschnitt 3). Das Druckspiel, das Kammerspiel für 6 bis 20 Personen, läuft
+     ganz auf Papier; die App erstellt nur die PDFs und begleitet den Abend nicht
+     ([Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)). Wählst du **Zum Drucken**, verschwinden alle anderen
+     Einstellungen: Personen und Detektiv stellst du in der Druckmappe ein. Dieselbe Druckmappe öffnet **PDFs zum
+     Ausdrucken** ganz oben in der Detektei.
    - *Länge des Abends* (Schlosskeller): **Kurzer Abend** oder **Langer Abend**. Der lange Abend ist ein
      Streifzug durch Schloss, Hof und Garten, mit Vorspiel am Anfang und Morgen am Ende.
    - *Einstimmung* (Schlosskeller): der Schalter **Vorgeschichte und Vorstellung**. Er ist anfangs an. Dann
      liest der Erzähler vor dem Auftakt eine kurze Vorgeschichte und stellt jede Figur vor (Abschnitt 6). Darunter
-     steht, wie lange das dauert: etwa 7 Minuten bis 8 Rollen, 9 Minuten bis 14 Rollen, 11 Minuten bei mehr. Beim
-     Druckspiel (**Zum Drucken**) ist der Schalter anfangs aus.
+     steht, wie lange das dauert: etwa 7 Minuten bis 8 Rollen, 9 Minuten bis 14 Rollen, 11 Minuten bei mehr.
    - *Dein Moment* (Schlosskeller): der Schalter **Heimliche Züge in jeder Runde**. Er ist anfangs an. Dann zieht
      jede Rolle in jeder Runde geheim einen Zug (Abschnitt 6). Ist er aus, spielt ihr die Gruppenwahl wie bisher.
-     Beim Druckspiel gibt es den Schalter nicht: Papier spielt immer mit Gruppenwahl.
    - *Rundendauer*: 20, 30, 45 oder 60 Minuten. Im Schlosskeller sind es beim kurzen Abend 10, 15 oder 20 Minuten,
      beim langen 20, 25, 30 oder 40. Das ist die Gesprächsuhr am Tisch. Bei „Solo mit Bots“ entfällt sie.
    - *Zeitschätzung* (Schlosskeller, nicht solo): Unter der Rundendauer steht **Ganzer Abend: ca. … Min.**,
@@ -160,6 +164,8 @@ Tippe auf **Neuer Abend**. Der Assistent hat vier Schritte.
 4. **Start.** Eine Zusammenfassung zeigt Akte, Spielweise, Personen und Rundendauer, im Schlosskeller auch Länge,
    Einstimmung und „Dein Moment“. Darunter siehst du dein **Deck** für diesen Abend. Mit **Deck ändern** passt du
    es an. Dann tippst du auf **Abend beginnen** (bei „Jeder am eigenen Gerät“ auf **Raum öffnen**).
+   Bei **Zum Drucken** zeigt die Zusammenfassung nur Akte und Spielweise, und der Knopf **Zur Druckmappe** öffnet
+   die Druckmappe der Akte; es beginnt kein Abend.
 
 Bei einem Abend am eigenen Gerät legst du die Zahl der Rollen erst in der Lobby fest.
 
@@ -361,9 +367,9 @@ in Abschnitt 3). Schließt sich die Akte
 (Finale, Sitz gewechselt), entsteht keine Datei mehr. Die Datei bleibt auf dem Gerät, auf dem du tippst; am besten
 tippt der Erzähler am eigenen Handy.
 
-Gedruckt gibt es sie außerdem in der Druckmappe (Detektei → **PDFs zum Ausdrucken** ganz oben, Abschnitt 3; Ziele
-wie im Druckspiel) und am Release für jede Personenzahl (Abschnitt 2). Mehr dazu in
-[Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md).
+Gedruckt gibt es sie außerdem am Release für jede Personenzahl (Abschnitt 2). Die Druckmappe bietet sie nicht an:
+Sie gehört zum Abend am Bildschirm. Im Druckspiel, dem Kammerspiel, kennt der Erzähler die Lösung nicht und soll
+auch die Geheimnisse nicht vorab kennen. Mehr dazu in [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md).
 
 ---
 
@@ -657,9 +663,10 @@ Tippe eine Karte an, um sie ins Deck zu legen. Eine Karte gleicher Art ersetzt d
   **Inspektor** oder die **Inspektorin**. So heißt auch der Platz in Lobby, Tisch und „Wer macht was?“.
 - Bei der Rollenzahl zählen die Rollen ohne den Detektiv. Alle weiteren Figuren der Akte spielt das Spiel als Gäste ohne Spieler.
 - Jede Akte hat **Erkundungsorte** (Schlosskeller 8, Gewölbe 7, die drei anderen je 6).
-- Den Schlosskeller gibt es auch als **Druckspiel** auf Papier: **PDFs zum Ausdrucken** ganz oben in der Detektei,
-  unter seiner Mappe oder auf der Seite der Akte öffnet die **Druckmappe** (Abschnitt 3, dort auch Herunterladen und
-  Teilen je Gerät; siehe [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
+- Den Schlosskeller gibt es auch als **Druckspiel** auf Papier, das **Kammerspiel** für 6 bis 20 Personen mit festem
+  Fall: **PDFs zum Ausdrucken** ganz oben in der Detektei, unter seiner Mappe oder auf der Seite der Akte öffnet die
+  **Druckmappe** (Abschnitt 3, dort auch Herunterladen und Teilen je Gerät; siehe
+  [Druckspiel Schlosskeller](partykrimi/ANLEITUNG.md)).
 
 ---
 

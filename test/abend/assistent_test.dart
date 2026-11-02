@@ -1,14 +1,20 @@
 // Assistent für einen neuen Abend (/abend/neu): „Weiter“ erst nach einer Spielweise,
 // Solo- und Reihum-Abend bis in die Rollenphase, gesperrte Spielweise, /abend ohne Abend,
 // Zurück-Taste im Assistenten, „Abend abbrechen“ mit Rückfrage auf dem Solo-Abend.
+// „Zum Drucken“ (E17) richtet keinen Abend ein: Der Startknopf „Zur Druckmappe“ öffnet
+// die Druckmappe der Akte.
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordakte/abend/abend_halter.dart';
 import 'package:mordakte/abend/abend_seite.dart';
+import 'package:mordakte/abend/abend_speicher.dart';
+import 'package:mordakte/abend/einrichtung/abend_neu_seite.dart';
 import 'package:mordakte/abend/einrichtung/abschnitte.dart';
 import 'package:mordakte/abend/einrichtung/klasse_zeile.dart';
 import 'package:mordakte/app/app.dart';
@@ -16,9 +22,13 @@ import 'package:mordakte/app/app_state.dart';
 import 'package:mordakte/app/router.dart';
 import 'package:mordakte/detektei/akten.dart';
 import 'package:mordakte/detektei/detektei_seite.dart';
+import 'package:mordakte/detektei/druckmappe_seite.dart';
 import 'package:mordakte/karten/katalog_laden.dart';
+import 'package:mordakte/karten/widgets/deck_zeile.dart';
+import 'package:mordakte/l10n/gen/app_localizations_de.dart';
 import 'package:mordakte/meta/meta_store.dart';
 import 'package:mordakte/party/daten.dart';
+import 'package:mordakte/party/kammer_laden.dart';
 import 'package:mordakte/stil/stil.dart';
 import 'package:mordakte_core/mordakte_core.dart' show Abendfassung, PartyPhase, abendEinstimmungMinuten, abendMinutenCa;
 import 'package:mordakte/party/sitzung.dart';
@@ -52,6 +62,8 @@ Future<AppState> oeffnen(WidgetTester tester, {String ort = Routes.abendNeu, Met
   await warten(tester);
   return state;
 }
+
+final _de = LDe();
 
 /// Ladeanzeige des Assistenten, solange die Akte (Daten, Erkundungsorte) gelesen wird.
 const _laedt = 'Die Akte wird vorbereitet …';
@@ -203,6 +215,241 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     state.dispose();
+  });
+
+  group('Zum Drucken (E17)', () {
+    /// Die Abschnitte eines Abends in der App (Schlosskeller reihum); zum Drucken entfallen sie alle.
+    const abendAbschnitte = [
+      PersonenAbschnitt,
+      DetektivNameAbschnitt,
+      RollenAmTischAbschnitt,
+      DetektivAbschnitt,
+      FallAbschnitt,
+      FassungAbschnitt,
+      EinstimmungAbschnitt,
+      MomentAbschnitt,
+      DauerAbschnitt,
+      StimmeAbschnitt,
+    ];
+
+    /// Akte (Schlosskeller, vorgewählt), „Ein Gerät reihum“, Einstellungen; gibt deren Werte zurück.
+    Future<EinrichtungsWerte> bisZuDenEinstellungen(WidgetTester tester) async {
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      return tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
+    }
+
+    /// Tippt eine Spielart an („Am Bildschirm“ oder „Zum Drucken“), wo immer sie im Formular steht.
+    Future<void> spielart(WidgetTester tester, String text) async {
+      await tester.ensureVisible(find.text(text));
+      await tippen(tester, text);
+    }
+
+    testWidgets('Der Startknopf heißt „Zur Druckmappe“ und öffnet die Druckmappe der Akte; es beginnt kein Abend', (tester) async {
+      final state = await oeffnen(tester);
+      // Ein abgelegter Abend: Zum Drucken fragt nicht und ersetzt ihn nicht.
+      final abgelegt = jsonEncode({'format': PartySitzung.abendstandFormate.first, 'fall': 'schlosskeller'});
+      await tester.runAsync(() async {
+        // Die Druckmappe liest das Kammerspiel aus dem Bündel: vorab in echter Zeit laden.
+        await kammerGrundlageLaden();
+        await (await SharedPreferences.getInstance()).setString(AbendSpeicher.schluessel, abgelegt);
+      });
+      final werte = await bisZuDenEinstellungen(tester);
+      final s = werte.sitzung;
+      final druck = s.ui('ui.einrichtung.spiel_druck'), bildschirm = s.ui('ui.einrichtung.spiel_bildschirm');
+      expect(tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).zurDruckmappe, isTrue);
+
+      // Am Bildschirm (Vorgabe): alle Abschnitte wie bisher, ohne Hinweis zum Drucken.
+      for (final typ in abendAbschnitte) {
+        expect(find.byType(typ), findsOneWidget, reason: '$typ am Bildschirm');
+      }
+      expect(find.byType(SpielartAbschnitt), findsOneWidget);
+      expect(find.text(s.ui('ui.einrichtung.hinweis')), findsOneWidget, reason: 'Untertitel der Einrichtung');
+      expect(find.byKey(const ValueKey('druck-mappe-hinweis')), findsNothing);
+      // Ein falscher Fall-Code sperrt „Weiter“ am Bildschirm.
+      await tester.ensureVisible(find.text('Code eingeben'));
+      await tippen(tester, 'Code eingeben');
+      await tester.enterText(find.byKey(const ValueKey('code')), 'AB');
+      await warten(tester);
+      expect(werte.codeOk, isFalse);
+      expect(knopf(tester, 'Weiter').onPressed, isNull, reason: 'Falscher Fall-Code');
+
+      // Zum Drucken: nur die Spielart mit dem Hinweis auf die Druckmappe.
+      await spielart(tester, druck);
+      expect(werte.druck, isTrue);
+      for (final typ in abendAbschnitte) {
+        expect(find.byType(typ), findsNothing, reason: '$typ zum Drucken');
+      }
+      expect(find.byType(SpielartAbschnitt), findsOneWidget);
+      expect(find.byType(TextField), findsNothing, reason: 'Keine Namen und kein Fall-Code');
+      expect(find.byKey(const ValueKey('druck-mappe-hinweis')), findsOneWidget);
+      expect(find.text(_de.abend_druck_mappe_hinweis), findsOneWidget);
+      expect(find.text(_de.abend_einstellungen_druck_hinweis), findsOneWidget, reason: 'Untertitel zum Drucken');
+      expect(find.text(s.ui('ui.einrichtung.hinweis')), findsNothing);
+      // Die alten Hinweise passen nicht mehr: Der Bildschirm führt nicht durch den Abend.
+      expect(find.text(s.ui('ui.einrichtung.druck_hinweis')), findsNothing);
+      expect(find.byKey(const ValueKey('nur-pdfs-hinweis')), findsNothing);
+      expect(find.text(_de.abend_druck_nur_pdfs), findsNothing);
+      expect(find.text(druck).hitTestable(), findsOneWidget, reason: 'Die Wahl bleibt im Bild');
+      expect(knopf(tester, 'Weiter').onPressed, isNotNull, reason: 'Zum Drucken zählt kein Fall-Code');
+
+      // Zurück zu „Am Bildschirm“: alles wieder da, samt Eingaben; der falsche Code sperrt wieder.
+      await spielart(tester, bildschirm);
+      expect(werte.druck, isFalse);
+      for (final typ in abendAbschnitte) {
+        expect(find.byType(typ), findsOneWidget, reason: '$typ wieder am Bildschirm');
+      }
+      expect(find.text(bildschirm).hitTestable(), findsOneWidget, reason: 'Die Seite rollt zur Wahl zurück');
+      expect(tester.widget<TextField>(find.byKey(const ValueKey('code'))).controller!.text, 'AB');
+      expect(knopf(tester, 'Weiter').onPressed, isNull);
+
+      // Wieder zum Drucken und weiter zum Start: Akte und Spielart, kein Abend in der App.
+      await spielart(tester, druck);
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(find.text('SCHRITT 4 VON 4'), findsOneWidget);
+      expect(find.text(_de.abend_start_druck_hinweis), findsOneWidget);
+      expect(find.text(_de.abend_start_hinweis), findsNothing, reason: 'Es beginnt keine Rollenverteilung');
+      expect(find.byWidgetPredicate((w) => w is MFeld && w.name == _de.abend_start_spielweise && w.wert == druck), findsOneWidget);
+      expect(find.byType(MFeld), findsOneWidget, reason: 'Personen, Dauer und Fassung stellt die Druckmappe ein oder gibt es nicht');
+      expect(find.byType(KlasseZeile), findsNothing, reason: 'Klasse und Belohnung gehören zu einem Abend in der App');
+      expect(find.byType(DeckZeile), findsNothing);
+      expect(find.text(_de.abend_start), findsNothing);
+      expect(find.text(_de.abend_zur_druckmappe), findsOneWidget);
+      final start = knopf(tester, _de.abend_zur_druckmappe);
+      expect([start.onPressed, start.icon], [isNotNull, Icons.print_outlined]);
+
+      // „Zur Druckmappe“: die Druckmappe der Akte; „Zurück“ führt von dort auf die Akte.
+      await tester.tap(find.text(_de.abend_zur_druckmappe));
+      await warten(tester, bis: find.text(_de.detektei_druck_vorbereiten));
+      expect(find.byType(AbendNeuSeite), findsNothing);
+      final mappe = tester.widget<DruckmappeSeite>(find.byType(DruckmappeSeite));
+      expect([mappe.akteId, mappe.zurueck], ['schlosskeller', Routes.akteVon('schlosskeller')]);
+      final ort = tester.element(find.byType(DruckmappeSeite));
+      expect(GoRouter.of(ort).routeInformationProvider.value.uri.toString(), Routes.druckmappeVon('schlosskeller'));
+      expect(find.text(_de.detektei_druck_vorbereiten), findsOneWidget, reason: 'Die Druckmappe ist geladen');
+      expect(find.byType(MKarteikartenDialog), findsNothing, reason: 'Keine Rückfrage: es beginnt kein Abend');
+      expect(find.byType(AbendSeite), findsNothing);
+      expect(ort.read<AbendHalter>().laeuft, isFalse, reason: 'Kein Abend läuft');
+      final danach = await tester.runAsync(() async => (await SharedPreferences.getInstance()).getString(AbendSpeicher.schluessel));
+      expect(danach, abgelegt, reason: 'Der abgelegte Abend bleibt, wie er war');
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('Am Bildschirm beginnt der Abend wie bisher, ohne Druckfassung', (tester) async {
+      final state = await oeffnen(tester);
+      final werte = await bisZuDenEinstellungen(tester);
+      final s = werte.sitzung;
+      // Einmal zum Drucken und zurück: Der Abend am Bildschirm bleibt, wie er war.
+      await spielart(tester, s.ui('ui.einrichtung.spiel_druck'));
+      await spielart(tester, s.ui('ui.einrichtung.spiel_bildschirm'));
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(find.text(_de.abend_start_hinweis), findsOneWidget);
+      expect(find.text(_de.abend_zur_druckmappe), findsNothing);
+      expect(find.byType(KlasseZeile), findsOneWidget);
+      expect(find.byType(DeckZeile), findsOneWidget);
+      expect(knopf(tester, _de.abend_start).icon, Icons.play_arrow_rounded);
+      await tippen(tester, _de.abend_start);
+      final abend = tester.element(find.byType(AbendSeite)).read<AbendHalter>().sitzung!;
+      expect([abend.phase, abend.solo, abend.einstellungen.druck], [PartyPhase.rollen, false, false]);
+      expect(find.byType(DruckmappeSeite), findsNothing);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('Nur reihum: Solo und online wählen „Zum Drucken“ ab, der Raum öffnet sich wie bisher', (tester) async {
+      final state = await oeffnen(tester);
+      final werte = await bisZuDenEinstellungen(tester);
+      final druck = werte.sitzung.ui('ui.einrichtung.spiel_druck');
+      await spielart(tester, druck);
+      expect(werte.druck, isTrue);
+      // Online: Die Lobby richtet den Abend ein; ein früheres „Zum Drucken“ gilt dort nicht.
+      await tippen(tester, 'Zurück');
+      await tippen(tester, 'Jeder am eigenen Gerät');
+      expect([werte.spielart, werte.druck], [Spielart.bildschirm, false]);
+      await tippen(tester, 'Weiter');
+      expect(find.byType(SpielartAbschnitt), findsNothing);
+      expect(find.text(druck), findsNothing);
+      expect(find.byType(FassungAbschnitt), findsOneWidget, reason: 'Online wie am Bildschirm');
+      expect(find.byType(MomentAbschnitt), findsOneWidget);
+      expect([werte.einstimmung, werte.einflussAn], [true, true], reason: 'Vorgaben eines Abends am Bildschirm');
+      expect(find.text(_de.online_einstellungen_hinweis), findsOneWidget);
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Raum öffnen'));
+      expect(find.text('Raum öffnen'), findsOneWidget);
+      expect(find.text(_de.abend_zur_druckmappe), findsNothing);
+      // Solo: kein Druck, keine Wahl der Spielart.
+      await tippen(tester, 'Zurück');
+      await tippen(tester, 'Zurück');
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      await spielart(tester, druck);
+      expect(werte.druck, isTrue);
+      await tippen(tester, 'Zurück');
+      await tippen(tester, 'Solo mit Bots');
+      expect([werte.spielart, werte.druck], [Spielart.bildschirm, false]);
+      await tippen(tester, 'Weiter');
+      expect(find.byType(SpielartAbschnitt), findsNothing);
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(find.text(_de.abend_start), findsOneWidget);
+      expect(find.text(_de.abend_zur_druckmappe), findsNothing);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('Eine Akte ohne Druckmappe bietet „Zum Drucken“ nicht an', (tester) async {
+      final state = await oeffnen(tester);
+      await tippen(tester, 'Spuk im Gewölbe');
+      await tippen(tester, 'Weiter');
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
+      expect(werte.druckbar, isFalse);
+      expect(find.byType(SpielartAbschnitt), findsNothing);
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(find.text(_de.abend_start), findsOneWidget);
+      expect(find.text(_de.abend_zur_druckmappe), findsNothing);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
+
+    testWidgets('320 px und doppelte Schrift: Einstellungen und Start zum Drucken ohne Überlauf, der Knopf im Bild', (tester) async {
+      final state = await oeffnen(tester);
+      tester.view.physicalSize = const Size(320, 568);
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await warten(tester);
+      await tippen(tester, 'Weiter');
+      await tester.ensureVisible(find.text('Ein Gerät reihum'));
+      await tippen(tester, 'Ein Gerät reihum');
+      await tippen(tester, 'Weiter');
+      final werte = tester.widget<EinrichtungsAbschnitte>(find.byType(EinrichtungsAbschnitte)).werte;
+      await spielart(tester, werte.sitzung.ui('ui.einrichtung.spiel_druck'));
+      expect(find.text(werte.sitzung.ui('ui.einrichtung.spiel_druck')).hitTestable(), findsOneWidget, reason: 'Die Wahl bleibt im Bild');
+      expect(find.byKey(const ValueKey('druck-mappe-hinweis')), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'Einstellungen zum Drucken');
+      await tester.tap(find.text('Weiter'));
+      await warten(tester, bis: find.text('Bereit?'));
+      expect(find.text(_de.abend_zur_druckmappe).hitTestable(), findsOneWidget, reason: 'Der Startknopf liegt im Bild');
+      // Ganze Wörter auf dem Startknopf: „Druckmappe“ bricht nicht mitten im Wort um (im Web-Build gesehen: „Druckmapp|e“).
+      final absatz = tester.renderObject<RenderParagraph>(find.descendant(of: find.text(_de.abend_zur_druckmappe), matching: find.byType(RichText)));
+      for (final m in RegExp(r'[^\s-]+-?').allMatches(_de.abend_zur_druckmappe)) {
+        final zeilen = absatz.getBoxesForSelection(TextSelection(baseOffset: m.start, extentOffset: m.end)).map((b) => b.top.round()).toSet();
+        expect(zeilen, hasLength(1), reason: '„${m.group(0)}“ auf „${_de.abend_zur_druckmappe}“ bricht mitten im Wort um');
+      }
+      expect(tester.takeException(), isNull, reason: 'Start zum Drucken');
+      await tester.pumpWidget(const SizedBox.shrink());
+      state.dispose();
+    });
   });
 
   group('Zeitbudget (M7b)', () {

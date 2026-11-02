@@ -1,0 +1,342 @@
+{
+  "platz": 7,
+  "id": "tim",
+  "vorstellung": {
+    "frage": "Tim, der Hobby-Elektriker. Du reparierst alles, vom Fahrrad bis zum Rasenmäher. Was hast du heute schon repariert, das vorher gar nicht kaputt war?",
+    "auftritt": "Ich bin Tim, Mechatroniker. Wenn irgendwo was wackelt, sag ich: Lass mal, das schau ich mir an. Olli kenn ich von der Berufsschule. Seitdem schrauben wir zusammen an alten Fahrrädern. Repariert hab ich heute noch nichts. Aber der Abend ist ja noch jung."
+  },
+  "werDuBist": "Du bist Tim, 27, Mechatroniker und Hobby-Elektriker. Wenn etwas wackelt, sagst du: Lass mal, das schau ich mir an. Man erkennt dich am karierten Flanellhemd, an der Stirnlampe um den Hals und am Spannungsprüfer-Schraubenzieher. Olli ist dein Kumpel aus der Berufsschule, ihr schraubt zusammen an alten Fahrrädern.{wenn:wojtek| Wojteks Werkzeugkasten hast du dir heute geliehen.}{wenn:hana| Für Hana reparierst du die Motorsäge.}\nWas dich heute antreibt: Niemand soll erfahren, dass deine alte Mehrfachsteckdose den Ausfall verursacht hat. Zu Olli hältst du, aber du lügst nicht für ihn.",
+  "haltung": "Du hältst zu Olli, aber du lügst nicht für ihn. Und den Knall willst du lieber niemandem erklären.",
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Hinter der Theke: Anrichte, Vorratsraumtür (4c). Marker Scheppern: Durchgang mit Steinbogen (6). Beide stimmen.",
+    "behauptet": {
+      "z2357": "4c",
+      "scheppern": "6"
+    },
+    "wahr": {
+      "z2357": "4c",
+      "scheppern": "6"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "18:00",
+        "text": "leiht sich {wenn:wojtek|Wojteks Werkzeugkasten|einen Werkzeugkasten}, um seine wackelige alte Mehrfachsteckdose zu richten. Er tut es nicht. Der Kasten steht hinter der Theke neben der Kaffeemaschine",
+        "frei": "offen",
+        "zusatz": "offen, dass er den Kasten geliehen hat; die Steckdose erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "18:30",
+        "text": "Im Schlosshof droht Herr Schneider {rolle:marek|dem Caterer}: „Steht der um Mitternacht noch da, lass ich ihn abschleppen.“ Tim trägt mit Olli die Warmhaltebehälter durch Hoftür, Turmgang und Bogentür",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:35",
+        "text": "Olli schrammt die Bogentür. Ein Beschlag reißt aus der gekalkten Wand. Holzsplitter und weißer Kalk bleiben an Ollis Ärmeln",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:45",
+        "text": "Tim gibt Olli braunes Möbelwachs aus dem Werkzeugkasten. Olli reibt es mit dem rechten Arbeitshandschuh in die Schramme und steckt den Handschuh in die Westentasche",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:50",
+        "text": "Herr Schneider verlangt von Olli 2.000 € in Bargeld bis Mitternacht und schließt die Tore ab: „Keiner geht, bevor das bezahlt ist.“",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "20:15",
+        "text": "sagt beim Werkzeugkasten {wenn:wojtek|zu Wojtek|zu einem Gast}: „Olli brauchte was für eine Schramme.“",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "hört an der Kaffeemaschine den Streit: „Bis Mitternacht. Sonst ruf ich die Polizei!“",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "steht mit Olli vor der Bogentür, sie schauen nach der Schramme. Klemmt sich den Finger ein: „Au! Mein Finger!“",
+        "frei": "offen",
+        "zusatz": "Bogentür und Finger offen; die Schramme erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:52",
+        "text": "Olli: „Ich hol dir Eis. Und dann red ich mit Schneider.“ Danach geht Olli Richtung Ost-Saal",
+        "frei": "offen",
+        "zusatz": "„Ich hol dir Eis“ offen; der ganze Satz erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:52–23:54",
+        "text": "Herr Schneider geht an ihm vorbei in den Turmgang, ruft dort laut: „Wer war an der Vitrine?“, und kommt zurück",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–23:55",
+        "text": "Durch die Bogentür geht in dieser Zeit nur Herr Schneider",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "geht durch den Steinbogen{wenn:zeynep| (Zeynep steht dort)}, den Durchgang und die Klappe zur Kaffeemaschine. Dabei sieht er Herrn Schneider zu Fatma ans linke Buffet gehen",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Ahmet schlüpft am Ostende hinter die Theke, zwei Meter neben ihm. Gleich danach geht Herr Schneider an Ahmet vorbei zu ihm",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "hört hinter sich: „Zweitausend, bis zwölf.“ Dann kommt Herr Schneider vom Ostende zu ihm: „Nicht die alte Leiste!“ Tim steckt die Kaffeemaschine trotzdem ein",
+        "frei": "offen",
+        "zusatz": "„Nicht die alte Leiste!“ offen, alle hörten es; wem es galt, das Einstecken und „Zweitausend“ erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Hinter ihm ruft Herr Schneider: „Ruhe! Ich hol die Notlaterne.“ Tastet sich hinter der Theke nach Westen, durch die Klappe in den Durchgang. Am Sicherungskasten rutscht ihm die Stirnlampe vom Hals. Er findet den Hauptschalter nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "hört „Hab ich dich!“, „Stehen bleiben!“. Rennende Schritte lassen ihn herumfahren: Ein leuchtendes Gesicht rennt einen Meter an ihm vorbei durch den Bogen in den Kaminsaal. Danach brüllt Herr Schneider noch einmal. Dann scheppert es",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "im Dunkeln, kurz vor dem Licht",
+        "text": "findet die Stirnlampe am Boden und schaltet sie an.{wenn:zeynep| Sie zeigt Zeynep im Steinbogen.}",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "schaltet die Hauptsicherung ein",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:01",
+        "text": "Olli bringt ihm Eis in einer Serviette: „Hier, dein Eis. Hat gedauert.“",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Kurz vor zwölf stand ich hinter der Theke an der Kaffeemaschine. Um zwölf sollte es Tortenkaffee geben.“",
+      "„Beim Knall hab ich mich im Dunkeln in den Durchgang zum Sicherungskasten getastet. Meine Stirnlampe ist mir vom Hals gerutscht.“",
+      "„Beim Scheppern stand ich am Sicherungskasten und hab den Hauptschalter gesucht. Um zwölf hab ich das Licht wieder eingeschaltet.“",
+      "„Gleich danach hat Olli mir Eis in einer Serviette gebracht, für meinen eingeklemmten Finger.“",
+      "„Um zehn vor zwölf hab ich mir an der schweren Bogentür den Finger eingeklemmt.“",
+      "„Von zehn vor zwölf bis kurz nach fünf vor zwölf stand ich an der Bogentür. Durch die Bogentür ist in der Zeit nur Herr Schneider gegangen.“",
+      "„Um 23:53 Uhr rief Herr Schneider im Turmgang laut: ‚Wer war an der Vitrine?‘ Kurz danach ging er zu Fatma ans linke Buffet.“",
+      "{wenn:zeynep|„Als meine Stirnlampe kurz vor dem Licht wieder anging, stand Zeynep im Steinbogen.“}"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "warum die Sicherung geflogen ist",
+        "antwort": "„Alter Keller, alte Leitungen. Die Hauptsicherung ist geflogen, und ich hab sie wieder eingeschaltet.“"
+      },
+      {
+        "frage": "ob Herr Schneider mit „Nicht die alte Leiste!“ dich meinte",
+        "antwort": "„Herr Schneider ruft heute viel.“"
+      },
+      {
+        "frage": "was im Durchgang an dir vorbeikam (Runde 1 und 2)",
+        "antwort": "„Ich hab mit dem Gesicht zur Wand den Hauptschalter gesucht. Mehr sag ich dazu jetzt nicht.“"
+      },
+      {
+        "frage": "was du mit Olli an der Bogentür gemacht hast",
+        "antwort": "„Wir haben uns die alte Tür angeschaut. Dabei hab ich mir den Finger eingeklemmt. Dann ist Olli rüber Richtung Ost-Saal.“"
+      },
+      {
+        "frage": "worum es um elf an der Theke ging",
+        "antwort": "„Frag Herrn Schneider.“"
+      },
+      {
+        "frage": "nach dem Tragen um halb sieben",
+        "antwort": "„Ich hab Olli geholfen, die Warmhaltebehälter reinzutragen. Schwere Dinger.“"
+      },
+      {
+        "frage": "ob du „Zweitausend, bis zwölf“ gehört hast",
+        "antwort": "„Ich stand mit dem Rücken zur Theke.“"
+      },
+      {
+        "frage": "nach dem Werkzeugkasten oder dem Möbelwachs",
+        "antwort": "„Der Werkzeugkasten steht hinter der Theke. Ich hab ihn mir heute {wenn:wojtek|von Wojtek }geliehen.“"
+      },
+      {
+        "frage": "{ab:17|wenn eine offene Karte zeigt, dass du um 20:15 Uhr gesagt hast: „Olli brauchte was für eine Schramme.“}",
+        "antwort": "{ab:17|„Ja, das hab ich gesagt. Mehr dazu in der letzten Runde.“}"
+      }
+    ],
+    "verboten": [
+      "„Ich hab im Durchgang nichts gesehen.“",
+      "„Mit dem Knall hab ich nichts zu tun.“",
+      "„Olli war die ganze Zeit im Ost-Saal.“",
+      "„Ich weiß nichts über die Bogentür.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Bei Ahmet:** „Ja. Um drei vor zwölf ist Ahmet zwei Meter neben mir am Ostende hinter die Theke.“\n**Sonst:** „Um drei vor zwölf stand ich mit dem Rücken zur Theke an der Kaffeemaschine. Bestätigen kann ich da keinen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Neben mir stand niemand. Ich hab am Sicherungskasten den Hauptschalter gesucht.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Um zwölf sollte es Tortenkaffee geben, ich stand an der Kaffeemaschine.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Um zehn vor zwölf hab ich mir an der schweren Bogentür den Finger eingeklemmt.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich stand am Sicherungskasten im Durchgang.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "Das ist ein Auslöser für dich. Ruf „Karte!“, dreh deine Geheimniskarte um und lies sie vor. Liegt sie schon offen, erzähl, was darauf steht."
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab das Licht eingeschaltet. Dann hat Olli mir Eis in einer Serviette gebracht.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte MR4 oder FK3 offen auf dem Tisch liegt.",
+      "Sobald dich in Runde 3 jemand vor allen fragt, was im Dunkeln an dir vorbeikam. Auch ein Impuls des Erzählers, der alle danach fragt, zählt.",
+      "Sobald in Runde 3 jemand vor allen sagt, das leuchtende Gesicht oder das Gespenst sei es gewesen.",
+      "{wenn:zeynep|Sobald Zeyneps Geheimniskarte offen auf dem Tisch liegt.}",
+      "Liegt MR4 schon in Runde 2 offen, drehst du zu Beginn von Runde 3 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Um 18:35 Uhr hat Olli beim Tragen die Bogentür geschrammt. Ein Beschlag ist aus der Wand gerissen.“",
+        "„Um 18:50 Uhr verlangte Herr Schneider von Olli 2.000 € in Bargeld, bis Mitternacht. Dann hat er die Tore abgeschlossen: ‚Keiner geht, bevor das bezahlt ist.‘“",
+        "„Um 23:00 Uhr hab ich gehört, wie er zu Olli sagte: ‚Bis Mitternacht. Sonst ruf ich die Polizei!‘“",
+        "„Um 23:52 Uhr hat Olli zu mir gesagt: ‚Ich hol dir Eis. Und dann red ich mit Schneider.‘ Das Eis kam erst nach dem Licht.“",
+        "„Um 23:57 Uhr hab ich hinter mir gehört: ‚Zweitausend, bis zwölf.‘“",
+        "„Wer das Gesicht war, hab ich nicht erkannt. Es kam aus Richtung Buffetsaal und verschwand durch den Bogen.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "fatma",
+      "frage": "„Fatma, um 23:53 Uhr rief Herr Schneider im Turmgang: ‚Wer war an der Vitrine?‘ Kurz danach ging er zu dir ans linke Buffet. Was wollte er von dir?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "zeynep",
+      "frage": "„Zeynep, als ich kurz nach fünf vor zwölf durch den Steinbogen bin, standest du schon da. Und als meine Stirnlampe kurz vor dem Licht wieder anging, standest du immer noch da. Ganz allein im Dunkeln. Auf wen hast du gewartet?“",
+      "nachschlag": null,
+      "ausweich": "Can: „Can, du sagst, du warst auf der Turm-Toilette. Von zehn vor zwölf bis kurz nach fünf vor zwölf stand ich direkt an der Bogentür. Da ist nur Herr Schneider durch. Wann bist du zum Turm hoch?“"
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, um drei vor zwölf kam Herr Schneider vom Ostende zu mir an die Kaffeemaschine. Da hast du gestanden. Er war richtig geladen. Was hattest du mit ihm zu klären?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "can",
+      "frage": "**Sobald JA9 offen liegt:** „Can, an Herrn Schneiders Hand hängen knallgelbe Fasern. Er hat eine Kapuze erwischt. Gelb trägt hier nur einer: du.“\n**Sonst:** „Can, Herr Schneider hat im Dunkeln eine Kapuze erwischt. Deine ist die auffälligste im Keller. Wo war die um drei vor zwölf?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "**Karte zu:** „Olli, um 23:52 Uhr wolltest du mir Eis holen. Gekommen ist es erst nach dem Licht. Wo warst du so lange?“\n**Karte offen:** „Olli, um 23:52 Uhr hast du gesagt: ‚Ich hol dir Eis. Und dann red ich mit Schneider.‘ Das Eis kam erst nach dem Licht. Was war dazwischen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "marek",
+      "frage": "„Marek, du standest am Ostende, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“",
+      "nachschlag": null,
+      "ausweich": "Lejla: „Lejla, du hast Herrn Schneider nach dem Licht versorgt. Hat er gesagt, wen er im Dunkeln gepackt hat?“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Um den Hals meine Stirnlampe, in der Hemdtasche mein Spannungsprüfer-Schraubenzieher. Um den eingeklemmten Finger eine nasse Serviette. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Stirnlampe",
+    "abRunde": 2,
+    "klasse": "untersuchung",
+    "wirkung": "Der Detektiv darf in dieser Runde eine Untersuchung mehr machen: vier statt drei.",
+    "grenzen": "Nur Indizkarten, die in dieser Runde schon frei sind.",
+    "tipp": "Spiel sie in Runde 2, wenn die Spuren zu Geld, Schatulle oder Kapuze noch zu sind. Oder in Runde 3, damit der Detektiv alles Wichtige noch schafft."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du hast das Licht wieder angemacht, jetzt soll auch klar werden, wer beim Scheppern wo war. **Erfüllt, wenn** bei der Anklage im Ermittlungsbogen in der Zeile „Alibi beim Scheppern“ bei allen vier Verdächtigen ein Zeichen steht, ✓ oder ✗.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 3,
+    "pflichtCodes": [
+      "MR4",
+      "FK3"
+    ],
+    "wasIchZugebe": "Der Knall kam aus meiner alten Mehrfachsteckdose. Herr Schneider hatte mich gewarnt: „Nicht die alte Leiste!“ Ich hab die Kaffeemaschine trotzdem eingesteckt. Im Dunkeln stand ich dann am Sicherungskasten. Da rannte ein leuchtendes Gesicht an mir vorbei in den Kaminsaal. Danach brüllte Herr Schneider noch. Erst dann schepperte es an der Theke.",
+    "vermerke": [
+      "Alibi beim Scheppern · für das leuchtende Gesicht: Es rannte am Sicherungskasten vorbei in den Kaminsaal. Danach brüllte Herr Schneider noch. Erst dann schepperte es.",
+      "Hinweis: Der Knall kam aus Tims alter Mehrfachsteckdose."
+    ],
+    "undNochEtwas": "Das Möbelwachs aus dem Werkzeugkasten hab ich um 18:45 Olli gegeben, für eine Schramme an der Bogentür."
+  },
+  "solo": null,
+  "teil90": "Tim steckte trotz Warnung die Kaffeemaschine in seine alte Mehrfachsteckdose, und es knallte. Am Sicherungskasten rannte das leuchtende Gesicht an ihm vorbei, bevor es schepperte. Er hatte Olli das Möbelwachs gegeben und hielt lange zu ihm.",
+  "fassung": null
+}

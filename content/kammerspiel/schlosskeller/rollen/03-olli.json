@@ -1,0 +1,296 @@
+{
+  "platz": 3,
+  "id": "olli",
+  "vorstellung": {
+    "frage": "Olli, du bist der Mann fürs Grobe bei jedem Umzug. Warum bist du heute schon um Viertel nach acht fast in die Mitternachtstorte gefallen?",
+    "auftritt": "Also, das war so. Ich such das Klo. Ich nehm die Tür neben der Anrichte, und auf einmal steh ich im Dunkeln vor der Mitternachtstorte. Ich stoß ans Regal. Hinter mir ruft jemand: „Einbrecher an der Torte!“ Dann leuchtet mir einer mit der Taschenlampe mitten ins Gesicht. Und ich sag nur: „Ich wollte nur aufs Klo!“ Der Torte geht's gut, ehrlich. Und wer beim nächsten Umzug mit anpackt, kriegt die ganze Geschichte. Die dauert länger als der Umzug."
+  },
+  "werDuBist": "Du bist Olli, 28, der Anpacker. Du bist Lagerlogistiker und hilfst bei jedem Umzug. Man erkennt dich am grauen Kapuzenpulli und an der dunkelblauen Daunenweste. Aus der Westentasche hängt dein rechter Arbeitshandschuh. {wenn:tim|Tim ist dein Kumpel aus der Berufsschule, ihr schraubt zusammen an alten Fahrrädern. }Ahmet war in der Schule dein Banknachbar. Für Fatma hast du beim Umzug die Kisten getragen. Mit Can bist du im Sportverein, und er filmt eure Spiele.\nWas dich heute antreibt: Den Schaden an der Bogentür willst du selbst mit Herrn Schneider klären, ohne die Gruppe hineinzuziehen.",
+  "haltung": null,
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Ost-Saal (1). Marker Scheppern: Ost-Saal (1). Beide sind gelogen.",
+    "behauptet": {
+      "z2357": "1",
+      "scheppern": "1"
+    },
+    "wahr": {
+      "z2357": "4b",
+      "scheppern": "4c"
+    }
+  },
+  "wasDuWeisst": null,
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [
+      "„Ich saß die ganze Zeit am Kopf der Tafel im Ost-Saal.“",
+      "„Als das Licht anging, hab ich {rolle:tim|meinem Kumpel aus der Berufsschule} Eis gebracht.“"
+    ],
+    "regie": "Bleib dabei locker und ein bisschen müde, wie jemand, der den ganzen Abend gesessen hat.",
+    "sagstDuJedem": [],
+    "ausweichsaetze": [
+      {
+        "frage": "Wo warst du um drei vor zwölf?",
+        "antwort": "„Am Kopf der Tafel im Ost-Saal. Gleich gibt's Torte, hab ich gedacht.“"
+      },
+      {
+        "frage": "Wo warst du um 23:51 Uhr?",
+        "antwort": "„An der Bogentür im Kaminsaal, bei {rolle:tim|meinem Kumpel aus der Berufsschule}. Er hat sich den Finger eingeklemmt. Ich hab gesagt, ich hol ihm Eis.“"
+      },
+      {
+        "frage": "Wo warst du beim Knall und beim Scheppern?",
+        "antwort": "„Sitzen geblieben. Im Dunkeln rennt man nicht rum.“"
+      },
+      {
+        "frage": "Wer saß bei dir?",
+        "antwort": "„Weiß ich nicht genau. Die blinde Kuh saß irgendwo mit Augenbinde. Es war ja dunkel.“"
+      },
+      {
+        "frage": "Woher hattest du das Eis?",
+        "antwort": "„Aus dem Eiskübel an der Theke, gleich als das Licht anging. {rolle:tim|Mein Kumpel aus der Berufsschule} hatte sich den Finger eingeklemmt.“"
+      },
+      {
+        "frage": "Was hast du mit Herrn Schneider zu tun?",
+        "antwort": "„Der meckert über alles. Über mich auch mal.“"
+      },
+      {
+        "frage": "Was ist mit deinem Handschuh?",
+        "antwort": "„Mein Arbeitshandschuh. Ich hab heute beim Ausladen geholfen. Rote Tropfen? Keine Ahnung.“"
+      }
+    ],
+    "verboten": [],
+    "markersatz": "Deine Marker fallen nur mit deiner Karte. Dann stellst du beide auf den Eiskübel."
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Karte zu:** „Am Kopf der Tafel. Der Detektiv hat mich hereinkommen sehen.“\n**Karte offen:** „Am Eiskübel. Ahmet stand hinter der Theke.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "**Karte zu:** „Weiß ich nicht genau. Es war ja dunkel.“\n**Karte offen:** „Erst niemand. Dann bin ich {wenn:lejla|zu Lejla|zum rechten Buffettisch} gekrochen.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "**Karte zu:** „Ich bin gefolgt. Ich saß am Kopf der Tafel.“\n**Karte offen:** „Am Eiskübel. Eis für {rolle:tim|meinen Kumpel aus der Berufsschule}, und ich wollte mit Herrn Schneider reden.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "**Karte zu:** „150 € an Ahmet, wie alle.“\n**Karte offen:** „Herr Schneider will 2.000 € für die Bogentür. Bis Mitternacht.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Um halb sieben hab ich mit {rolle:tim|meinem Kumpel aus der Berufsschule} die Warmhaltebehälter durch den Turmgang getragen.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "**Karte zu:** „Ich saß im Ost-Saal. Von da sieht man nichts.“\n**Karte offen:** wie Stufe 2"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "**Karte zu:** „Knall, Rufe, Scheppern. Gesehen hab ich nichts.“\n**Karte offen:** wie Stufe 2"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab {rolle:tim|meinem Kumpel aus der Berufsschule} obenauf Eis aus dem Eiskübel gebracht.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": "Um 18:35 Uhr hast du beim Tragen der Warmhaltebehälter die geschnitzte Bogentür geschrammt. Ein Beschlag ist aus der gekalkten Wand gerissen. {rolle:tim|Dein Kumpel aus der Berufsschule} hat dir braunes Möbelwachs gegeben, und du hast die Schramme damit überdeckt. Um 18:50 Uhr verlangte Herr Schneider 2.000 € in Bargeld bis Mitternacht. Um 23:00 Uhr drohte er mit der Polizei. Um 23:57 Uhr standst du am Eiskübel. Du wolltest Eis für {rolle:tim|deinen Kumpel aus der Berufsschule} holen und mit Herrn Schneider reden.",
+    "ausloeser": [
+      "{wenn:joanna|Sobald Joanna vor allen aus ihrer Notiz von 23:57 Uhr vorliest, dass du am Eiskübel standst.|Sobald der Zeugenstreifen an der Tür zum Ost-Saal offen liegt.}",
+      "{wenn:lejla|Sobald Lejla vor allen sagt oder ihr Zeugenstreifen zeigt, dass du erst nach dem Scheppern zu ihr an den rechten Buffettisch kamst.|Sobald der Zeugenstreifen am rechten Buffettisch zeigt, dass du erst nach dem Scheppern dorthin kamst.}",
+      "Sobald Ahmet oder Fatma vor allen sagen, dass du um 23:57 Uhr am Eiskübel standst."
+    ],
+    "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Beim Knall hab ich mich am Eiskübel geduckt. Dann ist das leuchtende Gespenst aus dem Vorratsraum auf Herrn Schneider los. Dann hat es gescheppert. {wenn:lejla|Ich bin zu Lejla gekrochen.|Ich bin zum rechten Buffettisch gekrochen.}“",
+    "marker": "„23:57“ auf den Eiskübel (4b), „Scheppern“ auf den Eiskübel (4b). Steht einer noch anders, stell ihn jetzt vor allen um.",
+    "abDann": "Ab jetzt sagst du offen, was an der Bogentür war. Sag immer „das Gespenst“ oder „das leuchtende Gesicht“, nie einen Namen. Fragt jemand, wer es war: „Erkannt hab ich nur das Leuchten.“ Woher das Möbelwachs kam, sagst du nicht. Mehr gibst du nicht zu. Dabei bleibst du.",
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": []
+    }
+  },
+  "freigabe": {
+    "sofort": [
+      "„Um 23:55 Uhr hat Ahmet im Ost-Saal seine Jacke aufgehängt. Einen dicken Umschlag hatte er in der Hand.“",
+      "„Gleich als das Licht anging, hab ich {rolle:tim|meinem Kumpel aus der Berufsschule} Eis aus dem Eiskübel gebracht.“",
+      "„Um halb sieben hat Herr Schneider {rolle:marek|dem Caterer} gedroht, den Lieferwagen abschleppen zu lassen.“"
+    ],
+    "nachDemMarker": [
+      "Dein Marker fällt mit deiner Karte. Hier kommt nichts dazu."
+    ],
+    "nachDerKarte": [
+      "„Um 23:57 Uhr sagte Herr Schneider leise zu mir: ‚Zweitausend, bis zwölf.‘“",
+      "„Um 23:57 Uhr stand Ahmet hinter der Theke am Ostende.“",
+      "„Nach dem Knall sprang ein leuchtendes Gesicht aus dem Vorratsraum. Herr Schneider packte es.“"
+    ]
+  },
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, dein Marker steht hinter der Theke. Um fünf vor zwölf sollten alle in den Ost-Saal. Was hast du hinter der Theke gemacht?“",
+      "nachschlag": "Sobald Ahmet „Servietten“ sagt: „Servietten? Im Ost-Saal hattest du einen dicken Umschlag in der Hand, keine Servietten.“",
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, ich hab dir Eis gebracht, gleich als das Licht anging. Sag dem Detektiv, wo du da warst.“",
+      "nachschlag": "Sobald Tim es bestätigt: „Siehst du. Kaum war Licht, war ich bei dir.“",
+      "ausweich": "Can: „Can, du sagst, du warst auf der Turm-Toilette. Bist du dafür durch den Ost-Saal gekommen? Dann hättest du mich am Kopf der Tafel sitzen sehen.“"
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, du drehst doch ständig lustige Videos. Hattest du für Mitternacht irgendwas vorbereitet?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Ich hab das leuchtende Gesicht aus dem Vorratsraum springen sehen. Can, du warst um drei vor zwölf nirgends. Wo warst du da?“",
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "marek",
+      "frage": "„Marek, um halb sieben hat Herr Schneider gedroht, deinen Lieferwagen abschleppen zu lassen. Steht der immer noch auf seinem Platz?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Ich hab Ärger mit Herrn Schneider wegen der Bogentür, du wegen des Parkplatzes. Wer hier hat noch Ärger mit ihm?“",
+      "ausweich": "Ahmet: „Ahmet, du hast bei der Ankunft von uns allen Geld eingesammelt. Wofür genau, und wo ist das Geld jetzt?“"
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "fatma",
+      "frage": "„Fatma, wo genau warst du beim Knall? Und wer hat gehört, dass du dich nicht bewegt hast?“",
+      "nachschlag": "Sobald Fatmas Marker „23:57“ auf der Klappe steht: „Von der Klappe sind es nur ein paar Schritte bis zur Vorratsraumtür. Warum bist du beim Knall weg, und wohin?“",
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "lejla",
+      "frage": "„Lejla, du hast nach dem Licht Herrn Schneider versorgt. Weiß er noch, wer ihn gepackt hat?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Sag dem Detektiv: Ich hab bei dir am rechten Buffet gekauert, bis das Licht anging.“",
+      "ausweich": "Frag Can: „Can, wo warst du, als das Licht anging?“ Liegt deine Geheimniskarte offen, bitte außerdem den Detektiv um den Ortstermin „rechter Buffettisch“ und sag: „Dort hab ich gekauert, bis das Licht anging.“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "In der Tasche meiner dunkelblauen Daunenweste steckt mein rechter Arbeitshandschuh. Er hängt halb heraus. Den linken hab ich heute Abend irgendwo liegen lassen.",
+    "hinweis": null,
+    "indizkarte": "FN3"
+  },
+  "aktionskarte": {
+    "name": "Themenwechsel",
+    "abRunde": 1,
+    "klasse": "schutz",
+    "wirkung": "Spiel sie, wenn gerade über dich gesprochen wird. Das Gespräch über dich endet. Der Erzähler liest sofort einen Impuls vor, und es geht damit weiter.",
+    "grenzen": "Nicht gegen Ortstermine, Indizkarten oder Karten, die offen liegen. Was offen liegt, bleibt liegen. Ein Satz, der eine Karte auslöst, gilt trotzdem. Die Frage darf später wiederkommen.",
+    "tipp": "Spiel sie, wenn das Gespräch zu lange bei dir hängt. Gegen eine Indizkarte hilft sie nicht."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du sagst selbst, was du verbirgst, bevor man es dir beweist. **Erfüllt, wenn** du deine Geheimniskarte am Ende einer Runde freiwillig umgedreht hast (reinen Tisch), bevor einer deiner drei Sobald-Fälle eingetreten ist.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "DM3",
+      "FX3"
+    ],
+    "wasIchZugebe": "Um 18:35 Uhr hab ich beim Tragen der Warmhaltebehälter die Bogentür geschrammt. Ein Beschlag ist aus der gekalkten Wand gerissen. Die Schramme hab ich mit braunem Möbelwachs überdeckt. Herr Schneider verlangt 2.000 € bis Mitternacht. Um 23:57 Uhr stand ich am Eiskübel. Ich wollte Eis für einen eingeklemmten Finger holen und mit Herrn Schneider reden.",
+    "vermerke": [
+      "Heimlichtuerei · Olli: hat um 18:35 an der Bogentür einen Beschlag ausgerissen und die Schramme mit Möbelwachs überdeckt. Herr Schneider verlangt 2.000 € bis Mitternacht.",
+      "Ort um 23:57 · Olli: am Eiskübel."
+    ],
+    "undNochEtwas": "Nach dem Knall sprang ein leuchtendes Gesicht aus dem Vorratsraum, und Herr Schneider packte es."
+  },
+  "solo": null,
+  "teil90": "Olli hatte beim Tragen die Bogentür beschädigt und die Schramme mit Möbelwachs überdeckt. Um drei vor zwölf stand er am Eiskübel und wollte mit Herrn Schneider reden. Im Dunkeln hat ihn die Panik gepackt.",
+  "fassung": {
+    "code": "RN7",
+    "ziel": "Du warst es. Vor dem Morgen soll das niemand erfahren. Du willst unentdeckt bleiben, ohne einen Unschuldigen ins Unglück zu stürzen, und den Türschaden selbst mit Herrn Schneider klären.",
+    "zeitleiste": [
+      {
+        "zeit": "18:30",
+        "text": "Mit {rolle:tim|deinem Kumpel aus der Berufsschule} trägst du die Warmhaltebehälter durch Hoftür, Turmgang und Bogentür."
+      },
+      {
+        "zeit": "18:35",
+        "text": "Vor der Bogentür schrammst du mit einem Behälter die geschnitzte Tür. Ein Beschlag reißt aus der gekalkten Wand. Holzsplitter und weißer Kalk bleiben an deinen Ärmeln."
+      },
+      {
+        "zeit": "18:45",
+        "text": "{rolle:tim|Dein Kumpel aus der Berufsschule} holt braunes Möbelwachs aus dem Werkzeugkasten. Du reibst es mit deinem rechten Arbeitshandschuh in die Schramme. Den Handschuh steckst du in die Westentasche."
+      },
+      {
+        "zeit": "18:50",
+        "text": "Herr Schneider entdeckt den Schaden. Er verlangt 2.000 € in Bargeld bis Mitternacht und schließt die Tore ab: „Keiner geht, bevor das bezahlt ist.“"
+      },
+      {
+        "zeit": "19:30",
+        "text": "Am kalten Kamin wärmst du dir die Hände. Den linken Arbeitshandschuh legst du in die Kamin-Nische und vergisst ihn dort."
+      },
+      {
+        "zeit": "23:00",
+        "text": "Vor der Theke streitet ihr laut. Herr Schneider ruft: „Bis Mitternacht. Sonst ruf ich die Polizei!“ {rolle:tim|Dein Kumpel aus der Berufsschule} hört alles."
+      },
+      {
+        "zeit": "23:50",
+        "text": "An der Bogentür klemmt sich {rolle:tim|dein Kumpel aus der Berufsschule} den Finger ein. Um 23:52 Uhr sagst du zu ihm: „Ich hol dir Eis. Und dann red ich mit Schneider.“"
+      },
+      {
+        "zeit": "23:54",
+        "text": "Du setzt dich im Ost-Saal an den Kopf der Tafel."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Du gehst an {rolle:joanna|der Fotografin des Abends} vorbei zum Eiskübel. Herr Schneider steht am Ostende und sagt leise: „Zweitausend, bis zwölf.“ Hinter der Theke am Ostende steht Ahmet."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Du bleibst am Eiskübel stehen. Im Kerzenlicht springt ein leuchtendes Gesicht aus dem Vorratsraum. Herr Schneider packt es: „Hab ich dich!“ Du gehst im Dunkeln vor der Theke nach Westen. Du willst mit ihm reden."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Das Gesicht reißt sich los. Herr Schneider brüllt: „Stehen bleiben!“ Das Gesicht rennt dicht an dir vorbei durch die Klappe. Wer darunter steckt, erkennst du nicht. Du gehst durch die Klappe hinter die Theke. Herr Schneider brüllt: „Stehen bleiben, hab ich gesagt!“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Vor der Vorratsraumtür sagst du: „Lass uns reden, nur kurz.“ Er packt dich am Ärmel und zischt: „Zweitausend. Sonst Polizei.“ In Panik greifst du den Kerzenständer am Fuß. Dann ist da nur ein dumpfer Schlag und Poltern."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Holzsplitter und weißer Kalk von deinem Ärmel bleiben im weichen Wachs am Fuß kleben. Rote Wachstropfen fallen auf den Handschuh in deiner Westentasche. Die Kerzen gehen aus. Herr Schneider fällt rückwärts in den Vorratsraum."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Im Dunkeln reißt du ihm den Schlüsselbund von der Gürtelschlaufe. Mit dem Schlüssel komm ich raus, denkst du. Gleich danach weißt du: Flucht macht alles schlimmer. Du tastest dich zurück zum Eiskübel und schiebst den Bund unter die Eiswürfel."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Du kriechst zum rechten Buffettisch und flüsterst: „{wenn:lejla|Lejla? }Ich bin's, Olli.“"
+      },
+      {
+        "zeit": "0:00",
+        "text": "Das Licht geht an. Du gehst zum Eiskübel. Um 0:01 Uhr bringst du {rolle:tim|deinem Kumpel aus der Berufsschule} obenauf eine Handvoll Eis in den Durchgang: „Hier, dein Eis. Hat gedauert.“"
+      }
+    ],
+    "wasNurDuWeisst": [
+      "Das leuchtende Gesicht ist weggerannt, bevor du zur Vorratsraumtür gingst. Wer darunter steckte, hast du nicht erkannt. Nenn nie einen Namen dafür.",
+      "Deine Stufe 2 verdreht die Wahrheit: Herr Schneider hat das Gesicht gepackt, nicht umgekehrt. Beim Scheppern warst du an der Tür, nicht am Eiskübel.",
+      "Der Schlüsselbund liegt unter den Eiswürfeln im Eiskübel. Nach dem Licht hast du nur obenauf Eis genommen.",
+      "An deinen Ärmeln hängen Kalk und Holzsplitter von der Bogentür. Auf deinem rechten Handschuh kleben rote Kerzenwachstropfen. Der linke liegt seit 19:30 Uhr in der Kamin-Nische.",
+      "{rolle:lejla|Die Apothekerin am rechten Buffettisch} hat dich erst nach dem Scheppern gespürt. Herr Schneider weiß nichts mehr nach „Hab ich dich!“."
+    ],
+    "heftUndWahrheit": "Dein Heft sagt dir fast alles. In Stufe 2 erfindest du zwei Dinge: dass du dich geduckt hast und dass das Gesicht auf Herrn Schneider losging. Bleib dabei bis zur Anklage.",
+    "wennEsEngWird": [
+      "Sobald jemand sagt, das leuchtende Gesicht sei vor dem Scheppern schon weg gewesen: „Kann sein. Im Dunkeln weiß doch keiner genau, was zuerst kam.“",
+      "Sobald jemand sagt, nach dem Gesicht sei noch jemand von der Klappe zu Herrn Schneider gekommen: „Das kann jeder gewesen sein. Ich hab mich am Eiskübel geduckt.“",
+      "Sobald die Indizkarte „Olli: Taschen und Kleidung“ (FN3) oder der Kerzenständer (XD3) offen liegt und deine Karte offen ist: „Kalk und Wachs hab ich von der Bogentür. Die roten Tropfen? Keine Ahnung. An den Kerzen hat das Gespenst mit Herrn Schneider gerungen, nicht ich.“",
+      "Sobald die Indizkarte „Vor der Theke am Ostende“ (PP9) offen liegt: „Ich hab um zwölf nur obenauf Eis genommen. Tiefer hab ich nicht gegriffen.“",
+      "Sobald jemand verlangt, dass du den Marker „Scheppern“ wegen Kerzenständer und Handschuh umstellst: „Keine Karte sagt, wo ich beim Scheppern war. Der Marker bleibt.“"
+    ],
+    "stufe3": "Ja. Ich war es. Geduckt hab ich mich nicht. Als das leuchtende Gesicht weg war, bin ich über die Klappe zur Vorratsraumtür. Ich wollte nur reden. Herr Schneider hat mich am Ärmel gepackt: „Zweitausend. Sonst Polizei.“ Im Dunkeln hat mich die Panik gepackt. Dann war da nur ein dumpfer Schlag und Poltern. Den Schlüsselbund hab ich unter die Eiswürfel im Eiskübel geschoben. Es tut mir so leid."
+  }
+}

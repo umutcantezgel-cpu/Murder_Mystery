@@ -18,13 +18,19 @@ final _de = LDe();
 ///
 /// Mit [druckspiel]: der Hinweis mit dem Fall-Code, „Alles in einer Datei“, die
 /// acht Teile (Dateinamen nur mit Nummer und Teil) und je Person ein Rollenheft
-/// zum Senden. Ohne [druckspiel] (Abend am Bildschirm, reihum): nur das
-/// Erzählerheft mit Vorlesetexten und Tisch, ohne Fall-Code-Hinweis.
+/// zum Senden. Das ist das alte Druckspiel des Kernpfads `Spiel(druck: true)`:
+/// Die Rollenvergabe eines solchen Abends zeigt es; die Druckmappe der Akte
+/// bietet stattdessen das Kammerspiel an (B1, `KammerTafel`). Ohne
+/// [druckspiel] (Abend am Bildschirm, reihum): nur das Erzählerheft mit
+/// Vorlesetexten und Tisch, ohne Fall-Code-Hinweis.
 ///
-/// Mit [erzaehlerakte] (nur die Druckmappe der Akte, nie die Rollenvergabe, die
-/// der ganze Tisch sieht) kommt im Druckspiel darunter die Erzählerakte (A-063)
+/// Mit [erzaehlerakte] kommt im Druckspiel darunter die Erzählerakte (A-063)
 /// für die Person, die erzählt: ohne Satz und Fall-Code, mit den Zielen des
-/// Kanons wie das Druckspiel.
+/// Kanons wie das Druckspiel. Nie in der Rollenvergabe, die der ganze Tisch
+/// sieht. Früher setzte die Druckmappe den Schalter; seit dem Kammerspiel bietet
+/// sie keine Erzählerakte mehr an (E16). Der Schalter bleibt mit seinen Tests
+/// bis zur Abnahme erreichbar (A-2); die Erzählerakte selbst gibt es weiter am
+/// Erzählerplatz eines Abends am Bildschirm und als Release-Datei.
 ///
 /// Die Tafel ist ein Druckauftrag auf Aktenpapier: Kopf mit Druckersymbol, der
 /// Hinweis, darunter die Dateien als Knöpfe.
@@ -36,7 +42,8 @@ class DruckTafel extends StatefulWidget {
   /// Druckspiel mit allen Teilen oder nur das Erzählerheft eines Abends am Bildschirm.
   final bool druckspiel;
 
-  /// Bietet die Tafel auch die Erzählerakte an? Nur in der Druckmappe der Akte.
+  /// Bietet die Tafel auch die Erzählerakte an? Nie in der Rollenvergabe; die
+  /// Druckmappe setzt die Tafel seit dem Kammerspiel nicht mehr ein (E16).
   final bool erzaehlerakte;
 
   @override
@@ -94,8 +101,8 @@ class _DruckTafelState extends State<DruckTafel> {
     }
   }
 
-  /// Gibt es hier die Erzählerakte? Nur in der Druckmappe, im Druckspiel, nie im
-  /// Solo und nur bei Akten mit Erzählerakte.
+  /// Gibt es hier die Erzählerakte? Nur mit dem Schalter [DruckTafel.erzaehlerakte],
+  /// im Druckspiel, nie im Solo und nur bei Akten mit Erzählerakte.
   bool get _mitErzaehlerakte => widget.erzaehlerakte && widget.druckspiel && !s.solo && s.daten.erzaehlerakteFuer(einfluss: false) != null;
 
   /// Ein Knopf, der die Datei aus [bauen] erst beim Tipp setzt; [datei] nennt sie

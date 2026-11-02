@@ -1,0 +1,941 @@
+{
+  "beschreibung": "Regeldaten des Kammerspiel-Textprüfers (packages/mordakte_core/lib/src/party/druck/kammer/textpruefer.dart). Gelten für jede Zeichenkette in content/kammerspiel/schlosskeller/**/*.json, unabhängig von Teil und Leser (FALL-BIBEL WELT 0.2, REG §6, TON-LEITFADEN, E4, E5, E11). Diese Datei selbst wird nicht geprüft (dateienAusgenommen). Wortregeln: ganz = ganzes Wort (mehrere Wörter = Wortfolge), anfang/ende/teil = Wortanfang, Wortende, Wortteil; Wörter klein, außer bei gross = true. Eine Liste oder eine Karte Eintrag → Ersatz. ausser = Wort enthält den Eintrag (mit = vorn: ganzes Wort); kontextAusser = erlaubt, wenn im selben Satz ein Wort mit diesem Anfang steht; nurMit = Regel gilt nur in Texten mit einem Wort, das den Eintrag enthält. Ausnahmen: Regel-ID → Muster datei oder datei#jsonPfad (Glob: * ohne /, ** beliebig; Pfad als Präfix ab $, [*] jeder Index); Schlüssel * gilt für alle Regeln.",
+  "dateienAusgenommen": [
+    "textregeln.json",
+    "*.schema.json",
+    "**/*.schema.json"
+  ],
+  "unvollstaendigMarken": [
+    "OFFEN:",
+    "OFFENE FRAGE"
+  ],
+  "ausnahmen": {
+    "sekunden": [
+      "**aufl*sung*.json",
+      "**90-*.json",
+      "**teil90*.json",
+      "**teil-90*.json",
+      "**#$.aufloesung",
+      "**#$.teil90"
+    ],
+    "herr-schneider": [
+      "**olli*.json"
+    ]
+  },
+  "hinweise": {
+    "satzlaenge": "Kein Satz über 25 Wörter (TON §4, G-10, ZG-12).",
+    "satzmittel": "Im Mittel höchstens 14 Wörter je Satz und Datei (TON §4, G-10, ZG-12).",
+    "uhrzeit": "Uhrzeiten H:MM nur aus der Liste in WELT 0.2.",
+    "uhrzeit-form": "Uhrzeiten als H:MM ohne führende Null: „0:12 Uhr“, „7:00 Uhr“ (WELT 0.2).",
+    "sekunden": "Sekunden nur im Auflösungsheft (Teil 90); im Dunkeln zählt nur die Reihenfolge (WELT 0.2).",
+    "punsch": "Beim ersten Nennen je Text „alkoholfreier Apfelpunsch“ (TON §6).",
+    "herr-schneider": "Immer „Herr Schneider“ / „Herrn Schneider“; bloß „Schneider“ nur in Ollis wörtlicher Rede (WELT 0.2).",
+    "raumname": "Raumnamen genau so: Ost-Saal, Buffetsaal, Vorratsraum, Durchgang, Kaminsaal, Turmgang, Windfang, Steinbogen, Turm-Toilette, Theken-Klappe (WELT 0.2).",
+    "raumwort": "Ein Wort auf -saal, -raum, -gang, -keller, -kammer, -küche, -halle, -hof, -turm muss ein Raumname aus der Liste sein; kein „Umgang“, „Ausgang“, „Übergang“, „Vorgang“, kein „Saal“ allein (REG §6.9, FALL-BIBEL RK 0.3).",
+    "platzhalter": "Keine Platzhalter-Reste (TODO, XXX, usw., „…“ als Lücke am Textende) im Druck (AUFTRAG §5.5, A-2 A4.9).",
+    "klammer": "Geschweifte und eckige Klammern müssen paarweise stehen; unaufgelöste Platzhalter sind ein Fehler (ARCHITEKTUR A1)."
+  },
+  "saetze": {
+    "hoechstens": 25,
+    "mittelHoechstens": 14,
+    "abkuerzungen": [
+      "ca.",
+      "z. B.",
+      "Nr.",
+      "usw.",
+      "bzw.",
+      "u. a.",
+      "d. h.",
+      "ggf.",
+      "evtl.",
+      "inkl.",
+      "vgl.",
+      "Min.",
+      "Std.",
+      "Sek."
+    ]
+  },
+  "uhrzeiten": [
+    "18:00",
+    "18:30",
+    "18:35",
+    "18:45",
+    "18:50",
+    "19:00",
+    "19:30",
+    "20:15",
+    "21:00",
+    "22:00",
+    "22:30",
+    "23:00",
+    "23:20",
+    "23:30",
+    "23:40",
+    "23:45",
+    "23:50",
+    "23:51",
+    "23:52",
+    "23:53",
+    "23:54",
+    "23:55",
+    "23:56",
+    "23:57",
+    "23:58",
+    "23:59",
+    "0:00",
+    "0:01",
+    "0:02",
+    "0:03",
+    "0:05",
+    "0:10",
+    "0:11",
+    "0:12",
+    "0:13",
+    "0:15",
+    "0:20",
+    "0:30",
+    "1:15",
+    "2:00",
+    "2:45",
+    "7:00"
+  ],
+  "punsch": {
+    "wort": "punsch",
+    "pflicht": "alkoholfrei"
+  },
+  "herrSchneider": {
+    "erlaubteWendungen": [
+      "red ich mit Schneider",
+      "0 Euro. Schneider"
+    ]
+  },
+  "raumnamen": [
+    {
+      "name": "Ost-Saal",
+      "teile": ["ost", "saal"]
+    },
+    {
+      "name": "Buffetsaal",
+      "teile": ["buffet|büfett|büffet", "saal"]
+    },
+    {
+      "name": "Vorratsraum",
+      "teile": ["vorrats", "raum"]
+    },
+    {
+      "name": "Durchgang",
+      "teile": ["durch", "gang"]
+    },
+    {
+      "name": "Kaminsaal",
+      "teile": ["kamin", "saal"]
+    },
+    {
+      "name": "Turmgang",
+      "teile": ["turm", "gang"]
+    },
+    {
+      "name": "Windfang",
+      "teile": ["wind", "fang"]
+    },
+    {
+      "name": "Steinbogen",
+      "teile": ["stein", "bogen"]
+    },
+    {
+      "name": "Turm-Toilette",
+      "teile": ["turm", "toilette"]
+    },
+    {
+      "name": "Theken-Klappe",
+      "teile": ["theke|theken", "klappe"]
+    }
+  ],
+  "raumnamenFalsch": {
+    "West-Saal": "Kaminsaal",
+    "Westsaal": "Kaminsaal",
+    "Kaminzimmer": "Kaminsaal",
+    "Kaminraum": "Kaminsaal",
+    "Thekensaal": "Buffetsaal",
+    "Theken-Saal": "Buffetsaal",
+    "Vorratskammer": "Vorratsraum",
+    "Büfett": "Buffet",
+    "Büffet": "Buffet"
+  },
+  "raumwort": {
+    "endungen": [
+      "saal",
+      "raum",
+      "gang",
+      "keller",
+      "kammer",
+      "küche",
+      "halle",
+      "hof",
+      "turm"
+    ],
+    "erlaubt": [
+      "keller",
+      "schlosskeller",
+      "gewölbekeller",
+      "turm",
+      "schlossturm",
+      "hof",
+      "schlosshof",
+      "innenhof",
+      "gang",
+      "raum",
+      "eingang",
+      "zugang"
+    ],
+    "erlaubtEndung": []
+  },
+  "platzhalter": {
+    "woerter": [
+      "todo",
+      "fixme",
+      "xx",
+      "xxx",
+      "xxxx",
+      "tbd",
+      "lorem",
+      "ipsum"
+    ],
+    "ausdruecke": [
+      "usw.",
+      "u. s. w.",
+      "etc.",
+      "weitere folgen",
+      "analog"
+    ]
+  },
+  "wortregeln": [
+    {
+      "regel": "schlagverb",
+      "hinweis": "Kein Verb des Schlagens, in keiner Form (WELT 0.2, LÜ S-34). Der Schlag ist nur „ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden“.",
+      "ende": [
+        "schlagen",
+        "schlage",
+        "schlägst",
+        "schlägt",
+        "schlagt",
+        "schlug",
+        "schlugst",
+        "schlugen",
+        "schlugt",
+        "schlüge",
+        "schlügen",
+        "schlügest",
+        "schlüget",
+        "geschlagen",
+        "geschlagene",
+        "geschlagenem",
+        "geschlagenen",
+        "geschlagener",
+        "geschlagenes",
+        "schlagend",
+        "schlagende",
+        "schlagendem",
+        "schlagenden",
+        "schlagender",
+        "schlagendes"
+      ],
+      "ganz": [
+        "hauen",
+        "gehauen",
+        "zuhauen",
+        "zugehauen",
+        "zuzuhauen",
+        "draufhauen",
+        "draufgehauen",
+        "niederhauen",
+        "niedergehauen"
+      ],
+      "teil": [
+        "prügel",
+        "ohrfeig",
+        "niederstreck",
+        "verdresch",
+        "eindresch",
+        "knüppel",
+        "schlägerei"
+      ]
+    },
+    {
+      "regel": "schlag-nomen",
+      "hinweis": "Das Nomen „Schlag“ nur in „ein dumpfer Schlag“ (FALL-BIBEL RK 0.3).",
+      "ganz": [
+        "schlag",
+        "schlags",
+        "schläge",
+        "schlägen"
+      ],
+      "kontextAusser": {
+        "schlag": "dumpf",
+        "schlags": "dumpf"
+      }
+    },
+    {
+      "regel": "gewalt",
+      "hinweis": "Kein Blut, keine Wunde, kein Schmerz: Herr Schneider ist „bewusstlos, mit einer dicken Beule“ (E4, TON §1).",
+      "teil": {
+        "blut": null,
+        "wunde": "dicke Beule",
+        "verletz": null,
+        "schmerz": null,
+        "überfall": null,
+        "quetsch": "eingeklemmt",
+        "prellung": "dicke Beule",
+        "gehirnerschütterung": "dicke Beule",
+        "ermord": null,
+        "mörder": null
+      },
+      "anfang": [
+        "leiche",
+        "mord"
+      ],
+      "ausser": [
+        "wunder",
+        "schwunde",
+        "gewunde",
+        "überwunde",
+        "mordakte"
+      ]
+    },
+    {
+      "regel": "alkohol",
+      "hinweis": "Getränke nur Tee, Kaffee, alkoholfreier Apfelpunsch, Wasser, Säfte (WELT 0.2, TON §6).",
+      "anfang": [
+        "wein",
+        "bier",
+        "sekt",
+        "schnaps",
+        "cocktail",
+        "bar",
+        "kneipe",
+        "fass",
+        "fäss",
+        "prost",
+        "betrunken",
+        "besoffen",
+        "beschwipst",
+        "angetrunken",
+        "kater",
+        "pegel",
+        "alkohol",
+        "glühwein",
+        "whisky",
+        "whiskey",
+        "wodka",
+        "likör",
+        "tequila",
+        "bordeaux",
+        "champagner",
+        "burgunder",
+        "rotwein",
+        "weißwein",
+        "portwein",
+        "prosecco",
+        "aperol",
+        "schampus",
+        "radler",
+        "bowle",
+        "cognac",
+        "brandy"
+      ],
+      "ende": [
+        "wein",
+        "bier",
+        "sekt",
+        "schnaps",
+        "likör",
+        "cocktail",
+        "whisky",
+        "wodka",
+        "bowle"
+      ],
+      "ganz": [
+        "gin",
+        "met",
+        "pils",
+        "alk",
+        "saufen",
+        "säuft",
+        "soff"
+      ],
+      "ausser": [
+        "alkoholfrei",
+        "weinen",
+        "weint",
+        "weiner",
+        "schwein",
+        "insekt",
+        "bargeld",
+        "=bar",
+        "=bart",
+        "=barts",
+        "=barg",
+        "=bargen",
+        "baran",
+        "barsch",
+        "barfuß",
+        "barfuss",
+        "barriere",
+        "barock",
+        "baron",
+        "barmherzig",
+        "barren",
+        "baracke",
+        "barometer",
+        "fasse",
+        "fasst",
+        "fassung",
+        "fassade",
+        "sektor",
+        "sektion",
+        "bierernst",
+        "katerchen"
+      ],
+      "kontextAusser": {
+        "kater": "katze"
+      }
+    },
+    {
+      "regel": "bargeld",
+      "hinweis": "„bar“ heißt im Kammerspiel „in Bargeld“; eine „Bar“ gibt es nicht, nur die „Theke“ (WELT 0.2, REG §6.3).",
+      "ganz": {
+        "bar": "in Bargeld (oder Theke)"
+      }
+    },
+    {
+      "regel": "drogen",
+      "hinweis": "Keine Drogen, auch nicht als Witz (TON §6).",
+      "ganz": [
+        "droge",
+        "drogen",
+        "joint",
+        "joints",
+        "kiffen",
+        "kifft",
+        "gekifft",
+        "kiffer",
+        "rauschmittel",
+        "kokain",
+        "heroin",
+        "cannabis",
+        "marihuana",
+        "haschisch",
+        "ecstasy"
+      ]
+    },
+    {
+      "regel": "rauchen",
+      "hinweis": "Kein Rauchen; „Rauch“ und „Qualm“ nur mit dem Kamin im selben Satz (TON §6, ZG-12).",
+      "ganz": [
+        "zigarette",
+        "zigaretten",
+        "e-zigarette",
+        "e-zigaretten",
+        "zigarre",
+        "zigarren",
+        "rauchen",
+        "rauche",
+        "rauchst",
+        "rauchend",
+        "rauchende",
+        "raucht",
+        "rauchte",
+        "rauchten",
+        "geraucht",
+        "raucher",
+        "raucherin",
+        "raucherecke",
+        "raucherraum",
+        "dampfen",
+        "dampft",
+        "dampfte",
+        "gedampft",
+        "vape",
+        "vapes",
+        "shisha",
+        "shishas",
+        "rauch",
+        "qualm",
+        "qualmt",
+        "qualmte",
+        "qualmen",
+        "rauchwolke",
+        "rauchwolken",
+        "rauchschwaden",
+        "qualmwolke",
+        "qualmwolken",
+        "qualmschwaden"
+      ],
+      "kontextAusser": {
+        "rauch": "kamin",
+        "qualm": "kamin",
+        "qualmt": "kamin",
+        "qualmte": "kamin",
+        "qualmen": "kamin",
+        "rauchwolke": "kamin",
+        "rauchwolken": "kamin",
+        "rauchschwaden": "kamin",
+        "qualmwolke": "kamin",
+        "qualmwolken": "kamin",
+        "qualmschwaden": "kamin",
+        "dampft": ["tee", "kaffee", "punsch", "apfelpunsch", "suppe", "essen", "warmhaltebehälter"],
+        "dampfte": ["tee", "kaffee", "punsch", "apfelpunsch", "suppe", "essen", "warmhaltebehälter"],
+        "dampfen": ["tee", "kaffee", "punsch", "apfelpunsch", "suppe", "essen", "warmhaltebehälter"]
+      }
+    },
+    {
+      "regel": "fachwort",
+      "hinweis": "Fachwortliste: Ersatz ist Pflicht (TON §5).",
+      "ganz": {
+        "chafing-dish": "Warmhaltebehälter",
+        "chafing-dishes": "Warmhaltebehälter",
+        "phasenprüfer": "Spannungsprüfer-Schraubenzieher",
+        "gimbal": "Handyhalter",
+        "gimbals": "Handyhalter",
+        "samowar": "großer Teekocher",
+        "samowars": "großer Teekocher",
+        "schanktheke": "Buffettheke",
+        "schanktheken": "Buffettheke",
+        "tresen": "Theke",
+        "lanyard": "Schlüsselband",
+        "lanyards": "Schlüsselband",
+        "sicherungsautomat": "Sicherung",
+        "sicherungsautomaten": "Sicherung",
+        "fi-schalter": "Hauptsicherung",
+        "hehler": "(entfällt)",
+        "hehlerei": "(entfällt)",
+        "kaution": "Umschlag mit dem Mietgeld",
+        "kautionen": "Umschlag mit dem Mietgeld",
+        "kautionsumschlag": "Umschlag mit dem Mietgeld",
+        "affekt": "in Panik",
+        "smoking gun": "Schlüsselbeweis",
+        "smoking guns": "Schlüsselbeweis",
+        "red herring": "falsche Fährte",
+        "red herrings": "falsche Fährte",
+        "oversized-hoodie": "weiter Kapuzenpulli",
+        "oversized-hoodies": "weiter Kapuzenpulli",
+        "kängurutasche": "Bauchtasche des Pullis",
+        "kängurutaschen": "Bauchtasche des Pullis",
+        "bundfaltenhose": "Stoffhose",
+        "bundfaltenhosen": "Stoffhose"
+      }
+    },
+    {
+      "regel": "herkunft",
+      "hinweis": "Kopftuch und Herkunft kommen in keinem Spieltext vor; nie Spur, Merkmal oder Motiv (WELT 0.2, E11, ZG-12).",
+      "anfang": [
+        "kopftuch",
+        "hidschab",
+        "hijab",
+        "herkunft",
+        "nationalität",
+        "ethni",
+        "migrations",
+        "ausländer",
+        "türkisch",
+        "kurdisch",
+        "bosnisch",
+        "polnisch",
+        "muslim",
+        "moslem",
+        "islam",
+        "religi"
+      ],
+      "teil": [
+        "kopftuch"
+      ],
+      "ganz": [
+        "türkei",
+        "türke",
+        "türken",
+        "türkin",
+        "polen",
+        "pole",
+        "polin",
+        "bosnien",
+        "bosnier",
+        "bosnierin",
+        "kurdistan",
+        "kurde",
+        "kurden",
+        "kurdin"
+      ]
+    },
+    {
+      "regel": "schatulle",
+      "hinweis": "Fatma hat die Schatulle ausgeliehen (zum Abzeichnen, Rückgabe am Montag), nie gestohlen (WELT 0.2, REG §6.4).",
+      "nurMit": [
+        "schatulle"
+      ],
+      "ganz": [
+        "stehlen",
+        "stehle",
+        "stiehlst",
+        "stiehlt",
+        "stehlt",
+        "stahl",
+        "stahlst",
+        "stahlen",
+        "stahlt",
+        "klauen",
+        "klaue",
+        "klaust",
+        "klaut",
+        "klaute",
+        "klauten",
+        "mopsen",
+        "gemopst",
+        "rauben",
+        "raubte",
+        "geraubt",
+        "entwenden"
+      ],
+      "teil": [
+        "gestohl",
+        "geklaut",
+        "entwend",
+        "stibitz",
+        "dieb"
+      ]
+    },
+    {
+      "regel": "anglizismus",
+      "hinweis": "Deutsche Begriffe (E5, MECH 0.2): Lageplan, Vorstellungsrunde, Sätze mit „Sobald …“, Geheimniskarte, Aktionskarte, Tipp-Zettel.",
+      "ganz": {
+        "trigger": "Sobald …",
+        "triggern": "Sobald …",
+        "getriggert": "Sobald …",
+        "evidence": "Lageplan",
+        "board": "Lageplan",
+        "boards": "Lageplan",
+        "clue": "Hinweis",
+        "clues": "Hinweise",
+        "sorry": "Entschuldigung",
+        "smalltalk": "Plauderei",
+        "small talk": "Plauderei",
+        "showdown": "Tipp-Runde",
+        "check": "Kontrolle",
+        "checks": "Kontrolle",
+        "checken": "prüfen",
+        "checkt": "prüft",
+        "gecheckt": "geprüft",
+        "ping-pong": "Vorstellungsrunde",
+        "auto-solve": null,
+        "pen paper": "mit Stift und Papier",
+        "knives out": null,
+        "spoiler": null,
+        "spoilern": null,
+        "plot": null,
+        "twist": null,
+        "murder": null,
+        "mystery": null,
+        "crime": null,
+        "game": null,
+        "player": null,
+        "deadline": null,
+        "feedback": null,
+        "briefing": null,
+        "location": null,
+        "event": null,
+        "handout": null,
+        "story": null,
+        "teaser": null,
+        "okay": null,
+        "ok": null,
+        "cool": null
+      },
+      "anfang": [
+        "trigger",
+        "evidence",
+        "ping-pong",
+        "auto-solve",
+        "smalltalk",
+        "showdown"
+      ],
+      "ende": [
+        "-check",
+        "-board",
+        "-trigger",
+        "-game"
+      ]
+    },
+    {
+      "regel": "erzaehler",
+      "hinweis": "Die Spielleitung heißt „Erzähler“ (E5).",
+      "anfang": {
+        "spielleit": "Erzähler",
+        "gamemaster": "Erzähler",
+        "game-master": "Erzähler"
+      },
+      "ganz": {
+        "game master": "Erzähler"
+      }
+    },
+    {
+      "regel": "name",
+      "gross": true,
+      "hinweis": "Namen nur in heutiger Schreibweise (REG §6.7); die Aussprache steht nie im Text.",
+      "ganz": {
+        "Leila": "Lejla",
+        "Leilas": "Lejlas",
+        "Leyla": "Lejla",
+        "Leylas": "Lejlas",
+        "Johanna": "Joanna",
+        "Johannas": "Joannas",
+        "Joana": "Joanna",
+        "Mark": "Marek",
+        "Marks": "Mareks",
+        "Murat": "Marek",
+        "Murats": "Mareks",
+        "Meryem": "Hana",
+        "Hanna": "Hana",
+        "Hannah": "Hana",
+        "Kaan": "Wojtek",
+        "Woitek": "Wojtek",
+        "Dilara": "Azra",
+        "Asra": "Azra",
+        "Enes": "Damir",
+        "Selin": "Sibel",
+        "Achmet": "Ahmet",
+        "Ahmed": "Ahmet",
+        "Achmed": "Ahmet",
+        "Dschan": "Can",
+        "Seinep": "Zeynep",
+        "Zeinep": "Zeynep",
+        "Ailin": "Aylin",
+        "Tuuba": "Tugba",
+        "Tuğba": "Tugba",
+        "Fatima": "Fatma"
+      }
+    },
+    {
+      "regel": "gestrichene-figur",
+      "gross": true,
+      "hinweis": "Baran und Pawel gibt es im Kammerspiel nicht (E2, WELT 0.3 K-14).",
+      "ganz": [
+        "Baran",
+        "Barans",
+        "Pawel",
+        "Pawels",
+        "Hakan",
+        "Hakans"
+      ]
+    },
+    {
+      "regel": "sperrliste",
+      "hinweis": "Begriffe aus anderen Fällen und alten Ständen (A-2 A4.6) und „Geburtstag“ (A-061).",
+      "anfang": {
+        "merle": null,
+        "lüddecke": null,
+        "rojda": null,
+        "adnan": null,
+        "kunibert": null,
+        "burgwart": "Herr Schneider",
+        "speisekammer": "Vorratsraum",
+        "wehrgang": null,
+        "torhaus": null,
+        "hofebene": null,
+        "turm-fuß": null,
+        "eisentür": null,
+        "bienenwachs": "Möbelwachs oder Kerzenwachs",
+        "benommen": "kurz bewusstlos",
+        "apfel-zimt-punsch": "alkoholfreier Apfelpunsch",
+        "ayran": null,
+        "geburtstag": "Wiedersehen der Clique",
+        "freundchen": null
+      }
+    }
+  ],
+  "leser": {
+    "beschreibung": "Regeldaten der Leser-Prüfung (packages/mordakte_core/lib/src/party/druck/kammer/leserpruefung.dart): Wer liest welchen Text wann, und was darf er dabei nicht erfahren (FALL-BIBEL E3, E7–E11, MECH 3.1, 4.1, 9, 10.4, RK 1, RK 7.7, RK 8, WELT 0.2). Muster wie unter ausnahmen: datei oder datei#jsonPfad (Datei-Glob, JSON-Pfad als Präfix ab $, [*] jeder Index); {taeter} steht für die Rollendatei des Täters aus fall.json, {unschuldig} für die der übrigen Verdächtigen. Folgen sind Fünf-Wort-Folgen innerhalb eines Satzes, klein und ohne Satzzeichen (fuenfWortFolgen). Wortlisten: ganz = ganzes Wort, anfang = Wortanfang, folgen = Wortfolge (folge in Wörtern ohne Satzzeichen, nichtVor = das nächste Wort darf keins davon sein). Texte, die mit einer Marke aus unvollstaendigMarken beginnen, prüft die Leser-Prüfung nicht; Vergleiche, die sie bräuchten, stehen in ausgelassen.",
+    "hinweise": {
+      "leser-taeterwissen": "Eine Fünf-Wort-Folge aus dem Tatkern (Ollis Fassung RN7 ab dem Knall, Stufe 3, Teil 90; Rückblende ab Abschnitt 2, weil Abschnitt 1 nur wörtlich wiederholt, was Olli und Tim vor dem Knall offen wissen, und darum Geheimnisquelle ist) steht in einem Text, den andere vor der Auflösung lesen (MECH 10.4, E10, A:25).",
+      "leser-tatwort": "Ein Wort der Tat oder des Geständnisses („Panik“, „Ich war es.“) steht außerhalb von RN7 und Teil 90 (E9, MECH 8.1).",
+      "leser-geheimnis": "Erzählerheft, Detektivbogen, Tisch, Außenseiten und Beschriftungen enthalten keine Stufe-2-Inhalte und keine Lösung (E10, RK 6); ein Zeugenstreifen enthält nicht die Geheimniskarte seines Zeugen (E7).",
+      "leser-fassungscode": "Ein Fassungscode steht im Klartext außerhalb von Teil 90; die Zuordnung Code → Person steht nur im eigenen Heft (MECH 9, RK 7.2).",
+      "leser-indiz-name": "Fundort und Schlüsselbeweis nennen keine Person (E3, A:107, MECH 3.1 Nr. 3).",
+      "leser-indiz-gestaendnis": "Indizkarten zeigen nur Sichtbares: kein Geständnis, nicht, was eine Person weiß, sah, hörte oder sagte (A:18, MECH 3.1 Nr. 1).",
+      "leser-indiz-wort": "Auf Indizkarten stehen keine Spoiler-Wörter („Täter“, „wahr“, „falsch“, „Gerücht“, „Ende“) und am Fundort keine roten Teilchen (MECH 3.1 Nr. 7).",
+      "leser-vorderseite": "Außenseiten sind neutral: Geheimniskarte nur Name, Platz und „Geheimnis“, Indizkarte nur Code und Runde, Fassung nur der Code; keine Bedingung, kein Name im Text, kein Code im Klartext (E8, MECH 3.3, 4.1, RK 7.2).",
+      "leser-bedingung": "Die Bedingung zum Umdrehen steht nur im Rollenheft, nie auf der Geheimniskarte: kein Bedingungswort, keiner ihrer eigenen Pflicht-Codes (ein Verweis wie „Vergleiche die Bogentür (YT4)“ ist erlaubt); jedes Heft nennt seine Auslöser (E8, MECH 4.1).",
+      "leser-kopftuch": "Tugba bleibt ganz unbelastet: kein Vermerk, keine Pflicht, keine Sperre, keine Tarnung, kein belastendes Wort neben ihrem Namen (E11, ZR 0.4, ZR 8).",
+      "leser-platzhalter": "Ein Name einer Rolle, die bei dieser Besetzung niemand spielt, steht im Druck; jede Zeile, die eine Rolle mit höherem Platz nennt, braucht einen Platzhalter (WELT 0.2, RK 1.5, ZG G-08, ZR ZG-10, MECH 8.3).",
+      "leser-gestalt-gliederung": "Die vier Verdächtigen haben dieselben Felder, dieselbe Zahl an Einträgen und dieselben Impulse und Runden in derselben Reihenfolge (E9, RK 1.1, RK 8.2, MECH 10.4).",
+      "leser-gestalt-laenge": "Wortzahl der vier Hefte und Fassungen je Teil höchstens zehn Prozent über oder unter dem Mittel, gezählt wie RK 7.7 (volle Besetzung, Namen statt Platzhalter).",
+      "leser-gestalt-schluss": "Alle vier Stufen 2 enden mit demselben Schlusssatz; Sätze, die nur in den Fassungen der Unschuldigen stehen, stehen in keinem Heft (RK 8.2, P5-B3).",
+      "leser-gestalt-aktion": "Die Aktionskarten der vier sind gleich gebaut (Klasse, Runde, Grenzen) und neutral benannt, Ollis auch (E9, MECH 4.5).",
+      "leser-gestalt-tat": "Nur RN7 enthält die Tat: keine Tat in den Fassungen der Unschuldigen, und Ollis Stufe 3 ist ein Geständnis (E9, MECH 8.1)."
+    },
+    "tatkern": {
+      "muster": [
+        "{taeter}#$.fassung.ziel",
+        "{taeter}#$.fassung.zeitleiste",
+        "{taeter}#$.fassung.wasNurDuWeisst",
+        "{taeter}#$.fassung.heftUndWahrheit",
+        "{taeter}#$.fassung.wennEsEngWird",
+        "{taeter}#$.fassung.stufe3",
+        "aufloesung.json#$.wasWirklichWar",
+        "aufloesung.json#$.rueckblende[1]",
+        "aufloesung.json#$.rueckblende[2]",
+        "aufloesung.json#$.rueckblende[3]",
+        "aufloesung.json#$.rueckblende[4]",
+        "aufloesung.json#$.rueckblende[5]",
+        "aufloesung.json#$.rueckblende[6]",
+        "aufloesung.json#$.rueckblende[7]",
+        "aufloesung.json#$.zeitleiste",
+        "aufloesung.json#$.enden",
+        "aufloesung.json#$.bundSaetze",
+        "aufloesung.json#$.tippWertung.fragen",
+        "aufloesung.json#$.tippWertung.sonderregel"
+      ],
+      "zeitleisteNur": ["23:58"],
+      "nurRede": ["{taeter}#$.fassung.wennEsEngWird"]
+    },
+    "geheimnisquellen": [
+      "rollen/*.json#$.stufe2",
+      "rollen/*.json#$.geheimniskarte.wasIchZugebe",
+      "rollen/*.json#$.geheimniskarte.vermerke",
+      "rollen/*.json#$.geheimniskarte.undNochEtwas",
+      "rollen/*.json#$.freigabe.nachDerKarte",
+      "rollen/*.json#$.teil90",
+      "aufloesung.json#$.rueckblende[0]"
+    ],
+    "oeffentlich": [
+      "gemeinsam.json",
+      "erzaehlerheft.json#$.tatMoment",
+      "erzaehlerheft.json#$.herrSchneiderAntwortet",
+      "erzaehlerheft.json#$.kartenUnterStreifen.umschreibungen",
+      "indizkarten.json",
+      "rollen/*.json#$.aktionskarte.name",
+      "rollen/*.json#$.aktionskarte.wirkung",
+      "rollen/*.json#$.aktionskarte.grenzen"
+    ],
+    "zeugenwissen": [
+      "abwesenheit.json#$.streifen[*].protokoll",
+      "abwesenheit.json#$.streifen[*].vermerk",
+      "rollen/*.json#$.notiz",
+      "rollen/*.json#$.geheimniskarte.wasIchZugebe",
+      "rollen/*.json#$.geheimniskarte.vermerke",
+      "rollen/*.json#$.geheimniskarte.undNochEtwas"
+    ],
+    "erlaubteFolgen": {
+      "leser-taeterwissen": {
+        "selbst mit herrn schneider klären": "Ollis Ziel aus dem Kanon steht wörtlich auch in „Wer du bist“ (RK 4.4) und verrät die Tat nicht."
+      },
+      "leser-geheimnis": {
+        "ohne die kaminklappe zu öffnen": "Öffentliche Anekdote der Vorstellungsrunde, wörtlich nach MECH 9.4; sie nennt niemanden."
+      }
+    },
+    "ausnahmen": {
+      "leser-platzhalter": [
+        {
+          "muster": "rollen/08-joanna.json#$.notiz",
+          "grund": "Joannas Notiz nennt immer die Rollen 1–10, auch wenn sie fehlen (W-21, ZG 4.5, MECH 5.3)."
+        }
+      ]
+    },
+    "tatwoerter": {
+      "anfang": ["panik", "panisch"],
+      "folgen": [
+        {"folge": "ich war es", "nichtVor": ["nicht"]},
+        {"folge": "ich war s", "nichtVor": ["nicht"]}
+      ]
+    },
+    "indiz": {
+      "ohneNamen": ["XD3", "PP9"],
+      "urteil": {"anfang": ["schlüsselbeweis", "fundort", "täter"]},
+      "fundort": "fundort",
+      "fundortOhne": {"anfang": ["rot"]},
+      "gestaendnis": {
+        "ganz": ["gesteht", "gestehen", "gestehst", "gestand", "geständnis", "geständnisse", "zugegeben", "zugibt", "eingeräumt"],
+        "folgen": [
+          {"folge": "gibt zu"},
+          {"folge": "gab zu"},
+          {"folge": "gibt es zu"},
+          {"folge": "gab es zu"},
+          {"folge": "geben zu"},
+          {"folge": "räumt ein"},
+          {"folge": "ich war es", "nichtVor": ["nicht"]},
+          {"folge": "ich war s", "nichtVor": ["nicht"]}
+        ]
+      },
+      "wahrnehmung": {
+        "ganz": ["sah", "sieht", "sahen", "hörte", "hört", "hörten", "weiß", "wusste", "wussten", "sagt", "sagte", "sagten", "flüstert", "flüsterte", "erzählt", "erzählte", "erkannte", "bemerkte", "beobachtete", "gibt", "gab"]
+      },
+      "spoiler": {
+        "anfang": ["täter", "gerücht"],
+        "ganz": ["wahr", "wahre", "wahrer", "wahres", "wahren", "falsch", "falsche", "falscher", "falsches", "falschen", "ende"]
+      }
+    },
+    "vorderseiten": [
+      {"datei": "ui/20.json", "schluessel": "indiz.aussen", "werte": ["code", "runde"]},
+      {"datei": "ui/20.json", "schluessel": "geheimnis.vorne", "werte": ["name", "platz"]},
+      {"datei": "ui/20.json", "schluessel": "geheimnis.vorne.hinweis", "werte": []},
+      {"datei": "ui/20.json", "schluessel": "geheimnis.vorne.fehlt", "werte": ["name", "platz"]},
+      {"datei": "ui/11.json", "schluessel": "aussen.hinweis", "werte": []}
+    ],
+    "bedingung": {
+      "ganz": ["sobald", "frühestens", "spätestens", "rundensperre"],
+      "anfang": ["pflicht-auslöser"]
+    },
+    "kopftuch": {
+      "rolle": "tugba",
+      "vermerkeErlaubt": ["Nichts für den Ermittlungsbogen."],
+      "sperre": 1,
+      "leer": ["stufe1.kernsaetze", "stufe1.ausweichsaetze", "stufe1.verboten", "stufe2.nachDemUmdrehen.saetze", "geheimniskarte.pflichtCodes"],
+      "ohneText": ["stufe1.regie", "stufe1.markersatz", "stufe2.wasDuVerbirgst", "stufe2.wasDuDannSagst", "stufe2.abDann"],
+      "ohneTextAusser": {"stufe1.regie": ["Du hast nichts zu verbergen. Alles, was du weißt, sagst du jedem, der fragt. Auch ungefragt."]},
+      "belastend": {
+        "anfang": ["heimlichtu", "verdächt", "verdacht", "lüg", "gelogen", "schwindel", "nebendelikt", "täter", "vertusch", "verheimlich", "gestohlen", "geklaut", "kopftuch"]
+      }
+    },
+    "gestalt": {
+      "toleranz": 0.1,
+      "anzahl": {
+        "stufe1.kernsaetze": 2,
+        "stufe1.ausweichsaetze": 7,
+        "wennDerErzaehlerFragt": 8,
+        "stufe2.ausloeser": 3,
+        "freigabe.sofort": 3,
+        "freigabe.nachDemMarker": 1,
+        "freigabe.nachDerKarte": 3,
+        "gespraechsauftraege": 6,
+        "geheimniskarte.vermerke": 2,
+        "fassung.wasNurDuWeisst": 5,
+        "fassung.wennEsEngWird": 5
+      },
+      "spielraum": {"fassung.zeitleiste": [16, 17]},
+      "ungleichErlaubt": ["platz", "geheimniskarte.pflichtCodes", "wasDuBeiDirTraegst.indizkarte", "fassung.zeitleiste"],
+      "gleicheWerte": ["wennDerErzaehlerFragt[*].impuls", "aktionskarte.klasse"],
+      "ohne": ["gespraechsauftraege[*].ausweich", "fassung.zeitleiste[*].zeit"],
+      "laengen": [
+        {"name": "Heft gesamt", "felder": ["vorstellung.auftritt", "werDuBist", "marker.zeile", "stufe1", "wennDerErzaehlerFragt", "stufe2", "gespraechsauftraege", "freigabe", "wasDuBeiDirTraegst", "aktionskarte", "bonusZiel"]},
+        {"name": "Heft Seite 1", "felder": ["vorstellung.auftritt", "werDuBist"]},
+        {"name": "Heft Seite 2", "felder": ["marker.zeile", "stufe1", "wennDerErzaehlerFragt", "stufe2"]},
+        {"name": "Heft Seite 3", "felder": ["gespraechsauftraege", "freigabe"]},
+        {"name": "Heft Seite 4", "felder": ["wasDuBeiDirTraegst", "aktionskarte", "bonusZiel"]},
+        {"name": "Fassung gesamt", "felder": ["fassung"]},
+        {"name": "Zeitleiste", "felder": ["fassung.zeitleiste"]},
+        {"name": "Wenn es eng wird", "felder": ["fassung.wennEsEngWird"]},
+        {"name": "Dein Heft und die Wahrheit", "felder": ["fassung.heftUndWahrheit"]},
+        {"name": "Stufe 3", "felder": ["fassung.stufe3"]},
+        {"name": "Wenn der Erzähler fragt", "felder": ["wennDerErzaehlerFragt"]},
+        {"name": "Gesprächsaufträge", "felder": ["gespraechsauftraege"]},
+        {"name": "Dein Auftritt", "felder": ["vorstellung.auftritt"]},
+        {"name": "Geheimniskarte", "felder": ["geheimniskarte.wasIchZugebe"]},
+        {"name": "Bonus-Ziel", "felder": ["bonusZiel"]}
+      ],
+      "schlusssatz": "Mehr gibst du nicht zu. Dabei bleibst du.",
+      "nurInFassungen": ["Mit dem Scheppern hast du nichts zu tun"],
+      "aktion": {
+        "klasse": "schutz",
+        "verraeterisch": {"anfang": ["veto", "ablenk", "täter", "vertusch", "verschleier", "sabot", "tarn"]}
+      }
+    }
+  }
+}

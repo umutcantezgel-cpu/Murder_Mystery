@@ -55,6 +55,11 @@ class _Geladen {
 
 /// Assistent für einen neuen Abend (Route `/abend/neu`): Akte, Spielweise,
 /// Einstellungen, Start. Der Start richtet die Sitzung ein und öffnet `/abend`.
+///
+/// „Zum Drucken“ (Spielart einer druckbaren Akte, nur reihum) richtet keinen
+/// Abend ein (E17): Die App begleitet das Kammerspiel nicht. Die Einstellungen
+/// zeigen dann nur die Wahl der Spielart, der Start fasst zusammen, und sein
+/// Knopf „Zur Druckmappe“ öffnet die Druckmappe der Akte.
 class AbendNeuSeite extends StatefulWidget {
   const AbendNeuSeite({super.key, this.akteId});
 
@@ -184,14 +189,22 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
 
   void _waehleWeise(Spielweise w) {
     _weise = w;
-    _geladen?.werte.solo = w == Spielweise.solo;
+    final werte = _geladen?.werte;
+    werte?.solo = w == Spielweise.solo;
+    // Zum Drucken gibt es nur reihum (Solo setzt es selbst zurück): online nie.
+    if (w == Spielweise.eigene && werte?.spielart == Spielart.druck) werte!.setzeSpielart(Spielart.bildschirm);
     setState(() {});
   }
+
+  /// „Zum Drucken“ gewählt (E17): Der Assistent führt zur Druckmappe der Akte,
+  /// statt einen Abend einzurichten.
+  bool get _zurDruckmappe => _weise == Spielweise.reihum && (_geladen?.werte.druck ?? false);
 
   bool get _kannWeiter => switch (_schritt) {
         _Schritt.akte => _akte != null,
         _Schritt.spielweise => _weise != null,
-        _Schritt.einstellungen => _geladen != null && _geladen!.werte.codeOk,
+        // Zum Drucken zählt kein Fall-Code: Die Druckmappe kennt keinen.
+        _Schritt.einstellungen => _geladen != null && (_zurDruckmappe || _geladen!.werte.codeOk),
         _Schritt.start => _geladen != null,
       };
 
@@ -214,10 +227,16 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
   }
 
   /// Startknopf: wie der alte Einrichtungsbildschirm richtet er die Sitzung ein
-  /// ([EinrichtungsWerte.starten]) und übergibt sie dem Abend.
+  /// ([EinrichtungsWerte.starten]) und übergibt sie dem Abend. Zum Drucken
+  /// beginnt kein Abend: Der Knopf „Zur Druckmappe“ öffnet die Druckmappe der
+  /// Akte (E17); ein abgelegter Abend bleibt unberührt.
   void _starten() {
     final g = _geladen;
     if (g == null || _weise == null || _uebergeben) return;
+    if (_zurDruckmappe) {
+      context.go(Routes.druckmappeVon(g.akteId));
+      return;
+    }
     if (_weise == Spielweise.eigene) {
       unawaited(_raumOeffnen());
       return;
@@ -315,11 +334,19 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
           l.abend_einstellungen_titel,
           _weise == Spielweise.eigene
               ? l.online_einstellungen_hinweis
-              : _geladen?.sitzung.ui(_weise == Spielweise.solo ? 'ui.solo.einrichtung' : 'ui.einrichtung.hinweis'),
+              : _zurDruckmappe
+                  ? l.abend_einstellungen_druck_hinweis
+                  : _geladen?.sitzung.ui(_weise == Spielweise.solo ? 'ui.solo.einrichtung' : 'ui.einrichtung.hinweis'),
         ),
-      _Schritt.start => (l.abend_start_titel, l.abend_start_hinweis),
+      _Schritt.start => (l.abend_start_titel, _zurDruckmappe ? l.abend_start_druck_hinweis : l.abend_start_hinweis),
     };
     final letzter = _schritt == _Schritt.start;
+    // Der Startknopf: online öffnet er den Raum, zum Drucken die Druckmappe, sonst beginnt der Abend.
+    final (startText, startIcon) = _weise == Spielweise.eigene
+        ? (l.online_raum_oeffnen, Icons.meeting_room_outlined)
+        : _zurDruckmappe
+            ? (l.abend_zur_druckmappe, Icons.print_outlined)
+            : (l.abend_start, Icons.play_arrow_rounded);
     return AkteThema(
       akte: _akteId ?? '',
       child: Builder(
@@ -348,8 +375,10 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
                   onPressed: _zurueck,
                 ),
                 MKnopf(
-                  text: letzter ? (_weise == Spielweise.eigene ? l.online_raum_oeffnen : l.abend_start) : l.abend_weiter,
-                  icon: letzter ? (_weise == Spielweise.eigene ? Icons.meeting_room_outlined : Icons.play_arrow_rounded) : null,
+                  text: letzter ? startText : l.abend_weiter,
+                  icon: letzter ? startIcon : null,
+                  // „Zur Druckmappe“ bräche am kleinen Handy mit großer Schrift sonst mitten im Wort.
+                  ganzeWorte: true,
                   onPressed: _kannWeiter && !_oeffnet ? (letzter ? _starten : _weiter) : null,
                 ),
               ],
@@ -436,12 +465,16 @@ class _AbendNeuSeiteState extends State<AbendNeuSeite> {
         }
         final g = _geladen;
         if (g == null) return _Laedt(text: l.abend_laedt);
-        return EinrichtungsAbschnitte(werte: g.werte, online: _weise == Spielweise.eigene);
+        return EinrichtungsAbschnitte(werte: g.werte, online: _weise == Spielweise.eigene, zurDruckmappe: true);
       case _Schritt.start:
         final g = _geladen;
         final akte = _akte;
         if (g == null || akte == null) return _Laedt(text: l.abend_laedt);
         final nr = (_akten?.indexOf(akte) ?? 0) + 1;
+        // Zum Drucken (E17): Akte und Spielart; Klasse, Deck und Belohnung gehören zu einem Abend in der App.
+        if (_zurDruckmappe) {
+          return _Bereit(akte: akte, nr: nr, felder: [(l.abend_start_spielweise, g.sitzung.ui('ui.einrichtung.spiel_druck'))]);
+        }
         return ListenableBuilder(
           listenable: g.werte,
           builder: (context, _) => Column(

@@ -1,0 +1,287 @@
+{
+  "platz": 12,
+  "id": "damir",
+  "vorstellung": {
+    "frage": "Damir, der Teemeister. Bei dir lehnt niemand ein Glas Tee ab. Hat es heute überhaupt schon jemand gewagt?",
+    "auftritt": "Ich bin Damir, Erzieher, und heute euer Teemeister. Ein Glas Tee lehnt bei mir keiner ab. Ich bestehe darauf. Nachmittags betreue ich Kinder aus Emines Klasse. Die trinken wenigstens Kakao. Um neun hab ich Sibel zur Turm-Toilette begleitet. Seitdem weiß ich: Sibel schreit lauter, als jeder Wasserkessel pfeift. Noch ein Glas?"
+  },
+  "werDuBist": "Du bist Damir, 25, der Teemeister. Als Erzieher betreust du Kinder aus Emines Klasse. Man erkennt dich an der schwarzen Schürze und der großen Teekanne. Um neun hast du Sibel zur Turm-Toilette begleitet.{wenn:tugba| Bei Tugbas Spieleabenden kochst du den Tee.}\nWas dich heute antreibt: Herrn Schneiders Ärger ums Teegeschirr soll kein Thema werden.",
+  "haltung": "Du schenkst Tee aus und hörst zu. Du petzt nicht, aber du lügst auch nicht.",
+  "tandemKasten": "Um 21:00 Uhr hast du Sibel zur Turm-Toilette begleitet. Sie ist vor der Rüstung erschrocken und gegen die Schauvitrine gestoßen. Die Scheibe bekam einen Sprung. Du hast die Splitter schnell unter den Sockel der Rüstung gekehrt. Ihr habt beide geschwiegen. Herr Schneider ist heute ohnehin sauer auf dich, wegen des Teegeschirrs. Mehr Ärger willst du nicht. Aber niemand soll für euren Sprung geradestehen.",
+  "marker": {
+    "zeile": "Marker 23:57: Ost-Saal (1). Marker Scheppern: Theke Ostende (4d). Beide stimmen.",
+    "behauptet": {
+      "z2357": "1",
+      "scheppern": "4d"
+    },
+    "wahr": {
+      "z2357": "1",
+      "scheppern": "4d"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "18:00",
+        "text": "zahlt Ahmet 150 €; unterschreibt beim Einlass die Dankeskarte",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "ab 19:00",
+        "text": "schenkt Tee aus, im Teegeschirr des Schlosses. Herr Schneider wirft ihm vor, es ohne Erlaubnis zu benutzen",
+        "frei": "offen",
+        "zusatz": "Vorwurf erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "21:00",
+        "text": "begleitet Sibel zur Turm-Toilette; Schrei vor der Rüstung",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "21:00",
+        "text": "Sibel stößt gegen die Schauvitrine, Sprung, Splitter. In der Vitrine liegt die Münzschatulle. Er kehrt die Splitter unter den Sockel der Rüstung. Beide schweigen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:00",
+        "text": "Ost-Saal, Ratespiel; Herr Schneider wird an der Theke laut, die Worte versteht er nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50–23:57",
+        "text": "schenkt im Ost-Saal allen Tee aus, die dort sitzen{wenn:serkan|, um zehn vor zwölf auch Serkan}",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:54",
+        "text": "Olli setzt sich an den Kopf der Tafel. Wann er wieder aufstand, hat Damir nicht gesehen; er hat gerade eingeschenkt",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "{rolle:tugba|Ein Gast} ruft zur blinden Kuh. Damirs Handy liegt seit dem Ratespiel um elf im Korb",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "trägt die große Teekanne ans Ostende hinter die Theke, für den Tortentee. Herr Schneider geht gerade hinter der Theke zur Kaffeemaschine und steht im Weg. Damir wartet hinter Marek. Ahmet steht ganz am Ostende. Damir schaut auf die heiße Kanne, nicht auf den Eiskübel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "hört Herrn Schneider laut: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Er kauert sich am Ostende hin, damit er nicht an heiße Kannen stößt. Herr Schneider ruft: „Ruhe! Ich hol die Notlaterne.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "Direkt neben ihm flüstert Ahmet: „Marek? Ich bin's, Ahmet.“ Damir spürt Ahmets Schulter",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "„Hab ich dich!“, zweimal „Stehen bleiben!“, dann das Scheppern. Ahmet ist die ganze Zeit neben ihm",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "Licht. Ahmet steht neben ihm auf, einen dicken Umschlag in der Hand. Marek geht zur Vorratsraumtür: „Hier liegt Herr Schneider!“",
+        "frei": "karte",
+        "zusatz": "Umschlag erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "0:03",
+        "text": "Buffetsaal: Bund weg, Tor zu",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Noch ein Glas Tee? Ich bestehe darauf.“",
+      "„Um neun hab ich Sibel zur Turm-Toilette begleitet. Sie hat vor der Rüstung geschrien. Seitdem trau ich der Rüstung auch nicht mehr.“",
+      "„Kurz vor zwölf hab ich die große Teekanne ans Ostende hinter die Theke getragen, für den Tortentee. Herr Schneider stand im Weg, also hab ich hinter Marek gewartet.“",
+      "„Beim Knall hab ich mich am Ostende hingekauert, wegen der heißen Kanne.“",
+      "„Direkt neben mir hat Ahmet geflüstert: ‚Marek? Ich bin's, Ahmet.‘ Ich hab seine Schulter gespürt. Beim Scheppern war er noch da, bis das Licht anging.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "ob bei Sibels Schrei etwas kaputtging",
+        "antwort": "„Sibel hat sich erschrocken. Mehr sag ich dazu nicht.“"
+      },
+      {
+        "frage": "ob Ahmet etwas in der Hand hatte",
+        "antwort": "„Frag Ahmet. Ich petze nicht.“"
+      },
+      {
+        "frage": "was Herr Schneider dir vorgeworfen hat",
+        "antwort": "„Wir hatten eine kleine Meinungsverschiedenheit über Teegläser. Noch ein Glas?“"
+      },
+      {
+        "frage": "wer am Eiskübel stand",
+        "antwort": "„Ich hab auf die heiße Kanne geschaut, nicht auf den Eiskübel.“"
+      }
+    ],
+    "verboten": [
+      "„Bei Sibel ist nichts kaputtgegangen.“",
+      "„Ahmet hatte nichts in der Hand.“",
+      "„Ich war heute nie im Turmgang.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Bei Ahmet:** „Ja. Als ich kurz vor zwölf mit der Teekanne kam, stand Ahmet hinter der Theke am Ostende.“\n**Sonst:** „Ich hab auf meine heiße Kanne geschaut.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ahmet. Er hat geflüstert: ‚Marek? Ich bin's, Ahmet.‘ Ich hab seine Schulter gespürt.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich war im Ost-Saal. Kurz vor zwölf bin ich mit der Teekanne zur Theke, für den Tortentee.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Der Tee kostet nichts.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Um neun hab ich Sibel zur Turm-Toilette begleitet.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich hab am Ostende gekauert. Gesehen hab ich nichts.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Erst der Knall. Dann kauerte Ahmet neben mir und flüsterte. Dann die Rufe von Herrn Schneider, dann das Scheppern. Ahmet blieb neben mir.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab nichts geholt und nichts weggebracht.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte YT4 offen auf dem Tisch liegt.",
+      "Sobald Sibels Geheimniskarte offen auf dem Tisch liegt.",
+      "Sobald jemand vor allen sagt, eine andere Person habe die Vitrine kaputt gemacht oder aufgebrochen."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Ich petze nicht gern. Aber was auf meiner Karte steht, stimmt.“",
+        "„Herr Schneider hat mir heute vorgeworfen, das Teegeschirr des Schlosses ohne Erlaubnis zu benutzen. Ich wollte ihn nicht noch mehr ärgern.“",
+        "„Um 21:00 Uhr lag die Münzschatulle noch in der Vitrine.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "tim",
+      "frage": "„Tim, kurz vor dem Knall hat Herr Schneider dir zugerufen: ‚Nicht die alte Leiste!‘ Ich stand am Ostende und hab es genau gehört. Was hast du an der Kaffeemaschine gemacht?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "emine",
+      "frage": "„Emine, du warst beim Knall hinter dem linken Buffettisch. Wer hat sich da neben dich gekauert? Ich frag, weil ich am Ostende auch nicht allein war.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "**Karte offen:** „Ahmet, du hast im Dunkeln neben mir gekauert, das sag ich jedem. Aber als das Licht anging, hattest du einen dicken Umschlag in der Hand. Was wolltest du damit hinter der Theke?“\n**Karte zu:** „Ahmet, beim Knall warst du hinter der Theke am Ostende, direkt neben mir. Um fünf vor zwölf sollten alle in den Ost-Saal. Was wolltest du da hinten?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "sibel",
+      "frage": "**Sprich leise mit Sibel:** „Wenn am Tisch die Vitrine Thema wird und jemand anderes für unseren Sprung geradestehen soll: Sagen wir es dann selbst, am Ende der Runde?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "marek",
+      "frage": "„Marek, du hast beim Knall gestanden, direkt vor mir, und an der Anrichte brannten noch die Kerzen. Was hast du an der Vorratsraumtür gesehen, bevor es schepperte?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "can",
+      "frage": "„Can, Herr Schneider hat ‚Hab ich dich!‘ gebrüllt und danach noch zweimal ‚Stehen bleiben!‘. Ich hab das am Ostende gehört. Wenn du das Gespenst warst: Bist du vor oder nach dem Scheppern weggerannt?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "In der Schürzentasche ein Teesieb und ein weißes Tuch zum Polieren der Gläser. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Teepause",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Zwei Personen deiner Wahl setzen sich mit dir zur Seite und reden drei Minuten miteinander. Du hörst zu. Danach sagst du dem Detektiv einen Satz daraus.",
+    "grenzen": "Dein Satz muss stimmen.",
+    "tipp": "Gut, wenn zwei sich widersprechen. Setz sie mit dir zur Seite und schenk Tee ein. Dein Satz an den Detektiv muss stimmen."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Was du im Dunkeln gehört hast, soll zählen. **Erfüllt, wenn** bei der Anklage auf dem Ermittlungsbogen bei Ahmets Alibi ein ✓ steht und dein Name als Quelle dabei, allein oder neben anderen.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "YT4"
+    ],
+    "wasIchZugebe": "Um 21:00 Uhr hab ich Sibel zur Turm-Toilette begleitet. Sie ist vor der Rüstung erschrocken und gegen die Schauvitrine gestolpert. Die Scheibe bekam einen Sprung. Ein paar Splitter sprangen von der Ecke. Ich hab sie schnell unter den Sockel der Rüstung gekehrt. Dann haben wir beide geschwiegen.",
+    "vermerke": [
+      "Hinweis: Die Glassplitter unter dem Sockel der Rüstung sind von 21:00 Uhr. Seitdem hatte die Vitrinenscheibe einen Sprung."
+    ],
+    "undNochEtwas": "Als um zwölf das Licht anging, stand Ahmet neben mir auf. Er hielt einen dicken Umschlag fest in der Hand."
+  },
+  "solo": null,
+  "teil90": "Damir kehrte die Splitter von Sibels Missgeschick unter den Sockel der Rüstung und schwieg. Beim Knall kauerte er am Ostende neben Ahmet und hörte sein Flüstern. So wurde er ein zweiter Zeuge für Ahmets Alibi.",
+  "fassung": null
+}

@@ -1,0 +1,295 @@
+{
+  "platz": 4,
+  "id": "can",
+  "vorstellung": {
+    "frage": "Can, du drehst lustige Kurzvideos und sitzt nie lange still. Was war heute Abend dein bestes Video, und warum hat keiner gelacht?",
+    "auftritt": "Mein bestes Video heute? Die Tür zum Ost-Saal. Die quietscht, wenn man sie bewegt. Also hab ich sie zwanzig Mal bewegt, ganz langsam, mit Musik. Titel: „Das Schloss singt.“ Keiner hat gelacht. Also hab ich es noch mal gezeigt, nur lauter. Ich mach eine Ausbildung zum Mediengestalter und dreh nebenbei Kurzvideos. Mein Lieblingssatz: „Wartet, das muss ich filmen!“ Mein zweitliebster: „Wartet, das muss ich noch mal filmen!“"
+  },
+  "werDuBist": "Du bist Can, 25, der Spaßvogel. Du machst eine Ausbildung zum Mediengestalter und drehst lustige Kurzvideos. Man erkennt dich am signalgelben, weiten Kapuzenpulli mit der großen Bauchtasche. Witze reißt du auch, wenn keiner lacht. Wo etwas Lustiges passiert, hast du schon das Handy in der Hand. {wenn:zeynep|Zeynep ist deine Schwester, zwei Jahre jünger und lauter als du. }Ahmet hat dir Radfahren beigebracht. Mit Olli bist du im Sportverein, und du filmst eure Spiele.\nWas dich heute antreibt: Der Streich soll nicht herauskommen.",
+  "haltung": null,
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Wendeltreppe und Turm-Toilette (8b). Marker Scheppern: Wendeltreppe und Turm-Toilette (8b). Der erste ist gelogen. Wo du beim Scheppern warst, weißt du selbst nicht genau: Im Turm hast du es nicht gehört. Lass den zweiten stehen.",
+    "behauptet": {
+      "z2357": "8b",
+      "scheppern": "8b"
+    },
+    "wahr": {
+      "z2357": "5",
+      "scheppern": "8b"
+    }
+  },
+  "wasDuWeisst": null,
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [
+      "„Ich war die ganze Zeit oben auf der Turm-Toilette.“",
+      "„Welche Maske? Ich hab keine Maske.“"
+    ],
+    "regie": "Bleib dabei albern, wie jemand, der nichts ernst nimmt.",
+    "sagstDuJedem": [],
+    "ausweichsaetze": [
+      {
+        "frage": "Wo warst du um drei vor zwölf?",
+        "antwort": "„Oben auf der Turm-Toilette. Ich musste dringend, und der Weg da hoch ist weit.“"
+      },
+      {
+        "frage": "Wo warst du um 23:51 Uhr?",
+        "antwort": "„Im Kaminsaal an der langen Tafel. {rolle:zeynep|Meine Schwester} saß bei mir.“"
+      },
+      {
+        "frage": "Wo warst du beim Knall und beim Scheppern?",
+        "antwort": "„Immer noch oben. Da hört man gar nichts. Auf einmal war das Licht weg, und ich saß im Dunkeln.“"
+      },
+      {
+        "frage": "Wann bist du hoch, und auf welchem Weg?",
+        "antwort": "„Kurz vor zwölf. Vom Kaminsaal durch die Bogentür, durch den Turmgang und die Wendeltreppe hinauf.“"
+      },
+      {
+        "frage": "Wo war {rolle:zeynep|deine Schwester}?",
+        "antwort": "„Im Kaminsaal, glaub ich. Wir haben vorher zusammen Gebäck gegessen. Frag sie selbst.“"
+      },
+      {
+        "frage": "Herr Schneider hat eine Kapuze gepackt. Deine?",
+        "antwort": "„Ich war oben im Turm. Frag Herrn Schneider, ob er mein Gesicht gesehen hat.“"
+      },
+      {
+        "frage": "Was ist in deiner Bauchtasche?",
+        "antwort": "„Nichts Besonderes. Krümel und ein Taschentuch.“"
+      }
+    ],
+    "verboten": [],
+    "markersatz": "Dein Marker „23:57“ fällt nur mit deiner Karte. Dann stellst du ihn auf den Vorratsraum."
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Karte zu:** „Oben auf der Turm-Toilette. Da sieht einen keiner.“\n**Karte offen:** „Im Vorratsraum, im Dunkeln. Gesehen hat mich da keiner.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "**Karte zu:** „Niemand. Ich war allein oben.“\n**Karte offen:** „Niemand. Ich bin gerannt. Im Steinbogen hab ich {rolle:zeynep|meine Schwester} gestreift.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "**Karte zu:** „Ich war oben auf der Turm-Toilette. Den Ruf hab ich nicht gehört.“\n**Karte offen:** „Ich hab im Vorratsraum auf die blinde Kuh gewartet.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Zur Turm-Toilette geht man durch den Turmgang und die Wendeltreppe hoch. Da war ich.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "**Karte zu:** „Ich war oben im Turm. Gesehen hab ich nichts.“\n**Karte offen:** „Das Gesicht war ich, mit meiner Maske.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Das Scheppern hab ich nicht gehört. Was danach an der Theke war, weiß ich nicht.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Kurz nach zwölf bin ich runter und hab mich im Kaminsaal auf die Wandbank gesetzt.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": "Am Nachmittag hast du eine weiße Gespenstermaske mit grünlich-weißer Leuchtfarbe bemalt. Ab 23:54 Uhr hast du damit im dunklen Vorratsraum gewartet. Um zwölf wolltest du die blinde Kuh erschrecken. {rolle:zeynep|Deine Schwester} stand im Steinbogen Schmiere. Nach dem Knall dachtest du, die blinde Kuh kommt, und bist herausgesprungen. Herr Schneider hat dich an der Kapuze gepackt: „Hab ich dich!“ Du hast dich losgerissen und bist auf die Turm-Toilette gerannt.",
+    "ausloeser": [
+      "Sobald die Indizkarte „Can: Taschen und Kleidung“ (JT3) offen liegt.",
+      "{wenn:zeynep|Sobald Zeyneps Geheimniskarte offen liegt.|Sobald die Geheimniskarte unter dem Zeugenstreifen im Steinbogen offen liegt.}",
+      "Sobald Herrn Schneiders rechte Hand (JA9) offen liegt und jemand vor allen gesagt hat oder eine offene Karte sagt: Das Gesicht kam aus dem Vorratsraum. Was davon zuerst da war, ist egal."
+    ],
+    "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Als ich mich losgerissen hab, stand Herr Schneider noch. Er hat mir ‚Stehen bleiben!‘ hinterhergebrüllt.“",
+    "marker": "„23:57“ auf den Vorratsraum (5), „Scheppern“ auf die Turm-Toilette (8b). Steht einer noch anders, stell ihn jetzt vor allen um.",
+    "abDann": "Ab jetzt sagst du offen, wie dein Streich lief. Du darfst sagen, dass {rolle:zeynep|deine Schwester} Schmiere stand und dass du sie im Steinbogen gestreift hast. Was nach deiner Flucht an der Theke geschah, weißt du nicht. Im Turm hört man nichts. Sag das ehrlich. Mehr gibst du nicht zu. Dabei bleibst du.",
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": []
+    }
+  },
+  "freigabe": {
+    "sofort": [
+      "„Um zehn vor zwölf standen Olli und {rolle:tim|ein Gast} an der Bogentür im Kaminsaal. Einer rief: ‚Au! Mein Finger!‘“",
+      "„Um Viertel vor zwölf hat {rolle:zeynep|meine Schwester} Gebäck für uns beide geholt.“",
+      "„Kurz nach zwölf saß ich im Kaminsaal auf der Wandbank. {rolle:zeynep|Meine Schwester} kam zu mir.“"
+    ],
+    "nachDemMarker": [
+      "Dein Marker fällt mit deiner Karte. Hier kommt nichts dazu."
+    ],
+    "nachDerKarte": [
+      "{wenn:emine|„Um 23:54 Uhr tuschelten Fatma und Emine am linken Buffet.“|„Um 23:54 Uhr tuschelte Fatma mit einer Freundin am linken Buffet.“}",
+      "„Als ich mich losriss, stand Herr Schneider noch und brüllte: ‚Stehen bleiben!‘“",
+      "„Im Steinbogen hab ich {rolle:zeynep|meine Schwester} gestreift.“"
+    ]
+  },
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, dein Marker steht im Ost-Saal. Die blinde Kuh hatte eine Augenbinde auf. Wer außer ihr kann sagen, dass du sitzen geblieben bist?“",
+      "nachschlag": "Sobald Olli sagt, er war die ganze Zeit im Ost-Saal: „Um zehn vor zwölf standst du an der Bogentür im Kaminsaal. Das hab ich gesehen. Was hast du da gemacht?“",
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "zeynep",
+      "frage": "„Zeynep, sag dem Detektiv, wo du mich gesehen hast, als das Licht wieder an war.“",
+      "nachschlag": "Sobald jemand fragt, warum Zeynep im Steinbogen stand: „Sie hat nach der blinden Kuh geschaut. Stimmt's, Zeynep?“",
+      "ausweich": "Fatma: „Fatma, du warst kurz vor zwölf im Buffetsaal. Hast du mich da gesehen? Nein? Siehst du.“"
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "fatma",
+      "frage": "„Fatma, du schleppst den ganzen Abend diese schwere Tasche mit dir herum. Was ist da drin, das du nicht mal beim Gebäck abstellst?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Um 23:54 Uhr hast du mit {rolle:emine|einer Freundin} am linken Buffet getuschelt und deine Tasche ganz festgehalten. Worüber habt ihr getuschelt?“",
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "joanna",
+      "frage": "„Joanna, du hast heute ständig fotografiert. Zeig dem Detektiv, wer auf deinen letzten Fotos vor zwölf zu sehen ist.“",
+      "nachschlag": "Sobald Joanna sagt, dass du um drei vor zwölf nirgends warst: „Nirgends heißt nicht an der Theke. Wen hast du denn an der Theke gesehen?“",
+      "ausweich": "Bitte den Detektiv, den Jackenständer im Ost-Saal zu untersuchen. Sag: „Dort hat Ahmet heute von allen Geld eingesammelt.“ Bis dahin frag Ahmet: „Ahmet, du hast heute von allen Geld eingesammelt. Wo ist es jetzt?“"
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, du warst hinter der Theke am Ostende, nicht weit von der Vorratsraumtür. Was hast du im Dunkeln gehört, bevor es schepperte? Und wer kann sagen, dass du dich nicht bewegt hast?“",
+      "nachschlag": "Sobald der Ascheneimer am Kamin (WM9) offen liegt: „Der leere Umschlag im Ascheneimer trägt deine Handschrift. Was hast du nach zwölf am Kamin gemacht?“",
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, du warst im Dunkeln im Durchgang. Was hast du gehört und gesehen, und in welcher Reihenfolge?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Das leuchtende Gesicht war ich. Sag dem Detektiv, ob ich vor oder nach dem Scheppern an dir vorbei bin.“",
+      "ausweich": "Frag Olli: „Olli, wo warst du, als es schepperte?“ Liegt deine Geheimniskarte offen, bitte außerdem den Detektiv um den Ortstermin „im Steinbogen“ und sag: „Da bin ich durchgerannt. Wer dort stand, weiß, wann.“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "In der Bauchtasche meines Pullis steckt etwas Weiches, Zusammengefaltetes: meine Leuchtmaske. Die Farbe ist noch leicht klebrig. Sonst trag ich nur mein Handy.",
+    "hinweis": null,
+    "indizkarte": "JT3"
+  },
+  "aktionskarte": {
+    "name": "Retourkutsche",
+    "abRunde": 1,
+    "klasse": "schutz",
+    "wirkung": "Spiel sie, wenn dir jemand etwas vorwirft. Bevor du antwortest, sagt diese Person, wo sie selbst beim Scheppern war und wer das bezeugen kann.",
+    "grenzen": "Nicht gegen Ortstermine, Indizkarten oder Karten, die offen liegen. Was offen liegt, bleibt liegen. Ein Satz, der eine Karte auslöst, gilt trotzdem. Die Frage darf später wiederkommen.",
+    "tipp": "Spiel sie, wenn dir jemand das Gespenst vorwirft. Dann muss die Person erst selbst sagen, wo sie beim Scheppern war."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du sagst selbst, was du verbirgst, bevor man es dir beweist. **Erfüllt, wenn** du deine Geheimniskarte am Ende einer Runde freiwillig umgedreht hast (reinen Tisch), bevor einer deiner drei Sobald-Fälle eingetreten ist.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "JT3"
+    ],
+    "wasIchZugebe": "Ab 23:54 Uhr hab ich mit einer Leuchtmaske im dunklen Vorratsraum gewartet. Um zwölf wollte ich die blinde Kuh erschrecken. {wenn:zeynep|Zeynep stand im Steinbogen für mich Schmiere. }Nach dem Knall dachte ich, sie kommt. Ich bin rausgesprungen, und Herr Schneider hat mich an der Kapuze gepackt. Ich hab mich losgerissen und bin weggerannt, bis auf die Turm-Toilette.",
+    "vermerke": [
+      "Heimlichtuerei · Can: hat ab 23:54 mit einer Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh gewartet. Ein Streich.",
+      "Ort um 23:57 · Can: im Vorratsraum."
+    ],
+    "undNochEtwas": "{wenn:emine|Um 23:54 Uhr tuschelten Fatma und Emine am linken Buffet. Fatma hielt ihre Tasche ganz fest.|Um 23:54 Uhr tuschelte Fatma mit einer Freundin am linken Buffet. Fatma hielt ihre Tasche ganz fest.}"
+  },
+  "solo": null,
+  "teil90": "Can wartete mit einer Leuchtmaske im dunklen Vorratsraum, um die blinde Kuh zu erschrecken. Herr Schneider packte seine Kapuze, doch Can riss sich los und rannte in den Turm, bevor es schepperte. Die gelben Fasern waren eine falsche Fährte.",
+  "fassung": {
+    "code": "YW4",
+    "ziel": "Du warst es nicht. Trotzdem hast du heute Nacht etwas zu verbergen. Du willst, dass niemand dich verdächtigt, und dein Streich mit der Maske soll nicht herauskommen.",
+    "zeitleiste": [
+      {
+        "zeit": "am Nachmittag",
+        "text": "Zu Hause bemalst du eine weiße Gespenstermaske mit grünlich-weißer Leuchtfarbe. Um Mitternacht soll die blinde Kuh sich gruseln."
+      },
+      {
+        "zeit": "18:00",
+        "text": "Ihr kommt über die Sandsteinstufen und das Außentor. Am Jackenständer im Ost-Saal zahlst du Ahmet 150 € „Miete“, wie alle."
+      },
+      {
+        "zeit": "20:15",
+        "text": "Olli steht im dunklen Vorratsraum vor der Mitternachtstorte: „Ich wollte nur aufs Klo!“ Alle lachen."
+      },
+      {
+        "zeit": "23:30",
+        "text": "Dichter Qualm aus dem Kamin füllt den Kaminsaal. Alle husten, die Klappen der Lichtschächte werden aufgerissen."
+      },
+      {
+        "zeit": "23:45",
+        "text": "{rolle:zeynep|Deine Schwester} holt am linken Buffet Gebäck für euch beide. Ihr esst es an der langen Tafel im Kaminsaal."
+      },
+      {
+        "zeit": "23:50",
+        "text": "Du sitzt mit {rolle:zeynep|deiner Schwester} an der langen Tafel im Kaminsaal. An der Bogentür stehen Olli und {rolle:tim|ein Gast}. Einer ruft: „Au! Mein Finger!“"
+      },
+      {
+        "zeit": "23:54",
+        "text": "Mit der Maske gehst du durch den Steinbogen, den Durchgang und die Theken-Klappe hinter die Theke in den Vorratsraum. {rolle:zeynep|Deine Schwester} stellt sich in den Steinbogen und steht Schmiere."
+      },
+      {
+        "zeit": "23:54",
+        "text": "{wenn:emine|Im Buffetsaal tuscheln Fatma und Emine am linken Buffet.|Im Buffetsaal tuschelt Fatma mit einer Freundin am linken Buffet.} Fatma hält ihre Tasche ganz fest. Im Vorratsraum machst du das Licht aus. Die Maske leuchtet grünlich-weiß."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Du stellst dich im Dunkeln direkt hinter die angelehnte Tür. Draußen ruft Herr Schneider: „Nicht die alte Leiste!“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Herr Schneider ruft: „Ruhe! Ich hol die Notlaterne.“ Du denkst, jetzt wird die blinde Kuh gebracht. Die Tür geht auf, und du springst heraus: „Buuuh!“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Herr Schneider packt dich an der gelben Kapuze: „Hab ich dich!“ Ihr ringt im Kerzenlicht. Du reißt dich los und rennst hinter der Theke nach Westen. Er steht noch und brüllt: „Stehen bleiben!“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Du rennst durch die Klappe und durch den Durchgang. Im Steinbogen streifst du {rolle:zeynep|deine Schwester}. Quer durch den Kaminsaal rennst du bis vor die Bogentür."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Vor der Bogentür stopfst du die Maske in die Bauchtasche deines Pullis. Das Leuchten ist weg. Im Dunkeln tastest du dich durch den Turmgang und die Wendeltreppe hinauf."
+      },
+      {
+        "zeit": "23:58",
+        "text": "Du schließt dich auf der Turm-Toilette ein. Hier oben hörst du nichts mehr. Kein Rufen, kein Scheppern."
+      },
+      {
+        "zeit": "0:00",
+        "text": "Das Licht geht an. Um 0:01 Uhr kommst du herunter. Du setzt dich im Kaminsaal auf die Wandbank. {rolle:zeynep|Deine Schwester} kommt zu dir."
+      },
+      {
+        "zeit": "0:03",
+        "text": "Unter dem Notausgangsschild hörst du: Das Tor ist zu, der Schlüsselbund ist weg. Ihr sitzt bis zum Morgen fest. Dir wird ganz kalt."
+      }
+    ],
+    "wasNurDuWeisst": [
+      "Als du dich losgerissen hast, stand Herr Schneider noch und brüllte dir „Stehen bleiben!“ hinterher.",
+      "Das Scheppern hast du im Turm nicht gehört. Was nach deiner Flucht an der Theke geschah, weißt du nicht. Frag die anderen, was zuerst kam.",
+      "{wenn:emine|Um 23:54 Uhr tuschelten Fatma und Emine am linken Buffet.|Um 23:54 Uhr tuschelte Fatma mit einer Freundin am linken Buffet.} Fatma hielt ihre Tasche ganz fest.",
+      "{rolle:zeynep|Deine Schwester} stand für dich im Steinbogen Schmiere. Du hast sie beim Rennen gestreift.",
+      "Die gelben Fasern an Herrn Schneiders Hand stammen von deiner Kapuze. An der Klappe hast du im Dunkeln niemanden bemerkt. Wer nach dir zu Herrn Schneider kam, hast du nicht gesehen."
+    ],
+    "heftUndWahrheit": "Dein Heft sagt dir die Wahrheit. Was in Stufe 2 steht, ist genau das, was geschah. Mehr musst du nicht verbergen. Mit dem Scheppern hast du nichts zu tun.",
+    "wennEsEngWird": [
+      "Sobald jemand die gelben Fasern an Herrn Schneiders Hand gegen dich anführt (nur, wenn deine Karte offen ist): „Ja, das war meine Kapuze. Er hat mich gepackt, und ich hab mich losgerissen. Da stand er noch.“",
+      "Sobald jemand sagt, das Gespenst sei auf Herrn Schneider losgegangen: „Losgegangen? Ich bin rausgesprungen, ‚Buuuh!‘, mehr nicht. Er hat mich gepackt, nicht umgekehrt.“",
+      "Sobald jemand fragt, was nach deiner Flucht an der Theke war: „Keine Ahnung. Im Turm hört man nichts. Frag die, die im Durchgang waren.“",
+      "Sobald jemand fragt, wer dich rennen sah (nur, wenn deine Karte offen ist): „Im Steinbogen hab ich {rolle:zeynep|meine Schwester} gestreift. Frag sie.“",
+      "Sobald jemand verlangt, dass du deinen Marker „Scheppern“ umstellst: „Ich war oben im Turm. Keine Karte sagt etwas anderes. Der Marker bleibt.“"
+    ],
+    "stufe3": "Ich? Nein. Ja, ich war das Gespenst, und der Streich war dumm. Herr Schneider hat mich gepackt, und ich hab mich losgerissen. Als ich weggerannt bin, stand er noch und hat mir hinterhergebrüllt. Was danach an der Theke war, hab ich oben im Turm nicht mal gehört. An der Vorratsraumtür war ich da nicht mehr. Den Schlüsselbund hab ich nie in der Hand gehabt."
+  }
+}

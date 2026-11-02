@@ -3393,10 +3393,10 @@ abstract class L {
   /// **'Druckmappe'**
   String get detektei_druck_titel;
 
-  /// Druckmappe, Deckel: die Schritte zu den PDFs, mit Zeilenumbrüchen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen. Wem die Erzählerakte gehört, sagt der Block „Nur Erzähler“ bei ihrem Knopf (druck_erzaehlerakte_hinweis)
+  /// Druckmappe, Deckel: die Schritte zum Kammerspiel als PDF (B1), mit Zeilenumbrüchen. Der Fall ist fest, darum gibt es nur Personen und Detektiv oder Detektivin einzustellen. Stimmt auf allen Geräten: Am iPhone öffnet der Tipp auf die Datei direkt das Teilen-Menü (dort sichern oder drucken), sonst folgen Knöpfe zum Herunterladen und Teilen. Die Druckmappe bietet keine Erzählerakte an (E16)
   ///
   /// In de, this message translates to:
-  /// **'So geht’s:\n1. Personen, Detektiv und Fall einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.'**
+  /// **'So geht’s:\n1. Personen und Detektiv oder Detektivin einstellen.\n2. Unten auf „Druckmappe vorbereiten“ tippen.\n3. Datei antippen, kurz warten, dann speichern oder teilen.'**
   String get detektei_druck_hinweis;
 
   /// No description provided for @detektei_druck_vorbereiten.
@@ -3410,6 +3410,60 @@ abstract class L {
   /// In de, this message translates to:
   /// **'PDFs zum Ausdrucken'**
   String get detektei_druck_pdfs;
+
+  /// Druckmappe (Kammerspiel), Einstellungen: Überschrift der Personenzahl
+  ///
+  /// In de, this message translates to:
+  /// **'Personen am Tisch'**
+  String get detektei_druck_personen;
+
+  /// Druckmappe (Kammerspiel), Einstellungen: gewählte Personenzahl (6 bis 20), groß über dem Regler
+  ///
+  /// In de, this message translates to:
+  /// **'{anzahl} Personen'**
+  String detektei_druck_personen_anzahl(String anzahl);
+
+  /// Druckmappe (Kammerspiel), Einstellungen: was die Personenzahl bedeutet (Personen = Rollen + Detektiv + Erzähler, E6); rollen aus der Besetzung
+  ///
+  /// In de, this message translates to:
+  /// **'{rollen} Rollen, Detektiv und Erzähler'**
+  String detektei_druck_personen_rollen(String rollen);
+
+  /// Druckmappe (Kammerspiel), Einstellungen: Knopf neben dem Regler (Tooltip und Bildschirmleser)
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Person weniger'**
+  String get detektei_druck_personen_weniger;
+
+  /// Druckmappe (Kammerspiel), Einstellungen: Knopf neben dem Regler (Tooltip und Bildschirmleser)
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Person mehr'**
+  String get detektei_druck_personen_mehr;
+
+  /// Druckmappe (Kammerspiel), Einstellungen: Überschrift der Wahl Detektiv oder Detektivin
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ermittelt?'**
+  String get detektei_druck_detektiv;
+
+  /// Druckmappe (Kammerspiel), Einstellungen: Ankreuzfeld
+  ///
+  /// In de, this message translates to:
+  /// **'Detektiv'**
+  String get detektei_druck_detektiv_m;
+
+  /// Druckmappe (Kammerspiel), Einstellungen: Ankreuzfeld
+  ///
+  /// In de, this message translates to:
+  /// **'Detektivin'**
+  String get detektei_druck_detektiv_w;
+
+  /// Druckmappe einer Akte ohne Kammerspiel (nur über eine eingetippte Adresse erreichbar)
+  ///
+  /// In de, this message translates to:
+  /// **'Zu dieser Akte gibt es keine Druckmappe.'**
+  String get detektei_druck_keine;
 
   /// No description provided for @abend_schritt.
   ///
@@ -3837,11 +3891,35 @@ abstract class L {
   /// **'Diese Akte hat eine feste Lösung. Wer sie schon kennt, spielt am besten eine Rolle statt der Ermittlung. Dann öffnet besser jemand anderes den Raum.'**
   String get abend_feste_loesung_online;
 
-  /// Assistent, Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung)
+  /// Alter Einrichtungsbildschirm (/party), Spielart „Zum Drucken“: Hinweis auf die Druckmappe der Akte (nur Text, kein Sprung). Im Assistenten führt „Zum Drucken“ zur Druckmappe (E17), dort steht abend_druck_mappe_hinweis
   ///
   /// In de, this message translates to:
   /// **'Nur die PDFs, ohne Abend? Die gibt es bei der Akte unter „PDFs zum Ausdrucken“.'**
   String get abend_druck_nur_pdfs;
+
+  /// Assistent, Einstellungen, Spielart „Zum Drucken“ gewählt (E17): unter der Wahl. Es beginnt kein Abend in der App; der Startknopf führt zur Druckmappe der Akte (Kammerspiel, B1)
+  ///
+  /// In de, this message translates to:
+  /// **'Das Kammerspiel spielt ihr ganz auf Papier, die App begleitet den Abend nicht. Personen und Detektiv stellst du in der Druckmappe ein, dort entstehen die PDFs.'**
+  String get abend_druck_mappe_hinweis;
+
+  /// Assistent, Untertitel der Einstellungen, solange „Zum Drucken“ gewählt ist (E17): Die übrigen Abschnitte entfallen, die Druckmappe stellt Personen und Detektiv ein
+  ///
+  /// In de, this message translates to:
+  /// **'Zum Drucken gibt es hier nichts weiter einzustellen.'**
+  String get abend_einstellungen_druck_hinweis;
+
+  /// Assistent, Untertitel des Starts bei „Zum Drucken“ (E17), statt abend_start_hinweis: Es beginnt keine Rollenverteilung
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter geht es in der Druckmappe der Akte.'**
+  String get abend_start_druck_hinweis;
+
+  /// Assistent, Startknopf bei „Zum Drucken“ (E17), statt abend_start: öffnet die Druckmappe der Akte (Route /akte/:id/druck); es beginnt kein Abend
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Druckmappe'**
+  String get abend_zur_druckmappe;
 
   /// No description provided for @profil_klasse_hinweis.
   ///
@@ -7035,7 +7113,7 @@ abstract class L {
   /// **'Das hat nicht geklappt. Versuch es bitte noch einmal.'**
   String get druck_datei_fehler;
 
-  /// Druckfassung: Überschrift der Rollenhefte je Person
+  /// Druckfassung und Tafel des Kammerspiels in der Druckmappe: Überschrift der Rollenhefte je Person
   ///
   /// In de, this message translates to:
   /// **'Rollenhefte einzeln senden'**
@@ -7047,13 +7125,13 @@ abstract class L {
   /// **'Jede Person bekommt nur ihr eigenes Heft. Die Hefte gelten nur mit diesem Fall-Code.'**
   String get druck_je_person_hinweis;
 
-  /// Druckfassung: Rollenheft einer Person teilen
+  /// Druckfassung und Tafel des Kammerspiels in der Druckmappe: das Heft einer Person teilen (Spielername aus der Gästeliste, sonst der Name der Rolle)
   ///
   /// In de, this message translates to:
   /// **'Senden an {name}'**
   String druck_senden_an(String name);
 
-  /// Druckfassung, Knöpfe der fertigen Datei: das Rollenheft einer Person („Herunterladen: Rollenheft Ayla“), statt „Senden an …“
+  /// Druckfassung und Tafel des Kammerspiels (Rollen 1 bis 10), Knöpfe der fertigen Datei: das Rollenheft einer Person („Herunterladen: Rollenheft Ayla“), statt „Senden an …“
   ///
   /// In de, this message translates to:
   /// **'Rollenheft {name}'**
@@ -7065,11 +7143,29 @@ abstract class L {
   /// **'Für den Erzähler: alle Texte zum Vorlesen, der Tisch und die Antworten der Befragungen. Der Detektiv liest es nicht.'**
   String get druck_erzaehlerheft_hinweis;
 
-  /// Druckmappe: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt
+  /// DruckTafel mit dem Schalter erzaehlerakte: Hinweis zur Erzählerakte (A-063), nur für die Person, die erzählt. Die Druckmappe setzt diese Tafel seit dem Kammerspiel nicht mehr ein (E16)
   ///
   /// In de, this message translates to:
   /// **'Für die Person, die erzählt: Hintergründe und Netz aller Figuren. Die Akte nennt nie den Täter. Gib sie nur dieser Person.'**
   String get druck_erzaehlerakte_hinweis;
+
+  /// Druckmappe, Tafel des Kammerspiels (KammerTafel): Hinweis über den Dateien
+  ///
+  /// In de, this message translates to:
+  /// **'Für {personen} Personen: {rollen} Rollen, Detektiv und Erzähler. Druck alles einseitig aus, ohne es durchzulesen. Was an wen geht und was geschnitten, gefaltet und versiegelt wird, steht vorn im Erzählerheft.'**
+  String druck_kammer_hinweis(String personen, String rollen);
+
+  /// Druckmappe, Tafel des Kammerspiels: Hinweis unter „Rollenhefte einzeln senden“ (MECH 10.3)
+  ///
+  /// In de, this message translates to:
+  /// **'Jede Rolle bekommt vorab nur ihr eigenes Heft mit ihrer Aktionskarte. Der Detektiv bekommt den Detektivbogen, der Erzähler das Erzählerheft. Das Auflösungsheft bleibt versiegelt.'**
+  String get druck_kammer_je_person_hinweis;
+
+  /// Druckmappe, Tafel des Kammerspiels, Knöpfe der fertigen Datei: das Zusatzheft einer Person (Rollen 11 bis 18), statt „Senden an …“
+  ///
+  /// In de, this message translates to:
+  /// **'Zusatzheft {name}'**
+  String druck_zusatzheft_von(String name);
 
   /// Akte: Knopf zu Steckbriefen und Charakterübersicht
   ///

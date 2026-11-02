@@ -1,0 +1,279 @@
+{
+  "platz": 9,
+  "id": "marek",
+  "vorstellung": {
+    "frage": "Marek, der Caterer. Das ganze Essen heute ist von dir. Wie oft am Abend darf man dich fürs Buffet loben, bevor es dir zu viel wird?",
+    "auftritt": "Ich bin Marek. Mit meiner Schwester führe ich einen kleinen Catering-Betrieb. Alles auf dem Buffet ist von uns. Lob nehme ich gern entgegen, am liebsten zweimal. Mit Joanna mache ich oft Hochzeiten: Sie fotografiert, ich koche. Meinen Lieferwagen hab ich heute ganz nah ans Schloss gestellt. Herr Schneider fand das weniger praktisch als ich."
+  },
+  "werDuBist": "Du bist Marek, 28. Mit deiner Schwester führst du einen kleinen Catering-Betrieb. Das ganze Essen heute ist von euch. Man erkennt dich an der dunkelbraunen Lederjacke und am Autoschlüssel mit Anhänger. Ahmet ist dein Kunde. Mit Lejla hast du das Buffet geplant, mit Joanna machst du oft Hochzeiten.{wenn:aylin| Aylin macht deine Steuer.}\nWas dich heute antreibt: Dein Lieferwagen soll nicht abgeschleppt werden. Und du willst dein Geld.",
+  "haltung": "Du willst dein Geld. Aber du sagst nur, was du sicher weißt. Im Dunkeln hast du mehr gesehen als alle anderen.",
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Theke Ostende (4d). Marker Scheppern: Theke Ostende (4d). Beide stimmen.",
+    "behauptet": {
+      "z2357": "4d",
+      "scheppern": "4d"
+    },
+    "wahr": {
+      "z2357": "4d",
+      "scheppern": "4d"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "Wochen vorher",
+        "text": "Ahmet hat viel zu groß bestellt. Die Nachzahlung ist 150 € pro Gast, heute Abend in Bargeld fällig",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "zahlt seine 150 € „Miete“ an Ahmet",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:30",
+        "text": "liefert über den Schlosshof, parkt auf Herrn Schneiders reserviertem Platz („Am Telefon hieß es, das geht in Ordnung“). Herr Schneider: „Steht der um Mitternacht noch da, lass ich ihn abschleppen.“ Olli und Tim tragen die Warmhaltebehälter durch Hoftür, Turmgang und Bogentür",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "deckt mit Lejla im Ost-Saal Tortenteller und Gläser",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "geht hinter die Theke ans Ostende und füllt Saftkrüge, Gesicht zur Anrichte Ost",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Ahmet schlüpft neben ihn hinter die Theke, mit einem dicken Umschlag. Marek denkt: Ist das mein Geld?",
+        "frei": "karte",
+        "zusatz": "Ahmets Ort offen; Umschlag und Gedanke erst nach dem Umdrehen"
+      },
+      {
+        "zeit": "23:57",
+        "text": "hört hinter sich: „Zweitausend, bis zwölf.“ Er sieht nicht, zu wem",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider geht hinter der Theke an ihm vorbei zur Kaffeemaschine. {rolle:damir|Ein Gast} wartet mit der großen Teekanne hinter ihm. Dann: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Marek bleibt stehen. Ahmet kauert sich an seine Beine: „Marek? Ich bin's, Ahmet.“ Herr Schneider: „Ruhe! Ich hol die Notlaterne.“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "Im Kerzenlicht, gut drei Meter entfernt: Ein leuchtendes Gesicht springt aus der Vorratsraumtür. Herr Schneider packt es: „Hab ich dich!“ Sie ringen. Es reißt sich los und verschwindet hinter der Theke zur Klappe, Richtung Durchgang. „Stehen bleiben!“, zweimal",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "danach",
+        "text": "Von der Klappe her kommt noch jemand zu Herrn Schneider, nur ein Umriss. Herr Schneider packt den Umriss am Ärmel. Dann scheppert es, die Kerzen sind aus",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "bis 0:00",
+        "text": "Ahmet bleibt an seinen Beinen, bis das Licht angeht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "Als das Licht angeht, steht {rolle:damir|der Gast mit der Teekanne} gleich neben Ahmet auf. Marek geht zur Vorratsraumtür, macht sie ganz auf, knipst innen das Licht an: „Hier liegt Herr Schneider!“ Er liegt direkt hinter der Tür. Die Notlaterne hängt unberührt am Haken",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Kurz vor zwölf stand ich hinter der Theke am Ostende und hab Saftkrüge gefüllt. Mit dem Rücken zur Theke.“",
+      "„Beim Knall bin ich stehen geblieben. Ahmet hat sich an meine Beine gekauert und geflüstert: ‚Marek? Ich bin's, Ahmet.‘ Er war noch da, als es schepperte, und auch, als das Licht anging.“",
+      "„{wenn:damir|Damir stand vorher mit der Teekanne hinter mir.|Ein Gast mit der großen Teekanne stand vorher hinter mir.} Als das Licht anging, stand er gleich neben Ahmet auf.“",
+      "„Kurz vor zwölf hat Herr Schneider hinter mir zu jemandem gesagt: ‚Zweitausend, bis zwölf.‘ Zu wem, hab ich nicht gesehen.“",
+      "„Um zwölf hab ich die Tür zum Vorratsraum aufgemacht und drinnen das Licht angeknipst. Herr Schneider lag gleich hinter der Tür. Die Notlaterne hing unberührt am Haken.“",
+      "„Um halb sieben haben Olli und Tim mein Essen durch den Turmgang reingetragen.“",
+      "„Ich steh auf Herrn Schneiders Parkplatz. Am Telefon hieß es, das geht in Ordnung.“",
+      "„Die Mitternachtstorte steht unversehrt im Regal.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "was du nach dem Knall an der Tür gesehen hast (Runde 1 und 2)",
+        "antwort": "„Im Dunkeln bin ich stehen geblieben, damit keiner über mich fällt. Was an der Tür war, dazu sag ich jetzt nichts.“"
+      },
+      {
+        "frage": "ob Ahmet etwas in der Hand hatte",
+        "antwort": "„Frag Ahmet.“"
+      },
+      {
+        "frage": "ob Ahmet dir Geld schuldet",
+        "antwort": "„Übers Geschäft red ich nicht beim Essen.“"
+      }
+    ],
+    "verboten": [
+      "„Ich hab im Dunkeln nichts gesehen.“",
+      "„Ahmet schuldet mir nichts.“",
+      "„Ahmet hatte nichts in der Hand.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Bei Ahmet:** „Ahmet stand neben mir.“\n**Sonst:** „Ich hatte den Rücken zur Theke.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ahmet. Er hat sich an meine Beine gekauert und geflüstert: ‚Marek? Ich bin's, Ahmet.‘“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Ich hab hinter der Theke die Saftkrüge für die Torte gefüllt.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„Auch ich hab Ahmet 150 € ‚Miete‘ gegeben. Übers Geschäft red ich nicht beim Essen.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Um halb sieben haben Olli und Tim mein Essen durch den Turmgang reingetragen.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich stand hinter der Theke am Ostende.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "Das ist ein Auslöser für dich. Ruf „Karte!“, dreh deine Geheimniskarte um und lies sie vor. Liegt sie schon offen, erzähl, was darauf steht."
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab die Tür zum Vorratsraum aufgemacht, drinnen Licht gemacht und Herrn Schneider gefunden.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte XD3 oder JT3 offen auf dem Tisch liegt.",
+      "Sobald Cans Geheimniskarte offen auf dem Tisch liegt.",
+      "Sobald dich in Runde 3 jemand vor allen fragt, was du nach dem Knall an der Vorratsraumtür gesehen hast. Auch ein Impuls des Erzählers, der alle danach fragt, zählt.",
+      "Sobald in Runde 3 jemand vor allen sagt, das leuchtende Gesicht oder das Gespenst sei es gewesen.",
+      "Liegt eins davon schon früher offen, drehst du zu Beginn von Runde 3 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Ahmet schuldet mir heute Abend 150 € pro Gast Nachzahlung fürs Essen, in Bargeld.“",
+        "„Um 23:57 Uhr ist Ahmet mit einem dicken Umschlag neben mich hinter die Theke. Ich dachte: Ist das mein Geld?“",
+        "„Herr Schneider hat den Umriss am Ärmel gepackt. Gleich danach schepperte es, und die Kerzen waren aus.“",
+        "„Die ‚Miete‘ war genau so hoch wie meine Nachzahlung pro Gast.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, du sagst, du hast hinter der Theke Servietten gesucht. Die liegen auf der Anrichte direkt vor meiner Nase. Was wolltest du wirklich hinter der Theke?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, du standest kurz vor zwölf an der Kaffeemaschine, einen Meter neben mir. Herr Schneider hat hinter uns gesagt: ‚Zweitausend, bis zwölf.‘ Zu wem? Und kurz danach rief er dir zu: ‚Nicht die alte Leiste!‘ Dann knallte es.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, du hast um sechs von uns allen 150 € ‚Miete‘ eingesammelt, auch von mir. Wo ist das Geld jetzt?“\n**Dazu im Heft:** „Wenn er ausweicht, ist das ein guter Moment für deine Taschenkontrolle.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "olli",
+      "frage": "„Olli, du und Tim, ihr habt um halb sieben mein Essen durch den Turmgang getragen. Ist dabei was kaputtgegangen?“\n**Sobald YT4 offen liegt, dazu:** „Seitdem fehlt an der Bogentür ein Beschlag. Wart ihr das?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "**Karte offen:** „Olli, du sagst, das Gespenst ist auf Herrn Schneider los. Ich hab es im Kerzenlicht gesehen. Das Gesicht riss sich los und war zur Klappe weg. Danach kam noch einer von der Klappe zu Herrn Schneider. Erst dann schepperte es. Wer war das?“\n**Karte zu:** „Olli, du sagst, du warst am Eiskübel. Das sind zwei Meter von mir. Gespürt hab ich beim Knall nur Ahmet.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "can",
+      "frage": "**Karte offen:** „Can, das Gesicht sprang aus der Vorratsraumtür, Herr Schneider packte die Kapuze, und dann riss es sich los. Warst du das? Dann sag allen, wohin du gerannt bist.“\n**Karte zu:** „Can, wenn du das Gespenst warst: Wohin bist du danach gerannt?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Ich hab den Autoschlüssel des Lieferwagens mit Anhänger und meinen Geldbeutel. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Taschenkontrolle",
+    "abRunde": 2,
+    "klasse": "beleg",
+    "wirkung": "Eine Person deiner Wahl zeigt, was sie bei sich trägt. Gibt es dafür eine Indizkarte, legt der Erzähler sie offen hin, ohne dass der Detektiv eine Untersuchung verbraucht. Sonst liest die Person „Was du bei dir trägst“ aus ihrem Heft vor.",
+    "grenzen": "Nur Taschen und was die Person bei sich trägt. Nur Indizkarten, die in dieser Runde schon frei sind.",
+    "tipp": "Wer heute von allen kassiert hat, trägt vielleicht noch viel Bargeld bei sich."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du willst wissen, was aus dem eingesammelten Geld geworden ist. **Erfüllt, wenn** bei der Anklage im Ermittlungsbogen bei Ahmet die Zeile „Heimlichtuerei“ belegt ist (✓).",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 3,
+    "pflichtCodes": [
+      "XD3",
+      "JT3"
+    ],
+    "wasIchZugebe": "Nach dem Knall sah ich im Kerzenlicht: Ein leuchtendes Gesicht sprang aus der Vorratsraumtür. Herr Schneider packte es. Es riss sich los und verschwand hinter der Theke zur Klappe, Richtung Durchgang. Danach kam noch jemand von der Klappe her zu Herrn Schneider. Nur ein Umriss. Wer, kann ich nicht sagen. Dann schepperte es.",
+    "vermerke": [
+      "Alibi beim Scheppern · für das leuchtende Gesicht: Es riss sich los und verschwand hinter der Theke zur Klappe. Erst danach schepperte es.",
+      "Hinweis: Nach dem Gesicht kam noch jemand von der Klappe her zu Herrn Schneider. Nur ein Umriss."
+    ],
+    "undNochEtwas": "Kurz vor dem Knall rief Herr Schneider Tim zu: „Nicht die alte Leiste!“ Tim stand einen Meter neben mir an der Kaffeemaschine."
+  },
+  "solo": null,
+  "teil90": "Marek stand am Ostende hinter der Theke, und Ahmet kauerte an seinen Beinen. Im Kerzenlicht sah er das Gesicht fliehen und danach einen Umriss von der Klappe kommen. Dass Ahmet ihm die Nachzahlung schuldete, behielt er lange für sich.",
+  "fassung": null
+}

@@ -1,0 +1,91 @@
+{
+  "wasAlleWissen": [
+    "18:00 Uhr: Ihr kommt über die Sandsteinstufen und das Außentor. Herr Schneider begrüßt euch knapp. Am Jackenständer im Ost-Saal sammelt Ahmet von allen aus der Clique 150 € „Miete“ in Bargeld ein. Der Detektiv ist euer Gast und zahlt nichts.{ab:13| Beim Einlass habt ihr heimlich eine Dankeskarte für Herrn Schneider unterschrieben.}",
+    "19:00 Uhr: Das Buffet ist eröffnet.",
+    "20:15 Uhr: Olli sucht die Toilette und steht plötzlich im dunklen Vorratsraum vor der Mitternachtstorte. {rolle:azra|Ein Gast} ruft: „Einbrecher an der Torte!“ Alle lachen.",
+    "21:00 Uhr: Im Turmgang schreit {rolle:sibel|ein Gast} vor der Ritterrüstung auf. Als es sich herumspricht, lachen alle.",
+    "22:00 Uhr: Herr Schneider zündet die drei roten Kerzen im Messingkerzenständer auf der Anrichte an. Es sind die einzigen echten Kerzen im Keller. Er verlangt leisere Musik.",
+    "23:00 Uhr: Für das Ratespiel im Ost-Saal kommen alle Handys in den Handykorb. Nur {rolle:joanna|die Fotografin des Abends} behält ihr Handy. An der Theke wird Herr Schneider laut. Die meisten sitzen beim Ratespiel und verstehen die Worte nicht.",
+    "23:30 Uhr: Dichter Qualm aus dem Kamin füllt den Kaminsaal. Alle husten. Die Klappen der Lichtschächte werden aufgerissen.",
+    "23:55 Uhr: Alle sollen in den Ost-Saal: blinde Kuh, Torte und Gruppenfoto. Der Detektiv bekommt die Augenbinde und Kopfhörer mit lauter Musik.",
+    "23:58 Uhr: Ein Knall, der Strom ist weg. Herr Schneider brüllt: „Hab ich dich!“ Dann: „Stehen bleiben!“ Und: „Stehen bleiben, hab ich gesagt!“ Kurz darauf scheppert es laut an der Theke.",
+    "0:00 Uhr: Das Licht geht wieder an. Der Messingkerzenständer liegt vor der Vorratsraumtür am Boden. Jemand ruft: „Hier liegt Herr Schneider!“ Er liegt gleich hinter der Tür, bewusstlos, mit einer dicken Beule.",
+    "Kurz danach: Herr Schneider kommt zu sich. Sein Schlüsselbund ist weg. Das Außentor ist abgeschlossen. Kein Handy hat Empfang.",
+    "Herr Schneider erinnert sich nur: Er wollte die Notlaterne holen. Ein leuchtendes Gespenstergesicht sprang ihn an. Er hat eine Kapuze gepackt: „Hab ich dich!“ Danach weiß er nichts mehr.",
+    "Ahmet, Fatma, Olli und Can sind die vier Verdächtigen. Einer von ihnen war es."
+  ],
+  "soSpieltIhr": "Jeder darf jeden fragen. Lügen darfst du nur, wenn dein Heft es erlaubt. Darfst du etwas noch nicht bestätigen, sagst du: „Dazu sag ich jetzt nichts.“ Sobald ein Auslöser aus deinem Heft eintritt, drehst du deine Geheimniskarte sofort um. Vorher rufst du laut „Karte!“. Was offen liegt, bestreitest du nicht mehr. Nennt etwas Offenes für dich ausdrücklich einen anderen Ort, stellst du deinen Marker sofort um. „Vor allen“ heißt: Der ganze Tisch hört zu. Das ist so am Verhörstuhl, solange alle anderen schweigen, beim Ortstermin, bei einem Impuls, beim Vorlesen einer Karte und nach „Alle mal herhören!“. Deine Aktionskarte spielst du einmal, nur im Gespräch.",
+  "tischregeln": [
+    {
+      "nr": "R-01",
+      "name": "Tischgespräch",
+      "text": "Alle dürfen jeden fragen. Lügen ist erlaubt, solange dein Heft es erlaubt (Stufe 1). Zeugen sagen über ihren eigenen Ort immer die Wahrheit."
+    },
+    {
+      "nr": "R-02",
+      "name": "Verhörstuhl",
+      "text": "Der Detektiv darf jederzeit eine Person auf den Verhörstuhl bitten, höchstens zwei Minuten. Bis 11 Personen ruhen dabei die anderen Gespräche. Ab 12 Personen laufen sie leise weiter; wer zuhören will, kommt dazu. Soll eine Antwort dort vor allen gelten, bittet der Detektiv vorher den Erzähler um „Alle mal herhören!“. Keine Höchstzahl je Runde."
+    },
+    {
+      "nr": "R-03",
+      "name": "Umdrehen ist Pflicht",
+      "text": "Ist ein Pflicht-Auslöser aus deinem Heft erfüllt und die Rundensperre vorbei, drehst du deine Geheimniskarte sofort um. Dann liest du „Was ich zugebe“ vor und sagst den Domino-Hinweis. Was auf deiner Karte steht, darfst du danach nicht mehr bestreiten. Was dein Heft dir für die Zeit danach vorgibt, gilt weiter. Bevor du umdrehst, rufst du laut „Karte!“. Alle Gespräche ruhen, bis du vorgelesen hast und die genannte Person geantwortet hat."
+    },
+    {
+      "nr": "R-04",
+      "name": "Rundensperre",
+      "text": "Steht in deinem Heft „frühestens in Runde N“, bleibt die Karte vorher zu. Ist der Auslöser früher erfüllt, drehst du sie gleich zu Beginn von Runde N um."
+    },
+    {
+      "nr": "R-05",
+      "name": "Reinen Tisch",
+      "text": "Am Rundenende darfst du deine Geheimniskarte freiwillig umdrehen, wenn die Rundensperre vorbei ist."
+    },
+    {
+      "nr": "R-06",
+      "name": "Marker",
+      "text": "Jede Person hat zwei Marker: „23:57“ und „Scheppern“. Nennt eine offene Indizkarte, ein offener Streifen oder eine offene Geheimniskarte für dich ausdrücklich einen anderen Ort, stellst du deinen Marker sofort vor allen um. Dasselbe gilt für eine vor allen vorgelesene Notiz aus einem Heft und für einen Auslöser in deinem Heft, der es verlangt. Schlüsse aus mehreren Karten zählen nicht; sie gehören in die Anklage. Ortslügen fallen vor Geheimnissen: Du darfst den Marker umstellen und trotzdem noch ausweichen, warum du dort warst, bis deine Geheimniskarte offen ist."
+    },
+    {
+      "nr": "R-07",
+      "name": "Aktionskarten",
+      "text": "Einmal im Spiel, offen ausspielen, danach umdrehen. Nur im Tischgespräch, sofern die Karte nichts anderes sagt. Nicht während einer Untersuchung, nicht ab der Tipp-Runde."
+    },
+    {
+      "nr": "R-08",
+      "name": "Standardfrage",
+      "text": "Nach jeder Indizkarte fragt der Erzähler: „Löst diese Karte bei jemandem etwas aus?“ Wer betroffen ist, dreht um (Rundensperre beachten). Liegen Zeugenstreifen aus, prüft der Erzähler danach still: „Steht dieser Code in meiner Tabelle ‚Karten unter den Streifen‘?“ Steht er dort, zieht er die genannte Karte unter dem Streifen hervor und legt sie offen daneben, sofort oder zu Beginn der genannten Runde."
+    },
+    {
+      "nr": "R-09",
+      "name": "Offen ist offen",
+      "text": "Was einmal offen liegt (Karte, Streifen, Geheimniskarte), bleibt offen auf dem Tisch. Indizkarten legt der Detektiv offen an den Rand des Lageplans."
+    },
+    {
+      "nr": "R-10",
+      "name": "Herr Schneider",
+      "text": "Herr Schneider sitzt mit einem Kühlpack im Buffetsaal. Der Erzähler spricht ihn nur mit den Sätzen aus „Herr Schneider antwortet“, und nur, wenn eine Indizkarte (JA9, PM3) oder die Aktionskarte „Krankenbesuch“ es verlangt."
+    },
+    {
+      "nr": "R-11",
+      "name": "Nichts vorher lesen",
+      "text": "Indizkarten, fremde Geheimniskarten, Zeugenstreifen, fremde Hefte, Fassungen und Teil 90 liest niemand vorher. Der Erzähler auch nicht."
+    },
+    {
+      "nr": "R-12",
+      "name": "Ende der Ermittlung",
+      "text": "Mit der Anklage legt der Detektiv den Stift weg. Was danach offen wird (Stufe 3), zählt nicht für seine Punkte."
+    },
+    {
+      "nr": "R-13",
+      "name": "Vor allen",
+      "text": "„Vor allen“ heißt: Der ganze Tisch hört zu. So ist es bei der Gegenüberstellung, beim Ortstermin und bei den Antworten auf einen Impuls des Erzählers. Ebenso beim Vorlesen einer umgedrehten Karte und nach dem Ruf „Alle mal herhören!“. Am Verhörstuhl gilt es nur, solange die anderen Gespräche ruhen. Wer im Grüppchen einen solchen Satz sagen will, ruft den Erzähler und sagt ihn dann vor allen."
+    },
+    {
+      "nr": "R-14",
+      "name": "Bestätigen",
+      "text": "Sollst du sagen, ob etwas stimmt, und dein Heft hält es noch zurück, sagst du: „Dazu sag ich jetzt nichts.“ Das gilt als Antwort. Lügen darfst du nur, wo dein Heft es erlaubt."
+    }
+  ],
+  "licht": "Nach dem Knall leuchten nur noch die drei roten Kerzen an der Anrichte und das grüne Notausgangsschild. Die Kerzen beleuchten etwa zwei Meter rund um die Anrichte. Die Vorratsraumtür liegt im Licht, die Theken-Klappe kaum, der Eiskübel und die Buffettische nicht. Ein Gesicht erkennt man im Kerzenlicht nur aus der Nähe. Leuchtende Farbe sieht man im Dunkeln von weitem. Beim Scheppern gehen die Kerzen aus. Bis Mitternacht ist es im Buffetsaal dann dunkel. Kurz bevor das Licht wieder angeht, gehen im Ost-Saal Handylampen an und im Durchgang eine Stirnlampe. Sie reichen nicht bis zum Eiskübel und nicht bis zur Vorratsraumtür."
+}

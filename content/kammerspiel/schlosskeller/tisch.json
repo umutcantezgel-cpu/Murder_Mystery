@@ -1,0 +1,986 @@
+{
+  "lageplan": {
+    "raster": {
+      "x0": 1,
+      "y0": 1,
+      "breite": 25,
+      "hoehe": 22,
+      "mmJeMeter": 8.5
+    },
+    "raeume": [
+      {
+        "id": "r1",
+        "name": "Turmgang",
+        "kacheln": [
+          {
+            "x": [
+              1,
+              3
+            ],
+            "y": [
+              1,
+              6
+            ]
+          }
+        ]
+      },
+      {
+        "id": "r2",
+        "name": "Vorratsraum",
+        "kacheln": [
+          {
+            "x": [
+              13,
+              15
+            ],
+            "y": [
+              2,
+              5
+            ]
+          }
+        ]
+      },
+      {
+        "id": "r3",
+        "name": "Kaminsaal",
+        "kacheln": [
+          {
+            "x": [
+              1,
+              6
+            ],
+            "y": [
+              8,
+              19
+            ]
+          }
+        ]
+      },
+      {
+        "id": "r4",
+        "name": "Durchgang",
+        "kacheln": [
+          {
+            "x": [
+              8,
+              9
+            ],
+            "y": [
+              8,
+              9
+            ]
+          }
+        ]
+      },
+      {
+        "id": "r5",
+        "name": "Buffetsaal",
+        "kacheln": [
+          {
+            "x": [
+              11,
+              18
+            ],
+            "y": [
+              7,
+              18
+            ]
+          }
+        ]
+      },
+      {
+        "id": "r6",
+        "name": "Ost-Saal",
+        "kacheln": [
+          {
+            "x": [
+              20,
+              25
+            ],
+            "y": [
+              7,
+              18
+            ]
+          }
+        ]
+      },
+      {
+        "id": "r7",
+        "name": "Windfang",
+        "kacheln": [
+          {
+            "x": [
+              14,
+              15
+            ],
+            "y": [
+              20,
+              21
+            ]
+          }
+        ]
+      }
+    ],
+    "felder": [
+      {
+        "feld": "1",
+        "kacheln": [
+          {
+            "x": [
+              20,
+              25
+            ],
+            "y": [
+              7,
+              18
+            ]
+          },
+          {
+            "x": [
+              19,
+              19
+            ],
+            "y": [
+              9,
+              9
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "2",
+        "kacheln": [
+          {
+            "x": [
+              11,
+              14
+            ],
+            "y": [
+              11,
+              18
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "3",
+        "kacheln": [
+          {
+            "x": [
+              15,
+              18
+            ],
+            "y": [
+              11,
+              18
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "4a",
+        "kacheln": [
+          {
+            "x": [
+              11,
+              11
+            ],
+            "y": [
+              9,
+              9
+            ]
+          },
+          {
+            "x": [
+              11,
+              14
+            ],
+            "y": [
+              10,
+              10
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "4b",
+        "kacheln": [
+          {
+            "x": [
+              15,
+              18
+            ],
+            "y": [
+              10,
+              10
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "4c",
+        "kacheln": [
+          {
+            "x": [
+              11,
+              16
+            ],
+            "y": [
+              7,
+              8
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "4d",
+        "kacheln": [
+          {
+            "x": [
+              17,
+              18
+            ],
+            "y": [
+              7,
+              8
+            ]
+          },
+          {
+            "x": [
+              18,
+              18
+            ],
+            "y": [
+              9,
+              9
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "5",
+        "kacheln": [
+          {
+            "x": [
+              13,
+              15
+            ],
+            "y": [
+              2,
+              5
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "6",
+        "kacheln": [
+          {
+            "x": [
+              8,
+              9
+            ],
+            "y": [
+              8,
+              9
+            ]
+          },
+          {
+            "x": [
+              7,
+              7
+            ],
+            "y": [
+              9,
+              9
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "7",
+        "kacheln": [
+          {
+            "x": [
+              1,
+              6
+            ],
+            "y": [
+              8,
+              19
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "8a",
+        "kacheln": [
+          {
+            "x": [
+              1,
+              3
+            ],
+            "y": [
+              3,
+              6
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "8b",
+        "kacheln": [
+          {
+            "x": [
+              1,
+              3
+            ],
+            "y": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "feld": "W",
+        "kacheln": [
+          {
+            "x": [
+              14,
+              15
+            ],
+            "y": [
+              20,
+              21
+            ]
+          }
+        ]
+      }
+    ],
+    "tueren": [
+      {
+        "id": "t1",
+        "name": "Tür zum Ost-Saal",
+        "x": 19.5,
+        "y": 9.5,
+        "zustand": "offen"
+      },
+      {
+        "id": "t2",
+        "name": "Vorratsraumtür",
+        "x": 14.5,
+        "y": 6.5,
+        "zustand": "angelehnt"
+      },
+      {
+        "id": "t3",
+        "name": "Tür zum Durchgang",
+        "x": 10.5,
+        "y": 9.5,
+        "zustand": "offen"
+      },
+      {
+        "id": "t4",
+        "name": "Steinbogen",
+        "x": 7.5,
+        "y": 9.5,
+        "zustand": "offen"
+      },
+      {
+        "id": "t5",
+        "name": "Bogentür",
+        "x": 2.5,
+        "y": 7.5,
+        "zustand": "offen"
+      },
+      {
+        "id": "t6",
+        "name": "Innentür",
+        "x": 14.5,
+        "y": 19.5,
+        "zustand": "zu"
+      },
+      {
+        "id": "t7",
+        "name": "Außentor",
+        "x": 15.0,
+        "y": 22.5,
+        "zustand": "verschlossen"
+      },
+      {
+        "id": "t8",
+        "name": "Hoftür",
+        "x": 1.0,
+        "y": 5.5,
+        "zustand": "verschlossen"
+      }
+    ],
+    "moebel": [
+      {
+        "id": "m1",
+        "name": "Theke",
+        "kacheln": [
+          {
+            "x": [
+              12,
+              17
+            ],
+            "y": [
+              9,
+              9
+            ]
+          }
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "linker Buffettisch",
+        "kacheln": [
+          {
+            "x": [
+              12,
+              12
+            ],
+            "y": [
+              12,
+              14
+            ]
+          }
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "rechter Buffettisch",
+        "kacheln": [
+          {
+            "x": [
+              17,
+              17
+            ],
+            "y": [
+              12,
+              14
+            ]
+          }
+        ]
+      },
+      {
+        "id": "m4",
+        "name": "lange Tafel",
+        "kacheln": [
+          {
+            "x": [
+              22,
+              23
+            ],
+            "y": [
+              11,
+              16
+            ]
+          }
+        ]
+      },
+      {
+        "id": "m5",
+        "name": "lange Tafel",
+        "kacheln": [
+          {
+            "x": [
+              3,
+              4
+            ],
+            "y": [
+              11,
+              16
+            ]
+          }
+        ]
+      }
+    ],
+    "gegenstaende": [
+      {
+        "id": "kopfDerTafel",
+        "name": "Kopf der Tafel",
+        "x": 22.5,
+        "y": 10.5,
+        "feld": "1"
+      },
+      {
+        "id": "jackenstaender",
+        "name": "Jackenständer",
+        "x": 20.5,
+        "y": 8.5,
+        "feld": "1"
+      },
+      {
+        "id": "wandtafel",
+        "name": "Wandtafel mit Ablaufplan",
+        "x": 25.5,
+        "y": 9.5,
+        "feld": "1"
+      },
+      {
+        "id": "handykorb",
+        "name": "Handykorb",
+        "x": 24.5,
+        "y": 12.5,
+        "feld": "1"
+      },
+      {
+        "id": "ehrenplatz",
+        "name": "Ehrenplatz der blinden Kuh",
+        "x": 24.5,
+        "y": 16.5,
+        "feld": "1"
+      },
+      {
+        "id": "musikbox",
+        "name": "Musikbox",
+        "x": 25.5,
+        "y": 15.5,
+        "feld": "1"
+      },
+      {
+        "id": "gebaeck",
+        "name": "Gebäck, Brottasche, Dips, Thermoskanne",
+        "x": 12.5,
+        "y": 13.5,
+        "feld": "2"
+      },
+      {
+        "id": "warmhaltebehaelter",
+        "name": "Warmhaltebehälter",
+        "x": 17.5,
+        "y": 13.5,
+        "feld": "3"
+      },
+      {
+        "id": "klappe",
+        "name": "Theken-Klappe",
+        "x": 11.5,
+        "y": 9.5,
+        "feld": "4a"
+      },
+      {
+        "id": "eiskuebel",
+        "name": "Eiskübel (vor dem Ostende)",
+        "x": 17.5,
+        "y": 10.5,
+        "feld": "4b"
+      },
+      {
+        "id": "kerzenstaender",
+        "name": "Anrichte mit Messingkerzenständer",
+        "x": 13.5,
+        "y": 8.5,
+        "feld": "4c"
+      },
+      {
+        "id": "teekocher",
+        "name": "Teekocher",
+        "x": 15.5,
+        "y": 7.5,
+        "feld": "4c"
+      },
+      {
+        "id": "kaffeemaschine",
+        "name": "Kaffeemaschine",
+        "x": 16.5,
+        "y": 7.5,
+        "feld": "4c"
+      },
+      {
+        "id": "werkzeugkasten",
+        "name": "Werkzeugkasten",
+        "x": 16.5,
+        "y": 8.5,
+        "feld": "4c"
+      },
+      {
+        "id": "spuele",
+        "name": "Spüle",
+        "x": 11.5,
+        "y": 7.5,
+        "feld": "4c"
+      },
+      {
+        "id": "anrichteOst",
+        "name": "Anrichte Ost: Saft, Gläser, Servietten",
+        "x": 17.5,
+        "y": 7.5,
+        "feld": "4d"
+      },
+      {
+        "id": "torte",
+        "name": "Regal mit der Mitternachtstorte",
+        "x": 13.5,
+        "y": 2.5,
+        "feld": "5"
+      },
+      {
+        "id": "ersteHilfe",
+        "name": "Erste-Hilfe-Kasten",
+        "x": 15.5,
+        "y": 3.5,
+        "feld": "5"
+      },
+      {
+        "id": "notlaterne",
+        "name": "Notlaterne",
+        "x": 13.5,
+        "y": 5.5,
+        "feld": "5"
+      },
+      {
+        "id": "fundort",
+        "name": "Fundort Herr Schneider",
+        "x": 14.5,
+        "y": 5.5,
+        "feld": "5"
+      },
+      {
+        "id": "getraenkekisten",
+        "name": "Getränkekisten",
+        "x": 8.5,
+        "y": 8.5,
+        "feld": "6"
+      },
+      {
+        "id": "sicherungskasten",
+        "name": "Sicherungskasten",
+        "x": 9.5,
+        "y": 8.5,
+        "feld": "6"
+      },
+      {
+        "id": "kaminNische",
+        "name": "Kamin-Nische",
+        "x": 1.5,
+        "y": 13.5,
+        "feld": "7"
+      },
+      {
+        "id": "ascheneimer",
+        "name": "Ascheneimer",
+        "x": 1.5,
+        "y": 14.5,
+        "feld": "7"
+      },
+      {
+        "id": "wandbankSued",
+        "name": "Wandbank",
+        "x": 3.5,
+        "y": 18.5,
+        "feld": "7"
+      },
+      {
+        "id": "lichtschaechte",
+        "name": "Lichtschächte",
+        "x": 5.5,
+        "y": 8.5,
+        "feld": "7"
+      },
+      {
+        "id": "ruestung",
+        "name": "Ritterrüstung",
+        "x": 1.5,
+        "y": 4.5,
+        "feld": "8a"
+      },
+      {
+        "id": "vitrine",
+        "name": "Schauvitrine",
+        "x": 3.5,
+        "y": 4.5,
+        "feld": "8a"
+      },
+      {
+        "id": "beschlag",
+        "name": "Bogentür mit beschädigtem Beschlag",
+        "x": 2.5,
+        "y": 6.5,
+        "feld": "8a"
+      },
+      {
+        "id": "schluesselkasten",
+        "name": "Schlüsselkasten der Stiftung",
+        "x": 1.5,
+        "y": 5.5,
+        "feld": "8a"
+      },
+      {
+        "id": "wendeltreppe",
+        "name": "Wendeltreppe zur Turm-Toilette",
+        "x": 2.5,
+        "y": 1.5,
+        "feld": "8b"
+      },
+      {
+        "id": "stufen",
+        "name": "Sandsteinstufen zum Parkplatz",
+        "x": 14.5,
+        "y": 21.5,
+        "feld": "W"
+      }
+    ],
+    "legende": [
+      {
+        "feld": "1",
+        "text": "Lange Tafel, Jackenständer"
+      },
+      {
+        "feld": "2",
+        "text": "Gebäck, Thermoskanne"
+      },
+      {
+        "feld": "3",
+        "text": "Warmhaltebehälter"
+      },
+      {
+        "feld": "4a",
+        "text": "Theken-Klappe, dazu der Platz vor der Theke am Westende"
+      },
+      {
+        "feld": "4b",
+        "text": "der Streifen vor der Theke von der Mitte bis vor das Ostende, mit dem Eiskübel"
+      },
+      {
+        "feld": "4c",
+        "text": "Anrichte mit Kerzenständer, Teekocher, Kaffeemaschine"
+      },
+      {
+        "feld": "4d",
+        "text": "die offene Kachel am Ostende und dahinter, mit der Anrichte Ost: Saft, Gläser, Servietten"
+      },
+      {
+        "feld": "5",
+        "text": "Hinter der Theke: Mitternachtstorte, Notlaterne, Fundort Herr Schneider"
+      },
+      {
+        "feld": "6",
+        "text": "Verbindung zwischen Theke, Buffetsaal und Kaminsaal, Sicherungskasten"
+      },
+      {
+        "feld": "7",
+        "text": "Kamin mit Ascheneimer und Nische, Wandbänke"
+      },
+      {
+        "feld": "8a",
+        "text": "Bogentür mit beschädigtem Beschlag, Ritterrüstung, Schauvitrine"
+      },
+      {
+        "feld": "8b",
+        "text": "Treppe zur Turm-Toilette"
+      },
+      {
+        "feld": "W",
+        "text": "Innentür und Außentor, Sandsteinstufen zum Parkplatz"
+      }
+    ],
+    "hinweise": [
+      "Offene Indizkarten an den Rand legen",
+      "Zeitpunkte: Marker 23:57 / Marker Scheppern"
+    ]
+  },
+  "markerfelder": {
+    "spalten": 5,
+    "reihen": 3,
+    "zelleBreiteMm": 54,
+    "zelleHoeheMm": 58,
+    "belegung": [
+      {
+        "feld": "8b",
+        "zellen": [
+          [
+            0,
+            0
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "5",
+        "zellen": [
+          [
+            1,
+            0
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "1",
+        "zellen": [
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "plaettchen": 18
+      },
+      {
+        "feld": "6",
+        "zellen": [
+          [
+            0,
+            1
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "4a",
+        "zellen": [
+          [
+            1,
+            1
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "4b",
+        "zellen": [
+          [
+            2,
+            1
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "4c",
+        "zellen": [
+          [
+            3,
+            1
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "4d",
+        "zellen": [
+          [
+            4,
+            1
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "8a",
+        "zellen": [
+          [
+            0,
+            2
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "7",
+        "zellen": [
+          [
+            1,
+            2
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "2",
+        "zellen": [
+          [
+            2,
+            2
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "3",
+        "zellen": [
+          [
+            3,
+            2
+          ]
+        ],
+        "plaettchen": 6
+      },
+      {
+        "feld": "W",
+        "zellen": [
+          [
+            4,
+            2
+          ]
+        ],
+        "plaettchen": 6
+      }
+    ]
+  },
+  "marker": {
+    "breiteMm": 26,
+    "hoeheMm": 18,
+    "jeRolle": 2,
+    "max": 40,
+    "feste": [
+      {
+        "wer": "detektiv",
+        "z2357": "1",
+        "scheppern": "1"
+      },
+      {
+        "wer": "schneider",
+        "z2357": "4d",
+        "scheppern": "4c"
+      }
+    ]
+  },
+  "tippZettel": {
+    "titel": "Tipp-Zettel",
+    "name": "Name: ________________",
+    "fragen": [
+      {
+        "nr": 1,
+        "art": "taeter",
+        "text": "Wer war es? Wer steckt hinter dem dumpfen Schlag im Dunkeln? ________________",
+        "punkte": 2
+      },
+      {
+        "nr": 2,
+        "art": "versteck",
+        "text": "Wo ist Herrn Schneiders Schlüsselbund versteckt? ________________",
+        "punkte": 1
+      },
+      {
+        "nr": 3,
+        "art": "bonus",
+        "text": "Mein Bonus-Ziel: erreicht ☐ ja ☐ nein. Woran sieht man das? ________________",
+        "punkte": 2
+      }
+    ],
+    "fuss": "Falten und dem Erzähler geben. Geöffnet wird erst mit dem Auflösungsheft.",
+    "jeBlatt": 4
+  },
+  "abwesenheitsblatt": {
+    "spalten": 2,
+    "reihen": 3,
+    "randMm": 5,
+    "streifenBreiteMm": 100,
+    "streifenHoeheMm": 95,
+    "etikettHoeheMm": 30,
+    "schriftPt": 9,
+    "notizPt": 8
+  }
+}

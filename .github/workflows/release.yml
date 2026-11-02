@@ -5,8 +5,8 @@ name: Prüfen und Builds
 #   android APK (Release-Schlüssel aus Secrets, sonst öffentlicher Test-Schlüssel)
 #   ios     unsignierte IPA zum Sideloaden (darf fehlschlagen)
 #   web     mordakte-web.zip und GitHub Pages
-#   erzaehlerakte  Erzählerakte des Schlosskellers als PDF ohne Besetzung (für jede Personenzahl),
-#           einmal mit den Zielen des Druckspiels, einmal für „Dein Moment“. Schlägt der Job fehl,
+#   erzaehlerakte  Erzählerakte des Schlosskellers als PDF ohne Besetzung (für jede Personenzahl), für
+#           Abende am Bildschirm: einmal ohne, einmal mit „Dein Moment“. Schlägt der Job fehl,
 #           entsteht das Release trotzdem, ohne die PDFs; der Lauf ist dann rot (nachholen mit
 #           „Re-run failed jobs“, das ein neues Release mit neuem Tag erzeugt)
 #   release GitHub-Release mit festen Dateinamen und SHA256SUMS.txt
@@ -359,7 +359,7 @@ jobs:
             echo "Zu wenige Porträts: $anzahl statt mindestens 22." >&2
             exit 1
           fi
-      - name: Erzählerakten setzen (Druckspiel und „Dein Moment“)
+      - name: Erzählerakten setzen (ohne und mit „Dein Moment“)
         working-directory: packages/mordakte_core
         run: |
           set -euo pipefail
@@ -481,16 +481,16 @@ jobs:
               printf -- '- Web: in diesem Lauf kein ZIP\n'
             fi
             if [ -f release/erzaehlerakte.pdf ]; then
-              printf -- '- `erzaehlerakte.pdf`: Erzählerakte „Spuk im Schlosskeller“ zum Drucken, Ziele wie im Druckspiel. Nur für die Person, die erzählt; nennt nie den Täter; für jede Personenzahl.\n'
+              printf -- '- `erzaehlerakte.pdf`: Erzählerakte „Spuk im Schlosskeller“ zum Drucken, für einen Abend am Bildschirm ohne „Dein Moment“ (je Figur das Ziel aus ihrer Rolle im App-Spiel). Nur für die Person, die erzählt; nennt nie den Täter; für jede Personenzahl. Gehört nicht zum Kammerspiel.\n'
             else
               printf -- '- Erzählerakte: in diesem Lauf keine PDF\n'
             fi
             if [ -f release/erzaehlerakte-dein-moment.pdf ]; then
-              printf -- '- `erzaehlerakte-dein-moment.pdf`: dieselbe Akte für einen Abend mit „Dein Moment“. Nur für die Person, die erzählt; nennt nie den Täter; für jede Personenzahl.\n'
+              printf -- '- `erzaehlerakte-dein-moment.pdf`: dieselbe Akte für einen Abend am Bildschirm mit „Dein Moment“ (je Figur die zwei Ziele aus „Dein Moment“). Nur für die Person, die erzählt; nennt nie den Täter; für jede Personenzahl. Gehört nicht zum Kammerspiel.\n'
             else
               printf -- '- Erzählerakte für „Dein Moment“: in diesem Lauf keine PDF\n'
             fi
-            printf -- '- PDFs zum Ausdrucken (Rollenhefte, Erzählerheft, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben).\n'
+            printf -- '- Das Druckspiel „Kammerspiel“ für 6 bis 20 Personen (Erzählerheft, Detektivbogen, Lageplan, Rollenhefte, Fassungen, Zusatzhefte, Karten, Auflösung) erstellt die App: Detektei → PDFs zum Ausdrucken (ganz oben) → Druckmappe.\n'
             printf -- '- `SHA256SUMS.txt`: Prüfsummen aller Dateien (`sha256sum -c SHA256SUMS.txt`)\n\n'
             printf '## Installation\n\n'
             printf -- '- **Android:** APK auf dem Handy öffnen und die Installation aus dieser Quelle erlauben (unbekannte Quellen).\n'
