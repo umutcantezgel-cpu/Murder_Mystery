@@ -1,0 +1,10 @@
+{
+  "datei": "12-zusatzrollen.pdf",
+  "dateiEinzeln": "12-zusatzheft-{figur}.pdf",
+  "titel": "Zusatzhefte",
+  "kopf": "Zusatzheft · {name} · Platz {platz} · Tandem {tandem}",
+  "hinweisseite": "Heute ohne Zusatzrollen. Zusatzrollen gibt es ab dreizehn Personen.",
+  "deinTandem": "Dein Tandem",
+  "gespraechsauftraege": "Gesprächsaufträge",
+  "ausweichRegel": "Fehlt dein Ziel, frag stattdessen den Verdächtigen, den du in dieser Runde noch nicht gefragt hast. Stell ihm dieselbe Frage."
+}

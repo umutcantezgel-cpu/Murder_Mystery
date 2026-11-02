@@ -1,0 +1,181 @@
+{
+  "platz": 14,
+  "id": "serkan",
+  "vorstellung": {
+    "frage": "Serkan, der Fahrdienst-Organisator. Du fragst jeden, wann er heimwill. Wer darf nachher bei dir vorne sitzen, und wer muss auf die Rückbank?",
+    "auftritt": "Ich bin Serkan, Rettungssanitäter, und heute euer Fahrdienst. Wer fährt nachher mit wem? Ich frag lieber jetzt schon. Um halb zwölf hab ich im Kaminsaal die Klappen der Lichtschächte aufgerissen, als aus dem Kamin der Qualm kam. Gern geschehen. Mitnehmen würde ich jeden. Nur das Schloss passt leider in kein Auto."
+  },
+  "werDuBist": "OFFEN: ZR 4 „Wer du bist“ (Muster ZR 0.7 aus dem Profil ZR 4.1)",
+  "haltung": "Du bleibst ruhig und willst alle sicher heimbringen. Nur deine Überraschung für die Torte verrätst du nicht. Dafür flunkerst du einmal: die Decken.",
+  "tandemKasten": "Um 23:20 Uhr hast du gesehen, wie Hana Papier in den Kamin gestopft hat, ohne die Klappe zu öffnen. Um 23:30 Uhr hast du die Klappen der Lichtschächte aufgerissen. Beim Lüften hast du Hana deinen Plan verraten: Wunderkerzen für die Mitternachtstorte, sie liegen in deinem Auto. Offenes Feuer erlaubt Herr Schneider im Keller nicht. Ihr deckt euch gegenseitig. Kurz vor zwölf wolltest du die Wunderkerzen holen. Das Außentor war zu.",
+  "marker": {
+    "zeile": "Marker 23:57: Windfang (W). Marker Scheppern: Windfang (W). Beide stimmen.",
+    "behauptet": {
+      "z2357": "W",
+      "scheppern": "W"
+    },
+    "wahr": {
+      "z2357": "W",
+      "scheppern": "W"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "OFFEN: ZR 4.5 Wissen",
+        "text": "OFFEN: ZR 4.5 Wissen (Tabelle ohne Spalte Quelle)",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "OFFEN: ZR 4 Stufe 1 „Das sagst du jedem“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "OFFEN: ZR 4 Stufe 1, Spalte „Wenn jemand fragt“",
+        "antwort": "OFFEN: ZR 4 Stufe 1, Spalte „sagst du“"
+      }
+    ],
+    "verboten": [
+      "OFFEN: ZR 4 Stufe 1 „Verboten“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ich stand im Windfang am Außentor. Da war niemand außer mir.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Niemand. Ich stand allein am Außentor.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Ich wollte Decken aus dem Auto holen.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Fürs Heimfahren nehm ich nichts.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Dazu weiß ich nichts.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich stand am Außentor.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Im Windfang hab ich nur dumpfes Rumpeln gehört. Das Tor blieb zu.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich kam vom Außentor zurück und hab gerufen: ‚Das Tor ist zu.‘“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald dich jemand zum zweiten Mal fragt, warum du kurz vor zwölf zum Außentor gegangen bist. Auch ein Impuls des Erzählers, der alle nach dem Warum fragt, zählt als einmal.",
+      "Sobald Hanas Geheimniskarte offen auf dem Tisch liegt."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Was auf dem Papier stand, weiß ich nicht.“",
+        "„Durchs Außentor ist der Schlüsselbund nicht raus. Ich glaub, er ist noch hier unten.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "lejla",
+      "frage": "„Lejla, als ich vom Tor zurückkam, warst du bei Herrn Schneider. Ich war dein Ausbilder im Erste-Hilfe-Kurs, also: Wie geht es ihm? Und wer war im Dunkeln bei dir am rechten Buffet?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "damir",
+      "frage": "„Damir, dein Marker ‚Scheppern‘ steht hinter der Theke am Ostende. Wer war im Dunkeln bei dir, und ging es allen gut?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "hana",
+      "frage": "**Sprich leise mit Hana:** „Am Tisch fragen sie nach dem Tor und nach dem Kamin. Fragt dich jemand nach dem Papier: Halten wir dicht, oder sagen wir es beide?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "fatma",
+      "frage": "„Fatma, du schleppst die schwere Tasche den ganzen Abend mit dir herum. Ich trag sie dir nachher zum Auto. Was ist denn da drin?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "lejla",
+      "frage": "„Lejla, durchs Außentor ist keiner raus, ich stand dort. Der Bund ist also wohl noch hier drin. Wer ist als Erstes wohin gegangen, als das Licht anging?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "can",
+      "frage": "„Can, du warst oben im Turm, sagst du. Herr Schneider hat zweimal ‚Stehen bleiben!‘ gebrüllt. Bist du vor dem Scheppern hoch oder danach?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Ich hab mein Klemmbrett mit den Fahrzeiten, meine LED-Taschenlampe und den Autoschlüssel. Der nützt mir nichts, solange das Tor zu ist. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Lagebesprechung",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Der Detektiv sagt sofort laut, wen er gerade am meisten verdächtigt und warum. Danach darf jede Person genau einen Einwand sagen.",
+    "grenzen": "Der Detektiv muss sich nicht festlegen, nur seine Lage schildern.",
+    "tipp": "Gut in Runde 2 oder 3, wenn der Detektiv sich in Einzelheiten verliert. Danach weiß der ganze Tisch, worüber zu reden ist."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Alle sollen sicher heimkommen, und dafür braucht es den Schlüsselbund. **Erfüllt, wenn** bei der Anklage eine offene Indizkarte zeigt, dass Herr Schneider seinen Schlüsselbund wieder hat.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [],
+    "wasIchZugebe": "Ich wollte keine Decken holen. In meinem Auto liegen Wunderkerzen für die Mitternachtstorte. Offenes Feuer erlaubt Herr Schneider im Keller nicht, nach dem Kamin um halb zwölf erst recht nicht. Um 23:56 Uhr stand ich am Außentor. Es war abgeschlossen. Die Wunderkerzen liegen immer noch im Auto.",
+    "vermerke": [
+      "Hinweis: Von 23:56 Uhr bis kurz nach zwölf stand Serkan am abgeschlossenen Außentor. Niemand kam in den Windfang, niemand ist durchs Außentor hinaus."
+    ],
+    "undNochEtwas": "Um 23:20 Uhr hat Hana Papier in den Kamin gestopft, kurz danach kam der Qualm."
+  },
+  "solo": null,
+  "teil90": "Serkan wollte keine Decken holen, sondern Wunderkerzen für die Torte. Er stand am verschlossenen Außentor, bis kurz nach Mitternacht. Niemand ist hinaus, also blieb der Schlüsselbund im Keller.",
+  "fassung": null
+}

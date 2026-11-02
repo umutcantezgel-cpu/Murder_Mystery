@@ -1,0 +1,296 @@
+{
+  "platz": 1,
+  "id": "ahmet",
+  "vorstellung": {
+    "frage": "Ahmet, du hast diesen Abend organisiert, und jeder hier hat von dir schon eine Aufgabe bekommen. Welche Aufgabe hast du dir selbst gegeben?",
+    "auftritt": "Welche Aufgabe ich mir gegeben hab? Dass ihr alle eure Aufgaben macht! Ich plane beruflich Stadtfeste, da ist so ein Keller ein Kinderspiel. Wer mir heute die Hand gegeben hat, hatte danach eine Aufgabe. Einer trägt Stühle, eine zählt Teller, einer hält die Tür auf. Ein paar von euch haben mir deshalb nur noch von Weitem gewinkt. Schlau. Aber keine Sorge: Heute läuft alles nach Plan. Ich kümmere mich darum."
+  },
+  "werDuBist": "Du bist Ahmet, 27, der Organisator. Du arbeitest in einer Agentur, die Stadtfeste und Märkte plant. Den Abend im Schlosskeller hast du organisiert. Man erkennt dich an Brille, kurzem Bart, schwarzem Strickpulli und blauem Stoffarmband. {wenn:lejla|Lejla ist deine Cousine. }{rolle:marek|Der Caterer} hat das Essen geliefert, du bist sein Kunde. {wenn:joanna|Joanna fotografiert deine Stadtfeste. }Neben Olli hast du in der Schule gesessen, und Can hast du Radfahren beigebracht.\nWas dich heute antreibt: Niemand soll vor dem Morgen erfahren, dass die Miete erfunden war.",
+  "haltung": null,
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Theke Ostende (4d). Marker Scheppern: Theke Ostende (4d). Beide stimmen. Du lügst nicht über den Ort, nur über den Grund.",
+    "behauptet": {
+      "z2357": "4d",
+      "scheppern": "4d"
+    },
+    "wahr": {
+      "z2357": "4d",
+      "scheppern": "4d"
+    }
+  },
+  "wasDuWeisst": null,
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [
+      "„Ich hab hinter der Theke nur Servietten gesucht.“",
+      "„Die 150 € waren für die Miete.“"
+    ],
+    "regie": "Bleib dabei geschäftig, wie jemand, der an alles denkt.",
+    "sagstDuJedem": [],
+    "ausweichsaetze": [
+      {
+        "frage": "Wo warst du um drei vor zwölf?",
+        "antwort": "„Hinter der Theke am Ostende. Servietten für die Torte. Als Organisator denk ich an so was.“"
+      },
+      {
+        "frage": "Wo warst du um 23:51 Uhr?",
+        "antwort": "„Vor der Theke. Ich hab kurz mit Herrn Schneider geredet.“"
+      },
+      {
+        "frage": "Wo warst du beim Knall und beim Scheppern?",
+        "antwort": "„Ich hab mich an {wenn:marek|Mareks Beine|die Beine des Caterers} gekauert und geflüstert: ‚{wenn:marek|Marek? }Ich bin's, Ahmet.‘ Bis das Licht anging, hab ich mich nicht bewegt.“"
+      },
+      {
+        "frage": "Was hast du im Dunkeln gehört?",
+        "antwort": "„Herr Schneider rief: ‚Ruhe! Ich hol die Notlaterne.‘ Dann ‚Hab ich dich!‘, zweimal ‚Stehen bleiben!‘ und das Scheppern. Gesehen hab ich nichts.“"
+      },
+      {
+        "frage": "Wer stand um drei vor zwölf an der Theke?",
+        "antwort": "„Keine Ahnung. Ich hab Servietten gesucht, nicht Leute gezählt.“"
+      },
+      {
+        "frage": "Was war in dem dicken Umschlag?",
+        "antwort": "„Das Mietgeld. Das wollte ich Herrn Schneider geben.“"
+      },
+      {
+        "frage": "Was ist das Geld in deiner Hosentasche?",
+        "antwort": "„Die Miete. Ich heb sie auf, bis Herr Schneider sie nimmt. Den Umschlag hab ich weggeworfen.“"
+      }
+    ],
+    "verboten": [],
+    "markersatz": "Dein Marker stimmt. Fragt jemand nach dem Grund, bleib bei den Servietten, bis deine Karte offen ist."
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Hinter der Theke am Ostende. {rolle:marek|Der Caterer} stand direkt neben mir.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ich hab mich an {wenn:marek|Mareks Beine|die Beine des Caterers} gekauert und geflüstert: ‚{wenn:marek|Marek? }Ich bin's, Ahmet.‘“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Ich hab hinter der Theke Servietten für die Torte gesucht.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "**Karte zu:** „Ich hab von allen 150 € für die Miete eingesammelt. Das Geld bekommt Herr Schneider.“\n**Karte offen:** „Der Keller hat nichts gekostet. Ihr bekommt euer Geld zurück.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Im Turmgang war ich heute nicht.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Gesehen hab ich nichts. Ich hab am Ostende gekauert.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Erst der Knall. Dann ‚Ruhe! Ich hol die Notlaterne.‘ Dann ‚Hab ich dich!‘, zweimal ‚Stehen bleiben!‘ und das Scheppern.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "**Karte zu:** „Ich war kurz im Kaminsaal, durchatmen. Geholt hab ich nichts.“\n**Karte offen:** „Um zwölf nach zwölf hab ich den leeren Umschlag in den Ascheneimer am Kamin geworfen.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": "Der Keller war umsonst. Herr Schneider hat ihn dir überlassen, weil du das Programm des Adventsmarkts der Stiftung gestaltest. Beim Essen hast du viel zu groß bestellt. Die Nachzahlung ist heute fällig: 150 € pro Gast, in Bargeld. Statt es zuzugeben, hast du von allen 150 € „Miete“ eingesammelt. Um 23:51 Uhr drohte Herr Schneider, es um zwölf allen zu sagen. Um 23:57 Uhr wolltest du ihn hinter der Theke bitten, nichts zu sagen.",
+    "ausloeser": [
+      "Sobald Herrn Schneiders Klemmbrett (PM3) oder der Ascheneimer am Kamin (WM9) offen liegt.",
+      "{wenn:lejla|Sobald Lejlas Geheimniskarte offen liegt.|Sobald die Geheimniskarte unter dem Zeugenstreifen am rechten Buffettisch offen liegt.}",
+      "Sobald eine Taschenkontrolle bei dir das Bündel Scheine gezeigt hat und der Jackenständer im Ost-Saal (WE3) offen liegt. Was davon zuerst da war, ist egal."
+    ],
+    "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Ihr bekommt euer Geld zurück. Versprochen.“",
+    "marker": "OFFEN: RK 2.7 Marker (bleiben auf 4d)",
+    "abDann": "Ab jetzt sagst du offen, was an der Theke war. Du darfst sagen, dass {rolle:joanna|die Fotografin des Abends} um 23:51 Uhr ein Foto gemacht hat. Zum Umschlag sagst du die Wahrheit. Um 0:12 Uhr hast du das Geld in die Hosentasche gesteckt. Den leeren Umschlag hast du in den Ascheneimer am Kamin geworfen. Mehr gibst du nicht zu. Dabei bleibst du.",
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": []
+    }
+  },
+  "freigabe": {
+    "sofort": [
+      "„Um 23:55 Uhr saß Olli am Kopf der Tafel im Ost-Saal.“",
+      "„Beim Knall hab ich {wenn:marek|an Mareks Beinen|an den Beinen des Caterers} gekauert. {rolle:damir|Ein Gast mit einer großen Teekanne} war neben mir.“",
+      "„Durch das Ostende ist im Dunkeln niemand an mir vorbeigekommen.“"
+    ],
+    "nachDemMarker": [
+      "Dein Marker stimmt. Hier kommt nichts dazu."
+    ],
+    "nachDerKarte": [
+      "„Um 23:57 Uhr stand Olli am Eiskübel. Herr Schneider sagte zu ihm: ‚Zweitausend, bis zwölf.‘“",
+      "„{rolle:joanna|Die Fotografin des Abends} hat mich um 23:51 Uhr mit Herrn Schneider fotografiert.“",
+      "„Um 23:57 Uhr ging Herr Schneider hinter der Theke an mir vorbei zur Kaffeemaschine.“"
+    ]
+  },
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "fatma",
+      "frage": "„Fatma, dein Marker steht am linken Buffet. Wer hat dich dort um drei vor zwölf gesehen?“",
+      "nachschlag": "Sobald jemand sagt, dass Fatma um drei vor zwölf zur Theken-Klappe ging: „Also warst du gar nicht beim Gebäck. Was wolltest du an der Klappe?“",
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "marek",
+      "frage": "„Marek, sag dem Detektiv, wer sich beim Knall an deine Beine gekauert hat.“",
+      "nachschlag": "Sobald Marek es bestätigt: „Und war ich noch da, als es schepperte, und als das Licht anging?“",
+      "ausweich": "Bitte den Detektiv um den Ortstermin „hinter der Theke am Ostende“. Sag: „Dort hab ich gekauert. Wer dort war, kann es bezeugen.“ Bis der Detektiv dort war, frag Can: „Can, ich war ab fünf vor zwölf im Ost-Saal und dann an der Theke. Dich hab ich nirgends gesehen. Wann bist du zur Turm-Toilette hoch?“"
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, um elf ist Herr Schneider an der Theke richtig laut geworden. Mit wem hat er da gestritten, und worum ging es?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Um drei vor zwölf hat Herr Schneider zu dir gesagt: Zweitausend, bis zwölf. Zweitausend wofür?“",
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "joanna",
+      "frage": "„Joanna, du hast um fünf vor zwölf alle zum Gruppenfoto gerufen und dann in der Tür zum Ost-Saal gestanden. Wen hast du von dort an der Theke gesehen?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Du darfst das Foto von 23:51 Uhr jetzt zeigen. Ich hab Herrn Schneider nur gebeten, um zwölf nichts zu sagen.“",
+      "ausweich": "Bitte den Detektiv um den Ortstermin „Tür zum Ost-Saal“. Sag: „Von dort sieht man die ganze Theke.“ Bis dahin frag Fatma: „Fatma, du schleppst die schwere Tasche den ganzen Abend mit dir herum. Was ist da drin?“"
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, Herr Schneider hat im Dunkeln eine Kapuze erwischt. Wo genau warst du, als er ‚Hab ich dich!‘ brüllte, und wer hat dich dort gesehen?“",
+      "nachschlag": "Sobald Herrn Schneiders rechte Hand (JA9) offen liegt: „An seiner Hand hängen gelbe Fasern. Dein Pulli ist gelb. Erklär das.“",
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "lejla",
+      "frage": "„Lejla, du warst beim Knall am rechten Buffet. Wer kam im Dunkeln zu dir, und wann?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Mit der Miete ist es raus. Du musst mich nicht mehr schützen. Sag dem Detektiv alles, was du heute Nacht mitbekommen hast.“",
+      "ausweich": "Bitte den Detektiv um den Ortstermin „rechter Buffettisch“. Sag: „Wer dort beim Scheppern war, weiß, wer daneben war.“ Bis dahin frag Olli: „Olli, um fünf vor zwölf saßt du am Kopf der Tafel. Wo warst du, als es schepperte?“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "In meiner Hosentasche steckt ein dickes Bündel Scheine. Sonst trag ich nur mein Handy. Meine schwarze Jacke hängt am Jackenständer im Ost-Saal.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Einspruch",
+    "abRunde": 1,
+    "klasse": "schutz",
+    "wirkung": "Spiel sie, wenn dir eine Frage gestellt wird. Du antwortest nicht. Die fragende Person muss die Frage einer anderen Person stellen.",
+    "grenzen": "Nicht gegen Ortstermine, Indizkarten oder Karten, die offen liegen. Was offen liegt, bleibt liegen. Ein Satz, der eine Karte auslöst, gilt trotzdem. Die Frage darf später wiederkommen.",
+    "tipp": "Spiel sie, wenn jemand nach dem Geld fragt, bevor deine Karte offen ist. Gegen eine Indizkarte hilft sie nicht."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du sagst selbst, was du verbirgst, bevor man es dir beweist. **Erfüllt, wenn** du deine Geheimniskarte am Ende einer Runde freiwillig umgedreht hast (reinen Tisch), bevor einer deiner drei Sobald-Fälle eingetreten ist.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "PM3",
+      "WM9"
+    ],
+    "wasIchZugebe": "Der Keller hat nichts gekostet. Trotzdem hab ich von allen 150 € „Miete“ eingesammelt. Ich hatte das Essen zu groß bestellt. Die Nachzahlung ist heute fällig, in Bargeld. Um 23:51 Uhr hat Herr Schneider gedroht, es um zwölf allen zu sagen. Um 23:57 Uhr bin ich mit dem Umschlag hinter die Theke. Ich wollte ihn bitten, nichts zu sagen.",
+    "vermerke": [
+      "Heimlichtuerei · Ahmet: hat von allen 150 € „Miete“ eingesammelt, obwohl der Keller umsonst war.",
+      "Ort um 23:57 · Ahmet: hinter der Theke am Ostende."
+    ],
+    "undNochEtwas": "Um 23:57 Uhr stand Olli am Eiskübel. Herr Schneider sagte zu ihm: „Zweitausend, bis zwölf.“"
+  },
+  "solo": null,
+  "teil90": "Ahmet hatte von allen Miete eingesammelt, obwohl der Keller nichts kostete. Mit dem Geld wollte er die viel zu große Essensrechnung bezahlen. Beim Scheppern kauerte er hinter der Theke am Ostende, und Marek spürte ihn die ganze Zeit.",
+  "fassung": {
+    "code": "WW4",
+    "ziel": "Du warst es nicht. Trotzdem hast du heute Nacht etwas zu verbergen. Du willst, dass niemand dich verdächtigt, und die erfundene Miete soll bis zum Morgen nicht herauskommen.",
+    "zeitleiste": [
+      {
+        "zeit": "Wochen vorher",
+        "text": "Herr Schneider überlässt dir den Keller umsonst. Dafür gestaltest du das Programm des Adventsmarkts der Schlossstiftung."
+      },
+      {
+        "zeit": "Wochen vorher",
+        "text": "Beim Essen bestellst du viel zu groß. {rolle:marek|Der Caterer} verlangt eine Nachzahlung: 150 € pro Gast, fällig heute Abend in Bargeld."
+      },
+      {
+        "zeit": "vorher",
+        "text": "Du erzählst {rolle:lejla|deiner Cousine} von deinem Ärger mit der Rechnung. Sie verspricht, nichts zu sagen."
+      },
+      {
+        "zeit": "18:00",
+        "text": "Am Jackenständer im Ost-Saal sammelst du von allen anderen aus der Clique 150 € „Miete“ ein. Das Geld kommt in einen Umschlag mit der Aufschrift „Miete Schlosskeller“."
+      },
+      {
+        "zeit": "18:00",
+        "text": "In die Brusttasche deiner Jacke steckst du eine Namensliste, hinter jedem Namen „150 € ✓“. {rolle:aylin|Ein Gast} will einen Beleg. Du sagst: „Den Beleg gibt's von Herrn Schneider.“"
+      },
+      {
+        "zeit": "23:00",
+        "text": "An der Theke wird Herr Schneider laut. Du sitzt beim Ratespiel im Ost-Saal und verstehst die Worte nicht."
+      },
+      {
+        "zeit": "23:51",
+        "text": "Vor der Theke sagt Herr Schneider leise zu dir: „Um zwölf sag ich allen, was der Keller gekostet hat.“ Du hältst den dicken Umschlag in der Hand."
+      },
+      {
+        "zeit": "23:53",
+        "text": "Du siehst, wie {rolle:joanna|die Fotografin des Abends} ihr Handy sinken lässt. Du bittest sie: „Zeig das Foto bitte keinem.“ Sie verspricht es. Ihr geht zusammen in den Ost-Saal."
+      },
+      {
+        "zeit": "23:55",
+        "text": "Du hängst deine schwarze Jacke an den Jackenständer. Den Umschlag behältst du in der Hand. Olli sitzt am Kopf der Tafel."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Du gehst an {rolle:joanna|der Fotografin des Abends} vorbei und schlüpfst am Ostende hinter die Theke. Neben dir füllt {rolle:marek|der Caterer} die Saftkrüge."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider steht am Ostende und sagt leise zu Olli am Eiskübel: „Zweitausend, bis zwölf.“ Du willst ihn bitten: „Bitte sag um zwölf nichts. Ich geb allen das Geld zurück.“"
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider geht hinter der Theke an dir vorbei zur Kaffeemaschine. Du kommst nicht zu Wort. {rolle:damir|Ein Gast} kommt mit einer großen Teekanne und wartet hinter {rolle:marek|dem Caterer}. Dann ruft Herr Schneider: „Nicht die alte Leiste!“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Überall ist es dunkel. Du kauerst dich an {wenn:marek|Mareks Beine|die Beine des Caterers} und flüsterst: „{wenn:marek|Marek? }Ich bin's, Ahmet.“ {rolle:damir|Ein Gast mit einer großen Teekanne} kauert neben dir. Herr Schneider ruft: „Ruhe! Ich hol die Notlaterne.“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Im Dunkeln hörst du „Hab ich dich!“, zweimal „Stehen bleiben!“ und kurz darauf das Scheppern. Du rührst dich nicht und hältst den Umschlag fest. Durch das Ostende kommt niemand an dir vorbei."
+      },
+      {
+        "zeit": "0:00",
+        "text": "Das Licht geht an. Du stehst auf, den Umschlag in der Hand. {rolle:marek|Der Caterer} findet Herrn Schneider im Vorratsraum."
+      },
+      {
+        "zeit": "0:12",
+        "text": "Am Kamin nimmst du das Geld aus dem Umschlag und steckst es in die Hosentasche. Den leeren Umschlag wirfst du in den Ascheneimer. Kurz danach stehst du wieder vor der Theke."
+      }
+    ],
+    "wasNurDuWeisst": [
+      "Um 23:57 Uhr stand Olli am Eiskübel. Herr Schneider sagte leise zu ihm: „Zweitausend, bis zwölf.“ Wofür, weißt du nicht.",
+      "{rolle:joanna|Die Fotografin des Abends} hat dich um 23:51 Uhr mit Herrn Schneider fotografiert. Sie hat versprochen, das Foto keinem zu zeigen.",
+      "{rolle:lejla|Deine Cousine} weiß von deinem Ärger mit der Rechnung. Sie hat versprochen, nichts zu sagen.",
+      "Das Geld steckt in deiner Hosentasche. Der leere Umschlag liegt im Ascheneimer am Kamin. Bis zum Morgen willst du allen ihr Geld zurückgeben.",
+      "Wer im Dunkeln an der Vorratsraumtür war, weißt du nicht. Du hast gekauert und nichts gesehen. Durch das Ostende ist niemand an dir vorbeigekommen."
+    ],
+    "heftUndWahrheit": "Dein Heft sagt dir die Wahrheit. Was in Stufe 2 steht, ist genau das, was geschah. Mehr musst du nicht verbergen. Mit dem Scheppern hast du nichts zu tun.",
+    "wennEsEngWird": [
+      "Sobald jemand sagt, du warst nah an der Vorratsraumtür: „Ich hab am Ostende gekauert, {wenn:marek|an Mareks Beinen|an den Beinen des Caterers}. Bis das Licht anging, bin ich da nicht weg.“",
+      "Sobald jemand fragt, was du im Dunkeln gehört hast: „Erst ‚Ruhe! Ich hol die Notlaterne.‘ Dann ‚Hab ich dich!‘, zweimal ‚Stehen bleiben!‘ und das Scheppern. Gesehen hab ich nichts.“",
+      "Sobald jemand fragt, warum du nach zwölf am Kamin warst (nur, wenn deine Karte offen ist): „Ich wollte den leeren Umschlag loswerden. Das Geld ist in meiner Hosentasche.“",
+      "Sobald dich jemand wegen des Geldes verdächtigt: „Mit dem Geld hab ich Mist gebaut. Aber Herrn Schneider hätte ich nie etwas getan.“",
+      "Sobald jemand verlangt, dass du deinen Marker „Scheppern“ umstellst: „Mein Marker stimmt. {rolle:marek|Der Caterer} hat mich die ganze Zeit an seinen Beinen gespürt.“"
+    ],
+    "stufe3": "Ich? Nein. Beim Scheppern hab ich hinter der Theke am Ostende gekauert, {wenn:marek|an Mareks Beinen|an den Beinen des Caterers}. Ich hab mich nicht bewegt, bis das Licht anging. {rolle:marek|Der Caterer} hat mich die ganze Zeit gespürt. Ja, mit der Miete hab ich euch angeschwindelt. Das tut mir leid, ihr bekommt euer Geld zurück. Aber an der Vorratsraumtür war ich nicht. Den Schlüsselbund hab ich nie in der Hand gehabt."
+  }
+}

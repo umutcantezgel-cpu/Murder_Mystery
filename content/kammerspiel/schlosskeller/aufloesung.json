@@ -1,0 +1,127 @@
+{
+  "wasWirklichWar": "Es war Olli. Um drei vor zwölf stand er am Eiskübel. Als das leuchtende Gesicht schon weg war, ging er über die Theken-Klappe zur Vorratsraumtür. Im Dunkeln hat ihn die Panik gepackt. Den Schlüsselbund hat er unter die Eiswürfel im Eiskübel geschoben. Der Schlüsselbeweis: Holzsplitter und weißer Kalk im Wachs am Fuß des Kerzenständers, dieselben Spuren an Ollis Ärmeln, dazu frische rote Kerzenwachstropfen auf seinem rechten Handschuh.",
+  "meilensteine": [
+    {
+      "nr": "M1",
+      "feld": "Alibi · Ahmet",
+      "kernfakt": "Ahmet kauerte beim Scheppern hinter der Theke am Ostende (bei Marek)",
+      "stichwort": "„Ostende“ oder „bei Marek“{wenn:damir| oder „bei Damir“}"
+    },
+    {
+      "nr": "M2",
+      "feld": "Alibi · Fatma",
+      "kernfakt": "Fatma kauerte beim Scheppern hinter dem linken Buffettisch (bei Emine)",
+      "stichwort": "„linkes Buffet“ oder „bei Emine“"
+    },
+    {
+      "nr": "M3",
+      "feld": "Alibi · Can",
+      "kernfakt": "Can (das leuchtende Gesicht) war vor dem Scheppern schon durch den Durchgang Richtung Kaminsaal",
+      "stichwort": "„vor dem Scheppern weg“ oder „Gesicht vor dem Scheppern durch den Durchgang“"
+    },
+    {
+      "nr": "M4",
+      "feld": "Heimlichtuerei · Ahmet",
+      "kernfakt": "Ahmet hat 150 € „Miete“ eingesammelt, obwohl der Keller umsonst war, oder den Umschlag geleert und versteckt",
+      "stichwort": "„Keller umsonst“, „Keller hat nichts gekostet“, „0 Euro“, „Miete erfunden“ oder „Umschlag“ zusammen mit „Ascheneimer“. „Miete“ allein genügt nicht, das Einsammeln wissen alle"
+    },
+    {
+      "nr": "M5",
+      "feld": "Heimlichtuerei · Fatma",
+      "kernfakt": "Fatma hat die Münzschatulle aus der Vitrine ausgeliehen",
+      "stichwort": "„Münzschatulle“"
+    },
+    {
+      "nr": "M6",
+      "feld": "Heimlichtuerei · Can",
+      "kernfakt": "Can hat mit der Leuchtmaske im Vorratsraum auf die blinde Kuh gewartet",
+      "stichwort": "„Maske“ oder „Streich“"
+    },
+    {
+      "nr": "M7",
+      "feld": "Heimlichtuerei · Olli",
+      "kernfakt": "Olli hat die Bogentür beschädigt (2.000 €)",
+      "stichwort": "„Bogentür“"
+    },
+    {
+      "nr": "M8",
+      "feld": "Fundort",
+      "kernfakt": "Der Schlüsselbund lag unter dem Eis im Eiskübel",
+      "stichwort": "„Eiskübel“"
+    },
+    {
+      "nr": "M9",
+      "feld": "Schlüsselbeweis",
+      "kernfakt": "Teil 1 und Teil 2 angekreuzt **und** „gehört zu: Olli“",
+      "stichwort": "XD3 offen, dazu die passende Spur an einer Person (FN3) offen, Olli eingetragen"
+    }
+  ],
+  "meilensteinRegel": "M1 bis M3 zählen nur, wenn in der Zelle eine Quelle steht, die nicht die Person selbst ist. Das kann eine Zeugin, ein Zeuge, ein Streifen oder eine Karte sein. Welche, ist egal.",
+  "pruefung": "OFFEN: MECH 6.1 (Absatz über der Tabelle) und MECH 6.4 (abhaken, Summe, Mehrheit des Tisches)",
+  "enden": [
+    {
+      "nr": 1,
+      "name": "Meister-Detektiv",
+      "text": "OFFEN: MECH 8.2 Ende 1 (Kanon finale.olli.ende_1 mit M-24; an die Stelle des Bund-Satzes {bund})"
+    },
+    {
+      "nr": 2,
+      "name": "Teilerfolg",
+      "text": "OFFEN: MECH 8.2 Ende 2 (Kanon finale.olli.ende_2 mit M-24; an die Stelle des Bund-Satzes {bund})"
+    },
+    {
+      "nr": 3,
+      "name": "Justizirrtum",
+      "text": "OFFEN: MECH 8.2 Ende 3 (Kanon finale.olli.ende_3 mit M-24; an die Stelle des Bund-Satzes {bund})"
+    },
+    {
+      "nr": 4,
+      "name": "Totale Eskalation",
+      "text": "OFFEN: MECH 8.2 Ende 4 (Kanon finale.olli.ende_4 mit M-24; an die Stelle des Bund-Satzes {bund})"
+    }
+  ],
+  "bundSaetze": {
+    "taeterOhnePp9": "Olli holt den Bund unter dem Eis im Eiskübel hervor und gibt ihn heraus.",
+    "taeterMitPp9": "Der Bund aus dem Eiskübel liegt schon bei Herrn Schneider.",
+    "andereOhnePp9": "Der Schlüsselbund bleibt verschwunden. Um sieben Uhr schließt Herrn Schneiders Kollegin mit ihrem Torschlüssel das Außentor auf.",
+    "andereMitPp9": "Den Bund hat Herr Schneider, aber er schließt erst auf, als es hell wird."
+  },
+  "rueckblende": [
+    "OFFEN: MECH 8.3 Abschnitt 1 „Der Abend“; Kernsatz wörtlich: „Um halb sieben tragen Olli und Tim die Warmhaltebehälter durch den Turmgang. Fünf Minuten später schrammt Olli die Bogentür, und ein Beschlag reißt aus der gekalkten Wand.“",
+    "OFFEN: MECH 8.3 Abschnitt 2 „Vier Heimlichtuereien“; Kernsatz wörtlich: „Vier aus der Clique haben heute etwas zu verbergen. Nur einer davon hat mit dem Scheppern zu tun.“",
+    "OFFEN: MECH 8.3 Abschnitt 3 „Zwei vor zwölf“; Kernsatz wörtlich: „Zwei vor zwölf steckt Tim die Kaffeemaschine in seine alte Steckdose. Es knallt, und überall ist es dunkel.“",
+    "OFFEN: MECH 8.3 Abschnitt 4 „Das Gespenst“; Kernsatz wörtlich: „Can ist schon im Kaminsaal, als Herr Schneider ihm noch hinterherbrüllt. Erst danach scheppert es.“",
+    "OFFEN: MECH 8.3 Abschnitt 5 „Das Scheppern“; Kernsatz wörtlich: „Dann, in Panik: ein dumpfer Schlag, Poltern, Metall scheppert über den Steinboden. Die Kerzen gehen aus.“",
+    "OFFEN: MECH 8.3 Abschnitt 6 „Der Bund“; Kernsatz wörtlich: „Olli schiebt den Bund unter die Eiswürfel. Dann kriecht er zum rechten Buffettisch und flüstert: ‚Lejla? Ich bin's, Olli.‘“",
+    "OFFEN: MECH 8.3 Abschnitt 7 „Licht“; Kernsatz wörtlich: „Um Mitternacht geht das Licht an. Olli holt Tim eine Handvoll Eis, nur von oben.“",
+    "OFFEN: MECH 8.3 Abschnitt 8 „Nach Mitternacht“; Kernsatz wörtlich: „Herr Schneider überlebt. Er hat eine dicke Beule und eine Gedächtnislücke, und er ist bald wieder grantig.“"
+  ],
+  "zeitleiste": [
+    {
+      "zeit": "OFFEN: MECH 8.3 Zeitleiste (WELT 3.4, 23:57:00 bis 0:01:00, Zeilen der Abschnitte 3 bis 7)",
+      "text": "OFFEN: MECH 8.3 Zeitleiste"
+    }
+  ],
+  "tippWertung": {
+    "fragen": [
+      {
+        "nr": 1,
+        "punkte": 2,
+        "loesung": "OFFEN: MECH 7.2 Frage 1"
+      },
+      {
+        "nr": 2,
+        "punkte": 1,
+        "loesung": "OFFEN: MECH 7.2 Frage 2"
+      },
+      {
+        "nr": 3,
+        "punkte": 2,
+        "loesung": "OFFEN: MECH 7.2 Frage 3"
+      }
+    ],
+    "sonderregel": "OFFEN: MECH 7.2 Sonderregel für Olli (M-22)",
+    "spuernase": "OFFEN: MECH 7.2 Spürnase des Abends"
+  },
+  "erzaehlerBonus": "Bei der Anklage liegen mindestens drei Viertel der Geheimniskarten der gespielten Rollen offen. Karten unter den Zeugenstreifen zählen nicht mit."
+}

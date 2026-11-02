@@ -1,0 +1,188 @@
+{
+  "platz": 10,
+  "id": "zeynep",
+  "vorstellung": {
+    "frage": "Zeynep, die Fußballtrainerin. Bei dir wird sogar das Teetrinken zum Wettkampf. Wer hat heute Abend schon gegen dich verloren?",
+    "auftritt": "Ich bin Zeynep. Ich studiere Sport und trainiere eine Mädchenmannschaft im Fußball. Can ist mein großer Bruder, aber lauter bin ich. Heute hab ich schon zwei Wettrennen zum Buffet gewonnen und eins im Teetrinken. Nur beim Witzeerzählen verliere ich gegen Can. Seine sind schlechter, aber er erzählt sie zweimal."
+  },
+  "werDuBist": "Du bist Zeynep, 23. Du studierst Sport und trainierst eine Mädchenmannschaft im Fußball. Man erkennt dich am minzgrünen Pulli und an der Kappe, verkehrt herum. Can ist dein großer Bruder, zwei Jahre älter, aber lauter bist du.{wenn:sibel| Mit Sibel wohnst du in einer WG.}\nWas dich heute antreibt: Du hältst zu Can. Aber du lügst nicht für ihn.",
+  "haltung": "Du hältst zu Can, aber du lügst nicht für ihn. Du weißt: Er war es nicht.",
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Durchgang mit Steinbogen (6). Marker Scheppern: Durchgang mit Steinbogen (6). Beide stimmen.",
+    "behauptet": {
+      "z2357": "6",
+      "scheppern": "6"
+    },
+    "wahr": {
+      "z2357": "6",
+      "scheppern": "6"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "OFFEN: ZG 6.4 Wissen",
+        "text": "OFFEN: ZG 6.4 Wissen (Tabelle ohne Spalte Quelle)",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "OFFEN: ZG 6 Stufe 1 „Das sagst du jedem“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "OFFEN: ZG 6 Stufe 1, Spalte „Wenn jemand fragt“",
+        "antwort": "OFFEN: ZG 6 Stufe 1, Spalte „sagst du“"
+      }
+    ],
+    "verboten": [
+      "OFFEN: ZG 6 Stufe 1 „Verboten“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ich stand im Steinbogen und hab vor allem in den Kaminsaal geschaut. Bestätigen kann ich da keinen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Neben mir stand niemand. Ich hab mich im Steinbogen an den Pfeiler gedrückt.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Ich stand im Steinbogen und hab nach der blinden Kuh Ausschau gehalten.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Um zehn vor zwölf standen Olli und Tim an der Bogentür. Tim hat ‚Au! Mein Finger!‘ gerufen.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich stand im Steinbogen.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "OFFEN: ZG 0.4 I-3.1 Zeynep (Gesprächs-Auslöser: Karte umdrehen)"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich bin zu Can auf die Wandbank im Kaminsaal.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte FK3 oder JT3 offen auf dem Tisch liegt.",
+      "Sobald Cans Geheimniskarte offen auf dem Tisch liegt.",
+      "Sobald dich in Runde 3 jemand vor allen fragt, was im Dunkeln durch den Bogen kam. Auch ein Impuls des Erzählers, der alle danach fragt, zählt.",
+      "Sobald in Runde 3 jemand vor allen sagt, Can oder das Gespenst sei es gewesen.",
+      "Liegt eins davon schon früher offen, drehst du zu Beginn von Runde 3 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Ich sollte den Weg frei halten, damit Can nach dem Erschrecken entwischen kann.“",
+        "„Was an der Theke war, hab ich nicht gesehen. Gehört hab ich nur Herrn Schneiders Rufe und dann das Scheppern.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "fatma",
+      "frage": "„Fatma, um Viertel vor zwölf hab ich am linken Buffet Gebäck geholt. Deine Tasche war ausgebeult wie ein Fußball. Was hast du da drin?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "olli",
+      "frage": "„Olli, du sagst, du warst die ganze Zeit im Ost-Saal. Um zehn vor zwölf hab ich dich im Kaminsaal gesehen, mit Tim an der Bogentür. Was habt ihr da gemacht?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "tim",
+      "frage": "„Tim, kurz vor dem Knall rief Herr Schneider: ‚Nicht die alte Leiste!‘ Das hab ich bis in den Bogen gehört. Dann knallte es, und wer kam zum Sicherungskasten? Du. Was hast du an der Leiste gemacht?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "joanna",
+      "frage": "„Joanna, du hast den ganzen Abend fotografiert. Zeig dem Detektiv deine Fotos von kurz vor zwölf. Dann sieht er, wer wo war.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "**Karte offen:** „Olli, du sagst, das Gespenst ist auf Herrn Schneider los. Das Gespenst war mein Bruder. Er war schon an mir vorbei im Kaminsaal, da hat Herr Schneider ihm noch hinterhergebrüllt. Erst danach hat es gescheppert.“\n**Karte zu, Olli in Stufe 2:** „Olli, du sagst, ein Gespenst ist auf Herrn Schneider los. Du hast dich aber geduckt. Woher weißt du, was das Gespenst beim Scheppern gemacht hat?“\n**Olli noch in Stufe 1:** „Olli, wo warst du beim Scheppern? Und wer hat dich da gesehen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, du standest am Sicherungskasten, direkt neben dem Weg. Sag allen, was an dir vorbeikam, und wann.“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Mein Handy, seit kurz nach zwölf zurück, und eine Trillerpfeife vom Training.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Gelbe Karte",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Eine Person deiner Wahl muss die nächste Frage, die ihr gestellt wird, sofort beantworten. Sie darf dafür keine Aktionskarte spielen.",
+    "grenzen": "Eine schon gespielte Schutzkarte bleibt gültig. Lügen nach Stufe 1 bleibt erlaubt.",
+    "tipp": "Gut gegen jemanden, der sich hinter einer Schutzkarte verstecken will. Bleibt das Gespräch zu lange bei Can, zeig die Gelbe Karte jemand anderem."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du hältst zu Can, bis feststeht, dass er es nicht war. **Erfüllt, wenn** Can bei der Anklage auf dem Ermittlungsbogen als ausgeschieden steht: Alibi ✓ und Heimlichtuerei ✓.",
+    "hinweis": "Can scheidet nur aus, wenn auch sein Streich auf dem Tisch liegt. Dein eigenes Geheimnis hilft ihm dabei."
+  },
+  "geheimniskarte": {
+    "sperre": 3,
+    "pflichtCodes": [
+      "FK3",
+      "JT3"
+    ],
+    "wasIchZugebe": "Ich hab für Can Schmiere gestanden. Ab 23:54 Uhr wartete er mit einer Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh. Kurz nach dem Knall rannte er mit dem leuchtenden Gesicht durch den Durchgang und streifte mich im Bogen. Als er schon im Kaminsaal war, brüllte Herr Schneider ihm noch hinterher. Erst danach kam das Scheppern.",
+    "vermerke": [
+      "Heimlichtuerei · Can: Can wartete mit einer Leuchtmaske im dunklen Vorratsraum auf die blinde Kuh. Ich stand für ihn Schmiere.",
+      "Alibi beim Scheppern · Can: Er rannte mit dem leuchtenden Gesicht durch den Bogen, bevor es schepperte."
+    ],
+    "undNochEtwas": "Als das Licht anging, stand Tim am Sicherungskasten, direkt an Cans Weg. Frag ihn, was an ihm vorbeikam."
+  },
+  "solo": null,
+  "teil90": "Zeynep stand im Steinbogen Schmiere, damit ihr Bruder nach dem Streich entwischen konnte. Can rannte an ihr vorbei, bevor es schepperte. So wurde sie eine der Zeuginnen für Cans Alibi, und sie schwieg bis zur letzten Runde.",
+  "fassung": null
+}

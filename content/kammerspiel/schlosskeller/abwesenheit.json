@@ -1,0 +1,71 @@
+{
+  "streifen": [
+    {
+      "zeuge": "lejla",
+      "feld": "3",
+      "oeffnen": [
+        "DM3"
+      ],
+      "etikett": "Zeugenstreifen · Lejla, die Apothekerin · Zone 3, rechter Buffettisch.\nUmdrehen, wenn der Detektiv DM3 zieht oder beim „Zeitstempel“ jemand Lejla als Zeugin nennt.\nDarunter liegt Lejlas Geheimniskarte. Wann sie umgedreht wird, weiß der Erzähler.",
+      "protokoll": "Zeugenprotokoll Lejla, Apothekerin. Ab kurz vor zwölf war ich am rechten Buffettisch und hab die Warmhaltebehälter zugedeckt. Beim Knall hab ich mich hingekauert, allein. Beim Scheppern war ich allein. Erst danach ist Olli zu mir gekrochen und hat geflüstert: „Lejla? Ich bin's, Olli.“ Als das Licht anging, bin ich zu Herrn Schneider gelaufen. Er hat eine dicke Beule.",
+      "mitNotiz": false,
+      "vermerk": "Alibi beim Scheppern · Olli: nicht am rechten Buffettisch. Er kam erst nach dem Scheppern dorthin."
+    },
+    {
+      "zeuge": "emine",
+      "feld": "2",
+      "oeffnen": [
+        "RH3"
+      ],
+      "etikett": "Zeugenstreifen · Emine, die Grundschullehrerin · Zone 2, hinter dem linken Buffettisch.\nUmdrehen, wenn der Detektiv RH3 zieht oder beim „Zeitstempel“ jemand Emine als Zeugin nennt.\nDarunter liegt Emines Geheimniskarte. Wann sie umgedreht wird, weiß der Erzähler.",
+      "protokoll": "Zeugenprotokoll Emine, Grundschullehrerin. Ab kurz vor zwölf stand ich hinter dem linken Buffettisch. Beim Knall hab ich mich hingekauert. Gleich nach dem Knall hat Fatma sich neben mich gekauert und geflüstert: „Emine? Ich bin's, Fatma.“ Beim Scheppern war sie neben mir. Sie blieb, bis das Licht anging.",
+      "mitNotiz": false,
+      "vermerk": "Alibi beim Scheppern · Fatma: kauerte hinter dem linken Buffettisch neben Emine."
+    },
+    {
+      "zeuge": "tim",
+      "feld": "6",
+      "oeffnen": [
+        "AD3"
+      ],
+      "etikett": "Zeugenstreifen · Tim, der Hobby-Elektriker · Zone 6, Durchgang am Sicherungskasten.\nUmdrehen, wenn der Detektiv AD3 zieht oder beim „Zeitstempel“ jemand Tim als Zeugen nennt.\nDarunter liegt Tims Geheimniskarte. Wann sie umgedreht wird, weiß der Erzähler.",
+      "protokoll": "Zeugenprotokoll Tim, Mechatroniker. Nach dem Knall hab ich mich im Dunkeln in den Durchgang zum Sicherungskasten getastet. Meine Stirnlampe ist mir vom Hals gerutscht. Beim Scheppern stand ich am Sicherungskasten und hab den Hauptschalter gesucht. Um zwölf hab ich das Licht wieder eingeschaltet. Gleich danach hat Olli mir Eis in einer Serviette gebracht, für meinen eingeklemmten Finger.",
+      "mitNotiz": false,
+      "vermerk": "Hinweis: Tim war beim Scheppern im Durchgang am Sicherungskasten."
+    },
+    {
+      "zeuge": "joanna",
+      "feld": "1",
+      "oeffnen": [
+        "FX3"
+      ],
+      "etikett": "Zeugenstreifen · Joanna, die Fotografin des Abends · Zone 1, Tür zum Ost-Saal.\nUmdrehen, wenn der Detektiv FX3 zieht oder beim „Zeitstempel“ jemand Joanna als Zeugin nennt.\nDarunter liegt Joannas Geheimniskarte. Wann sie umgedreht wird, weiß der Erzähler.",
+      "protokoll": "Zeugenprotokoll Joanna, Fotografin des Abends. Um 23:57 Uhr stand ich in der Tür zum Ost-Saal. Fürs Gruppenfoto hab ich notiert, wer wo ist. Herr Schneider sagte da zu Olli: „Zweitausend, bis zwölf.“ Im Dunkeln, kurz bevor das Licht wieder anging, hab ich mit der Handylampe die Tafel abgeleuchtet. Der Kopf der Tafel war leer.",
+      "mitNotiz": true,
+      "vermerk": "Ort um 23:57 · alle vier: siehe Joannas Liste (Ahmet hinter der Theke am Ostende, Fatma zur Klappe, Olli am Eiskübel, Can nirgends)."
+    },
+    {
+      "zeuge": "marek",
+      "feld": "4d",
+      "oeffnen": [
+        "WJ9"
+      ],
+      "etikett": "Zeugenstreifen · Marek, der Caterer · Zone 4d, hinter der Theke am Ostende.\nUmdrehen, wenn der Detektiv WJ9 zieht oder beim „Zeitstempel“ jemand Marek als Zeugen nennt.\nDarunter liegt Mareks Geheimniskarte. Wann sie umgedreht wird, weiß der Erzähler.",
+      "protokoll": "Zeugenprotokoll Marek, Caterer. Kurz vor zwölf stand ich hinter der Theke am Ostende und hab Saftkrüge gefüllt. Beim Knall bin ich stehen geblieben. Ahmet hat sich an meine Beine gekauert und geflüstert: „Marek? Ich bin's, Ahmet.“ Er war noch da, als es schepperte, und auch, als das Licht anging. Dann hab ich die Tür zum Vorratsraum aufgemacht und gerufen: „Hier liegt Herr Schneider!“",
+      "mitNotiz": false,
+      "vermerk": "Alibi beim Scheppern · Ahmet: kauerte hinter der Theke am Ostende an Mareks Beinen."
+    },
+    {
+      "zeuge": "zeynep",
+      "feld": "6",
+      "oeffnen": [
+        "AD3",
+        "FK3"
+      ],
+      "etikett": "Zeugenstreifen · Zeynep, die Fußballtrainerin · Zone 6, im Steinbogen.\nUmdrehen, wenn der Detektiv AD3 oder FK3 zieht oder beim „Zeitstempel“ jemand Zeynep als Zeugin nennt.\nDarunter liegt Zeyneps Geheimniskarte. Wann sie umgedreht wird, weiß der Erzähler.",
+      "protokoll": "Zeugenprotokoll Zeynep, Fußballtrainerin. Ab kurz vor zwölf stand ich im Steinbogen zwischen Durchgang und Kaminsaal. Ich wollte sehen, wann die blinde Kuh zur Torte gebracht wird. Um Viertel vor zwölf hab ich am linken Buffet Gebäck geholt. Fatmas Umhängetasche war auffällig ausgebeult.",
+      "mitNotiz": false,
+      "vermerk": "Hinweis: Um 23:45 Uhr war Fatmas Tasche auffällig ausgebeult."
+    }
+  ]
+}

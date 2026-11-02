@@ -1,0 +1,288 @@
+{
+  "platz": 8,
+  "id": "joanna",
+  "vorstellung": {
+    "frage": "Joanna, die Fotografin des Abends. Wie bekommst du eine Clique aufs Gruppenfoto, die nie gleichzeitig am selben Ort ist?",
+    "auftritt": "Ich bin Joanna, die Fotografin des Abends. Ich studiere Medienwissenschaft und fotografiere Hochzeiten. Mein Trick fürs Gruppenfoto: Ich zähle bis drei und drücke bei zwei ab. Wer sich drücken will, landet trotzdem im Album. Notfalls von hinten. Dann nenne ich es Kunst."
+  },
+  "werDuBist": "Du bist Joanna, 24. Du studierst Medienwissenschaft und fotografierst Hochzeiten. Heute bist du die Fotografin des Abends. Man erkennt dich am violetten Cardigan und an deinem Handy im Handyhalter mit Aufsteckleuchte. Ahmets Stadtfeste fotografierst du.{wenn:marek| Mit Marek machst du oft Hochzeiten: Du fotografierst, er kocht.}{wenn:wojtek| Wojteks Hausmodelle fotografierst du auch.}\nWas dich heute antreibt: Du hältst dein Versprechen an Ahmet, ohne den Detektiv anzulügen.",
+  "haltung": "Du hältst dein Versprechen an Ahmet. Aber den Detektiv lügst du nicht an.",
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Ost-Saal (1). Marker Scheppern: Ost-Saal (1). Beide stimmen.",
+    "behauptet": {
+      "z2357": "1",
+      "scheppern": "1"
+    },
+    "wahr": {
+      "z2357": "1",
+      "scheppern": "1"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "18:00",
+        "text": "zahlt 150 € „Miete“ an Ahmet",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:51",
+        "text": "fotografiert heimlich aus der Saalmitte, wie Herr Schneider und Ahmet vor der Theke streiten. Ahmet hält einen dicken Umschlag. Worte hört sie nicht. Zeitstempel 23:51",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:53",
+        "text": "Ahmet: „Zeig das Foto bitte keinem.“ Sie verspricht es",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "hat als Fotografin noch ihr Handy; die anderen liegen seit dem Ratespiel um elf im Korb. Ruft an der Tür zum Durchgang: „Gruppenfoto um zwölf, mit Torte! Alle in den Ost-Saal!“ {rolle:zeynep|Jemand} ruft aus dem Steinbogen: „Komm gleich!“ Can sieht sie nicht. Herr Schneider kommt ihr im Durchgang entgegen",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55–23:57",
+        "text": "steht in der offenen Tür zum Ost-Saal und sieht den ganzen Buffetsaal",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:56",
+        "text": "sieht Herrn Schneider am linken Buffet bei Fatma, dann geht er zum Ostende. Worte hört sie nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Olli geht an ihr vorbei aus dem Ost-Saal zum Eiskübel. Gleich danach geht Ahmet an ihr vorbei und schlüpft am Ostende hinter die Theke",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "hört aus einem Meter: Herr Schneider zu Olli: „Zweitausend, bis zwölf.“ Was das heißt, weiß sie nicht",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "tippt die Notiz in ihr Handy, Zeitstempel 23:57",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "geht zum Handykorb, stellt ihr Handy in den Halter, Kamera auf den Ehrenplatz",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Sie stößt den Halter um, ihr Handy rutscht in den Korb. Sie hört die Rufe und das Scheppern",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "im Dunkeln, kurz vor dem Licht",
+        "text": "findet ihr Handy, macht die Aufsteckleuchte an, dann die Lampen der anderen Handys. Der Kopf der Tafel ist leer",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": {
+    "zeilen": [
+      "Notiz, Zeitstempel 23:57",
+      "Gruppenfoto 0:00 – wer fehlt noch?",
+      "Ahmet: hinter der Theke, Ostende",
+      "Fatma: geht zur Klappe",
+      "Olli: am Eiskübel, redet mit Herrn Schneider",
+      "Herr Schneider: am Ostende",
+      "Marek: Saft, hinter der Theke",
+      "Tim: Kaffeemaschine",
+      "Lejla: rechtes Buffet",
+      "Emine: linkes Buffet",
+      "Zeynep: im Bogen zum Kaminsaal, kommt gleich",
+      "Can: nirgends!",
+      "Kaminsaal: noch ein paar, kommen gleich"
+    ],
+    "hinweis": "Diesen Kasten liest du vor, wenn jemand fragt, wer um drei vor zwölf wo war. Lies ihn ganz vor, Zeile für Zeile. Dein Heft gibst du nicht aus der Hand."
+  },
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Um 23:57 Uhr stand ich in der Tür zum Ost-Saal und hab fürs Gruppenfoto notiert, wer wo ist. Hier ist meine Notiz, mit Zeitstempel.“ (dann den Kasten vorlesen)",
+      "„Kurz vorher ist Olli an mir vorbei aus dem Ost-Saal zum Eiskübel. Herr Schneider hat zu ihm gesagt: ‚Zweitausend, bis zwölf.‘ Was das heißt, weiß ich nicht.“",
+      "„Im Dunkeln, kurz bevor das Licht wieder anging, hab ich mit der Handylampe die Tafel abgeleuchtet. Der Kopf der Tafel war leer.“",
+      "„Um 23:56 Uhr stand Herr Schneider bei Fatma am linken Buffet. Danach ging er zum Ostende.“",
+      "„Can hab ich ab fünf vor zwölf nirgends gesehen.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "ob du Ahmet fotografiert hast",
+        "antwort": "„Ich hab den ganzen Abend alle fotografiert. Fotos zeig ich heute nicht.“"
+      },
+      {
+        "frage": "ob du jemandem etwas versprochen hast",
+        "antwort": "„Versprechen halte ich.“"
+      },
+      {
+        "frage": "warum Ahmet so nervös ist",
+        "antwort": "„Frag Ahmet.“"
+      },
+      {
+        "frage": "was du gegen zehn vor zwölf in der Saalmitte gemacht hast",
+        "antwort": "„Ich war im Buffetsaal und hab fotografiert. Das mach ich den ganzen Abend.“"
+      }
+    ],
+    "verboten": [
+      "„Ich hab Ahmet nicht fotografiert.“",
+      "„Auf meinem Handy ist nichts.“",
+      "„Ich hab nichts gehört.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "Lies den Eintrag dieser Person aus deiner Notiz vor."
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ich war am Handykorb im Ost-Saal und hab im Dunkeln nach meinem Handy gesucht.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich hab doch selbst gerufen. Dann stand ich in der Tür zum Ost-Saal und hab notiert, wer fehlt.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Dazu weiß ich nichts.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich war im Ost-Saal. Von da sieht man die Theke im Dunkeln nicht.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Im Ost-Saal: Knall, Rufe, Scheppern. Im Dunkeln, kurz bevor das Licht wieder anging, hab ich mit der Handylampe die Tafel abgeleuchtet. Der Kopf der Tafel war leer.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab die Handylampen angemacht. Später kamen alle Handys aus dem Korb zurück.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte WE3, PM3 oder WM9 offen auf dem Tisch liegt.",
+      "Sobald Ahmets Geheimniskarte offen auf dem Tisch liegt.",
+      "Sobald Lejlas Geheimniskarte offen auf dem Tisch liegt.",
+      "Liegt eins davon schon in Runde 1 offen, drehst du zu Beginn von Runde 2 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": [
+        "Das Foto darfst du jetzt jedem beschreiben, der fragt. Mehr als die Karte zeigt es nicht.",
+        "**Auf Nachfrage sagst du außerdem:** „Ahmet hat mich um 23:53 Uhr gebeten, das Foto keinem zu zeigen.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, auf meiner Notiz von 23:57 Uhr steht: ‚Olli: am Eiskübel, redet mit Herrn Schneider.‘ Ich hab gehört, wie er zu dir sagte: ‚Zweitausend, bis zwölf.‘ Und im Dunkeln, kurz bevor das Licht anging, war der Kopf der Tafel leer. Wo warst du wirklich?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "fatma",
+      "frage": "„Fatma, dein Marker steht beim Gebäck. Auf meiner Notiz steht: ‚Fatma: geht zur Klappe.‘ Kurz vorher war Herr Schneider bei dir. Was wolltest du an der Theken-Klappe?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, auf meiner Notiz steht bei dir nur: ‚nirgends!‘ Ich hab im Buffetsaal und am Durchgang nach allen geschaut. Dich hab ich nicht gesehen. Wo warst du um drei vor zwölf?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "ahmet",
+      "frage": "**Karte zu:** „Ahmet, du weißt, worum du mich um 23:53 Uhr gebeten hast. Für dich lüg ich nicht. Sag es selbst, bevor ich es muss.“\n**Karte offen:** „Ahmet, auf meinem Foto von 23:51 Uhr hältst du einen dicken Umschlag, und Herr Schneider ist sauer. Was war in dem Umschlag?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "**Olli in Stufe 2:** „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Um 23:57 Uhr standst du genau dort. Detektiv, wenn er da so lange war, dann schau dir den Eiskübel an.“\n**Olli noch in Stufe 1:** „Olli, auf meiner Notiz stehst du am Eiskübel, und der Kopf der Tafel war leer. Wo warst du beim Scheppern?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "zeynep",
+      "frage": "„Zeynep, um fünf vor zwölf hab ich zum Gruppenfoto gerufen, und du hast aus dem Steinbogen ‚Komm gleich!‘ gerufen. Gekommen bist du nicht. Was kam im Dunkeln durch den Bogen?“",
+      "nachschlag": null,
+      "ausweich": "Tim: „Tim, du standest im Durchgang am Sicherungskasten. Was kam im Dunkeln an dir vorbei, und wann?“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Mein Handy im Handyhalter mit Aufsteckleuchte. Darauf meine Fotos und meine Notiz von 23:57 Uhr.",
+    "hinweis": "Das Foto von 23:51 Uhr zeigst du erst, wenn deine Geheimniskarte offen liegt.",
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Zeitstempel",
+    "abRunde": 1,
+    "klasse": "beleg",
+    "wirkung": "Eine Person deiner Wahl sagt, wo sie um 23:51 Uhr oder um 23:57 Uhr war. Du wählst die Uhrzeit. Sie nennt eine Person, die sie dort gesehen hat. Die genannte Person sagt sofort, ob das stimmt. Kann sie niemanden nennen, sagt sie das.",
+    "grenzen": "Nennt sie jemanden, der heute fehlt, dreht der Erzähler dessen Streifen um, auch wenn sie ihn nur umschreibt. Der Streifen gilt als Antwort. Herr Schneider zählt als niemand.",
+    "tipp": "Frag Can nach drei vor zwölf. Auf deiner Notiz steht er nirgends. Oder frag Olli, solange er noch sagt, er war im Ost-Saal."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Dein Gruppenfoto ist geplatzt, aber deine Notiz soll zählen. **Erfüllt, wenn** bei der Anklage im Ermittlungsbogen in der Zeile „Ort um 23:57“ bei allen vier Verdächtigen ein Ort steht. „Nirgends“ zählt nicht.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 2,
+    "pflichtCodes": [
+      "WE3",
+      "PM3",
+      "WM9"
+    ],
+    "wasIchZugebe": "Um 23:51 Uhr hab ich heimlich ein Foto gemacht. Herr Schneider und Ahmet streiten vor der Theke. Ahmet hält einen dicken Umschlag. Was sie sagten, hab ich nicht gehört. Das Foto ist auf meinem Handy, mit Zeitstempel. Den Detektiv lüge ich nicht an. Hier ist es.",
+    "vermerke": [
+      "Hinweis · Heimlichtuerei Ahmet: Foto um 23:51 Uhr. Herr Schneider und Ahmet streiten vor der Theke, Ahmet hält einen dicken Umschlag."
+    ],
+    "undNochEtwas": "Um fünf vor zwölf hab ich an der Tür zum Durchgang zum Gruppenfoto gerufen. Can war weder im Buffetsaal noch im Durchgang."
+  },
+  "solo": null,
+  "teil90": "Joanna stand um drei vor zwölf in der Tür zum Ost-Saal und notierte für das Gruppenfoto, wer wo war. Ihre Notiz zeigte Olli am Eiskübel. Ihr Foto von Ahmet mit dem Umschlag hielt sie zurück, bis eine Spur es verlangte.",
+  "fassung": null
+}

@@ -1,0 +1,170 @@
+{
+  "platz": 18,
+  "id": "tugba",
+  "vorstellung": {
+    "frage": "Tugba, die Party-Planerin. Laut deinem Ablaufplan ist jetzt jemand dran: Wer wohl, und was steht für Mitternacht auf dem Plan?",
+    "auftritt": "Laut Plan bin jetzt ich dran, und der Plan ist von mir. Ich bin Tugba, Projektleiterin. Ich plane sogar Spieleabende mit Ablaufplan. Heute stand drauf: Um zwölf blinde Kuh, dann Torte. Herr Schneider hat bei jedem Punkt geseufzt. Und jetzt? Torte um halb eins. Egal, was passiert."
+  },
+  "werDuBist": "OFFEN: ZR 8 „Wer du bist“ (Muster ZR 0.7 aus dem Profil ZR 8.1)",
+  "haltung": "Du hast nichts zu verbergen. Du willst nur, dass der Abend weitergeht. Alles, was du weißt, sagst du jedem.",
+  "tandemKasten": "Du hast eine Dankeskarte für Herrn Schneider gebastelt. Aylin hat sie beim Einlass mit der Gästeliste herumgehen lassen. Alle haben heimlich unterschrieben. Herr Schneider soll sie mit der Torte bekommen. Das ist eine Überraschung, kein Geheimnis zum Fall. Du hast nichts zu verbergen.",
+  "marker": {
+    "zeile": "Marker 23:57: Ost-Saal (1). Marker Scheppern: Ost-Saal (1). Beide stimmen.",
+    "behauptet": {
+      "z2357": "1",
+      "scheppern": "1"
+    },
+    "wahr": {
+      "z2357": "1",
+      "scheppern": "1"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "OFFEN: ZR 8.5 Wissen",
+        "text": "OFFEN: ZR 8.5 Wissen (Tabelle ohne Spalte Quelle)",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": "Du hast nichts zu verbergen. Alles, was du weißt, sagst du jedem, der fragt. Auch ungefragt.",
+    "sagstDuJedem": [
+      "OFFEN: ZR 8 Stufe 1 „Das sagst du jedem“"
+    ],
+    "ausweichsaetze": [],
+    "verboten": [],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ich stand neben der blinden Kuh. Auf die Theke hab ich nicht geschaut.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Ich stand neben dem Detektiv beim Ehrenplatz.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich hab doch selbst gerufen. Wer gefehlt hat, hab ich nicht aufgeschrieben. Frag {rolle:joanna|die Fotografin des Abends}, die hat gezählt.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Aylin wollte dafür einen Beleg.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Dazu weiß ich nichts.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich war im Ost-Saal, bei der blinden Kuh.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Knall, Rufe, Scheppern. Der Detektiv hatte die Augenbinde und die Kopfhörer auf.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab dem Detektiv Augenbinde und Kopfhörer abgenommen. Kurz danach hab ich die Handys zurückgegeben.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Du darfst deine Karte jederzeit umdrehen, auch mitten im Gespräch. Spätestens drehst du sie um, sobald Aylins Geheimniskarte offen auf dem Tisch liegt oder jemand mit der Taschenkontrolle dein Notizbuch sehen will."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": []
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, um fünf vor zwölf hab ich alle zur blinden Kuh gerufen. Du warst nicht da. Ausgerechnet du, der bei jedem Spaß dabei ist. Wo warst du?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "joanna",
+      "frage": "„Joanna, du hast um fünf vor zwölf zum Gruppenfoto gerufen und in der Tür gestanden. Wer fehlte da noch? Ich brauch das für meinen Plan.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, um halb acht hast du deinen linken Arbeitshandschuh in die Kamin-Nische gelegt und vergessen. Den rechten hast du in der Westentasche. Was hast du heute damit angefasst?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "aylin",
+      "frage": "„Aylin, du wolltest beim Einlass einen Beleg für die Miete. Du hebst doch jeden Zettel auf. Hast du inzwischen einen?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, laut Plan sollte die blinde Kuh um zwölf zur Torte in den Vorratsraum. Wer dort im Dunkeln gewartet hat, wollte sie erschrecken. Warst du das? Dann sag, wann du wieder rausgerannt bist.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "marek",
+      "frage": "„Marek, du hast um zwölf die Tür zum Vorratsraum aufgemacht. Steht meine Torte noch? Und was hast du an der Tür gesehen, bevor die Kerzen ausgingen?“",
+      "nachschlag": null,
+      "ausweich": null
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Ich hab mein Notizbuch mit goldenem Einband: Ablaufplan, Punkteliste der Spiele und die Dankeskarte für Herrn Schneider. Dazu einen Fineliner. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Handzeichen",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Du stellst allen eine Ja-oder-Nein-Frage über einen Ort oder eine Uhrzeit. Auf drei heben alle gleichzeitig die Hand für Ja.",
+    "grenzen": "Jede Rolle antwortet nach ihrem Heft. Wer etwas noch zurückhalten darf, hebt nicht und sagt: „Ich enthalte mich.“ Detektiv und Erzähler heben nicht.",
+    "tipp": "Gut, um festgefahrene Gespräche zu lösen. Frag nach einem Ort oder einer Uhrzeit, zu der viele etwas sagen können, etwa: Wer war um drei vor zwölf im Ost-Saal?"
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Torte um halb eins, egal was passiert. Dafür muss feststehen, dass die Torte heil ist. **Erfüllt, wenn** bis zur Anklage jemand vor allen gesagt hat, dass die Mitternachtstorte heil im Regal steht.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [],
+    "wasIchZugebe": "In meinem Notizbuch steckt eine Dankeskarte für Herrn Schneider. Ich hab sie gebastelt, Aylin hat sie beim Einlass heimlich alle unterschreiben lassen. Drauf steht: „Danke für 25 Jahre Schloss!“ Er sollte sie um zwölf mit der Torte bekommen. Jetzt bekommt er sie eben um halb eins.",
+    "vermerke": [
+      "Nichts für den Ermittlungsbogen."
+    ],
+    "undNochEtwas": "Aylin wollte beim Einlass einen Beleg für die Miete. Frag sie, ob sie einen bekommen hat."
+  },
+  "solo": null,
+  "teil90": "Tugba hatte nichts zu verbergen. Sie hatte um halb acht gesehen, wie Olli seinen linken Arbeitshandschuh am Kamin liegen ließ. Und sie hatte eine Dankeskarte für Herrn Schneider, die er nach dieser Nacht gut gebrauchen kann.",
+  "fassung": null
+}

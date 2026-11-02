@@ -1,10 +1,22 @@
-// Druckspiel des Partymodus als PDF-Satz (F5, Master 7.14) und Steckbriefe (K3, M5).
+// Druck des Partymodus als PDF-Satz (F5, Master 7.14) und Steckbriefe (K3, M5).
 // Aufruf (im Paketordner):
-//   dart run bin/party_druck.dart [--fall schlosskeller] [--code XXXXX | --pfad <ahmet|fatma|olli|can>] [--n 12] [--detektiv w] [--dauer 30] [--alles] [--aus ordner]
+//   dart run bin/party_druck.dart [--personen 10] [--detektiv w] [--alles] [--aus ordner]
+//   dart run bin/party_druck.dart --probe [--detektiv w] [--alles] [--aus ordner]
+//   dart run bin/party_druck.dart --druckspiel-alt [--fall schlosskeller] [--code XXXXX | --pfad <ahmet|fatma|olli|can>] [--n 12] [--detektiv w] [--dauer 30] [--alles] [--aus ordner]
 //   dart run bin/party_druck.dart --steckbriefe [--fall schlosskeller] [--n 12] [--detektiv w] [--aus ordner]
 //   dart run bin/party_druck.dart --paket [--n 12] [--code XXXXX] [--dein-moment] [--aus ordner] [--portraets ordner]
 //   dart run bin/party_druck.dart --erzaehlerakte [--fall schlosskeller] [--personen 8] [--dein-moment] [--aus ordner] [--portraets ordner]
 //   dart run bin/party_druck.dart --erzaehlerakte --ohne-besetzung [--fall schlosskeller] [--dein-moment] [--aus ordner] [--portraets ordner]
+// Ohne Modus entsteht das Kammerspiel (ARCHITEKTUR A3, fester Fall U4YRK, Täter fest):
+// --personen zählt alle am Tisch (Rollen + Detektiv + Erzähler, 6 bis 20, Vorgabe 10).
+// Ausgabe in build/druck/kammerspiel-U4YRK-p<personen>/ (oder --aus): die acht Teile
+// 00, 01, 02, 10, 11, 12, 20, 90 und je besetzter Rolle die Einzeldatei
+// (10-rollenheft-<figur>.pdf bzw. 12-zusatzheft-<figur>.pdf); mit --alles nur
+// kammerspiel-alles.pdf. --probe setzt die Sätze für 6, 10 und 20 Personen, je in
+// einen Unterordner kammerspiel-U4YRK-p<personen>/ von build/druck/ bzw. von --aus.
+// --code geht nur mit U4YRK; --n, --pfad und --dauer gehören zum alten Druckspiel
+// und brechen im Kammerspiel ab (Exit 2). Akten ohne Kammerspiel brechen ohne Modus ab.
+// --druckspiel-alt setzt das alte Druckspiel wie bisher (bis zur Abnahme, E1):
 // Ohne Code und Pfad entsteht ein Zufallsfall. Der Pfad ist nur für Testläufe
 // des Erzählers gedacht; im Ordnernamen steht nur der Code. --alles setzt die acht
 // Teile in eine Datei. --steckbriefe braucht keinen Fall-Code: Übersicht, alle
@@ -29,6 +41,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:mordakte_core/kammer_io.dart' show ladeKammerInhalt;
 import 'package:mordakte_core/mordakte_core.dart';
 import 'package:mordakte_core/party_druck.dart';
 import 'package:mordakte_core/runden.dart' show EinflussRegeln, EinflussZielQuelle;
@@ -57,11 +70,14 @@ Future<void> main(List<String> args) async {
     return;
   }
   Map<String, Object?> lies(String ordner, String p) => jsonDecode(File('$wurzel/content/party/$ordner/$p').readAsStringSync()) as Map<String, Object?>;
-  final kanon = Kanon.lade((p) => lies(fall, p));
-  final sammlung = Textsammlung.lade((p) => lies(fall, p));
-  // Wie die App: Andere Akten ergänzen Oberflächentexte aus der eingefrorenen Basis (A-061).
-  if (fall != 'schlosskeller') sammlung.ergaenzeUi(Textsammlung.lade((p) => lies('basis-ui', p)));
-  final texte = Texte(kanon, sammlung);
+  // Kanon und Texte erst, wenn ein Modus sie braucht (das Kammerspiel liest seinen eigenen Inhalt).
+  late final kanon = Kanon.lade((p) => lies(fall, p));
+  late final texte = () {
+    final sammlung = Textsammlung.lade((p) => lies(fall, p));
+    // Wie die App: Andere Akten ergänzen Oberflächentexte aus der eingefrorenen Basis (A-061).
+    if (fall != 'schlosskeller') sammlung.ergaenzeUi(Textsammlung.lade((p) => lies('basis-ui', p)));
+    return Texte(kanon, sammlung);
+  }();
   final stil = DruckStil(
     regular: File('$wurzel/assets/fonts/Inter-Regular.ttf').readAsBytesSync(),
     fett: File('$wurzel/assets/fonts/Inter-Bold.ttf').readAsBytesSync(),
@@ -69,14 +85,6 @@ Future<void> main(List<String> args) async {
   );
   final n = wert('n');
   final detektiv = wert('detektiv') ?? 'w';
-
-  void schreibe(Directory aus, List<DruckDatei> dateien) {
-    aus.createSync(recursive: true);
-    for (final f in dateien) {
-      File('${aus.path}/${f.name}').writeAsBytesSync(f.bytes);
-      stdout.writeln('${f.name.padRight(40)} ${(f.bytes.length / 1024).toStringAsFixed(0).padLeft(6)} KB');
-    }
-  }
 
   // Sterne von „Dein Moment“ in der Erzählerakte nur auf Wunsch; das Druckspiel bleibt ohne Schicht.
   final deinMoment = args.contains('--dein-moment');
@@ -133,6 +141,12 @@ Future<void> main(List<String> args) async {
     return;
   }
 
+  if (!args.contains('--druckspiel-alt')) {
+    await kammerspiel(wurzel, fall, stil, args, wert);
+    return;
+  }
+
+  // Altes Druckspiel (--druckspiel-alt), unverändert bis zur Abnahme (E1, A3).
   final code = switch ((wert('code'), wert('pfad'))) {
     (final String c, _) => FallCode.lesen(c) ?? (throw ArgumentError('ungültiger Fall-Code $c')),
     (_, final String p) => FallCode.fuerPfad(p, kanon.pfade),
@@ -148,6 +162,69 @@ Future<void> main(List<String> args) async {
   final k = DruckKontext(kanon, texte, satz, stil, diashow: diashow);
   schreibe(aus, args.contains('--alles') ? [await druckAlles(k)] : await druckDateien(k));
   stdout.writeln('Druckspiel ${code.code} für $rollen Rollen und den Detektiv in ${aus.path}');
+}
+
+/// Schreibt [dateien] nach [aus] und nennt jede mit Größe.
+void schreibe(Directory aus, List<DruckDatei> dateien) {
+  aus.createSync(recursive: true);
+  for (final f in dateien) {
+    File('${aus.path}/${f.name}').writeAsBytesSync(f.bytes);
+    stdout.writeln('${f.name.padRight(40)} ${(f.bytes.length / 1024).toStringAsFixed(0).padLeft(6)} KB');
+  }
+}
+
+/// Das Kammerspiel (Standardmodus, ARCHITEKTUR A3): fester Fall, Personen statt
+/// Rollen. Falsche Angaben brechen mit einer Meldung ab (Exit 2).
+Future<void> kammerspiel(String wurzel, String fall, DruckStil stil, List<String> args, String? Function(String) wert) async {
+  void abbruch(String meldung) {
+    stderr.writeln(meldung);
+    exitCode = 2;
+  }
+
+  if ('$wurzel/content/kammerspiel/$fall' != '$wurzel/$kammerInhaltOrdner' || !Directory('$wurzel/$kammerInhaltOrdner').existsSync()) {
+    return abbruch('Akte $fall hat kein Kammerspiel (content/kammerspiel/$fall fehlt). Das alte Druckspiel gibt es mit --druckspiel-alt.');
+  }
+  if (args.contains('--n')) {
+    return abbruch('Das Kammerspiel zählt Personen, nicht Rollen: --personen 6 bis 20 (Rollen + Detektiv + Erzähler) statt --n. Das alte Druckspiel mit --n gibt es mit --druckspiel-alt.');
+  }
+  if (args.contains('--pfad')) {
+    return abbruch('Kammerspiel: fester Fall U4YRK. --pfad gibt es nur im alten Druckspiel (--druckspiel-alt).');
+  }
+  if (args.contains('--dauer')) {
+    return abbruch('Im Kammerspiel dauert jede Runde dreißig Minuten; --dauer gibt es nur im alten Druckspiel (--druckspiel-alt).');
+  }
+  if (args.contains('--dein-moment')) {
+    return abbruch('--dein-moment gibt es nur mit --erzaehlerakte und --paket, nicht im Kammerspiel.');
+  }
+  // Eine Angabe ohne Wert fiele sonst still auf die Vorgabe zurück (--personen am Ende: 10 Personen).
+  for (final name in ['personen', 'detektiv', 'code', 'aus']) {
+    final w = wert(name);
+    if (args.contains('--$name') && (w == null || w.startsWith('--'))) return abbruch('--$name braucht einen Wert.');
+  }
+  final inhalt = ladeKammerInhalt(wurzel);
+  final f = inhalt.fall;
+  final code = wert('code');
+  if (args.contains('--code') && code?.toUpperCase() != f.fallCode) {
+    return abbruch('Kammerspiel: fester Fall ${f.fallCode}. --code ${code ?? ''} geht nicht, nur --code ${f.fallCode}.');
+  }
+  final detektiv = wert('detektiv') ?? 'w';
+  if (detektiv != 'w' && detektiv != 'm') return abbruch('--detektiv ist w oder m, nicht $detektiv.');
+  final probe = args.contains('--probe');
+  if (probe && args.contains('--personen')) {
+    return abbruch('--probe setzt die Sätze für ${f.personenMin}, ${f.personenVorgabe} und ${f.personenMax} Personen; --personen geht damit nicht.');
+  }
+  final personen = int.tryParse(wert('personen') ?? '${f.personenVorgabe}');
+  if (personen == null || personen < f.personenMin || personen > f.personenMax) {
+    return abbruch('--personen muss zwischen ${f.personenMin} und ${f.personenMax} liegen (Rollen + Detektiv + Erzähler), nicht ${wert('personen')}.');
+  }
+  final alles = args.contains('--alles');
+  for (final p in probe ? [f.personenMin, f.personenVorgabe, f.personenMax] : [personen]) {
+    final k = KammerKontext(inhalt, personen: p, stil: stil, detektiv: detektiv);
+    final name = 'kammerspiel-${f.fallCode}-p$p';
+    final aus = probe ? Directory('${wert('aus') ?? '$wurzel/build/druck'}/$name') : Directory(wert('aus') ?? '$wurzel/build/druck/$name');
+    schreibe(aus, await kammerDateien(k, alles: alles, teile: !alles, einzeln: !alles));
+    stdout.writeln('Kammerspiel ${f.fallCode} für $p Personen (${k.besetzung.rollen} Rollen, Detektiv und Erzähler) in ${aus.path}');
+  }
 }
 
 /// Das Druckpaket für den Veranstalter (`--paket`): Ordner, Dateien und ZIP-Archive.

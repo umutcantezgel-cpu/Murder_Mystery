@@ -1,0 +1,91 @@
+{
+  "wasAlleWissen": [
+    "18:00 Uhr: Ihr kommt über die Sandsteinstufen und das Außentor. Herr Schneider begrüßt euch knapp. Am Jackenständer im Ost-Saal sammelt Ahmet von allen aus der Clique 150 € „Miete“ in Bargeld ein. Der Detektiv ist euer Gast und zahlt nichts.{ab:13| Beim Einlass habt ihr heimlich eine Dankeskarte für Herrn Schneider unterschrieben.}",
+    "19:00 Uhr: Das Buffet ist eröffnet.",
+    "20:15 Uhr: Olli sucht die Toilette und steht plötzlich im dunklen Vorratsraum vor der Mitternachtstorte. {rolle:azra|Ein Gast} ruft: „Einbrecher an der Torte!“ Alle lachen.",
+    "21:00 Uhr: Im Turmgang schreit {rolle:sibel|ein Gast} vor der Ritterrüstung auf. Als es sich herumspricht, lachen alle.",
+    "22:00 Uhr: Herr Schneider zündet die drei roten Kerzen im Messingkerzenständer auf der Anrichte an. Es sind die einzigen echten Kerzen im Keller. Er verlangt leisere Musik.",
+    "23:00 Uhr: Für das Ratespiel im Ost-Saal kommen alle Handys in den Handykorb. Nur {rolle:joanna|die Fotografin des Abends} behält ihr Handy. An der Theke wird Herr Schneider laut. Die meisten sitzen beim Ratespiel und verstehen die Worte nicht.",
+    "23:30 Uhr: Dichter Qualm aus dem Kamin füllt den Kaminsaal. Alle husten. Die Klappen der Lichtschächte werden aufgerissen.",
+    "23:55 Uhr: Alle sollen in den Ost-Saal: blinde Kuh, Torte und Gruppenfoto. Der Detektiv bekommt die Augenbinde und Kopfhörer mit lauter Musik.",
+    "23:58 Uhr: Ein Knall, der Strom ist weg. Herr Schneider brüllt: „Hab ich dich!“ Dann: „Stehen bleiben!“ Und: „Stehen bleiben, hab ich gesagt!“ Kurz darauf scheppert es laut an der Theke.",
+    "0:00 Uhr: Das Licht geht wieder an. Der Messingkerzenständer liegt vor der Vorratsraumtür am Boden. Jemand ruft: „Hier liegt Herr Schneider!“ Er liegt gleich hinter der Tür, bewusstlos, mit einer dicken Beule.",
+    "Kurz danach: Herr Schneider kommt zu sich. Sein Schlüsselbund ist weg. Das Außentor ist abgeschlossen. Kein Handy hat Empfang.",
+    "Herr Schneider erinnert sich nur: Er wollte die Notlaterne holen. Ein leuchtendes Gespenstergesicht sprang ihn an. Er hat eine Kapuze gepackt: „Hab ich dich!“ Danach weiß er nichts mehr.",
+    "Ahmet, Fatma, Olli und Can sind die vier Verdächtigen. Einer von ihnen war es."
+  ],
+  "soSpieltIhr": "Jeder darf jeden fragen. Lügen darfst du nur, wenn dein Heft es erlaubt. Darfst du etwas noch nicht bestätigen, sagst du: „Dazu sag ich jetzt nichts.“ Sobald ein Auslöser aus deinem Heft eintritt, drehst du deine Geheimniskarte sofort um. Vorher rufst du laut „Karte!“. Was offen liegt, bestreitest du nicht mehr. Nennt etwas Offenes für dich ausdrücklich einen anderen Ort, stellst du deinen Marker sofort um. „Vor allen“ heißt: Der ganze Tisch hört zu. Das ist so am Verhörstuhl, solange alle anderen schweigen, beim Ortstermin, bei einem Impuls, beim Vorlesen einer Karte und nach „Alle mal herhören!“. Deine Aktionskarte spielst du einmal, nur im Gespräch.",
+  "tischregeln": [
+    {
+      "nr": "R-01",
+      "name": "Tischgespräch",
+      "text": "OFFEN: MECH 1.4 R-01 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-02",
+      "name": "Verhörstuhl",
+      "text": "OFFEN: MECH 1.4 R-02 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-03",
+      "name": "Umdrehen ist Pflicht",
+      "text": "OFFEN: MECH 1.4 R-03 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-04",
+      "name": "Rundensperre",
+      "text": "OFFEN: MECH 1.4 R-04 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-05",
+      "name": "Reinen Tisch",
+      "text": "OFFEN: MECH 1.4 R-05 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-06",
+      "name": "Marker",
+      "text": "OFFEN: MECH 1.4 R-06 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-07",
+      "name": "Aktionskarten",
+      "text": "OFFEN: MECH 1.4 R-07 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-08",
+      "name": "Standardfrage",
+      "text": "OFFEN: MECH 1.4 R-08 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-09",
+      "name": "Offen ist offen",
+      "text": "OFFEN: MECH 1.4 R-09 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-10",
+      "name": "Herr Schneider",
+      "text": "OFFEN: MECH 1.4 R-10 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-11",
+      "name": "Nichts vorher lesen",
+      "text": "OFFEN: MECH 1.4 R-11 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-12",
+      "name": "Ende der Ermittlung",
+      "text": "OFFEN: MECH 1.4 R-12 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-13",
+      "name": "Vor allen",
+      "text": "OFFEN: MECH 1.4 R-13 (Tabelle, ohne Bibel-Verweise)"
+    },
+    {
+      "nr": "R-14",
+      "name": "Bestätigen",
+      "text": "OFFEN: MECH 1.4 R-14 (Tabelle, ohne Bibel-Verweise)"
+    }
+  ],
+  "licht": "Nach dem Knall leuchten nur noch die drei roten Kerzen an der Anrichte und das grüne Notausgangsschild. Die Kerzen beleuchten etwa zwei Meter rund um die Anrichte. Die Vorratsraumtür liegt im Licht, die Theken-Klappe kaum, der Eiskübel und die Buffettische nicht. Ein Gesicht erkennt man im Kerzenlicht nur aus der Nähe. Leuchtende Farbe sieht man im Dunkeln von weitem. Beim Scheppern gehen die Kerzen aus. Bis Mitternacht ist es im Buffetsaal dann dunkel. Kurz bevor das Licht wieder angeht, gehen im Ost-Saal Handylampen an und im Durchgang eine Stirnlampe. Sie reichen nicht bis zum Eiskübel und nicht bis zur Vorratsraumtür."
+}

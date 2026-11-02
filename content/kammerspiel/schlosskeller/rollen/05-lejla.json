@@ -1,0 +1,288 @@
+{
+  "platz": 5,
+  "id": "lejla",
+  "vorstellung": {
+    "frage": "Lejla, die Apothekerin. Du hast heute das Buffet geplant. Gibt es den Nachschlag bei dir eigentlich auch auf Rezept?",
+    "auftritt": "Ich bin Lejla, Apothekerin. In der Apotheke frage ich: Wie oft am Tag? Heute frage ich: Wie viele Teller? Das Buffet hab ich {wenn:marek|mit Marek }geplant. Ahmet ist mein Cousin, wir sind Tür an Tür groß geworden. Wer bei mir Nein sagt, kriegt trotzdem einen vollen Teller. Das nennt man Fürsorge."
+  },
+  "werDuBist": "Du bist Lejla, 25, Apothekerin. Das Buffet heute hast du {wenn:marek|mit Marek }geplant. Man erkennt dich an der türkisen Latzschürze und an deinem Abrechnungsblock. Ahmet ist dein Cousin, ihr seid Tür an Tür aufgewachsen. Du hast ihm versprochen, über seine Sorgen mit der Rechnung fürs Essen zu schweigen.{wenn:serkan| Serkan war dein Ausbilder im Erste-Hilfe-Kurs.}\nWas dich heute antreibt: Du hältst zu Ahmet, bis er selbst redet. Aber du lügst für niemanden.",
+  "haltung": "Du hältst zu Ahmet. Aber du lügst für niemanden.",
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Rechtes Buffet (3). Marker Scheppern: Rechtes Buffet (3). Beide stimmen.",
+    "behauptet": {
+      "z2357": "3",
+      "scheppern": "3"
+    },
+    "wahr": {
+      "z2357": "3",
+      "scheppern": "3"
+    }
+  },
+  "wasDuWeisst": {
+    "zeilen": [
+      {
+        "zeit": "Wochen vorher",
+        "text": "Ahmet steckt mit der Rechnung fürs Essen in der Klemme. Sie hat ihm Schweigen versprochen",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "Nachmittag",
+        "text": "In Herrn Schneiders Büro wollte er eine Genehmigung für das mitgebrachte Essen sehen. Auf seinem Klemmbrett lag das Belegungsblatt der Stiftung: „Saalmiete Schlosskeller: 0 Euro“",
+        "frei": "karte",
+        "zusatz": null
+      },
+      {
+        "zeit": "18:00",
+        "text": "Ahmet sammelt am Jackenständer von allen 150 € „Miete“ in Bargeld ein. Sie zahlt auch",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:50",
+        "text": "deckt {wenn:marek|mit Marek }im Ost-Saal Tortenteller und Gläser",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:55",
+        "text": "geht an den rechten Buffettisch und deckt die Warmhaltebehälter zu",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Ahmet schlüpft mit einem dicken Umschlag am Ostende hinter die Theke",
+        "frei": "karte",
+        "zusatz": "OFFEN: ZG 1.4 frei ab: „Karte (nur der Ort ohne Umschlag ist offen, er steht auf Ahmets Marker)“"
+      },
+      {
+        "zeit": "23:57",
+        "text": "Am Eiskübel stand jemand. Sie hat nicht hingeschaut, wer",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider ruft laut: „Nicht die alte Leiste!“",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Sie kauert sich allein hin. Sie hört „Hab ich dich!“, zweimal „Stehen bleiben!“ und das Scheppern",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "nach dem Scheppern",
+        "text": "Jemand kriecht zu ihr und flüstert: „Lejla? Ich bin's, Olli.“ Vorher war niemand neben ihr",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "Licht. Olli steht neben ihr auf und geht als Erstes zum Eiskübel",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:00",
+        "text": "„Hier liegt Herr Schneider!“ Sie eilt als Apothekerin in den Vorratsraum",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:01",
+        "text": "Herr Schneider kommt zu sich: dicke Beule, Gedächtnislücke. Sie holt das Kühlpack aus dem Erste-Hilfe-Kasten im Regal",
+        "frei": "offen",
+        "zusatz": null
+      },
+      {
+        "zeit": "0:02",
+        "text": "Herr Schneider: „Mein Schlüsselbund! Der ist weg!“",
+        "frei": "offen",
+        "zusatz": null
+      }
+    ]
+  },
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [],
+    "regie": null,
+    "sagstDuJedem": [
+      "„Ab kurz vor zwölf war ich am rechten Buffettisch und hab die Warmhaltebehälter zugedeckt.“",
+      "„Beim Knall hab ich mich hingekauert, allein.“",
+      "„Beim Scheppern war ich allein. Erst danach ist Olli zu mir gekrochen und hat geflüstert: ‚Lejla? Ich bin's, Olli.‘“",
+      "„Als das Licht anging, ist Olli als Erstes zum Eiskübel.“",
+      "„Für Herrn Schneider hab ich das Kühlpack aus dem Erste-Hilfe-Kasten geholt. Er hat eine dicke Beule. An die Sekunden vor dem Scheppern erinnert er sich nicht.“"
+    ],
+    "ausweichsaetze": [
+      {
+        "frage": "wo Ahmet kurz vor zwölf war",
+        "antwort": "„Ahmet stand hinter der Theke am Ostende. Was er da wollte, frag ihn selbst.“"
+      },
+      {
+        "frage": "ob Ahmet etwas in der Hand hatte",
+        "antwort": "„Frag Ahmet.“"
+      },
+      {
+        "frage": "nach der Miete oder dem Geld",
+        "antwort": "„Ahmet hat kassiert. Frag ihn, wofür.“"
+      },
+      {
+        "frage": "ob du etwas über Ahmet weißt",
+        "antwort": "„Ich hab Ahmet etwas versprochen. Über seine Sachen redet er selbst.“"
+      },
+      {
+        "frage": "was Herr Schneider am Nachmittag von dir wollte",
+        "antwort": "„Er wollte eine Genehmigung fürs mitgebrachte Essen sehen.“"
+      }
+    ],
+    "verboten": [
+      "„Die Miete war echt.“",
+      "„Ahmet hatte nichts in der Hand.“",
+      "„Ich weiß nichts über das Geld.“"
+    ],
+    "markersatz": null
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "„Ahmet stand hinter der Theke am Ostende. Am Eiskübel stand jemand, aber ich hab nicht hingeschaut, wer.“\n**Sonst:** „Das hab ich nicht gesehen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„Beim Knall niemand. Beim Scheppern auch niemand. Erst danach ist Olli zu mir gekrochen.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "„Ich. Ich hab am rechten Buffet die Warmhaltebehälter zugedeckt.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„Ich hab Ahmet meine 150 € gegeben, wie alle. Über fremdes Geld red ich nicht.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "„Dazu weiß ich nichts.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Ich hab kein Gesicht gesehen. Ich hab am rechten Buffet gekauert.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Erst der Knall. Dann die Rufe von Herrn Schneider. Dann das Scheppern. Erst danach kam Olli zu mir.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich bin zu Herrn Schneider gelaufen. Das Kühlpack hab ich aus dem Erste-Hilfe-Kasten im Regal geholt.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": null,
+    "ausloeser": [
+      "Sobald die Indizkarte WE3, PM3 oder WM9 offen auf dem Tisch liegt.",
+      "Sobald Ahmets Geheimniskarte offen auf dem Tisch liegt.",
+      "{wenn:joanna|Sobald Joannas Geheimniskarte offen auf dem Tisch liegt.}",
+      "Liegt eins davon schon in Runde 1 offen, drehst du zu Beginn von Runde 2 um."
+    ],
+    "wasDuDannSagst": null,
+    "marker": null,
+    "abDann": null,
+    "nachDemUmdrehen": {
+      "einleitung": "Auf Nachfrage sagst du außerdem:",
+      "saetze": [
+        "„Ahmet steckt mit der Rechnung fürs Essen in der Klemme.“",
+        "„Ich glaube, mit der ‚Miete‘ wollte Ahmet die Rechnung fürs Essen bezahlen. Fragt ihn.“"
+      ]
+    }
+  },
+  "freigabe": null,
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, dein Marker steht im Ost-Saal. Aber beim Scheppern war ich am rechten Buffet allein. Erst danach bist du zu mir gekrochen: ‚Lejla? Ich bin's, Olli.‘ Wo warst du vorher?“ Stell diese Frage vor allen. Ruf dafür den Erzähler.",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "can",
+      "frage": "„Can, Herr Schneider hat im Dunkeln ein leuchtendes Gesicht an einer Kapuze gepackt. Deine Kapuze ist die auffälligste im Keller, und für einen Spaß bist du immer zu haben. Wo warst du, als um fünf vor zwölf alle in den Ost-Saal sollten?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "**Karte zu:** „Ahmet, du hast heute von allen Geld eingesammelt. Sag selbst, wofür es wirklich ist, bevor es jemand anders tut.“\n**Karte offen:** „Ahmet, jetzt liegt es auf dem Tisch. Sag allen, wofür das Geld war. Dann glaubt man dir auch den Rest.“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "marek",
+      "frage": "„Marek, Ahmet sagt, er hat sich beim Knall an deine Beine gekauert. Stimmt das? Dann sag es laut, damit es alle hören.“",
+      "nachschlag": null,
+      "ausweich": "Olli: „Olli, um elf ist Herr Schneider an der Theke laut geworden. Ging es da um dich?“ (Ollis Heimlichtuerei, M7)"
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "**Olli in Stufe 2:** „Olli, du sagst, du hast dich beim Knall am Eiskübel geduckt. Von da bis zu mir sind es ein paar Schritte. Warum kamst du erst nach dem Scheppern? Und als das Licht anging, bist du als Erstes zurück zum Eiskübel.“\n**Olli noch in Stufe 1:** „Olli, du warst nicht im Ost-Saal. Du warst bei mir, aber erst nach dem Scheppern. Wo warst du davor?“",
+      "nachschlag": null,
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "tim",
+      "frage": "„Tim, du warst beim Scheppern im Durchgang am Sicherungskasten. Ist da im Dunkeln etwas an dir vorbei? Sag es jetzt, vor allen.“",
+      "nachschlag": null,
+      "ausweich": "Can: „Can, Herr Schneider hat dem Gespenst zweimal ‚Stehen bleiben!‘ hinterhergebrüllt. Wenn du es warst: Wohin bist du gerannt, und wann?“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "In der Schürzentasche: mein Abrechnungsblock mit Notizen zum Buffet und ein Kugelschreiber. Mein Handy hab ich seit kurz nach zwölf zurück.",
+    "hinweis": null,
+    "indizkarte": null
+  },
+  "aktionskarte": {
+    "name": "Krankenbesuch",
+    "abRunde": 1,
+    "klasse": "frage",
+    "wirkung": "Du gehst zu Herrn Schneider und stellst ihm zwei Fragen. Der Erzähler antwortet mit den passenden Sätzen aus „Herr Schneider antwortet“. Liegt JA9 noch zu, legt der Erzähler sie offen hin, ohne dass der Detektiv eine Untersuchung verbraucht.",
+    "grenzen": "Herr Schneider weiß nichts nach „Hab ich dich!“. Über Geld und Ärger der Gäste sagt er nur: „Das kläre ich mit den Leuten selbst.“",
+    "tipp": "Gut in Runde 1 oder 2. Frag ihn, wo er um drei vor zwölf stand und was nach dem Knall war. Das hilft dem Detektiv beim Lageplan."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du hältst zu Ahmet, bis feststeht, dass er es nicht war. **Erfüllt, wenn** Ahmet bei der Anklage auf dem Ermittlungsbogen als ausgeschieden steht: Alibi ✓ und Heimlichtuerei ✓.",
+    "hinweis": "Ahmet scheidet nur aus, wenn auch sein Geheimnis auf dem Tisch liegt. Schützen heißt hier: ihm helfen, selbst damit herauszurücken."
+  },
+  "geheimniskarte": {
+    "sperre": 2,
+    "pflichtCodes": [
+      "WE3",
+      "PM3",
+      "WM9"
+    ],
+    "wasIchZugebe": "Ich hab Ahmet versprochen, über seine Sorgen zu schweigen. Aber das hier stimmt. Am Nachmittag sah ich in Herrn Schneiders Büro sein Klemmbrett. Darauf stand: „Saalmiete Schlosskeller: 0 Euro“. Und um 23:57 Uhr ist Ahmet mit einem dicken Umschlag am Ostende hinter die Theke geschlüpft. Ich hab es vom rechten Buffet aus gesehen.",
+    "vermerke": [
+      "Heimlichtuerei · Ahmet: Der Keller hat nichts gekostet. Auf Herrn Schneiders Klemmbrett stand „Saalmiete Schlosskeller: 0 Euro“.",
+      "Ort um 23:57 · Ahmet: hinter der Theke am Ostende, mit einem dicken Umschlag."
+    ],
+    "undNochEtwas": "Als das Licht anging, ist Olli als Erstes zum Eiskübel, noch bevor jemand „Hier liegt Herr Schneider!“ rief."
+  },
+  "solo": null,
+  "teil90": "Lejla kauerte allein am rechten Buffettisch. Sie wusste sicher, dass Olli erst nach dem Scheppern zu ihr kam. Für Ahmet schwieg sie über das Klemmbrett, auf dem für den Keller null Euro Miete stand.",
+  "fassung": null
+}

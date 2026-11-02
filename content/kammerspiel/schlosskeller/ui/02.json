@@ -1,0 +1,18 @@
+{
+  "datei": "02-tisch.pdf",
+  "titel": "Lageplan, Marker und Tipp-Zettel",
+  "lageplan.titel": "Lageplan: Gewölbekeller unter dem Schlossturm",
+  "lageplan.blattA": "Blatt A: Lageplan",
+  "lageplan.blattB": "Blatt B: Markerfelder",
+  "lageplan.legende": "Legende",
+  "lageplan.massstab": "1 Kästchen = 1 Meter",
+  "marker.titel": "Positions-Marker",
+  "marker.platz": "Platz {platz}",
+  "marker.detektiv": "{detektiv:Detektiv|Detektivin}",
+  "marker.schneider": "Herr Schneider",
+  "tippZettel.titel": "Tipp-Zettel",
+  "tippZettel.punkt": "(1 Punkt)",
+  "tippZettel.punkte": "({punkte} Punkte)",
+  "abwesenheit.titel": "Abwesenheitsblatt",
+  "abwesenheit.hinweis": "Nur bei 6 bis 11 Personen. An den Linien schneiden, 30 mm unter der Oberkante falten. Das Etikett liegt oben, das Protokoll mit der Schrift nach unten."
+}

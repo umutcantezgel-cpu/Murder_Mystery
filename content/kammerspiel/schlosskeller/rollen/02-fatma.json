@@ -1,0 +1,299 @@
+{
+  "platz": 2,
+  "id": "fatma",
+  "vorstellung": {
+    "frage": "Fatma, du hast für jede Farbe ein Lob und für jedes Muster gleich noch eins. Welche Farbe hat dieser Abend bis jetzt?",
+    "auftritt": "Ganz klar: Kellergrau mit einem Hauch Kerzenrot. Ich studiere Kommunikationsdesign, letztes Semester. Mir fällt jedes Muster auf, jede Farbe, jeder schiefe Buchstabe. Wer heute „hübsch“ gesagt hat, hat von mir eine kleine Farbenlehre bekommen. Gern geschehen. Ehrlich gesagt tut mir nur das grüne Notausgangsschild ein bisschen weh. Das passt zu gar nichts hier. Aber sonst? Diese alten Bögen, dieses warme Licht auf dem Stein. Die Farben hier sind einfach wunderschön."
+  },
+  "werDuBist": "Du bist Fatma, 26, die Designstudentin. Du studierst Kommunikationsdesign, letztes Semester. Deine Abschlussarbeit handelt von alten Münzbildern. Man erkennt dich am beerenroten Wollmantel, an der schweren Umhängetasche aus Leder und am breiten Silberring an der rechten Hand. {wenn:emine|Emine ist seit der 5. Klasse deine beste Freundin. }{wenn:azra|Azra kennst du aus der Unibibliothek. }Ahmet war an deiner Schule eine Klasse über dir. Olli hat bei deinem Umzug die Kisten getragen.\nWas dich heute antreibt: Die Schatulle soll zurück, ohne dass es alle erfahren.",
+  "haltung": null,
+  "tandemKasten": null,
+  "marker": {
+    "zeile": "Marker 23:57: Linkes Buffet (2). Marker Scheppern: Linkes Buffet (2). Der erste ist gelogen. Der zweite stimmt.",
+    "behauptet": {
+      "z2357": "2",
+      "scheppern": "2"
+    },
+    "wahr": {
+      "z2357": "4a",
+      "scheppern": "2"
+    }
+  },
+  "wasDuWeisst": null,
+  "notiz": null,
+  "stufe1": {
+    "kernsaetze": [
+      "„Ich stand die ganze Zeit beim Gebäck am linken Buffet.“",
+      "„In meiner Tasche sind nur Bücher.“"
+    ],
+    "regie": "Bleib dabei freundlich und ein bisschen abgelenkt, wie jemand, der nur Farben im Kopf hat.",
+    "sagstDuJedem": [],
+    "ausweichsaetze": [
+      {
+        "frage": "Wo warst du um drei vor zwölf?",
+        "antwort": "„Am linken Buffet, beim Gebäck. {rolle:emine|Meine beste Freundin} war bei mir.“"
+      },
+      {
+        "frage": "Wo warst du um 23:51 Uhr?",
+        "antwort": "„Am linken Buffet beim Gebäck. {rolle:emine|Meine beste Freundin} war bei mir.“"
+      },
+      {
+        "frage": "Wo warst du beim Knall und beim Scheppern?",
+        "antwort": "„Ich hab mich hinter den linken Buffettisch gekauert, neben {rolle:emine|meine beste Freundin}. Ich hab geflüstert: ‚{wenn:emine|Emine? }Ich bin's, Fatma.‘ Bis das Licht anging, war ich da.“"
+      },
+      {
+        "frage": "Was hast du im Dunkeln gehört?",
+        "antwort": "„Den Knall, dann ‚Hab ich dich!‘, zweimal ‚Stehen bleiben!‘ und das Scheppern. Gesehen hab ich nichts.“"
+      },
+      {
+        "frage": "Was wollte Herr Schneider an deinem Buffet?",
+        "antwort": "„Er hat geschimpft, wie immer. Worüber, weiß ich nicht mehr.“"
+      },
+      {
+        "frage": "Wer stand um drei vor zwölf an der Theke?",
+        "antwort": "„Da war viel los. So genau hab ich nicht hingeschaut.“"
+      },
+      {
+        "frage": "Was hängt da an deinem Ärmel?",
+        "antwort": "„Keine Ahnung. Irgendwo hängen geblieben.“"
+      }
+    ],
+    "verboten": [],
+    "markersatz": "Muss dein Marker „23:57“ auf die Klappe, bevor deine Karte offen ist: Stell ihn um und sag: „Ja, ich war kurz an der Klappe. Ich wollte Herrn Schneider etwas fragen. Dann kam der Knall.“ Ab dann darfst du sagen, dass du von der Klappe aus Olli am Eiskübel gesehen hast."
+  },
+  "wennDerErzaehlerFragt": [
+    {
+      "impuls": "I-1.1",
+      "antwort": "**Marker noch am Buffet:** „Am linken Buffet. {rolle:emine|Meine beste Freundin} war bei mir.“\n**Marker auf der Klappe:** „An der Theken-Klappe. {rolle:joanna|Die Fotografin des Abends} hat mich dort gesehen.“"
+    },
+    {
+      "impuls": "I-1.2",
+      "antwort": "„{rolle:emine|Meine beste Freundin}. Ich hab mich gleich nach dem Knall neben sie gekauert.“"
+    },
+    {
+      "impuls": "I-1.3",
+      "antwort": "**Marker noch am Buffet:** „Ich. Ich bin beim Gebäck am linken Buffet geblieben.“\n**Marker auf der Klappe:** „Ich war kurz an der Theken-Klappe. Ich wollte Herrn Schneider etwas fragen.“"
+    },
+    {
+      "impuls": "I-2.1",
+      "antwort": "„150 € an Ahmet, wie alle. Ich schulde niemandem etwas.“"
+    },
+    {
+      "impuls": "I-2.2",
+      "antwort": "**Karte zu:** „Im Turmgang war ich kurz, vor zwölf. Da steht diese Rüstung.“\n**Karte offen:** „Um 23:40 Uhr hab ich dort die Münzschatulle ausgeliehen.“"
+    },
+    {
+      "impuls": "I-2.3",
+      "antwort": "„Gesehen hab ich nichts. Ich hab hinter dem linken Buffettisch gekauert.“"
+    },
+    {
+      "impuls": "I-3.1",
+      "antwort": "„Erst der Knall. Dann ‚Hab ich dich!‘, zweimal ‚Stehen bleiben!‘, dann das Scheppern. Da war ich schon neben {rolle:emine|meiner besten Freundin}.“"
+    },
+    {
+      "impuls": "I-3.3",
+      "antwort": "„Ich hab nichts geholt und nichts weggebracht.“"
+    }
+  ],
+  "stufe2": {
+    "wasDuVerbirgst": "Um 23:40 Uhr hast du im Turmgang die gesprungene Scheibe der Schauvitrine angehoben und die Münzschatulle ausgeliehen. Du willst das Wappen für deine Abschlussarbeit abzeichnen und sie am Montag zurückbringen. Dabei brach die Ecke der Scheibe, Splitter blieben an deinem Ärmel. {rolle:emine|Deine beste Freundin} hat es gesehen und versprochen zu schweigen. Um 23:56 Uhr drohte Herr Schneider mit der Polizei. Um 23:57 Uhr wolltest du ihm die Schatulle an der Theken-Klappe zurückgeben.",
+    "ausloeser": [
+      "Sobald die Indizkarte „Fatma: Taschen und Kleidung“ (NN3) offen liegt.",
+      "Sobald die Schauvitrine im Turmgang (FM9) offen liegt und dein Marker „23:57“ schon auf der Theken-Klappe steht.",
+      "{wenn:emine|Sobald Emines Geheimniskarte offen liegt.|Sobald die Geheimniskarte unter dem Zeugenstreifen am linken Buffettisch offen liegt.}"
+    ],
+    "wasDuDannSagst": "Lies „Was ich zugebe“ von deiner Karte vor. Sag dann den Satz unter „Und noch etwas“. Leg nach: „Am Montag bring ich sie zurück. Versprochen.“",
+    "marker": "OFFEN: RK 3.7 Marker",
+    "abDann": "Ab jetzt sagst du offen, was du an der Klappe wolltest. Du darfst sagen, dass Herr Schneider dir um 23:56 Uhr mit der Polizei gedroht hat und dass {rolle:emine|deine beste Freundin} es gehört hat. Die Schatulle zeigst du, wenn jemand fragt. Sie bleibt in deiner Tasche, bis Herr Schneider sie nimmt. Mehr gibst du nicht zu. Dabei bleibst du.",
+    "nachDemUmdrehen": {
+      "einleitung": null,
+      "saetze": []
+    }
+  },
+  "freigabe": {
+    "sofort": [
+      "„Beim Knall hab ich mich neben {rolle:emine|meine beste Freundin} gekauert.“",
+      "{wenn:zeynep|„Um Viertel vor zwölf hat Zeynep am linken Buffet Gebäck geholt.“|„Um 23:56 Uhr ist Herr Schneider von unserem Buffet zum Ostende gegangen.“}",
+      "„Kurz vor zwölf hab ich Can im Buffetsaal nirgends gesehen.“"
+    ],
+    "nachDemMarker": [
+      "„Von der Klappe hab ich um 23:57 Uhr Olli am Eiskübel vor Herrn Schneider gesehen. Dann ging Herr Schneider zur Kaffeemaschine.“"
+    ],
+    "nachDerKarte": [
+      "„Um 23:57 Uhr ging Ahmet mit einem dicken Umschlag am Ostende hinter die Theke.“",
+      "„Um 23:56 Uhr drohte mir Herr Schneider mit der Polizei. {rolle:emine|Meine beste Freundin} hat es gehört.“",
+      "„Um 23:54 Uhr hab ich mit {rolle:emine|meiner besten Freundin} über meine Tasche getuschelt.“"
+    ]
+  },
+  "gespraechsauftraege": [
+    {
+      "runde": 1,
+      "nr": 1,
+      "ziel": "can",
+      "frage": "„Can, dein Marker steht auf der Turm-Toilette. Wann bist du hoch, und wer hat dich gehen sehen?“",
+      "nachschlag": "Sobald jemand sagt, dass Can um drei vor zwölf nirgends zu sehen war: „Nirgends? Dann sag uns, wer dich auf der Treppe gesehen hat.“",
+      "ausweich": null
+    },
+    {
+      "runde": 1,
+      "nr": 2,
+      "ziel": "emine",
+      "frage": "„Emine, sag dem Detektiv, wer sich gleich nach dem Knall neben dich gekauert hat.“",
+      "nachschlag": "Sobald Emine es bestätigt: „Und war ich noch neben dir, als es schepperte?“",
+      "ausweich": "Bitte den Detektiv um den Ortstermin „linker Buffettisch“. Sag: „Dort hab ich gekauert. Wer dort war, kann es bezeugen.“ Bis dahin frag Olli: „Olli, du sagst, du saßt im Ost-Saal. Wer hat dich dort beim Knall gesehen?“"
+    },
+    {
+      "runde": 2,
+      "nr": 1,
+      "ziel": "ahmet",
+      "frage": "„Ahmet, ich hab dir 150 € Miete gegeben, wie alle. Wie viel hat der Keller denn gekostet? Hast du eine Quittung von Herrn Schneider?“",
+      "nachschlag": "Sobald deine Geheimniskarte offen liegt: „Um drei vor zwölf bist du mit einem dicken Umschlag am Ostende hinter die Theke. Was war da drin?“",
+      "ausweich": null
+    },
+    {
+      "runde": 2,
+      "nr": 2,
+      "ziel": "zeynep",
+      "frage": "„Zeynep, du hast um Viertel vor zwölf bei mir am linken Buffet Gebäck geholt. Für wen? Und wo warst du danach?“",
+      "nachschlag": "Sobald jemand sagt, dass Can um drei vor zwölf nirgends war: „Zeynep, du kennst deinen Bruder. Wo war er?“",
+      "ausweich": "Can: „Can, um fünf vor zwölf sollten alle in den Ost-Saal, zur blinden Kuh und zur Torte. Du bist nicht gekommen. Warum nicht?“"
+    },
+    {
+      "runde": 3,
+      "nr": 1,
+      "ziel": "olli",
+      "frage": "„Olli, wo warst du, als es schepperte? Und wer hat dich dort gespürt oder gehört?“",
+      "nachschlag": "Sobald Ollis Marker am Eiskübel steht: „Vom Eiskübel sind es nur ein paar Meter bis zur Vorratsraumtür. Wer kann sagen, dass du dort geblieben bist?“",
+      "ausweich": null
+    },
+    {
+      "runde": 3,
+      "nr": 2,
+      "ziel": "marek",
+      "frage": "„Marek, du standst hinter der Theke, als die Kerzen noch brannten. Was hast du an der Vorratsraumtür gesehen?“",
+      "nachschlag": "Sobald dein Marker „23:57“ auf der Klappe steht: „Ich war um drei vor zwölf an der Klappe, aber beim Knall bin ich sofort zurück. Hast du danach an der Klappe noch jemanden gesehen?“",
+      "ausweich": "Bitte den Detektiv, den Messingkerzenständer und den Vorratsraum zu untersuchen. Sag: „Dort lag Herr Schneider. Da muss man zuerst hinschauen.“ Bis dahin frag Can: „Can, Herr Schneider hat eine Kapuze erwischt. Wo war deine, als es schepperte?“"
+    }
+  ],
+  "wasDuBeiDirTraegst": {
+    "text": "Über der Schulter trag ich meine schwere Umhängetasche aus Leder. Darin: Skizzenblock, Stifte und die Münzschatulle. An meinem rechten Mantelärmel hängen feine Glassplitter.",
+    "hinweis": null,
+    "indizkarte": "NN3"
+  },
+  "aktionskarte": {
+    "name": "Gegenfrage",
+    "abRunde": 1,
+    "klasse": "schutz",
+    "wirkung": "Spiel sie, wenn dir eine Frage gestellt wird. Zuerst beantwortet die fragende Person eine Frage von dir. Dann antwortest du.",
+    "grenzen": "Nicht gegen Ortstermine, Indizkarten oder Karten, die offen liegen. Was offen liegt, bleibt liegen. Ein Satz, der eine Karte auslöst, gilt trotzdem. Die Frage darf später wiederkommen.",
+    "tipp": "Spiel sie, wenn jemand nach deiner Tasche fragt. Stell zuerst deine Frage, am besten nach dem Geld oder nach der Turm-Toilette."
+  },
+  "bonusZiel": {
+    "text": "**Dein Bonus-Ziel:** Du sagst selbst, was du verbirgst, bevor man es dir beweist. **Erfüllt, wenn** du deine Geheimniskarte am Ende einer Runde freiwillig umgedreht hast (reinen Tisch), bevor einer deiner drei Sobald-Fälle eingetreten ist.",
+    "hinweis": null
+  },
+  "geheimniskarte": {
+    "sperre": 1,
+    "pflichtCodes": [
+      "NN3"
+    ],
+    "wasIchZugebe": "Um 23:40 Uhr hab ich im Turmgang die Münzschatulle aus der Vitrine ausgeliehen. Die Scheibe hatte schon einen Sprung. Ich wollte das Wappen abzeichnen, für meine Abschlussarbeit. Am Montag bring ich sie zurück. Um 23:56 Uhr hat Herr Schneider die Splitter an meinem Ärmel gesehen. Um 23:57 Uhr wollte ich ihm die Schatulle an der Theken-Klappe zurückgeben.",
+    "vermerke": [
+      "Heimlichtuerei · Fatma: hat um 23:40 die Münzschatulle aus der Vitrine ausgeliehen, um das Wappen abzuzeichnen. Rückgabe am Montag.",
+      "Ort um 23:57 · Fatma: an der Theken-Klappe."
+    ],
+    "undNochEtwas": "Um 23:57 Uhr ging Ahmet mit einem dicken Umschlag am Ostende hinter die Theke."
+  },
+  "solo": null,
+  "teil90": "Fatma hatte um zwanzig vor zwölf die Münzschatulle ausgeliehen, um das Wappen abzuzeichnen. An der Theken-Klappe wollte sie sie zurückgeben. Beim Scheppern kauerte sie schon hinter dem linken Buffettisch neben Emine.",
+  "fassung": {
+    "code": "JM3",
+    "ziel": "Du warst es nicht. Trotzdem hast du heute Nacht etwas zu verbergen. Du willst, dass niemand dich verdächtigt, und die Schatulle soll zurück, ohne dass es alle erfahren.",
+    "zeitleiste": [
+      {
+        "zeit": "vorher",
+        "text": "In der Unibibliothek erzählt dir {rolle:azra|eine Bekannte} von einer Münzschatulle mit Wappen in der Schauvitrine des Schlosses. Deine Abschlussarbeit handelt von alten Münzbildern."
+      },
+      {
+        "zeit": "18:00",
+        "text": "Ihr kommt über die Sandsteinstufen und das Außentor. Am Jackenständer im Ost-Saal zahlst du Ahmet 150 € „Miete“, wie alle."
+      },
+      {
+        "zeit": "21:00",
+        "text": "Im Turmgang hat jemand die Ritterrüstung für einen Menschen gehalten und geschrien. Als es sich herumspricht, lachen alle."
+      },
+      {
+        "zeit": "23:30",
+        "text": "Dichter Qualm aus dem Kamin füllt den Kaminsaal. Alle husten, die Klappen der Lichtschächte werden aufgerissen."
+      },
+      {
+        "zeit": "23:40",
+        "text": "Im Turmgang hebst du die gesprungene, lose Scheibe der Schauvitrine an. Du nimmst die Münzschatulle heraus und steckst sie in deine Tasche. Du willst das Wappen mit den zwei Löwen abzeichnen."
+      },
+      {
+        "zeit": "23:40",
+        "text": "Dabei bricht die Ecke der Scheibe. Scherben fallen zu Boden, feine Splitter bleiben an deinem rechten Mantelärmel. {rolle:emine|Deine beste Freundin} kommt die Wendeltreppe herunter und sieht alles."
+      },
+      {
+        "zeit": "23:40",
+        "text": "Du sagst: „Montag bring ich sie zurück. Versprochen.“ {rolle:emine|Deine beste Freundin} verspricht zu schweigen. Ihr geht zurück zum linken Buffet."
+      },
+      {
+        "zeit": "23:45",
+        "text": "Am linken Buffet holt sich {rolle:zeynep|jemand} Gebäck. Deine Tasche ist schwer und ausgebeult."
+      },
+      {
+        "zeit": "23:50",
+        "text": "Du stehst am linken Buffettisch beim Gebäck. {rolle:emine|Deine beste Freundin} steht hinter dem Tisch, ihre Thermoskanne neben sich."
+      },
+      {
+        "zeit": "23:54",
+        "text": "Ihr tuschelt über die Tasche. Du hältst sie ganz fest. Auf die Theken-Klappe achtet ihr nicht."
+      },
+      {
+        "zeit": "23:56",
+        "text": "Herr Schneider kommt an dein Buffet. Er sieht die Splitter an deinem Ärmel und sagt leise: „Die Schatulle. Um Punkt zwölf geh ich raus und ruf die Polizei.“ {rolle:emine|Deine beste Freundin} hört es. Dann geht er zum Ostende der Theke."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Gleich danach siehst du Ahmet mit einem dicken Umschlag am Ostende hinter die Theke schlüpfen."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Du gehst mit der Tasche zur Theken-Klappe. Du willst Herrn Schneider die Schatulle sofort zurückgeben. Von der Klappe siehst du Olli am Eiskübel vor Herrn Schneider stehen. Was sie reden, hörst du nicht."
+      },
+      {
+        "zeit": "23:57",
+        "text": "Herr Schneider geht hinter der Theke zur Kaffeemaschine, nicht zu dir. Du wartest an der Klappe. Dann ruft er: „Nicht die alte Leiste!“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Knall. Im Dunkeln gehst du zurück und kauerst dich hinter den linken Buffettisch neben {rolle:emine|deine beste Freundin}. Du flüsterst: „{wenn:emine|Emine? }Ich bin's, Fatma.“"
+      },
+      {
+        "zeit": "23:58",
+        "text": "Du hörst „Hab ich dich!“, zweimal „Stehen bleiben!“ und kurz darauf das Scheppern. Du hältst die Tasche fest und rührst dich nicht."
+      },
+      {
+        "zeit": "0:00",
+        "text": "Das Licht geht an. Du stehst auf, die Tasche über der Schulter. Die Schatulle ist noch drin."
+      }
+    ],
+    "wasNurDuWeisst": [
+      "Von der Klappe hast du um 23:57 Uhr Olli am Eiskübel vor Herrn Schneider gesehen. Was sie redeten, hast du nicht gehört.",
+      "Um 23:57 Uhr ging Ahmet mit einem dicken Umschlag am Ostende hinter die Theke.",
+      "{rolle:emine|Deine beste Freundin} hat dich an der Vitrine gesehen und die Drohung gehört. Sie hat versprochen zu schweigen.",
+      "Die Scheibe hatte schon einen Sprung, bevor du sie angehoben hast. Wer ihn gemacht hat, weißt du nicht. Die Scherben am Boden sind von dir, der Sprung nicht.",
+      "Wer im Dunkeln an der Vorratsraumtür war, weißt du nicht. Du hast gekauert und nichts gesehen. Von der Klappe bis hinter den Buffettisch waren es nur ein paar Schritte."
+    ],
+    "heftUndWahrheit": "Dein Heft sagt dir die Wahrheit. Was in Stufe 2 steht, ist genau das, was geschah. Mehr musst du nicht verbergen. Mit dem Scheppern hast du nichts zu tun.",
+    "wennEsEngWird": [
+      "Sobald jemand sagt, kurz vor dem Scheppern sei jemand von der Klappe gekommen: „An der Klappe war ich nur vor dem Knall. Beim Knall bin ich sofort zurück zu {rolle:emine|meiner besten Freundin}. Sie hat mich flüstern hören.“",
+      "Sobald jemand fragt, was du von der Klappe aus gesehen hast (nur, wenn dein Marker auf der Klappe steht): „Olli am Eiskübel vor Herrn Schneider. Dann ging Herr Schneider hinter der Theke zur Kaffeemaschine.“",
+      "Sobald jemand fragt, warum du die Schatulle nicht gleich zurückgegeben hast: „Herr Schneider ging zur Kaffeemaschine, nicht zu mir. Dann kam der Knall.“",
+      "Sobald dich jemand wegen der Polizei-Drohung verdächtigt: „Ich wollte die Schatulle zurückgeben, nicht weglaufen. Sie liegt doch noch in meiner Tasche.“",
+      "Sobald jemand verlangt, dass du deinen Marker „Scheppern“ umstellst: „Der Marker stimmt. {rolle:emine|Meine beste Freundin} hat mich gleich nach dem Knall flüstern hören.“"
+    ],
+    "stufe3": "Ich? Nein. Beim Scheppern hab ich hinter dem linken Buffettisch gekauert, neben {rolle:emine|meiner besten Freundin}. Sie hat mich flüstern hören. An der Theken-Klappe war ich nur vor dem Knall. Ich wollte Herrn Schneider die Münzschatulle zurückgeben. Am Montag kommt sie zurück, versprochen. Ich hab sie nur ausgeliehen. Aber an der Vorratsraumtür war ich nicht. Den Schlüsselbund hab ich nie in der Hand gehabt."
+  }
+}
